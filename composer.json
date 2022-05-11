@@ -1,0 +1,90 @@
+{
+  "name": "tastyigniter/core",
+  "description": "TastyIgniter core package",
+  "homepage": "https://tastyigniter.com",
+  "keywords": [
+    "tastyigniter",
+    "igniter",
+    "flame",
+    "laravel"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Samuel Adepoyigi",
+      "email": "sam@sampoyigi.com"
+    }
+  ],
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*",
+    "composer/installers": "~2.0",
+    "laravel/framework": "~9.0",
+    "fideloper/proxy": "~4.0",
+    "doctrine/instantiator": "~1.0",
+    "doctrine/dbal": "~2.6",
+    "spatie/laravel-ignition": "^1.0",
+    "fruitcake/laravel-cors": "^2.0",
+    "guzzlehttp/guzzle": "^6.3|^7.3",
+    "kalnoy/nestedset": "~6.0",
+    "linkorb/jsmin-php": "~1.0",
+    "natxet/cssmin": "~3.0",
+    "symfony/yaml": "~5.1",
+    "scssphp/scssphp": "~1.0",
+    "league/glide": "~2.2"
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.4.2",
+    "fakerphp/faker": "~1.14",
+    "pestphp/pest": "^1.21",
+    "pestphp/pest-plugin-laravel": "^1.2",
+    "pestphp/pest-plugin-faker": "^1.0",
+    "friendsofphp/php-cs-fixer": "^3.0"
+  },
+  "replace": {
+    "kriswallsmith/assetic": "*",
+    "leafo/scssphp": "*"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Igniter\\System\\ServiceProvider"
+      ],
+      "aliases": {
+        "Igniter": "Statamic\\Statamic"
+      }
+    }
+  },
+  "autoload": {
+    "files": [
+      "src/System/Helpers/assets_helper.php",
+      "src/System/Helpers/country_helper.php",
+      "src/System/Helpers/support_helper.php",
+      "src/System/Helpers/template_helper.php",
+      "src/System/Helpers/theme_helper.php",
+      "src/Flame/Support/helpers.php"
+    ],
+    "psr-4": {
+      "Admin\\": "src/Admin",
+      "Main\\": "src/Main",
+      "System\\": "src/System",
+      "Igniter\\Flame\\": "src/Flame"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/installers": true,
+      "pestphp/pest-plugin": true
+    }
+  }
+}
