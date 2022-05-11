@@ -49,10 +49,7 @@
     "laravel": {
       "providers": [
         "Igniter\\System\\ServiceProvider"
-      ],
-      "aliases": {
-        "Igniter": "Statamic\\Statamic"
-      }
+      ]
     }
   },
   "autoload": {
@@ -68,6 +65,9 @@
       "Admin\\": "src/Admin",
       "Main\\": "src/Main",
       "System\\": "src/System",
+      "Igniter\\Admin\\": "src/Admin",
+      "Igniter\\Main\\": "src/Main",
+      "Igniter\\System\\": "src/System",
       "Igniter\\Flame\\": "src/Flame"
     }
   },
