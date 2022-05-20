@@ -1,12 +1,15 @@
 .DS_Store
 .idea
-.htaccess
-.env
-.env.testing
-.phpunit.result.cache
-phpunit.dusk.xml
-
-# Ignore all vendor files included by composer and the lock file
 /vendor
 composer.lock
 node_modules
+package-lock.json
+
+resources/dist/css/app.css
+resources/dist/fonts
+resources/dist/js/app.js
+resources/dist/js/manifest.js
+resources/dist/js/vendor.js
+resources/dist/js/app.js.LICENSE.txt
+resources/dist/js/vendor.js.LICENSE.txt
+resources/dist/mix-manifest.json
