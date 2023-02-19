@@ -1,0 +1,17 @@
+.selectize-input {
+  border-radius: 3px;
+  line-height: 1.9;
+  height: auto;
+  box-shadow: inset 0 1px 2px rgb(0 3 41 / 8%);
+}
+.selectize-control.multi .selectize-input>div {
+  background-color: var(--bs-gray-200);
+  color: var(--bs-body-color);
+  border: 1 solid var(--bs-border-color);
+}
+.selectize-dropdown .create,
+.selectize-dropdown .no-results,
+.selectize-dropdown .optgroup-header,
+.selectize-dropdown .option {
+  padding: 6px 0.75rem;
+}

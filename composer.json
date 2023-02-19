@@ -1,0 +1,87 @@
+{
+  "name": "tastyigniter/flame",
+  "description": "TastyIgniter Flame core library of TastyIgniter, add some flame to laravel",
+  "homepage": "https://tastyigniter.com",
+  "keywords": [
+    "tastyigniter",
+    "igniter",
+    "flame",
+    "laravel"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Samuel Adepoyigi",
+      "email": "sam@sampoyigi.com"
+    }
+  ],
+  "require": {
+    "ext-curl": "*",
+    "ext-gd": "*",
+    "ext-json": "*",
+    "composer/composer": "^2.4",
+    "composer/installers": "~2.2",
+    "guzzlehttp/guzzle": "^7.2",
+    "laravel/framework": "^9.11",
+    "laravel/sanctum": "^2.15",
+    "laravel/tinker": "^2.7",
+    "laravel/helpers": "^v1.5",
+    "doctrine/instantiator": "~1.0",
+    "doctrine/dbal": "~2.6",
+    "spatie/laravel-ignition": "^1.0",
+    "kalnoy/nestedset": "~6.0",
+    "symfony/yaml": "~6.0",
+    "scssphp/scssphp": "~1.0",
+    "league/glide": "~2.2"
+  },
+  "require-dev": {
+    "fakerphp/faker": "~1.14",
+    "laravel/pint": "^1.2",
+    "mockery/mockery": "^1.4.4",
+    "nunomaduro/collision": "^6.1",
+    "orchestra/testbench": "^7.0",
+    "pestphp/pest": "^1.21",
+    "pestphp/pest-plugin-faker": "^1.0",
+    "pestphp/pest-plugin-laravel": "^1.2"
+  },
+  "replace": {
+    "kriswallsmith/assetic": "*",
+    "leafo/scssphp": "*"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Igniter\\Flame\\ServiceProvider"
+      ]
+    }
+  },
+  "autoload": {
+    "files": [
+      "src/Flame/Support/Helpers/assets.php",
+      "src/Flame/Support/Helpers/country.php",
+      "src/Flame/Support/Helpers/template.php",
+      "src/Flame/Support/Helpers/theme.php",
+      "src/Flame/Support/Helpers/form.php",
+      "src/Flame/Support/Helpers/helpers.php"
+    ],
+    "psr-4": {
+      "Igniter\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/installers": true,
+      "pestphp/pest-plugin": true
+    }
+  }
+}

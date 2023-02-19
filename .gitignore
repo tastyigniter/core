@@ -1,0 +1,8 @@
+.DS_Store
+.idea
+/vendor
+composer.lock
+node_modules
+mix-manifest.json
+/public/js/app.js.LICENSE.txt
+
