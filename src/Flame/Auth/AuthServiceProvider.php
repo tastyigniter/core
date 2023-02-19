@@ -29,25 +29,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
         $this->configureAuthGuards();
 
         $this->configureAuthProvider();
 
         $this->configureGateCallback();
-    }
-
-    /**
-     * Register the application's policies.
-     *
-     * @return void
-     */
-    public function registerPolicies()
-    {
-        foreach ($this->policies as $model => $policy) {
-            Gate::policy($model, $policy);
-        }
     }
 
     protected function configureAuthGuards()

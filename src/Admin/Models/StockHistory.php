@@ -19,9 +19,8 @@ class StockHistory extends Model
         'user_id' => 'integer',
         'order_id' => 'integer',
         'quantity' => 'integer',
+        'occurred_at' => 'datetime',
     ];
-
-    protected $dates = ['occurred_at'];
 
     protected $guarded = [];
 
