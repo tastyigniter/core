@@ -6,22 +6,9 @@ use Igniter\Admin\Models\Menu;
 use Igniter\Admin\Models\MenuItemOption;
 use Igniter\Admin\Models\MenuItemOptionValue;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 
 trait ManagesOrderItems
 {
-    public static function bootManagesOrderItems()
-    {
-        Event::listen('admin.order.beforePaymentProcessed', function (self $model) {
-            $model->handleOnBeforePaymentProcessed();
-        });
-    }
-
-    protected function handleOnBeforePaymentProcessed()
-    {
-        $this->subtractStock();
-    }
-
     /**
      * Subtract cart item quantity from menu stock quantity
      *

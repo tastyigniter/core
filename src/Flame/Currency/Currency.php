@@ -161,7 +161,7 @@ class Currency
         }
 
         // Format the value
-        $value = number_format($value, $decimals, $decimal, $thousand);
+        $value = number_format((float)$value, $decimals, $decimal, $thousand);
 
         // Apply the formatted measurement
         if ($includeSymbol) {

@@ -149,7 +149,7 @@ trait LocationHelpers
         $distance->setTo($this->getCoordinates());
         $distance->in($this->getDistanceUnit());
 
-        return $distance->haversine();
+        return app('geocoder')->distance($distance);
     }
 
     /**

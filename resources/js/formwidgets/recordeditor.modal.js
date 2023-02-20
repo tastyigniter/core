@@ -10,6 +10,11 @@
 
         this.options = $.extend({}, RecordEditorModal.DEFAULTS, options)
 
+        this.options.attributes = $.extend({}, {
+            id: this.options.alias+'-record-editor-modal',
+            ariaLabelled: '#'+this.options.alias+'-record-editor-modal'
+        }, this.options.attributes)
+
         this.init()
         this.show()
     }

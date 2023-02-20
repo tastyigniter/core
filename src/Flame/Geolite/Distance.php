@@ -74,6 +74,39 @@ class Distance implements Contracts\DistanceInterface
         return $this;
     }
 
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return self
+     */
+    public function withData(string $name, $value)
+    {
+        $this->data[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed|null $default
+     *
+     * @return mixed
+     */
+    public function getData(string $name, $default = null)
+    {
+        if (!array_key_exists($name, $this->data)) {
+            return $default;
+        }
+
+        return $this->data[$name];
+    }
+
     /**
      * Returns the approximate flat distance between two coordinates
      * using Pythagoras’ theorem which is not very accurate.

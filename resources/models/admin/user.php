@@ -17,7 +17,7 @@ $config['list']['filter'] = [
         'role' => [
             'label' => 'lang:igniter::admin.staff.text_filter_role',
             'type' => 'select',
-            'conditions' => 'user_role_id = :filtered',
+            'conditions' => 'user_role_id in (:filtered)',
             'modelClass' => \Igniter\Admin\Models\UserRole::class,
         ],
         'status' => [

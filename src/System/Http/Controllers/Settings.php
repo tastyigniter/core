@@ -95,6 +95,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
     public function edit_onSave($context, $settingCode = null)
     {
+        $this->settingCode = $settingCode;
         [$model, $definition] = $this->findSettingDefinitions($settingCode);
         if (!$definition) {
             throw new Exception(lang('igniter::system.settings.alert_settings_not_found'));

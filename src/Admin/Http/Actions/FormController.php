@@ -273,7 +273,7 @@ class FormController extends ControllerAction
     public function edit($context = null, $recordId = null)
     {
         try {
-            $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_CREATE);
+            $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
 
             $this->setFormTitle('lang:igniter::admin.form.edit_title');
 

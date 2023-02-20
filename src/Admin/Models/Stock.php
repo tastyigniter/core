@@ -4,7 +4,7 @@ namespace Igniter\Admin\Models;
 
 use Igniter\Admin\Traits\Locationable;
 use Igniter\Flame\Database\Model;
-use Illuminate\Support\Facades\Mail;
+use Igniter\System\Traits\SendsMailTemplate;
 
 /**
  * Stocks Model Class
@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 class Stock extends Model
 {
     use Locationable;
+    use SendsMailTemplate;
 
     public const STATE_NONE = 'none';
 
@@ -98,9 +99,7 @@ class Stock extends Model
             $this->saveQuietly();
 
             if ($this->hasLowStock() && $this->shouldAlertOnLowStock($state)) {
-                Mail::queueTemplate('igniter.admin::_mail.low_stock_alert', ['stock' => $this], [
-                    $this->location->location_email, $this->location->location_name,
-                ]);
+                $this->mailSend('igniter.admin::_mail.low_stock_alert', 'location');
 
                 // Prevent duplicate low stock alerts
                 $this->updateQuietly(['low_stock_alert_sent' => true]);
@@ -172,5 +171,23 @@ class Stock extends Model
             return false;
 
         return !$this->low_stock_alert_sent;
+    }
+
+    public function mailGetRecipients($type)
+    {
+        return [
+            [$this->location->location_email, $this->location->location_name],
+        ];
+    }
+
+    public function mailGetData()
+    {
+        return [
+            'stock_name' => $this->stockable->getStockableName(),
+            'location_name' => $this->location->location_name,
+            'quantity' => $this->quantity,
+            'low_stock_threshold' => $this->low_stock_threshold,
+            'stock' => $this,
+        ];
     }
 }

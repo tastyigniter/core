@@ -253,6 +253,15 @@ class Filesystem extends IlluminateFilesystem
         return false;
     }
 
+    public function addPathSymbol($symbol, $path)
+    {
+        if (!is_array($this->pathSymbols[$symbol]))
+            $this->pathSymbols[$symbol] = [];
+        $this->pathSymbols[$symbol] = [$this->pathSymbols[$symbol]];
+
+        array_unshift($this->pathSymbols[$symbol], $path);
+    }
+
     /**
      * Write the contents of a file.
      * @param string $path

@@ -196,15 +196,13 @@ trait CombinesAssets
             if (!file_exists($path))
                 continue;
 
-            if (starts_with($path, ['//', 'http://', 'https://'])) {
-                $asset = new HttpAsset($path, $filters);
-            }
-            else {
-                $asset = new FileAsset($path, $filters,
-                    starts_with($path, public_path())
-                        ? public_path() : null
-                );
-            }
+            $source = str_starts_with($path, public_path())
+                ? public_path()
+                : dirname($path);
+
+            $asset = starts_with($path, ['//', 'http://', 'https://'])
+                ? new HttpAsset($path, $filters)
+                : new FileAsset($path, $filters, $source);
 
             $files[] = $asset;
         }

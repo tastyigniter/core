@@ -131,27 +131,9 @@ class StockEditor extends BaseFormWidget
         $field = clone $this->formField;
 
         $stockIds = $this->model->stocks->pluck('id')->all();
-        $field->value = StockHistory::whereIn('stock_id', $stockIds)->get();
+        $field->value = StockHistory::whereIn('stock_id', $stockIds)->orderBy('id', 'desc')->get();
 
-        $widgetConfig = [
-            'columns' => [
-                'staff_name' => [
-                    'title' => 'lang:igniter::admin.stocks.column_staff_name',
-                ],
-                'order_id' => [
-                    'title' => 'lang:igniter::admin.orders.label_order_id',
-                ],
-                'state_text' => [
-                    'title' => 'lang:igniter::admin.stocks.label_stock_action',
-                ],
-                'quantity' => [
-                    'title' => 'lang:igniter::admin.stocks.column_quantity',
-                ],
-                'created_at_since' => [
-                    'title' => 'lang:igniter::admin.stocks.column_created_at',
-                ],
-            ],
-        ];
+        $widgetConfig = $this->loadConfig($this->form, ['list'], 'list');
         $widgetConfig['model'] = $this->model;
         $widgetConfig['data'] = [];
         $widgetConfig['alias'] = $this->alias.'FormStockHistory';
