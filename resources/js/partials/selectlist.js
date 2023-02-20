@@ -19,20 +19,6 @@
         this.$el.selectize(this.options)
     }
 
-    SelectList.prototype.onInitialized = function (select, container) {
-        this.$container = $(container);
-
-        this.$container.find('.multiselect').removeClass('text-center')
-    }
-
-    SelectList.prototype.onDropdownShown = function (event) {
-        this.$el.parents('.form-group').css({ zIndex: 1000 });
-    }
-
-    SelectList.prototype.onDropdownHidden = function (event) {
-        this.$el.parents('.form-group').css({ zIndex: '' });
-    }
-
     // MEDIA MANAGER PLUGIN DEFINITION
     // ============================
 
