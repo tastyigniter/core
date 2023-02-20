@@ -1,4 +1,4 @@
-<p align="center"><a href="https://tastyigniter" target="_blank"><img src="https://tastyigniter.com/assets/ui/images/logos/logo-padded.png" width="400"></a></p>
+<p align="center"><a href="https://tastyigniter" target="_blank"><img src="https://tastyigniter.com/images/logos/logo-padded.png" width="400"></a></p>
 
 # TastyIgniter :fire:
 
@@ -7,7 +7,7 @@ online food ordering and table reservation to their customers.
 
 > This repository contains the core code of TastyIgniter. If you want to start your own ordering platform using TastyIgniter, checkout the [TastyIgniter application repository](https://github.com/tastyigniter/TastyIgniter).
 
-![screenshot](https://tastyigniter.com/assets/ui/images/mockups/Menus-v2.png)
+![screenshot](https://tastyigniter.com/images/mockups/Menus-v2.png)
 
 ### Documentation
 The best place to learn TastyIgniter is by reading the [documentation](https://tastyigniter.com/docs)
