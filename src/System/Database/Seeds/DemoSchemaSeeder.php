@@ -81,6 +81,8 @@ class DemoSchemaSeeder extends Seeder
                 $menuOptionId = DB::table('menu_item_options')->insertGetId([
                     'option_id' => $option->option_id,
                     'menu_id' => $menuId,
+                    'option_name' => $name,
+                    'display_type' => 'checkbox',
                 ]);
 
                 $optionValues = DB::table('menu_option_values')->where('option_id', $option->option_id)->get();
