@@ -27,7 +27,7 @@
     "laravel/tinker": "^2.8",
     "laravel/helpers": "^v1.6",
     "doctrine/instantiator": "~1.0",
-    "doctrine/dbal": "~2.6",
+    "doctrine/dbal": "~3.6",
     "spatie/laravel-ignition": "^2.0",
     "kalnoy/nestedset": "~6.0",
     "symfony/yaml": "~6.0",
@@ -37,9 +37,9 @@
   "require-dev": {
     "fakerphp/faker": "~1.14",
     "laravel/pint": "^1.2",
-    "mockery/mockery": "^1.4.4",
-    "nunomaduro/collision": "^7.0",
-    "orchestra/testbench": "^7.0",
+    "mockery/mockery": "^1.5.1",
+    "nunomaduro/collision": "^6.3",
+    "orchestra/testbench": "^8.0",
     "pestphp/pest": "^1.21",
     "pestphp/pest-plugin-faker": "^1.0",
     "pestphp/pest-plugin-laravel": "^1.2"
