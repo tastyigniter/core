@@ -80,7 +80,6 @@ class Distance implements Contracts\DistanceInterface
     }
 
     /**
-     * @param string $name
      * @param mixed $value
      *
      * @return self
@@ -93,7 +92,6 @@ class Distance implements Contracts\DistanceInterface
     }
 
     /**
-     * @param string $name
      * @param mixed|null $default
      *
      * @return mixed

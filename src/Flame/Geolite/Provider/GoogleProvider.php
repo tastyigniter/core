@@ -68,6 +68,7 @@ class GoogleProvider extends AbstractProvider
         ));
 
         $result = [];
+
         try {
             $result = $this->cacheCallback($url, function () use ($query, $url) {
                 return $this->hydrateResponse(

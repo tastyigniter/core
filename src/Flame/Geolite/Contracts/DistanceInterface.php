@@ -53,7 +53,6 @@ interface DistanceInterface
     public function getUnit();
 
     /**
-     * @param string $name
      * @param mixed $value
      *
      * @return DistanceInterface
@@ -61,7 +60,6 @@ interface DistanceInterface
     public function withData(string $name, $value);
 
     /**
-     * @param string $name
      * @param mixed|null $default
      *
      * @return mixed
