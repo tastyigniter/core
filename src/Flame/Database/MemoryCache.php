@@ -52,7 +52,6 @@ class MemoryCache
     /**
      * Check if the given query is cached.
      *
-     * @param QueryBuilder $query
      * @return bool
      */
     public function has(QueryBuilder $query)
@@ -63,7 +62,6 @@ class MemoryCache
     /**
      * Get the cached results for the given query.
      *
-     * @param QueryBuilder $query
      * @return array|null
      */
     public function get(QueryBuilder $query)
@@ -78,8 +76,6 @@ class MemoryCache
     /**
      * Store the results for the given query.
      *
-     * @param QueryBuilder $query
-     * @param array $results
      * @return void
      */
     public function put(QueryBuilder $query, array $results)
@@ -127,7 +123,6 @@ class MemoryCache
     /**
      * Calculate a hash key for the given query.
      *
-     * @param QueryBuilder $query
      * @return string
      */
     protected function hash(QueryBuilder $query)

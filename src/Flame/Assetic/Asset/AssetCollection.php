@@ -46,7 +46,6 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
      * @param array $assets Assets for the current collection
      * @param array $filters Filters for the current collection
      * @param string $sourceRoot The root directory
-     * @param array $vars
      */
     public function __construct($assets = [], $filters = [], $sourceRoot = null, array $vars = [])
     {

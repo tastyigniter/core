@@ -34,7 +34,6 @@ class ScaffoldServiceProvider extends ServiceProvider
     /**
      * Register the given commands.
      *
-     * @param  array $commands
      *
      * @return void
      */

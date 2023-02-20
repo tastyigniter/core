@@ -5,8 +5,6 @@ namespace Igniter\Flame\Translation\Contracts;
 interface Driver
 {
     /**
-     * @param $locale
-     * @param $group
      * @param null $namespace
      *
      * @return mixed

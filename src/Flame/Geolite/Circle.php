@@ -32,7 +32,6 @@ class Circle implements Contracts\CircleInterface
 
     /**
      * @param null|array|Model\Coordinates $coordinate
-     * @param int $radius
      */
     public function __construct($coordinate, int $radius)
     {
@@ -134,7 +133,6 @@ class Circle implements Contracts\CircleInterface
     }
 
     /**
-     * @param  Contracts\CoordinatesInterface $coordinate
      * @return bool
      */
     public function pointInRadius(Contracts\CoordinatesInterface $coordinate)

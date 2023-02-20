@@ -276,7 +276,6 @@ class Assets
     /**
      * Removes duplicate assets from the assets array.
      *
-     * @param $type
      * @return array
      */
     protected function getUniqueAssets($type)

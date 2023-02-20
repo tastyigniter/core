@@ -85,9 +85,6 @@ class WorkingTime
 
     /**
      * Convert to DateTime object.
-     *
-     * @param \DateTime|null $date
-     * @return \DateTime
      */
     public function toDateTime(DateTime $date = null): DateTime
     {

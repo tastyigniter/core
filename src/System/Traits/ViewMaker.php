@@ -241,7 +241,6 @@ trait ViewMaker
     /**
      * Get the data bound to the view instance.
      *
-     * @param $data
      * @return array
      */
     protected function gatherViewData($data)

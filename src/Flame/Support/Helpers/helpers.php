@@ -144,7 +144,6 @@ if (!function_exists('root_url')) {
      * Segments can be passed in as a string.
      *
      * @param string $uri
-     * @param array $params
      *
      * @return    string
      */
@@ -334,7 +333,6 @@ if (!function_exists('lang')) {
     /**
      * Get the translation for the given key.
      *
-     * @param $key
      * @param array $replace
      * @param null $locale
      * @param bool $fallback
@@ -351,7 +349,6 @@ if (!function_exists('get_class_id')) {
     /**
      * Generates a class ID from either an object or a string of the class name.
      *
-     * @param $name
      *
      * @return string
      */
@@ -365,7 +362,6 @@ if (!function_exists('normalize_class_name')) {
     /**
      * Removes the starting slash from a class namespace \
      *
-     * @param $name
      *
      * @return string
      */
@@ -513,7 +509,6 @@ if (!function_exists('page_url')) {
      * function is placed
      *
      * @param string $uri
-     * @param array $params
      *
      * @return string
      */
@@ -547,7 +542,6 @@ if (!function_exists('restaurant_url')) {
      * else locations URL is returned
      *
      * @param string $uri
-     * @param array $params
      *
      * @return string
      */
@@ -564,7 +558,6 @@ if (!function_exists('admin_url')) {
      * Segments can be passed in as a string.
      *
      * @param string $uri
-     * @param array $params
      *
      * @return    string
      */
@@ -811,7 +804,6 @@ if (!function_exists('make_carbon')) {
     /**
      * Converts mixed inputs to a Carbon object.
      *
-     * @param $value
      * @param bool $throwException
      *
      * @return \Carbon\Carbon

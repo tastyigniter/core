@@ -140,7 +140,6 @@ class GoogleProvider extends AbstractProvider
     /**
      * Decode the response content and validate it to make sure it does not have any errors.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
      * @return mixed result from json_decode()
      *
      * @throws \Igniter\Flame\Geolite\Exception\GeoliteException

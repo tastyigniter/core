@@ -71,7 +71,6 @@ class Builder extends BuilderBase
      * Convenient method for where like clause
      *
      * @param string $column
-     * @param $value
      * @param string $side
      * @param string $boolean
      *
@@ -86,7 +85,6 @@ class Builder extends BuilderBase
      * Convenient method for or where like clause
      *
      * @param string $column
-     * @param $value
      * @param string $side
      *
      * @return self
@@ -103,10 +101,7 @@ class Builder extends BuilderBase
      * - any: result can contain any word
      * - exact: result must contain the exact phrase
      *
-     * @param $term
      * @param array $columns
-     * @param $mode
-     * @param $boolean
      *
      * @return $this
      */

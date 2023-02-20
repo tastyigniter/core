@@ -20,8 +20,6 @@ class SourceResolver implements SourceResolverInterface
 
     /**
      * Create a new source resolver instance.
-     *
-     * @param  array $sources
      */
     public function __construct(array $sources = [])
     {

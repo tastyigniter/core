@@ -29,11 +29,6 @@ class StringFormatter
 
     /**
      * Transform a `Location` instance into a string representation.
-     *
-     * @param Location $location
-     * @param string $format
-     *
-     * @return string
      */
     public function format(Location $location, string $format): string
     {

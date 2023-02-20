@@ -111,7 +111,6 @@ trait Purgeable
     /**
      * Returns the original value of a single attribute.
      *
-     * @param $attribute
      *
      * @return null
      */

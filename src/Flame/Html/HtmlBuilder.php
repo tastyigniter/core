@@ -33,7 +33,6 @@ class HtmlBuilder
      * Create a new HTML builder instance.
      *
      * @param \Illuminate\Contracts\Routing\UrlGenerator $url
-     * @param \Illuminate\Contracts\View\Factory $view
      */
     public function __construct(UrlGenerator $url = null, Factory $view)
     {
@@ -318,8 +317,6 @@ class HtmlBuilder
     /**
      * Generate a description list of items.
      *
-     * @param array $list
-     * @param array $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -503,7 +500,6 @@ class HtmlBuilder
      *
      * @param string $name
      * @param string $content
-     * @param array $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -521,7 +517,6 @@ class HtmlBuilder
      *
      * @param string $tag
      * @param mixed $content
-     * @param array $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -535,7 +530,6 @@ class HtmlBuilder
     /**
      * Transform the string to an Html serializable object
      *
-     * @param $html
      *
      * @return \Illuminate\Support\HtmlString
      */

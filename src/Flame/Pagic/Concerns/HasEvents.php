@@ -67,7 +67,6 @@ trait HasEvents
     /**
      * Set the observable event names.
      *
-     * @param  array $observables
      *
      * @return $this
      */
@@ -396,7 +395,6 @@ trait HasEvents
     /**
      * Set the event dispatcher instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher $dispatcher
      *
      * @return void
      */

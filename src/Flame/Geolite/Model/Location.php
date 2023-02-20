@@ -75,10 +75,6 @@ class Location implements Contracts\LocationInterface
 
     protected $data;
 
-    /**
-     * @param string $providedBy
-     * @param array $data
-     */
     public function __construct(string $providedBy, array $data = [])
     {
         $this->providedBy = $providedBy;
@@ -88,7 +84,6 @@ class Location implements Contracts\LocationInterface
     /**
      * Create an Address with an array.
      *
-     * @param array $data
      *
      * @return static
      */
@@ -116,8 +111,6 @@ class Location implements Contracts\LocationInterface
     }
 
     /**
-     * @param string|null $formattedAddress
-     *
      * @return self
      */
     public function withFormattedAddress(string $formattedAddress = null)
@@ -167,10 +160,6 @@ class Location implements Contracts\LocationInterface
     }
 
     /**
-     * @param int $level
-     * @param string $name
-     * @param string|null $code
-     *
      * @return self
      */
     public function addAdminLevel(int $level, string $name, string $code = null)
@@ -289,7 +278,6 @@ class Location implements Contracts\LocationInterface
     }
 
     /**
-     * @param string $name
      * @param mixed $value
      *
      * @return self
@@ -302,7 +290,6 @@ class Location implements Contracts\LocationInterface
     }
 
     /**
-     * @param string $name
      * @param mixed|null $default
      *
      * @return mixed
@@ -316,19 +303,11 @@ class Location implements Contracts\LocationInterface
         return $default;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     public function hasValue(string $name): bool
     {
         return array_key_exists($name, $this->data);
     }
 
-    /**
-     * @return string
-     */
     public function getProvidedBy(): string
     {
         return $this->providedBy;
@@ -490,7 +469,6 @@ class Location implements Contracts\LocationInterface
     }
 
     /**
-     * @param $data
      * @return Coordinates|null
      */
     protected function createCoordinates($data)
@@ -506,7 +484,6 @@ class Location implements Contracts\LocationInterface
     }
 
     /**
-     * @param $data
      * @return Bounds|null
      */
     protected function createBounds($data)

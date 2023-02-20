@@ -44,7 +44,6 @@ class Environment
      *  * cache: An absolute path where to store the compiled templates,
      *           or false to disable compilation cache.
      *
-     * @param Contracts\TemplateLoader $loader
      * @param array $options An array of options
      */
     public function __construct(Contracts\TemplateLoader $loader, $options = [])

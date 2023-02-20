@@ -262,7 +262,6 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Update a record in the database.
      *
-     * @param array $values
      * @return int
      */
     public function update(array $values)
@@ -288,7 +287,6 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Insert a new record and get the value of the primary key.
      *
-     * @param array $values
      * @param string $sequence
      * @return int
      */
@@ -302,7 +300,6 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Insert a new record into the database.
      *
-     * @param array $values
      * @return bool
      */
     public function insert(array $values)
@@ -315,7 +312,6 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Insert new records or update the existing ones.
      *
-     * @param array $values
      * @param array|string $uniqueBy
      * @param array|null $update
      * @return int

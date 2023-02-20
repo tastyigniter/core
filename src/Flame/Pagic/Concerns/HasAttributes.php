@@ -69,8 +69,6 @@ trait HasAttributes
     /**
      * Add the mutated attributes to the attributes array.
      *
-     * @param array $attributes
-     * @param array $mutatedAttributes
      *
      * @return array
      */
@@ -124,7 +122,6 @@ trait HasAttributes
     /**
      * Get an attribute array of all arrayable values.
      *
-     * @param array $values
      *
      * @return array
      */
@@ -301,7 +298,6 @@ trait HasAttributes
     /**
      * Set the array of model attributes. No checking is done.
      *
-     * @param array $attributes
      * @param bool $sync
      *
      * @return $this

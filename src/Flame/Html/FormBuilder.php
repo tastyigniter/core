@@ -104,10 +104,7 @@ class FormBuilder
      * Create a new form builder instance.
      *
      * @param \Igniter\Flame\Html\HtmlBuilder $html
-     * @param \Illuminate\Contracts\Routing\UrlGenerator $url
-     * @param \Illuminate\Contracts\View\Factory $view
      * @param string $csrfToken
-     * @param \Illuminate\Http\Request|null $request
      */
     public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, $csrfToken, Request $request = null)
     {
@@ -121,7 +118,6 @@ class FormBuilder
     /**
      * Open up a new HTML form.
      *
-     * @param array $options
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -168,7 +164,6 @@ class FormBuilder
      * Create a new model based form builder.
      *
      * @param mixed $model
-     * @param array $options
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -563,8 +558,6 @@ class FormBuilder
      * @param string $name
      * @param array $list
      * @param string $selected
-     * @param array $selectAttributes
-     * @param array $optionsAttributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -668,7 +661,6 @@ class FormBuilder
      * @param string $display
      * @param string $value
      * @param string $selected
-     * @param array $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -687,7 +679,6 @@ class FormBuilder
      * @param array $list
      * @param string $label
      * @param string $selected
-     * @param array $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -708,7 +699,6 @@ class FormBuilder
      * @param string $display
      * @param string $value
      * @param string $selected
-     * @param array $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -724,8 +714,6 @@ class FormBuilder
     /**
      * Create a placeholder select element option.
      *
-     * @param $display
-     * @param $selected
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -999,7 +987,6 @@ class FormBuilder
     /**
      * Get the form action from the options.
      *
-     * @param array $options
      *
      * @return string
      */
@@ -1172,7 +1159,6 @@ class FormBuilder
     /**
      * Get value from current Request
      *
-     * @param $name
      *
      * @return array|null|string
      */
@@ -1261,7 +1247,6 @@ class FormBuilder
     /**
      * Transform the string to an Html serializable object
      *
-     * @param $html
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -1283,7 +1268,6 @@ class FormBuilder
     /**
      * Set the session store implementation.
      *
-     * @param \Illuminate\Contracts\Session\Session $session
      *
      * @return $this
      */

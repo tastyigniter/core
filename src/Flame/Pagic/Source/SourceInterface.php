@@ -19,7 +19,6 @@ interface SourceInterface
      * Returns all sources.
      *
      * @param  string $dirName
-     * @param  array $options
      *
      * @return array
      */

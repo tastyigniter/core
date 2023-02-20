@@ -61,7 +61,6 @@ class PermalinkMaker
      * Build the slug for the given attribute of the current model.
      *
      * @param string $attribute
-     * @param array $config
      * @param bool $force
      *
      * @return null|string
@@ -87,7 +86,6 @@ class PermalinkMaker
      * Determines whether the model needs slugging.
      *
      * @param string $attribute
-     * @param array $config
      *
      * @return bool
      */
@@ -107,7 +105,6 @@ class PermalinkMaker
     /**
      * Get the string that should be used as base for the slug.
      *
-     * @param $from
      *
      * @return mixed|string
      */
@@ -134,7 +131,6 @@ class PermalinkMaker
      * Generate a slug from the given source string.
      *
      * @param string $source
-     * @param array $config
      * @param string $attribute
      *
      * @return string
@@ -157,7 +153,6 @@ class PermalinkMaker
      * Checks if the slug should be unique, and makes it so if needed.
      *
      * @param string $slug
-     * @param array $config
      * @param string $attribute
      *
      * @return string
@@ -200,7 +195,6 @@ class PermalinkMaker
      *
      * @param string $slug
      * @param string $attribute
-     * @param array $config
      *
      * @return \Illuminate\Support\Collection
      */
@@ -228,7 +222,6 @@ class PermalinkMaker
      * Checks that the given slug is not a reserved word.
      *
      * @param string $slug
-     * @param array $config
      * @param string $attribute
      *
      * @return string
@@ -273,7 +266,6 @@ class PermalinkMaker
      *
      * @param string $slug
      * @param string $separator
-     * @param \Illuminate\Support\Collection $list
      *
      * @return string
      */

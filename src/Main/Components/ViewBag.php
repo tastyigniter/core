@@ -27,8 +27,6 @@ class ViewBag extends BaseComponent
     }
 
     /**
-     * @param array $properties
-     *
      * @return array
      */
     public function validateProperties(array $properties)

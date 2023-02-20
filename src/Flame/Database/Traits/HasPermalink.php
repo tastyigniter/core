@@ -77,7 +77,6 @@ trait HasPermalink
     /**
      * Query scope for finding a model by its primary slug.
      *
-     * @param $query
      * @param string $slug
      *
      * @return \Illuminate\Database\Eloquent\Builder
@@ -92,7 +91,6 @@ trait HasPermalink
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string $attribute
-     * @param array $config
      * @param string $slug
      *
      * @return \Illuminate\Database\Eloquent\Builder

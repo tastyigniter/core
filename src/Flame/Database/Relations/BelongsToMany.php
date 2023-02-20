@@ -28,8 +28,6 @@ class BelongsToMany extends BelongsToManyBase
     /**
      * Create a new belongs to many relationship instance.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Database\Eloquent\Model $parent
      * @param string $table
      * @param string $foreignPivotKey
      * @param string $relatedPivotKey
@@ -63,7 +61,6 @@ class BelongsToMany extends BelongsToManyBase
     /**
      * Get the select columns for the relation query.
      *
-     * @param array $columns
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     protected function shouldSelect(array $columns = ['*'])
@@ -122,7 +119,6 @@ class BelongsToMany extends BelongsToManyBase
      * Override attach() method of BelongToMany relation.
      * This is necessary in order to fire 'model.relation.beforeAttach', 'model.relation.afterAttach' events
      * @param mixed $id
-     * @param array $attributes
      * @param bool $touch
      */
     public function attach($id, array $attributes = [], $touch = true)
@@ -274,7 +270,6 @@ class BelongsToMany extends BelongsToManyBase
     /**
      * Create a new pivot model instance.
      *
-     * @param array $attributes
      * @param bool $exists
      * @return \Illuminate\Database\Eloquent\Relations\Pivot
      */

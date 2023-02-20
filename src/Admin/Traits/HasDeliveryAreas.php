@@ -48,8 +48,6 @@ trait HasDeliveryAreas
     }
 
     /**
-     * @param $areaId
-     *
      * @return \Igniter\Flame\Location\Contracts\AreaInterface|null
      */
     public function findDeliveryArea($areaId)

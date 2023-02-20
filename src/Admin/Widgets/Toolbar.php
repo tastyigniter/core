@@ -171,8 +171,6 @@ class Toolbar extends BaseWidget
     }
 
     /**
-     * @param string $name
-     * @param array $config
      * @return mixed
      */
     protected function makeButton(string $name, array $config)

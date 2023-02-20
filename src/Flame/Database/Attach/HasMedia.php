@@ -36,7 +36,6 @@ trait HasMedia
 
     /**
      * Query scope to detect the presence of one or more attached media for a given tag.
-     * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string|string[] $tags
      * @return void
      */
@@ -124,7 +123,6 @@ trait HasMedia
      * Get the first media item of a media tag.
      *
      * @param string $tag
-     * @param array $filters
      *
      * @return Media|null
      */
@@ -148,7 +146,6 @@ trait HasMedia
     /**
      * Lazy eager load attached media relationships.
      *
-     * @param $tag
      * @return \Illuminate\Support\Collection
      */
     public function loadMedia($tag)
@@ -301,7 +298,6 @@ trait HasMedia
 
     /**
      * Convert the given array to a filter closure.
-     * @param $filters
      * @return \Closure
      */
     protected function buildMediaPropertiesFilter(array $filters)

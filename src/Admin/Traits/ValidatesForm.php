@@ -19,10 +19,6 @@ trait ValidatesForm
     /**
      * Validate the given request with the given rules.
      *
-     * @param  $request
-     * @param array $rules
-     * @param array $messages
-     * @param array $customAttributes
      *
      * @return array|bool
      */
@@ -42,10 +38,6 @@ trait ValidatesForm
     /**
      * Validate the given request with the given rules.
      *
-     * @param  $request
-     * @param array $rules
-     * @param array $messages
-     * @param array $customAttributes
      *
      * @return array
      */
@@ -108,7 +100,6 @@ trait ValidatesForm
      * Get the request input based on the given validation rules.
      *
      * @param \Illuminate\Http\Request $request
-     * @param array $rules
      *
      * @return array
      */

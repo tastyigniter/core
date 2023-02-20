@@ -27,8 +27,6 @@ class FileLoader extends FileLoaderBase
     }
 
     /**
-     * @param $locale
-     * @param $group
      * @param null $namespace
      *
      * @return array
@@ -50,7 +48,6 @@ class FileLoader extends FileLoaderBase
     /**
      * Load a local namespaced translation group for overrides.
      *
-     * @param array $lines
      * @param string $locale
      * @param string $group
      * @param string $namespace

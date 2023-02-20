@@ -55,8 +55,6 @@ class GeoQuery implements Contracts\GeoQueryInterface
     }
 
     /**
-     * @param string $text
-     *
      * @return self
      */
     public static function create(string $text)
@@ -65,8 +63,6 @@ class GeoQuery implements Contracts\GeoQueryInterface
     }
 
     /**
-     * @param string $text
-     *
      * @return self
      */
     public function withText(string $text)
@@ -89,8 +85,6 @@ class GeoQuery implements Contracts\GeoQueryInterface
     }
 
     /**
-     * @param string $locale
-     *
      * @return self
      */
     public function withLocale(string $locale)
@@ -101,8 +95,6 @@ class GeoQuery implements Contracts\GeoQueryInterface
     }
 
     /**
-     * @param int $limit
-     *
      * @return self
      */
     public function withLimit(int $limit)
@@ -113,7 +105,6 @@ class GeoQuery implements Contracts\GeoQueryInterface
     }
 
     /**
-     * @param string $name
      * @param mixed $value
      *
      * @return self
@@ -158,7 +149,6 @@ class GeoQuery implements Contracts\GeoQueryInterface
     }
 
     /**
-     * @param string $name
      * @param mixed|null $default
      *
      * @return mixed

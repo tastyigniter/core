@@ -61,7 +61,6 @@ interface CoordinatesInterface
 
     /**
      * Returns a boolean determining coordinates equality
-     * @param  self $coordinate
      * @return bool
      */
     public function isEqual(CoordinatesInterface $coordinate);

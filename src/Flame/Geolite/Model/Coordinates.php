@@ -104,7 +104,6 @@ class Coordinates implements CoordinatesInterface
 
     /**
      * Returns a boolean determining coordinates equality
-     * @param  CoordinatesInterface $coordinate
      * @return bool
      */
     public function isEqual(CoordinatesInterface $coordinate)

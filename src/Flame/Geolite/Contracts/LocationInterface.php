@@ -97,8 +97,6 @@ interface LocationInterface
 
     /**
      * Returns an array with data indexed by name.
-     *
-     * @return array
      */
     public function toArray(): array;
 }

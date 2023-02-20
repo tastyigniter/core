@@ -76,8 +76,6 @@ trait FormAccessible
     }
 
     /**
-     * @param $key
-     *
      * @return bool
      */
     protected function hasFormMutator($key)
@@ -93,9 +91,6 @@ trait FormAccessible
     }
 
     /**
-     * @param $key
-     * @param $value
-     *
      * @return mixed
      */
     private function mutateFormAttribute($key, $value)

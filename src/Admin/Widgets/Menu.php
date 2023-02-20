@@ -70,7 +70,6 @@ class Menu extends BaseWidget
     /**
      * Renders the HTML element for a item
      *
-     * @param $item
      *
      * @return string
      */
@@ -100,8 +99,6 @@ class Menu extends BaseWidget
 
     /**
      * Programatically add items, used internally and for extensibility.
-     *
-     * @param array $items
      */
     public function addItems(array $items)
     {
@@ -123,8 +120,6 @@ class Menu extends BaseWidget
     /**
      * Creates a menu item object from name and configuration.
      *
-     * @param $name
-     * @param $config
      *
      * @return \Igniter\Admin\Classes\MenuItem
      */

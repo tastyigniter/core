@@ -54,10 +54,6 @@ class DatabaseSettingStore extends SettingStore
      */
     protected $extraColumns = [];
 
-    /**
-     * @param \Illuminate\Database\DatabaseManager $db
-     * @param \Illuminate\Cache\Repository $cache
-     */
     public function __construct(DatabaseManager $db, Repository $cache)
     {
         $this->db = $db;
@@ -76,8 +72,6 @@ class DatabaseSettingStore extends SettingStore
 
     /**
      * Set the key column name to query from.
-     *
-     * @param $keyColumn
      */
     public function setKeyColumn($keyColumn)
     {
@@ -86,8 +80,6 @@ class DatabaseSettingStore extends SettingStore
 
     /**
      * Set the value column name to query from.
-     *
-     * @param $valueColumn
      */
     public function setValueColumn($valueColumn)
     {
@@ -96,8 +88,6 @@ class DatabaseSettingStore extends SettingStore
 
     /**
      * Set the query constraint.
-     *
-     * @param \Closure $callback
      */
     public function setConstraint(\Closure $callback)
     {
@@ -108,8 +98,6 @@ class DatabaseSettingStore extends SettingStore
 
     /**
      * Set extra columns to be added to the rows.
-     *
-     * @param array $columns
      */
     public function setExtraColumns(array $columns)
     {

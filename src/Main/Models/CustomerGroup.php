@@ -67,7 +67,6 @@ class CustomerGroup extends Model
 
     /**
      * Update the default group
-     * @param $groupId
      */
     public static function updateDefault($groupId)
     {

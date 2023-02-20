@@ -79,8 +79,6 @@ if (!function_exists('set_style_tag')) {
 if (!function_exists('set_style_tags')) {
     /**
      * Set multiple stylesheet html tags
-     *
-     * @param array $tags
      */
     function set_style_tags(array $tags = [])
     {
@@ -116,8 +114,6 @@ if (!function_exists('set_script_tag')) {
 if (!function_exists('set_script_tags')) {
     /**
      * Set multiple scripts html tags
-     *
-     * @param array $tags
      */
     function set_script_tags(array $tags = [])
     {

@@ -9,7 +9,6 @@ interface DriverInterface
     /**
      * Create a new currency.
      *
-     * @param array $params
      *
      * @return bool
      */
@@ -36,7 +35,6 @@ interface DriverInterface
      * Update given currency.
      *
      * @param string $code
-     * @param array $attributes
      * @param DateTime $timestamp
      *
      * @return int
@@ -46,7 +44,6 @@ interface DriverInterface
     /**
      * Remove given currency from storage.
      *
-     * @param $code
      *
      * @return int
      */

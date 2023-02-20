@@ -8,8 +8,6 @@ use Igniter\Flame\Auth\Models\User as UserModel;
 trait GuardHelpers
 {
     /**
-     * @param $identifier
-     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|\Igniter\Flame\Auth\Models\User
      */
     public function getById($identifier)
@@ -18,9 +16,6 @@ trait GuardHelpers
     }
 
     /**
-     * @param $identifier
-     * @param $token
-     *
      * @return mixed
      * @throws \Exception
      */
@@ -30,8 +25,6 @@ trait GuardHelpers
     }
 
     /**
-     * @param array $credentials
-     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function getByCredentials(array $credentials)

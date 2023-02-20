@@ -76,7 +76,6 @@ class Admin
     /**
      * Create a new admin redirect response, while putting the current URL in the session.
      *
-     * @param $path
      * @param int $status
      * @param array $headers
      * @param null $secure
@@ -91,7 +90,6 @@ class Admin
     /**
      * Create a new redirect response to the previously intended admin location.
      *
-     * @param $path
      * @param int $status
      * @param array $headers
      * @param null $secure

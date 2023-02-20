@@ -37,7 +37,6 @@ class Template
      * This method is for internal use only and should never be called
      * directly (use Environment::load() instead).
      * @param \Igniter\Flame\Pagic\Environment $env
-     * @param $path
      * @internal
      */
     public function __construct(Environment $env, $path)
@@ -88,7 +87,6 @@ class Template
     /**
      * Get the data bound to the view instance.
      *
-     * @param $data
      * @return array
      */
     protected function gatherData($data)

@@ -26,7 +26,6 @@ trait GuardsAttributes
     /**
      * Set the fillable attributes for the model.
      *
-     * @param  array $fillable
      *
      * @return $this
      */
@@ -40,7 +39,6 @@ trait GuardsAttributes
     /**
      * Get the fillable attributes of a given array.
      *
-     * @param  array $attributes
      *
      * @return array
      */

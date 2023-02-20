@@ -69,10 +69,6 @@ class Message implements \ArrayAccess
 
     /**
      * Whether the given offset exists.
-     *
-     * @param  mixed $offset
-     *
-     * @return bool
      */
     public function offsetExists(mixed $offset): bool
     {
@@ -81,10 +77,6 @@ class Message implements \ArrayAccess
 
     /**
      * Fetch the offset.
-     *
-     * @param  mixed $offset
-     *
-     * @return mixed
      */
     public function offsetGet(mixed $offset): mixed
     {
@@ -93,12 +85,6 @@ class Message implements \ArrayAccess
 
     /**
      * Assign the offset.
-     *
-     * @param  mixed $offset
-     *
-     * @param $value
-     *
-     * @return void
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -107,10 +93,6 @@ class Message implements \ArrayAccess
 
     /**
      * Unset the offset.
-     *
-     * @param  mixed $offset
-     *
-     * @return void
      */
     public function offsetUnset(mixed $offset): void
     {

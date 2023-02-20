@@ -95,7 +95,6 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
     }
 
     /**
-     * @param $name
      * @return \Igniter\Flame\Geolite\Contracts\AbstractProvider
      */
     public function using($name)
@@ -116,10 +115,6 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
         return $this->makeProvider($driver);
     }
 
-    /**
-     * @param $name
-     * @return \Igniter\Flame\Geolite\Contracts\AbstractProvider
-     */
     public function makeProvider($name): AbstractProvider
     {
         if (isset($this->drivers[$name])) {

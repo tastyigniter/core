@@ -48,8 +48,6 @@ class ComponentPartial extends Extendable implements TemplateSource
 
     /**
      * Creates an instance of the object and associates it with a component.
-     *
-     * @param \Igniter\System\Classes\BaseComponent $component
      */
     public function __construct(BaseComponent $component)
     {

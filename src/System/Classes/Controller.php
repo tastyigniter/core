@@ -68,8 +68,6 @@ class Controller extends IlluminateController
 
     /**
      * Extend this object properties upon construction.
-     *
-     * @param Closure $callback
      */
     public static function extend(Closure $callback)
     {

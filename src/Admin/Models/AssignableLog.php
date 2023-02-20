@@ -76,7 +76,6 @@ class AssignableLog extends Model
     }
 
     /**
-     * @param $limit
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public static function getUnAssignedQueue($limit)
@@ -127,7 +126,6 @@ class AssignableLog extends Model
 
     /**
      * @param \Igniter\Flame\Database\Query\Builder $query
-     * @param $limit
      * @return mixed
      */
     public function scopeApplyLoadBalancedScope($query, $limit)
@@ -153,7 +151,6 @@ class AssignableLog extends Model
 
     /**
      * @param \Igniter\Flame\Database\Query\Builder $query
-     * @param $assigneeId
      * @return mixed
      */
     public function scopeWhereAssignTo($query, $assigneeId)
@@ -163,7 +160,6 @@ class AssignableLog extends Model
 
     /**
      * @param \Igniter\Flame\Database\Query\Builder $query
-     * @param $assigneeGroupId
      * @return mixed
      */
     public function scopeWhereAssignToGroup($query, $assigneeGroupId)
@@ -173,7 +169,6 @@ class AssignableLog extends Model
 
     /**
      * @param \Igniter\Flame\Database\Query\Builder $query
-     * @param array $assigneeGroupIds
      * @return mixed
      */
     public function scopeWhereInAssignToGroup($query, array $assigneeGroupIds)

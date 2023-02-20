@@ -54,8 +54,6 @@ class ActivityLogger
     }
 
     /**
-     * @param Model $model
-     *
      * @return $this
      */
     public function performedOn(Model $model)

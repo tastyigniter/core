@@ -111,9 +111,6 @@ class Finder
 
     /**
      * Create a new query finder instance.
-     *
-     * @param \Igniter\Flame\Pagic\Source\SourceInterface $source
-     * @param \Igniter\Flame\Pagic\Processors\Processor $processor
      */
     public function __construct(SourceInterface $source, Processor $processor)
     {
@@ -265,7 +262,6 @@ class Finder
     /**
      * Insert a new record into the source.
      *
-     * @param  array $values
      *
      * @return bool
      */
@@ -292,7 +288,6 @@ class Finder
     /**
      * Update a record in the source.
      *
-     * @param  array $values
      *
      * @return int
      */
@@ -415,7 +410,6 @@ class Finder
     /**
      * Get the hydrated models.
      *
-     * @param  array $results
      *
      * @return \Igniter\Flame\Pagic\Model[]
      */
@@ -714,7 +708,6 @@ class Finder
     /**
      * Get the Closure callback used when caching queries.
      *
-     * @param $columns
      *
      * @return \Closure
      */

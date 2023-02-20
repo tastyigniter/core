@@ -17,8 +17,6 @@ class Database extends AbstractDriver
 
     /**
      * Create a new driver instance.
-     *
-     * @param array $config
      */
     public function __construct(array $config)
     {

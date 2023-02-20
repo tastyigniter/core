@@ -114,7 +114,6 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
     }
 
     /**
-     * @param Model\Bounds $bounds
      * @return $this
      */
     public function setBounds(Model\Bounds $bounds)
@@ -176,7 +175,6 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
     }
 
     /**
-     * @param Contracts\CoordinatesInterface $coordinate
      * @return bool
      */
     public function pointInPolygon(Contracts\CoordinatesInterface $coordinate)
@@ -197,7 +195,6 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
     }
 
     /**
-     * @param Contracts\CoordinatesInterface $coordinate
      * @return bool
      */
     public function pointOnBoundary(Contracts\CoordinatesInterface $coordinate)
@@ -277,7 +274,6 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
     }
 
     /**
-     * @param Contracts\CoordinatesInterface $coordinate
      * @return bool
      */
     public function pointOnVertex(Contracts\CoordinatesInterface $coordinate)

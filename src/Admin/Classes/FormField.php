@@ -184,7 +184,6 @@ class FormField
     /**
      * If this field belongs to a tab.
      *
-     * @param $value
      *
      * @return $this
      */
@@ -664,7 +663,6 @@ class FormField
      * Returns the final model and attribute name of a nested attribute.
      * Eg: list($model, $attribute) = $this->resolveAttribute('person[phone]');
      *
-     * @param $model
      * @param string $attribute .
      *
      * @return array

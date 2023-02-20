@@ -147,7 +147,6 @@ class MailManager
 
     /**
      * Render the Markdown template into text.
-     * @param $content
      * @param array $data
      * @return string
      */
@@ -314,7 +313,6 @@ class MailManager
 
     /**
      * Registers mail views and manageable layouts.
-     * @param array $definitions
      */
     public function registerMailLayouts(array $definitions)
     {
@@ -327,7 +325,6 @@ class MailManager
 
     /**
      * Registers mail views and manageable templates.
-     * @param array $definitions
      */
     public function registerMailTemplates(array $definitions)
     {
@@ -340,7 +337,6 @@ class MailManager
 
     /**
      * Registers mail views and manageable partials.
-     * @param array $definitions
      */
     public function registerMailPartials(array $definitions)
     {
@@ -353,7 +349,6 @@ class MailManager
 
     /**
      * Registers mail variables.
-     * @param array $definitions
      */
     public function registerMailVariables(array $definitions)
     {

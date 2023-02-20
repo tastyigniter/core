@@ -351,7 +351,6 @@ class Form extends BaseWidget
     /**
      * Programmatically add fields, used internally and for extensibility.
      *
-     * @param array $fields
      * @param string $addToArea
      *
      * @return void
@@ -390,7 +389,6 @@ class Form extends BaseWidget
     /**
      * Add tab fields.
      *
-     * @param array $fields
      *
      * @return void
      */
@@ -919,7 +917,6 @@ class Form extends BaseWidget
      * Converts fields with a span set to 'auto' as either
      * 'left' or 'right' depending on the previous field.
      *
-     * @param $fields
      *
      * @return void
      */
@@ -985,7 +982,6 @@ class Form extends BaseWidget
      * Looks at the model for defined options.
      *
      * @param FormField $field
-     * @param $fieldOptions
      *
      * @return mixed
      * @throws \Exception
@@ -1048,8 +1044,6 @@ class Form extends BaseWidget
     /**
      * Variant to array_get() but preserves dots in key names.
      *
-     * @param array $array
-     * @param array $parts
      * @param null $default
      *
      * @return array|string
@@ -1083,8 +1077,6 @@ class Form extends BaseWidget
     /**
      * Variant to array_set() but preserves dots in key names.
      *
-     * @param array $array
-     * @param array $parts
      * @param string $value
      *
      * @return array|string

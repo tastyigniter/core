@@ -60,9 +60,6 @@ class Currency
 
     /**
      * Create a new instance.
-     *
-     * @param array $config
-     * @param FactoryContract $cache
      */
     public function __construct(array $config, FactoryContract $cache)
     {

@@ -17,9 +17,6 @@ trait Componentable
     /**
      * Register a custom component.
      *
-     * @param       $name
-     * @param       $view
-     * @param array $signature
      *
      * @return void
      */
@@ -31,7 +28,6 @@ trait Componentable
     /**
      * Check if a component is registered.
      *
-     * @param $name
      *
      * @return bool
      */
@@ -43,8 +39,6 @@ trait Componentable
     /**
      * Render a custom component.
      *
-     * @param        $name
-     * @param  array $arguments
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -61,8 +55,6 @@ trait Componentable
     /**
      * Prepare the component data, while respecting provided defaults.
      *
-     * @param  array $signature
-     * @param  array $arguments
      *
      * @return array
      */

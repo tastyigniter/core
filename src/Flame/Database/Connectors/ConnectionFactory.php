@@ -18,7 +18,6 @@ class ConnectionFactory extends BaseConnectionFactory
      * Carbon copy of parent. Except Laravel creates an "uncatchable" exception,
      * this is resolved as part of the override below.
      *
-     * @param array $config
      * @return \Closure
      */
     protected function createPdoResolverWithHosts(array $config)
@@ -45,7 +44,6 @@ class ConnectionFactory extends BaseConnectionFactory
      * @param \PDO $connection
      * @param string $database
      * @param string $prefix
-     * @param array $config
      * @return \Illuminate\Database\Connection
      *
      * @throws \InvalidArgumentException

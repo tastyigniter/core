@@ -54,7 +54,6 @@ trait Sortable
      * Sets the sort order of records to the specified orders. If the orders is
      * undefined, the record identifier is used.
      *
-     * @param $itemIds
      * @param null $itemOrders
      *
      * @throws \Exception

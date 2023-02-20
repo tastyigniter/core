@@ -33,8 +33,6 @@ class ChainFileSource extends AbstractSource implements SourceInterface
 
     /**
      * Create a new source instance.
-     *
-     * @param array $sources
      */
     public function __construct(array $sources)
     {
@@ -85,7 +83,6 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     /**
      * Get the appropriate source for the provided path
      *
-     * @param string $path
      * @return \Igniter\Flame\Pagic\Source\SourceInterface
      */
     protected function getSourceForPath(string $path)
@@ -108,9 +105,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     /**
      * Helper to make file path.
      *
-     * @param string $dirName
      * @param string $fileName
-     * @param string $extension
      * @return string
      */
     protected function makeFilePath(string $dirName, ?string $fileName, string $extension)
@@ -154,7 +149,6 @@ class ChainFileSource extends AbstractSource implements SourceInterface
      * Returns all sources.
      *
      * @param string $dirName
-     * @param array $options
      *
      * @return array
      */

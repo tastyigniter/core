@@ -252,7 +252,6 @@ class ClassLoader
      * Aliases are first-come, first-served. If a real class already exists with the same name as an alias, the real
      * class is used over the alias.
      *
-     * @param array $aliases
      * @return void
      */
     public function addAliases(array $aliases)
@@ -272,7 +271,6 @@ class ClassLoader
      * Aliases are first-come, first-served. If a real class already exists with the same name as an alias, the real
      * class is used over the alias.
      *
-     * @param array $namespaceAliases
      * @return void
      */
     public function addNamespaceAliases(array $namespaceAliases)
@@ -470,7 +468,7 @@ class ClassLoader
                     $this->manifest = [];
                 }
             }
-            catch (Exception | Throwable $ex) {
+            catch (Exception|Throwable $ex) {
                 $this->manifest = [];
             }
         }
@@ -482,7 +480,6 @@ class ClassLoader
     /**
      * Write the manifest array to filesystem.
      *
-     * @param array $manifest
      *
      * @return void
      * @throws \Exception

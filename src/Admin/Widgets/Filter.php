@@ -114,10 +114,6 @@ class Filter extends BaseWidget
 
     /**
      * Renders the HTML element for a scope
-     *
-     * @param $scope
-     *
-     * @return
      */
     public function renderScopeElement($scope)
     {
@@ -244,7 +240,6 @@ class Filter extends BaseWidget
     /**
      * Looks at the model for defined scope items.
      *
-     * @param $scope
      *
      * @return Collection
      */
@@ -264,7 +259,6 @@ class Filter extends BaseWidget
     /**
      * Look at the defined set of options for scope items, or the model method.
      *
-     * @param $scope
      *
      * @return array
      */
@@ -318,8 +312,6 @@ class Filter extends BaseWidget
 
     /**
      * Programatically add scopes, used internally and for extensibility.
-     *
-     * @param array $scopes
      */
     public function addScopes(array $scopes)
     {
@@ -363,8 +355,6 @@ class Filter extends BaseWidget
     /**
      * Creates a filter scope object from name and configuration.
      *
-     * @param $name
-     * @param $config
      *
      * @return \Igniter\Admin\Classes\FilterScope
      */
@@ -511,7 +501,6 @@ class Filter extends BaseWidget
     /**
      * Returns a scope value for this widget instance.
      *
-     * @param $scope
      * @param null $default
      *
      * @return string
@@ -529,9 +518,6 @@ class Filter extends BaseWidget
 
     /**
      * Sets an scope value for this widget instance.
-     *
-     * @param $scope
-     * @param $value
      */
     public function setScopeValue($scope, $value)
     {
@@ -610,8 +596,6 @@ class Filter extends BaseWidget
     }
 
     /**
-     * @param $scope
-     *
      * @return mixed
      */
     protected function getScopeModel($scope)

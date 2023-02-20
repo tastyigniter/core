@@ -152,8 +152,6 @@ class Igniter
     /**
      * Register database migration namespace.
      *
-     * @param string $path
-     * @param string $namespace
      * @return void
      */
     public static function loadMigrationsFrom(string $path, string $namespace)

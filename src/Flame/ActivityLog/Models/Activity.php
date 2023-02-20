@@ -100,8 +100,6 @@ class Activity extends Model
     /**
      * Scope a query to only include activities by a given user.
      *
-     * @param \Igniter\Flame\Database\Builder $query
-     * @param Model $user
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -115,8 +113,6 @@ class Activity extends Model
     /**
      * Scope a query to only include activities by a given causer.
      *
-     * @param \Igniter\Flame\Database\Builder $query
-     * @param Model $causer
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -130,8 +126,6 @@ class Activity extends Model
     /**
      * Scope a query to only include activities for a given subject.
      *
-     * @param \Igniter\Flame\Database\Builder $query
-     * @param Model $subject
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -245,7 +239,6 @@ class Activity extends Model
 
     /**
      * Registers the activity types.
-     * @param array $definitions
      */
     public function registerActivityTypes(array $definitions)
     {

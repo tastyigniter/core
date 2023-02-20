@@ -27,7 +27,6 @@ trait FormModelWidget
     }
 
     /**
-     * @param $recordId
      * @return \Igniter\Flame\Database\Model
      * @throws \Igniter\Flame\Exception\ApplicationException
      */

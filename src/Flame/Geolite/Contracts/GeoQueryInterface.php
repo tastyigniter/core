@@ -5,21 +5,16 @@ namespace Igniter\Flame\Geolite\Contracts;
 interface GeoQueryInterface
 {
     /**
-     * @param string $locale
-     *
      * @return GeoQueryInterface
      */
     public function withLocale(string $locale);
 
     /**
-     * @param int $limit
-     *
      * @return GeoQueryInterface
      */
     public function withLimit(int $limit);
 
     /**
-     * @param string $name
      * @param mixed $value
      *
      * @return GeoQueryInterface
@@ -44,7 +39,6 @@ interface GeoQueryInterface
     public function getLimit();
 
     /**
-     * @param string $name
      * @param mixed|null $default
      *
      * @return mixed

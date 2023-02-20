@@ -198,7 +198,6 @@ class ThemeManager
     /**
      * Returns a theme object based on its name.
      *
-     * @param $themeCode
      *
      * @return \Igniter\Main\Classes\Theme|null
      */
@@ -214,7 +213,6 @@ class ThemeManager
     /**
      * Checks to see if an extension has been registered.
      *
-     * @param $themeCode
      *
      * @return bool
      */
@@ -226,7 +224,6 @@ class ThemeManager
     /**
      * Returns the theme domain by looking in its path.
      *
-     * @param $themeCode
      *
      * @return \Igniter\Main\Classes\Theme|null
      */
@@ -240,7 +237,6 @@ class ThemeManager
     /**
      * Returns the parent theme code.
      *
-     * @param $themeCode
      *
      * @return string
      */
@@ -280,7 +276,6 @@ class ThemeManager
     /**
      * Determines if a theme is activated by looking at the default themes config.
      *
-     * @param $themeCode
      *
      * @return bool
      */
@@ -296,7 +291,6 @@ class ThemeManager
     /**
      * Determines if a theme is disabled by looking at the installed themes config.
      *
-     * @param $name
      *
      * @return bool
      */
@@ -310,7 +304,6 @@ class ThemeManager
     /**
      * Checks to see if a theme has been registered.
      *
-     * @param $themeCode
      *
      * @return bool
      */
@@ -380,7 +373,6 @@ class ThemeManager
     /**
      * Returns a theme path based on its name.
      *
-     * @param $themeCode
      *
      * @return string|null
      */
@@ -462,7 +454,6 @@ class ThemeManager
      * Write an existing theme layout, page, partial or content file.
      *
      * @param string $filePath The name of the file to locate.
-     * @param array $attributes
      * @param string $themeCode The theme to check.
      *
      * @return bool
@@ -698,7 +689,6 @@ class ThemeManager
     /**
      * Check configuration in Config file
      *
-     * @param $config
      * @param string $code
      * @return array|null
      * @throws \Igniter\Flame\Exception\SystemException

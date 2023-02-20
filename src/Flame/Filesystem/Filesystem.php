@@ -358,8 +358,6 @@ class Filesystem extends IlluminateFilesystem
     /**
      * Modify file/folder permissions recursively
      * @param string $path
-     * @param $fileMask
-     * @param $directoryMask
      * @return mixed
      */
     public function chmodRecursive($path, $fileMask = null, $directoryMask = null)

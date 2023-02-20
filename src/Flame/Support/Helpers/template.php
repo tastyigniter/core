@@ -19,7 +19,6 @@ if (!function_exists('content')) {
      * Load a content template file
      *
      * @param string $content
-     * @param array $data
      *
      * @return string
      */
@@ -34,7 +33,6 @@ if (!function_exists('partial')) {
      * Load a partial template file
      *
      * @param string $partial
-     * @param array $data
      *
      * @return string
      */
@@ -63,7 +61,6 @@ if (!function_exists('component')) {
      * Check if Partial Area has rendered components
      *
      * @param string $component
-     * @param array $params
      *
      * @return string
      * @throws \Igniter\Flame\Exception\ApplicationException

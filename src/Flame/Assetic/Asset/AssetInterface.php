@@ -152,8 +152,6 @@ interface AssetInterface
 
     /**
      * Sets the values for the asset's variables.
-     *
-     * @param array $values
      */
     public function setValues(array $values);
 

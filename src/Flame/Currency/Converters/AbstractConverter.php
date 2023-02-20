@@ -23,8 +23,6 @@ abstract class AbstractConverter
     /**
      * Returns list of exchange rates for currencies specified.
      *
-     * @param $base
-     * @param array $currencies
      * @return array
      */
     abstract public function getExchangeRates($base, array $currencies);

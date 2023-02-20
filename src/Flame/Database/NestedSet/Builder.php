@@ -123,7 +123,6 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param $id
      * @param bool $andSelf
      *
      * @return $this
@@ -134,8 +133,6 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param $id
-     *
      * @return \Igniter\Flame\Database\NestedSet\Builder
      */
     public function whereAncestorOrSelf($id)
@@ -147,7 +144,6 @@ class Builder extends BuilderBase
      * Get ancestors of specified node.
      *
      * @param mixed $id
-     * @param array $columns
      *
      * @return \Kalnoy\Nestedset\Collection
      * @since 2.0
@@ -158,9 +154,6 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param $id
-     * @param array $columns
-     *
      * @return \Kalnoy\Nestedset\Collection
      */
     public function ancestorsAndSelf($id, array $columns = ['*'])
@@ -259,7 +252,6 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param $id
      * @param string $boolean
      * @param bool $not
      *
@@ -274,7 +266,6 @@ class Builder extends BuilderBase
      * Get descendants of specified node.
      *
      * @param mixed $id
-     * @param array $columns
      * @param bool $andSelf
      *
      * @return Collection
@@ -291,9 +282,6 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param $id
-     * @param array $columns
-     *
      * @return Collection
      */
     public function descendantsAndSelf($id, array $columns = ['*'])
@@ -302,10 +290,6 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param $id
-     * @param $operator
-     * @param $boolean
-     *
      * @return $this
      */
     protected function whereIsBeforeOrAfter($id, $operator, $boolean)
@@ -374,8 +358,6 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param array $columns
-     *
      * @return \Igniter\Flame\Database\NestedSet\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function leaves(array $columns = ['*'])
@@ -596,7 +578,6 @@ class Builder extends BuilderBase
     /**
      * Get patch for columns.
      *
-     * @param array $params
      *
      * @return array
      * @since 2.0
@@ -618,7 +599,6 @@ class Builder extends BuilderBase
      * Get patch for single column.
      *
      * @param string $col
-     * @param array $params
      *
      * @return string
      * @since 2.0
@@ -848,8 +828,6 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param array $dictionary
-     *
      * @return int
      */
     protected static function fixNodes(array &$dictionary)
@@ -871,9 +849,7 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param array $dictionary
      * @param int $fixed
-     * @param $parentId
      * @param int $cut
      *
      * @return int
@@ -915,7 +891,6 @@ class Builder extends BuilderBase
      *
      * If item data does not contain primary key, new node will be created.
      *
-     * @param array $data
      * @param bool $delete Whether to delete nodes that exists but not in the data
      *                     array
      *
@@ -958,9 +933,6 @@ class Builder extends BuilderBase
     }
 
     /**
-     * @param array $dictionary
-     * @param array $data
-     * @param array $existing
      * @param mixed $parentId
      */
     protected function buildRebuildDictionary(array &$dictionary,
@@ -1013,7 +985,6 @@ class Builder extends BuilderBase
     /**
      * Get the root node.
      *
-     * @param array $columns
      *
      * @return self
      */

@@ -134,7 +134,6 @@ if (!function_exists('form_textarea')) {
     /**
      * Textarea field
      *
-     * @param $name
      * @param string $value
      * @param array $options
      *
@@ -155,8 +154,6 @@ if (!function_exists('form_multiselect')) {
      * @param string
      * @param array $list
      * @param array $selected
-     * @param array $selectAttributes
-     * @param array $optionAttributes
      *
      * @return    string
      */
@@ -175,11 +172,8 @@ if (!function_exists('form_dropdown')) {
     /**
      * Drop-down Menu
      *
-     * @param $name
      * @param array $list
      * @param mixed $selected
-     * @param array $selectAttributes
-     * @param array $optionAttributes
      *
      * @return string
      */
@@ -195,11 +189,8 @@ if (!function_exists('form_select')) {
     /**
      * Drop-down Menu
      *
-     * @param $name
      * @param array $list
      * @param mixed $selected
-     * @param array $selectAttributes
-     * @param array $optionAttributes
      *
      * @return string
      */
@@ -215,7 +206,6 @@ if (!function_exists('form_checkbox')) {
     /**
      * Checkbox Field
      *
-     * @param $name
      * @param int $value
      * @param null $checked
      * @param array $options
@@ -304,7 +294,6 @@ if (!function_exists('form_label')) {
     /**
      * Form Label Tag
      *
-     * @param $name
      * @param null $value
      * @param array $options
      * @param bool $escape_html

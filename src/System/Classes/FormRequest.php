@@ -29,9 +29,6 @@ class FormRequest extends BaseFormRequest
      */
     protected $controller;
 
-    /**
-     * @var
-     */
     protected $inputKey;
 
     /**
@@ -130,7 +127,6 @@ class FormRequest extends BaseFormRequest
     /**
      * Create the default validator instance.
      *
-     * @param \Illuminate\Contracts\Validation\Factory $factory
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function createDefaultValidator(Factory $factory)
@@ -182,7 +178,6 @@ class FormRequest extends BaseFormRequest
     /**
      * Handle a failed validation attempt.
      *
-     * @param \Illuminate\Contracts\Validation\Validator $validator
      * @return void
      *
      * @throws \Illuminate\Validation\ValidationException

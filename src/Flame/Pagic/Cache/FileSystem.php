@@ -99,8 +99,6 @@ class FileSystem
     /**
      * Stores result data inside cache.
      *
-     * @param $filePath
-     * @param $cacheItem
      *
      * @return void
      */

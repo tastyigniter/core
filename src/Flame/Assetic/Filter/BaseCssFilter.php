@@ -22,8 +22,6 @@ abstract class BaseCssFilter implements FilterInterface
 {
     /**
      * @see CssUtils::filterReferences()
-     * @param $content
-     * @param $callback
      * @param int $limit
      * @param int $count
      * @return string
@@ -35,8 +33,6 @@ abstract class BaseCssFilter implements FilterInterface
 
     /**
      * @see CssUtils::filterUrls()
-     * @param $content
-     * @param $callback
      * @param int $limit
      * @param int $count
      * @return string
@@ -48,8 +44,6 @@ abstract class BaseCssFilter implements FilterInterface
 
     /**
      * @see CssUtils::filterImports()
-     * @param $content
-     * @param $callback
      * @param int $limit
      * @param int $count
      * @param bool $includeUrl
@@ -62,8 +56,6 @@ abstract class BaseCssFilter implements FilterInterface
 
     /**
      * @see CssUtils::filterIEFilters()
-     * @param $content
-     * @param $callback
      * @param int $limit
      * @param int $count
      * @return string

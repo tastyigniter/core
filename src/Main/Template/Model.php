@@ -254,7 +254,6 @@ class Model extends \Igniter\Flame\Pagic\Model implements TemplateSource
     /**
      * Implements getter functionality for visible properties defined in
      * the settings section or view bag array.
-     * @param $name
      * @return mixed
      */
     public function __get($name)

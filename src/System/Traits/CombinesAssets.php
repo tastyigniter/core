@@ -297,8 +297,6 @@ trait CombinesAssets
     /**
      * Registers bundle.
      *
-     * @param $extension
-     * @param $files
      * @param null $destination
      * @param string $appContext
      *

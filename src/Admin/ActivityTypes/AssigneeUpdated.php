@@ -28,10 +28,6 @@ class AssigneeUpdated implements ActivityInterface
         $this->causer = $causer;
     }
 
-    /**
-     * @param \Igniter\Admin\Models\AssignableLog $assignableLog
-     * @param \Igniter\Flame\Auth\Models\User|null $user
-     */
     public static function log(AssignableLog $assignableLog, User $user = null)
     {
         $type = $assignableLog->isForOrder() ? self::ORDER_ASSIGNED_TYPE : self::RESERVATION_ASSIGNED_TYPE;

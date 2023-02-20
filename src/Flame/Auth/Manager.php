@@ -132,8 +132,6 @@ class Manager
 
     /**
      * Set the current user model
-     *
-     * @param $user
      */
     public function setUser($user)
     {
@@ -143,7 +141,6 @@ class Manager
     /**
      * Validate a user using the given credentials.
      *
-     * @param array $credentials
      * @param bool $remember
      * @param bool $login
      *
@@ -204,7 +201,6 @@ class Manager
     /**
      * Log a user into the application.
      *
-     * @param \Illuminate\Contracts\Auth\Authenticatable $user
      * @param bool $remember
      *
      * @throws \Exception
@@ -238,7 +234,6 @@ class Manager
     /**
      * Log the given user ID into the application.
      *
-     * @param $id
      * @param bool $remember
      *
      * @return mixed
@@ -297,8 +292,6 @@ class Manager
     //
 
     /**
-     * @param $identifier
-     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|\Igniter\Flame\Auth\Models\User
      */
     public function getById($identifier)
@@ -309,9 +302,6 @@ class Manager
     }
 
     /**
-     * @param $identifier
-     * @param $token
-     *
      * @return mixed
      * @throws \Exception
      */
@@ -327,8 +317,6 @@ class Manager
     }
 
     /**
-     * @param array $credentials
-     *
      * @return null|\Igniter\Flame\Auth\Models\User
      */
     public function getByCredentials(array $credentials)
@@ -412,7 +400,6 @@ class Manager
     /**
      * Sets the name of the user model
      *
-     * @param $model
      *
      * @return $this
      */

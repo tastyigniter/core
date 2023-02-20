@@ -88,8 +88,6 @@ trait ConfigMaker
      * Merges two configuration sources, either prepared or not, and returns
      * them as a single configuration object.
      *
-     * @param $configLeft
-     * @param $configRight
      *
      * @return array The config array
      */

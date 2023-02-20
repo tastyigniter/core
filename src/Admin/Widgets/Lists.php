@@ -547,7 +547,6 @@ class Lists extends BaseWidget
     /**
      * Creates a list column object from it's name and configuration.
      *
-     * @param $name
      * @param array $config
      *
      * @return \Igniter\Admin\Classes\ListColumn
@@ -620,10 +619,6 @@ class Lists extends BaseWidget
 
     /**
      * Looks up the column header
-     *
-     * @param $column
-     *
-     * @return
      */
     public function getHeaderValue($column)
     {
@@ -640,8 +635,6 @@ class Lists extends BaseWidget
     /**
      * Looks up the column value
      *
-     * @param $record
-     * @param $column
      *
      * @return null|string
      */

@@ -497,7 +497,6 @@ class ExtensionManager
     /**
      * Returns a extension registration class based on its name.
      *
-     * @param $code
      *
      * @return \Igniter\System\Classes\BaseExtension|null
      */
@@ -513,7 +512,6 @@ class ExtensionManager
     /**
      * Checks to see if an extension name is well formed.
      *
-     * @param $code
      *
      * @return string
      */
@@ -542,7 +540,6 @@ class ExtensionManager
     /**
      * Checks to see if an extension has been registered.
      *
-     * @param $code
      *
      * @return bool
      */
@@ -574,7 +571,6 @@ class ExtensionManager
     /**
      * Determines if an extension is disabled by looking at the installed extensions config.
      *
-     * @param $code
      *
      * @return bool
      */
@@ -670,7 +666,6 @@ class ExtensionManager
     /**
      * Extract uploaded extension zip folder
      *
-     * @param $zipPath
      *
      * @return bool TRUE on success, FALSE on failure
      */

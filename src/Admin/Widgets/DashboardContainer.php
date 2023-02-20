@@ -69,7 +69,6 @@ class DashboardContainer extends BaseWidget
 
     /**
      * Constructor.
-     * @param $controller
      * @param array $config
      */
     public function __construct($controller, $config = [])
@@ -223,7 +222,6 @@ class DashboardContainer extends BaseWidget
 
     /**
      * @param \Igniter\Admin\Classes\BaseDashboardWidget $widget
-     * @param $size
      *
      * @return array
      * @throws \Igniter\Flame\Exception\ApplicationException

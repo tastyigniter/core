@@ -30,7 +30,6 @@ class FileAsset extends BaseAsset
      * @param array $filters An array of filters
      * @param string $sourceRoot The source asset root directory
      * @param string $sourcePath The source asset path
-     * @param array $vars
      *
      * @throws \InvalidArgumentException If the supplied root doesn't match the source when guessing the path
      */

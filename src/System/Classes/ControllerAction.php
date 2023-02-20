@@ -97,8 +97,6 @@ class ControllerAction
 
     /**
      * Protects a public method from being available as an controller method.
-     *
-     * @param $methodName
      */
     protected function hideAction($methodName)
     {

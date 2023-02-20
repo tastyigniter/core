@@ -26,8 +26,6 @@ class AdminLevelCollection extends Collection
     }
 
     /**
-     * @param int $level
-     *
      * @throws \OutOfBoundsException
      */
     protected function checkLevel(int $level)

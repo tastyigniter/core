@@ -47,7 +47,6 @@ class ErrorHandler
     /**
      * Report or log an exception.
      *
-     * @param \Throwable $e
      * @return false|void
      *
      * @throws \Throwable
@@ -92,7 +91,6 @@ class ErrorHandler
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Throwable $e
      * @return \Illuminate\Http\Response|void
      */
     public function render($request, Throwable $e)
@@ -110,7 +108,6 @@ class ErrorHandler
     /**
      * Determine if the exception is in the "do not report" list.
      *
-     * @param \Throwable $e
      * @return bool
      */
     protected function shouldntReport(Throwable $e)

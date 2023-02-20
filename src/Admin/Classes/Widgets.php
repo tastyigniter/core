@@ -196,8 +196,6 @@ class Widgets
      *       ]);
      *   });
      * </pre>
-     *
-     * @param callable $definitions
      */
     public function registerFormWidgets(callable $definitions)
     {
@@ -286,8 +284,6 @@ class Widgets
      *       ]);
      *   });
      * </pre>
-     *
-     * @param callable $definitions
      */
     public function registerDashboardWidgets(callable $definitions)
     {

@@ -16,7 +16,6 @@ class DeleteFileException extends RuntimeException
     /**
      * Set the affected file path.
      *
-     * @param $path
      * @return $this
      */
     public function setInvalidPath($path)

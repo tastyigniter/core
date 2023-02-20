@@ -10,7 +10,6 @@ class Processor
     /**
      * Process the results of a singular "select" query.
      *
-     * @param  \Igniter\Flame\Pagic\Finder $finder
      * @param  array $result
      *
      * @return array
@@ -29,7 +28,6 @@ class Processor
     /**
      * Process the results of a "select" query.
      *
-     * @param  \Igniter\Flame\Pagic\Finder $finder
      * @param  array $results
      *
      * @return array
@@ -53,9 +51,6 @@ class Processor
     /**
      * Helper to break down template content in to a useful array.
      *
-     * @param $result
-     * @param $fileName
-     * @param $finder
      *
      * @return array
      */
@@ -86,7 +81,6 @@ class Processor
     /**
      * Process the data in to an insert action.
      *
-     * @param  \Igniter\Flame\Pagic\Finder $finder
      * @param  array $data
      *
      * @return string
@@ -99,7 +93,6 @@ class Processor
     /**
      * Process the data in to an update action.
      *
-     * @param  \Igniter\Flame\Pagic\Finder $finder
      * @param  array $data
      *
      * @return string

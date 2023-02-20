@@ -65,7 +65,6 @@ class MediaAdder
     }
 
     /**
-     * @param \Igniter\Flame\Database\Model $model
      * @return $this
      */
     public function performedOn(Model $model)
@@ -134,9 +133,6 @@ class MediaAdder
         return $this->pathToFile;
     }
 
-    /**
-     * @param Media $media
-     */
     protected function attachMedia(Media $media)
     {
         if ($this->performedOn->exists)
@@ -153,8 +149,6 @@ class MediaAdder
     }
 
     /**
-     * @param Media $media
-     * @param $mediaAdder
      * @return bool
      */
     protected function processMediaItem(Media $media, self $mediaAdder)

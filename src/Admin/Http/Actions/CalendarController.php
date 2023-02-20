@@ -99,7 +99,6 @@ class CalendarController extends ControllerAction
     /**
      * Prepare the widgets used by this action
      *
-     * @param $alias
      *
      * @return \Igniter\Admin\Classes\BaseWidget
      */

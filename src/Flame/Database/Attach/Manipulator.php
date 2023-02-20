@@ -142,8 +142,6 @@ class Manipulator
     }
 
     /**
-     * @param $image
-     * @param $watermarks
      * @return \League\Glide\Server
      */
     protected function createGlideServer($image, $watermarks)

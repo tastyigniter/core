@@ -96,8 +96,6 @@ class SearchBox extends BaseWidget
 
     /**
      * Sets an active search term for this widget instance.
-     *
-     * @param $term
      */
     public function setActiveTerm($term)
     {

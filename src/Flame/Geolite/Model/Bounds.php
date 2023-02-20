@@ -105,8 +105,6 @@ class Bounds implements Contracts\BoundsInterface
 
     /**
      * Returns the south bound.
-     *
-     * @return float
      */
     public function getSouth(): float
     {
@@ -115,8 +113,6 @@ class Bounds implements Contracts\BoundsInterface
 
     /**
      * Returns the west bound.
-     *
-     * @return float
      */
     public function getWest(): float
     {
@@ -125,8 +121,6 @@ class Bounds implements Contracts\BoundsInterface
 
     /**
      * Returns the north bound.
-     *
-     * @return float
      */
     public function getNorth(): float
     {
@@ -135,8 +129,6 @@ class Bounds implements Contracts\BoundsInterface
 
     /**
      * Returns the east bound.
-     *
-     * @return float
      */
     public function getEast(): float
     {
@@ -163,7 +155,6 @@ class Bounds implements Contracts\BoundsInterface
     }
 
     /**
-     * @param  Contracts\CoordinatesInterface $coordinate
      * @return bool
      */
     public function pointInBounds(Contracts\CoordinatesInterface $coordinate)
@@ -200,7 +191,6 @@ class Bounds implements Contracts\BoundsInterface
     }
 
     /**
-     * @param  Contracts\BoundsInterface $bounds
      * @return Contracts\BoundsInterface
      */
     public function merge(Contracts\BoundsInterface $bounds)
@@ -217,8 +207,6 @@ class Bounds implements Contracts\BoundsInterface
 
     /**
      * Returns an array with bounds.
-     *
-     * @return array
      */
     public function toArray(): array
     {
@@ -230,9 +218,6 @@ class Bounds implements Contracts\BoundsInterface
         ];
     }
 
-    /**
-     * @param Contracts\CoordinatesInterface $coordinate
-     */
     protected function addCoordinate(Contracts\CoordinatesInterface $coordinate)
     {
         $latitude = $coordinate->getLatitude();

@@ -29,7 +29,6 @@ class NestedKeyIterator extends \RecursiveIteratorIterator
     private $keySeparator;
 
     /**
-     * @param \Traversable $iterator
      * @param string $separator
      * @param int $mode
      * @param int $flags

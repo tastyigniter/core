@@ -18,10 +18,6 @@ class NominatimProvider extends AbstractProvider
      */
     protected $config = [];
 
-    /**
-     * @param \GuzzleHttp\Client $client
-     * @param array $config
-     */
     public function __construct(HttpClient $client, array $config)
     {
         $this->httpClient = $client;
@@ -30,8 +26,6 @@ class NominatimProvider extends AbstractProvider
 
     /**
      * Returns the provider name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -40,9 +34,6 @@ class NominatimProvider extends AbstractProvider
 
     /**
      * Handle the geocoder request.
-     *
-     * @param \Igniter\Flame\Geolite\Contracts\GeoQueryInterface $query
-     * @return \Illuminate\Support\Collection
      */
     public function geocodeQuery(GeoQueryInterface $query): Collection
     {
@@ -73,9 +64,6 @@ class NominatimProvider extends AbstractProvider
 
     /**
      * Handle the reverse geocoding request.
-     *
-     * @param \Igniter\Flame\Geolite\Contracts\GeoQueryInterface $query
-     * @return \Illuminate\Support\Collection
      */
     public function reverseQuery(GeoQueryInterface $query): Collection
     {

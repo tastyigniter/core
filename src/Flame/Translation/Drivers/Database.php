@@ -9,8 +9,6 @@ use Igniter\Flame\Translation\Models\Translation;
 class Database implements Driver
 {
     /**
-     * @param $locale
-     * @param $group
      * @param null $namespace
      *
      * @return mixed

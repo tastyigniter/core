@@ -91,8 +91,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Create a new Halcyon model instance.
-     *
-     * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -162,8 +160,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     }
 
     /**
-     * @param $source
-     *
      * @return self|\Igniter\Flame\Pagic\Finder
      */
     public static function on($source)
@@ -197,7 +193,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Set the source resolver instance.
      *
-     * @param \Igniter\Flame\Pagic\Source\SourceResolverInterface $resolver
      *
      * @return void
      */
@@ -218,7 +213,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Create a collection of models from plain arrays.
      *
-     * @param array $items
      * @param string|null $source
      *
      * @return \Illuminate\Support\Collection
@@ -238,7 +232,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Save a new model and return the instance.
      *
-     * @param array $attributes
      *
      * @return static
      */
@@ -276,7 +269,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Fill the model with an array of attributes.
      *
-     * @param array $attributes
      *
      * @return $this
      *
@@ -302,8 +294,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     }
 
     /**
-     * @param $source
-     *
      * @return \Igniter\Flame\Pagic\Model
      */
     public function setSource($source)
@@ -457,7 +447,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Create a new Collection instance.
      *
-     * @param array $models
      *
      * @return \Illuminate\Support\Collection
      */
@@ -510,7 +499,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Update the model in the database.
      *
-     * @param array $attributes
      *
      * @return bool|int
      */
@@ -526,7 +514,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Save the model to the source.
      *
-     * @param array $options
      *
      * @return bool
      */
@@ -538,7 +525,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Save the model to the database. Is used by {@link save()} and {@link forceSave()}.
      *
-     * @param array $options
      *
      * @return bool
      */
@@ -575,7 +561,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Finish processing on a successful save operation.
      *
-     * @param array $options
      *
      * @return void
      */
@@ -592,7 +577,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
      * Perform a model update operation.
      *
      * @param \Igniter\Flame\Pagic\Finder $query
-     * @param array $options
      *
      * @return bool
      */
@@ -624,7 +608,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
      * Perform a model insert operation.
      *
      * @param \Igniter\Flame\Pagic\Finder $query
-     * @param array $options
      *
      * @return bool
      */
@@ -790,10 +773,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Determine if the given attribute exists.
-     *
-     * @param mixed $offset
-     *
-     * @return bool
      */
     public function offsetExists(mixed $offset): bool
     {
@@ -802,10 +781,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Get the value for a given offset.
-     *
-     * @param mixed $offset
-     *
-     * @return mixed
      */
     public function offsetGet(mixed $offset): mixed
     {
@@ -814,11 +789,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Set the value for a given offset.
-     *
-     * @param mixed $offset
-     * @param mixed $value
-     *
-     * @return void
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -827,10 +797,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Unset the value for a given offset.
-     *
-     * @param mixed $offset
-     *
-     * @return void
      */
     public function offsetUnset(mixed $offset): void
     {

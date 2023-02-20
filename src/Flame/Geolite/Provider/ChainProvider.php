@@ -18,10 +18,6 @@ class ChainProvider extends Contracts\AbstractProvider
      */
     protected $providers = [];
 
-    /**
-     * @param $geocoder
-     * @param array $providers
-     */
     public function __construct($geocoder, array $providers)
     {
         $this->geocoder = $geocoder;

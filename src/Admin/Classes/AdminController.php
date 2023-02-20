@@ -360,7 +360,6 @@ class AdminController extends Controller
     /**
      * Sets standard page variables in the case of a controller error.
      *
-     * @param \Exception $exception
      *
      * @throws \Exception
      */

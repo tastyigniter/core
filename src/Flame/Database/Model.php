@@ -103,7 +103,6 @@ class Model extends EloquentModel
     /**
      * Save a new model and return the instance.
      *
-     * @param array $attributes
      * @param string $sessionKey
      *
      * @return \Illuminate\Database\Eloquent\Model|static
@@ -152,8 +151,6 @@ class Model extends EloquentModel
 
     /**
      * Extend this object properties upon construction.
-     *
-     * @param \Closure $callback
      */
     public static function extend(Closure $callback)
     {
@@ -415,7 +412,6 @@ class Model extends EloquentModel
      * Handle dynamic method calls into the model.
      *
      * @param string $method
-     * @param $params
      *
      * @return mixed
      */
@@ -433,8 +429,6 @@ class Model extends EloquentModel
 
     /**
      * Create a generic pivot model instance.
-     * @param \Illuminate\Database\Eloquent\Model $parent
-     * @param array $attributes
      * @param string $table
      * @param bool $exists
      * @param string|null $using

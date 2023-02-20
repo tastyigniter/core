@@ -39,8 +39,6 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Create a new source instance.
      *
-     * @param $basePath
-     * @param \Igniter\Flame\Filesystem\Filesystem $files
      * @param $fallbackPath
      */
     public function __construct($basePath, Filesystem $files)
@@ -57,7 +55,6 @@ class FileSource extends AbstractSource implements SourceInterface
      *
      * @param  string $dirName
      * @param  string $fileName
-     * @param $extension
      *
      * @return mixed
      */
@@ -81,7 +78,6 @@ class FileSource extends AbstractSource implements SourceInterface
      * Returns all templates.
      *
      * @param  string $dirName
-     * @param array $options
      *
      * @return array
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
@@ -151,7 +147,6 @@ class FileSource extends AbstractSource implements SourceInterface
      *
      * @param  string $dirName
      * @param  string $fileName
-     * @param $extension
      * @param  string $content
      *
      * @return bool
@@ -301,9 +296,6 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Helper to make file path.
      *
-     * @param $dirName
-     * @param $fileName
-     * @param $extension
      *
      * @return string
      */

@@ -163,7 +163,6 @@ trait Validation
     /**
      * Set the error messages.
      *
-     * @param \Illuminate\Support\MessageBag $validationErrors
      * @return void
      */
     public function setErrors(MessageBag $validationErrors)
@@ -314,7 +313,6 @@ trait Validation
      * primary key to the unique rules so that the validation
      * will work as expected.
      *
-     * @param array $rules
      * @return array
      */
     protected function injectUniqueIdentifierToRules(array $rules)

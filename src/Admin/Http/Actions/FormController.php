@@ -212,7 +212,6 @@ class FormController extends ControllerAction
 
     /**
      * Prepares common form data
-     * @param $model
      */
     protected function prepareVars($model)
     {

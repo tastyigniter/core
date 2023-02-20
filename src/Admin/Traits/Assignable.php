@@ -151,7 +151,6 @@ trait Assignable
 
     /**
      * @param \Igniter\Flame\Database\Query\Builder $query
-     * @param $assigneeId
      * @return mixed
      */
     public function scopeWhereAssignTo($query, $assigneeId)
@@ -161,7 +160,6 @@ trait Assignable
 
     /**
      * @param \Igniter\Flame\Database\Query\Builder $query
-     * @param $assigneeGroupId
      * @return mixed
      */
     public function scopeWhereAssignToGroup($query, $assigneeGroupId)
@@ -171,7 +169,6 @@ trait Assignable
 
     /**
      * @param \Igniter\Flame\Database\Query\Builder $query
-     * @param array $assigneeGroupIds
      * @return mixed
      */
     public function scopeWhereInAssignToGroup($query, array $assigneeGroupIds)

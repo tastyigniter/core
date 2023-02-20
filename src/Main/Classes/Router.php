@@ -189,8 +189,6 @@ class Router
     /**
      * Returns a routing parameter.
      *
-     * @param $name
-     * @param $default
      *
      * @return object|string|null
      */

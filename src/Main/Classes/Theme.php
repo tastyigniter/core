@@ -422,7 +422,6 @@ class Theme
     }
 
     /**
-     * @param $dirName
      * @return \Igniter\Main\Template\Model|\Igniter\Flame\Pagic\Finder
      */
     public function onTemplate($dirName)
@@ -433,7 +432,6 @@ class Theme
     }
 
     /**
-     * @param $dirName
      * @return \Igniter\Main\Template\Model
      */
     public function newTemplate($dirName)
@@ -444,7 +442,6 @@ class Theme
     }
 
     /**
-     * @param $dirName
      * @return mixed
      * @throws \Exception
      */

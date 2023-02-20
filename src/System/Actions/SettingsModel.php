@@ -31,8 +31,6 @@ class SettingsModel extends ModelAction
 
     /**
      * Constructor
-     *
-     * @param \Igniter\Flame\Database\Model $model
      */
     public function __construct(Model $model)
     {

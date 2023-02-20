@@ -121,8 +121,6 @@ class OnboardingSteps
     /**
      * Registers the onboarding steps.
      * The argument is an array of the onboarding steps definition.
-     *
-     * @param array $definitions
      */
     public function registerSteps(array $definitions)
     {

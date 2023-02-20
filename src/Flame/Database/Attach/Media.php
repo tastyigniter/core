@@ -77,7 +77,6 @@ class Media extends Model
 
     /**
      * Creates a file object from a file an uploaded file.
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $uploadedFile
      * @param null $tag
      * @return self
      */
@@ -93,7 +92,6 @@ class Media extends Model
 
     /**
      * Creates a file object from a file on the disk.
-     * @param $filePath
      * @param null $tag
      * @return self|void
      */
@@ -443,7 +441,6 @@ class Media extends Model
 
     /**
      * Returns true if a directory contains no files.
-     * @param $directory
      * @return bool|null
      */
     protected function isDirectoryEmpty($directory)
@@ -566,7 +563,6 @@ class Media extends Model
 
     /**
      * Generate the thumbnail
-     * @param $thumbFile
      * @param array $options
      */
     protected function makeThumb($thumbFile, $options)

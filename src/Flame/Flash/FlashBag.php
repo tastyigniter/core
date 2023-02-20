@@ -21,8 +21,6 @@ class FlashBag
 
     /**
      * Create a new FlashNotifier instance.
-     *
-     * @param FlashStore $store
      */
     public function __construct(FlashStore $store)
     {

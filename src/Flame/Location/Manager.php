@@ -61,7 +61,6 @@ abstract class Manager
     /**
      * Set the location route parameter resolver callback.
      *
-     * @param \Closure $resolver
      * @return void
      */
     public function locationSlugResolver(Closure $resolver)
@@ -229,7 +228,6 @@ abstract class Manager
     }
 
     /**
-     * @param $type
      * @param null $days
      * @return \Igniter\Flame\Location\WorkingSchedule
      */

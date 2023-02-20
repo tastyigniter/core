@@ -48,7 +48,6 @@ class InvalidExtensionException extends RuntimeException
     /**
      * Set the list of allowed extensions.
      *
-     * @param  array $allowedExtensions
      * @return $this
      */
     public function setAllowedExtensions(array $allowedExtensions)

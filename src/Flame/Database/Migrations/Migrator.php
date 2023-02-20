@@ -66,7 +66,6 @@ class Migrator extends BaseMigrator
      * Generate a migration class name based on the migration file name.
      *
      * @param string $migrationName
-     * @return string
      */
     protected function getMigrationClass($migrationName): string
     {

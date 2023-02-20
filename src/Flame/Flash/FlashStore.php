@@ -13,8 +13,6 @@ class FlashStore
 
     /**
      * Create a new session store instance.
-     *
-     * @param Store $session
      */
     public function __construct(Store $session)
     {

@@ -129,9 +129,6 @@ trait ExtendableTrait
 
     /**
      * Normalizes the provided extension name allowing for the ClassLoader to inject aliased classes
-     *
-     * @param string $name
-     * @return string
      */
     protected function extensionNormalizeClassName(string $name): string
     {
@@ -546,8 +543,6 @@ trait ExtendableTrait
 
     /**
      * Gets the class loader
-     *
-     * @return ClassLoader|null
      */
     protected function extensionGetClassLoader(): ?ClassLoader
     {

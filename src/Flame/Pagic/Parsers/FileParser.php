@@ -86,7 +86,6 @@ class FileParser
     /**
      * Renders a page or layout object as file content.
      *
-     * @param $data
      *
      * @return string
      */
@@ -159,7 +158,6 @@ class FileParser
     /**
      * Compile a page or layout file content as object.
      *
-     * @param $path
      *
      * @return string
      */
@@ -266,7 +264,6 @@ class FileParser
     /**
      * Extracts the class name from a cache file
      *
-     * @param $path
      *
      * @return string
      */

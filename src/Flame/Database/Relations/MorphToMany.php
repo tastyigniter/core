@@ -45,8 +45,6 @@ class MorphToMany extends BelongsToMany
     /**
      * Create a new morph to many relationship instance.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Database\Eloquent\Model $parent
      * @param string $name
      * @param string $table
      * @param string $foreignKey
@@ -104,7 +102,6 @@ class MorphToMany extends BelongsToMany
     /**
      * Set the constraints for an eager load of the relation.
      *
-     * @param array $models
      * @return void
      */
     public function addEagerConstraints(array $models)
@@ -133,8 +130,6 @@ class MorphToMany extends BelongsToMany
     /**
      * Add the constraints for a relationship count query.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Database\Eloquent\Builder $parentQuery
      * @param array|mixed $columns
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -159,7 +154,6 @@ class MorphToMany extends BelongsToMany
     /**
      * Create a new pivot model instance.
      *
-     * @param array $attributes
      * @param bool $exists
      * @return \Illuminate\Database\Eloquent\Relations\Pivot
      */

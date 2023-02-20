@@ -28,10 +28,6 @@ class StatusUpdated implements ActivityInterface
         $this->causer = $causer;
     }
 
-    /**
-     * @param \Igniter\Admin\Models\StatusHistory $history
-     * @param \Igniter\Flame\Auth\Models\User|null $user
-     */
     public static function log(StatusHistory $history, User $user = null)
     {
         $type = $history->isForOrder() ? self::ORDER_UPDATED_TYPE : self::RESERVATION_UPDATED_TYPE;

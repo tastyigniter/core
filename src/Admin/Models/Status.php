@@ -37,7 +37,6 @@ class Status extends Model
     /**
      * Return status_for attribute as lang text, used by
      *
-     * @param $value
      * @param $row
      *
      * @return string
@@ -72,7 +71,6 @@ class Status extends Model
     /**
      * Scope a query to only include order statuses
      *
-     * @param $query
      *
      * @return $this
      */
@@ -84,7 +82,6 @@ class Status extends Model
     /**
      * Scope a query to only include reservation statuses
      *
-     * @param $query
      *
      * @return $this
      */

@@ -26,7 +26,6 @@ class PaymentGateways
     /**
      * Returns payment gateway details based on its name.
      *
-     * @param $name
      *
      * @return mixed|null
      */

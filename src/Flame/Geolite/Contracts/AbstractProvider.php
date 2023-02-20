@@ -26,8 +26,6 @@ abstract class AbstractProvider
 
     /**
      * Returns the provider name.
-     *
-     * @return string
      */
     abstract public function getName(): string;
 
@@ -35,7 +33,6 @@ abstract class AbstractProvider
      * Handle the geocoder request.
      *
      * @param \Igniter\Flame\Geolite\Contracts\GeoQueryInterface $query
-     * @return \Illuminate\Support\Collection
      */
     abstract public function geocodeQuery(GeoQueryInterface $query): Collection;
 
@@ -43,7 +40,6 @@ abstract class AbstractProvider
      * Handle the reverse geocoding request.
      *
      * @param \Igniter\Flame\Geolite\Contracts\GeoQueryInterface $query
-     * @return \Illuminate\Support\Collection
      */
     abstract public function reverseQuery(GeoQueryInterface $query): Collection;
 

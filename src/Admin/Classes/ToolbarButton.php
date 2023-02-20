@@ -41,8 +41,6 @@ class ToolbarButton
 
     /**
      * Constructor.
-     *
-     * @param $name
      */
     public function __construct($name)
     {
@@ -55,7 +53,6 @@ class ToolbarButton
      * - number - numeric column, aligned right
      *
      * @param string $type Specifies a render mode as described above
-     * @param $config
      *
      * @return $this
      */

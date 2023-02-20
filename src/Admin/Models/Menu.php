@@ -323,7 +323,6 @@ class Menu extends Model
      * Create new or update existing menu special
      *
      * @param bool $id
-     * @param array $menuSpecial
      *
      * @return bool
      */

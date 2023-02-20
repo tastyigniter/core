@@ -38,7 +38,6 @@ trait RuleInjector
      * primary key to the unique rules so that the validation
      * will work as expected.
      *
-     * @param  array $rules
      * @return array
      */
     protected function injectParametersToRules(array $rules)

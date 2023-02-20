@@ -87,7 +87,6 @@ trait ListExtendable
      *
      * @param \Igniter\Admin\Widgets\Filter $host The hosting filter widget
      *
-     * @param $scopes
      * @return void
      */
     public function listFilterExtendScopes($host, $scopes)

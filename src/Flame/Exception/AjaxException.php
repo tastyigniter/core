@@ -11,7 +11,6 @@ class AjaxException extends BaseException
 
     /**
      * Constructor.
-     * @param $contents
      */
     public function __construct($contents)
     {

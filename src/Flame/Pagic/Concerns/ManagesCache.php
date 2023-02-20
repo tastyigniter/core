@@ -48,8 +48,6 @@ trait ManagesCache
     /**
      * Initializes the object properties from the cached data. The extra data
      * set here becomes available as attributes set on the model after fetch.
-     *
-     * @param $item
      */
     public static function initCacheItem(&$item)
     {
@@ -67,7 +65,6 @@ trait ManagesCache
     /**
      * Returns true if the object was loaded from the cache.
      *
-     * @param $value
      *
      * @return void
      */

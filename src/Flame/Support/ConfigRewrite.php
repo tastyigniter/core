@@ -155,7 +155,6 @@ class ConfigRewrite
 
     /**
      * Common constants only (true, false, null, integers)
-     * @param $targetKey
      * @param array $arrayItems
      * @return string
      */
@@ -177,7 +176,6 @@ class ConfigRewrite
 
     /**
      * Single level arrays only
-     * @param $targetKey
      * @param array $arrayItems
      * @return string
      */

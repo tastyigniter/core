@@ -134,8 +134,6 @@ trait HasRelationships
 
     /**
      * Sets a relation value directly from its attribute.
-     * @param $relationName
-     * @param $value
      * @return $this
      */
     protected function setRelationValue($relationName, $value)
@@ -325,8 +323,6 @@ trait HasRelationships
     /**
      * Validate relation supplied arguments.
      *
-     * @param $relationName
-     * @param $optional
      * @param array $required
      *
      * @return array
@@ -566,7 +562,6 @@ trait HasRelationships
      * @param string $name
      * @param string $type
      * @param string $id
-     * @param $ownerKey
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     protected function morphEagerTo($name, $type, $id, $ownerKey)
@@ -588,7 +583,6 @@ trait HasRelationships
      * @param string $name
      * @param string $type
      * @param string $id
-     * @param $ownerKey
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     protected function morphInstanceTo($target, $name, $type, $id, $ownerKey)

@@ -99,7 +99,6 @@ class FormTabs implements IteratorAggregate, ArrayAccess
      * Add a field to the collection of tabs.
      *
      * @param string $name
-     * @param FormField $field
      * @param string $tab
      */
     public function addField($name, FormField $field, $tab = null)
@@ -187,9 +186,6 @@ class FormTabs implements IteratorAggregate, ArrayAccess
 
     /**
      * ArrayAccess implementation
-     *
-     * @param mixed $offset
-     * @param mixed $value
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -198,10 +194,6 @@ class FormTabs implements IteratorAggregate, ArrayAccess
 
     /**
      * ArrayAccess implementation
-     *
-     * @param mixed $offset
-     *
-     * @return bool
      */
     public function offsetExists(mixed $offset): bool
     {
@@ -210,8 +202,6 @@ class FormTabs implements IteratorAggregate, ArrayAccess
 
     /**
      * ArrayAccess implementation
-     *
-     * @param mixed $offset
      */
     public function offsetUnset(mixed $offset): void
     {
@@ -221,7 +211,6 @@ class FormTabs implements IteratorAggregate, ArrayAccess
     /**
      * ArrayAccess implementation
      *
-     * @param mixed $offset
      *
      * @return mixed|null
      */

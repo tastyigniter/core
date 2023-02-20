@@ -11,7 +11,6 @@ class CurrencyMiddleware
      * Handle an incoming request.
      *
      * @param Request $request
-     * @param Closure $next
      *
      * @return mixed
      */
@@ -37,7 +36,6 @@ class CurrencyMiddleware
     /**
      * Get the user selected currency.
      *
-     * @param Request $request
      *
      * @return string|null
      */

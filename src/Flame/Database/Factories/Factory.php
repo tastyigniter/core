@@ -7,7 +7,6 @@ abstract class Factory extends \Illuminate\Database\Eloquent\Factories\Factory
     /**
      * Get the factory name for the given model name.
      *
-     * @param string $modelName
      * @return string
      */
     public static function resolveFactoryName(string $modelName)

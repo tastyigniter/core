@@ -149,7 +149,6 @@ abstract class SettingStore
     /**
      * Write the data into the store.
      *
-     * @param  array $data
      *
      * @return void
      */

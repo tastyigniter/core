@@ -208,7 +208,6 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Whether a offset exists
      *
-     * @param mixed $offset
      * @return bool true on success or false on failure.
      */
     public function offsetExists(mixed $offset): bool
@@ -219,7 +218,6 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Offset to retrieve
      *
-     * @param mixed $offset
      * @return mixed Can return all value types.
      */
     public function offsetGet(mixed $offset): mixed
@@ -229,10 +227,6 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Offset to set
-     *
-     * @param mixed $offset
-     * @param mixed $value
-     * @return void
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -241,9 +235,6 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Offset to unset
-     *
-     * @param mixed $offset
-     * @return void
      */
     public function offsetUnset(mixed $offset): void
     {

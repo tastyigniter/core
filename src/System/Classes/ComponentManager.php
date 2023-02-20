@@ -78,7 +78,6 @@ class ComponentManager
      *   });
      * </pre>
      *
-     * @param callable $definitions
      *
      * @return void
      */
@@ -184,7 +183,6 @@ class ComponentManager
     /**
      * Returns component details based on its name.
      *
-     * @param $name
      *
      * @return mixed|null
      */
@@ -200,7 +198,6 @@ class ComponentManager
     /**
      * Returns payment gateway details based on its name.
      *
-     * @param $name
      *
      * @return mixed|null
      */

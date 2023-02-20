@@ -274,7 +274,6 @@ class Vertex implements Contracts\VertexInterface
 
     /**
      * Returns the other coordinate who is not the coordinate passed on argument
-     * @param Contracts\CoordinatesInterface $coordinate
      * @return null|Contracts\CoordinatesInterface
      */
     public function getOtherCoordinate(Contracts\CoordinatesInterface $coordinate)
@@ -291,7 +290,6 @@ class Vertex implements Contracts\VertexInterface
     /**
      * Returns the determinant value between $this (vertex) and another vertex.
      *
-     * @param Vertex $vertex
      * @return string
      */
     public function getDeterminant(Vertex $vertex)
