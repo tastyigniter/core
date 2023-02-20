@@ -184,7 +184,6 @@ class FormField
     /**
      * If this field belongs to a tab.
      *
-     *
      * @return $this
      */
     public function tab($value)

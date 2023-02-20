@@ -199,7 +199,6 @@ class MenuItem
 
     /**
      * Returns the attributes for this item.
-     **
      *
      * @param bool $htmlBuild
      *

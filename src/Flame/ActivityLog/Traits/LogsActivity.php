@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\App;
 
 /**
  * LogsActivity model trait
- *
  **
  * In the model class definition:
  *

@@ -67,7 +67,6 @@ trait HasEvents
     /**
      * Set the observable event names.
      *
-     *
      * @return $this
      */
     public function setObservableEvents(array $observables)
@@ -394,7 +393,6 @@ trait HasEvents
 
     /**
      * Set the event dispatcher instance.
-     *
      *
      * @return void
      */

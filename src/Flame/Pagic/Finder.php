@@ -262,7 +262,6 @@ class Finder
     /**
      * Insert a new record into the source.
      *
-     *
      * @return bool
      */
     public function insert(array $values)
@@ -287,7 +286,6 @@ class Finder
 
     /**
      * Update a record in the source.
-     *
      *
      * @return int
      */
@@ -409,7 +407,6 @@ class Finder
 
     /**
      * Get the hydrated models.
-     *
      *
      * @return \Igniter\Flame\Pagic\Model[]
      */
@@ -707,7 +704,6 @@ class Finder
 
     /**
      * Get the Closure callback used when caching queries.
-     *
      *
      * @return \Closure
      */

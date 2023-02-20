@@ -58,7 +58,6 @@ class Loader extends \Igniter\Flame\Pagic\Loader
      * Internal method that checks if the template name matches
      * the loaded object, with fallback support to partials.
      *
-     *
      * @return bool
      */
     protected function validateTemplateSource($name)
@@ -78,7 +77,6 @@ class Loader extends \Igniter\Flame\Pagic\Loader
 
     /**
      * Looks up a fallback partial object.
-     *
      *
      * @return bool|\Igniter\Main\Template\Partial
      */

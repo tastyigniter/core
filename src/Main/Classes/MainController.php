@@ -752,7 +752,6 @@ class MainController extends Controller
     /**
      * Searches the layout components by an alias
      *
-     *
      * @return \Igniter\System\Classes\BaseComponent The component object, if found
      */
     public function findComponentByAlias($alias)

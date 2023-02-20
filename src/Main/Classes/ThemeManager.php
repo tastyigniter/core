@@ -198,7 +198,6 @@ class ThemeManager
     /**
      * Returns a theme object based on its name.
      *
-     *
      * @return \Igniter\Main\Classes\Theme|null
      */
     public function findTheme($themeCode)
@@ -213,7 +212,6 @@ class ThemeManager
     /**
      * Checks to see if an extension has been registered.
      *
-     *
      * @return bool
      */
     public function hasTheme($themeCode)
@@ -223,7 +221,6 @@ class ThemeManager
 
     /**
      * Returns the theme domain by looking in its path.
-     *
      *
      * @return \Igniter\Main\Classes\Theme|null
      */
@@ -236,7 +233,6 @@ class ThemeManager
 
     /**
      * Returns the parent theme code.
-     *
      *
      * @return string
      */
@@ -276,7 +272,6 @@ class ThemeManager
     /**
      * Determines if a theme is activated by looking at the default themes config.
      *
-     *
      * @return bool
      */
     public function isActive($themeCode)
@@ -291,7 +286,6 @@ class ThemeManager
     /**
      * Determines if a theme is disabled by looking at the installed themes config.
      *
-     *
      * @return bool
      */
     public function isDisabled($name)
@@ -303,7 +297,6 @@ class ThemeManager
 
     /**
      * Checks to see if a theme has been registered.
-     *
      *
      * @return bool
      */
@@ -372,7 +365,6 @@ class ThemeManager
 
     /**
      * Returns a theme path based on its name.
-     *
      *
      * @return string|null
      */

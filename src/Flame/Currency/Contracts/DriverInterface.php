@@ -9,7 +9,6 @@ interface DriverInterface
     /**
      * Create a new currency.
      *
-     *
      * @return bool
      */
     public function create(array $params);
@@ -43,7 +42,6 @@ interface DriverInterface
 
     /**
      * Remove given currency from storage.
-     *
      *
      * @return int
      */

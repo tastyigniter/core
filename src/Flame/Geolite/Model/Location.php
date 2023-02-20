@@ -84,7 +84,6 @@ class Location implements Contracts\LocationInterface
     /**
      * Create an Address with an array.
      *
-     *
      * @return static
      */
     public static function createFromArray(array $data)

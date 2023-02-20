@@ -578,7 +578,6 @@ class Builder extends BuilderBase
     /**
      * Get patch for columns.
      *
-     *
      * @return array
      * @since 2.0
      */
@@ -984,7 +983,6 @@ class Builder extends BuilderBase
 
     /**
      * Get the root node.
-     *
      *
      * @return self
      */

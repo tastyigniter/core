@@ -480,7 +480,6 @@ class ClassLoader
     /**
      * Write the manifest array to filesystem.
      *
-     *
      * @return void
      * @throws \Exception
      */

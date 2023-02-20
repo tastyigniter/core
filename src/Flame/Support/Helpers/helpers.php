@@ -349,7 +349,6 @@ if (!function_exists('get_class_id')) {
     /**
      * Generates a class ID from either an object or a string of the class name.
      *
-     *
      * @return string
      */
     function get_class_id($name)
@@ -361,7 +360,6 @@ if (!function_exists('get_class_id')) {
 if (!function_exists('normalize_class_name')) {
     /**
      * Removes the starting slash from a class namespace \
-     *
      *
      * @return string
      */

@@ -65,7 +65,6 @@ trait ManagesCache
     /**
      * Returns true if the object was loaded from the cache.
      *
-     *
      * @return void
      */
     public function setLoadedFromCache($value)

@@ -59,7 +59,6 @@ class Page extends Model
     /**
      * Scope a query to only include enabled page
      *
-     *
      * @return $this
      */
     public function scopeIsEnabled($query)

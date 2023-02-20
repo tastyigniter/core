@@ -86,7 +86,6 @@ class FileParser
     /**
      * Renders a page or layout object as file content.
      *
-     *
      * @return string
      */
     public static function render($data)
@@ -157,7 +156,6 @@ class FileParser
 
     /**
      * Compile a page or layout file content as object.
-     *
      *
      * @return string
      */
@@ -263,7 +261,6 @@ class FileParser
 
     /**
      * Extracts the class name from a cache file
-     *
      *
      * @return string
      */

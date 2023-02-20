@@ -177,7 +177,6 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total amount of order sales
      *
-     *
      * @return string
      */
     protected function getTotalSaleSum($range)

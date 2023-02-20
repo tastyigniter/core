@@ -92,7 +92,6 @@ class TemplateCode extends Extendable implements ArrayAccess
     /**
      * ArrayAccess implementation
      *
-     *
      * @return null
      */
     public function offsetGet(mixed $offset): mixed

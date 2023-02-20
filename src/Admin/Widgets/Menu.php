@@ -70,7 +70,6 @@ class Menu extends BaseWidget
     /**
      * Renders the HTML element for a item
      *
-     *
      * @return string
      */
     public function renderItemElement($item)
@@ -119,7 +118,6 @@ class Menu extends BaseWidget
 
     /**
      * Creates a menu item object from name and configuration.
-     *
      *
      * @return \Igniter\Admin\Classes\MenuItem
      */

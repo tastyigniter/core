@@ -211,7 +211,6 @@ class FormTabs implements IteratorAggregate, ArrayAccess
     /**
      * ArrayAccess implementation
      *
-     *
      * @return mixed|null
      */
     public function offsetGet(mixed $offset): mixed

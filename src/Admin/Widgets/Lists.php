@@ -635,7 +635,6 @@ class Lists extends BaseWidget
     /**
      * Looks up the column value
      *
-     *
      * @return null|string
      */
     public function getColumnValue($record, $column)

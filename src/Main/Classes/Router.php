@@ -189,7 +189,6 @@ class Router
     /**
      * Returns a routing parameter.
      *
-     *
      * @return object|string|null
      */
     public function getParameter($name, $default = null)

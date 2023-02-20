@@ -36,7 +36,6 @@ class CurrencyMiddleware
     /**
      * Get the user selected currency.
      *
-     *
      * @return string|null
      */
     protected function getUserCurrency(Request $request)

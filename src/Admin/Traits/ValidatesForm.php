@@ -19,7 +19,6 @@ trait ValidatesForm
     /**
      * Validate the given request with the given rules.
      *
-     *
      * @return array|bool
      */
     public function validatePasses($request, array $rules, array $messages = [], array $customAttributes = [])
@@ -37,7 +36,6 @@ trait ValidatesForm
 
     /**
      * Validate the given request with the given rules.
-     *
      *
      * @return array
      */

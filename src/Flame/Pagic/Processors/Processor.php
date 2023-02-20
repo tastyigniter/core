@@ -51,7 +51,6 @@ class Processor
     /**
      * Helper to break down template content in to a useful array.
      *
-     *
      * @return array
      */
     protected function parseTemplateContent($result, $fileName, Finder $finder)

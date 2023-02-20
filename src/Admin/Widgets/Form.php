@@ -389,7 +389,6 @@ class Form extends BaseWidget
     /**
      * Add tab fields.
      *
-     *
      * @return void
      */
     public function addTabFields(array $fields)
@@ -916,7 +915,6 @@ class Form extends BaseWidget
     /**
      * Converts fields with a span set to 'auto' as either
      * 'left' or 'right' depending on the previous field.
-     *
      *
      * @return void
      */

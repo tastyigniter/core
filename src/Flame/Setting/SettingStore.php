@@ -149,7 +149,6 @@ abstract class SettingStore
     /**
      * Write the data into the store.
      *
-     *
      * @return void
      */
     abstract protected function write(array $data);

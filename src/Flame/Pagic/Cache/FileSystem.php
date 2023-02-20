@@ -99,7 +99,6 @@ class FileSystem
     /**
      * Stores result data inside cache.
      *
-     *
      * @return void
      */
     public function storeCached($filePath, $cacheItem)

@@ -193,7 +193,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Set the source resolver instance.
      *
-     *
      * @return void
      */
     public static function setSourceResolver(SourceResolverInterface $resolver)
@@ -232,7 +231,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Save a new model and return the instance.
      *
-     *
      * @return static
      */
     public static function create(array $attributes = [])
@@ -268,7 +266,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Fill the model with an array of attributes.
-     *
      *
      * @return $this
      *
@@ -447,7 +444,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Create a new Collection instance.
      *
-     *
      * @return \Illuminate\Support\Collection
      */
     public function newCollection(array $models = [])
@@ -499,7 +495,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Update the model in the database.
      *
-     *
      * @return bool|int
      */
     public function update(array $attributes = [])
@@ -514,7 +509,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     /**
      * Save the model to the source.
      *
-     *
      * @return bool
      */
     public function save(array $options = [])
@@ -524,7 +518,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Save the model to the database. Is used by {@link save()} and {@link forceSave()}.
-     *
      *
      * @return bool
      */
@@ -560,7 +553,6 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Finish processing on a successful save operation.
-     *
      *
      * @return void
      */

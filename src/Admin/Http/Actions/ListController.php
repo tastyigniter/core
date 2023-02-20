@@ -159,7 +159,6 @@ class ListController extends ControllerAction
     /**
      * Prepare the widgets used by this action
      *
-     *
      * @return \Igniter\Admin\Classes\BaseWidget
      */
     public function makeList($alias)

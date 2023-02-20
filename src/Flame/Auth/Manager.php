@@ -400,7 +400,6 @@ class Manager
     /**
      * Sets the name of the user model
      *
-     *
      * @return $this
      */
     public function setModel($model)

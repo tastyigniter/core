@@ -71,7 +71,6 @@ class Status extends Model
     /**
      * Scope a query to only include order statuses
      *
-     *
      * @return $this
      */
     public function scopeIsForOrder($query)
@@ -81,7 +80,6 @@ class Status extends Model
 
     /**
      * Scope a query to only include reservation statuses
-     *
      *
      * @return $this
      */

@@ -87,7 +87,6 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     /**
      * Scope a query to only include enabled language
      *
-     *
      * @return $this
      */
     public function scopeIsEnabled($query)

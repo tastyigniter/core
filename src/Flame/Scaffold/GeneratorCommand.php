@@ -45,7 +45,6 @@ abstract class GeneratorCommand extends Command
     /**
      * Create a new controller creator command instance.
      *
-     *
      * @return void
      */
     public function __construct(Filesystem $files)

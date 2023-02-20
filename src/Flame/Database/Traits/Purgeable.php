@@ -111,7 +111,6 @@ trait Purgeable
     /**
      * Returns the original value of a single attribute.
      *
-     *
      * @return null
      */
     public function getOriginalPurgeValue($attribute)

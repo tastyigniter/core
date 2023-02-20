@@ -317,7 +317,6 @@ class HtmlBuilder
     /**
      * Generate a description list of items.
      *
-     *
      * @return \Illuminate\Support\HtmlString
      */
     public function dl(array $list, array $attributes = [])
@@ -529,7 +528,6 @@ class HtmlBuilder
 
     /**
      * Transform the string to an Html serializable object
-     *
      *
      * @return \Illuminate\Support\HtmlString
      */

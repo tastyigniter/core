@@ -17,7 +17,6 @@ trait Componentable
     /**
      * Register a custom component.
      *
-     *
      * @return void
      */
     public static function component($name, $view, array $signature)
@@ -28,7 +27,6 @@ trait Componentable
     /**
      * Check if a component is registered.
      *
-     *
      * @return bool
      */
     public static function hasComponent($name)
@@ -38,7 +36,6 @@ trait Componentable
 
     /**
      * Render a custom component.
-     *
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -54,7 +51,6 @@ trait Componentable
 
     /**
      * Prepare the component data, while respecting provided defaults.
-     *
      *
      * @return array
      */

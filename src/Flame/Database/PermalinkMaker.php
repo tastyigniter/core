@@ -105,7 +105,6 @@ class PermalinkMaker
     /**
      * Get the string that should be used as base for the slug.
      *
-     *
      * @return mixed|string
      */
     protected function getSlugSource($from)

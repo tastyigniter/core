@@ -296,7 +296,6 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Helper to make file path.
      *
-     *
      * @return string
      */
     protected function makeFilePath($dirName, $fileName, $extension)

@@ -240,7 +240,6 @@ class Filter extends BaseWidget
     /**
      * Looks at the model for defined scope items.
      *
-     *
      * @return Collection
      */
     protected function getOptionsFromModel($scope)
@@ -258,7 +257,6 @@ class Filter extends BaseWidget
 
     /**
      * Look at the defined set of options for scope items, or the model method.
-     *
      *
      * @return array
      */
@@ -354,7 +352,6 @@ class Filter extends BaseWidget
 
     /**
      * Creates a filter scope object from name and configuration.
-     *
      *
      * @return \Igniter\Admin\Classes\FilterScope
      */

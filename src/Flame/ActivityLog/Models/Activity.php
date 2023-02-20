@@ -100,7 +100,6 @@ class Activity extends Model
     /**
      * Scope a query to only include activities by a given user.
      *
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeUser(Builder $query, Model $user)
@@ -113,7 +112,6 @@ class Activity extends Model
     /**
      * Scope a query to only include activities by a given causer.
      *
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCausedBy(Builder $query, Model $causer)
@@ -125,7 +123,6 @@ class Activity extends Model
 
     /**
      * Scope a query to only include activities for a given subject.
-     *
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

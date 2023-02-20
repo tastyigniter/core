@@ -78,7 +78,6 @@ class ComponentManager
      *   });
      * </pre>
      *
-     *
      * @return void
      */
     public function registerComponents(callable $definitions)
@@ -183,7 +182,6 @@ class ComponentManager
     /**
      * Returns component details based on its name.
      *
-     *
      * @return mixed|null
      */
     public function findComponent($name)
@@ -197,7 +195,6 @@ class ComponentManager
 
     /**
      * Returns payment gateway details based on its name.
-     *
      *
      * @return mixed|null
      */

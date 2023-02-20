@@ -26,7 +26,6 @@ class PaymentGateways
     /**
      * Returns payment gateway details based on its name.
      *
-     *
      * @return mixed|null
      */
     public function findGateway($name)

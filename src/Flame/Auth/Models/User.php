@@ -183,7 +183,6 @@ class User extends Model implements Authenticatable
     /**
      * Sets the new password on user requested reset
      *
-     *
      * @return bool
      * @throws \Exception
      */

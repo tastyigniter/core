@@ -118,7 +118,6 @@ class FormBuilder
     /**
      * Open up a new HTML form.
      *
-     *
      * @return \Illuminate\Support\HtmlString
      */
     public function open(array $options = [])
@@ -714,7 +713,6 @@ class FormBuilder
     /**
      * Create a placeholder select element option.
      *
-     *
      * @return \Illuminate\Support\HtmlString
      */
     protected function placeholderOption($display, $selected)
@@ -987,7 +985,6 @@ class FormBuilder
     /**
      * Get the form action from the options.
      *
-     *
      * @return string
      */
     protected function getAction(array $options)
@@ -1159,7 +1156,6 @@ class FormBuilder
     /**
      * Get value from current Request
      *
-     *
      * @return array|null|string
      */
     protected function request($name)
@@ -1247,7 +1243,6 @@ class FormBuilder
     /**
      * Transform the string to an Html serializable object
      *
-     *
      * @return \Illuminate\Support\HtmlString
      */
     protected function toHtmlString($html)
@@ -1267,7 +1262,6 @@ class FormBuilder
 
     /**
      * Set the session store implementation.
-     *
      *
      * @return $this
      */

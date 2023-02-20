@@ -151,7 +151,6 @@ trait ManagesOrderItems
      * Add cart menu item options to menu and order by,
      * order_id and menu_id
      *
-     *
      * @return bool
      */
     protected function addOrderMenuOptions($orderMenuId, $menuId, $options)
@@ -178,7 +177,6 @@ trait ManagesOrderItems
 
     /**
      * Add cart totals to order by order_id
-     *
      *
      * @return bool
      */

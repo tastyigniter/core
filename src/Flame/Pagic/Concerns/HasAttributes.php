@@ -69,7 +69,6 @@ trait HasAttributes
     /**
      * Add the mutated attributes to the attributes array.
      *
-     *
      * @return array
      */
     protected function addMutatedAttributesToArray(array $attributes, array $mutatedAttributes)
@@ -121,7 +120,6 @@ trait HasAttributes
 
     /**
      * Get an attribute array of all arrayable values.
-     *
      *
      * @return array
      */
