@@ -17,7 +17,7 @@ return new class extends Migration
 
         Schema::table('menu_item_option_values', function (Blueprint $table) {
             $table->after('menu_option_id', function ($table) {
-                $table->string('name');
+                $table->string('name')->nullable();
             });
         });
     }
