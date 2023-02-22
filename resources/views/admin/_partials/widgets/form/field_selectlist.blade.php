@@ -2,16 +2,16 @@
     $fieldOptions = $field->options();
     $selectMultiple = array_get($field->config, 'mode') == 'checkbox';
     $checkedValues = (array)$field->value;
-    $enableFilter = (count($fieldOptions) > 20);
+    $placeholder = $field->placeholder ?: 'igniter::admin.text_please_select';
 @endphp
 <div class="control-selectlist">
     <select
         data-control="selectlist"
         id="{{ $field->getId() }}"
         name="{!! $field->getName().($selectMultiple ? '[]' : '') !!}"
+        data-placeholder="@lang($placeholder)"
         {!! $this->previewMode ? 'disabled="disabled"' : '' !!}
         {!! $selectMultiple ? 'multiple="multiple"' : '' !!}
-        @if($field->placeholder) data-placeholder="@lang($field->placeholder)" @endif
         {!! $field->getAttributes() !!}
     >
 

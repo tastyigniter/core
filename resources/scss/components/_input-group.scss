@@ -10,7 +10,7 @@
     border-radius: $input-border-radius !important;
   }
 
-  > .btn {
+  &:not(.g-0) > .btn {
     margin-left: $input-spacer !important;
   }
 }

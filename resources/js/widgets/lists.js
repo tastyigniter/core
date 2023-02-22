@@ -1,9 +1,7 @@
 // List Filter State Toggle
 // Uses user cookie value to show/hide list filter bar
 $(function () {
-    var $listFilterButton = $('[data-toggle="list-filter"]')
-
-    $listFilterButton.on('click', function () {
+    $(document).on('click', '[data-toggle="list-filter"]', function () {
         var $button = $(this),
             $listFilterTarget = $button.closest('form').parent().prev('.list-filter'),
             listFilterStoreName = $listFilterTarget.data('storeName'),
@@ -17,7 +15,7 @@ $(function () {
         $dropdownButton.click()
         Cookies.set(listFilterStoreName, $listFilterTarget.is(':visible') ? 1 : 0)
     })
-})
+});
 
 $(function ($) {
     // List setup form sortables
@@ -26,7 +24,7 @@ $(function ($) {
             handle: '.form-check-handle',
         })
     })
-})
+});
 
 // Bulk actions
 $(function ($) {
@@ -71,4 +69,4 @@ $(function ($) {
         $('[data-action-counter]').html(counter)
         $('[data-action-select-all]').prop('disabled', true)
     }
-})
+});

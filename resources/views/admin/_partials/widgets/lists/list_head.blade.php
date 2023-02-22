@@ -46,7 +46,7 @@
             <th class="list-setup">
                 <button
                     type="button"
-                    class="btn btn-outline-default btn-sm border-none"
+                    class="btn btn-outline-default btn-sm border-none shadow-none"
                     title="@lang('igniter::admin.button_filter')"
                     data-toggle="list-filter"
                 ><i class="fa fa-filter"></i></button>
@@ -56,7 +56,7 @@
             <th class="list-setup">
                 <button
                     type="button"
-                    class="btn btn-outline-default btn-sm border-none"
+                    class="btn btn-outline-default btn-sm border-none shadow-none"
                     title="@lang('igniter::admin.list.text_setup')"
                     data-bs-toggle="modal"
                     data-bs-target="#{{ $listId }}-setup-modal"

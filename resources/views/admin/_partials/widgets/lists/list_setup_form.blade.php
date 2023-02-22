@@ -35,11 +35,6 @@
                                         value="{{ $column->columnName }}"
                                         {!! $column->invisible ? '' : 'checked="checked"' !!}
                                     />
-                                    <input
-                                        type="hidden"
-                                        name="column_order[]"
-                                        value="{{ $column->columnName }}"
-                                    />
                                     <label
                                         class="form-check-label"
                                         for="list-setup-{{ $column->columnName }}"
@@ -78,6 +73,7 @@
                 type="button"
                 class="btn btn-link text-danger mr-auto"
                 data-request="{{ $this->getEventHandler('onResetSetup')}}"
+                data-request-before-update="$('#{{ $this->getId() }}-setup-modal').modal('hide')"
                 data-progress-indicator="@lang('igniter::admin.text_resetting')"
             >@lang('igniter::admin.list.button_reset_setup')</button>
             <button
@@ -89,6 +85,7 @@
                 type="button"
                 class="btn btn-primary"
                 data-request="{{ $this->getEventHandler('onApplySetup')}}"
+                data-request-before-update="$('#{{ $this->getId() }}-setup-modal').modal('hide')"
                 data-progress-indicator="@lang('igniter::admin.text_saving')"
             >@lang('igniter::admin.list.button_apply_setup')</button>
         </div>

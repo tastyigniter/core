@@ -12,12 +12,16 @@
             data-bs-reference=".list-table"
             aria-expanded="false"
         ></button>
-        <div class="dropdown-menu dropdown-menu-end p-3 col-md-12 col-lg-3">
+        <div
+            id="{{ $filterId }}-dropdown-menu"
+            class="dropdown-menu dropdown-menu-end p-3 col-md-12 col-lg-3"
+        >
             <form
                 id="{{ $filterId }}-form"
                 class="form-inline"
                 accept-charset="utf-8"
                 data-request="{{ $onSubmitHandler }}"
+                data-request-before-update="$('#{{ $filterId }}-button').dropdown('hide')"
                 role="form"
                 data-control="filter-form"
             >
@@ -44,6 +48,7 @@
                         class="btn btn-link"
                         type="button"
                         data-request="{{ $onClearHandler }}"
+                        data-request-before-update="$('#{{ $filterId }}-button').dropdown('hide')"
                         data-attach-loading
                     >@lang('igniter::admin.text_clear')</button>
                 </div>

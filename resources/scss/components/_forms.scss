@@ -190,3 +190,17 @@
     margin-bottom: 10px;
   }
 }
+.control-colorpicker {
+  .form-control-color {
+    height: calc(#{$input-height} - 13px);
+
+    &::-webkit-color-swatch {
+      border: 0 none;
+    }
+  }
+}
+.daterangepicker td.active,
+.daterangepicker td.active:hover,
+.daterangepicker .ranges li.active {
+  background-color: $primary;
+}

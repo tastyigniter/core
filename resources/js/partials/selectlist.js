@@ -23,18 +23,7 @@
     // ============================
 
     SelectList.DEFAULTS = {
-        numberDisplayed: 5,
-        includeSelectAllOption: true,
-        maxHeight: 200,
-        enableFiltering: false,
-        enableCaseInsensitiveFiltering: true,
-        selectAllText: 'Select all/none',
-        optionClass: function (element) {
-            return 'dropdown-item multiselect-item'
-        },
-        templates: {
-            button: '<button type="button" class="multiselect dropdown-toggle form-select" data-bs-toggle="dropdown"><span class="multiselect-selected-text"></span></button>',
-        }
+        plugins: ['remove_button'],
     }
 
     var old = $.fn.selectList

@@ -13,7 +13,8 @@
     <select
         id="{{ $field->getId() }}"
         name="{!! $field->getName().($multiOption ? '[]' : '') !!}"
-        class="form-select"
+        data-control="selectlist"
+        data-placeholder="@lang($placeholder)"
         {!! $multiOption ? 'multiple="multiple"' : '' !!}
         {!! $field->getAttributes() !!}>
 

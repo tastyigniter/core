@@ -1,11 +1,11 @@
 .btn {
   border-bottom-width: $btn-border-bottom-width;
-  box-shadow: none;
   cursor: pointer;
 }
 .btn-edit {
   color: $primary;
   background-color: transparent;
+  box-shadow: none;
 }
 .list-action .btn,
 .btn-action {
