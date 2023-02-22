@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Flame\Providers;
+namespace Igniter\Main;
 
 use Igniter\Admin\Classes\PermissionManager;
 use Igniter\Admin\Classes\Widgets;
@@ -9,6 +9,7 @@ use Igniter\Flame\Pagic\Cache\FileSystem as FileCache;
 use Igniter\Flame\Pagic\Environment;
 use Igniter\Flame\Pagic\Loader;
 use Igniter\Flame\Pagic\Parsers\FileParser;
+use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\Main\Classes\MediaLibrary;
 use Igniter\Main\Classes\Router;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
-class MainServiceProvider extends AppServiceProvider
+class ServiceProvider extends AppServiceProvider
 {
     /**
      * Bootstrap the service provider.

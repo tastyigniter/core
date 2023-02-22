@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Flame\Providers;
+namespace Igniter\Admin;
 
 use Igniter\Admin\ActivityTypes;
 use Igniter\Admin\Classes;
@@ -12,6 +12,7 @@ use Igniter\Admin\Models\Reservation;
 use Igniter\Admin\Requests\Location;
 use Igniter\Flame\ActivityLog\Models\Activity;
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Libraries\Assets;
 use Igniter\System\Models\Settings;
@@ -21,7 +22,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 
-class AdminServiceProvider extends AppServiceProvider
+class ServiceProvider extends AppServiceProvider
 {
     /**
      * Bootstrap the service provider.

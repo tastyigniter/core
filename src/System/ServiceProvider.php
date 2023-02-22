@@ -1,10 +1,11 @@
 <?php
 
-namespace Igniter\Flame\Providers;
+namespace Igniter\System;
 
 use Igniter\Admin\Classes\PermissionManager;
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\System\Classes;
 use Igniter\System\Console;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 
-class SystemServiceProvider extends AppServiceProvider
+class ServiceProvider extends AppServiceProvider
 {
     /**
      * Register the service provider.
@@ -48,8 +49,8 @@ class SystemServiceProvider extends AppServiceProvider
         $this->registerSystemSettings();
         $this->registerBladeDirectives();
 
-        $this->app->register(\Igniter\Flame\Providers\AdminServiceProvider::class);
-        $this->app->register(\Igniter\Flame\Providers\MainServiceProvider::class);
+        $this->app->register(\Igniter\Admin\ServiceProvider::class);
+        $this->app->register(\Igniter\Main\ServiceProvider::class);
     }
 
     /**

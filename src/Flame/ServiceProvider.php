@@ -34,7 +34,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         \Igniter\Flame\Translation\TranslationServiceProvider::class,
         \Igniter\Flame\Providers\UrlServiceProvider::class,
 
-        \Igniter\Flame\Providers\SystemServiceProvider::class,
+        \Igniter\System\ServiceProvider::class,
     ];
 
     protected $configFiles = [
