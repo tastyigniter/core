@@ -3,16 +3,16 @@
 >
     <div class="widget-item card {{ $widget->property('cssClass', 'bg-light') }} p-3 shadow-sm">
         <div class="widget-item-action">
-            <a class="btn handle pull-left"><i class="fa fa-arrows-alt"></i></a>
+            <a class="btn shadow-none handle pull-left"><i class="fa fa-arrows-alt"></i></a>
             @if($this->canManage)
                 <a
-                    class="btn pull-right"
+                    class="btn shadow-none pull-right"
                     data-control="remove-widget"
                     aria-hidden="true"
                 ><i class="fa fa-trash-alt text-danger"></i></a>
             @endif
             <a
-                class="btn pull-right"
+                class="btn shadow-none pull-right"
                 data-control="edit-widget"
                 data-bs-toggle="modal"
                 data-bs-target="#{{ $widgetAlias }}-modal"
