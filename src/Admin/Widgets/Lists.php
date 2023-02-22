@@ -679,7 +679,7 @@ class Lists extends BaseWidget
         if (isset($result['title']))
             $result['title'] = e(lang($result['title']));
 
-        $result['class'] = isset($result['class']) ? $result['class'] : null;
+        $result['class'] = $result['class'] ?? null;
 
         foreach ($result as $key => $value) {
             if ($key == 'href' && !preg_match('#^(\w+:)?//#i', $value)) {
@@ -742,7 +742,7 @@ class Lists extends BaseWidget
      */
     protected function evalTextTypeValue($record, $column, $value)
     {
-        return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
+        return htmlentities((string)$value, ENT_QUOTES, 'UTF-8', false);
     }
 
     /**
@@ -1110,8 +1110,8 @@ class Lists extends BaseWidget
         }
 
         $pageLimit = post('page_limit');
-        $this->pageLimit = $pageLimit ? $pageLimit : $this->pageLimit;
-        $this->putSession('order', post('column_order'));
+        $this->pageLimit = $pageLimit ?: $this->pageLimit;
+        $this->putSession('order', $visibleColumns);
         $this->putSession('page_limit', $this->pageLimit);
 
         return $this->onRefresh();
@@ -1122,7 +1122,9 @@ class Lists extends BaseWidget
      */
     public function onResetSetup()
     {
-        $this->resetSession();
+        $this->forgetSession('visible');
+        $this->forgetSession('order');
+        $this->forgetSession('page_limit');
 
         return $this->onRefresh();
     }

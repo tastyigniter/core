@@ -2,8 +2,6 @@
 
 namespace Igniter\System\Traits;
 
-use Illuminate\Support\Facades\Session;
-
 trait SessionMaker
 {
     /**
@@ -14,16 +12,16 @@ trait SessionMaker
      *
      * @return mixed
      */
-    public function getSession($key = null, $default = null)
+    public function getSession(string|null $key = null, mixed $default = null): mixed
     {
         $sessionKey = $this->makeSessionKey();
         $sessionData = [];
 
-        if (!is_null($cached = Session::get($sessionKey))) {
+        if (!is_null($cached = session()->get($sessionKey))) {
             $sessionData = $this->decodeSessionData($cached);
         }
 
-        return is_null($key) ? $sessionData : (isset($sessionData[$key]) ? $sessionData[$key] : $default);
+        return is_null($key) ? $sessionData : ($sessionData[$key] ?? $default);
     }
 
     /**
@@ -34,41 +32,21 @@ trait SessionMaker
      *
      * @return void
      */
-    public function putSession($key, $value)
+    public function putSession(string $key, mixed $value): void
     {
         $sessionKey = $this->makeSessionKey();
 
         $sessionData = $this->getSession();
         $sessionData[$key] = $value;
 
-        Session::put($sessionKey, $this->encodeSessionData($sessionData));
+        session()->put($sessionKey, $this->encodeSessionData($sessionData));
     }
 
-    public function hasSession($key)
+    public function hasSession(string $key): bool
     {
         $sessionData = $this->getSession();
 
         return array_key_exists($key, $sessionData);
-    }
-
-    /**
-     * Retrieves key/value pair from session temporary data.
-     *
-     * @param string $key Unique key for the data store.
-     * @param string $default A default value to use when value is not found.
-     *
-     * @return mixed
-     */
-    public function getTempSession($key = null, $default = null)
-    {
-        $sessionKey = $this->makeSessionKey();
-        $sessionData = [];
-
-        if (!is_null($cached = Session::get($sessionKey))) {
-            $sessionData = $this->decodeSessionData($cached);
-        }
-
-        return is_null($key) ? $sessionData : (isset($sessionData[$key]) ? $sessionData[$key] : $default);
     }
 
     /**
@@ -79,36 +57,36 @@ trait SessionMaker
      *
      * @return void
      */
-    public function putTempSession($key, $value)
+    public function flashSession(string $key, mixed $value): void
     {
         $sessionKey = $this->makeSessionKey();
 
         $sessionData = $this->getSession();
         $sessionData[$key] = $value;
 
-        Session::flash($sessionKey, $this->encodeSessionData($sessionData));
+        session()->flash($sessionKey, $this->encodeSessionData($sessionData));
     }
 
-    public function forgetSession($key)
+    public function forgetSession(string $key): void
     {
         $sessionData = $this->getSession();
         unset($sessionData[$key]);
 
         $sessionKey = $this->makeSessionKey();
-        Session::put($sessionKey, $this->encodeSessionData($sessionData));
+        session()->put($sessionKey, $this->encodeSessionData($sessionData));
     }
 
-    public function resetSession()
+    public function resetSession(): void
     {
         $sessionKey = $this->makeSessionKey();
-        Session::forget($sessionKey);
+        session()->forget($sessionKey);
     }
 
     /**
      * Returns a unique session identifier for this location.
      * @return string
      */
-    protected function makeSessionKey()
+    protected function makeSessionKey(): string
     {
         if (isset($this->sessionKey))
             return $this->sessionKey;
@@ -116,7 +94,7 @@ trait SessionMaker
         return get_class_id(get_class($this));
     }
 
-    protected function encodeSessionData($data)
+    protected function encodeSessionData($data): string|null
     {
         if (is_null($data))
             return null;
@@ -127,14 +105,14 @@ trait SessionMaker
         return $data;
     }
 
-    protected function decodeSessionData($data)
+    protected function decodeSessionData(string $data): mixed
     {
         if (!is_string($data))
             return null;
 
         $encodeSession = (!isset($this->encodeSession) || $this->encodeSession === true);
 
-        if ($encodeSession || (!$encodeSession && is_string($data)))
+        if ($encodeSession || $data)
             $data = @unserialize(@base64_decode($data));
 
         return $data;

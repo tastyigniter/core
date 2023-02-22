@@ -132,7 +132,7 @@ class ListColumn
      */
     public function displayAs($type, $config)
     {
-        $this->type = strtolower($type) ?: $this->type;
+        $this->type = strtolower($type ?: $this->type);
         $this->config = $this->evalConfig($config);
 
         return $this;
@@ -207,7 +207,7 @@ class ListColumn
     /**
      * Returns a value suitable for the column id property.
      *
-     * @param  string $suffix Specify a suffix string
+     * @param string $suffix Specify a suffix string
      *
      * @return string
      */

@@ -17,25 +17,25 @@ trait ExtensionTrait
      *
      *     BehaviorClass::extend(function($obj) { })
      */
-    protected static $extensionCallbacks = [];
+    protected static array $extensionCallbacks = [];
 
     /**
-     * @var string The calling class when using a static method.
+     * @var string|null The calling class when using a static method.
      */
-    public static $extendableStaticCalledClass = null;
+    public static string|null $extendableStaticCalledClass = null;
 
-    protected $extensionHidden = [
+    protected array $extensionHidden = [
         'fields' => [],
         'methods' => ['extensionIsHiddenField', 'extensionIsHiddenField'],
     ];
 
-    public function extensionApplyInitCallbacks()
+    public function extensionApplyInitCallbacks(): void
     {
         $classes = array_merge([get_class($this)], class_parents($this));
         foreach ($classes as $class) {
             if (isset(self::$extensionCallbacks[$class]) && is_array(self::$extensionCallbacks[$class])) {
                 foreach (self::$extensionCallbacks[$class] as $callback) {
-                    call_user_func($callback, $this);
+                    $callback($this);
                 }
             }
         }
@@ -44,11 +44,11 @@ trait ExtensionTrait
     /**
      * Helper method for `::extend()` static method
      *
-     * @param  callable $callback
+     * @param callable $callback
      *
      * @return void
      */
-    public static function extensionExtendCallback($callback)
+    public static function extensionExtendCallback(callable $callback): void
     {
         $class = get_called_class();
         if (
@@ -61,27 +61,27 @@ trait ExtensionTrait
         self::$extensionCallbacks[$class][] = $callback;
     }
 
-    protected function extensionHideField($name)
+    protected function extensionHideField(string $name): void
     {
         $this->extensionHidden['fields'][] = $name;
     }
 
-    protected function extensionHideMethod($name)
+    protected function extensionHideMethod(string $name): void
     {
         $this->extensionHidden['methods'][] = $name;
     }
 
-    public function extensionIsHiddenField($name)
+    public function extensionIsHiddenField(string $name): bool
     {
         return in_array($name, $this->extensionHidden['fields']);
     }
 
-    public function extensionIsHiddenMethod($name)
+    public function extensionIsHiddenMethod(string $name): bool
     {
         return in_array($name, $this->extensionHidden['methods']);
     }
 
-    public static function getCalledExtensionClass()
+    public static function getCalledExtensionClass(): string|null
     {
         return self::$extendableStaticCalledClass;
     }

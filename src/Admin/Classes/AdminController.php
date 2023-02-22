@@ -14,18 +14,17 @@ use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
+use Igniter\Flame\Location\Contracts\LocationInterface;
 use Igniter\Main\Widgets\MediaManager;
-use Igniter\System\Exception\ErrorHandler;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Response;
 
 class AdminController extends Controller
 {
     use \Igniter\Admin\Traits\HasAuthentication;
     use \Igniter\Admin\Traits\ControllerUtils;
+    use \Igniter\Admin\Traits\ControllerHelpers;
     use \Igniter\Admin\Traits\ValidatesForm;
     use \Igniter\Admin\Traits\WidgetMaker;
     use \Igniter\System\Traits\AssetMaker;
@@ -36,7 +35,7 @@ class AdminController extends Controller
     use \Igniter\Flame\Traits\ExtendableTrait;
 
     /**
-     * @var object Object used for storing a fatal error.
+     * @var string Used for storing a fatal error.
      */
     protected $fatalError;
 
@@ -51,7 +50,7 @@ class AdminController extends Controller
     public $suppressView = false;
 
     /**
-     * @var string Permission required to view this page.
+     * @var string|array Permission required to view this page.
      * ex. Admin.Banners.Access
      */
     protected $requiredPermissions;
@@ -79,7 +78,7 @@ class AdminController extends Controller
         $this->extendableConstruct();
     }
 
-    protected function definePaths()
+    protected function definePaths(): void
     {
         $this->layout = $this->layout ?: 'default';
 
@@ -116,7 +115,7 @@ class AdminController extends Controller
         $this->assetPath[] = 'igniter::js';
     }
 
-    protected function initialize()
+    protected function initialize(): static
     {
         // Set an instance of the admin user
         $this->setUser(AdminAuth::user());
@@ -139,7 +138,7 @@ class AdminController extends Controller
         return $this;
     }
 
-    public function remap($action, $params)
+    public function remap(string $action, array $params): mixed
     {
         $this->fireSystemEvent('admin.controller.beforeRemap');
 
@@ -156,7 +155,7 @@ class AdminController extends Controller
         }
 
         if ($action === '404') {
-            return Response::make($this->makeView('404'), 404);
+            return response()->make($this->makeView('404'), 404);
         }
 
         // Execute post handler and AJAX event
@@ -171,10 +170,10 @@ class AdminController extends Controller
             return $response;
 
         // Return response
-        return Response::make()->setContent($response);
+        return response()->make()->setContent($response);
     }
 
-    protected function execPageAction($action, $params)
+    protected function execPageAction(string $action, array $params): mixed
     {
         array_unshift($params, $action);
 
@@ -189,7 +188,7 @@ class AdminController extends Controller
         return $result;
     }
 
-    protected function makeMainMenuWidget()
+    protected function makeMainMenuWidget(): void
     {
         if (!$this->currentUser)
             return;
@@ -209,7 +208,7 @@ class AdminController extends Controller
     // Handlers
     //
 
-    protected function executePageHandler($handler, $params)
+    protected function executePageHandler(string $handler, array $params): mixed
     {
         // Process Widget handler
         if (strpos($handler, '::')) {
@@ -250,7 +249,7 @@ class AdminController extends Controller
         return false;
     }
 
-    protected function processHandlers()
+    protected function processHandlers(): mixed
     {
         if (!$handler = Admin::getAjaxHandler())
             return false;
@@ -313,89 +312,41 @@ class AdminController extends Controller
     // Locationable
     //
 
-    public function getUserLocation()
+    public function getUserLocation(): LocationInterface|null
     {
         return AdminLocation::getLocation();
     }
 
-    public function getLocationId()
+    public function getLocationId(): int|null
     {
         return AdminLocation::getId();
-    }
-
-    //
-    // Helper Methods
-    //
-
-    public function pageUrl($path = null, $parameters = [], $secure = null)
-    {
-        return Admin::url($path, $parameters, $secure);
-    }
-
-    public function redirect($path, $status = 302, $headers = [], $secure = null)
-    {
-        return Admin::redirect($path, $status, $headers, $secure);
-    }
-
-    public function redirectGuest($path, $status = 302, $headers = [], $secure = null)
-    {
-        return Admin::redirectGuest($path, $status, $headers, $secure);
-    }
-
-    public function redirectIntended($path, $status = 302, $headers = [], $secure = null)
-    {
-        return Admin::redirectIntended($path, $status, $headers, $secure);
-    }
-
-    public function redirectBack($status = 302, $headers = [], $fallback = false)
-    {
-        return Redirect::back($status, $headers, Admin::url($fallback ?: 'dashboard'));
-    }
-
-    public function refresh()
-    {
-        return Redirect::back();
-    }
-
-    /**
-     * Sets standard page variables in the case of a controller error.
-     *
-     * @throws \Exception
-     */
-    public function handleError(Exception $exception)
-    {
-        $errorMessage = ErrorHandler::getDetailedMessage($exception);
-        $this->fatalError = $errorMessage;
-        $this->vars['fatalError'] = $errorMessage;
-
-        flash()->error($errorMessage)->important();
     }
 
     //
     // Extendable
     //
 
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         return $this->extendableGet($name);
     }
 
-    public function __set($name, $value)
+    public function __set(string $name, mixed $value): void
     {
         $this->extendableSet($name, $value);
     }
 
-    public function __call($method, $parameters)
+    public function __call($method, $parameters): mixed
     {
         return $this->extendableCall($method, $parameters);
     }
 
-    public static function __callStatic($name, $params)
+    public static function __callStatic(string $name, array $params): mixed
     {
         return self::extendableCallStatic($name, $params);
     }
 
-    public static function extend(callable $callback)
+    public static function extend(callable $callback): void
     {
         self::extendableExtendCallback($callback);
     }

@@ -327,7 +327,7 @@ class Manager
         $query = $this->createModelQuery();
 
         foreach ($credentials as $key => $value) {
-            if (!contains_substring($key, 'password')) {
+            if (!str_contains($key, 'password')) {
                 $query->where($key, $value);
             }
         }

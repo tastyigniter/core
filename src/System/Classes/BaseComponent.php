@@ -5,9 +5,9 @@ namespace Igniter\System\Classes;
 use BadMethodCallException;
 use Igniter\Flame\Pagic\TemplateCode;
 use Igniter\Flame\Support\Extendable;
-use Igniter\Flame\Traits\EventEmitter;
 use Igniter\Main\Classes\MainController;
 use Igniter\System\Traits\AssetMaker;
+use Igniter\Flame\Traits\EventEmitter;
 use Igniter\System\Traits\PropertyContainer;
 use Illuminate\Support\Facades\Lang;
 

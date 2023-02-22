@@ -3,8 +3,10 @@
 use Carbon\Carbon;
 use Igniter\Admin\Facades\Admin;
 use Igniter\Flame\ActivityLog\ActivityLogger;
+use Igniter\Flame\Currency\Currency;
 use Igniter\Flame\Support\StringParser;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -13,11 +15,10 @@ if (!function_exists('current_url')) {
      * Current URL
      * Returns the full URL (including segments and query string) of the page where this
      * function is placed
-     * @return    string
      */
-    function current_url()
+    function current_url(): string
     {
-        return app(UrlGenerator::class)->current();
+        return resolve(UrlGenerator::class)->current();
     }
 }
 
@@ -26,19 +27,16 @@ if (!function_exists('assets_url')) {
      * Assets URL
      * Returns the full URL (including segments) of the assets directory
      *
-     * @param string $uri
-     * @param null $secure
-     *
-     * @return string
+     * @deprecated Remove in v5
      */
-    function assets_url($uri = null, $secure = null)
+    function assets_url(string $uri = null, bool|null $secure = null): string
     {
-        traceLog('assets_url() has been deprecated. Use $model->getThumb()');
+        traceLog('assets_url() has been deprecated. Use $model->getThumb(). Remove in v5');
     }
 }
 
 if (!function_exists('igniter_path')) {
-    function igniter_path($path = '')
+    function igniter_path(string $path = ''): string
     {
         return dirname(__DIR__, 4).($path ? '/'.$path : $path);
     }
@@ -47,13 +45,10 @@ if (!function_exists('igniter_path')) {
 if (!function_exists('uploads_path')) {
     /**
      * Get the path to the uploads folder.
-     *
-     * @param string $path
-     * @return string
      */
-    function uploads_path($path = '')
+    function uploads_path(string $path = ''): string
     {
-        return app('path.uploads').($path ? '/'.$path : $path);
+        return resolve('path.uploads').($path ? '/'.$path : $path);
     }
 }
 
@@ -62,16 +57,13 @@ if (!function_exists('image_url')) {
      * Image Assets URL
      * Returns the full URL (including segments) of the assets image directory
      *
-     * @param string $uri
-     * @param null $protocol
-     *
-     * @return string
+     * @deprecated Remove in v5
      */
-    function image_url($uri = null, $protocol = null)
+    function image_url(string $uri = null, bool|null $protocol = null): string
     {
-        traceLog('image_url() has been deprecated, use assets_url() instead.');
+        traceLog('image_url() has been deprecated, use asset() instead. Remove in v5');
 
-        return app(UrlGenerator::class)->asset('assets/images/'.$uri, $protocol);
+        return asset('assets/images/'.$uri, $protocol);
     }
 }
 
@@ -79,15 +71,13 @@ if (!function_exists('image_path')) {
     /**
      * Get the path to the assets image folder.
      *
-     * @param string $path The path to prepend
-     *
-     * @return    string
+     * @deprecated Remove in v5
      */
-    function image_path($path = '')
+    function image_path(string $path = ''): string
     {
-        traceLog('image_path() has been deprecated, use assets_path() instead.');
+        traceLog('image_path() has been deprecated, use asset() instead. Remove in v5');
 
-        return assets_path('images').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return asset('images').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
@@ -96,15 +86,10 @@ if (!function_exists('theme_url')) {
      * Theme URL
      * Create a local URL based on your theme path.
      * Segments can be passed in as a string.
-     *
-     * @param string $uri
-     * @param string $secure
-     *
-     * @return    string
      */
-    function theme_url($uri = '', $secure = null)
+    function theme_url(string $uri = '', bool|null $secure = null): string
     {
-        return app(UrlGenerator::class)->asset(trim(config('igniter.system.themesDir'), '/').'/'.$uri, $secure);
+        return asset(trim(config('igniter.system.themesDir'), '/').'/'.$uri, $secure);
     }
 }
 
@@ -113,14 +98,10 @@ if (!function_exists('theme_path')) {
      * Theme Path
      * Create a local URL based on your theme path.
      * Segments can be passed in as a string.
-     *
-     * @param string $path
-     *
-     * @return    string
      */
-    function theme_path($path = '')
+    function theme_path(string $path = ''): string
     {
-        return app('path.themes').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return resolve('path.themes').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
@@ -129,11 +110,10 @@ if (!function_exists('referrer_url')) {
      * Referrer URL
      * Returns the full URL (including segments) of the page where this
      * function is placed
-     * @return    string
      */
-    function referrer_url()
+    function referrer_url(): string
     {
-        return app(UrlGenerator::class)->previous();
+        return resolve(UrlGenerator::class)->previous();
     }
 }
 
@@ -143,13 +123,13 @@ if (!function_exists('root_url')) {
      * Create a local URL based on your root path.
      * Segments can be passed in as a string.
      *
-     * @param string $uri
-     *
-     * @return    string
+     * @deprecated Remove in v5
      */
-    function root_url($uri = '', array $params = [])
+    function root_url(string $uri = '', array $params = []): string
     {
-        return app(UrlGenerator::class)->to($uri, $params);
+        traceLog('root_url() has been deprecated, use url() instead. Remove in v5');
+
+        return resolve(UrlGenerator::class)->to($uri, $params);
     }
 }
 
@@ -157,13 +137,13 @@ if (!function_exists('extension_path')) {
     /**
      * Get the path to the extensions folder.
      *
-     * @param string $path The path to prepend
-     *
-     * @return    string
+     * @deprecated Remove in v5
      */
-    function extension_path($path = '')
+    function extension_path(string $path = ''): string
     {
-        traceLog('Deprecated function. No longer supported. Use __DIR__');
+        traceLog('Deprecated function. No longer supported. Use __DIR__, remove in v5');
+
+        return $path;
     }
 }
 
@@ -171,40 +151,30 @@ if (!function_exists('assets_path')) {
     /**
      * Get the path to the assets folder.
      *
-     * @param string $path The path to prepend
-     *
-     * @return    string
+     * @deprecated Remove in v5
      */
-    function assets_path($path = '')
+    function assets_path(string $path = ''): string
     {
-        return app('path.assets').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        traceLog('assets_path() has been deprecated, use url() instead. Remove in v5');
+
+        return resolve('path.assets').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
 if (!function_exists('temp_path')) {
     /**
      * Get the path to the downloads temp folder.
-     *
-     * @param string $path The path to prepend
-     *
-     * @return    string
      */
-    function temp_path($path = '')
+    function temp_path(string $path = ''): string
     {
-        return app('path.temp').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return resolve('path.temp').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
 if (!function_exists('setting')) {
-    /**
-     * @param null $key
-     * @param null $default
-     *
-     * @return mixed
-     */
-    function setting($key = null, $default = null)
+    function setting(string|null $key = null, mixed $default = null): mixed
     {
-        $settingConfig = app('system.setting');
+        $settingConfig = resolve('system.setting');
 
         if (is_null($key))
             return $settingConfig;
@@ -214,15 +184,9 @@ if (!function_exists('setting')) {
 }
 
 if (!function_exists('params')) {
-    /**
-     * @param null $key
-     * @param null $default
-     *
-     * @return mixed
-     */
-    function params($key = null, $default = null)
+    function params(string|null $key = null, mixed $default = null): mixed
     {
-        $settingParam = app('system.parameter');
+        $settingParam = resolve('system.parameter');
 
         if (is_null($key))
             return $settingParam;
@@ -234,25 +198,17 @@ if (!function_exists('params')) {
 if (!function_exists('parse_values')) {
     /**
      * Determine if a given string contains a given substring.
-     *
-     * @param array $columns Expected key names to parse
-     * @param string $string URL template
-     *
-     * @return string
      */
-    function parse_values(array $columns, $string)
+    function parse_values(array $columns, string $string): string
     {
         return (new StringParser)->parse($string, $columns);
     }
 }
 
 if (!function_exists('activity')) {
-    /**
-     * @return \Igniter\Flame\ActivityLog\ActivityLogger
-     */
-    function activity()
+    function activity(): ActivityLogger
     {
-        return App::make(ActivityLogger::class);
+        return resolve(ActivityLogger::class);
     }
 }
 
@@ -266,13 +222,8 @@ if (!function_exists('input')) {
      * $name = input('contact[location][city]');
      * </pre>
      * Booleans are converted from strings
-     *
-     * @param string $name
-     * @param string $default
-     *
-     * @return string|array
      */
-    function input($name = null, $default = null)
+    function input(string|null $name = null, mixed $default = null): mixed
     {
         $inputData = request()->input();
         if (is_null($name))
@@ -288,13 +239,8 @@ if (!function_exists('input')) {
 if (!function_exists('post')) {
     /**
      * Identical function to input(), however restricted to $_POST values.
-     *
-     * @param null $name
-     * @param null $default
-     *
-     * @return mixed
      */
-    function post($name = null, $default = null)
+    function post(string|null $name = null, mixed $default = null): mixed
     {
         $postData = request()->post();
         if (is_null($name))
@@ -310,13 +256,8 @@ if (!function_exists('post')) {
 if (!function_exists('get')) {
     /**
      * Identical function to input(), however restricted to $_GET values.
-     *
-     * @param null $name
-     * @param null $default
-     *
-     * @return mixed
      */
-    function get($name = null, $default = null)
+    function get($name = null, mixed $default = null): mixed
     {
         $inputData = request()->input();
         if (is_null($name))
@@ -332,14 +273,8 @@ if (!function_exists('get')) {
 if (!function_exists('lang')) {
     /**
      * Get the translation for the given key.
-     *
-     * @param array $replace
-     * @param null $locale
-     * @param bool $fallback
-     *
-     * @return mixed
      */
-    function lang($key, $replace = [], $locale = null, $fallback = true)
+    function lang(string $key, array $replace = [], string|null $locale = null, bool $fallback = true): string
     {
         return Lang::get($key, $replace, $locale, $fallback);
     }
@@ -348,10 +283,8 @@ if (!function_exists('lang')) {
 if (!function_exists('get_class_id')) {
     /**
      * Generates a class ID from either an object or a string of the class name.
-     *
-     * @return string
      */
-    function get_class_id($name)
+    function get_class_id(string $name): string
     {
         return Str::getClassId($name);
     }
@@ -360,10 +293,8 @@ if (!function_exists('get_class_id')) {
 if (!function_exists('normalize_class_name')) {
     /**
      * Removes the starting slash from a class namespace \
-     *
-     * @return string
      */
-    function normalize_class_name($name)
+    function normalize_class_name(string $name): string
     {
         return Str::normalizeClassName($name);
     }
@@ -372,67 +303,51 @@ if (!function_exists('normalize_class_name')) {
 if (!function_exists('currency')) {
     /**
      * Convert given number.
-     *
-     * @param float $amount
-     * @param string $from
-     * @param string $to
-     * @param bool $format
-     *
-     * @return \Igniter\Flame\Currency\Currency|string
      */
-    function currency($amount = null, $from = null, $to = null, $format = true)
-    {
+    function currency(
+        float|string|null $amount = null,
+        string|null $from = null,
+        string|null $to = null,
+        bool $format = true
+    ): Currency|string {
         if (is_null($amount)) {
-            return app('currency');
+            return resolve(Currency::class);
         }
 
-        return app('currency')->convert($amount, $from, $to, $format);
+        return resolve(Currency::class)->convert($amount, $from, $to, $format);
     }
 }
 
 if (!function_exists('currency_format')) {
     /**
      * Append or Prepend the default currency symbol to amounts
-     *
-     * @param float $amount
-     * @param string $currency
-     * @param bool $include_symbol
-     *
-     * @return string
      */
-    function currency_format($amount = null, $currency = null, $include_symbol = true)
-    {
-        return app('currency')->format($amount, $currency, $include_symbol);
+    function currency_format(
+        float|string|null $amount = null,
+        string|null $currency = null,
+        bool $include_symbol = true
+    ): string {
+        return resolve('currency')->format($amount, $currency, $include_symbol);
     }
 }
 
 if (!function_exists('currency_json')) {
     /**
      * Convert value to a currency array
-     *
-     * @param float $amount
-     * @param string $currency
-     *
-     * @return array
      */
-    function currency_json($amount = null, $currency = null)
+    function currency_json(float|string|null $amount = null, string|null $currency = null): array
     {
-        return app('currency')->formatToJson($amount, $currency);
+        return resolve('currency')->formatToJson($amount, $currency);
     }
 }
 
 if (!function_exists('flash')) {
     /**
      * Arrange for a flash message.
-     *
-     * @param string|null $message
-     * @param string $level
-     *
-     * @return \Igniter\Flame\Flash\FlashBag
      */
-    function flash($message = null, $level = 'info')
+    function flash(string|null $message = null, string $level = 'info'): \Igniter\Flame\Flash\FlashBag
     {
-        $flashBag = app('flash');
+        $flashBag = resolve('flash');
 
         if (!is_null($message)) {
             return $flashBag->message($message, $level);
@@ -445,12 +360,8 @@ if (!function_exists('flash')) {
 if (!function_exists('normalize_uri')) {
     /**
      * Adds leading slash from a URL.
-     *
-     * @param string $uri URI to normalize.
-     *
-     * @return string Returns normalized URL.
      */
-    function normalize_uri($uri)
+    function normalize_uri(string $uri): string
     {
         if (substr($uri, 0, 1) != '/')
             $uri = '/'.$uri;
@@ -463,7 +374,7 @@ if (!function_exists('normalize_uri')) {
 }
 
 if (!function_exists('array_undot')) {
-    function array_undot($dottedArray)
+    function array_undot(array $dottedArray): array
     {
         $array = [];
         foreach ($dottedArray as $key => $value) {
@@ -477,24 +388,18 @@ if (!function_exists('array_undot')) {
 if (!function_exists('trans')) {
     /**
      * Translate the given message.
-     *
-     * @param string $id
-     * @param array $parameters
-     * @param string $locale
-     * @return string
      */
-    function trans($id = null, $parameters = [], $locale = null)
+    function trans(string|null $id = null, array $parameters = [], string|null $locale = null): string
     {
-        return app('translator')->get($id, $parameters, $locale);
+        return resolve('translator')->get($id, $parameters, $locale);
     }
 }
 
 if (!function_exists('controller')) {
     /**
      * Get the page controller
-     * @return Igniter\Main\Classes\MainController
      */
-    function controller()
+    function controller(): Igniter\Main\Classes\MainController
     {
         return \Igniter\Main\Classes\MainController::getController() ?? new \Igniter\Main\Classes\MainController;
     }
@@ -505,12 +410,8 @@ if (!function_exists('page_url')) {
      * Page URL
      * Returns the full URL (including segments) of the page where this
      * function is placed
-     *
-     * @param string $uri
-     *
-     * @return string
      */
-    function page_url($uri = null, array $params = [])
+    function page_url(string|null $uri = null, array $params = []): string
     {
         return controller()->pageUrl($uri, $params);
     }
@@ -522,14 +423,13 @@ if (!function_exists('site_url')) {
      * Create a local URL based on your basepath. Segments can be passed via the
      * first parameter either as a string or an array.
      *
-     * @param string $uri
-     * @param array $params
-     *
-     * @return string
+     * @deprecated Remove in v5
      */
-    function site_url($uri = null, $params = [])
+    function site_url(string|null $uri = null, array $params = []): string
     {
-        return controller()->url($uri, $params);
+        traceLog('site_url() has been deprecated, use url() instead. Remove in v5');
+
+        return resolve(UrlGenerator::class)->to($uri);
     }
 }
 
@@ -538,12 +438,8 @@ if (!function_exists('restaurant_url')) {
      * Restaurant URL
      * Returns the full URL (including segments) of the local restaurant if any,
      * else locations URL is returned
-     *
-     * @param string $uri
-     *
-     * @return string
      */
-    function restaurant_url($uri = null, array $params = [])
+    function restaurant_url(string|null $uri = null, array $params = []): string
     {
         return controller()->pageUrl($uri, $params);
     }
@@ -554,12 +450,8 @@ if (!function_exists('admin_url')) {
      * Admin URL
      * Create a local URL based on your admin path.
      * Segments can be passed in as a string.
-     *
-     * @param string $uri
-     *
-     * @return    string
      */
-    function admin_url($uri = '', array $params = [])
+    function admin_url(string $uri = '', array $params = []): string
     {
         return Admin::url($uri, $params);
     }
@@ -570,17 +462,29 @@ if (!function_exists('uploads_url')) {
      * Media Uploads URL
      * Returns the full URL (including segments) of the assets media uploads directory
      *
-     * @param null $path
-     * @return string
+     * @deprecated Remove in v5
      */
-    function uploads_url($path = null)
+    function uploads_url(string|null $path = null)
+    {
+        traceLog('uploads_url() has been deprecated, use media_url() instead. Remove in v5');
+
+        return media_url($path);
+    }
+}
+
+if (!function_exists('media_url')) {
+    /**
+     * Media URL
+     * Returns the full URL (including segments) of the assets media uploads directory
+     */
+    function media_url(string|null $path = null)
     {
         return resolve(\Igniter\Main\Classes\MediaLibrary::class)->getMediaUrl($path);
     }
 }
 
 if (!function_exists('strip_class_basename')) {
-    function strip_class_basename($class = '', $chop = null)
+    function strip_class_basename(string $class = '', string|null $chop = null): string
     {
         $basename = class_basename($class);
 
@@ -604,13 +508,8 @@ if (!function_exists('mdate')) {
      * The benefit of doing dates this way is that you don't
      * have to worry about escaping your text letters that
      * match the date codes.
-     *
-     * @param string $format
-     * @param string $time
-     *
-     * @return int
      */
-    function mdate($format = null, $time = null)
+    function mdate(string|null $format = null, string|null $time = null): string|null
     {
         if (is_null($time) && $format) {
             $time = $format;
@@ -640,12 +539,8 @@ if (!function_exists('mdate')) {
 if (!function_exists('convert_php_to_moment_js_format')) {
     /**
      * Convert PHP Date formats to Moment JS Date Formats
-     *
-     * @param string $format
-     *
-     * @return string
      */
-    function convert_php_to_moment_js_format($format)
+    function convert_php_to_moment_js_format(string $format): string
     {
         $replacements = [
             'd' => 'DD',
@@ -700,11 +595,8 @@ if (!function_exists('time_elapsed')) {
      * Get time elapsed
      * Returns a time elapsed of seconds, minutes, hours, days in this format:
      *    10 days, 14 hours, 36 minutes, 47 seconds, now
-     *
-     * @param string $datetime
-     * @return string
      */
-    function time_elapsed($datetime)
+    function time_elapsed(mixed $datetime): string
     {
         return make_carbon($datetime)->diffForHumans();
     }
@@ -715,12 +607,8 @@ if (!function_exists('day_elapsed')) {
      * Get day elapsed
      * Returns a day elapsed as today, yesterday or date d/M/y:
      *    Today or Yesterday or 12 Jan 15
-     *
-     * @param string $datetime
-     *
-     * @return string
      */
-    function day_elapsed($datetime, $full = true)
+    function day_elapsed(mixed $datetime, bool $full = true): string
     {
         $datetime = make_carbon($datetime);
         $time = $datetime->isoFormat(lang('igniter::system.moment.time_format'));
@@ -744,15 +632,8 @@ if (!function_exists('time_range')) {
     /**
      * Date range
      * Returns a list of time within a specified period.
-     *
-     * @param int $unix_start UNIX timestamp of period start time
-     * @param int $unix_end UNIX timestamp of period end time
-     * @param int $interval Specifies the second interval
-     * @param string $time_format Output time format, same as in date()
-     *
-     * @return    array
      */
-    function time_range($unix_start, $unix_end, $interval, $time_format = '%H:%i')
+    function time_range(mixed $unix_start, mixed $unix_end, string|int $interval, string $time_format = '%H:%i'): array|null
     {
         if ($unix_start == '' || $unix_end == '' || $interval == '') {
             return null;
@@ -779,12 +660,7 @@ if (!function_exists('time_range')) {
 }
 
 if (!function_exists('parse_date_format')) {
-    /**
-     * @param string $format The time format
-     *
-     * @return string $format The date format
-     */
-    function parse_date_format($format)
+    function parse_date_format(string $format): string
     {
         if (str_contains($format, '%')) {
             $format = str_replace(
@@ -801,17 +677,10 @@ if (!function_exists('parse_date_format')) {
 if (!function_exists('make_carbon')) {
     /**
      * Converts mixed inputs to a Carbon object.
-     *
-     * @param bool $throwException
-     *
-     * @return \Carbon\Carbon
      */
-    function make_carbon($value, $throwException = true)
+    function make_carbon(mixed $value, bool $throwException = true): Carbon|string
     {
-        if ($value instanceof Carbon) {
-            // Do nothing
-        }
-        elseif ($value instanceof DateTime) {
+        if (!$value instanceof Carbon && $value instanceof DateTime) {
             $value = Carbon::instance($value);
         }
         elseif (is_numeric($value)) {
@@ -824,7 +693,7 @@ if (!function_exists('make_carbon')) {
             try {
                 $value = Carbon::parse($value);
             }
-            catch (Exception $ex) {
+            catch (Exception) {
             }
         }
 
@@ -840,9 +709,8 @@ if (!function_exists('is_single_location')) {
     /**
      * Is Single Location Mode
      * Test to see system config multi location mode is set to single.
-     * @return bool
      */
-    function is_single_location()
+    function is_single_location(): bool
     {
         return config('igniter.system.locationMode', setting('site_location_mode')) === \Igniter\Admin\Models\Location::LOCATION_CONTEXT_SINGLE;
     }
@@ -853,20 +721,15 @@ if (!function_exists('log_message')) {
      * Error Logging Interface
      * We use this as a simple mechanism to access the logging
      * class and send messages to be logged.
-     *
-     * @param string $level the error level: 'error', 'debug' or 'info'
-     * @param string $message the error message
-     *
-     * @return    void
      */
-    function log_message($level, $message)
+    function log_message(string $level, string $message): void
     {
         Log::$level($message);
     }
 }
 
 if (!function_exists('traceLog')) {
-    function traceLog()
+    function traceLog(): void
     {
         $messages = func_get_args();
 
@@ -888,14 +751,8 @@ if (!function_exists('traceLog')) {
 if (!function_exists('sort_array')) {
     /**
      * Sort an array by key
-     *
-     * @param array $array
-     * @param string $sort_key
-     * @param array $option
-     *
-     * @return array
      */
-    function sort_array($array = [], $sort_key = 'priority', $option = SORT_ASC)
+    function sort_array(array $array = [], string $sort_key = 'priority', string $option = SORT_ASC): array
     {
         if (!empty($array)) {
             foreach ($array as $key => $value) {
@@ -914,12 +771,8 @@ if (!function_exists('name_to_id')) {
      * Converts a HTML array string to an identifier string.
      * HTML: user[location][city]
      * Result: user-location-city
-     *
-     * @param $string String to process
-     *
-     * @return string
      */
-    function name_to_id($string)
+    function name_to_id(string $string): string
     {
         return rtrim(str_replace('--', '-', str_replace(['[', ']'], '-', str_replace('_', '-', $string))), '-');
     }
@@ -930,12 +783,8 @@ if (!function_exists('name_to_array')) {
      * Converts a HTML named array string to a PHP array. Empty values are removed.
      * HTML: user[location][city]
      * PHP:  ['user', 'location', 'city']
-     *
-     * @param $string String to process
-     *
-     * @return array
      */
-    function name_to_array($string)
+    function name_to_array(string $string): array
     {
         $result = [$string];
 
@@ -956,81 +805,17 @@ if (!function_exists('name_to_array')) {
     }
 }
 
-if (!function_exists('convert_camelcase_to_underscore')) {
-    /**
-     * Convert CamelCase to underscore Camel_Case
-     * Converts a StringWithCamelCase into string_with_underscore. Strings can be passed via the
-     * first parameter either as a string or an array.
-     *
-     * @param string $string
-     * @param bool $lowercase
-     *
-     * @return string CamelCase
-     */
-    function convert_camelcase_to_underscore($string = '', $lowercase = false)
-    {
-        preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $string, $matches);
-        $ret = $matches[0];
-
-        foreach ($ret as &$match) {
-            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
-        }
-
-        $string = implode('_', $ret);
-
-        return (!$lowercase) ? $string : strtolower($string);
-    }
-}
-
-if (!function_exists('convert_underscore_to_camelcase')) {
-    /**
-     * Current URL
-     * Converts a string_with_underscore into StringWithCamelCase. Strings can be passed via the
-     * first parameter either as a string or an array.
-     * @return    string
-     */
-    function convert_underscore_to_camelcase($string = '')
-    {
-        return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
-    }
-}
-
-if (!function_exists('contains_substring')) {
-    /**
-     * Determine if a given string contains a given substring.
-     *
-     * @param string $haystack
-     * @param string|array $needles
-     *
-     * @return bool
-     */
-    function contains_substring($haystack, $needles)
-    {
-        foreach ((array)$needles as $needle) {
-            if ($needle != '' && mb_strpos($haystack, $needle) !== false) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-}
-
 if (!function_exists('is_lang_key')) {
     /**
      * Determine if a given string matches a language key.
-     *
-     * @param string $line
-     *
-     * @return bool
      */
-    function is_lang_key($line)
+    function is_lang_key(string $line): bool
     {
         if (!is_string($line)) {
             return false;
         }
 
-        if (strpos($line, '::') !== false) {
+        if (str_contains($line, '::')) {
             return true;
         }
 
@@ -1043,7 +828,7 @@ if (!function_exists('is_lang_key')) {
 }
 
 if (!function_exists('generate_extension_icon')) {
-    function generate_extension_icon($icon)
+    function generate_extension_icon(string|array $icon): array
     {
         if (is_string($icon))
             $icon = starts_with($icon, ['//', 'http://', 'https://'])
@@ -1084,5 +869,16 @@ if (!function_exists('array_replace_key')) {
         }
 
         return array_combine($keys, array_values($array));
+    }
+}
+
+if (!function_exists('array_insert_after')) {
+    function array_insert_after(array $array, string $key, array $value): array
+    {
+        $keys = array_keys($array);
+        $index = array_search($key, $keys, true);
+        $position = false === $index ? count($array) : $index + 1;
+
+        return array_merge(array_slice($array, 0, $position), $value, array_slice($array, $position));
     }
 }

@@ -45,7 +45,7 @@ trait ViewMaker
      */
     public $suppressLayout = false;
 
-    public function getViewPath($view, $paths = [], $prefix = null)
+    public function getViewPath(string $view, array|string $paths = [], string|null $prefix = null): string
     {
         if (!is_array($paths))
             $paths = [$paths];
@@ -71,7 +71,7 @@ trait ViewMaker
         return $guess ?: $view;
     }
 
-    public function guessViewName($name, $prefix = 'components.')
+    public function guessViewName(string $name, string|null $prefix = 'components.'): string
     {
         if ($prefix && !Str::endsWith($prefix, '.') && !Str::endsWith($prefix, '::'))
             $prefix .= '.';
@@ -88,15 +88,15 @@ trait ViewMaker
     /**
      * Render a layout.
      *
-     * @param string $name Specifies the layout name.
+     * @param string|null $name Specifies the layout name.
      * If this parameter is omitted, the $layout property will be used.
      * @param array $vars Parameter variables to pass to the view.
      * @param bool $throwException Throw an exception if the layout is not found
      *
-     * @return mixed The layout contents, or false.
+     * @return string The layout contents, or false.
      * @throws \Igniter\Flame\Exception\SystemException
      */
-    public function makeLayout($name = null, $vars = [], $throwException = true)
+    public function makeLayout(string|null $name = null, array $vars = [], bool $throwException = true): string
     {
         $layout = $name ?? $this->layout;
         if ($layout == '')
@@ -108,7 +108,7 @@ trait ViewMaker
             if ($throwException)
                 throw new SystemException(sprintf(lang('system::lang.not_found.layout'), $layout));
 
-            return false;
+            return '';
         }
 
         return $this->makeFileContent($layoutPath, $vars);
@@ -123,7 +123,7 @@ trait ViewMaker
      *
      * @return string
      */
-    public function makeView($view)
+    public function makeView(string $view): string
     {
         $viewPath = $this->getViewPath(strtolower($view), $this->viewPath);
         $contents = $this->makeFileContent($viewPath);
@@ -142,11 +142,11 @@ trait ViewMaker
      *
      * @param string $partial The view to load.
      * @param array $vars Parameter variables to pass to the view.
-     * @param string $prefix
+     * @param bool $throwException
      *
      * @return string Partial contents or false if not throwing an exception.
      */
-    public function makePartial($partial, $vars = [], $throwException = true)
+    public function makePartial(string $partial, array $vars = [], bool $throwException = true): string
     {
         $partialPath = $this->getViewPath(strtolower($partial), $this->partialPath, '_partials');
 
@@ -154,7 +154,7 @@ trait ViewMaker
             if ($throwException)
                 throw new SystemException(sprintf(lang('system::lang.not_found.partial'), $partial));
 
-            return false;
+            return '';
         }
 
         if (isset($this->controller))
@@ -172,7 +172,7 @@ trait ViewMaker
      *
      * @return string
      */
-    public function makeFileContent($filePath, $extraParams = [])
+    public function makeFileContent(string $filePath, array $extraParams = []): string
     {
         if (!strlen($filePath) || $filePath == 'index.php' || !File::isFile($filePath)) {
             return '';
@@ -210,7 +210,7 @@ trait ViewMaker
         return ob_get_clean();
     }
 
-    public function compileFileContent($filePath)
+    public function compileFileContent(string $filePath): string
     {
         $compiler = resolve('blade.compiler');
 
@@ -223,13 +223,8 @@ trait ViewMaker
 
     /**
      * Handle a view exception.
-     *
-     * @param \Exception $e
-     * @param int $obLevel
-     *
-     * @return void
      */
-    protected function handleViewException($e, $obLevel)
+    protected function handleViewException(Exception $e, int $obLevel): void
     {
         while (ob_get_level() > $obLevel) {
             ob_end_clean();
@@ -240,10 +235,8 @@ trait ViewMaker
 
     /**
      * Get the data bound to the view instance.
-     *
-     * @return array
      */
-    protected function gatherViewData($data)
+    protected function gatherViewData(array $data): array
     {
         $data = array_merge(View::getShared(), $data);
 

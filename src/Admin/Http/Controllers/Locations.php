@@ -61,7 +61,7 @@ class Locations extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('locations', 'restaurant');
     }
 
-    public function remap($action, $params)
+    public function remap(string $action, array $params): mixed
     {
         if ($action != 'settings' && AdminLocation::check())
             return $this->redirect('locations/settings');

@@ -3,8 +3,8 @@
 namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\ValidationException;
-use Igniter\Flame\Traits\EventEmitter;
 use Igniter\System\Helpers\ValidationHelper;
+use Igniter\Flame\Traits\EventEmitter;
 use Igniter\System\Traits\RuleInjector;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Contracts\Validation\Validator;

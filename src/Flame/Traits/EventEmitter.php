@@ -10,19 +10,19 @@ use Illuminate\Support\Facades\Event;
 trait EventEmitter
 {
     /**
-     * @var array Collection of registered events to be fired once only.
+     * Collection of registered events to be fired once only.
      */
-    protected $emitterSingleEvents = [];
+    protected array $emitterSingleEvents = [];
 
     /**
-     * @var array Collection of registered events.
+     * Collection of registered events.
      */
-    protected $emitterEvents = [];
+    protected array $emitterEvents = [];
 
     /**
-     * @var array Sorted collection of events.
+     * Sorted collection of events.
      */
-    protected $emitterEventSorted = [];
+    protected array $emitterEventSorted = [];
 
     /**
      * Create a new event binding.
@@ -33,7 +33,7 @@ trait EventEmitter
      *
      * @return static
      */
-    public function bindEvent($event, $callback, $priority = 0)
+    public function bindEvent(string $event, callable $callback, int $priority = 0): static
     {
         $this->emitterEvents[$event][$priority][] = $callback;
         unset($this->emitterEventSorted[$event]);
@@ -49,7 +49,7 @@ trait EventEmitter
      *
      * @return static
      */
-    public function bindEventOnce($event, $callback)
+    public function bindEventOnce(string $event, callable $callback): static
     {
         $this->emitterSingleEvents[$event][] = $callback;
 
@@ -63,7 +63,7 @@ trait EventEmitter
      *
      * @return void
      */
-    protected function emitterEventSortEvents($eventName)
+    protected function emitterEventSortEvents(string $eventName): void
     {
         $this->emitterEventSorted[$eventName] = [];
 
@@ -77,11 +77,11 @@ trait EventEmitter
     /**
      * Destroys an event binding.
      *
-     * @param string $event Event to destroy
+     * @param string|null $event Event to destroy
      *
-     * @return self
+     * @return static
      */
-    public function unbindEvent($event = null)
+    public function unbindEvent(string|null $event = null): static
     {
         // Multiple events
         if (is_array($event)) {
@@ -89,13 +89,11 @@ trait EventEmitter
                 $this->unbindEvent($_event);
             }
 
-            return;
+            return $this;
         }
 
         if ($event === null) {
-            unset($this->emitterSingleEvents);
-            unset($this->emitterEvents);
-            unset($this->emitterEventSorted);
+            unset($this->emitterSingleEvents, $this->emitterEvents, $this->emitterEventSorted);
 
             return $this;
         }
@@ -119,9 +117,9 @@ trait EventEmitter
      * @param array $params Event parameters
      * @param bool $halt Halt after first non-null result
      *
-     * @return string|array Collection of event results / Or single result (if halted)
+     * @return mixed Collection of event results / Or single result (if halted)
      */
-    public function fireEvent($event, $params = [], $halt = false)
+    public function fireEvent(string $event, array $params = [], bool $halt = false): mixed
     {
         if (!is_array($params)) $params = [$params];
         $result = [];
@@ -175,7 +173,7 @@ trait EventEmitter
      *
      * @return mixed
      */
-    public function fireSystemEvent($event, $params = [], $halt = true)
+    public function fireSystemEvent(string $event, array $params = [], bool $halt = true): mixed
     {
         $result = [];
 
