@@ -148,16 +148,6 @@ class Currency extends Model implements CurrencyInterface
         ];
     }
 
-    protected function afterSave()
-    {
-        app('currency')->clearCache();
-    }
-
-    protected function afterDelete()
-    {
-        app('currency')->clearCache();
-    }
-
     public function updateRate($currencyRate)
     {
         $this->currency_rate = $currencyRate;

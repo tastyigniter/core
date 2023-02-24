@@ -16,10 +16,6 @@ class InitialSchemaSeeder extends Seeder
      */
     public function run()
     {
-        $this->seedCountries();
-
-        $this->seedCurrencies();
-
         $this->seedCustomerGroups();
 
         $this->seedLanguages();
@@ -35,40 +31,6 @@ class InitialSchemaSeeder extends Seeder
         $this->seedUserRoles();
 
         $this->seedStatuses();
-    }
-
-    protected function seedCountries()
-    {
-        if (DB::table('countries')->count())
-            return;
-
-        DB::table('countries')->insert(Igniter::getSeedRecords('countries'));
-
-        DB::table('countries')->update(['updated_at' => now(), 'created_at' => now()]);
-
-        DB::table('countries')->update([
-            'format' => '{address_1}\n{address_2}\n{city} {postcode} {state}\n{country}',
-            'status' => 1,
-        ]);
-    }
-
-    protected function seedCurrencies()
-    {
-        if (DB::table('currencies')->count())
-            return;
-
-        $currencies = Igniter::getSeedRecords('currencies');
-
-        foreach ($currencies as $currency) {
-            $query = DB::table('countries')->where('iso_code_3', $currency['iso_alpha3']);
-            if ($country = $query->first()) {
-                $currency['country_id'] = $country->country_id;
-                DB::table('currencies')->insert(array_merge($currency, [
-                    'updated_at' => now(),
-                    'created_at' => now(),
-                ]));
-            }
-        }
     }
 
     protected function seedCustomerGroups()

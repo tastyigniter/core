@@ -6,6 +6,7 @@ use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Sortable;
 use Igniter\Flame\Exception\ValidationException;
+use Igniter\System\Classes\HubManager;
 
 /**
  * Country Model Class
@@ -85,6 +86,22 @@ class Country extends Model
         }
 
         return self::$defaultCountry = $defaultCountry;
+    }
+
+    public static function upsertFromRemote()
+    {
+        $hubManager = resolve(HubManager::class);
+        $response = $hubManager->getDataset('countries');
+
+        collect(array_get($response, 'data', []))->each(function ($item) {
+            if (!$country = static::firstWhere('iso_code_3', $item['iso_code_3'])) {
+                $item['format'] = '{address_1}\n{address_2}\n{city} {postcode} {state}\n{country}';
+                $item['status'] = true;
+                $country = static::create($item);
+            }
+
+            $country->update($item);
+        });
     }
 
     //
