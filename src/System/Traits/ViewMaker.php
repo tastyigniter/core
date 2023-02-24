@@ -120,8 +120,6 @@ trait ViewMaker
      * The view file must be situated in the views directory, and has the extension "htm" or "php".
      *
      * @param string $view Specifies the view name, without extension. Eg: "index".
-     *
-     * @return string
      */
     public function makeView(string $view): string
     {
@@ -142,7 +140,6 @@ trait ViewMaker
      *
      * @param string $partial The view to load.
      * @param array $vars Parameter variables to pass to the view.
-     * @param bool $throwException
      *
      * @return string Partial contents or false if not throwing an exception.
      */
@@ -169,8 +166,6 @@ trait ViewMaker
      *
      * @param string $filePath Absolute path to the view file.
      * @param array $extraParams Parameters that should be available to the view.
-     *
-     * @return string
      */
     public function makeFileContent(string $filePath, array $extraParams = []): string
     {

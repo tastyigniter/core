@@ -345,7 +345,7 @@ if (!function_exists('flash')) {
     /**
      * Arrange for a flash message.
      */
-    function flash(string|null $message = null, string $level = 'info'): \Igniter\Flame\Flash\FlashBag
+    function flash(string|null $message = null, string $level = 'info'): Igniter\Flame\Flash\FlashBag
     {
         $flashBag = resolve('flash');
 

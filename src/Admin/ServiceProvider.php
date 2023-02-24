@@ -2,8 +2,6 @@
 
 namespace Igniter\Admin;
 
-use Igniter\Admin\ActivityTypes;
-use Igniter\Admin\Classes;
 use Igniter\Admin\Facades\AdminLocation;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Helpers\Admin as AdminHelper;

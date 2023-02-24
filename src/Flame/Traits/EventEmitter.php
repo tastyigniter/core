@@ -29,9 +29,6 @@ trait EventEmitter
      *
      * @param string $event The event name to listen for
      * @param callable $callback The callback to call when emitted
-     * @param int $priority
-     *
-     * @return static
      */
     public function bindEvent(string $event, callable $callback, int $priority = 0): static
     {
@@ -45,9 +42,6 @@ trait EventEmitter
      * Create a new event binding that fires once only
      *
      * @param string $event The event name
-     * @param callable $callback
-     *
-     * @return static
      */
     public function bindEventOnce(string $event, callable $callback): static
     {
@@ -58,10 +52,6 @@ trait EventEmitter
 
     /**
      * Sort the listeners for a given event by priority.
-     *
-     * @param string $eventName
-     *
-     * @return void
      */
     protected function emitterEventSortEvents(string $eventName): void
     {
@@ -78,8 +68,6 @@ trait EventEmitter
      * Destroys an event binding.
      *
      * @param string|null $event Event to destroy
-     *
-     * @return static
      */
     public function unbindEvent(string|null $event = null): static
     {
@@ -170,8 +158,6 @@ trait EventEmitter
      * @param string $event Event name
      * @param array $params Event parameters
      * @param bool $halt Halt after first non-null result
-     *
-     * @return mixed
      */
     public function fireSystemEvent(string $event, array $params = [], bool $halt = true): mixed
     {

@@ -43,10 +43,6 @@ trait ExtensionTrait
 
     /**
      * Helper method for `::extend()` static method
-     *
-     * @param callable $callback
-     *
-     * @return void
      */
     public static function extensionExtendCallback(callable $callback): void
     {

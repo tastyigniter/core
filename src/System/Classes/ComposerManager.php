@@ -257,6 +257,7 @@ class ComposerManager
         }
         catch (Throwable $e) {
             $this->restoreComposerFiles();
+
             throw new ComposerException($e, $io);
         }
         finally {
@@ -298,6 +299,7 @@ class ComposerManager
         }
         catch (Throwable $e) {
             $this->restoreComposerFiles();
+
             throw new ComposerException($e);
         }
         finally {

@@ -744,9 +744,6 @@ class ExtensionManager
     /**
      * Delete a single extension by code
      *
-     * @param string $code
-     * @param bool $purgeData
-     *
      * @return bool
      * @throws \Exception
      */

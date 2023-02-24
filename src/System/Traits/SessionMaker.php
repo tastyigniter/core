@@ -9,8 +9,6 @@ trait SessionMaker
      *
      * @param string $key Unique key for the data store.
      * @param string $default A default value to use when value is not found.
-     *
-     * @return mixed
      */
     public function getSession(string|null $key = null, mixed $default = null): mixed
     {
@@ -29,8 +27,6 @@ trait SessionMaker
      *
      * @param string $key Unique key for the data store.
      * @param mixed $value The value to store.
-     *
-     * @return void
      */
     public function putSession(string $key, mixed $value): void
     {
@@ -54,8 +50,6 @@ trait SessionMaker
      *
      * @param string $key Unique key for the data store.
      * @param mixed $value The value to store.
-     *
-     * @return void
      */
     public function flashSession(string $key, mixed $value): void
     {
@@ -84,7 +78,6 @@ trait SessionMaker
 
     /**
      * Returns a unique session identifier for this location.
-     * @return string
      */
     protected function makeSessionKey(): string
     {

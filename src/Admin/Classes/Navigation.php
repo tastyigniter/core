@@ -3,9 +3,9 @@
 namespace Igniter\Admin\Classes;
 
 use Igniter\Admin\Facades\AdminAuth;
+use Igniter\Flame\Traits\EventEmitter;
 use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
-use Igniter\Flame\Traits\EventEmitter;
 use Igniter\System\Traits\ViewMaker;
 
 class Navigation

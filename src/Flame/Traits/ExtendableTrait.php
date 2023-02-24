@@ -218,8 +218,6 @@ trait ExtendableTrait
      * Check if extendable class is extended with a behavior object
      *
      * @param string $name Fully qualified behavior name
-     *
-     * @return bool
      */
     public function isClassExtendedWith(string $name): bool
     {
@@ -234,8 +232,6 @@ trait ExtendableTrait
      *   $this->getClassExtension('Admin.Actions.FormController')
      *
      * @param string $name Fully qualified behavior name
-     *
-     * @return mixed
      */
     public function getClassExtension(string $name): mixed
     {
