@@ -2,7 +2,7 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\System\Classes\ComposerManager;
+use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
@@ -26,27 +26,26 @@ class ExtensionInstall extends Command
     public function handle()
     {
         $extensionName = $this->argument('name');
-        $manager = resolve(UpdateManager::class)->setLogsOutput($this->output);
-        $composerManager = resolve(ComposerManager::class)->setLogsOutput($this->output);
+        $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
 
-        $response = $manager->requestApplyItems([[
+        $response = $updateManager->requestApplyItems([[
             'name' => $extensionName,
             'type' => 'extension',
         ]]);
 
-        $extensionDetails = array_first(array_get($response, 'data'));
-        if (!$extensionDetails)
+        if (!$packageInfo = $response->first())
             return $this->output->writeln(sprintf('<info>Extension %s not found</info>', $extensionName));
 
-        $code = array_get($extensionDetails, 'code');
-        $package = array_get($extensionDetails, 'package');
-        $version = array_get($extensionDetails, 'version');
+        try {
+            $this->output->writeln(sprintf('<info>Installing %s extension</info>', $extensionName));
+            $updateManager->install($response);
 
-        $this->output->writeln(sprintf('<info>Installing %s extension</info>', $code));
-        $composerManager->require([$package.':'.$version]);
-
-        resolve(ExtensionManager::class)->loadExtensions();
-        resolve(ExtensionManager::class)->installExtension($code, $version);
+            resolve(ExtensionManager::class)->loadExtensions();
+            resolve(ExtensionManager::class)->installExtension($packageInfo->code, $packageInfo->version);
+        }
+        catch (ComposerException $e) {
+            $this->output->writeln($e->getMessage());
+        }
     }
 
     /**

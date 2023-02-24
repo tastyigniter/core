@@ -4,7 +4,7 @@ return [
     'system_name' => 'TastyIgniter',
     'system_powered' => '<a target="_blank" href="http://tastyigniter.com">Powered by TastyIgniter</a>',
     'copyright' => 'Thank you for using <a target="_blank" href="http://tastyigniter.com">TastyIgniter</a>',
-    'version' => '<b>Version:</b> %s',
+    'version' => 'Version',
 
     'no_database' => [
         'label' => 'Database Error Was Encountered',
@@ -621,7 +621,8 @@ return [
         'text_ignore' => 'Ignore',
         'text_search' => 'Search to install %s from the TastyIgniter marketplace',
         'text_popular_title' => 'Recommended %s',
-        'text_last_checked' => '<b>Last checked:</b> %s',
+        'text_last_checked' => 'Last checked',
+        'text_checking_updates' => 'Checking updates...',
 
         'text_no_updates' => 'No updates available.',
 
@@ -640,15 +641,16 @@ return [
         'label_meta_action' => 'Meta Action',
         'label_meta_items' => 'Meta Items',
 
-        'progress_composer' => '<i class="fa fa-cloud-download fa-fw"></i>&nbsp;&nbsp;&nbsp;Updating composer/composer package %s&#8230;',
-        'progress_core' => '<i class="fa fa-cloud-download fa-fw"></i>&nbsp;&nbsp;&nbsp;Updating core&#8230;',
-        'progress_addons' => '<i class="fa fa-file-archive-o fa-fw"></i>&nbsp;&nbsp;&nbsp;Updating extensions & themes %s&#8230;',
-        'progress_complete' => '<i class="fa fa-download fa-fw"></i>&nbsp;&nbsp;&nbsp;Finishing installation&#8230;',
+        'progress_check' => 'Performing pre installation checks...',
+        'progress_install' => 'Updating composer requirements...',
+        'progress_install_ok' => 'Updated composer requirements.<i class="fa fa-check fa-fw"></i>',
+        'progress_install_version' => '    %s (%s => %s)',
+        'progress_complete' => 'Finishing installation...',
+        'progress_completed' => 'Finished installation successfully.<i class="fa fa-check fa-fw"></i>',
 
         'progress_composer_success' => '<i class="fa fa-check fa-fw"></i>&nbsp;&nbsp;&nbsp;Finished updating composer/composer successfully.&#8230;',
         'progress_core_success' => '<i class="fa fa-check fa-fw"></i>&nbsp;&nbsp;&nbsp;Finished updating core successfully.&#8230;',
         'progress_addons_success' => '<i class="fa fa-check fa-fw"></i>&nbsp;&nbsp;&nbsp;Finished updating extensions & themes successfully.&#8230;',
-        'progress_success' => '<i class="fa fa-check fa-fw"></i>&nbsp;&nbsp;&nbsp;Finished installation successfully.&#8230;',
         'progress_enable_maintenance' => 'Enabling Maintenance mode&#8230;',
         'progress_disable_maintenance' => 'Restoring/Disabling Maintenance mode&#8230;',
 

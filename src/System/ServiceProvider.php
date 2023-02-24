@@ -97,10 +97,10 @@ class ServiceProvider extends AppServiceProvider
         $this->app->singleton(Classes\ComponentManager::class);
         $this->tapSingleton(Classes\ComposerManager::class);
         $this->app->singleton(Classes\ExtensionManager::class);
-        $this->tapSingleton(Classes\HubManager::class);
+        $this->app->singleton(Classes\HubManager::class);
         $this->tapSingleton(Classes\LanguageManager::class);
         $this->app->singleton(Classes\MailManager::class);
-        $this->tapSingleton(Classes\UpdateManager::class);
+        $this->app->singleton(Classes\UpdateManager::class);
     }
 
     protected function registerFacadeAliases()

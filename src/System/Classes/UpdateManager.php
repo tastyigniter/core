@@ -3,18 +3,19 @@
 namespace Igniter\System\Classes;
 
 use Carbon\Carbon;
+use Composer\IO\BufferIO;
 use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
-use Igniter\Flame\Mail\Markdown;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
+use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Extension;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
-use ZipArchive;
 
 /**
  * TastyIgniter Updates Manager Class
@@ -29,10 +30,6 @@ class UpdateManager
      * @var \Illuminate\Console\OutputStyle
      */
     protected $logsOutput;
-
-    protected $baseDirectory;
-
-    protected $tempDirectory;
 
     protected $logFile;
 
@@ -67,14 +64,8 @@ class UpdateManager
 
     protected $disableCoreUpdates;
 
-    public function initialize()
+    public function __construct()
     {
-        $this->hubManager = resolve(HubManager::class);
-        $this->themeManager = resolve(ThemeManager::class);
-        $this->extensionManager = resolve(ExtensionManager::class);
-
-        $this->tempDirectory = temp_path();
-        $this->baseDirectory = base_path();
         $this->disableCoreUpdates = config('igniter.system.disableCoreUpdates', false);
 
         $this->bindContainerObjects();
@@ -82,8 +73,12 @@ class UpdateManager
 
     public function bindContainerObjects()
     {
-        $this->migrator = App::make('migrator');
-        $this->repository = App::make('migration.repository');
+        $this->hubManager = resolve(HubManager::class);
+        $this->themeManager = resolve(ThemeManager::class);
+        $this->extensionManager = resolve(ExtensionManager::class);
+
+        $this->migrator = resolve('migrator');
+        $this->repository = resolve('migration.repository');
     }
 
     /**
@@ -155,7 +150,7 @@ class UpdateManager
         return $this;
     }
 
-    public function update()
+    public function migrate()
     {
         $wasPreviouslyMigrated = $this->prepareDatabase();
 
@@ -357,40 +352,17 @@ class UpdateManager
     {
         $installedItems = $this->getInstalledItems();
 
-        $updates = $this->hubManager->applyItemsToUpdate($installedItems, $force);
+        $result = $this->fetchItemsToUpdate($installedItems, $force);
+        if (!is_array($result))
+            return $result;
 
-        if (is_string($updates))
-            return $updates;
+        [$ignoredItems, $items] = $result['items']->filter(function (PackageInfo $packageInfo) {
+            return !($packageInfo->isCore() && $this->disableCoreUpdates);
+        })->partition(function (PackageInfo $packageInfo) {
+            return $this->isMarkedAsIgnored($packageInfo->code);
+        });
 
-        $result = $items = $ignoredItems = [];
-        $result['last_check'] = $updates['check_time'] ?? Carbon::now()->toDateTimeString();
-
-        $installedItems = collect($installedItems)->keyBy('name')->all();
-
-        $updateCount = 0;
-        foreach (array_get($updates, 'data', []) as $update) {
-            $updateCount++;
-            $update['installedVer'] = array_get(array_get($installedItems, $update['code'], []), 'ver');
-
-            $update = $this->parseTagDescription($update);
-            $update['icon'] = generate_extension_icon($update['icon'] ?? []);
-
-            if (array_get($update, 'type') == 'core') {
-                $update['installedVer'] = params('ti_version');
-                if ($this->disableCoreUpdates)
-                    continue;
-            }
-            else {
-                if ($this->isMarkedAsIgnored($update['code'])) {
-                    $ignoredItems[] = $update;
-                    continue;
-                }
-            }
-
-            $items[] = $update;
-        }
-
-        $result['count'] = $updateCount;
+        $result['count'] = count($items);
         $result['items'] = $items;
         $result['ignoredItems'] = $ignoredItems;
 
@@ -429,35 +401,25 @@ class UpdateManager
         return $this->installedItems = array_collapse($installedItems);
     }
 
-    public function requestApplyItems($names)
+    public function requestApplyItems($names): Collection
     {
-        $applies = $this->getHubManager()->applyItems($names);
+        return $this->getHubManager()
+            ->applyItems($names)
+            ->filter(function (PackageInfo $packageInfo) {
+                if ($packageInfo->isCore() && $this->disableCoreUpdates)
+                    return false;
 
-        if (isset($applies['data'])) foreach ($applies['data'] as $index => $item) {
-            $filterCore = array_get($item, 'type') == 'core' && $this->disableCoreUpdates;
-            if ($filterCore || $this->isMarkedAsIgnored($item['code']))
-                unset($applies['data'][$index]);
-        }
-
-        return $applies;
+                return !$this->isMarkedAsIgnored($packageInfo->code);
+            });
     }
 
-    public function ignoreUpdates($names)
+    public function markedAsIgnored(string $code, bool $remove = false)
     {
         $ignoredUpdates = $this->getIgnoredUpdates();
 
-        foreach ($names as $item) {
-            if (array_get($item, 'action', 'ignore') == 'remove') {
-                unset($ignoredUpdates[$item['name']]);
-                continue;
-            }
+        array_set($ignoredUpdates, $code, !$remove);
 
-            $ignoredUpdates[$item['name']] = true;
-        }
-
-        setting()->set('ignored_updates', $ignoredUpdates);
-
-        return true;
+        setting()->set('ignored_updates', array_filter($ignoredUpdates));
     }
 
     public function getIgnoredUpdates()
@@ -467,9 +429,6 @@ class UpdateManager
 
     public function isMarkedAsIgnored($code)
     {
-        if (!collect($this->getInstalledItems())->firstWhere('name', $code))
-            return false;
-
         return array_get($this->getIgnoredUpdates(), $code, false);
     }
 
@@ -481,81 +440,94 @@ class UpdateManager
             params()->set('carte_info', $info);
 
         params()->save();
-
-        resolve(ComposerManager::class)->addAuthCredentials(null, array_get($info, 'email', ''), $key);
     }
 
-    //
-    //
-    //
-
-    /**
-     * @deprecated Use composer instead, remove in v5
-     */
-    public function downloadFile($fileCode, $fileHash, $params = [])
+    protected function fetchItemsToUpdate($params, $force = false): array
     {
-        $filePath = $this->getFilePath($fileCode);
+        $cacheKey = 'hub_updates';
 
-        if (!is_dir($fileDir = dirname($filePath)))
-            mkdir($fileDir, 0777, true);
+        if ($force || !$response = Cache::get($cacheKey)) {
+            $response['items'] = $this->hubManager->applyItems($params, ['include' => 'tags']);
+            $response['last_checked_at'] = Carbon::now()->toDateTimeString();
 
-        return $this->getHubManager()->downloadFile($filePath, $fileHash, $params);
-    }
-
-    /**
-     * @deprecated Use composer instead, remove in v5
-     */
-    public function extractCore($fileCode)
-    {
-        ini_set('max_execution_time', 3600);
-
-        $configDir = base_path('/config');
-        $configBackup = base_path('/config-backup');
-        File::moveDirectory($configDir, $configBackup);
-
-        $result = $this->extractFile($fileCode);
-
-        File::copyDirectory($configBackup, $configDir);
-        File::deleteDirectory($configBackup);
-
-        return $result;
-    }
-
-    /**
-     * @deprecated Use composer instead, remove in v5
-     */
-    public function extractFile($fileCode, $extractTo = null)
-    {
-        $filePath = $this->getFilePath($fileCode);
-        if ($extractTo)
-            $extractTo .= '/'.str_replace('.', '/', $fileCode);
-
-        if (is_null($extractTo))
-            $extractTo = base_path();
-
-        if (!file_exists($extractTo))
-            mkdir($extractTo, 0755, true);
-
-        $zip = new ZipArchive();
-        if ($zip->open($filePath) === true) {
-            $zip->extractTo($extractTo);
-            $zip->close();
-            @unlink($filePath);
-
-            return true;
+            Cache::put($cacheKey, $response, now()->addHours(3));
         }
 
-        throw new ApplicationException('Failed to extract '.$fileCode.' archive file');
+        return $response;
+    }
+
+    //
+    //
+    //
+
+    public function preInstall()
+    {
+        if (SystemHelper::assertIniSet())
+            return;
+
+        $hasErrors = false;
+        $errorMessage = "Please fix the following in your php.ini file before proceeding:\n\n";
+        if (SystemHelper::assertIniMaxExecutionTime(120)) {
+            $errorMessage .= "max_execution_time should be at least 120.\n";
+            $hasErrors = true;
+        }
+
+        if (!SystemHelper::assertIniMemoryLimit(1024 * 1024 * 256)) {
+            $errorMessage .= "memory_limit should be at least 256M.\n";
+            $hasErrors = true;
+        }
+
+        $errorMessage .= "\n".'<a href="https://tastyigniter.com/support/articles/php-ini" target="_blank">Learn how</a>';
+
+        throw_if($hasErrors, new ApplicationException($errorMessage));
     }
 
     /**
-     * @deprecated Use composer instead, remove in v5
+     * @throws \Igniter\Flame\Exception\ComposerException
      */
-    public function getFilePath($fileCode)
+    public function install(array $requirements)
     {
-        $fileName = md5($fileCode).'.zip';
+        $io = new BufferIO();
 
-        return storage_path("temp/{$fileName}");
+        $packages = collect($requirements)->mapWithKeys(function ($package) {
+            $packageInfo = $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
+            $packageName = $packageInfo->isCore() ? 'tastyigniter/core' : $packageInfo->package;
+
+            $this->log(sprintf(lang('igniter::system.updates.progress_install_version'),
+                $packageInfo->name, $packageInfo->installedVersion, $packageInfo->version
+            ));
+
+            return [$packageName => $packageInfo->version];
+        })->all();
+
+        resolve(ComposerManager::class)->install($packages, $io);
+
+        $this->log(lang('igniter::system.updates.progress_install_ok')."\nOutput: ".$io->getOutput());
+    }
+
+    public function completeInstall($requirements)
+    {
+        collect($requirements)->map(function ($package) {
+            return $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
+        })->each(function (PackageInfo $packageInfo) {
+            match ($packageInfo->type) {
+                'core' => function () use ($packageInfo) {
+                    $this->migrate();
+                    $this->setCoreVersion($packageInfo->version, $packageInfo->hash);
+                },
+                'extension' => function () use ($packageInfo) {
+                    $this->extensionManager->installExtension($packageInfo->code, $packageInfo->version);
+                },
+                'theme' => function () use ($packageInfo) {
+                    $this->themeManager->installTheme($packageInfo->code, $packageInfo->version);
+                },
+                default => null,
+            };
+        });
+
+        $this->requestUpdateList(true);
+
+        throw new SystemException(lang('igniter::system.updates.progress_completed'));
     }
 
     /**
@@ -564,21 +536,5 @@ class UpdateManager
     protected function getHubManager()
     {
         return $this->hubManager;
-    }
-
-    protected function parseTagDescription($update)
-    {
-        $tags = collect(array_get($update, 'tags.data', []))
-            ->map(function ($tag) {
-                if (strlen($tag['description']))
-                    $tag['description'] = Markdown::parse($tag['description'])->toHtml();
-
-                return $tag;
-            })
-            ->all();
-
-        array_set($update, 'tags.data', $tags);
-
-        return $update;
     }
 }

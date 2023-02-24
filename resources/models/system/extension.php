@@ -38,7 +38,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-play',
         'attributes' => [
-            'class' => 'btn btn-outline-success mr-3',
+            'class' => 'btn btn-outline-success mr-3 shadow-none',
             'data-request' => 'onInstall',
             'data-request-data' => 'code:\'{name}\'',
         ],
@@ -47,7 +47,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-stop',
         'attributes' => [
-            'class' => 'btn btn-outline-default mr-3',
+            'class' => 'btn btn-outline-default mr-3 shadow-none',
             'data-request' => 'onUninstall',
             'data-request-data' => 'code:\'{name}\'',
         ],
@@ -56,7 +56,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-trash-o',
         'attributes' => [
-            'class' => 'btn btn-outline-danger',
+            'class' => 'btn btn-outline-danger shadow-none',
             'href' => 'extensions/delete/{name}',
         ],
     ],

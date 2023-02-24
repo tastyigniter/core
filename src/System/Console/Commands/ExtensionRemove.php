@@ -2,6 +2,7 @@
 
 namespace Igniter\System\Console\Commands;
 
+use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -45,8 +46,15 @@ class ExtensionRemove extends Command
             return;
         }
 
-        $extensionManager->deleteExtension($extensionName);
-        $this->output->writeln(sprintf('<info>Deleted extension: %s</info>', $extensionName));
+        try {
+            $this->output->writeln(sprintf('<info>Removing extension: %s</info>', $extensionName));
+
+            $extensionManager->deleteExtension($extensionName);
+            $this->output->writeln(sprintf('<info>Deleted extension: %s</info>', $extensionName));
+        }
+        catch (ComposerException $e) {
+            $this->output->writeln($e->getMessage());
+        }
     }
 
     /**

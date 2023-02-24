@@ -2,7 +2,7 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\System\Classes\ComposerManager;
+use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -34,7 +34,6 @@ class IgniterUpdate extends Command
 
         // update system
         $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
-        $composerManager = resolve(ComposerManager::class)->setLogsOutput($this->output);
         $this->output->writeln('<info>Updating TastyIgniter...</info>');
 
         $updates = $updateManager->requestUpdateList($forceUpdate);
@@ -48,23 +47,21 @@ class IgniterUpdate extends Command
 
         $updatesCollection = collect($itemsToUpdate)->groupBy('type');
 
-        $coreUpdate = optional($updatesCollection->pull('core'))->first();
-        $coreVersion = array_get($coreUpdate, 'version');
+        try {
+            if ($coreUpdate = optional($updatesCollection->pull('core'))->first()) {
+                $this->output->writeln('<info>Updating core...</info>');
+                $updateManager->install($coreUpdate);
+            }
 
-        $this->output->writeln('<info>Updating core dependencies...</info>');
-        $composerManager->requireCore($coreVersion);
+            $this->output->writeln('<info>Updating extensions/themes...</info>');
+            $updateManager->install($updatesCollection->flatten(1)->all());
 
-        $packages = $updatesCollection->flatten(1)->map(function ($addon) {
-            $addonName = array_get($addon, 'package');
-            $addonVersion = array_get($addon, 'version');
-
-            return $addonName.':'.$addonVersion;
-        })->all();
-
-        $composerManager->require($packages);
-
-        // Run migrations
-        $this->call('igniter:up');
+            // Run migrations
+            $this->call('igniter:up');
+        }
+        catch (ComposerException $e) {
+            $this->output->writeln($e->getMessage());
+        }
     }
 
     /**

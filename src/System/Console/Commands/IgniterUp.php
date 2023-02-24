@@ -29,6 +29,6 @@ class IgniterUp extends Command
 
         $manager = resolve(UpdateManager::class);
         $manager->setLogsOutput($this->output);
-        $manager->update();
+        $manager->migrate();
     }
 }

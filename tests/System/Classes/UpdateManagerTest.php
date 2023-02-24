@@ -2,6 +2,14 @@
 
 namespace Tests\System\Classes;
 
+use Igniter\System\Classes\UpdateManager;
+
+it('requests latest updates', function () {
+    $result = resolve(UpdateManager::class)->requestUpdateList();
+
+    expect($result)->toBeArray();
+});
+
 it('runs core database migrations', function () {
 })->skip();
 

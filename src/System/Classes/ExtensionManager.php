@@ -651,9 +651,7 @@ class ExtensionManager
         $vendorPath = dirname($extensionPath);
 
         // Delete the specified extension vendor folder if it has no extension.
-        if (File::isDirectory($vendorPath) &&
-            !count(File::directories($vendorPath))
-        )
+        if (File::isDirectory($vendorPath) && !count(File::directories($vendorPath)))
             File::deleteDirectory($vendorPath);
 
         return true;
@@ -752,25 +750,23 @@ class ExtensionManager
      * @return bool
      * @throws \Exception
      */
-    public function deleteExtension($code, $purgeData = true)
+    public function deleteExtension(string $code, bool $purgeData = true): void
     {
-        if ($extensionModel = Extension::where('name', $code)->first())
-            $extensionModel->delete();
-
-        if ($purgeData)
-            resolve(UpdateManager::class)->purgeExtension($code);
-
         // Remove extensions files from filesystem
-        if ($package = array_get($this->packageManifest->extensionConfig($code), 'package_name')) {
-            resolve(ComposerManager::class)->remove([$package]);
+        $composerManager = resolve(ComposerManager::class);
+        if ($packageName = $composerManager->getPackageName($code)) {
+            $composerManager->uninstall([$packageName => false]);
         }
-        else {
-            $this->removeExtension($code);
+
+        $this->removeExtension($code);
+
+        if ($purgeData) {
+            Extension::where('name', $code)->delete();
+
+            resolve(UpdateManager::class)->purgeExtension($code);
         }
 
         // remove extension from installed.json meta file
         $this->updateInstalledExtensions($code, null);
-
-        return true;
     }
 }

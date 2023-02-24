@@ -4,9 +4,7 @@ namespace Igniter\System\Traits;
 
 use Exception;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Main\Classes\ThemeManager;
-use Igniter\System\Classes\ComposerManager;
-use Igniter\System\Classes\ExtensionManager;
+use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\UpdateManager;
 
 trait ManagesUpdates
@@ -67,17 +65,14 @@ trait ManagesUpdates
 
     public function onApplyUpdate()
     {
-        $items = post('items') ?? [];
-        if (!count($items))
+        $updates = resolve(UpdateManager::class)->requestUpdateList();
+        $itemsToUpdate = array_get($updates, 'items', []);
+
+        if (!count($itemsToUpdate))
             throw new ApplicationException(lang('igniter::system.updates.alert_no_items'));
 
-        $this->validateItems();
-
-        $updates = resolve(UpdateManager::class)->requestUpdateList(input('check') == 'force');
-        $response = array_get($updates, 'items');
-
         return [
-            'steps' => $this->buildProcessSteps($response, $items),
+            'steps' => $this->buildProcessSteps($itemsToUpdate),
         ];
     }
 
@@ -104,18 +99,16 @@ trait ManagesUpdates
 
     public function onIgnoreUpdate()
     {
-        $items = post('items');
-        if (!$items || count($items) < 1)
+        $itemCode = post('code', '');
+        if (!strlen($itemCode))
             throw new ApplicationException(lang('igniter::system.updates.alert_item_to_ignore'));
 
         $updateManager = resolve(UpdateManager::class);
 
-        $updateManager->ignoreUpdates($items);
-
-        $updates = $updateManager->requestUpdateList(input('check') == 'force');
+        $updateManager->markedAsIgnored($itemCode, (bool)post('remove'));
 
         return [
-            '#updates' => $this->makePartial('updates/list', ['updates' => $updates]),
+            '#updates' => $this->makePartial('updates/list', ['updates' => $updateManager->requestUpdateList()]),
         ];
     }
 
@@ -143,8 +136,6 @@ trait ManagesUpdates
 
     protected function initUpdate($itemType)
     {
-        resolve(ComposerManager::class)->loadRepositoryAndAuthConfig();
-
         $this->prepareAssets();
 
         $updateManager = resolve(UpdateManager::class);
@@ -156,51 +147,27 @@ trait ManagesUpdates
 
     protected function prepareAssets()
     {
-        $this->addJs('vendor/mustache.min.js', 'mustache-js');
         $this->addJs('vendor/typeahead.js', 'typeahead-js');
         $this->addJs('updates.js', 'updates-js');
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
     }
 
-    protected function buildProcessSteps($response, $params = [])
+    protected function buildProcessSteps($itemsToUpdate, $params = [])
     {
         $processSteps = [];
-        foreach (['install', 'complete'] as $step) {
-            if ($step == 'complete') {
-                $processSteps[$step][] = [
-                    'items' => $response,
-                    'process' => $step,
-                    'label' => lang('igniter::system.updates.progress_complete'),
-                    'success' => lang('igniter::system.updates.progress_success'),
-                ];
-            }
-            else {
-                $processSteps[$step][] = [
-                    'items' => $response,
-                    'process' => 'updateComposer',
-                    'label' => lang('igniter::system.updates.progress_composer'),
-                    'success' => lang('igniter::system.updates.progress_composer_success'),
-                ];
+        $itemsToUpdate = collect($itemsToUpdate);
+        foreach (['check', 'install', 'complete'] as $step) {
+            $itemsToUpdate = $itemsToUpdate->contains('type', 'core')
+                ? $itemsToUpdate->where('type', 'core')
+                : $itemsToUpdate;
 
-                if ($coreUpdate = collect($response)->firstWhere('type', 'core')) {
-                    $processSteps[$step][] = array_merge($coreUpdate, [
-                        'action' => 'update',
-                        'process' => "{$step}Core",
-                        'label' => lang('igniter::system.updates.progress_core'),
-                        'success' => lang('igniter::system.updates.progress_core_success'),
-                    ]);
-                }
+            $feedback = lang('igniter::system.updates.progress_'.$step);
 
-                $addonUpdates = collect($response)->where('type', '!=', 'core');
-                if ($addonUpdates->isNotEmpty()) {
-                    $processSteps[$step][] = [
-                        'items' => $addonUpdates->all(),
-                        'process' => "{$step}Addon",
-                        'label' => lang('igniter::system.updates.progress_addons'),
-                        'success' => lang('igniter::system.updates.progress_addons_success'),
-                    ];
-                }
-            }
+            $processSteps[$step] = [
+                'meta' => $itemsToUpdate->all(),
+                'process' => $step,
+                'progress' => $feedback,
+            ];
         }
 
         return $processSteps;
@@ -209,63 +176,47 @@ trait ManagesUpdates
     protected function processInstallOrUpdate()
     {
         $json = [];
+        $success = false;
 
-        $this->validateProcess();
+        try {
+            $data = $this->validateProcess();
 
-        $meta = post('meta');
+            $meta = array_get($data, 'meta');
 
-        $composerManager = resolve(ComposerManager::class);
+            $updateManager = resolve(UpdateManager::class);
 
-        $result = match ($meta['process']) {
-            'updateComposer' => $composerManager->require(['composer/composer']),
-            'installCore' => $composerManager->requireCore($meta['version']),
-            'installAddon' => $composerManager->require(collect($meta['items'])->map(function ($item) {
-                return $item['package'].':'.$item['version'];
-            })->all()),
-            'complete' => $this->completeProcess($meta['items']),
-            default => false,
-        };
+            try {
+                match (array_get($data, 'process', '')) {
+                    'check' => $updateManager->preInstall(),
+                    'install' => $updateManager->install($meta),
+                    'complete' => $updateManager->completeinstall($meta),
+                    default => false,
+                };
+            }
+            catch (ComposerException $e) {
+                report($e);
+                logger()->info($e->getMessage());
 
-        if ($result) $json['result'] = 'success';
+                $errorMessage = str_contains($e->getOutput(), 'Your requirements could not be resolved to an installable set of packages.')
+                    ? "Composer was unable to install the updates due to a dependency conflict.\n"
+                    : "Composer was unable to install the updates.\n";
+
+                $errorMessage .= '<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>';
+
+                throw_if(true, new ApplicationException($errorMessage));
+            }
+
+            $json['message'] = implode(PHP_EOL, $updateManager->getLogs());
+
+            $success = true;
+        }
+        catch (\Throwable $e) {
+            $json['message'] = $e->getMessage();
+        }
+
+        $json['success'] = $success;
 
         return $json;
-    }
-
-    protected function completeProcess($items)
-    {
-        if (!count($items))
-            return false;
-
-        foreach ($items as $item) {
-            if ($item['type'] == 'core') {
-                $updateManager = resolve(UpdateManager::class);
-                $updateManager->update();
-                $updateManager->setCoreVersion($item['version'], $item['hash']);
-
-                break;
-            }
-
-            switch ($item['type']) {
-                case 'extension':
-                    resolve(ExtensionManager::class)->installExtension($item['code'], $item['version']);
-                    break;
-                case 'theme':
-                    resolve(ThemeManager::class)->installTheme($item['code'], $item['version']);
-                    break;
-            }
-        }
-
-        resolve(UpdateManager::class)->requestUpdateList(true);
-
-        return true;
-    }
-
-    protected function getActionFromItems($code, $itemNames)
-    {
-        foreach ($itemNames as $itemName) {
-            if ($code == $itemName['name'])
-                return $itemName['action'];
-        }
     }
 
     protected function validateItems()
@@ -286,28 +237,23 @@ trait ManagesUpdates
     protected function validateProcess()
     {
         $rules = [
-            'meta.code' => ['sometimes', 'required'],
-            'meta.type' => ['sometimes', 'required', 'in:core,extension,theme,language'],
-            'meta.version' => ['sometimes', 'required'],
-            'meta.hash' => ['sometimes', 'required'],
-            'meta.description' => ['sometimes'],
-            'meta.action' => ['sometimes', 'required', 'in:install,update'],
+            'process' => ['required', 'in:check,install,complete'],
+            'meta' => ['required', 'array'],
+            'meta.*.code' => ['required'],
+            'meta.*.type' => ['required', 'in:core,extension,theme,language'],
+            'meta.*.version' => ['sometimes', 'required'],
+            'meta.*.hash' => ['sometimes', 'required'],
+            'meta.*.description' => ['sometimes'],
         ];
 
         $attributes = [
-            'meta.code' => lang('igniter::system.updates.label_meta_code'),
-            'meta.type' => lang('igniter::system.updates.label_meta_type'),
-            'meta.version' => lang('igniter::system.updates.label_meta_version'),
-            'meta.hash' => lang('igniter::system.updates.label_meta_hash'),
-            'meta.description' => lang('igniter::system.updates.label_meta_description'),
-            'meta.action' => lang('igniter::system.updates.label_meta_action'),
+            'process' => lang('igniter::system.updates.label_meta_step'),
+            'meta.*.code' => lang('igniter::system.updates.label_meta_code'),
+            'meta.*.type' => lang('igniter::system.updates.label_meta_type'),
+            'meta.*.version' => lang('igniter::system.updates.label_meta_version'),
+            'meta.*.hash' => lang('igniter::system.updates.label_meta_hash'),
+            'meta.*.description' => lang('igniter::system.updates.label_meta_description'),
         ];
-
-        $rules['step'] = ['required', 'in:install,complete'];
-        $rules['meta.items'] = ['sometimes', 'required', 'array'];
-
-        $attributes['step'] = lang('igniter::system.updates.label_meta_step');
-        $attributes['meta.items'] = lang('igniter::system.updates.label_meta_items');
 
         return $this->validate(post(), $rules, [], $attributes);
     }

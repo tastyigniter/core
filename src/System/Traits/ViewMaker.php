@@ -45,7 +45,7 @@ trait ViewMaker
      */
     public $suppressLayout = false;
 
-    public function getViewPath(string $view, array|string $paths = [], string|null $prefix = null): string
+    public function getViewPath(string $view, array|string|null $paths = [], string|null $prefix = null): string
     {
         if (!is_array($paths))
             $paths = [$paths];

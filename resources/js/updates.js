@@ -35,16 +35,14 @@
 
         $(document).on('click', '[data-control="apply-recommended"]', $.proxy(this.onApplyRecommended, this))
 
-        $(document).on('click', '#apply-updates', $.proxy(this.onApplyUpdateClick, this))
+        $(document).on('click', '[data-control="apply-updates"]', $.proxy(this.onApplyUpdateClick, this))
 
         $(document).on('click', '[data-control="apply-install"]', $.proxy(this.onApplyInstallClick, this))
 
         $(document).on('click', '[data-control="add-item"]', $.proxy(this.onAddItemClick, this))
-
-        $(document).on('click', '[data-item-action="ignore"], [data-item-action="remove"]', $.proxy(this.onIgnoreClick, this))
     }
 
-    Updates.prototype.executeSteps = function (stepsGroup) {
+    Updates.prototype.executeSteps = function (steps) {
 
         var self = this,
             success = true,
@@ -53,50 +51,46 @@
 
         this.showProgressBar()
 
-        $.each(stepsGroup, function (group, steps) {
-            $.each(steps, function (index, step) {
+        $.each(steps, function (index, step) {
                 var timeout = 500
 
                 requestChain.push(function () {
                     var deferred = $.Deferred()
 
                     $.request('onProcessItems', {
-                        data: {step: group, meta: step},
-                        beforeSend: self.setProgressBar(step.label, 'primary'),
+                        data: step,
+                        beforeSend: self.setProgressBar(step.progress),
                         success: function (json) {
-                            self.setProgressBar(step.success, 'primary')
-                            setTimeout(function () {
-                                deferred.resolve()
-                            }, timeout)
+                            if (json.success) {
+                                setTimeout(function () {
+                                    self.setProgressBar(json.message)
+                                    deferred.resolve()
+                                }, timeout)
+                            }
+                            else {
+                                setTimeout(function () {
+                                    success = false
+                                    failMessages.push(json.message)
+                                    deferred.reject(json.message)
+                                }, timeout)
+                            }
                         },
-                        error: function (json) {
-                            setTimeout(function () {
-                                success = false
-                                failMessages.push(json.responseText)
-                                deferred.reject(json.responseText)
-                            }, timeout)
-                        }
                     })
 
                     return deferred
                 })
             })
-        })
 
-        $.waterfall.apply(this, requestChain).done(function (json) {
+        $.waterfall.apply(this, requestChain).done(function () {
             if (success) {
-                self.setProgressBar(null, 'success', 100)
-                self.completeStep()
+                self.setProgressBar(null, 'success')
+                setTimeout(function () {
+                    // window.location.reload(true)
+                }, 500)
             }
-        }).fail(function (message) {
+        }).fail(function () {
             self.setProgressBar(failMessages.join('<br> '), 'danger')
         })
-    }
-
-    Updates.prototype.completeStep = function () {
-        setTimeout(function () {
-            window.location.reload(true)
-        }, 500)
     }
 
     Updates.prototype.openModal = function (itemToOpen, context) {
@@ -142,6 +136,7 @@
     Updates.prototype.clearModal = function (event) {
         var $modal = $(event.currentTarget)
 
+        this.$itemModal = null
         this.options.itemInModal = null
         $modal.remove()
     }
@@ -189,21 +184,31 @@
         $modalContent.html(Updates.TEMPLATES.progressBar)
     }
 
-    Updates.prototype.setProgressBar = function (message, type, count) {
-        var progressBox = $('#progressBar'),
-            progressBar = progressBox.find('.progress-bar'),
-            progressMessage = progressBox.find('.message'),
-            oldProgressCount = progressBar.attr("aria-valuenow"),
-            progressCount = count ? count : parseFloat(oldProgressCount)+(Math.random() * 10)
+    Updates.prototype.setProgressBar = function (message, context) {
+        var $container = $('#progressBar'),
+            $message = $container.find('.message'),
+            $spinner = $container.find('.spinner'),
+            $icon = $container.find('.icon')
 
-        progressBox.fadeIn()
+        if (message) {
+            if (context === 'danger') {
+                message = '<span class="text-danger">'+message+'</span>';
+            }
 
-        if (message) progressMessage.html(message)
-        progressBar.attr('aria-valuenow', progressCount).width(progressCount+'%')
+            $message.append(message+'<br>')
+        }
 
-        if (type !== null) {
-            progressBar.addClass('bg-'+type)
-            progressMessage.addClass('text-'+type)
+        if (context) {
+            $icon.addClass('fas fa-3x text-'+context+' fa-circle-'+(context == 'danger' ? 'exclamation' : 'check'))
+            $spinner.remove()
+
+            if (context === 'danger') {
+                this.$itemModal.find('.modal-content').append([
+                    '<div class="modal-footer">',
+                    '<button type="button" class="btn btn-secondary btn-block" data-bs-dismiss="modal" aria-hidden="true">Close</button>',
+                    '</div>'
+                ].join(''))
+            }
         }
     }
 
@@ -269,54 +274,17 @@
 
     Updates.prototype.onApplyUpdateClick = function (event) {
         var self = this,
-            $button = $(event.currentTarget),
-            updateItems = $(document).find('[data-control="update-item"]')
-
-        if ($button.hasClass('disabled')) return
-
-        $button.attr('disable', true).addClass('disabled')
-
-        updateItems.each(function () {
-            var $btn = $(this)
-            self.options.itemsToApply.push({
-                name: $btn.data('itemCode'),
-                type: $btn.data('itemType'),
-                ver: $btn.data('itemVersion'),
-                action: 'update'
-            })
-        })
-
-        $.request('onApplyUpdate', {
-            data: {items: this.options.itemsToApply}
-        }).always(function () {
-            $button.attr('disable', false).removeClass('disabled')
-        }).done(function (json) {
-            if (json['steps'])
-                self.executeSteps(json['steps'])
-        })
-
-        this.options.itemsToApply = []
-    }
-
-    Updates.prototype.onIgnoreClick = function (event) {
-        var itemsToIgnore = [],
             $button = $(event.currentTarget)
 
         if ($button.hasClass('disabled')) return
 
         $button.attr('disable', true).addClass('disabled')
 
-        itemsToIgnore.push({
-            name: $button.data('itemCode'),
-            type: $button.data('itemType'),
-            ver: $button.data('itemVersion'),
-            action: $button.data('itemAction')
-        })
-
-        $.request('onIgnoreUpdate', {
-            data: {items: itemsToIgnore}
-        }).always(function () {
+        $.request('onApplyUpdate').always(function () {
             $button.attr('disable', false).removeClass('disabled')
+        }).done(function (json) {
+            if (json['steps'])
+                self.executeSteps(json['steps'])
         })
     }
 
@@ -401,7 +369,6 @@
         })
     }
 
-    // @todo: Move to script tags instead
     Updates.TEMPLATES = {
         suggestion: [
             '<div class="item-details">',
@@ -464,7 +431,7 @@
             '<button type="button" class="btn btn-link" data-bs-dismiss="modal" aria-hidden="true">Close</button>',
             '&nbsp;&nbsp;&nbsp;&nbsp;',
             '{{#installed}}',
-            '<button type="submit" class="btn btn-primary" disabled><i class="fa fa-cloud-download"></i>&nbsp;&nbsp;{{submit}}</button>',
+            '<button class="btn btn-primary" disabled><i class="fa fa-cloud-download"></i>&nbsp;&nbsp;{{submit}}</button>',
             '{{/installed}}{{^installed}}',
             '<button type="submit" class="btn btn-primary" data-control="apply-install">',
             '<i class="fa fa-cloud-download"></i>&nbsp;&nbsp;{{submit}}</button>',
@@ -473,10 +440,10 @@
         ].join(''),
 
         progressBar: [
-            '<div id="progressBar" class="card p-3"><div class="progress-box">',
-            '<p class="message"></p><div class="progress">',
-            '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>',
-            '</div></div></div>',
+            '<div id="progressBar" class="card p-3"><div class="card-body text-center">',
+            '<div class="spinner spinner-grow" role="status"><span class="visually-hidden">Loading...</span></div>',
+            '<i class="icon"></i>',
+            '<pre class="message bg-black rounded text-start text-white p-3 mt-4 mb-0"><code>Starting...<br></code></pre></div></div></div>',
         ].join(''),
     }
 
@@ -502,7 +469,7 @@
     $.fn.updates.Constructor = Updates
 
     $(document).render(function () {
-        $('.page-content').updates()
+        $('body').updates()
     })
 
 }(jQuery)

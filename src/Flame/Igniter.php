@@ -140,7 +140,7 @@ class Igniter
     }
 
     /**
-     * Get the path to the themes directory.
+     * Get the path to the storage/temp directory.
      *
      * @return string
      */

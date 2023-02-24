@@ -325,25 +325,6 @@ class Theme extends Model
         return $theme;
     }
 
-    /**
-     * Delete a single theme by code
-     *
-     * @param string $theme_code
-     * @param bool $delete_data
-     *
-     * @return bool
-     */
-    public static function deleteTheme($themeCode, $deleteData = true)
-    {
-        $themeModel = self::where('code', $themeCode)->first();
-
-        if ($themeModel && ($deleteData || !$themeModel->data)) {
-            $themeModel->delete();
-        }
-
-        return resolve(ThemeManager::class)->removeTheme($themeCode);
-    }
-
     public static function generateUniqueCode($code, $suffix = null)
     {
         do {

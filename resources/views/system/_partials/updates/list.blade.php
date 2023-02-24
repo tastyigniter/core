@@ -1,28 +1,24 @@
-<div id="list-items">
+<div id="list-items" class="card border-none shadow-none rounded-none">
     @php
         $countItems = count($updates['items']);
         $countIgnored = count($updates['ignoredItems']);
     @endphp
-    @if ($countItems)
-        <div class="p-3 border-bottom">
-            <b>
-                <i class="fa fa-arrow-up fa-fw"></i>&nbsp;&nbsp;
-                {{ sprintf(lang('igniter::system.updates.text_update_found'), $countItems) }}
-            </b>
-        </div>
+    <div class="p-3 border-bottom">
+        <b>
+            <i class="fa fa-arrow-up fa-fw"></i>&nbsp;&nbsp;
+            {{ sprintf(lang('igniter::system.updates.text_update_found'), $countItems) }}
+        </b>
+    </div>
 
-        {!! $this->makePartial('updates/list_items', ['items' => $updates['items'], 'ignored' => FALSE]) !!}
-    @endif
+    {!! $this->makePartial('updates/list_items', ['items' => $updates['items'], 'ignored' => false]) !!}
 
-    @if ($countIgnored)
-        <div class="panel-heading">
-            <b>
-                <i class="fa fa-xmark fa-fw"></i>&nbsp;&nbsp;
-                {{ sprintf(lang('igniter::system.updates.text_update_ignored'), $countIgnored) }}
-            </b>
-        </div>
+    <div class="card-header p-3">
+        <b>
+            <i class="fa fa-xmark fa-fw"></i>&nbsp;&nbsp;
+            {{ sprintf(lang('igniter::system.updates.text_update_ignored'), $countIgnored) }}
+        </b>
+    </div>
 
-        {!! $this->makePartial('updates/list_items', ['items' => $updates['ignoredItems'], 'ignored' => TRUE]) !!}
-    @endif
+    {!! $this->makePartial('updates/list_items', ['items' => $updates['ignoredItems'], 'ignored' => TRUE]) !!}
 
 </div>

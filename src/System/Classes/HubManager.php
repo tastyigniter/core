@@ -2,10 +2,9 @@
 
 namespace Igniter\System\Classes;
 
-use Carbon\Carbon;
 use Exception;
 use Igniter\Flame\Exception\ApplicationException;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
@@ -16,16 +15,6 @@ use Illuminate\Support\Facades\Request;
 class HubManager
 {
     const ENDPOINT = 'https://api.tastyigniter.com/v2';
-
-    protected $cachePrefix;
-
-    protected $cacheTtl;
-
-    public function initialize()
-    {
-        $this->cachePrefix = 'hub_';
-        $this->cacheTtl = now()->addHours(3);
-    }
 
     public function listItems($filter = [])
     {
@@ -42,30 +31,21 @@ class HubManager
         return $this->requestRemoteData("{$type}/details", ['items' => $itemNames]);
     }
 
-    public function applyItems($itemNames = [])
+    public function applyItems($itemNames = [], $params = []): Collection
     {
-        return $this->requestRemoteData('core/apply', [
+        $response = $this->requestRemoteData('core/apply', array_merge($params, [
             'items' => $itemNames,
-        ]);
-    }
+        ]));
 
-    public function applyItemsToUpdate($itemNames, $force = false)
-    {
-        $cacheKey = $this->getCacheKey('updates', $itemNames);
+        $itemNames = collect($itemNames);
 
-        if ($force || !$response = Cache::get($cacheKey)) {
-            $response = $this->requestRemoteData('core/apply', [
-                'items' => $itemNames,
-                'include' => 'tags',
-            ]);
+        return collect(array_get($response, 'data', []))->map(function ($package) use ($itemNames) {
+            $package['installedVersion'] = $package['type'] == 'core'
+                ? params('ti_version')
+                : array_get($itemNames->firstWhere('name', $package['code']), 'ver', '0.0.0');
 
-            if (is_array($response)) {
-                $response['check_time'] = Carbon::now()->toDateTimeString();
-                Cache::put($cacheKey, $response, $this->cacheTtl);
-            }
-        }
-
-        return $response;
+            return PackageInfo::fromArray($package);
+        });
     }
 
     public function applyCoreVersion()
@@ -73,31 +53,6 @@ class HubManager
         $result = $this->requestRemoteData('ping');
 
         return array_get($result, 'pong', 'v3.0.0');
-    }
-
-    public function buildMetaArray($response)
-    {
-        if (isset($response['type']))
-            $response = ['items' => [$response]];
-
-        if (isset($response['items'])) {
-            $extensions = [];
-            foreach ($response['items'] as $item) {
-                if ($item['type'] == 'extension' &&
-                    (!resolve(ExtensionManager::class)->findExtension($item['type']) || resolve(ExtensionManager::class)->isDisabled($item['code']))
-                ) {
-                    if (isset($item['tags']))
-                        arsort($item['tags']);
-
-                    $extensions[$item['code']] = $item;
-                }
-            }
-
-            unset($response['items']);
-            $response['extensions'] = $extensions;
-        }
-
-        return $response;
     }
 
     public function downloadFile($filePath, $fileHash, $params = [])

@@ -5,12 +5,10 @@ namespace Igniter\System\Models;
 use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
-use Exception;
 use Igniter\Flame\Database\Model;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ExtensionManager;
-use Igniter\System\Classes\UpdateManager;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 
@@ -114,17 +112,6 @@ class Settings extends Model
             return false;
 
         return count(array_filter((array)Session::get('settings.errors'))) === 0;
-    }
-
-    public static function updatesCount()
-    {
-        try {
-            $updates = resolve(UpdateManager::class)->requestUpdateList();
-
-            return count(array_get($updates, 'items', []));
-        }
-        catch (Exception $ex) {
-        }
     }
 
     public function getValueAttribute()

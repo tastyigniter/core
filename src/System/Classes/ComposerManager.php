@@ -2,20 +2,30 @@
 
 namespace Igniter\System\Classes;
 
+use Composer\Composer;
 use Composer\Config\JsonConfigSource;
-use Composer\Console\Application;
+use Composer\DependencyResolver\Request;
+use Composer\Installer;
+use Composer\IO\IOInterface;
+use Composer\IO\NullIO;
 use Composer\Json\JsonFile;
+use Composer\Package\Locker;
 use Composer\Util\Platform;
+use Igniter\Flame\Composer\Factory;
+use Igniter\Flame\Exception\ComposerException;
+use Igniter\Flame\Exception\SystemException;
+use Igniter\System\Helpers\SystemHelper;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\StreamOutput;
+use Seld\JsonLint\DuplicateKeyException;
+use Seld\JsonLint\JsonParser;
+use Throwable;
 
 /**
  * ComposerManager Class
  */
 class ComposerManager
 {
-    protected const REPOSITORY_URL = 'satis.tastyigniter.com';
+    protected const REPOSITORY_URL = 'https://satis.tastyigniter.com';
 
     protected $logs = [];
 
@@ -31,6 +41,10 @@ class ComposerManager
      */
     protected $loader;
 
+    protected $storagePath;
+
+    protected $prevErrorHandler;
+
     protected $workingDir;
 
     protected $namespacePool = [];
@@ -43,12 +57,9 @@ class ComposerManager
 
     protected $installedPackages = [];
 
-    protected static $corePackages = [
-        'tastyigniter/flame',
-    ];
-
     public function initialize()
     {
+        $this->storagePath = storage_path('igniter/composer');
         $this->loader = require base_path('/vendor/autoload.php');
         $this->preloadPools();
     }
@@ -207,82 +218,102 @@ class ComposerManager
     //
     //
 
-    public function requireCore($coreVersion)
+    public function install(?array $requirements, ?IOInterface $io = null): void
     {
-        $corePackages = collect(self::$corePackages)->map(function ($package) use ($coreVersion) {
-            return $package.':'.$coreVersion;
-        })->all();
+        $this->assertPhpIniSet();
+        $this->assertHomeEnvSet();
 
-        return $this->require($corePackages);
-    }
+        $io ??= new NullIO();
 
-    public function update(array $packages = [])
-    {
-        $options = ['--no-interaction' => true, '--no-progress' => true];
-        if (!config('app.debug', false))
-            $options['--no-dev'] = $options['--optimize-autoloader'] = true;
+        $jsonPath = $this->getJsonPath();
 
-        return $this->runCommand('update', $packages, $options);
-    }
-
-    public function require(array $packages = [])
-    {
-        $options = ['--no-interaction' => true, '--no-progress' => true];
-        if (!config('app.debug', false))
-            $options['--update-no-dev'] = $options['--optimize-autoloader'] = true;
-
-        return $this->runCommand('require', $packages, $options);
-    }
-
-    public function remove(array $packages = [])
-    {
-        $options = ['--no-interaction' => true, '--no-progress' => true];
-
-        return $this->runCommand('remove', $packages, $options);
-    }
-
-    public function addRepository($name, $type, $address, $options = [])
-    {
-        $config = new JsonConfigSource(new JsonFile($this->getJsonPath()));
-
-        $config->addRepository($name, array_merge([
-            'type' => $type,
-            'url' => $address,
-        ], $options));
-    }
-
-    public function removeRepository($name)
-    {
-        $config = new JsonConfigSource(new JsonFile($this->getJsonPath()));
-
-        $config->removeConfigSetting($name);
-    }
-
-    public function hasRepository($address): bool
-    {
-        $config = (new JsonFile($this->getJsonPath()))->read();
-
-        return collect($config['repositories'] ?? [])
-            ->contains(function ($repository) use ($address) {
-                return rtrim($repository['url'], '/') === $address;
-            });
-    }
-
-    public function loadRepositoryAndAuthConfig()
-    {
-        if (!$this->hasRepository('https://'.self::REPOSITORY_URL)) {
-            $this->addRepository('tastyigniter', 'composer', 'https://'.self::REPOSITORY_URL);
+        if (!is_null($requirements)) {
+            $this->backupComposerFiles();
+            $this->updateRequirements($io, $jsonPath, $requirements);
         }
 
-        if (!File::exists($this->getAuthPath()) && $info = params('carte_info')) {
-            $this->addAuthCredentials(null, array_get($info, 'email', ''), params('carte_key'));
+        $oldWorkingDirectory = getcwd();
+        chdir(dirname($jsonPath));
+
+        try {
+            $composer = $this->createComposer($io, $jsonPath);
+
+            $installer = Installer::create($io, $composer)
+                ->setPreferDist()
+                ->setRunScripts(false);
+
+            if ($requirements) {
+                $installer
+                    ->setUpdate(true)
+                    ->setUpdateAllowTransitiveDependencies(Request::UPDATE_LISTED_WITH_TRANSITIVE_DEPS);
+
+                // if no lock is present, we do not do a partial update as this is not supported by the Installer
+                if ($composer->getLocker()->isLocked()) {
+                    $installer->setUpdateAllowList(array_keys($requirements));
+                }
+            }
+
+            $this->runComposer($installer);
+        }
+        catch (Throwable $e) {
+            $this->restoreComposerFiles();
+            throw new ComposerException($e, $io);
+        }
+        finally {
+            chdir($oldWorkingDirectory);
+
+            // Invalidate opcache
+            if (function_exists('opcache_reset')) {
+                @opcache_reset();
+            }
         }
     }
 
-    public function addAuthCredentials($hostname, $username, $password, $type = 'http-basic')
+    public function uninstall(array $requirements, ?IOInterface $io = null): void
     {
-        if (is_null($hostname))
-            $hostname = self::REPOSITORY_URL;
+        $this->assertPhpIniSet();
+        $this->assertHomeEnvSet();
+
+        $io ??= new NullIO();
+        $packages = array_map('strtolower', $requirements);
+
+        $jsonPath = $this->getJsonPath();
+
+        $this->backupComposerFiles();
+        $this->updateRequirements($io, $jsonPath, $requirements, true);
+
+        $oldWorkingDirectory = getcwd();
+        chdir(dirname($jsonPath));
+
+        try {
+            $composer = $this->createComposer($io, $jsonPath);
+            $composer->getInstallationManager()->setOutputProgress(false);
+
+            $installer = Installer::create($io, $composer)
+                ->setUpdate(true)
+                ->setUpdateAllowList($packages)
+                ->setRunScripts(false);
+
+            $this->runComposer($installer);
+        }
+        catch (Throwable $e) {
+            $this->restoreComposerFiles();
+            throw new ComposerException($e);
+        }
+        finally {
+            // Change the working directory back
+            chdir($oldWorkingDirectory);
+
+            // Invalidate opcache
+            if (function_exists('opcache_reset')) {
+                @opcache_reset();
+            }
+        }
+    }
+
+    public function addAuthCredentials(string $username, string $password, string $type = 'http-basic'): void
+    {
+        $hostname = parse_url(self::REPOSITORY_URL, PHP_URL_HOST);
 
         $config = new JsonConfigSource(new JsonFile($this->getAuthPath()), true);
 
@@ -294,7 +325,30 @@ class ComposerManager
 
     protected function getJsonPath(): string
     {
-        return base_path('composer.json');
+        if (defined('IGNITER_COMPOSER_PATH')) {
+            throw_unless(is_file(IGNITER_COMPOSER_PATH), new SystemException(sprintf(
+                'No Composer config found at IGNITER_COMPOSER_PATH (%s).', IGNITER_COMPOSER_PATH
+            )));
+
+            return IGNITER_COMPOSER_PATH;
+        }
+
+        $jsonPath = base_path('composer.json');
+
+        throw_unless(is_file($jsonPath), new SystemException(sprintf(
+            'No Composer config found at %s', $jsonPath
+        )));
+
+        return $jsonPath;
+    }
+
+    protected function getLockPath(string $jsonPath = null): ?string
+    {
+        $jsonPath ??= $this->getJsonPath();
+
+        return pathinfo($jsonPath, PATHINFO_EXTENSION) === 'json'
+            ? substr($jsonPath, 0, -4).'lock'
+            : $jsonPath.'.lock';
     }
 
     protected function getAuthPath(): string
@@ -302,109 +356,150 @@ class ComposerManager
         return base_path('auth.json');
     }
 
-    protected function runCommand($action, array $packages = [], array $options = [])
+    protected function backupComposerFiles(): void
     {
-        $this->assertPhpIniSet();
-        $this->assertHomeEnvSet();
+        $jsonBackupPath = $this->storagePath.'/backups/composer.json';
+        $lockBackupPath = $this->storagePath.'/backups/composer.lock';
+
+        if (!File::isDirectory(dirname($jsonBackupPath)))
+            File::makeDirectory(dirname($jsonBackupPath), null, true);
+
+        File::copy($this->getJsonPath(), $jsonBackupPath);
+
+        if (is_file($lockPath = $this->getLockPath())) {
+            File::copy($lockPath, $lockBackupPath);
+        }
+    }
+
+    protected function restoreComposerFiles(): void
+    {
+        $jsonBackupPath = $this->storagePath.'/backups/composer.json';
+        $lockBackupPath = $this->storagePath.'/backups/composer.lock';
+
+        File::copy($jsonBackupPath, $this->getJsonPath());
+
+        if (is_file($lockBackupPath)) {
+            File::copy($lockBackupPath, $this->getLockPath());
+        }
+    }
+
+    protected function updateRequirements(IOInterface $io, string $jsonPath, array $requirements): void
+    {
+        $requireKey = 'require';
+        $requireDevKey = 'require-dev';
+
+        $json = new JsonFile($jsonPath);
+        $config = $json->read();
+
+        foreach ($requirements as $package => $constraint) {
+            if ($constraint === false) {
+                unset($config[$requireKey][$package]);
+            }
+            else {
+                $config[$requireKey][$package] = $constraint;
+            }
+
+            // Also remove the package from require-dev
+            unset($config[$requireDevKey][$package]);
+        }
+
+        $json->write($config);
+    }
+
+    protected function createComposer(IOInterface $io, string $jsonPath): Composer
+    {
+        $file = new JsonFile($jsonPath, null, $io);
+        $file->validateSchema(JsonFile::LAX_SCHEMA);
+        $config = $file->read();
+
+        $this->assertRepository($config);
 
         try {
-            $this->assertHomeDirectory();
-
-            $stream = fopen('php://temp', 'wb+');
-            $output = new StreamOutput($stream);
-
-            $application = new Application();
-            $application->setAutoExit(false);
-            $application->setCatchExceptions(false);
-            $exitCode = $application->run(new ArrayInput([
-                'command' => $action,
-                'packages' => $packages,
-            ] + $options), $output);
-
-            rewind($stream);
-            $this->log(stream_get_contents($stream));
+            $jsonParser = new JsonParser();
+            $jsonParser->parse(file_get_contents($jsonPath), JsonParser::DETECT_KEY_CONFLICTS);
         }
-        finally {
-            $this->assertWorkingDirectory();
+        catch (DuplicateKeyException $e) {
+            $details = $e->getDetails();
+            $io->writeError('<warning>Key '.$details['key'].' is a duplicate in '.$jsonPath.' at line '.$details['line'].'</warning>');
         }
 
-        return $exitCode === 0;
+        // Bypass Factory::create()'s insistence on setting $disablePlugins to 'local'
+        $composer = (new Factory())->createComposer($io, $config);
+
+        $lockFile = $this->getLockPath($jsonPath);
+        $im = $composer->getInstallationManager();
+        $locker = new Locker($io, new JsonFile($lockFile, null, $io), $im, file_get_contents($jsonPath));
+        $composer->setLocker($locker);
+
+        return $composer;
+    }
+
+    protected function runComposer(Installer $installer): int
+    {
+        // Run the installer
+        $this->prevErrorHandler = set_error_handler(function (int $code, string $message, string $file, int $line) {
+            // Ignore deprecated errors
+            if ($code === E_USER_DEPRECATED)
+                return true;
+
+            if (isset($this->prevErrorHandler)) {
+                return ($this->prevErrorHandler)($code, $message, $file, $line);
+            }
+
+            return false;
+        }, E_USER_DEPRECATED);
+
+        $status = $installer->run();
+
+        set_error_handler($this->prevErrorHandler);
+
+        throw_if($status !== 0, new SystemException('An error occurred'));
+
+        return $status;
     }
 
     //
     // Asserts
     //
 
-    protected function assertPhpIniSet()
+    protected function assertPhpIniSet(): void
     {
-        @set_time_limit(3600);
-        ini_set('max_input_time', 0);
-        ini_set('max_execution_time', 0);
-    }
-
-    protected function assertHomeEnvSet()
-    {
-        if (Platform::getEnv('COMPOSER_HOME'))
-            return;
-
-        $tempPath = temp_path('composer');
-        if (!file_exists($tempPath)) {
-            @mkdir($tempPath);
+        // Don't change the memory_limit, if it's already set to -1 or >= 1.5GB
+        $memoryLimit = SystemHelper::phpIniValueInBytes('memory_limit');
+        if ($memoryLimit !== -1 && $memoryLimit < 1024 * 1024 * 1536) {
+            @ini_set('memory_limit', config('igniter.system.maxMemoryLimit', '1536M'));
         }
 
-        Platform::putEnv('COMPOSER_HOME', $tempPath);
+        if (!function_exists('set_time_limit') || !@set_time_limit(0)) {
+            @ini_set('max_execution_time', 0);
+        }
     }
 
-    protected function assertHomeDirectory()
+    protected function assertHomeEnvSet(): void
     {
-        $this->workingDir = getcwd();
-        chdir(dirname($this->getJsonPath()));
+        if (!getenv('COMPOSER_HOME') && !getenv(Platform::isWindows() ? 'APPDATA' : 'HOME')) {
+            $path = $this->storagePath.'/home';
+            if (!File::isDirectory($path))
+                File::makeDirectory($path, null, true);
+
+            putenv("COMPOSER_HOME=$path");
+        }
     }
 
-    protected function assertWorkingDirectory()
+    protected function assertRepository(array $config): array
     {
-        chdir($this->workingDir);
-    }
+        foreach ($config['repositories'] ?? [] as $index => $repository) {
+            if (rtrim($repository['url'], '/') === static::REPOSITORY_URL) {
+                unset($config['repositories'][$index]);
+            }
+        }
 
-    //
-    //
-    //
+        $config['repositories'][] = [
+            'type' => 'composer',
+            'url' => static::REPOSITORY_URL,
+            'canonical' => false,
+        ];
 
-    /**
-     * Set the output implementation that should be used by the console.
-     *
-     * @param \Illuminate\Console\OutputStyle $output
-     * @return $this
-     */
-    public function setLogsOutput($output)
-    {
-        $this->logsOutput = $output;
-
-        return $this;
-    }
-
-    public function log($message)
-    {
-        if (!is_null($this->logsOutput))
-            $this->logsOutput->writeln($message);
-
-        $this->logs[] = $message;
-
-        return $this;
-    }
-
-    /**
-     * @return \Igniter\System\Classes\ComposerManager $this
-     */
-    public function resetLogs()
-    {
-        $this->logs = [];
-
-        return $this;
-    }
-
-    public function getLogs()
-    {
-        return $this->logs;
+        return $config;
     }
 }

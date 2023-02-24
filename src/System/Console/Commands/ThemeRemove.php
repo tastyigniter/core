@@ -3,7 +3,6 @@
 namespace Igniter\System\Console\Commands;
 
 use Igniter\Main\Classes\ThemeManager;
-use Igniter\Main\Models\Theme;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,8 +45,15 @@ class ThemeRemove extends Command
             return;
         }
 
-        Theme::deleteTheme($themeName);
-        $this->output->writeln(sprintf('<info>Deleted theme: %s</info>', $themeName));
+        try {
+            $this->output->writeln(sprintf('<info>Removing theme: %s</info>', $themeName));
+
+            $themeManager->deleteTheme($themeName);
+            $this->output->writeln(sprintf('<info>Deleted theme: %s</info>', $themeName));
+        }
+        catch (\Exception $e) {
+            $this->output->writeln($e->getMessage());
+        }
     }
 
     /**

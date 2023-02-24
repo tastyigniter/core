@@ -2,8 +2,8 @@
 
 namespace Igniter\System\Console\Commands;
 
+use Igniter\Flame\Exception\ComposerException;
 use Igniter\Main\Classes\ThemeManager;
-use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,27 +26,26 @@ class ThemeInstall extends Command
     public function handle()
     {
         $themeName = $this->argument('name');
-        $manager = resolve(UpdateManager::class)->setLogsOutput($this->output);
-        $composerManager = resolve(ComposerManager::class)->setLogsOutput($this->output);
+        $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
 
-        $response = $manager->requestApplyItems([[
+        $response = $updateManager->requestApplyItems([[
             'name' => $themeName,
             'type' => 'theme',
         ]]);
 
-        $themeDetails = array_first(array_get($response, 'data'));
-        if (!$themeDetails)
+        if (!$packageInfo = $response->first())
             return $this->output->writeln(sprintf('<info>Theme %s not found</info>', $themeName));
 
-        $code = array_get($themeDetails, 'code');
-        $package = array_get($themeDetails, 'package');
-        $version = array_get($themeDetails, 'version');
+        try {
+            $this->output->writeln(sprintf('<info>Installing %s theme</info>', $themeName));
+            $updateManager->install($response);
 
-        $this->output->writeln(sprintf('<info>Installing %s theme</info>', $code));
-        $composerManager->require([$package.':'.$version]);
-
-        resolve(ThemeManager::class)->loadThemes();
-        resolve(ThemeManager::class)->installTheme($code, $version);
+            resolve(ThemeManager::class)->loadThemes();
+            resolve(ThemeManager::class)->installTheme($packageInfo->code, $packageInfo->version);
+        }
+        catch (ComposerException $e) {
+            $this->output->writeln($e->getMessage());
+        }
     }
 
     /**

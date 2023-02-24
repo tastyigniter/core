@@ -7,10 +7,10 @@ use Igniter\Flame\Igniter;
 use Igniter\Main\Events\Theme\GetActiveTheme;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
+use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Libraries\Assets;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
-use ZipArchive;
 
 /**
  * Theme Manager Class
@@ -571,15 +571,30 @@ class ThemeManager
         if (!is_dir($themePath))
             return false;
 
-        // Delete the specified admin and main language folder.
-        if ($package = array_get($this->packageManifest->themeConfig($themeCode), 'package_name')) {
-            resolve(ComposerManager::class)->remove([$package]);
-        }
-        else {
-            File::deleteDirectory($themePath);
-        }
+        File::deleteDirectory($themePath);
 
         return true;
+    }
+
+    /**
+     * Delete a single theme by code
+     */
+    public function deleteTheme(string $themeCode, bool $deleteData = true): void
+    {
+        $composerManager = resolve(ComposerManager::class);
+        if ($packageName = $composerManager->getPackageName($themeCode)) {
+            $composerManager->uninstall([$packageName => false]);
+        }
+
+        $this->removeTheme($themeCode);
+
+        if ($deleteData) {
+            \Igniter\Main\Models\Theme::where('code', $themeCode)->delete();
+
+            resolve(UpdateManager::class)->purgeExtension($themeCode);
+        }
+
+        $this->updateInstalledThemes($themeCode, null);
     }
 
     public function installTheme($code, $version = null)
@@ -594,6 +609,8 @@ class ThemeManager
         $model->version = $version ?? resolve(PackageManifest::class)->getVersion($code) ?? $model->version;
         $model->description = $themeObj->description ?? '';
         $model->save();
+
+        $this->updateInstalledThemes($model->code);
 
         return true;
     }
