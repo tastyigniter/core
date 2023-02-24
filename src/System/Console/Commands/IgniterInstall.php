@@ -15,6 +15,7 @@ use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Language;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputOption;
@@ -125,9 +126,11 @@ class IgniterInstall extends Command
 
     protected function migrateDatabase()
     {
+        DB::purge();
+
         $this->line('Migrating application and extensions...');
 
-        DB::purge();
+        Artisan::call('migrate');
 
         $manager = resolve(UpdateManager::class)->setLogsOutput($this->output);
 
@@ -149,6 +152,7 @@ class IgniterInstall extends Command
         DatabaseSeeder::$siteName = $this->ask('Site Name', DatabaseSeeder::$siteName);
         DatabaseSeeder::$siteUrl = $this->ask('Site URL', Config::get('app.url'));
 
+        DatabaseSeeder::$seedInitial = true;
         DatabaseSeeder::$seedDemo = $this->confirm('Install demo data?', DatabaseSeeder::$seedDemo);
     }
 

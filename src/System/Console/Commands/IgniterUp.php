@@ -25,6 +25,8 @@ class IgniterUp extends Command
      */
     public function handle()
     {
+        $this->call('migrate');
+
         $this->output->writeln('<info>Migrating application and extensions...</info>');
 
         $manager = resolve(UpdateManager::class);
