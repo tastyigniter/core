@@ -85,7 +85,7 @@
             if (success) {
                 self.setProgressBar(null, 'success')
                 setTimeout(function () {
-                    // window.location.reload(true)
+                    window.location.reload(true)
                 }, 500)
             }
         }).fail(function () {
