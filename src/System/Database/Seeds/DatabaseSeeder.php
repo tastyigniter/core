@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
 
     public static $password = '123456';
 
+    public static $seedInitial = false;
+
     public static $seedDemo = true;
 
     /**

@@ -151,15 +151,13 @@ class UpdateManager
 
     public function migrate()
     {
-        $wasPreviouslyMigrated = $this->prepareDatabase();
+        $this->prepareDatabase();
 
         $this->migrateApp();
 
         Country::upsertFromRemote();
 
-        if (!$wasPreviouslyMigrated) {
-            $this->seedApp();
-        }
+        $this->seedApp();
 
         foreach (array_keys(Igniter::migrationPath()) as $code) {
             $this->migrateExtension($code);

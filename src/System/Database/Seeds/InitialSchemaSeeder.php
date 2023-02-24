@@ -16,6 +16,8 @@ class InitialSchemaSeeder extends Seeder
      */
     public function run()
     {
+        if (!DatabaseSeeder::$seedInitial) return;
+
         $this->seedCustomerGroups();
 
         $this->seedLanguages();
