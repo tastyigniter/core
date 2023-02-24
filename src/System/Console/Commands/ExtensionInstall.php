@@ -38,7 +38,7 @@ class ExtensionInstall extends Command
 
         try {
             $this->output->writeln(sprintf('<info>Installing %s extension</info>', $extensionName));
-            $updateManager->install($response);
+            $updateManager->install($response->all());
 
             resolve(ExtensionManager::class)->loadExtensions();
             resolve(ExtensionManager::class)->installExtension($packageInfo->code, $packageInfo->version);

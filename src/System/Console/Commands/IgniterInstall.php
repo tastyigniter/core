@@ -131,7 +131,7 @@ class IgniterInstall extends Command
 
         $manager = resolve(UpdateManager::class)->setLogsOutput($this->output);
 
-        $manager->update();
+        $manager->migrate();
 
         $this->line('Done. Migrating application and extensions...');
     }

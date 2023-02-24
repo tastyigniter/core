@@ -517,48 +517,6 @@ class ThemeManager
     }
 
     /**
-     * Extract uploaded/downloaded theme zip folder
-     *
-     * @param string $zipPath The path to the zip folder
-     *
-     * @return bool
-     * @throws \Igniter\Flame\Exception\SystemException
-     */
-    public function extractTheme($zipPath)
-    {
-        $zip = new ZipArchive;
-
-        $themesFolder = Igniter::themesPath();
-
-        if ($zip->open($zipPath) === true) {
-            $themeDir = $zip->getNameIndex(0);
-
-            if ($zip->locateName($themeDir.'theme.json') === false)
-                return false;
-
-            if (file_exists($themesFolder.'/'.$themeDir)) {
-                throw new SystemException(lang('igniter::system.themes.error_theme_exists'));
-            }
-
-            $meta = @json_decode($zip->getFromName($themeDir.'theme.json'));
-            if (!$meta || !strlen($meta->code))
-                throw new SystemException(lang('igniter::system.themes.error_config_no_found'));
-
-            $themeCode = $meta->code;
-            if (!$this->checkName($themeDir) || !$this->checkName($themeCode))
-                throw new SystemException('Theme directory name can not have spaces.');
-
-            $extractToPath = $themesFolder.'/'.$themeCode;
-            $zip->extractTo($extractToPath);
-            $zip->close();
-
-            return $themeCode;
-        }
-
-        return false;
-    }
-
-    /**
      * Delete existing theme folder from filesystem.
      *
      * @param null $themeCode The theme to delete

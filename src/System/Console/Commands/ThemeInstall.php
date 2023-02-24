@@ -38,7 +38,7 @@ class ThemeInstall extends Command
 
         try {
             $this->output->writeln(sprintf('<info>Installing %s theme</info>', $themeName));
-            $updateManager->install($response);
+            $updateManager->install($response->all());
 
             resolve(ThemeManager::class)->loadThemes();
             resolve(ThemeManager::class)->installTheme($packageInfo->code, $packageInfo->version);
