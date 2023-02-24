@@ -146,8 +146,6 @@ class UpdateManager
             $this->log("<info>Rolled back $group</info>");
         }
 
-        $this->repository->deleteRepository();
-
         return $this;
     }
 
