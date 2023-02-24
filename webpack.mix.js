@@ -50,6 +50,7 @@ mix.combine([
     'node_modules/inputmask/dist/jquery.inputmask.min.js',
     'node_modules/mustache/mustache.min.js',
     `${src}/js/vendor/selectonic/selectonic.min.js`,
+    `${src}/js/vendor/waterfall.min.js`,
     'node_modules/sortablejs/Sortable.js',
 ], `${dist}/js/vendor.js`)
 
