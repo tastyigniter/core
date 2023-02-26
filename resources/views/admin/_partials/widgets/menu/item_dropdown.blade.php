@@ -1,39 +1,27 @@
-@php
-    $itemOptions = (isset($hasPartial) && $hasPartial) ? [] : $item->options();
-    is_array($itemOptions) || $itemOptions = [];
-@endphp
 <li
-    id="{{ $item->getId()}}"
-    class="nav-item dropdown">
-    <a {!! $item->getAttributes() !!}>
+    id="{{$this->getId($item->itemName)}}"
+    @class(['nav-item dropdown'])
+    data-mainmenu-item="{{$item->itemName}}"
+>
+    <a
+        class="nav-link"
+        data-bs-toggle="dropdown"
+        data-bs-auto-close="outside"
+    >
         <i class="fa {{ $item->icon }}" role="button"></i>
         @if ($item->unreadCount())
-            <span class="badge {{ $item->badge }}">&nbsp;</span>
+            <span class="badge badge-danger">&nbsp;</span>
         @endif
     </a>
-
-    <ul
-        class="dropdown-menu {{ $item->optionsView }}"
-        @if (strlen($item->partial)) data-request-options="{{ $item->itemName }}" @endif
-    >
-        @if (!strlen($item->partial))
-            <li class="dropdown-header">@if ($item->label) @lang($item->label) @endif</li>
-            @foreach($itemOptions as $key => $value)
-                <li><a class="menu-link" href="{{ $key }}">@lang($value)</a></li>
-            @endforeach
-        @else
-            <li class="dropdown-header">@if ($item->label) @lang($item->label) @endif</li>
-            <li
-                id="{{ $item->getId($item->itemName.'-options') }}"
-                class="dropdown-body">
-                <p class="wrap-all text-muted text-center"><span class="ti-loading spinner-border fa-3x fa-fw"></span>
-                </p>
-            </li>
-        @endif
+    <ul class="dropdown-menu">
+        <li class="dropdown-header">@lang($item->label)</li>
+        <li id="{{ $this->getId($item->itemName.'-options') }}" class="dropdown-body">
+            <p class="wrap-all text-muted text-center">
+                <span class="ti-loading spinner-border fa-3x fa-fw"></span>
+            </p>
+        </li>
         <li class="dropdown-footer">
-            @if ($item->viewMoreUrl)
-                <a class="text-center" href="{{ $item->viewMoreUrl }}"><i class="fa fa-ellipsis-h"></i></a>
-            @endif
+            <a class="text-center" href="{{ $item->viewMoreUrl }}"><i class="fa fa-ellipsis-h"></i></a>
         </li>
     </ul>
 </li>

@@ -3,8 +3,6 @@
 namespace Igniter\Admin\FormWidgets;
 
 use Exception;
-use Igniter\Admin\ActivityTypes\AssigneeUpdated;
-use Igniter\Admin\ActivityTypes\StatusUpdated;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Facades\AdminAuth;
@@ -333,13 +331,11 @@ class StatusEditor extends BaseFormWidget
         if (!$this->isStatusMode) {
             $group = UserGroup::find(array_get($saveData, $this->assigneeGroupKeyFrom));
             $user = User::find(array_get($saveData, $keyFrom));
-            if ($record = $this->model->updateAssignTo($group, $user))
-                AssigneeUpdated::log($record, $this->getController()->getUser());
+            $record = $this->model->updateAssignTo($group, $user);
         }
         else {
             $status = Status::find(array_get($saveData, $keyFrom));
-            if ($record = $this->model->addStatusHistory($status, $saveData))
-                StatusUpdated::log($record, $this->getController()->getUser());
+            $record = $this->model->addStatusHistory($status, $saveData);
         }
 
         return $record;

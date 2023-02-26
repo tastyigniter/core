@@ -23,7 +23,7 @@
 
     MainMenu.prototype.requestOptions = function ($itemMenu) {
         var self = this,
-            itemName = $itemMenu.data('requestOptions')
+            itemName = $itemMenu.data('mainmenu-item')
 
         if ($itemMenu.hasClass('is-loaded'))
             return
@@ -42,7 +42,7 @@
     }
 
     MainMenu.prototype.clearOptions = function (itemName) {
-        var $itemMenu = this.$el.find('[data-request-options='+itemName+']')
+        var $itemMenu = this.$el.find('[data-mainmenu-item='+itemName+']')
 
         if (!$itemMenu.length || !$itemMenu.hasClass('is-loaded'))
             return
@@ -54,9 +54,8 @@
     }
 
     MainMenu.prototype.updateBadgeCount = function (itemName, count) {
-        var $itemMenu = this.$el.find('[data-request-options='+itemName+']'),
-            $dropdown = $itemMenu.closest('.dropdown'),
-            $dropdownBadge = $dropdown.find('[data-bs-toggle="dropdown"] .badge'),
+        var $itemMenu = this.$el.find('[data-mainmenu-item='+itemName+']'),
+            $dropdownBadge = $itemMenu.find('[data-bs-toggle="dropdown"] .badge'),
             prevBadgeCount = parseInt($dropdownBadge.html()),
             badgeCount = (isNaN(prevBadgeCount) ? 0 : prevBadgeCount)+parseInt(count)
 
@@ -68,8 +67,7 @@
 
     MainMenu.prototype.onDropdownShow = function (event) {
         var $toggle = $(event.relatedTarget),
-            $dropdown = $toggle.closest('.dropdown'),
-            $itemMenu = $dropdown.find('[data-request-options]')
+            $itemMenu = $toggle.closest('[data-mainmenu-item]')
 
         if (window.matchMedia('(max-width: 600px)'))
             $('.sidebar, .nav-sidebar').collapse('hide')

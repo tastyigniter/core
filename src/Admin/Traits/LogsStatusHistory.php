@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Traits;
 
-use Igniter\Admin\Models\Reservation;
 use Igniter\Admin\Models\StatusHistory;
 
 trait LogsStatusHistory
@@ -52,15 +51,6 @@ trait LogsStatusHistory
             return false;
 
         $this->save();
-
-        $this->reloadRelations();
-
-        if ($history->notify) {
-            $mailView = ($this instanceof Reservation)
-                ? 'igniter.admin::_mail.reservation_update' : 'igniter.admin::_mail.order_update';
-
-            $this->mailSend($mailView, 'customer');
-        }
 
         $this->fireSystemEvent('admin.statusHistory.added', [$history]);
 

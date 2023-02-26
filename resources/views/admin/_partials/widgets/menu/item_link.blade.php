@@ -1,5 +1,5 @@
 <li
-    id="{{ $item->getId() }}"
+    id="{{$this->getId($item->itemName)}}"
     class="nav-item">
     <a {!! $item->getAttributes()!!}>
         <i class="fa {{ $item->icon }}"></i>

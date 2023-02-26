@@ -3,7 +3,6 @@
 namespace Igniter\Admin\Http\Controllers;
 
 use Exception;
-use Igniter\Admin\ActivityTypes\StatusUpdated;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Models\Reservation;
 use Igniter\Admin\Models\Status;
@@ -99,8 +98,7 @@ class Reservations extends \Igniter\Admin\Classes\AdminController
         if (!$model || !$status)
             return;
 
-        if ($record = $model->addStatusHistory($status))
-            StatusUpdated::log($record, $this->getUser());
+        $model->addStatusHistory($status);
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::admin.statuses.text_form_name').' updated'))->now();
 

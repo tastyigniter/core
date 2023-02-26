@@ -103,6 +103,11 @@ class UserPanel
         });
     }
 
+    public function listNotifications($menu, $item, $user)
+    {
+        return $user->notifications()->get();
+    }
+
     public function getUserName()
     {
         return $this->user->name;

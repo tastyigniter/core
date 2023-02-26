@@ -117,8 +117,8 @@ return [
 
     'text_settings_title' => 'Settings',
     'text_message_title' => 'Your messages',
-    'text_activity_title' => 'Recent activities',
-    'text_empty_activity' => 'No recent activity',
+    'text_activity_title' => 'Notifications',
+    'text_empty_activity' => 'Nothing to show',
     'text_empty_message' => 'No message found',
     'text_see_all_message' => 'See all messages',
     'text_see_all_activity' => 'See all activities',
@@ -727,10 +727,10 @@ return [
         'label_payment_method' => 'Payment Method',
         'label_total_items' => 'Total Items',
 
-        'activity_event_log_title' => 'Order status updated',
-        'activity_event_log_assigned_title' => 'Order assigned',
-        'activity_event_log' => 'updated order (#:properties.order_id) status to <b>:properties.status_name</b>',
-        'activity_event_log_assigned' => 'assigned order (#:properties.order_id) to',
+        'notify_status_updated_title' => 'Order status updated',
+        'notify_assigned_title' => 'Order assigned',
+        'notify_status_updated' => '<b>%s</b> updated order (#%d) status to <b>%s</b>',
+        'notify_assigned' => '<b>%s</b> assigned order (#%d) to <b>%s</b>',
 
         'alert_invoice_not_generated' => 'Invoice has not yet been generated.',
     ],
@@ -833,10 +833,10 @@ return [
 
         'help_reservation_duration' => 'Stay time in minutes. Leave blank to use the default stay time',
 
-        'activity_event_log_title' => 'Reservation status updated',
-        'activity_event_log_assigned_title' => 'Reservation assigned',
-        'activity_event_log' => 'updated reservation (#:properties.reservation_id) status to <b>:properties.status_name</b>',
-        'activity_event_log_assigned' => 'assigned reservation (#:properties.reservation_id) to',
+        'notify_status_updated_title' => 'Reservation status updated',
+        'notify_event_log_assigned_title' => 'Reservation assigned',
+        'notify_status_updated' => 'updated reservation (#:properties.reservation_id) status to <b>:properties.status_name</b>',
+        'notify_assigned' => 'assigned reservation (#:properties.reservation_id) to',
 
         'alert_no_reservation_found' => 'No matching reservation found.',
     ],

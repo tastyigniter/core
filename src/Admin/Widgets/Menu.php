@@ -130,10 +130,10 @@ class Menu extends BaseWidget
         $item->displayAs($itemType, $config);
 
         // Defer the execution of badge unread count
-        $item->unreadCount(function () use ($item, $config) {
-            $itemBadgeCount = $config['badgeCount'] ?? null;
+        $item->unreadCount(function () use ($item) {
+            $user = $this->getLoggedUser();
 
-            return $this->getUnreadCountFromModel($item, $itemBadgeCount);
+            return $this->fireEvent('menu.getUnreadCount', [$this, $item, $user], true);
         });
 
         // Get menu item options from model
@@ -142,9 +142,8 @@ class Menu extends BaseWidget
             // Defer the execution of option data collection
             $item->options(function () use ($item, $config) {
                 $itemOptions = $config['options'] ?? null;
-                $itemOptions = $this->getOptionsFromModel($item, $itemOptions);
 
-                return $itemOptions;
+                return $this->getOptionsFromModel($item, $itemOptions);
             });
         }
 
@@ -204,19 +203,12 @@ class Menu extends BaseWidget
         if (!$item = $this->getItem($itemName))
             throw new ApplicationException(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
 
-        $itemOptions = $item->options();
-
         // Return a partial if item has a path defined
-        if (strlen($item->partial)) {
-            return [
-                '#'.$item->getId($item->itemName.'-options') => $this->makePartial(
-                    $item->partial, ['item' => $item, 'itemOptions' => $itemOptions]
-                ),
-            ];
-        }
-
         return [
-            'options' => $itemOptions,
+            '#'.$this->getId($item->itemName.'-options') => $this->makePartial($item->partial, [
+                'item' => $item,
+                'itemOptions' => $item->options(),
+            ]),
         ];
     }
 
@@ -235,7 +227,8 @@ class Menu extends BaseWidget
         if (!$item = $this->getItem($itemName))
             throw new ApplicationException(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
 
-        $this->resolveMarkAsReadFromModel($item);
+        $user = $this->getLoggedUser();
+        $this->fireEvent('filter.submit', [$this, $item, $user]);
     }
 
     public function onChooseLocation()
@@ -285,28 +278,9 @@ class Menu extends BaseWidget
     {
         if (is_array($itemOptions) && is_callable($itemOptions)) {
             $user = $this->getLoggedUser();
-            $itemOptions = call_user_func($itemOptions, $this, $item, $user);
+            $itemOptions = $itemOptions($this, $item, $user);
         }
 
         return $itemOptions;
-    }
-
-    protected function getUnreadCountFromModel($item, $itemBadgeCount)
-    {
-        if (is_array($itemBadgeCount) && is_callable($itemBadgeCount)) {
-            $user = $this->getLoggedUser();
-            $itemBadgeCount = $itemBadgeCount($this, $item, $user);
-        }
-
-        return $itemBadgeCount;
-    }
-
-    protected function resolveMarkAsReadFromModel($item)
-    {
-        $callback = array_get($item->config, 'markAsRead');
-        if (is_array($callback) && is_callable($callback)) {
-            $user = $this->getLoggedUser();
-            $callback($this, $item, $user);
-        }
     }
 }

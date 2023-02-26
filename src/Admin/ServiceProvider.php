@@ -2,13 +2,13 @@
 
 namespace Igniter\Admin;
 
+use Igniter\Admin\EventSubscribers\StatusUpdatedSubscriber;
 use Igniter\Admin\Facades\AdminLocation;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Helpers\Admin as AdminHelper;
 use Igniter\Admin\Models\Order;
 use Igniter\Admin\Models\Reservation;
 use Igniter\Admin\Requests\Location;
-use Igniter\Flame\ActivityLog\Models\Activity;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\System\Classes\MailManager;
@@ -51,6 +51,8 @@ class ServiceProvider extends AppServiceProvider
      */
     public function register()
     {
+        $this->registerEventSubscribers();
+
         $this->registerSingletons();
         $this->registerFacadeAliases();
 
@@ -301,32 +303,23 @@ class ServiceProvider extends AppServiceProvider
                     'attributes' => [
                         'class' => 'nav-link front-end',
                         'title' => 'lang:igniter::admin.side_menu.storefront',
-                        'href' => root_url(),
+                        'href' => page_url('home'),
                         'target' => '_blank',
                     ],
                 ],
                 'locations' => [
                     'type' => 'partial',
                     'path' => 'locations/picker',
-                    'options' => ['Igniter\Admin\Classes\UserPanel', 'listLocations'],
+                    'options' => [\Igniter\Admin\Classes\UserPanel::class, 'listLocations'],
                 ],
                 'activity' => [
                     'label' => 'lang:igniter::admin.text_activity_title',
                     'icon' => 'fa-bell',
-                    'badge' => 'badge-danger',
                     'type' => 'dropdown',
-                    'badgeCount' => [\Igniter\System\Models\Activity::class, 'unreadCount'],
-                    'markAsRead' => [\Igniter\System\Models\Activity::class, 'markAllAsRead'],
-                    'options' => [\Igniter\System\Models\Activity::class, 'listMenuActivities'],
+                    'options' => [\Igniter\Admin\Classes\UserPanel::class, 'listNotifications'],
                     'partial' => 'activities.latest',
                     'viewMoreUrl' => admin_url('activities'),
                     'permission' => 'Admin.Activities',
-                    'attributes' => [
-                        'class' => 'nav-link',
-                        'href' => '',
-                        'data-bs-toggle' => 'dropdown',
-                        'data-bs-auto-close' => 'outside',
-                    ],
                 ],
                 'settings' => [
                     'icon' => 'fa-gear',
@@ -672,22 +665,6 @@ class ServiceProvider extends AppServiceProvider
         });
     }
 
-    protected function registerActivityTypes()
-    {
-        Activity::registerCallback(function (Activity $manager) {
-            $manager->registerActivityTypes([
-                ActivityTypes\AssigneeUpdated::class => [
-                    ActivityTypes\AssigneeUpdated::ORDER_ASSIGNED_TYPE,
-                    ActivityTypes\AssigneeUpdated::RESERVATION_ASSIGNED_TYPE,
-                ],
-                ActivityTypes\StatusUpdated::class => [
-                    ActivityTypes\StatusUpdated::ORDER_UPDATED_TYPE,
-                    ActivityTypes\StatusUpdated::RESERVATION_UPDATED_TYPE,
-                ],
-            ]);
-        });
-    }
-
     protected function registerPermissions()
     {
         resolve(Classes\PermissionManager::class)->registerCallback(function ($manager) {
@@ -854,5 +831,14 @@ class ServiceProvider extends AppServiceProvider
         Route::group([], function ($router) {
             (new Classes\RouteRegistrar($router))->all();
         });
+    }
+
+    protected function registerEventSubscribers()
+    {
+        foreach ([
+            StatusUpdatedSubscriber::class,
+        ] as $class) {
+            Event::subscribe($class);
+        }
     }
 }

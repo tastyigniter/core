@@ -16,7 +16,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected $root = __DIR__.'/../..';
 
     protected $providers = [
-        \Igniter\Flame\ActivityLog\ActivityLogServiceProvider::class,
         \Igniter\Flame\Auth\AuthServiceProvider::class,
         \Igniter\Flame\Currency\CurrencyServiceProvider::class,
         \Igniter\Flame\Providers\ConsoleSupportServiceProvider::class,

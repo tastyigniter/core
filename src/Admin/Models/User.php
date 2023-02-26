@@ -34,7 +34,7 @@ class User extends AuthUserModel
 
     protected $fillable = ['username', 'super_user'];
 
-    protected $appends = ['staff_name'];
+    protected $appends = ['full_name'];
 
     protected $hidden = ['password'];
 

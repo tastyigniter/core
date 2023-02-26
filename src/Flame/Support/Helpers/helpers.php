@@ -2,7 +2,6 @@
 
 use Carbon\Carbon;
 use Igniter\Admin\Facades\Admin;
-use Igniter\Flame\ActivityLog\ActivityLogger;
 use Igniter\Flame\Currency\Currency;
 use Igniter\Flame\Support\StringParser;
 use Illuminate\Routing\UrlGenerator;
@@ -202,13 +201,6 @@ if (!function_exists('parse_values')) {
     function parse_values(array $columns, string $string): string
     {
         return (new StringParser)->parse($string, $columns);
-    }
-}
-
-if (!function_exists('activity')) {
-    function activity(): ActivityLogger
-    {
-        return resolve(ActivityLogger::class);
     }
 }
 
