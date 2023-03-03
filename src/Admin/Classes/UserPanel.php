@@ -103,7 +103,7 @@ class UserPanel
         });
     }
 
-    public function listNotifications($menu, $item, $user)
+    public static function listNotifications($menu, $item, $user)
     {
         return $user->notifications()->get();
     }

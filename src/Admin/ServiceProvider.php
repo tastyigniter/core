@@ -2,13 +2,16 @@
 
 namespace Igniter\Admin;
 
+use Igniter\Admin\Classes\MenuItem;
 use Igniter\Admin\EventSubscribers\StatusUpdatedSubscriber;
 use Igniter\Admin\Facades\AdminLocation;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Helpers\Admin as AdminHelper;
 use Igniter\Admin\Models\Order;
 use Igniter\Admin\Models\Reservation;
+use Igniter\Admin\Models\User;
 use Igniter\Admin\Requests\Location;
+use Igniter\Admin\Widgets\Menu;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\System\Classes\MailManager;
@@ -42,6 +45,7 @@ class ServiceProvider extends AppServiceProvider
         if (Igniter::runningInAdmin()) {
             $this->replaceNavMenuItem();
             $this->extendLocationOptionsFields();
+            $this->defineMainMenuEventListeners();
         }
     }
 
@@ -56,7 +60,6 @@ class ServiceProvider extends AppServiceProvider
         $this->registerSingletons();
         $this->registerFacadeAliases();
 
-        $this->registerActivityTypes();
         $this->registerMailTemplates();
         $this->registerSchedule();
 
@@ -312,14 +315,13 @@ class ServiceProvider extends AppServiceProvider
                     'path' => 'locations/picker',
                     'options' => [\Igniter\Admin\Classes\UserPanel::class, 'listLocations'],
                 ],
-                'activity' => [
+                'notifications' => [
                     'label' => 'lang:igniter::admin.text_activity_title',
                     'icon' => 'fa-bell',
                     'type' => 'dropdown',
                     'options' => [\Igniter\Admin\Classes\UserPanel::class, 'listNotifications'],
-                    'partial' => 'activities.latest',
-                    'viewMoreUrl' => admin_url('activities'),
-                    'permission' => 'Admin.Activities',
+                    'partial' => 'notifications.latest',
+                    'permission' => 'Admin.Notifications',
                 ],
                 'settings' => [
                     'icon' => 'fa-gear',
@@ -840,5 +842,22 @@ class ServiceProvider extends AppServiceProvider
         ] as $class) {
             Event::subscribe($class);
         }
+    }
+
+    protected function defineMainMenuEventListeners()
+    {
+        Menu::extend(function (Menu $menu) {
+            $menu->bindEvent('menu.getUnreadCount', function (MenuItem $item, User $user) {
+                if ($item->itemName === 'notifications') {
+                    return $user->unreadNotifications()->count();
+                }
+            });
+
+            $menu->bindEvent('menu.markAsRead', function (MenuItem $item, User $user) {
+                if ($item->itemName === 'notifications') {
+                    return $user->unreadNotifications()->update(['read_at' => now()]);
+                }
+            });
+        });
     }
 }

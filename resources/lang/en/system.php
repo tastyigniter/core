@@ -329,12 +329,12 @@ return [
 
     'permissions' => [
         'name' => 'System',
-        'activities' => 'Access activities',
         'countries' => 'Create, edit and delete countries',
         'currencies' => 'Create, edit and delete currencies',
         'system_logs' => 'View system and requests logs',
         'extensions' => 'Install, uninstall and delete extension',
         'mail_templates' => 'Create, edit and delete mail templates',
+        'notifications' => 'Access and manage notifications',
         'languages' => 'Create, edit and delete site languages',
         'settings' => 'Manage system settings',
         'updates' => 'Ability to apply updates when a new version of TastyIgniter is available',

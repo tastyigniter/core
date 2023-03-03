@@ -280,6 +280,7 @@ class ServiceProvider extends AppServiceProvider
             'languages' => \Igniter\System\Models\Language::class,
             'mail_layouts' => \Igniter\System\Models\MailLayout::class,
             'mail_templates' => \Igniter\System\Models\MailTemplate::class,
+            'notifications' => \Igniter\System\Models\Notification::class,
             'pages' => \Igniter\System\Models\Page::class,
             'settings' => \Igniter\System\Models\Settings::class,
             'themes' => \Igniter\Main\Models\Theme::class,
@@ -354,8 +355,8 @@ class ServiceProvider extends AppServiceProvider
     {
         resolve(PermissionManager::class)->registerCallback(function ($manager) {
             $manager->registerPermissions('System', [
-                'Admin.Activities' => [
-                    'label' => 'igniter::system.permissions.activities', 'group' => 'igniter::system.permissions.name',
+                'Admin.Notifications' => [
+                    'label' => 'igniter::system.permissions.notifications', 'group' => 'igniter::system.permissions.name',
                 ],
                 'Admin.Extensions' => [
                     'label' => 'igniter::system.permissions.extensions', 'group' => 'igniter::system.permissions.name',

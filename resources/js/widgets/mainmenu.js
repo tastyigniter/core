@@ -8,7 +8,6 @@
         this.options = options
         this.$el = $(element)
         this.loadingHtml = '<span class="ti-loading spinner-border text-muted fa-3x fa-fw"></span>'
-        this.$markAsReadButton = $('<a href="#" class="pull-right mark-as-read"><i class="fa fa-check"></i></a>')
 
         // Init
         this.init()
@@ -22,8 +21,7 @@
     }
 
     MainMenu.prototype.requestOptions = function ($itemMenu) {
-        var self = this,
-            itemName = $itemMenu.data('mainmenu-item')
+        var itemName = $itemMenu.data('mainmenu-item')
 
         if ($itemMenu.hasClass('is-loaded'))
             return
@@ -32,11 +30,6 @@
             type: 'GET',
             data: {item: itemName}
         }).done(function () {
-            var $markAsReadButton = self.$markAsReadButton.clone()
-            $itemMenu.find('.dropdown-header .mark-as-read').remove()
-            $itemMenu.find('.dropdown-header').prepend($markAsReadButton)
-            $markAsReadButton.on('click', $.proxy(self.onMarkOptionsAsRead, self))
-
             $itemMenu.addClass('is-loaded')
         })
     }
@@ -49,17 +42,14 @@
 
         $itemMenu.dropdown('hide')
         $itemMenu.removeClass('is-loaded')
-        $itemMenu.find('.dropdown-header .mark-as-read').remove()
         $itemMenu.find('.dropdown-body').html(this.loadingHtml)
     }
 
     MainMenu.prototype.updateBadgeCount = function (itemName, count) {
         var $itemMenu = this.$el.find('[data-mainmenu-item='+itemName+']'),
-            $dropdownBadge = $itemMenu.find('[data-bs-toggle="dropdown"] .badge'),
-            prevBadgeCount = parseInt($dropdownBadge.html()),
-            badgeCount = (isNaN(prevBadgeCount) ? 0 : prevBadgeCount)+parseInt(count)
+            $dropdownBadge = $itemMenu.find('[data-bs-toggle="dropdown"] .badge')
 
-        $dropdownBadge.html(badgeCount < 100 ? badgeCount : '+99')
+        $dropdownBadge.removeClass('hide');
     }
 
     // EVENT HANDLERS
@@ -76,24 +66,6 @@
             return;
 
         this.requestOptions($itemMenu)
-    }
-
-    MainMenu.prototype.onMarkOptionsAsRead = function (event) {
-        var $toggle = $(event.target),
-            $dropdown = $toggle.closest('.dropdown'),
-            $itemMenu = $dropdown.find('[data-request-options]'),
-            $dropdownBadge = $dropdown.find('[data-bs-toggle="dropdown"] .badge'),
-            itemName = $itemMenu.data('requestOptions')
-
-        if (!$itemMenu.length)
-            return;
-
-        $.request(this.options.alias + '::onMarkOptionsAsRead', {
-            data: {item: itemName}
-        }).done(function () {
-            $dropdownBadge.empty()
-            $itemMenu.find('.menu-item.active').removeClass('active')
-        })
     }
 
     MainMenu.DEFAULTS = {

@@ -5,6 +5,7 @@ namespace Igniter\Flame\Auth\Models;
 use Carbon\Carbon;
 use Exception;
 use Igniter\Flame\Database\Model;
+use Igniter\System\Models\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -272,5 +273,14 @@ class User extends Model implements Authenticatable
         }
 
         return $random;
+    }
+
+    //
+    //
+    //
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable')->latest();
     }
 }

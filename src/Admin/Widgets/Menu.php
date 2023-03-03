@@ -133,7 +133,7 @@ class Menu extends BaseWidget
         $item->unreadCount(function () use ($item) {
             $user = $this->getLoggedUser();
 
-            return $this->fireEvent('menu.getUnreadCount', [$this, $item, $user], true);
+            return $this->fireEvent('menu.getUnreadCount', [$item, $user], true);
         });
 
         // Get menu item options from model
@@ -228,7 +228,15 @@ class Menu extends BaseWidget
             throw new ApplicationException(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
 
         $user = $this->getLoggedUser();
-        $this->fireEvent('filter.submit', [$this, $item, $user]);
+        $this->fireEvent('menu.markAsRead', [$item, $user]);
+
+        // Return a partial if item has a path defined
+        return [
+            '#'.$this->getId($item->itemName.'-options') => $this->makePartial($item->partial, [
+                'item' => $item,
+                'itemOptions' => $item->options(),
+            ]),
+        ];
     }
 
     public function onChooseLocation()
