@@ -476,7 +476,7 @@ if (!function_exists('media_url')) {
 }
 
 if (!function_exists('strip_class_basename')) {
-    function strip_class_basename(string $class = '', string|null $chop = null): string
+    function strip_class_basename(mixed $class, string|null $chop = null): string
     {
         $basename = class_basename($class);
 

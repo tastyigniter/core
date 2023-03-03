@@ -24,6 +24,8 @@
 
     SelectList.DEFAULTS = {
         plugins: ['remove_button'],
+        allowEmptyOption: true,
+        showEmptyOptionInDropdown: true,
     }
 
     var old = $.fn.selectList

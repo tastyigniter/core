@@ -176,7 +176,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         $this->formWidget->bindToController();
 
         // Prep the optional toolbar widget
-        if (isset($modelConfig['toolbar']) && isset($this->widgets['toolbar'])) {
+        if (isset($modelConfig['toolbar'], $this->widgets['toolbar'])) {
             $this->toolbarWidget = $this->widgets['toolbar'];
             $this->toolbarWidget->reInitialize($modelConfig['toolbar']);
         }

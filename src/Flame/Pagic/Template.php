@@ -103,10 +103,6 @@ class Template
 
     protected function evaluatePath($path, $data)
     {
-        if ($silenceNotice = config('igniter.system.suppressTemplateRuntimeNotice')) {
-            $errorLevel = error_reporting(0);
-        }
-
         $obLevel = ob_get_level();
         ob_start();
 
@@ -120,10 +116,6 @@ class Template
         }
         catch (Exception|Throwable $e) {
             $this->handleException($e, $obLevel);
-        }
-
-        if ($silenceNotice) {
-            error_reporting($errorLevel);
         }
 
         return ltrim(ob_get_clean());
