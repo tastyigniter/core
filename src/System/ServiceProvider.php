@@ -68,7 +68,10 @@ class ServiceProvider extends AppServiceProvider
         $this->updateTimezone();
         $this->setConfiguration();
         $this->extendValidator();
-        $this->defineQueryMacro();
+
+        $this->app['events']->listen(MigrationsStarted::class, function () {
+            Schema::disableForeignKeyConstraints();
+        });
     }
 
     protected function updateTimezone()
@@ -273,7 +276,6 @@ class ServiceProvider extends AppServiceProvider
     protected function defineEloquentMorphMaps()
     {
         Relation::morphMap([
-            'activities' => \Igniter\System\Models\Activity::class,
             'countries' => \Igniter\System\Models\Country::class,
             'currencies' => \Igniter\System\Models\Currency::class,
             'extensions' => \Igniter\System\Models\Extension::class,
@@ -285,57 +287,6 @@ class ServiceProvider extends AppServiceProvider
             'settings' => \Igniter\System\Models\Settings::class,
             'themes' => \Igniter\Main\Models\Theme::class,
         ]);
-    }
-
-    protected function defineQueryMacro()
-    {
-        \Illuminate\Database\Query\Builder::macro('toRawSql', function () {
-            return array_reduce($this->getBindings(), function ($sql, $binding) {
-                return preg_replace('/\?/', is_numeric($binding) ? $binding : "'".$binding."'", $sql, 1);
-            }, $this->toSql());
-        });
-
-        \Illuminate\Database\Eloquent\Builder::macro('toRawSql', function () {
-            return $this->getQuery()->toRawSql();
-        });
-
-        \Illuminate\Database\Schema\Blueprint::macro('dropForeignKeyIfExists', function ($key) {
-            $foreignKeys = array_map(function ($key) {
-                return $key->getName();
-            }, \Illuminate\Support\Facades\Schema::getConnection()
-                ->getDoctrineSchemaManager()
-                ->listTableForeignKeys($this->table)
-            );
-
-            if (!starts_with($key, $this->prefix))
-                $key = sprintf('%s%s_%s_foreign', $this->prefix, $this->table, $key);
-
-            if (!in_array($key, $foreignKeys))
-                return;
-
-            return $this->dropForeign($key);
-        });
-
-        \Illuminate\Database\Schema\Blueprint::macro('dropIndexIfExists', function ($key) {
-            $indexes = array_map(function ($key) {
-                return $key->getName();
-            }, \Illuminate\Support\Facades\Schema::getConnection()
-                ->getDoctrineSchemaManager()
-                ->listTableIndexes($this->table)
-            );
-
-            if (!starts_with($key, $this->prefix))
-                $key = sprintf('%s%s_%s_foreign', $this->prefix, $this->table, $key);
-
-            if (!in_array($key, $indexes))
-                return;
-
-            return $this->dropIndex($key);
-        });
-
-        $this->app['events']->listen(MigrationsStarted::class, function () {
-            Schema::disableForeignKeyConstraints();
-        });
     }
 
     protected function registerSchedule()
