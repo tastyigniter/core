@@ -2,6 +2,8 @@
 
 namespace Igniter\Flame\Support;
 
+use RecursiveIterator;
+
 /**
  * Class NestedKeyIterator
  * This iterator iterates recursively through an array,
@@ -42,7 +44,7 @@ class NestedKeyIterator extends \RecursiveIteratorIterator
     /**
      * {@inheritdoc}
      */
-    public function callGetChildren()
+    public function callGetChildren(): RecursiveIterator|null
     {
         $this->stack[] = parent::key();
 
@@ -52,7 +54,7 @@ class NestedKeyIterator extends \RecursiveIteratorIterator
     /**
      * {@inheritdoc}
      */
-    public function endChildren()
+    public function endChildren(): void
     {
         parent::endChildren();
         array_pop($this->stack);
@@ -61,7 +63,7 @@ class NestedKeyIterator extends \RecursiveIteratorIterator
     /**
      * {@inheritdoc}
      */
-    public function key()
+    public function key(): mixed
     {
         $keys = $this->stack;
         $keys[] = parent::key();

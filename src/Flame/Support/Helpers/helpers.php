@@ -28,7 +28,7 @@ if (!function_exists('assets_url')) {
      *
      * @deprecated Remove in v5
      */
-    function assets_url(string $uri = null, bool|null $secure = null): string
+    function assets_url(string $uri = null, bool|null $secure = null): void
     {
         traceLog('assets_url() has been deprecated. Use $model->getThumb(). Remove in v5');
     }

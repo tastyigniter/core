@@ -300,7 +300,7 @@ class ComposerManager
         catch (Throwable $e) {
             $this->restoreComposerFiles();
 
-            throw new ComposerException($e);
+            throw new ComposerException($e, $io);
         }
         finally {
             // Change the working directory back

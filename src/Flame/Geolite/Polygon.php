@@ -373,7 +373,7 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->coordinates->jsonSerialize();
     }
@@ -408,10 +408,8 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
      */
     public function offsetUnset(mixed $offset): void
     {
-        $coordinates = $this->coordinates->offsetUnset($offset);
+        $this->coordinates->offsetUnset($offset);
         $this->bounds->setPolygon($this);
-
-        return $coordinates;
     }
 
     /**
