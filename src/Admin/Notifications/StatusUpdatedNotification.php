@@ -56,4 +56,9 @@ class StatusUpdatedNotification extends Notification
             optional($this->subject->status)->status_name,
         );
     }
+
+    public function getIcon(): ?string
+    {
+        return 'fa-clipboard-check';
+    }
 }

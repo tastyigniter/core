@@ -3,13 +3,10 @@
         <div class="flex-fill">@lang($item->label)</div>
         <div>
             <a
-                class="cursor-pointer mr-4"
-                href="{{ admin_url('notifications/settings') }}"
-            ><i class="fa fa-cog"></i></a>
-            <a
                 class="cursor-pointer"
                 data-request="{{$this->getEventHandler('onMarkOptionsAsRead')}}"
                 data-request-data="'item':'{{$item->itemName}}'"
+                title="@lang('igniter::system.notifications.button_mark_as_read')"
             ><i class="fa fa-check"></i></a>
         </div>
     </div>
@@ -17,13 +14,16 @@
 <ul class="menu menu-lg">
     @forelse($itemOptions as $notification)
         <li class="menu-item{{ !$notification->read_at ? ' active' : '' }}">
-            <a href="{{ array_get($notification->data, 'url') }}" class="menu-link">
-                <div class="d-flex">
-                    @if($icon = array_get($notification->data, 'icon'))
-                        <div><i class="{{$icon}} text-{{array_get($notification->data, 'iconColor')}}"></i></div>
-                    @endif
-                    <div>
-                        <div class="menu-item-meta">{!! array_get($notification->data, 'message') !!}</div>
+            <a href="{{ $notification->url }}" class="menu-link">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        @if($icon = $notification->icon)
+                            <i class="fa fs-4 {{$icon}} text-{{$notification->iconColor ?? 'muted'}}"></i>
+                        @endif
+                    </div>
+                    <div @class(['ms-3' => $notification->icon])>
+                        <div class="text-muted">{{ $notification->title }}</div>
+                        <div class="menu-item-meta">{!! $notification->message !!}</div>
                         <span class="small menu-item-meta text-muted">
                             {{ time_elapsed($notification->created_at) }}
                         </span>

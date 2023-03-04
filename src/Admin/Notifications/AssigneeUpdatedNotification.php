@@ -59,4 +59,9 @@ class AssigneeUpdatedNotification extends Notification
             $assigneeName,
         );
     }
+
+    public function getIcon(): ?string
+    {
+        return 'fa-clipboard-user';
+    }
 }

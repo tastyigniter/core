@@ -60,15 +60,6 @@ return [
         'day_time_format_short' => 'ddd hh:mm a',
     ],
 
-    'activities' => [
-        'text_title' => 'Activities',
-        'button_mark_as_read' => 'Mark all as read',
-        'text_empty' => 'There are no activities available.',
-        'activity_system' => 'System',
-        'activity_self' => 'You',
-        'activity_master_logged_in' => ' <b>logged</b> in as <b>:subject.first_name :subject.last_name</b>.',
-    ],
-
     'countries' => [
         'text_title' => 'Countries',
         'text_form_name' => 'Country',
@@ -325,6 +316,17 @@ return [
         'text_contact_topic' => 'Contact topic',
         'text_contact_message' => 'Contact message body',
 
+    ],
+
+    'notifications' => [
+        'text_title' => 'Notifications',
+        'text_filter_search' => 'Search notifications...',
+        'text_empty' => 'There are no notifications available.',
+
+        'button_mark_as_read' => 'Mark all as read',
+
+        'activity_system' => 'System',
+        'activity_self' => 'You',
     ],
 
     'permissions' => [
