@@ -2,10 +2,10 @@
 
 namespace Igniter\Admin\EventSubscribers;
 
+use Igniter\Admin\Models\Order;
 use Igniter\Admin\Models\Reservation;
 use Igniter\Admin\Models\StatusHistory;
 use Igniter\Admin\Notifications\StatusUpdatedNotification;
-use Igniter\Cart\Models\Order;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class StatusUpdatedSubscriber
@@ -17,7 +17,7 @@ class StatusUpdatedSubscriber
         ];
     }
 
-    public function handleStatusAdded(string $event, Order|Reservation $record, StatusHistory $history): void
+    public function handleStatusAdded(Order|Reservation $record, StatusHistory $history): void
     {
         $record->reloadRelations();
 
@@ -28,6 +28,6 @@ class StatusUpdatedSubscriber
             $record->mailSend($mailView, 'customer');
         }
 
-        StatusUpdatedNotification::make()->subject($history)->sendToDatabase();
+        StatusUpdatedNotification::make()->subject($history)->broadcast();
     }
 }

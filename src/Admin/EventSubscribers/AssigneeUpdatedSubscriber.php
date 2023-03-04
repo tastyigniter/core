@@ -19,6 +19,6 @@ class AssigneeUpdatedSubscriber
 
     public function handleAssigned(string $event, Order|Reservation $record, AssignableLog $log): void
     {
-        AssigneeUpdatedNotification::make()->subject($log)->sendToDatabase();
+        AssigneeUpdatedNotification::make()->subject($log)->broadcast();
     }
 }

@@ -2,9 +2,11 @@
 
 namespace Igniter\System\Classes;
 
+use Igniter\Broadcast\Models\Settings as BroadcastSettings;
 use Igniter\Flame\Database\Model;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification as BaseNotification;
 
 class Notification extends BaseNotification implements ShouldQueue
@@ -28,24 +30,34 @@ class Notification extends BaseNotification implements ShouldQueue
         return app(static::class);
     }
 
-    public function sendToDatabase(array $recipients = []): static
+    public function broadcast(array $users = []): static
     {
-        foreach ($recipients ?: $this->getRecipients() as $user) {
-            $user->notify($this->toDatabase());
+        foreach ($users ?: $this->getRecipients() as $user) {
+            $user->notify($this);
         }
 
         return $this;
     }
 
+    public function via(object $notifiable)
+    {
+        $channels = ['database'];
+
+        if (BroadcastSettings::isConfigured())
+            $channels[] = 'broadcast';
+
+        return $channels;
+    }
+
     /**
      * Returns an array of notification data
      */
-    public function toDatabase(): array
+    public function toDatabase(object $notifiable): array
     {
-        return $this->toArray();
+        return $this->toArray($notifiable);
     }
 
-    public function toArray(): array
+    public function toArray(object $notifiable): array
     {
         return [
             'title' => $this->getTitle(),
@@ -54,6 +66,11 @@ class Notification extends BaseNotification implements ShouldQueue
             'url' => $this->getUrl(),
             'message' => $this->getMessage(),
         ];
+    }
+
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage($this->toArray($notifiable));
     }
 
     public function getRecipients(): array
