@@ -15,6 +15,7 @@ use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Status Editor
@@ -165,12 +166,14 @@ class StatusEditor extends BaseFormWidget
             throw new ApplicationException($ex->getMessage());
         }
 
-        if ($this->saveRecord($saveData, $keyFrom)) {
-            flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->getModeConfig('formName')).' '.'updated'))->now();
-        }
-        else {
-            flash()->error(lang('igniter::admin.alert_error_try_again'))->now();
-        }
+        DB::transaction(function () use ($saveData, $keyFrom) {
+            if ($this->saveRecord($saveData, $keyFrom)) {
+                flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->getModeConfig('formName')).' '.'updated'))->now();
+            }
+            else {
+                flash()->error(lang('igniter::admin.alert_error_try_again'))->now();
+            }
+        });
 
         $this->prepareVars();
 
