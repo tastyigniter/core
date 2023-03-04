@@ -7,8 +7,6 @@ use Igniter\Admin\EventSubscribers\StatusUpdatedSubscriber;
 use Igniter\Admin\Facades\AdminLocation;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Helpers\Admin as AdminHelper;
-use Igniter\Admin\Models\Order;
-use Igniter\Admin\Models\Reservation;
 use Igniter\Admin\Models\User;
 use Igniter\Admin\Requests\Location;
 use Igniter\Admin\Widgets\Menu;
@@ -135,19 +133,6 @@ class ServiceProvider extends AppServiceProvider
                 'igniter.admin::_mail.invite_customer' => 'lang:igniter::system.mail_templates.text_invite_customer',
                 'igniter.admin::_mail.low_stock_alert' => 'lang:igniter::system.mail_templates.text_low_stock_alert',
             ]);
-        });
-
-        Event::listen('mail.templates.getDummyData', function ($templateCode) {
-            return match ($templateCode) {
-                'igniter.admin::_mail.order_update' => optional(Order::first())->mailGetData(),
-                'igniter.admin::_mail.reservation_update' => optional(Reservation::first())->mailGetData(),
-                'igniter.admin::_mail.password_reset' => ['staff_name' => 'Staff name'],
-                'igniter.admin::_mail.password_reset_request' => [
-                    'staff_name' => 'Staff name',
-                    'reset_link' => admin_url('login/reset?code='),
-                ],
-                default => [],
-            };
         });
     }
 

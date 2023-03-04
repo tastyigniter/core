@@ -5,7 +5,6 @@ namespace Igniter\System\Models;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\MailParser;
 use Igniter\System\Classes\MailManager;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 
@@ -75,24 +74,6 @@ class MailTemplate extends Model
     public function fillFromView()
     {
         $this->fillFromSections(self::getTemplateSections($this->code));
-    }
-
-    public function getDummyData()
-    {
-        $result = [];
-
-        $response = Event::fire('mail.templates.getDummyData', [$this->code]);
-
-        if (is_array($response)) {
-            foreach ($response as $templateData) {
-                if (!is_array($templateData))
-                    continue;
-
-                $result += $templateData;
-            }
-        }
-
-        return $result;
     }
 
     protected function fillFromSections(array $sections)

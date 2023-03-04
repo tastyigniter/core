@@ -32,7 +32,7 @@ class Mailable extends MailableBase
      */
     public function buildViewData()
     {
-        $data = $this->viewData;
+        $data = parent::buildViewData();
 
         foreach ($data as $param => $value) {
             $data[$param] = $this->getRestoredPropertyValue($value);

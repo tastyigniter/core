@@ -62,16 +62,6 @@ class MailManager
      */
     protected $partialData = [];
 
-    public function addContentToMailer($message, $code, $data, $plainOnly = false)
-    {
-        traceLog('Deprecated method, use Mailable');
-    }
-
-    public function addRawContentToMailer($message, $content, $data)
-    {
-        traceLog('Deprecated method, use Mailable');
-    }
-
     public function applyMailerConfigValues()
     {
         $config = App::make('config');

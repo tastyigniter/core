@@ -87,9 +87,15 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
         if (!$model = $this->formFindModelObject($recordId))
             throw new ApplicationException(lang('igniter::system.mail_templates.alert_template_not_found'));
 
+        config()->set('system.suppressTemplateRuntimeNotice', true);
+
         $adminUser = $this->getUser();
 
-        Mail::sendTemplate($model->code, $model->getDummyData(), [$adminUser->email, $adminUser->name]);
+        $errorLevel = error_reporting(0);
+
+        Mail::sendTemplate($model->code, [], [$adminUser->email, $adminUser->name]);
+
+        error_reporting($errorLevel);
 
         flash()->success(sprintf(lang('igniter::system.mail_templates.alert_test_message_sent'), $adminUser->staff_email));
 
