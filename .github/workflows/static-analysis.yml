@@ -35,4 +35,4 @@ jobs:
           command: composer update --prefer-stable --prefer-dist --no-interaction --no-progress
 
       - name: Execute static analysis
-        run: vendor/bin/phpstan analyse --ansi --memory-limit 256M
+        run: vendor/bin/phpstan analyse --ansi --memory-limit 1056M
