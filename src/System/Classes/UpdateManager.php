@@ -495,7 +495,7 @@ class UpdateManager
             return $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
         })->each(function (PackageInfo $packageInfo) {
             match ($packageInfo->type) {
-                'core' => function () use ($packageInfo) {
+                'core' => function () {
                     $this->migrate();
                 },
                 'extension' => function () use ($packageInfo) {
