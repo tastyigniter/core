@@ -15,20 +15,7 @@
     @forelse($itemOptions as $notification)
         <li class="menu-item{{ !$notification->read_at ? ' active' : '' }}">
             <a href="{{ $notification->url }}" class="menu-link">
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        @if($icon = $notification->icon)
-                            <i class="fa fs-4 {{$icon}} text-{{$notification->iconColor ?? 'muted'}}"></i>
-                        @endif
-                    </div>
-                    <div @class(['ms-3' => $notification->icon])>
-                        <div class="text-muted">{{ $notification->title }}</div>
-                        <div class="menu-item-meta">{!! $notification->message !!}</div>
-                        <span class="small menu-item-meta text-muted">
-                            {{ time_elapsed($notification->created_at) }}
-                        </span>
-                    </div>
-                </div>
+                {!! $this->makePartial('notifications.notification', ['notification' => $notification]) !!}
             </a>
         </li>
         <li class="divider"></li>

@@ -14,19 +14,9 @@
                     @foreach($notifications as $notification)
                         <a
                             @class(['list-group-item list-group-item-action rounded', 'opacity-50' => $notification->read_at])
-                            href="{{ $notification->url }}">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0">
-                                    @if($icon = $notification->icon)
-                                        <i class="fa fs-4 {{$icon}} text-{{$notification->iconColor ?? 'muted'}}"></i>
-                                    @endif
-                                </div>
-                                <div @class(['ms-3' => $notification->icon])>
-                                    <div class="text-muted">{{ $notification->title }}</div>
-                                    <div>{!! $notification->message !!}</div>
-                                    <small class="text-muted">{{ time_elapsed($notification->created_at) }}</small>
-                                </div>
-                            </div>
+                            href="{{ $notification->url }}"
+                        >
+                            {!! $this->makePartial('notifications.notification', ['notification' => $notification]) !!}
                         </a>
                     @endforeach
                 </div>
