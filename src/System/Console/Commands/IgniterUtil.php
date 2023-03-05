@@ -8,7 +8,6 @@ use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\CacheHelper;
-use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Extension;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -163,8 +162,6 @@ class IgniterUtil extends Command
 
             return;
         }
-
-        SystemHelper::replaceInEnv('IGNITER_CARTE_KEY=', 'IGNITER_CARTE_KEY='.$carteKey);
 
         resolve(UpdateManager::class)->applySiteDetail($carteKey);
     }

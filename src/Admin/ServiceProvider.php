@@ -151,11 +151,6 @@ class ServiceProvider extends AppServiceProvider
     protected function registerDashboardWidgets()
     {
         resolve(Classes\Widgets::class)->registerDashboardWidgets(function (Classes\Widgets $manager) {
-            $manager->registerDashboardWidget(\Igniter\System\DashboardWidgets\Activities::class, [
-                'label' => 'Recent activities',
-                'context' => 'dashboard',
-            ]);
-
             $manager->registerDashboardWidget(\Igniter\System\DashboardWidgets\Cache::class, [
                 'label' => 'Cache Usage',
                 'context' => 'dashboard',

@@ -24,7 +24,7 @@
         @endforeach
     </div>
 @else
-    <p class="p-4 text-center">@lang('igniter::system.activities.text_empty')</p>
+    <p class="p-4 text-center">@lang('igniter::system.notifications.text_empty')</p>
 @endif
 
 {!! $this->makePartial('lists/list_pagination') !!}
