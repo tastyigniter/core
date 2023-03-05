@@ -327,15 +327,15 @@ class UpdateManager
 
     public function applySiteDetail($key)
     {
+        SystemHelper::replaceInEnv('IGNITER_CARTE_KEY=', 'IGNITER_CARTE_KEY='.$key);
+
         $info = [];
-
-        $this->setSecurityKey($key, $info);
-
         $result = $this->getHubManager()->getDetail('site');
         if (isset($result['data']) && is_array($result['data']))
             $info = $result['data'];
 
-        $this->setSecurityKey($key, $info);
+        params()->set('carte_info', $info);
+        params()->save();
 
         return $info;
     }
@@ -422,16 +422,6 @@ class UpdateManager
     public function isMarkedAsIgnored($code)
     {
         return array_get($this->getIgnoredUpdates(), $code, false);
-    }
-
-    public function setSecurityKey($key, $info)
-    {
-        params()->set('carte_key', $key ?: '');
-
-        if ($info && is_array($info))
-            params()->set('carte_info', $info);
-
-        params()->save();
     }
 
     protected function fetchItemsToUpdate($params, $force = false): array

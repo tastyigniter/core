@@ -52,19 +52,6 @@ class HubManager
         return $this->requestRemoteData("dataset/$type");
     }
 
-    protected function getSecurityKey()
-    {
-        $carteKey = params('carte_key', '');
-
-        try {
-            $carteKey = decrypt($carteKey);
-        }
-        catch (Exception $e) {
-        }
-
-        return strlen($carteKey) ? $carteKey : md5('NULL');
-    }
-
     protected function requestRemoteData($uri, $params = [])
     {
         $client = Http::baseUrl(Config::get('igniter.system.hubEndpoint', static::ENDPOINT));
@@ -102,7 +89,7 @@ class HubManager
     protected function prepareHeaders(array $params): array
     {
         $headers = [];
-        if ($siteKey = $this->getSecurityKey()) {
+        if ($siteKey = config('igniter.system.carteKey', params('carte_key', ''))) {
             $headers['TI-Rest-Key'] = 'Bearer '.$siteKey;
         }
 
