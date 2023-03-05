@@ -31,6 +31,7 @@
     "js-cookie": "^2.2.0",
     "metismenu": "2.7.7",
     "mustache": "^4.2.0",
+    "phantomjs-prebuilt": "2.1.14",
     "sortablejs": "^1.14.0",
     "summernote": "^0.8.20",
     "sweetalert2": "^11.4.8",

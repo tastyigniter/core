@@ -18,7 +18,7 @@ jobs:
           node-version: 16
 
       - name: Install NPM dependencies
-        run: npm install -g bower phantomjs && npm ci --ignore-scripts
+        run: npm install -g bower && npm ci --ignore-scripts
 
       - name: Compile assets
         run: npm run prod
