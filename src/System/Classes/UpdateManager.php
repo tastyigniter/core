@@ -155,7 +155,9 @@ class UpdateManager
 
         $this->migrateApp();
 
-        Country::upsertFromRemote();
+        if (!app()->runningUnitTests()) {
+            Country::upsertFromRemote();
+        }
 
         $this->seedApp();
 
@@ -201,7 +203,7 @@ class UpdateManager
     public function seedApp()
     {
         Artisan::call('db:seed', [
-            '--class' => '\Igniter\System\Database\Seeds\DatabaseSeeder',
+            '--class' => \Igniter\System\Database\Seeds\DatabaseSeeder::class,
             '--force' => true,
         ]);
 

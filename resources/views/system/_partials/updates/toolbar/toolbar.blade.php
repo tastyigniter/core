@@ -32,7 +32,7 @@
                     >@lang('igniter::system.updates.button_carte')</button>
                 </div>
                 <div>
-                    @lang('igniter::system.version'): <b>{{params('ti_version')}}</b>
+                    @lang('igniter::system.version'): <b>{{$igniterVersion}}</b>
                     &nbsp;&nbsp;-&nbsp;&nbsp;
                     @lang('igniter::system.updates.text_last_checked'): <b>{{$lastChecked}}</b>
                 </div>
