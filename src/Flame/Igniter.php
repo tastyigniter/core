@@ -8,6 +8,8 @@ use Igniter\Main\Models\Customer;
 
 class Igniter
 {
+    const VERSION = 'v4.0.0';
+
     /**
      * The base path for extensions.
      *
@@ -240,5 +242,10 @@ class Igniter
     public static function isAdminUser($user)
     {
         return $user instanceof User;
+    }
+
+    public static function version()
+    {
+        return static::VERSION;
     }
 }

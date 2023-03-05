@@ -218,8 +218,6 @@ class IgniterInstall extends Command
 
         // These parameters are no longer in use
         params()->forget('main_address');
-
-        resolve(UpdateManager::class)->setCoreVersion();
     }
 
     protected function generateEncryptionKey()

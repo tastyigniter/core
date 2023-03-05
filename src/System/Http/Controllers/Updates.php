@@ -5,6 +5,7 @@ namespace Igniter\System\Http\Controllers;
 use Exception;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
+use Igniter\Flame\Igniter;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Models\Extension;
@@ -40,6 +41,7 @@ class Updates extends \Igniter\Admin\Classes\AdminController
 
         try {
             $updateManager = resolve(UpdateManager::class);
+            $this->vars['igniterVersion'] = Igniter::version();
             $this->vars['carteInfo'] = $updateManager->getSiteDetail();
             $this->vars['updates'] = $updateManager->requestUpdateList();
         }

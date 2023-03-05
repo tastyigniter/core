@@ -2,8 +2,8 @@
 
 namespace Igniter\System\Classes;
 
-use Exception;
 use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Igniter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -40,7 +40,7 @@ class HubManager
 
         return collect(array_get($response, 'data', []))->map(function ($package) use ($itemNames) {
             $package['installedVersion'] = $package['type'] == 'core'
-                ? params('ti_version')
+                ? Igniter::version()
                 : array_get($itemNames->firstWhere('name', $package['code']), 'ver', '0.0.0');
 
             return PackageInfo::fromArray($package);
@@ -89,7 +89,7 @@ class HubManager
         $params['server'] = base64_encode(serialize([
             'php' => PHP_VERSION,
             'url' => url()->to('/'),
-            'version' => params('ti_version', 'v3.0.0'),
+            'version' => Igniter::version(),
         ]));
 
         if (Config::get('igniter.system.edgeUpdates', false)) {
@@ -112,7 +112,7 @@ class HubManager
         }
 
         $headers['X-Igniter-Platform'] = sprintf('php:%s;version:%s;url:%s',
-            PHP_VERSION, params('ti_version'), url()->current()
+            PHP_VERSION, Igniter::version(), url()->current()
         );
 
         return $headers;

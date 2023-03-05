@@ -81,9 +81,7 @@ class IgniterUtil extends Command
             return;
         }
 
-        resolve(UpdateManager::class)->setCoreVersion();
-
-        $this->comment('*** TastyIgniter sets latest version: '.params('ti_version'));
+        $this->comment('*** TastyIgniter sets latest version: '.Igniter::version());
 
         if ($this->option('extensions'))
             $this->setItemsVersion();

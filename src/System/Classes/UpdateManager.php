@@ -164,13 +164,6 @@ class UpdateManager
         }
     }
 
-    public function setCoreVersion($version = null, $hash = null)
-    {
-        params()
-            ->set('ti_version', $version ?? resolve(PackageManifest::class)->coreVersion())
-            ->save();
-    }
-
     protected function prepareDatabase()
     {
         $migrationTable = Config::get('database.migrations', 'migrations');
@@ -512,7 +505,6 @@ class UpdateManager
             match ($packageInfo->type) {
                 'core' => function () use ($packageInfo) {
                     $this->migrate();
-                    $this->setCoreVersion($packageInfo->version, $packageInfo->hash);
                 },
                 'extension' => function () use ($packageInfo) {
                     $this->extensionManager->installExtension($packageInfo->code, $packageInfo->version);
