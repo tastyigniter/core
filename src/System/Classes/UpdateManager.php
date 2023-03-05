@@ -154,7 +154,7 @@ class UpdateManager
         $this->migrateApp();
 
         if (!app()->runningUnitTests()) {
-            Country::upsertFromRemote();
+            rescue(fn() => Country::upsertFromRemote());
         }
 
         $this->seedApp();

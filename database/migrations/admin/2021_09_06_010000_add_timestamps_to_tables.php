@@ -30,13 +30,6 @@ return new class extends Migration
             });
         }
 
-        Schema::table('activities', function (Blueprint $table) {
-            $table->timestamp('date_added')->change();
-            $table->timestamp('date_updated')->change();
-            $table->renameColumn('date_added', 'created_at');
-            $table->renameColumn('date_updated', 'updated_at');
-        });
-
         Schema::table('customers', function (Blueprint $table) {
             $table->timestamp('date_added')->change();
             $table->renameColumn('date_added', 'created_at');
