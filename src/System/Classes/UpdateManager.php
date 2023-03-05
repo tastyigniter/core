@@ -154,7 +154,7 @@ class UpdateManager
         $this->migrateApp();
 
         if (!app()->runningUnitTests()) {
-            rescue(fn() => Country::upsertFromRemote());
+            rescue(fn () => Country::upsertFromRemote());
         }
 
         $this->seedApp();
@@ -168,7 +168,7 @@ class UpdateManager
     {
         $this->repository->updateRepositoryGroup();
 
-        $this->log("Migration table group column updated");
+        $this->log('Migration table group column updated');
     }
 
     public function migrateApp()
