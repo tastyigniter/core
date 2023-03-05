@@ -10,12 +10,10 @@ use Igniter\Admin\Models\UserRole;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\ConfigRewrite;
 use Igniter\Main\Models\CustomerGroup;
-use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Language;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputOption;
@@ -130,11 +128,7 @@ class IgniterInstall extends Command
 
         $this->line('Migrating application and extensions...');
 
-        Artisan::call('migrate');
-
-        $manager = resolve(UpdateManager::class)->setLogsOutput($this->output);
-
-        $manager->migrate();
+        $this->callSilent('igniter:up');
 
         $this->line('Done. Migrating application and extensions...');
     }

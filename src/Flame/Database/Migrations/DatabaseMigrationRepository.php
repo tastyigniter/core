@@ -43,31 +43,26 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
      */
     public function createRepository()
     {
+        parent::createRepository();
+
         $schema = $this->getConnection()->getSchemaBuilder();
 
-        $method = (!$schema->hasTable($this->table))
-            ? 'create' : 'table';
-
-        $schema->$method($this->table, function (Blueprint $table) use ($method) {
-            // Drop old columns from CI_Migration library
-            if ($method == 'table') {
+        // Drop old columns from CI_Migration library
+        if ($schema->hasColumns($this->table, ['type', 'version'])) {
+            $schema->table($this->table, function (Blueprint $table) {
                 $table->dropColumn('type');
                 $table->dropColumn('version');
-            }
+            });
+        }
 
-            // The migrations table is responsible for keeping track of which of the
-            // migrations have actually run for the application. We'll create the
-            // table to hold the migration file's path as well as the batch ID.
-            $table->increments('id');
+        $schema->table($this->table, function (Blueprint $table) {
             $table->string('group')->nullable();
-            $table->string('migration');
-            $table->integer('batch');
         });
     }
 
     public function updateRepositoryGroup()
     {
-        if ($this->getConnection()->table($this->table)->where('group', 'igniter.admin')->exists())
+        if ($this->getConnection()->table($this->table)->where('group', 'igniter.system')->exists())
             return;
 
         $this->getConnection()->getSchemaBuilder()->table($this->table, function (Blueprint $table) {
@@ -86,16 +81,6 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
     }
 
     /**
-     * Delete the migration repository data store.
-     * @return void
-     */
-    public function deleteRepository()
-    {
-        $schema = $this->getConnection()->getSchemaBuilder();
-        $schema->dropIfExists($this->table);
-    }
-
-    /**
      * Get a query builder for the migration table.
      * @return \Illuminate\Database\Query\Builder
      */
@@ -105,21 +90,6 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
             ->table($this->table)
             ->where('group', $this->getGroup())
             ->useWritePdo();
-    }
-
-    /**
-     * Remove a migration from the log.
-     *
-     * @param object $migration
-     *
-     * @return void
-     */
-    public function delete($migration)
-    {
-        if (!is_string($migration))
-            $migration = $migration->migration;
-
-        $this->table()->where('migration', $migration)->delete();
     }
 
     /**

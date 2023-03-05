@@ -15,8 +15,6 @@ use Igniter\System\Models\Extension;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Schema;
 
 /**
  * TastyIgniter Updates Manager Class
@@ -151,7 +149,7 @@ class UpdateManager
 
     public function migrate()
     {
-        $this->prepareDatabase();
+        $this->prepareMigrationTable();
 
         $this->migrateApp();
 
@@ -166,22 +164,11 @@ class UpdateManager
         }
     }
 
-    protected function prepareDatabase()
+    protected function prepareMigrationTable()
     {
-        $migrationTable = Config::get('database.migrations', 'migrations');
+        $this->repository->updateRepositoryGroup();
 
-        if ($hasColumn = Schema::hasColumns($migrationTable, ['group', 'batch'])) {
-            $this->repository->updateRepositoryGroup();
-
-            $this->log('Migration table already exists');
-
-            return true;
-        }
-
-        $this->repository->createRepository();
-
-        $action = $hasColumn ? 'updated' : 'created';
-        $this->log("Migration table {$action}");
+        $this->log("Migration table group column updated");
     }
 
     public function migrateApp()
