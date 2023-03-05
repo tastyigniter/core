@@ -46,11 +46,6 @@ parameters:
 			path: database/migrations/system/2018_10_19_000300_create_media_attachments_table.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Activity\\:\\:truncate\\(\\)\\.$#"
-			count: 1
-			path: database/migrations/system/2019_07_01_000300_delete_unused_columns_from_activities_table.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:dropForeignKeyIfExists\\(\\)\\.$#"
 			count: 1
 			path: database/migrations/system/2022_06_30_010000_drop_foreign_key_constraints_on_all_tables.php
@@ -59,36 +54,6 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:dropIndexIfExists\\(\\)\\.$#"
 			count: 1
 			path: database/migrations/system/2022_06_30_010000_drop_foreign_key_constraints_on_all_tables.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\AssignableLog\\:\\:\\$assignable\\.$#"
-			count: 2
-			path: src/Admin/ActivityTypes/AssigneeUpdated.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$subject\\.$#"
-			count: 1
-			path: src/Admin/ActivityTypes/AssigneeUpdated.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$type\\.$#"
-			count: 3
-			path: src/Admin/ActivityTypes/AssigneeUpdated.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$object\\.$#"
-			count: 7
-			path: src/Admin/ActivityTypes/StatusUpdated.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$subject\\.$#"
-			count: 1
-			path: src/Admin/ActivityTypes/StatusUpdated.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$type\\.$#"
-			count: 3
-			path: src/Admin/ActivityTypes/StatusUpdated.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$class\\.$#"
@@ -231,32 +196,7 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Call to function is_object\\(\\) with array\\|non\\-falsy\\-string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 2
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
 
@@ -371,21 +311,6 @@ parameters:
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Call to function is_object\\(\\) with array\\|non\\-falsy\\-string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:render\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Classes/BaseWidget.php
@@ -401,26 +326,6 @@ parameters:
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$controller \\(Igniter\\\\Admin\\\\Classes\\\\AdminController\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 2
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^If condition is always false\\.$#"
-			count: 1
-			path: src/Admin/Classes/FilterScope.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/FormField.php
@@ -431,22 +336,7 @@ parameters:
 			path: src/Admin/Classes/FormField.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 2
-			path: src/Admin/Classes/FormField.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/FormField.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:attributes\\(\\) should return Igniter\\\\Admin\\\\Classes\\\\FormField but returns null\\.$#"
-			count: 2
-			path: src/Admin/Classes/FormField.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
 			count: 2
 			path: src/Admin/Classes/FormField.php
 
@@ -486,16 +376,6 @@ parameters:
 			path: src/Admin/Classes/Location.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with Igniter\\\\Flame\\\\Location\\\\Contracts\\\\LocationInterface will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/Location.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Admin/Classes/Location.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereHasLocation\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/LocationScope.php
@@ -512,21 +392,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/MenuItem.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/MenuItem.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/MenuItem.php
-
-		-
-			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: src/Admin/Classes/MenuItem.php
 
@@ -551,16 +416,6 @@ parameters:
 			path: src/Admin/Classes/Navigation.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/Navigation.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Classes/OnboardingSteps.php
-
-		-
 			message: "#^Unsafe access to private property Igniter\\\\Admin\\\\Classes\\\\OnboardingSteps\\:\\:\\$callbacks through static\\:\\:\\.$#"
 			count: 2
 			path: src/Admin/Classes/OnboardingSteps.php
@@ -572,21 +427,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:fromClass\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/PaymentGateways.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/Classes/PaymentGateways.php
-
-		-
-			message: "#^Parameter \\#2 \\$mode of static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\) expects int, null given\\.$#"
-			count: 1
-			path: src/Admin/Classes/PaymentGateways.php
-
-		-
-			message: "#^Parameter \\#2 \\$status of static method Illuminate\\\\Support\\\\Facades\\\\Response\\:\\:make\\(\\) expects int, string given\\.$#"
 			count: 1
 			path: src/Admin/Classes/PaymentGateways.php
 
@@ -626,11 +466,6 @@ parameters:
 			path: src/Admin/Classes/UserPanel.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_get expects array\\|ArrayAccess, stdClass given\\.$#"
-			count: 1
-			path: src/Admin/Classes/UserPanel.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/UserPanel.php
@@ -647,11 +482,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\Widgets\\:\\:\\$bulkActionWidgetHints\\.$#"
-			count: 2
-			path: src/Admin/Classes/Widgets.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
 			count: 2
 			path: src/Admin/Classes/Widgets.php
 
@@ -686,6 +516,16 @@ parameters:
 			path: src/Admin/Database/Factories/AddressFactory.php
 
 		-
+			message: "#^Parameter \\$record of method Igniter\\\\Admin\\\\EventSubscribers\\\\AssigneeUpdatedSubscriber\\:\\:handleAssigned\\(\\) has invalid type Igniter\\\\Cart\\\\Models\\\\Order\\.$#"
+			count: 1
+			path: src/Admin/EventSubscribers/AssigneeUpdatedSubscriber.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$notify\\.$#"
+			count: 1
+			path: src/Admin/EventSubscribers/StatusUpdatedSubscriber.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Admin\\:\\:redirectGuest\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Exceptions/AuthenticationException.php
@@ -706,47 +546,12 @@ parameters:
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
-			message: "#^Call to function is_string\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Instanceof between string and Illuminate\\\\Database\\\\Eloquent\\\\Collection will always evaluate to false\\.$#"
-			count: 2
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Connector\\:\\:getSaveValue\\(\\) should return string but returns array\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Connector\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function sort_array expects array, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Parameter \\#1 \\$arrayName of method Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:getName\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Parameter \\#1 \\$suffix of method Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\:\\:getId\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php
 
@@ -761,32 +566,12 @@ parameters:
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\FormWidgets\\\\DataTable\\:\\:\\$modelClass\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DataTable.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getDataTableOptions\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with bool will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Instanceof between string and Illuminate\\\\Database\\\\Eloquent\\\\Collection will always evaluate to false\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DataTable.php
 
@@ -801,42 +586,12 @@ parameters:
 			path: src/Admin/FormWidgets/DataTable.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Parameter \\#2 \\$config of class Igniter\\\\Admin\\\\Widgets\\\\Table constructor expects array, ArrayAccess given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Elseif condition is always false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DatePicker.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\DatePicker\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DatePicker.php
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\DatePicker\\:\\:getSaveValue\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DatePicker.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function strtolower expects string, bool given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DatePicker.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\FormWidgets\\\\DatePicker\\:\\:\\$endDate \\(string\\) on left side of \\?\\? is not nullable\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DatePicker.php
 
@@ -848,16 +603,6 @@ parameters:
 		-
 			message: "#^Property Igniter\\\\Admin\\\\FormWidgets\\\\DatePicker\\:\\:\\$mode \\(bool\\) does not accept string\\.$#"
 			count: 1
-			path: src/Admin/FormWidgets/DatePicker.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\FormWidgets\\\\DatePicker\\:\\:\\$startDate \\(string\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DatePicker.php
-
-		-
-			message: "#^Ternary operator condition is always false\\.$#"
-			count: 2
 			path: src/Admin/FormWidgets/DatePicker.php
 
 		-
@@ -881,11 +626,6 @@ parameters:
 			path: src/Admin/FormWidgets/MenuOptionEditor.php
 
 		-
-			message: "#^Call to function is_string\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/MenuOptionEditor.php
-
-		-
 			message: "#^Cannot call method firstWhere\\(\\) on string\\.$#"
 			count: 2
 			path: src/Admin/FormWidgets/MenuOptionEditor.php
@@ -896,32 +636,12 @@ parameters:
 			path: src/Admin/FormWidgets/MenuOptionEditor.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/MenuOptionEditor.php
-
-		-
-			message: "#^Parameter \\#1 \\$suffix of method Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\:\\:getId\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/MenuOptionEditor.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/MenuOptionEditor.php
-
-		-
 			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:\\$value \\(string\\) does not accept null\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/MenuOptionEditor.php
 
 		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/MenuOptionEditor.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/MenuOptionEditor.php
 
@@ -946,32 +666,7 @@ parameters:
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
-			message: "#^Parameter \\#1 \\$configFile of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects array, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of method Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:options\\(\\) expects array\\|null, Closure given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/RecordEditor.php
 
@@ -1011,32 +706,7 @@ parameters:
 			path: src/Admin/FormWidgets/Repeater.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 2
-			path: src/Admin/FormWidgets/Repeater.php
-
-		-
-			message: "#^Instanceof between string and Illuminate\\\\Support\\\\Collection will always evaluate to false\\.$#"
-			count: 2
-			path: src/Admin/FormWidgets/Repeater.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Repeater\\:\\:getSaveValue\\(\\) should return string but returns array\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Repeater.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Repeater.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Repeater.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Repeater.php
 
@@ -1047,21 +717,6 @@ parameters:
 
 		-
 			message: "#^Class Igniter\\\\Local\\\\Classes\\\\OrderTypes not found\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/ScheduleEditor.php
-
-		-
-			message: "#^Parameter \\#1 \\$configFile of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects array, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/ScheduleEditor.php
-
-		-
-			message: "#^Parameter \\#1 \\$suffix of method Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\:\\:getId\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/ScheduleEditor.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/ScheduleEditor.php
 
@@ -1121,27 +776,7 @@ parameters:
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Parameter \\#1 \\$configFile of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects array, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
@@ -1189,36 +824,6 @@ parameters:
 			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\StockEditor\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StockEditor.php
-
-		-
-			message: "#^Parameter \\#1 \\$configFile of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects array, string given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StockEditor.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
-			count: 2
-			path: src/Admin/FormWidgets/StockEditor.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$causer\\.$#"
-			count: 2
-			path: src/Admin/Helpers/ActivityMessage.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$properties\\.$#"
-			count: 2
-			path: src/Admin/Helpers/ActivityMessage.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminAuth\\:\\:getId\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Helpers/ActivityMessage.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminAuth\\:\\:staff\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Helpers/ActivityMessage.php
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Helpers\\\\Admin\\:\\:getAjaxHandler\\(\\) should return string but returns null\\.$#"
@@ -1296,17 +901,7 @@ parameters:
 			path: src/Admin/Http/Actions/CalendarController.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with array\\<Igniter\\\\Admin\\\\Widgets\\\\Toolbar\\> will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/CalendarController.php
-
-		-
 			message: "#^Cannot call method render\\(\\) on array\\<Igniter\\\\Admin\\\\Widgets\\\\Toolbar\\>\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/CalendarController.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\System\\\\Classes\\\\ControllerAction\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/CalendarController.php
 
@@ -1331,16 +926,6 @@ parameters:
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with Igniter\\\\Admin\\\\Classes\\\\BaseWidget will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 3
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:formExtendRefreshData\\(\\) should return array but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
@@ -1356,32 +941,12 @@ parameters:
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
 			message: "#^PHPDoc type Igniter\\\\Admin\\\\Classes\\\\AdminController\\|Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController of property Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:\\$controller is not covariant with PHPDoc type Illuminate\\\\Routing\\\\Controller of overridden property Igniter\\\\System\\\\Classes\\\\ControllerAction\\:\\:\\$controller\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\System\\\\Classes\\\\ControllerAction\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
 			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:\\$formWidget \\(Igniter\\\\Admin\\\\Widgets\\\\Form\\) does not accept Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
@@ -1501,21 +1066,6 @@ parameters:
 			path: src/Admin/Http/Actions/ListController.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\System\\\\Classes\\\\ControllerAction\\:\\:loadConfig\\(\\) expects null, mixed given\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
 			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Actions\\\\ListController\\:\\:\\$filterWidgets \\(array\\<Igniter\\\\Admin\\\\Widgets\\\\Filter\\>\\) does not accept array\\<Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\>\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/ListController.php
@@ -1557,11 +1107,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Category\\:\\:isBroken\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Categories.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Categories\\:\\:\\$requiredPermissions \\(string\\) does not accept default value of type array\\<int, string\\>\\.$#"
 			count: 1
 			path: src/Admin/Http/Controllers/Categories.php
 
@@ -1751,11 +1296,6 @@ parameters:
 			path: src/Admin/Http/Controllers/Orders.php
 
 		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Orders\\:\\:\\$requiredPermissions \\(string\\) does not accept default value of type array\\<int, string\\>\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Orders.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Payments\\:\\:formCreateModelObject\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Controllers/Payments.php
@@ -1782,11 +1322,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:find\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Reservations.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Reservations\\:\\:\\$requiredPermissions \\(string\\) does not accept default value of type array\\<int, string\\>\\.$#"
 			count: 1
 			path: src/Admin/Http/Controllers/Reservations.php
 
@@ -1876,7 +1411,7 @@ parameters:
 			path: src/Admin/Http/Controllers/Users.php
 
 		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Users\\:\\:\\$requiredPermissions \\(string\\) does not accept null\\.$#"
+			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Users\\:\\:\\$requiredPermissions \\(array\\|string\\) does not accept null\\.$#"
 			count: 1
 			path: src/Admin/Http/Controllers/Users.php
 
@@ -1911,27 +1446,12 @@ parameters:
 			path: src/Admin/Jobs/AllocateAssignable.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/Jobs/AllocateAssignable.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Address\\:\\:updateOrCreate\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Address.php
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Address\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Address.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function extract is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: src/Admin/Models/Address.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/Address.php
 
@@ -2076,11 +1596,6 @@ parameters:
 			path: src/Admin/Models/Category.php
 
 		-
-			message: "#^Instanceof between string\\|null and Igniter\\\\Admin\\\\Models\\\\Category will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Models/Category.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Category\\:\\:newEloquentBuilder\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Builder but returns Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\.$#"
 			count: 1
 			path: src/Admin/Models/Category.php
@@ -2092,16 +1607,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Category\\:\\:setAttribute\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Model but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Category.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function extract is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: src/Admin/Models/Category.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/Category.php
 
@@ -2207,11 +1712,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Ingredient\\:\\:setAttribute\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Model but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Ingredient.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/Ingredient.php
 
@@ -2421,16 +1921,6 @@ parameters:
 			path: src/Admin/Models/Location.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
 			count: 3
 			path: src/Admin/Models/Location.php
@@ -2457,31 +1947,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:updateDefault\\(\\) should return bool\\|null but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function extract is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Parameter \\#2 \\$time of function mdate expects string\\|null, \\(int\\|false\\) given\\.$#"
-			count: 2
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/Location.php
 
@@ -2586,11 +2051,6 @@ parameters:
 			path: src/Admin/Models/LocationArea.php
 
 		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 3
-			path: src/Admin/Models/LocationArea.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Location\\:\\:\\$location_id\\.$#"
 			count: 6
 			path: src/Admin/Models/LocationOption.php
@@ -2618,11 +2078,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\LocationOption\\)\\:\\:where\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Models/LocationOption.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 5
 			path: src/Admin/Models/LocationOption.php
 
 		-
@@ -2662,11 +2117,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Mealtime\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Mealtime.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/Mealtime.php
 
@@ -2811,16 +2261,6 @@ parameters:
 			path: src/Admin/Models/Menu.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Admin/Models/Menu.php
@@ -2872,21 +2312,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$id$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function extract is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/Menu.php
 
@@ -2976,16 +2401,6 @@ parameters:
 			path: src/Admin/Models/MenuItemOption.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuItemOption.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuItemOption.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\MenuItemOption\\:\\:addMenuOptionValues\\(\\) should return bool but returns int\\<0, max\\>\\.$#"
 			count: 1
 			path: src/Admin/Models/MenuItemOption.php
@@ -3003,16 +2418,6 @@ parameters:
 		-
 			message: "#^PHPDoc tag @throws with type Igniter\\\\Flame\\\\Database\\\\Traits\\\\Validation is not subtype of Throwable$#"
 			count: 1
-			path: src/Admin/Models/MenuItemOption.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuItemOption.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 2
 			path: src/Admin/Models/MenuItemOption.php
 
 		-
@@ -3073,11 +2478,6 @@ parameters:
 		-
 			message: "#^PHPDoc tag @throws with type Igniter\\\\Flame\\\\Database\\\\Traits\\\\Validation is not subtype of Throwable$#"
 			count: 1
-			path: src/Admin/Models/MenuItemOptionValue.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 2
 			path: src/Admin/Models/MenuItemOptionValue.php
 
 		-
@@ -3146,22 +2546,7 @@ parameters:
 			path: src/Admin/Models/MenuOption.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuOption.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuOption.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\MenuOption\\:\\:addOptionValues\\(\\) should return bool but returns int\\<0, max\\>\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuOption.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
 			count: 1
 			path: src/Admin/Models/MenuOption.php
 
@@ -3476,16 +2861,6 @@ parameters:
 			path: src/Admin/Models/Order.php
 
 		-
-			message: "#^Cannot access property \\$notify on Igniter\\\\Admin\\\\Models\\\\StatusHistory\\|true\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^If condition is always false\\.$#"
-			count: 2
-			path: src/Admin/Models/Order.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Order\\:\\:addOrderMenuOptions\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/Order.php
@@ -3511,22 +2886,7 @@ parameters:
 			path: src/Admin/Models/Order.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function extract is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Parameter \\#2 \\$more_entropy of function uniqid expects bool, string given\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
 			message: "#^Property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/Order.php
 
@@ -3656,27 +3016,7 @@ parameters:
 			path: src/Admin/Models/Payment.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Payment.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Payment.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:findPaymentProfile\\(\\) should return object but returns null\\.$#"
-			count: 1
-			path: src/Admin/Models/Payment.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 2
-			path: src/Admin/Models/Payment.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
 			count: 1
 			path: src/Admin/Models/Payment.php
 
@@ -3763,11 +3103,6 @@ parameters:
 		-
 			message: "#^PHPDoc tag @throws with type Igniter\\\\Flame\\\\Database\\\\Traits\\\\Validation is not subtype of Throwable$#"
 			count: 1
-			path: src/Admin/Models/PaymentLog.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 2
 			path: src/Admin/Models/PaymentLog.php
 
 		-
@@ -4026,26 +3361,6 @@ parameters:
 			path: src/Admin/Models/Reservation.php
 
 		-
-			message: "#^Cannot access property \\$notify on Igniter\\\\Admin\\\\Models\\\\StatusHistory\\|true\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^If condition is always false\\.$#"
-			count: 2
-			path: src/Admin/Models/Reservation.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:addReservationTables\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/Reservation.php
@@ -4066,28 +3381,8 @@ parameters:
 			path: src/Admin/Models/Reservation.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function extract is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^Parameter \\#2 \\$more_entropy of function uniqid expects bool, string given\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
 			message: "#^Property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
 			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 2
 			path: src/Admin/Models/Reservation.php
 
 		-
@@ -4191,16 +3486,6 @@ parameters:
 			path: src/Admin/Models/Staff.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Staff.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Staff.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/Staff.php
@@ -4212,16 +3497,6 @@ parameters:
 
 		-
 			message: "#^Property Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/Admin/Models/Staff.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Models/Staff.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/Staff.php
 
@@ -4242,11 +3517,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Status.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/Status.php
 
@@ -4421,11 +3691,6 @@ parameters:
 			path: src/Admin/Models/Table.php
 
 		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/Table.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\User\\:\\:\\$email\\.$#"
 			count: 5
 			path: src/Admin/Models/User.php
@@ -4551,27 +3816,7 @@ parameters:
 			path: src/Admin/Models/User.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/User.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/User.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\User\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/User.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Models/User.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/User.php
 
@@ -4631,11 +3876,6 @@ parameters:
 			path: src/Admin/Models/UserGroup.php
 
 		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Models/UserGroup.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\UserPreference\\:\\:\\$item\\.$#"
 			count: 1
 			path: src/Admin/Models/UserPreference.php
@@ -4658,11 +3898,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\UserPreference\\)\\:\\:applyItemAndUser\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Models/UserPreference.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 3
 			path: src/Admin/Models/UserPreference.php
 
 		-
@@ -4697,11 +3932,6 @@ parameters:
 
 		-
 			message: "#^Property Igniter\\\\Admin\\\\Models\\\\UserRole\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/Admin/Models/UserRole.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Admin/Models/UserRole.php
 
@@ -4751,6 +3981,56 @@ parameters:
 			path: src/Admin/Models/WorkingHour.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignable\\.$#"
+			count: 1
+			path: src/Admin/Notifications/AssigneeUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignee\\.$#"
+			count: 1
+			path: src/Admin/Notifications/AssigneeUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignee_group\\.$#"
+			count: 1
+			path: src/Admin/Notifications/AssigneeUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$object\\.$#"
+			count: 1
+			path: src/Admin/Notifications/AssigneeUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$full_name\\.$#"
+			count: 1
+			path: src/Admin/Notifications/AssigneeUpdatedNotification.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:getKey\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Notifications/AssigneeUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$object\\.$#"
+			count: 2
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$full_name\\.$#"
+			count: 1
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:getKey\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminLocation\\:\\:check\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/ServiceProvider.php
@@ -4763,16 +4043,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:registerCallback\\(\\)\\.$#"
 			count: 3
-			path: src/Admin/ServiceProvider.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Order\\:\\:first\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/ServiceProvider.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:first\\(\\)\\.$#"
-			count: 1
 			path: src/Admin/ServiceProvider.php
 
 		-
@@ -4861,37 +4131,7 @@ parameters:
 			path: src/Admin/Widgets/Filter.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$searchQuery$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Filter\\:\\:\\$scopes \\(array\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Filter\\:\\:\\$search \\(array\\|string\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Using nullsafe method call on non\\-nullable type Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\. Use \\-\\> instead\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Filter.php
 
@@ -4926,38 +4166,8 @@ parameters:
 			path: src/Admin/Widgets/Form.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with array\\|string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:dataArrayGet\\(\\) should return array\\|string but returns null\\.$#"
 			count: 2
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 3
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of method Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:options\\(\\) expects array\\|null, Closure given\\.$#"
-			count: 2
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Parameter \\#2 \\$config of class Igniter\\\\Admin\\\\Classes\\\\FormTabs constructor expects array, object given\\.$#"
-			count: 1
 			path: src/Admin/Widgets/Form.php
 
 		-
@@ -4968,36 +4178,6 @@ parameters:
 		-
 			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$data \\(array\\) does not accept stdClass\\.$#"
 			count: 2
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$fields \\(array\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 2
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between array and null will always evaluate to false\\.$#"
-			count: 2
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Ternary operator condition is always false\\.$#"
-			count: 1
 			path: src/Admin/Widgets/Form.php
 
 		-
@@ -5041,62 +4221,7 @@ parameters:
 			path: src/Admin/Widgets/Lists.php
 
 		-
-			message: "#^Call to function is_string\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
 			message: "#^Cannot call method getTable\\(\\) on string\\.$#"
-			count: 2
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 3
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function extract is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Parameter \\#1 \\$column of method Igniter\\\\Admin\\\\Widgets\\\\Lists\\:\\:isSortable\\(\\) expects null, mixed given\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Parameter \\#2 \\$default of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getSession\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\ListColumn\\:\\:\\$relation \\(string\\) in isset\\(\\) is not nullable\\.$#"
-			count: 2
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Lists\\:\\:\\$bulkActions \\(array\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Lists\\:\\:\\$columns \\(array\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Lists\\:\\:\\$pageLimit \\(int\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 2
 			path: src/Admin/Widgets/Lists.php
 
@@ -5131,31 +4256,6 @@ parameters:
 			path: src/Admin/Widgets/Menu.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Menu\\:\\:onMarkOptionsAsRead\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Menu.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Menu.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Menu\\:\\:\\$items \\(array\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Menu.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Menu.php
-
-		-
-			message: "#^Ternary operator condition is always false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Menu.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Table.php
@@ -5169,101 +4269,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:getButtonList\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Toolbar.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Toolbar.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Toolbar.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\ActivityLogger\\:\\:\\$type\\.$#"
-			count: 2
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$log_name\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$properties\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$type\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:causer\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:subject\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:user\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Events\\\\Dispatcher\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 2
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 3
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\ActivityLog\\\\ActivityLogger\\:\\:\\$sendTo \\(Igniter\\\\Flame\\\\Auth\\\\SessionGuard\\) does not accept Igniter\\\\Flame\\\\Auth\\\\Models\\\\User\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\ActivityLog\\\\ActivityLogger\\:\\:\\$sendTo has unknown class Igniter\\\\Flame\\\\Auth\\\\SessionGuard as its type\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/ActivityLogger.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$read_at\\.$#"
-			count: 3
-			path: src/Flame/ActivityLog/Models/Activity.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:\\$type\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/Models/Activity.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\ActivityLog\\\\Models\\\\Activity\\:\\:getActivityType\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/Models/Activity.php
-
-		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/Models/Activity.php
-
-		-
-			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: src/Flame/ActivityLog/Traits/LogsActivity.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollection\\:\\:getLastModified\\(\\) should return int\\|null but empty return statement found\\.$#"
@@ -5296,11 +4301,6 @@ parameters:
 			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionFilterIterator.php
 
 		-
-			message: "#^Parameter \\#1 \\$coll of class Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\Iterator\\\\AssetCollectionIterator constructor expects Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollectionInterface, Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetInterface given\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionIterator.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Factory\\\\AssetFactory\\:\\:createAsset\\(\\) should return Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollection but returns Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollectionInterface\\.$#"
 			count: 1
 			path: src/Flame/Assetic/Factory/AssetFactory.php
@@ -5309,11 +4309,6 @@ parameters:
 			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Factory\\\\AssetFactory\\:\\:findRootDir\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Assetic/Factory/AssetFactory.php
-
-		-
-			message: "#^Parameter \\#3 \\$includeUrl of static method Igniter\\\\Flame\\\\Assetic\\\\Util\\\\CssUtils\\:\\:filterImports\\(\\) expects bool, int given\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Filter/BaseCssFilter.php
 
 		-
 			message: "#^Static method Igniter\\\\Flame\\\\Assetic\\\\Util\\\\CssUtils\\:\\:filterIEFilters\\(\\) invoked with 4 parameters, 2 required\\.$#"
@@ -5466,52 +4461,12 @@ parameters:
 			path: src/Flame/Auth/Manager.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with Igniter\\\\Flame\\\\Auth\\\\Models\\\\User will always evaluate to false\\.$#"
-			count: 3
-			path: src/Flame/Auth/Manager.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: src/Flame/Auth/Manager.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 2
-			path: src/Flame/Auth/Manager.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 2
-			path: src/Flame/Auth/Manager.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Auth\\\\Manager\\:\\:\\$model \\(string\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/Flame/Auth/Manager.php
-
-		-
 			message: "#^Property Igniter\\\\Flame\\\\Auth\\\\Manager\\:\\:\\$user \\(Igniter\\\\Flame\\\\Auth\\\\Models\\\\User\\) does not accept Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\.$#"
 			count: 1
 			path: src/Flame/Auth/Manager.php
 
 		-
 			message: "#^Property Igniter\\\\Flame\\\\Auth\\\\Manager\\:\\:\\$user \\(Igniter\\\\Flame\\\\Auth\\\\Models\\\\User\\) does not accept null\\.$#"
-			count: 2
-			path: src/Flame/Auth/Manager.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: src/Flame/Auth/Manager.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: src/Flame/Auth/Manager.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: src/Flame/Auth/Manager.php
 
@@ -5561,7 +4516,7 @@ parameters:
 			path: src/Flame/Auth/Models/User.php
 
 		-
-			message: "#^Right side of \\|\\| is always false\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany\\:\\:latest\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Auth/Models/User.php
 
@@ -5671,11 +4626,6 @@ parameters:
 			path: src/Flame/Currency/Currency.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:convert\\(\\) should return string but returns float\\.$#"
 			count: 1
 			path: src/Flame/Currency/Currency.php
@@ -5691,44 +4641,14 @@ parameters:
 			path: src/Flame/Currency/Currency.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of method Igniter\\\\Flame\\\\Currency\\\\Contracts\\\\FormatterInterface\\:\\:format\\(\\) expects float, string\\|null given\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, float given\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
 			message: "#^Property Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:\\$cache \\(Illuminate\\\\Contracts\\\\Cache\\\\Factory\\) does not accept Illuminate\\\\Contracts\\\\Cache\\\\Repository\\.$#"
 			count: 1
 			path: src/Flame/Currency/Currency.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with int will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Database.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Database\\:\\:create\\(\\) should return bool but returns string\\.$#"
 			count: 1
 			path: src/Flame/Currency/Drivers/Database.php
-
-		-
-			message: "#^Parameter \\#2 \\$active of method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Database\\:\\:find\\(\\) expects int, null given\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Database.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with int will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:create\\(\\) should return bool but returns string\\.$#"
@@ -5871,11 +4791,6 @@ parameters:
 			path: src/Flame/Database/Attach/Media.php
 
 		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Media.php
-
-		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$height$#"
 			count: 2
 			path: src/Flame/Database/Attach/Media.php
@@ -5887,11 +4802,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$hidden is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$hidden\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Parameter \\#1 \\$prefix of function uniqid expects string, null given\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Media.php
 
@@ -5961,37 +4871,12 @@ parameters:
 			path: src/Flame/Database/Attach/MediaAdder.php
 
 		-
-			message: "#^Property Igniter\\\\Flame\\\\Database\\\\Attach\\\\MediaAdder\\:\\:\\$diskName \\(string\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Database\\\\Attach\\\\MediaAdder\\:\\:\\$tag \\(string\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\ConnectionInterface\\:\\:getName\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\ConnectionInterface\\:\\:getSchemaBuilder\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with int\\|null will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with array will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
 
@@ -6026,11 +4911,6 @@ parameters:
 			path: src/Flame/Database/Builder.php
 
 		-
-			message: "#^Property Illuminate\\\\Database\\\\Connection\\:\\:\\$events \\(Illuminate\\\\Contracts\\\\Events\\\\Dispatcher\\) in isset\\(\\) is not nullable\\.$#"
-			count: 2
-			path: src/Flame/Database/Connections/Connection.php
-
-		-
 			message: "#^Return type \\(void\\) of method Igniter\\\\Flame\\\\Database\\\\Connections\\\\Connection\\:\\:fireConnectionEvent\\(\\) should be compatible with return type \\(array\\|null\\) of method Illuminate\\\\Database\\\\Connection\\:\\:fireConnectionEvent\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Connections/Connection.php
@@ -6041,19 +4921,9 @@ parameters:
 			path: src/Flame/Database/Connectors/ConnectionFactory.php
 
 		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Flame/Database/Factories/Factory.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\ConnectionInterface\\:\\:getName\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/MemoryCache.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with object will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Database/Migrations/DatabaseMigrationRepository.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Migrations\\\\Migrator\\:\\:\\$notes\\.$#"
@@ -6076,11 +4946,6 @@ parameters:
 			path: src/Flame/Database/Migrations/Migrator.php
 
 		-
-			message: "#^Parameter \\#2 \\$migration of method Illuminate\\\\Database\\\\Migrations\\\\Migrator\\:\\:runDown\\(\\) expects object, \\(int\\|string\\) given\\.$#"
-			count: 1
-			path: src/Flame/Database/Migrations/Migrator.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:afterBoot\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
@@ -6098,16 +4963,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method static\\(Igniter\\\\Flame\\\\Database\\\\Model\\)\\:\\:find\\(\\)\\.$#"
 			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 2
 			path: src/Flame/Database/Model.php
 
 		-
@@ -6156,11 +5011,6 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
-			message: "#^Parameter \\#9 \\$relationName of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
 			message: "#^Result of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:extendableSet\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
@@ -6178,16 +5028,6 @@ parameters:
 		-
 			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphedByMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphToMany\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphedByMany\\(\\)$#"
 			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between true and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Ternary operator condition is always false\\.$#"
-			count: 8
 			path: src/Flame/Database/Model.php
 
 		-
@@ -6346,11 +5186,6 @@ parameters:
 			path: src/Flame/Database/NestedSet/Builder.php
 
 		-
-			message: "#^Parameter \\#1 \\$table of method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:from\\(\\) expects Closure\\|Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Query\\\\Builder\\|string, Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Expression given\\.$#"
-			count: 3
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
 			message: "#^Property Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:\\$model has invalid type Igniter\\\\Flame\\\\Database\\\\Traits\\\\NestedTree\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
@@ -6359,11 +5194,6 @@ parameters:
 			message: "#^Property Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:\\$orders \\(array\\) does not accept null\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with int\\|null will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
 		-
 			message: "#^Call to method getPerPage\\(\\) on an unknown class Kalnoy\\\\Nestedset\\\\NodeTrait\\.$#"
@@ -6451,16 +5281,6 @@ parameters:
 			path: src/Flame/Database/Query/Builder.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Database/Query/Builder.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with int will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Database/Query/Builder.php
-
-		-
 			message: "#^Cannot call method all\\(\\) on array\\.$#"
 			count: 1
 			path: src/Flame/Database/Query/Builder.php
@@ -6477,11 +5297,6 @@ parameters:
 
 		-
 			message: "#^Property Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:\\$orders \\(array\\) does not accept null\\.$#"
-			count: 1
-			path: src/Flame/Database/Query/Builder.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/Flame/Database/Query/Builder.php
 
@@ -6563,16 +5378,6 @@ parameters:
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
 			count: 1
-			path: src/Flame/Database/Relations/BelongsTo.php
-
-		-
-			message: "#^Parameter \\#1 \\$column of method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:whereNotIn\\(\\) expects string, Illuminate\\\\Database\\\\Query\\\\Expression given\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsTo.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\) given\\.$#"
-			count: 2
 			path: src/Flame/Database/Relations/BelongsTo.php
 
 		-
@@ -6706,32 +5511,12 @@ parameters:
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Parameter \\#1 \\$column of method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:whereNotIn\\(\\) expects string, Illuminate\\\\Database\\\\Query\\\\Expression given\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\) given\\.$#"
-			count: 2
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Parameter \\#2 \\$columns of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\) expects array\\|string, int\\|null given\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
 			message: "#^Parameter \\#2 \\$currentPage \\(int\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
 			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Parameter \\#3 \\$pageName of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\) expects string, array given\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
@@ -6841,16 +5626,6 @@ parameters:
 			path: src/Flame/Database/Relations/HasMany.php
 
 		-
-			message: "#^Parameter \\#1 \\$column of method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:whereNotIn\\(\\) expects string, Illuminate\\\\Database\\\\Query\\\\Expression given\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasMany.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\) given\\.$#"
-			count: 2
-			path: src/Flame/Database/Relations/HasMany.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasManyThrough.php
@@ -6882,11 +5657,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasManyThrough.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\) given\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasManyThrough.php
 
@@ -6976,16 +5746,6 @@ parameters:
 			path: src/Flame/Database/Relations/HasOne.php
 
 		-
-			message: "#^Parameter \\#1 \\$column of method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:whereNotIn\\(\\) expects string, Illuminate\\\\Database\\\\Query\\\\Expression given\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasOne.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\) given\\.$#"
-			count: 2
-			path: src/Flame/Database/Relations/HasOne.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasOneThrough.php
@@ -7017,11 +5777,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasOneThrough.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOneThrough\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOneThrough\\) given\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasOneThrough.php
 
@@ -7121,16 +5876,6 @@ parameters:
 			path: src/Flame/Database/Relations/MorphMany.php
 
 		-
-			message: "#^Parameter \\#1 \\$column of method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:whereNotIn\\(\\) expects string, Illuminate\\\\Database\\\\Query\\\\Expression given\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphMany.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\) given\\.$#"
-			count: 2
-			path: src/Flame/Database/Relations/MorphMany.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphOne.php
@@ -7216,16 +5961,6 @@ parameters:
 			path: src/Flame/Database/Relations/MorphOne.php
 
 		-
-			message: "#^Parameter \\#1 \\$column of method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:whereNotIn\\(\\) expects string, Illuminate\\\\Database\\\\Query\\\\Expression given\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphOne.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\) given\\.$#"
-			count: 2
-			path: src/Flame/Database/Relations/MorphOne.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphTo.php
@@ -7271,11 +6006,6 @@ parameters:
 			path: src/Flame/Database/Relations/MorphTo.php
 
 		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\) given\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphTo.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphToMany.php
@@ -7311,11 +6041,6 @@ parameters:
 			path: src/Flame/Database/Relations/MorphToMany.php
 
 		-
-			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) given\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphToMany.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Exception\\\\ErrorHandler\\:\\:applyMask\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Exception/BaseException.php
@@ -7336,9 +6061,9 @@ parameters:
 			path: src/Flame/Exception/BaseException.php
 
 		-
-			message: "#^Property Igniter\\\\Flame\\\\Exception\\\\BaseException\\:\\:\\$mask \\(Throwable\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Flame/Exception/BaseException.php
+			message: "#^Call to an undefined method Composer\\\\IO\\\\IOInterface\\:\\:getOutput\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Exception/ComposerException.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Debug\\\\ExceptionHandler\\:\\:renderable\\(\\)\\.$#"
@@ -7347,11 +6072,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Debug\\\\ExceptionHandler\\:\\:reportable\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Exception/ErrorHandler.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between array\\|null and false will always evaluate to false\\.$#"
 			count: 1
 			path: src/Flame/Exception/ErrorHandler.php
 
@@ -7384,36 +6104,6 @@ parameters:
 			message: "#^Method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:isPathSymbol\\(\\) should return bool but returns string\\.$#"
 			count: 1
 			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Parameter \\#2 \\$mask of method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:chmod\\(\\) expects int\\|null, string given\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Parameter \\#2 \\$search of static method Illuminate\\\\Support\\\\Str\\:\\:after\\(\\) expects string, true given\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: src/Flame/Flash/FlashBag.php
-
-		-
-			message: "#^Instanceof between string and Igniter\\\\Flame\\\\Flash\\\\Message will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Flash/FlashBag.php
-
-		-
-			message: "#^Parameter \\#1 \\$message of method Igniter\\\\Flame\\\\Flash\\\\FlashBag\\:\\:message\\(\\) expects string\\|null, Igniter\\\\Flame\\\\Flash\\\\OverlayMessage given\\.$#"
-			count: 1
-			path: src/Flame/Flash/FlashBag.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Flame/Flash/FlashBag.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Geolite\\\\AddressMatch\\:\\:\\$components\\.$#"
@@ -7456,21 +6146,6 @@ parameters:
 			path: src/Flame/Geolite/Circle.php
 
 		-
-			message: "#^Parameter \\#1 \\$to of method Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\DistanceInterface\\:\\:setTo\\(\\) expects Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface, null given\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with float\\|int will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Contracts/AbstractProvider.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\AbstractProvider\\:\\:\\$httpClient \\(GuzzleHttp\\\\Client\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Contracts/AbstractProvider.php
-
-		-
 			message: "#^PHPDoc tag @return with type Igniter\\\\Flame\\\\Geolite\\\\Model\\\\AdminLevelCollection\\|null is not subtype of native type Igniter\\\\Flame\\\\Geolite\\\\Model\\\\AdminLevelCollection\\.$#"
 			count: 1
 			path: src/Flame/Geolite/Contracts/LocationInterface.php
@@ -7481,29 +6156,9 @@ parameters:
 			path: src/Flame/Geolite/Distance.php
 
 		-
-			message: "#^Instanceof between string and Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Coordinates will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Geolite/GeoQuery.php
-
-		-
-			message: "#^Parameter \\#1 \\$text of class Igniter\\\\Flame\\\\Geolite\\\\GeoQuery constructor expects string, Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Coordinates given\\.$#"
-			count: 1
-			path: src/Flame/Geolite/GeoQuery.php
-
-		-
 			message: "#^Variable \\$text in empty\\(\\) always exists and is always falsy\\.$#"
 			count: 1
 			path: src/Flame/Geolite/GeoQuery.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float given\\.$#"
-			count: 8
-			path: src/Flame/Geolite/Model/Bounds.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float given\\.$#"
-			count: 8
-			path: src/Flame/Geolite/Model/Bounds.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
@@ -7512,16 +6167,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Coordinates\\:\\:\\$precision\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Model/Coordinates.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Model/Coordinates.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float given\\.$#"
 			count: 2
 			path: src/Flame/Geolite/Model/Coordinates.php
 
@@ -7541,31 +6186,6 @@ parameters:
 			path: src/Flame/Geolite/Model/Location.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Polygon\\:\\:offsetUnset\\(\\) with return type void returns void but should not return anything\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Polygon.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float given\\.$#"
-			count: 10
-			path: src/Flame/Geolite/Polygon.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float given\\.$#"
-			count: 5
-			path: src/Flame/Geolite/Polygon.php
-
-		-
-			message: "#^Result of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:offsetUnset\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Polygon.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Polygon.php
-
-		-
 			message: "#^Return type \\(Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface\\) of method Igniter\\\\Flame\\\\Geolite\\\\Polygon\\:\\:getCoordinate\\(\\) should be compatible with return type \\(null\\) of method Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\PolygonInterface\\:\\:getCoordinate\\(\\)$#"
 			count: 1
 			path: src/Flame/Geolite/Polygon.php
@@ -7574,11 +6194,6 @@ parameters:
 			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Provider\\\\ChainProvider\\:\\:distance\\(\\) should return Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Distance but returns int\\.$#"
 			count: 1
 			path: src/Flame/Geolite/Provider/ChainProvider.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with int will always evaluate to false\\.$#"
-			count: 4
-			path: src/Flame/Geolite/Vertex.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:getGradient\\(\\) should return int but returns float\\.$#"
@@ -7591,31 +6206,6 @@ parameters:
 			path: src/Flame/Geolite/Vertex.php
 
 		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, int given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bcmul expects string, float given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, int given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bcmul expects string, float given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$from \\(Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
 			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$gradient \\(float\\) does not accept null\\.$#"
 			count: 2
 			path: src/Flame/Geolite/Vertex.php
@@ -7623,36 +6213,6 @@ parameters:
 		-
 			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$ordinateIntercept \\(float\\) does not accept null\\.$#"
 			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$to \\(Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Result of && is always true\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between float and 0 will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
 			path: src/Flame/Geolite/Vertex.php
 
 		-
@@ -7671,79 +6231,14 @@ parameters:
 			path: src/Flame/Html/FormBuilder.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Html/FormBuilder.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Html/FormBuilder.php
-
-		-
-			message: "#^Instanceof between string and Illuminate\\\\Support\\\\Collection will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Html/FormBuilder.php
-
-		-
-			message: "#^Instanceof between string\\|null and DateTime will always evaluate to false\\.$#"
-			count: 3
-			path: src/Flame/Html/FormBuilder.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:getIdAttribute\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
-			path: src/Flame/Html/FormBuilder.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of method Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:getSelectedValue\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: src/Flame/Html/FormBuilder.php
-
-		-
-			message: "#^Parameter \\#2 \\$name of method Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:input\\(\\) expects string, null given\\.$#"
-			count: 2
-			path: src/Flame/Html/FormBuilder.php
-
-		-
-			message: "#^Parameter \\#2 \\$value of method Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:getValueAttribute\\(\\) expects string\\|null, bool given\\.$#"
-			count: 1
-			path: src/Flame/Html/FormBuilder.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:\\$session \\(Illuminate\\\\Contracts\\\\Session\\\\Session\\) in isset\\(\\) is not nullable\\.$#"
-			count: 3
 			path: src/Flame/Html/FormBuilder.php
 
 		-
 			message: "#^Property Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:\\$type \\(null\\) does not accept string\\.$#"
 			count: 4
 			path: src/Flame/Html/FormBuilder.php
-
-		-
-			message: "#^Call to function is_bool\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Html/HtmlBuilder.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Html/HtmlBuilder.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: src/Flame/Html/HtmlBuilder.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Html/HtmlBuilder.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Igniter.php
 
 		-
 			message: "#^Closure invoked with 2 parameters, 1 required\\.$#"
@@ -7782,26 +6277,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Location/Manager.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Location/Manager.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with Igniter\\\\Flame\\\\Location\\\\Contracts\\\\LocationInterface will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Location/Manager.php
-
-		-
-			message: "#^Static property Igniter\\\\Flame\\\\Location\\\\Manager\\:\\:\\$locationSlugResolver \\(Closure\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/Flame/Location/Manager.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/Flame/Location/Manager.php
 
@@ -7951,16 +6426,6 @@ parameters:
 			path: src/Flame/Location/WorkingPeriod.php
 
 		-
-			message: "#^Right side of && is always false\\.$#"
-			count: 1
-			path: src/Flame/Location/WorkingPeriod.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: src/Flame/Location/WorkingPeriod.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Location/WorkingPeriod.php
@@ -8006,11 +6471,6 @@ parameters:
 			path: src/Flame/Location/WorkingSchedule.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: src/Flame/Location/WorkingSchedule.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Location\\\\WorkingSchedule\\:\\:nextCloseAt\\(\\) should return DateTimeInterface but returns null\\.$#"
 			count: 1
 			path: src/Flame/Location/WorkingSchedule.php
@@ -8021,44 +6481,34 @@ parameters:
 			path: src/Flame/Location/WorkingSchedule.php
 
 		-
-			message: "#^Parameter \\#1 \\$hour of method DateTime\\:\\:setTime\\(\\) expects int, string given\\.$#"
-			count: 2
-			path: src/Flame/Location/WorkingSchedule.php
-
-		-
-			message: "#^Parameter \\#2 \\$minute of method DateTime\\:\\:setTime\\(\\) expects int, string given\\.$#"
-			count: 2
-			path: src/Flame/Location/WorkingSchedule.php
-
-		-
-			message: "#^Ternary operator condition is always false\\.$#"
-			count: 1
-			path: src/Flame/Location/WorkingSchedule.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Location/WorkingSchedule.php
-
-		-
-			message: "#^Instanceof between DateTime and DateTimeImmutable will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Location/WorkingTime.php
-
-		-
-			message: "#^Parameter \\#1 \\$hours of class Igniter\\\\Flame\\\\Location\\\\WorkingTime constructor expects int, string given\\.$#"
-			count: 1
-			path: src/Flame/Location/WorkingTime.php
-
-		-
-			message: "#^Parameter \\#2 \\$minutes of class Igniter\\\\Flame\\\\Location\\\\WorkingTime constructor expects int, string given\\.$#"
-			count: 1
-			path: src/Flame/Location/WorkingTime.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Location/WorkingTimeslot.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Mixins\\\\BlueprintMixin\\:\\:\\$prefix\\.$#"
+			count: 4
+			path: src/Flame/Mixins/BlueprintMixin.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Mixins\\\\BlueprintMixin\\:\\:\\$table\\.$#"
+			count: 4
+			path: src/Flame/Mixins/BlueprintMixin.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Mixins\\\\BlueprintMixin\\:\\:dropForeign\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Mixins/BlueprintMixin.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Mixins\\\\BlueprintMixin\\:\\:dropIndex\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Mixins/BlueprintMixin.php
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:normalizeClassName\\(\\)\\.$#"
@@ -8074,11 +6524,6 @@ parameters:
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$symbol$#"
 			count: 1
 			path: src/Flame/Mixins/StringMixin.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function base64_decode expects string, true given\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Cache/FileSystem.php
 
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\\\Igniter\\\\Flame\\\\Pagic\\\\Cache\\\\FileSystem\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 108$#"
@@ -8116,27 +6561,12 @@ parameters:
 			path: src/Flame/Pagic/Finder.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 2
-			path: src/Flame/Pagic/Finder.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with int will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Finder.php
-
-		-
 			message: "#^Cannot use array destructuring on true\\.$#"
 			count: 2
 			path: src/Flame/Pagic/Finder.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Finder\\:\\:delete\\(\\) should return bool but returns int\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Finder.php
-
-		-
-			message: "#^Parameter \\#1 \\$data of method Igniter\\\\Flame\\\\Pagic\\\\Finder\\:\\:processInitCacheData\\(\\) expects array, Illuminate\\\\Support\\\\Collection&iterable\\<static\\(Igniter\\\\Flame\\\\Pagic\\\\Finder\\)\\> given\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Finder.php
 
@@ -8172,16 +6602,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Model.php
 
@@ -8241,22 +6661,12 @@ parameters:
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, int\\<0, max\\> given\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Processors\\\\Processor\\:\\:processSelect\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Processors/Processor.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between array and null will always evaluate to false\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Processors/Processor.php
 
@@ -8289,11 +6699,6 @@ parameters:
 			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:makeCacheKey\\(\\) should return string but returns int\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Source/FileSource.php
-
-		-
-			message: "#^Variable \\$errorLevel might not be defined\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Template.php
 
 		-
 			message: "#^Access to property \\$components on an unknown class Main\\\\Template\\\\Layout\\.$#"
@@ -8361,6 +6766,21 @@ parameters:
 			path: src/Flame/Providers/MacroServiceProvider.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:getBindings\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Providers/MacroServiceProvider.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:getQuery\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Providers/MacroServiceProvider.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:toSql\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Providers/MacroServiceProvider.php
+
+		-
 			message: "#^Call to method name\\(\\) on an unknown class Igniter\\\\Flame\\\\Router\\\\Rule\\.$#"
 			count: 1
 			path: src/Flame/Router/Router.php
@@ -8382,11 +6802,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Router\\\\Router\\:\\:url\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Flame/Router/Router.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: src/Flame/Router/Router.php
 
@@ -8426,27 +6841,12 @@ parameters:
 			path: src/Flame/Support/ClassLoader.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Support/ClassLoader.php
-
-		-
 			message: "#^Cannot use array destructuring on string\\.$#"
 			count: 1
 			path: src/Flame/Support/ClassLoader.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Support\\\\ClassLoader\\:\\:load\\(\\) should return bool\\|null but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Support/ClassLoader.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, array\\{\\$this\\(Igniter\\\\Flame\\\\Support\\\\ClassLoader\\), 'load'\\} given\\.$#"
-			count: 1
-			path: src/Flame/Support/ClassLoader.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/Flame/Support/ClassLoader.php
 
@@ -8524,11 +6924,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Country\\:\\:listAll\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Support/Helpers/country.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 3
-			path: src/Flame/Support/Helpers/form.php
 
 		-
 			message: "#^Call to static method get\\(\\) on an unknown class Config\\.$#"
@@ -8711,21 +7106,6 @@ parameters:
 			path: src/Flame/Support/Helpers/form.php
 
 		-
-			message: "#^Parameter \\#2 \\$default of function set_value expects string, false given\\.$#"
-			count: 3
-			path: src/Flame/Support/Helpers/form.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Support/Helpers/form.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
-			path: src/Flame/Support/Helpers/form.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Admin\\:\\:url\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Support/Helpers/helpers.php
@@ -8746,28 +7126,8 @@ parameters:
 			path: src/Flame/Support/Helpers/helpers.php
 
 		-
-			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Flame/Support/Helpers/helpers.php
-
-		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
 			count: 8
-			path: src/Flame/Support/Helpers/helpers.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Flame/Support/Helpers/helpers.php
-
-		-
-			message: "#^Parameter \\#2 \\$time of function mdate expects string\\|null, \\(int\\|false\\) given\\.$#"
-			count: 2
-			path: src/Flame/Support/Helpers/helpers.php
-
-		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$rest of function array_multisort expects array\\|int, string given\\.$#"
-			count: 1
 			path: src/Flame/Support/Helpers/helpers.php
 
 		-
@@ -8781,16 +7141,6 @@ parameters:
 			path: src/Flame/Support/LogViewer.php
 
 		-
-			message: "#^Parameter \\#1 \\$iterator of method RecursiveIteratorIterator\\<IteratorAggregate\\|RecursiveIterator\\>\\:\\:__construct\\(\\) expects IteratorAggregate\\|RecursiveIterator, Traversable given\\.$#"
-			count: 1
-			path: src/Flame/Support/NestedKeyIterator.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with stdClass will always evaluate to false\\.$#"
-			count: 1
-			path: src/Flame/Support/RouterHelper.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Support\\\\RouterHelper\\:\\:getSegmentDefaultValue\\(\\) should return string but returns false\\.$#"
 			count: 1
 			path: src/Flame/Support/RouterHelper.php
@@ -8799,26 +7149,6 @@ parameters:
 			message: "#^Method Igniter\\\\Flame\\\\Support\\\\RouterHelper\\:\\:getSegmentRegExp\\(\\) should return string but returns false\\.$#"
 			count: 2
 			path: src/Flame/Support/RouterHelper.php
-
-		-
-			message: "#^Result of && is always true\\.$#"
-			count: 1
-			path: src/Flame/Support/RouterHelper.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Flame/Support/RouterHelper.php
-
-		-
-			message: "#^Parameter \\#1 \\$abstract of function app expects string\\|null, Igniter\\\\Flame\\\\Translation\\\\Contracts\\\\Driver given\\.$#"
-			count: 1
-			path: src/Flame/Translation/FileLoader.php
-
-		-
-			message: "#^Parameter \\#3 \\$namespace of method Igniter\\\\Flame\\\\Translation\\\\FileLoader\\:\\:loadFromDrivers\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Flame/Translation/FileLoader.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Translation\\\\Localization\\:\\:getConfig\\(\\) invoked with 2 parameters, 1 required\\.$#"
@@ -8986,26 +7316,6 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with Igniter\\\\System\\\\Classes\\\\BaseComponent will always evaluate to false\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 3
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
 			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:findComponentByAlias\\(\\) should return Igniter\\\\System\\\\Classes\\\\BaseComponent but returns null\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
@@ -9026,21 +7336,6 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 4
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between Igniter\\\\System\\\\Classes\\\\BaseComponent and null will always evaluate to false\\.$#"
-			count: 2
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Ternary operator condition is always false\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:sizeToString\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MediaItem.php
@@ -9052,11 +7347,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MediaLibrary.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function base64_decode expects string, true given\\.$#"
 			count: 1
 			path: src/Main/Classes/MediaLibrary.php
 
@@ -9076,32 +7366,7 @@ parameters:
 			path: src/Main/Classes/Router.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Main/Classes/Router.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function base64_decode expects string, true given\\.$#"
-			count: 1
-			path: src/Main/Classes/Router.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: src/Main/Classes/Router.php
-
-		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/Theme.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: src/Main/Classes/Theme.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
 			count: 1
 			path: src/Main/Classes/Theme.php
 
@@ -9131,22 +7396,12 @@ parameters:
 			path: src/Main/Classes/Theme.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Main/Classes/Theme.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:\\$packageManifest\\.$#"
-			count: 1
-			path: src/Main/Classes/ThemeManager.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
 			count: 2
 			path: src/Main/Classes/ThemeManager.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:where\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/ThemeManager.php
 
@@ -9167,16 +7422,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$themeCode$#"
-			count: 1
-			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^Property Igniter\\\\Main\\\\Classes\\\\Theme\\:\\:\\$description \\(string\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^Property Igniter\\\\Main\\\\Classes\\\\Theme\\:\\:\\$label \\(string\\) on left side of \\?\\? is not nullable\\.$#"
 			count: 1
 			path: src/Main/Classes/ThemeManager.php
 
@@ -9231,21 +7476,6 @@ parameters:
 			path: src/Main/FormWidgets/Components.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/Components.php
-
-		-
-			message: "#^Parameter \\#1 \\$suffix of method Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\:\\:getId\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/Components.php
-
-		-
-			message: "#^Parameter \\#3 \\$params of method Igniter\\\\System\\\\Classes\\\\ComponentManager\\:\\:makeComponent\\(\\) expects array, string given\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/Components.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/Components.php
@@ -9261,37 +7491,7 @@ parameters:
 			path: src/Main/FormWidgets/MapArea.php
 
 		-
-			message: "#^Instanceof between string and Illuminate\\\\Database\\\\Eloquent\\\\Collection will always evaluate to false\\.$#"
-			count: 2
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
 			message: "#^Method Igniter\\\\Main\\\\FormWidgets\\\\MapArea\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function sort_array expects array, string given\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
-			message: "#^Parameter \\#1 \\$arrayName of method Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:getName\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
-			message: "#^Parameter \\#1 \\$configFile of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects array, string given\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MapArea.php
 
@@ -9306,27 +7506,7 @@ parameters:
 			path: src/Main/FormWidgets/MapArea.php
 
 		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\FormWidgets\\\\MapView\\:\\:\\$modelClass\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapView.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapView.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MapView.php
 
@@ -9351,18 +7531,8 @@ parameters:
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MediaFinder.php
-
-		-
 			message: "#^Class Igniter\\\\Main\\\\Classes\\\\MediaItem referenced with incorrect case\\: Igniter\\\\Main\\\\classes\\\\MediaItem\\.$#"
 			count: 6
-			path: src/Main/FormWidgets/MediaFinder.php
-
-		-
-			message: "#^Instanceof between string and Illuminate\\\\Support\\\\Collection will always evaluate to false\\.$#"
-			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
@@ -9372,16 +7542,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Main\\\\FormWidgets\\\\MediaFinder\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MediaFinder.php
-
-		-
-			message: "#^Parameter \\#1 \\$suffix of method Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\:\\:getId\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MediaFinder.php
-
-		-
-			message: "#^Result of && is always true\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
 
@@ -9431,27 +7591,7 @@ parameters:
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/TemplateEditor.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/TemplateEditor.php
-
-		-
-			message: "#^Property Igniter\\\\Main\\\\FormWidgets\\\\TemplateEditor\\:\\:\\$templateType \\(string\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/TemplateEditor.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/TemplateEditor.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 
@@ -9561,6 +7701,11 @@ parameters:
 			path: src/Main/Http/Controllers/Themes.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:deleteTheme\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:whereCode\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Http/Controllers/Themes.php
@@ -9666,32 +7811,12 @@ parameters:
 			path: src/Main/Models/Customer.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Main/Models/Customer.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Main/Models/Customer.php
-
-		-
 			message: "#^Method Igniter\\\\Main\\\\Models\\\\Customer\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
 			path: src/Main/Models/Customer.php
 
 		-
 			message: "#^Method Igniter\\\\Main\\\\Models\\\\Customer\\:\\:resetPassword\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: src/Main/Models/Customer.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Main/Models/Customer.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Main/Models/Customer.php
 
@@ -9736,11 +7861,6 @@ parameters:
 			path: src/Main/Models/CustomerGroup.php
 
 		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Main/Models/CustomerGroup.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
 			count: 1
 			path: src/Main/Models/Theme.php
@@ -9762,7 +7882,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:where\\(\\)\\.$#"
-			count: 3
+			count: 2
 			path: src/Main/Models/Theme.php
 
 		-
@@ -9781,44 +7901,9 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/Main/Models/Theme.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Main/Models/Theme.php
-
-		-
 			message: "#^Method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:setAttribute\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Model but return statement is missing\\.$#"
 			count: 1
 			path: src/Main/Models/Theme.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$delete_data$#"
-			count: 1
-			path: src/Main/Models/Theme.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$theme_code$#"
-			count: 1
-			path: src/Main/Models/Theme.php
-
-		-
-			message: "#^Parameter \\#1 \\$length of function str_random expects int, string given\\.$#"
-			count: 1
-			path: src/Main/Models/Theme.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/Main/Models/Theme.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 2
-			path: src/Main/Requests/Theme.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Setting\\\\Facades\\\\Setting\\:\\:get\\(\\)\\.$#"
@@ -9842,11 +7927,6 @@ parameters:
 
 		-
 			message: "#^Property Igniter\\\\Main\\\\Template\\\\ComponentPartial\\:\\:\\$mTime \\(string\\) does not accept int\\.$#"
-			count: 1
-			path: src/Main/Template/ComponentPartial.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
 			count: 1
 			path: src/Main/Template/ComponentPartial.php
 
@@ -10001,16 +8081,6 @@ parameters:
 			path: src/Main/Template/Page.php
 
 		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 2
-			path: src/Main/Template/Page.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: src/Main/Widgets/MediaManager.php
-
-		-
 			message: "#^Result of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:putSession\\(\\) \\(void\\) is used\\.$#"
 			count: 2
 			path: src/Main/Widgets/MediaManager.php
@@ -10023,16 +8093,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 2
-			path: src/System/Actions/ModelAction.php
-
-		-
-			message: "#^Call to function is_object\\(\\) with array\\|non\\-falsy\\-string will always evaluate to false\\.$#"
-			count: 1
-			path: src/System/Actions/ModelAction.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
 			path: src/System/Actions/ModelAction.php
 
 		-
@@ -10062,21 +8122,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: src/System/Actions/SettingsModel.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: src/System/Actions/SettingsModel.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/System/Actions/SettingsModel.php
-
-		-
-			message: "#^Parameter \\#3 \\$index of method Igniter\\\\System\\\\Actions\\\\ModelAction\\:\\:loadConfig\\(\\) expects null, string given\\.$#"
 			count: 1
 			path: src/System/Actions/SettingsModel.php
 
@@ -10116,11 +8161,6 @@ parameters:
 			path: src/System/Classes/BaseComponent.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/System/Classes/BaseComponent.php
-
-		-
 			message: "#^Property Igniter\\\\System\\\\Classes\\\\BaseComponent\\:\\:\\$controller \\(Igniter\\\\Main\\\\Classes\\\\MainController\\) does not accept Main\\\\Classes\\\\MainController\\.$#"
 			count: 1
 			path: src/System/Classes/BaseComponent.php
@@ -10136,32 +8176,12 @@ parameters:
 			path: src/System/Classes/BaseController.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/System/Classes/BaseController.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Classes\\\\BaseExtension\\:\\:\\$config \\(array\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/System/Classes/BaseExtension.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/System/Classes/BaseExtension.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with array\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/System/Classes/ComponentManager.php
-
-		-
 			message: "#^Method Igniter\\\\System\\\\Classes\\\\ComponentManager\\:\\:resolve\\(\\) should return string but returns null\\.$#"
 			count: 1
 			path: src/System/Classes/ComponentManager.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with Illuminate\\\\Console\\\\OutputStyle will always evaluate to false\\.$#"
+			message: "#^Method Igniter\\\\System\\\\Classes\\\\ComposerManager\\:\\:updateRequirements\\(\\) invoked with 4 parameters, 3 required\\.$#"
 			count: 1
 			path: src/System/Classes/ComposerManager.php
 
@@ -10231,37 +8251,12 @@ parameters:
 			path: src/System/Classes/ControllerAction.php
 
 		-
-			message: "#^Call to function is_object\\(\\) with array\\|non\\-falsy\\-string will always evaluate to false\\.$#"
-			count: 1
-			path: src/System/Classes/ControllerAction.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Classes\\\\ControllerAction\\:\\:\\$controller \\(Illuminate\\\\Routing\\\\Controller\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/System/Classes/ControllerAction.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 2
-			path: src/System/Classes/ControllerAction.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/System/Classes/ControllerAction.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:firstOrNew\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/ExtensionManager.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with bool will always evaluate to false\\.$#"
 			count: 1
 			path: src/System/Classes/ExtensionManager.php
 
@@ -10276,12 +8271,7 @@ parameters:
 			path: src/System/Classes/ExtensionManager.php
 
 		-
-			message: "#^Parameter \\#1 \\$extCode of method Igniter\\\\System\\\\Classes\\\\ExtensionManager\\:\\:removeExtension\\(\\) expects array\\|null, string given\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Parameter \\#2 \\$enable of method Igniter\\\\System\\\\Classes\\\\ExtensionManager\\:\\:updateInstalledExtensions\\(\\) expects bool, null given\\.$#"
+			message: "#^PHPDoc tag @return with type bool is incompatible with native type void\\.$#"
 			count: 1
 			path: src/System/Classes/ExtensionManager.php
 
@@ -10321,22 +8311,7 @@ parameters:
 			path: src/System/Classes/FormRequest.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: src/System/Classes/FormRequest.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: src/System/Classes/FormRequest.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 2
-			path: src/System/Classes/FormRequest.php
-
-		-
-			message: "#^Dead catch \\- Exception is never thrown in the try block\\.$#"
+			message: "#^Method Igniter\\\\System\\\\Classes\\\\HubManager\\:\\:requestRemoteData\\(\\) invoked with 4 parameters, 1\\-2 required\\.$#"
 			count: 1
 			path: src/System/Classes/HubManager.php
 
@@ -10366,19 +8341,14 @@ parameters:
 			path: src/System/Classes/LanguageManager.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 4
-			path: src/System/Classes/MailManager.php
-
-		-
-			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
-			count: 2
-			path: src/System/Classes/MailManager.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
+			message: "#^Call to static method isConfigured\\(\\) on an unknown class Igniter\\\\Broadcast\\\\Models\\\\Settings\\.$#"
 			count: 1
-			path: src/System/Classes/MailManager.php
+			path: src/System/Classes/Notification.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/PackageInfo.php
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:fromClass\\(\\)\\.$#"
@@ -10397,21 +8367,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:pluck\\(\\)\\.$#"
-			count: 1
-			path: src/System/Classes/UpdateManager.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with Illuminate\\\\Console\\\\OutputStyle will always evaluate to false\\.$#"
-			count: 1
-			path: src/System/Classes/UpdateManager.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 5
-			path: src/System/Classes/UpdateManager.php
-
-		-
-			message: "#^Ternary operator condition is always false\\.$#"
 			count: 1
 			path: src/System/Classes/UpdateManager.php
 
@@ -10462,11 +8417,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:first\\(\\)\\.$#"
-			count: 1
-			path: src/System/Console/Commands/IgniterInstall.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function strlen expects string, bool given\\.$#"
 			count: 1
 			path: src/System/Console/Commands/IgniterInstall.php
 
@@ -10531,7 +8481,7 @@ parameters:
 			path: src/System/DashboardWidgets/Activities.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Activity\\:\\:listRecent\\(\\)\\.$#"
+			message: "#^Call to static method listRecent\\(\\) on an unknown class Igniter\\\\System\\\\Models\\\\Activity\\.$#"
 			count: 1
 			path: src/System/DashboardWidgets/Activities.php
 
@@ -10549,21 +8499,6 @@ parameters:
 			message: "#^Method Igniter\\\\System\\\\Exception\\\\ErrorHandler\\:\\:handleDetailedError\\(\\) should return Illuminate\\\\View\\\\View but return statement is missing\\.$#"
 			count: 1
 			path: src/System/Exception/ErrorHandler.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: src/System/Exception/ErrorHandler.php
-
-		-
-			message: "#^Parameter \\#1 \\$theme of class Igniter\\\\Main\\\\Classes\\\\MainController constructor expects null, mixed given\\.$#"
-			count: 1
-			path: src/System/Exception/ErrorHandler.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Activities.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:combineGetContents\\(\\)\\.$#"
@@ -10627,11 +8562,6 @@ parameters:
 
 		-
 			message: "#^Property Igniter\\\\System\\\\Http\\\\Controllers\\\\Extensions\\:\\:\\$formWidget \\(Igniter\\\\Admin\\\\Widgets\\\\Form\\) does not accept Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Http\\\\Controllers\\\\Extensions\\:\\:\\$requiredPermissions \\(string\\) does not accept default value of type array\\<int, string\\>\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Extensions.php
 
@@ -10796,18 +8726,8 @@ parameters:
 			path: src/System/Http/Controllers/SystemLogs.php
 
 		-
-			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/SystemLogs.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
 			count: 1
-			path: src/System/Http/Controllers/Updates.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setButton\\(\\)\\.$#"
-			count: 5
 			path: src/System/Http/Controllers/Updates.php
 
 		-
@@ -10841,11 +8761,6 @@ parameters:
 			path: src/System/Libraries/Assets.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with object will always evaluate to false\\.$#"
-			count: 1
-			path: src/System/Libraries/Assets.php
-
-		-
 			message: "#^Method Igniter\\\\System\\\\Libraries\\\\Assets\\:\\:getBundles\\(\\) should return array but returns null\\.$#"
 			count: 1
 			path: src/System/Libraries/Assets.php
@@ -10876,54 +8791,19 @@ parameters:
 			path: src/System/Libraries/Country.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: src/System/Libraries/Country.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/System/Libraries/Country.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 2
+			count: 1
+			path: src/System/Mail/AnonymousTemplateMailable.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$subject\\.$#"
+			count: 1
 			path: src/System/Mail/TemplateMailable.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:user\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\HigherOrderCollectionProxy\\:\\:getName\\(\\)\\.$#"
 			count: 1
-			path: src/System/Models/Activity.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Activity\\:\\:listRecent\\(\\)\\.$#"
-			count: 2
-			path: src/System/Models/Activity.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function extract is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: src/System/Models/Activity.php
-
-		-
-			message: "#^Variable \\$exceptUser might not be defined\\.$#"
-			count: 1
-			path: src/System/Models/Activity.php
-
-		-
-			message: "#^Variable \\$onlyUser might not be defined\\.$#"
-			count: 1
-			path: src/System/Models/Activity.php
-
-		-
-			message: "#^Variable \\$pageLimit might not be defined\\.$#"
-			count: 1
-			path: src/System/Models/Activity.php
-
-		-
-			message: "#^Variable \\$sort might not be defined\\.$#"
-			count: 1
-			path: src/System/Models/Activity.php
+			path: src/System/Mail/TemplateMailable.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Country\\:\\:\\$country_id\\.$#"
@@ -10951,17 +8831,17 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:firstWhere\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
 			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:isEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
 		-
 			message: "#^Method Igniter\\\\System\\\\Models\\\\Country\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/System/Models/Country.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
@@ -11036,17 +8916,7 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function extract is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
 			message: "#^Property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
@@ -11096,16 +8966,6 @@ parameters:
 			path: src/System/Models/Extension.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: src/System/Models/Extension.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/System/Models/Extension.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$code\\.$#"
 			count: 4
 			path: src/System/Models/Language.php
@@ -11136,16 +8996,6 @@ parameters:
 			path: src/System/Models/Language.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/System/Models/Language.php
@@ -11157,16 +9007,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc type array of property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$guarded is not covariant with PHPDoc type array\\<string\\>\\|bool of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$guarded\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/System/Models/Language.php
 
@@ -11227,11 +9067,6 @@ parameters:
 
 		-
 			message: "#^Property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/System/Models/MailLayout.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/System/Models/MailLayout.php
 
@@ -11302,7 +9137,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$code\\.$#"
-			count: 3
+			count: 2
 			path: src/System/Models/MailTemplate.php
 
 		-
@@ -11358,11 +9193,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:whereCode\\(\\)\\.$#"
 			count: 2
-			path: src/System/Models/MailTemplate.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
 			path: src/System/Models/MailTemplate.php
 
 		-
@@ -11459,41 +9289,6 @@ parameters:
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$text\\.$#"
 			count: 1
 			path: src/System/Models/Translation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\ServiceProvider\\:\\:\\$prefix\\.$#"
-			count: 4
-			path: src/System/ServiceProvider.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\ServiceProvider\\:\\:\\$table\\.$#"
-			count: 4
-			path: src/System/ServiceProvider.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\System\\\\ServiceProvider\\:\\:dropForeign\\(\\)\\.$#"
-			count: 1
-			path: src/System/ServiceProvider.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\System\\\\ServiceProvider\\:\\:dropIndex\\(\\)\\.$#"
-			count: 1
-			path: src/System/ServiceProvider.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\System\\\\ServiceProvider\\:\\:getBindings\\(\\)\\.$#"
-			count: 1
-			path: src/System/ServiceProvider.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\System\\\\ServiceProvider\\:\\:getQuery\\(\\)\\.$#"
-			count: 1
-			path: src/System/ServiceProvider.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\System\\\\ServiceProvider\\:\\:toSql\\(\\)\\.$#"
-			count: 1
-			path: src/System/ServiceProvider.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Setting\\\\Facades\\\\Setting\\:\\:get\\(\\)\\.$#"
