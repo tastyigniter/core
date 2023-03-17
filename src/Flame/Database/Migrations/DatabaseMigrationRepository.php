@@ -93,6 +93,21 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
     }
 
     /**
+     * Remove a migration from the log.
+     *
+     * @param object $migration
+     *
+     * @return void
+     */
+    public function delete($migration)
+    {
+        if (!is_string($migration))
+            $migration = $migration->migration;
+
+        $this->table()->where('migration', $migration)->delete();
+    }
+
+    /**
      * Get the module or extension the migration belongs to.
      *
      * @return string

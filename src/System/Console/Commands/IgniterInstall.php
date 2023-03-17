@@ -160,16 +160,16 @@ class IgniterInstall extends Command
 
             return $answer;
         });
-        DatabaseSeeder::$username = $this->output->ask('Admin Username', 'admin', function ($answer) {
-            if (User::whereUsername($answer)->first()) {
-                throw new \RuntimeException('An administrator with that username already exists, please choose a different username.');
+        DatabaseSeeder::$password = $this->output->ask('Admin Password', '123456', function ($answer) {
+            if (!is_string($answer) || strlen($answer) < 6 || strlen($answer) > 32) {
+                throw new \RuntimeException('Please specify the administrator password, at least 6 characters');
             }
 
             return $answer;
         });
-        DatabaseSeeder::$password = $this->output->ask('Admin Password', '123456', function ($answer) {
-            if (!is_string($answer) || strlen($answer) < 6 || strlen($answer) > 32) {
-                throw new \RuntimeException('Please specify the administrator password, at least 6 characters');
+        DatabaseSeeder::$username = $this->output->ask('Admin Username', 'admin', function ($answer) {
+            if (User::whereUsername($answer)->first()) {
+                throw new \RuntimeException('An administrator with that username already exists, please choose a different username.');
             }
 
             return $answer;

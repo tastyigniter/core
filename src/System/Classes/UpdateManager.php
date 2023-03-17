@@ -153,9 +153,7 @@ class UpdateManager
 
         $this->migrateApp();
 
-        if (!app()->runningUnitTests()) {
-            rescue(fn () => Country::upsertFromRemote());
-        }
+        rescue(fn() => Country::upsertFromRemote());
 
         $this->seedApp();
 
@@ -232,7 +230,7 @@ class UpdateManager
         if ($this->logsOutput)
             $this->migrator->setOutput($this->logsOutput);
 
-        $this->migrator->rollDown(array_only(Igniter::migrationPath(), $name));
+        $this->migrator->resetAll(array_only(Igniter::migrationPath(), $name));
 
         $this->log("<info>Purged extension $name</info>");
 
