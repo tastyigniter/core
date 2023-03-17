@@ -9,8 +9,8 @@ $config['form'] = [
             'label' => 'lang:igniter::admin.menu_options.label_option_id',
             'type' => 'hidden',
         ],
-        'value' => [
-            'label' => 'lang:igniter::admin.menu_options.label_option_value',
+        'name' => [
+            'label' => 'lang:igniter::admin.menu_options.label_option_name',
             'type' => 'text',
         ],
         'price' => [

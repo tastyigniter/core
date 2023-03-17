@@ -26,7 +26,7 @@ class MenuOptionValue extends Model
      */
     protected $primaryKey = 'option_value_id';
 
-    protected $fillable = ['option_id', 'value', 'price', 'ingredients', 'priority'];
+    protected $fillable = ['option_id', 'name', 'price', 'ingredients', 'priority'];
 
     protected $casts = [
         'option_value_id' => 'integer',
@@ -74,7 +74,7 @@ class MenuOptionValue extends Model
 
     public function getStockableLocations()
     {
-        return $this->option->locations;
+        return $this->option?->locations;
     }
 
     //
@@ -83,7 +83,7 @@ class MenuOptionValue extends Model
 
     protected function beforeDelete()
     {
-        $this->allergens()->detach();
+        $this->ingredients()->detach();
     }
 
     /**
@@ -98,6 +98,6 @@ class MenuOptionValue extends Model
         if (!$this->exists)
             return false;
 
-        $this->allergens()->sync($allergenIds);
+        $this->ingredients()->sync($allergenIds);
     }
 }

@@ -104,7 +104,7 @@ $config['form']['toolbar'] = [
 
 $config['form']['fields'] = [
     'option_name' => [
-        'label' => 'lang:igniter::admin.menu_options.label_option_name',
+        'label' => 'lang:igniter::admin.menu_options.label_option_group_name',
         'type' => 'text',
         'span' => 'left',
     ],
@@ -121,18 +121,10 @@ $config['form']['fields'] = [
         'valueFrom' => 'locations',
         'nameFrom' => 'location_name',
     ],
-    'update_related_menu_item' => [
-        'label' => 'lang:igniter::admin.menu_options.label_update_related_menu_item',
-        'type' => 'switch',
-        'span' => 'right',
-        'default' => false,
-        'context' => ['edit'],
-        'on' => 'lang:igniter::admin.text_yes',
-        'off' => 'lang:igniter::admin.text_no',
-    ],
-    'option_values' => [
+    'values' => [
         'label' => 'lang:igniter::admin.menu_options.text_tab_values',
         'type' => 'repeater',
+        'valueFrom' => 'option_values',
         'form' => 'menuoptionvalue',
         'sortable' => true,
     ],

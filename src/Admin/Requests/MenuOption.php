@@ -9,7 +9,7 @@ class MenuOption extends FormRequest
     public function attributes()
     {
         return [
-            'option_name' => lang('igniter::admin.menu_options.label_option_name'),
+            'option_name' => lang('igniter::admin.menu_options.label_option_group_name'),
             'display_type' => lang('igniter::admin.menu_options.label_display_type'),
             'is_required' => lang('igniter::admin.menu_options.label_option_required'),
             'min_selected' => lang('igniter::admin.menu_options.label_min_selected'),

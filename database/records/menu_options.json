@@ -4,17 +4,17 @@
     "display_type": "checkbox",
     "option_values": [
       {
-        "value": "Peperoni",
+        "name": "Peperoni",
         "price": 1.99,
         "priority": 2
       },
       {
-        "value": "Jalapenos",
+        "name": "Jalapenos",
         "price": 3.99,
         "priority": 1
       },
       {
-        "value": "Sweetcorn",
+        "name": "Sweetcorn",
         "price": 1.99,
         "priority": 3
       }
@@ -25,17 +25,17 @@
     "display_type": "checkbox",
     "option_values":   [
       {
-        "value": "Meat",
+        "name": "Meat",
         "price": 4.95,
         "priority": 4
       },
       {
-        "value": "Fish",
+        "name": "Fish",
         "price": 4.95,
         "priority": 2
       },
       {
-        "value": "Beef",
+        "name": "Beef",
         "price": 6.95,
         "priority": 3
       }
@@ -46,12 +46,12 @@
     "display_type": "radio",
     "option_values": [
       {
-        "value": "Small",
+        "name": "Small",
         "price": 0,
         "priority": 1
       },
       {
-        "value": "Large",
+        "name": "Large",
         "price": 5,
         "priority": 2
       }
@@ -62,12 +62,12 @@
     "display_type": "checkbox",
     "option_values":   [
       {
-        "value": "Coke",
+        "name": "Coke",
         "price": 0,
         "priority": 1
       },
       {
-        "value": "Diet Coke",
+        "name": "Diet Coke",
         "price": 0,
         "priority": 2
       }

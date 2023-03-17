@@ -81,8 +81,6 @@ class DemoSchemaSeeder extends Seeder
                 $menuOptionId = DB::table('menu_item_options')->insertGetId([
                     'option_id' => $option->option_id,
                     'menu_id' => $menuId,
-                    'option_name' => $name,
-                    'display_type' => 'checkbox',
                 ]);
 
                 $optionValues = DB::table('menu_option_values')->where('option_id', $option->option_id)->get();
@@ -91,7 +89,7 @@ class DemoSchemaSeeder extends Seeder
                     DB::table('menu_item_option_values')->insertGetId([
                         'menu_option_id' => $menuOptionId,
                         'option_value_id' => $optionValue->option_value_id,
-                        'new_price' => $optionValue->price,
+                        'override_price' => $optionValue->price,
                         'priority' => $optionValue->priority,
                     ]);
                 }

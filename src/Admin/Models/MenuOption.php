@@ -27,7 +27,7 @@ class MenuOption extends Model
      */
     protected $primaryKey = 'option_id';
 
-    protected $fillable = ['option_id', 'option_name', 'display_type', 'update_related_menu_item'];
+    protected $fillable = ['option_id', 'option_name', 'display_type'];
 
     protected $casts = [
         'option_id' => 'integer',
@@ -48,7 +48,6 @@ class MenuOption extends Model
             ],
         ],
         'morphToMany' => [
-            'allergens' => [\Igniter\Admin\Models\Ingredient::class, 'name' => 'allergenable'],
             'locations' => [\Igniter\Admin\Models\Location::class, 'name' => 'locationable'],
         ],
     ];
@@ -87,20 +86,26 @@ class MenuOption extends Model
 
         if (array_key_exists('values', $this->attributes))
             $this->addOptionValues($this->attributes['values']);
-
-        if ($this->update_related_menu_item)
-            $this->updateRelatedMenuItemsOptionValues();
     }
 
     protected function beforeDelete()
     {
-        $this->allergens()->detach();
         $this->locations()->detach();
     }
 
     //
     // Helpers
     //
+
+    public function isRequired()
+    {
+        return $this->required;
+    }
+
+    public function isSelectDisplayType()
+    {
+        return $this->display_type === 'select';
+    }
 
     /**
      * Return all option values by option_id
@@ -133,8 +138,8 @@ class MenuOption extends Model
 
         $idsToKeep = [];
         foreach ($optionValues as $value) {
-            if (!array_key_exists('allergens', $value))
-                $value['allergens'] = [];
+            if (!array_key_exists('ingredients', $value))
+                $value['ingredients'] = [];
 
             $optionValue = $this->option_values()->firstOrNew([
                 'option_value_id' => array_get($value, 'option_value_id'),
@@ -154,40 +159,22 @@ class MenuOption extends Model
         return count($idsToKeep);
     }
 
+    public function attachRecordTo($menu)
+    {
+        $this->attachToMenu($menu);
+    }
+
     public function attachToMenu($menu)
     {
         $menuItemOption = $menu->menu_options()->create([
             'option_id' => $this->getKey(),
         ]);
 
-        $this->option_values()->get()->each(function ($model) use ($menuItemOption) {
+        $this->option_values()->get()->each(function ($optionValue) use ($menuItemOption) {
             $menuItemOption->menu_option_values()->create([
-                'menu_option_id' => $menuItemOption->menu_option_id,
-                'option_value_id' => $model->option_value_id,
-                'new_price' => $model->price,
-            ]);
-        });
-    }
-
-    /**
-     * Overwrite any menu items this option is attached to
-     *
-     * @return void
-     */
-    protected function updateRelatedMenuItemsOptionValues()
-    {
-        $optionValues = $this->option_values()->get()->map(function ($optionValue) {
-            return [
-                'menu_option_id' => $this->option_id,
                 'option_value_id' => $optionValue->option_value_id,
-                'new_price' => $optionValue->price,
-                'quantity' => 0,
                 'priority' => $optionValue->priority,
-            ];
-        })->all();
-
-        $this->menu_options->each(function ($menuOption) use ($optionValues) {
-            $menuOption->addMenuOptionValues($optionValues);
+            ]);
         });
     }
 }

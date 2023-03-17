@@ -24,7 +24,7 @@ class MenuItemOptionValue extends Model
      */
     protected $primaryKey = 'menu_option_value_id';
 
-    protected $fillable = ['menu_option_id', 'menu_id', 'option_id', 'option_value_id', 'new_price', 'priority', 'is_default'];
+    protected $fillable = ['menu_option_id', 'option_value_id', 'override_price', 'priority', 'is_default'];
 
     public $appends = ['name', 'price'];
 
@@ -32,7 +32,7 @@ class MenuItemOptionValue extends Model
         'menu_option_value_id' => 'integer',
         'menu_option_id' => 'integer',
         'option_value_id' => 'integer',
-        'new_price' => 'float',
+        'override_price' => 'float',
         'priority' => 'integer',
         'is_default' => 'boolean',
     ];
@@ -48,37 +48,22 @@ class MenuItemOptionValue extends Model
     public $rules = [
         ['menu_option_id', 'igniter::admin.menu_options.label_option_value_id', 'required|integer'],
         ['option_value_id', 'igniter::admin.menu_options.label_option_value', 'required|integer'],
-        ['new_price', 'igniter::admin.menu_options.label_option_price', 'numeric|min:0'],
+        ['override_price', 'igniter::admin.menu_options.label_option_price', 'nullable|numeric|min:0'],
     ];
 
     public $timestamps = true;
 
-    public function getOptionValueIdOptions()
+    public function getNameAttribute()
     {
-        if (!$optionId = optional($this->menu_option)->option_id)
-            return [];
-
-        if (!empty(self::$optionValuesCollection[$optionId]))
-            return self::$optionValuesCollection[$optionId];
-
-        $result = MenuOptionValue::where('option_id', $optionId)->dropdown('value');
-
-        self::$optionValuesCollection[$optionId] = $result;
-
-        return $result;
-    }
-
-    public function getNameAttribute($value = null)
-    {
-        return $value ?: $this->option_value->value ?? null;
+        return $this->option_value->name ?? null;
     }
 
     public function getPriceAttribute()
     {
-        if (is_null($this->new_price) && $this->option_value)
-            return $this->option_value->price;
+        if (!is_null($this->override_price) || strlen($this->override_price))
+            return $this->override_price;
 
-        return $this->new_price;
+        return $this->option_value->price ?? null;
     }
 
     public function isDefault()

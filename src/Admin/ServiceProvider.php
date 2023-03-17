@@ -227,11 +227,6 @@ class ServiceProvider extends AppServiceProvider
                 'code' => 'markdowneditor',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\MenuOptionEditor::class, [
-                'label' => 'Menu Option Editor',
-                'code' => 'menuoptioneditor',
-            ]);
-
             $manager->registerFormWidget(\Igniter\Admin\FormWidgets\PermissionEditor::class, [
                 'label' => 'Permission Editor',
                 'code' => 'permissioneditor',

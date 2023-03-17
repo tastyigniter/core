@@ -2,9 +2,10 @@
 
 $config['form']['fields'] = [
     'option_name' => [
-        'label' => 'lang:igniter::admin.menu_options.label_option_name',
+        'label' => 'lang:igniter::admin.menu_options.label_option_group_name',
         'type' => 'text',
         'span' => 'left',
+        'disabled' => true,
     ],
     'display_type' => [
         'label' => 'lang:igniter::admin.menu_options.label_option_display_type',
@@ -12,7 +13,7 @@ $config['form']['fields'] = [
         'span' => 'right',
         'disabled' => true,
     ],
-    'required' => [
+    'is_required' => [
         'label' => 'lang:igniter::admin.menu_options.label_option_required',
         'type' => 'switch',
     ],
@@ -31,7 +32,10 @@ $config['form']['fields'] = [
     'menu_option_values' => [
         'type' => 'repeater',
         'form' => 'menuitemoptionvalue',
+        'valueFrom' => 'option_values',
         'sortable' => true,
+        'showAddButton' => false,
+        'showRemoveButton' => false,
     ],
 ];
 

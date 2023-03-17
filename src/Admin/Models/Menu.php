@@ -88,6 +88,7 @@ class Menu extends Model
     //
     // Scopes
     //
+
     public function scopeWhereHasAllergen($query, $allergenId)
     {
         $query->whereHas('allergens', function ($q) use ($allergenId) {

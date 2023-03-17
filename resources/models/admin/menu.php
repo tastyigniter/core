@@ -258,14 +258,30 @@ $config['form']['tabs'] = [
             'useAttachment' => true,
         ],
 
-        'menu_options' => [
+        '_options' => [
             'label' => 'lang:igniter::admin.menus.label_menu_option',
             'tab' => 'lang:igniter::admin.menus.text_tab_menu_option',
-            'type' => 'menuoptioneditor',
-            'options' => [Igniter\Admin\Models\MenuOption::class, 'getRecordEditorOptions'],
+            'type' => 'recordeditor',
+            'span' => 'flex',
+            'cssClass' => 'col-md-4',
+            'form' => 'menuoption',
+            'modelClass' => \Igniter\Admin\Models\MenuOption::class,
+            'placeholder' => 'igniter::admin.menu_options.help_menu_option',
+            'context' => ['edit', 'preview'],
             'popupSize' => 'modal-xl',
+            'attachToField' => 'menu_options',
+        ],
+        'menu_options' => [
+            'label' => 'lang:igniter::admin.menus.label_menu_item_option',
+            'tab' => 'lang:igniter::admin.menus.text_tab_menu_option',
+            'type' => 'connector',
+            'span' => 'flex',
+            'cssClass' => 'col-md-8',
+            'popupSize' => 'modal-xl',
+            'sortable' => true,
             'form' => 'menuitemoption',
             'context' => ['edit', 'preview'],
+            'partial' => 'connector/menu_option_item',
         ],
 
         'special[special_id]' => [

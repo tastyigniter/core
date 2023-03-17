@@ -21,13 +21,13 @@ class MenuItemOption extends Model
      */
     protected $primaryKey = 'menu_option_id';
 
-    protected $fillable = ['option_id', 'menu_id', 'required', 'priority', 'min_selected', 'max_selected'];
+    protected $fillable = ['option_id', 'menu_id', 'is_required', 'priority', 'min_selected', 'max_selected'];
 
     protected $casts = [
         'menu_option_id' => 'integer',
         'option_id' => 'integer',
         'menu_id' => 'integer',
-        'required' => 'boolean',
+        'is_required' => 'boolean',
         'priority' => 'integer',
         'min_selected' => 'integer',
         'max_selected' => 'integer',
@@ -35,7 +35,6 @@ class MenuItemOption extends Model
 
     public $relation = [
         'hasMany' => [
-            'option_values' => [\Igniter\Admin\Models\MenuItemOptionValue::class, 'foreignKey' => 'option_id', 'otherKey' => 'option_id'],
             'menu_option_values' => [
                 \Igniter\Admin\Models\MenuItemOptionValue::class,
                 'foreignKey' => 'menu_option_id',
@@ -54,7 +53,7 @@ class MenuItemOption extends Model
         ['menu_id', 'igniter::admin.menus.label_option', 'required|integer'],
         ['option_id', 'igniter::admin.menus.label_option_id', 'required|integer'],
         ['priority', 'igniter::admin.menu_options.label_option', 'integer'],
-        ['required', 'igniter::admin.menu_options.label_option_required', 'boolean'],
+        ['is_required', 'igniter::admin.menu_options.label_option_required', 'boolean'],
         ['min_selected', 'igniter::admin.menu_options.label_min_selected', 'integer|lte:max_selected'],
         ['max_selected', 'igniter::admin.menu_options.label_max_selected', 'integer|gte:min_selected'],
     ];
@@ -75,6 +74,22 @@ class MenuItemOption extends Model
         return optional($this->option)->display_type;
     }
 
+    public function getOptionValuesAttribute()
+    {
+        return $this->option->option_values->map(function ($optionValue) {
+            $menuOptionValue = $this->menu_option_values->firstWhere('option_value_id', $optionValue->getKey());
+
+            $optionValue->menu_option_value_id = $menuOptionValue?->menu_option_value_id;
+            $optionValue->menu_option_id = $menuOptionValue?->menu_option_id;
+            $optionValue->price = $menuOptionValue->price ?? $optionValue->price;
+            $optionValue->override_price = $menuOptionValue?->override_price;
+            $optionValue->is_default = $menuOptionValue?->is_default;
+            $optionValue->is_enabled = !is_null($menuOptionValue);
+
+            return $optionValue;
+        });
+    }
+
     //
     // Events
     //
@@ -83,7 +98,15 @@ class MenuItemOption extends Model
         $this->restorePurgedValues();
 
         if (array_key_exists('menu_option_values', $this->attributes))
-            $this->addMenuOptionValues($this->attributes['menu_option_values']);
+            $this->addMenuOptionValues(array_filter(array_map(function ($value) {
+                if (array_get($value, 'is_enabled')) {
+                    unset($value['is_enabled']);
+
+                    return $value;
+                }
+
+                return false;
+            }, $this->attributes['menu_option_values'])));
     }
 
     //
@@ -91,7 +114,7 @@ class MenuItemOption extends Model
     //
     public function isRequired()
     {
-        return $this->required;
+        return $this->is_required;
     }
 
     public function isSelectDisplayType()

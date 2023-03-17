@@ -574,6 +574,7 @@ return [
         'text_option_summary' => 'Display as a %s HTML element',
 
         'button_assign' => 'Assign to Menu',
+        'button_create' => 'New',
 
         'column_name' => 'Option Name',
         'column_display_type' => 'Display Type',
@@ -582,7 +583,8 @@ return [
         'label_priority' => 'Priority',
         'label_display_type' => 'Display Type',
         'label_option_values' => 'Option Values',
-        'label_option_value' => 'Option Value',
+        'label_option_enabled' => 'Is Enabled?',
+        'label_option_group_name' => 'Option Group Name',
         'label_option_price' => 'Option Price',
         'label_option_id' => 'Option ID',
         'label_update_related_menu_item' => 'Update option values of associated menu items',
@@ -595,8 +597,8 @@ return [
         'label_max_selected' => 'Max Selected',
         'label_new_price' => 'Override Price',
 
-        'help_min_selected' => 'Minimum items to select from these options, leave blank to ignore.',
-        'help_max_selected' => 'Maximum items to select from these options, leave blank to ignore.',
+        'help_min_selected' => 'Minimum items to select from these options, set to 0 to ignore.',
+        'help_max_selected' => 'Maximum items to select from these options, set to 0 to ignore.',
         'help_menu_option' => 'Choose from the dropdown to assign a menu option to this menu item.',
 
         'alert_menu_option_not_attached' => 'Please select a menu option to assign.',
@@ -636,7 +638,8 @@ return [
         'label_menu_priority' => 'Priority',
         'label_special_status' => 'Special Status',
         'label_option' => 'Option',
-        'label_menu_option' => 'Menu Option',
+        'label_menu_option' => 'Menu Options',
+        'label_menu_item_option' => 'Menu Item Options',
         'label_start_date' => 'Start Date',
         'label_end_date' => 'End Date',
         'label_special_price' => 'Special Price',
