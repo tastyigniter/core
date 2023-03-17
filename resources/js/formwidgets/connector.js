@@ -22,10 +22,10 @@
     }
 
     Connector.prototype.init = function () {
-        if (this.options.editable)
-            this.$el.on('click', '[data-control="load-item"]', $.proxy(this.onLoadItem, this))
+        if (!this.options.editable)
+            return
 
-        this.$el.on('click', '[data-control="delete-item"]', $.proxy(this.onDeleteItem, this))
+        this.$el.on('click', '[data-control="load-item"]', $.proxy(this.onLoadItem, this))
 
         this.bindSorting()
     }
@@ -56,22 +56,6 @@
             onSave: function () {
                 this.hide()
             }
-        })
-    }
-
-    Connector.prototype.onDeleteItem = function (event) {
-        var handler = this.options.alias + '::onDeleteRecord',
-            $button = $(event.currentTarget),
-            itemSelector = $button.data('itemSelector'),
-            confirmMsg = $button.data('confirmMessage')
-
-        $.request(handler, {
-            data: {
-                recordId: $button.data('itemId'),
-            },
-            confirm: confirmMsg,
-        }).done(function () {
-            $button.closest(itemSelector).remove()
         })
     }
 

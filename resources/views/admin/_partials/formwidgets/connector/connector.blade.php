@@ -1,5 +1,5 @@
 <div
-    id="{{ $this->getId('items-container') }}"
+    id="{{ $this->getId() }}"
     class="field-connector"
     data-control="connector"
     data-alias="{{ $this->alias }}"

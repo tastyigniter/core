@@ -104,6 +104,17 @@ class BaseWidget extends Extendable
     }
 
     /**
+     * Reloads the widgets primary contents.
+     */
+    public function reload(): array
+    {
+        return [
+            '#notification' => $this->makePartial('flash'),
+            '~#'.$this->getId() => $this->render(),
+        ];
+    }
+
+    /**
      * Binds a widget to the controller for safe use.
      * @return void
      */

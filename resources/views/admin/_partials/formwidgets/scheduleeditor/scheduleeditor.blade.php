@@ -1,5 +1,5 @@
 <div
-    id="{{ $this->getId('items-container') }}"
+    id="{{ $this->getId() }}"
     class="field-scheduleeditor"
     data-control="scheduleeditor"
     data-alias="{{ $this->alias }}"

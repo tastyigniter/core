@@ -36,11 +36,17 @@ class RecordEditor extends BaseFormWidget
 
     public $hideCreateButton = false;
 
+    public $showAttachButton = true;
+
+    public $attachToField = 'field_name';
+
     public $addLabel = 'New';
 
     public $editLabel = 'Edit';
 
     public $deleteLabel = 'Delete';
+
+    public $attachLabel = 'Attach';
 
     //
     // Object properties
@@ -54,11 +60,11 @@ class RecordEditor extends BaseFormWidget
             'form',
             'formName',
             'modelClass',
-            'addonLeft',
-            'addonRight',
             'hideCreateButton',
             'hideEditButton',
             'hideDeleteButton',
+            'showAttachButton',
+            'attachToField',
             'addLabel',
             'editLabel',
             'deleteLabel',
@@ -78,6 +84,7 @@ class RecordEditor extends BaseFormWidget
     public function loadAssets()
     {
         $this->addJs('formwidgets/repeater.js', 'repeater-js');
+        $this->addCss('formwidgets/recordeditor.css', 'recordeditor-css');
 
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
         $this->addJs('formwidgets/recordeditor.js', 'recordeditor-js');
@@ -92,9 +99,11 @@ class RecordEditor extends BaseFormWidget
         $this->vars['addLabel'] = $this->addLabel;
         $this->vars['editLabel'] = $this->editLabel;
         $this->vars['deleteLabel'] = $this->deleteLabel;
+        $this->vars['attachLabel'] = $this->attachLabel;
         $this->vars['showEditButton'] = !$this->hideEditButton;
         $this->vars['showDeleteButton'] = !$this->hideDeleteButton;
         $this->vars['showCreateButton'] = !$this->hideCreateButton;
+        $this->vars['showAttachButton'] = $this->showAttachButton;
     }
 
     public function onLoadRecord()
@@ -131,12 +140,7 @@ class RecordEditor extends BaseFormWidget
         flash()->success(sprintf(lang('igniter::admin.alert_success'),
             lang($this->formName).' '.($form->context == 'create' ? 'created' : 'updated')))->now();
 
-        return [
-            '#notification' => $this->makePartial('flash'),
-            '#'.$this->formField->getId('group') => $form->renderField($this->formField, [
-                'useContainer' => false,
-            ]),
-        ];
+        return $this->reload();
     }
 
     public function onDeleteRecord()
@@ -149,11 +153,28 @@ class RecordEditor extends BaseFormWidget
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->formName).' deleted'))->now();
 
+        return $this->reload();
+    }
+
+    public function onAttachRecord()
+    {
+        if (!$recordId = post('recordId'))
+            throw new ApplicationException('Please select a record to attach.');
+
+        $model = $this->findFormModel($recordId);
+
+        if ($model->methodExists('attachRecordTo')) {
+            $model->attachRecordTo($this->model);
+
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->formName).' attached'))->now();
+        }
+
+        $attachToWidget = $this->getController()->widgets['form']?->getFormWidget($this->attachToField);
+        if ($attachToWidget instanceof Connector)
+            return $attachToWidget->reload();
+
         return [
             '#notification' => $this->makePartial('flash'),
-            '#'.$this->formField->getId() => $form->renderField($this->formField, [
-                'useContainer' => false,
-            ]),
         ];
     }
 

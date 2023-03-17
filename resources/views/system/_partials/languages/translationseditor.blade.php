@@ -1,5 +1,5 @@
 <div
-    id="{{ $this->getId('items-container') }}"
+    id="{{ $this->getId() }}"
     class="field-translationseditor"
     data-control="translationseditor"
     data-alias="{{ $this->alias }}"

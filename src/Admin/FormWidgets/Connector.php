@@ -143,17 +143,12 @@ class Connector extends BaseFormWidget
         $this->vars['confirmMessage'] = $this->confirmMessage;
     }
 
-    public function reload()
+    public function reload(): array
     {
         $this->formField->value = null;
         $this->model->reloadRelations();
 
-        $this->prepareVars();
-
-        return [
-            '#notification' => $this->makePartial('flash'),
-            '#'.$this->getId('items') => $this->makePartial('connector/connector_items'),
-        ];
+        return parent::reload();
     }
 
     public function onLoadRecord()
@@ -213,11 +208,7 @@ class Connector extends BaseFormWidget
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->formName).' deleted'))->now();
 
-        $this->prepareVars();
-
-        return [
-            '#notification' => $this->makePartial('flash'),
-        ];
+        return $this->reload();
     }
 
     protected function processLoadValue()

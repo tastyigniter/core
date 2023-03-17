@@ -5,7 +5,7 @@
         this.$el = $(element)
         this.options = options
 
-        this.$chooseRecordEl = this.$el.find('[data-control="choose-record"]')
+        this.$assignRecordEl = this.$el.find('[data-control="assign-record"]')
         this.$createRecordEl = this.$el.find('[data-control="create-record"]')
         this.$editRecordEl = this.$el.find('[data-control="edit-record"]')
         this.$deleteRecordEl = this.$el.find('[data-control="delete-record"]')
@@ -16,39 +16,23 @@
     RecordEditor.prototype.constructor = RecordEditor
 
     RecordEditor.prototype.init = function () {
-        this.$chooseRecordEl.on('change', $.proxy(this.onRecordChanged, this))
-
-        this.$createRecordEl.on('click', $.proxy(this.onClickFormButton, this))
-        this.$editRecordEl.on('click', $.proxy(this.onClickFormButton, this))
-        this.$deleteRecordEl.on('click', $.proxy(this.onClickDeleteButton, this))
-
-        this.onRecordChanged()
+        // this.$createRecordEl.on('click', $.proxy(this.onClickFormButton, this))
+        // this.$editRecordEl.on('click', $.proxy(this.onClickFormButton, this))
+        // this.$deleteRecordEl.on('click', $.proxy(this.onClickDeleteButton, this))
+        // this.$assignRecordEl.on('click', $.proxy(this.onClickAssignButton, this))
     }
 
     // EVENT HANDLERS
     // ============================
 
-    RecordEditor.prototype.onRecordChanged = function (event) {
-        var recordId = event ? $(event.currentTarget).val() : 0
-
-        this.$el.find('[data-control="edit-record"]').toggleClass('hide', recordId == 0)
-        this.$el.find('[data-control="delete-record"]').toggleClass('hide', recordId == 0)
-    }
-
     RecordEditor.prototype.onClickFormButton = function (event) {
-        var self = this,
-            $button = $(event.currentTarget),
-            isCreateContext = $button.data('control') === 'create-record',
-            $chooseRecordEl = this.$chooseRecordEl
-
-        if ($chooseRecordEl.is("input[type='radio']"))
-            $chooseRecordEl = $chooseRecordEl.filter(':checked')
+        var $button = $(event.currentTarget),
+            isCreateContext = $button.data('control') === 'create-record'
 
         new $.ti.recordEditor.modal({
             alias: this.options.alias,
-            recordId: isCreateContext ? null : $chooseRecordEl.val(),
+            recordId: isCreateContext ? null : $button.data('recordId'),
             onSave: function () {
-                self.onRecordChanged()
                 this.hide()
             }
         })
@@ -60,10 +44,17 @@
             confirmMsg = $button.data('confirmMessage')
 
         $.request(handler, {
-            data: {
-                recordId: this.$chooseRecordEl.val(),
-            },
+            data: {recordId: $button.data('recordId')},
             confirm: confirmMsg
+        })
+    }
+
+    RecordEditor.prototype.onClickAssignButton = function (event) {
+        var handler = this.options.alias+'::onAssignRecord',
+            $button = $(event.currentTarget)
+
+        $button.request(handler, {
+            data: {recordId: $button.data('recordId')}
         })
     }
 

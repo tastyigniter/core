@@ -31,12 +31,12 @@
             @unless ($this->previewMode || !$this->editable)
                 <div class="align-self-center ml-auto">
                     <a
-                        class="close text-danger"
+                        class="btn btn-link text-danger"
                         aria-label="Remove"
                         data-control="delete-item"
-                        data-item-id="{{ $item->getKey() }}"
-                        data-item-selector="#{{ $this->getId('item-'.$index) }}"
-                        data-confirm-message="@lang($confirmMessage)"
+                        data-request="{{$this->getEventHandler('onDeleteRecord')}}"
+                        data-request-data="'recordId': '{{ $item->getKey() }}'"
+                        data-request-confirm="@lang($confirmMessage)"
                     ><i class="fa fa-trash-alt"></i></a>
                 </div>
             @endunless
