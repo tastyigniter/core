@@ -25,9 +25,7 @@ return new class extends Migration
         });
 
         Schema::table('order_menu_options', function (Blueprint $table) {
-            $table->dropColumn('order_id');
             $table->dropColumn('menu_id');
-            $table->dropColumn('order_option_name');
             $table->renameColumn('order_menu_option_id', 'menu_option_id');
         });
     }
