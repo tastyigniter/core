@@ -744,7 +744,7 @@ if (!function_exists('sort_array')) {
     /**
      * Sort an array by key
      */
-    function sort_array(array $array = [], string $sort_key = 'priority', string $option = SORT_ASC): array
+    function sort_array(array $array = [], string $sort_key = 'priority', int $option = SORT_ASC): array
     {
         if (!empty($array)) {
             foreach ($array as $key => $value) {
