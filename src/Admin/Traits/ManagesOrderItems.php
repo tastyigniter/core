@@ -3,7 +3,6 @@
 namespace Igniter\Admin\Traits;
 
 use Igniter\Admin\Models\Menu;
-use Igniter\Admin\Models\MenuItemOption;
 use Igniter\Admin\Models\MenuItemOptionValue;
 use Illuminate\Support\Facades\DB;
 
@@ -47,7 +46,7 @@ trait ManagesOrderItems
      */
     public function getOrderMenus()
     {
-        return $this->orderMenusQuery()->where('order_id', $this->getKey())->get();
+        return $this->menus;
     }
 
     /**
@@ -57,7 +56,7 @@ trait ManagesOrderItems
      */
     public function getOrderMenuOptions()
     {
-        return $this->orderMenuOptionsQuery()->where('order_id', $this->getKey())->get()->groupBy('order_menu_id');
+        return $this->menu_options->groupBy('order_menu_id');
     }
 
     /**
@@ -67,29 +66,9 @@ trait ManagesOrderItems
      */
     public function getOrderMenusWithOptions()
     {
-        $orderMenuOptions = $this->getOrderMenuOptions();
+        $this->load('menus.menu_options');
 
-        $menuItemOptionsIds = $orderMenuOptions->collapse()->pluck('order_menu_option_id')->unique();
-
-        $menuItemOptions = MenuItemOption::with('option')
-            ->whereIn('menu_option_id', $menuItemOptionsIds)
-            ->get()->keyBy('menu_option_id');
-
-        return $this->getOrderMenus()->map(function ($menu) use ($orderMenuOptions, $menuItemOptions) {
-            unset($menu->option_values);
-            $menuOptions = $orderMenuOptions->get($menu->order_menu_id) ?: [];
-
-            $menu->menu_options = collect($menuOptions)
-                ->map(function ($menuOption) use ($menuItemOptions) {
-                    $menuOption->order_option_category = optional($menuItemOptions->get(
-                        $menuOption->order_menu_option_id
-                    ))->option_name;
-
-                    return $menuOption;
-                });
-
-            return $menu;
-        });
+        return $this->menus;
     }
 
     /**
@@ -99,7 +78,7 @@ trait ManagesOrderItems
      */
     public function getOrderTotals()
     {
-        return $this->orderTotalsQuery()->where('order_id', $this->getKey())->orderBy('priority')->get();
+        return $this->totals->sortBy('priority');
     }
 
     /**
@@ -111,14 +90,13 @@ trait ManagesOrderItems
         if (!is_numeric($orderId))
             return false;
 
-        $this->orderMenusQuery()->where('order_id', $orderId)->delete();
-        $this->orderMenuOptionsQuery()->where('order_id', $orderId)->delete();
+        $this->menus()->delete();
+        $this->menu_options()->delete();
 
         foreach ($content as $rowId => $cartItem) {
             if ($rowId != $cartItem->rowId) continue;
 
-            $orderMenuId = $this->orderMenusQuery()->insertGetId([
-                'order_id' => $orderId,
+            $orderMenu = $this->menus()->create([
                 'menu_id' => $cartItem->id,
                 'name' => $cartItem->name,
                 'quantity' => $cartItem->qty,
@@ -128,8 +106,8 @@ trait ManagesOrderItems
                 'option_values' => serialize($cartItem->options),
             ]);
 
-            if ($orderMenuId && count($cartItem->options)) {
-                $this->addOrderMenuOptions($orderMenuId, $cartItem->id, $cartItem->options);
+            if ($orderMenu && count($cartItem->options)) {
+                $this->addOrderMenuOptions($orderMenu->getKey(), $cartItem->id, $cartItem->options);
             }
         }
     }
@@ -140,23 +118,21 @@ trait ManagesOrderItems
      *
      * @return bool
      */
-    protected function addOrderMenuOptions($orderMenuId, $menuId, $options)
+    protected function addOrderMenuOptions($orderMenuId, $menuId, $menuOptions)
     {
         $orderId = $this->getKey();
         if (!is_numeric($orderId))
             return false;
 
-        foreach ($options as $option) {
-            foreach ($option->values as $value) {
-                $this->orderMenuOptionsQuery()->insert([
+        foreach ($menuOptions as $menuOption) {
+            foreach ($menuOption->values as $menuOptionValue) {
+                $this->menu_options()->create([
                     'order_menu_id' => $orderMenuId,
-                    'order_id' => $orderId,
-                    'menu_id' => $menuId,
-                    'order_menu_option_id' => $option->id,
-                    'menu_option_value_id' => $value->id,
-                    'order_option_name' => $value->name,
-                    'order_option_price' => $value->price,
-                    'quantity' => $value->qty,
+                    'menu_option_id' => $menuOption->id,
+                    'menu_option_value_id' => $menuOptionValue->id,
+                    'order_option_name' => $menuOptionValue->name,
+                    'order_option_price' => $menuOptionValue->price,
+                    'quantity' => $menuOptionValue->qty,
                 ]);
             }
         }

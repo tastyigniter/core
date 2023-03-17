@@ -79,6 +79,9 @@ class Order extends Model
         ],
         'hasMany' => [
             'payment_logs' => \Igniter\Admin\Models\PaymentLog::class,
+            'menus' => \Igniter\Admin\Models\OrderMenu::class,
+            'menu_options' => \Igniter\Admin\Models\OrderMenuOptionValue::class,
+            'totals' => \Igniter\Admin\Models\OrderTotal::class,
         ],
     ];
 
@@ -92,7 +95,7 @@ class Order extends Model
         if (!$this->customer)
             return [];
 
-        return $this->customer->addresses()->get();
+        return $this->customer->addresses;
     }
 
     //
