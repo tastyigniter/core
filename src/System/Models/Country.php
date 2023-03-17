@@ -88,10 +88,9 @@ class Country extends Model
         return self::$defaultCountry = $defaultCountry;
     }
 
-    public static function upsertFromRemote()
+    public static function upsertFromHub()
     {
-        $hubManager = resolve(HubManager::class);
-        $response = $hubManager->getDataset('countries');
+        $response = resolve(HubManager::class)->getDataset('countries');
 
         collect(array_get($response, 'data', []))->each(function ($item) {
             if (!$country = static::firstWhere('iso_code_3', $item['iso_code_3'])) {

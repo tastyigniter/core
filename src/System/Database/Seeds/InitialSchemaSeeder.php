@@ -3,6 +3,7 @@
 namespace Igniter\System\Database\Seeds;
 
 use Igniter\Flame\Igniter;
+use Igniter\System\Classes\HubManager;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -17,6 +18,10 @@ class InitialSchemaSeeder extends Seeder
     public function run()
     {
         if (!DatabaseSeeder::$seedInitial) return;
+
+        $this->seedCountries();
+
+        $this->seedCurrencies();
 
         $this->seedCustomerGroups();
 
@@ -33,6 +38,38 @@ class InitialSchemaSeeder extends Seeder
         $this->seedUserRoles();
 
         $this->seedStatuses();
+    }
+
+    protected function seedCountries()
+    {
+        if (DB::table('countries')->count())
+            return;
+
+        DB::table('countries')->insert(resolve(HubManager::class)->getDataset('countries'));
+
+        DB::table('countries')->update(['updated_at' => now(), 'created_at' => now()]);
+
+        DB::table('countries')->update([
+            'format' => '{address_1}\n{address_2}\n{city} {postcode} {state}\n{country}',
+            'status' => 1,
+        ]);
+    }
+
+    protected function seedCurrencies()
+    {
+        if (DB::table('currencies')->count())
+            return;
+
+        $currencies = resolve(HubManager::class)->getDataset('currencies');
+        $countries = DB::table('countries')->pluck('country_id', 'iso_code_3');
+
+        foreach ($currencies as $currency) {
+            $currency['country_id'] = $countries->get($currency['iso_alpha3']);
+            DB::table('currencies')->insert(array_merge($currency, [
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]));
+        }
     }
 
     protected function seedCustomerGroups()

@@ -3,6 +3,7 @@
 namespace Igniter\System\Http\Controllers;
 
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\System\Models\Currency;
 
 class Currencies extends \Igniter\Admin\Classes\AdminController
 {
@@ -54,5 +55,14 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
         parent::__construct();
 
         AdminMenu::setContext('currencies', 'localisation');
+    }
+
+    public function index()
+    {
+        rescue(function () {
+            if (!Currency::count()) Currency::upsertFromHub();
+        });
+
+        $this->asExtension('ListController')->index();
     }
 }

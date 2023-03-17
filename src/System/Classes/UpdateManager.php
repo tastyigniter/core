@@ -10,7 +10,6 @@ use Igniter\Flame\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Helpers\SystemHelper;
-use Igniter\System\Models\Country;
 use Igniter\System\Models\Extension;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
@@ -152,8 +151,6 @@ class UpdateManager
         $this->prepareMigrationTable();
 
         $this->migrateApp();
-
-        rescue(fn() => Country::upsertFromRemote());
 
         $this->seedApp();
 

@@ -49,7 +49,7 @@ class HubManager
 
     public function getDataset($type)
     {
-        return $this->requestRemoteData("dataset/$type");
+        return array_get($this->requestRemoteData("dataset/$type"), 'data', []);
     }
 
     protected function requestRemoteData($uri, $params = [])

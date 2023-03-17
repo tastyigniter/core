@@ -6,6 +6,7 @@ use Igniter\Flame\Currency\Contracts\CurrencyInterface;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\ValidationException;
+use Igniter\System\Classes\HubManager;
 
 /**
  * Currency Model Class
@@ -28,6 +29,8 @@ class Currency extends Model implements CurrencyInterface
      * @var array The model table column to convert to dates on insert/update
      */
     public $timestamps = true;
+
+    protected $guarded = [];
 
     protected $casts = [
         'country_id' => 'integer',
@@ -157,6 +160,26 @@ class Currency extends Model implements CurrencyInterface
     public function scopeWhereIsEnabled($query)
     {
         return $query->where('currency_status', 1);
+    }
+
+    public static function upsertFromHub()
+    {
+        $response = resolve(HubManager::class)->getDataset('currencies');
+
+        $countries = Country::pluck('country_id', 'iso_code_3');
+
+        collect(array_get($response, 'data', []))
+            ->each(function ($item) use ($countries) {
+                $countryId = $countries->get($item['iso_alpha3']);
+                if (!strlen($item['iso_alpha3']) || !$countryId)
+                    return;
+
+                static::updateOrCreate([
+                    'iso_alpha3' => $item['iso_alpha3'],
+                ], array_merge($item, [
+                    'country_id' => $countryId,
+                ]));
+            });
     }
 
     //

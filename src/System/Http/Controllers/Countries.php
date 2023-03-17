@@ -3,6 +3,7 @@
 namespace Igniter\System\Http\Controllers;
 
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\System\Models\Country;
 
 /**
  * Controller Class Countries
@@ -57,5 +58,14 @@ class Countries extends \Igniter\Admin\Classes\AdminController
         parent::__construct();
 
         AdminMenu::setContext('countries', 'localisation');
+    }
+
+    public function index()
+    {
+        rescue(function () {
+            if (!Country::count()) Country::upsertFromHub();
+        });
+
+        $this->asExtension('ListController')->index();
     }
 }
