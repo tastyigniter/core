@@ -26,6 +26,8 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class IgniterInstall extends Command
 {
+    use \Illuminate\Console\ConfirmableTrait;
+
     /**
      * The console command name.
      */
@@ -61,14 +63,10 @@ class IgniterInstall extends Command
         $this->callSilent('igniter:package-discover');
         $this->callSilent('vendor:publish', ['--tag' => 'igniter-assets', '--force' => true]);
 
-        if ($this->option('force') &&
-            $this->confirm('Application appears to be installed already. Continue anyway?', false))
-            return;
-
         if ($this->shouldSkipSetup())
             return false;
 
-        $this->alert('INSTALLATION');
+        $this->alert('INSTALLATION STARTED');
 
         $this->line('Enter a new value, or press ENTER for the default');
 
@@ -128,7 +126,7 @@ class IgniterInstall extends Command
 
         $this->line('Migrating application and extensions...');
 
-        $this->callSilent('igniter:up');
+        $this->call('igniter:up');
 
         $this->line('Done. Migrating application and extensions...');
     }
@@ -240,12 +238,9 @@ class IgniterInstall extends Command
 
     protected function shouldSkipSetup()
     {
-        if (
-            Igniter::hasDatabase()
-            && !$this->option('force')
-            && !$this->confirm('Application appears to be installed already. Continue anyway?', false)
-        ) {
+        if (!Igniter::hasDatabase() || $this->option('force'))
             return false;
-        }
+
+        return !$this->confirm('Application appears to be installed already. Continue anyway?', false);
     }
 }
