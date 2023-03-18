@@ -3,8 +3,8 @@
 namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
-use Igniter\Admin\Events\Order\BeforeRefundProcessed;
-use Igniter\Admin\Events\Order\RefundProcessed;
+use Igniter\Admin\Events\Order\BeforeRefundProcessed as BeforeRefundProcessedEvent;
+use Igniter\Admin\Events\Order\RefundProcessed as RefundProcessedEvent;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Validation;
 
@@ -80,16 +80,12 @@ class PaymentLog extends Model
     public function markAsRefundProcessed()
     {
         if (is_null($this->refunded_at)) {
-            // @deprecated namespaced event, remove before v5
-            event('admin.paymentLog.beforeRefundProcessed', [$this]);
-            BeforeRefundProcessed::dispatch($this);
+            BeforeRefundProcessedEvent::dispatch($this);
 
             $this->refunded_at = Carbon::now();
             $this->save();
 
-            // @deprecated namespaced event, remove before v5
-            event('admin.paymentLog.refundProcessed', [$this]);
-            RefundProcessed::dispatch($this);
+            RefundProcessedEvent::dispatch($this);
         }
 
         return true;

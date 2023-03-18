@@ -4,29 +4,7 @@ namespace Igniter\Main\Events\Theme;
 
 class GetActiveTheme
 {
-    protected $themeCode;
+    use \Igniter\Flame\Traits\EventDispatchable;
 
-    public function __construct($themeCode)
-    {
-        $this->themeCode = $themeCode;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCode()
-    {
-        return $this->themeCode;
-    }
-
-    /**
-     * @param mixed $themeCode
-     * @return GetActiveTheme
-     */
-    public function setCode($themeCode)
-    {
-        $this->themeCode = $themeCode;
-
-        return $this;
-    }
+    protected static $dispatchLegacyEvent = 'theme.getActiveTheme';
 }

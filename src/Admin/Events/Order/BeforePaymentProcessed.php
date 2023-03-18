@@ -2,17 +2,16 @@
 
 namespace Igniter\Admin\Events\Order;
 
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
+use Igniter\Admin\Models\Order;
+use Igniter\Flame\Traits\EventDispatchable;
 
 class BeforePaymentProcessed
 {
-    use Dispatchable, SerializesModels;
+    use EventDispatchable;
 
-    public $order;
+    protected static $dispatchNamespacedEvent = 'admin.order.beforePaymentProcessed';
 
-    public function __construct($order)
+    public function __construct(public Order $order)
     {
-        $this->order = $order;
     }
 }

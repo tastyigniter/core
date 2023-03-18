@@ -4,7 +4,7 @@ namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
-use Igniter\Main\Events\Theme\GetActiveTheme;
+use Igniter\Main\Events\Theme\GetActiveTheme as GetActiveThemeEvent;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
@@ -190,9 +190,10 @@ class ThemeManager
     {
         $activeTheme = trim(params('default_themes.main', config('igniter.system.defaultTheme')), '/');
 
-        event($event = new GetActiveTheme($activeTheme), [], true);
+        if (!is_null($apiResult = GetActiveThemeEvent::dispatchOnce()))
+            $activeTheme = $apiResult;
 
-        return $event->getCode();
+        return $activeTheme;
     }
 
     /**
@@ -699,6 +700,6 @@ class ThemeManager
 
         File::makeDirectory($path, 0777, false, true);
 
-        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
     }
 }

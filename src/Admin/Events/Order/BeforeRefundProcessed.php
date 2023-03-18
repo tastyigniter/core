@@ -2,15 +2,16 @@
 
 namespace Igniter\Admin\Events\Order;
 
+use Igniter\Admin\Models\PaymentLog;
+
 class BeforeRefundProcessed
 {
-    public $order;
+    use \Igniter\Flame\Traits\EventDispatchable;
 
-    public $paymentLog;
+    protected static $dispatchNamespacedEvent = 'admin.order.beforeRefundProcessed';
 
-    public function __construct($paymentLog)
+    public function __construct(public PaymentLog $paymentLog)
     {
         $this->order = $paymentLog->order;
-        $this->paymentLog = $paymentLog;
     }
 }

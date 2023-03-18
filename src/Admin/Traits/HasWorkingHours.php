@@ -5,7 +5,7 @@ namespace Igniter\Admin\Traits;
 use Carbon\Carbon;
 use Exception;
 use Igniter\Admin\Classes\ScheduleItem;
-use Igniter\Admin\Events\Location\ScheduleCreated;
+use Igniter\Admin\Events\WorkingSchedule\Created as WorkingScheduleCreatedEvent;
 use Igniter\Flame\Location\WorkingSchedule;
 use Igniter\Local\Classes\OrderTypes;
 use Illuminate\Support\Collection;
@@ -109,9 +109,7 @@ trait HasWorkingHours
 
         $schedule->setType($type);
 
-        // @deprecated namespaced event, remove before v5
-        event('admin.workingSchedule.created', [$this, $schedule]);
-        ScheduleCreated::dispatch($this, $schedule);
+        WorkingScheduleCreatedEvent::dispatch($this, $schedule);
 
         return $schedule;
     }

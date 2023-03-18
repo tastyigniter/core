@@ -10,7 +10,7 @@ use Igniter\Flame\Assetic\Asset\HttpAsset;
 use Igniter\Flame\Assetic\Cache\FilesystemCache;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Igniter;
-use Igniter\System\Events\Assets\BeforePrepareCombiner;
+use Igniter\System\Events\Assets\BeforePrepareCombiner as BeforePrepareCombinerEvent;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
@@ -180,9 +180,7 @@ trait CombinesAssets
     protected function prepareCombiner(array $assets, $targetPath = null)
     {
         // Extensibility
-        // @deprecated namespaced event, remove before v5
-        event('assets.combiner.beforePrepare', [$this, $assets]);
-        BeforePrepareCombiner::dispatch($this, $assets);
+        BeforePrepareCombinerEvent::dispatch($this, $assets);
 
         $files = [];
         foreach ($assets as $path) {

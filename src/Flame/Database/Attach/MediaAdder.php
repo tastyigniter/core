@@ -2,9 +2,9 @@
 
 namespace Igniter\Flame\Database\Attach;
 
+use Igniter\Flame\Database\Attach\Events\MediaAdded as MediaAddedEvent;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -162,6 +162,6 @@ class MediaAdder
 
         Storage::disk($media->getDiskName())->put($destinationFileName, $fileStream);
 
-        Event::fire('attach.mediaAdded', $media);
+        MediaAddedEvent::dispatch($media);
     }
 }

@@ -9,9 +9,9 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use Igniter\Admin\Events\WorkingSchedule\TimeslotValid as TimeslotValidEvent;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Event;
 use InvalidArgumentException;
 
 class WorkingSchedule
@@ -437,7 +437,7 @@ class WorkingSchedule
         if (Carbon::instance($dateTime)->addDays($this->maxDays + 2)->lt($timeslot))
             return false;
 
-        $result = Event::fire('igniter.workingSchedule.timeslotValid', [$this, $timeslot], true);
+        $result = TimeslotValidEvent::dispatchOnce($this, $timeslot);
 
         return is_bool($result) ? $result : true;
     }

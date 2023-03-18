@@ -2,20 +2,16 @@
 
 namespace Igniter\System\Events\Assets;
 
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
+use Igniter\Flame\Traits\EventDispatchable;
+use Igniter\System\Libraries\Assets;
 
 class BeforePrepareCombiner
 {
-    use Dispatchable, SerializesModels;
+    use EventDispatchable;
 
-    public $controller;
+    protected static $dispatchNamespacedEvent = 'assets.combiner.beforePrepare';
 
-    public $assets;
-
-    public function __construct($controller, $assets)
+    public function __construct(public Assets $library, public array $assets)
     {
-        $this->controller = $controller;
-        $this->assets = $assets;
     }
 }

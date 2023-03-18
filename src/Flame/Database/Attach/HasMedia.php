@@ -3,12 +3,12 @@
 namespace Igniter\Flame\Database\Attach;
 
 use Exception;
+use Igniter\Flame\Database\Attach\Event\MediaTagCleared as MediaTagClearedEvent;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection as BaseCollection;
-use Illuminate\Support\Facades\Event;
 
 trait HasMedia
 {
@@ -242,7 +242,7 @@ trait HasMedia
     {
         $this->getMedia($tag)->each->delete();
 
-        Event::fire('attach.mediaTagCleared', $this, $tag);
+        MediaTagClearedEvent::dispatch($this, $tag);
 
         if ($this->mediaWasLoaded())
             unset($this->media);

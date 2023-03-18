@@ -280,11 +280,9 @@ class Theme
 
         $config = $this->getConfigValue('form', []);
 
-        // @deprecated namespaced event, remove before v5
-        event('main.theme.extendFormConfig', [$this->getName(), &$config]);
         event($event = new ExtendFormConfig($this->getName(), $config));
 
-        return $this->formConfigCache = $event->config;
+        return $this->formConfigCache = $event->getConfig();
     }
 
     public function getConfigValue($name, $default = null)

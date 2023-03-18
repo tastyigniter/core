@@ -2,7 +2,7 @@
 
 namespace Igniter\Admin\Classes;
 
-use Igniter\Admin\Events\Navigation\ExtendUserMenuLinks;
+use Igniter\Admin\Events\Navigation\ExtendUserMenuLinks as ExtendUserMenuLinksEvent;
 use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Facades\AdminLocation;
 
@@ -56,9 +56,7 @@ class UserPanel
             ],
         ]);
 
-        // @deprecated namespaced event, remove before v5
-        event('admin.menu.extendUserMenuLinks', [$items]);
-        ExtendUserMenuLinks::dispatch($items);
+        ExtendUserMenuLinksEvent::dispatch($items);
 
         $instance = self::forUser();
 

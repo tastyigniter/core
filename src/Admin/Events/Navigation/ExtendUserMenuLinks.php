@@ -2,16 +2,16 @@
 
 namespace Igniter\Admin\Events\Navigation;
 
-use Illuminate\Foundation\Events\Dispatchable;
+use Igniter\Flame\Traits\EventDispatchable;
+use Illuminate\Support\Collection;
 
 class ExtendUserMenuLinks
 {
-    use Dispatchable;
+    use EventDispatchable;
 
-    public $links;
+    protected static $dispatchNamespacedEvent = 'admin.menu.extendUserMenuLinks';
 
-    public function __construct($links)
+    public function __construct(public Collection $links)
     {
-        $this->links = $links;
     }
 }

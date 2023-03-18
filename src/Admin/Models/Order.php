@@ -3,8 +3,8 @@
 namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
-use Igniter\Admin\Events\Order\BeforePaymentProcessed;
-use Igniter\Admin\Events\Order\PaymentProcessed;
+use Igniter\Admin\Events\Order\BeforePaymentProcessed as BeforePaymentProcessedEvent;
+use Igniter\Admin\Events\Order\PaymentProcessed as PaymentProcessedEvent;
 use Igniter\Admin\Traits\Assignable;
 use Igniter\Admin\Traits\HasInvoice;
 use Igniter\Admin\Traits\Locationable;
@@ -273,16 +273,12 @@ class Order extends Model
     public function markAsPaymentProcessed()
     {
         if (!$this->processed) {
-            // @deprecated namespaced event, remove before v5
-            event('admin.order.beforePaymentProcessed', [$this]);
-            BeforePaymentProcessed::dispatch($this);
+            BeforePaymentProcessedEvent::dispatch($this);
 
             $this->processed = 1;
             $this->save();
 
-            // @deprecated namespaced event, remove before v5
-            event('admin.order.paymentProcessed', [$this]);
-            PaymentProcessed::dispatch($this);
+            PaymentProcessedEvent::dispatch($this);
         }
 
         return $this->processed;

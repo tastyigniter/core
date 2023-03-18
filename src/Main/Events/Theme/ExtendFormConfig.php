@@ -2,19 +2,18 @@
 
 namespace Igniter\Main\Events\Theme;
 
-use Illuminate\Foundation\Events\Dispatchable;
+use Igniter\Flame\Traits\EventDispatchable;
 
 class ExtendFormConfig
 {
-    use Dispatchable;
+    use EventDispatchable;
 
-    public $directory;
-
-    public $config;
-
-    public function __construct($directory, $config)
+    public function __construct(public string $themeName, public array $config)
     {
-        $this->directory = $directory;
-        $this->config = $config;
+    }
+
+    public function getConfig(): array
+    {
+        return $this->config;
     }
 }

@@ -2,17 +2,16 @@
 
 namespace Igniter\Main\Events\Theme;
 
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
+use Igniter\Flame\Traits\EventDispatchable;
+use Igniter\Main\Models\Theme;
 
 class Activated
 {
-    use Dispatchable, SerializesModels;
+    use EventDispatchable;
 
-    public $theme;
+    protected static $dispatchNamespacedEvent = 'main.theme.activated';
 
-    public function __construct($theme)
+    public function __construct(public Theme $theme)
     {
-        $this->theme = $theme;
     }
 }

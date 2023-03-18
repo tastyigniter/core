@@ -2,12 +2,16 @@
 
 namespace Igniter\Admin\Events\Order;
 
+use Igniter\Admin\Models\Order;
+use Igniter\Flame\Traits\EventDispatchable;
+
 class PaymentProcessed
 {
-    public $order;
+    use EventDispatchable;
 
-    public function __construct($order)
+    protected static $dispatchNamespacedEvent = 'admin.order.paymentProcessed';
+
+    public function __construct(public Order $order)
     {
-        $this->order = $order;
     }
 }
