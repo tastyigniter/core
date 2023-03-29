@@ -14,118 +14,83 @@ use Illuminate\Support\Collection;
 class Finder
 {
     /**
-     * The source instance.
-     * @var \Igniter\Flame\Pagic\Source\SourceInterface
-     */
-    protected $source;
-
-    /**
-     * The source query processor instance.
-     * @var \Igniter\Flame\Pagic\Processors\Processor
-     */
-    protected $processor;
-
-    /**
      * The model being queried.
-     * @var \Igniter\Flame\Pagic\Model
      */
-    protected $model;
+    protected Model $model;
 
     /**
      * Filter by these file extensions.
-     * @var array
      */
-    public $extensions;
+    public array|null $extensions = null;
 
     /**
      * The columns that should be returned.
-     * @var array
      */
-    public $columns;
+    public array $columns = ['*'];
 
     /**
      * The directory name which the finder is targeting.
-     * @var string
      */
-    public $in;
+    public string $in;
 
     /**
      * Query should pluck a single record.
-     * @var bool
      */
-    public $select;
+    public array $select = [];
 
     /**
      * Match files using the specified pattern.
-     * @var string
      */
-    public $fileMatch;
-
-    /**
-     * The orderings for the query.
-     * @var array
-     */
-    public $orders;
+    public string|null $fileMatch = null;
 
     /**
      * The maximum number of records to return.
-     * @var int
      */
-    public $limit;
+    public int $limit = 0;
 
     /**
      * The number of records to skip.
-     * @var int
      */
-    public $offset;
+    public int $offset = 0;
 
     /**
      * The key that should be used when caching the query.
-     * @var string
      */
-    protected $cacheKey;
+    protected string|null $cacheKey = null;
 
     /**
      * The number of seconds to cache the query.
-     * @var int
      */
-    protected $cacheSeconds;
+    protected int|null $cacheSeconds = null;
 
     /**
      * The tags for the query cache.
-     * @var array
      */
-    protected $cacheTags;
+    protected array $cacheTags = [];
 
     /**
      * The cache driver to be used.
-     * @var string
      */
-    protected $cacheDriver;
+    protected string|null $cacheDriver = null;
 
     /**
      * Internal variable to specify if the record was loaded from cache.
-     * @var bool
      */
-    protected $loadedFromCache = false;
+    protected bool $loadedFromCache = false;
 
     /**
      * Create a new query finder instance.
      */
-    public function __construct(SourceInterface $source, Processor $processor)
-    {
-        $this->source = $source;
-        $this->processor = $processor;
+    public function __construct(
+        protected SourceInterface $source,
+        protected Processor $processor
+    ) {
     }
 
     /**
      * Switches mode to select a single template by its name.
-     *
-     * @param  string $fileName
-     *
-     * @return $this
      */
-    public function whereFileName($fileName)
+    public function whereFileName(string $fileName): static
     {
         $this->select = $this->model->getFileNameParts($fileName);
 
@@ -134,12 +99,8 @@ class Finder
 
     /**
      * Set the directory name which the finder is targeting.
-     *
-     * @param  string $dirName
-     *
-     * @return $this
      */
-    public function in($dirName)
+    public function in(string $dirName): static
     {
         $this->in = $dirName;
 
@@ -148,12 +109,8 @@ class Finder
 
     /**
      * Set the "offset" value of the query.
-     *
-     * @param  int $value
-     *
-     * @return $this
      */
-    public function offset($value)
+    public function offset(int $value): static
     {
         $this->offset = max(0, $value);
 
@@ -163,23 +120,19 @@ class Finder
     /**
      * Alias to set the "offset" value of the query.
      *
-     * @param  int $value
+     * @param int $value
      *
      * @return \Igniter\Flame\Pagic\Finder|static
      */
-    public function skip($value)
+    public function skip($value): static
     {
         return $this->offset($value);
     }
 
     /**
      * Set the "limit" value of the query.
-     *
-     * @param  int $value
-     *
-     * @return $this
      */
-    public function limit($value)
+    public function limit(int $value): static
     {
         if ($value >= 0) {
             $this->limit = $value;
@@ -190,24 +143,16 @@ class Finder
 
     /**
      * Alias to set the "limit" value of the query.
-     *
-     * @param  int $value
-     *
-     * @return \Igniter\Flame\Pagic\Finder|static
      */
-    public function take($value)
+    public function take(int $value): static
     {
         return $this->limit($value);
     }
 
     /**
      * Find a single template by its file name.
-     *
-     * @param  string $fileName
-     *
-     * @return mixed|static
      */
-    public function find($fileName)
+    public function find(string $fileName): ?Model
     {
         return $this->whereFileName($fileName)->first();
     }
@@ -216,19 +161,15 @@ class Finder
      * Execute the query and get the first result.
      * @return mixed|static
      */
-    public function first()
+    public function first(): ?Model
     {
         return $this->limit(1)->get()->first();
     }
 
     /**
      * Execute the query as a "select" statement.
-     *
-     * @param  array $columns
-     *
-     * @return Collection|static[]
      */
-    public function get($columns = ['*'])
+    public function get(array $columns = ['*']): Collection
     {
         if (!is_null($this->cacheSeconds)) {
             $results = $this->getCached($columns);
@@ -244,13 +185,8 @@ class Finder
 
     /**
      * Get an array with the values of a given column.
-     *
-     * @param  string $column
-     * @param  string $key
-     *
-     * @return array|\Illuminate\Support\Collection
      */
-    public function lists($column, $key = null)
+    public function lists(string $column, string $key = null): Collection
     {
         $select = is_null($key) ? [$column] : [$column, $key];
 
@@ -261,10 +197,8 @@ class Finder
 
     /**
      * Insert a new record into the source.
-     *
-     * @return bool
      */
-    public function insert(array $values)
+    public function insert(array $values): int
     {
         if (empty($values)) {
             return true;
@@ -286,10 +220,8 @@ class Finder
 
     /**
      * Update a record in the source.
-     *
-     * @return int
      */
-    public function update(array $values)
+    public function update(array $values): int
     {
         $this->validateFileName();
 
@@ -317,10 +249,8 @@ class Finder
 
     /**
      * Delete a source from the filesystem.
-     *
-     * @return bool
      */
-    public function delete()
+    public function delete(): bool
     {
         $this->validateFileName();
 
@@ -335,10 +265,8 @@ class Finder
 
     /**
      * Returns the last modified time of the object.
-     *
-     * @return int
      */
-    public function lastModified()
+    public function lastModified(): int
     {
         $this->validateFileName();
 
@@ -353,12 +281,8 @@ class Finder
 
     /**
      * Execute the query as a fresh "select" statement.
-     *
-     * @param  array $columns
-     *
-     * @return Collection|static[]
      */
-    public function getFresh($columns = ['*'])
+    public function getFresh(array $columns = ['*']): ?array
     {
         if (is_null($this->columns)) {
             $this->columns = $columns;
@@ -371,9 +295,8 @@ class Finder
 
     /**
      * Run the query as a "select" statement against the source.
-     * @return array
      */
-    protected function runSelect()
+    protected function runSelect(): ?array
     {
         if ($this->select) {
             [$name, $extension] = $this->select;
@@ -389,16 +312,10 @@ class Finder
 
     /**
      * Set a model instance for the model being queried.
-     *
-     * @param \Igniter\Flame\Pagic\Model $model
-     *
-     * @return $this
      */
-    public function setModel(Model $model)
+    public function setModel(Model $model): static
     {
         $this->model = $model;
-
-        $this->extensions = $this->model->getAllowedExtensions();
 
         $this->in($this->model->getTypeDirName());
 
@@ -410,7 +327,7 @@ class Finder
      *
      * @return \Igniter\Flame\Pagic\Model[]
      */
-    public function getModels(array $results)
+    public function getModels(array $results): array
     {
         $source = $this->model->getSourceName();
 
@@ -430,14 +347,13 @@ class Finder
 
     /**
      * Get the model instance being queried.
-     * @return \Igniter\Flame\Pagic\Model
      */
-    public function getModel()
+    public function getModel(): Model
     {
         return $this->model;
     }
 
-    public function getSource()
+    public function getSource(): SourceInterface
     {
         return $this->source;
     }
@@ -448,12 +364,8 @@ class Finder
 
     /**
      * Validate the supplied filename, extension and path.
-     *
-     * @param string $fileName
-     *
-     * @return bool
      */
-    protected function validateFileName($fileName = null)
+    protected function validateFileName(string $fileName = null): bool
     {
         if ($fileName === null) {
             $fileName = $this->model->fileName;
@@ -467,52 +379,36 @@ class Finder
             throw (new InvalidFileNameException)->setInvalidFileName($fileName);
         }
 
-        $this->validateFileNameExtension($fileName, $this->model->getAllowedExtensions());
+        $this->validateFileNameExtension($fileName, Model::DEFAULT_EXTENSION);
 
         return true;
     }
 
     /**
      * Validates whether a file has an allowed extension.
-     *
-     * @param string $fileName Specifies a path to validate
-     * @param array $allowedExtensions A list of allowed file extensions
-     *
-     * @return void
      */
-    protected function validateFileNameExtension($fileName, $allowedExtensions)
+    protected function validateFileNameExtension(string $fileName, string $allowedExtension)
     {
-        $extension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-
-        if (strlen($extension) && !in_array($extension, $allowedExtensions)) {
-            throw (new InvalidExtensionException)
-                ->setInvalidExtension($extension)
-                ->setAllowedExtensions($allowedExtensions);
+        if (!str_ends_with($fileName, '.'.$allowedExtension)) {
+            throw new InvalidExtensionException($fileName, $allowedExtension);
         }
     }
 
     /**
      * Validates a template path.
      * Template directory and file names can contain only alphanumeric symbols, dashes and dots.
-     *
-     * @param string $filePath Specifies a path to validate
-     * @param int $maxNesting Specifies the maximum allowed nesting level
-     *
-     * @return bool
      */
-    protected function validateFileNamePath($filePath, $maxNesting = 2)
+    protected function validateFileNamePath(string $filePath, int $maxNesting = 2): bool
     {
-        if (strpos($filePath, '..') !== false) {
+        if (str_contains($filePath, '..')) {
             return false;
         }
 
-        if (strpos($filePath, './') !== false || strpos($filePath, '//') !== false) {
+        if (starts_with($filePath, './') || starts_with($filePath, '//')) {
             return false;
         }
 
-        // @todo: A different approach to fix the file path issue.
-        if (windows_os()) $filePath = str_replace('\\', '/', $filePath);
-        $segments = explode('/', $filePath);
+        $segments = explode(DIRECTORY_SEPARATOR, $filePath);
         if ($maxNesting !== null && count($segments) > $maxNesting) {
             return false;
         }
@@ -532,13 +428,8 @@ class Finder
 
     /**
      * Indicate that the query results should be cached.
-     *
-     * @param  \DateTime|int $seconds
-     * @param  string $key
-     *
-     * @return $this
      */
-    public function remember($seconds, $key = null)
+    public function remember(\DateTime|int|null $seconds, string|null $key = null): static
     {
         [$this->cacheSeconds, $this->cacheKey] = [$seconds, $key];
 
@@ -547,24 +438,16 @@ class Finder
 
     /**
      * Indicate that the query results should be cached forever.
-     *
-     * @param  string $key
-     *
-     * @return $this
      */
-    public function rememberForever($key = null)
+    public function rememberForever(string $key): static
     {
         return $this->remember(-1, $key);
     }
 
     /**
      * Indicate that the results, if cached, should use the given cache tags.
-     *
-     * @param  array|mixed $cacheTags
-     *
-     * @return $this
      */
-    public function cacheTags($cacheTags)
+    public function cacheTags(array $cacheTags): static
     {
         $this->cacheTags = $cacheTags;
 
@@ -573,12 +456,8 @@ class Finder
 
     /**
      * Indicate that the results, if cached, should use the given cache driver.
-     *
-     * @param  string $cacheDriver
-     *
-     * @return $this
      */
-    public function cacheDriver($cacheDriver)
+    public function cacheDriver(string $cacheDriver): static
     {
         $this->cacheDriver = $cacheDriver;
 
@@ -587,12 +466,8 @@ class Finder
 
     /**
      * Execute the query as a cached "select" statement.
-     *
-     * @param  array $columns
-     *
-     * @return array
      */
-    public function getCached($columns = ['*'])
+    public function getCached(array $columns = ['*']): array
     {
         if (is_null($this->columns)) {
             $this->columns = $columns;
@@ -642,12 +517,8 @@ class Finder
     /**
      * Returns true if the cache for the file is busted. This only applies
      * to single record selection.
-     *
-     * @param  array $result
-     *
-     * @return bool
      */
-    protected function isCacheBusted($result)
+    protected function isCacheBusted(array $result): bool
     {
         if (!$this->select) {
             return false;
@@ -668,9 +539,8 @@ class Finder
 
     /**
      * Get the cache object with tags assigned, if applicable.
-     * @return \Illuminate\Cache\CacheManager
      */
-    protected function getCache()
+    protected function getCache(): \Illuminate\Contracts\Cache\Repository
     {
         $cache = $this->model->getCacheManager()->driver($this->cacheDriver);
 
@@ -679,18 +549,16 @@ class Finder
 
     /**
      * Get a unique cache key for the complete query.
-     * @return string
      */
-    public function getCacheKey()
+    public function getCacheKey(): string
     {
         return $this->cacheKey ?: $this->generateCacheKey();
     }
 
     /**
      * Generate the unique cache key for the query.
-     * @return string
      */
-    public function generateCacheKey()
+    public function generateCacheKey(): string
     {
         $payload = [];
         $payload[] = $this->select ? serialize($this->select) : '*';
@@ -702,12 +570,7 @@ class Finder
         return $this->in.$this->source->makeCacheKey(implode('-', $payload));
     }
 
-    /**
-     * Get the Closure callback used when caching queries.
-     *
-     * @return \Closure
-     */
-    protected function getCacheCallback($columns)
+    protected function getCacheCallback(array $columns): callable
     {
         return function () use ($columns) {
             return $this->processInitCacheData($this->getFresh($columns));
@@ -716,12 +579,8 @@ class Finder
 
     /**
      * Initialize the cache data of each record.
-     *
-     * @param  array $data
-     *
-     * @return array
      */
-    protected function processInitCacheData($data)
+    protected function processInitCacheData(array $data): array
     {
         if ($data) {
             $model = get_class($this->model);
@@ -742,19 +601,10 @@ class Finder
         MemorySource::$cache = [];
     }
 
-    /**
-     * Handle dynamic method calls into the method.
-     *
-     * @param  string $method
-     * @param  array $parameters
-     *
-     * @return mixed
-     * @throws \BadMethodCallException
-     */
-    public function __call($method, $parameters)
+    public function __call(string $method, array|null $parameters): mixed
     {
         $className = get_class($this);
 
-        throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
+        throw new BadMethodCallException("Call to undefined method $className::$method()");
     }
 }

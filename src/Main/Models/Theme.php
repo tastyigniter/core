@@ -91,7 +91,7 @@ class Theme extends Model
 
     public function getLayoutOptions()
     {
-        return Layout::getDropdownOptions($this->getTheme(), true);
+        return Layout::getDropdownOptions($this->getTheme()->getName());
     }
 
     public static function getComponentOptions()

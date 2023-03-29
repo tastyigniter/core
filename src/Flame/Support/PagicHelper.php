@@ -2,8 +2,6 @@
 
 namespace Igniter\Flame\Support;
 
-use Illuminate\Support\Facades\App;
-
 /**
  * Pagic helper class
  */
@@ -17,8 +15,7 @@ class PagicHelper
      */
     public static function parse($contents, $vars = [])
     {
-        $pagic = App::make('pagic.environment');
-        $template = $pagic->createTemplate($contents);
+        $template = resolve('pagic')->createTemplate($contents);
 
         return $template->render($vars);
     }

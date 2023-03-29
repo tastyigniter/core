@@ -1,0 +1,275 @@
+<?php
+
+namespace Igniter\Flame\Pagic\Concerns;
+
+use Igniter\Flame\Pagic\Model;
+use Igniter\Flame\Pagic\Source\SourceInterface;
+use Igniter\Flame\Pagic\Source\SourceResolverInterface;
+use Illuminate\Support\Collection;
+
+trait ManagesSource
+{
+    /**
+     * The source resolver instance.
+     * @var \Igniter\Flame\Pagic\Source\SourceResolverInterface
+     */
+    protected static $resolver;
+
+    protected string $source;
+
+    /**
+     * @var string The directory name associated with the model, eg: _pages.
+     */
+    protected $dirName;
+
+    /**
+     * @var int The maximum allowed path nesting level. The default value is 2,
+     * meaning that files can only exist in the root directory, or in a
+     * subdirectory. Set to null if any level is allowed.
+     */
+    protected $maxNesting = 2;
+
+    public static function on(string $source): static
+    {
+        return (new static)->setSource($source);
+    }
+
+    /**
+     * Loads the object from a file.
+     * This method is used in the admin. It doesn't use any caching.
+     */
+    public static function load(string $source, string $fileName): mixed
+    {
+        return static::on($source)->find($fileName);
+    }
+
+    /**
+     * Loads the object from a cache.
+     * This method is used by the main in the runtime. If the cache is not found, it is created.
+     */
+    public static function loadCached(string $source, string $fileName): mixed
+    {
+        return static::on($source)
+            ->remember(config('igniter.pagic.parsedTemplateCacheTTL'))
+            ->find($fileName);
+    }
+
+    /**
+     * Returns the list of objects in the specified theme.
+     * This method is used internally by the system.
+     */
+    public static function listInTheme(string $source = null, bool $skipCache = false): Collection
+    {
+        $instance = static::on($source ?? static::$resolver->getDefaultSourceName());
+
+        if (!$skipCache) {
+            $instance->remember(config('igniter.pagic.parsedTemplateCacheTTL'));
+        }
+
+        return $instance->get();
+    }
+
+    public static function getDropdownOptions(string $source = null, bool $skipCache = false): array
+    {
+        return collect(static::listInTheme($source, $skipCache))
+            ->mapWithKeys(function (Model $model) {
+                $fileName = $model->getKey();
+                $description = (string)($model->description ?: $model->title);
+                $description = strlen($description) ? lang($description) : $fileName;
+
+                return [$fileName => str_limit($description, 40).' ['.$fileName.']'];
+            })
+            ->sort()->all();
+    }
+
+    public static function resolveSource(string|null $source = null): SourceInterface
+    {
+        return static::$resolver->source($source);
+    }
+
+    /**
+     * Get the source resolver instance.
+     */
+    public static function getSourceResolver(): SourceResolverInterface
+    {
+        return static::$resolver;
+    }
+
+    /**
+     * Set the source resolver instance.
+     */
+    public static function setSourceResolver(SourceResolverInterface $resolver): void
+    {
+        static::$resolver = $resolver;
+    }
+
+    /**
+     * Unset the source resolver for models.
+     */
+    public static function unsetSourceResolver(): void
+    {
+        static::$resolver = null;
+    }
+
+    public function getSource(): SourceInterface
+    {
+        return static::resolveSource($this->source);
+    }
+
+    public function setSource(string $source): static
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
+    /**
+     * Get the current source name for the model.
+     */
+    public function getSourceName(): string
+    {
+        return $this->source;
+    }
+
+    /**
+     * Returns the file name without the extension.
+     */
+    public function getBaseFileNameAttribute(): string
+    {
+        return str_before($this->fileName, '.'.static::DEFAULT_EXTENSION);
+    }
+
+    /**
+     * File name should always contain an extension.
+     */
+    public function setFileNameAttribute(string|null $value): void
+    {
+        $fileName = trim($value);
+
+        if (strlen($fileName) && !strlen(pathinfo($value, PATHINFO_EXTENSION))) {
+            $fileName .= '.'.static::DEFAULT_EXTENSION;
+        }
+
+        $this->attributes['fileName'] = $fileName;
+    }
+
+    /**
+     * Returns the directory name corresponding to the object type.
+     * For pages the directory name is "_pages", for layouts - "_layouts", etc.
+     */
+    public function getTypeDirName(): ?string
+    {
+        return $this->dirName;
+    }
+
+    /**
+     * Returns the default file extensions supported by this model.
+     */
+    public function getDefaultExtension(): string
+    {
+        return static::DEFAULT_EXTENSION;
+    }
+
+    /**
+     * Returns the maximum directory nesting allowed by this template.
+     */
+    public function getMaxNesting(): int
+    {
+        return $this->maxNesting;
+    }
+
+    /**
+     * Returns the base file name and extension. Applies a default extension, if none found.
+     */
+    public function getFileNameParts(string $fileName = null): array
+    {
+        if ($fileName === null) {
+            $fileName = $this->fileName;
+        }
+
+        $fileName = str_before($fileName, '.'.static::DEFAULT_EXTENSION);
+
+        return [str_replace('.', '/', $fileName), static::DEFAULT_EXTENSION];
+    }
+
+    //
+    //
+    //
+
+    /**
+     * Returns the local file path to the template.
+     *
+     * @param string $fileName
+     *
+     * @return string
+     */
+    public function getFilePath(string $fileName = null): ?string
+    {
+        if ($fileName === null) {
+            $fileName = $this->fileName;
+        }
+
+        if (strlen($fileName) && !str_ends_with($fileName, '.'.static::DEFAULT_EXTENSION)) {
+            $fileName .= '.'.static::DEFAULT_EXTENSION;
+        }
+
+        $fileName = $this->getTypeDirName().'/'.$fileName;
+
+        return $this->getSource()->path($fileName);
+    }
+
+    /**
+     * Returns the file name.
+     * @return string
+     */
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * Returns the file name without the extension.
+     * @return string
+     */
+    public function getBaseFileName(): ?string
+    {
+        return $this->baseFileName;
+    }
+
+    /**
+     * Returns the file content.
+     * @return string
+     */
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    /**
+     * Gets the markup section of a template
+     * @return string The template source code
+     */
+    public function getMarkup(): ?string
+    {
+        return $this->markup;
+    }
+
+    /**
+     * Gets the code section of a template
+     * @return string The template source code
+     */
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    /**
+     * Returns the key used by the Template cache.
+     * @return string
+     */
+    public function getTemplateCacheKey(): ?string
+    {
+        return $this->getFilePath();
+    }
+
+}

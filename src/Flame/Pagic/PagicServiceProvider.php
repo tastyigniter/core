@@ -18,7 +18,7 @@ class PagicServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Model::setSourceResolver($this->app['pagic']);
+        Model::setSourceResolver($this->app['pagic.resolver']);
 
         Model::setEventDispatcher($this->app['events']);
 
@@ -31,13 +31,21 @@ class PagicServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('pagic', function () {
+        $this->app->singleton('pagic.resolver', function () {
             return new SourceResolver;
         });
 
-        $this->app->singleton('pagic.environment', function () {
+        $this->app->singleton(Router::class);
+
+        $this->app->singleton(FileCache::class, function () {
+            return new FileCache(config('igniter.pagic.parsedTemplateCachePath'));
+        });
+
+        $this->app->singleton('pagic', function () {
             return new Environment(new Loader, [
+                'debug' => config('app.debug', false),
                 'cache' => new FileCache(config('view.compiled')),
+                'templateClass' => Template::class,
             ]);
         });
     }

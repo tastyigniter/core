@@ -25,13 +25,8 @@ trait HasViewBag
     public static function bootHasViewBag()
     {
         static::retrieved(function (self $model) {
-            $model->parseSettings();
+            $model->fillViewBagArray();
         });
-    }
-
-    public function parseSettings()
-    {
-        $this->fillViewBagArray();
     }
 
     /**
@@ -48,14 +43,12 @@ trait HasViewBag
 
         $componentName = 'viewBag';
         // Ensure viewBag component has not already been defined on template
-        if (!isset($this->settings['components'][$componentName])) {
+        if (!$viewBag = $this->getComponent($componentName)) {
             $viewBag = new ViewBag(null, []);
             $viewBag->name = $componentName;
-
-            return $this->viewBagCache = $viewBag;
         }
 
-        return $this->viewBagCache = $this->getComponent($componentName);
+        return $this->viewBagCache = $viewBag;
     }
 
     /**

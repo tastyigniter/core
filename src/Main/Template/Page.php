@@ -2,6 +2,7 @@
 
 namespace Igniter\Main\Template;
 
+use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
@@ -11,6 +12,10 @@ use Igniter\Main\Classes\ThemeManager;
  */
 class Page extends Model
 {
+    use Concerns\UsesBlueprint;
+    use Concerns\HasComponents;
+    use Concerns\HasViewBag;
+
     /**
      * @var string The directory name associated with the model, eg: _pages.
      */
@@ -36,10 +41,10 @@ class Page extends Model
         if ($type !== 'theme-page')
             return;
 
-        if (!$theme = resolve(ThemeManager::class)->getActiveTheme())
+        if (!$themeCode = resolve(ThemeManager::class)->getActiveThemeCode())
             return;
 
-        $references = self::getDropdownOptions($theme, true);
+        $references = self::getDropdownOptions($themeCode);
 
         return [
             'references' => $references,

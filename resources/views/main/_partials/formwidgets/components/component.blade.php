@@ -15,7 +15,12 @@
                 <p class="text-danger text-sm mb-0">{{ $component->fatalError }}</p>
             @endif
         </div>
-        <div class="components-item-action">
+        <div class="components-item-action mt-2">
+            <a
+                data-component-control="drag"
+                class="handle btn btn-light btn-sm mr-1"
+                role="button"
+            ><i class="fa fa-arrows-alt"></i></a>
             <a
                 role="button"
                 class="partial btn btn-light btn-sm mr-1"
@@ -23,11 +28,6 @@
                 data-component-context="partial"
                 title="@lang('igniter::main.components.button_copy_partial')"
             ><i class="fa fa-file-alt"></i></a>
-            <a
-                data-component-control="drag"
-                class="handle btn btn-light btn-sm mr-1"
-                role="button"
-            ><i class="fa fa-arrows-alt"></i></a>
             <a
                 data-component-control="remove"
                 class="remove btn btn-light btn-sm"

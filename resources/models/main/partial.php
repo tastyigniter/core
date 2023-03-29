@@ -12,7 +12,7 @@ return [
                 'settings[description]' => [
                     'tab' => 'lang:igniter::system.themes.text_tab_meta',
                     'label' => 'lang:igniter::admin.label_description',
-                    'type' => 'textarea',
+                    'type' => 'text',
                 ],
             ],
         ],

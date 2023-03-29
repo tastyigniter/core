@@ -5,89 +5,65 @@ namespace Igniter\Flame\Pagic;
 use ArrayAccess;
 use BadMethodCallException;
 use Exception;
-use Igniter\Flame\Pagic\Source\SourceResolverInterface;
+use Igniter\Flame\Database\Traits\Purgeable;
+use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Traits\EventEmitter;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Collection;
 use JsonSerializable;
 
 /**
  * Model class.
  */
-class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
+abstract class Model extends Extendable implements TemplateInterface, ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
     use Concerns\HidesAttributes;
     use Concerns\HasAttributes;
     use Concerns\GuardsAttributes;
     use Concerns\HasEvents;
     use Concerns\ManagesCache;
+    use Concerns\ManagesSource;
     use EventEmitter;
+    use Purgeable;
 
-    /**
-     * The source resolver instance.
-     * @var \Igniter\Flame\Pagic\Source\SourceResolverInterface
-     */
-    protected static $resolver;
+    public const DEFAULT_EXTENSION = 'blade.php';
 
-    public static $dispatcher;
+    public static Dispatcher $dispatcher;
 
     /**
      * The array of booted models.
      *
      * @var array
      */
-    protected static $booted = [];
+    protected static array $booted = [];
 
     /**
      * The array of booted events.
      *
      * @var array
      */
-    protected static $eventsBooted = [];
-
-    protected $source;
-
-    /**
-     * @var string The directory name associated with the model, eg: _pages.
-     */
-    protected $dirName;
+    protected static array $eventsBooted = [];
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $appends = [];
+    protected array $appends = [];
 
     /**
      * @var array List of attribute names which are not considered "settings".
      */
-    protected $purgeable = [];
+    protected array $purgeable = ['settings'];
 
     /**
      * Indicates if the model exists.
      * @var bool
      */
-    public $exists = false;
-
-    /**
-     * @var array Allowable file extensions.
-     */
-    protected $allowedExtensions = ['blade.php', 'php'];
-
-    /**
-     * @var string Default file extension.
-     */
-    protected $defaultExtension = 'blade.php';
-
-    /**
-     * @var int The maximum allowed path nesting level. The default value is 2,
-     * meaning that files can only exist in the root directory, or in a
-     * subdirectory. Set to null if any level is allowed.
-     */
-    protected $maxNesting = 2;
+    public bool $exists = false;
 
     /**
      * Create a new Halcyon model instance.
@@ -107,10 +83,8 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Check if the model needs to be booted and if so, do it.
-     *
-     * @return void
      */
-    protected function bootIfNotBooted()
+    protected function bootIfNotBooted(): void
     {
         if (!isset(static::$booted[static::class])) {
             static::$booted[static::class] = true;
@@ -125,20 +99,16 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * The "booting" method of the model.
-     *
-     * @return void
      */
-    protected static function boot()
+    protected static function boot(): void
     {
         static::bootTraits();
     }
 
     /**
      * Boot all of the bootable traits on the model.
-     *
-     * @return void
      */
-    protected static function bootTraits()
+    protected static function bootTraits(): void
     {
         $class = static::class;
 
@@ -151,72 +121,16 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Clear the list of booted models so they will be re-booted.
-     *
-     * @return void
      */
-    public static function clearBootedModels()
+    public static function clearBootedModels(): void
     {
         static::$booted = [];
     }
 
     /**
-     * @return self|\Igniter\Flame\Pagic\Finder
-     */
-    public static function on($source)
-    {
-        $instance = new static;
-
-        $instance->setSource($source);
-
-        return $instance;
-    }
-
-    /**
-     * @param string|null $source
-     *
-     * @return \Igniter\Flame\Pagic\Source\SourceInterface
-     */
-    public static function resolveSource($source = null)
-    {
-        return static::$resolver->source($source);
-    }
-
-    /**
-     * Get the source resolver instance.
-     * @return \Igniter\Flame\Pagic\Source\SourceResolverInterface
-     */
-    public static function getSourceResolver()
-    {
-        return static::$resolver;
-    }
-
-    /**
-     * Set the source resolver instance.
-     *
-     * @return void
-     */
-    public static function setSourceResolver(SourceResolverInterface $resolver)
-    {
-        static::$resolver = $resolver;
-    }
-
-    /**
-     * Unset the source resolver for models.
-     * @return void
-     */
-    public static function unsetSourceResolver()
-    {
-        static::$resolver = null;
-    }
-
-    /**
      * Create a collection of models from plain arrays.
-     *
-     * @param string|null $source
-     *
-     * @return \Illuminate\Support\Collection
      */
-    public static function hydrate(array $items, $source = null)
+    public static function hydrate(array $items, string|null $source = null): Collection
     {
         $instance = new static;
         $instance->setSource($source);
@@ -230,10 +144,8 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Save a new model and return the instance.
-     *
-     * @return static
      */
-    public static function create(array $attributes = [])
+    public static function create(array $attributes = []): static
     {
         $model = new static($attributes);
 
@@ -244,34 +156,25 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Begin querying the model.
-     *
-     * @return \Igniter\Flame\Pagic\Finder
      */
-    public static function query()
+    public static function query(): Finder
     {
         return (new static)->newFinder();
     }
 
     /**
      * Get all of the models from the source.
-     *
-     * @return \Illuminate\Support\Collection|static[]
      */
-    public static function all()
+    public static function all(): Collection
     {
-        $instance = new static;
-
-        return $instance->newFinder()->get();
+        return (new static)->newFinder()->get();
     }
 
     /**
      * Fill the model with an array of attributes.
-     *
-     * @return $this
-     *
      * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
-    public function fill(array $attributes)
+    public function fill(array $attributes): static
     {
         foreach ($this->fillableFromArray($attributes) as $key => $value) {
             if ($this->isFillable($key)) {
@@ -283,156 +186,27 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
     }
 
     /**
-     * @return \Igniter\Flame\Pagic\Source\SourceInterface
-     */
-    public function getSource()
-    {
-        return static::resolveSource($this->source);
-    }
-
-    /**
-     * @return \Igniter\Flame\Pagic\Model
-     */
-    public function setSource($source)
-    {
-        $this->source = $source;
-
-        return $this;
-    }
-
-    /**
-     * Get the current source name for the model.
+     * Returns the unique id of this object.
+     * ex. account/login.blade.php => account-login
      * @return string
      */
-    public function getSourceName()
+    public function getId()
     {
-        return $this->source;
-    }
-
-    /**
-     * Returns the file name without the extension.
-     * @return string
-     */
-    public function getBaseFileNameAttribute()
-    {
-        $pos = strrpos($this->fileName, '.');
-        if ($pos === false) {
-            return $this->fileName;
-        }
-
-        return str_before($this->fileName, '.'.$this->defaultExtension);
-    }
-
-    /**
-     * The settings is attribute contains everything that should
-     * be saved to the settings area.
-     * @return array
-     */
-    public function getSettingsAttribute()
-    {
-        $except = [
-            'fileName',
-            'components',
-            'content',
-            'markup',
-            'mTime',
-            'code',
-        ];
-
-        return array_except($this->attributes, array_merge($except, $this->purgeable));
-    }
-
-    /**
-     * Filling the settings should merge it with attributes.
-     *
-     * @param mixed $value
-     */
-    public function setSettingsAttribute($value)
-    {
-        if (is_array($value)) {
-            $this->attributes = array_merge($this->attributes, $value);
-        }
-    }
-
-    /**
-     * File name should always contain an extension.
-     * @param mixed $value
-     */
-    public function setFileNameAttribute($value)
-    {
-        $fileName = trim($value);
-
-        if (strlen($fileName) && !strlen(pathinfo($value, PATHINFO_EXTENSION))) {
-            $fileName .= '.'.$this->defaultExtension;
-        }
-
-        $this->attributes['fileName'] = $fileName;
+        return str_replace(DIRECTORY_SEPARATOR, '-', $this->getBaseFileName());
     }
 
     /**
      * Get the value of the model's primary key.
-     *
-     * @return mixed
      */
-    public function getKey()
+    public function getKey(): mixed
     {
-        return $this->getAttribute('fileName');
-    }
-
-    /**
-     * Returns the directory name corresponding to the object type.
-     * For pages the directory name is "_pages", for layouts - "_layouts", etc.
-     * @return string
-     */
-    public function getTypeDirName()
-    {
-        return $this->dirName;
-    }
-
-    public function isTypePage()
-    {
-        return $this->dirName === '_pages';
-    }
-
-    /**
-     * Returns the allowable file extensions supported by this model.
-     * @return array
-     */
-    public function getAllowedExtensions()
-    {
-        return $this->allowedExtensions;
-    }
-
-    /**
-     * Returns the maximum directory nesting allowed by this template.
-     * @return int
-     */
-    public function getMaxNesting()
-    {
-        return $this->maxNesting;
-    }
-
-    /**
-     * Returns the base file name and extension. Applies a default extension, if none found.
-     *
-     * @param string $fileName
-     *
-     * @return array
-     */
-    public function getFileNameParts($fileName = null)
-    {
-        if ($fileName === null) {
-            $fileName = $this->fileName;
-        }
-
-        return [str_before($fileName, '.'.$this->defaultExtension), $this->defaultExtension];
+        return str_replace(DIRECTORY_SEPARATOR, '.', $this->getBaseFileName());
     }
 
     /**
      * Get a new file finder for the object
-     * @return \Igniter\Flame\Pagic\Finder
      */
-    public function newFinder()
+    public function newFinder(): Finder
     {
         $source = $this->getSource();
 
@@ -443,28 +217,21 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Create a new Collection instance.
-     *
-     * @return \Illuminate\Support\Collection
      */
-    public function newCollection(array $models = [])
+    public function newCollection(array $models = []): Collection
     {
         return new Collection($models);
     }
 
     /**
      * Create a new instance of the given model.
-     *
-     * @param array $attributes
-     * @param bool $exists
-     *
-     * @return static
      */
-    public function newInstance($attributes = [], $exists = false)
+    public function newInstance(array $attributes = [], bool $exists = false): static
     {
         // This method just provides a convenient way for us to generate fresh model
         // instances of this current model. It is particularly useful during the
         // hydration of new objects via the Pagic query finder instances.
-        $model = new static((array)$attributes);
+        $model = new static($attributes);
 
         $model->exists = $exists;
 
@@ -473,17 +240,12 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Create a new model instance that is existing.
-     *
-     * @param array $attributes
-     * @param string|null $source
-     *
-     * @return static
      */
-    public function newFromFinder($attributes = [], $source = null)
+    public function newFromFinder(array $attributes = [], string|null $source = null): static
     {
         $instance = $this->newInstance([], true);
 
-        $instance->setRawAttributes((array)$attributes, true);
+        $instance->setRawAttributes($attributes, true);
 
         $instance->setSource($source ?: $this->source);
 
@@ -494,10 +256,8 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Update the model in the database.
-     *
-     * @return bool|int
      */
-    public function update(array $attributes = [])
+    public function update(array $attributes = []): bool|int
     {
         if (!$this->exists) {
             return $this->newFinder()->update($attributes);
@@ -508,20 +268,16 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Save the model to the source.
-     *
-     * @return bool
      */
-    public function save(array $options = [])
+    public function save(array $options = []): bool
     {
         return $this->saveInternal(['force' => false] + $options);
     }
 
     /**
      * Save the model to the database. Is used by {@link save()} and {@link forceSave()}.
-     *
-     * @return bool
      */
-    public function saveInternal(array $options = [])
+    public function saveInternal(array $options = []): bool
     {
         // Event
         if ($this->fireEvent('model.saveInternal', [$this->attributes, $options], true) === false) {
@@ -553,10 +309,8 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Finish processing on a successful save operation.
-     *
-     * @return void
      */
-    protected function finishSave(array $options)
+    protected function finishSave(array $options): void
     {
         $this->fireModelEvent('saved', false);
 
@@ -567,12 +321,8 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Perform a model update operation.
-     *
-     * @param \Igniter\Flame\Pagic\Finder $query
-     *
-     * @return bool
      */
-    protected function performUpdate(Finder $query, array $options = [])
+    protected function performUpdate(Finder $query, array $options = []): bool
     {
         $dirty = $this->getDirty();
 
@@ -598,12 +348,8 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Perform a model insert operation.
-     *
-     * @param \Igniter\Flame\Pagic\Finder $query
-     *
-     * @return bool
      */
-    protected function performInsert(Finder $query, array $options = [])
+    protected function performInsert(Finder $query, array $options = []): bool
     {
         if ($this->fireModelEvent('creating') === false) {
             return false;
@@ -627,12 +373,8 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Delete the model from the database.
-     *
-     * @return bool|null
-     *
-     * @throws \Exception
      */
-    public function delete()
+    public function delete(): bool
     {
         if (is_null($this->fileName)) {
             throw new Exception('No file name (fileName) defined on model.');
@@ -658,138 +400,76 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Perform the actual delete query on this model instance.
-     *
-     * @return void
      */
-    protected function performDeleteOnModel()
+    protected function performDeleteOnModel(): void
     {
         $this->newFinder()->delete();
     }
 
     /**
      * Convert the model to its string representation.
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toJson();
     }
 
-    /**
-     * Dynamically retrieve attributes on the model.
-     *
-     * @param string $name
-     *
-     * @return mixed
-     */
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         return $this->getAttribute($name);
     }
 
-    /**
-     * Dynamically set attributes on the model.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @return void
-     */
-    public function __set($name, $value)
+    public function __set(string $name, mixed $value): void
     {
         $this->setAttribute($name, $value);
     }
 
-    /**
-     * Handle dynamic method calls into the model.
-     *
-     * @param string $name
-     * @param array $params
-     *
-     * @return mixed
-     */
-    public function __call($name, $params)
+    public function __call(string $name, array|null $params): mixed
     {
         try {
             return parent::__call($name, $params);
         }
-        catch (BadMethodCallException $ex) {
+        catch (BadMethodCallException) {
             $finder = $this->newFinder();
 
             return call_user_func_array([$finder, $name], $params);
         }
     }
 
-    /**
-     * Handle dynamic static method calls into the method.
-     *
-     * @param string $name
-     * @param array $params
-     *
-     * @return mixed
-     */
-    public static function __callStatic($name, $params)
+    public static function __callStatic(string $name, array|null $params): mixed
     {
-        $instance = new static;
-
-        return call_user_func_array([$instance, $name], $params);
+        return call_user_func_array([new static, $name], $params);
     }
 
-    /**
-     * Determine if an attribute exists on the model.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function __isset($key)
+    public function __isset(string $key)
     {
-        return isset($this->attributes[$key]) ||
+        return isset($this->attributes[$key]) || isset($this->attributes['settings'][$key]) ||
             (
                 $this->hasGetMutator($key) &&
                 !is_null($this->getAttribute($key))
             );
     }
 
-    /**
-     * Unset an attribute on the model.
-     *
-     * @param string $key
-     *
-     * @return void
-     */
-    public function __unset($key)
+    public function __unset(string $key): void
     {
         unset($this->attributes[$key]);
     }
 
-    /**
-     * Determine if the given attribute exists.
-     */
     public function offsetExists(mixed $offset): bool
     {
         return isset($this->$offset);
     }
 
-    /**
-     * Get the value for a given offset.
-     */
     public function offsetGet(mixed $offset): mixed
     {
         return $this->$offset;
     }
 
-    /**
-     * Set the value for a given offset.
-     */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->$offset = $value;
     }
 
-    /**
-     * Unset the value for a given offset.
-     */
     public function offsetUnset(mixed $offset): void
     {
         unset($this->$offset);
@@ -797,21 +477,16 @@ class Model extends Extendable implements ArrayAccess, Arrayable, Jsonable, Json
 
     /**
      * Get the instance as an array.
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->attributesToArray();
     }
 
     /**
      * Convert the model instance to JSON.
-     *
-     * @param int $options
-     *
-     * @return string
      */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string|false
     {
         return json_encode($this->jsonSerialize(), $options);
     }

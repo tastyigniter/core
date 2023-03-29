@@ -3,23 +3,18 @@
 namespace Igniter\Flame\Pagic;
 
 use ErrorException;
-use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\View;
 use Throwable;
 
 class Template
 {
-    private $env;
-
     /**
      * A stack of the last compiled templates.
      *
      * @var array
      */
     private $lastCompiled = [];
-
-    protected $path;
 
     protected $page;
 
@@ -36,13 +31,10 @@ class Template
     /**
      * This method is for internal use only and should never be called
      * directly (use Environment::load() instead).
-     * @param \Igniter\Flame\Pagic\Environment $env
      * @internal
      */
-    public function __construct(Environment $env, $path)
+    public function __construct(private Environment $env, protected string $path)
     {
-        $this->env = $env;
-        $this->path = $path;
     }
 
     /**
@@ -54,7 +46,7 @@ class Template
      * @throws \Exception
      * @throws \Throwable
      */
-    public function render($data = [])
+    public function render(array $data = []): string
     {
         $this->lastCompiled[] = $this->getSourceFilePath();
 
@@ -62,14 +54,14 @@ class Template
 
         unset($data['this']);
 
-        $results = $this->getContents($data);
+        $result = $this->getContents($data);
 
         array_pop($this->lastCompiled);
 
-        return $results;
+        return $result;
     }
 
-    protected function mergeGlobals($data)
+    protected function mergeGlobals(array $data): void
     {
         if (array_key_exists('this', $data)) {
             foreach ($data['this'] as $key => $object) {
@@ -79,17 +71,15 @@ class Template
         }
     }
 
-    protected function getContents($data)
+    protected function getContents(array $data): string
     {
         return $this->evaluatePath($this->path, $this->gatherData($data));
     }
 
     /**
      * Get the data bound to the view instance.
-     *
-     * @return array
      */
-    protected function gatherData($data)
+    protected function gatherData(array $data): array
     {
         $data = array_merge(View::getShared(), $data);
 
@@ -101,7 +91,7 @@ class Template
         }, $data);
     }
 
-    protected function evaluatePath($path, $data)
+    protected function evaluatePath(string $path, array $data)
     {
         $obLevel = ob_get_level();
         ob_start();
@@ -114,14 +104,14 @@ class Template
         try {
             include $path;
         }
-        catch (Exception|Throwable $e) {
+        catch (Throwable $e) {
             $this->handleException($e, $obLevel);
         }
 
         return ltrim(ob_get_clean());
     }
 
-    protected function handleException($ex, $level)
+    protected function handleException(Throwable $ex, $level): void
     {
         $ex = new ErrorException($this->getMessage($ex), 0, 1, $ex->getFile(), $ex->getLine(), $ex);
 
@@ -134,16 +124,13 @@ class Template
 
     /**
      * Get the exception message for an exception.
-     *
-     * @param \Exception $e
-     * @return string
      */
-    protected function getMessage($e)
+    protected function getMessage(Throwable $e): string
     {
         return $e->getMessage().' (View: '.realpath(last($this->lastCompiled)).')';
     }
 
-    protected function getSourceFilePath()
+    protected function getSourceFilePath(): string
     {
         if ($source = $this->env->getLoader()->getSource())
             return $source->getFilePath();

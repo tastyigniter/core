@@ -2,36 +2,28 @@
 
 namespace Igniter\Flame\Pagic;
 
+use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use Illuminate\View\Compilers\BladeCompiler;
+use Illuminate\View\Compilers\CompilerInterface;
 use LogicException;
 
 class Environment
 {
-    protected $loadedTemplates;
+    protected array $loadedTemplates;
 
-    public $loader;
+    protected bool $debug;
 
-    protected $cache;
+    protected string $templateClass;
 
-    /**
-     * @var array Cache for global variables.
-     */
-    protected static $globalsCache;
+    protected string $charset;
 
-    protected $templateClassPrefix = '__PagicTemplate_';
+    protected ?Cache\FileSystem $cache;
 
-    /**
-     * @var bool
-     */
-    protected $debug;
+    protected static array $globalsCache;
 
-    /**
-     * @var mixed
-     */
-    protected $templateClass;
-
-    protected $charset;
+    protected string $templateClassPrefix = '__PagicTemplate_';
 
     /**
      * Constructor.
@@ -46,7 +38,7 @@ class Environment
      *
      * @param array $options An array of options
      */
-    public function __construct(Contracts\TemplateLoader $loader, $options = [])
+    public function __construct(protected Contracts\TemplateLoader $loader, array $options = [])
     {
         $this->setLoader($loader);
 
@@ -72,9 +64,8 @@ class Environment
 
     /**
      * Gets the Loader instance.
-     * @return Loader
      */
-    public function getLoader()
+    public function getLoader(): Contracts\TemplateLoader
     {
         if (null === $this->loader) {
             throw new LogicException('You must set a loader first.');
@@ -83,12 +74,36 @@ class Environment
         return $this->loader;
     }
 
+    public function setDebug(bool $debug): static
+    {
+        $this->debug = $debug;
+
+        return $this;
+    }
+
+    public function getDebug(): bool
+    {
+        return $this->debug;
+    }
+
+    public function setTemplateClass(string $templateClass): static
+    {
+        $this->templateClass = $templateClass;
+
+        return $this;
+    }
+
+    public function getTemplateClass(): string
+    {
+        return $this->templateClass;
+    }
+
     /**
      * Sets the default template charset.
      *
      * @param string $charset The default charset
      */
-    public function setCharset($charset)
+    public function setCharset(string $charset)
     {
         $this->charset = strtoupper($charset);
     }
@@ -97,7 +112,7 @@ class Environment
      * Gets the default template charset.
      * @return string The default charset
      */
-    public function getCharset()
+    public function getCharset(): string
     {
         return $this->charset;
     }
@@ -107,29 +122,34 @@ class Environment
      *
      * @return \Igniter\Flame\Pagic\Cache\FileSystem
      */
-    public function getCache()
+    public function getCache(): Cache\FileSystem
     {
         return $this->cache;
     }
 
     /**
      * Sets the current cache implementation.
-     *
-     * @param \Igniter\Flame\Pagic\Cache\FileSystem
      */
-    public function setCache($cache)
+    public function setCache(Cache\FileSystem $cache)
     {
         $this->cache = $cache;
     }
 
-    public function getCompiler()
+    public function getCompiler(): CompilerInterface
     {
-        return resolve('blade.compiler');
+        return resolve(BladeCompiler::class);
     }
 
-    public function getTemplateClass()
+    public function renderSource(TemplateInterface $source, array $vars = []): string
     {
-        return $this->templateClass;
+        return $this->loadSource($source)->render($vars);
+    }
+
+    public function loadSource(TemplateInterface $source): Template
+    {
+        $this->loader->setSource($source);
+
+        return $this->load($source->getFilePath());
     }
 
     /**
@@ -142,20 +162,15 @@ class Environment
      * @throws \Exception
      * @throws \Throwable
      */
-    public function render($name, array $context = [])
+    public function render(string $name, array $context = []): string
     {
         return $this->load($name)->render($context);
     }
 
     /**
      * Loads a template.
-     *
-     * @param string|Template $name The template name
-     *
-     * @return Template
-     * @throws \Exception
      */
-    public function load($name)
+    public function load(string $name): Template
     {
         return $this->loadTemplate($name, $this->getCache()->getCacheKey($name, true));
     }
@@ -168,7 +183,7 @@ class Environment
      *
      * @return Template
      */
-    public function loadTemplate($name, $path)
+    public function loadTemplate(string $name, string $path): Template
     {
         if (isset($this->loadedTemplates[$name])) {
             return $this->loadedTemplates[$name];
@@ -196,7 +211,7 @@ class Environment
      *
      * @return Template
      */
-    public function createTemplate($template)
+    public function createTemplate(string $template): Template
     {
         $name = hash('sha256', $template, false);
         $key = $this->getCache()->getCacheKey($name, true);
@@ -223,7 +238,7 @@ class Environment
      * @return bool true if the template is fresh, false otherwise
      * @throws \Exception
      */
-    public function isTemplateFresh($name, $time)
+    public function isTemplateFresh(string $name, int $time): bool
     {
         return $this->getLoader()->isFresh($name, $time);
     }
@@ -233,33 +248,24 @@ class Environment
      *
      * New globals can be added before compiling or rendering a template;
      * but after, you can only update existing globals.
-     *
-     * @param string $name The global name
-     * @param mixed $value The global value
      */
-    public function addGlobal($name, $value)
+    public function addGlobal(string $name, mixed $value)
     {
         self::$globalsCache[$name] = $value;
     }
 
     /**
      * Gets the registered Globals.
-     *
-     * @return array An array of globals
      */
-    public function getGlobals()
+    public function getGlobals(): array
     {
         return self::$globalsCache;
     }
 
     /**
      * Merges a context with the defined globals.
-     *
-     * @param array $context An array representing the context
-     *
-     * @return array The context merged with the globals
      */
-    public function mergeGlobals(array $context)
+    public function mergeGlobals(array $context): array
     {
         // we don't use array_merge as the context being generally
         // bigger than globals, this code is faster.

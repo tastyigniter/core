@@ -2,11 +2,17 @@
 
 namespace Igniter\Main\Template;
 
+use Igniter\Flame\Pagic\Model;
+
 /**
  * Layout Template Class
  */
 class Layout extends Model
 {
+    use Concerns\UsesBlueprint;
+    use Concerns\HasComponents;
+    use Concerns\HasViewBag;
+
     /**
      * @var string The directory name associated with the model, eg: pages.
      */
@@ -14,9 +20,9 @@ class Layout extends Model
 
     public $controller;
 
-    public static function initFallback($theme)
+    public static function initFallback($source)
     {
-        $model = self::inTheme($theme);
+        $model = self::on($source);
         $model->markup = '<?= page(); ?>';
         $model->fileName = 'default';
 

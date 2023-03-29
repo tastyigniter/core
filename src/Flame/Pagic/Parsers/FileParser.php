@@ -3,124 +3,59 @@
 namespace Igniter\Flame\Pagic\Parsers;
 
 use Igniter\Flame\Pagic\Cache\FileSystem;
-use Symfony\Component\Yaml\Yaml;
+use Igniter\Flame\Pagic\Model;
 
 /**
  * FileParser class.
  */
 class FileParser
 {
-    const SOURCE_SEPARATOR = '---';
-
     /**
      * @var \Igniter\Flame\Pagic\Model
      */
     protected $object;
 
-    /**
-     * @var FileSystem
-     */
-    protected static $fileCache;
-
-    /**
-     * Parses a page or layout file content.
-     * The expected file format is following:
-     * <pre>
-     * ---
-     * Data (frontmatter) section
-     * ---
-     * PHP code section
-     * ---
-     * Html markup section
-     * </pre>
-     * If the content has only 2 sections they are considered as Data and Html.
-     * If there is only a single section, it is considered as Html.
-     *
-     * @param string $content The file content.
-     *
-     * @return array Returns an array with the following indexes: 'data', 'markup', 'code'.
-     * The 'markup' and 'code' elements contain strings. The 'settings' element contains the
-     * parsed Data as array. If the content string does not contain a section, the corresponding
-     * result element has null value.
-     */
-    public static function parse($content)
+    public function __construct()
     {
-        $separator = static::SOURCE_SEPARATOR;
+        $this->fileCache = resolve(FileSystem::class);
+    }
 
-        // Split the document into three sections.
-        $doc = explode($separator, $content);
-
-        $count = count($doc);
-
-        $result = [
-            'settings' => null,
-            'code' => null,
-            'markup' => null,
-        ];
-
-        // Data, code and markup
-        if ($count === 4) {
-            $frontMatter = trim($doc[1]);
-            $result['settings'] = Yaml::parse($frontMatter);
-            $result['code'] = trim($doc[2]);
-            $result['markup'] = $doc[3];
-        }
-        // Data and markup
-        elseif ($count === 3) {
-            $frontMatter = trim($doc[1]);
-            $result['settings'] = Yaml::parse($frontMatter);
-            $result['markup'] = $doc[2];
-        }
-        // Only markup
-        elseif ($count === 2) {
-            $result['markup'] = $doc[1];
-        }
-        // Only markup, no separator
-        elseif ($count === 1) {
-            $result['markup'] = $doc[0];
-        }
-
-        return $result;
+    public static function on(Model $object): static
+    {
+        return tap(new static, function ($parser) use ($object) {
+            $parser->object = $object;
+        });
     }
 
     /**
-     * Renders a page or layout object as file content.
+     * Runs the object's PHP file and returns the corresponding object.
      *
-     * @return string
+     * @param \Igniter\Main\Template\Page $page The page.
+     * @param \Igniter\Main\Template\Layout $layout The layout.
+     * @param \Igniter\Main\Classes\MainController $controller The controller.
+     *
+     * @return mixed
      */
-    public static function render($data)
+    public function source()
     {
-        $code = trim(array_get($data, 'code'));
-        $markup = trim(array_get($data, 'markup'));
-        $settings = array_get($data, 'settings', []);
+        $data = $this->process();
+        $className = $data['className'];
 
-        // Build content
-        $content = [];
-
-        if ($settings) {
-            $content[] = trim(Yaml::dump($settings), PHP_EOL);
+        if (!class_exists($className)) {
+            $this->fileCache->load($data['filePath']);
         }
 
-        if ($code) {
-            $code = preg_replace('/^\<\?php/', '', $code);
-            $code = preg_replace('/^\<\?/', '', preg_replace('/\?>$/', '', $code));
-
-            $code = trim($code, PHP_EOL);
-            $content[] = '<?php'.PHP_EOL.$code.PHP_EOL.'?>';
+        if (!class_exists($className) && $data = $this->handleCorruptCache($data)) {
+            $className = $data['className'];
         }
 
-        $content[] = $markup;
-
-        $content = self::SOURCE_SEPARATOR.PHP_EOL.trim(implode(PHP_EOL.self::SOURCE_SEPARATOR.PHP_EOL, $content));
-
-        return $content;
+        return new $className(...func_get_args());
     }
 
-    public function process()
+    protected function process()
     {
-        $fileCache = self::$fileCache;
         $filePath = $this->object->getFilePath();
-        $path = $fileCache->getCacheKey($filePath);
+        $path = $this->fileCache->getCacheKey($filePath);
 
         $result = [
             'filePath' => $path,
@@ -129,7 +64,7 @@ class FileParser
         ];
 
         if (is_file($path)) {
-            $cachedInfo = $fileCache->getCached($path);
+            $cachedInfo = $this->fileCache->getCached($path);
             $hasCache = $cachedInfo !== null;
 
             if ($hasCache && $cachedInfo['mTime'] == $this->object->mTime) {
@@ -141,7 +76,7 @@ class FileParser
             if (!$hasCache && filemtime($path) >= $this->object->mTime) {
                 if ($className = $this->extractClassFromFile($path)) {
                     $cacheItem['className'] = $className;
-                    $fileCache->storeCached($filePath, $cacheItem);
+                    $this->fileCache->storeCached($filePath, $cacheItem);
 
                     return $result;
                 }
@@ -149,7 +84,7 @@ class FileParser
         }
 
         $result['className'] = $this->compile($path);
-        $fileCache->storeCached($path, $result);
+        $this->fileCache->storeCached($path, $result);
 
         return $result;
     }
@@ -194,58 +129,14 @@ class FileParser
         // Evaluates PHP content in order to detect syntax errors
         eval('?>'.$fileContents);
 
-        self::$fileCache->write($path, $fileContents);
+        $this->fileCache->write($path, $fileContents);
 
         return $className;
     }
 
-    /**
-     * @param \Igniter\Main\Template\Model The template object to source.
-     *
-     * @return static
-     */
-    public static function on($object)
-    {
-        $instance = new static;
-
-        $instance->object = $object;
-
-        return $instance;
-    }
-
-    public static function setCache($fileCache)
-    {
-        self::$fileCache = $fileCache;
-    }
-
-    /**
-     * Runs the object's PHP file and returns the corresponding object.
-     *
-     * @param \Igniter\Main\Template\Page $page The page.
-     * @param \Igniter\Main\Template\Layout $layout The layout.
-     * @param \Igniter\Main\Classes\MainController $controller The controller.
-     *
-     * @return mixed
-     */
-    public function source($page, $layout, $controller)
-    {
-        $data = $this->process();
-        $className = $data['className'];
-
-        if (!class_exists($className)) {
-            self::$fileCache->load($data['filePath']);
-        }
-
-        if (!class_exists($className) && $data = $this->handleCorruptCache($data)) {
-            $className = $data['className'];
-        }
-
-        return new $className($page, $layout, $controller);
-    }
-
     protected function handleCorruptCache($data)
     {
-        $path = array_get($data, 'filePath', self::$fileCache->getCacheKey($data['className']));
+        $path = array_get($data, 'filePath', $this->fileCache->getCacheKey($data['className']));
         if (is_file($path)) {
             if (($className = $this->extractClassFromFile($path)) && class_exists($className)) {
                 $data['className'] = $className;

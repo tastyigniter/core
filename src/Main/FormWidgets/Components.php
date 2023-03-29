@@ -7,6 +7,7 @@ use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\ComponentManager;
 use Illuminate\Support\Facades\File;
@@ -81,13 +82,11 @@ class Components extends BaseFormWidget
 
     public function getSaveValue($value)
     {
-        $result = [];
-        $components = array_get($this->data->settings, 'components');
-        foreach ((array)$value as $index => $alias) {
-            $result[sprintf('[%s]', $alias)] = $components[$alias];
+        if (is_array($value)) {
+            $this->data->fileSource->sortComponents(array_flip($value));
         }
 
-        return $result;
+        return null;
     }
 
     public function onLoadRecord()
@@ -120,20 +119,20 @@ class Components extends BaseFormWidget
             return;
         }
 
-        $this->validate(post(), ['recordId' => ['string']]);
+        $data = $this->validate(post(), [
+            'recordId' => ['nullable', 'string'],
+            name_to_dot_string($this->formField->arrayName).'.componentData.component' => ['array'],
+        ]);
 
         $isCreateContext = request()->method() === 'POST';
         $codeAlias = $isCreateContext
-            ? post($this->formField->arrayName.'[componentData][component]')
-            : post('recordId');
+            ? array_get($data, name_to_dot_string($this->formField->arrayName.'[componentData][component]'))
+            : array_get($data, 'recordId');
 
-        if (!strlen($codeAlias))
-            throw new ApplicationException('Invalid component selected');
-
-        if (!$template = $this->getTemplate())
+        if (!$template = $this->data->fileSource)
             throw new ApplicationException('Template file not found');
 
-        $partialToOverride = post($this->formField->arrayName.'[componentData][partial]');
+        $partialToOverride = array_get($data, name_to_dot_string($this->formField->arrayName.'[componentData][partial]'));
 
         if (strlen($partialToOverride)) {
             $this->overrideComponentPartial($codeAlias, $partialToOverride);
@@ -143,15 +142,18 @@ class Components extends BaseFormWidget
             ))->now();
         }
         else {
-            $this->updateComponent($codeAlias, $isCreateContext, $template);
+            if (!is_array($codeAlias))
+                $codeAlias = [$codeAlias];
+
+            foreach ($codeAlias as $_codeAlias) {
+                $this->updateComponent($_codeAlias, $isCreateContext, $template);
+            }
 
             flash()->success(sprintf(lang('igniter::admin.alert_success'),
                 'Component '.($isCreateContext ? 'added' : 'updated')
             ))->now();
 
-            $template = $this->getTemplate();
             $this->formField->value = array_get($template->settings, 'components');
-            $this->controller->setTemplateValue('mTime', $template->mTime);
         }
 
         return [
@@ -168,18 +170,17 @@ class Components extends BaseFormWidget
         if (!strlen($codeAlias))
             throw new ApplicationException('Invalid component selected');
 
-        $template = $this->getTemplate();
+        if (!$template = $this->data->fileSource)
+            throw new ApplicationException('Template file not found');
 
         $attributes = $template->getAttributes();
-        unset($attributes[sprintf('[%s]', $codeAlias)]);
+        unset($attributes[$codeAlias]);
         $template->setRawAttributes($attributes);
 
         $template->mTime = Carbon::now()->timestamp;
         $template->save();
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Component removed'))->now();
-
-        $this->controller->setTemplateValue('mTime', $template->mTime);
 
         return ['#notification' => $this->makePartial('flash')];
     }
@@ -291,16 +292,6 @@ class Components extends BaseFormWidget
         return strpos($name, ' ') ? explode(' ', $name) : [$name, $name];
     }
 
-    protected function getTemplate()
-    {
-        $fileName = sprintf('%s/%s',
-            $this->controller->getTemplateValue('type'),
-            $this->controller->getTemplateValue('file')
-        );
-
-        return resolve(ThemeManager::class)->readFile($fileName, $this->model->code);
-    }
-
     protected function updateComponent($codeAlias, $isCreateContext, $template)
     {
         $componentObj = $this->makeComponentBy($codeAlias);
@@ -312,22 +303,18 @@ class Components extends BaseFormWidget
         $properties = $this->convertComponentPropertyValues($properties);
 
         if ($isCreateContext) {
-            $alias = sprintf('[%s]', $this->getUniqueAlias($codeAlias));
-
-            return $template->update(['settings' => [$alias => $properties]]);
+            $properties['alias'] = $this->getUniqueAlias($codeAlias);
+        }
+        else {
+            [$rules, $attributes] = $this->manager->getComponentPropertyRules($componentObj);
+            $this->validate($properties, $rules, [], $attributes);
         }
 
-        [$rules, $attributes] = $this->manager->getComponentPropertyRules($componentObj);
-        $this->validate($properties, $rules, [], $attributes);
-
-        $alias = sprintf('[%s]', $codeAlias);
-        $template->updateComponent($alias, $properties);
+        $template->updateComponent($codeAlias, $properties);
     }
 
     protected function convertComponentPropertyValues($properties)
     {
-        $properties['alias'] = sprintf('[%s]', $properties['alias']);
-
         return array_map(function ($propertyValue) {
             if (is_numeric($propertyValue))
                 $propertyValue += 0; // Convert to int or float
@@ -350,7 +337,7 @@ class Components extends BaseFormWidget
         $formField->options(function () use ($componentPath) {
             return collect(File::glob($componentPath.'/*.blade.php'))
                 ->mapWithKeys(function ($path) {
-                    return [File::basename($path) => str_before(File::basename($path), '.blade.php')];
+                    return [File::basename($path) => str_before(File::basename($path), '.'.Model::DEFAULT_EXTENSION)];
                 });
         });
     }

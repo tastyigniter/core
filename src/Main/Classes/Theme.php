@@ -5,7 +5,9 @@ namespace Igniter\Main\Classes;
 use Exception;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Pagic\Source\FileSource;
+use Igniter\Flame\Pagic\Source\SourceInterface;
 use Igniter\Main\Events\Theme\ExtendFormConfig;
 use Igniter\Main\Models\Theme as ThemeModel;
 use Igniter\Main\Template\Content as ContentTemplate;
@@ -91,6 +93,8 @@ class Theme
 
     protected $customData;
 
+    protected $fileSource;
+
     protected $formConfigCache;
 
     protected $screenshotData;
@@ -117,7 +121,6 @@ class Theme
     public function boot()
     {
         $this->fillFromConfig();
-        $this->registerAsSource();
         $this->registerPathSymbol();
 
         return $this;
@@ -361,17 +364,17 @@ class Theme
 
     public function listPages()
     {
-        return PageTemplate::listInTheme($this);
+        return PageTemplate::listInTheme($this->getName());
     }
 
     public function listPartials()
     {
-        return PartialTemplate::listInTheme($this);
+        return PartialTemplate::listInTheme($this->getName());
     }
 
     public function listLayouts()
     {
-        return LayoutTemplate::listInTheme($this);
+        return LayoutTemplate::listInTheme($this->getName());
     }
 
     public function getPagesOptions()
@@ -387,28 +390,22 @@ class Theme
     //
     //
 
-    /**
-     * Ensures this theme is registered as a Pagic source.
-     * @return void
-     */
-    public function registerAsSource()
+    public function makeFileSource(): SourceInterface
     {
-        $resolver = resolve('pagic');
-        if (!$resolver->hasSource($this->getName())) {
-            $files = resolve('files');
+        if (!is_null($this->fileSource))
+            return $this->fileSource;
 
-            if ($this->hasParent()) {
-                $source = new ChainFileSource([
-                    new FileSource($this->getSourcePath(), $files),
-                    new FileSource($this->getParent()->getSourcePath(), $files),
-                ]);
-            }
-            else {
-                $source = new FileSource($this->getSourcePath(), $files);
-            }
-
-            $resolver->addSource($this->getName(), $source);
+        if ($this->hasParent()) {
+            $source = new ChainFileSource([
+                new FileSource($this->getSourcePath()),
+                new FileSource($this->getParent()->getSourcePath()),
+            ]);
         }
+        else {
+            $source = new FileSource($this->getSourcePath());
+        }
+
+        return $this->fileSource = $source;
     }
 
     public function registerPathSymbol()
@@ -420,7 +417,7 @@ class Theme
     }
 
     /**
-     * @return \Igniter\Main\Template\Model|\Igniter\Flame\Pagic\Finder
+     * @return \Igniter\Flame\Pagic\Model|\Igniter\Flame\Pagic\Finder
      */
     public function onTemplate($dirName)
     {
@@ -430,7 +427,7 @@ class Theme
     }
 
     /**
-     * @return \Igniter\Main\Template\Model
+     * @return \Igniter\Flame\Pagic\Model
      */
     public function newTemplate($dirName)
     {

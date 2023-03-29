@@ -38,7 +38,7 @@ class TemplateEditor extends BaseFormWidget
 
     protected $defaultAlias = 'templateeditor';
 
-    protected $manager;
+    protected ThemeManager $manager;
 
     protected $templateConfig = [
         '_pages' => 'igniter::models/main/page',
@@ -74,9 +74,6 @@ class TemplateEditor extends BaseFormWidget
         ]);
 
         $this->manager = resolve(ThemeManager::class);
-        $this->templateType = $this->controller->getTemplateValue('type') ?? '_pages';
-        $this->templateFile = $this->controller->getTemplateValue('file');
-
         $this->templateWidget = $this->makeTemplateFormWidget();
     }
 
@@ -85,7 +82,7 @@ class TemplateEditor extends BaseFormWidget
         $this->prepareVars();
 
         if ($this->templateWidget)
-            $this->controller->setTemplateValue('mTime', $this->getTemplateModifiedTime());
+            $this->setTemplateValue('mTime', $this->getTemplateModifiedTime());
 
         return $this->makePartial('templateeditor/templateeditor');
     }
@@ -96,13 +93,27 @@ class TemplateEditor extends BaseFormWidget
         $this->vars['fieldOptions'] = $this->getTemplateEditorOptions();
         $this->vars['templateTypes'] = $templateTypes = $this->getTemplateTypes();
 
-        $this->vars['selectedTemplateType'] = $this->templateType;
-        $this->vars['selectedTemplateFile'] = $this->templateFile;
-        $this->vars['selectedTypeLabel'] = str_singular(lang($templateTypes[$this->templateType]));
+        $this->vars['selectedTemplateType'] = $templateType = $this->getTemplateType();
+        $this->vars['selectedTemplateFile'] = $this->getTemplateFile();
+        $this->vars['selectedTypeLabel'] = str_singular(lang($templateTypes[$templateType]));
 
         $this->vars['templateWidget'] = $this->templateWidget;
         $this->vars['templatePrimaryTabs'] = optional($this->templateWidget)->getTab('outside');
         $this->vars['templateSecondaryTabs'] = optional($this->templateWidget)->getTab('primary');
+    }
+
+    /**
+     * Reloads the widgets primary contents.
+     */
+    public function reload(): array
+    {
+        $this->templateWidget = $this->makeTemplateFormWidget();
+        $this->prepareVars();
+
+        return [
+            '#notification' => $this->makePartial('flash'),
+            '#'.$this->getId('container') => $this->makePartial('templateeditor/container'),
+        ];
     }
 
     public function onChooseFile()
@@ -115,8 +126,8 @@ class TemplateEditor extends BaseFormWidget
             'file' => 'Source File',
         ]);
 
-        $this->controller->setTemplateValue('type', post('Theme.source.template.type'));
-        $this->controller->setTemplateValue('file', post('Theme.source.template.file'));
+        $this->setTemplateValue('type', post('Theme.source.template.type'));
+        $this->setTemplateValue('file', post('Theme.source.template.file'));
 
         return $this->controller->refresh();
     }
@@ -126,7 +137,7 @@ class TemplateEditor extends BaseFormWidget
         if ($this->manager->isLocked($this->model->code))
             throw new ApplicationException(lang('igniter::system.themes.alert_theme_locked'));
 
-        $this->validate(post(), [
+        $data = $this->validate(post(), [
             'action' => ['required', 'in:delete,rename,new'],
             'name' => ['present', 'regex:/^[a-zA-Z-_\/]+$/'],
         ], [], [
@@ -134,9 +145,9 @@ class TemplateEditor extends BaseFormWidget
             'name' => 'Source Name',
         ]);
 
-        $fileAction = post('action');
-        $newFileName = sprintf('%s/%s', $this->templateType, post('name'));
-        $fileName = sprintf('%s/%s', $this->templateType, $this->templateFile);
+        $fileAction = array_get($data, 'action');
+        $newFileName = sprintf('%s/%s', $this->getTemplateType(), array_get($data, 'name'));
+        $fileName = $this->getFilename();
 
         if ($fileAction == 'rename') {
             $this->manager->renameFile($fileName, $newFileName, $this->model->code);
@@ -151,8 +162,7 @@ class TemplateEditor extends BaseFormWidget
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Template file created '));
         }
 
-        $this->controller->setTemplateValue('type', post('Theme.source.template.type'));
-        $this->controller->setTemplateValue('file', post('name'));
+        $this->setTemplateValue('file', array_get($data, 'name'));
 
         return $this->controller->refresh();
     }
@@ -165,7 +175,7 @@ class TemplateEditor extends BaseFormWidget
         if (!$this->templateWidget)
             return;
 
-        $fileName = sprintf('%s/%s', $this->templateType, $this->templateFile);
+        $fileName = $this->getFilename();
         $data = post('Theme.source');
 
         $this->validateAfter(function (Validator $validator) {
@@ -179,24 +189,21 @@ class TemplateEditor extends BaseFormWidget
             array_get($this->templateWidget->config ?? [], 'validationAttributes', [])
         );
 
-        $this->manager->writeFile($fileName,
-            $this->getTemplateAttributes(),
-            $this->model->code
-        );
+        $formData = $this->getTemplateAttributes();
+
+        $this->manager->writeFile($fileName, $formData, $this->model->code);
     }
 
     protected function makeTemplateFormWidget()
     {
         try {
-            $template = $this->manager->readFile(
-                $this->templateType.'/'.$this->templateFile, $this->model->code
-            );
+            $template = $this->manager->readFile($this->getFilename(), $this->model->code);
         }
-        catch (Exception $ex) {
+        catch (Exception) {
             return null;
         }
 
-        $configFile = $this->templateConfig[$this->templateType];
+        $configFile = $this->templateConfig[$this->getTemplateType()];
         $widgetConfig = $this->loadConfig($configFile, ['form'], 'form');
 
         $widgetConfig['data'] = [
@@ -222,11 +229,10 @@ class TemplateEditor extends BaseFormWidget
         if (!($themeObject = $this->model->getTheme()) || !$themeObject instanceof Theme)
             throw new ApplicationException('Missing theme object on '.get_class($this->model));
 
-        $type = $this->templateType ?? '_pages';
-        /** @var \Igniter\Main\Template\Model $templateClass */
-        $templateClass = $themeObject->getTemplateClass($type);
+        /** @var \Igniter\Flame\Pagic\Model $templateClass */
+        $templateClass = $themeObject->getTemplateClass($this->getTemplateType());
 
-        return $templateClass::getDropdownOptions($themeObject, true);
+        return $templateClass::getDropdownOptions($themeObject->getName(), true);
     }
 
     protected function getTemplateTypes()
@@ -247,16 +253,17 @@ class TemplateEditor extends BaseFormWidget
         $code = preg_replace('/^\<\?php/', '', $code);
         $code = preg_replace('/^\<\?/', '', preg_replace('/\?>$/', '', $code));
 
-        $result['code'] = trim($code, PHP_EOL);
-        $result['markup'] = array_get($formData, 'markup');
-        $result['settings'] = array_except(array_get($formData, 'settings', []), 'components');
+        $result['code'] = trim($code, PHP_EOL) ?: null;
+        $result['markup'] = array_get($formData, 'markup') ?: null;
 
-        return $result;
+        $settings = array_get($formData, 'settings', []);
+
+        return array_merge(array_filter($settings), $result);
     }
 
     protected function wasTemplateModified()
     {
-        $sessionTime = $this->controller->getTemplateValue('mTime');
+        $sessionTime = $this->getTemplateValue('mTime');
         $mTime = $this->getTemplateModifiedTime();
 
         return $sessionTime != $mTime;
@@ -268,5 +275,30 @@ class TemplateEditor extends BaseFormWidget
             return null;
 
         return optional($this->templateWidget->data)->fileSource->mTime;
+    }
+
+    public function getTemplateValue($name, $default = null)
+    {
+        return $this->getSession($this->model->code.'-selected-'.$name, $default);
+    }
+
+    public function setTemplateValue($name, $value)
+    {
+        $this->putSession($this->model->code.'-selected-'.$name, $value);
+    }
+
+    public function getTemplateType()
+    {
+        return $this->getTemplateValue('type') ?? '_pages';
+    }
+
+    public function getTemplateFile()
+    {
+        return $this->getTemplateValue('file');
+    }
+
+    protected function getFilename()
+    {
+        return sprintf('%s/%s', $this->getTemplateType(), $this->getTemplateFile());
     }
 }

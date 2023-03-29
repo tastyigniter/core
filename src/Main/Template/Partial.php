@@ -2,6 +2,8 @@
 
 namespace Igniter\Main\Template;
 
+use Igniter\Flame\Pagic\Model;
+
 class Partial extends Model
 {
     /**

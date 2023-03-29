@@ -36,28 +36,16 @@ class ViewBag extends BaseComponent
 
     /**
      * Implements the getter functionality.
-     *
-     * @param  string $name
-     *
-     * @return mixed
      */
-    public function __get($name)
+    public function __get(string $name): mixed
     {
-        if (array_key_exists($name, $this->properties)) {
-            return $this->properties[$name];
-        }
-
-        return null;
+        return $this->properties[$name] ?? null;
     }
 
     /**
      * Determine if an attribute exists on the object.
-     *
-     * @param  string $key
-     *
-     * @return bool
      */
-    public function __isset($key)
+    public function __isset(string $key): bool
     {
         if (array_key_exists($key, $this->properties)) {
             return true;
@@ -66,10 +54,7 @@ class ViewBag extends BaseComponent
         return false;
     }
 
-    /**
-     * @return array
-     */
-    public function defineProperties()
+    public function defineProperties(): array
     {
         $result = [];
 

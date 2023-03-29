@@ -3,6 +3,7 @@
 namespace Igniter\Admin\Classes;
 
 use Igniter\Admin\Models\Payment;
+use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Support\Facades\File;
@@ -191,7 +192,7 @@ class PaymentGateways
                 continue;
 
             $partialName = 'payregister/'.strtolower(class_basename($class));
-            $partialPath = $theme->getPath().'/_partials/'.$partialName.'.blade.php';
+            $partialPath = $theme->getPath().'/_partials/'.$partialName.'.'.Model::DEFAULT_EXTENSION;
 
             if (!File::isDirectory(dirname($partialPath)))
                 File::makeDirectory(dirname($partialPath), null, true);
@@ -208,7 +209,7 @@ class PaymentGateways
         $filePath .= '/'.strtolower(class_basename($class));
         $filePath .= '/payment_form';
 
-        if (File::exists($path = $filePath.'.blade.php'))
+        if (File::exists($path = $filePath.'.'.Model::DEFAULT_EXTENSION))
             return File::get($path);
 
         return File::get($filePath.'.php');

@@ -10,7 +10,6 @@ use Igniter\Flame\Pagic\Exception\DeleteFileException;
 use Igniter\Flame\Pagic\Exception\FileExistsException;
 use Igniter\Flame\Pagic\Processors\Processor;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * File based source.
@@ -34,18 +33,18 @@ class FileSource extends AbstractSource implements SourceInterface
      */
     public $finder;
 
-    protected $manifestCache;
+    protected $blueprintCache;
+
+    protected $blueprintPath = '_meta/blueprint.json';
 
     /**
      * Create a new source instance.
-     *
-     * @param $fallbackPath
      */
-    public function __construct($basePath, Filesystem $files)
+    public function __construct($basePath, Filesystem $files = null)
     {
         $this->basePath = $basePath;
 
-        $this->files = $files;
+        $this->files = $files ?: new Filesystem;
         $this->finder = new Finder;
         $this->processor = new Processor;
     }
@@ -53,8 +52,8 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Returns a single template.
      *
-     * @param  string $dirName
-     * @param  string $fileName
+     * @param string $dirName
+     * @param string $fileName
      *
      * @return mixed
      */
@@ -69,7 +68,7 @@ class FileSource extends AbstractSource implements SourceInterface
                 'content' => $this->files->get($path),
             ];
         }
-        catch (Exception $ex) {
+        catch (Exception) {
             return null;
         }
     }
@@ -77,7 +76,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Returns all templates.
      *
-     * @param  string $dirName
+     * @param string $dirName
      *
      * @return array
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
@@ -145,9 +144,9 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Creates a new template.
      *
-     * @param  string $dirName
-     * @param  string $fileName
-     * @param  string $content
+     * @param string $dirName
+     * @param string $fileName
+     * @param string $content
      *
      * @return bool
      */
@@ -172,10 +171,10 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Updates an existing template.
      *
-     * @param  string $dirName
-     * @param  string $fileName
+     * @param string $dirName
+     * @param string $fileName
      * @param string $extension
-     * @param  string $content
+     * @param string $content
      * @param string $oldFileName
      * @param string $oldExtension
      *
@@ -219,9 +218,9 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Run a delete statement against the source.
      *
-     * @param  string $dirName
-     * @param  string $fileName
-     * @param  string $extension
+     * @param string $dirName
+     * @param string $fileName
+     * @param string $extension
      *
      * @return int
      */
@@ -237,12 +236,20 @@ class FileSource extends AbstractSource implements SourceInterface
         }
     }
 
+    public function path(string $path): string|null
+    {
+        if (!$this->files->exists($this->basePath.'/'.$path))
+            return null;
+
+        return $this->basePath.'/'.$path;
+    }
+
     /**
      * Run a delete statement against the source.
      *
-     * @param  string $dirName
-     * @param  string $fileName
-     * @param  string $extension
+     * @param string $dirName
+     * @param string $fileName
+     * @param string $extension
      *
      * @return int
      */
@@ -353,15 +360,27 @@ class FileSource extends AbstractSource implements SourceInterface
         })->values()->all();
     }
 
-    public function getManifest()
+    public function writeBlueprint(array $blueprint): bool
     {
-        if ($this->manifestCache)
-            return $this->manifestCache;
+        $path = $this->basePath.'/'.$this->blueprintPath;
 
-        $path = $this->basePath.'/_meta/pages.yml';
+        if (!$this->files->exists($path)
+            && !$this->files->isDirectory(dirname($path))) {
+            $this->files->makeDirectory(dirname($path));
+        }
+
+        return (bool)$this->files->put($path, json_encode($blueprint, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+    }
+
+    public function loadBlueprint(): array
+    {
+        if ($this->blueprintCache)
+            return $this->blueprintCache;
+
+        $path = $this->basePath.'/'.$this->blueprintPath;
         if (!$this->files->exists($path))
             return [];
 
-        return $this->manifestCache = Yaml::parse($this->files->get($path));
+        return $this->blueprintCache = json_decode($this->files->get($path), true);
     }
 }

@@ -114,8 +114,6 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         }
 
         $this->asExtension('FormController')->edit($context, $themeCode);
-
-        return $this->makeView('edit');
     }
 
     public function delete($context, $themeCode = null)
@@ -315,20 +313,5 @@ class Themes extends \Igniter\Admin\Classes\AdminController
             Log::error($ex);
             flash()->error('Building assets bundle error: '.$ex->getMessage())->important();
         }
-    }
-
-    public function getTemplateValue($name, $default = null)
-    {
-        $themeCode = $this->params[0] ?? 'default';
-        $cacheKey = $themeCode.'-selected-'.$name;
-
-        return $this->getSession($cacheKey, $default);
-    }
-
-    public function setTemplateValue($name, $value)
-    {
-        $themeCode = $this->params[0] ?? 'default';
-        $cacheKey = $themeCode.'-selected-'.$name;
-        $this->putSession($cacheKey, $value);
     }
 }

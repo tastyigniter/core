@@ -33,7 +33,7 @@ trait UsesPage
         if (self::$themePageOptionsCache)
             return self::$themePageOptionsCache;
 
-        return self::$themePageOptionsCache = PageModel::getDropdownOptions();
+        return self::$themePageOptionsCache = Page::getDropdownOptions();
     }
 
     public static function getStaticPageOptions()

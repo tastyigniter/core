@@ -3,14 +3,14 @@
 namespace Igniter\Flame\Pagic\Processors;
 
 use Igniter\Flame\Pagic\Finder;
-use Igniter\Flame\Pagic\Parsers\FileParser;
+use Igniter\Flame\Pagic\Parsers\SectionParser;
 
 class Processor
 {
     /**
      * Process the results of a singular "select" query.
      *
-     * @param  array $result
+     * @param array $result
      *
      * @return array
      */
@@ -28,7 +28,7 @@ class Processor
     /**
      * Process the results of a "select" query.
      *
-     * @param  array $results
+     * @param array $results
      *
      * @return array
      */
@@ -57,42 +57,34 @@ class Processor
     {
         $content = array_get($result, 'content');
 
-        $processed = FileParser::parse($content);
+        $processed = SectionParser::parse($content);
 
-        $content = [
+        return [
             'fileName' => $fileName,
             'mTime' => array_get($result, 'mTime'),
             'content' => $content,
             'markup' => $processed['markup'],
             'code' => $processed['code'],
+            'settings' => $processed['settings'],
         ];
-
-        if (!empty($processed['settings'])) {
-            $content += $processed['settings'];
-        }
-        elseif (!is_null($processed['markup']) && $finder->getModel()->isTypePage()) {
-            $content += array_get($finder->getSource()->getManifest(), str_before($fileName, '.blade.php'), []);
-        }
-
-        return $content;
     }
 
     /**
      * Process the data in to an insert action.
      *
-     * @param  array $data
+     * @param array $data
      *
      * @return string
      */
     public function processInsert(Finder $finder, $data)
     {
-        return FileParser::render($data);
+        return SectionParser::render($data);
     }
 
     /**
      * Process the data in to an update action.
      *
-     * @param  array $data
+     * @param array $data
      *
      * @return string
      */
@@ -100,6 +92,6 @@ class Processor
     {
         $existingData = $finder->getModel()->attributesToArray();
 
-        return FileParser::render($data + $existingData);
+        return SectionParser::render($data + $existingData);
     }
 }

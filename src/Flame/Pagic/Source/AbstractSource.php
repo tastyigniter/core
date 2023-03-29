@@ -2,8 +2,6 @@
 
 namespace Igniter\Flame\Pagic\Source;
 
-use Symfony\Component\Yaml\Yaml;
-
 abstract class AbstractSource
 {
     /**
@@ -12,8 +10,6 @@ abstract class AbstractSource
      * @var \Igniter\Flame\Pagic\Processors\Processor
      */
     protected $processor;
-
-    protected $manifestCache;
 
     /**
      * Get the query post processor used by the connection.
@@ -34,17 +30,5 @@ abstract class AbstractSource
     public function makeCacheKey($name = '')
     {
         return crc32($name);
-    }
-
-    public function getManifest()
-    {
-        if ($this->manifestCache)
-            return $this->manifestCache;
-
-        $path = $this->basePath.'/_meta/pages.yml';
-        if (!$this->files->exists($path))
-            return [];
-
-        return $this->manifestCache = Yaml::parse($this->files->get($path));
     }
 }

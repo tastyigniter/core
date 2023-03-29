@@ -175,13 +175,8 @@ abstract class BaseComponent extends Extendable
 
     /**
      * Dynamically handle calls into the controller instance.
-     *
-     * @param string $name
-     * @param array $params
-     *
-     * @return mixed
      */
-    public function __call($name, $params)
+    public function __call(string $name, array|null $params): mixed
     {
         try {
             return parent::__call($name, $params);
@@ -199,7 +194,7 @@ abstract class BaseComponent extends Extendable
         ]));
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->alias;
     }

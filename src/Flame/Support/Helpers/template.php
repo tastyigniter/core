@@ -3,6 +3,16 @@
 /**
  * Template helper functions
  */
+if (!function_exists('pagic')) {
+    function pagic(string|null $name = null, array $vars = [])
+    {
+        if (is_null($name))
+            return resolve('pagic');
+
+        return resolve('pagic')->render($name, $vars);
+    }
+}
+
 if (!function_exists('page')) {
     /**
      * Get the page content

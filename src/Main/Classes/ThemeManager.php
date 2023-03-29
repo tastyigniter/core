@@ -4,6 +4,8 @@ namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Pagic\Source\ChainFileSource;
+use Igniter\Flame\Pagic\Source\FileSource;
 use Igniter\Main\Events\Theme\GetActiveTheme as GetActiveThemeEvent;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
@@ -176,6 +178,30 @@ class ThemeManager
         $this->booted = true;
     }
 
+    /**
+     * Ensures this theme is registered as a Pagic source.
+     * @return void
+     */
+    public function registerAsSource()
+    {
+        $resolver = resolve('pagic');
+        if (!$resolver->hasSource($this->getName())) {
+            $files = resolve('files');
+
+            if ($this->hasParent()) {
+                $source = new ChainFileSource([
+                    new FileSource($this->getSourcePath(), $files),
+                    new FileSource($this->getParent()->getSourcePath(), $files),
+                ]);
+            }
+            else {
+                $source = new FileSource($this->getSourcePath(), $files);
+            }
+
+            $resolver->addSource($this->getName(), $source);
+        }
+    }
+
     //
     // Management Methods
     //
@@ -309,32 +335,6 @@ class ThemeManager
         return (str_starts_with($themeCode, '_') || preg_match('/\s/', $themeCode)) ? null : $themeCode;
     }
 
-    /**
-     * Search a theme folder for files.
-     *
-     * @param string $themeCode The theme to search
-     * @param string $subFolder If not null, will return only files within sub-folder (ie 'partials').
-     *
-     * @return array $theme_files
-     */
-    public function listFiles($themeCode, $subFolder = null)
-    {
-        traceLog('Deprecated. Use Template::listInTheme($theme) instead');
-        $result = [];
-        $themePath = $this->findPath($themeCode);
-        $files = File::allFiles($themePath);
-        foreach ($files as $file) {
-            [$folder,] = explode('/', $file->getRelativePath());
-            $path = $file->getRelativePathname();
-            $result[$folder ?: '/'][] = $path;
-        }
-
-        if (is_string($subFolder))
-            $subFolder = [$subFolder];
-
-        return $subFolder ? array_only($result, $subFolder) : $result;
-    }
-
     public function isLocked($themeCode)
     {
         return (bool)optional($this->findTheme($themeCode))->locked;
@@ -414,7 +414,7 @@ class ThemeManager
      * @param string $filePath The name of the file to locate.
      * @param string $themeCode The theme to check.
      *
-     * @return \Igniter\Flame\Pagic\Contracts\TemplateSource
+     * @return \Igniter\Flame\Pagic\Contracts\TemplateInterface
      */
     public function readFile($filePath, $themeCode)
     {
@@ -460,7 +460,7 @@ class ThemeManager
         if (!$template = $theme->onTemplate($dirName)->find($fileName))
             throw new SystemException("Theme template file not found: $filePath");
 
-        return $template->update($attributes);
+        return $template->fill($attributes)->save();
     }
 
     /**
@@ -649,9 +649,7 @@ class ThemeManager
         $dirName = $parts[0];
         $fileName = implode('/', array_splice($parts, 1));
 
-        $fileNameParts = $theme->onTemplate($dirName)->getFileNameParts($fileName);
-
-        return [$dirName, implode('.', $fileNameParts)];
+        return [$dirName, str_replace('.', '/', $fileName)];
     }
 
     /**

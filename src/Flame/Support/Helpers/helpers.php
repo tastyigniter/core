@@ -5,6 +5,7 @@ use Igniter\Admin\Facades\Admin;
 use Igniter\Flame\Currency\Currency;
 use Igniter\Flame\Support\StringParser;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -366,14 +367,9 @@ if (!function_exists('normalize_uri')) {
 }
 
 if (!function_exists('array_undot')) {
-    function array_undot(array $dottedArray): array
+    function array_undot(array $array): array
     {
-        $array = [];
-        foreach ($dottedArray as $key => $value) {
-            array_set($array, $key, $value);
-        }
-
-        return $array;
+        return Arr::undot($array);
     }
 }
 
@@ -419,9 +415,7 @@ if (!function_exists('site_url')) {
      */
     function site_url(string|null $uri = null, array $params = []): string
     {
-        traceLog('site_url() has been deprecated, use url() instead. Remove in v5');
-
-        return resolve(UrlGenerator::class)->to($uri);
+        return page_url($uri, $params);
     }
 }
 
@@ -797,6 +791,16 @@ if (!function_exists('name_to_array')) {
     }
 }
 
+if (!function_exists('name_to_dot_string')) {
+    /**
+     * Determine if a given string matches a language key.
+     */
+    function name_to_dot_string(string $name): string
+    {
+        return implode('.', name_to_array($name));
+    }
+}
+
 if (!function_exists('is_lang_key')) {
     /**
      * Determine if a given string matches a language key.
@@ -872,5 +876,28 @@ if (!function_exists('array_insert_after')) {
         $position = false === $index ? count($array) : $index + 1;
 
         return array_merge(array_slice($array, 0, $position), $value, array_slice($array, $position));
+    }
+}
+
+if (!function_exists('array_merge_deep')) {
+    function array_merge_deep(array $array1, array $array2): array
+    {
+        $merged = $array1;
+
+        foreach ($array2 as $key => $value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = array_merge_deep($merged[$key], $value);
+            }
+            elseif (is_numeric($key)) {
+                if (!in_array($value, $merged)) {
+                    $merged[] = $value;
+                }
+            }
+            else {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
     }
 }

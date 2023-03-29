@@ -14,6 +14,10 @@ return [
                             'label' => 'igniter::system.themes.label_component',
                             'type' => 'select',
                             'context' => 'create',
+                            'multiOption' => true,
+                            'attributes' => [
+                                'data-static-dropdown' => 'true',
+                            ],
                         ],
                         'alias' => [
                             'label' => 'igniter::system.themes.label_component_alias',
@@ -67,7 +71,7 @@ return [
                 'settings[description]' => [
                     'tab' => 'igniter::system.themes.text_tab_meta',
                     'label' => 'lang:igniter::admin.label_description',
-                    'type' => 'textarea',
+                    'type' => 'text',
                 ],
             ],
         ],

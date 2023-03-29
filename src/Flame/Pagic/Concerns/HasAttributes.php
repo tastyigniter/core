@@ -53,7 +53,7 @@ trait HasAttributes
         $attributes = $this->getArrayableAttributes();
 
         $attributes = $this->addMutatedAttributesToArray(
-            $attributes, $mutatedAttributes = $this->getMutatedAttributes()
+            $attributes, $this->getMutatedAttributes()
         );
 
         // Here we will grab all of the appended, calculated attributes to this model
@@ -109,7 +109,7 @@ trait HasAttributes
      */
     protected function getArrayableAppends()
     {
-        $defaults = ['settings'];
+        $defaults = [];
 
         if (!count($this->appends)) {
             return $defaults;
@@ -156,10 +156,13 @@ trait HasAttributes
 
         $value = null;
 
+        if ($this->isSettingsAttribute($key)) {
+            $value = $this->attributes['settings'][$key] ?? null;
+        }
         // If the attribute exists in the attribute array or has a "get" mutator we will
         // get the attribute's value. Otherwise, we will proceed as if the developers
         // are asking for a relationship's value. This covers both types of values.
-        if (array_key_exists($key, $this->attributes) ||
+        elseif (array_key_exists($key, $this->attributes) ||
             $this->hasGetMutator($key)) {
             $value = $this->getAttributeValue($key);
         }
@@ -266,7 +269,12 @@ trait HasAttributes
             return $this->{$method}($value);
         }
 
-        $this->attributes[$key] = $value;
+        if ($this->isSettingsAttribute($key)) {
+            $this->attributes['settings'][$key] = $value;
+        }
+        else {
+            $this->attributes[$key] = $value;
+        }
 
         return $this;
     }
@@ -502,6 +510,20 @@ trait HasAttributes
 
         return is_numeric($current) && is_numeric($original)
             && strcmp((string)$current, (string)$original) === 0;
+    }
+
+    public function isSettingsAttribute($attribute)
+    {
+        return !in_array($attribute, [
+            'fileName',
+            'baseFileName',
+            'components',
+            'content',
+            'markup',
+            'mTime',
+            'code',
+            'settings',
+        ]);
     }
 
     /**

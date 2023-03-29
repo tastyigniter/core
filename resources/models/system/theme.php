@@ -100,6 +100,14 @@ $config['form']['fields'] = [
         'label' => 'lang:igniter::system.themes.label_code',
         'type' => 'text',
         'span' => 'right',
+        'cssClass' => 'flex-width',
+        'disabled' => true,
+    ],
+    'is_default' => [
+        'label' => 'lang:igniter::system.themes.label_is_active',
+        'type' => 'switch',
+        'span' => 'right',
+        'cssClass' => 'flex-width',
         'disabled' => true,
     ],
     'template' => [

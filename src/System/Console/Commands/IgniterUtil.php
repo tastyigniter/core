@@ -3,6 +3,7 @@
 namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
@@ -141,7 +142,7 @@ class IgniterUtil extends Command
 
         $removeCount = 0;
         foreach ($files as $file) {
-            $pagicPath = str_replace('.blade.php', '.php', $file->getPathName());
+            $pagicPath = str_replace('.'.Model::DEFAULT_EXTENSION, '.php', $file->getPathName());
             if (file_exists($pagicPath)) {
                 unlink($pagicPath);
                 $this->comment('Removed '.$pagicPath);

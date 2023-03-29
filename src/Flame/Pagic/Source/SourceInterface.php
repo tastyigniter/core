@@ -7,9 +7,9 @@ interface SourceInterface
     /**
      * Returns a single source.
      *
-     * @param  string $dirName
-     * @param  string $fileName
-     * @param  string $extension
+     * @param string $dirName
+     * @param string $fileName
+     * @param string $extension
      *
      * @return mixed
      */
@@ -18,7 +18,7 @@ interface SourceInterface
     /**
      * Returns all sources.
      *
-     * @param  string $dirName
+     * @param string $dirName
      *
      * @return array
      */
@@ -27,10 +27,10 @@ interface SourceInterface
     /**
      * Creates a new source.
      *
-     * @param  string $dirName
-     * @param  string $fileName
-     * @param  string $extension
-     * @param  string $content
+     * @param string $dirName
+     * @param string $fileName
+     * @param string $extension
+     * @param string $content
      *
      * @return bool
      */
@@ -39,10 +39,10 @@ interface SourceInterface
     /**
      * Updates an existing source.
      *
-     * @param  string $dirName
-     * @param  string $fileName
-     * @param  string $extension
-     * @param  string $content
+     * @param string $dirName
+     * @param string $fileName
+     * @param string $extension
+     * @param string $content
      * @param string $oldFileName
      * @param string $oldExtension
      *
@@ -53,20 +53,22 @@ interface SourceInterface
     /**
      * Run a delete statement against the datasource.
      *
-     * @param  string $dirName
-     * @param  string $fileName
-     * @param  string $extension
+     * @param string $dirName
+     * @param string $fileName
+     * @param string $extension
      *
      * @return int
      */
     public function delete($dirName, $fileName, $extension);
 
+    public function path(string $path): string|null;
+
     /**
      * Return the last modified date of an object
      *
-     * @param  string $dirName
-     * @param  string $fileName
-     * @param  string $extension
+     * @param string $dirName
+     * @param string $fileName
+     * @param string $extension
      *
      * @return int
      */
@@ -75,23 +77,13 @@ interface SourceInterface
     /**
      * Generate a cache key unique to this source.
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return string
      */
     public function makeCacheKey($name = '');
 
-    /**
-     * Generate a paths cache key unique to this source
-     *
-     * @return string
-     */
-    public function getPathsCacheKey();
+    public function writeBlueprint(array $blueprint): bool;
 
-    /**
-     * Get all available paths within this source
-     *
-     * @return array $paths ['path/to/file1.md' => true (path can be handled and exists), 'path/to/file2.md' => false (path can be handled but doesn't exist)]
-     */
-    public function getAvailablePaths();
+    public function loadBlueprint(): array;
 }

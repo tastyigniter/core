@@ -3,7 +3,7 @@
         <select
             id="{{ $field->getId('type') }}"
             name="{{ $field->getName() }}[type]"
-            class="form-select"
+            data-control="selectlist"
             data-template-control="choose-type"
             data-request="{{ $this->getEventHandler('onChooseFile') }}"
             data-progress-indicator="@lang('igniter::admin.text_loading')"

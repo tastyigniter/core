@@ -6,10 +6,7 @@ use Igniter\System\Classes\ComponentManager;
 
 trait HasComponents
 {
-    /**
-     * @var \Igniter\System\Classes\BaseComponent[]
-     */
-    public $components = [];
+    public $loadedComponents = [];
 
     /**
      * Boot the sortable trait for this model.
@@ -23,21 +20,19 @@ trait HasComponents
         });
     }
 
-    public function parseComponentSettings()
+    protected function parseComponentSettings()
     {
-        $this->settings = $this->getSettingsAttribute();
-
-        $components = [];
-        foreach ($this->settings as $setting => $value) {
+        $settings = $this->settings ?? [];
+        foreach ($settings as $setting => $value) {
             preg_match('/\[(.*?)\]/', $setting, $match);
             if (!isset($match[1]))
                 continue;
 
-            $components[$match[1]] = is_array($value) ? $value : [];
-            unset($this->settings[$setting]);
+            $settings['components'][$match[1]] = is_array($value) ? $value : [];
+            unset($settings[$setting]);
         }
 
-        $this->settings['components'] = $components;
+        $this->original['settings'] = $this->attributes['settings'] = $settings;
     }
 
     /**
@@ -51,14 +46,10 @@ trait HasComponents
      */
     public function getComponent($componentName)
     {
-        if (!($name = $this->hasComponent($componentName)))
+        if (!$name = $this->hasComponent($componentName))
             return null;
 
-        return resolve(ComponentManager::class)->makeComponent(
-            $componentName,
-            null,
-            $this->settings['components'][$name]
-        );
+        return $this->settings['components'][$name];
     }
 
     /**
@@ -70,10 +61,60 @@ trait HasComponents
      */
     public function hasComponent($componentName)
     {
+        $components = $this->settings['components'] ?? [];
+
+        return array_has(is_array($components) ? $components : [], $componentName);
+    }
+
+    public function updateComponent($alias, array $properties)
+    {
+        $attributes = $this->attributes;
+
+        $newAlias = array_get($properties, 'alias');
+        if ($newAlias && $newAlias !== $alias) {
+            $attributes = array_replace_key($attributes, $alias, $newAlias);
+            $alias = $newAlias;
+        }
+
+        $attributes['settings']['components'][$alias] = $properties;
+        $this->attributes = $attributes;
+
+        return $this->save();
+    }
+
+    public function sortComponents(array $priorities)
+    {
+        $components = array_sort(array_get($this->settings, 'components', []),
+            function ($value, $key) use ($priorities) {
+                return $priorities[$key] ?? 0;
+            }
+        );
+
+        $this->components = $components;
+    }
+
+    //
+    //
+    //
+
+    public function makeComponent($componentName)
+    {
+        if (!$name = $this->resolveComponentName($componentName))
+            return null;
+
+        return resolve(ComponentManager::class)->makeComponent(
+            $componentName,
+            null,
+            $this->settings['components'][$name]
+        );
+    }
+
+    public function resolveComponentName($componentName)
+    {
         $componentManager = resolve(ComponentManager::class);
         $componentName = $componentManager->resolve($componentName);
 
-        foreach ($this->settings['components'] as $name => $values) {
+        foreach ($this->settings['components'] ?? [] as $name => $values) {
             $result = $name;
             if ($name == $componentName)
                 return $result;
@@ -95,7 +136,7 @@ trait HasComponents
 
     public function runComponents()
     {
-        foreach ($this->components as $component) {
+        foreach ($this->loadedComponents as $component) {
             if ($event = $component->fireEvent('component.beforeRun', [], true))
                 return $event;
 
@@ -107,20 +148,4 @@ trait HasComponents
         }
     }
 
-    public function updateComponent($alias, array $properties)
-    {
-        $attributes = $this->attributes;
-
-        $newAlias = array_get($properties, 'alias');
-        if ($newAlias && $newAlias !== $alias) {
-            $attributes = array_replace_key($attributes, $alias, $newAlias);
-            $alias = $newAlias;
-        }
-
-        $attributes[$alias] = array_except($properties, 'alias');
-
-        $this->attributes = $attributes;
-
-        return $this->save();
-    }
 }

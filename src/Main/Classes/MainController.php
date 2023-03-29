@@ -10,14 +10,13 @@ use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
-use Igniter\Flame\Pagic\Cache\FileSystem;
-use Igniter\Flame\Pagic\Environment;
 use Igniter\Flame\Pagic\Parsers\FileParser;
+use Igniter\Flame\Pagic\Router;
 use Igniter\Main\Components\BlankComponent;
 use Igniter\Main\Template\ComponentPartial;
 use Igniter\Main\Template\Content;
 use Igniter\Main\Template\Layout as LayoutTemplate;
-use Igniter\Main\Template\Loader;
+use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial;
 use Igniter\System\Classes\BaseComponent;
 use Igniter\System\Classes\ComponentManager;
@@ -39,6 +38,7 @@ use Illuminate\Support\Facades\View;
  */
 class MainController extends Controller
 {
+    use \Igniter\Main\Traits\ComponentMaker;
     use \Igniter\System\Traits\AssetMaker;
     use \Igniter\Flame\Traits\EventEmitter;
     use \Igniter\Flame\Traits\ExtendableTrait;
@@ -49,20 +49,7 @@ class MainController extends Controller
      */
     protected $theme;
 
-    /**
-     * @var \Igniter\Main\Classes\Router The Router object.
-     */
-    protected $router;
-
-    /**
-     * @var \Igniter\Main\Template\Loader The template loader.
-     */
-    protected $loader;
-
-    /**
-     * @var \Igniter\Flame\Pagic\Environment The template environment object.
-     */
-    protected $template;
+    protected Router $router;
 
     /**
      * @var \Igniter\Main\Template\Code\LayoutCode The template object used by the layout.
@@ -146,8 +133,6 @@ class MainController extends Controller
             throw new ApplicationException(lang('igniter::main.not_found.active_theme'));
 
         $this->theme->loadThemeFile();
-
-        $this->initTemplateEnvironment();
     }
 
     protected function definePaths()
@@ -175,15 +160,16 @@ class MainController extends Controller
 
         // If the page was not found,
         // render the 404 page - either provided by the theme or the built-in one.
-        if (!$page) {
+        if (!$page instanceof PageTemplate) {
             if (!Request::ajax())
-                $this->setStatusCode(404);
+                $this->statusCode = 404;
 
             // Log the 404 request
             if (!App::runningUnitTests())
-                RequestLog::createLog(404);
+                RequestLog::createLog();
 
-            if (!$page = $this->router->findByUrl('/404'))
+            $page = $this->router->findPage('/404');
+            if (!$page instanceof PageTemplate)
                 return Response::make(View::make('igniter.main::404'), $this->statusCode);
         }
 
@@ -207,9 +193,9 @@ class MainController extends Controller
         $this->page = $page;
 
         if (!$page->layout) {
-            $layout = LayoutTemplate::initFallback($this->theme);
+            $layout = LayoutTemplate::initFallback($this->theme->getName());
         }
-        elseif (($layout = LayoutTemplate::loadCached($this->theme, $page->layout)) === null) {
+        elseif (($layout = LayoutTemplate::loadCached($this->theme->getName(), $page->layout)) === null) {
             throw new ApplicationException(sprintf(
                 Lang::get('igniter::main.not_found.layout_name'), $page->layout
             ));
@@ -261,16 +247,11 @@ class MainController extends Controller
         }
         else {
             // Render the page
-            $this->loader->setSource($this->page);
-            $template = $this->template->load($this->page->getFilePath());
-            $this->pageContents = $template->render($this->vars);
+            $this->pageContents = pagic()->renderSource($this->page, $this->vars);
         }
 
         // Render the layout
-        $this->loader->setSource($this->layout);
-        $template = $this->template->load($this->layout->getFilePath());
-
-        return $template->render($this->vars);
+        return pagic()->renderSource($this->layout, $this->vars);
     }
 
     /**
@@ -514,36 +495,15 @@ class MainController extends Controller
     // Initialization
     //
 
-    /**
-     * Initializes the Template environment and loader.
-     * @return void
-     */
-    protected function initTemplateEnvironment()
-    {
-        $this->loader = new Loader;
-
-        $options = [
-            'auto_reload' => true,
-            'templateClass' => \Igniter\Main\Classes\Template::class,
-            'debug' => Config::get('app.debug', false),
-            'cache' => new FileSystem(config('view.compiled')),
-        ];
-
-        $this->template = new Environment($this->loader, $options);
-    }
-
     public function initTemplateObjects()
     {
-        $parser = FileParser::on($this->layout);
-        $this->layoutObj = $parser->source($this->page, $this->layout, $this);
-
-        $parser = FileParser::on($this->page);
-        $this->pageObj = $parser->source($this->page, $this->layout, $this);
+        $this->layoutObj = FileParser::on($this->layout)->source($this->page, $this->layout, $this);
+        $this->pageObj = FileParser::on($this->page)->source($this->page, $this->layout, $this);
     }
 
     protected function initializeComponents()
     {
-        foreach ($this->layout->settings['components'] as $component => $properties) {
+        foreach ($this->layout->settings['components'] ?: [] as $component => $properties) {
             [$name, $alias] = strpos($component, ' ')
                 ? explode(' ', $component)
                 : [$component, $component];
@@ -551,7 +511,7 @@ class MainController extends Controller
             $this->addComponent($name, $alias, $properties, true);
         }
 
-        foreach ($this->page->settings['components'] as $component => $properties) {
+        foreach ($this->page->settings['components'] ?: [] as $component => $properties) {
             [$name, $alias] = strpos($component, ' ')
                 ? explode(' ', $component)
                 : [$component, $component];
@@ -611,9 +571,7 @@ class MainController extends Controller
         }
 
         // Render the partial
-        $this->loader->setSource($partial);
-        $template = $this->template->load($partial->getFilePath());
-        $partialContent = $template->render($this->vars);
+        $partialContent = pagic()->renderSource($partial, $this->vars);
 
         // Restore variables
         $this->vars = $vars;
@@ -641,7 +599,7 @@ class MainController extends Controller
             $content = $event;
         }
         // Load content from theme
-        elseif (($content = Content::loadCached($this->theme, $name)) === null) {
+        elseif (($content = Content::loadCached($this->theme->getName(), $name)) === null) {
             throw new ApplicationException(sprintf(
                 Lang::get('igniter::main.not_found.content'), $name
             ));
@@ -731,7 +689,7 @@ class MainController extends Controller
 
         $componentObj->alias = $alias;
         $this->vars[$alias] = $componentObj;
-        $templateObj->components[$alias] = $componentObj;
+        $templateObj->loadedComponents[$alias] = $componentObj;
 
         $componentObj->initialize();
 
@@ -756,11 +714,11 @@ class MainController extends Controller
      */
     public function findComponentByAlias($alias)
     {
-        if (isset($this->page->components[$alias]))
-            return $this->page->components[$alias];
+        if (isset($this->page->loadedComponents[$alias]))
+            return $this->page->loadedComponents[$alias];
 
-        if (isset($this->layout->components[$alias]))
-            return $this->layout->components[$alias];
+        if (isset($this->layout->loadedComponents[$alias]))
+            return $this->layout->loadedComponents[$alias];
 
         return null;
     }
@@ -838,12 +796,12 @@ class MainController extends Controller
 
         // Check if the theme has an override
         if (strpos($partialName, '/') === false) {
-            $partial = ComponentPartial::loadOverrideCached($this->theme, $componentObj, $partialName);
+            $partial = ComponentPartial::loadOverrideCached($this->theme, $componentObj->alias, $partialName);
         }
 
         // Check the component partial
         if ($partial === null)
-            $partial = ComponentPartial::loadCached($componentObj, $partialName);
+            $partial = ComponentPartial::loadCached($componentObj->getPath(), $partialName);
 
         if ($partial === null) {
             $this->handleException(sprintf(lang('igniter::main.not_found.partial'), $name), $throwException);
@@ -856,7 +814,7 @@ class MainController extends Controller
 
     protected function loadPartial($name, $throwException = true)
     {
-        if (($partial = Partial::loadCached($this->theme, $name)) === null) {
+        if (($partial = Partial::loadCached($this->theme->getName(), $name)) === null) {
             $this->handleException(sprintf(lang('igniter::main.not_found.partial'), $name), $throwException);
 
             return false;
@@ -874,7 +832,7 @@ class MainController extends Controller
         if (is_null($path))
             return $this->currentPageUrl($params);
 
-        if (!$url = $this->router->findByFile($path, $params))
+        if (!$url = $this->router->url($path, $params))
             $url = $path;
 
         return URL::to($url);
@@ -887,8 +845,9 @@ class MainController extends Controller
         if (!is_array($params))
             $params = [];
 
-        if (in_array($path, [setting('reservation_page'), setting('menus_page')]))
-            $params = $this->bindLocationRouteParameter($params);
+        if (in_array($path, [setting('reservation_page'), setting('menus_page')])
+            || in_array(str_replace('/', '.', $path), [setting('reservation_page'), setting('menus_page')])
+        ) $params = $this->bindLocationRouteParameter($params);
 
         return $this->url($path, $params);
     }

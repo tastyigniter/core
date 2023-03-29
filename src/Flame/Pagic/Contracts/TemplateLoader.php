@@ -6,7 +6,7 @@ use Exception;
 
 interface TemplateLoader
 {
-    public function getFilename($name);
+    public function getFilename(string $name): ?string;
 
     /**
      * Gets the markup section of a template, given its name.
@@ -17,7 +17,7 @@ interface TemplateLoader
      *
      * @throws Exception When $name is not found
      */
-    public function getMarkup($name);
+    public function getMarkup(string $name): ?string;
 
     /**
      * Gets the source code of a template, given its name.
@@ -28,7 +28,7 @@ interface TemplateLoader
      *
      * @throws Exception When $name is not found
      */
-    public function getContents($name);
+    public function getContents(string $name): ?string;
 
     /**
      * Gets the cache key to use for the cache for a given template name.
@@ -39,7 +39,7 @@ interface TemplateLoader
      *
      * @throws Exception When $name is not found
      */
-    public function getCacheKey($name);
+    public function getCacheKey(string $name): string;
 
     /**
      * Returns true if the template is still fresh.
@@ -52,7 +52,7 @@ interface TemplateLoader
      *
      * @throws Exception When $name is not found
      */
-    public function isFresh($name, $time);
+    public function isFresh(string $name, int $time): bool;
 
-    public function exists($name);
+    public function exists(string $name): bool;
 }

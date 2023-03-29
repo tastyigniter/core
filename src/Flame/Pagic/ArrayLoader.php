@@ -6,18 +6,15 @@ use Exception;
 
 /**
  * Loads a template from an array.
- * @method \Igniter\Flame\Pagic\Contracts\TemplateSource getSource()
+ * @method \Igniter\Flame\Pagic\Contracts\TemplateInterface getSource()
  */
 class ArrayLoader extends Loader
 {
-    protected $templates = [];
-
     /**
      * @param array $templates An array of templates (keys are the names, and values are the source code)
      */
-    public function __construct(array $templates = [])
+    public function __construct(protected array $templates = [])
     {
-        $this->templates = $templates;
     }
 
     /**
@@ -26,12 +23,12 @@ class ArrayLoader extends Loader
      * @param string $name The template name
      * @param string $template The template source
      */
-    public function setTemplate($name, $template)
+    public function setTemplate(string $name, string $template)
     {
         $this->templates[$name] = $template;
     }
 
-    public function getFilename($name)
+    public function getFilename($name): ?string
     {
         return $name;
     }
@@ -45,7 +42,7 @@ class ArrayLoader extends Loader
      *
      * @throws Exception When $name is not found
      */
-    public function getMarkup($name)
+    public function getMarkup(string $name): string
     {
         return array_get($this->templates, $name);
     }
@@ -59,17 +56,17 @@ class ArrayLoader extends Loader
      *
      * @throws Exception When $name is not found
      */
-    public function getContents($name)
+    public function getContents(string $name): string
     {
         return array_get($this->templates, $name);
     }
 
-    public function exists($name)
+    public function exists(string $name): bool
     {
         return isset($this->templates[$name]);
     }
 
-    public function getCacheKey($name)
+    public function getCacheKey(string $name): string
     {
         if (!isset($this->templates[$name])) {
             throw new Exception(sprintf('Template "%s" is not defined.', $name));
@@ -78,7 +75,7 @@ class ArrayLoader extends Loader
         return $name.':'.$this->templates[$name];
     }
 
-    public function isFresh($name, $time)
+    public function isFresh(string $name, int $time): bool
     {
         if (!isset($this->templates[$name])) {
             throw new Exception(sprintf('Template "%s" is not defined.', $name));
@@ -87,7 +84,7 @@ class ArrayLoader extends Loader
         return true;
     }
 
-    public function getFilePath()
+    public function getFilePath(): ?string
     {
         return null;
     }

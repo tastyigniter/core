@@ -2,18 +2,13 @@
 
 namespace Igniter\Main\Template;
 
-use Igniter\Flame\Pagic\Contracts\TemplateSource;
+use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\System\Classes\BaseComponent;
 use Illuminate\Support\Facades\File;
 
-class ComponentPartial extends Extendable implements TemplateSource
+class ComponentPartial extends Extendable implements TemplateInterface
 {
-    /**
-     * @var \Igniter\System\Classes\BaseComponent The component object.
-     */
-    protected $component;
-
     /**
      * @var string The component partial file name.
      */
@@ -49,31 +44,19 @@ class ComponentPartial extends Extendable implements TemplateSource
     /**
      * Creates an instance of the object and associates it with a component.
      */
-    public function __construct(BaseComponent $component)
+    public function __construct(protected string $componentPath)
     {
-        $this->component = $component;
-
         $this->extendableConstruct();
     }
 
-    /**
-     * @param \Igniter\System\Classes\BaseComponent $component
-     * @param string $fileName
-     * @return \Igniter\Main\Template\ComponentPartial|mixed
-     */
-    public static function load($component, $fileName)
+    public static function load(string $source, string $fileName): mixed
     {
-        return (new static($component))->find($fileName);
+        return (new static($source))->find($fileName);
     }
 
-    /**
-     * @param \Igniter\System\Classes\BaseComponent $component
-     * @param string $fileName
-     * @return \Igniter\Main\Template\ComponentPartial|mixed
-     */
-    public static function loadCached($component, $fileName)
+    public static function loadCached(string $source, string $fileName): mixed
     {
-        return static::load($component, $fileName);
+        return static::load($source, $fileName);
     }
 
     /**
@@ -82,12 +65,12 @@ class ComponentPartial extends Extendable implements TemplateSource
      * @param string $fileName
      * @return mixed
      */
-    public static function loadOverrideCached($theme, $component, $fileName)
+    public static function loadOverrideCached($theme, $componentName, $fileName)
     {
-        $partial = Partial::loadCached($theme, $component->alias.'/'.$fileName);
+        $partial = Partial::loadCached($theme->getName(), $componentName.'/'.$fileName);
 
         if ($partial === null) {
-            $partial = Partial::loadCached($theme, strtolower($component->alias).'/'.$fileName);
+            $partial = Partial::loadCached($theme->getName(), strtolower($componentName).'/'.$fileName);
         }
 
         return $partial;
@@ -142,7 +125,7 @@ class ComponentPartial extends Extendable implements TemplateSource
      * Returns the key used by the Template cache.
      * @return string
      */
-    public function getTemplateCacheKey()
+    public function getTemplateCacheKey(): string
     {
         return $this->getFilePath();
     }
@@ -163,39 +146,36 @@ class ComponentPartial extends Extendable implements TemplateSource
      *
      * @return string
      */
-    public function getFilePath($fileName = null)
+    public function getFilePath(string $fileName = null): string
     {
         if ($fileName === null) {
             $fileName = $this->fileName;
         }
 
-        $component = $this->component;
-        $componentPath = $component->getPath();
-
-        if (File::isPathSymbol($componentPath))
-            $componentPath = File::symbolizePath($componentPath);
+        if (File::isPathSymbol($this->componentPath))
+            $this->componentPath = File::symbolizePath($this->componentPath);
 
         $basename = $fileName;
         if (!strlen(File::extension($basename)))
             $basename .= '.'.$this->defaultExtension;
 
-        if (File::isFile($path = $componentPath.'/'.$basename))
+        if (File::isFile($path = $this->componentPath.'/'.$basename))
             return $path;
 
         // Check the shared "/partials" directory for the partial
-        $sharedPath = dirname($componentPath, 2).'/_partials/'.$basename;
+        $sharedPath = dirname($this->componentPath, 2).'/_partials/'.$basename;
         if (File::isFile($sharedPath)) {
             return $sharedPath;
         }
 
-        return $componentPath.'/'.$fileName;
+        return $this->componentPath.'/'.$fileName;
     }
 
     /**
      * Returns the file name.
      * @return string
      */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileName;
     }
@@ -204,7 +184,7 @@ class ComponentPartial extends Extendable implements TemplateSource
      * Returns the file name without the extension.
      * @return string
      */
-    public function getBaseFileName()
+    public function getBaseFileName(): string
     {
         $pos = strrpos($this->fileName, '.');
         if ($pos === false) {
@@ -218,7 +198,7 @@ class ComponentPartial extends Extendable implements TemplateSource
      * Returns the file content.
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -227,7 +207,7 @@ class ComponentPartial extends Extendable implements TemplateSource
      * Gets the markup section of a template
      * @return string The template source code
      */
-    public function getMarkup()
+    public function getMarkup(): string
     {
         return $this->content.PHP_EOL;
     }
@@ -236,7 +216,7 @@ class ComponentPartial extends Extendable implements TemplateSource
      * Gets the code section of a template
      * @return string The template source code
      */
-    public function getCode()
+    public function getCode(): string
     {
     }
 }

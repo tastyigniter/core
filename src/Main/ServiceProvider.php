@@ -5,14 +5,11 @@ namespace Igniter\Main;
 use Igniter\Admin\Classes\PermissionManager;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\Flame\Igniter;
-use Igniter\Flame\Pagic\Cache\FileSystem as FileCache;
-use Igniter\Flame\Pagic\Environment;
-use Igniter\Flame\Pagic\Loader;
-use Igniter\Flame\Pagic\Parsers\FileParser;
+use Igniter\Flame\Pagic\Model;
+use Igniter\Flame\Pagic\Router;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\Main\Classes\MediaLibrary;
-use Igniter\Main\Classes\Router;
 use Igniter\Main\Classes\RouteRegistrar;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
@@ -20,7 +17,6 @@ use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ComponentManager;
 use Igniter\System\Libraries\Assets;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -55,10 +51,10 @@ class ServiceProvider extends AppServiceProvider
         $this->registerSingletons();
         $this->registerFacadeAliases();
         $this->registerComponents();
+        $this->registerPagicSource();
 
         if (!Igniter::runningInAdmin()) {
             $this->registerAssets();
-            $this->registerPagicParser();
             $this->registerCombinerEvent();
         }
         else {
@@ -85,12 +81,6 @@ class ServiceProvider extends AppServiceProvider
 
         $this->tapSingleton(MediaLibrary::class);
         $this->tapSingleton(ThemeManager::class);
-
-        $this->app->when(Router::class)
-            ->needs(Theme::class)
-            ->give(function () {
-                return $this->app[ThemeManager::class]->getActiveTheme();
-            });
     }
 
     protected function registerFacadeAliases()
@@ -193,14 +183,27 @@ class ServiceProvider extends AppServiceProvider
         });
     }
 
-    protected function registerPagicParser()
+    protected function registerPagicSource()
     {
-        FileParser::setCache(new FileCache(config('igniter.system.parsedTemplateCachePath')));
+        $this->callAfterResolving(Router::class, function ($router) {
+            $router::$templateClass = Page::class;
+            $router->setTheme(resolve(ThemeManager::class)->getActiveThemeCode());
+        });
 
-        App::singleton('pagic.environment', function () {
-            return new Environment(new Loader, [
-                'cache' => new FileCache(config('view.compiled')),
-            ]);
+        Model::extend(function (Model $model) {
+            $manager = resolve(ThemeManager::class);
+
+            $resolver = $model->getSourceResolver();
+            collect($manager->listThemes())
+                ->filter(function (Theme $theme) use ($resolver) {
+                    return !$resolver->hasSource($theme->getName());
+                })
+                ->each(function (Theme $theme) use ($resolver) {
+                    $resolver->addSource($theme->getName(), $theme->makeFileSource());
+                });
+
+            $activeTheme = $manager->getActiveThemeCode();
+            $resolver->setDefaultSourceName($activeTheme);
         });
     }
 
