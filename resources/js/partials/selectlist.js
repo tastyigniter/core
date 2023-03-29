@@ -16,7 +16,15 @@
     SelectList.prototype.constructor = SelectList
 
     SelectList.prototype.init = function () {
+        this.options.onInitialize = $.proxy(this.onInitialize, this)
         this.$el.selectize(this.options)
+    }
+
+    SelectList.prototype.onInitialize = function () {
+        if (this.options.staticDropdown) {
+            this.$el.data('selectize').$dropdown.addClass('position-static d-block')
+            this.$el.data('selectize').open()
+        }
     }
 
     // MEDIA MANAGER PLUGIN DEFINITION
@@ -24,8 +32,9 @@
 
     SelectList.DEFAULTS = {
         plugins: ['remove_button'],
+        staticDropdown: false,
         allowEmptyOption: true,
-        showEmptyOptionInDropdown: true,
+        showEmptyOptionInDropdown: false,
     }
 
     var old = $.fn.selectList

@@ -67,6 +67,9 @@ class BaseWidget extends Extendable
         $this->partialPath[] = $namespace.'::_partials.'.dirname($path);
         $this->partialPath[] = $namespace.'::_partials';
 
+        // Add paths from the controller context
+        $this->partialPath = array_unique($this->partialPath);
+
         $this->assetPath[] = 'igniter::css/'.dirname($path);
         $this->assetPath[] = 'igniter::js/'.dirname($path);
         $this->assetPath = array_merge($this->assetPath, $controller->assetPath);

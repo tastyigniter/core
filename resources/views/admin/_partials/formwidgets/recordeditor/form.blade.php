@@ -13,7 +13,11 @@
         </div>
         <input type="hidden" name="recordId" value="{{ $formRecordId }}">
         <div class="modal-body p-0">
-            <div class="form-fields">
+            <div
+                class="form-fields"
+                data-control="formwidget"
+                data-refresh-handler="{{$this->getEventHandler('onRefresh')}}"
+            >
                 @foreach($formWidget->getFields() as $field)
                     {!! $formWidget->renderField($field) !!}
                 @endforeach

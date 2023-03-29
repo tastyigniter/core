@@ -151,11 +151,23 @@ class Connector extends BaseFormWidget
         return parent::reload();
     }
 
+    public function onRefresh()
+    {
+        $model = $this->getRelationModel();
+        if (strlen($recordId = post('recordId'))) {
+            $model = $model->find($recordId);
+        }
+
+        $widget = $this->makeItemFormWidget($model);
+
+        return $widget->onRefresh();
+    }
+
     public function onLoadRecord()
     {
         $model = $this->getRelationModel();
-
         $formTitle = lang($this->newRecordTitle);
+
         if (strlen($recordId = post('recordId'))) {
             $model = $model->find($recordId);
             $formTitle = lang($this->editRecordTitle);

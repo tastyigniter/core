@@ -53,18 +53,27 @@
     }
 
     RecordEditorModal.prototype.handleFormSetup = function (event, context) {
+        if (this.$modalElement.find('form').data('request') !== context.handler)
+            return
+
         if (this.options.onSubmit !== undefined)
             this.options.onSubmit.call(this, context)
     }
 
     RecordEditorModal.prototype.handleFormError = function (event, context, textStatus, jqXHR) {
+        if (this.$modalElement.find('form').data('request') !== context.handler)
+            return
+
         if (this.options.onFail !== undefined)
             this.options.onFail.call(this, context, jqXHR)
     }
 
-    RecordEditorModal.prototype.handleFormDone = function (event, data, textStatus, jqXHR) {
+    RecordEditorModal.prototype.handleFormDone = function (event, context, textStatus, jqXHR) {
+        if (this.$modalElement.find('form').data('request') !== context.handler)
+            return
+
         if (this.options.onSave !== undefined)
-            this.options.onSave.call(this, data, jqXHR)
+            this.options.onSave.call(this, context, jqXHR)
     }
 
     RecordEditorModal.prototype.onRecordLoaded = function (data) {
@@ -77,9 +86,11 @@
         if (this.options.onLoad !== undefined)
             this.options.onLoad.call(this, data)
 
-        this.$modalElement.find('form').on('ajaxSetup', $.proxy(this.handleFormSetup, this))
-        this.$modalElement.find('form').on('ajaxError', $.proxy(this.handleFormError, this))
-        this.$modalElement.find('form').on('ajaxDone', $.proxy(this.handleFormDone, this))
+        var $form = this.$modalElement.find('form')
+
+        $form.on('ajaxSetup', $.proxy(this.handleFormSetup, this))
+        $form.on('ajaxError', $.proxy(this.handleFormError, this))
+        $form.on('ajaxDone', $.proxy(this.handleFormDone, this))
     }
 
     RecordEditorModal.prototype.onModalHidden = function (event) {
