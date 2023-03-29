@@ -3,12 +3,13 @@
 namespace Igniter\Admin;
 
 use Igniter\Admin\Classes\MenuItem;
+use Igniter\Admin\EventSubscribers\AssigneeUpdatedSubscriber;
+use Igniter\Admin\EventSubscribers\DefineOptionsFormFieldsSubscriber;
 use Igniter\Admin\EventSubscribers\StatusUpdatedSubscriber;
 use Igniter\Admin\Facades\AdminLocation;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Helpers\Admin as AdminHelper;
 use Igniter\Admin\Models\User;
-use Igniter\Admin\Requests\Location;
 use Igniter\Admin\Widgets\Menu;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
@@ -42,7 +43,6 @@ class ServiceProvider extends AppServiceProvider
 
         if (Igniter::runningInAdmin()) {
             $this->replaceNavMenuItem();
-            $this->extendLocationOptionsFields();
             $this->defineMainMenuEventListeners();
         }
     }
@@ -767,39 +767,6 @@ class ServiceProvider extends AppServiceProvider
         });
     }
 
-    protected function extendLocationOptionsFields()
-    {
-        Event::listen('admin.locations.defineOptionsFormFields', function () {
-            return [
-                'guest_order' => [
-                    'label' => 'lang:igniter::system.settings.label_guest_order',
-                    'accordion' => 'lang:igniter::admin.locations.text_tab_general_options',
-                    'type' => 'radiotoggle',
-                    'comment' => 'lang:igniter::admin.locations.help_guest_order',
-                    'default' => -1,
-                    'options' => [
-                        -1 => 'lang:igniter::admin.text_use_default',
-                        0 => 'lang:igniter::admin.text_no',
-                        1 => 'lang:igniter::admin.text_yes',
-                    ],
-                ],
-            ];
-        });
-
-        Event::listen('system.formRequest.extendValidator', function ($formRequest, $dataHolder) {
-            if (!$formRequest instanceof Location)
-                return;
-
-            $dataHolder->attributes = array_merge($dataHolder->attributes, [
-                'guest_order' => lang('igniter::admin.locations.label_guest_order'),
-            ]);
-
-            $dataHolder->rules = array_merge($dataHolder->rules, [
-                'guest_order' => ['integer'],
-            ]);
-        });
-    }
-
     protected function defineRoutes()
     {
         if (app()->routesAreCached())
@@ -813,6 +780,8 @@ class ServiceProvider extends AppServiceProvider
     protected function registerEventSubscribers()
     {
         foreach ([
+            AssigneeUpdatedSubscriber::class,
+            DefineOptionsFormFieldsSubscriber::class,
             StatusUpdatedSubscriber::class,
         ] as $class) {
             Event::subscribe($class);

@@ -3,6 +3,7 @@
 namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Model;
+use Igniter\Flame\Igniter;
 use Illuminate\Support\Facades\Request;
 
 /**

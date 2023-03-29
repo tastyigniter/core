@@ -3,7 +3,7 @@
 namespace Igniter\Admin\Models;
 
 use Exception;
-use Igniter\Admin\Events\Location\DefineOptionsFormFields as DefineOptionsFormFieldsEvent;
+use Igniter\Admin\Events\Location\DefineOptionsFormFieldsEvent as DefineOptionsFormFieldsEvent;
 use Igniter\Admin\Facades\AdminLocation;
 use Igniter\Flame\Database\Model;
 

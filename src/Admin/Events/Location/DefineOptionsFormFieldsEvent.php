@@ -4,7 +4,7 @@ namespace Igniter\Admin\Events\Location;
 
 use Igniter\Flame\Traits\EventDispatchable;
 
-class DefineOptionsFormFields
+class DefineOptionsFormFieldsEvent
 {
     use EventDispatchable;
 
