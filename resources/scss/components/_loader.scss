@@ -24,7 +24,8 @@
   min-height: 42px;
 
   .progress-indicator {
-    background: $gray-300;
+    background: transparent;
+    border-radius: $border-radius;
     padding: 10px;
     position: absolute;
     left: 0;
@@ -42,7 +43,11 @@
   }
 
   &.in-progress {
-    .select2-container--focus .select2-selection {
+    > :not(.progress-indicator) {
+      visibility: hidden;
+    }
+
+    .selectize-input.focus {
       box-shadow: none;
     }
 

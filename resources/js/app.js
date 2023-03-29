@@ -18,5 +18,5 @@ require('./partials/loader.progress');
 require('./partials/flashmessage');
 require('./partials/toggler');
 require('./partials/trigger');
-require('./partials/script');
 require('./partials/selectlist');
+require('./partials/utils');

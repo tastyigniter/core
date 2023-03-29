@@ -120,6 +120,8 @@ $custom-control-indicator-disabled-bg: $gray-400 !default;
 // Navs
 //
 $nav-tabs-border-radius: .625rem !default;
+$nav-link-color: $body-color !default;
+$nav-link-hover-color: shift-color($body-color, 20%) !default;
 // Dropdowns
 //
 // Dropdown menu container and contents.

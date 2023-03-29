@@ -223,30 +223,33 @@ class AdminController extends Controller
             $this->execPageAction($this->action, $this->params);
 
             if (!isset($this->widgets[$widgetName])) {
-                throw new SystemException(sprintf(lang('igniter::admin.alert_widget_not_bound_to_controller'), $widgetName));
+                throw new ApplicationException(sprintf(lang('igniter::admin.alert_widget_not_bound_to_controller'), $widgetName));
             }
 
-            if (($widget = $this->widgets[$widgetName]) && $widget->methodExists($handlerName)) {
-                $result = call_user_func_array([$widget, $handlerName], array_values($params));
+            $widget = $this->widgets[$widgetName];
+
+            if (!$widget->methodExists($handlerName)) {
+                throw new ApplicationException(sprintf(lang('igniter::admin.alert_ajax_handler_not_found'), $handler));
+            }
+
+            $result = call_user_func_array([$widget, $handlerName], array_values($params));
+
+            return $result ?: true;
+        }
+
+        // Process page specific handler (index_onSomething)
+        if (($result = $this->runHandler($handler, $params, $this->action)) !== null)
+            return $result;
+
+        $this->suppressView = true;
+
+        $this->execPageAction($this->action, $this->params);
+
+        foreach ((array)$this->widgets as $widget) {
+            if ($widget->methodExists($handler)) {
+                $result = call_user_func_array([$widget, $handler], array_values($params));
 
                 return $result ?: true;
-            }
-        }
-        // Process page specific handler (index_onSomething)
-        else {
-            if (($result = $this->runHandler($handler, $params, $this->action)) !== null)
-                return $result;
-
-            $this->suppressView = true;
-
-            $this->execPageAction($this->action, $this->params);
-
-            foreach ((array)$this->widgets as $widget) {
-                if ($widget->methodExists($handler)) {
-                    $result = call_user_func_array([$widget, $handler], array_values($params));
-
-                    return $result ?: true;
-                }
             }
         }
 

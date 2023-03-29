@@ -567,6 +567,7 @@ return [
         'text_locked_child' => 'Locked theme: create a child theme',
 
         'label_code' => 'Code',
+        'label_is_active' => 'Is Active',
         'label_template' => 'Template',
         'label_file' => 'Template filename',
         'label_title' => 'Title',

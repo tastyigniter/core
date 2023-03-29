@@ -151,6 +151,7 @@ class Form extends BaseWidget
     public function loadAssets()
     {
         $this->addJs('form.js', 'form-js');
+        $this->addJs('formwidget.js', 'formwidget-js');
     }
 
     /**
@@ -341,7 +342,7 @@ class Form extends BaseWidget
         // Extensibility
         $eventResults = $this->fireSystemEvent('admin.form.refresh', [$result], false);
 
-        foreach ($eventResults as $eventResult) {
+        foreach (array_filter($eventResults) as $eventResult) {
             $result = $eventResult + $result;
         }
 
@@ -493,9 +494,8 @@ class Form extends BaseWidget
             // Defer the execution of option data collection
             $field->options(function () use ($field, $config) {
                 $fieldOptions = $config['options'] ?? null;
-                $fieldOptions = $this->getOptionsFromModel($field, $fieldOptions);
 
-                return $fieldOptions;
+                return $this->getOptionsFromModel($field, $fieldOptions);
             });
         }
 
@@ -677,18 +677,15 @@ class Form extends BaseWidget
      *
      * @param \Igniter\Admin\Classes\FormField $field
      *
-     * @return string
+     * @return array
      */
     public function getFieldDepends($field)
     {
         if (!$field->dependsOn) {
-            return '';
+            return [];
         }
 
-        $dependsOn = (array)$field->dependsOn;
-        $dependsOn = htmlspecialchars(json_encode($dependsOn), ENT_QUOTES, 'UTF-8');
-
-        return $dependsOn;
+        return $field->dependsOn;
     }
 
     /**
@@ -972,8 +969,10 @@ class Form extends BaseWidget
     protected function applyFiltersFromModel()
     {
         if (method_exists($this->model, 'filterFields')) {
-            $this->model->filterFields($this);
+            $this->model->filterFields($this, $this->allFields, $this->context);
         }
+
+        $this->fireSystemEvent('admin.form.filterFields', [$this->allFields, $this->context]);
     }
 
     /**

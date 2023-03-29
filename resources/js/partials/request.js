@@ -84,19 +84,20 @@ if (window.jQuery.request !== undefined)
 
         if (submitForm) {
             data['_handler'] = handler
-            $form.append(appendObjToForm(data, $form))
+            appendObjToForm(data, $form)
         } else {
             requestData = [$form.serialize(), $.param(data)].filter(Boolean).join('&')
         }
 
-        var requestOptions = {
+        var self = this,
+            requestOptions = {
             context: context,
             headers: {
                 'X-IGNITER-REQUEST-HANDLER': handler,
             },
             success: function (data, textStatus, jqXHR) {
                 // Stop beforeUpdate() OR data-request-before-update returns false
-                if (this.options.beforeUpdate.apply(this, [data, textStatus, jqXHR]) === false) return
+                if (self.options.beforeUpdate.apply(self, [data, textStatus, jqXHR]) === false) return
                 if (options.fireBeforeUpdate && eval('(function($el, context, data, textStatus, jqXHR) {'+
                     options.fireBeforeUpdate+'}.call($el.get(0), $el, context, data, textStatus, jqXHR))') === false) return
 
@@ -274,7 +275,7 @@ if (window.jQuery.request !== undefined)
         $(window).trigger('ajaxBeforeSend', [context])
         $el.trigger('ajaxPromise', [context])
         return $.ajax(requestOptions)
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .fail(function (jqXHR, textStatus) {
                 if (!isRedirect) {
                     $el.trigger('ajaxFail', [context, textStatus, jqXHR])
                 }
@@ -330,7 +331,7 @@ if (window.jQuery.request !== undefined)
     $.fn.request.Constructor = Request
 
     $.request = function (handler, option) {
-        return $('<form />').request(handler, option)
+        return $("<form />").request(handler, option)
     }
 
     // REQUEST NO CONFLICT

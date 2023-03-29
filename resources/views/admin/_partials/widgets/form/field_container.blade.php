@@ -1,7 +1,10 @@
 <div
-    class="form-group{{ ($this->previewMode ? ' form-group-preview' : '')
-     .(form_error($field->fieldName) != '' ? ' is-invalid' : '')
-     .' '.$field->type.'-field span-'.$field->span.' '.$field->cssClass }}"
+    @class(['form-group',
+        'form-group-preview' => $this->previewMode,
+        'is-invalid' => form_error($field->fieldName) != '',
+        $field->type.'-field', 'span-'.$field->span, $field->cssClass
+    ])
+    @if ($depends = $this->getFieldDepends($field))data-field-depends='@json($depends)' @endif
     {!! $field->getAttributes('container') !!}
     data-field-name="{{ $field->fieldName }}"
     id="{{ $field->getId('group') }}"

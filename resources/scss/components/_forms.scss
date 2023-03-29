@@ -78,6 +78,10 @@
     margin-top: var(--bs-gutter-y);
   }
 
+  .form-group:empty {
+    display: none;
+  }
+
   > .span-left,
   > .span-right {
     flex: 0 0 auto;
