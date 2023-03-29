@@ -11,7 +11,6 @@ use Igniter\Admin\Widgets\Menu;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
 use Igniter\Flame\Location\Contracts\LocationInterface;
@@ -43,6 +42,11 @@ class AdminController extends Controller
      * @var \Igniter\Admin\Classes\BaseWidget[] A list of BaseWidget objects used on this page
      */
     public $widgets = [];
+
+    /**
+     * @var string Name of the view to use.
+     */
+    public $defaultView;
 
     /**
      * @var bool Prevents the automatic view display.
@@ -182,7 +186,7 @@ class AdminController extends Controller
 
         // Render the controller view if not already loaded
         if (is_null($result) && !$this->suppressView) {
-            return $this->makeView($this->fatalError ? 'admin::error' : $action);
+            return $this->makeView($this->fatalError ? 'admin::error' : ($this->defaultView ?? $action));
         }
 
         return $result;
