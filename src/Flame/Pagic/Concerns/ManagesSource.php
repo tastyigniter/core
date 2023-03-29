@@ -271,5 +271,4 @@ trait ManagesSource
     {
         return $this->getFilePath();
     }
-
 }

@@ -54,5 +54,4 @@ trait ComponentMaker
 
         return false;
     }
-
 }

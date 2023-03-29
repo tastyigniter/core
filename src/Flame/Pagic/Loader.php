@@ -67,10 +67,6 @@ class Loader implements TemplateLoader
 
     /**
      * Gets the path of a view file
-     *
-     * @param string $name
-     *
-     * @return string
      */
     protected function findTemplate(string $name): string
     {

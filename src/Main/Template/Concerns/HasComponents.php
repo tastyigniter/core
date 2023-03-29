@@ -147,5 +147,4 @@ trait HasComponents
                 return $event;
         }
     }
-
 }

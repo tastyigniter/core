@@ -123,7 +123,6 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     /**
      * Returns the key used by the Template cache.
-     * @return string
      */
     public function getTemplateCacheKey(): string
     {
@@ -143,8 +142,6 @@ class ComponentPartial extends Extendable implements TemplateInterface
      * Returns the absolute file path.
      *
      * @param string $fileName Specifies the file name to return the path to.
-     *
-     * @return string
      */
     public function getFilePath(string $fileName = null): string
     {
@@ -173,7 +170,6 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     /**
      * Returns the file name.
-     * @return string
      */
     public function getFileName(): string
     {
@@ -182,7 +178,6 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     /**
      * Returns the file name without the extension.
-     * @return string
      */
     public function getBaseFileName(): string
     {
@@ -196,7 +191,6 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     /**
      * Returns the file content.
-     * @return string
      */
     public function getContent(): string
     {

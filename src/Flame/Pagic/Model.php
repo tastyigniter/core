@@ -35,22 +35,16 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
 
     /**
      * The array of booted models.
-     *
-     * @var array
      */
     protected static array $booted = [];
 
     /**
      * The array of booted events.
-     *
-     * @var array
      */
     protected static array $eventsBooted = [];
 
     /**
      * The accessors to append to the model's array form.
-     *
-     * @var array
      */
     protected array $appends = [];
 
@@ -61,7 +55,6 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
 
     /**
      * Indicates if the model exists.
-     * @var bool
      */
     public bool $exists = false;
 

@@ -369,7 +369,7 @@ class FileSource extends AbstractSource implements SourceInterface
             $this->files->makeDirectory(dirname($path));
         }
 
-        return (bool)$this->files->put($path, json_encode($blueprint, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+        return (bool)$this->files->put($path, json_encode($blueprint, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
     public function loadBlueprint(): array

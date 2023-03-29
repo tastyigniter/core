@@ -180,8 +180,6 @@ class Environment
      *
      * @param string $name The template path
      * @param string $path The template cache path
-     *
-     * @return Template
      */
     public function loadTemplate(string $name, string $path): Template
     {
@@ -208,8 +206,6 @@ class Environment
      * Creates a template from source.
      *
      * @param string $template The template name
-     *
-     * @return Template
      */
     public function createTemplate(string $template): Template
     {
