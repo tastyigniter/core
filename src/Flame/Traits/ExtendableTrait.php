@@ -197,7 +197,7 @@ trait ExtendableTrait
     /**
      * Programatically adds a property to the extendable class
      */
-    public function addDynamicProperty(string $dynamicName, string|null $value = null): void
+    public function addDynamicProperty(string $dynamicName, mixed $value = null): void
     {
         if (array_key_exists($dynamicName, $this->getDynamicProperties())) {
             return;

@@ -1,0 +1,9 @@
+{
+  "_pages": {
+    "nested-page": {
+      "title": "Nested page",
+      "layout": "default",
+      "permalink": "/nested/page/:slug"
+    }
+  }
+}

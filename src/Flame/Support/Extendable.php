@@ -25,27 +25,27 @@ class Extendable
         $this->extendableConstruct();
     }
 
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         return $this->extendableGet($name);
     }
 
-    public function __set($name, $value)
+    public function __set(string $name, mixed $value): void
     {
         $this->extendableSet($name, $value);
     }
 
-    public function __call($name, $params)
+    public function __call(string $name, array|null $params): mixed
     {
         return $this->extendableCall($name, $params);
     }
 
-    public static function __callStatic($name, $params)
+    public static function __callStatic(string $name, array|null $params): mixed
     {
         return self::extendableCallStatic($name, $params);
     }
 
-    public static function extend(callable $callback)
+    public static function extend(callable $callback): void
     {
         self::extendableExtendCallback($callback);
     }
