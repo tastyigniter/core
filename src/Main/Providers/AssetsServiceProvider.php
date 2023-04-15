@@ -21,8 +21,9 @@ class AssetsServiceProvider extends ServiceProvider
     protected function registerAssets()
     {
         Assets::registerCallback(function (Assets $manager) {
-            if (Igniter::runningInAdmin())
+            if (Igniter::runningInAdmin()) {
                 return;
+            }
 
             $manager->registerSourcePath(Igniter::themesPath());
 
@@ -32,8 +33,9 @@ class AssetsServiceProvider extends ServiceProvider
 
     protected function registerCombinerEvent()
     {
-        if ($this->app->runningInConsole() || Igniter::runningInAdmin())
+        if ($this->app->runningInConsole() || Igniter::runningInAdmin()) {
             return;
+        }
 
         Event::listen('assets.combiner.beforePrepare', function (Assets $combiner, $assets) {
             resolve(ThemeManager::class)->applyAssetVariablesOnCombinerFilters(

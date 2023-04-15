@@ -10,8 +10,9 @@ class FormServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        if (!Igniter::runningInAdmin())
+        if (!Igniter::runningInAdmin()) {
             return;
+        }
 
         resolve(Widgets::class)->registerFormWidgets(function (Widgets $manager) {
             $manager->registerFormWidget(\Igniter\Main\FormWidgets\Components::class, [

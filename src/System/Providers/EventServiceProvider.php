@@ -38,8 +38,9 @@ class EventServiceProvider extends \Illuminate\Foundation\Support\Providers\Even
         });
 
         Event::listen(\Illuminate\Console\Events\CommandFinished::class, function ($event) {
-            if ($event->command === 'clear-compiled')
+            if ($event->command === 'clear-compiled') {
                 \Igniter\System\Helpers\CacheHelper::clearCompiled();
+            }
         });
     }
 

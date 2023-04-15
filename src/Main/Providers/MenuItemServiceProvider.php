@@ -25,8 +25,9 @@ class MenuItemServiceProvider extends ServiceProvider
         });
 
         Event::listen('pages.menuitem.resolveItem', function ($item, $url, $theme) {
-            if ($item->type == 'theme-page')
+            if ($item->type == 'theme-page') {
                 return Page::resolveMenuItem($item, $url, $theme);
+            }
         });
     }
 }

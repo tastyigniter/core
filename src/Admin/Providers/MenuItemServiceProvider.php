@@ -73,8 +73,9 @@ class MenuItemServiceProvider extends ServiceProvider
                 ],
             ];
 
-            if (AdminLocation::listLocations()->isEmpty())
+            if (AdminLocation::listLocations()->isEmpty()) {
                 unset($menuItems['locations']);
+            }
 
             $manager->registerMainItems($menuItems);
         });
