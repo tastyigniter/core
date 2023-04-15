@@ -36,18 +36,17 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
     {
         if ($coordinates instanceof Model\CoordinatesCollection) {
             $this->coordinates = $coordinates;
-        }
-        elseif (is_array($coordinates) || is_null($coordinates)) {
+        } elseif (is_array($coordinates) || is_null($coordinates)) {
             $this->coordinates = new Model\CoordinatesCollection([]);
-        }
-        else {
+        } else {
             throw new \InvalidArgumentException;
         }
 
         $this->bounds = Model\Bounds::fromPolygon($this);
 
-        if (is_array($coordinates))
+        if (is_array($coordinates)) {
             $this->put($coordinates);
+        }
     }
 
     /**
@@ -136,11 +135,9 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
     {
         if (is_array($key)) {
             $values = $key;
-        }
-        elseif ($coordinate !== null) {
+        } elseif ($coordinate !== null) {
             $values = [$key => $coordinate];
-        }
-        else {
+        } else {
             throw new \InvalidArgumentException;
         }
 
@@ -179,17 +176,21 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
      */
     public function pointInPolygon(Contracts\CoordinatesInterface $coordinate)
     {
-        if ($this->isEmpty())
+        if ($this->isEmpty()) {
             return false;
+        }
 
-        if (!$this->bounds->pointInBounds($coordinate))
+        if (!$this->bounds->pointInBounds($coordinate)) {
             return false;
+        }
 
-        if ($this->pointOnVertex($coordinate))
+        if ($this->pointOnVertex($coordinate)) {
             return true;
+        }
 
-        if ($this->pointOnBoundary($coordinate))
+        if ($this->pointOnBoundary($coordinate)) {
             return true;
+        }
 
         return $this->pointOnIntersections($coordinate);
     }
@@ -204,8 +205,9 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
             $currentVertex = $this->get($i - 1);
             $nextVertex = $this->get($i);
 
-            if (is_null($nextVertex))
+            if (is_null($nextVertex)) {
                 $nextVertex = $this->get(0);
+            }
 
             // Check if coordinate is on a horizontal boundary
             if (bccomp(

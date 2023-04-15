@@ -141,13 +141,16 @@ trait HasEvents
 
                 $eventMethod = $radical.$event; // saving / saved
                 $method = $hook.ucfirst($radical); // beforeSave / afterSave
-                if ($radical != 'fetch') $method .= 'e';
+                if ($radical != 'fetch') {
+                $method .= 'e';
+                }
 
                 self::$eventMethod(function ($model) use ($method) {
                     $model->fireEvent('model.'.$method);
 
-                    if ($model->methodExists($method))
+                    if ($model->methodExists($method)) {
                         return $model->$method();
+                    }
                 });
             }
         }
@@ -157,8 +160,9 @@ trait HasEvents
          */
         static::registerModelEvent('booted', function ($model) {
             $model->fireEvent('model.afterBoot');
-            if ($model->methodExists('afterBoot'))
+            if ($model->methodExists('afterBoot')) {
                 return $model->afterBoot();
+            }
         });
 
         static::$eventsBooted[$class] = true;

@@ -78,7 +78,9 @@ class ComposerManager
         if (file_exists($file = $dir.'/autoload_namespaces.php')) {
             $map = require $file;
             foreach ($map as $namespace => $path) {
-                if (isset($this->namespacePool[$namespace])) continue;
+                if (isset($this->namespacePool[$namespace])) {
+                continue;
+                }
                 $this->loader->set($namespace, $path);
                 $this->namespacePool[$namespace] = true;
             }
@@ -87,7 +89,9 @@ class ComposerManager
         if (file_exists($file = $dir.'/autoload_psr4.php')) {
             $map = require $file;
             foreach ($map as $namespace => $path) {
-                if (isset($this->psr4Pool[$namespace])) continue;
+                if (isset($this->psr4Pool[$namespace])) {
+                continue;
+                }
                 $this->loader->setPsr4($namespace, $path);
                 $this->psr4Pool[$namespace] = true;
             }
@@ -106,7 +110,9 @@ class ComposerManager
             $includeFiles = require $file;
             foreach ($includeFiles as $includeFile) {
                 $relativeFile = $this->stripVendorDir($includeFile, $vendorPath);
-                if (isset($this->includeFilesPool[$relativeFile])) continue;
+                if (isset($this->includeFilesPool[$relativeFile])) {
+                continue;
+                }
                 require $includeFile;
                 $this->includeFilesPool[$relativeFile] = true;
             }
@@ -132,17 +138,21 @@ class ComposerManager
     {
         $composer = json_decode(File::get($path.'/composer.json'), true) ?? [];
 
-        if (!$config = array_get($composer, 'extra.tastyigniter-'.$type, []))
+        if (!$config = array_get($composer, 'extra.tastyigniter-'.$type, [])) {
             return $config;
+        }
 
-        if (array_key_exists('description', $composer))
+        if (array_key_exists('description', $composer)) {
             $config['description'] = $composer['description'];
+        }
 
-        if (array_key_exists('authors', $composer))
+        if (array_key_exists('authors', $composer)) {
             $config['author'] = $composer['authors'][0]['name'];
+        }
 
-        if (!array_key_exists('homepage', $config) && array_key_exists('homepage', $composer))
+        if (!array_key_exists('homepage', $config) && array_key_exists('homepage', $composer)) {
             $config['homepage'] = $composer['homepage'];
+        }
 
         return $config;
     }
@@ -192,8 +202,9 @@ class ComposerManager
 
     protected function loadInstalledPackages()
     {
-        if ($this->installedPackages)
+        if ($this->installedPackages) {
             return $this->installedPackages;
+        }
 
         $path = base_path('vendor/composer/installed.json');
 
@@ -254,13 +265,11 @@ class ComposerManager
             }
 
             $this->runComposer($installer);
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $this->restoreComposerFiles();
 
             throw new ComposerException($e, $io);
-        }
-        finally {
+        } finally {
             chdir($oldWorkingDirectory);
 
             // Invalidate opcache
@@ -296,13 +305,11 @@ class ComposerManager
                 ->setRunScripts(false);
 
             $this->runComposer($installer);
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $this->restoreComposerFiles();
 
             throw new ComposerException($e, $io);
-        }
-        finally {
+        } finally {
             // Change the working directory back
             chdir($oldWorkingDirectory);
 
@@ -363,8 +370,9 @@ class ComposerManager
         $jsonBackupPath = $this->storagePath.'/backups/composer.json';
         $lockBackupPath = $this->storagePath.'/backups/composer.lock';
 
-        if (!File::isDirectory(dirname($jsonBackupPath)))
+        if (!File::isDirectory(dirname($jsonBackupPath))) {
             File::makeDirectory(dirname($jsonBackupPath), null, true);
+        }
 
         File::copy($this->getJsonPath(), $jsonBackupPath);
 
@@ -396,8 +404,7 @@ class ComposerManager
         foreach ($requirements as $package => $constraint) {
             if ($constraint === false) {
                 unset($config[$requireKey][$package]);
-            }
-            else {
+            } else {
                 $config[$requireKey][$package] = $constraint;
             }
 
@@ -419,8 +426,7 @@ class ComposerManager
         try {
             $jsonParser = new JsonParser();
             $jsonParser->parse(file_get_contents($jsonPath), JsonParser::DETECT_KEY_CONFLICTS);
-        }
-        catch (DuplicateKeyException $e) {
+        } catch (DuplicateKeyException $e) {
             $details = $e->getDetails();
             $io->writeError('<warning>Key '.$details['key'].' is a duplicate in '.$jsonPath.' at line '.$details['line'].'</warning>');
         }
@@ -441,8 +447,9 @@ class ComposerManager
         // Run the installer
         $this->prevErrorHandler = set_error_handler(function (int $code, string $message, string $file, int $line) {
             // Ignore deprecated errors
-            if ($code === E_USER_DEPRECATED)
+            if ($code === E_USER_DEPRECATED) {
                 return true;
+            }
 
             if (isset($this->prevErrorHandler)) {
                 return ($this->prevErrorHandler)($code, $message, $file, $line);
@@ -481,8 +488,9 @@ class ComposerManager
     {
         if (!getenv('COMPOSER_HOME') && !getenv(Platform::isWindows() ? 'APPDATA' : 'HOME')) {
             $path = $this->storagePath.'/home';
-            if (!File::isDirectory($path))
+            if (!File::isDirectory($path)) {
                 File::makeDirectory($path, null, true);
+            }
 
             putenv("COMPOSER_HOME=$path");
         }

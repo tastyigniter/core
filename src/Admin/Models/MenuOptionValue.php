@@ -61,8 +61,9 @@ class MenuOptionValue extends Model
 
     public function getIngredientsOptions()
     {
-        if (self::$ingredientOptionsCache)
+        if (self::$ingredientOptionsCache) {
             return self::$ingredientOptionsCache;
+        }
 
         return self::$ingredientOptionsCache = Ingredient::dropdown('name')->all();
     }
@@ -95,8 +96,9 @@ class MenuOptionValue extends Model
      */
     public function addMenuAllergens(array $allergenIds = [])
     {
-        if (!$this->exists)
+        if (!$this->exists) {
             return false;
+        }
 
         $this->ingredients()->sync($allergenIds);
     }

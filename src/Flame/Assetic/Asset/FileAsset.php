@@ -40,8 +40,7 @@ class FileAsset extends BaseAsset
             if (null === $sourcePath) {
                 $sourcePath = basename($source);
             }
-        }
-        elseif (null === $sourcePath) {
+        } elseif (null === $sourcePath) {
             if (0 !== strpos($source, $sourceRoot)) {
                 throw new \InvalidArgumentException(sprintf('The source "%s" is not in the root directory "%s"', $source, $sourceRoot));
             }

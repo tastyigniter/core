@@ -98,27 +98,34 @@ class Payment extends Model
     {
         $this->applyGatewayClass();
 
-        if (is_array($this->data))
+        if (is_array($this->data)) {
             $this->attributes = array_merge($this->data, $this->attributes);
+        }
     }
 
     protected function beforeSave()
     {
-        if (!$this->exists)
+        if (!$this->exists) {
             return;
+        }
 
-        if ($this->is_default)
+        if ($this->is_default) {
             $this->makeDefault();
+        }
 
         $data = [];
         $fields = ($configFields = $this->getConfigFields()) ? $configFields : [];
         foreach ($fields as $name => $config) {
-            if (!array_key_exists($name, $this->attributes)) continue;
+            if (!array_key_exists($name, $this->attributes)) {
+            continue;
+            }
             $data[$name] = $this->attributes[$name];
         }
 
         foreach ($this->attributes as $name => $value) {
-            if (in_array($name, $this->fillable)) continue;
+            if (in_array($name, $this->fillable)) {
+            continue;
+            }
             unset($this->attributes[$name]);
         }
 
@@ -138,8 +145,9 @@ class Payment extends Model
      */
     public function applyGatewayClass($class = null)
     {
-        if (is_null($class))
+        if (is_null($class)) {
             $class = $this->class_name;
+        }
 
         if (!class_exists($class)) {
             $class = null;
@@ -231,7 +239,9 @@ class Payment extends Model
 
         $gatewayManager = resolve(PaymentGateways::class);
         foreach ($gatewayManager->listGateways() as $code => $gateway) {
-            if (in_array($code, $payments)) continue;
+            if (in_array($code, $payments)) {
+            continue;
+            }
 
             $model = self::make([
                 'code' => $code,
@@ -260,8 +270,9 @@ class Payment extends Model
      */
     public function findPaymentProfile($customer)
     {
-        if (!$customer)
+        if (!$customer) {
             return null;
+        }
 
         $query = PaymentProfile::query();
 

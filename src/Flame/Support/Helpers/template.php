@@ -6,8 +6,9 @@
 if (!function_exists('pagic')) {
     function pagic(string|null $name = null, array $vars = [])
     {
-        if (is_null($name))
+        if (is_null($name)) {
             return resolve('pagic');
+        }
 
         return resolve('pagic')->render($name, $vars);
     }

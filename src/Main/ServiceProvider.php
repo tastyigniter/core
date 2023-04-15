@@ -56,8 +56,7 @@ class ServiceProvider extends AppServiceProvider
         if (!Igniter::runningInAdmin()) {
             $this->registerAssets();
             $this->registerCombinerEvent();
-        }
-        else {
+        } else {
             $this->registerFormWidgets();
             $this->registerPermissions();
         }
@@ -97,8 +96,9 @@ class ServiceProvider extends AppServiceProvider
     protected function registerAssets()
     {
         Assets::registerCallback(function (Assets $manager) {
-            if (Igniter::runningInAdmin())
+            if (Igniter::runningInAdmin()) {
                 return;
+            }
 
             $manager->registerSourcePath(Igniter::themesPath());
 
@@ -108,8 +108,9 @@ class ServiceProvider extends AppServiceProvider
 
     protected function registerCombinerEvent()
     {
-        if ($this->app->runningInConsole() || Igniter::runningInAdmin())
+        if ($this->app->runningInConsole() || Igniter::runningInAdmin()) {
             return;
+        }
 
         Event::listen('assets.combiner.beforePrepare', function (Assets $combiner, $assets) {
             resolve(ThemeManager::class)->applyAssetVariablesOnCombinerFilters(
@@ -134,8 +135,9 @@ class ServiceProvider extends AppServiceProvider
         });
 
         Event::listen('pages.menuitem.resolveItem', function ($item, $url, $theme) {
-            if ($item->type == 'theme-page')
+            if ($item->type == 'theme-page') {
                 return Page::resolveMenuItem($item, $url, $theme);
+            }
         });
     }
 
@@ -209,8 +211,9 @@ class ServiceProvider extends AppServiceProvider
 
     protected function defineRoutes()
     {
-        if (app()->routesAreCached())
+        if (app()->routesAreCached()) {
             return;
+        }
 
         Route::group([], function ($router) {
             (new RouteRegistrar($router))->all();

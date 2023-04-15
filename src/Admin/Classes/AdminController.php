@@ -170,8 +170,9 @@ class AdminController extends Controller
         // Loads the requested controller action
         $response = $this->execPageAction($action, $params);
 
-        if (!is_string($response))
+        if (!is_string($response)) {
             return $response;
+        }
 
         // Return response
         return response()->make()->setContent($response);
@@ -194,11 +195,13 @@ class AdminController extends Controller
 
     protected function makeMainMenuWidget(): void
     {
-        if (!$this->currentUser)
+        if (!$this->currentUser) {
             return;
+        }
 
-        if (AdminMenu::isCollapsed())
+        if (AdminMenu::isCollapsed()) {
             $this->bodyClass .= 'sidebar-collapsed';
+        }
 
         $config = [];
         $config['alias'] = 'mainmenu';
@@ -238,8 +241,9 @@ class AdminController extends Controller
         }
 
         // Process page specific handler (index_onSomething)
-        if (($result = $this->runHandler($handler, $params, $this->action)) !== null)
+        if (($result = $this->runHandler($handler, $params, $this->action)) !== null) {
             return $result;
+        }
 
         $this->suppressView = true;
 
@@ -258,8 +262,9 @@ class AdminController extends Controller
 
     protected function processHandlers(): mixed
     {
-        if (!$handler = Admin::getAjaxHandler())
+        if (!$handler = Admin::getAjaxHandler()) {
             return false;
+        }
 
         try {
             Admin::validateAjaxHandler($handler);
@@ -280,25 +285,21 @@ class AdminController extends Controller
                 if ($result instanceof RedirectResponse) {
                     $response[Admin::HANDLER_REDIRECT] = $result->getTargetUrl();
                     $result = null;
-                }
-                elseif (Flash::messages()->isNotEmpty()) {
+                } elseif (Flash::messages()->isNotEmpty()) {
                     $response['#notification'] = $this->makePartial('flash');
                 }
             }
 
             if (is_array($result)) {
                 $response = array_merge($response, $result);
-            }
-            elseif (is_string($result)) {
+            } elseif (is_string($result)) {
                 $response['result'] = $result;
-            }
-            elseif (is_object($result)) {
+            } elseif (is_object($result)) {
                 return $result;
             }
 
             return $response;
-        }
-        catch (ValidationException $ex) {
+        } catch (ValidationException $ex) {
             $this->flashValidationErrors($ex->getErrors());
 
             $response['#notification'] = $this->makePartial('flash');
@@ -306,11 +307,9 @@ class AdminController extends Controller
 //            $response['X_IGNITER_ERROR_MESSAGE'] = $ex->getMessage(); avoid duplicate flash message.
 
             throw new AjaxException($response);
-        }
-        catch (MassAssignmentException $ex) {
+        } catch (MassAssignmentException $ex) {
             throw new ApplicationException(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]));
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }

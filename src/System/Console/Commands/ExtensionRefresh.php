@@ -51,8 +51,7 @@ class ExtensionRefresh extends Command
                 'pretend' => $this->option('pretend'),
                 'step' => $step,
             ]);
-        }
-        else {
+        } else {
             $this->output->writeln(sprintf('<info>Purging extension %s...</info>', $extensionName));
             $manager->purgeExtension($extensionName);
 

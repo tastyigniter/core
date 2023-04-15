@@ -42,22 +42,26 @@ class Localization
     {
         $localization = app('translator.localization');
 
-        if ($localization->loadLocaleFromRequest())
+        if ($localization->loadLocaleFromRequest()) {
             return;
+        }
 
-        if ($localization->loadLocaleFromBrowser())
+        if ($localization->loadLocaleFromBrowser()) {
             return;
+        }
 
-        if ($localization->loadLocaleFromSession())
+        if ($localization->loadLocaleFromSession()) {
             return;
+        }
 
         $localization->setLocale($localization->getDefaultLocale());
     }
 
     protected function getUserLocale()
     {
-        if (!app('admin.auth')->isLogged())
+        if (!app('admin.auth')->isLogged()) {
             return null;
+        }
 
         return app('admin.auth')->user()->getLocale();
     }

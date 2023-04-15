@@ -52,11 +52,13 @@ trait ControllerUtils
 
     public function checkAction($action)
     {
-        if (!$methodExists = $this->handlerMethodExists($action))
+        if (!$methodExists = $this->handlerMethodExists($action)) {
             return false;
+        }
 
-        if (in_array(strtolower($action), array_map('strtolower', $this->hiddenActions)))
+        if (in_array(strtolower($action), array_map('strtolower', $this->hiddenActions))) {
             return false;
+        }
 
         if (method_exists($this, $action)) {
             $methodInfo = new \ReflectionMethod($this, $action);
@@ -76,11 +78,13 @@ trait ControllerUtils
             ));
         }
 
-        if (method_exists($this, 'initialize'))
+        if (method_exists($this, 'initialize')) {
             $this->initialize();
+        }
 
-        if (method_exists($this, 'remap'))
+        if (method_exists($this, 'remap')) {
             return $this->remap($this->action, $this->params);
+        }
 
         return $this->{$method}(...$parameters);
     }

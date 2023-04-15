@@ -69,8 +69,7 @@ class HasOne extends HasOneBase
             if ($this->parent->exists) {
                 $instance->setAttribute($this->getForeignKeyName(), $this->getParentKey());
             }
-        }
-        else {
+        } else {
             $instance = $this->getRelated()->find($value);
         }
 

@@ -14,8 +14,9 @@ class ImageHelper
         ], is_array($width) ? $width : []);
 
         $rootFolder = config('igniter.system.assets.media.folder', 'data').'/';
-        if (starts_with($path, $rootFolder))
+        if (starts_with($path, $rootFolder)) {
             $path = substr($path, strlen($rootFolder));
+        }
 
         return resolve(MediaLibrary::class)->getMediaThumb($path, $options);
     }

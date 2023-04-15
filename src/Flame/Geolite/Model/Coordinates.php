@@ -135,8 +135,9 @@ class Coordinates implements CoordinatesInterface
      */
     public function normalizeLongitude($longitude)
     {
-        if (180 === $longitude % 360)
+        if (180 === $longitude % 360) {
             return 180.0;
+        }
 
         $mod = fmod($longitude, 360);
         $fallback = $mod > 180 ? $mod - 360 : $mod;

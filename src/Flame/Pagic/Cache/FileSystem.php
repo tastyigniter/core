@@ -27,8 +27,9 @@ class FileSystem
     {
         $hash = md5($name);
         $result = $this->path.'/';
-        if ($hashName)
+        if ($hashName) {
             return $result.$hash.'.php';
+        }
 
         $result .= substr($hash, 0, 3).'/';
         $result .= substr($hash, 3, 3).'/';
@@ -46,15 +47,18 @@ class FileSystem
     public function write($path, $content)
     {
         $dir = dirname($path);
-        if (!File::isDirectory($dir) && !File::makeDirectory($dir, 0777, true))
+        if (!File::isDirectory($dir) && !File::makeDirectory($dir, 0777, true)) {
             throw new RuntimeException(sprintf('Unable to create the cache directory (%s).', $dir));
+        }
 
         $tmpFile = tempnam($dir, basename($path));
-        if (@file_put_contents($tmpFile, $content) === false)
+        if (@file_put_contents($tmpFile, $content) === false) {
             throw new RuntimeException(sprintf('Failed to write cache file "%s".', $tmpFile));
+        }
 
-        if (!@rename($tmpFile, $path))
+        if (!@rename($tmpFile, $path)) {
             throw new RuntimeException(sprintf('Failed to write cache file "%s".', $path));
+        }
 
         File::chmod($path);
 
@@ -62,8 +66,7 @@ class FileSystem
         if (Config::get('igniter.pagic.forceBytecodeInvalidation', false)) {
             if (function_exists('opcache_invalidate')) {
                 opcache_invalidate($path, true);
-            }
-            elseif (function_exists('apc_compile_file')) {
+            } elseif (function_exists('apc_compile_file')) {
                 apc_compile_file($path);
             }
         }
@@ -71,8 +74,9 @@ class FileSystem
 
     public function getTimestamp($key)
     {
-        if (!File::exists($key))
+        if (!File::exists($key)) {
             return 0;
+        }
 
         return (int)filemtime($key);
     }
@@ -85,8 +89,9 @@ class FileSystem
             $cached !== false &&
             ($cached = @unserialize(@base64_decode($cached))) !== false
         ) {
-            if (is_null($filePath))
+            if (is_null($filePath)) {
                 return $cached;
+            }
 
             if (array_key_exists($filePath, $cached)) {
                 return $cached[$filePath];

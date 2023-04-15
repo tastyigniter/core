@@ -94,8 +94,9 @@ class WorkingHour extends Model implements WorkingHourInterface
 
         $closeDate->setTimeFromTimeString($this->closing_time);
 
-        if ($this->isPastMidnight())
+        if ($this->isPastMidnight()) {
             $closeDate->addDay();
+        }
 
         return $closeDate;
     }
@@ -111,8 +112,9 @@ class WorkingHour extends Model implements WorkingHourInterface
 
     public function isOpenAllDay()
     {
-        if (!$this->open || !$this->close)
+        if (!$this->open || !$this->close) {
             return null;
+        }
 
         $diffInHours = $this->open->diffInHours($this->close);
 
@@ -121,8 +123,9 @@ class WorkingHour extends Model implements WorkingHourInterface
 
     public function isPastMidnight()
     {
-        if (!$this->opening_time || !$this->closing_time)
+        if (!$this->opening_time || !$this->closing_time) {
             return null;
+        }
 
         return $this->opening_time > $this->closing_time;
     }

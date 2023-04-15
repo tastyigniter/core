@@ -43,24 +43,27 @@ class Loader implements TemplateLoader
      */
     public function getMarkup(string $name): ?string
     {
-        if ($this->validateTemplateSource($name))
+        if ($this->validateTemplateSource($name)) {
             return $this->source->getMarkup();
+        }
 
         return $this->getContents($name);
     }
 
     public function getContents(string $name): ?string
     {
-        if ($this->validateTemplateSource($name))
+        if ($this->validateTemplateSource($name)) {
             return $this->source->getContent();
+        }
 
         return File::get($this->findTemplate($name));
     }
 
     public function getFilename(string $name): ?string
     {
-        if ($this->validateTemplateSource($name))
+        if ($this->validateTemplateSource($name)) {
             return $this->source->getFilePath();
+        }
 
         return $this->findTemplate($name);
     }
@@ -92,31 +95,33 @@ class Loader implements TemplateLoader
 
     public function getCacheKey(string $name): string
     {
-        if ($this->validateTemplateSource($name))
+        if ($this->validateTemplateSource($name)) {
             return $this->source->getTemplateCacheKey();
+        }
 
         return $this->findTemplate($name);
     }
 
     public function isFresh(string $name, int $time): bool
     {
-        if ($this->validateTemplateSource($name))
+        if ($this->validateTemplateSource($name)) {
             return $this->source->mTime <= $time;
+        }
 
         return File::lastModified($this->findTemplate($name)) <= $time;
     }
 
     public function exists(string $name): bool
     {
-        if ($this->validateTemplateSource($name))
+        if ($this->validateTemplateSource($name)) {
             return $this->source->exists;
+        }
 
         try {
             $this->findTemplate($name);
 
             return true;
-        }
-        catch (Exception) {
+        } catch (Exception) {
             return false;
         }
     }
@@ -150,11 +155,13 @@ class Loader implements TemplateLoader
      */
     protected function findFallbackObject(string $name): PartialTemplate|bool
     {
-        if (str_contains($name, '::'))
+        if (str_contains($name, '::')) {
             return false;
+        }
 
-        if (array_key_exists($name, $this->fallbackCache))
+        if (array_key_exists($name, $this->fallbackCache)) {
             return $this->fallbackCache[$name];
+        }
 
         return $this->fallbackCache[$name] = PartialTemplate::find($name);
     }

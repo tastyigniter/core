@@ -192,22 +192,27 @@ class MediaManager extends BaseWidget
     {
         $mediaLibrary = $this->getMediaLibrary();
 
-        if (!$this->getSetting('enable_new_folder'))
+        if (!$this->getSetting('enable_new_folder')) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_new_folder_disabled'));
+        }
 
-        if (!$path = $mediaLibrary->validatePath(post('path')))
+        if (!$path = $mediaLibrary->validatePath(post('path'))) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
 
         $name = trim(post('name'));
-        if (!strlen($name))
+        if (!strlen($name)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_file_name_required'));
+        }
 
-        if (!$this->validateFileName($name))
+        if (!$this->validateFileName($name)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_file_name'));
+        }
 
         $fullPath = $path.'/'.$name;
-        if ($mediaLibrary->exists($fullPath))
+        if ($mediaLibrary->exists($fullPath)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_file_exists'));
+        }
 
         $mediaLibrary->makeFolder($fullPath);
 
@@ -230,22 +235,27 @@ class MediaManager extends BaseWidget
         $mediaLibrary = $this->getMediaLibrary();
 
         try {
-            if (!$this->getSetting('enable_rename'))
+            if (!$this->getSetting('enable_rename')) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_rename_disabled'));
+            }
 
-            if (!$path = $mediaLibrary->validatePath(post('path')))
+            if (!$path = $mediaLibrary->validatePath(post('path'))) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+            }
 
             $name = trim(post('name'));
-            if (!strlen($name))
+            if (!strlen($name)) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_file_name_required'));
+            }
 
-            if (!$this->validateFileName($name))
+            if (!$this->validateFileName($name)) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_file_name'));
+            }
 
             $newPath = File::dirname($path).'/'.$name;
-            if ($mediaLibrary->exists($newPath))
+            if ($mediaLibrary->exists($newPath)) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_file_exists'));
+            }
 
             $mediaLibrary->rename($path, $newPath);
 
@@ -260,8 +270,7 @@ class MediaManager extends BaseWidget
                 '#'.$this->getId('folder-tree') => $this->makePartial('mediamanager/folder_tree'),
                 '#'.$this->getId('breadcrumb') => $this->makePartial('mediamanager/breadcrumb'),
             ];
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return $ex->getMessage();
         }
     }
@@ -270,29 +279,36 @@ class MediaManager extends BaseWidget
     {
         $mediaLibrary = $this->getMediaLibrary();
 
-        if (!$this->getSetting('enable_rename'))
+        if (!$this->getSetting('enable_rename')) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_rename_disabled'));
+        }
 
-        if (!$path = $mediaLibrary->validatePath(post('path')))
+        if (!$path = $mediaLibrary->validatePath(post('path'))) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
 
         $oldName = trim(post('file'));
-        if (!strlen($oldName))
+        if (!strlen($oldName)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_file_name_required'));
+        }
 
         $name = trim(post('name'));
-        if (!strlen($name))
+        if (!strlen($name)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_new_file_name'));
+        }
 
-        if (!$mediaLibrary->isAllowedExtension($name))
+        if (!$mediaLibrary->isAllowedExtension($name)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_extension_not_allowed'));
+        }
 
-        if (!$this->validateFileName($name) || !$this->validateFileName($oldName))
+        if (!$this->validateFileName($name) || !$this->validateFileName($oldName)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_file_name'));
+        }
 
         $newPath = $path.'/'.$name;
-        if ($mediaLibrary->exists($newPath))
+        if ($mediaLibrary->exists($newPath)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_file_exists'));
+        }
 
         $mediaLibrary->rename($path.'/'.$oldName, $newPath);
 
@@ -312,11 +328,13 @@ class MediaManager extends BaseWidget
     {
         $mediaLibrary = $this->getMediaLibrary();
 
-        if (!$this->getSetting('enable_delete'))
+        if (!$this->getSetting('enable_delete')) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_delete_disabled'));
+        }
 
-        if (!$path = $mediaLibrary->validatePath(post('path')))
+        if (!$path = $mediaLibrary->validatePath(post('path'))) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
 
         $mediaLibrary->deleteFolder($path);
 
@@ -342,8 +360,9 @@ class MediaManager extends BaseWidget
             $json['alert'] = lang('igniter::main.media_manager.alert_delete_disabled');
         }
 
-        if (!$path = $mediaLibrary->validatePath(post('path')))
+        if (!$path = $mediaLibrary->validatePath(post('path'))) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
 
         $files = post('files');
         if (empty($files) || !is_array($files)) {
@@ -374,23 +393,28 @@ class MediaManager extends BaseWidget
     {
         $mediaLibrary = $this->getMediaLibrary();
 
-        if (!$this->getSetting('enable_move'))
+        if (!$this->getSetting('enable_move')) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_move_disabled'));
+        }
 
-        if (!$source = $mediaLibrary->validatePath(post('path')))
+        if (!$source = $mediaLibrary->validatePath(post('path'))) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
 
-        if (!$destination = $mediaLibrary->validatePath(post('destination')))
+        if (!$destination = $mediaLibrary->validatePath(post('destination'))) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
 
         $files = post('files');
-        if (empty($files) || !is_array($files))
+        if (empty($files) || !is_array($files)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_select_move_file'));
+        }
 
         foreach ($files as $file) {
             $name = $file['path'];
-            if ($this->validateFileName($name))
+            if ($this->validateFileName($name)) {
                 $mediaLibrary->moveFile($source.'/'.$name, $destination.'/'.$name);
+            }
         }
 
         $mediaLibrary->resetCache();
@@ -411,23 +435,28 @@ class MediaManager extends BaseWidget
     {
         $mediaLibrary = $this->getMediaLibrary();
 
-        if (!$this->getSetting('enable_copy'))
+        if (!$this->getSetting('enable_copy')) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_copy_disabled'));
+        }
 
-        if (!$source = $mediaLibrary->validatePath(post('path')))
+        if (!$source = $mediaLibrary->validatePath(post('path'))) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
 
-        if (!$destination = $mediaLibrary->validatePath(post('destination')))
+        if (!$destination = $mediaLibrary->validatePath(post('destination'))) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
 
         $files = post('files');
-        if (empty($files) || !is_array($files))
+        if (empty($files) || !is_array($files)) {
             throw new ApplicationException(lang('igniter::main.media_manager.alert_select_copy_file'));
+        }
 
         foreach ($files as $file) {
             $name = $file['path'];
-            if ($this->validateFileName($name))
+            if ($this->validateFileName($name)) {
                 $mediaLibrary->copyFile($source.'/'.$name, $destination.'/'.$name);
+            }
         }
 
         $mediaLibrary->resetCache();
@@ -469,8 +498,9 @@ class MediaManager extends BaseWidget
         $folderList = $this->getMediaLibrary()->listAllFolders();
 
         foreach ($folderList as $value) {
-            if ($value == $currentFolder)
+            if ($value == $currentFolder) {
                 continue;
+            }
 
             $result[$value] = $value;
         }
@@ -485,8 +515,9 @@ class MediaManager extends BaseWidget
         $mediaLibrary = $this->getMediaLibrary();
 
         $folderTree = function ($path) use (&$folderTree, $mediaLibrary, $result) {
-            if (!($folders = $mediaLibrary->listFolders($path)))
+            if (!($folders = $mediaLibrary->listFolders($path))) {
                 return null;
+            }
 
             foreach ($folders as $folder) {
                 $node = [];
@@ -539,8 +570,9 @@ class MediaManager extends BaseWidget
     {
         $sort = $this->getSortBy();
         $direction = 'descending';
-        if ($sort && in_array($direction, $sort))
+        if ($sort && in_array($direction, $sort)) {
             $direction = 'ascending';
+        }
 
         $sortBy = [$sortBy, $direction];
 
@@ -564,40 +596,48 @@ class MediaManager extends BaseWidget
 
     protected function checkUploadHandler()
     {
-        if (!($uniqueId = Request::header('X-IGNITER-FILEUPLOAD')) || $uniqueId != $this->getId())
+        if (!($uniqueId = Request::header('X-IGNITER-FILEUPLOAD')) || $uniqueId != $this->getId()) {
             return;
+        }
 
         $mediaLibrary = $this->getMediaLibrary();
 
         try {
-            if (!$this->getSetting('enable_uploads'))
+            if (!$this->getSetting('enable_uploads')) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_upload_disabled'));
+            }
 
-            if (!$this->controller->getUser()->hasPermission('Admin.MediaManager'))
+            if (!$this->controller->getUser()->hasPermission('Admin.MediaManager')) {
                 throw new ApplicationException(sprintf(lang('igniter::main.media_manager.alert_permission'), 'upload'));
+            }
 
-            if (!Request::hasFile('file_data'))
+            if (!Request::hasFile('file_data')) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_file_not_found'));
+            }
 
             $uploadedFile = Request::file('file_data');
 
             $fileName = $uploadedFile->getClientOriginalName();
 
-            if (!$path = $mediaLibrary->validatePath(Request::get('path')))
+            if (!$path = $mediaLibrary->validatePath(Request::get('path'))) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+            }
 
             $extension = strtolower($uploadedFile->getClientOriginalExtension());
             $fileName = File::name($fileName).'.'.$extension;
             $filePath = $path.'/'.$fileName;
 
-            if (!$this->validateFileName($fileName))
+            if (!$this->validateFileName($fileName)) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_new_file_name'));
+            }
 
-            if (!$mediaLibrary->isAllowedExtension($fileName))
+            if (!$mediaLibrary->isAllowedExtension($fileName)) {
                 throw new ApplicationException(lang('igniter::main.media_manager.alert_extension_not_allowed'));
+            }
 
-            if (!$uploadedFile->isValid())
+            if (!$uploadedFile->isValid()) {
                 throw new ApplicationException($uploadedFile->getErrorMessage());
+            }
 
             $mediaLibrary->put(
                 $filePath,
@@ -612,8 +652,7 @@ class MediaManager extends BaseWidget
                 'link' => $mediaLibrary->getMediaUrl($filePath),
                 'result' => 'success',
             ])->send();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             Response::json($ex->getMessage(), 400)->send();
         }
 
@@ -654,7 +693,9 @@ class MediaManager extends BaseWidget
 
     protected function makeReadableSize($size)
     {
-        if (!$size) return '0 B';
+        if (!$size) {
+        return '0 B';
+        }
 
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 

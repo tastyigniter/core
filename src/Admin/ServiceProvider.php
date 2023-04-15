@@ -313,8 +313,9 @@ class ServiceProvider extends AppServiceProvider
                 ],
             ];
 
-            if (AdminLocation::listLocations()->isEmpty())
+            if (AdminLocation::listLocations()->isEmpty()) {
                 unset($menuItems['locations']);
+            }
 
             $manager->registerMainItems($menuItems);
         });
@@ -769,8 +770,9 @@ class ServiceProvider extends AppServiceProvider
 
     protected function defineRoutes()
     {
-        if (app()->routesAreCached())
+        if (app()->routesAreCached()) {
             return;
+        }
 
         Route::group([], function ($router) {
             (new Classes\RouteRegistrar($router))->all();

@@ -65,8 +65,9 @@ class Template
     {
         if (array_key_exists('this', $data)) {
             foreach ($data['this'] as $key => $object) {
-                if (property_exists($this, $key))
+                if (property_exists($this, $key)) {
                     $this->{$key} = $object;
+                }
             }
         }
     }
@@ -84,8 +85,9 @@ class Template
         $data = array_merge(View::getShared(), $data);
 
         return array_map(function ($value) {
-            if ($value instanceof Renderable)
+            if ($value instanceof Renderable) {
                 return $value->render();
+            }
 
             return $value;
         }, $data);
@@ -103,8 +105,7 @@ class Template
         // an exception is thrown. This prevents any partial views from leaking.
         try {
             include $path;
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $this->handleException($e, $obLevel);
         }
 
@@ -132,8 +133,9 @@ class Template
 
     protected function getSourceFilePath(): string
     {
-        if ($source = $this->env->getLoader()->getSource())
+        if ($source = $this->env->getLoader()->getSource()) {
             return $source->getFilePath();
+        }
 
         return $this->path;
     }

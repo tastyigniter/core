@@ -77,11 +77,13 @@ class BaseWidget extends Extendable
         $this->configPath = $controller->configPath;
 
         // Set config values, if a parent constructor hasn't set already.
-        if ($this->config === null)
+        if ($this->config === null) {
             $this->setConfig($config);
+        }
 
-        if (is_null($this->alias))
+        if (is_null($this->alias)) {
             $this->alias = $this->config['alias'] ?? $this->defaultAlias;
+        }
 
         $this->loadAssets();
 
@@ -210,8 +212,9 @@ class BaseWidget extends Extendable
      */
     public function getConfig($name = null, $default = null)
     {
-        if (is_null($name))
+        if (is_null($name)) {
             return $this->config;
+        }
 
         $nameArray = name_to_array($name);
 
@@ -219,8 +222,9 @@ class BaseWidget extends Extendable
         $result = isset($this->config[$fieldName]) ? $this->config[$fieldName] : $default;
 
         foreach ($nameArray as $key) {
-            if (!is_array($result) || !array_key_exists($key, $result))
+            if (!is_array($result) || !array_key_exists($key, $result)) {
                 return $default;
+            }
 
             $result = $result[$key];
         }

@@ -225,8 +225,7 @@ class Distance implements Contracts\DistanceInterface
             $cosSqAlpha = 1 - $sinAlpha * $sinAlpha;
             if ($cosSqAlpha != 0.0) {
                 $cos2SigmaM = $cosSigma - 2 * $sinU1 * $sinU2 / $cosSqAlpha;
-            }
-            else {
+            } else {
                 $cos2SigmaM = 0.0;
             }
             $cC = $f / 16 * $cosSqAlpha * (4 + $f * (4 - 3 * $cosSqAlpha));

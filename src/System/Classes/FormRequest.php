@@ -78,16 +78,18 @@ class FormRequest extends BaseFormRequest
 
     public function getWith($key, $default = null)
     {
-        if (!is_null($inputKey = $this->getInputKey()))
+        if (!is_null($inputKey = $this->getInputKey())) {
             $key = $inputKey.'.'.$key;
+        }
 
         return $this->get($key, $default);
     }
 
     public function inputWith($key, $default = null)
     {
-        if (!is_null($inputKey = $this->getInputKey()))
+        if (!is_null($inputKey = $this->getInputKey())) {
             $key = $inputKey.'.'.$key;
+        }
 
         return $this->input($key, $default);
     }
@@ -111,17 +113,21 @@ class FormRequest extends BaseFormRequest
      */
     protected function getModel()
     {
-        if ($this->model)
+        if ($this->model) {
             return $this->model;
+        }
 
-        if (!$this->getController())
+        if (!$this->getController()) {
             return null;
+        }
 
-        if ($this->getController()->methodExists('getFormModel'))
+        if ($this->getController()->methodExists('getFormModel')) {
             return $this->getController()->getFormModel();
+        }
 
-        if ($this->getController()->methodExists('getRestModel'))
+        if ($this->getController()->methodExists('getRestModel')) {
             return $this->getController()->getRestModel();
+        }
     }
 
     /**

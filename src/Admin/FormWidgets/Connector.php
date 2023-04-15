@@ -117,8 +117,9 @@ class Connector extends BaseFormWidget
 
     public function getSaveValue($value)
     {
-        if (!$this->sortable)
+        if (!$this->sortable) {
             return FormField::NO_SAVE_DATA;
+        }
 
         return (array)$this->processSaveValue($value);
     }
@@ -184,15 +185,17 @@ class Connector extends BaseFormWidget
     {
         $model = $this->getRelationModel();
 
-        if (strlen($recordId = post('recordId')))
+        if (strlen($recordId = post('recordId'))) {
             $model = $model->find($recordId);
+        }
 
         $form = $this->makeItemFormWidget($model);
 
         $this->validateFormWidget($form, $saveData = $form->getSaveData());
 
-        if (!$model->exists)
+        if (!$model->exists) {
             $saveData[$this->model->getKeyName()] = $this->model->getKey();
+        }
 
         $modelsToSave = $this->prepareModelsToSave($model, $saveData);
 
@@ -209,12 +212,14 @@ class Connector extends BaseFormWidget
 
     public function onDeleteRecord()
     {
-        if (!strlen($recordId = post('recordId')))
+        if (!strlen($recordId = post('recordId'))) {
             return false;
+        }
 
         $model = $this->getRelationModel()->find($recordId);
-        if (!$model)
+        if (!$model) {
             throw new ApplicationException(sprintf(lang('igniter::admin.form.not_found'), $recordId));
+        }
 
         $model->delete();
 
@@ -238,8 +243,9 @@ class Connector extends BaseFormWidget
     protected function processSaveValue($value)
     {
         $items = $this->formField->value;
-        if (!$items instanceof Collection)
+        if (!$items instanceof Collection) {
             return $items;
+        }
 
         $sortedIndexes = (array)post($this->sortableInputName);
         $sortedIndexes = array_flip($sortedIndexes);

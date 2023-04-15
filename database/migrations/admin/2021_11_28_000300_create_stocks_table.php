@@ -61,8 +61,9 @@ return new class extends Migration
     protected function copyStockQtyFromMenus()
     {
         DB::table('menus')->get()->each(function ($menuItem) {
-            if ($menuItem->stock_qty == 0)
+            if ($menuItem->stock_qty == 0) {
                 return true;
+            }
 
             $locationIds = DB::table('locationables')
                 ->where('locationable_type', 'menus')
@@ -94,8 +95,9 @@ return new class extends Migration
     protected function copyStockQtyFromMenuOptions()
     {
         DB::table('menu_item_option_values')->get()->each(function ($optionValue) {
-            if ($optionValue->quantity == 0)
+            if ($optionValue->quantity == 0) {
                 return true;
+            }
 
             $menuOption = DB::table('menu_item_options')
                 ->where('menu_option_id', $optionValue->menu_option_id)

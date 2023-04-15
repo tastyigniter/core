@@ -130,8 +130,7 @@ class Builder extends IlluminateQueryBuilder
 
         if ($cache->has($this)) {
             $results = collect($cache->get($this));
-        }
-        else {
+        } else {
             $results = !is_null($this->cacheMinutes)
                 ? $this->getCached($columns)
                 : parent::get($columns);
@@ -168,12 +167,10 @@ class Builder extends IlluminateQueryBuilder
         // and if we have minutes we will use the typical remember function here.
         if (is_int($minutes) && $minutes < 0) {
             $results = $cache->rememberForever($key, $callback);
-        }
-        else {
+        } else {
             if (is_int($minutes)) {
                 $expiresAt = now()->addMinutes($minutes);
-            }
-            else {
+            } else {
                 $expiresAt = $minutes;
             }
             $results = $cache->remember($key, $expiresAt, $callback);
@@ -328,8 +325,7 @@ class Builder extends IlluminateQueryBuilder
 
         if (!is_array(reset($values))) {
             $values = [$values];
-        }
-        else {
+        } else {
             foreach ($values as $key => $value) {
                 ksort($value);
 

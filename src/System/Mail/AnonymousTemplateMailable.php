@@ -35,11 +35,9 @@ class AnonymousTemplateMailable extends TemplateMailable implements ShouldQueue
     {
         if (is_callable($callback)) {
             $this->withSymfonyMessage($callback);
-        }
-        elseif (is_array($callback)) {
+        } elseif (is_array($callback)) {
             $this->to(...$callback);
-        }
-        elseif (!is_null($callback)) {
+        } elseif (!is_null($callback)) {
             $this->to($callback);
         }
 

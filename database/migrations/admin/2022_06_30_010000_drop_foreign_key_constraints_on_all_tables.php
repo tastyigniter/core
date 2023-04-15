@@ -35,8 +35,7 @@ return new class extends Migration
                 $table->dropForeignKeyIfExists($foreignKey);
                 $table->dropIndexIfExists(sprintf('%s%s_%s_foreign', DB::getTablePrefix(), $tableName, $foreignKey));
             });
-        }
-        catch (\Exception $ex) {
+        } catch (\Exception $ex) {
             Log::error($ex);
         }
     }

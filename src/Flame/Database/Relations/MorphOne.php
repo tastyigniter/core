@@ -58,8 +58,7 @@ class MorphOne extends MorphOneBase
                 $instance->setAttribute($this->getForeignKeyName(), $this->getParentKey());
                 $instance->setAttribute($this->getMorphType(), $this->morphClass);
             }
-        }
-        else {
+        } else {
             $instance = $this->getRelated()->find($value);
         }
 

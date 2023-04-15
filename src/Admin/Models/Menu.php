@@ -72,8 +72,9 @@ class Menu extends Model
 
     public function getMenuPriceFromAttribute()
     {
-        if (!$this->menu_options)
+        if (!$this->menu_options) {
             return $this->menu_price;
+        }
 
         return $this->menu_options->mapWithKeys(function ($option) {
             return $option->menu_option_values->keyBy('menu_option_value_id');
@@ -203,11 +204,13 @@ class Menu extends Model
     {
         $this->restorePurgedValues();
 
-        if (array_key_exists('menu_options', $this->attributes))
+        if (array_key_exists('menu_options', $this->attributes)) {
             $this->addMenuOption((array)$this->attributes['menu_options']);
+        }
 
-        if (array_key_exists('special', $this->attributes))
+        if (array_key_exists('special', $this->attributes)) {
             $this->addMenuSpecial((array)$this->attributes['special']);
+        }
     }
 
     protected function beforeDelete()
@@ -260,8 +263,9 @@ class Menu extends Model
      */
     public function addMenuCategories(array $categoryIds = [])
     {
-        if (!$this->exists)
+        if (!$this->exists) {
             return false;
+        }
 
         $this->categories()->sync($categoryIds);
     }
@@ -275,8 +279,9 @@ class Menu extends Model
      */
     public function addMenuIngredients(array $ingredientIds = [])
     {
-        if (!$this->exists)
+        if (!$this->exists) {
             return false;
+        }
 
         $this->ingredients()->sync($ingredientIds);
     }
@@ -290,8 +295,9 @@ class Menu extends Model
      */
     public function addMenuMealtimes(array $mealtimeIds = [])
     {
-        if (!$this->exists)
+        if (!$this->exists) {
             return false;
+        }
 
         $this->mealtimes()->sync($mealtimeIds);
     }
@@ -306,8 +312,9 @@ class Menu extends Model
     public function addMenuOption(array $menuOptions = [])
     {
         $menuId = $this->getKey();
-        if (!is_numeric($menuId))
+        if (!is_numeric($menuId)) {
             return false;
+        }
 
         $idsToKeep = [];
         foreach ($menuOptions as $option) {
@@ -335,8 +342,9 @@ class Menu extends Model
     public function addMenuSpecial(array $menuSpecial = [])
     {
         $menuId = $this->getKey();
-        if (!is_numeric($menuId))
+        if (!is_numeric($menuId)) {
             return false;
+        }
 
         $menuSpecial['menu_id'] = $menuId;
         $this->special()->updateOrCreate([
@@ -353,8 +361,9 @@ class Menu extends Model
      */
     public function isAvailable($datetime = null)
     {
-        if (is_null($datetime))
+        if (is_null($datetime)) {
             $datetime = Carbon::now();
+        }
 
         if (!$datetime instanceof Carbon) {
             $datetime = Carbon::parse($datetime);
@@ -379,8 +388,9 @@ class Menu extends Model
             }
         }
 
-        if (is_bool($eventResults = $this->fireSystemEvent('admin.menu.isAvailable', [$datetime, $isAvailable], true)))
+        if (is_bool($eventResults = $this->fireSystemEvent('admin.menu.isAvailable', [$datetime, $isAvailable], true))) {
             $isAvailable = $eventResults;
+        }
 
         return $isAvailable;
     }

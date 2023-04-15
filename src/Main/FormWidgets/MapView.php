@@ -80,10 +80,12 @@ class MapView extends BaseFormWidget
 
     protected function getCenter()
     {
-        if ($this->center)
+        if ($this->center) {
             return $this->center;
+        }
 
-        if (method_exists($this->controller, 'mapViewCenterCoords'))
+        if (method_exists($this->controller, 'mapViewCenterCoords')) {
             return $this->controller->mapViewCenterCoords();
+        }
     }
 }

@@ -205,20 +205,25 @@ class User extends AuthUserModel
     public function hasPermission($permissions, $checkAll = true)
     {
         // Bail out if the user is a super user
-        if ($this->isSuperUser())
+        if ($this->isSuperUser()) {
             return true;
+        }
 
         $staffPermissions = $this->getPermissions();
 
-        if (is_string($permissions) && str_contains($permissions, ','))
+        if (is_string($permissions) && str_contains($permissions, ',')) {
             $permissions = explode(',', $permissions);
+        }
 
-        if (!is_array($permissions))
+        if (!is_array($permissions)) {
             $permissions = [$permissions];
+        }
 
         if (resolve(PermissionManager::class)->checkPermission(
             $staffPermissions, $permissions, $checkAll)
-        ) return true;
+        ) {
+        return true;
+        }
 
         return false;
     }
@@ -351,11 +356,13 @@ class User extends AuthUserModel
         // Prevents subsequent saves to this model object
         $user->password = null;
 
-        if (array_key_exists('groups', $attributes))
+        if (array_key_exists('groups', $attributes)) {
             $user->groups()->attach($attributes['groups']);
+        }
 
-        if (array_key_exists('locations', $attributes))
+        if (array_key_exists('locations', $attributes)) {
             $user->locations()->attach($attributes['locations']);
+        }
 
         return $user->reload();
     }

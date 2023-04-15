@@ -158,8 +158,9 @@ class RecordEditor extends BaseFormWidget
 
     public function onAttachRecord()
     {
-        if (!$recordId = post('recordId'))
+        if (!$recordId = post('recordId')) {
             throw new ApplicationException('Please select a record to attach.');
+        }
 
         $model = $this->findFormModel($recordId);
 
@@ -170,8 +171,9 @@ class RecordEditor extends BaseFormWidget
         }
 
         $attachToWidget = $this->getController()->widgets['form']?->getFormWidget($this->attachToField);
-        if ($attachToWidget instanceof Connector)
+        if ($attachToWidget instanceof Connector) {
             return $attachToWidget->reload();
+        }
 
         return [
             '#notification' => $this->makePartial('flash'),
@@ -199,11 +201,13 @@ class RecordEditor extends BaseFormWidget
         $name = camel_case('addon_'.$string);
         $config = $this->{$name};
 
-        if (!$config)
+        if (!$config) {
             return null;
+        }
 
-        if (!is_array($config))
+        if (!is_array($config)) {
             $config = [$config];
+        }
 
         $config = (object)array_merge([
             'tag' => 'div',
@@ -225,8 +229,7 @@ class RecordEditor extends BaseFormWidget
 
         if ($model->methodExists($methodName)) {
             $result = $model->$methodName();
-        }
-        else {
+        } else {
             $result = $model->getRecordEditorOptions($this->fieldName);
         }
 
@@ -235,14 +238,17 @@ class RecordEditor extends BaseFormWidget
 
     protected function makeRecordFormWidgetFromRequest()
     {
-        if (post('recordId'))
+        if (post('recordId')) {
             return;
+        }
 
-        if (!strlen($requestData = request()->header('X-IGNITER-RECORD-EDITOR-REQUEST-DATA')))
+        if (!strlen($requestData = request()->header('X-IGNITER-RECORD-EDITOR-REQUEST-DATA'))) {
             return;
+        }
 
-        if (!strlen($recordId = array_get(json_decode($requestData, true), $this->alias.'.recordId')))
+        if (!strlen($recordId = array_get(json_decode($requestData, true), $this->alias.'.recordId'))) {
             return;
+        }
 
         $model = $this->findFormModel($recordId);
 

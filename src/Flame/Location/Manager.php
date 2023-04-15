@@ -91,21 +91,25 @@ abstract class Manager
 
     public function current()
     {
-        if (!is_null($this->model))
+        if (!is_null($this->model)) {
             return $this->model;
+        }
 
         $model = null;
-        if ($slug = $this->resolveLocationSlug())
+        if ($slug = $this->resolveLocationSlug()) {
             $model = $this->getBySlug($slug);
+        }
 
         if (!$model) {
             $id = $this->getSession('id');
-            if (!$id || !$model = $this->getById($id))
+            if (!$id || !$model = $this->getById($id)) {
                 $model = $this->getById($this->getDefaultLocation());
+            }
         }
 
-        if ($model)
+        if ($model) {
             $this->setCurrent($model);
+        }
 
         return $this->model;
     }
@@ -235,8 +239,9 @@ abstract class Manager
     {
         $cacheKey = sprintf('%s.%s', $this->getModel()->getKey(), $type);
 
-        if (isset(self::$schedulesCache[$cacheKey]))
+        if (isset(self::$schedulesCache[$cacheKey])) {
             return self::$schedulesCache[$cacheKey];
+        }
 
         $schedule = $this->getModel()->newWorkingSchedule($type, $days);
 

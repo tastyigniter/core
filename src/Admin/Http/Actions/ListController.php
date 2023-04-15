@@ -109,8 +109,9 @@ class ListController extends ControllerAction
             return $this->controller->refreshList();
         }
 
-        if (!$alias = post('alias'))
+        if (!$alias = post('alias')) {
             $alias = $this->primaryAlias;
+        }
 
         $listConfig = $this->makeConfig($this->listConfig[$alias], $this->requiredConfig);
 
@@ -132,8 +133,7 @@ class ListController extends ControllerAction
 
             $prefix = ($count > 1) ? ' records' : 'record';
             flash()->success(sprintf(lang('igniter::admin.alert_success'), '['.$count.']'.$prefix.' '.lang('igniter::admin.text_deleted')));
-        }
-        else {
+        } else {
             flash()->warning(sprintf(lang('igniter::admin.alert_error_nothing'), lang('igniter::admin.text_deleted')));
         }
 
@@ -163,8 +163,9 @@ class ListController extends ControllerAction
      */
     public function makeList($alias)
     {
-        if (!$alias || !isset($this->listConfig[$alias]))
+        if (!$alias || !isset($this->listConfig[$alias])) {
             $alias = $this->primaryAlias;
+        }
 
         $listConfig = $this->controller->getListConfig($alias);
 
@@ -214,8 +215,9 @@ class ListController extends ControllerAction
         // Prep the optional toolbar widget
         if (isset($this->controller->widgets['toolbar']) && (isset($listConfig['toolbar']) || isset($modelConfig['toolbar']))) {
             $this->toolbarWidget[$alias] = clone $this->controller->widgets['toolbar'];
-            if ($this->toolbarWidget[$alias] instanceof \Igniter\Admin\Widgets\Toolbar)
+            if ($this->toolbarWidget[$alias] instanceof \Igniter\Admin\Widgets\Toolbar) {
                 $this->toolbarWidget[$alias]->reInitialize($listConfig['toolbar'] ?? $modelConfig['toolbar']);
+            }
         }
 
         // Prep the optional filter widget
@@ -268,8 +270,9 @@ class ListController extends ControllerAction
 
     public function renderList($alias = null)
     {
-        if (is_null($alias) || !isset($this->listConfig[$alias]))
+        if (is_null($alias) || !isset($this->listConfig[$alias])) {
             $alias = $this->primaryAlias;
+        }
 
         $list = [];
 

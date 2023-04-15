@@ -32,8 +32,9 @@ class FixerIO extends AbstractConverter
      */
     public function getExchangeRates($base, array $currencies)
     {
-        if (!strlen($this->accessKey))
+        if (!strlen($this->accessKey)) {
             return [];
+        }
 
         try {
             $response = $this->getHttpClient()->get(
@@ -42,12 +43,12 @@ class FixerIO extends AbstractConverter
 
             $result = json_decode($response->getBody(), true);
 
-            if (isset($result['success']) && !$result['success'])
+            if (isset($result['success']) && !$result['success']) {
                 throw new Exception('An error occurred when requesting currency exchange rates from fixer.io, check your api key.');
+            }
 
             return $result['rates'] ?? [];
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             Log::info($ex->getMessage());
         }
     }

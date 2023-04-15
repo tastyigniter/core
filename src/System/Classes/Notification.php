@@ -43,8 +43,9 @@ class Notification extends BaseNotification implements ShouldQueue
     {
         $channels = ['database'];
 
-        if (BroadcastSettings::isConfigured())
+        if (BroadcastSettings::isConfigured()) {
             $channels[] = 'broadcast';
+        }
 
         return $channels;
     }

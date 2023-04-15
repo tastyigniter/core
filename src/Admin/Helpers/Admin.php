@@ -114,11 +114,13 @@ class Admin
      */
     public function getAjaxHandler()
     {
-        if (request()->ajax() && $handler = request()->header('X-IGNITER-REQUEST-HANDLER'))
+        if (request()->ajax() && $handler = request()->header('X-IGNITER-REQUEST-HANDLER')) {
             return trim($handler);
+        }
 
-        if ($handler = post('_handler'))
+        if ($handler = post('_handler')) {
             return trim($handler);
+        }
 
         return null;
     }
@@ -132,8 +134,9 @@ class Admin
 
     public function validateAjaxHandlerPartials()
     {
-        if (!$partials = trim(request()->header('X-IGNITER-REQUEST-PARTIALS', '')))
+        if (!$partials = trim(request()->header('X-IGNITER-REQUEST-PARTIALS', ''))) {
             return [];
+        }
 
         $partials = explode('&', $partials);
 

@@ -37,27 +37,30 @@ class AllocateAssignable implements ShouldQueue
         $lastAttempt = $this->attempts() >= $this->tries;
 
         try {
-            if ($this->assignableLog->assignee_id)
+            if ($this->assignableLog->assignee_id) {
                 return;
+            }
 
-            if (!in_array(Assignable::class, class_uses_recursive(get_class($this->assignableLog->assignable))))
+            if (!in_array(Assignable::class, class_uses_recursive(get_class($this->assignableLog->assignable)))) {
                 return;
+            }
 
-            if (!$this->assignableLog->assignee_group instanceof UserGroup)
+            if (!$this->assignableLog->assignee_group instanceof UserGroup) {
                 return;
+            }
 
             Allocator::addSlot($this->assignableLog->getKey());
 
-            if (!$assignee = $this->assignableLog->assignee_group->findAvailableAssignee())
+            if (!$assignee = $this->assignableLog->assignee_group->findAvailableAssignee()) {
                 throw new Exception(lang('igniter::admin.user_groups.alert_no_available_assignee'));
+            }
 
             $this->assignableLog->assignable->assignTo($assignee);
 
             Allocator::removeSlot($this->assignableLog->getKey());
 
             return;
-        }
-        catch (Exception $exception) {
+        } catch (Exception $exception) {
             if (!$lastAttempt) {
                 $waitInSeconds = $this->waitInSecondsAfterAttempt($this->attempts());
 

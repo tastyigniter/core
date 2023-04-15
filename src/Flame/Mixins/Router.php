@@ -13,8 +13,9 @@ class Router
             /** @var \Illuminate\Routing\Router $this */
             $route = $this->any($uri, [MainController::class, 'remap']);
 
-            if (!is_null($name))
+            if (!is_null($name)) {
                 $route->name($name);
+            }
 
             return $route;
         };

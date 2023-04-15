@@ -113,8 +113,7 @@ class Igniter
             $hasDatabase = is_null(static::$hasDatabase)
                 ? ($schema->hasTable('settings') && $schema->hasTable('extension_settings'))
                 : static::$hasDatabase;
-        }
-        catch (\Exception) {
+        } catch (\Exception) {
             $hasDatabase = false;
         }
 

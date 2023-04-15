@@ -44,8 +44,7 @@ class AssetCollectionIterator implements \RecursiveIterator
 
         if (false === $pos = strrpos($this->output, '.')) {
             $this->output .= '_*';
-        }
-        else {
+        } else {
             $this->output = substr($this->output, 0, $pos).'_*'.substr($this->output, $pos);
         }
     }
@@ -75,8 +74,7 @@ class AssetCollectionIterator implements \RecursiveIterator
             $name = $this->removeDuplicateVar($name);
 
             $clone->setTargetPath(str_replace('*', $name, $this->output));
-        }
-        else {
+        } else {
             $clone = $this->clones[$asset];
         }
 

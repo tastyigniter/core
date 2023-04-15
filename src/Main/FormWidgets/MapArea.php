@@ -127,12 +127,14 @@ class MapArea extends BaseFormWidget
 
     public function getSaveValue($value)
     {
-        if (!$this->sortable)
+        if (!$this->sortable) {
             return FormField::NO_SAVE_DATA;
+        }
 
         $items = $this->formField->value;
-        if (!$items instanceof Collection)
+        if (!$items instanceof Collection) {
             return $items;
+        }
 
         $sortedIndexes = (array)post($this->sortableInputName);
         $sortedIndexes = array_flip($sortedIndexes);
@@ -196,12 +198,14 @@ class MapArea extends BaseFormWidget
 
     public function onDeleteArea()
     {
-        if (!strlen($areaId = post('areaId')))
+        if (!strlen($areaId = post('areaId'))) {
             throw new ApplicationException(lang('igniter::admin.locations.alert_invalid_area'));
+        }
 
         $model = $this->getRelationModel()->find($areaId);
-        if (!$model)
+        if (!$model) {
             throw new ApplicationException(sprintf(lang('igniter::admin.form.not_found'), $areaId));
+        }
 
         $model->delete();
 
@@ -265,11 +269,13 @@ class MapArea extends BaseFormWidget
 
     protected function makeAreaFormWidget($model, $context = null)
     {
-        if (is_null($context))
+        if (is_null($context)) {
             $context = $model->exists ? 'edit' : 'create';
+        }
 
-        if (is_null($model->location_id))
+        if (is_null($model->location_id)) {
             $model->location_id = $this->model->getKey();
+        }
 
         $config = is_string($this->form) ? $this->loadConfig($this->form, ['form'], 'form') : $this->form;
         $config['context'] = $context;

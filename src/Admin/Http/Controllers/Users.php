@@ -128,7 +128,8 @@ class Users extends \Igniter\Admin\Classes\AdminController
 
     public function formAfterSave($model)
     {
-        if ($this->status && !$this->is_activated)
+        if ($this->status && !$this->is_activated) {
             $model->completeActivation($model->getActivationCode());
+        }
     }
 }

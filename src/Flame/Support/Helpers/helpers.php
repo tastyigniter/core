@@ -176,8 +176,9 @@ if (!function_exists('setting')) {
     {
         $settingConfig = resolve('system.setting');
 
-        if (is_null($key))
+        if (is_null($key)) {
             return $settingConfig;
+        }
 
         return $settingConfig->get($key, $default);
     }
@@ -188,8 +189,9 @@ if (!function_exists('params')) {
     {
         $settingParam = resolve('system.parameter');
 
-        if (is_null($key))
+        if (is_null($key)) {
             return $settingParam;
+        }
 
         return $settingParam->get($key, $default);
     }
@@ -219,8 +221,9 @@ if (!function_exists('input')) {
     function input(string|null $name = null, mixed $default = null): mixed
     {
         $inputData = request()->input();
-        if (is_null($name))
+        if (is_null($name)) {
             return $inputData;
+        }
 
         // Array field name, eg: field[key][key2][key3]
         $name = implode('.', name_to_array($name));
@@ -236,8 +239,9 @@ if (!function_exists('post')) {
     function post(string|null $name = null, mixed $default = null): mixed
     {
         $postData = request()->post();
-        if (is_null($name))
+        if (is_null($name)) {
             return $postData;
+        }
 
         // Array field name, eg: field[key][key2][key3]
         $name = implode('.', name_to_array($name));
@@ -253,8 +257,9 @@ if (!function_exists('get')) {
     function get($name = null, mixed $default = null): mixed
     {
         $inputData = request()->input();
-        if (is_null($name))
+        if (is_null($name)) {
             return $inputData;
+        }
 
         // Array field name, eg: field[key][key2][key3]
         $name = implode('.', name_to_array($name));
@@ -356,11 +361,13 @@ if (!function_exists('normalize_uri')) {
      */
     function normalize_uri(string $uri): string
     {
-        if (substr($uri, 0, 1) != '/')
+        if (substr($uri, 0, 1) != '/') {
             $uri = '/'.$uri;
+        }
 
-        if (!strlen($uri))
+        if (!strlen($uri)) {
             $uri = '/';
+        }
 
         return $uri;
     }
@@ -474,11 +481,13 @@ if (!function_exists('strip_class_basename')) {
     {
         $basename = class_basename($class);
 
-        if (is_null($chop))
+        if (is_null($chop)) {
             return $basename;
+        }
 
-        if (!ends_with($basename, $chop))
+        if (!ends_with($basename, $chop)) {
             return $basename;
+        }
 
         return substr($basename, 0, -strlen($chop));
     }
@@ -502,21 +511,25 @@ if (!function_exists('mdate')) {
             $format = null;
         }
 
-        if (is_null($format))
+        if (is_null($format)) {
             $format = lang('igniter::system.php.date_format');
+        }
 
-        if (is_null($time))
+        if (is_null($time)) {
             return null;
+        }
 
-        if (empty($time))
+        if (empty($time)) {
             $time = time();
+        }
 
-        if (str_contains($format, '%'))
+        if (str_contains($format, '%')) {
             $format = str_replace(
                 '%\\',
                 '',
                 preg_replace('/([a-z]+?)/i', '\\\\\\1', $format)
             );
+        }
 
         return date($format, $time);
     }
@@ -602,11 +615,9 @@ if (!function_exists('day_elapsed')) {
 
         if ($datetime->isToday()) {
             $date = lang('igniter::system.date.today');
-        }
-        elseif ($datetime->isYesterday()) {
+        } elseif ($datetime->isYesterday()) {
             $date = lang('igniter::system.date.yesterday');
-        }
-        elseif ($datetime->isTomorrow()) {
+        } elseif ($datetime->isTomorrow()) {
             $date = lang('igniter::system.date.tomorrow');
         }
 
@@ -668,18 +679,14 @@ if (!function_exists('make_carbon')) {
     {
         if (!$value instanceof Carbon && $value instanceof DateTime) {
             $value = Carbon::instance($value);
-        }
-        elseif (is_numeric($value)) {
+        } elseif (is_numeric($value)) {
             $value = Carbon::createFromTimestamp($value);
-        }
-        elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value)) {
+        } elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value)) {
             $value = Carbon::createFromFormat('Y-m-d', $value)->startOfDay();
-        }
-        else {
+        } else {
             try {
                 $value = Carbon::parse($value);
-            }
-            catch (Exception) {
+            } catch (Exception) {
             }
         }
 
@@ -724,8 +731,7 @@ if (!function_exists('traceLog')) {
 
             if ($message instanceof Exception) {
                 $level = 'error';
-            }
-            elseif (is_array($message) || is_object($message)) {
+            } elseif (is_array($message) || is_object($message)) {
                 $message = print_r($message, true);
             }
 
@@ -774,12 +780,14 @@ if (!function_exists('name_to_array')) {
     {
         $result = [$string];
 
-        if (strpbrk($string, '[]') === false)
+        if (strpbrk($string, '[]') === false) {
             return $result;
+        }
 
         if (preg_match('/^([^\]]+)(?:\[(.+)\])+$/', $string, $matches)) {
-            if (count($matches) < 2)
+            if (count($matches) < 2) {
                 return $result;
+            }
 
             $result = explode('][', $matches[2]);
             array_unshift($result, $matches[1]);
@@ -826,10 +834,11 @@ if (!function_exists('is_lang_key')) {
 if (!function_exists('generate_extension_icon')) {
     function generate_extension_icon(string|array $icon): array
     {
-        if (is_string($icon))
+        if (is_string($icon)) {
             $icon = starts_with($icon, ['//', 'http://', 'https://'])
                 ? ['url' => $icon]
                 : ['class' => 'fa '.$icon];
+        }
 
         $icon = array_merge([
             'class' => 'fa fa-plug',
@@ -840,14 +849,17 @@ if (!function_exists('generate_extension_icon')) {
         ], $icon);
 
         $styles = [];
-        if (strlen($color = array_get($icon, 'color')))
+        if (strlen($color = array_get($icon, 'color'))) {
             $styles[] = "color:$color;";
+        }
 
-        if (strlen($backgroundColor = array_get($icon, 'backgroundColor')))
+        if (strlen($backgroundColor = array_get($icon, 'backgroundColor'))) {
             $styles[] = "background-color:$backgroundColor;";
+        }
 
-        if (is_array($backgroundImage = array_get($icon, 'backgroundImage')))
+        if (is_array($backgroundImage = array_get($icon, 'backgroundImage'))) {
             $styles[] = "background-image:url('data:$backgroundImage[0];base64,$backgroundImage[1]');";
+        }
 
         $icon['styles'] = implode(' ', $styles);
 
@@ -887,13 +899,11 @@ if (!function_exists('array_merge_deep')) {
         foreach ($array2 as $key => $value) {
             if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
                 $merged[$key] = array_merge_deep($merged[$key], $value);
-            }
-            elseif (is_numeric($key)) {
+            } elseif (is_numeric($key)) {
                 if (!in_array($value, $merged)) {
                     $merged[] = $value;
                 }
-            }
-            else {
+            } else {
                 $merged[$key] = $value;
             }
         }

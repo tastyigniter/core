@@ -19,8 +19,9 @@ trait LocationAwareWidget
      */
     protected function locationApplyScope($query)
     {
-        if (is_null($ids = AdminLocation::getAll()))
+        if (is_null($ids = AdminLocation::getAll())) {
             return;
+        }
 
         $model = $query->getModel();
         if ($model instanceof Location) {
@@ -29,8 +30,9 @@ trait LocationAwareWidget
             return;
         }
 
-        if (!in_array(\Igniter\Admin\Traits\Locationable::class, class_uses($model)))
+        if (!in_array(\Igniter\Admin\Traits\Locationable::class, class_uses($model))) {
             return;
+        }
 
         $query->whereHasLocation($ids);
     }

@@ -19,8 +19,7 @@ class Delete extends BaseBulkActionWidget
 
             $prefix = ($count > 1) ? ' records' : 'record';
             flash()->success(sprintf(lang('igniter::admin.alert_success'), '['.$count.']'.$prefix.' '.lang('igniter::admin.text_deleted')));
-        }
-        else {
+        } else {
             flash()->warning(sprintf(lang('igniter::admin.alert_error_nothing'), lang('igniter::admin.text_deleted')));
         }
     }

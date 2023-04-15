@@ -10,8 +10,9 @@ class AddDeliveryCommentOrdersTable extends Migration
 {
     public function up()
     {
-        if (Schema::hasColumn('orders', 'delivery_comment'))
+        if (Schema::hasColumn('orders', 'delivery_comment')) {
             return;
+        }
 
         Schema::table('orders', function (Blueprint $table) {
             $table->text('delivery_comment')->nullable();

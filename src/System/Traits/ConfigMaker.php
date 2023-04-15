@@ -28,8 +28,9 @@ trait ConfigMaker
     {
         $config = $this->makeConfig($configFile, $requiredConfig);
 
-        if (is_null($index))
+        if (is_null($index)) {
             return $config;
+        }
 
         return $config[$index] ?? null;
     }
@@ -111,16 +112,19 @@ trait ConfigMaker
      */
     public function getConfigPath($fileName, $configPath = null)
     {
-        if (!$configPath)
+        if (!$configPath) {
             $configPath = $this->configPath;
+        }
 
         $fileName = File::symbolizePath($fileName);
 
-        if (File::isLocalPath($fileName) || realpath($fileName) !== false)
+        if (File::isLocalPath($fileName) || realpath($fileName) !== false) {
             return $fileName;
+        }
 
-        if (!is_array($configPath))
+        if (!is_array($configPath)) {
             $configPath = [$configPath];
+        }
 
         foreach ($configPath as $path) {
             $path = File::symbolizePath($path);

@@ -112,11 +112,13 @@ class Location extends Model implements LocationInterface
 
     public static function onboardingIsComplete()
     {
-        if (!$defaultId = params('default_location_id'))
+        if (!$defaultId = params('default_location_id')) {
             return false;
+        }
 
-        if (!$model = self::isEnabled()->find($defaultId))
+        if (!$model = self::isEnabled()->find($defaultId)) {
             return false;
+        }
 
         return isset($model->getAddress()['location_lat'])
             && isset($model->getAddress()['location_lng'])
@@ -201,13 +203,15 @@ class Location extends Model implements LocationInterface
             $query->search($search, $searchableFields);
         }
 
-        if (!is_null($enabled))
+        if (!is_null($enabled)) {
             $query->where('location_status', $enabled);
+        }
 
         $this->fireEvent('model.extendListFrontEndQuery', [$query]);
 
-        if (is_null($pageLimit))
+        if (is_null($pageLimit)) {
             return $query;
+        }
 
         return $query->paginate($pageLimit, $page);
     }
@@ -216,8 +220,7 @@ class Location extends Model implements LocationInterface
     {
         if (setting('distance_unit') === 'km') {
             $sql = '( 6371 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) *';
-        }
-        else {
+        } else {
             $sql = '( 3959 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) *';
         }
 
@@ -264,8 +267,9 @@ class Location extends Model implements LocationInterface
 
     public function setUrl($suffix = null)
     {
-        if (is_single_location())
+        if (is_single_location()) {
             $suffix = '/menus';
+        }
 
         $this->url = site_url($this->permalink_slug.$suffix);
     }
@@ -285,8 +289,9 @@ class Location extends Model implements LocationInterface
 
     public function allowGuestOrder()
     {
-        if (($allowGuestOrder = (int)$this->getOption('guest_order', -1)) === -1)
+        if (($allowGuestOrder = (int)$this->getOption('guest_order', -1)) === -1) {
             $allowGuestOrder = (int)setting('guest_order', 1);
+        }
 
         return (bool)$allowGuestOrder;
     }
@@ -299,7 +304,9 @@ class Location extends Model implements LocationInterface
         $paymentGateways = Payment::listPayments();
 
         foreach ($paymentGateways as $payment) {
-            if ($payments && !in_array($payment->code, $payments)) continue;
+            if ($payments && !in_array($payment->code, $payments)) {
+            continue;
+            }
 
             $result[$payment->code] = $payment;
         }
@@ -311,8 +318,9 @@ class Location extends Model implements LocationInterface
     {
         $this->restorePurgedValues();
 
-        if (array_key_exists('delivery_areas', $this->attributes))
+        if (array_key_exists('delivery_areas', $this->attributes)) {
             $this->addLocationAreas((array)$this->attributes['delivery_areas']);
+        }
     }
 
     public function makeDefault()

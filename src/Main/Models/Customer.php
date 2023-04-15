@@ -100,11 +100,13 @@ class Customer extends AuthUserModel
 
     public function beforeLogin()
     {
-        if (!$this->group || !$this->group->requiresApproval())
+        if (!$this->group || !$this->group->requiresApproval()) {
             return;
+        }
 
-        if ($this->is_activated && $this->status)
+        if ($this->is_activated && $this->status) {
             return;
+        }
 
         throw new Exception(sprintf(
             lang('igniter::main.customers.alert_customer_not_active'), $this->email
@@ -126,11 +128,13 @@ class Customer extends AuthUserModel
     {
         $this->restorePurgedValues();
 
-        if (!$this->exists)
+        if (!$this->exists) {
             return;
+        }
 
-        if (array_key_exists('addresses', $this->attributes))
+        if (array_key_exists('addresses', $this->attributes)) {
             $this->saveAddresses($this->attributes['addresses']);
+        }
     }
 
     public function extendUserQuery($query)
@@ -177,8 +181,9 @@ class Customer extends AuthUserModel
      */
     public function resetPassword()
     {
-        if (!$this->enabled())
+        if (!$this->enabled()) {
             return false;
+        }
 
         $this->reset_code = $resetCode = $this->generateResetCode();
         $this->reset_time = Carbon::now();
@@ -190,8 +195,9 @@ class Customer extends AuthUserModel
     public function saveAddresses($addresses)
     {
         $customerId = $this->getKey();
-        if (!is_numeric($customerId))
+        if (!is_numeric($customerId)) {
             return false;
+        }
 
         $idsToKeep = [];
         foreach ($addresses as $address) {
@@ -224,7 +230,9 @@ class Customer extends AuthUserModel
             Order::where('email', $customer_email)->update($update);
             if ($orders = Order::where('email', $customer_email)->get()) {
                 foreach ($orders as $row) {
-                    if (empty($row['order_id'])) continue;
+                    if (empty($row['order_id'])) {
+                    continue;
+                    }
 
                     if ($row['order_type'] == '1' && !empty($row['address_id'])) {
                         Address::where('address_id', $row['address_id'])->update($update);

@@ -33,8 +33,9 @@ class ExtensionInstall extends Command
             'type' => 'extension',
         ]]);
 
-        if (!$packageInfo = $response->first())
+        if (!$packageInfo = $response->first()) {
             return $this->output->writeln(sprintf('<info>Extension %s not found</info>', $extensionName));
+        }
 
         try {
             $this->output->writeln(sprintf('<info>Installing %s extension</info>', $extensionName));
@@ -42,8 +43,7 @@ class ExtensionInstall extends Command
 
             resolve(ExtensionManager::class)->loadExtensions();
             resolve(ExtensionManager::class)->installExtension($packageInfo->code, $packageInfo->version);
-        }
-        catch (ComposerException $e) {
+        } catch (ComposerException $e) {
             $this->output->writeln($e->getMessage());
         }
     }

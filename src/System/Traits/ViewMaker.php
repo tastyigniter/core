@@ -47,8 +47,9 @@ trait ViewMaker
 
     public function getViewPath(string $view, array|string|null $paths = [], string|null $prefix = null): string
     {
-        if (!is_array($paths))
+        if (!is_array($paths)) {
             $paths = [$paths];
+        }
 
         $guess = collect($paths)
             ->prepend($prefix, $view)
@@ -73,8 +74,9 @@ trait ViewMaker
 
     public function guessViewName(string $name, string|null $prefix = 'components.'): string
     {
-        if ($prefix && !Str::endsWith($prefix, '.') && !Str::endsWith($prefix, '::'))
+        if ($prefix && !Str::endsWith($prefix, '.') && !Str::endsWith($prefix, '::')) {
             $prefix .= '.';
+        }
 
         $delimiter = ViewFinderInterface::HINT_PATH_DELIMITER;
 
@@ -99,14 +101,16 @@ trait ViewMaker
     public function makeLayout(string|null $name = null, array $vars = [], bool $throwException = true): string
     {
         $layout = $name ?? $this->layout;
-        if ($layout == '')
+        if ($layout == '') {
             return '';
+        }
 
         $layoutPath = $this->getViewPath(strtolower($layout), $this->layoutPath, '_layouts');
 
         if (!File::exists($layoutPath)) {
-            if ($throwException)
+            if ($throwException) {
                 throw new SystemException(sprintf(lang('system::lang.not_found.layout'), $layout));
+            }
 
             return '';
         }
@@ -126,8 +130,9 @@ trait ViewMaker
         $viewPath = $this->getViewPath(strtolower($view), $this->viewPath);
         $contents = $this->makeFileContent($viewPath);
 
-        if ($this->suppressLayout || $this->layout === '')
+        if ($this->suppressLayout || $this->layout === '') {
             return $contents;
+        }
 
         // Append content to the body template
         Template::setBlock('body', $contents);
@@ -148,14 +153,16 @@ trait ViewMaker
         $partialPath = $this->getViewPath(strtolower($partial), $this->partialPath, '_partials');
 
         if (!File::exists($partialPath)) {
-            if ($throwException)
+            if ($throwException) {
                 throw new SystemException(sprintf(lang('system::lang.not_found.partial'), $partial));
+            }
 
             return '';
         }
 
-        if (isset($this->controller))
+        if (isset($this->controller)) {
             $vars = array_merge($this->controller->vars, $vars);
+        }
 
         return $this->makeFileContent($partialPath, $vars);
     }
@@ -194,11 +201,9 @@ trait ViewMaker
         // an exception is thrown. This prevents any partial views from leaking.
         try {
             include $filePath;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->handleViewException($e, $obLevel);
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $this->handleViewException(new ErrorException($e), $obLevel);
         }
 
@@ -236,8 +241,9 @@ trait ViewMaker
         $data = array_merge(View::getShared(), $data);
 
         return array_map(function ($value) {
-            if ($value instanceof Renderable)
+            if ($value instanceof Renderable) {
                 return $value->render();
+            }
 
             return $value;
         }, $data);

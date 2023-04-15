@@ -127,8 +127,9 @@ class StatusEditor extends BaseFormWidget
     public function onLoadRecord()
     {
         $context = post('recordId');
-        if (!in_array($context, ['load-status', 'load-assignee']))
+        if (!in_array($context, ['load-status', 'load-assignee'])) {
             throw new ApplicationException(lang('igniter::admin.statuses.alert_invalid_action'));
+        }
 
         $this->setMode(str_after($context, 'load-'));
 
@@ -149,28 +150,28 @@ class StatusEditor extends BaseFormWidget
         $arrayName = $this->getModeConfig('arrayName');
         $recordId = post($arrayName.'.'.$keyFrom);
 
-        if (!$this->isStatusMode)
+        if (!$this->isStatusMode) {
             $this->checkAssigneePermission();
+        }
 
         $model = $this->createFormModel();
         $form = $this->makeEditorFormWidget($model);
         $saveData = $this->mergeSaveData($form->getSaveData());
 
         try {
-            if ($this->isStatusMode && $recordId == $this->model->{$keyFrom})
+            if ($this->isStatusMode && $recordId == $this->model->{$keyFrom}) {
                 throw new ApplicationException(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context));
+            }
 
             $this->validateFormWidget($form, $saveData);
-        }
-        catch (ValidationException $ex) {
+        } catch (ValidationException $ex) {
             throw new ApplicationException($ex->getMessage());
         }
 
         DB::transaction(function () use ($saveData, $keyFrom) {
             if ($this->saveRecord($saveData, $keyFrom)) {
                 flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->getModeConfig('formName')).' '.'updated'))->now();
-            }
-            else {
+            } else {
                 flash()->error(lang('igniter::admin.alert_error_try_again'))->now();
             }
         });
@@ -185,19 +186,22 @@ class StatusEditor extends BaseFormWidget
 
     public function onLoadStatus()
     {
-        if (!strlen($statusId = post('statusId')))
+        if (!strlen($statusId = post('statusId'))) {
             throw new ApplicationException(lang('igniter::admin.form.missing_id'));
+        }
 
-        if (!$status = Status::find($statusId))
+        if (!$status = Status::find($statusId)) {
             throw new Exception(sprintf(lang('igniter::admin.statuses.alert_status_not_found'), $statusId));
+        }
 
         return $status->toArray();
     }
 
     public function onLoadAssigneeList()
     {
-        if (!strlen($groupId = post('groupId')))
+        if (!strlen($groupId = post('groupId'))) {
             throw new ApplicationException(lang('igniter::admin.form.missing_id'));
+        }
 
         $this->setMode('assignee');
 
@@ -234,8 +238,9 @@ class StatusEditor extends BaseFormWidget
 
     public static function getAssigneeOptions($form, $field)
     {
-        if (!strlen($groupId = post('groupId', $form->getField('assignee_group_id')->value)))
+        if (!strlen($groupId = post('groupId', $form->getField('assignee_group_id')->value))) {
             return [];
+        }
 
         return User::whereHas('groups', function ($query) use ($groupId) {
             $query->where('admin_user_groups.user_group_id', $groupId);
@@ -325,8 +330,9 @@ class StatusEditor extends BaseFormWidget
 
         $permission = $this->getModeConfig($saleType);
 
-        if (!$this->controller->getUser()->hasPermission($permission))
+        if (!$this->controller->getUser()->hasPermission($permission)) {
             throw new ApplicationException(lang('igniter::admin.alert_user_restricted'));
+        }
     }
 
     protected function saveRecord(array $saveData, string $keyFrom)
@@ -335,8 +341,7 @@ class StatusEditor extends BaseFormWidget
             $group = UserGroup::find(array_get($saveData, $this->assigneeGroupKeyFrom));
             $user = User::find(array_get($saveData, $keyFrom));
             $record = $this->model->updateAssignTo($group, $user);
-        }
-        else {
+        } else {
             $status = Status::find(array_get($saveData, $keyFrom));
             $record = $this->model->addStatusHistory($status, $saveData);
         }

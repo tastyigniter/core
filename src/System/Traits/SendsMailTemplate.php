@@ -27,11 +27,13 @@ trait SendsMailTemplate
         $vars = $this->mailGetData();
 
         $result = $this->fireEvent('model.mailGetData', [$view, $recipientType]);
-        if ($result && is_array($result))
+        if ($result && is_array($result)) {
             $vars = array_merge(...$result) + $vars;
+        }
 
-        if ($recipients = $this->mailBuildMessageTo($recipientType))
+        if ($recipients = $this->mailBuildMessageTo($recipientType)) {
             Mail::queueTemplate($view, $vars, $recipients);
+        }
     }
 
     protected function mailBuildMessageTo($recipientType = null)

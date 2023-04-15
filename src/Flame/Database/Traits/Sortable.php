@@ -60,11 +60,13 @@ trait Sortable
      */
     public function setSortableOrder($itemIds, $itemOrders = null)
     {
-        if (!is_array($itemIds))
+        if (!is_array($itemIds)) {
             $itemIds = [$itemIds];
+        }
 
-        if ($itemOrders === null)
+        if ($itemOrders === null) {
             $itemOrders = $itemIds;
+        }
 
         if (count($itemIds) != count($itemOrders)) {
             throw new Exception('Invalid setSortableOrder call - count of itemIds do not match count of itemOrders');

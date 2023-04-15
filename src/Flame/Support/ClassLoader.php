@@ -236,8 +236,7 @@ class ClassLoader
     {
         if (is_null($directories)) {
             $this->directories = [];
-        }
-        else {
+        } else {
             $directories = (array)$directories;
 
             $this->directories = array_filter($this->directories, function ($directory) use ($directories) {
@@ -467,12 +466,10 @@ class ClassLoader
                 if (!is_array($this->manifest)) {
                     $this->manifest = [];
                 }
-            }
-            catch (Exception|Throwable $ex) {
+            } catch (Exception|Throwable $ex) {
                 $this->manifest = [];
             }
-        }
-        else {
+        } else {
             $this->manifest = [];
         }
     }

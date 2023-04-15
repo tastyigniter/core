@@ -136,8 +136,9 @@ class SettingsModel extends ModelAction
      */
     public function getSettingsValue($key, $default = null)
     {
-        if ($this->model->hasGetMutator($key))
+        if ($this->model->hasGetMutator($key)) {
             return $this->model->getAttribute($key);
+        }
 
         if (array_key_exists($key, $this->fieldValues)) {
             return $this->fieldValues[$key];

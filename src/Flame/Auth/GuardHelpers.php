@@ -74,8 +74,9 @@ trait GuardHelpers
             $currentUser->fireEvent('model.auth.afterImpersonate', [$oldUser]);
         }
 
-        if ($oldSession)
+        if ($oldSession) {
             $this->session->put($this->getName(), $oldSession);
+        }
     }
 
     public function isImpersonator()
@@ -88,8 +89,9 @@ trait GuardHelpers
         $impersonateArray = $this->session->get($this->getName().'_impersonate');
 
         // Check supplied session/cookie is an array (user id, persist code)
-        if (!is_array($impersonateArray) || count($impersonateArray) !== 2)
+        if (!is_array($impersonateArray) || count($impersonateArray) !== 2) {
             return false;
+        }
 
         $id = $impersonateArray[0];
 

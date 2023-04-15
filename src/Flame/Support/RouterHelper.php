@@ -228,11 +228,9 @@ class RouterHelper
 
         if ($regexMarkerPos !== false) {
             $value = mb_substr($segment, $optMarkerPos + 1, $regexMarkerPos - $optMarkerPos - 1);
-        }
-        elseif ($wildMarkerPos !== false) {
+        } elseif ($wildMarkerPos !== false) {
             $value = mb_substr($segment, $optMarkerPos + 1, $wildMarkerPos - $optMarkerPos - 1);
-        }
-        else {
+        } else {
             $value = mb_substr($segment, $optMarkerPos + 1);
         }
 
@@ -247,17 +245,21 @@ class RouterHelper
             if (str_starts_with($segment, ':')) {
                 $name = static::getParameterName($segment);
 
-                if ($default = static::getSegmentDefaultValue($segment))
+                if ($default = static::getSegmentDefaultValue($segment)) {
                     $defaults[$name] = $default;
+                }
 
-                if ($regexp = static::getSegmentRegExp($segment))
+                if ($regexp = static::getSegmentRegExp($segment)) {
                     $constraints[$name] = $regexp;
+                }
 
-                if (static::segmentIsWildcard($segment))
+                if (static::segmentIsWildcard($segment)) {
                     $constraints[$name] = '.*';
+                }
 
-                if (static::segmentIsOptional($segment))
+                if (static::segmentIsOptional($segment)) {
                     $name .= '?';
+                }
 
                 $segment = str_finish(str_start($name, '{'), '}');
             }

@@ -16,11 +16,13 @@ class BlueprintMixin
                 ->listTableForeignKeys($this->table)
             );
 
-            if (!starts_with($key, $this->prefix))
+            if (!starts_with($key, $this->prefix)) {
                 $key = sprintf('%s%s_%s_foreign', $this->prefix, $this->table, $key);
+            }
 
-            if (!in_array($key, $foreignKeys))
+            if (!in_array($key, $foreignKeys)) {
                 return;
+            }
 
             return $this->dropForeign($key);
         };
@@ -36,11 +38,13 @@ class BlueprintMixin
                 ->listTableIndexes($this->table)
             );
 
-            if (!starts_with($key, $this->prefix))
+            if (!starts_with($key, $this->prefix)) {
                 $key = sprintf('%s%s_%s_foreign', $this->prefix, $this->table, $key);
+            }
 
-            if (!in_array($key, $indexes))
+            if (!in_array($key, $indexes)) {
                 return;
+            }
 
             return $this->dropIndex($key);
         };

@@ -31,10 +31,11 @@ trait Purgeable
      */
     public static function bootPurgeable()
     {
-        if (!property_exists(get_called_class(), 'purgeable'))
+        if (!property_exists(get_called_class(), 'purgeable')) {
             throw new Exception(sprintf(
                 'You must define a $purgeable property in %s to use the Purgeable trait.', get_called_class()
             ));
+        }
 
         /*
          * Remove any purge attributes from the data set
@@ -73,8 +74,7 @@ trait Purgeable
     {
         if ($attributesToPurge !== null) {
             $purgeable = is_array($attributesToPurge) ? $attributesToPurge : [$attributesToPurge];
-        }
-        else {
+        } else {
             $purgeable = $this->getPurgeableAttributes();
         }
 
@@ -84,8 +84,7 @@ trait Purgeable
 
         if (is_array($this->originalPurgeableValues)) {
             $this->originalPurgeableValues = array_merge($this->originalPurgeableValues, $originalAttributes);
-        }
-        else {
+        } else {
             $this->originalPurgeableValues = $originalAttributes;
         }
 

@@ -59,18 +59,21 @@ class FileLoader extends FileLoaderBase
     {
         return collect($this->paths)
             ->reduce(function ($output, $path) use ($lines, $locale, $group, $namespace) {
-                if (!$this->files->exists($path))
+                if (!$this->files->exists($path)) {
                     return $lines;
+                }
 
                 $namespace = str_replace('.', '/', $namespace);
 
                 $file = "{$path}/{$locale}/{$namespace}/{$group}.php";
-                if ($this->files->exists($file))
+                if ($this->files->exists($file)) {
                     return array_replace_recursive($lines, $this->files->getRequire($file));
+                }
 
                 $file = "{$path}/bundles/{$locale}/{$namespace}/{$group}.php";
-                if ($this->files->exists($file))
+                if ($this->files->exists($file)) {
                     return array_replace_recursive($lines, $this->files->getRequire($file));
+                }
 
                 return $lines;
             }, []);

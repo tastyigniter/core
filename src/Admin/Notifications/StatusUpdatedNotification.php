@@ -12,15 +12,17 @@ class StatusUpdatedNotification extends Notification
         $recipients = [];
         $orderOrReservation = $this->subject->object;
         foreach ($orderOrReservation->listGroupAssignees() as $assignee) {
-            if (auth()->user() && $assignee->getKey() === auth()->user()->getKey())
+            if (auth()->user() && $assignee->getKey() === auth()->user()->getKey()) {
                 continue;
+            }
 
             $recipients[] = $assignee;
         }
 
         $statusHistory = $orderOrReservation->getLatestStatusHistory();
-        if ($orderOrReservation->customer && $statusHistory && $statusHistory->notify)
+        if ($orderOrReservation->customer && $statusHistory && $statusHistory->notify) {
             $recipients[] = $orderOrReservation->customer;
+        }
 
         return $recipients;
     }
@@ -35,8 +37,9 @@ class StatusUpdatedNotification extends Notification
     public function getUrl(): string
     {
         $url = $this->subject instanceof Order ? 'orders' : 'reservations';
-        if ($this->subject)
+        if ($this->subject) {
             $url .= '/edit/'.$this->subject->getKey();
+        }
 
         return admin_url($url);
     }

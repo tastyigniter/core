@@ -52,8 +52,9 @@ abstract class AbstractArea extends Model implements AreaInterface
 
     public function getColorAttribute($value)
     {
-        if (!strlen($value))
+        if (!strlen($value)) {
             $value = $this->pickColor();
+        }
 
         return $value;
     }
@@ -139,8 +140,9 @@ abstract class AbstractArea extends Model implements AreaInterface
                 $coordinate->getLatitude(), $coordinate->getLongitude()
             )->first();
 
-            if ($position)
+            if ($position) {
                 return $this->matchAddressComponents($position);
+            }
         }
 
         return $this->isPolygonBoundary()
@@ -151,16 +153,18 @@ abstract class AbstractArea extends Model implements AreaInterface
     // Check if the point is inside the polygon or on the boundary
     public function pointInVertices(CoordinatesInterface $coordinate)
     {
-        if (!$this->vertices)
+        if (!$this->vertices) {
             return false;
+        }
 
         return $this->getPolygon()->pointInPolygon($coordinate);
     }
 
     public function pointInCircle(CoordinatesInterface $coordinate)
     {
-        if (!$this->circle)
+        if (!$this->circle) {
             return false;
+        }
 
         $circle = $this->getCircle();
 
@@ -172,8 +176,9 @@ abstract class AbstractArea extends Model implements AreaInterface
     public function matchAddressComponents(LocationInterface $position)
     {
         $components = array_get($this->boundaries, 'components');
-        if (!is_array($components))
+        if (!is_array($components)) {
             $components = [];
+        }
 
         $groupedComponents = collect($components)->groupBy('type')->all();
 

@@ -43,8 +43,7 @@ trait DeferOneOrMany
                             ->where($this->getForeignKey(), $this->parent->getKey())
                             ->where($this->getMorphType(), $this->getMorphClass());
                     });
-                }
-                elseif ($this instanceof BelongsToManyBase) {
+                } elseif ($this instanceof BelongsToManyBase) {
                     /*
                      * Custom query for BelongsToManyBase since a "join" cannot be used
                      */
@@ -55,8 +54,7 @@ trait DeferOneOrMany
                             ->where($this->getOtherKey(), $this->parent->getConnection()->raw($this->parent->getConnection()->getTablePrefix().$this->related->getQualifiedKeyName()))
                             ->where($this->getForeignKey(), $this->parent->getKey());
                     });
-                }
-                else {
+                } else {
                     /*
                      * Trick the relation to add constraints to this nested query
                      */

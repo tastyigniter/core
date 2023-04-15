@@ -21,8 +21,9 @@ trait HasDeliveryAreas
 
     protected function geocodeAddressOnSave()
     {
-        if (!array_get($this->options, 'auto_lat_lng', true))
+        if (!array_get($this->options, 'auto_lat_lng', true)) {
             return;
+        }
 
         if (!$this->isDirty([
             'location_address_1',
@@ -31,7 +32,9 @@ trait HasDeliveryAreas
             'location_state',
             'location_postcode',
             'location_country_id',
-        ])) return;
+        ])) {
+        return;
+        }
 
         $address = format_address($this->getAddress(), false);
 
@@ -61,8 +64,9 @@ trait HasDeliveryAreas
      */
     public function searchOrDefaultDeliveryArea($coordinates)
     {
-        if ($area = $this->searchDeliveryArea($coordinates))
+        if ($area = $this->searchDeliveryArea($coordinates)) {
             return $area;
+        }
 
         return $this->delivery_areas->where('is_default', 1)->first();
     }
@@ -73,8 +77,9 @@ trait HasDeliveryAreas
      */
     public function searchOrFirstDeliveryArea($coordinates)
     {
-        if (!$area = $this->searchDeliveryArea($coordinates))
+        if (!$area = $this->searchDeliveryArea($coordinates)) {
             $area = $this->delivery_areas->first();
+        }
 
         return $area;
     }
@@ -85,8 +90,9 @@ trait HasDeliveryAreas
      */
     public function searchDeliveryArea($coordinates)
     {
-        if (!$coordinates)
+        if (!$coordinates) {
             return null;
+        }
 
         return $this->delivery_areas
             ->sortBy('priority')
@@ -114,11 +120,13 @@ trait HasDeliveryAreas
     public function addLocationAreas($deliveryAreas)
     {
         $locationId = $this->getKey();
-        if (!is_numeric($locationId))
+        if (!is_numeric($locationId)) {
             return false;
+        }
 
-        if (!is_array($deliveryAreas))
+        if (!is_array($deliveryAreas)) {
             return false;
+        }
 
         $idsToKeep = [];
         foreach ($deliveryAreas as $area) {

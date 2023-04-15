@@ -47,8 +47,9 @@ class StringMixin
     public function normalizeClassName()
     {
         return function ($name) {
-            if (is_object($name))
+            if (is_object($name)) {
                 $name = get_class($name);
+            }
             $name = '\\'.ltrim($name, '\\');
 
             return $name;
@@ -62,8 +63,9 @@ class StringMixin
     public function getClassId()
     {
         return function ($name) {
-            if (is_object($name))
+            if (is_object($name)) {
                 $name = get_class($name);
+            }
             $name = ltrim($name, '\\');
             $name = str_replace('\\', '_', $name);
 

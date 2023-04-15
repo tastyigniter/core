@@ -52,14 +52,12 @@ class MorphTo extends MorphToBase
 
             $this->associate($value);
             $this->parent->setRelation($this->relationName, $value);
-        }
-        elseif (is_array($value)) {
+        } elseif (is_array($value)) {
             [$modelId, $modelClass] = $value;
             $this->parent->setAttribute($this->foreignKey, $modelId);
             $this->parent->setAttribute($this->morphType, $modelClass);
             $this->parent->reloadRelations($this->relationName);
-        }
-        else {
+        } else {
             $this->parent->setAttribute($this->foreignKey, $value);
             $this->parent->reloadRelations($this->relationName);
         }

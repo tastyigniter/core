@@ -61,13 +61,13 @@ class ThemeManager
 
     public function addAssetsFromActiveThemeManifest(Assets $manager)
     {
-        if (!$theme = $this->getActiveTheme())
+        if (!$theme = $this->getActiveTheme()) {
             return;
+        }
 
         if (File::exists($theme->getSourcePath().'/_meta/assets.json')) {
             $manager->addFromManifest($theme->getSourcePath().'/_meta/assets.json');
-        }
-        elseif ($theme->hasParent()) {
+        } elseif ($theme->hasParent()) {
             $manager->addFromManifest($theme->getParent()->getSourcePath().'/_meta/assets.json');
         }
     }
@@ -76,8 +76,9 @@ class ThemeManager
     {
         $theme = !is_null($theme) ? $theme : $this->getActiveTheme();
 
-        if (!$theme || !$theme->hasCustomData())
+        if (!$theme || !$theme->hasCustomData()) {
             return;
+        }
 
         $assetVars = $theme->getAssetVariables();
         foreach ($filters as $filter) {
@@ -128,10 +129,13 @@ class ThemeManager
 
     public function loadThemeFromConfig($code, $config)
     {
-        if (isset($this->themes[$code]))
+        if (isset($this->themes[$code])) {
             return $this->themes[$code];
+        }
 
-        if (!$this->checkName($code)) return false;
+        if (!$this->checkName($code)) {
+        return false;
+        }
 
         $config = $this->validateMetaFile($config, $code);
 
@@ -155,8 +159,9 @@ class ThemeManager
      */
     public function loadTheme($path)
     {
-        if (!$config = $this->getMetaFromFile($path, false))
+        if (!$config = $this->getMetaFromFile($path, false)) {
             return false;
+        }
 
         $config['directory'] = $path;
 
@@ -165,11 +170,13 @@ class ThemeManager
 
     public function bootThemes()
     {
-        if ($this->booted)
+        if ($this->booted) {
             return;
+        }
 
-        if (!$this->themes)
+        if (!$this->themes) {
             $this->loadThemes();
+        }
 
         foreach ($this->themes as $theme) {
             $theme->boot();
@@ -193,8 +200,7 @@ class ThemeManager
                     new FileSource($this->getSourcePath(), $files),
                     new FileSource($this->getParent()->getSourcePath(), $files),
                 ]);
-            }
-            else {
+            } else {
                 $source = new FileSource($this->getSourcePath(), $files);
             }
 
@@ -216,8 +222,9 @@ class ThemeManager
     {
         $activeTheme = trim(params('default_themes.main', config('igniter.system.defaultTheme')), '/');
 
-        if (!is_null($apiResult = GetActiveThemeEvent::dispatchOnce()))
+        if (!is_null($apiResult = GetActiveThemeEvent::dispatchOnce())) {
             $activeTheme = $apiResult;
+        }
 
         return $activeTheme;
     }
@@ -284,8 +291,9 @@ class ThemeManager
         $paths = [];
 
         $directories = self::$directories;
-        if (File::isDirectory($themesPath = Igniter::themesPath()))
+        if (File::isDirectory($themesPath = Igniter::themesPath())) {
             array_unshift($directories, $themesPath);
+        }
 
         foreach ($directories as $directory) {
             foreach (File::glob($directory.'/*/theme.json') as $path) {
@@ -329,8 +337,9 @@ class ThemeManager
      */
     public function checkName($themeCode)
     {
-        if ($themeCode == 'errors')
+        if ($themeCode == 'errors') {
             return null;
+        }
 
         return (str_starts_with($themeCode, '_') || preg_match('/\s/', $themeCode)) ? null : $themeCode;
     }
@@ -343,8 +352,9 @@ class ThemeManager
     public function checkParent($themeCode)
     {
         foreach ($this->themes as $theme) {
-            if ($theme->hasParent() && $theme->getParentName() == $themeCode)
+            if ($theme->hasParent() && $theme->getParentName() == $themeCode) {
                 return true;
+            }
         }
 
         return false;
@@ -352,8 +362,9 @@ class ThemeManager
 
     public function isLockedPath($path)
     {
-        if (starts_with($path, Igniter::themesPath().'/'))
+        if (starts_with($path, Igniter::themesPath().'/')) {
             $path = substr($path, strlen(Igniter::themesPath().'/'));
+        }
 
         $themeCode = str_before($path, '/');
 
@@ -393,8 +404,7 @@ class ThemeManager
         $themePath = rtrim($path, '/');
         if (is_null($base)) {
             $base = ['/'];
-        }
-        elseif (!is_array($base)) {
+        } elseif (!is_array($base)) {
             $base = [$base];
         }
 
@@ -422,8 +432,9 @@ class ThemeManager
 
         [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
 
-        if (!$template = $theme->onTemplate($dirName)->find($fileName))
+        if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException("Theme template file not found: $filePath");
+        }
 
         return $template;
     }
@@ -434,11 +445,13 @@ class ThemeManager
         [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
         $path = $theme->getPath().'/'.$dirName.'/'.$fileName;
 
-        if (File::isFile($path))
+        if (File::isFile($path)) {
             throw new SystemException("Theme template file already exists: $filePath");
+        }
 
-        if (!File::exists($path))
+        if (!File::exists($path)) {
             File::makeDirectory(File::dirname($path), 0777, true, true);
+        }
 
         File::put($path, "\n");
     }
@@ -457,8 +470,9 @@ class ThemeManager
 
         [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
 
-        if (!$template = $theme->onTemplate($dirName)->find($fileName))
+        if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException("Theme template file not found: $filePath");
+        }
 
         return $template->fill($attributes)->save();
     }
@@ -479,17 +493,20 @@ class ThemeManager
         [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
         [$newDirName, $newFileName] = $this->getFileNameParts($newFilePath, $theme);
 
-        if (!$template = $theme->onTemplate($dirName)->find($fileName))
+        if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException("Theme template file not found: $filePath");
+        }
 
-        if ($this->isLockedPath($template->getFilePath()))
+        if ($this->isLockedPath($template->getFilePath())) {
             throw new SystemException(lang('igniter::system.themes.alert_theme_path_locked'));
+        }
 
         $oldFilePath = $theme->path.'/'.$dirName.'/'.$fileName;
         $newFilePath = $theme->path.'/'.$newDirName.'/'.$newFileName;
 
-        if ($oldFilePath == $newFilePath)
+        if ($oldFilePath == $newFilePath) {
             throw new SystemException("Theme template file already exists: $filePath");
+        }
 
         return $template->update(['fileName' => $newFileName]);
     }
@@ -508,11 +525,13 @@ class ThemeManager
 
         [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
 
-        if (!$template = $theme->onTemplate($dirName)->find($fileName))
+        if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException("Theme template file not found: $filePath");
+        }
 
-        if ($this->isLockedPath($template->getFilePath()))
+        if ($this->isLockedPath($template->getFilePath())) {
             throw new SystemException(lang('igniter::system.themes.alert_theme_path_locked'));
+        }
 
         return $template->delete();
     }
@@ -527,8 +546,9 @@ class ThemeManager
     public function removeTheme($themeCode)
     {
         $themePath = $this->findPath($themeCode);
-        if (!is_dir($themePath))
+        if (!is_dir($themePath)) {
             return false;
+        }
 
         File::deleteDirectory($themePath);
 
@@ -560,8 +580,9 @@ class ThemeManager
     {
         $model = $this->themeModel::firstOrNew(['code' => $code]);
 
-        if (!$themeObj = $this->findTheme($model->code))
+        if (!$themeObj = $this->findTheme($model->code)) {
             return false;
+        }
 
         $model->name = $themeObj->label ?? title_case($code);
         $model->code = $code;
@@ -581,8 +602,7 @@ class ThemeManager
     {
         if (is_null($enable)) {
             array_pull($this->installedThemes, $code);
-        }
-        else {
+        } else {
             $this->installedThemes[$code] = $enable;
         }
 
@@ -597,8 +617,9 @@ class ThemeManager
     public function createChildTheme($model)
     {
         $parentTheme = $this->findTheme($model->code);
-        if ($parentTheme->hasParent())
+        if ($parentTheme->hasParent()) {
             throw new SystemException('Can not create a child theme from another child theme');
+        }
 
         $childThemeCode = $this->themeModel::generateUniqueCode($model->code);
         $childThemePath = Igniter::themesPath().'/'.$childThemeCode;
@@ -693,8 +714,9 @@ class ThemeManager
         $themeConfig['homepage'] = array_get($parentTheme->config, 'homepage', '');
         $themeConfig['require'] = $parentTheme->requires;
 
-        if (File::isDirectory($path))
+        if (File::isDirectory($path)) {
             throw new SystemException('Child theme path already exists.');
+        }
 
         File::makeDirectory($path, 0777, false, true);
 

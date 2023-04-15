@@ -26,8 +26,9 @@ class StringParser
      */
     public function parse($template, $data)
     {
-        if (!is_array($data))
+        if (!is_array($data)) {
             $data = ['' => $data];
+        }
 
         $replace = [];
         foreach ($data as $key => $value) {
@@ -46,8 +47,9 @@ class StringParser
 
     protected function parseSingle($key, $value, $template)
     {
-        if (!is_scalar($value))
+        if (!is_scalar($value)) {
             $value = '';
+        }
 
         return [$this->left.$key.$this->right => $value];
     }

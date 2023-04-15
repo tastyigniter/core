@@ -37,12 +37,10 @@ class Circle implements Contracts\CircleInterface
     {
         if ($coordinate instanceof Contracts\CoordinatesInterface) {
             $this->coordinate = $coordinate;
-        }
-        elseif (is_array($coordinate)) {
+        } elseif (is_array($coordinate)) {
             [$latitude, $longitude] = $coordinate;
             $this->coordinate = new Model\Coordinates($latitude, $longitude);
-        }
-        else {
+        } else {
             throw new InvalidArgumentException();
         }
 

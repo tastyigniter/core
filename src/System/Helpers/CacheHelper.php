@@ -63,8 +63,9 @@ class CacheHelper
 
     public static function clearDirectory($path)
     {
-        if (!File::isDirectory(storage_path().$path))
+        if (!File::isDirectory(storage_path().$path)) {
             return;
+        }
 
         foreach (File::directories(storage_path().$path) as $directory) {
             File::deleteDirectory($directory);

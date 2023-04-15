@@ -70,8 +70,7 @@ class Table extends BaseWidget
         if (Request::method() == 'post' && $this->isClientDataSource()) {
             if (strpos($this->fieldName, '[') === false) {
                 $requestDataField = $this->fieldName.'TableData';
-            }
-            else {
+            } else {
                 $requestDataField = $this->fieldName.'[TableData]';
             }
 
@@ -139,8 +138,9 @@ class Table extends BaseWidget
         foreach ($this->columns as $key => $data) {
             $data['field'] = $key;
 
-            if (isset($data['title']))
+            if (isset($data['title'])) {
                 $data['title'] = lang($data['title']);
+            }
 
             if (isset($data['partial'])) {
                 unset($data['partial']);

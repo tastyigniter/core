@@ -30,8 +30,9 @@ return new class extends Migration
     protected function copyOptionsToLocationOptionsTable()
     {
         DB::table('locations')->get()->each(function ($location) {
-            if (empty($location->options))
+            if (empty($location->options)) {
                 return true;
+            }
 
             $options = json_decode($location->options, true);
 

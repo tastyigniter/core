@@ -57,13 +57,15 @@ class LanguageManager
      */
     public function paths()
     {
-        if ($this->paths)
+        if ($this->paths) {
             return $this->paths;
+        }
 
         $paths = [];
 
-        if (!File::exists($directory = base_path('language')))
+        if (!File::exists($directory = base_path('language'))) {
             return $paths;
+        }
 
 //        $directories = array_merge([Igniter::themesPath()], self::$directories);
 //        foreach ($directories as $directory) {
@@ -108,13 +110,21 @@ class LanguageManager
         foreach ($sourceLines as $key => $sourceLine) {
             $translationLine = array_get($translationLines, $key, $sourceLine);
 
-            if ($stringFilter === 'changed' && !array_has($translationLines, $key)) continue;
+            if ($stringFilter === 'changed' && !array_has($translationLines, $key)) {
+            continue;
+            }
 
-            if ($stringFilter === 'unchanged' && array_has($translationLines, $key)) continue;
+            if ($stringFilter === 'unchanged' && array_has($translationLines, $key)) {
+            continue;
+            }
 
-            if ((!is_null($sourceLine) && !is_string($sourceLine))) continue;
+            if ((!is_null($sourceLine) && !is_string($sourceLine))) {
+            continue;
+            }
 
-            if ((!is_null($translationLine) && !is_string($translationLine))) continue;
+            if ((!is_null($translationLine) && !is_string($translationLine))) {
+            continue;
+            }
 
             $namespacedKey = sprintf('%s::%s.%s', $file['namespace'], $file['group'], $key);
 
@@ -129,8 +139,9 @@ class LanguageManager
 
     public function searchTranslations($translations, $term = null)
     {
-        if (!strlen($term))
+        if (!strlen($term)) {
             return $translations;
+        }
 
         $result = [];
         $term = strtolower($term);
@@ -141,8 +152,7 @@ class LanguageManager
                     || stripos(strtolower($key), $term) !== false) {
                     $result[$key] = $value;
                 }
-            }
-            else {
+            } else {
                 $result[$key] = $value;
             }
         }
@@ -184,8 +194,10 @@ class LanguageManager
             'search' => $term,
         ]);
 
-        if (isset($items['data'])) foreach ($items['data'] as &$item) {
+        if (isset($items['data'])) {
+        foreach ($items['data'] as &$item) {
             $item['require'] = [];
+        }
         }
 
         return $items;
@@ -204,8 +216,9 @@ class LanguageManager
         $packHash = array_get($meta, 'hash');
 
         $filePath = $this->getFilePath($packCode);
-        if (!is_dir($fileDir = dirname($filePath)))
+        if (!is_dir($fileDir = dirname($filePath))) {
             mkdir($fileDir, 0777, true);
+        }
 
         return $this->getHubManager()->downloadLanguagePack($filePath, $packHash, [
             'locale' => $packCode,
@@ -219,8 +232,9 @@ class LanguageManager
 
         $filePath = $this->getFilePath($packCode);
         $extractTo = app()->langPath().'/'.$packCode;
-        if (!file_exists($extractTo))
+        if (!file_exists($extractTo)) {
             mkdir($extractTo, 0755, true);
+        }
 
         $zip = new ZipArchive();
         if ($zip->open($filePath) === true) {

@@ -36,8 +36,9 @@ class FlashBag
 
     public function messages()
     {
-        if ($this->messages)
+        if ($this->messages) {
             return $this->messages;
+        }
 
         return $this->messages = $this->store->get($this->sessionKey, collect());
     }

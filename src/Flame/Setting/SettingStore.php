@@ -68,8 +68,7 @@ abstract class SettingStore
             foreach ($key as $k => $v) {
                 Arr::set($this->items, $k, $v);
             }
-        }
-        else {
+        } else {
             Arr::set($this->items, $key, $value);
         }
 

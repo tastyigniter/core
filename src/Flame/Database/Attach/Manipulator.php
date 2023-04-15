@@ -36,8 +36,9 @@ class Manipulator
 
     public function __call($name, $arguments)
     {
-        if (!in_array($name, $this->getAvailableGlideParameters()))
+        if (!in_array($name, $this->getAvailableGlideParameters())) {
             throw new BadMethodCallException("Manipulation '{$name}' is not a valid glide parameter");
+        }
 
         $this->manipulations()->push($name, $arguments);
 
@@ -46,8 +47,9 @@ class Manipulator
 
     public function useDriver($driver)
     {
-        if (!in_array($driver, ['gd', 'imagick']))
+        if (!in_array($driver, ['gd', 'imagick'])) {
             throw new Exception("Driver must be 'gd' or 'imagick'. '{$driver}' provided.");
+        }
 
         $this->driver = $driver;
 
@@ -56,8 +58,9 @@ class Manipulator
 
     public function useSource($source)
     {
-        if (!$source instanceof FilesystemAdapter)
+        if (!$source instanceof FilesystemAdapter) {
             throw new Exception('Source must be instance of '.FilesystemAdapter::class);
+        }
 
         $this->source = $source;
 
@@ -111,11 +114,13 @@ class Manipulator
             'tiff', 'bmp', 'ico', 'psd',
         ]);
 
-        if (!$extension = pathinfo($this->file, PATHINFO_EXTENSION))
+        if (!$extension = pathinfo($this->file, PATHINFO_EXTENSION)) {
             return false;
+        }
 
-        if ($this->driver == 'gd')
+        if ($this->driver == 'gd') {
             return in_array($extension, $gdExtensions);
+        }
 
         return in_array($extension, $imagickExtensions);
     }
@@ -132,8 +137,9 @@ class Manipulator
         $glideParameters = [];
         $parameters = $this->getAvailableGlideParameters();
         foreach ($this->manipulations() as $name => $argument) {
-            if (!$paramName = array_get($parameters, $name))
+            if (!$paramName = array_get($parameters, $name)) {
                 throw new Exception("Unknown parameter '{$name}' provided when manipulating '{$this->file}'");
+            }
 
             $glideParameters[$paramName] = $argument;
         }
@@ -152,8 +158,9 @@ class Manipulator
             'driver' => $this->driver,
         ];
 
-        if ($watermarks)
+        if ($watermarks) {
             $config['watermarks'] = $watermarks;
+        }
 
         return ServerFactory::create($config);
     }
@@ -206,11 +213,13 @@ class Manipulator
     protected function convertToRelativeFilePath($path)
     {
         $base = $this->source->path('/');
-        if (starts_with($path, $base))
+        if (starts_with($path, $base)) {
             return substr($path, strlen($base));
+        }
 
-        if (starts_with($path, base_path()))
+        if (starts_with($path, base_path())) {
             throw new Exception("The provided path ($path) must be a relative path to the file, from the source root");
+        }
 
         return $path;
     }
@@ -219,8 +228,7 @@ class Manipulator
     {
         if (starts_with($path, base_path())) {
             copy($this->tempFilePath, $path);
-        }
-        else {
+        } else {
             $this->source->put($path, file_get_contents($this->tempFilePath));
         }
     }
@@ -229,8 +237,7 @@ class Manipulator
     {
         if (starts_with($path, base_path())) {
             copy($this->file, $path);
-        }
-        else {
+        } else {
             $this->source->copy($this->file, $path);
         }
     }

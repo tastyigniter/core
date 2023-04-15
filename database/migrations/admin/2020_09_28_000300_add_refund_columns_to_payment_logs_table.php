@@ -17,8 +17,9 @@ return new class extends Migration
 
         DB::table('payment_logs')->get()->each(function ($log) {
             $payment = DB::table('payments')->where('name', $log->payment_name)->first();
-            if (!$payment)
+            if (!$payment) {
                 return true;
+            }
 
             DB::table('payment_logs')->where('payment_log_id', $log->payment_log_id)->update([
                 'payment_code' => $payment->code,

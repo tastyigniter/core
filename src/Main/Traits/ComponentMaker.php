@@ -20,8 +20,9 @@ trait ComponentMaker
 
     public function makeComponent($componentName)
     {
-        if (!$name = $this->resolveComponentName($componentName))
+        if (!$name = $this->resolveComponentName($componentName)) {
             return null;
+        }
 
         return resolve(ComponentManager::class)->makeComponent(
             $componentName,
@@ -37,19 +38,22 @@ trait ComponentMaker
 
         foreach ($this->settings['components'] ?? [] as $name => $values) {
             $result = $name;
-            if ($name == $componentName)
+            if ($name == $componentName) {
                 return $result;
+            }
 
             $parts = explode(' ', $name);
             if (count($parts) > 1) {
                 $name = trim($parts[0]);
-                if ($name == $componentName)
+                if ($name == $componentName) {
                     return $result;
+                }
             }
 
             $name = $componentManager->resolve($name);
-            if ($name == $componentName)
+            if ($name == $componentName) {
                 return $result;
+            }
         }
 
         return false;

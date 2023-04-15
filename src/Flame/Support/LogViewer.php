@@ -108,20 +108,23 @@ class LogViewer
         if (!self::$file) {
             $logFile = self::getFiles();
 
-            if (!count($logFile))
+            if (!count($logFile)) {
                 return [];
+            }
 
             self::$file = $logFile[0];
         }
 
-        if (app('files')->size(self::$file) > self::MAX_FILE_SIZE)
+        if (app('files')->size(self::$file) > self::MAX_FILE_SIZE) {
             return null;
+        }
 
         $file = app('files')->get(self::$file);
         preg_match_all($pattern, $file, $headings);
 
-        if (!is_array($headings))
+        if (!is_array($headings)) {
             return $log;
+        }
 
         $logData = preg_split($pattern, $file);
 
@@ -141,7 +144,9 @@ class LogViewer
                             .$level.': (.*?)( in .*?:[0-9]+)?$/i', $h[$i], $current
                         );
 
-                        if (!isset($current[3])) continue;
+                        if (!isset($current[3])) {
+                        continue;
+                        }
 
                         $log[] = [
                             'context' => $current[2],

@@ -58,8 +58,9 @@ class Login extends Controller
 
     public function callAction($method, $parameters)
     {
-        if (AdminAuth::isLogged())
+        if (AdminAuth::isLogged()) {
             return Admin::redirect('dashboard');
+        }
 
         if ($handler = Admin::getAjaxHandler()) {
             Admin::validateAjaxHandler($handler);
@@ -80,8 +81,9 @@ class Login extends Controller
             'password' => lang('igniter::admin.login.label_password'),
         ]);
 
-        if (!AdminAuth::attempt(array_only($data, ['email', 'password']), true))
+        if (!AdminAuth::attempt(array_only($data, ['email', 'password']), true)) {
             throw new ValidationException(['username' => lang('igniter::admin.login.alert_login_failed')]);
+        }
 
         session()->regenerate();
 
@@ -99,8 +101,9 @@ class Login extends Controller
         ]);
 
         if ($user = User::whereEmail($data['email'])->first()) {
-            if (!$user->resetPassword())
+            if (!$user->resetPassword()) {
                 throw new ValidationException(['email' => lang('igniter::admin.login.alert_failed_reset')]);
+            }
             $data = [
                 'staff_name' => $user->name,
                 'reset_link' => admin_url('login/reset?code='.$user->reset_code),
@@ -128,8 +131,9 @@ class Login extends Controller
         $code = array_get($data, 'code');
         $user = User::whereResetCode($code)->first();
 
-        if (!$user || !$user->completeResetPassword($data['code'], $data['password']))
+        if (!$user || !$user->completeResetPassword($data['code'], $data['password'])) {
             throw new ValidationException(['password' => lang('igniter::admin.login.alert_failed_reset')]);
+        }
 
         Mail::queueTemplate('igniter.admin::_mail.password_reset', [
             'staff_name' => $user->name,

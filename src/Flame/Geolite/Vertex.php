@@ -61,8 +61,7 @@ class Vertex implements Contracts\VertexInterface
         if ($this->to->getLatitude() !== $this->from->getLatitude()) {
             $this->gradient = ($this->to->getLongitude() - $this->from->getLongitude()) / ($this->to->getLatitude() - $this->from->getLatitude());
             $this->ordinateIntercept = $this->from->getLongitude() - $this->from->getLatitude() * $this->gradient;
-        }
-        else {
+        } else {
             $this->gradient = null;
             $this->ordinateIntercept = null;
         }
@@ -92,8 +91,7 @@ class Vertex implements Contracts\VertexInterface
         if ($this->to->getLatitude() !== $this->from->getLatitude()) {
             $this->gradient = ($this->to->getLongitude() - $this->from->getLongitude()) / ($this->to->getLatitude() - $this->from->getLatitude());
             $this->ordinateIntercept = $this->from->getLongitude() - $this->from->getLatitude() * $this->gradient;
-        }
-        else {
+        } else {
             $this->gradient = null;
             $this->ordinateIntercept = null;
         }
@@ -278,11 +276,13 @@ class Vertex implements Contracts\VertexInterface
      */
     public function getOtherCoordinate(Contracts\CoordinatesInterface $coordinate)
     {
-        if ($coordinate->isEqual($this->from))
+        if ($coordinate->isEqual($this->from)) {
             return $this->to;
+        }
 
-        if ($coordinate->isEqual($this->to))
+        if ($coordinate->isEqual($this->to)) {
             return $this->from;
+        }
 
         return null;
     }

@@ -46,11 +46,13 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
     {
         $query = GeoQuery::create($address);
 
-        if ($this->limit)
+        if ($this->limit) {
             $query = $query->withLimit($this->limit);
+        }
 
-        if ($this->locale)
+        if ($this->locale) {
             $query = $query->withLocale($this->locale);
+        }
 
         return $this->geocodeQuery($query);
     }
@@ -59,11 +61,13 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
     {
         $query = GeoQuery::fromCoordinates($latitude, $longitude);
 
-        if ($this->limit)
+        if ($this->limit) {
             $query = $query->withLimit($this->limit);
+        }
 
-        if ($this->locale)
+        if ($this->locale) {
             $query = $query->withLocale($this->locale);
+        }
 
         return $this->reverseQuery($query);
     }
@@ -71,12 +75,14 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
     public function geocodeQuery(GeoQueryInterface $query)
     {
         $limit = $query->getLimit();
-        if (!$limit && $this->limit)
+        if (!$limit && $this->limit) {
             $query = $query->withLimit($this->limit);
+        }
 
         $locale = $query->getLocale();
-        if (!$locale && $this->locale)
+        if (!$locale && $this->locale) {
             $query = $query->withLocale($this->locale);
+        }
 
         return $this->driver()->geocodeQuery($query);
     }
@@ -84,12 +90,14 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
     public function reverseQuery(GeoQueryInterface $query)
     {
         $limit = $query->getLimit();
-        if (!$limit && $this->limit)
+        if (!$limit && $this->limit) {
             $query = $query->withLimit($this->limit);
+        }
 
         $locale = $query->getLocale();
-        if (!$locale && $this->locale)
+        if (!$locale && $this->locale) {
             $query = $query->withLocale($this->locale);
+        }
 
         return $this->driver()->reverseQuery($query);
     }

@@ -18,8 +18,9 @@ class Theme extends FormRequest
         if (($form = $this->getForm()) && $form->context != 'source') {
             $fieldsConfig = $this->controller->asExtension('FormController')->getFormModel()->getFieldsConfig();
             foreach ($fieldsConfig as $name => $field) {
-                if (!array_key_exists('rules', $field))
+                if (!array_key_exists('rules', $field)) {
                     continue;
+                }
 
                 $dottedName = implode('.', name_to_array($name));
                 $attributes[$dottedName] = $field['label'];
@@ -35,8 +36,9 @@ class Theme extends FormRequest
         if (($form = $this->getForm()) && $form->context != 'source') {
             $fieldsConfig = $this->controller->asExtension('FormController')->getFormModel()->getFieldsConfig();
             foreach ($fieldsConfig as $name => $field) {
-                if (!array_key_exists('rules', $field))
+                if (!array_key_exists('rules', $field)) {
                     continue;
+                }
 
                 $dottedName = implode('.', name_to_array($name));
                 $rules[$dottedName] = $field['rules'];

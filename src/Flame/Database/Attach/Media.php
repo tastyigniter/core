@@ -97,8 +97,9 @@ class Media extends Model
      */
     public function addFromFile($filePath, $tag = null)
     {
-        if (is_null($filePath))
+        if (is_null($filePath)) {
             return;
+        }
 
         $this->getMediaAdder()
             ->performedOn($this->attachment)
@@ -119,8 +120,9 @@ class Media extends Model
      */
     public function addFromRaw($rawData, $filename, $tag = null)
     {
-        if (is_null($rawData))
+        if (is_null($rawData)) {
             return;
+        }
 
         $tempPath = temp_path($filename);
         File::put($tempPath, $rawData);
@@ -141,8 +143,9 @@ class Media extends Model
      */
     public function addFromUrl($url, $filename = null, $tag = null)
     {
-        if (!$stream = @fopen($url, 'rb'))
+        if (!$stream = @fopen($url, 'rb')) {
             throw new Exception(sprintf('Error opening file "%s"', $url));
+        }
 
         return $this->addFromRaw(
             $stream,
@@ -160,8 +163,7 @@ class Media extends Model
         if (!is_null($this->fileToAdd)) {
             if ($this->fileToAdd instanceof UploadedFile) {
                 $this->addFromRequest($this->fileToAdd);
-            }
-            else {
+            } else {
                 $this->addFromFile($this->fileToAdd);
             }
 
@@ -178,8 +180,7 @@ class Media extends Model
         try {
             $this->deleteThumbs();
             $this->deleteFile();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             Log::error($ex);
         }
     }
@@ -269,8 +270,9 @@ class Media extends Model
      */
     public function getLastModified($fileName = null)
     {
-        if (!$fileName)
+        if (!$fileName) {
             $fileName = $this->disk_name;
+        }
 
         return $this->getStorageDisk()->lastModified($this->getStoragePath().$fileName);
     }
@@ -306,8 +308,9 @@ class Media extends Model
      */
     public function isPublic()
     {
-        if (is_null($this->is_public))
+        if (is_null($this->is_public)) {
             return true;
+        }
 
         return $this->is_public;
     }
@@ -323,11 +326,13 @@ class Media extends Model
 
     public function getMimeType()
     {
-        if (!is_null($this->mime_type))
+        if (!is_null($this->mime_type)) {
             return $this->mime_type;
+        }
 
-        if ($type = $this->getTypeFromExtension())
+        if ($type = $this->getTypeFromExtension()) {
             return $this->mime_type = $type;
+        }
 
         return null;
     }
@@ -345,8 +350,9 @@ class Media extends Model
      */
     public function getUniqueName()
     {
-        if (!is_null($this->name))
+        if (!is_null($this->name)) {
             return $this->name;
+        }
 
         $ext = strtolower($this->getExtension());
 
@@ -357,12 +363,14 @@ class Media extends Model
 
     public function getDiskName()
     {
-        if (!is_null($this->disk))
+        if (!is_null($this->disk)) {
             return $this->disk;
+        }
 
         $diskName = config('igniter.system.assets.attachment.disk');
-        if (is_null(config("filesystems.disks.{$diskName}")))
+        if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw new Exception("There is no filesystem disk named '{$diskName}''");
+        }
 
         return $this->disk = $diskName;
     }
@@ -421,20 +429,23 @@ class Media extends Model
      */
     protected function deleteEmptyDirectory($directory = null)
     {
-        if (!$this->isDirectoryEmpty($directory))
+        if (!$this->isDirectoryEmpty($directory)) {
             return;
+        }
 
         $this->getStorageDisk()->deleteDirectory($directory);
 
         $directory = dirname($directory);
-        if (!$this->isDirectoryEmpty($directory))
+        if (!$this->isDirectoryEmpty($directory)) {
             return;
+        }
 
         $this->getStorageDisk()->deleteDirectory($directory);
 
         $directory = dirname($directory);
-        if (!$this->isDirectoryEmpty($directory))
+        if (!$this->isDirectoryEmpty($directory)) {
             return;
+        }
 
         $this->getStorageDisk()->deleteDirectory($directory);
     }
@@ -483,14 +494,16 @@ class Media extends Model
      */
     public function getThumb($options = [])
     {
-        if (!$this->isImage())
+        if (!$this->isImage()) {
             return $this->getPath();
+        }
 
         $options = $this->getDefaultThumbOptions($options);
 
         $thumbFile = $this->getThumbFilename($options);
-        if (!$this->hasFile($thumbFile))
+        if (!$this->hasFile($thumbFile)) {
             $this->makeThumb($thumbFile, $options);
+        }
 
         return $this->getPublicPath().$this->getPartitionDirectory().$thumbFile;
     }
@@ -550,13 +563,15 @@ class Media extends Model
             'extension' => 'auto',
         ];
 
-        if (!is_array($override))
+        if (!is_array($override)) {
             $override = ['fit' => $override];
+        }
 
         $options = array_merge($defaultOptions, $override);
 
-        if (strtolower($options['extension']) == 'auto')
+        if (strtolower($options['extension']) == 'auto') {
             $options['extension'] = strtolower($this->getExtension());
+        }
 
         return $options;
     }
@@ -570,15 +585,17 @@ class Media extends Model
         $thumbFile = $this->getStoragePath().$thumbFile;
         $filePath = $this->getDiskPath();
 
-        if (!$this->hasFile($this->name))
+        if (!$this->hasFile($this->name)) {
             $filePath = $this->getDefaultThumbPath($thumbFile, array_get($options, 'default'));
+        }
 
         $manipulator = Manipulator::make($filePath)->useSource(
             $this->getStorageDisk()
         );
 
-        if ($manipulator->isSupported())
+        if ($manipulator->isSupported()) {
             $manipulator->manipulate(array_except($options, ['extension', 'default']));
+        }
 
         $manipulator->save($thumbFile);
     }
@@ -678,8 +695,9 @@ class Media extends Model
     {
         $path = temp_path().'/attachments';
 
-        if (!File::isDirectory($path))
+        if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
+        }
 
         return $path;
     }

@@ -22,14 +22,17 @@ class Translator extends BaseTranslator
 
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
-        if (Str::startsWith($key, 'lang:'))
+        if (Str::startsWith($key, 'lang:')) {
             $key = substr($key, 5);
+        }
 
-        if (Str::startsWith($key, $this->replaceNamespaces[0]))
+        if (Str::startsWith($key, $this->replaceNamespaces[0])) {
             $key = Str::replace($this->replaceNamespaces[0], $this->replaceNamespaces[1], $key);
+        }
 
-        if ($line = $this->getValidationKey($key, $replace, $locale))
+        if ($line = $this->getValidationKey($key, $replace, $locale)) {
             return $line;
+        }
 
         return parent::get($key, $replace, $locale, $fallback);
     }

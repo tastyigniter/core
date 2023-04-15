@@ -152,8 +152,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
             $this->vars['themeModel'] = $model;
             $this->vars['themeObj'] = $theme;
             $this->vars['themeData'] = $model->data;
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $this->handleError($ex);
         }
     }
@@ -207,8 +206,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
     {
         if (Theme::deleteTheme($themeCode, post('delete_data', 1) == 1)) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
-        }
-        else {
+        } else {
             flash()->danger(lang('igniter::admin.alert_error_try_again'));
         }
 
@@ -217,8 +215,9 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function listOverrideColumnValue($record, $column, $alias = null)
     {
-        if ($column->type != 'button' || $column->columnName != 'default')
+        if ($column->type != 'button' || $column->columnName != 'default') {
             return null;
+        }
 
         $attributes = $column->attributes;
 
@@ -276,11 +275,13 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     protected function buildAssetsBundle($model)
     {
-        if (!$model->getFieldsConfig())
+        if (!$model->getFieldsConfig()) {
             return;
+        }
 
-        if (!config('igniter.system.publishThemeAssetsBundle', true))
+        if (!config('igniter.system.publishThemeAssetsBundle', true)) {
             return;
+        }
 
         $loaded = false;
         $theme = $model->getTheme();
@@ -296,8 +297,9 @@ class Themes extends \Igniter\Admin\Classes\AdminController
             $loaded = true;
         }
 
-        if (!$loaded)
+        if (!$loaded) {
             return;
+        }
 
         Event::listen('assets.combiner.beforePrepare', function (AssetsManager $combiner, $assets) use ($theme) {
             resolve(ThemeManager::class)->applyAssetVariablesOnCombinerFilters(
@@ -308,8 +310,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         try {
             Artisan::call('igniter:util', ['name' => 'compile scss']);
             Artisan::call('igniter:util', ['name' => 'compile js']);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             Log::error($ex);
             flash()->error('Building assets bundle error: '.$ex->getMessage())->important();
         }

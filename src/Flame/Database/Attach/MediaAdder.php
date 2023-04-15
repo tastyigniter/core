@@ -135,8 +135,9 @@ class MediaAdder
 
     protected function attachMedia(Media $media)
     {
-        if ($this->performedOn->exists)
+        if ($this->performedOn->exists) {
             return $this->processMediaItem($media, $this);
+        }
 
         $this->performedOn->prepareUnattachedMedia($media, $this);
 

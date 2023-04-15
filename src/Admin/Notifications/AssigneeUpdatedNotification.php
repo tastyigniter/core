@@ -11,8 +11,9 @@ class AssigneeUpdatedNotification extends Notification
     {
         $recipients = [];
         foreach ($this->subject->assignable->listGroupAssignees() as $assignee) {
-            if (auth()->user() && $assignee->getKey() === auth()->user()->getKey())
+            if (auth()->user() && $assignee->getKey() === auth()->user()->getKey()) {
                 continue;
+            }
 
             $recipients[] = $assignee;
         }
@@ -30,8 +31,9 @@ class AssigneeUpdatedNotification extends Notification
     public function getUrl(): string
     {
         $url = $this->subject instanceof Order ? 'orders' : 'reservations';
-        if ($this->subject)
+        if ($this->subject) {
             $url .= '/edit/'.$this->subject->getKey();
+        }
 
         return admin_url($url);
     }
@@ -48,8 +50,7 @@ class AssigneeUpdatedNotification extends Notification
         $assigneeName = '';
         if ($this->subject->assignee) {
             $assigneeName = $this->subject->assignee->full_name;
-        }
-        elseif ($this->subject->assignee_group) {
+        } elseif ($this->subject->assignee_group) {
             $assigneeName = $this->subject->assignee_group->user_group_name;
         }
 

@@ -106,8 +106,9 @@ abstract class AbstractProvider
 
     protected function cacheCallback($cacheKey, \Closure $closure)
     {
-        if (!$lifetime = $this->getCacheLifetime())
+        if (!$lifetime = $this->getCacheLifetime()) {
             return $closure();
+        }
 
         $lifetime = $this->getCacheLifetime();
         $cacheKey = $this->getCacheKey().'@'.md5($cacheKey);

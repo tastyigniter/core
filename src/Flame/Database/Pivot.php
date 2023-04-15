@@ -47,8 +47,9 @@ class Pivot extends Model
     {
         parent::__construct();
 
-        if (is_null($parent))
+        if (is_null($parent)) {
             return;
+        }
 
         // The pivot model is a "dynamic" model since we will set the tables dynamically
         // for the instance. This allows it work for any intermediate tables for the

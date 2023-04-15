@@ -60,7 +60,9 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
     public function index()
     {
         rescue(function () {
-            if (!Currency::count()) Currency::upsertFromHub();
+            if (!Currency::count()) {
+            Currency::upsertFromHub();
+            }
         });
 
         $this->asExtension('ListController')->index();

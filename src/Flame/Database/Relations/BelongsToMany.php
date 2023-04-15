@@ -227,8 +227,7 @@ class BelongsToMany extends BelongsToManyBase
         if ($sessionKey === null || $sessionKey === false) {
             $this->attach($model->getKey(), $pivotData);
             $this->parent->reloadRelations($this->relationName);
-        }
-        else {
+        } else {
             $this->parent->bindDeferred($this->relationName, $model, $sessionKey, $pivotData);
         }
     }
@@ -241,8 +240,7 @@ class BelongsToMany extends BelongsToManyBase
         if ($sessionKey === null) {
             $this->detach($model->getKey());
             $this->parent->reloadRelations($this->relationName);
-        }
-        else {
+        } else {
             $this->parent->unbindDeferred($this->relationName, $model, $sessionKey);
         }
     }
@@ -318,8 +316,7 @@ class BelongsToMany extends BelongsToManyBase
          */
         if ($value instanceof Model) {
             $value = $value->getKey();
-        }
-        elseif (is_array($value)) {
+        } elseif (is_array($value)) {
             foreach ($value as $_key => $_value) {
                 if ($_value instanceof Model) {
                     $value[$_key] = $_value->getKey();
@@ -366,8 +363,7 @@ class BelongsToMany extends BelongsToManyBase
             $related = $this->getRelated();
 
             $value = $this->parent->getRelation($relationName)->pluck($related->getKeyName())->all();
-        }
-        else {
+        } else {
             $value = $this->allRelatedIds($sessionKey)->all();
         }
 

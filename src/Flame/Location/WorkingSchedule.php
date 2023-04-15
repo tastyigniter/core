@@ -183,8 +183,9 @@ class WorkingSchedule
     {
         $workingTime = WorkingTime::fromDateTime($dateTime);
 
-        if ($this->forDate($dateTime)->isOpenAt($workingTime))
+        if ($this->forDate($dateTime)->isOpenAt($workingTime)) {
             return true;
+        }
 
         // Cover the edge case where we have late night opening,
         // but are closed the next day and the date range falls
@@ -201,15 +202,17 @@ class WorkingSchedule
 
     public function nextOpenAt(DateTimeInterface $dateTime)
     {
-        if (!$dateTime instanceof DateTimeImmutable)
+        if (!$dateTime instanceof DateTimeImmutable) {
             $dateTime = clone $dateTime;
+        }
 
         $nextOpenAt = $this->forDate($dateTime)->nextOpenAt(
             WorkingTime::fromDateTime($dateTime)
         );
 
-        if (!$this->hasPeriod())
+        if (!$this->hasPeriod()) {
             return null;
+        }
 
         while ($nextOpenAt === false) {
             $dateTime = $dateTime->modify('+1 day')->setTime(0, 0);
@@ -234,15 +237,17 @@ class WorkingSchedule
      */
     public function nextCloseAt(DateTimeInterface $dateTime)
     {
-        if (!$dateTime instanceof DateTimeImmutable)
+        if (!$dateTime instanceof DateTimeImmutable) {
             $dateTime = clone $dateTime;
+        }
 
         $nextCloseAt = $this->forDate($dateTime)->nextCloseAt(
             WorkingTime::fromDateTime($dateTime)
         );
 
-        if (!$this->hasPeriod())
+        if (!$this->hasPeriod()) {
             return null;
+        }
 
         while ($nextCloseAt === false) {
             $dateTime = $dateTime->modify('+1 day')->setTime(0, 0);
@@ -299,14 +304,17 @@ class WorkingSchedule
     {
         $dateTime = $this->parseDate($dateTime);
 
-        if ($this->isOpenAt($dateTime))
+        if ($this->isOpenAt($dateTime)) {
             return WorkingPeriod::OPEN;
+        }
 
-        if ($this->nextOpenAt($dateTime))
+        if ($this->nextOpenAt($dateTime)) {
             return WorkingPeriod::OPENING;
+        }
 
-        if ($this->isClosedAt($dateTime))
+        if ($this->isClosedAt($dateTime)) {
             return WorkingPeriod::CLOSED;
+        }
 
         return WorkingPeriod::CLOSED;
     }
@@ -336,8 +344,9 @@ class WorkingSchedule
                     return [$timeslot->getTimestamp() => $timeslot];
                 });
 
-            if ($periodTimeslot->isEmpty())
+            if ($periodTimeslot->isEmpty()) {
                 continue;
+            }
 
             $timeslots[$dateString] = $periodTimeslot->all();
         }
@@ -347,8 +356,9 @@ class WorkingSchedule
 
     public function generateTimeslot(DateTime $date, DateInterval $interval, ?DateInterval $leadTime = null)
     {
-        if (is_null($leadTime))
+        if (is_null($leadTime)) {
             $leadTime = $interval;
+        }
 
         return $this->forDate($date)
             ->timeslot($date, $interval, $leadTime)
@@ -378,14 +388,17 @@ class WorkingSchedule
 
     protected function parseDate($start = null)
     {
-        if (!$start)
+        if (!$start) {
             return new DateTime();
+        }
 
-        if (is_string($start))
+        if (is_string($start)) {
             return new DateTime($start);
+        }
 
-        if ($start instanceof DateTime)
+        if ($start instanceof DateTime) {
             return $start;
+        }
 
         throw new InvalidArgumentException('The datetime must be an instance of DateTime.');
     }
@@ -395,15 +408,16 @@ class WorkingSchedule
         $parsedPeriods = [];
         foreach ($periods as $day => $period) {
             if ($period instanceof Contracts\WorkingHourInterface) {
-                if (!$period->isEnabled()) continue;
+                if (!$period->isEnabled()) {
+                continue;
+                }
 
                 $day = WorkingDay::normalizeName($period->getDay());
                 $parsedPeriods[$day][] = [
                     $period->getOpen(),
                     $period->getClose(),
                 ];
-            }
-            elseif (is_array($period)) {
+            } elseif (is_array($period)) {
                 $day = WorkingDay::normalizeName($day);
                 $parsedPeriods[$day] = array_merge(
                     $parsedPeriods[$day] ?? [], $period
@@ -416,26 +430,31 @@ class WorkingSchedule
 
     protected function applyTimezone(DateTimeInterface $date)
     {
-        if ($this->timezone && method_exists($date, 'setTimezone'))
+        if ($this->timezone && method_exists($date, 'setTimezone')) {
             $date = $date->setTimezone($this->timezone);
+        }
 
         return $date;
     }
 
     protected function isTimeslotValid(DateTimeInterface $timeslot, DateTimeInterface $dateTime, int $leadTimeMinutes)
     {
-        if (Carbon::instance($dateTime)->gt($timeslot) || Carbon::now()->gt($timeslot))
+        if (Carbon::instance($dateTime)->gt($timeslot) || Carbon::now()->gt($timeslot)) {
             return false;
+        }
 
-        if (Carbon::now()->diffInMinutes($timeslot) < $leadTimeMinutes)
+        if (Carbon::now()->diffInMinutes($timeslot) < $leadTimeMinutes) {
             return false;
+        }
 
-        if (!$this->isBetweenPeriodForDays($timeslot))
+        if (!$this->isBetweenPeriodForDays($timeslot)) {
             return false;
+        }
 
         // +2 as we subtracted a day and need to count the current day
-        if (Carbon::instance($dateTime)->addDays($this->maxDays + 2)->lt($timeslot))
+        if (Carbon::instance($dateTime)->addDays($this->maxDays + 2)->lt($timeslot)) {
             return false;
+        }
 
         $result = TimeslotValidEvent::dispatchOnce($this, $timeslot);
 
@@ -445,13 +464,15 @@ class WorkingSchedule
     protected function hasPeriod()
     {
         foreach ($this->periods as $period) {
-            if (!$period->isEmpty())
+            if (!$period->isEmpty()) {
                 return true;
+            }
         }
 
         foreach ($this->exceptions as $exception) {
-            if (!$exception->isEmpty())
+            if (!$exception->isEmpty()) {
                 return true;
+            }
         }
 
         return false;
@@ -460,16 +481,19 @@ class WorkingSchedule
     protected function createPeriodForDays($dateTime)
     {
         $startDate = $dateTime->copy()->startOfDay()->subDays(2);
-        if (!$startDate = $this->nextOpenAt($startDate))
+        if (!$startDate = $this->nextOpenAt($startDate)) {
             return false;
+        }
 
         $endDate = $dateTime->copy()->endOfDay()->addDays($this->maxDays);
-        if ($this->forDate($endDate)->closesLate())
+        if ($this->forDate($endDate)->closesLate()) {
             $endDate->addDay();
+        }
 
         $nextEndDate = $this->nextCloseAt($endDate->copy()->subDay());
-        if ($nextEndDate->lt($dateTime))
+        if ($nextEndDate->lt($dateTime)) {
             $endDate = $nextEndDate->addDay();
+        }
 
         return new DatePeriod($startDate, new DateInterval('P1D'), $endDate);
     }

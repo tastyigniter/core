@@ -29,11 +29,13 @@ class RequestLog extends Model
 
     public static function createLog($statusCode = 404)
     {
-        if (!Igniter::hasDatabase())
+        if (!Igniter::hasDatabase()) {
             return;
+        }
 
-        if (!setting('enable_request_log', true))
+        if (!setting('enable_request_log', true)) {
             return;
+        }
 
         $url = Request::fullUrl();
         $referrer = Request::header('referer');
@@ -59,8 +61,7 @@ class RequestLog extends Model
         if (!$this->exists) {
             $this->count = 1;
             $this->save();
-        }
-        else {
+        } else {
             $this->increment('count');
         }
 

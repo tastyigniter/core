@@ -25,8 +25,9 @@ trait HasComponents
         $settings = $this->settings ?? [];
         foreach ($settings as $setting => $value) {
             preg_match('/\[(.*?)\]/', $setting, $match);
-            if (!isset($match[1]))
+            if (!isset($match[1])) {
                 continue;
+            }
 
             $settings['components'][$match[1]] = is_array($value) ? $value : [];
             unset($settings[$setting]);
@@ -46,8 +47,9 @@ trait HasComponents
      */
     public function getComponent($componentName)
     {
-        if (!$name = $this->hasComponent($componentName))
+        if (!$name = $this->hasComponent($componentName)) {
             return null;
+        }
 
         return $this->settings['components'][$name];
     }
@@ -99,8 +101,9 @@ trait HasComponents
 
     public function makeComponent($componentName)
     {
-        if (!$name = $this->resolveComponentName($componentName))
+        if (!$name = $this->resolveComponentName($componentName)) {
             return null;
+        }
 
         return resolve(ComponentManager::class)->makeComponent(
             $componentName,
@@ -116,19 +119,22 @@ trait HasComponents
 
         foreach ($this->settings['components'] ?? [] as $name => $values) {
             $result = $name;
-            if ($name == $componentName)
+            if ($name == $componentName) {
                 return $result;
+            }
 
             $parts = explode(' ', $name);
             if (count($parts) > 1) {
                 $name = trim($parts[0]);
-                if ($name == $componentName)
+                if ($name == $componentName) {
                     return $result;
+                }
             }
 
             $name = $componentManager->resolve($name);
-            if ($name == $componentName)
+            if ($name == $componentName) {
                 return $result;
+            }
         }
 
         return false;
@@ -137,14 +143,17 @@ trait HasComponents
     public function runComponents()
     {
         foreach ($this->loadedComponents as $component) {
-            if ($event = $component->fireEvent('component.beforeRun', [], true))
+            if ($event = $component->fireEvent('component.beforeRun', [], true)) {
                 return $event;
+            }
 
-            if ($result = $component->onRun())
+            if ($result = $component->onRun()) {
                 return $result;
+            }
 
-            if ($event = $component->fireEvent('component.run', [], true))
+            if ($event = $component->fireEvent('component.run', [], true)) {
                 return $event;
+            }
         }
     }
 }

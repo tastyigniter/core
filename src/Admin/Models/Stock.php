@@ -92,8 +92,9 @@ class Stock extends Model
 
             $history = StockHistory::createHistory($this, $quantity, $state, $options);
 
-            if (in_array($state, [self::STATE_IN_STOCK, self::STATE_RESTOCK, self::STATE_RECOUNT]))
+            if (in_array($state, [self::STATE_IN_STOCK, self::STATE_RESTOCK, self::STATE_RECOUNT])) {
                 $this->low_stock_alert_sent = false;
+            }
 
             $this->quantity = $stockQty;
             $this->saveQuietly();
@@ -120,8 +121,9 @@ class Stock extends Model
 
     public function checkStock(int $quantity)
     {
-        if (!$this->is_tracked)
+        if (!$this->is_tracked) {
             return true;
+        }
 
         return $this->quantity >= $quantity;
     }
@@ -138,8 +140,9 @@ class Stock extends Model
 
     protected function shouldUpdateStock($state)
     {
-        if (!$this->is_tracked)
+        if (!$this->is_tracked) {
             return false;
+        }
 
         return strlen($state) && $state !== self::STATE_NONE;
     }
@@ -167,8 +170,9 @@ class Stock extends Model
 
     protected function shouldAlertOnLowStock()
     {
-        if (!$this->low_stock_alert)
+        if (!$this->low_stock_alert) {
             return false;
+        }
 
         return !$this->low_stock_alert_sent;
     }

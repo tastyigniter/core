@@ -43,8 +43,9 @@ return new class extends Migration
 
     protected function mergeValuesIntoOptionsColumn()
     {
-        if (!Schema::hasColumn('locations', 'delivery_time'))
+        if (!Schema::hasColumn('locations', 'delivery_time')) {
             return;
+        }
 
         DB::table('locations')->get()->each(function ($model) {
             $options = @unserialize($model->options) ?: [];

@@ -58,8 +58,7 @@ class AssetCollectionFilterIterator extends \RecursiveFilterIterator
         // check strict equality
         if (in_array($asset, $this->visited, true)) {
             $duplicate = true;
-        }
-        else {
+        } else {
             $this->visited[] = $asset;
         }
 
@@ -70,8 +69,7 @@ class AssetCollectionFilterIterator extends \RecursiveFilterIterator
             $source = $sourceRoot.'/'.$sourcePath;
             if (in_array($source, $this->sources)) {
                 $duplicate = true;
-            }
-            else {
+            } else {
                 $this->sources[] = $source;
             }
         }

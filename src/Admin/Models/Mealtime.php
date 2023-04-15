@@ -57,8 +57,9 @@ class Mealtime extends Model
 
     public function isAvailable($datetime = null)
     {
-        if (is_null($datetime))
+        if (is_null($datetime)) {
             $datetime = Carbon::now();
+        }
 
         if (!$datetime instanceof Carbon) {
             $datetime = Carbon::parse($datetime);

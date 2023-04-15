@@ -228,19 +228,22 @@ class Bounds implements Contracts\BoundsInterface
             $this->setSouth($latitude);
             $this->setEast($longitude);
             $this->setWest($longitude);
-        }
-        else {
-            if (bccomp($latitude, $this->getSouth(), $this->getPrecision()) === -1)
+        } else {
+            if (bccomp($latitude, $this->getSouth(), $this->getPrecision()) === -1) {
                 $this->setSouth($latitude);
+            }
 
-            if (bccomp($latitude, $this->getNorth(), $this->getPrecision()) === 1)
+            if (bccomp($latitude, $this->getNorth(), $this->getPrecision()) === 1) {
                 $this->setNorth($latitude);
+            }
 
-            if (bccomp($longitude, $this->getEast(), $this->getPrecision()) === 1)
+            if (bccomp($longitude, $this->getEast(), $this->getPrecision()) === 1) {
                 $this->setEast($longitude);
+            }
 
-            if (bccomp($longitude, $this->getWest(), $this->getPrecision()) === -1)
+            if (bccomp($longitude, $this->getWest(), $this->getPrecision()) === -1) {
                 $this->setWest($longitude);
+            }
         }
     }
 }

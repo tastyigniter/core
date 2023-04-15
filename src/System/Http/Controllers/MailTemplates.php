@@ -81,11 +81,13 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
 
     public function onTestTemplate($context, $recordId)
     {
-        if (!strlen($recordId))
+        if (!strlen($recordId)) {
             throw new ApplicationException(lang('igniter::system.mail_templates.alert_template_id_not_found'));
+        }
 
-        if (!$model = $this->formFindModelObject($recordId))
+        if (!$model = $this->formFindModelObject($recordId)) {
             throw new ApplicationException(lang('igniter::system.mail_templates.alert_template_not_found'));
+        }
 
         config()->set('system.suppressTemplateRuntimeNotice', true);
 

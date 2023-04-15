@@ -106,8 +106,7 @@ class MailManager
     {
         if (isset($this->templateCache[$code])) {
             $template = $this->templateCache[$code];
-        }
-        else {
+        } else {
             $this->templateCache[$code] = $template = MailTemplate::findOrMakeTemplate($code);
         }
 
@@ -127,8 +126,9 @@ class MailManager
      */
     public function render($content, $data = [])
     {
-        if (!$content)
+        if (!$content) {
             return '';
+        }
 
         $html = $this->renderView($content, $data);
 
@@ -175,8 +175,9 @@ class MailManager
         $this->isRenderingHtml = false;
 
         $templateText = $template->plain_body;
-        if (!strlen($template->plain_body))
+        if (!strlen($template->plain_body)) {
             $templateText = $template->body;
+        }
 
         $text = $this->renderText($templateText, $data);
 
@@ -215,8 +216,9 @@ class MailManager
         $this->isRenderingHtml = true;
 
         $code = array_pop($this->partialStack);
-        if (!$partial = MailPartial::findOrMakePartial($code))
+        if (!$partial = MailPartial::findOrMakePartial($code)) {
             return '<!-- Missing partial: '.$code.' -->';
+        }
 
         $currentPartial = count($this->partialStack);
         $params = $this->partialData[$currentPartial];
@@ -225,8 +227,9 @@ class MailManager
         $content = $partial->text ?: $partial->html;
         $content = $this->isRenderingHtml ? $partial->html : $content;
 
-        if (!strlen(trim($content)))
+        if (!strlen(trim($content))) {
             return '';
+        }
 
         return $this->renderView($content, $params);
     }
@@ -259,8 +262,9 @@ class MailManager
      */
     public function listRegisteredLayouts()
     {
-        if (is_null($this->registeredLayouts))
+        if (is_null($this->registeredLayouts)) {
             $this->loadRegisteredTemplates();
+        }
 
         return $this->registeredLayouts;
     }
@@ -271,8 +275,9 @@ class MailManager
      */
     public function listRegisteredTemplates()
     {
-        if (is_null($this->registeredTemplates))
+        if (is_null($this->registeredTemplates)) {
             $this->loadRegisteredTemplates();
+        }
 
         return $this->registeredTemplates;
     }
@@ -283,8 +288,9 @@ class MailManager
      */
     public function listRegisteredPartials()
     {
-        if (is_null($this->registeredPartials))
+        if (is_null($this->registeredPartials)) {
             $this->loadRegisteredTemplates();
+        }
 
         return $this->registeredPartials;
     }
@@ -295,8 +301,9 @@ class MailManager
      */
     public function listRegisteredVariables()
     {
-        if (is_null($this->registeredVariables))
+        if (is_null($this->registeredVariables)) {
             $this->loadRegisteredTemplates();
+        }
 
         return $this->registeredVariables;
     }
@@ -380,8 +387,9 @@ class MailManager
 
     protected function processRegistrationMethodValues($extension, $method)
     {
-        if (!method_exists($extension, $method))
+        if (!method_exists($extension, $method)) {
             return;
+        }
 
         $results = $extension->$method();
         if (is_array($results)) {

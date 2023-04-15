@@ -68,8 +68,9 @@ abstract class GeneratorCommand extends Command
      */
     public function handle()
     {
-        if (!$this->confirmToProceed())
+        if (!$this->confirmToProceed()) {
             return;
+        }
 
         $this->prepareVars();
 

@@ -78,8 +78,9 @@ class DatePicker extends BaseFormWidget
         }
 
         if ($mode == 'date') {
-            if (setting('default_language') != 'en')
+            if (setting('default_language') != 'en') {
                 $this->addJs('js/locales/datepicker/bootstrap-datepicker.'.strtolower(str_replace('_', '-', setting('default_language'))).'.min.js', 'bootstrap-datepicker-js');
+            }
             $this->addCss('datepicker.css', 'datepicker-css');
         }
 
@@ -109,11 +110,9 @@ class DatePicker extends BaseFormWidget
         // Display alias, used by preview mode
         if ($this->mode == 'time') {
             $formatAlias = lang('igniter::system.php.time_format');
-        }
-        elseif ($this->mode == 'date') {
+        } elseif ($this->mode == 'date') {
             $formatAlias = lang('igniter::system.php.date_format');
-        }
-        else {
+        } else {
             $formatAlias = lang('igniter::system.php.date_time_format');
         }
 

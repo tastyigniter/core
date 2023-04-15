@@ -51,8 +51,9 @@ class Toolbar extends BaseWidget
     {
         $this->prepareVars();
 
-        if (!is_null($this->container))
+        if (!is_null($this->container)) {
             return $this->makePartial($this->container);
+        }
 
         return $this->makePartial('toolbar/toolbar');
     }
@@ -88,14 +89,16 @@ class Toolbar extends BaseWidget
 
     protected function prepareButtons()
     {
-        if ($templateButtons = Template::getButtonList())
+        if ($templateButtons = Template::getButtonList()) {
             $this->allButtons['templateButtons'] = $templateButtons;
+        }
     }
 
     public function renderButtonMarkup($buttonObj)
     {
-        if (is_string($buttonObj))
+        if (is_string($buttonObj)) {
             return $buttonObj;
+        }
 
         $partialName = array_get(
             $buttonObj->config,

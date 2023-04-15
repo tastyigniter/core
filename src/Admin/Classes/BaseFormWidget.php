@@ -127,8 +127,9 @@ class BaseFormWidget extends BaseWidget
             ? $this->formField->getDefaultFromData($this->data ?: $this->model)
             : null;
 
-        if ($value = post($this->formField->getName()))
+        if ($value = post($this->formField->getName())) {
             return $value;
+        }
 
         return $this->formField->getValueFromData($this->data ?: $this->model, $defaultValue);
     }

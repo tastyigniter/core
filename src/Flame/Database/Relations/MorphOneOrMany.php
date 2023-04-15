@@ -59,12 +59,10 @@ trait MorphOneOrMany
              */
             if ($this instanceof MorphOne) {
                 $this->parent->setRelation($this->relationName, $model);
-            }
-            else {
+            } else {
                 $this->parent->reloadRelations($this->relationName);
             }
-        }
-        else {
+        } else {
             $this->parent->bindDeferred($this->relationName, $model, $sessionKey);
         }
     }
@@ -79,8 +77,7 @@ trait MorphOneOrMany
 
             if (array_get($options, 'delete', false)) {
                 $model->delete();
-            }
-            else {
+            } else {
                 /*
                  * Make this model an orphan ;~(
                  */
@@ -94,12 +91,10 @@ trait MorphOneOrMany
              */
             if ($this instanceof MorphOne) {
                 $this->parent->setRelation($this->relationName, null);
-            }
-            else {
+            } else {
                 $this->parent->reloadRelations($this->relationName);
             }
-        }
-        else {
+        } else {
             $this->parent->unbindDeferred($this->relationName, $model, $sessionKey);
         }
     }

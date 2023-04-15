@@ -97,7 +97,7 @@ class MenuItemOption extends Model
     {
         $this->restorePurgedValues();
 
-        if (array_key_exists('menu_option_values', $this->attributes))
+        if (array_key_exists('menu_option_values', $this->attributes)) {
             $this->addMenuOptionValues(array_filter(array_map(function ($value) {
                 if (array_get($value, 'is_enabled')) {
                     unset($value['is_enabled']);
@@ -107,6 +107,7 @@ class MenuItemOption extends Model
 
                 return false;
             }, $this->attributes['menu_option_values'])));
+        }
     }
 
     //
@@ -132,8 +133,9 @@ class MenuItemOption extends Model
     public function addMenuOptionValues(array $optionValues = [])
     {
         $menuOptionId = $this->getKey();
-        if (!is_numeric($menuOptionId))
+        if (!is_numeric($menuOptionId)) {
             return false;
+        }
 
         $idsToKeep = [];
         foreach ($optionValues as $value) {

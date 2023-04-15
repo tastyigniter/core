@@ -92,8 +92,9 @@ class Order extends Model
 
     public function listCustomerAddresses()
     {
-        if (!$this->customer)
+        if (!$this->customer) {
             return [];
+        }
 
         return $this->customer->addresses;
     }
@@ -131,25 +132,23 @@ class Order extends Model
 
         if (is_null($status)) {
             $query->where('status_id', '>=', 1);
-        }
-        else {
-            if (!is_array($status))
+        } else {
+            if (!is_array($status)) {
                 $status = [$status];
+            }
 
             $query->whereIn('status_id', $status);
         }
 
         if ($location instanceof Location) {
             $query->where('location_id', $location->getKey());
-        }
-        elseif (strlen($location)) {
+        } elseif (strlen($location)) {
             $query->where('location_id', $location);
         }
 
         if ($customer instanceof User) {
             $query->where('customer_id', $customer->getKey());
-        }
-        elseif (strlen($customer)) {
+        } elseif (strlen($customer)) {
             $query->where('customer_id', $customer);
         }
 
@@ -175,8 +174,9 @@ class Order extends Model
 
         $startDateTime = array_get($dateTimeFilter, 'orderDateTime.startAt', false);
         $endDateTime = array_get($dateTimeFilter, 'orderDateTime.endAt', false);
-        if ($startDateTime && $endDateTime)
+        if ($startDateTime && $endDateTime) {
             $query = $this->scopeWhereBetweenOrderDateTime($query, Carbon::parse($startDateTime)->format('Y-m-d H:i:s'), Carbon::parse($endDateTime)->format('Y-m-d H:i:s'));
+        }
 
         $this->fireEvent('model.extendListFrontEndQuery', [$query]);
 
@@ -201,8 +201,9 @@ class Order extends Model
 
     public function getOrderTypeNameAttribute()
     {
-        if (!$this->location)
+        if (!$this->location) {
             return $this->order_type;
+        }
 
         return optional(
             $this->location->availableOrderTypes()->get($this->order_type)
@@ -213,7 +214,9 @@ class Order extends Model
     {
         if (!isset($this->attributes['order_date'])
             && !isset($this->attributes['order_time'])
-        ) return null;
+        ) {
+        return null;
+        }
 
         return make_carbon($this->attributes['order_date'])
             ->setTimeFromTimeString($this->attributes['order_time']);
@@ -230,8 +233,9 @@ class Order extends Model
 
     public function isCompleted()
     {
-        if (!$this->isPaymentProcessed())
+        if (!$this->isPaymentProcessed()) {
             return false;
+        }
 
         return $this->status_history()->where(
             'status_id', setting('completed_order_status')
@@ -428,8 +432,9 @@ class Order extends Model
         }
 
         $data['order_address'] = lang('igniter::admin.orders.text_collection_order_type');
-        if ($model->address)
+        if ($model->address) {
             $data['order_address'] = format_address($model->address->toArray(), false);
+        }
 
         if ($model->location) {
             $data['location_logo'] = $model->location->thumb;

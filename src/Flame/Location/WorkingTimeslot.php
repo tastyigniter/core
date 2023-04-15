@@ -17,14 +17,17 @@ class WorkingTimeslot extends Collection
             $start = $range->start()->toDateTime($date);
             $end = $range->end()->toDateTime($date);
 
-            if ($range->endsNextDay())
+            if ($range->endsNextDay()) {
                 $end->add(new DateInterval('P1D'));
+            }
 
-            if (!is_null($leadTime))
+            if (!is_null($leadTime)) {
                 $start = $start->add($leadTime);
+            }
 
-            if ($interval->format('%i') < 5)
+            if ($interval->format('%i') < 5) {
                 $interval->i = 5;
+            }
 
             $datePeriod = new DatePeriod($start, $interval, $end);
             foreach ($datePeriod as $dateTime) {

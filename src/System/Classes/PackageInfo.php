@@ -54,16 +54,18 @@ class PackageInfo
 
     public function icon(string $key, mixed $default): string
     {
-        if (is_null($this->iconCache))
+        if (is_null($this->iconCache)) {
             $this->iconCache = generate_extension_icon($this->icon);
+        }
 
         return array_get($this->iconCache, $key, $default);
     }
 
     public function changeLog(): HtmlString|string
     {
-        if (!$tag = collect(array_get($this->tags, 'data', []))->first())
+        if (!$tag = collect(array_get($this->tags, 'data', []))->first()) {
             return '';
+        }
 
         return Markdown::parse($tag['description']);
     }

@@ -312,17 +312,13 @@ class BaseException extends Exception
                 foreach ($argument as $index => $obj) {
                     if (is_array($obj)) {
                         $value = 'array('.count($obj).')';
-                    }
-                    elseif (is_object($obj)) {
+                    } elseif (is_object($obj)) {
                         $value = 'object('.get_class($obj).')';
-                    }
-                    elseif (is_int($obj)) {
+                    } elseif (is_int($obj)) {
                         $value = $obj;
-                    }
-                    elseif ($obj === null) {
+                    } elseif ($obj === null) {
                         $value = 'null';
-                    }
-                    else {
+                    } else {
                         $value = "'".$obj."'";
                     }
 
@@ -331,21 +327,16 @@ class BaseException extends Exception
 
                 if (count($items)) {
                     $arg = 'array('.count($argument).') ['.implode(', ', $items).']';
-                }
-                else {
+                } else {
                     $arg = 'array(0)';
                 }
-            }
-            elseif (is_object($argument)) {
+            } elseif (is_object($argument)) {
                 $arg = 'object('.get_class($argument).')';
-            }
-            elseif ($argument === null) {
+            } elseif ($argument === null) {
                 $arg = 'null';
-            }
-            elseif (is_int($argument)) {
+            } elseif (is_int($argument)) {
                 $arg = $argument;
-            }
-            else {
+            } else {
                 $arg = "'".$argument."'";
             }
 

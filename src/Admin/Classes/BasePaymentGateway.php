@@ -49,8 +49,9 @@ class BasePaymentGateway extends ModelAction
         $this->configValidationAttributes = array_get($formConfig, 'validationAttributes', []);
         $this->configValidationMessages = array_get($formConfig, 'validationMessages', []);
 
-        if (!$model)
+        if (!$model) {
             return;
+        }
 
         $this->initialize($model);
     }
@@ -63,8 +64,9 @@ class BasePaymentGateway extends ModelAction
     public function initialize($host)
     {
         // Set default data
-        if (!$host->exists)
+        if (!$host->exists) {
             $this->initConfigData($host);
+        }
     }
 
     /**

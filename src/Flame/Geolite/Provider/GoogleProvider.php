@@ -46,8 +46,7 @@ class GoogleProvider extends AbstractProvider
                     $query->getLimit()
                 );
             });
-        }
-        catch (Throwable $ex) {
+        } catch (Throwable $ex) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
                 $this->getName(), $ex->getMessage()
@@ -76,8 +75,7 @@ class GoogleProvider extends AbstractProvider
                     $query->getLimit()
                 );
             });
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $coordinates = $query->getCoordinates();
             $this->log(sprintf(
                 'Provider "%s" could not reverse coordinates: "%F %F".',
@@ -107,8 +105,7 @@ class GoogleProvider extends AbstractProvider
                     array_get($response, 'rows.0.elements.0.duration', 0)
                 );
             });
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $this->log(sprintf('Provider "%s" could not calculate distance.', $this->getName()));
 
             return null;
@@ -122,17 +119,21 @@ class GoogleProvider extends AbstractProvider
             $address = new Model\Location($this->getName());
 
             // set official Google place id
-            if (isset($place->place_id))
+            if (isset($place->place_id)) {
                 $address->setValue('id', $place->place_id);
+            }
 
-            if (isset($place->geometry))
+            if (isset($place->geometry)) {
                 $this->parseCoordinates($address, $place->geometry);
+            }
 
-            if (isset($place->address_components))
+            if (isset($place->address_components)) {
                 $this->parseAddressComponents($address, $place->address_components);
+            }
 
-            if (isset($place->formatted_address))
+            if (isset($place->formatted_address)) {
                 $address->withFormattedAddress($place->formatted_address);
+            }
 
             $result[] = $address;
             if (count($result) >= $limit) {
@@ -145,14 +146,17 @@ class GoogleProvider extends AbstractProvider
 
     protected function requestGeocodingUrl($url, GeoQueryInterface $query)
     {
-        if ($locale = $query->getLocale())
+        if ($locale = $query->getLocale()) {
             $url = sprintf('%s&language=%s', $url, $locale);
+        }
 
-        if ($region = $query->getData('region', array_get($this->config, 'region')))
+        if ($region = $query->getData('region', array_get($this->config, 'region'))) {
             $url = sprintf('%s&region=%s', $url, $region);
+        }
 
-        if ($apiKey = array_get($this->config, 'apiKey'))
+        if ($apiKey = array_get($this->config, 'apiKey')) {
             $url = sprintf('%s&key=%s', $url, $apiKey);
+        }
 
         $response = $this->getHttpClient()->get($url, [
             'timeout' => $query->getData('timeout', 15),
@@ -163,8 +167,9 @@ class GoogleProvider extends AbstractProvider
 
     protected function requestDistanceUrl($url, DistanceInterface $query)
     {
-        if ($apiKey = array_get($this->config, 'apiKey'))
+        if ($apiKey = array_get($this->config, 'apiKey')) {
             $url = sprintf('%s&key=%s', $url, $apiKey);
+        }
 
         $response = $this->getHttpClient()->get($url, [
             'timeout' => $query->getData('timeout', 15),
@@ -211,7 +216,9 @@ class GoogleProvider extends AbstractProvider
         if (!isset($json->results)
             || !count($json->results)
             || $json->status !== 'OK'
-        ) throw new GeoliteException($json->error_message ?? 'empty error message');
+        ) {
+        throw new GeoliteException($json->error_message ?? 'empty error message');
+        }
 
         return $json;
     }
@@ -236,37 +243,46 @@ class GoogleProvider extends AbstractProvider
 
     protected function prependReverseQuery(GeoQueryInterface $query, $url): string
     {
-        if ($locationType = $query->getData('location_type'))
+        if ($locationType = $query->getData('location_type')) {
             $url .= '&location_type='.urlencode($locationType);
+        }
 
-        if ($resultType = $query->getData('result_type'))
+        if ($resultType = $query->getData('result_type')) {
             $url .= '&result_type='.urlencode($resultType);
+        }
 
         return $url;
     }
 
     protected function prependDistanceQuery(DistanceInterface $distance, string $url): string
     {
-        if ($mode = $distance->getData('mode'))
+        if ($mode = $distance->getData('mode')) {
             $url .= '&mode='.urlencode($mode);
+        }
 
-        if ($region = $distance->getData('region', array_get($this->config, 'region')))
+        if ($region = $distance->getData('region', array_get($this->config, 'region'))) {
             $url .= '&region='.urlencode($region);
+        }
 
-        if ($language = $distance->getData('language', array_get($this->config, 'locale')))
+        if ($language = $distance->getData('language', array_get($this->config, 'locale'))) {
             $url .= '&language='.urlencode($language);
+        }
 
-        if ($units = $distance->getUnit())
+        if ($units = $distance->getUnit()) {
             $url .= '&units='.urlencode($units);
+        }
 
-        if ($avoid = $distance->getData('avoid'))
+        if ($avoid = $distance->getData('avoid')) {
             $url .= '&avoid='.urlencode($avoid);
+        }
 
-        if ($departureTime = $distance->getData('departure_time'))
+        if ($departureTime = $distance->getData('departure_time')) {
             $url .= '&departure_time='.urlencode($departureTime);
+        }
 
-        if ($arrivalTime = $distance->getData('arrival_time'))
+        if ($arrivalTime = $distance->getData('arrival_time')) {
             $url .= '&arrival_time='.urlencode($arrivalTime);
+        }
 
         return $url;
     }
@@ -283,16 +299,14 @@ class GoogleProvider extends AbstractProvider
                 $geometry->bounds->northeast->lat,
                 $geometry->bounds->northeast->lng
             );
-        }
-        elseif (isset($geometry->viewport)) {
+        } elseif (isset($geometry->viewport)) {
             $address->setBounds(
                 $geometry->viewport->southwest->lat,
                 $geometry->viewport->southwest->lng,
                 $geometry->viewport->northeast->lat,
                 $geometry->viewport->northeast->lng
             );
-        }
-        elseif ('ROOFTOP' === $geometry->location_type) {
+        } elseif ('ROOFTOP' === $geometry->location_type) {
             // Fake bounds
             $address->setBounds(
                 $coordinates->lat,
@@ -373,8 +387,9 @@ class GoogleProvider extends AbstractProvider
 
     protected function serializeComponents($components)
     {
-        if (is_string($components))
+        if (is_string($components)) {
             return $components;
+        }
 
         return implode('|', array_map(function ($name, $value) {
             return sprintf('%s:%s', $name, $value);

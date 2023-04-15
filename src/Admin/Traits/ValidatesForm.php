@@ -62,16 +62,18 @@ trait ValidatesForm
             $request ?? [], $rules, $messages, $customAttributes
         );
 
-        if ($this->validateAfterCallback instanceof Closure)
+        if ($this->validateAfterCallback instanceof Closure) {
             $validator->after($this->validateAfterCallback);
+        }
 
         return $validator;
     }
 
     public function parseRules(array $rules)
     {
-        if (!isset($rules[0]))
+        if (!isset($rules[0])) {
             return $rules;
+        }
 
         $result = [];
         foreach ($rules as $value) {
@@ -83,8 +85,9 @@ trait ValidatesForm
 
     public function parseAttributes(array $rules)
     {
-        if (!isset($rules[0]))
+        if (!isset($rules[0])) {
             return [];
+        }
 
         $result = [];
         foreach ($rules as [$name, $attribute]) {
@@ -128,8 +131,9 @@ trait ValidatesForm
     {
         $sessionKey = 'errors';
 
-        if (Igniter::runningInAdmin())
+        if (Igniter::runningInAdmin()) {
             $sessionKey = 'admin_errors';
+        }
 
         return Session::flash($sessionKey, $errors);
     }
@@ -146,15 +150,18 @@ trait ValidatesForm
 
         // if we dont have in config then fallback to a FormRequest class
         if ($requestClass = array_get($this->config, 'request')) {
-            if (!class_exists($requestClass))
+            if (!class_exists($requestClass)) {
                 throw new ApplicationException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
+            }
 
             app()->resolving($requestClass, function ($request, $app) use ($form) {
-                if (method_exists($request, 'setController'))
+                if (method_exists($request, 'setController')) {
                     $request->setController($this->controller);
+                }
 
-                if (method_exists($request, 'setInputKey'))
+                if (method_exists($request, 'setInputKey')) {
                     $request->setInputKey($form->arrayName);
+                }
             });
 
             app()->make($requestClass);

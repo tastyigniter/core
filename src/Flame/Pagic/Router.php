@@ -64,8 +64,9 @@ class Router
     public function findPage(string $url, array $parameters = []): mixed
     {
         $apiResult = event('router.beforeRoute', [$url, $this, $parameters], true);
-        if ($apiResult !== null)
+        if ($apiResult !== null) {
             return $apiResult;
+        }
 
         $fileName = array_get($parameters, '_file_', $url);
 
@@ -116,8 +117,9 @@ class Router
             $map = [];
             $pages = static::$templateClass::listInTheme($this->theme, true);
             foreach ($pages as $page) {
-                if (!optional($page)->permalink)
+                if (!optional($page)->permalink) {
                     continue;
+                }
 
                 $map[] = [
                     'file' => $page->getBaseFileName(),
@@ -175,8 +177,9 @@ class Router
      */
     public function url(string $name, array $parameters = []): string|null
     {
-        if (!$routeRule = collect($this->getUrlMap())->firstWhere('file', $name))
+        if (!$routeRule = collect($this->getUrlMap())->firstWhere('file', $name)) {
             return null;
+        }
 
         return $this->urlFromPattern($routeRule['pattern'], $parameters);
     }

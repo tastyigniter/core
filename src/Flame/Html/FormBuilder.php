@@ -739,8 +739,7 @@ class FormBuilder
     {
         if (is_array($selected)) {
             return in_array($value, $selected, true) || in_array((string)$value, $selected, true) ? 'selected' : null;
-        }
-        elseif ($selected instanceof Collection) {
+        } elseif ($selected instanceof Collection) {
             return $selected->contains($value) ? 'selected' : null;
         }
 
@@ -854,11 +853,9 @@ class FormBuilder
 
         if (is_array($posted)) {
             return in_array($value, $posted);
-        }
-        elseif ($posted instanceof Collection) {
+        } elseif ($posted instanceof Collection) {
             return $posted->contains('id', $value);
-        }
-        else {
+        } else {
             return (bool)$posted;
         }
     }

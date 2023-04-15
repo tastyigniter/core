@@ -112,8 +112,7 @@ class Filesystem extends IlluminateFilesystem
 
         if (strpos($path, $publicPath) === 0) {
             $result = str_replace('\\', '/', substr($path, strlen($publicPath)));
-        }
-        else {
+        } else {
             /**
              * Find symlinks within base folder and work out if this path can be resolved to a symlinked directory.
              *
@@ -230,8 +229,9 @@ class Filesystem extends IlluminateFilesystem
 
         $_path = (string)Str::of(Str::after($path, $symbol))->after(static::HINT_PATH_DELIMITER);
 
-        if ($_path && !Str::startsWith($_path, '/'))
+        if ($_path && !Str::startsWith($_path, '/')) {
             $_path = '/'.$_path;
+        }
 
         return $this->pathSymbols[$symbol].$_path;
     }
@@ -247,16 +247,18 @@ class Filesystem extends IlluminateFilesystem
             ? Str::before($path, static::HINT_PATH_DELIMITER)
             : substr($path, 0, 1);
 
-        if (isset($this->pathSymbols[$symbol]))
+        if (isset($this->pathSymbols[$symbol])) {
             return $symbol;
+        }
 
         return false;
     }
 
     public function addPathSymbol($symbol, $path)
     {
-        if (!is_array($this->pathSymbols[$symbol]))
+        if (!is_array($this->pathSymbols[$symbol])) {
             $this->pathSymbols[$symbol] = [];
+        }
         $this->pathSymbols[$symbol] = [$this->pathSymbols[$symbol]];
 
         array_unshift($this->pathSymbols[$symbol], $path);
@@ -319,8 +321,7 @@ class Filesystem extends IlluminateFilesystem
                 }
                 $chmodPath = $basePath;
             }
-        }
-        else {
+        } else {
             $chmodPath = $path;
         }
 
@@ -393,8 +394,7 @@ class Filesystem extends IlluminateFilesystem
                 $_path = $item->getPathname();
                 $this->chmod($_path, $directoryMask);
                 $this->chmodRecursive($_path, $fileMask, $directoryMask);
-            }
-            else {
+            } else {
                 $this->chmod($item->getPathname(), $fileMask);
             }
         }

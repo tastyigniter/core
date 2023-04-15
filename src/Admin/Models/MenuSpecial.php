@@ -43,8 +43,9 @@ class MenuSpecial extends Model
 
     public function getPrettyEndDateAttribute()
     {
-        if ($this->isRecurring() || !$this->end_date)
+        if ($this->isRecurring() || !$this->end_date) {
             return null;
+        }
 
         return $this->end_date->format(lang('igniter::system.php.date_time_format'));
     }
@@ -61,16 +62,18 @@ class MenuSpecial extends Model
 
     public function active()
     {
-        if (!$this->special_status)
+        if (!$this->special_status) {
             return false;
+        }
 
         return !($this->isExpired() === true);
     }
 
     public function daysRemaining()
     {
-        if ($this->validity != 'period' || !$this->end_date->greaterThan(Carbon::now()))
+        if ($this->validity != 'period' || !$this->end_date->greaterThan(Carbon::now())) {
             return 0;
+        }
 
         return $this->end_date->diffForHumans();
     }
@@ -90,8 +93,9 @@ class MenuSpecial extends Model
             case 'period':
                 return !$now->between($this->start_date, $this->end_date);
             case 'recurring':
-                if (!in_array($now->format('w'), $this->recurring_every ?? []))
+                if (!in_array($now->format('w'), $this->recurring_every ?? [])) {
                     return true;
+                }
 
                 $start = $now->copy()->setTimeFromTimeString($this->recurring_from);
                 $end = $now->copy()->setTimeFromTimeString($this->recurring_to);
@@ -107,8 +111,9 @@ class MenuSpecial extends Model
 
     public function getMenuPrice($price)
     {
-        if ($this->isFixed())
+        if ($this->isFixed()) {
             return $this->special_price;
+        }
 
         return $price - (($price / 100) * round($this->special_price));
     }

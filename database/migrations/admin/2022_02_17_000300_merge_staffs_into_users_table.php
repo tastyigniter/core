@@ -9,8 +9,9 @@ return new class extends Migration
 {
     public function up()
     {
-        if (Schema::hasColumn('users', 'reset_code'))
+        if (Schema::hasColumn('users', 'reset_code')) {
             Schema::rename('users', 'admin_users');
+        }
 
         Schema::table('admin_users', function (Blueprint $table) {
             $table->after('staff_id', function ($table) {
@@ -116,8 +117,9 @@ return new class extends Migration
             ->where('locationable_type', 'staffs')
             ->get()
             ->each(function ($model) {
-                if (!$user = DB::table('admin_users')->where('staff_id', $model->locationable_id)->first())
+                if (!$user = DB::table('admin_users')->where('staff_id', $model->locationable_id)->first()) {
                     return true;
+                }
 
                 DB::table('locationables')->insert([
                     'location_id' => $model->location_id,
@@ -135,8 +137,9 @@ return new class extends Migration
             ->whereNotNull('assignee_id')
             ->get()
             ->each(function ($model) {
-                if (!$user = DB::table('admin_users')->where('staff_id', $model->assignee_id)->first())
+                if (!$user = DB::table('admin_users')->where('staff_id', $model->assignee_id)->first()) {
                     return true;
+                }
 
                 DB::table('assignable_logs')
                     ->where('id', $model->id)
@@ -152,8 +155,9 @@ return new class extends Migration
             ->whereNotNull('assignee_id')
             ->get()
             ->each(function ($model) {
-                if (!$user = DB::table('admin_users')->where('staff_id', $model->assignee_id)->first())
+                if (!$user = DB::table('admin_users')->where('staff_id', $model->assignee_id)->first()) {
                     return true;
+                }
 
                 DB::table('orders')
                     ->where('order_id', $model->order_id)
@@ -169,8 +173,9 @@ return new class extends Migration
             ->whereNotNull('assignee_id')
             ->get()
             ->each(function ($model) {
-                if (!$user = DB::table('admin_users')->where('staff_id', $model->assignee_id)->first())
+                if (!$user = DB::table('admin_users')->where('staff_id', $model->assignee_id)->first()) {
                     return true;
+                }
 
                 DB::table('reservations')
                     ->where('reservation_id', $model->reservation_id)
@@ -186,8 +191,9 @@ return new class extends Migration
             ->whereNotNull('staff_id')
             ->get()
             ->each(function ($model) {
-                if (!$user = DB::table('admin_users')->where('staff_id', $model->staff_id)->first())
+                if (!$user = DB::table('admin_users')->where('staff_id', $model->staff_id)->first()) {
                     return true;
+                }
 
                 DB::table('status_history')
                     ->where('status_history_id', $model->status_history_id)
@@ -203,8 +209,9 @@ return new class extends Migration
             ->whereNotNull('staff_id')
             ->get()
             ->each(function ($model) {
-                if (!$user = DB::table('admin_users')->where('staff_id', $model->staff_id)->first())
+                if (!$user = DB::table('admin_users')->where('staff_id', $model->staff_id)->first()) {
                     return true;
+                }
 
                 DB::table('stock_history')
                     ->where('id', $model->id)
@@ -220,8 +227,9 @@ return new class extends Migration
             ->whereNotNull('staff_id')
             ->get()
             ->each(function ($model) {
-                if (!$user = DB::table('admin_users')->where('staff_id', $model->staff_id)->first())
+                if (!$user = DB::table('admin_users')->where('staff_id', $model->staff_id)->first()) {
                     return true;
+                }
 
                 DB::table('staffs_groups')
                     ->where('staff_id', $model->staff_id)
@@ -235,8 +243,9 @@ return new class extends Migration
     protected function copyValuesFromStaffsToUsers(): void
     {
         DB::table('admin_users')->get()->each(function ($model) {
-            if (!$staff = DB::table('staffs')->where('staff_id', $model->staff_id)->first())
+            if (!$staff = DB::table('staffs')->where('staff_id', $model->staff_id)->first()) {
                 return true;
+            }
 
             DB::table('admin_users')->where('user_id', $model->user_id)->update([
                 'name' => $staff->staff_name,

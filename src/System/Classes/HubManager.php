@@ -61,8 +61,9 @@ class HubManager
         $response = $client->post($uri, $this->prepareRequest($params));
 
         if (!$response->ok()) {
-            if ($errors = $response->json('errors'))
+            if ($errors = $response->json('errors')) {
                 logger()->debug('Server validation errors: '.print_r($errors, true));
+            }
 
             throw new ApplicationException($response->json('message'));
         }

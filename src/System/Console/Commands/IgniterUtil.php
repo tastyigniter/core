@@ -84,8 +84,9 @@ class IgniterUtil extends Command
 
         $this->comment('*** TastyIgniter sets latest version: '.Igniter::version());
 
-        if ($this->option('extensions'))
+        if ($this->option('extensions')) {
             $this->setItemsVersion();
+        }
 
         $this->comment('-');
         sleep(1);
@@ -188,11 +189,13 @@ class IgniterUtil extends Command
 
         collect($manifest->packages())
             ->each(function ($update) {
-                if ($update['type'] === 'tastyigniter-extension')
+                if ($update['type'] === 'tastyigniter-extension') {
                     Extension::where('name', $update['code'])->update(['version' => $update['version']]);
+                }
 
-                if ($update['type'] === 'tastyigniter-theme')
+                if ($update['type'] === 'tastyigniter-theme') {
                     Theme::where('code', $update['code'])->update(['version' => $update['version']]);
+                }
 
                 $this->comment('*** '.$update['code'].' sets latest version: '.$update['version']);
             });

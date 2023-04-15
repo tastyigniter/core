@@ -247,8 +247,7 @@ trait Validation
             // Fire the validating.passed event.
             $this->fireValidatedEvents('passed');
             $this->fireEvent('model.afterValidate', [$event]);
-        }
-        else {
+        } else {
             $this->fireValidatedEvents('skipped');
             $this->fireEvent('model.afterValidate', [$event]);
         }
@@ -282,11 +281,13 @@ trait Validation
      */
     protected function fireValidatingEvents($event)
     {
-        if (Event::until('eloquent.validating: '.get_class($this), [$this, $event]) !== null)
+        if (Event::until('eloquent.validating: '.get_class($this), [$this, $event]) !== null) {
             return true;
+        }
 
-        if ($this->fireEvent('model.beforeValidate', [], true) === false)
+        if ($this->fireEvent('model.beforeValidate', [], true) === false) {
             return true;
+        }
 
         if ($this->methodExists('beforeValidate')) {
             $this->beforeValidate();
@@ -332,14 +333,11 @@ trait Validation
                             [$this, $method],
                             [explode(',', head($parameters)), $field]
                         );
-                    }
-                    elseif ($validationRule === 'unique' && $this->exists) {
+                    } elseif ($validationRule === 'unique' && $this->exists) {
                         $ruleset[$key] = $this->processValidationUniqueRule($rule, $field);
-                    }
-                    elseif (starts_with($rule, 'required:create') && $this->exists) {
+                    } elseif (starts_with($rule, 'required:create') && $this->exists) {
                         unset($ruleset[$key]);
-                    }
-                    elseif (starts_with($rule, 'required:update') && !$this->exists) {
+                    } elseif (starts_with($rule, 'required:update') && !$this->exists) {
                         unset($ruleset[$key]);
                     }
                 }

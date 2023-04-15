@@ -147,8 +147,9 @@ class Statistics extends BaseDashboardWidget
     {
         $count = 0;
         $contextMethod = 'getTotal'.studly_case($context).'Sum';
-        if (method_exists($this, $contextMethod))
+        if (method_exists($this, $contextMethod)) {
             $count = $this->$contextMethod($this->property('range'));
+        }
 
         return empty($count) ? 0 : $count;
     }
@@ -157,14 +158,11 @@ class Statistics extends BaseDashboardWidget
     {
         if ($range === 'week') {
             $start = Carbon::now()->subWeek();
-        }
-        elseif ($range === 'month') {
+        } elseif ($range === 'month') {
             $start = Carbon::now()->subMonth();
-        }
-        elseif ($range === 'year') {
+        } elseif ($range === 'year') {
             $start = Carbon::now()->startOfYear();
-        }
-        else {
+        } else {
             $start = Carbon::now()->today();
         }
 

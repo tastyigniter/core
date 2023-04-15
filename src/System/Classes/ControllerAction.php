@@ -42,8 +42,9 @@ class ControllerAction
      */
     public function __construct($controller = null)
     {
-        if ($controller !== null)
+        if ($controller !== null) {
             $this->controller = $controller;
+        }
 
         // Add paths from the extension / module context
         $this->configPath = $this->controller->configPath;
@@ -77,8 +78,9 @@ class ControllerAction
      */
     public function getConfig($name = null, $default = null)
     {
-        if (is_null($name))
+        if (is_null($name)) {
             return $this->config;
+        }
 
         $nameArray = name_to_array($name);
 
@@ -86,8 +88,9 @@ class ControllerAction
         $result = isset($this->config[$fieldName]) ? $this->config[$fieldName] : $default;
 
         foreach ($nameArray as $key) {
-            if (!is_array($result) || !array_key_exists($key, $result))
+            if (!is_array($result) || !array_key_exists($key, $result)) {
                 return $default;
+            }
 
             $result = $result[$key];
         }

@@ -19,8 +19,7 @@ trait ManagesUpdates
 
             try {
                 $json = resolve(UpdateManager::class)->searchItems($itemType, $searchQuery);
-            }
-            catch (Exception $ex) {
+            } catch (Exception $ex) {
                 $json = $ex->getMessage();
             }
         }
@@ -32,8 +31,9 @@ trait ManagesUpdates
     {
         $itemsCodes = post('install_items') ?? [];
         $items = collect(post('items') ?? [])->whereIn('name', $itemsCodes);
-        if ($items->isEmpty())
+        if ($items->isEmpty()) {
             throw new ApplicationException(lang('igniter::system.updates.alert_no_items'));
+        }
 
         $this->validateItems();
 
@@ -48,8 +48,9 @@ trait ManagesUpdates
     public function onApplyItems()
     {
         $items = post('items') ?? [];
-        if (!count($items))
+        if (!count($items)) {
             throw new ApplicationException(lang('igniter::system.updates.alert_no_items'));
+        }
 
         $this->validateItems();
 
@@ -68,8 +69,9 @@ trait ManagesUpdates
         $updates = resolve(UpdateManager::class)->requestUpdateList();
         $itemsToUpdate = array_get($updates, 'items', []);
 
-        if (!count($itemsToUpdate))
+        if (!count($itemsToUpdate)) {
             throw new ApplicationException(lang('igniter::system.updates.alert_no_items'));
+        }
 
         return [
             'steps' => $this->buildProcessSteps($itemsToUpdate),
@@ -100,8 +102,9 @@ trait ManagesUpdates
     public function onIgnoreUpdate()
     {
         $itemCode = post('code', '');
-        if (!strlen($itemCode))
+        if (!strlen($itemCode)) {
             throw new ApplicationException(lang('igniter::system.updates.alert_item_to_ignore'));
+        }
 
         $updateManager = resolve(UpdateManager::class);
 
@@ -115,8 +118,9 @@ trait ManagesUpdates
     public function onApplyCarte()
     {
         $carteKey = post('carte_key');
-        if (!strlen($carteKey))
+        if (!strlen($carteKey)) {
             throw new ApplicationException(lang('igniter::system.updates.alert_no_carte_key'));
+        }
 
         $response = resolve(UpdateManager::class)->applySiteDetail($carteKey);
 
@@ -192,8 +196,7 @@ trait ManagesUpdates
                     'complete' => $updateManager->completeinstall($meta),
                     default => false,
                 };
-            }
-            catch (ComposerException $e) {
+            } catch (ComposerException $e) {
                 report($e);
                 logger()->info($e->getMessage());
 
@@ -209,8 +212,7 @@ trait ManagesUpdates
             $json['message'] = implode(PHP_EOL, $updateManager->getLogs());
 
             $success = true;
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             $json['message'] = $e->getMessage();
         }
 

@@ -49,11 +49,13 @@ class RouteRegistrar
                     $route = $router->pagic($parts['uri'], $parts['route'])
                         ->defaults('_file_', $parts['file']);
 
-                    foreach ($parts['defaults'] ?? [] as $key => $value)
+                    foreach ($parts['defaults'] ?? [] as $key => $value) {
                         $route->defaults($key, $value);
+                    }
 
-                    foreach ($parts['constraints'] ?? [] as $key => $value)
+                    foreach ($parts['constraints'] ?? [] as $key => $value) {
                         $route->where($key, $value);
+                    }
                 }
             });
     }

@@ -41,8 +41,9 @@ trait HasMedia
      */
     public function scopeWhereHasMedia(Builder $query, $tags)
     {
-        if (!is_array($tags))
+        if (!is_array($tags)) {
             $tags = [$tags];
+        }
 
         $query->whereHas('media', function (Builder $q) use ($tags) {
             $q->whereIn('tag', (array)$tags);
@@ -62,11 +63,14 @@ trait HasMedia
         if (
             !array_key_exists($key, $mediable = $this->mediable())
             || $this->hasGetMutator($key)
-        ) return parent::getAttribute($key);
+        ) {
+        return parent::getAttribute($key);
+        }
 
         $mediableConfig = array_get($mediable, $key, []);
-        if (array_get($mediableConfig, 'multiple', false))
+        if (array_get($mediableConfig, 'multiple', false)) {
             return $this->getMedia($key);
+        }
 
         return $this->getFirstMedia($key);
     }
@@ -76,7 +80,9 @@ trait HasMedia
         if (
             !array_key_exists($key, $mediable = $this->mediable())
             || $this->hasSetMutator($key)
-        ) return parent::setAttribute($key, $value);
+        ) {
+        return parent::setAttribute($key, $value);
+        }
         // Do nothing
     }
 
@@ -113,8 +119,9 @@ trait HasMedia
     {
         $collection = $this->loadMedia($tag ?? $this->getDefaultTagName());
 
-        if (is_array($filters))
+        if (is_array($filters)) {
             $filters = $this->buildMediaPropertiesFilter($filters);
+        }
 
         return $collection->filter($filters);
     }
@@ -190,8 +197,9 @@ trait HasMedia
             ->map(function (array $newMedia) use ($tag) {
                 $foundMedia = Media::findOrFail($newMedia['id']);
 
-                if ($tag !== '*' && $foundMedia->tag !== $tag)
+                if ($tag !== '*' && $foundMedia->tag !== $tag) {
                     throw new Exception("Media id {$foundMedia->getKey()} is not part of collection '{$tag}''");
+                }
 
                 $foundMedia->fill($newMedia);
                 $foundMedia->save();
@@ -244,8 +252,9 @@ trait HasMedia
 
         MediaTagClearedEvent::dispatch($this, $tag);
 
-        if ($this->mediaWasLoaded())
+        if ($this->mediaWasLoaded()) {
             unset($this->media);
+        }
     }
 
     public function prepareUnattachedMedia(Media $media, MediaAdder $mediaAdder)
@@ -290,8 +299,9 @@ trait HasMedia
     protected function handleHasMediaDeletion()
     {
         // only cascade soft deletes when configured
-        if (!$this->forceDeleting && static::hasGlobalScope(SoftDeletingScope::class))
+        if (!$this->forceDeleting && static::hasGlobalScope(SoftDeletingScope::class)) {
             return;
+        }
 
         $this->media()->get()->each->delete();
     }
@@ -304,11 +314,13 @@ trait HasMedia
     {
         return function (Media $media) use ($filters) {
             foreach ($filters as $property => $value) {
-                if (!array_has($media->custom_properties, $property))
+                if (!array_has($media->custom_properties, $property)) {
                     return false;
+                }
 
-                if (array_get($media->custom_properties, $property) !== $value)
+                if (array_get($media->custom_properties, $property) !== $value) {
                     return false;
+                }
             }
 
             return true;

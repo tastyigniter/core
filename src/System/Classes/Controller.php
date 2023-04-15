@@ -125,8 +125,7 @@ class Controller extends IlluminateController
             $cacheKey = $parts[0];
 
             return Assets::combineGetContents($cacheKey);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $errorMessage = ErrorHandler::getDetailedMessage($ex);
 
             return '/* '.e($errorMessage).' */';
@@ -135,8 +134,9 @@ class Controller extends IlluminateController
 
     protected function locateController($url)
     {
-        if (isset($this->requestedCache))
+        if (isset($this->requestedCache)) {
             return $this->requestedCache;
+        }
 
         $segments = RouterHelper::segmentizeUrl($url);
 
@@ -173,12 +173,14 @@ class Controller extends IlluminateController
             }
         }
 
-        if (!$controllerClass || !class_exists($controllerClass))
+        if (!$controllerClass || !class_exists($controllerClass)) {
             return null;
+        }
 
         $controllerObj = App::make($controllerClass);
-        if ($controllerObj->checkAction(self::$action))
+        if ($controllerObj->checkAction(self::$action)) {
             return $controllerObj;
+        }
 
         return false;
     }
@@ -229,8 +231,9 @@ class Controller extends IlluminateController
 
             $extensionCode = sprintf('%s.%s', $author, $extension);
             $extension = resolve(ExtensionManager::class)->findExtension($extensionCode);
-            if (!$extension || $extension->disabled)
+            if (!$extension || $extension->disabled) {
                 return;
+            }
 
             $namespace = array_get($extension->extensionMeta(), 'namespace');
             if ($controllerObj = $this->locateControllerInPath(
@@ -248,12 +251,14 @@ class Controller extends IlluminateController
 
     protected function pushRequestedControllerMiddleware()
     {
-        if (!Igniter::runningInAdmin())
+        if (!Igniter::runningInAdmin()) {
             return;
+        }
 
         $pathParts = explode('/', request()->path());
-        if (Igniter::uri())
+        if (Igniter::uri()) {
             array_shift($pathParts);
+        }
 
         $path = implode('/', $pathParts);
         if ($result = $this->locateController($path)) {

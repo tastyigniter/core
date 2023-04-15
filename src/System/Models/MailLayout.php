@@ -96,12 +96,14 @@ class MailLayout extends Model
 
     public function fillFromCode($code = null)
     {
-        if (is_null($code))
+        if (is_null($code)) {
             $code = $this->code;
+        }
 
         $definitions = resolve(MailManager::class)->listRegisteredLayouts();
-        if (!$definition = array_get($definitions, $code))
+        if (!$definition = array_get($definitions, $code)) {
             throw new ApplicationException('Unable to find a registered layout with code: '.$code);
+        }
 
         $this->fillFromView($definition);
     }
@@ -132,8 +134,9 @@ class MailLayout extends Model
 
         $definitions = resolve(MailManager::class)->listRegisteredLayouts();
         foreach ($definitions as $code => $path) {
-            if (array_key_exists($code, $dbLayouts))
+            if (array_key_exists($code, $dbLayouts)) {
                 continue;
+            }
 
             $layout = new static;
             $layout->code = $code;

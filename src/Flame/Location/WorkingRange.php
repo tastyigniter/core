@@ -35,12 +35,14 @@ class WorkingRange
      */
     public static function fromRanges(array $ranges): self
     {
-        if (count($ranges) === 0)
+        if (count($ranges) === 0) {
             throw new WorkingHourException('The given ranges must contain at least one range.');
+        }
 
         array_walk($ranges, function ($range) {
-            if (!$range instanceof self)
+            if (!$range instanceof self) {
                 throw new WorkingHourException('The given ranges is not a valid list of TimeRange instance containing.');
+            }
         });
 
         $start = $ranges[0]->start();
@@ -48,12 +50,14 @@ class WorkingRange
 
         foreach (array_slice($ranges, 1) as $range) {
             $rangeStart = $range->start();
-            if ($rangeStart->format('Gi') < $start->format('Gi'))
+            if ($rangeStart->format('Gi') < $start->format('Gi')) {
                 $start = $rangeStart;
+            }
 
             $rangeEnd = $range->end();
-            if ($rangeEnd->format('Gi') > $end->format('Gi'))
+            if ($rangeEnd->format('Gi') > $end->format('Gi')) {
                 $end = $rangeEnd;
+            }
         }
 
         return new self($start, $end);

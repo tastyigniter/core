@@ -76,11 +76,13 @@ class PackageManifest extends BasePackageManifest
                     array_has($package, 'extra.tastyigniter-theme');
             })
             ->mapWithKeys(function ($package) {
-                if (array_get($package, 'extra.tastyigniter-extension', []))
+                if (array_get($package, 'extra.tastyigniter-extension', [])) {
                     return $this->formatExtension($package);
+                }
 
-                if (array_get($package, 'extra.tastyigniter-theme', []))
+                if (array_get($package, 'extra.tastyigniter-theme', [])) {
                     return $this->formatTheme($package);
+                }
             })
             ->filter()
             ->all());
@@ -88,8 +90,9 @@ class PackageManifest extends BasePackageManifest
 
     protected function formatExtension($package, $result = [])
     {
-        if (!$autoload = array_get($package, 'autoload.psr-4', []))
+        if (!$autoload = array_get($package, 'autoload.psr-4', [])) {
             return $result;
+        }
 
         $namespace = key($autoload);
         $class = $namespace.'Extension';
@@ -132,8 +135,9 @@ class PackageManifest extends BasePackageManifest
         $manifest['publish'] = array_get($manifest, 'publish');
         $manifest['require'] = $this->formatRequire(array_get($package, 'require'));
 
-        if (!array_key_exists('directory', $manifest))
+        if (!array_key_exists('directory', $manifest)) {
             $manifest['directory'] = $directory;
+        }
 
         $result[$code] = $manifest;
 
@@ -153,8 +157,9 @@ class PackageManifest extends BasePackageManifest
     {
         $installed = $this->installed();
 
-        if (is_null($extensions))
+        if (is_null($extensions)) {
             return array_get($installed, 'extensions', []);
+        }
 
         $installed['extensions'] = $extensions;
         $this->writeInstalled($installed);
@@ -164,8 +169,9 @@ class PackageManifest extends BasePackageManifest
     {
         $installed = $this->installed();
 
-        if (is_null($themes))
+        if (is_null($themes)) {
             return array_get($installed, 'themes', []);
+        }
 
         $installed['themes'] = $themes;
         $this->writeInstalled($installed);
@@ -174,8 +180,9 @@ class PackageManifest extends BasePackageManifest
     public function installed()
     {
         $path = dirname($this->manifestPath).$this->metaFile;
-        if (!is_file($path))
+        if (!is_file($path)) {
             return [];
+        }
 
         return json_decode($this->files->get($path, true), true) ?: [];
     }

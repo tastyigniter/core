@@ -44,8 +44,7 @@ class Updates extends \Igniter\Admin\Classes\AdminController
             $this->vars['igniterVersion'] = Igniter::version();
             $this->vars['carteInfo'] = $updateManager->getSiteDetail();
             $this->vars['updates'] = $updateManager->requestUpdateList();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             flash()->warning($ex->getMessage())->now();
         }
     }

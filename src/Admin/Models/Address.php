@@ -64,8 +64,7 @@ class Address extends Model
 
         if ($customer instanceof Customer) {
             $query->where('customer_id', $customer->getKey());
-        }
-        elseif (strlen($customer)) {
+        } elseif (strlen($customer)) {
             $query->where('customer_id', $customer);
         }
 

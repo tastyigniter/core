@@ -21,12 +21,14 @@ return new class extends Migration
     public function up()
     {
         foreach (get_class_methods(__CLASS__) as $method) {
-            if (!starts_with($method, ['_create_']))
+            if (!starts_with($method, ['_create_'])) {
                 continue;
+            }
 
             $table = substr($method, 8);
-            if (Schema::hasTable($table))
+            if (Schema::hasTable($table)) {
                 continue;
+            }
 
             Schema::create($table, $this->$method());
         }
@@ -35,8 +37,9 @@ return new class extends Migration
     public function down()
     {
         foreach (get_class_methods(__CLASS__) as $method) {
-            if (!starts_with($method, ['_create_']))
+            if (!starts_with($method, ['_create_'])) {
                 continue;
+            }
 
             $table = substr($method, 8);
             Schema::dropIfExists($table);

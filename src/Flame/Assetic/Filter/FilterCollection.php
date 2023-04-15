@@ -43,8 +43,7 @@ class FilterCollection implements FilterInterface, \IteratorAggregate, \Countabl
             foreach ($filter as $f) {
                 $this->ensure($f);
             }
-        }
-        elseif (!in_array($filter, $this->filters, true)) {
+        } elseif (!in_array($filter, $this->filters, true)) {
             $this->filters[] = $filter;
         }
     }

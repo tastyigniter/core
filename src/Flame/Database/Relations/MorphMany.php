@@ -61,8 +61,7 @@ class MorphMany extends MorphManyBase
                     $instance->setAttribute($this->getMorphType(), $this->morphClass);
                 });
             }
-        }
-        else {
+        } else {
             $collection = $this->getRelated()->whereIn($this->localKey, (array)$value)->get();
         }
 

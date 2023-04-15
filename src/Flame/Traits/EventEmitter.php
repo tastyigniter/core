@@ -86,14 +86,17 @@ trait EventEmitter
             return $this;
         }
 
-        if (isset($this->emitterSingleEvents[$event]))
+        if (isset($this->emitterSingleEvents[$event])) {
             unset($this->emitterSingleEvents[$event]);
+        }
 
-        if (isset($this->emitterEvents[$event]))
+        if (isset($this->emitterEvents[$event])) {
             unset($this->emitterEvents[$event]);
+        }
 
-        if (isset($this->emitterEventSorted[$event]))
+        if (isset($this->emitterEventSorted[$event])) {
             unset($this->emitterEventSorted[$event]);
+        }
 
         return $this;
     }
@@ -109,15 +112,21 @@ trait EventEmitter
      */
     public function fireEvent(string $event, array $params = [], bool $halt = false): mixed
     {
-        if (!is_array($params)) $params = [$params];
+        if (!is_array($params)) {
+        $params = [$params];
+        }
         $result = [];
 
         // Single events
         if (isset($this->emitterSingleEvents[$event])) {
             foreach ($this->emitterSingleEvents[$event] as $callback) {
                 $response = call_user_func_array($callback, $params);
-                if (is_null($response)) continue;
-                if ($halt) return $response;
+                if (is_null($response)) {
+                continue;
+                }
+                if ($halt) {
+                return $response;
+                }
                 $result[] = $response;
             }
 
@@ -126,13 +135,18 @@ trait EventEmitter
 
         // Recurring events, with priority
         if (isset($this->emitterEvents[$event])) {
-            if (!isset($this->emitterEventSorted[$event]))
+            if (!isset($this->emitterEventSorted[$event])) {
                 $this->emitterEventSortEvents($event);
+            }
 
             foreach ($this->emitterEventSorted[$event] as $callback) {
                 $response = call_user_func_array($callback, $params);
-                if (is_null($response)) continue;
-                if ($halt) return $response;
+                if (is_null($response)) {
+                continue;
+                }
+                if ($halt) {
+                return $response;
+                }
                 $result[] = $response;
             }
         }
@@ -169,20 +183,24 @@ trait EventEmitter
 
         // Local event first
         if (!is_null($response = $this->fireEvent($shortEvent, $params, $halt))) {
-            if ($halt)
+            if ($halt) {
                 return $response;
+            }
 
-            if ($response !== false)
+            if ($response !== false) {
                 $result = array_merge($result, $response);
+            }
         }
 
         // Global event second
         if (!is_null($response = Event::fire($event, $longArgs, $halt))) {
-            if ($halt)
+            if ($halt) {
                 return $response;
+            }
 
-            if ($response !== false)
+            if ($response !== false) {
                 $result = array_merge($result, $response);
+            }
         }
 
         return $result;

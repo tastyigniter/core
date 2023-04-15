@@ -58,8 +58,9 @@ class WorkingDay
     {
         $day = strtolower($day);
 
-        if (!static::isValid($day))
+        if (!static::isValid($day)) {
             throw new WorkingHourException("Day `{$day}` isn't a valid day name. Valid day names are lowercase english words, e.g. `monday`, `thursday`.");
+        }
 
         return $day;
     }

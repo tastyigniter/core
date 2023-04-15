@@ -160,8 +160,7 @@ class AssetCache implements AssetInterface
         foreach ($asset->getFilters() as $filter) {
             if ($filter instanceof HashableInterface) {
                 $cacheKey .= $filter->hash();
-            }
-            else {
+            } else {
                 $cacheKey .= serialize($filter);
             }
         }

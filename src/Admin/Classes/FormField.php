@@ -233,16 +233,14 @@ class FormField
         if ($value === null) {
             if (is_array($this->options)) {
                 return $this->options;
-            }
-            elseif (is_callable($this->options)) {
+            } elseif (is_callable($this->options)) {
                 $callable = $this->options;
 
                 return $callable();
             }
 
             return [];
-        }
-        else {
+        } else {
             $this->options = $value;
         }
 
@@ -345,8 +343,7 @@ class FormField
 
         if (isset($config['valueFrom'])) {
             $this->valueFrom = $config['valueFrom'];
-        }
-        else {
+        } else {
             $this->valueFrom = $this->fieldName;
         }
 
@@ -500,8 +497,7 @@ class FormField
 
         if ($this->arrayName) {
             $fullTriggerField = $this->arrayName.'['.implode('][', name_to_array($triggerField)).']';
-        }
-        else {
+        } else {
             $fullTriggerField = $triggerField;
         }
 
@@ -540,8 +536,7 @@ class FormField
 
         if ($this->arrayName) {
             $fullPresetField = $this->arrayName.'['.implode('][', name_to_array($presetField)).']';
-        }
-        else {
+        } else {
             $fullPresetField = $presetField;
         }
 
@@ -575,8 +570,7 @@ class FormField
 
         if ($arrayName) {
             return $arrayName.'['.implode('][', name_to_array($this->fieldName)).']';
-        }
-        else {
+        } else {
             return $this->fieldName;
         }
     }
@@ -705,18 +699,15 @@ class FormField
             if ($result instanceof Model && $result->hasRelation($key)) {
                 if ($key == $lastField) {
                     $result = $result->getRelationValue($key) ?: $default;
-                }
-                else {
+                } else {
                     $result = $result->{$key};
                 }
-            }
-            elseif (is_array($result)) {
+            } elseif (is_array($result)) {
                 if (!array_key_exists($key, $result)) {
                     return $default;
                 }
                 $result = $result[$key];
-            }
-            else {
+            } else {
                 if (!isset($result->{$key})) {
                     return $default;
                 }

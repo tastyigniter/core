@@ -69,8 +69,9 @@ class UserState
 
     public function getClearAfterAt()
     {
-        if ($this->getStatus() !== static::CUSTOM_STATUS)
+        if ($this->getStatus() !== static::CUSTOM_STATUS) {
             return null;
+        }
 
         return make_carbon($this->getConfig('updatedAt'))
             ->addMinutes($this->getClearAfterMinutes());
@@ -110,14 +111,16 @@ class UserState
             ->get()
             ->each(function ($preference) {
                 $state = json_decode($preference->value);
-                if (!$state->clearAfterMinutes)
+                if (!$state->clearAfterMinutes) {
                     return true;
+                }
 
                 $clearAfterAt = make_carbon($state->updatedAt)
                     ->addMinutes($state->clearAfterMinutes);
 
-                if (Carbon::now()->lessThan($clearAfterAt))
+                if (Carbon::now()->lessThan($clearAfterAt)) {
                     return true;
+                }
 
                 DB::table(UserPreference::make()->getTable())
                     ->where('id', $preference->id)
@@ -140,20 +143,23 @@ class UserState
 
     protected function getConfig($key = null, $default = null)
     {
-        if (is_null($this->stateConfigCache))
+        if (is_null($this->stateConfigCache)) {
             $this->stateConfigCache = $this->loadConfigFromPreference();
+        }
 
         $result = array_merge($this->defaultStateConfig, $this->stateConfigCache);
-        if (is_null($key))
+        if (is_null($key)) {
             return $result;
+        }
 
         return array_get($result, $key, $default);
     }
 
     protected function loadConfigFromPreference()
     {
-        if (!$this->user)
+        if (!$this->user) {
             return [];
+        }
 
         return UserPreference::onUser($this->user)->get(self::USER_PREFERENCE_KEY, []);
     }

@@ -145,15 +145,13 @@ class Relation extends BaseFormWidget
             $field->type = 'selectlist';
             if (in_array($relationType, ['belongsToMany', 'morphToMany', 'morphedByMany', 'hasMany'])) {
                 $field->config['mode'] = 'checkbox';
-            }
-            elseif (in_array($relationType, ['belongsTo', 'hasOne'])) {
+            } elseif (in_array($relationType, ['belongsTo', 'hasOne'])) {
                 $field->config['mode'] = 'radio';
             }
 
             if ($this->order) {
                 $query->orderByRaw($this->order);
-            }
-            elseif (method_exists($this->relatedModel, 'scopeSorted')) {
+            } elseif (method_exists($this->relatedModel, 'scopeSorted')) {
                 $query->sorted();
             }
 
@@ -181,8 +179,7 @@ class Relation extends BaseFormWidget
                 $nameFrom = 'selection';
                 $selectColumn = $this->relatedModel->getKeyName();
                 $result = $query->select($selectColumn, DB::raw($this->sqlSelect.' AS '.$nameFrom));
-            }
-            else {
+            } else {
                 $nameFrom = $this->nameFrom;
                 $result = $query->getQuery()->get();
             }
@@ -195,8 +192,9 @@ class Relation extends BaseFormWidget
 
     protected function processFieldValue($value, $model)
     {
-        if ($value instanceof Collection)
+        if ($value instanceof Collection) {
             $value = $value->pluck($model->getKeyName())->toArray();
+        }
 
         return $value;
     }

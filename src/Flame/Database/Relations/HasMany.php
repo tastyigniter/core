@@ -57,8 +57,7 @@ class HasMany extends HasManyBase
                     $instance->setAttribute($this->getForeignKeyName(), $this->getParentKey());
                 });
             }
-        }
-        else {
+        } else {
             $collection = $this->getRelated()->whereIn($this->localKey, (array)$value)->get();
         }
 

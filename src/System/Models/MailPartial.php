@@ -54,12 +54,14 @@ class MailPartial extends Model
 
     public function fillFromCode($code = null)
     {
-        if (is_null($code))
+        if (is_null($code)) {
             $code = $this->code;
+        }
 
         $definitions = resolve(MailManager::class)->listRegisteredPartials();
-        if (!$definition = array_get($definitions, $code))
+        if (!$definition = array_get($definitions, $code)) {
             throw new ApplicationException('Unable to find a registered partial with code: '.$code);
+        }
 
         $this->fillFromView($definition);
     }
@@ -82,8 +84,7 @@ class MailPartial extends Model
             }
 
             return $template;
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return null;
         }
     }

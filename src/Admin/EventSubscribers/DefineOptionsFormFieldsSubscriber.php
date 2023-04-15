@@ -37,8 +37,9 @@ class DefineOptionsFormFieldsSubscriber
 
     public function handleValidation(FormRequest $formRequest, object $dataHolder)
     {
-        if (!$formRequest instanceof LocationRequest)
+        if (!$formRequest instanceof LocationRequest) {
             return;
+        }
 
         $dataHolder->attributes = array_merge($dataHolder->attributes, [
             'guest_order' => lang('igniter::admin.locations.label_guest_order'),

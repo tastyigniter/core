@@ -12,8 +12,9 @@ trait UsesBlueprint
     public static function bootUsesBlueprint()
     {
         static::retrieved(function (self $model) {
-            if (is_null($model->getAttribute('settings')) && !is_null($model->getAttribute('markup')))
+            if (is_null($model->getAttribute('settings')) && !is_null($model->getAttribute('markup'))) {
                 $model->setAttribute('settings', $model->readSettings())->syncOriginal();
+            }
         });
 
         static::saved(function (self $model) {
@@ -34,13 +35,15 @@ trait UsesBlueprint
 
     public function updateSettings(): int
     {
-        if (!$this->isDirty('settings'))
+        if (!$this->isDirty('settings')) {
             return false;
+        }
 
         $allSettings = $this->getSource()->loadBlueprint();
 
-        if (!array_key_exists($this->getTypeDirName(), $allSettings))
+        if (!array_key_exists($this->getTypeDirName(), $allSettings)) {
             return false;
+        }
 
         array_set($allSettings, $this->getTypeDirName().'.'.$this->getId(), $this->attributes['settings']);
 
@@ -51,8 +54,9 @@ trait UsesBlueprint
     {
         $allSettings = $this->getSource()->loadBlueprint();
 
-        if (!array_key_exists($this->getTypeDirName(), $allSettings))
+        if (!array_key_exists($this->getTypeDirName(), $allSettings)) {
             return false;
+        }
 
         array_forget($allSettings, $this->getTypeDirName().'.'.$this->getId());
 

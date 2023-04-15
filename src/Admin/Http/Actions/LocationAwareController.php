@@ -53,11 +53,13 @@ class LocationAwareController extends ControllerAction
 
     public function locationApplyScope($query)
     {
-        if (!in_array(\Igniter\Admin\Traits\Locationable::class, class_uses($query->getModel())))
+        if (!in_array(\Igniter\Admin\Traits\Locationable::class, class_uses($query->getModel()))) {
             return;
+        }
 
-        if (is_null($ids = AdminLocation::getIdOrAll()))
+        if (is_null($ids = AdminLocation::getIdOrAll())) {
             return;
+        }
 
         (bool)$this->getConfig('addAbsenceConstraint', true)
             ? $query->whereHasOrDoesntHaveLocation($ids)
@@ -68,21 +70,25 @@ class LocationAwareController extends ControllerAction
     {
         if ($this->controller->isClassExtendedWith(\Igniter\Admin\Http\Actions\ListController::class)) {
             Event::listen('admin.list.extendQuery', function ($listWidget, $query) {
-                if ((bool)$this->getConfig('applyScopeOnListQuery', true))
+                if ((bool)$this->getConfig('applyScopeOnListQuery', true)) {
                     $this->locationApplyScope($query);
+                }
             });
 
             Event::listen('admin.filter.extendQuery', function ($filterWidget, $query, $scope) {
                 if (array_get($scope->config, 'locationAware') === true
                     && (bool)$this->getConfig('applyScopeOnListQuery', true)
-                ) $this->locationApplyScope($query);
+                ) {
+                $this->locationApplyScope($query);
+                }
             });
         }
 
         if ($this->controller->isClassExtendedWith(\Igniter\Admin\Http\Actions\FormController::class)) {
             $this->controller->bindEvent('admin.controller.extendFormQuery', function ($query) {
-                if ((bool)$this->getConfig('applyScopeOnFormQuery', true))
+                if ((bool)$this->getConfig('applyScopeOnFormQuery', true)) {
                     $this->locationApplyScope($query);
+                }
             });
         }
     }

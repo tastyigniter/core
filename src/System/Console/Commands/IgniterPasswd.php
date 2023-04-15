@@ -38,8 +38,9 @@ class IgniterPasswd extends Command
         $email = $this->argument('email')
             ?? $this->ask('Admin email to reset');
 
-        if (!$user = User::whereEmail($email)->first())
+        if (!$user = User::whereEmail($email)->first()) {
             throw new ApplicationException('The specified user does not exist.');
+        }
 
         if (is_null($password = $this->argument('password'))) {
             $password = $this->optionalSecret('Enter new password (leave blank for generated password)')

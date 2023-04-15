@@ -34,8 +34,7 @@ class Status extends BaseBulkActionWidget
             flash()->success(sprintf(lang('igniter::admin.alert_success'),
                 '['.$count.']'.$prefix.' '.strtolower(lang('igniter::admin.text_'.$statusCode.'d'))
             ));
-        }
-        else {
+        } else {
             flash()->warning(sprintf(lang('igniter::admin.alert_error_nothing'), strtolower(lang('igniter::admin.text_'.$statusCode.'d'))));
         }
     }

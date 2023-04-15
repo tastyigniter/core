@@ -62,8 +62,9 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
 
     public function updateRepositoryGroup()
     {
-        if ($this->getConnection()->table($this->table)->where('group', 'igniter.system')->exists())
+        if ($this->getConnection()->table($this->table)->where('group', 'igniter.system')->exists()) {
             return;
+        }
 
         $this->getConnection()->getSchemaBuilder()->table($this->table, function (Blueprint $table) {
             $table->string('group')->nullable()->change();
@@ -101,8 +102,9 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
      */
     public function delete($migration)
     {
-        if (!is_string($migration))
+        if (!is_string($migration)) {
             $migration = $migration->migration;
+        }
 
         $this->table()->where('migration', $migration)->delete();
     }

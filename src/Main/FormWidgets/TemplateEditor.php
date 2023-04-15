@@ -81,8 +81,9 @@ class TemplateEditor extends BaseFormWidget
     {
         $this->prepareVars();
 
-        if ($this->templateWidget)
+        if ($this->templateWidget) {
             $this->setTemplateValue('mTime', $this->getTemplateModifiedTime());
+        }
 
         return $this->makePartial('templateeditor/templateeditor');
     }
@@ -134,8 +135,9 @@ class TemplateEditor extends BaseFormWidget
 
     public function onManageSource()
     {
-        if ($this->manager->isLocked($this->model->code))
+        if ($this->manager->isLocked($this->model->code)) {
             throw new ApplicationException(lang('igniter::system.themes.alert_theme_locked'));
+        }
 
         $data = $this->validate(post(), [
             'action' => ['required', 'in:delete,rename,new'],
@@ -152,12 +154,10 @@ class TemplateEditor extends BaseFormWidget
         if ($fileAction == 'rename') {
             $this->manager->renameFile($fileName, $newFileName, $this->model->code);
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Template file renamed '));
-        }
-        elseif ($fileAction == 'delete') {
+        } elseif ($fileAction == 'delete') {
             $this->manager->deleteFile($fileName, $this->model->code);
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Template file deleted '));
-        }
-        else {
+        } else {
             $this->manager->newFile($newFileName, $this->model->code);
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Template file created '));
         }
@@ -169,18 +169,21 @@ class TemplateEditor extends BaseFormWidget
 
     public function onSaveSource()
     {
-        if ($this->manager->isLocked($this->model->code))
+        if ($this->manager->isLocked($this->model->code)) {
             throw new ApplicationException(lang('igniter::system.themes.alert_theme_locked'));
+        }
 
-        if (!$this->templateWidget)
+        if (!$this->templateWidget) {
             return;
+        }
 
         $fileName = $this->getFilename();
         $data = post('Theme.source');
 
         $this->validateAfter(function (Validator $validator) {
-            if ($this->wasTemplateModified())
+            if ($this->wasTemplateModified()) {
                 $validator->errors()->add('markup', lang('igniter::system.themes.alert_changes_confirm'));
+            }
         });
 
         $this->validate($data,
@@ -198,8 +201,7 @@ class TemplateEditor extends BaseFormWidget
     {
         try {
             $template = $this->manager->readFile($this->getFilename(), $this->model->code);
-        }
-        catch (Exception) {
+        } catch (Exception) {
             return null;
         }
 
@@ -226,8 +228,9 @@ class TemplateEditor extends BaseFormWidget
 
     protected function getTemplateEditorOptions()
     {
-        if (!($themeObject = $this->model->getTheme()) || !$themeObject instanceof Theme)
+        if (!($themeObject = $this->model->getTheme()) || !$themeObject instanceof Theme) {
             throw new ApplicationException('Missing theme object on '.get_class($this->model));
+        }
 
         /** @var \Igniter\Flame\Pagic\Model $templateClass */
         $templateClass = $themeObject->getTemplateClass($this->getTemplateType());
@@ -271,8 +274,9 @@ class TemplateEditor extends BaseFormWidget
 
     protected function getTemplateModifiedTime()
     {
-        if (!$this->templateWidget)
+        if (!$this->templateWidget) {
             return null;
+        }
 
         return optional($this->templateWidget->data)->fileSource->mTime;
     }

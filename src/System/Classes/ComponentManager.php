@@ -102,8 +102,9 @@ class ComponentManager
             $this->codeMap = [];
         }
 
-        if (is_string($component))
+        if (is_string($component)) {
             $component = ['code' => $component];
+        }
 
         $component = array_merge([
             'code' => null,
@@ -224,15 +225,17 @@ class ComponentManager
     public function makeComponent($name, $page = null, $params = [])
     {
         $className = $this->resolve($name);
-        if (!$className)
+        if (!$className) {
             throw new SystemException(sprintf(
                 'Component "%s" is not registered.', $name
             ));
+        }
 
-        if (!class_exists($className))
+        if (!class_exists($className)) {
             throw new SystemException(sprintf(
                 'Component class "%s" not found.', $className
             ));
+        }
 
         // Create and register the new controller.
         $component = new $className($page, $params);
@@ -308,7 +311,9 @@ class ComponentManager
         foreach ($properties as $name => $params) {
             $propertyType = array_get($params, 'type', 'text');
 
-            if (!$this->checkComponentPropertyType($propertyType)) continue;
+            if (!$this->checkComponentPropertyType($propertyType)) {
+            continue;
+            }
 
             $property = [
                 'property' => $name,
@@ -323,7 +328,9 @@ class ComponentManager
             }
 
             foreach ($params as $paramName => $paramValue) {
-                if (isset($property[$paramName])) continue;
+                if (isset($property[$paramName])) {
+                continue;
+                }
 
                 $property[$paramName] = $paramValue;
             }
@@ -331,14 +338,15 @@ class ComponentManager
             // Translate human values
             $translate = ['label', 'description', 'options', 'group', 'validationMessage'];
             foreach ($property as $propertyName => $propertyValue) {
-                if (!in_array($propertyName, $translate)) continue;
+                if (!in_array($propertyName, $translate)) {
+                continue;
+                }
 
                 if (is_array($propertyValue)) {
                     array_walk($property[$propertyName], function (&$_propertyValue) {
                         $_propertyValue = lang($_propertyValue);
                     });
-                }
-                else {
+                } else {
                     $property[$propertyName] = lang($propertyValue);
                 }
             }

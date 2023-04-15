@@ -132,8 +132,7 @@ class Location implements Contracts\LocationInterface
     {
         try {
             $this->bounds = new Bounds($south, $west, $north, $east);
-        }
-        catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->bounds = null;
         }
 
@@ -150,8 +149,7 @@ class Location implements Contracts\LocationInterface
     {
         try {
             $this->coordinates = new Coordinates($latitude, $longitude);
-        }
-        catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->coordinates = null;
         }
 
@@ -402,8 +400,9 @@ class Location implements Contracts\LocationInterface
 
     public function hasCoordinates()
     {
-        if (!$coordinates = $this->getCoordinates())
+        if (!$coordinates = $this->getCoordinates()) {
             return false;
+        }
 
         [$latitude, $longitude] = $coordinates->toArray();
 
@@ -491,7 +490,9 @@ class Location implements Contracts\LocationInterface
             || !($west = array_get($data, 'bounds.west'))
             || !($north = array_get($data, 'bounds.north'))
             || !($east = array_get($data, 'bounds.east'))
-        ) return null;
+        ) {
+        return null;
+        }
 
         return new Bounds($south, $west, $north, $east);
     }
@@ -526,12 +527,14 @@ class Location implements Contracts\LocationInterface
     {
         $adminLevels = [];
         foreach ($data['adminLevels'] as $adminLevel) {
-            if (empty($adminLevel['level']))
+            if (empty($adminLevel['level'])) {
                 continue;
+            }
 
             $name = $adminLevel['name'] ?? $adminLevel['code'] ?? null;
-            if (empty($name))
+            if (empty($name)) {
                 continue;
+            }
 
             $adminLevels[] = new AdminLevel($adminLevel['level'], $name, $adminLevel['code'] ?? null);
         }

@@ -134,8 +134,9 @@ class SystemHelper
 
         return collect($requires)
             ->mapWithKeys(function ($version, $code) use ($extensions) {
-                if (str_contains($code, '/'))
+                if (str_contains($code, '/')) {
                     $code = array_get($extensions->get($code, []), 'code');
+                }
 
                 return $code ? [$code => $version] : [];
             })->filter()->all();

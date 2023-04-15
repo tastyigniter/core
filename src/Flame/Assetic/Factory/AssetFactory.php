@@ -168,8 +168,7 @@ class AssetFactory
 
         if (!isset($options['root'])) {
             $options['root'] = [$this->root];
-        }
-        else {
+        } else {
             if (!is_array($options['root'])) {
                 $options['root'] = [$options['root']];
             }
@@ -189,8 +188,7 @@ class AssetFactory
             if (is_array($input)) {
                 // nested formula
                 $asset->add(call_user_func_array([$this, 'createAsset'], $input));
-            }
-            else {
+            } else {
                 $asset->add($this->parseInput($input, $options));
                 $extensions[pathinfo($input, PATHINFO_EXTENSION)] = true;
             }
@@ -200,8 +198,7 @@ class AssetFactory
         foreach ($filters as $filter) {
             if ('?' != $filter[0]) {
                 $asset->ensureFilter($this->getFilter($filter));
-            }
-            elseif (!$options['debug']) {
+            } elseif (!$options['debug']) {
                 $asset->ensureFilter($this->getFilter(substr($filter, 1)));
             }
         }
@@ -310,12 +307,10 @@ class AssetFactory
         if (self::isAbsolutePath($input)) {
             if ($root = self::findRootDir($input, $options['root'])) {
                 $path = ltrim(substr($input, strlen($root)), '/');
-            }
-            else {
+            } else {
                 $path = null;
             }
-        }
-        else {
+        } else {
             $root = $this->root;
             $path = $input;
             $input = $this->root.'/'.$path;

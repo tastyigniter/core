@@ -90,8 +90,9 @@ class Payments extends \Igniter\Admin\Classes\AdminController
         $this->formExtendQuery($query);
         $result = $query->whereCode($paymentCode)->first();
 
-        if (!$result)
+        if (!$result) {
             throw new Exception(sprintf(lang('igniter::admin.form.not_found'), $paymentCode));
+        }
 
         $result = $this->formExtendModel($result) ?: $result;
 
@@ -113,8 +114,9 @@ class Payments extends \Igniter\Admin\Classes\AdminController
 
     public function formExtendModel($model)
     {
-        if (!$model->exists)
+        if (!$model->exists) {
             $model->applyGatewayClass();
+        }
 
         return $model;
     }
@@ -135,8 +137,9 @@ class Payments extends \Igniter\Admin\Classes\AdminController
 
     public function formBeforeCreate($model)
     {
-        if (!strlen($code = post('Payment.payment')))
+        if (!strlen($code = post('Payment.payment'))) {
             throw new ApplicationException(lang('igniter::admin.payments.alert_invalid_code'));
+        }
 
         $paymentGateway = resolve(PaymentGateways::class)->findGateway($code);
 
@@ -170,14 +173,17 @@ class Payments extends \Igniter\Admin\Classes\AdminController
         if ($form->model->exists) {
             $parsedRules = ValidationHelper::prepareRules($form->model->getConfigRules());
 
-            if ($mergeRules = Arr::get($parsedRules, 'rules', $parsedRules))
+            if ($mergeRules = Arr::get($parsedRules, 'rules', $parsedRules)) {
                 $rules = array_merge($rules, $mergeRules);
+            }
 
-            if ($mergeMessages = $form->model->getConfigValidationMessages())
+            if ($mergeMessages = $form->model->getConfigValidationMessages()) {
                 $messages = array_merge($messages, $mergeMessages);
+            }
 
-            if ($mergeAttributes = Arr::get($parsedRules, 'attributes', $form->model->getConfigValidationAttributes()))
+            if ($mergeAttributes = Arr::get($parsedRules, 'attributes', $form->model->getConfigValidationAttributes())) {
                 $attributes = array_merge($attributes, $mergeAttributes);
+            }
         }
 
         return $this->validatePasses($form->getSaveData(), $rules, $messages, $attributes);

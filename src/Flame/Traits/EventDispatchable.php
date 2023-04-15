@@ -39,13 +39,15 @@ trait EventDispatchable
 
         if (isset(static::$dispatchNamespacedEvent)) {
             $result = event(static::$dispatchNamespacedEvent, $arguments, $halt);
-            if ($halt && !is_null($result))
+            if ($halt && !is_null($result)) {
                 return $result;
+            }
         }
 
         if (!is_null($response = event(new static(...$arguments), [], $halt))) {
-            if ($halt)
+            if ($halt) {
                 return $response;
+            }
 
             $result = array_merge($result, $response);
         }

@@ -171,8 +171,9 @@ class Currency extends Model implements CurrencyInterface
         collect(array_get($response, 'data', []))
             ->each(function ($item) use ($countries) {
                 $countryId = $countries->get($item['iso_alpha3']);
-                if (!strlen($item['iso_alpha3']) || !$countryId)
+                if (!strlen($item['iso_alpha3']) || !$countryId) {
                     return;
+                }
 
                 static::updateOrCreate([
                     'iso_alpha3' => $item['iso_alpha3'],

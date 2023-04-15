@@ -128,8 +128,9 @@ class DashboardContainer extends BaseWidget
     {
         $widgetAlias = trim(post('widgetAlias'));
 
-        if (!$widgetAlias)
+        if (!$widgetAlias) {
             throw new ApplicationException(lang('igniter::admin.dashboard.alert_select_widget_to_update'));
+        }
 
         $this->vars['widgetAlias'] = $widgetAlias;
         $this->vars['widget'] = $widget = $this->findWidgetByAlias($widgetAlias);
@@ -143,15 +144,18 @@ class DashboardContainer extends BaseWidget
         $className = trim(post('className'));
         $size = trim(post('size'));
 
-        if (!$className)
+        if (!$className) {
             throw new ApplicationException(lang('igniter::admin.dashboard.alert_select_widget_to_add'));
+        }
 
-        if (!class_exists($className))
+        if (!class_exists($className)) {
             throw new ApplicationException(lang('igniter::admin.dashboard.alert_widget_class_not_found'));
+        }
 
         $widget = new $className($this->controller);
-        if (!($widget instanceof \Igniter\Admin\Classes\BaseDashboardWidget))
+        if (!($widget instanceof \Igniter\Admin\Classes\BaseDashboardWidget)) {
             throw new ApplicationException(lang('igniter::admin.dashboard.alert_invalid_widget'));
+        }
 
         $widgetInfo = $this->addWidget($widget, $size);
 
@@ -424,7 +428,9 @@ class DashboardContainer extends BaseWidget
         foreach ($properties as $name => $params) {
             $propertyType = array_get($params, 'type', 'text');
 
-            if (!$this->checkWidgetPropertyType($propertyType)) continue;
+            if (!$this->checkWidgetPropertyType($propertyType)) {
+            continue;
+            }
 
             $property = [
                 'property' => $name,

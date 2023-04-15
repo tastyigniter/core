@@ -42,13 +42,15 @@ trait LogsStatusHistory
 
     public function addStatusHistory($status, array $statusData = [])
     {
-        if (!$this->exists || !$status)
+        if (!$this->exists || !$status) {
             return false;
+        }
 
         $this->status()->associate($status);
 
-        if (!$history = StatusHistory::createHistory($status, $this, $statusData))
+        if (!$history = StatusHistory::createHistory($status, $this, $statusData)) {
             return false;
+        }
 
         $this->save();
 
@@ -59,8 +61,9 @@ trait LogsStatusHistory
 
     public function hasStatus($statusId = null)
     {
-        if (is_null($statusId))
+        if (is_null($statusId)) {
             return $this->status_history->isNotEmpty();
+        }
 
         return $this->status_history()->where('status_id', $statusId)->exists();
     }

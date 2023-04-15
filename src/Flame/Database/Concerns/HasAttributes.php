@@ -83,8 +83,9 @@ trait HasAttributes
         );
 
         foreach ($attributes as $key => $value) {
-            if ($this->isSerializedCastable($key))
+            if ($this->isSerializedCastable($key)) {
                 $attributes[$key] = $this->fromSerialized($value);
+            }
         }
 
         foreach ($this->getArrayableAppends() as $key) {
@@ -186,8 +187,7 @@ trait HasAttributes
     {
         try {
             $value = parent::asDateTime($value);
-        }
-        catch (InvalidArgumentException $ex) {
+        } catch (InvalidArgumentException $ex) {
             $value = Carbon::parse($value);
         }
 

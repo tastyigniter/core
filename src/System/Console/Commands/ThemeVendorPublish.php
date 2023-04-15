@@ -91,8 +91,9 @@ class ThemeVendorPublish extends VendorPublishCommand
     protected function pathsToPublishFromTheme($theme)
     {
         $publishPath = array_get($theme->config, 'publish', []);
-        if (!$publishPath && File::exists($theme->getAssetPath()))
+        if (!$publishPath && File::exists($theme->getAssetPath())) {
             return [$theme->getAssetPath()];
+        }
 
         return array_map(function ($path) use ($theme) {
             return $theme->getPath().'/'.$path;

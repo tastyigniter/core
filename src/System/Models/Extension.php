@@ -45,14 +45,16 @@ class Extension extends Model
     public static function onboardingIsComplete()
     {
         $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
-        if (!$activeTheme)
+        if (!$activeTheme) {
             return false;
+        }
 
         $requiredExtensions = (array)$activeTheme->requires;
         foreach ($requiredExtensions as $name => $constraint) {
             $extension = resolve(ExtensionManager::class)->findExtension($name);
-            if (!$extension || $extension->disabled)
+            if (!$extension || $extension->disabled) {
                 return false;
+            }
         }
 
         return true;
@@ -90,14 +92,16 @@ class Extension extends Model
     public function getIconAttribute()
     {
         $icon = array_get($this->meta, 'icon', []);
-        if (is_string($icon))
+        if (is_string($icon)) {
             $icon = ['class' => 'fa '.$icon];
+        }
 
         if (strlen($image = array_get($icon, 'image', ''))) {
             if (file_exists($file = resolve(ExtensionManager::class)->path($this->name, $image))) {
                 $extension = pathinfo($file, PATHINFO_EXTENSION);
-                if (!array_key_exists($extension, self::ICON_MIMETYPES))
+                if (!array_key_exists($extension, self::ICON_MIMETYPES)) {
                     throw new ApplicationException('Invalid extension icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
+                }
 
                 $mimeType = self::ICON_MIMETYPES[$extension];
                 $data = base64_encode(file_get_contents($file));
@@ -117,8 +121,9 @@ class Extension extends Model
     public function getReadmeAttribute($value)
     {
         $readmePath = resolve(ExtensionManager::class)->path($this->name, 'readme.md');
-        if (!$readmePath = File::existsInsensitive($readmePath))
+        if (!$readmePath = File::existsInsensitive($readmePath)) {
             return $value;
+        }
 
         return Markdown::parseFile($readmePath)->toHtml();
     }
@@ -144,8 +149,9 @@ class Extension extends Model
     {
         $code = $this->name;
 
-        if (!$code)
+        if (!$code) {
             return false;
+        }
 
         if (!$extensionClass = resolve(ExtensionManager::class)->findExtension($code)) {
             return false;
@@ -173,7 +179,9 @@ class Extension extends Model
         foreach ($extensionManager->namespaces() as $namespace => $path) {
             $code = $extensionManager->getIdentifier($namespace);
 
-            if (!($extension = $extensionManager->findExtension($code))) continue;
+            if (!($extension = $extensionManager->findExtension($code))) {
+            continue;
+            }
 
             $availableExtensions[] = $code;
 

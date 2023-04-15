@@ -85,8 +85,9 @@ class Reservations extends \Igniter\Admin\Classes\AdminController
 
     public function index_onDelete()
     {
-        if (!$this->getUser()->hasPermission('Admin.DeleteReservations'))
+        if (!$this->getUser()->hasPermission('Admin.DeleteReservations')) {
             throw new ApplicationException(lang('igniter::admin.alert_user_restricted'));
+        }
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\ListController::class)->index_onDelete();
     }
@@ -95,8 +96,9 @@ class Reservations extends \Igniter\Admin\Classes\AdminController
     {
         $model = Reservation::find((int)post('recordId'));
         $status = Status::find((int)post('statusId'));
-        if (!$model || !$status)
+        if (!$model || !$status) {
             return;
+        }
 
         $model->addStatusHistory($status);
 
@@ -107,8 +109,9 @@ class Reservations extends \Igniter\Admin\Classes\AdminController
 
     public function edit_onDelete()
     {
-        if (!$this->getUser()->hasPermission('Admin.DeleteReservations'))
+        if (!$this->getUser()->hasPermission('Admin.DeleteReservations')) {
             throw new ApplicationException(lang('igniter::admin.alert_user_restricted'));
+        }
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\FormController::class)->edit_onDelete();
     }
@@ -122,8 +125,9 @@ class Reservations extends \Igniter\Admin\Classes\AdminController
 
     public function calendarUpdateEvent($eventId, $startAt, $endAt)
     {
-        if (!$reservation = Reservation::find($eventId))
+        if (!$reservation = Reservation::find($eventId)) {
             throw new Exception(lang('igniter::admin.reservations.alert_no_reservation_found'));
+        }
 
         $startAt = make_carbon($startAt);
         $endAt = make_carbon($endAt);

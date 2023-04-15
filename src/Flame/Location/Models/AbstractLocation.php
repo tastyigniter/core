@@ -220,8 +220,7 @@ class AbstractLocation extends Model implements LocationInterface
     {
         if (setting('distance_unit') === 'km') {
             $sql = '( 6371 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) *';
-        }
-        else {
+        } else {
             $sql = '( 3959 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) *';
         }
 

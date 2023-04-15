@@ -105,27 +105,34 @@ class MediaItem
             return null;
         }
 
-        if (!self::$imageExtensions)
+        if (!self::$imageExtensions) {
             self::$imageExtensions = array_map('strtolower', Settings::imageExtensions());
+        }
 
-        if (!self::$audioExtensions)
+        if (!self::$audioExtensions) {
             self::$audioExtensions = array_map('strtolower', Settings::audioExtensions());
+        }
 
-        if (!self::$videoExtensions)
+        if (!self::$videoExtensions) {
             self::$videoExtensions = array_map('strtolower', Settings::videoExtensions());
+        }
 
         $extension = pathinfo($this->path, PATHINFO_EXTENSION);
-        if (!strlen($extension))
+        if (!strlen($extension)) {
             return self::FILE_TYPE_DOCUMENT;
+        }
 
-        if (in_array($extension, self::$imageExtensions))
+        if (in_array($extension, self::$imageExtensions)) {
             return self::FILE_TYPE_IMAGE;
+        }
 
-        if (in_array($extension, self::$audioExtensions))
+        if (in_array($extension, self::$audioExtensions)) {
             return self::FILE_TYPE_AUDIO;
+        }
 
-        if (in_array($extension, self::$videoExtensions))
+        if (in_array($extension, self::$videoExtensions)) {
             return self::FILE_TYPE_VIDEO;
+        }
 
         return self::FILE_TYPE_DOCUMENT;
     }

@@ -85,8 +85,9 @@ class Languages extends \Igniter\Admin\Classes\AdminController
     public function search()
     {
         $filter = input('filter');
-        if (!$filter || !is_array($filter) || !isset($filter['search']) || !strlen($filter['search']))
+        if (!$filter || !is_array($filter) || !isset($filter['search']) || !strlen($filter['search'])) {
             return [];
+        }
 
         return resolve(LanguageManager::class)->searchLanguages($filter['search']);
     }
@@ -145,8 +146,9 @@ class Languages extends \Igniter\Admin\Classes\AdminController
     public function onApplyItems()
     {
         $items = post('items') ?? [];
-        if (!count($items))
+        if (!count($items)) {
             throw new ApplicationException(lang('igniter::system.updates.alert_no_items'));
+        }
 
         $this->validateItems();
 
@@ -185,15 +187,21 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         switch ($processMeta) {
             case 'downloadLanguage':
                 $result = $languageManager->downloadPack($meta);
-                if ($result) $json['result'] = 'success';
+                if ($result) {
+                $json['result'] = 'success';
+                }
                 break;
             case 'extractLanguage':
                 $response = $languageManager->extractPack($meta);
-                if ($response) $json['result'] = 'success';
+                if ($response) {
+                $json['result'] = 'success';
+                }
                 break;
             case 'complete':
                 $response = $languageManager->installPack($meta['items'][0] ?? []);
-                if ($response) $json['result'] = 'success';
+                if ($response) {
+                $json['result'] = 'success';
+                }
                 break;
         }
 
@@ -202,8 +210,9 @@ class Languages extends \Igniter\Admin\Classes\AdminController
 
     public function formExtendFields(Form $form, $fields)
     {
-        if ($form->getContext() !== 'edit')
+        if ($form->getContext() !== 'edit') {
             return;
+        }
 
         $fileField = $form->getField('_file');
         $searchField = $form->getField('_search');
@@ -215,8 +224,9 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $stringFilterField->value = $this->getFilterValue('string_filter', 'all');
         $field->value = $this->getFilterValue('search');
 
-        if (is_null($this->localeFiles))
+        if (is_null($this->localeFiles)) {
             $this->localeFiles = resolve(LanguageManager::class)->listLocaleFiles('en');
+        }
 
         $fileField->options = $this->prepareNamespaces();
         $field->options = post($field->getName()) ?: $this->prepareTranslations($form->model);
@@ -254,8 +264,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
             if (!array_get($file, 'system', false)
                 && ($extension = $extensionManager->findExtension($file['namespace']))) {
                 $result[$name] = array_get($extension->extensionMeta(), 'name').' - '.$name;
-            }
-            else {
+            } else {
                 $result[$name] = ucfirst($file['namespace']).' - '.$name;
             }
         }

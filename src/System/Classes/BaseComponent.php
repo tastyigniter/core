@@ -96,8 +96,9 @@ abstract class BaseComponent extends Extendable
      */
     public function getPath()
     {
-        if ($this->viewPath)
+        if ($this->viewPath) {
             return $this->viewPath;
+        }
 
         $namespace = implode('.', array_slice(explode('/', $this->dirName), 0, 2));
 
@@ -163,8 +164,9 @@ abstract class BaseComponent extends Extendable
     public function param($name, $default = null)
     {
         $segment = $this->controller->param($name);
-        if (is_null($segment))
+        if (is_null($segment)) {
             $segment = input($name);
+        }
 
         return is_null($segment) ? $default : $segment;
     }
@@ -180,8 +182,7 @@ abstract class BaseComponent extends Extendable
     {
         try {
             return parent::__call($name, $params);
-        }
-        catch (BadMethodCallException $ex) {
+        } catch (BadMethodCallException $ex) {
         }
 
         if (method_exists($this->controller, $name)) {

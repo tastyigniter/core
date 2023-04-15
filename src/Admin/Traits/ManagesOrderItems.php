@@ -17,8 +17,9 @@ trait ManagesOrderItems
     {
         $orderMenuOptions = $this->getOrderMenuOptions();
         $this->getOrderMenus()->each(function ($orderMenu) use ($orderMenuOptions) {
-            if (!$menu = Menu::find($orderMenu->menu_id))
+            if (!$menu = Menu::find($orderMenu->menu_id)) {
                 return true;
+            }
 
             optional($menu->getStockByLocation($this->location))
                 ->updateStockSold($this->getKey(), $orderMenu->quantity);
@@ -28,10 +29,13 @@ trait ManagesOrderItems
                 ->each(function ($orderMenuOption) {
                     if (!$menuItemOptionValue = MenuItemOptionValue::find(
                         $orderMenuOption->menu_option_value_id
-                    )) return true;
+                    )) {
+                    return true;
+                    }
 
-                    if (!$menuOptionValue = $menuItemOptionValue->option_value)
+                    if (!$menuOptionValue = $menuItemOptionValue->option_value) {
                         return true;
+                    }
 
                     optional($menuOptionValue->getStockByLocation($this->location))
                         ->updateStockSold($this->getKey(), $orderMenuOption->quantity);
@@ -87,14 +91,17 @@ trait ManagesOrderItems
     public function addOrderMenus(array $content)
     {
         $orderId = $this->getKey();
-        if (!is_numeric($orderId))
+        if (!is_numeric($orderId)) {
             return false;
+        }
 
         $this->menus()->delete();
         $this->menu_options()->delete();
 
         foreach ($content as $rowId => $cartItem) {
-            if ($rowId != $cartItem->rowId) continue;
+            if ($rowId != $cartItem->rowId) {
+            continue;
+            }
 
             $orderMenu = $this->menus()->create([
                 'menu_id' => $cartItem->id,
@@ -121,8 +128,9 @@ trait ManagesOrderItems
     protected function addOrderMenuOptions($orderMenuId, $menuId, $menuOptions)
     {
         $orderId = $this->getKey();
-        if (!is_numeric($orderId))
+        if (!is_numeric($orderId)) {
             return false;
+        }
 
         foreach ($menuOptions as $menuOption) {
             foreach ($menuOption->values as $menuOptionValue) {
@@ -146,8 +154,9 @@ trait ManagesOrderItems
     public function addOrderTotals(array $totals = [])
     {
         $orderId = $this->getKey();
-        if (!is_numeric($orderId))
+        if (!is_numeric($orderId)) {
             return false;
+        }
 
         foreach ($totals as $total) {
             $this->addOrUpdateOrderTotal($total);

@@ -70,16 +70,15 @@ trait ExtendableTrait
         }
 
         // Apply extensions
-        if (!$this->implement)
+        if (!$this->implement) {
             return;
+        }
 
         if (is_string($this->implement)) {
             $uses = explode(',', $this->implement);
-        }
-        elseif (is_array($this->implement)) {
+        } elseif (is_array($this->implement)) {
             $uses = $this->implement;
-        }
-        else {
+        } else {
             throw new Exception(sprintf('Class %s contains an invalid $implement value', get_class($this)));
         }
 
@@ -135,8 +134,9 @@ trait ExtendableTrait
      */
     public function extendClassWith(string $extensionName): void
     {
-        if (!strlen($extensionName))
+        if (!strlen($extensionName)) {
             return;
+        }
 
         $extensionName = $this->extensionNormalizeClassName($extensionName);
 
@@ -434,11 +434,9 @@ trait ExtendableTrait
                  */
                 if (is_string($implement)) {
                     $uses = explode(',', $implement);
-                }
-                elseif (is_array($implement)) {
+                } elseif (is_array($implement)) {
                     $uses = $implement;
-                }
-                else {
+                } else {
                     throw new Exception(sprintf('Class %s contains an invalid $implement value', $className));
                 }
 

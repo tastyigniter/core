@@ -68,8 +68,9 @@ abstract class AbstractWorkingHour extends Model implements Contracts\WorkingHou
 
         $closeDate->setTimeFromTimeString($this->attributes['closing_time']);
 
-        if ($this->isPastMidnight())
+        if ($this->isPastMidnight()) {
             $closeDate->addDay();
+        }
 
         return $closeDate;
     }
@@ -85,8 +86,9 @@ abstract class AbstractWorkingHour extends Model implements Contracts\WorkingHou
 
     public function isOpenAllDay()
     {
-        if (!$this->open || !$this->close)
+        if (!$this->open || !$this->close) {
             return null;
+        }
 
         $diffInHours = $this->open->diffInHours($this->close);
 
@@ -95,8 +97,9 @@ abstract class AbstractWorkingHour extends Model implements Contracts\WorkingHou
 
     public function isPastMidnight()
     {
-        if (!$this->opening_time || !$this->closing_time)
+        if (!$this->opening_time || !$this->closing_time) {
             return null;
+        }
 
         return $this->opening_time > $this->closing_time;
     }

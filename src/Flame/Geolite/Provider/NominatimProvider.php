@@ -52,8 +52,7 @@ class NominatimProvider extends AbstractProvider
                     $this->requestUrl($url, $query)
                 );
             });
-        }
-        catch (Throwable $ex) {
+        } catch (Throwable $ex) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
                 $this->getName(), $ex->getMessage()
@@ -85,8 +84,7 @@ class NominatimProvider extends AbstractProvider
                     $this->requestUrl($url, $query)
                 );
             });
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $coordinates = $query->getCoordinates();
             $this->log(sprintf(
                 'Provider "%s" could not reverse coordinates: "%f %f".',
@@ -119,8 +117,7 @@ class NominatimProvider extends AbstractProvider
                     array_get($response, 'routes.0.duration', 0)
                 );
             });
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $this->log(sprintf('Provider "%s" could not calculate distance.', $this->getName()));
 
             return null;
@@ -129,18 +126,21 @@ class NominatimProvider extends AbstractProvider
 
     protected function requestUrl($url, GeoQueryInterface $query)
     {
-        if ($locale = $query->getLocale())
+        if ($locale = $query->getLocale()) {
             $url = sprintf('%s&accept-language=%s', $url, $locale);
+        }
 
-        if ($region = $query->getData('countrycodes', array_get($this->config, 'region')))
+        if ($region = $query->getData('countrycodes', array_get($this->config, 'region'))) {
             $url = sprintf('%s&countrycodes=%s', $url, $region);
+        }
 
         $options['User-Agent'] = $query->getData('userAgent', request()->userAgent());
         $options['Referer'] = $query->getData('referer', request()->get('referer'));
         $options['timeout'] = $query->getData('timeout', 15);
 
-        if (empty($options['User-Agent']))
+        if (empty($options['User-Agent'])) {
             throw new GeoliteException('The User-Agent must be set to use the Nominatim provider.');
+        }
 
         $response = $this->getHttpClient()->get($url, $options);
 
@@ -156,13 +156,15 @@ class NominatimProvider extends AbstractProvider
             $this->parseCoordinates($address, $location);
 
             // set official place id
-            if (isset($location->place_id))
+            if (isset($location->place_id)) {
                 $address->setValue('id', $location->place_id);
+            }
 
             $this->parseAddress($address, $location);
 
-            if (isset($location->formatted_address))
+            if (isset($location->formatted_address)) {
                 $address->withFormattedAddress($location->formatted_address);
+            }
 
             $result[] = $address;
         }
@@ -185,15 +187,17 @@ class NominatimProvider extends AbstractProvider
         }
 
         $statusCode = $response->getStatusCode();
-        if ($statusCode === 401 || $statusCode === 403)
+        if ($statusCode === 401 || $statusCode === 403) {
             throw new GeoliteException(sprintf(
                 'API access denied. Message: %s', $json->error_message ?? 'empty error message'
             ));
+        }
 
-        if ($statusCode === 429)
+        if ($statusCode === 429) {
             throw new GeoliteException(sprintf(
                 'Daily quota exceeded. Message: %s', $json->error_message ?? 'empty error message'
             ));
+        }
 
         if ($statusCode >= 300) {
             throw new GeoliteException(sprintf(
@@ -223,8 +227,9 @@ class NominatimProvider extends AbstractProvider
             }
         }
 
-        if (isset($location->address->postcode))
+        if (isset($location->address->postcode)) {
             $address->setPostalCode(current(explode(';', $location->address->postcode)));
+        }
 
         foreach (['city', 'town', 'village', 'hamlet'] as $field) {
             if (isset($location->address->{$field})) {
@@ -244,15 +249,17 @@ class NominatimProvider extends AbstractProvider
 
     protected function requestDistanceUrl($url, DistanceInterface $distance)
     {
-        if ($apiKey = array_get($this->config, 'apiKey'))
+        if ($apiKey = array_get($this->config, 'apiKey')) {
             $url = sprintf('%s&key=%s', $url, $apiKey);
+        }
 
         $options['User-Agent'] = $distance->getData('userAgent', request()->userAgent());
         $options['Referer'] = $distance->getData('referer', request()->get('referer'));
         $options['timeout'] = $distance->getData('timeout', 15);
 
-        if (empty($options['User-Agent']))
+        if (empty($options['User-Agent'])) {
             throw new GeoliteException('The User-Agent must be set to use the Nominatim provider.');
+        }
 
         $response = $this->getHttpClient()->get($url, $options);
 

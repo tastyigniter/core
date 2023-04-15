@@ -33,12 +33,14 @@ class Localization
 
     public function loadLocaleFromBrowser()
     {
-        if (!$this->detectBrowserLocale())
+        if (!$this->detectBrowserLocale()) {
             return false;
+        }
 
         $locale = $this->getBrowserLocale();
-        if (!$locale || !$this->isValid($locale))
+        if (!$locale || !$this->isValid($locale)) {
             return false;
+        }
 
         $remember = $this->getLocale() != $locale;
 
@@ -50,8 +52,9 @@ class Localization
     public function loadLocaleFromRequest()
     {
         $locale = $this->getRequestLocale();
-        if (!$locale || !$this->isValid($locale))
+        if (!$locale || !$this->isValid($locale)) {
             return false;
+        }
 
         $remember = $this->getLocale() != $locale;
 
@@ -63,8 +66,9 @@ class Localization
     public function loadLocaleFromSession()
     {
         $locale = $this->getSessionLocale();
-        if (!$locale || !$this->isValid($locale))
+        if (!$locale || !$this->isValid($locale)) {
             return false;
+        }
 
         $remember = $this->getLocale() != $locale;
 

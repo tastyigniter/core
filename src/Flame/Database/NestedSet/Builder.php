@@ -94,8 +94,7 @@ class Builder extends BuilderBase
             $this->query->addBinding($id->getRgt());
 
             $id = $id->getKey();
-        }
-        else {
+        } else {
             $valueQuery = $this->model
                 ->newQuery()
                 ->toBase()
@@ -207,8 +206,7 @@ class Builder extends BuilderBase
     ) {
         if (NestedSet::isNode($id)) {
             $data = $id->getBounds();
-        }
-        else {
+        } else {
             $data = $this->model->newNestedSetQuery()
                 ->getPlainNodeData($id, true);
         }
@@ -275,8 +273,7 @@ class Builder extends BuilderBase
     {
         try {
             return $this->whereDescendantOf($id, 'and', false, $andSelf)->get($columns);
-        }
-        catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->model->newCollection();
         }
     }
@@ -298,8 +295,7 @@ class Builder extends BuilderBase
             $value = '?';
 
             $this->query->addBinding($id->getLft());
-        }
-        else {
+        } else {
             $valueQuery = $this->model
                 ->newQuery()
                 ->toBase()
@@ -374,7 +370,9 @@ class Builder extends BuilderBase
      */
     public function withDepth($as = 'depth')
     {
-        if ($this->query->columns === null) $this->query->columns = ['*'];
+        if ($this->query->columns === null) {
+        $this->query->columns = ['*'];
+        }
 
         $table = $this->wrappedTable();
 
@@ -537,8 +535,7 @@ class Builder extends BuilderBase
 
         if ($position > $lft) {
             $height *= -1;
-        }
-        else {
+        } else {
             $distance *= -1;
         }
 
@@ -607,7 +604,9 @@ class Builder extends BuilderBase
         extract($params);
 
         /** @var int $height */
-        if ($height > 0) $height = '+'.$height;
+        if ($height > 0) {
+        $height = '+'.$height;
+        }
 
         if (isset($cut)) {
             return new Expression("case when {$col} >= {$cut} then {$col}{$height} else {$col} end");
@@ -618,7 +617,9 @@ class Builder extends BuilderBase
         /** @var int $rgt */
         /** @var int $from */
         /** @var int $to */
-        if ($distance > 0) $distance = '+'.$distance;
+        if ($distance > 0) {
+        $distance = '+'.$distance;
+        }
 
         return new Expression('case '.
             "when {$col} between {$lft} and {$rgt} then {$col}{$distance} ". // Move the node
@@ -912,8 +913,7 @@ class Builder extends BuilderBase
                     ->newScopedQuery()
                     ->whereIn($this->model->getKeyName(), array_keys($existing))
                     ->delete();
-            }
-            else {
+            } else {
                 foreach ($existing as $model) {
                     $dictionary[$model->getParentId()][] = $model;
 
@@ -947,8 +947,7 @@ class Builder extends BuilderBase
 
                 // We will save it as raw node since tree will be fixed
                 $model->rawNode(0, 0, $parentId);
-            }
-            else {
+            } else {
                 if (!isset($existing[$key = $itemData[$keyName]])) {
                     throw new ModelNotFoundException;
                 }
@@ -962,7 +961,9 @@ class Builder extends BuilderBase
 
             $dictionary[$parentId][] = $model;
 
-            if (!isset($itemData['children'])) continue;
+            if (!isset($itemData['children'])) {
+            continue;
+            }
 
             $this->buildRebuildDictionary($dictionary,
                 $itemData['children'],

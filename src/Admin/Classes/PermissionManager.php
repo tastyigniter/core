@@ -41,8 +41,9 @@ class PermissionManager
 
         $permissionBundles = resolve(ExtensionManager::class)->getRegistrationMethodValues('registerPermissions');
         foreach ($permissionBundles as $owner => $permissionBundle) {
-            if (!is_array($permissionBundle))
+            if (!is_array($permissionBundle)) {
                 continue;
+            }
 
             $this->registerPermissions($owner, $permissionBundle);
         }
@@ -84,13 +85,17 @@ class PermissionManager
             if ($this->checkPermissionStartsWith($permission, $permissions)
                 || $this->checkPermissionEndsWith($permission, $permissions)
                 || $this->checkPermissionMatches($permission, $permissions)
-            ) $matched = true;
+            ) {
+            $matched = true;
+            }
 
-            if ($checkAll === false && $matched === true)
+            if ($checkAll === false && $matched === true) {
                 return true;
+            }
 
-            if ($checkAll === true && $matched === false)
+            if ($checkAll === true && $matched === false) {
                 return false;
+            }
         }
 
         return !($checkAll === false);
@@ -106,7 +111,9 @@ class PermissionManager
                 if ($checkPermission != $groupPermission
                     && starts_with($groupPermission, $checkPermission)
                     && $permitted == 1
-                ) return true;
+                ) {
+                return true;
+                }
             }
         }
     }
@@ -121,7 +128,9 @@ class PermissionManager
                 if ($checkPermission != $groupPermission
                     && ends_with($groupPermission, $checkPermission)
                     && $permitted == 1
-                ) return true;
+                ) {
+                return true;
+                }
             }
         }
     }
@@ -136,7 +145,9 @@ class PermissionManager
                 if ($checkMergedPermission != $permission
                     && starts_with($permission, $checkMergedPermission)
                     && $permitted == 1
-                ) return true;
+                ) {
+                return true;
+                }
             }
             // Match permissions explicitly.
             elseif ($permission == $groupPermission && $permitted == 1) {

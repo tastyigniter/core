@@ -48,8 +48,9 @@ class AssigneeController extends ControllerAction
         ]);
 
         $this->controller->bindEvent('controller.beforeRemap', function () {
-            if (!$this->controller->getUser())
+            if (!$this->controller->getUser()) {
                 return;
+            }
 
             $this->assigneeBindToolbarEvents();
             $this->assigneeBindListsEvents();
@@ -61,19 +62,22 @@ class AssigneeController extends ControllerAction
     {
         $user = $this->controller->getUser();
 
-        if ($user->hasGlobalAssignableScope())
+        if ($user->hasGlobalAssignableScope()) {
             return;
+        }
 
         $query->whereInAssignToGroup($user->groups->pluck('user_group_id')->all());
 
-        if ($user->hasRestrictedAssignableScope())
+        if ($user->hasRestrictedAssignableScope()) {
             $query->whereAssignTo($user->getKey());
+        }
     }
 
     protected function assigneeBindToolbarEvents()
     {
-        if ($this->controller->getUser()->hasGlobalAssignableScope())
+        if ($this->controller->getUser()->hasGlobalAssignableScope()) {
             return;
+        }
 
         if (isset($this->controller->widgets['toolbar'])) {
             $toolbarWidget = $this->controller->widgets['toolbar'];
@@ -89,15 +93,17 @@ class AssigneeController extends ControllerAction
     {
         if ($this->controller->isClassExtendedWith(\Igniter\Admin\Http\Actions\ListController::class)) {
             Event::listen('admin.list.extendQuery', function ($listWidget, $query) {
-                if (!(bool)$this->getConfig('applyScopeOnListQuery', true))
+                if (!(bool)$this->getConfig('applyScopeOnListQuery', true)) {
                     return;
+                }
 
                 $this->assigneeApplyScope($query);
             });
 
             Event::listen('admin.filter.extendScopesBefore', function ($widget) {
-                if (!$this->controller->getUser()->hasRestrictedAssignableScope())
+                if (!$this->controller->getUser()->hasRestrictedAssignableScope()) {
                     return;
+                }
 
                 unset($widget->scopes['assignee']);
             });
@@ -108,30 +114,36 @@ class AssigneeController extends ControllerAction
     {
         if ($this->controller->isClassExtendedWith(\Igniter\Admin\Http\Actions\FormController::class)) {
             $this->controller->bindEvent('admin.controller.extendFormQuery', function ($query) {
-                if (!(bool)$this->getConfig('applyScopeOnFormQuery', true))
+                if (!(bool)$this->getConfig('applyScopeOnFormQuery', true)) {
                     return;
+                }
 
                 $this->assigneeApplyScope($query);
             });
 
             Event::listen('admin.form.extendFields', function (Form $widget) {
-                if (!is_a($widget->getController(), get_class($this->controller)))
+                if (!is_a($widget->getController(), get_class($this->controller))) {
                     return;
+                }
 
-                if (!in_array(Assignable::class, class_uses_recursive(get_class($widget->model))))
+                if (!in_array(Assignable::class, class_uses_recursive(get_class($widget->model)))) {
                     return;
+                }
 
                 $assignable = $widget->model;
-                if (!$assignable->hasAssignToGroup() || $assignable->hasAssignTo())
+                if (!$assignable->hasAssignToGroup() || $assignable->hasAssignTo()) {
                     return;
+                }
 
                 // Let the allocator handle assignment when auto assign is enabled
-                if ($assignable->assignee_group->autoAssignEnabled())
+                if ($assignable->assignee_group->autoAssignEnabled()) {
                     return;
+                }
 
                 $user = $this->controller->getUser();
-                if (!$assignable->isAssignedToStaffGroup($user))
+                if (!$assignable->isAssignedToStaffGroup($user)) {
                     return;
+                }
 
                 $assignable->assignTo($user);
             });

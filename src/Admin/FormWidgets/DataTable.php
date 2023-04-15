@@ -88,8 +88,9 @@ class DataTable extends BaseFormWidget
     public function getLoadValue()
     {
         $value = parent::getLoadValue();
-        if ($value instanceof Collection)
+        if ($value instanceof Collection) {
             return $value->toArray();
+        }
 
         // Sync the array keys as the ID to make the
         // table widget happy!
@@ -178,8 +179,7 @@ class DataTable extends BaseFormWidget
 
         if ($this->model->methodExists($methodName)) {
             $result = $this->model->$methodName($field, $data);
-        }
-        else {
+        } else {
             $result = $this->model->getDataTableOptions($this->fieldName, $field, $data);
         }
 
@@ -198,8 +198,9 @@ class DataTable extends BaseFormWidget
         $dataSource = $this->table->getDataSource();
 
         $records = [];
-        if (!$this->useAjax)
+        if (!$this->useAjax) {
             $records = $this->getLoadValue() ?: [];
+        }
 
         $dataSource->purge();
         $dataSource->initRecords($records);

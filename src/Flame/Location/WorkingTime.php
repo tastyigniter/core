@@ -23,8 +23,9 @@ class WorkingTime
 
     public static function create(string $string): self
     {
-        if (!preg_match('/^([0-1]\d)|(2[0-4]):[0-5]\d$/', $string))
+        if (!preg_match('/^([0-1]\d)|(2[0-4]):[0-5]\d$/', $string)) {
             throw new WorkingHourException("The string `{$string}` isn't a valid time string. A time string must be a formatted as `18:00`.");
+        }
 
         [$hours, $minutes] = explode(':', $string);
 
@@ -90,8 +91,7 @@ class WorkingTime
     {
         if (!$date) {
             $date = new DateTime('1970-01-01 00:00:00');
-        }
-        elseif (!($date instanceof DateTimeImmutable)) {
+        } elseif (!($date instanceof DateTimeImmutable)) {
             $date = clone $date;
         }
 

@@ -107,21 +107,24 @@ class Builder extends BuilderBase
      */
     protected function searchInternal($term, $columns, $mode, $boolean)
     {
-        if (!is_array($columns))
+        if (!is_array($columns)) {
             $columns = [$columns];
+        }
 
-        if (!$mode)
+        if (!$mode) {
             $mode = 'all';
+        }
 
         if ($mode === 'exact') {
             $this->where(function ($query) use ($columns, $term) {
                 foreach ($columns as $field) {
-                    if (!strlen($term)) continue;
+                    if (!strlen($term)) {
+                    continue;
+                    }
                     $query->orLike($field, $term, 'both');
                 }
             }, null, null, $boolean);
-        }
-        else {
+        } else {
             $words = explode(' ', $term);
             $wordBoolean = $mode === 'any' ? 'or' : 'and';
 
@@ -129,7 +132,9 @@ class Builder extends BuilderBase
                 foreach ($columns as $field) {
                     $query->orWhere(function ($query) use ($field, $words, $wordBoolean) {
                         foreach ($words as $word) {
-                            if (!strlen($word)) continue;
+                            if (!strlen($word)) {
+                            continue;
+                            }
                             $query->like($field, $word, 'both', $wordBoolean);
                         }
                     });
@@ -147,14 +152,11 @@ class Builder extends BuilderBase
 
         if ($side === 'none') {
             $value = $value;
-        }
-        elseif ($side === 'before') {
+        } elseif ($side === 'before') {
             $value = "%{$value}";
-        }
-        elseif ($side === 'after') {
+        } elseif ($side === 'after') {
             $value = "{$value}%";
-        }
-        else {
+        } else {
             $value = "%{$value}%";
         }
 
@@ -180,8 +182,9 @@ class Builder extends BuilderBase
         if ($collection) {
             foreach ($collection as $model) {
                 $date = $model[$column];
-                if (!($date instanceof \Carbon\Carbon))
+                if (!($date instanceof \Carbon\Carbon)) {
                     $date = \Carbon\Carbon::parse($date);
+                }
 
                 $key = $date->format($keyFormat);
                 $value = $date->format($valueFormat);

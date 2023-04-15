@@ -80,11 +80,13 @@ class Theme extends Model
 
     public static function onboardingIsComplete()
     {
-        if (!$code = params('default_themes.main'))
+        if (!$code = params('default_themes.main')) {
             return false;
+        }
 
-        if (!$model = self::where('code', $code)->first())
+        if (!$model = self::where('code', $code)->first()) {
             return false;
+        }
 
         return !is_null($model->data);
     }
@@ -102,11 +104,12 @@ class Theme extends Model
             try {
                 $componentObj = $manager->makeComponent($code, null, $definition);
 
-                if ($componentObj->isHidden) continue;
+                if ($componentObj->isHidden) {
+                continue;
+                }
 
                 $components[$code] = [$definition['name'], lang($definition['description'])];
-            }
-            catch (Exception $ex) {
+            } catch (Exception $ex) {
             }
         }
 
@@ -151,8 +154,7 @@ class Theme extends Model
     {
         if (!$this->isFillable($key)) {
             $this->fieldValues[$key] = $value;
-        }
-        else {
+        } else {
             parent::setAttribute($key, $value);
         }
     }
@@ -194,8 +196,9 @@ class Theme extends Model
     {
         $code = $this->code;
 
-        if (!$code)
+        if (!$code) {
             return false;
+        }
 
         $themeManager = resolve(ThemeManager::class);
         if (!$themeClass = $themeManager->findTheme($code)) {
@@ -220,15 +223,17 @@ class Theme extends Model
 
     public function getFieldsConfig()
     {
-        if (!is_null($this->fieldConfig))
+        if (!is_null($this->fieldConfig)) {
             return $this->fieldConfig;
+        }
 
         $fields = [];
         $formConfig = $this->getTheme()->getFormConfig();
         foreach ($formConfig as $section => $item) {
             foreach (array_get($item, 'fields', []) as $name => $field) {
-                if (!isset($field['tab']))
+                if (!isset($field['tab'])) {
                     $field['tab'] = $item['title'];
+                }
 
                 $fields[$name] = $field;
             }
@@ -265,12 +270,16 @@ class Theme extends Model
         $manifest = resolve(PackageManifest::class);
         $themeManager = resolve(ThemeManager::class);
         foreach ($themeManager->paths() as $code => $path) {
-            if (!($themeObj = $themeManager->findTheme($code))) continue;
+            if (!($themeObj = $themeManager->findTheme($code))) {
+            continue;
+            }
 
             $installedThemes[] = $name = $themeObj->name ?? $code;
 
             // Only add themes whose meta code match their directory name
-            if ($code != $name) continue;
+            if ($code != $name) {
+            continue;
+            }
 
             $theme = self::firstOrNew(['code' => $name]);
             $theme->name = $themeObj->label ?? title_case($code);
@@ -297,8 +306,9 @@ class Theme extends Model
      */
     public static function activateTheme($code)
     {
-        if (empty($code) || !$theme = self::whereCode($code)->first())
+        if (empty($code) || !$theme = self::whereCode($code)->first()) {
             return false;
+        }
 
         $extensionManager = resolve(ExtensionManager::class);
 
@@ -306,14 +316,14 @@ class Theme extends Model
         foreach ($theme->getTheme()->listRequires() as $require => $version) {
             if (!$extensionManager->hasExtension($require)) {
                 $notFound[] = $require;
-            }
-            else {
+            } else {
                 $extensionManager->installExtension($require);
             }
         }
 
-        if (count($notFound))
+        if (count($notFound)) {
             throw new ApplicationException(sprintf('The following required extensions must be installed before activating this theme, %s', implode(', ', $notFound)));
+        }
 
         params()->set('default_themes.main', $theme->code);
         params()->save();

@@ -73,12 +73,10 @@ trait HasOneOrMany
              */
             if ($this instanceof HasOne) {
                 $this->parent->setRelation($this->relationName, $model);
-            }
-            else {
+            } else {
                 $this->parent->reloadRelations($this->relationName);
             }
-        }
-        else {
+        } else {
             $this->parent->bindDeferred($this->relationName, $model, $sessionKey);
         }
     }
@@ -109,12 +107,10 @@ trait HasOneOrMany
              */
             if ($this instanceof HasOne) {
                 $this->parent->setRelation($this->relationName, null);
-            }
-            else {
+            } else {
                 $this->parent->reloadRelations($this->relationName);
             }
-        }
-        else {
+        } else {
             $this->parent->unbindDeferred($this->relationName, $model, $sessionKey);
         }
     }

@@ -33,8 +33,9 @@ class ThemeInstall extends Command
             'type' => 'theme',
         ]]);
 
-        if (!$packageInfo = $response->first())
+        if (!$packageInfo = $response->first()) {
             return $this->output->writeln(sprintf('<info>Theme %s not found</info>', $themeName));
+        }
 
         try {
             $this->output->writeln(sprintf('<info>Installing %s theme</info>', $themeName));
@@ -42,8 +43,7 @@ class ThemeInstall extends Command
 
             resolve(ThemeManager::class)->loadThemes();
             resolve(ThemeManager::class)->installTheme($packageInfo->code, $packageInfo->version);
-        }
-        catch (ComposerException $e) {
+        } catch (ComposerException $e) {
             $this->output->writeln($e->getMessage());
         }
     }

@@ -51,8 +51,7 @@ class ExtensionRemove extends Command
 
             $extensionManager->deleteExtension($extensionName);
             $this->output->writeln(sprintf('<info>Deleted extension: %s</info>', $extensionName));
-        }
-        catch (ComposerException $e) {
+        } catch (ComposerException $e) {
             $this->output->writeln($e->getMessage());
         }
     }

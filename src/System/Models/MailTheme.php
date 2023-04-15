@@ -92,8 +92,7 @@ class MailTheme extends Model
         try {
             $customCss = self::compileCss();
             Cache::forever($cacheKey, $customCss);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $customCss = '/* '.$ex->getMessage().' */';
         }
 

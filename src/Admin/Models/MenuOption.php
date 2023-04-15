@@ -60,8 +60,9 @@ class MenuOption extends Model
     {
         $query = self::selectRaw('option_id, concat(option_name, " (", display_type, ")") AS display_name');
 
-        if (!is_null($ids = AdminLocation::getIdOrAll()))
+        if (!is_null($ids = AdminLocation::getIdOrAll())) {
             $query->whereHasLocation($ids);
+        }
 
         return $query->orderBy('option_name')->dropdown('display_name');
     }
@@ -84,8 +85,9 @@ class MenuOption extends Model
     {
         $this->restorePurgedValues();
 
-        if (array_key_exists('values', $this->attributes))
+        if (array_key_exists('values', $this->attributes)) {
             $this->addOptionValues($this->attributes['values']);
+        }
     }
 
     protected function beforeDelete()
@@ -138,8 +140,9 @@ class MenuOption extends Model
 
         $idsToKeep = [];
         foreach ($optionValues as $value) {
-            if (!array_key_exists('ingredients', $value))
+            if (!array_key_exists('ingredients', $value)) {
                 $value['ingredients'] = [];
+            }
 
             $optionValue = $this->option_values()->firstOrNew([
                 'option_value_id' => array_get($value, 'option_value_id'),

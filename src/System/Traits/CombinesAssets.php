@@ -53,8 +53,9 @@ trait CombinesAssets
         $this->storagePath = storage_path('igniter/combiner/data');
         $this->assetsCombinerUri = config('igniter.routes.assetsCombinerUri', '/_assets');
 
-        if (Igniter::runningInAdmin())
+        if (Igniter::runningInAdmin()) {
             $this->assetsCombinerUri = Igniter::uri().$this->assetsCombinerUri;
+        }
 
         $this->registerFilter('css', new \Igniter\Flame\Assetic\Filter\CssImportFilter);
         $this->registerFilter(['css', 'scss'], new \Igniter\Flame\Assetic\Filter\CssRewriteFilter);
@@ -185,14 +186,17 @@ trait CombinesAssets
         foreach ($assets as $path) {
             $filters = $this->getFilters(File::extension($path)) ?: [];
 
-            if (file_exists($basePath = base_path($path)))
+            if (file_exists($basePath = base_path($path))) {
                 $path = $basePath;
+            }
 
-            if (!file_exists($path))
+            if (!file_exists($path)) {
                 $path = File::symbolizePath($path, null) ?? $path;
+            }
 
-            if (!file_exists($path))
+            if (!file_exists($path)) {
                 continue;
+            }
 
             $source = str_starts_with($path, public_path())
                 ? public_path()
@@ -229,8 +233,9 @@ trait CombinesAssets
             $path = $baseUri.$this->assetsCombinerUri;
         }
 
-        if (strpos($path, '/') === 0)
+        if (strpos($path, '/') === 0) {
             $path = substr($path, 1);
+        }
 
         return str_replace('.', '-', $path).'/';
     }
@@ -300,8 +305,9 @@ trait CombinesAssets
      */
     public function registerBundle($extension, $files, $destination = null, $appContext = 'main')
     {
-        if (!is_array($files))
+        if (!is_array($files)) {
             $files = [$files];
+        }
 
         $firstFile = array_values($files)[0];
 
@@ -313,12 +319,12 @@ trait CombinesAssets
 
             if ($extension != 'js') {
                 $cssPath = $path.'/../css';
-                if (File::isDirectory(File::symbolizePath($cssPath)))
+                if (File::isDirectory(File::symbolizePath($cssPath))) {
                     $path = $cssPath;
+                }
 
                 $destination = $path.'/'.$file.'.css';
-            }
-            else {
+            } else {
                 $destination = $path.'/'.$file.'.min.'.$extension;
             }
         }
@@ -336,11 +342,13 @@ trait CombinesAssets
      */
     public function getBundles($extension = null, $appContext = 'main')
     {
-        if (is_null($extension))
+        if (is_null($extension)) {
             return $this->bundles[$appContext] ?? [];
+        }
 
-        if (isset($this->bundles[$appContext][$extension]))
+        if (isset($this->bundles[$appContext][$extension])) {
             return $this->bundles[$appContext][$extension];
+        }
 
         return null;
     }
@@ -354,11 +362,13 @@ trait CombinesAssets
      */
     public function getFilters($extension = null)
     {
-        if (is_null($extension))
+        if (is_null($extension)) {
             return $this->filters;
+        }
 
-        if (isset($this->filters[$extension]))
+        if (isset($this->filters[$extension])) {
             return $this->filters[$extension];
+        }
 
         return null;
     }
@@ -374,8 +384,7 @@ trait CombinesAssets
     {
         if ($extension === null) {
             $this->filters = [];
-        }
-        else {
+        } else {
             $this->filters[$extension] = [];
         }
 
@@ -404,8 +413,9 @@ trait CombinesAssets
 
     protected function putCache($cacheKey, $cacheData)
     {
-        if (Cache::has($this->cacheKeyPrefix.$cacheKey))
+        if (Cache::has($this->cacheKeyPrefix.$cacheKey)) {
             return false;
+        }
 
         Cache::forever($this->cacheKeyPrefix.$cacheKey, base64_encode(serialize($cacheData)));
 

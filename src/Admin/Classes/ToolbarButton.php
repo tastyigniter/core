@@ -79,7 +79,9 @@ class ToolbarButton
 
         $attributes = [];
         foreach ($config as $key => $value) {
-            if (!is_string($value)) continue;
+            if (!is_string($value)) {
+            continue;
+            }
 
             $value = ($key == 'href' && !preg_match('#^(\w+:)?//#i', $value))
                 ? admin_url($value)
@@ -88,8 +90,9 @@ class ToolbarButton
             $attributes[$key] = is_lang_key($value) ? lang($value) : $value;
         }
 
-        if ($this->disabled)
+        if ($this->disabled) {
             $attributes['disabled'] = 'disabled';
+        }
 
         return $htmlBuild ? Html::attributes($attributes) : $attributes;
     }
@@ -98,8 +101,7 @@ class ToolbarButton
     {
         if (is_null($value)) {
             return $this->menuItems ?? [];
-        }
-        else {
+        } else {
             $this->menuItems = $value;
         }
 

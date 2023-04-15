@@ -113,16 +113,18 @@ class ScheduleEditor extends BaseFormWidget
 
     protected function getSchedule($scheduleCode)
     {
-        if (!$schedule = array_get($this->listSchedules(), $scheduleCode))
+        if (!$schedule = array_get($this->listSchedules(), $scheduleCode)) {
             throw new ApplicationException(lang('igniter::admin.locations.alert_schedule_not_loaded'));
+        }
 
         return $schedule;
     }
 
     protected function listSchedules()
     {
-        if ($this->schedulesCache)
+        if ($this->schedulesCache) {
             return $this->schedulesCache;
+        }
 
         $schedules = collect(resolve(OrderTypes::class)->listOrderTypes())
             ->prepend(['name' => 'igniter::admin.text_opening'], Location::OPENING)

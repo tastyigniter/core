@@ -83,7 +83,9 @@ trait HasRelationships
         $result = [];
 
         foreach (static::$relationTypes as $type) {
-            if (!isset($this->relation[$type])) continue;
+            if (!isset($this->relation[$type])) {
+            continue;
+            }
 
             $result[$type] = $this->relation[$type];
 
@@ -206,15 +208,17 @@ trait HasRelationships
         $relationType = $this->getRelationType($relationName);
         $relation = $this->getRelationDefinition($relationName);
 
-        if (!isset($relation[0]) && $relationType != 'morphTo')
+        if (!isset($relation[0]) && $relationType != 'morphTo') {
             throw new InvalidArgumentException(sprintf(
                 "Relation '%s' on model '%s' should have at least a classname.", $relationName, get_called_class()
             ));
+        }
 
-        if (isset($relation[0]) && $relationType == 'morphTo')
+        if (isset($relation[0]) && $relationType == 'morphTo') {
             throw new InvalidArgumentException(sprintf(
                 "Relation '%s' on model '%s' is a morphTo relation and should not contain additional arguments.", $relationName, get_called_class()
             ));
+        }
 
         switch ($relationType) {
             case 'hasOne':

@@ -63,8 +63,9 @@ class IgniterInstall extends Command
         $this->callSilent('igniter:package-discover');
         $this->callSilent('vendor:publish', ['--tag' => 'igniter-assets', '--force' => true]);
 
-        if ($this->shouldSkipSetup())
+        if ($this->shouldSkipSetup()) {
             return false;
+        }
 
         $this->alert('INSTALLATION STARTED');
 
@@ -100,8 +101,9 @@ class IgniterInstall extends Command
             $this->copyExampleFile('env', 'example', null);
         }
 
-        if (strlen(!$this->laravel['config']['app.key']))
+        if (strlen(!$this->laravel['config']['app.key'])) {
             SystemHelper::replaceInEnv('APP_KEY=', 'APP_KEY='.$this->generateEncryptionKey());
+        }
 
         SystemHelper::replaceInEnv('APP_NAME=', 'APP_NAME="'.DatabaseSeeder::$siteName.'"');
         SystemHelper::replaceInEnv('APP_URL=', 'APP_URL='.DatabaseSeeder::$siteUrl);
@@ -110,7 +112,9 @@ class IgniterInstall extends Command
         foreach ($this->dbConfig as $key => $value) {
             Config::set("database.connections.$name.".strtolower($key), $value);
 
-            if ($key === 'password') $value = '"'.$value.'"';
+            if ($key === 'password') {
+            $value = '"'.$value.'"';
+            }
             SystemHelper::replaceInEnv('DB_'.strtoupper($key).'=', 'DB_'.strtoupper($key).'='.$value);
         }
 
@@ -229,8 +233,9 @@ class IgniterInstall extends Command
     {
         // /$old.$name => /$new.$name
         if (file_exists(base_path().'/'.$old.'.'.$name)) {
-            if (file_exists(base_path().'/'.$new.'.'.$name))
+            if (file_exists(base_path().'/'.$new.'.'.$name)) {
                 unlink(base_path().'/'.$new.'.'.$name);
+            }
 
             copy(base_path().'/'.$old.'.'.$name, base_path().'/'.$new.'.'.$name);
         }
@@ -238,8 +243,9 @@ class IgniterInstall extends Command
 
     protected function shouldSkipSetup()
     {
-        if (!Igniter::hasDatabase() || $this->option('force'))
+        if (!Igniter::hasDatabase() || $this->option('force')) {
             return false;
+        }
 
         return !$this->confirm('Application appears to be installed already. Continue anyway?', false);
     }

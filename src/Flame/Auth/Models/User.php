@@ -35,8 +35,7 @@ class User extends Model implements Authenticatable
     {
         if ($this->exists && empty($value)) {
             unset($this->attributes['password']);
-        }
-        else {
+        } else {
             $this->attributes['password'] = Hash::make($value);
 
             // Password has changed, log out all users
@@ -135,8 +134,9 @@ class User extends Model implements Authenticatable
 
     public function hasShaPassword($plainPassword)
     {
-        if (!isset($this->attributes['salt']) || is_null($this->attributes['salt']))
+        if (!isset($this->attributes['salt']) || is_null($this->attributes['salt'])) {
             return false;
+        }
 
         $salt = $this->attributes['salt'];
         $hashedPassword = $this->attributes['password'];
@@ -189,8 +189,9 @@ class User extends Model implements Authenticatable
      */
     public function completeResetPassword($code, $password)
     {
-        if (!$this->checkResetPasswordCode($code))
+        if (!$this->checkResetPasswordCode($code)) {
             return false;
+        }
 
         $this->password = $password;
         $this->reset_time = null;
@@ -208,8 +209,9 @@ class User extends Model implements Authenticatable
      */
     public function checkResetPasswordCode($resetCode)
     {
-        if ($this->reset_code != $resetCode)
+        if ($this->reset_code != $resetCode) {
             return false;
+        }
 
         $expiration = self::$resetExpiration;
         if ($expiration > 0) {

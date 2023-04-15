@@ -28,8 +28,7 @@ class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
             }
 
             return parent::handle($request, $next, ...$guards);
-        }
-        catch (AuthenticationException $e) {
+        } catch (AuthenticationException $e) {
             throw new Exceptions\AuthenticationException(lang('igniter::admin.alert_user_not_logged_in'), $e->guards());
         }
     }

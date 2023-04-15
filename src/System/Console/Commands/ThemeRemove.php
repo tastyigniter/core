@@ -50,8 +50,7 @@ class ThemeRemove extends Command
 
             $themeManager->deleteTheme($themeName);
             $this->output->writeln(sprintf('<info>Deleted theme: %s</info>', $themeName));
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->output->writeln($e->getMessage());
         }
     }

@@ -36,7 +36,9 @@ trait Assignable
         if (
             $this->wasChanged('status_id')
             && strlen($this->assignee_group_id)
-        ) AssignableLog::createLog($this);
+        ) {
+        AssignableLog::createLog($this);
+        }
     }
 
     //
@@ -49,8 +51,9 @@ trait Assignable
      */
     public function assignTo($assignee)
     {
-        if (is_null($this->assignee_group))
+        if (is_null($this->assignee_group)) {
             return false;
+        }
 
         return $this->updateAssignTo($this->assignee_group, $assignee);
     }
@@ -66,11 +69,13 @@ trait Assignable
 
     public function updateAssignTo(UserGroup $group = null, User $assignee = null)
     {
-        if (is_null($group))
+        if (is_null($group)) {
             $group = $this->assignee_group;
+        }
 
-        if (is_null($group) && !is_null($assignee))
+        if (is_null($group) && !is_null($assignee)) {
             $group = $assignee->groups()->first();
+        }
 
         $oldGroup = $this->assignee_group;
         !is_null($group)
@@ -113,8 +118,9 @@ trait Assignable
 
     public function listGroupAssignees()
     {
-        if (!$this->assignee_group instanceof UserGroup)
+        if (!$this->assignee_group instanceof UserGroup) {
             return [];
+        }
 
         return $this->assignee_group->listAssignees();
     }
@@ -130,12 +136,14 @@ trait Assignable
      */
     public function scopeFilterAssignedTo($query, $assignedTo = null)
     {
-        if ($assignedTo == 1)
+        if ($assignedTo == 1) {
             return $query->whereNull('assignee_id');
+        }
 
         $staffId = optional(AdminAuth::staff())->getKey();
-        if ($assignedTo == 2)
+        if ($assignedTo == 2) {
             return $query->where('assignee_id', $staffId);
+        }
 
         return $query->where('assignee_id', '!=', $staffId);
     }

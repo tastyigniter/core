@@ -76,8 +76,9 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
         $this->restorePurgedValues();
 
-        if (array_key_exists('translations', $this->attributes))
+        if (array_key_exists('translations', $this->attributes)) {
             $this->addTranslations((array)$this->attributes['translations']);
+        }
     }
 
     //
@@ -100,11 +101,13 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public static function findByCode($code = null)
     {
-        if (!$code)
+        if (!$code) {
             return null;
+        }
 
-        if (isset(self::$localesCache[$code]))
+        if (isset(self::$localesCache[$code])) {
             return self::$localesCache[$code];
+        }
 
         return self::$localesCache[$code] = self::whereCode($code)->first();
     }
@@ -202,14 +205,16 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     public function addTranslations($translations)
     {
         $languageId = $this->getKey();
-        if (!is_numeric($languageId))
+        if (!is_numeric($languageId)) {
             return false;
+        }
 
         foreach ($translations as $key => $translation) {
             preg_match('/^(.+)::(?:(.+?))\.(.+)+$/', $key, $matches);
 
-            if (!$matches || count($matches) !== 4)
+            if (!$matches || count($matches) !== 4) {
                 continue;
+            }
 
             [$code, $namespace, $group, $item] = $matches;
 
@@ -230,8 +235,9 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     {
         $oldText = Lang::get("{$namespace}::{$group}.{$key}", [], $this->code);
 
-        if (strcmp($text, $oldText) === 0)
+        if (strcmp($text, $oldText) === 0) {
             return false;
+        }
 
         $translation = $this->translations()->firstOrNew([
             'group' => $group,

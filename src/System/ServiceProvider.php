@@ -136,8 +136,9 @@ class ServiceProvider extends AppServiceProvider
         });
 
         Event::listen(\Illuminate\Console\Events\CommandFinished::class, function ($event) {
-            if ($event->command === 'clear-compiled')
+            if ($event->command === 'clear-compiled') {
                 \Igniter\System\Helpers\CacheHelper::clearCompiled();
+            }
         });
 
         foreach (
@@ -167,8 +168,9 @@ class ServiceProvider extends AppServiceProvider
     protected function registerErrorHandler()
     {
         Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
-            if ($result = (new ErrorHandler)->handleException($exception))
+            if ($result = (new ErrorHandler)->handleException($exception)) {
                 return $result;
+            }
         });
     }
 

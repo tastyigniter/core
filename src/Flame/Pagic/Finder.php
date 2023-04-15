@@ -173,8 +173,7 @@ class Finder
     {
         if (!is_null($this->cacheSeconds)) {
             $results = $this->getCached($columns);
-        }
-        else {
+        } else {
             $results = $this->getFresh($columns);
         }
 
@@ -489,8 +488,7 @@ class Finder
         // and if we have seconds we will use the typical remember function here.
         if ($seconds < 0) {
             $result = $cache->rememberForever($key, $callback);
-        }
-        else {
+        } else {
             $result = $cache->remember($key, $seconds, $callback);
         }
 
@@ -503,8 +501,7 @@ class Finder
 
             if ($seconds < 0) {
                 $result = $cache->rememberForever($key, $callback);
-            }
-            else {
+            } else {
                 $result = $cache->remember($key, $seconds, $callback);
             }
         }

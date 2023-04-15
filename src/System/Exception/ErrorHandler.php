@@ -42,8 +42,9 @@ class ErrorHandler
             return;
         }
 
-        if ($proposedException->getPrevious() instanceof TokenMismatchException)
+        if ($proposedException->getPrevious() instanceof TokenMismatchException) {
             $proposedException = new HttpException(419, lang('igniter::admin.alert_invalid_csrf_token'), $proposedException->getPrevious());
+        }
 
         // Detect AJAX request and use error 500
         if (Request::ajax()) {
@@ -104,8 +105,7 @@ class ErrorHandler
     {
         if (count(static::$maskLayers) > 0) {
             static::$activeMask = array_pop(static::$maskLayers);
-        }
-        else {
+        } else {
             static::$activeMask = null;
         }
     }
@@ -155,8 +155,9 @@ class ErrorHandler
             return false;
         }
 
-        if (!Igniter::hasDatabase() || !$theme = resolve(ThemeManager::class)->getActiveTheme())
+        if (!Igniter::hasDatabase() || !$theme = resolve(ThemeManager::class)->getActiveTheme()) {
             return View::make('igniter.main::error');
+        }
 
         $router = new Router($theme);
 

@@ -17,8 +17,7 @@ class AssetController extends Controller
             $cacheKey = $parts[0];
 
             return Assets::combineGetContents($cacheKey);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $errorMessage = ErrorHandler::getDetailedMessage($ex);
 
             return '/* '.e($errorMessage).' */';

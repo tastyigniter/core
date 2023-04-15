@@ -75,8 +75,9 @@ class Settings extends \Igniter\Admin\Classes\AdminController
                 throw new Exception(sprintf(lang('igniter::system.settings.alert_settings_not_found'), $settingCode));
             }
 
-            if ($definition->permission && !AdminAuth::user()->hasPermission($definition->permission))
+            if ($definition->permission && !AdminAuth::user()->hasPermission($definition->permission)) {
                 return Response::make(View::make('admin::access_denied'), 403);
+            }
 
             $pageTitle = sprintf(lang('igniter::system.settings.text_edit_title'), lang($definition->label));
             Template::setTitle($pageTitle);
@@ -85,10 +86,10 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             $this->initWidgets($model, $definition);
 
             $this->validateSettingItems();
-            if ($errors = array_get($this->settingItemErrors, $settingCode))
+            if ($errors = array_get($this->settingItemErrors, $settingCode)) {
                 Session::flash('errors', $errors);
-        }
-        catch (Exception $ex) {
+            }
+        } catch (Exception $ex) {
             $this->handleError($ex);
         }
     }
@@ -101,15 +102,17 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             throw new Exception(lang('igniter::system.settings.alert_settings_not_found'));
         }
 
-        if ($definition->permission && !AdminAuth::user()->hasPermission($definition->permission))
+        if ($definition->permission && !AdminAuth::user()->hasPermission($definition->permission)) {
             return Response::make(View::make('admin::access_denied'), 403);
+        }
 
         $this->initWidgets($model, $definition);
 
         $this->validateFormRequest($model, $definition);
 
-        if ($this->formValidate($model, $this->formWidget) === false)
+        if ($this->formValidate($model, $this->formWidget) === false) {
             return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+        }
 
         $this->formBeforeSave($model);
 
@@ -138,8 +141,9 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
         $this->validateFormRequest($model, $definition);
 
-        if ($this->formValidate($model, $this->formWidget) === false)
+        if ($this->formValidate($model, $this->formWidget) === false) {
             return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+        }
 
         setting()->set($this->formWidget->getSaveData());
 
@@ -152,8 +156,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             });
 
             flash()->success(sprintf(lang('igniter::system.settings.alert_email_sent'), $email));
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             flash()->error($ex->getMessage());
         }
 
@@ -184,8 +187,9 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
     protected function findSettingDefinitions($code)
     {
-        if (!strlen($code))
+        if (!strlen($code)) {
             throw new Exception(lang('igniter::admin.form.missing_id'));
+        }
 
         // Prep the list widget config
         $model = $this->createModel();
@@ -212,8 +216,9 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     protected function getFieldConfig($code, $model)
     {
         $settingItem = $model->getSettingItem('core.'.$code);
-        if (!is_array($settingItem->form))
+        if (!is_array($settingItem->form)) {
             $settingItem->form = array_get($this->makeConfig($settingItem->form, ['form']), 'form', []);
+        }
 
         return $settingItem->form ?? [];
     }
@@ -230,8 +235,9 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             foreach ($settingItems as $settingItem) {
                 $settingItemForm = $this->getFieldConfig($settingItem->code, $this->createModel());
 
-                if (!isset($settingItemForm['rules']))
+                if (!isset($settingItemForm['rules'])) {
                     continue;
+                }
 
                 $validator = $this->makeValidator($settingValues, $settingItemForm['rules']);
                 $errors = $validator->fails() ? $validator->errors() : [];
@@ -247,15 +253,18 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
     protected function validateFormRequest($model, $definition)
     {
-        if (!strlen($requestClass = $definition->request))
+        if (!strlen($requestClass = $definition->request)) {
             return;
+        }
 
-        if (!class_exists($requestClass))
+        if (!class_exists($requestClass)) {
             throw new ApplicationException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
+        }
 
         app()->resolving($requestClass, function ($request, $app) {
-            if (method_exists($request, 'setController'))
+            if (method_exists($request, 'setController')) {
                 $request->setController($this);
+            }
 
             $request->setInputKey('Setting');
         });

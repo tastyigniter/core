@@ -68,11 +68,13 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
 
     public function listOverrideColumnValue($record, $column, $alias = null)
     {
-        if ($column->type != 'button')
+        if ($column->type != 'button') {
             return null;
+        }
 
-        if ($column->columnName != 'default')
+        if ($column->columnName != 'default') {
             return null;
+        }
 
         $attributes = $column->attributes;
         $column->iconCssClass = 'fa fa-star-o';

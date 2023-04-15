@@ -37,14 +37,17 @@ trait VerifiesCsrfToken
 
     protected function verifyCsrfToken()
     {
-        if (!config('igniter.system.enableCsrfProtection', true) || !$this->enableCsrfProtection)
+        if (!config('igniter.system.enableCsrfProtection', true) || !$this->enableCsrfProtection) {
             return true;
+        }
 
-        if (in_array(Request::method(), ['HEAD', 'GET', 'OPTIONS']))
+        if (in_array(Request::method(), ['HEAD', 'GET', 'OPTIONS'])) {
             return true;
+        }
 
-        if (!strlen($token = $this->getCsrfTokenFromRequest()))
+        if (!strlen($token = $this->getCsrfTokenFromRequest())) {
             return false;
+        }
 
         return is_string(Request::session()->token())
             && is_string($token)
@@ -63,8 +66,7 @@ trait VerifiesCsrfToken
         if (!$token && $header = Request::header('X-XSRF-TOKEN')) {
             try {
                 $token = Crypt::decrypt($header, static::serialized());
-            }
-            catch (DecryptException $e) {
+            } catch (DecryptException $e) {
                 $token = '';
             }
         }

@@ -84,8 +84,9 @@ class Menu extends BaseWidget
      */
     protected function defineMenuItems()
     {
-        if ($this->itemsDefined)
+        if ($this->itemsDefined) {
             return;
+        }
 
         if (!isset($this->items) || !is_array($this->items)) {
             $this->items = [];
@@ -178,8 +179,9 @@ class Menu extends BaseWidget
 
     public function getLoggedUser()
     {
-        if (!$this->getController()->checkUser())
+        if (!$this->getController()->checkUser()) {
             return false;
+        }
 
         return $this->getController()->getUser();
     }
@@ -195,13 +197,15 @@ class Menu extends BaseWidget
      */
     public function onGetDropdownOptions()
     {
-        if (!strlen($itemName = input('item')))
+        if (!strlen($itemName = input('item'))) {
             throw new ApplicationException(lang('igniter::admin.side_menu.alert_invalid_menu'));
+        }
 
         $this->defineMenuItems();
 
-        if (!$item = $this->getItem($itemName))
+        if (!$item = $this->getItem($itemName)) {
             throw new ApplicationException(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
+        }
 
         // Return a partial if item has a path defined
         return [
@@ -219,13 +223,15 @@ class Menu extends BaseWidget
      */
     public function onMarkOptionsAsRead()
     {
-        if (!strlen($itemName = post('item')))
+        if (!strlen($itemName = post('item'))) {
             throw new ApplicationException(lang('igniter::admin.side_menu.alert_invalid_menu'));
+        }
 
         $this->defineMenuItems();
 
-        if (!$item = $this->getItem($itemName))
+        if (!$item = $this->getItem($itemName)) {
             throw new ApplicationException(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
+        }
 
         $user = $this->getLoggedUser();
         $this->fireEvent('menu.markAsRead', [$item, $user]);
@@ -242,13 +248,13 @@ class Menu extends BaseWidget
     public function onChooseLocation()
     {
         $location = null;
-        if (is_numeric($locationId = post('location')))
+        if (is_numeric($locationId = post('location'))) {
             $location = Location::find($locationId);
+        }
 
         if ($location && AdminLocation::hasAccess($location)) {
             AdminLocation::setCurrent($location);
-        }
-        else {
+        } else {
             AdminLocation::clearCurrent();
         }
 
@@ -261,8 +267,9 @@ class Menu extends BaseWidget
         $message = (string)post('message');
         $clearAfterMinutes = (int)post('clear_after');
 
-        if ($status < 1 && !strlen($message))
+        if ($status < 1 && !strlen($message)) {
             throw new ApplicationException(lang('igniter::admin.side_menu.alert_invalid_status'));
+        }
 
         $stateData['status'] = $status;
         $stateData['isAway'] = $status !== 1;

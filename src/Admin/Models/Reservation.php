@@ -130,25 +130,23 @@ class Reservation extends Model
 
         if (is_null($status)) {
             $query->where('status_id', '>=', 1);
-        }
-        else {
-            if (!is_array($status))
+        } else {
+            if (!is_array($status)) {
                 $status = [$status];
+            }
 
             $query->whereIn('status_id', $status);
         }
 
         if ($location instanceof Location) {
             $query->where('location_id', $location->getKey());
-        }
-        elseif (strlen($location)) {
+        } elseif (strlen($location)) {
             $query->where('location_id', $location);
         }
 
         if ($customer instanceof Customer) {
             $query->where('customer_id', $customer->getKey());
-        }
-        elseif (strlen($customer)) {
+        } elseif (strlen($customer)) {
             $query->where('customer_id', $customer);
         }
 
@@ -174,8 +172,9 @@ class Reservation extends Model
 
         $startDateTime = array_get($dateTimeFilter, 'reservationDateTime.startAt', false);
         $endDateTime = array_get($dateTimeFilter, 'reservationDateTime.endAt', false);
-        if ($startDateTime && $endDateTime)
+        if ($startDateTime && $endDateTime) {
             $query = $this->scopeWhereBetweenReservationDateTime($query, Carbon::parse($startDateTime)->format('Y-m-d H:i:s'), Carbon::parse($endDateTime)->format('Y-m-d H:i:s'));
+        }
 
         $this->fireEvent('model.extendListFrontEndQuery', [$query]);
 
@@ -211,22 +210,26 @@ class Reservation extends Model
 
     public function getDurationAttribute($value)
     {
-        if (!is_null($value))
+        if (!is_null($value)) {
             return $value;
+        }
 
-        if (!$location = $this->location)
+        if (!$location = $this->location) {
             return $value;
+        }
 
         return $location->getReservationStayTime();
     }
 
     public function getReserveEndTimeAttribute($value)
     {
-        if (!$this->reservation_datetime)
+        if (!$this->reservation_datetime) {
             return null;
+        }
 
-        if ($this->duration)
+        if ($this->duration) {
             return $this->reservation_datetime->copy()->addMinutes($this->duration);
+        }
 
         return $this->reservation_datetime->copy()->endOfDay();
     }
@@ -235,7 +238,9 @@ class Reservation extends Model
     {
         if (!isset($this->attributes['reserve_date'])
             && !isset($this->attributes['reserve_time'])
-        ) return null;
+        ) {
+        return null;
+        }
 
         return make_carbon($this->attributes['reserve_date'])
             ->setTimeFromTimeString($this->attributes['reserve_time']);
@@ -262,8 +267,9 @@ class Reservation extends Model
 
     public function setDurationAttribute($value)
     {
-        if (empty($value))
+        if (empty($value)) {
             $value = optional($this->location()->first())->getReservationStayTime();
+        }
 
         $this->attributes['duration'] = $value;
     }
@@ -300,8 +306,9 @@ class Reservation extends Model
             date('Y-m-d H:i:s', strtotime($endAt)),
         ]);
 
-        if (!is_null($locationId))
+        if (!is_null($locationId)) {
             $query->whereHasLocation($locationId);
+        }
 
         $collection = $query->get();
 
@@ -398,8 +405,9 @@ class Reservation extends Model
      */
     public function addReservationTables(array $tableIds = [])
     {
-        if (!$this->exists)
+        if (!$this->exists) {
             return false;
+        }
 
         $this->tables()->sync($tableIds);
     }
@@ -418,14 +426,16 @@ class Reservation extends Model
         $result = collect();
         $unseatedGuests = $this->guest_num;
         foreach ($tables as $table) {
-            if ($table->min_capacity <= $this->guest_num && $table->max_capacity >= $this->guest_num)
+            if ($table->min_capacity <= $this->guest_num && $table->max_capacity >= $this->guest_num) {
                 return collect([$table]);
+            }
 
             if ($table->is_joinable && $unseatedGuests >= $table->min_capacity) {
                 $result->push($table);
                 $unseatedGuests -= $table->max_capacity;
-                if ($unseatedGuests <= 0)
+                if ($unseatedGuests <= 0) {
                     break;
+                }
             }
         }
 

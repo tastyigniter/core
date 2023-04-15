@@ -95,8 +95,9 @@ class UpdateManager
 
     public function log($message)
     {
-        if (!is_null($this->logsOutput))
+        if (!is_null($this->logsOutput)) {
             $this->logsOutput->writeln($message);
+        }
 
         $this->logs[] = $message;
 
@@ -124,16 +125,18 @@ class UpdateManager
 
     public function down()
     {
-        if (!$this->migrator->repositoryExists())
+        if (!$this->migrator->repositoryExists()) {
             return $this->log('<error>Migration table not found.</error>');
+        }
 
         // Rollback extensions
         foreach (array_keys(Igniter::migrationPath()) as $code) {
             $this->purgeExtension($code);
         }
 
-        if ($this->logsOutput)
+        if ($this->logsOutput) {
             $this->migrator->setOutput($this->logsOutput);
+        }
 
         foreach (array_reverse(Igniter::coreMigrationPath(), true) as $group => $path) {
             $this->log("<info>Rolling back $group</info>");
@@ -168,8 +171,9 @@ class UpdateManager
 
     public function migrateApp()
     {
-        if ($this->logsOutput)
+        if ($this->logsOutput) {
             $this->migrator->setOutput($this->logsOutput);
+        }
 
         foreach (Igniter::coreMigrationPath() as $group => $path) {
             $this->log("<info>Migrating $group</info>");
@@ -196,16 +200,19 @@ class UpdateManager
 
     public function migrateExtension($name)
     {
-        if (!$this->migrator->repositoryExists())
+        if (!$this->migrator->repositoryExists()) {
             return $this->log('<error>Migration table not found.</error>');
+        }
 
-        if (!$this->extensionManager->findExtension($name))
+        if (!$this->extensionManager->findExtension($name)) {
             return $this->log('<error>Unable to find:</error> '.$name);
+        }
 
         $this->log("<info>Migrating extension $name</info>");
 
-        if ($this->logsOutput)
+        if ($this->logsOutput) {
             $this->migrator->setOutput($this->logsOutput);
+        }
 
         $this->migrator->runGroup(array_only(Igniter::migrationPath(), $name));
 
@@ -216,16 +223,19 @@ class UpdateManager
 
     public function purgeExtension($name)
     {
-        if (!$this->migrator->repositoryExists())
+        if (!$this->migrator->repositoryExists()) {
             return $this->log('<error>Migration table not found.</error>');
+        }
 
-        if (!$this->extensionManager->findExtension($name))
+        if (!$this->extensionManager->findExtension($name)) {
             return $this->log('<error>Unable to find:</error> '.$name);
+        }
 
         $this->log("<info>Purging extension $name</info>");
 
-        if ($this->logsOutput)
+        if ($this->logsOutput) {
             $this->migrator->setOutput($this->logsOutput);
+        }
 
         $this->migrator->resetAll(array_only(Igniter::migrationPath(), $name));
 
@@ -236,14 +246,17 @@ class UpdateManager
 
     public function rollbackExtension($name, array $options = [])
     {
-        if (!$this->migrator->repositoryExists())
+        if (!$this->migrator->repositoryExists()) {
             return $this->log('<error>Migration table not found.</error>');
+        }
 
-        if (!$this->extensionManager->findExtension($name))
+        if (!$this->extensionManager->findExtension($name)) {
             return $this->log('<error>Unable to find:</error> '.$name);
+        }
 
-        if ($this->logsOutput)
+        if ($this->logsOutput) {
             $this->migrator->setOutput($this->logsOutput);
+        }
 
         $this->migrator->rollbackAll(array_only(Igniter::migrationPath(), $name), $options);
 
@@ -278,9 +291,11 @@ class UpdateManager
         ]);
 
         $installedItems = array_column($installedItems, 'name');
-        if (isset($items['data'])) foreach ($items['data'] as &$item) {
+        if (isset($items['data'])) {
+        foreach ($items['data'] as &$item) {
             $item['icon'] = generate_extension_icon($item['icon'] ?? []);
             $item['installed'] = in_array($item['code'], $installedItems);
+        }
         }
 
         return $items;
@@ -296,9 +311,11 @@ class UpdateManager
         ]);
 
         $installedItems = array_column($installedItems, 'name');
-        if (isset($items['data'])) foreach ($items['data'] as &$item) {
+        if (isset($items['data'])) {
+        foreach ($items['data'] as &$item) {
             $item['icon'] = generate_extension_icon($item['icon'] ?? []);
             $item['installed'] = in_array($item['code'], $installedItems);
+        }
         }
 
         return $items;
@@ -315,8 +332,9 @@ class UpdateManager
 
         $info = [];
         $result = $this->getHubManager()->getDetail('site');
-        if (isset($result['data']) && is_array($result['data']))
+        if (isset($result['data']) && is_array($result['data'])) {
             $info = $result['data'];
+        }
 
         params()->set('carte_info', $info);
         params()->save();
@@ -329,8 +347,9 @@ class UpdateManager
         $installedItems = $this->getInstalledItems();
 
         $result = $this->fetchItemsToUpdate($installedItems, $force);
-        if (!is_array($result))
+        if (!is_array($result)) {
             return $result;
+        }
 
         [$ignoredItems, $items] = $result['items']->filter(function (PackageInfo $packageInfo) {
             return !($packageInfo->isCore() && $this->disableCoreUpdates);
@@ -347,9 +366,10 @@ class UpdateManager
 
     public function getInstalledItems($type = null)
     {
-        if ($this->installedItems)
+        if ($this->installedItems) {
             return ($type && isset($this->installedItems[$type]))
                 ? $this->installedItems[$type] : $this->installedItems;
+        }
 
         $installedItems = [];
 
@@ -371,8 +391,9 @@ class UpdateManager
             ];
         }
 
-        if (!is_null($type))
+        if (!is_null($type)) {
             return $installedItems[$type] ?? [];
+        }
 
         return $this->installedItems = array_collapse($installedItems);
     }
@@ -382,8 +403,9 @@ class UpdateManager
         return $this->getHubManager()
             ->applyItems($names)
             ->filter(function (PackageInfo $packageInfo) {
-                if ($packageInfo->isCore() && $this->disableCoreUpdates)
+                if ($packageInfo->isCore() && $this->disableCoreUpdates) {
                     return false;
+                }
 
                 return !$this->isMarkedAsIgnored($packageInfo->code);
             });
@@ -428,8 +450,9 @@ class UpdateManager
 
     public function preInstall()
     {
-        if (SystemHelper::assertIniSet())
+        if (SystemHelper::assertIniSet()) {
             return;
+        }
 
         $hasErrors = false;
         $errorMessage = "Please fix the following in your php.ini file before proceeding:\n\n";

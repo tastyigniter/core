@@ -63,16 +63,18 @@ class Locations extends \Igniter\Admin\Classes\AdminController
 
     public function remap(string $action, array $params): mixed
     {
-        if ($action != 'settings' && AdminLocation::check())
+        if ($action != 'settings' && AdminLocation::check()) {
             return $this->redirect('locations/settings');
+        }
 
         return parent::remap($action, $params);
     }
 
     public function settings($context = null)
     {
-        if (!AdminLocation::check())
+        if (!AdminLocation::check()) {
             return $this->redirect('locations');
+        }
 
         $this->asExtension('FormController')->edit('edit', $this->getLocationId());
     }
@@ -94,19 +96,20 @@ class Locations extends \Igniter\Admin\Classes\AdminController
             $this->asExtension('FormController')->edit_onSave('edit', $this->getLocationId());
 
             return $this->refresh();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $this->handleError($ex);
         }
     }
 
     public function listOverrideColumnValue($record, $column, $alias = null)
     {
-        if ($column->type != 'button')
+        if ($column->type != 'button') {
             return null;
+        }
 
-        if ($column->columnName != 'default')
+        if ($column->columnName != 'default') {
             return null;
+        }
 
         $attributes = $column->attributes;
         $column->iconCssClass = 'fa fa-star-o';
@@ -119,14 +122,16 @@ class Locations extends \Igniter\Admin\Classes\AdminController
 
     public function listExtendQuery($query)
     {
-        if (!is_null($ids = AdminLocation::getAll()))
+        if (!is_null($ids = AdminLocation::getAll())) {
             $query->whereIn('location_id', $ids);
+        }
     }
 
     public function formExtendQuery($query)
     {
-        if (!is_null($ids = AdminLocation::getAll()))
+        if (!is_null($ids = AdminLocation::getAll())) {
             $query->whereIn('location_id', $ids);
+        }
     }
 
     public function formExtendFields($form)
@@ -148,8 +153,9 @@ class Locations extends \Igniter\Admin\Classes\AdminController
     public function formAfterSave($model)
     {
         if (post('Location.options.auto_lat_lng')) {
-            if ($logs = Geocoder::getLogs())
+            if ($logs = Geocoder::getLogs()) {
                 flash()->error(implode(PHP_EOL, $logs))->important();
+            }
         }
     }
 

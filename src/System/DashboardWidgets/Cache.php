@@ -78,8 +78,7 @@ class Cache extends BaseDashboardWidget
     {
         try {
             CacheHelper::clear();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             // ...
         }
 

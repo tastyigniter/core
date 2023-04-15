@@ -81,32 +81,37 @@ trait SessionMaker
      */
     protected function makeSessionKey(): string
     {
-        if (isset($this->sessionKey))
+        if (isset($this->sessionKey)) {
             return $this->sessionKey;
+        }
 
         return get_class_id(get_class($this));
     }
 
     protected function encodeSessionData($data): string|null
     {
-        if (is_null($data))
+        if (is_null($data)) {
             return null;
+        }
 
-        if (!isset($this->encodeSession) || $this->encodeSession === true)
+        if (!isset($this->encodeSession) || $this->encodeSession === true) {
             $data = base64_encode(serialize($data));
+        }
 
         return $data;
     }
 
     protected function decodeSessionData(string $data): mixed
     {
-        if (!is_string($data))
+        if (!is_string($data)) {
             return null;
+        }
 
         $encodeSession = (!isset($this->encodeSession) || $this->encodeSession === true);
 
-        if ($encodeSession || $data)
+        if ($encodeSession || $data) {
             $data = @unserialize(@base64_decode($data));
+        }
 
         return $data;
     }

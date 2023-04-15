@@ -67,8 +67,7 @@ class FileSource extends AbstractSource implements SourceInterface
                 'mTime' => $this->files->lastModified($path),
                 'content' => $this->files->get($path),
             ];
-        }
-        catch (Exception) {
+        } catch (Exception) {
             return null;
         }
     }
@@ -96,8 +95,7 @@ class FileSource extends AbstractSource implements SourceInterface
 
         if ($columns === ['*'] || !is_array($columns)) {
             $columns = null;
-        }
-        else {
+        } else {
             $columns = array_flip($columns);
         }
 
@@ -110,12 +108,14 @@ class FileSource extends AbstractSource implements SourceInterface
         $iterator->filter(function (\SplFileInfo $file) use ($extensions, $fileMatch) {
             // Filter by extension
             $fileExt = $file->getExtension();
-            if (!is_null($extensions) && !in_array($fileExt, $extensions))
+            if (!is_null($extensions) && !in_array($fileExt, $extensions)) {
                 return false;
+            }
 
             // Filter by file name match
-            if (!is_null($fileMatch) && !fnmatch($file->getBasename(), $fileMatch))
+            if (!is_null($fileMatch) && !fnmatch($file->getBasename(), $fileMatch)) {
                 return false;
+            }
         });
 
         $files = iterator_to_array($iterator->in($dirPath), false);
@@ -162,8 +162,7 @@ class FileSource extends AbstractSource implements SourceInterface
 
         try {
             return $this->files->put($path, $content);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw (new CreateFileException)->setInvalidPath($path);
         }
     }
@@ -209,8 +208,7 @@ class FileSource extends AbstractSource implements SourceInterface
 
         try {
             return $this->files->put($path, $content);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw (new CreateFileException)->setInvalidPath($path);
         }
     }
@@ -230,16 +228,16 @@ class FileSource extends AbstractSource implements SourceInterface
 
         try {
             return $this->files->delete($path);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw (new DeleteFileException)->setInvalidPath($path);
         }
     }
 
     public function path(string $path): string|null
     {
-        if (!$this->files->exists($this->basePath.'/'.$path))
+        if (!$this->files->exists($this->basePath.'/'.$path)) {
             return null;
+        }
 
         return $this->basePath.'/'.$path;
     }
@@ -259,8 +257,7 @@ class FileSource extends AbstractSource implements SourceInterface
             $path = $this->makeFilePath($dirName, $fileName, $extension);
 
             return $this->files->lastModified($path);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return null;
         }
     }
@@ -374,12 +371,14 @@ class FileSource extends AbstractSource implements SourceInterface
 
     public function loadBlueprint(): array
     {
-        if ($this->blueprintCache)
+        if ($this->blueprintCache) {
             return $this->blueprintCache;
+        }
 
         $path = $this->basePath.'/'.$this->blueprintPath;
-        if (!$this->files->exists($path))
+        if (!$this->files->exists($path)) {
             return [];
+        }
 
         return $this->blueprintCache = json_decode($this->files->get($path), true);
     }

@@ -124,8 +124,7 @@ class Model extends EloquentModel
     {
         if (!$this->exists) {
             $this->syncOriginal();
-        }
-        elseif ($fresh = static::find($this->getKey())) {
+        } elseif ($fresh = static::find($this->getKey())) {
             $this->setRawAttributes($fresh->getAttributes(), true);
         }
 
@@ -143,8 +142,7 @@ class Model extends EloquentModel
     {
         if (!$relationName) {
             $this->setRelations([]);
-        }
-        else {
+        } else {
             unset($this->relations[$relationName]);
         }
     }
@@ -175,13 +173,16 @@ class Model extends EloquentModel
             foreach ($hooks as $hook => $event) {
                 $eventMethod = $radical.$event; // saving / saved
                 $method = $hook.ucfirst($radical); // beforeSave / afterSave
-                if ($radical != 'fetch') $method .= 'e';
+                if ($radical != 'fetch') {
+                $method .= 'e';
+                }
 
                 self::$eventMethod(function (Model $model) use ($method) {
                     $model->fireEvent('model.'.$method);
 
-                    if ($model->methodExists($method))
+                    if ($model->methodExists($method)) {
                         return $model->$method();
+                    }
                 });
             }
         }
@@ -189,8 +190,9 @@ class Model extends EloquentModel
         // Hook to boot events
         static::registerModelEvent('booted', function (Model $model) {
             $model->fireEvent('model.afterBoot');
-            if ($model->methodExists('afterBoot'))
+            if ($model->methodExists('afterBoot')) {
                 return $model->afterBoot();
+            }
         });
 
         static::$eventsBooted[$class] = true;
@@ -221,8 +223,9 @@ class Model extends EloquentModel
     public function newFromBuilder($attributes = [], $connection = null)
     {
         $instance = $this->newInstance([], true);
-        if ($instance->fireModelEvent('fetching') === false)
+        if ($instance->fireModelEvent('fetching') === false) {
             return $instance;
+        }
 
         $instance->setRawAttributes((array)$attributes, true);
 
@@ -330,16 +333,18 @@ class Model extends EloquentModel
 
     public function setUpdatedAt($value)
     {
-        if (!is_null(static::UPDATED_AT))
+        if (!is_null(static::UPDATED_AT)) {
             $this->{static::UPDATED_AT} = $value;
+        }
 
         return $this;
     }
 
     public function setCreatedAt($value)
     {
-        if (!is_null(static::CREATED_AT))
+        if (!is_null(static::CREATED_AT)) {
             $this->{static::CREATED_AT} = $value;
+        }
 
         return $this;
     }
@@ -367,8 +372,9 @@ class Model extends EloquentModel
     protected function isRelationPurgeable($name)
     {
         $purgeableAttributes = [];
-        if (method_exists($this, 'getPurgeableAttributes'))
+        if (method_exists($this, 'getPurgeableAttributes')) {
             $purgeableAttributes = $this->getPurgeableAttributes($name);
+        }
 
         return in_array($name, $purgeableAttributes);
     }
@@ -417,8 +423,9 @@ class Model extends EloquentModel
      */
     public function __call($method, $params)
     {
-        if ($this->hasRelation($method))
+        if ($this->hasRelation($method)) {
             return $this->handleRelation($method);
+        }
 
         return $this->extendableCall($method, $params);
     }
@@ -536,11 +543,9 @@ class Model extends EloquentModel
 
             if ($models instanceof EloquentCollection) {
                 $models = $models->all();
-            }
-            elseif ($models instanceof EloquentModel) {
+            } elseif ($models instanceof EloquentModel) {
                 $models = [$models];
-            }
-            else {
+            } else {
                 $models = (array)$models;
             }
 
@@ -600,8 +605,7 @@ class Model extends EloquentModel
 
                 if ($relation instanceof EloquentModel) {
                     $relation->forceDelete();
-                }
-                elseif ($relation instanceof EloquentCollection) {
+                } elseif ($relation instanceof EloquentCollection) {
                     $relation->each(function ($model) {
                         $model->forceDelete();
                     });

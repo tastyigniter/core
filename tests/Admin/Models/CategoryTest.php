@@ -19,8 +19,7 @@ it('should fail to create a category when no name is provided', function () {
         $category->name = null;
         $category->save();
         $this->assertFalse(true);
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
         $this->assertFalse(false);
     }
 });

@@ -380,8 +380,7 @@ class Form extends BaseWidget
 
             if (strtolower($addToArea) == FormTabs::SECTION_PRIMARY) {
                 $this->allTabs->primary->addField($name, $fieldObj, $fieldTab);
-            }
-            else {
+            } else {
                 $this->allTabs->outside->addField($name, $fieldObj);
             }
         }
@@ -459,8 +458,7 @@ class Form extends BaseWidget
         if (is_string($config)) {
             if ($this->isFormWidget($config) !== false) {
                 $field->displayAs('widget', ['widget' => $config]);
-            }
-            else {
+            } else {
                 $field->displayAs($config);
             }
         } // Defined field type
@@ -540,7 +538,9 @@ class Form extends BaseWidget
         if (isset($field->config['options'])) {
             $field->options(function () use ($field) {
                 $fieldOptions = $field->config['options'];
-                if ($fieldOptions === true) $fieldOptions = null;
+                if ($fieldOptions === true) {
+                $fieldOptions = null;
+                }
                 $fieldOptions = $this->getOptionsFromModel($field, $fieldOptions);
 
                 return $fieldOptions;
@@ -665,8 +665,9 @@ class Form extends BaseWidget
 
         $defaultValue = $field->getDefaultFromData($this->data);
 
-        if ($value = post($field->getName()))
+        if ($value = post($field->getName())) {
             return $value;
+        }
 
         return $field->getValueFromData($this->data, $defaultValue);
     }
@@ -722,8 +723,9 @@ class Form extends BaseWidget
         // Source data
         $data = $this->getSourceData();
 
-        if (!$data)
+        if (!$data) {
             $data = [];
+        }
 
         // Spin over each field and extract the postback value
         foreach ($this->allFields as $field) {
@@ -737,8 +739,7 @@ class Form extends BaseWidget
             $value = $this->dataArrayGet($data, $parts);
             if (is_null($value) && in_array($field->type, ['checkboxtoggle', 'radiotoggle'])) {
                 $this->dataArraySet($result, $parts, $value);
-            }
-            elseif ($value !== null) {
+            } elseif ($value !== null) {
                 // Number fields should be converted to integers
                 if ($field->type === 'number') {
                     $value = !strlen(trim($value)) ? null : (float)$value;
@@ -752,8 +753,9 @@ class Form extends BaseWidget
         foreach ($this->formWidgets as $field => $widget) {
             $parts = name_to_array($field);
 
-            if (isset($widget->config->disabled) && $widget->config->disabled)
+            if (isset($widget->config->disabled) && $widget->config->disabled) {
                 continue;
+            }
 
             $widgetValue = $widget->getSaveValue($this->dataArrayGet($result, $parts));
             $this->dataArraySet($result, $parts, $widgetValue);
@@ -870,8 +872,9 @@ class Form extends BaseWidget
 
         // Check that the form field matches the active location context
         foreach ($this->allFields as $field) {
-            if ($this->isLocationAware($field->config))
+            if ($this->isLocationAware($field->config)) {
                 $field->disabled = true;
+            }
         }
 
         // Convert automatic spanned fields
@@ -890,8 +893,7 @@ class Form extends BaseWidget
         ) {
             if ($this->allTabs->primary->hasFields()) {
                 $this->allTabs->primary->stretch = true;
-            }
-            else {
+            } else {
                 $this->allTabs->outside->stretch = true;
             }
         }
@@ -923,8 +925,7 @@ class Form extends BaseWidget
             if (strtolower($field->span) === 'auto') {
                 if ($prevSpan === 'left') {
                     $field->span = 'right';
-                }
-                else {
+                } else {
                     $field->span = 'left';
                 }
             }

@@ -63,8 +63,9 @@ class Assets
     public function addFromManifest($path)
     {
         $assetsConfigPath = $this->getAssetPath($path);
-        if (!File::exists($assetsConfigPath))
+        if (!File::exists($assetsConfigPath)) {
             return;
+        }
 
         $content = json_decode(File::get($assetsConfigPath), true) ?: [];
         if ($bundles = array_get($content, 'bundles')) {
@@ -83,8 +84,9 @@ class Assets
     public function addTags(array $tags = [])
     {
         foreach ($tags as $type => $value) {
-            if (!is_array($value))
+            if (!is_array($value)) {
                 $value = [$value];
+            }
 
             foreach ($value as $item) {
                 $options = [];
@@ -134,8 +136,9 @@ class Assets
 
     public function getMetas()
     {
-        if (!count($this->assets['meta']))
+        if (!count($this->assets['meta'])) {
             return null;
+        }
 
         $metas = array_map(function ($meta) {
             return '<meta'.Html::attributes($meta).'>'.PHP_EOL;
@@ -156,8 +159,9 @@ class Assets
 
     public function getJsVars()
     {
-        if (!$this->assets['jsVars'])
+        if (!$this->assets['jsVars']) {
             return '';
+        }
 
         $output = "window.{$this->jsVarNamespace} = window.{$this->jsVarNamespace} || {};";
 
@@ -226,8 +230,9 @@ class Assets
     protected function getAsset($type)
     {
         $assets = $this->getUniqueAssets($type);
-        if (!$assets)
+        if (!$assets) {
             return null;
+        }
 
         $assetsToCombine = $this->filterAssetsToCombine($assets);
 
@@ -241,18 +246,22 @@ class Assets
 
     protected function getAssetPath($name)
     {
-        if (starts_with($name, ['//', 'http://', 'https://']))
+        if (starts_with($name, ['//', 'http://', 'https://'])) {
             return $name;
+        }
 
-        if (starts_with($name, base_path()))
+        if (starts_with($name, base_path())) {
             return $name;
+        }
 
-        if (File::isPathSymbol($name))
+        if (File::isPathSymbol($name)) {
             return File::symbolizePath($name);
+        }
 
         foreach (static::$registeredPaths as $path) {
-            if (File::exists($file = str_replace('//', '/', $path.'/'.$name)))
+            if (File::exists($file = str_replace('//', '/', $path.'/'.$name))) {
                 return $file;
+            }
         }
 
         return $name;
@@ -263,8 +272,9 @@ class Assets
         $result = [];
         foreach ($assets as $key => $asset) {
             $path = array_get($asset, 'path');
-            if (!$path || starts_with($path, ['//', 'http://', 'https://']))
+            if (!$path || starts_with($path, ['//', 'http://', 'https://'])) {
                 continue;
+            }
 
             $result[] = $path;
             unset($assets[$key]);
@@ -280,15 +290,18 @@ class Assets
      */
     protected function getUniqueAssets($type)
     {
-        if (!count($this->assets[$type]))
+        if (!count($this->assets[$type])) {
             return [];
+        }
 
         $collection = $this->assets[$type];
 
         $pathCache = [];
         foreach ($collection as $key => $asset) {
             $path = array_get($asset, 'path');
-            if (!$path) continue;
+            if (!$path) {
+            continue;
+            }
 
             $realPath = realpath(public_path($path)) ?: $path;
             if (isset($pathCache[$realPath])) {
@@ -306,11 +319,13 @@ class Assets
     {
         $path = $this->getAssetPath($path);
 
-        if (starts_with($path, public_path()))
+        if (starts_with($path, public_path())) {
             $path = File::localToPublic($path);
+        }
 
-        if (!is_null($suffix))
+        if (!is_null($suffix)) {
             $suffix = (strpos($path, '?') === false) ? '?'.$suffix : '&'.$suffix;
+        }
 
         return $path.$suffix;
     }
@@ -329,8 +344,9 @@ class Assets
 
     protected function buildAssetUrl($type, $file, $attributes = null)
     {
-        if (!is_array($attributes))
+        if (!is_array($attributes)) {
             $attributes = ['name' => $attributes];
+        }
 
         if ($type == 'js') {
             $attributes = array_merge([
@@ -339,8 +355,7 @@ class Assets
                 'src' => asset($file),
             ], $attributes);
             $html = '<script'.Html::attributes($attributes).'></script>'.PHP_EOL;
-        }
-        else {
+        } else {
             $attributes = array_merge([
                 'rel' => 'stylesheet',
                 'type' => 'text/css',
@@ -359,16 +374,19 @@ class Assets
 
     protected function transformJsObjectVar($value)
     {
-        if ($value instanceof JsonSerializable || $value instanceof StdClass)
+        if ($value instanceof JsonSerializable || $value instanceof StdClass) {
             return json_encode($value);
+        }
 
         // If a toJson() method exists, the object can cast itself automatically.
-        if (method_exists($value, 'toJson'))
+        if (method_exists($value, 'toJson')) {
             return $value;
+        }
 
         // Otherwise, if the object doesn't even have a __toString() method, we can't proceed.
-        if (!method_exists($value, '__toString'))
+        if (!method_exists($value, '__toString')) {
             throw new \Exception('Cannot transform this object to JavaScript.');
+        }
 
         return "'{$value}'";
     }

@@ -38,11 +38,13 @@ class Page extends Model
      */
     public static function getMenuTypeInfo(string $type)
     {
-        if ($type !== 'theme-page')
+        if ($type !== 'theme-page') {
             return;
+        }
 
-        if (!$themeCode = resolve(ThemeManager::class)->getActiveThemeCode())
+        if (!$themeCode = resolve(ThemeManager::class)->getActiveThemeCode()) {
             return;
+        }
 
         $references = self::getDropdownOptions($themeCode);
 
@@ -57,8 +59,9 @@ class Page extends Model
      */
     public static function resolveMenuItem($item, string $url, Theme $theme)
     {
-        if (!$item->reference)
+        if (!$item->reference) {
             return;
+        }
 
         $controller = MainController::getController() ?: new MainController;
         $pageUrl = $controller->pageUrl($item->reference, [], false);

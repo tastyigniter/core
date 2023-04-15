@@ -130,8 +130,9 @@ class Filter extends BaseWidget
     {
         $this->defineFilterScopes();
 
-        if (!$scopes = post($this->alias))
+        if (!$scopes = post($this->alias)) {
             return [];
+        }
 
         foreach ($scopes as $scope => $value) {
             $scope = $this->getScope($scope);
@@ -276,11 +277,9 @@ class Filter extends BaseWidget
             }
 
             $options = $model->$methodName();
-        }
-        elseif (is_callable($options)) {
+        } elseif (is_callable($options)) {
             return $options();
-        }
-        elseif (!is_array($options)) {
+        } elseif (!is_array($options)) {
             $options = [];
         }
 
@@ -292,8 +291,9 @@ class Filter extends BaseWidget
      */
     protected function defineFilterScopes()
     {
-        if ($this->scopesDefined)
+        if ($this->scopesDefined) {
             return;
+        }
 
         $this->fireSystemEvent('admin.filter.extendScopesBefore');
 
@@ -331,7 +331,9 @@ class Filter extends BaseWidget
             }
 
             // Check that the filter scope matches the active location context
-            if ($this->isLocationAware($config)) continue;
+            if ($this->isLocationAware($config)) {
+            continue;
+            }
 
             // Validate scope model
             if (isset($config['modelClass'])) {
@@ -465,14 +467,12 @@ class Filter extends BaseWidget
                         $filtered = implode(',', array_map(function ($key) {
                             return DB::getPdo()->quote($key);
                         }, $value));
-                    }
-                    else {
+                    } else {
                         $filtered = DB::getPdo()->quote($value);
                     }
 
                     $query->whereRaw(strtr($scopeConditions, [':filtered' => $filtered]));
-                }
-                elseif ($scopeMethod = $scope->scope) {
+                } elseif ($scopeMethod = $scope->scope) {
                     $query->$scopeMethod($value);
                 }
 
@@ -597,8 +597,9 @@ class Filter extends BaseWidget
      */
     protected function getScopeModel($scope)
     {
-        if (!isset($this->scopeModels[$scope]))
+        if (!isset($this->scopeModels[$scope])) {
             return null;
+        }
 
         return $this->scopeModels[$scope];
     }

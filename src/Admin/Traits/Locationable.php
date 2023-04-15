@@ -34,8 +34,9 @@ trait Locationable
 
     public function locationableScopeEnabled()
     {
-        if ($this->locationScopeEnabled)
+        if ($this->locationScopeEnabled) {
             return true;
+        }
 
         return AdminLocation::check();
     }
@@ -72,8 +73,9 @@ trait Locationable
             ? $userLocation->getKey()
             : $userLocation;
 
-        if (!is_array($locationId))
+        if (!is_array($locationId)) {
             $locationId = [$locationId];
+        }
 
         $relationName = $this->locationableRelationName();
         $relationObject = $this->getLocationableRelationObject();
@@ -81,8 +83,7 @@ trait Locationable
 
         if ($this->locationableIsSingleRelationType()) {
             $builder->whereIn($locationModel->getKeyName(), $locationId);
-        }
-        else {
+        } else {
             $qualifiedColumnName = $this->locationableIsMorphRelationType()
                 ? $relationObject->getTable().'.'.$locationModel->getKeyName()
                 : $relationObject->getParent()->getTable().'.'.$locationModel->getKeyName();
@@ -99,8 +100,9 @@ trait Locationable
 
     protected function detachLocationsOnDelete()
     {
-        if ($this->locationableIsSingleRelationType() || !$this->locationableIsMorphRelationType())
+        if ($this->locationableIsSingleRelationType() || !$this->locationableIsMorphRelationType()) {
             return;
+        }
 
         $locationable = $this->getLocationableRelationObject();
 

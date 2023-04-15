@@ -382,8 +382,7 @@ class HtmlBuilder
     {
         if (is_array($value)) {
             return $this->nestedListing($key, $type, $value);
-        }
-        else {
+        } else {
             return '<li>'.e($value).'</li>';
         }
     }
@@ -401,8 +400,7 @@ class HtmlBuilder
     {
         if (is_int($key)) {
             return $this->listing($type, $value);
-        }
-        else {
+        } else {
             return '<li>'.$key.$this->listing($type, $value).'</li>';
         }
     }

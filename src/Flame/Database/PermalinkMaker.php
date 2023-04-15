@@ -93,11 +93,13 @@ class PermalinkMaker
     {
         if ($config['generateOnUpdate'] === true
             || empty($this->model->getAttributeValue($attribute))
-        )
+        ) {
             return true;
+        }
 
-        if ($this->model->isDirty($attribute))
+        if ($this->model->isDirty($attribute)) {
             return false;
+        }
 
         return $config['generateOnCreate'] === true && !$this->model->exists;
     }
@@ -182,8 +184,9 @@ class PermalinkMaker
         // ... we are also okay (use the current slug)
         if ($list->has($this->model->getKey())) {
             $currentSlug = $list->get($this->model->getKey());
-            if ($currentSlug === $slug || strpos($currentSlug, $slug) === 0)
+            if ($currentSlug === $slug || strpos($currentSlug, $slug) === 0) {
                 return $currentSlug;
+            }
         }
 
         return $slug.$separator.$list->count();
@@ -243,11 +246,9 @@ class PermalinkMaker
                 $method = $config['uniqueSuffix'];
                 if ($method === null) {
                     $suffix = $this->generateSuffix($slug, $separator, collect($reserved));
-                }
-                elseif (is_callable($method)) {
+                } elseif (is_callable($method)) {
                     $suffix = $method($slug, $separator, collect($reserved));
-                }
-                else {
+                } else {
                     throw new \UnexpectedValueException('Sluggable "uniqueSuffix" for '.get_class($this->model).':'.$attribute.' is not null, or a closure.');
                 }
 

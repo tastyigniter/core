@@ -20,14 +20,14 @@ if (!function_exists('form_open')) {
     {
         if (is_string($action)) {
             $attributes['url'] = $action;
-        }
-        else {
+        } else {
             $attributes = $action;
         }
 
         $handler = null;
-        if (isset($attributes['handler']))
+        if (isset($attributes['handler'])) {
             $handler = app(FormBuilder::class)->hidden('_handler', $attributes['handler']);
+        }
 
         return app(FormBuilder::class)->open($attributes).$handler;
     }
@@ -464,8 +464,7 @@ if (!function_exists('set_checkbox')) {
             }
 
             return '';
-        }
-        elseif (is_string($input)) {
+        } elseif (is_string($input)) {
             return ($input === $value) ? ' checked="checked"' : '';
         }
 
@@ -502,8 +501,7 @@ if (!function_exists('set_radio')) {
             }
 
             return '';
-        }
-        elseif (is_string($input)) {
+        } elseif (is_string($input)) {
             return ($input === $value) ? ' checked="checked"' : '';
         }
 
@@ -531,8 +529,9 @@ if (!function_exists('form_error')) {
             ? Session::get('errors')
             : new \Illuminate\Support\ViewErrorBag;
 
-        if (is_null($field))
+        if (is_null($field)) {
             return $errors;
+        }
 
         if (!$errors->has($field)) {
             return null;
@@ -558,8 +557,9 @@ if (!function_exists('has_form_error')) {
             ? Session::get('errors')
             : new \Illuminate\Support\ViewErrorBag;
 
-        if (is_null($field))
+        if (is_null($field)) {
             return $errors;
+        }
 
         return $errors->has($field);
     }

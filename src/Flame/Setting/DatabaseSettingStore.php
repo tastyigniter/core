@@ -135,8 +135,9 @@ class DatabaseSettingStore extends SettingStore
      */
     protected function write(array $data)
     {
-        if (!$this->hasDatabase())
+        if (!$this->hasDatabase()) {
             return;
+        }
 
         $keysQuery = $this->newQuery();
 
@@ -147,10 +148,10 @@ class DatabaseSettingStore extends SettingStore
 
         foreach ($keys as $key => $sort) {
             if (isset($insertData[$key])) {
-                if ($sort != $insertData[$key])
+                if ($sort != $insertData[$key]) {
                     $updateData[$key] = $insertData[$key];
-            }
-            else {
+                }
+            } else {
                 $deleteKeys[] = $key;
             }
             unset($insertData[$key]);
@@ -196,8 +197,7 @@ class DatabaseSettingStore extends SettingStore
                     [$this->keyColumn => $key, $this->valueColumn => $this->parseInsertKeyValue($value)]
                 );
             }
-        }
-        else {
+        } else {
             foreach ($data as $key => $value) {
                 $dbData[] = [$this->keyColumn => $key, $this->valueColumn => $this->parseInsertKeyValue($value)];
             }
@@ -211,8 +211,9 @@ class DatabaseSettingStore extends SettingStore
      */
     protected function read()
     {
-        if (!$this->hasDatabase())
+        if (!$this->hasDatabase()) {
             return [];
+        }
 
         $collection = $this->cacheCallback(function () {
             return $this->newQuery()->get();
@@ -236,12 +237,10 @@ class DatabaseSettingStore extends SettingStore
             if (is_array($row)) {
                 $key = $row[$this->keyColumn];
                 $value = $this->parseKeyValue($row[$this->valueColumn]);
-            }
-            elseif (is_object($row)) {
+            } elseif (is_object($row)) {
                 $key = $row->{$this->keyColumn};
                 $value = $this->parseKeyValue($row->{$this->valueColumn});
-            }
-            else {
+            } else {
                 throw new UnexpectedValueException('Expected array or object, got '.gettype($row));
             }
 
@@ -321,8 +320,9 @@ class DatabaseSettingStore extends SettingStore
 
     protected function cacheCallback(\Closure $callback)
     {
-        if ($cacheKey = $this->getCacheKey())
+        if ($cacheKey = $this->getCacheKey()) {
             return $this->cache->rememberForever($cacheKey, $callback);
+        }
 
         return $callback();
     }
@@ -331,8 +331,7 @@ class DatabaseSettingStore extends SettingStore
     {
         try {
             return $this->db->getSchemaBuilder()->hasTable($this->table);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return false;
         }
     }

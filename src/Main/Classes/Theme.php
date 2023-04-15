@@ -188,8 +188,9 @@ class Theme
 
     public function requires($require)
     {
-        if (!is_array($require))
+        if (!is_array($require)) {
             $require = [$require];
+        }
 
         $this->requires = $require;
 
@@ -212,14 +213,16 @@ class Theme
 
     public function getScreenshotData()
     {
-        if (!is_null($this->screenshotData))
+        if (!is_null($this->screenshotData)) {
             return $this->screenshotData;
+        }
 
         $screenshotData = '';
         if (file_exists($file = $this->screenshot)) {
             $extension = pathinfo($file, PATHINFO_EXTENSION);
-            if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES))
+            if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES)) {
                 throw new ApplicationException('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
+            }
 
             $mimeType = ThemeModel::ICON_MIMETYPES[$extension];
             $data = base64_encode(file_get_contents($file));
@@ -237,11 +240,13 @@ class Theme
 
     public function loadThemeFile()
     {
-        if (File::exists($path = $this->getPath().'/theme.php'))
+        if (File::exists($path = $this->getPath().'/theme.php')) {
             require $path;
+        }
 
-        if (File::exists($path = $this->getParentPath().'/theme.php'))
+        if (File::exists($path = $this->getParentPath().'/theme.php')) {
             require $path;
+        }
     }
 
     //
@@ -250,8 +255,9 @@ class Theme
 
     public function getConfig()
     {
-        if (!is_null($this->configCache))
+        if (!is_null($this->configCache)) {
             return $this->configCache;
+        }
 
         $configCache = [];
         $findInPaths = array_reverse(array_keys($this->getFindInPaths()));
@@ -263,8 +269,7 @@ class Theme
                 foreach ($definitions as $index => $definition) {
                     if (!is_array($definition)) {
                         $configCache['form'][$key][$index] = $definition;
-                    }
-                    else {
+                    } else {
                         foreach ($definition as $fieldIndex => $field) {
                             $configCache['form'][$key][$index][$fieldIndex] = $field;
                         }
@@ -278,8 +283,9 @@ class Theme
 
     public function getFormConfig()
     {
-        if (!is_null($this->formConfigCache))
+        if (!is_null($this->formConfigCache)) {
             return $this->formConfigCache;
+        }
 
         $config = $this->getConfigValue('form', []);
 
@@ -313,10 +319,13 @@ class Theme
 
         $formFields = ThemeModel::forTheme($this)->getFieldsConfig();
         foreach ($formFields as $attribute => $field) {
-            if (!$varNames = array_get($field, 'assetVar')) continue;
+            if (!$varNames = array_get($field, 'assetVar')) {
+            continue;
+            }
 
-            if (!is_array($varNames))
+            if (!is_array($varNames)) {
                 $varNames = [$varNames];
+            }
 
             foreach ($varNames as $varName) {
                 $result[$varName] = $this->{$attribute};
@@ -328,34 +337,43 @@ class Theme
 
     public function fillFromConfig()
     {
-        if (isset($this->config['code']))
+        if (isset($this->config['code'])) {
             $this->name = $this->config['code'];
+        }
 
-        if (isset($this->config['name']))
+        if (isset($this->config['name'])) {
             $this->label = $this->config['name'];
+        }
 
-        if (isset($this->config['parent']))
+        if (isset($this->config['parent'])) {
             $this->parentName = $this->config['parent'];
+        }
 
-        if (isset($this->config['description']))
+        if (isset($this->config['description'])) {
             $this->description = $this->config['description'];
+        }
 
-        if (isset($this->config['author']))
+        if (isset($this->config['author'])) {
             $this->author = $this->config['author'];
+        }
 
-        if (isset($this->config['require']))
+        if (isset($this->config['require'])) {
             $this->requires($this->config['require']);
+        }
 
-        if (!$this->sourcePath)
+        if (!$this->sourcePath) {
             $this->sourcePath = $this->config['source-path'] ?? '';
+        }
 
-        if (!$this->assetPath)
+        if (!$this->assetPath) {
             $this->assetPath = $this->config['asset-path'] ?? '/assets';
+        }
 
         $this->screenshot('screenshot');
 
-        if (array_key_exists('locked', $this->config))
+        if (array_key_exists('locked', $this->config)) {
             $this->locked = (bool)$this->config['locked'];
+        }
     }
 
     //
@@ -392,16 +410,16 @@ class Theme
 
     public function makeFileSource(): SourceInterface
     {
-        if (!is_null($this->fileSource))
+        if (!is_null($this->fileSource)) {
             return $this->fileSource;
+        }
 
         if ($this->hasParent()) {
             $source = new ChainFileSource([
                 new FileSource($this->getSourcePath()),
                 new FileSource($this->getParent()->getSourcePath()),
             ]);
-        }
-        else {
+        } else {
             $source = new FileSource($this->getSourcePath());
         }
 
@@ -412,8 +430,9 @@ class Theme
     {
         Igniter::loadResourcesFrom($this->getAssetPath(), $this->getName());
 
-        if ($this->hasParent())
+        if ($this->hasParent()) {
             Igniter::loadResourcesFrom($this->getParent()->getAssetPath(), $this->getParent()->getName());
+        }
     }
 
     /**
@@ -442,8 +461,9 @@ class Theme
      */
     public function getTemplateClass($dirName)
     {
-        if (!isset(self::$allowedTemplateModels[$dirName]))
+        if (!isset(self::$allowedTemplateModels[$dirName])) {
             throw new Exception(sprintf('Source Model not found for [%s].', $dirName));
+        }
 
         return self::$allowedTemplateModels[$dirName];
     }

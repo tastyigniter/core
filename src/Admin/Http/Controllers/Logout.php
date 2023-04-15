@@ -12,8 +12,7 @@ class Logout extends \Igniter\Admin\Classes\AdminController
     {
         if (AdminAuth::isImpersonator()) {
             AdminAuth::stopImpersonate();
-        }
-        else {
+        } else {
             AdminAuth::logout();
 
             session()->invalidate();

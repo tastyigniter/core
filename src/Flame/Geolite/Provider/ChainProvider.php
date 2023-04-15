@@ -36,8 +36,9 @@ class ChainProvider extends Contracts\AbstractProvider
         foreach ($this->providers as $name => $config) {
             $provider = $this->geocoder->makeProvider($name);
             $result = $provider->geocodeQuery($query);
-            if ($result->isNotEmpty())
+            if ($result->isNotEmpty()) {
                 return $result;
+            }
         }
 
         return new Collection;
@@ -48,8 +49,9 @@ class ChainProvider extends Contracts\AbstractProvider
         foreach ($this->providers as $name => $config) {
             $provider = $this->geocoder->makeProvider($name);
             $result = $provider->reverseQuery($query);
-            if ($result->isNotEmpty())
+            if ($result->isNotEmpty()) {
                 return $result;
+            }
         }
 
         return new Collection;
@@ -59,8 +61,9 @@ class ChainProvider extends Contracts\AbstractProvider
     {
         foreach ($this->providers as $name => $config) {
             $result = $this->geocoder->makeProvider($name)->distance($distance);
-            if (!is_null($result))
+            if (!is_null($result)) {
                 return $result;
+            }
         }
 
         return 0;

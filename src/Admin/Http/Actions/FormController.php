@@ -144,8 +144,9 @@ class FormController extends ControllerAction
      */
     public function initForm($model, $context = null)
     {
-        if ($context !== null)
+        if ($context !== null) {
             $this->context = $context;
+        }
 
         $context = $this->getFormContext();
 
@@ -154,11 +155,9 @@ class FormController extends ControllerAction
 
         if ($context == self::CONTEXT_CREATE) {
             $configFile = $this->getConfig('create[configFile]', $configFile);
-        }
-        elseif ($context == self::CONTEXT_EDIT) {
+        } elseif ($context == self::CONTEXT_EDIT) {
             $configFile = $this->getConfig('edit[configFile]', $configFile);
-        }
-        elseif ($context == self::CONTEXT_PREVIEW) {
+        } elseif ($context == self::CONTEXT_PREVIEW) {
             $configFile = $this->getConfig('preview[configFile]', $configFile);
         }
 
@@ -185,7 +184,9 @@ class FormController extends ControllerAction
 
         $this->formWidget->bindEvent('form.beforeRefresh', function ($holder) {
             $result = $this->controller->formExtendRefreshData($this->formWidget, $holder->data);
-            if (is_array($result)) $holder->data = $result;
+            if (is_array($result)) {
+            $holder->data = $result;
+            }
         });
 
         $this->formWidget->bindEvent('form.refreshFields', function ($fields) {
@@ -230,8 +231,7 @@ class FormController extends ControllerAction
             $model = $this->controller->formCreateModelObject();
             $model = $this->controller->formExtendModel($model) ?: $model;
             $this->initForm($model, $context);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $this->controller->handleError($ex);
         }
     }
@@ -250,8 +250,9 @@ class FormController extends ControllerAction
 
         $this->validateFormRequest($model);
 
-        if ($this->controller->formValidate($model, $this->formWidget) === false)
+        if ($this->controller->formValidate($model, $this->formWidget) === false) {
             return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+        }
 
         DB::transaction(function () use ($modelsToSave) {
             foreach ($modelsToSave as $modelToSave) {
@@ -280,8 +281,7 @@ class FormController extends ControllerAction
             $model = $this->controller->formFindModelObject($recordId);
 
             $this->initForm($model, $context);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $this->controller->handleError($ex);
         }
     }
@@ -300,8 +300,9 @@ class FormController extends ControllerAction
 
         $this->validateFormRequest($model);
 
-        if ($this->controller->formValidate($model, $this->formWidget) === false)
+        if ($this->controller->formValidate($model, $this->formWidget) === false) {
             return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+        }
 
         DB::transaction(function () use ($modelsToSave) {
             foreach ($modelsToSave as $modelToSave) {
@@ -329,8 +330,7 @@ class FormController extends ControllerAction
 
         if (!$model->delete()) {
             flash()->warning(lang('igniter::admin.form.delete_failed'));
-        }
-        else {
+        } else {
             $this->controller->formAfterDelete($model);
 
             $title = lang($this->getConfig('name'));
@@ -351,8 +351,7 @@ class FormController extends ControllerAction
 
             $model = $this->controller->formFindModelObject($recordId);
             $this->initForm($model, $context);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $this->controller->handleError($ex);
         }
     }
@@ -399,8 +398,9 @@ class FormController extends ControllerAction
      */
     public function getFormContext()
     {
-        if ($context = post('form_context'))
+        if ($context = post('form_context')) {
             return $context;
+        }
 
         return $this->context;
     }
@@ -516,10 +516,10 @@ class FormController extends ControllerAction
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);
-            }
-            elseif ($value !== FormField::NO_SAVE_DATA) {
-                if (!starts_with($attribute, '_'))
+            } elseif ($value !== FormField::NO_SAVE_DATA) {
+                if (!starts_with($attribute, '_')) {
                     $model->{$attribute} = $value;
+                }
             }
         }
     }
@@ -528,11 +528,13 @@ class FormController extends ControllerAction
     {
         $requestClass = $this->getConfig('request', false);
 
-        if ($requestClass === false)
+        if ($requestClass === false) {
             return;
+        }
 
-        if (!class_exists($requestClass))
+        if (!class_exists($requestClass)) {
             throw new ApplicationException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
+        }
 
         $this->resolveFormRequest($requestClass);
     }
@@ -540,11 +542,13 @@ class FormController extends ControllerAction
     protected function resolveFormRequest($requestClass)
     {
         app()->resolving($requestClass, function ($request, $app) {
-            if (method_exists($request, 'setController'))
+            if (method_exists($request, 'setController')) {
                 $request->setController($this->controller);
+            }
 
-            if (method_exists($request, 'setInputKey'))
+            if (method_exists($request, 'setInputKey')) {
                 $request->setInputKey(strip_class_basename($request));
+            }
         });
 
         return app()->make($requestClass);

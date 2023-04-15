@@ -219,8 +219,7 @@ class Environment
 
         try {
             return $this->loadTemplate($name, $key);
-        }
-        finally {
+        } finally {
             $this->setLoader($current);
         }
     }

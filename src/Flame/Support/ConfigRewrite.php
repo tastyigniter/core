@@ -100,20 +100,15 @@ class ConfigRewrite
     {
         if (is_string($value) && strpos($value, "'") === false) {
             $replaceValue = "'".$value."'";
-        }
-        elseif (is_string($value) && strpos($value, '"') === false) {
+        } elseif (is_string($value) && strpos($value, '"') === false) {
             $replaceValue = '"'.$value.'"';
-        }
-        elseif (is_bool($value)) {
+        } elseif (is_bool($value)) {
             $replaceValue = ($value ? 'true' : 'false');
-        }
-        elseif (is_null($value)) {
+        } elseif (is_null($value)) {
             $replaceValue = 'null';
-        }
-        elseif (is_array($value) && count($value) === count($value, COUNT_RECURSIVE)) {
+        } elseif (is_array($value) && count($value) === count($value, COUNT_RECURSIVE)) {
             $replaceValue = $this->writeArrayToPhp($value);
-        }
-        else {
+        } else {
             $replaceValue = $value;
         }
 
@@ -205,8 +200,7 @@ class ConfigRewrite
             }
             // Capture all opening array (non greedy)
             $result = '('.implode('[\s\S]*', $itemOpen).'[\s\S]*?)';
-        }
-        else {
+        } else {
             // Gotta capture something for $1
             $result = '()';
         }

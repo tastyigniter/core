@@ -121,8 +121,9 @@ class Currency
         // Get default currency if one is not set
         $code = $code ?: $this->config('default');
 
-        if (is_numeric($code))
+        if (is_numeric($code)) {
             $code = optional($this->getCurrency($code))->getCode() ?: $code;
+        }
 
         // Remove unnecessary characters
         $value = preg_replace('/[\s\',!]/', '', $value);
@@ -185,8 +186,9 @@ class Currency
         // Get default currency if one is not set
         $code = $code ?: $this->config('default');
 
-        if (is_numeric($code))
+        if (is_numeric($code)) {
             $code = optional($this->getCurrency($code))->getCode() ?: $code;
+        }
 
         return [
             'currency' => $code,
@@ -361,8 +363,9 @@ class Currency
         $rates = $this->getRates($base, $skipCache);
 
         $this->getCurrencies()->each(function (CurrencyInterface $currency) use ($rates) {
-            if ($rate = array_get($rates, $currency->getCode()))
+            if ($rate = array_get($rates, $currency->getCode())) {
                 $currency->updateRate($rate);
+            }
         });
     }
 
@@ -372,8 +375,9 @@ class Currency
 
         $currencies = $this->getCurrencies();
 
-        if ($skipCache)
+        if ($skipCache) {
             return app('currency.converter')->getExchangeRates($base, $currencies);
+        }
 
         return $this->cache->remember('igniter.currency.rates', $duration, function () use ($base, $currencies) {
             return app('currency.converter')->getExchangeRates($base, $currencies);

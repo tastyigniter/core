@@ -28,8 +28,9 @@ class UserPanel
 
     public static function listMenuLinks($menu, $item, $user)
     {
-        if (self::$menuLinksCache)
+        if (self::$menuLinksCache) {
             return self::$menuLinksCache;
+        }
 
         $items = collect([
             'userState' => [
@@ -80,8 +81,9 @@ class UserPanel
                 ];
             })
             ->filter(function ($item) use ($instance) {
-                if (!$permission = array_get($item, 'permission'))
+                if (!$permission = array_get($item, 'permission')) {
                     return true;
+                }
 
                 return $instance->user->hasPermission($permission);
             })

@@ -45,13 +45,15 @@ return new class extends Migration
     protected function seedAttachmentsFromExistingModels()
     {
         Menu::select('menu_photo', 'menu_id')->get()->each(function ($model) {
-            if (!empty($model->menu_photo))
+            if (!empty($model->menu_photo)) {
                 $this->createMediaAttachment($model->menu_photo, $model, 'thumb');
+            }
         });
 
         Category::pluck('image', 'category_id')->each(function ($model) {
-            if (!empty($model->image))
+            if (!empty($model->image)) {
                 $this->createMediaAttachment($model->image, $model, 'thumb');
+            }
         });
 
         Location::select('location_image', 'options', 'location_id')->get()->each(function ($model) {
@@ -60,8 +62,9 @@ return new class extends Migration
             }
 
             if (!empty($images = array_get($model->options, 'gallery.images'))) {
-                foreach ($images as $image)
+                foreach ($images as $image) {
                     $this->createMediaAttachment($image, $model, 'gallery');
+                }
             }
         });
     }
@@ -77,8 +80,7 @@ return new class extends Migration
 
             $media->save();
             $model->media()->save($media);
-        }
-        catch (\Exception $ex) {
+        } catch (\Exception $ex) {
             Log::debug($ex);
         }
     }

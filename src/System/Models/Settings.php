@@ -108,8 +108,9 @@ class Settings extends Model
 
     public static function onboardingIsComplete()
     {
-        if (!Session::has('settings.errors'))
+        if (!Session::has('settings.errors')) {
             return false;
+        }
 
         return count(array_filter((array)Session::get('settings.errors'))) === 0;
     }
@@ -127,8 +128,9 @@ class Settings extends Model
 
     public function getFieldValues()
     {
-        if (is_array($this->fieldValues))
+        if (is_array($this->fieldValues)) {
             return $this->fieldValues;
+        }
 
         $values = [];
         $records = $this->newQuery()->where('sort', 'config')->get();
@@ -146,16 +148,18 @@ class Settings extends Model
 
     public function getSettingItem($code)
     {
-        if (!$this->allItems)
+        if (!$this->allItems) {
             $this->loadSettingItems();
+        }
 
         return $this->allItems[$code] ?? null;
     }
 
     public function listSettingItems()
     {
-        if (!$this->items)
+        if (!$this->items) {
             $this->loadSettingItems();
+        }
 
         return $this->items;
     }
@@ -221,11 +225,12 @@ class Settings extends Model
                 'owner' => $owner,
             ]));
 
-            if (!isset($item['url']))
+            if (!isset($item['url'])) {
                 $item['url'] = admin_url($owner == 'core'
                     ? 'settings/edit/'.$code
                     : 'extensions/edit/'.str_replace('.', '/', $owner).'/'.$code
                 );
+            }
 
             $this->items[] = (object)$item;
         }

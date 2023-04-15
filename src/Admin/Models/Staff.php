@@ -123,8 +123,9 @@ class Staff extends Model
     {
         $this->restorePurgedValues();
 
-        if (array_key_exists('user', $this->attributes))
+        if (array_key_exists('user', $this->attributes)) {
             $this->addStaffUser($this->attributes['user']);
+        }
     }
 
     protected function beforeDelete()
@@ -153,16 +154,18 @@ class Staff extends Model
         $userModel->username = array_get($user, 'username', $userModel->username);
         $userModel->super_user = array_get($user, 'super_user', $userModel->super_user);
 
-        if ($password = array_get($user, 'password'))
+        if ($password = array_get($user, 'password')) {
             $userModel->password = $password;
+        }
 
         if (array_get($user, 'activate', true)) {
             $userModel->is_activated = true;
             $userModel->date_activated = date('Y-m-d');
         }
 
-        if ($sendInvite = array_get($user, 'send_invite', false))
+        if ($sendInvite = array_get($user, 'send_invite', false)) {
             $userModel->send_invite = $sendInvite;
+        }
 
         $userModel->save();
 

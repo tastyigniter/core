@@ -53,8 +53,9 @@ class ErrorHandler
      */
     public function report(Throwable $e)
     {
-        if (!class_exists('Event'))
+        if (!class_exists('Event')) {
             return;
+        }
 
         /**
          * @event exception.beforeReport
@@ -68,11 +69,13 @@ class ErrorHandler
          *         }
          *     });
          */
-        if (Event::dispatch('exception.beforeReport', [$e], true) === false)
+        if (Event::dispatch('exception.beforeReport', [$e], true) === false) {
             return;
+        }
 
-        if ($this->shouldntReport($e))
+        if ($this->shouldntReport($e)) {
             return false;
+        }
 
         /**
          * @event exception.report
@@ -95,8 +98,9 @@ class ErrorHandler
      */
     public function render($request, Throwable $e)
     {
-        if (!class_exists('Event'))
+        if (!class_exists('Event')) {
             return;
+        }
 
         $statusCode = $this->getStatusCode($e);
 
@@ -125,11 +129,9 @@ class ErrorHandler
     {
         if ($exception instanceof HttpExceptionInterface) {
             $code = $exception->getStatusCode();
-        }
-        elseif ($exception instanceof AjaxException) {
+        } elseif ($exception instanceof AjaxException) {
             $code = 406;
-        }
-        else {
+        } else {
             $code = 500;
         }
 

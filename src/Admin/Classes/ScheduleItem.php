@@ -45,19 +45,16 @@ class ScheduleItem
         for ($day = 0; $day <= 6; $day++) {
             if ($this->type == '24_7') {
                 $result[] = [['day' => $day, 'open' => '00:00', 'close' => '23:59', 'status' => 1]];
-            }
-            elseif ($this->type == 'daily') {
+            } elseif ($this->type == 'daily') {
                 $result[] = [[
                     'day' => $day,
                     'open' => $this->open,
                     'close' => $this->close,
                     'status' => (int)in_array($day, $this->days),
                 ]];
-            }
-            elseif ($this->type == 'timesheet') {
+            } elseif ($this->type == 'timesheet') {
                 $result[] = $this->createHours($day, $this->timesheet[$day]);
-            }
-            elseif ($this->type == 'flexible') {
+            } elseif ($this->type == 'flexible') {
                 $result[] = $this->createHours($day, $this->flexible[$day]);
             }
         }
@@ -73,8 +70,9 @@ class ScheduleItem
         foreach (WorkingHour::make()->getWeekDaysOptions() as $index => $day) {
             $formattedHours = [];
             foreach (array_get($hours, $index, []) as $hour) {
-                if (!$hour['status'])
+                if (!$hour['status']) {
                     continue;
+                }
 
                 $formattedHours[] = sprintf('%s-%s', $hour['open'], $hour['close']);
             }
@@ -90,8 +88,9 @@ class ScheduleItem
 
     protected function timesheet($timesheet)
     {
-        if (is_string($timesheet))
+        if (is_string($timesheet)) {
             $timesheet = @json_decode($timesheet, true) ?: [];
+        }
 
         $result = [];
         foreach (WorkingHour::$weekDays as $key => $weekDay) {

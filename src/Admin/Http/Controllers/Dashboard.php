@@ -21,8 +21,9 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
 
     public function index()
     {
-        if (is_null(Request::segment(2)))
+        if (is_null(Request::segment(2))) {
             return $this->redirect('dashboard');
+        }
 
         Template::setTitle(lang('igniter::admin.dashboard.text_title'));
         Template::setHeading(lang('igniter::admin.dashboard.text_heading'));

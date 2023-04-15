@@ -59,27 +59,30 @@ class Manager
             elseif ($cookieData = Cookie::get($this->sessionKey)) {
                 $this->viaRemember = true;
                 $userData = @json_decode($cookieData, true);
-            }
-            else {
+            } else {
                 return false;
             }
 
-            if (!is_array($userData) || count($userData) !== 2)
+            if (!is_array($userData) || count($userData) !== 2) {
                 return false;
+            }
 
             [$userId, $rememberToken] = $userData;
 
-            if (!$user = $this->getById($userId))
+            if (!$user = $this->getById($userId)) {
                 return false;
+            }
 
-            if (!$user->checkRememberToken($rememberToken))
+            if (!$user->checkRememberToken($rememberToken)) {
                 return false;
+            }
 
             $this->user = $user;
         }
 
-        if (!($user = $this->getUser()))
+        if (!($user = $this->getUser())) {
             return false;
+        }
 
         if ($this->requireApproval && $user && !$user->is_activated) {
             $this->user = null;
@@ -159,7 +162,9 @@ class Manager
 
         $user->clearResetPasswordCode();
 
-        if ($login) $this->login($user, $remember);
+        if ($login) {
+        $this->login($user, $remember);
+        }
 
         return $this->user;
     }
@@ -256,8 +261,9 @@ class Manager
      **/
     public function logout()
     {
-        if (is_null($this->user) && !$this->check())
+        if (is_null($this->user) && !$this->check()) {
             return;
+        }
 
         if ($this->isImpersonator()) {
             $this->user = $this->getImpersonator();
@@ -266,8 +272,9 @@ class Manager
             return;
         }
 
-        if ($this->user)
+        if ($this->user) {
             $this->user->updateRememberToken(null);
+        }
 
         $this->user = null;
 
@@ -321,8 +328,9 @@ class Manager
      */
     public function getByCredentials(array $credentials)
     {
-        if (empty($credentials))
+        if (empty($credentials)) {
             return null;
+        }
 
         $query = $this->createModelQuery();
 
@@ -355,12 +363,14 @@ class Manager
      */
     public function createModel()
     {
-        if (!isset($this->model))
+        if (!isset($this->model)) {
             throw new Exception(sprintf('Required property [model] missing in %s', get_called_class()));
+        }
 
         $modelClass = $this->model;
-        if (!class_exists($modelClass))
+        if (!class_exists($modelClass)) {
             throw new Exception(sprintf('Missing model [%s] in %s', $modelClass, get_called_class()));
+        }
 
         return new $modelClass();
     }
@@ -459,8 +469,9 @@ class Manager
             $currentUser->fireEvent('model.auth.afterImpersonate', [$oldUser]);
         }
 
-        if ($oldSession)
+        if ($oldSession) {
             Session::put($this->sessionKey, $oldSession);
+        }
     }
 
     public function isImpersonator()
@@ -473,8 +484,9 @@ class Manager
         $impersonateArray = Session::get($this->sessionKey.'_impersonate');
 
         // Check supplied session/cookie is an array (user id, persist code)
-        if (!is_array($impersonateArray) || count($impersonateArray) !== 2)
+        if (!is_array($impersonateArray) || count($impersonateArray) !== 2) {
             return false;
+        }
 
         $id = $impersonateArray[0];
 

@@ -58,8 +58,7 @@ class IgniterUpdate extends Command
 
             // Run migrations
             $this->call('igniter:up');
-        }
-        catch (ComposerException $e) {
+        } catch (ComposerException $e) {
             $this->output->writeln($e->getMessage());
         }
     }

@@ -46,16 +46,18 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
 
     public function openTimeAt(WorkingTime $time)
     {
-        if ($range = $this->findTimeInRange($time))
+        if ($range = $this->findTimeInRange($time)) {
             return $range->start();
+        }
 
         return optional(current($this->ranges))->start();
     }
 
     public function closeTimeAt(WorkingTime $time)
     {
-        if ($range = $this->findTimeInRange($time))
+        if ($range = $this->findTimeInRange($time)) {
             return $range->end();
+        }
 
         return optional(end($this->ranges))->end();
     }
@@ -121,8 +123,9 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
     public function closesLate()
     {
         foreach ($this->ranges as $range) {
-            if ($range->endsNextDay())
+            if ($range->endsNextDay()) {
                 return true;
+            }
         }
 
         return false;
@@ -131,8 +134,9 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
     public function opensLateAt(WorkingTime $time)
     {
         foreach ($this->ranges as $range) {
-            if ($range->endsNextDay() && $range->containsTime($time))
+            if ($range->endsNextDay() && $range->containsTime($time)) {
                 return true;
+            }
         }
 
         return false;
@@ -148,8 +152,9 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
     protected function findTimeInRange(WorkingTime $time)
     {
         foreach ($this->ranges as $range) {
-            if ($range->containsTime($time))
+            if ($range->containsTime($time)) {
                 return $range;
+            }
         }
     }
 
@@ -162,7 +167,9 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
         if (
             $timeOffRange->containsTime($time)
             || $timeOffRange->start()->isSame($time)
-        ) return $timeRange->{$type}();
+        ) {
+        return $timeRange->{$type}();
+        }
 
         $prevTimeRange = $timeRange;
     }

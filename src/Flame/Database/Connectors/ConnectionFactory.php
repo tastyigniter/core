@@ -28,8 +28,7 @@ class ConnectionFactory extends BaseConnectionFactory
 
                 try {
                     return $this->createConnector($config)->connect($config);
-                }
-                catch (PDOException $e) {
+                } catch (PDOException $e) {
                 }
             }
 

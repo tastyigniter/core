@@ -101,8 +101,7 @@ class SearchBox extends BaseWidget
     {
         if (strlen($term)) {
             $this->putSession('term', $term);
-        }
-        else {
+        } else {
             $this->resetSession();
         }
 

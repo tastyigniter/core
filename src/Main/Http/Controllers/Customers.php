@@ -99,10 +99,12 @@ class Customers extends \Igniter\Admin\Classes\AdminController
 
     public function formAfterSave($model)
     {
-        if (!$model->group || $model->group->requiresApproval())
+        if (!$model->group || $model->group->requiresApproval()) {
             return;
+        }
 
-        if ($this->status && !$this->is_activated)
+        if ($this->status && !$this->is_activated) {
             $model->completeActivation($model->getActivationCode());
+        }
     }
 }

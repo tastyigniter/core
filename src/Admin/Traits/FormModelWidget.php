@@ -43,8 +43,9 @@ trait FormModelWidget
         $query = $model->newQuery();
         $result = $query->find($recordId);
 
-        if (!$result)
+        if (!$result) {
             throw new Exception(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model)));
+        }
 
         return $result;
     }
@@ -62,8 +63,7 @@ trait FormModelWidget
     {
         try {
             return $this->formField->resolveModelAttribute($this->model, $attribute);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw new ApplicationException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
                 get_class($this->model),
                 $attribute
@@ -145,10 +145,10 @@ trait FormModelWidget
 
             if ($isNested && is_array($value)) {
                 $this->setModelAttributes($model->{$attribute}, $value);
-            }
-            elseif ($value !== FormField::NO_SAVE_DATA) {
-                if (!starts_with($attribute, '_'))
+            } elseif ($value !== FormField::NO_SAVE_DATA) {
+                if (!starts_with($attribute, '_')) {
                     $model->{$attribute} = $value;
+                }
             }
         }
     }
