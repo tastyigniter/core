@@ -7,14 +7,14 @@ return new class extends Migration
 {
     public function up()
     {
-        foreach (['mail_templates', 'mail_layouts', 'mail_partials'] as $table) {
-            DB::table($table)
+        foreach (['templates', 'layouts', 'partials'] as $table) {
+            DB::table('mail_'.$table)
                 ->where('code', 'like', 'admin::%')
                 ->orWhere('code', 'like', 'main::%')
                 ->orWhere('code', 'like', 'system::%')
                 ->get()->each(function ($record) use ($table) {
                     $key = str_singular($table).'_id';
-                    DB::table($table)
+                    DB::table('mail_'.$table)
                         ->where($key, $record->$key)
                         ->update(['code' => 'igniter.'.$record->code]);
                 });

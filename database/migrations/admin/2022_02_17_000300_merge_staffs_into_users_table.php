@@ -13,15 +13,23 @@ return new class extends Migration
             Schema::rename('users', 'admin_users');
 
         Schema::table('admin_users', function (Blueprint $table) {
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->unsignedBigInteger('user_role_id')->nullable();
-            $table->unsignedBigInteger('language_id')->nullable();
-            $table->boolean('status')->default(0);
-            $table->tinyInteger('sale_permission')->default(0);
+            $table->after('staff_id', function ($table) {
+                $table->unsignedBigInteger('user_role_id')->nullable();
+                $table->unsignedBigInteger('language_id')->nullable();
+                $table->boolean('status')->default(0);
+                $table->tinyInteger('sale_permission')->default(0);
+            });
+            $table->after('staff_id', function ($table) {
+                $table->string('name');
+                $table->string('email')->nullable();
+            });
         });
 
         $this->copyValuesFromStaffsToUsers();
+
+        Schema::table('admin_users', function (Blueprint $table) {
+            $table->string('email')->unique()->change();
+        });
 
         $this->updateStaffIdValueToUserIdOnStaffsGroups();
 
@@ -80,7 +88,10 @@ return new class extends Migration
         });
 
         Schema::table('admin_users', function (Blueprint $table) {
-            $table->dropForeignKeyIfExists('staff_id');
+            $table->dropForeign('users_staff_id_foreign');
+        });
+
+        Schema::table('admin_users', function (Blueprint $table) {
             $table->dropColumn('staff_id');
         });
 
