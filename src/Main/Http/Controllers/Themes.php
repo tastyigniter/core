@@ -98,6 +98,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function source($context, $themeCode = null)
     {
+        $this->defaultView = 'edit';
         if (resolve(ThemeManager::class)->isLocked($themeCode)) {
             Template::setButton(lang('igniter::system.themes.button_child'), [
                 'class' => 'btn btn-default pull-right',
@@ -171,6 +172,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function source_onSave($context, $themeCode = null)
     {
+        $this->defaultView = 'edit';
         $formController = $this->asExtension('FormController');
         $model = $this->formFindModelObject($themeCode);
         $formController->initForm($model, $context);
