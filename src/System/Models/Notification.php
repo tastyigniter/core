@@ -3,11 +3,24 @@
 namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Model;
+use Igniter\System\Contracts\CriticalNotification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\DatabaseNotification;
 
 class Notification extends DatabaseNotification
 {
+    protected static function booted(): void
+    {
+        static::created(function (self $model) {
+            if (is_subclass_of($model->type, CriticalNotification::class)) {
+                $model->notifiable->notifications()
+                    ->where('type', $model->type)
+                    ->where('id', '!=', $model->getKey())
+                    ->delete();
+            }
+        });
+    }
+
     public function getTitleAttribute()
     {
         return array_get($this->data ?? [], 'title');

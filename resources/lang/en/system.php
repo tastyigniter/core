@@ -671,5 +671,7 @@ return [
         'alert_no_carte_key' => 'No carte key specified.',
         'alert_no_items' => 'No item(s) specified.',
 
+        'notify_new_update_found_title' => 'Updates available.',
+        'notify_new_update_found' => '<b>%s</b> newer updates available.',
     ],
 ];

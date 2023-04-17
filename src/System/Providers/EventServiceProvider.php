@@ -23,7 +23,7 @@ class EventServiceProvider extends \Illuminate\Foundation\Support\Providers\Even
         Event::listen('console.schedule', function (Schedule $schedule) {
             // Check for system updates every 12 hours
             $schedule->call(function () {
-                resolve(UpdateManager::class)->requestUpdateList(true);
+                resolve(UpdateManager::class)->requestUpdateListAndNotify();
             })->name('System Updates Checker')->cron('0 */12 * * *')->evenInMaintenanceMode();
 
             // Cleanup activity log
