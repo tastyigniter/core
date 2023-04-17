@@ -371,6 +371,7 @@ class UpdateManager
         $result = $this->requestUpdateList(true);
         if (!is_array($result) || !$result['count']) {
             Cache::forget($cacheKey);
+
             return;
         }
 
