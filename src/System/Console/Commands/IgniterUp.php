@@ -5,6 +5,8 @@ namespace Igniter\System\Console\Commands;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class IgniterUp extends Command
 {
@@ -35,11 +37,13 @@ class IgniterUp extends Command
      */
     public function handle()
     {
-        $this->output->writeln('<info>Migrating foundation...</info>');
+        $this->dropConflictingFoundationTables();
 
         if (!$this->migrationFileExists('create_notifications_table')) {
             $this->call('notifications:table');
         }
+
+        $this->output->writeln('<info>Migrating foundation...</info>');
 
         $this->call('migrate');
 
@@ -48,6 +52,28 @@ class IgniterUp extends Command
         $manager = resolve(UpdateManager::class);
         $manager->setLogsOutput($this->output);
         $manager->migrate();
+    }
+
+    protected function dropConflictingFoundationTables()
+    {
+        if (!DB::table('settings')->where('item', 'ti_version')->where('value', 'like', 'v3.%')->exists())
+            return;
+
+        if (!Schema::hasTable('user_preferences'))
+            return;
+
+        $this->output->writeln('<info>Dropping default foundation tables...</info>');
+
+        Schema::rename('user_groups', 'admin_user_groups');
+        Schema::rename('user_preferences', 'admin_user_preferences');
+        Schema::rename('user_roles', 'admin_user_roles');
+        Schema::rename('users_groups', 'admin_users_groups');
+
+        Schema::dropIfExists('cache');
+        Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('sessions');
     }
 
     protected function migrationFileExists($name): bool

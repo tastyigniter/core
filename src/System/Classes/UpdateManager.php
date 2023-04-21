@@ -165,9 +165,9 @@ class UpdateManager
 
     protected function prepareMigrationTable()
     {
-        $this->repository->updateRepositoryGroup();
-
-        $this->log('Migration table group column updated');
+        if ($this->repository->updateRepositoryGroup()) {
+            $this->log('Migration table group column updated');
+        }
     }
 
     public function migrateApp()
