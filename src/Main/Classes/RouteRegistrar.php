@@ -29,7 +29,7 @@ class RouteRegistrar
     {
         $this->router
             ->namespace('Igniter\System\Http\Controllers')
-            ->middleware(config('igniter.routes.middleware'))
+            ->middleware('igniter')
             ->domain(config('igniter.routes.domain'))
             ->name('igniter.main.assets')
             ->group(function (IlluminateRouter $router) {
@@ -41,7 +41,7 @@ class RouteRegistrar
     public function forThemePages()
     {
         $this->router
-            ->middleware(config('igniter.routes.middleware'))
+            ->middleware('igniter')
             ->domain(config('igniter.routes.domain'))
             ->name('igniter.theme.')
             ->group(function (IlluminateRouter $router) {

@@ -33,7 +33,7 @@ class RouteRegistrar
     {
         $this->router
             ->namespace('Igniter\System\Http\Controllers')
-            ->middleware(config('igniter.routes.middleware'))
+            ->middleware('igniter')
             ->domain(config('igniter.routes.domain'))
             ->prefix(Igniter::uri())
             ->name('igniter.admin.assets')
@@ -46,7 +46,7 @@ class RouteRegistrar
     public function forAdminPages()
     {
         $this->router
-            ->middleware(config('igniter.routes.middleware'))
+            ->middleware('igniter')
             ->domain(config('igniter.routes.domain'))
             ->prefix(Igniter::uri())
             ->group(function (Router $router) {
@@ -55,7 +55,7 @@ class RouteRegistrar
             });
 
         $this->router
-            ->middleware(config('igniter.routes.adminMiddleware'))
+            ->middleware('igniter')
             ->domain(config('igniter.routes.domain'))
             ->prefix(Igniter::uri())
             ->group(function (Router $router) {
