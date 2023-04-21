@@ -55,8 +55,6 @@ abstract class BaseComponent extends Extendable
      */
     protected $properties;
 
-    protected $viewPath;
-
     /**
      * @var MainController Controller object.
      */
@@ -96,10 +94,6 @@ abstract class BaseComponent extends Extendable
      */
     public function getPath()
     {
-        if ($this->viewPath) {
-            return $this->viewPath;
-        }
-
         $namespace = implode('.', array_slice(explode('/', $this->dirName), 0, 2));
 
         return $namespace.'::views/_components/'.basename($this->dirName);

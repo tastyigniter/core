@@ -19,7 +19,7 @@ class TemplateCode extends Extendable implements ArrayAccess
      * This event is triggered when all components are initialized and before AJAX is handled.
      * The layout's onInit method triggers before the page's onInit method.
      */
-    public function onInit(): void
+    public function onInit()
     {
     }
 
@@ -27,7 +27,7 @@ class TemplateCode extends Extendable implements ArrayAccess
      * This event is triggered in the beginning of the execution cycle.
      * The layout's onStart method triggers before the page's onStart method.
      */
-    public function onStart(): void
+    public function onStart()
     {
     }
 
@@ -35,7 +35,7 @@ class TemplateCode extends Extendable implements ArrayAccess
      * This event is triggered in the end of the execution cycle, but before the page is displayed.
      * The layout's onEnd method triggers after the page's onEnd method.
      */
-    public function onEnd(): void
+    public function onEnd()
     {
     }
 

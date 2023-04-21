@@ -142,7 +142,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
             // Theme not found in filesystem
             // so delete from database
             if (!$theme) {
-                Theme::deleteTheme($themeCode, true);
+                $model->delete();
                 flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
 
                 return $this->redirectBack();
@@ -206,7 +206,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function delete_onDelete($context = null, $themeCode = null)
     {
-        if (Theme::deleteTheme($themeCode, post('delete_data', 1) == 1)) {
+        if (resolve(ThemeManager::class)->deleteTheme($themeCode, post('delete_data', 1) == 1)) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
         } else {
             flash()->danger(lang('igniter::admin.alert_error_try_again'));

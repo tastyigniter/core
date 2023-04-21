@@ -19,7 +19,7 @@ trait UsesPage
             return self::$staticPagesCache[$id];
         }
 
-        return self::$staticPagesCache[$id] = Page::find($id);
+        return self::$staticPagesCache[$id] = PageModel::find($id);
     }
 
     public function getStaticPagePermalink($id)

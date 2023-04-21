@@ -47,11 +47,11 @@ trait HasComponents
      */
     public function getComponent($componentName)
     {
-        if (!$name = $this->hasComponent($componentName)) {
+        if (!$this->hasComponent($componentName)) {
             return null;
         }
 
-        return $this->settings['components'][$name];
+        return $this->settings['components'][$componentName];
     }
 
     /**
