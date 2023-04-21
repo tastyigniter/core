@@ -5,8 +5,8 @@ namespace Igniter\System\Classes;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
-use Igniter\System\Models\Extension;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\System\Models\Extension;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use ZipArchive;
@@ -445,7 +445,7 @@ class ExtensionManager
         if (File::isDirectory($resourcesPath = $extensionPath.'/resources')) {
             Igniter::loadResourcesFrom($resourcesPath, $extensionCode);
         }
-        
+
         if (File::isDirectory($resourcesPath = $extensionPath)) {
             Igniter::loadResourcesFrom($resourcesPath, $extensionCode);
         }

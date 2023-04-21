@@ -121,8 +121,7 @@ class Filesystem extends IlluminateFilesystem
              */
             if ($this->symlinks === null) {
                 $this->findSymlinks();
-            }
-            elseif (count($this->symlinks) > 0) {
+            } elseif (count($this->symlinks) > 0) {
                 foreach ($this->symlinks as $source => $target) {
                     if (strpos($path, $target) === 0) {
                         $relativePath = substr($path, strlen($target));
@@ -232,7 +231,7 @@ class Filesystem extends IlluminateFilesystem
                 return $pathSymbol.$_path;
             }
         }
-        
+
         return $path;
     }
 

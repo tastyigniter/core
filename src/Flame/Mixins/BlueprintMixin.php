@@ -25,7 +25,7 @@ class BlueprintMixin
             if (in_array($this->prefix.$key, $foreignKeys)) {
                 $key = $this->prefix.$key;
             }
-            
+
             if (!in_array($key, $foreignKeys)) {
                 return;
             }

@@ -2,9 +2,9 @@
 
 namespace Igniter\System\Providers;
 
+use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
 use Illuminate\Support\Facades\Event;
-use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
 class MailServiceProvider extends ServiceProvider

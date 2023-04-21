@@ -8,9 +8,9 @@ use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Pagic\Model;
+use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\ComponentManager;
-use Igniter\Flame\Support\Facades\File;
 
 /**
  * Components

@@ -3,8 +3,6 @@
 namespace Igniter\Flame\Filesystem;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Facade;
-use Igniter\Flame\Support\Facades\File;
 
 /**
  * Class FilesystemServiceProvider

@@ -4,6 +4,7 @@ namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Model;
+use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
@@ -11,7 +12,6 @@ use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\CacheHelper;
 use Igniter\System\Models\Extension;
 use Illuminate\Console\Command;
-use Igniter\Flame\Support\Facades\File;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

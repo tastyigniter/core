@@ -2,9 +2,9 @@
 
 namespace Igniter\System\Console\Commands;
 
+use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Foundation\Console\VendorPublishCommand;
-use Igniter\Flame\Support\Facades\File;
 use Symfony\Component\Console\Input\InputOption;
 
 class ThemeVendorPublish extends VendorPublishCommand

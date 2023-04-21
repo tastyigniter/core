@@ -6,12 +6,12 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Pagic\Source\FileSource;
+use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Events\Theme\GetActiveTheme as GetActiveThemeEvent;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Libraries\Assets;
-use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 
 /**

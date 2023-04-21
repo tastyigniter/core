@@ -2,8 +2,8 @@
 
 namespace Igniter\System\Classes;
 
-use Illuminate\Foundation\PackageManifest as BasePackageManifest;
 use Igniter\Flame\Support\Facades\File;
+use Illuminate\Foundation\PackageManifest as BasePackageManifest;
 
 class PackageManifest extends BasePackageManifest
 {

@@ -3,8 +3,8 @@
 namespace Igniter\System\Libraries;
 
 use Igniter\Flame\Html\HtmlFacade as Html;
-use Igniter\System\Traits\CombinesAssets;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\System\Traits\CombinesAssets;
 use JsonSerializable;
 use stdClass;
 
