@@ -88,15 +88,15 @@ return new class extends Migration
             $table->renameColumn('staff_id', 'user_id');
         });
 
+        Schema::dropIfExists('staffs');
+
         Schema::table('admin_users', function (Blueprint $table) {
-            $table->dropForeign('users_staff_id_foreign');
+            $table->dropForeignKeyIfExists('users_staff_id_foreign');
         });
 
         Schema::table('admin_users', function (Blueprint $table) {
             $table->dropColumn('staff_id');
         });
-
-        Schema::dropIfExists('staffs');
     }
 
     public function down()

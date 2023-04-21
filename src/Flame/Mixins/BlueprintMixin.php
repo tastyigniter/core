@@ -13,13 +13,19 @@ class BlueprintMixin
                 return $key->getName();
             }, Schema::getConnection()
                 ->getDoctrineSchemaManager()
-                ->listTableForeignKeys($this->table)
+                ->listTableForeignKeys($this->prefix.$this->table)
             );
 
-            if (!starts_with($key, $this->prefix)) {
-                $key = sprintf('%s%s_%s_foreign', $this->prefix, $this->table, $key);
+            if (ends_with($key, '_foreign')) {
+                $key = $key;
+            } else {
+                $key = sprintf('%s_%s_foreign', $this->table, $key);
             }
 
+            if (in_array($this->prefix.$key, $foreignKeys)) {
+                $key = $this->prefix.$key;
+            }
+            
             if (!in_array($key, $foreignKeys)) {
                 return;
             }
