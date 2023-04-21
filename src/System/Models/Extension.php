@@ -8,7 +8,7 @@ use Igniter\Flame\Mail\Markdown;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\PackageManifest;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 
 /**
  * Extension Model Class

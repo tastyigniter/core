@@ -5,7 +5,7 @@ namespace Igniter\Main\Template;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\System\Classes\BaseComponent;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 
 class ComponentPartial extends Extendable implements TemplateInterface
 {

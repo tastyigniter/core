@@ -5,7 +5,7 @@ namespace Igniter\Admin\Classes;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Actions\ModelAction;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\URL;
 
 /**

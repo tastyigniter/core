@@ -2,41 +2,26 @@
 
 namespace Igniter\Flame\Filesystem;
 
-use Illuminate\Filesystem\FilesystemServiceProvider as BaseFilesystemServiceProvider;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Facade;
+use Igniter\Flame\Support\Facades\File;
 
 /**
  * Class FilesystemServiceProvider
  */
-class FilesystemServiceProvider extends BaseFilesystemServiceProvider
+class FilesystemServiceProvider extends ServiceProvider
 {
-    /**
-     * Register the native filesystem implementation.
-     * @return void
-     */
-    protected function registerNativeFilesystem()
+    public function register()
     {
-        $this->app->alias('files', Filesystem::class);
-
-        $this->app->singleton('files', function () {
+        $this->app->singleton(Filesystem::class, function () {
             $config = $this->app['config'];
             $files = new Filesystem;
             $files->filePermissions = $config->get('igniter.system.filePermissions', null);
             $files->folderPermissions = $config->get('igniter.system.folderPermissions', null);
-            $files->pathSymbols = [
-                '$' => public_path('vendor'),
-                '~' => base_path(),
-            ];
+            $files->addPathSymbol('$', public_path('vendor'));
+            $files->addPathSymbol('~', base_path());
 
             return $files;
         });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     * @return array
-     */
-    public function provides()
-    {
-        return ['files', 'filesystem'];
     }
 }

@@ -10,7 +10,7 @@ use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\ComponentManager;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 
 /**
  * Components

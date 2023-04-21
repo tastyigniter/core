@@ -7,7 +7,7 @@ use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Pagic\Contracts\TemplateLoader;
 use Igniter\Main\Template\Partial as PartialTemplate;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 
 /**
  * Loader class

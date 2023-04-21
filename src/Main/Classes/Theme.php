@@ -15,7 +15,7 @@ use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial as PartialTemplate;
 use Igniter\System\Helpers\SystemHelper;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 
 class Theme
 {

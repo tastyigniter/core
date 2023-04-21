@@ -3,7 +3,7 @@
 namespace Igniter\System\Traits;
 
 use Igniter\Flame\Exception\SystemException;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 
 trait ConfigMaker

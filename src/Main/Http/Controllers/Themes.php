@@ -13,7 +13,7 @@ use Igniter\System\Libraries\Assets as AssetsManager;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 class Themes extends \Igniter\Admin\Classes\AdminController

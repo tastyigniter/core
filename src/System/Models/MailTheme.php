@@ -5,7 +5,7 @@ namespace Igniter\System\Models;
 use Exception;
 use Igniter\Flame\Database\Model;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 
 /**
  * MailTheme Model Class

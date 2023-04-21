@@ -11,7 +11,7 @@ use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\System\Models\MailTemplate;
 use Illuminate\Mail\Message;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;

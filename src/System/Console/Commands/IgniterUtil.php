@@ -11,7 +11,7 @@ use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\CacheHelper;
 use Igniter\System\Models\Extension;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

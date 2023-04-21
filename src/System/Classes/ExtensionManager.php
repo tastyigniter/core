@@ -6,7 +6,7 @@ use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\System\Models\Extension;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use ZipArchive;

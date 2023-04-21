@@ -4,7 +4,7 @@ namespace Igniter\Main\Template;
 
 use Igniter\Flame\Mail\Markdown;
 use Igniter\Flame\Pagic\Model;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 
 class Content extends Model
 {

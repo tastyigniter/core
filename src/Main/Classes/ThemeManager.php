@@ -11,7 +11,7 @@ use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Libraries\Assets;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 
 /**

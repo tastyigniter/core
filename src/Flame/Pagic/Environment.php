@@ -3,7 +3,7 @@
 namespace Igniter\Flame\Pagic;
 
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Compilers\CompilerInterface;

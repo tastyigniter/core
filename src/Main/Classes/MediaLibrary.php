@@ -7,7 +7,7 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 

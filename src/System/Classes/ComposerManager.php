@@ -15,7 +15,7 @@ use Igniter\Flame\Composer\Factory;
 use Igniter\Flame\Exception\ComposerException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Helpers\SystemHelper;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Seld\JsonLint\DuplicateKeyException;
 use Seld\JsonLint\JsonParser;
 use Throwable;

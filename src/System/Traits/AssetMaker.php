@@ -3,7 +3,7 @@
 namespace Igniter\System\Traits;
 
 use Igniter\System\Facades\Assets;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 
 trait AssetMaker
 {

@@ -7,7 +7,7 @@ use Exception;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\SystemException;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Illuminate\View\ViewFinderInterface;

@@ -6,7 +6,7 @@ use Exception;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Main\Classes\MediaLibrary;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 

@@ -4,7 +4,7 @@ namespace Igniter\System\Console\Commands;
 
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Foundation\Console\VendorPublishCommand;
-use Illuminate\Support\Facades\File;
+use Igniter\Flame\Support\Facades\File;
 use Symfony\Component\Console\Input\InputOption;
 
 class ThemeVendorPublish extends VendorPublishCommand
@@ -107,6 +107,7 @@ class ThemeVendorPublish extends VendorPublishCommand
     protected function getOptions()
     {
         return [
+            ['existing', null, InputOption::VALUE_NONE, 'Publish and overwrite only the files that have already been published'],
             ['all', null, InputOption::VALUE_NONE, 'Publish assets for all themes without prompt.'],
             ['theme', null, InputOption::VALUE_OPTIONAL, 'One or many theme that have assets you want to publish.'],
             ['force', null, InputOption::VALUE_NONE, 'Force publish.'],
