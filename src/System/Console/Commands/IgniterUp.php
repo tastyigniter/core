@@ -56,11 +56,13 @@ class IgniterUp extends Command
 
     protected function dropConflictingFoundationTables()
     {
-        if (!DB::table('settings')->where('item', 'ti_version')->where('value', 'like', 'v3.%')->exists())
+        if (!DB::table('settings')->where('item', 'ti_version')->where('value', 'like', 'v3.%')->exists()) {
             return;
+        }
 
-        if (!Schema::hasTable('user_preferences'))
+        if (!Schema::hasTable('user_preferences')) {
             return;
+        }
 
         $this->output->writeln('<info>Dropping default foundation tables...</info>');
 
