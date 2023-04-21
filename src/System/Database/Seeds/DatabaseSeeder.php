@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
 
     public static $password = '123456';
 
-    public static $seedInitial = false;
+    public static $seedInitial = true;
 
-    public static $seedDemo = true;
+    public static $seedDemo = false;
 
     /**
      * Run the database seeds.
