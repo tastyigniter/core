@@ -4,6 +4,7 @@ namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
 use Igniter\Admin\Events\Order\BeforePaymentProcessed as BeforePaymentProcessedEvent;
+use Igniter\Admin\Events\Order\CancelEvent as OrderCanceledEvent;
 use Igniter\Admin\Events\Order\PaymentProcessed as PaymentProcessedEvent;
 use Igniter\Admin\Traits\Assignable;
 use Igniter\Admin\Traits\HasInvoice;
@@ -237,9 +238,23 @@ class Order extends Model
             return false;
         }
 
-        return $this->status_history()->where(
-            'status_id', setting('completed_order_status')
-        )->exists();
+        return $this->hasStatus(setting('completed_order_status'));
+    }
+
+    public function isCanceled()
+    {
+        return $this->hasStatus(setting('canceled_order_status'));
+    }
+
+    public function isCancelable()
+    {
+        if (!$timeout = $this->location->getOrderCancellationTimeout($this->order_type))
+            return false;
+
+        if (!$this->order_datetime->isFuture())
+            return false;
+
+        return $this->order_datetime->diffInRealMinutes() > $timeout;
     }
 
     /**
@@ -272,6 +287,17 @@ class Order extends Model
     public function getOrderDates()
     {
         return $this->pluckDates('created_at');
+    }
+
+    public function markAsCanceled()
+    {
+        $canceled = false;
+        if ($this->addStatusHistory(setting('canceled_order_status'))) {
+            $canceled = true;
+            OrderCanceledEvent::dispatch($this);
+        }
+
+        return $canceled;
     }
 
     public function markAsPaymentProcessed()

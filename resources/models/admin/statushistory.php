@@ -24,7 +24,7 @@ $config['list']['columns'] = [
     'updated_at' => [
         'label' => 'lang:igniter::admin.column_date_updated',
         'invisible' => true,
-        'type' => 'timesense',
+        'type' => 'datetime',
     ],
 ];
 
