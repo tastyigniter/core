@@ -24,13 +24,6 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         $this->registerDoctrineTypes();
     }
 
-    public function boot()
-    {
-        parent::boot();
-
-        Schema::defaultStringLength(128);
-    }
-
     /**
      * Register the primary database bindings.
      *
