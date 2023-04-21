@@ -442,8 +442,11 @@ class ExtensionManager
         $extensionNamespace = array_get($extension->extensionMeta(), 'namespace');
 
         // Register resources path symbol
-        if (File::isDirectory($resourcesPath = $extensionPath.'/resources') ||
-            File::isDirectory($resourcesPath = $extensionPath)) {
+        if (File::isDirectory($resourcesPath = $extensionPath.'/resources')) {
+            Igniter::loadResourcesFrom($resourcesPath, $extensionCode);
+        }
+        
+        if (File::isDirectory($resourcesPath = $extensionPath)) {
             Igniter::loadResourcesFrom($resourcesPath, $extensionCode);
         }
 

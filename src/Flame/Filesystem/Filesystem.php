@@ -122,7 +122,7 @@ class Filesystem extends IlluminateFilesystem
             if ($this->symlinks === null) {
                 $this->findSymlinks();
             }
-            if (count($this->symlinks) > 0) {
+            elseif (count($this->symlinks) > 0) {
                 foreach ($this->symlinks as $source => $target) {
                     if (strpos($path, $target) === 0) {
                         $relativePath = substr($path, strlen($target));
@@ -206,10 +206,8 @@ class Filesystem extends IlluminateFilesystem
 
     /**
      * Normalizes the directory separator, often used by Win systems.
-     * @param string $path Path name
-     * @return string       Normalized path
      */
-    public function normalizePath($path)
+    public function normalizePath(string $path): string
     {
         return str_replace('\\', '/', $path);
     }
@@ -217,31 +215,31 @@ class Filesystem extends IlluminateFilesystem
     /**
      * Converts a path using path symbol. Returns the original path if
      * no symbol is used and no default is specified.
-     * @param string $path
-     * @param mixed $default
-     * @return string
      */
-    public function symbolizePath($path, $default = false)
+    public function symbolizePath(string $path, bool|null $default = false): string|bool|null
     {
         if (!$symbol = $this->isPathSymbol($path)) {
             return $default === false ? $path : $default;
         }
 
         $_path = (string)Str::of(Str::after($path, $symbol))->after(static::HINT_PATH_DELIMITER);
-
         if ($_path && !Str::startsWith($_path, '/')) {
             $_path = '/'.$_path;
         }
 
-        return $this->pathSymbols[$symbol].$_path;
+        foreach ($this->pathSymbols[$symbol] as $pathSymbol) {
+            if ($this->exists($pathSymbol.$_path)) {
+                return $pathSymbol.$_path;
+            }
+        }
+        
+        return $path;
     }
 
     /**
      * Returns true if the path uses a symbol.
-     * @param string $path
-     * @return bool
      */
-    public function isPathSymbol($path)
+    public function isPathSymbol(string $path): string|false
     {
         $symbol = Str::contains($path, static::HINT_PATH_DELIMITER)
             ? Str::before($path, static::HINT_PATH_DELIMITER)
@@ -254,12 +252,11 @@ class Filesystem extends IlluminateFilesystem
         return false;
     }
 
-    public function addPathSymbol($symbol, $path)
+    public function addPathSymbol(string $symbol, string $path): void
     {
-        if (!is_array($this->pathSymbols[$symbol])) {
+        if (!array_key_exists($symbol, $this->pathSymbols) || !is_array($this->pathSymbols[$symbol])) {
             $this->pathSymbols[$symbol] = [];
         }
-        $this->pathSymbols[$symbol] = [$this->pathSymbols[$symbol]];
 
         array_unshift($this->pathSymbols[$symbol], $path);
     }

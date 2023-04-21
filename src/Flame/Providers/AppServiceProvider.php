@@ -35,8 +35,8 @@ abstract class AppServiceProvider extends ServiceProvider
 
     public function loadResourcesFrom(string $path, string $namespace = null)
     {
-        $this->callAfterResolving(Filesystem::class, function ($files) use ($path, $namespace) {
-            $files->pathSymbols[$namespace] = $path;
+        $this->callAfterResolving(Filesystem::class, function (Filesystem $files) use ($path, $namespace) {
+            $files->addPathSymbol($namespace, $path);
         });
     }
 

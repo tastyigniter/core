@@ -202,8 +202,8 @@ class Igniter
 
     public static function loadResourcesFrom(string $path, string $namespace = null)
     {
-        $callback = function ($files) use ($path, $namespace) {
-            $files->pathSymbols[$namespace] = $path;
+        $callback = function (Filesystem $files) use ($path, $namespace) {
+            $files->addPathSymbol($namespace, $path);
         };
 
         app()->afterResolving(Filesystem::class, $callback);
