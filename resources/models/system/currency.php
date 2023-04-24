@@ -21,6 +21,18 @@ $config['list']['toolbar'] = [
             'class' => 'btn btn-primary',
             'href' => 'currencies/create',
         ],
+        'languages' => [
+            'label' => 'lang:igniter::admin.side_menu.language',
+            'class' => 'btn btn-default',
+            'href' => 'languages',
+            'permission' => 'Site.Languages',
+        ],
+        'countries' => [
+            'label' => 'lang:igniter::admin.side_menu.country',
+            'class' => 'btn btn-default',
+            'href' => 'countries',
+            'permission' => 'Site.Countries',
+        ],
     ],
 ];
 

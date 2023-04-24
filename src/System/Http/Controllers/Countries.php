@@ -57,7 +57,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('countries', 'localisation');
+        AdminMenu::setContext('localisation', 'system');
     }
 
     public function index()

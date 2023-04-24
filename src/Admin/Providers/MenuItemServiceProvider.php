@@ -211,35 +211,6 @@ class MenuItemServiceProvider extends ServiceProvider
                         ],
                     ],
                 ],
-                'localisation' => [
-                    'priority' => 300,
-                    'class' => 'localisation',
-                    'icon' => 'fa-globe',
-                    'title' => lang('igniter::admin.side_menu.localisation'),
-                    'child' => [
-                        'languages' => [
-                            'priority' => 10,
-                            'class' => 'languages',
-                            'href' => admin_url('languages'),
-                            'title' => lang('igniter::admin.side_menu.language'),
-                            'permission' => 'Site.Languages',
-                        ],
-                        'currencies' => [
-                            'priority' => 20,
-                            'class' => 'currencies',
-                            'href' => admin_url('currencies'),
-                            'title' => lang('igniter::admin.side_menu.currency'),
-                            'permission' => 'Site.Currencies',
-                        ],
-                        'countries' => [
-                            'priority' => 30,
-                            'class' => 'countries',
-                            'href' => admin_url('countries'),
-                            'title' => lang('igniter::admin.side_menu.country'),
-                            'permission' => 'Site.Countries',
-                        ],
-                    ],
-                ],
                 'tools' => [
                     'priority' => 400,
                     'class' => 'tools',
@@ -274,6 +245,13 @@ class MenuItemServiceProvider extends ServiceProvider
                             'href' => admin_url('extensions'),
                             'title' => lang('igniter::admin.side_menu.extension'),
                             'permission' => 'Admin.Extensions',
+                        ],
+                        'localisation' => [
+                            'priority' => 10,
+                            'class' => 'localisation',
+                            'href' => admin_url('currencies'),
+                            'title' => lang('igniter::admin.side_menu.localisation'),
+                            'permission' => ['Site.Languages', 'Site.Languages', 'Site.Countries'],
                         ],
                         'settings' => [
                             'priority' => 20,

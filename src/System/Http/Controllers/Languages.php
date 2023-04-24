@@ -70,7 +70,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('languages', 'localisation');
+        AdminMenu::setContext('localisation', 'system');
     }
 
     public function index()
