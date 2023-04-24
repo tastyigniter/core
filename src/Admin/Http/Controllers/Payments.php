@@ -121,17 +121,15 @@ class Payments extends \Igniter\Admin\Classes\AdminController
         return $model;
     }
 
-    public function formExtendFields($form)
+    public function formExtendFieldsBefore($form)
     {
         $model = $form->model;
         if ($model->exists) {
-            $configFields = $model->getConfigFields();
-            $form->addTabFields($configFields);
+            $form->tabs['fields'] = array_merge($form->tabs['fields'] ?? [], $model->getConfigFields());
         }
 
         if ($form->context != 'create') {
-            $field = $form->getField('code');
-            $field->disabled = true;
+            array_set($form->fields, 'code.disabled', true);
         }
     }
 
