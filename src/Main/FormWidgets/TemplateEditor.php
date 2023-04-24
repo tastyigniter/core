@@ -262,7 +262,7 @@ class TemplateEditor extends BaseFormWidget
 
         $settings = array_get($formData, 'settings', []);
 
-        return array_merge(array_filter($settings), $result);
+        return array_merge(array_except($settings, ['components']), $result);
     }
 
     protected function wasTemplateModified()

@@ -163,9 +163,9 @@ class MainController extends Controller
             );
         }
 
-        // If the page was not found,
+        // If the page was not found or a page is hidden,
         // render the 404 page - either provided by the theme or the built-in one.
-        if (!$page instanceof PageTemplate) {
+        if (!$page instanceof PageTemplate || $page->isHidden) {
             if (!Request::ajax()) {
                 $this->statusCode = 404;
             }

@@ -33,8 +33,7 @@ class RouteRegistrar
             ->domain(config('igniter.routes.domain'))
             ->name('igniter.main.assets')
             ->group(function (IlluminateRouter $router) {
-                $uri = config('igniter.routes.assetsCombinerUri', '_assets').'/{asset}';
-                $router->get($uri, 'AssetController');
+                $router->get(config('igniter.routes.assetsCombinerUri', '_assets').'/{asset}', 'AssetController');
             });
     }
 

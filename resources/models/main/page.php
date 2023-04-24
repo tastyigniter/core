@@ -73,6 +73,11 @@ return [
                     'label' => 'lang:igniter::admin.label_description',
                     'type' => 'text',
                 ],
+                'settings[isHidden]' => [
+                    'tab' => 'igniter::system.themes.text_tab_meta',
+                    'label' => 'igniter::system.themes.label_hidden',
+                    'type' => 'switch',
+                ],
             ],
         ],
         'rules' => [

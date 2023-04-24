@@ -94,14 +94,14 @@ class Settings extends Model
 
     public static function getMenusPageOptions()
     {
-        $theme = resolve(ThemeManager::class)->getActiveTheme();
+        $theme = resolve(ThemeManager::class)->getActiveThemeCode();
 
         return $theme ? Page::getDropdownOptions($theme, true) : [];
     }
 
     public static function getReservationPageOptions()
     {
-        $theme = resolve(ThemeManager::class)->getActiveTheme();
+        $theme = resolve(ThemeManager::class)->getActiveThemeCode();
 
         return $theme ? Page::getDropdownOptions($theme, true) : [];
     }
