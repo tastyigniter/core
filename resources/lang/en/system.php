@@ -77,6 +77,8 @@ return [
 
         'help_format' => 'Address 1 = {address_1}<br />Address 2 = {address_2}<br />City = {city}<br />Postcode = {postcode}<br />State = {state}<br />Country = {country}',
         'help_iso' => 'Learn more about <a target="_blank" href="http://en.wikipedia.org/wiki/ISO_3166-1">ISO Alpha 2 & 3</a>',
+
+        'alert_set_default' => 'Country set as default',
     ],
 
     'currencies' => [
@@ -104,6 +106,8 @@ return [
         'label_decimal_position' => 'Decimal Place',
 
         'help_iso' => 'Learn more about <a target="_blank" href="https://en.wikipedia.org/wiki/ISO_4217">ISO 4217</a>',
+
+        'alert_set_default' => 'Currency set as default',
     ],
 
     'extensions' => [
@@ -177,6 +181,7 @@ return [
 
         'help_language' => 'Use a full locale code (e.g. “fr_FR”) instead of just a generic language code (e.g. “fr”), must be same as the locale directory.',
 
+        'alert_set_default' => 'Language set as default',
         'alert_save_changes' => 'Your changes will be lost if you don\'t save them before editing another language file.',
 
         'translations' => [

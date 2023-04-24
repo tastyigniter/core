@@ -221,6 +221,15 @@ class Payment extends Model
         return self::$defaultPayment = $defaultPayment;
     }
 
+    public static function updateDefault($paymentCode)
+    {
+        if ($model = self::whereCode($paymentCode)->first()) {
+            $model->makeDefault();
+
+            return true;
+        }
+    }
+
     /**
      * Return all payments
      *

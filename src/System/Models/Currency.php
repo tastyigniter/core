@@ -106,8 +106,12 @@ class Currency extends Model implements CurrencyInterface
             )]);
         }
 
-        setting('default_currency_code', $this->currency_code);
-        setting()->save();
+        setting()->set('default_currency_code', $this->currency_code)->save();
+    }
+
+    public function isDefault()
+    {
+        return $this->currency_code == setting('default_currency_code');
     }
 
     /**
@@ -131,6 +135,15 @@ class Currency extends Model implements CurrencyInterface
         }
 
         return self::$defaultCurrency = $defaultCurrency;
+    }
+
+    public static function updateDefault($currencyId)
+    {
+        if ($model = self::find($currencyId)) {
+            $model->makeDefault();
+
+            return true;
+        }
     }
 
     public static function getDropdownOptions()

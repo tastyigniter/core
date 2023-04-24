@@ -71,6 +71,15 @@ $config['list']['columns'] = [
             'href' => 'countries/edit/{country_id}',
         ],
     ],
+    'default' => [
+        'type' => 'button',
+        'iconCssClass' => 'fa fa-star-o',
+        'attributes' => [
+            'class' => 'btn btn-outline-warning bg-transparent',
+            'data-request' => 'onSetDefault',
+            'data-request-data' => 'default:{country_id}',
+        ],
+    ],
     'country_name' => [
         'label' => 'lang:igniter::admin.label_name',
         'type' => 'text',

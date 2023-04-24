@@ -64,10 +64,26 @@ class Countries extends \Igniter\Admin\Classes\AdminController
     {
         rescue(function () {
             if (!Country::count()) {
-            Country::upsertFromHub();
+                Country::upsertFromHub();
             }
         });
 
         $this->asExtension('ListController')->index();
+    }
+
+    public function index_onSetDefault($context = null)
+    {
+        if (Country::updateDefault(post('default'))) {
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::system.countries.alert_set_default')));
+        }
+
+        return $this->refreshList('list');
+    }
+
+    public function listOverrideColumnValue($record, $column, $alias = null)
+    {
+        if ($column->type == 'button' && $column->columnName == 'default') {
+            $column->iconCssClass = $record->isDefault() ? 'fa fa-star' : 'fa fa-star-o';
+        }
     }
 }

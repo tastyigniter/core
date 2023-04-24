@@ -59,6 +59,15 @@ $config['list']['columns'] = [
             'href' => 'payments/edit/{code}',
         ],
     ],
+    'default' => [
+        'type' => 'button',
+        'iconCssClass' => 'fa fa-star-o',
+        'attributes' => [
+            'class' => 'btn btn-outline-warning bg-transparent',
+            'data-request' => 'onSetDefault',
+            'data-request-data' => 'default:"{code}"',
+        ],
+    ],
     'name' => [
         'label' => 'lang:igniter::admin.label_name',
         'type' => 'text',

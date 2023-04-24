@@ -61,8 +61,7 @@ class Country extends Model
             )]);
         }
 
-        setting('country_id', $this->country_id);
-        setting()->save();
+        setting()->set('country_id', $this->country_id)->save();
     }
 
     /**
@@ -86,6 +85,20 @@ class Country extends Model
         }
 
         return self::$defaultCountry = $defaultCountry;
+    }
+
+    public static function updateDefault($countryId)
+    {
+        if ($model = self::find($countryId)) {
+            $model->makeDefault();
+
+            return true;
+        }
+    }
+
+    public function isDefault()
+    {
+        return $this->country_id == setting('country_id');
     }
 
     public static function upsertFromHub()

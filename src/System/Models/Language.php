@@ -147,6 +147,15 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return self::$defaultLanguage = $defaultLanguage;
     }
 
+    public static function updateDefault($languageCode)
+    {
+        if ($model = self::whereCode($languageCode)->first()) {
+            $model->makeDefault();
+
+            return true;
+        }
+    }
+
     public function isDefault()
     {
         return $this->code == setting('default_language');

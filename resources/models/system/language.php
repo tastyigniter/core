@@ -77,6 +77,15 @@ $config['list']['columns'] = [
             'href' => 'languages/edit/{language_id}',
         ],
     ],
+    'default' => [
+        'type' => 'button',
+        'iconCssClass' => 'fa fa-star-o',
+        'attributes' => [
+            'class' => 'btn btn-outline-warning bg-transparent',
+            'data-request' => 'onSetDefault',
+            'data-request-data' => 'default:{language_id}',
+        ],
+    ],
     'name' => [
         'label' => 'lang:igniter::admin.label_name',
         'type' => 'text',

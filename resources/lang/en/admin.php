@@ -751,6 +751,7 @@ return [
         'label_default' => 'Is Default',
         'label_priority' => 'Priority',
 
+        'alert_set_default' => 'Payment set as default',
         'alert_setting_missing_id' => 'Extension setting code has not been specified.',
         'alert_invalid_code' => 'Invalid payment gateway code selected.',
         'alert_code_not_found' => 'Unable to find payment gateway with code %s',

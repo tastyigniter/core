@@ -71,6 +71,15 @@ $config['list']['columns'] = [
             'href' => 'currencies/edit/{currency_id}',
         ],
     ],
+    'default' => [
+        'type' => 'button',
+        'iconCssClass' => 'fa fa-star-o',
+        'attributes' => [
+            'class' => 'btn btn-outline-warning bg-transparent',
+            'data-request' => 'onSetDefault',
+            'data-request-data' => 'default:{currency_id}',
+        ],
+    ],
     'currency_name' => [
         'label' => 'lang:igniter::admin.label_name',
         'type' => 'text',

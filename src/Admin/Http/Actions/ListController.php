@@ -217,6 +217,7 @@ class ListController extends ControllerAction
             $this->toolbarWidget[$alias] = clone $this->controller->widgets['toolbar'];
             if ($this->toolbarWidget[$alias] instanceof \Igniter\Admin\Widgets\Toolbar) {
                 $this->toolbarWidget[$alias]->reInitialize($listConfig['toolbar'] ?? $modelConfig['toolbar']);
+                $this->toolbarWidget[$alias]->bindToController();
             }
         }
 
