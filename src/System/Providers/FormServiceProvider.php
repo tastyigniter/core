@@ -21,16 +21,6 @@ class FormServiceProvider extends ServiceProvider
                     'form' => 'generalsettings',
                     'request' => \Igniter\System\Requests\GeneralSettings::class,
                 ],
-                'site' => [
-                    'label' => 'igniter::system.settings.text_tab_site',
-                    'description' => 'igniter::system.settings.text_tab_desc_site',
-                    'icon' => 'fa fa-globe',
-                    'priority' => 2,
-                    'permission' => ['Site.Settings'],
-                    'url' => admin_url('settings/edit/site'),
-                    'form' => 'sitesettings',
-                    'request' => 'Igniter\System\Requests\SiteSettings',
-                ],
                 'mail' => [
                     'label' => 'lang:igniter::system.settings.text_tab_mail',
                     'description' => 'lang:igniter::system.settings.text_tab_desc_mail',
