@@ -291,11 +291,13 @@ class Reservation extends Model
 
     public function isCancelable()
     {
-        if (!$timeout = $this->location->getReservationCancellationTimeout())
+        if (!$timeout = $this->location->getReservationCancellationTimeout()) {
             return false;
+        }
 
-        if (!$this->reservation_datetime->isFuture())
+        if (!$this->reservation_datetime->isFuture()) {
             return false;
+        }
 
         return $this->reservation_datetime->diffInRealMinutes() > $timeout;
     }

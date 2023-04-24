@@ -7,7 +7,6 @@ use Igniter\Flame\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\DatabaseServiceProvider as BaseDatabaseServiceProvider;
 use Illuminate\Database\DatabaseTransactionsManager;
-use Illuminate\Support\Facades\Schema;
 
 class DatabaseServiceProvider extends BaseDatabaseServiceProvider
 {

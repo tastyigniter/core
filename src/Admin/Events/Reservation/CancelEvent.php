@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Events\Reservation;
 
-use Igniter\Admin\Models\Order;
 use Igniter\Admin\Models\Reservation;
 use Igniter\Flame\Traits\EventDispatchable;
 

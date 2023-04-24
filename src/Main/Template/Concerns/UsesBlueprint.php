@@ -38,8 +38,9 @@ trait UsesBlueprint
         $settings = $this->attributes['settings'];
         $allSettings = $this->getSource()->loadBlueprint();
 
-        if ($settings === array_get($allSettings, $this->getTypeDirName().'.'.$this->getId(), false))
+        if ($settings === array_get($allSettings, $this->getTypeDirName().'.'.$this->getId(), false)) {
             return false;
+        }
 
         array_set($allSettings, $this->getTypeDirName().'.'.$this->getId(), $settings);
 

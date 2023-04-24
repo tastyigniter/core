@@ -248,11 +248,13 @@ class Order extends Model
 
     public function isCancelable()
     {
-        if (!$timeout = $this->location->getOrderCancellationTimeout($this->order_type))
+        if (!$timeout = $this->location->getOrderCancellationTimeout($this->order_type)) {
             return false;
+        }
 
-        if (!$this->order_datetime->isFuture())
+        if (!$this->order_datetime->isFuture()) {
             return false;
+        }
 
         return $this->order_datetime->diffInRealMinutes() > $timeout;
     }
