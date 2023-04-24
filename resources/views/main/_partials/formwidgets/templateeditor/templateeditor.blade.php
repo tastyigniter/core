@@ -12,4 +12,10 @@
             {!! $this->makePartial('templateeditor/container') !!}
         </div>
     </div>
+@else
+    <div class="card shadow-sm bg-light border-warning text-warning">
+        <div class="card-body">
+            <b>@lang('igniter::system.themes.alert_theme_locked')</b>
+        </div>
+    </div>
 @endunless

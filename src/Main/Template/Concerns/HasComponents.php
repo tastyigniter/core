@@ -92,7 +92,12 @@ trait HasComponents
             }
         );
 
-        $this->components = $components;
+        $this->attributes['settings']['components'] = $components;
+    }
+
+    public function getComponents()
+    {
+        return $this->settings['components'] ?? [];
     }
 
     //

@@ -5,6 +5,7 @@ namespace Igniter\Flame\Pagic\Concerns;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Source\SourceInterface;
 use Igniter\Flame\Pagic\Source\SourceResolverInterface;
+use Igniter\Main\Classes\Theme;
 use Illuminate\Support\Collection;
 
 trait ManagesSource
@@ -58,8 +59,12 @@ trait ManagesSource
      * Returns the list of objects in the specified theme.
      * This method is used internally by the system.
      */
-    public static function listInTheme(string $source = null, bool $skipCache = false): Collection
+    public static function listInTheme(string|Theme $source = null, bool $skipCache = false): Collection
     {
+        if ($source instanceof Theme) {
+            $source = $source->getDirName();
+        }
+
         $instance = static::on($source ?? static::$resolver->getDefaultSourceName());
 
         if (!$skipCache) {
@@ -69,8 +74,12 @@ trait ManagesSource
         return $instance->get();
     }
 
-    public static function getDropdownOptions(string $source = null, bool $skipCache = false): array
+    public static function getDropdownOptions(string|Theme $source = null, bool $skipCache = false): array
     {
+        if ($source instanceof Theme) {
+            $source = $source->getDirName();
+        }
+
         return collect(static::listInTheme($source, $skipCache))
             ->mapWithKeys(function (Model $model) {
                 $fileName = $model->getKey();

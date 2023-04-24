@@ -33,19 +33,15 @@ trait UsesBlueprint
         return array_get($this->getSource()->loadBlueprint(), $this->getTypeDirName().'.'.$this->getId(), []);
     }
 
-    public function updateSettings(): int
+    public function updateSettings(): bool
     {
-        if (!$this->isDirty('settings')) {
-            return false;
-        }
-
+        $settings = $this->attributes['settings'];
         $allSettings = $this->getSource()->loadBlueprint();
 
-        if (!array_key_exists($this->getTypeDirName(), $allSettings)) {
+        if ($settings === array_get($allSettings, $this->getTypeDirName().'.'.$this->getId(), false))
             return false;
-        }
 
-        array_set($allSettings, $this->getTypeDirName().'.'.$this->getId(), $this->attributes['settings']);
+        array_set($allSettings, $this->getTypeDirName().'.'.$this->getId(), $settings);
 
         return $this->getSource()->writeBlueprint($allSettings);
     }

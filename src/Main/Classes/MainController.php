@@ -509,7 +509,7 @@ class MainController extends Controller
 
     protected function initializeComponents()
     {
-        foreach ($this->layout->settings['components'] ?: [] as $component => $properties) {
+        foreach ($this->layout->getComponents() as $component => $properties) {
             [$name, $alias] = strpos($component, ' ')
                 ? explode(' ', $component)
                 : [$component, $component];
@@ -517,7 +517,7 @@ class MainController extends Controller
             $this->addComponent($name, $alias, $properties, true);
         }
 
-        foreach ($this->page->settings['components'] ?: [] as $component => $properties) {
+        foreach ($this->page->getComponents() as $component => $properties) {
             [$name, $alias] = strpos($component, ' ')
                 ? explode(' ', $component)
                 : [$component, $component];

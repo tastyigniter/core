@@ -74,7 +74,9 @@ class TemplateEditor extends BaseFormWidget
         ]);
 
         $this->manager = resolve(ThemeManager::class);
-        $this->templateWidget = $this->makeTemplateFormWidget();
+        if (!$this->previewMode = $this->manager->isLocked($this->model->code)) {
+            $this->templateWidget = $this->makeTemplateFormWidget();
+        }
     }
 
     public function render()
@@ -177,7 +179,6 @@ class TemplateEditor extends BaseFormWidget
             return;
         }
 
-        $fileName = $this->getFilename();
         $data = post('Theme.source');
 
         $this->validateAfter(function (Validator $validator) {
@@ -194,7 +195,7 @@ class TemplateEditor extends BaseFormWidget
 
         $formData = $this->getTemplateAttributes();
 
-        $this->manager->writeFile($fileName, $formData, $this->model->code);
+        return $this->templateWidget->data->fileSource->fill($formData)->save();
     }
 
     protected function makeTemplateFormWidget()
