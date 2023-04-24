@@ -57,7 +57,10 @@ trait ControllerUtils
         }
 
         if (in_array(strtolower($action), array_map('strtolower', $this->hiddenActions))) {
-            return false;
+            throw new SystemException(sprintf(
+                'Method [%s] is not allowed in the controller [%s]',
+                $action, get_class($this)
+            ));
         }
 
         if (method_exists($this, $action)) {
@@ -71,7 +74,7 @@ trait ControllerUtils
 
     public function callAction($method, $parameters)
     {
-        if (!$this->checkAction($method)) {
+        if (!$this->checkAction($this->action)) {
             throw new SystemException(sprintf(
                 'Method [%s] is not found in the controller [%s]',
                 $method, get_class($this)
