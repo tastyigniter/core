@@ -2,35 +2,30 @@
 
 namespace Igniter\Admin\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\Admin;
 use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Models\User;
-use Igniter\Admin\Traits\ControllerUtils;
-use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\ValidationException;
-use Igniter\System\Traits\ViewMaker;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
 
-class Login extends Controller
+class Login extends AdminController
 {
-    use ViewMaker;
-    use ValidatesForm;
-    use ControllerUtils;
-
     public $bodyClass = 'page-login';
 
     public function __construct()
     {
         $this->middleware('throttle:'.config('igniter.auth.rateLimiter', '6,1'));
-
-        $this->layout = $this->layout ?: 'default';
-        $this->layoutPath[] = 'igniter.admin::_layouts';
+        parent::__construct();
     }
 
     public function index()
     {
+        if (AdminAuth::isLogged()) {
+            return Admin::redirect('dashboard');
+        }
+
         Template::setTitle(lang('igniter::admin.login.text_title'));
 
         return $this->makeView('igniter.admin::auth.login');
@@ -54,21 +49,6 @@ class Login extends Controller
         $this->vars['resetCode'] = input('code');
 
         return $this->makeView('igniter.admin::auth.reset');
-    }
-
-    public function callAction($method, $parameters)
-    {
-        if (AdminAuth::isLogged()) {
-            return Admin::redirect('dashboard');
-        }
-
-        if ($handler = Admin::getAjaxHandler()) {
-            Admin::validateAjaxHandler($handler);
-
-            return $this->runHandler($handler);
-        }
-
-        return $this->{$method}(...array_values($parameters));
     }
 
     public function onLogin()

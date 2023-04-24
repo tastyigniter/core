@@ -2,6 +2,7 @@
 
 namespace Igniter\Admin\Classes;
 
+use Igniter\Admin\Http\Controllers\Dashboard;
 use Igniter\Admin\Http\Controllers\Login;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
@@ -38,8 +39,7 @@ class RouteRegistrar
             ->prefix(Igniter::uri())
             ->name('igniter.admin.assets')
             ->group(function (Router $router) {
-                $uri = config('igniter.routes.assetsCombinerUri', '_assets').'/{asset}';
-                $router->get($uri, 'AssetController');
+                $router->get(config('igniter.routes.assetsCombinerUri', '_assets').'/{asset}', 'AssetController');
             });
     }
 
@@ -59,12 +59,11 @@ class RouteRegistrar
             ->domain(config('igniter.routes.domain'))
             ->prefix(Igniter::uri())
             ->group(function (Router $router) {
+                $router->name('igniter.admin.dashboard')->any('/', [Dashboard::class, 'remap']);
+
                 foreach ($this->getAdminPages() as $class) {
                     [$name, $uri] = $this->guessRouteUri($class);
-
-                    $router->name($name)->group(function (Router $router) use ($uri, $class) {
-                        $router->any('/'.$uri.'/{slug?}', [$class, 'remap'])->where('slug', '(.*)?');
-                    });
+                    $router->name($name)->any('/'.$uri.'/{slug?}', [$class, 'remap'])->where('slug', '(.*)?');
                 }
             });
     }
@@ -87,7 +86,9 @@ class RouteRegistrar
 
     protected function isAdminPage($class)
     {
-        return is_subclass_of($class, AdminController::class) && !(new ReflectionClass($class))->isAbstract();
+        return is_subclass_of($class, AdminController::class)
+            && !(new ReflectionClass($class))->isAbstract()
+            && $class !== Login::class;
     }
 
     protected function guessRouteUri($class)

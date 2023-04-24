@@ -921,33 +921,4 @@ class MainController extends Controller
 
         return $params;
     }
-
-    //
-    // Extendable
-    //
-
-    public function __get(string $name): mixed
-    {
-        return $this->extendableGet($name);
-    }
-
-    public function __set(string $name, mixed $value): void
-    {
-        $this->extendableSet($name, $value);
-    }
-
-    public function __call($method, $parameters): mixed
-    {
-        return $this->extendableCall($method, $parameters);
-    }
-
-    public static function __callStatic(string $name, array $params): mixed
-    {
-        return self::extendableCallStatic($name, $params);
-    }
-
-    public static function extend(callable $callback): void
-    {
-        self::extendableExtendCallback($callback);
-    }
 }

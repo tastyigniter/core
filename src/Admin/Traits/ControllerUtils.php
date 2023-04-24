@@ -74,7 +74,7 @@ trait ControllerUtils
 
     public function callAction($method, $parameters)
     {
-        if (!$this->checkAction($this->action)) {
+        if (!$this->checkAction($method)) {
             throw new SystemException(sprintf(
                 'Method [%s] is not found in the controller [%s]',
                 $method, get_class($this)
@@ -86,7 +86,7 @@ trait ControllerUtils
         }
 
         if (method_exists($this, 'remap')) {
-            return $this->remap($this->action, $this->params);
+            return $this->remap($method == 'remap' ? $this->action : $method, $this->params);
         }
 
         return $this->{$method}(...$parameters);
@@ -94,7 +94,7 @@ trait ControllerUtils
 
     public function getClass()
     {
-        return $this->class;
+        return $this->class ?? get_class($this);
     }
 
     public function getAction()
@@ -125,5 +125,34 @@ trait ControllerUtils
         return method_exists($this, 'methodExists')
             ? $this->methodExists($handler)
             : method_exists($this, $handler);
+    }
+
+    //
+    // Extendable
+    //
+
+    public function __get(string $name): mixed
+    {
+        return $this->extendableGet($name);
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        $this->extendableSet($name, $value);
+    }
+
+    public function __call($method, $parameters): mixed
+    {
+        return $this->extendableCall($method, $parameters);
+    }
+
+    public static function __callStatic(string $name, array $params): mixed
+    {
+        return self::extendableCallStatic($name, $params);
+    }
+
+    public static function extend(callable $callback): void
+    {
+        self::extendableExtendCallback($callback);
     }
 }
