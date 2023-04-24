@@ -55,7 +55,7 @@ class RouteRegistrar
             });
 
         $this->router
-            ->middleware('igniter')
+            ->middleware('igniter:admin')
             ->domain(config('igniter.routes.domain'))
             ->prefix(Igniter::uri())
             ->group(function (Router $router) {
