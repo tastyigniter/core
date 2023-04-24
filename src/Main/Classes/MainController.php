@@ -13,6 +13,7 @@ use Igniter\Flame\Flash\Facades\Flash;
 use Igniter\Flame\Pagic\Parsers\FileParser;
 use Igniter\Flame\Pagic\Router;
 use Igniter\Main\Components\BlankComponent;
+use Igniter\Main\Helpers\MainHelper;
 use Igniter\Main\Template\ComponentPartial;
 use Igniter\Main\Template\Content;
 use Igniter\Main\Template\Layout as LayoutTemplate;
@@ -845,44 +846,22 @@ class MainController extends Controller
             return $this->currentPageUrl($params);
         }
 
-        if (!$url = $this->router->url($path, $params)) {
-            $url = $path;
-        }
-
-        return URL::to($url);
+        return MainHelper::url($path);
     }
 
     public function pageUrl($path = null, $params = [])
     {
-        $params = array_merge($this->router->getParameters(), $params);
-
-        if (!is_array($params)) {
-            $params = [];
-        }
-
-        if (in_array($path, [setting('reservation_page'), setting('menus_page')])
-            || in_array(str_replace('/', '.', $path), [setting('reservation_page'), setting('menus_page')])
-        ) {
-        $params = $this->bindLocationRouteParameter($params);
-        }
-
-        return $this->url($path, $params);
+        return MainHelper::pageUrl($path);
     }
 
     public function currentPageUrl($params = [])
     {
-        $params = array_merge($this->router->getParameters(), $params);
-
         return $this->pageUrl($this->page->getFileName(), $params);
     }
 
     public function themeUrl($url = null)
     {
-        $themeDir = $this->getTheme()->getDirName();
-
-        $path = Config::get('igniter.system.themesDir', '/themes').'/'.$themeDir;
-
-        return URL::asset(($url !== null) ? $path.'/'.$url : $path);
+        traceLog('themeUrl() is deprecated, use public_url() instead.');
     }
 
     public function param($name, $default = null)

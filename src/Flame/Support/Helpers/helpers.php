@@ -408,7 +408,7 @@ if (!function_exists('page_url')) {
      */
     function page_url(string|null $uri = null, array $params = []): string
     {
-        return controller()->pageUrl($uri, $params);
+        return \Igniter\Main\Helpers\MainHelper::pageUrl($uri, $params);
     }
 }
 
