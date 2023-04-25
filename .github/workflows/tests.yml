@@ -15,10 +15,8 @@ jobs:
       max-parallel: 6
       matrix:
         php: ['8.1', '8.2']
-        db: ['mysql:5.7', 'mysql:8.0', 'mariadb:10.6']
+        db: ['mysql:8.0', 'mariadb:10.6']
         include:
-          - db: 'mysql:5.7'
-            dbName: 'MySQL 5.7'
           - db: 'mysql:8.0'
             dbName: 'MySQL'
           - db: 'mariadb:10.6'
@@ -52,7 +50,7 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
 
       - name: Run Pest Test Suite
-        run: vendor/bin/pest --verbose
+        run: vendor/bin/pest --verbose --parallel=10
 
     env:
       DB_PORT: 3306

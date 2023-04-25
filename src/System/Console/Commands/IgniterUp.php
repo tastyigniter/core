@@ -3,6 +3,7 @@
 namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Filesystem\Filesystem;
+use Igniter\Flame\Igniter;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +38,9 @@ class IgniterUp extends Command
      */
     public function handle()
     {
-        $this->dropConflictingFoundationTables();
+        if (Igniter::hasDatabase()) {
+            $this->dropConflictingFoundationTables();
+        }
 
         if (!$this->migrationFileExists('create_notifications_table')) {
             $this->call('notifications:table');
