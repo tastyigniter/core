@@ -86,7 +86,7 @@ class PermissionManager
                 || $this->checkPermissionEndsWith($permission, $permissions)
                 || $this->checkPermissionMatches($permission, $permissions)
             ) {
-            $matched = true;
+                $matched = true;
             }
 
             if ($checkAll === false && $matched === true) {
@@ -112,7 +112,7 @@ class PermissionManager
                     && starts_with($groupPermission, $checkPermission)
                     && $permitted == 1
                 ) {
-                return true;
+                    return true;
                 }
             }
         }
@@ -129,7 +129,7 @@ class PermissionManager
                     && ends_with($groupPermission, $checkPermission)
                     && $permitted == 1
                 ) {
-                return true;
+                    return true;
                 }
             }
         }
@@ -146,7 +146,7 @@ class PermissionManager
                     && starts_with($permission, $checkMergedPermission)
                     && $permitted == 1
                 ) {
-                return true;
+                    return true;
                 }
             }
             // Match permissions explicitly.

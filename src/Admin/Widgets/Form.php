@@ -478,9 +478,9 @@ class Form extends BaseWidget
         $field->value = $this->getFieldValue($field);
 
         // Check model if field is required
-//        if (!$field->required AND $this->model AND method_exists($this->model, 'isAttributeRequired')) {
-//            $field->required = $this->model->isAttributeRequired($field->fieldName);
-//        }
+        //        if (!$field->required AND $this->model AND method_exists($this->model, 'isAttributeRequired')) {
+        //            $field->required = $this->model->isAttributeRequired($field->fieldName);
+        //        }
 
         // Get field options from model
         if (in_array($field->type, $this->optionModelTypes, false)) {
@@ -534,7 +534,7 @@ class Form extends BaseWidget
             $field->options(function () use ($field) {
                 $fieldOptions = $field->config['options'];
                 if ($fieldOptions === true) {
-                $fieldOptions = null;
+                    $fieldOptions = null;
                 }
                 $fieldOptions = $this->getOptionsFromModel($field, $fieldOptions);
 

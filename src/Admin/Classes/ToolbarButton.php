@@ -80,7 +80,7 @@ class ToolbarButton
         $attributes = [];
         foreach ($config as $key => $value) {
             if (!is_string($value)) {
-            continue;
+                continue;
             }
 
             $value = ($key == 'href' && !preg_match('#^(\w+:)?//#i', $value))

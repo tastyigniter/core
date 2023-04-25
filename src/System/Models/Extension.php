@@ -180,7 +180,7 @@ class Extension extends Model
             $code = $extensionManager->getIdentifier($namespace);
 
             if (!($extension = $extensionManager->findExtension($code))) {
-            continue;
+                continue;
             }
 
             $availableExtensions[] = $code;

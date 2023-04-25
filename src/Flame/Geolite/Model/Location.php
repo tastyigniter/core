@@ -491,7 +491,7 @@ class Location implements Contracts\LocationInterface
             || !($north = array_get($data, 'bounds.north'))
             || !($east = array_get($data, 'bounds.east'))
         ) {
-        return null;
+            return null;
         }
 
         return new Bounds($south, $west, $north, $east);

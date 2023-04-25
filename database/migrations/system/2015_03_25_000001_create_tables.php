@@ -479,7 +479,7 @@ return new class extends Migration
             $table->string('title');
             $table->decimal('value', 15);
             $table->boolean('priority');
-//            $table->primary(['order_total_id', 'order_id']); will be dropped later, added here for reference only
+            //            $table->primary(['order_total_id', 'order_id']); will be dropped later, added here for reference only
         };
     }
 

@@ -169,7 +169,7 @@ class Repeater extends BaseFormWidget
     protected function processSaveValue($value)
     {
         if (!is_array($value) || !$value) {
-        return $value;
+            return $value;
         }
 
         $sortedIndexes = (array)post($this->sortableInputName);
@@ -210,7 +210,7 @@ class Repeater extends BaseFormWidget
         $itemIndexes = post($this->sortableInputName, $loadedIndexes);
 
         if (!count($itemIndexes)) {
-        return;
+            return;
         }
 
         foreach ($itemIndexes as $itemIndex) {

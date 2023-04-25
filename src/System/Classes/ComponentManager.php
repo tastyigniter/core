@@ -312,7 +312,7 @@ class ComponentManager
             $propertyType = array_get($params, 'type', 'text');
 
             if (!$this->checkComponentPropertyType($propertyType)) {
-            continue;
+                continue;
             }
 
             $property = [
@@ -329,7 +329,7 @@ class ComponentManager
 
             foreach ($params as $paramName => $paramValue) {
                 if (isset($property[$paramName])) {
-                continue;
+                    continue;
                 }
 
                 $property[$paramName] = $paramValue;
@@ -339,7 +339,7 @@ class ComponentManager
             $translate = ['label', 'description', 'options', 'group', 'validationMessage'];
             foreach ($property as $propertyName => $propertyValue) {
                 if (!in_array($propertyName, $translate)) {
-                continue;
+                    continue;
                 }
 
                 if (is_array($propertyValue)) {

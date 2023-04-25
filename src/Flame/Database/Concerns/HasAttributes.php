@@ -241,9 +241,9 @@ trait HasAttributes
      */
     public function fromTime($value)
     {
-//        if ($value == '00:00' OR $value == '00:00:00')
-//            return $value;
-//
+        //        if ($value == '00:00' OR $value == '00:00:00')
+        //            return $value;
+        //
         $format = $this->getTimeFormat();
 
         return $this->asTime($value)->format($format);

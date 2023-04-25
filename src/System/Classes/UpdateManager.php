@@ -293,10 +293,10 @@ class UpdateManager
 
         $installedItems = array_column($installedItems, 'name');
         if (isset($items['data'])) {
-        foreach ($items['data'] as &$item) {
-            $item['icon'] = generate_extension_icon($item['icon'] ?? []);
-            $item['installed'] = in_array($item['code'], $installedItems);
-        }
+            foreach ($items['data'] as &$item) {
+                $item['icon'] = generate_extension_icon($item['icon'] ?? []);
+                $item['installed'] = in_array($item['code'], $installedItems);
+            }
         }
 
         return $items;
@@ -313,10 +313,10 @@ class UpdateManager
 
         $installedItems = array_column($installedItems, 'name');
         if (isset($items['data'])) {
-        foreach ($items['data'] as &$item) {
-            $item['icon'] = generate_extension_icon($item['icon'] ?? []);
-            $item['installed'] = in_array($item['code'], $installedItems);
-        }
+            foreach ($items['data'] as &$item) {
+                $item['icon'] = generate_extension_icon($item['icon'] ?? []);
+                $item['installed'] = in_array($item['code'], $installedItems);
+            }
         }
 
         return $items;

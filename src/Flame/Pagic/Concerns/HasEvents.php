@@ -142,7 +142,7 @@ trait HasEvents
                 $eventMethod = $radical.$event; // saving / saved
                 $method = $hook.ucfirst($radical); // beforeSave / afterSave
                 if ($radical != 'fetch') {
-                $method .= 'e';
+                    $method .= 'e';
                 }
 
                 self::$eventMethod(function ($model) use ($method) {

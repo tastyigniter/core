@@ -231,7 +231,7 @@ class Customer extends AuthUserModel
             if ($orders = Order::where('email', $customer_email)->get()) {
                 foreach ($orders as $row) {
                     if (empty($row['order_id'])) {
-                    continue;
+                        continue;
                     }
 
                     if ($row['order_type'] == '1' && !empty($row['address_id'])) {

@@ -5,10 +5,10 @@ namespace Tests\Admin\Models;
 use Igniter\Admin\Models\Category;
 
 it('can create a category and assign it to a location', function () {
-//    $location = Location::factory()->create();
-//    $category = Category::factory()->make();
-//    $category->locations = [$location->getKey()];
-//    $categoryModel = $category->create();
+    //    $location = Location::factory()->create();
+    //    $category = Category::factory()->make();
+    //    $category->locations = [$location->getKey()];
+    //    $categoryModel = $category->create();
 
     $this->assertTrue(true);
 });

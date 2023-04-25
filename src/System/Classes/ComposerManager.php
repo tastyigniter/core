@@ -79,7 +79,7 @@ class ComposerManager
             $map = require $file;
             foreach ($map as $namespace => $path) {
                 if (isset($this->namespacePool[$namespace])) {
-                continue;
+                    continue;
                 }
                 $this->loader->set($namespace, $path);
                 $this->namespacePool[$namespace] = true;
@@ -90,7 +90,7 @@ class ComposerManager
             $map = require $file;
             foreach ($map as $namespace => $path) {
                 if (isset($this->psr4Pool[$namespace])) {
-                continue;
+                    continue;
                 }
                 $this->loader->setPsr4($namespace, $path);
                 $this->psr4Pool[$namespace] = true;
@@ -111,7 +111,7 @@ class ComposerManager
             foreach ($includeFiles as $includeFile) {
                 $relativeFile = $this->stripVendorDir($includeFile, $vendorPath);
                 if (isset($this->includeFilesPool[$relativeFile])) {
-                continue;
+                    continue;
                 }
                 require $includeFile;
                 $this->includeFilesPool[$relativeFile] = true;

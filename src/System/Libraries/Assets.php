@@ -300,7 +300,7 @@ class Assets
         foreach ($collection as $key => $asset) {
             $path = array_get($asset, 'path');
             if (!$path) {
-            continue;
+                continue;
             }
 
             $realPath = realpath(public_path($path)) ?: $path;

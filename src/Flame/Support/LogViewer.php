@@ -145,7 +145,7 @@ class LogViewer
                         );
 
                         if (!isset($current[3])) {
-                        continue;
+                            continue;
                         }
 
                         $log[] = [

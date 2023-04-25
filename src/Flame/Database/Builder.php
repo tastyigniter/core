@@ -119,7 +119,7 @@ class Builder extends BuilderBase
             $this->where(function ($query) use ($columns, $term) {
                 foreach ($columns as $field) {
                     if (!strlen($term)) {
-                    continue;
+                        continue;
                     }
                     $query->orLike($field, $term, 'both');
                 }
@@ -133,7 +133,7 @@ class Builder extends BuilderBase
                     $query->orWhere(function ($query) use ($field, $words, $wordBoolean) {
                         foreach ($words as $word) {
                             if (!strlen($word)) {
-                            continue;
+                                continue;
                             }
                             $query->like($field, $word, 'both', $wordBoolean);
                         }

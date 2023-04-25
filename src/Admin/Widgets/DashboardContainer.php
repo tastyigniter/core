@@ -429,7 +429,7 @@ class DashboardContainer extends BaseWidget
             $propertyType = array_get($params, 'type', 'text');
 
             if (!$this->checkWidgetPropertyType($propertyType)) {
-            continue;
+                continue;
             }
 
             $property = [

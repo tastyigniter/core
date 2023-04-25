@@ -150,7 +150,7 @@ class LocationOption extends Model
         if (is_array($response)) {
             foreach ($response as $fieldsConfig) {
                 if (!is_array($fieldsConfig)) {
-                continue;
+                    continue;
                 }
 
                 foreach ($fieldsConfig as $fieldName => $fieldConfig) {

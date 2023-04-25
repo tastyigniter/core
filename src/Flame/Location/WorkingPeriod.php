@@ -168,7 +168,7 @@ class WorkingPeriod implements ArrayAccess, Countable, IteratorAggregate
             $timeOffRange->containsTime($time)
             || $timeOffRange->start()->isSame($time)
         ) {
-        return $timeRange->{$type}();
+            return $timeRange->{$type}();
         }
 
         $prevTimeRange = $timeRange;

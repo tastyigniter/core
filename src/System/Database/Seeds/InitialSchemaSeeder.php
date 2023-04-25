@@ -18,7 +18,7 @@ class InitialSchemaSeeder extends Seeder
     public function run()
     {
         if (!DatabaseSeeder::$seedInitial) {
-        return;
+            return;
         }
 
         $this->seedCountries();

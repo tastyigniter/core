@@ -37,7 +37,7 @@ trait Assignable
             $this->wasChanged('status_id')
             && strlen($this->assignee_group_id)
         ) {
-        AssignableLog::createLog($this);
+            AssignableLog::createLog($this);
         }
     }
 

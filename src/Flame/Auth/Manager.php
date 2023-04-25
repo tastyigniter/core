@@ -163,7 +163,7 @@ class Manager
         $user->clearResetPasswordCode();
 
         if ($login) {
-        $this->login($user, $remember);
+            $this->login($user, $remember);
         }
 
         return $this->user;

@@ -409,7 +409,7 @@ class WorkingSchedule
         foreach ($periods as $day => $period) {
             if ($period instanceof Contracts\WorkingHourInterface) {
                 if (!$period->isEnabled()) {
-                continue;
+                    continue;
                 }
 
                 $day = WorkingDay::normalizeName($period->getDay());

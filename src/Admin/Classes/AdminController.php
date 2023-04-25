@@ -311,7 +311,7 @@ class AdminController extends Controller
 
             $response['#notification'] = $this->makePartial('flash');
             $response['X_IGNITER_ERROR_FIELDS'] = $ex->getFields();
-//            $response['X_IGNITER_ERROR_MESSAGE'] = $ex->getMessage(); avoid duplicate flash message.
+            //            $response['X_IGNITER_ERROR_MESSAGE'] = $ex->getMessage(); avoid duplicate flash message.
 
             throw new AjaxException($response);
         } catch (MassAssignmentException $ex) {

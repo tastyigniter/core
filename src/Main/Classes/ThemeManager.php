@@ -134,7 +134,7 @@ class ThemeManager
         }
 
         if (!$this->checkName($code)) {
-        return false;
+            return false;
         }
 
         $config = $this->validateMetaFile($config, $code);

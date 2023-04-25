@@ -33,7 +33,7 @@ trait HasDeliveryAreas
             'location_postcode',
             'location_country_id',
         ])) {
-        return;
+            return;
         }
 
         $address = format_address($this->getAddress(), false);

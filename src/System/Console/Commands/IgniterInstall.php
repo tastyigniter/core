@@ -113,7 +113,7 @@ class IgniterInstall extends Command
             Config::set("database.connections.$name.".strtolower($key), $value);
 
             if ($key === 'password') {
-            $value = '"'.$value.'"';
+                $value = '"'.$value.'"';
             }
             SystemHelper::replaceInEnv('DB_'.strtoupper($key).'=', 'DB_'.strtoupper($key).'='.$value);
         }

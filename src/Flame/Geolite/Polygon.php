@@ -211,10 +211,10 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
 
             // Check if coordinate is on a horizontal boundary
             if (bccomp(
-                    $currentVertex->getLatitude(),
-                    $nextVertex->getLatitude(),
-                    $this->getPrecision()
-                ) === 0
+                $currentVertex->getLatitude(),
+                $nextVertex->getLatitude(),
+                $this->getPrecision()
+            ) === 0
                 && bccomp(
                     $currentVertex->getLatitude(),
                     $coordinate->getLatitude(),
@@ -236,10 +236,10 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
 
             // Check if coordinate is on a boundary
             if (bccomp(
-                    $coordinate->getLatitude(),
-                    min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
-                    $this->getPrecision()
-                ) === 1
+                $coordinate->getLatitude(),
+                min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
+                $this->getPrecision()
+            ) === 1
                 && bccomp(
                     $coordinate->getLatitude(),
                     max($currentVertex->getLatitude(), $nextVertex->getLatitude()),
@@ -262,10 +262,10 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
                     + $currentVertex->getLongitude();
 
                 if (bccomp(
-                        $xinters,
-                        $coordinate->getLongitude(),
-                        $this->getPrecision()
-                    ) === 0
+                    $xinters,
+                    $coordinate->getLongitude(),
+                    $this->getPrecision()
+                ) === 0
                 ) {
                     return true;
                 }
@@ -282,10 +282,10 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
     {
         foreach ($this->coordinates as $vertexCoordinate) {
             if (bccomp(
-                    $vertexCoordinate->getLatitude(),
-                    $coordinate->getLatitude(),
-                    $this->getPrecision()
-                ) === 0 &&
+                $vertexCoordinate->getLatitude(),
+                $coordinate->getLatitude(),
+                $this->getPrecision()
+            ) === 0 &&
                 bccomp(
                     $vertexCoordinate->getLongitude(),
                     $coordinate->getLongitude(),
@@ -308,10 +308,10 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
             $nextVertex = $this->get($i);
 
             if (bccomp(
-                    $coordinate->getLatitude(),
-                    min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
-                    $this->getPrecision()
-                ) === 1
+                $coordinate->getLatitude(),
+                min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
+                $this->getPrecision()
+            ) === 1
                 && bccomp(
                     $coordinate->getLatitude(),
                     max($currentVertex->getLatitude(), $nextVertex->getLatitude()),
@@ -334,10 +334,10 @@ class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \Arra
                     + $currentVertex->getLongitude();
 
                 if (bccomp(
-                        $coordinate->getLongitude(),
-                        $xinters,
-                        $this->getPrecision()
-                    ) <= 0
+                    $coordinate->getLongitude(),
+                    $xinters,
+                    $this->getPrecision()
+                ) <= 0
                     || bccomp(
                         $currentVertex->getLongitude(),
                         $nextVertex->getLongitude(),

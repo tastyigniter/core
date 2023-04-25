@@ -217,7 +217,7 @@ class GoogleProvider extends AbstractProvider
             || !count($json->results)
             || $json->status !== 'OK'
         ) {
-        throw new GeoliteException($json->error_message ?? 'empty error message');
+            throw new GeoliteException($json->error_message ?? 'empty error message');
         }
 
         return $json;

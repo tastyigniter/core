@@ -222,7 +222,7 @@ class User extends AuthUserModel
         if (resolve(PermissionManager::class)->checkPermission(
             $staffPermissions, $permissions, $checkAll)
         ) {
-        return true;
+            return true;
         }
 
         return false;

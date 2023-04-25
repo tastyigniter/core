@@ -202,7 +202,7 @@ class Builder extends BuilderBase
      * @since 2.0
      */
     public function whereDescendantOf($id, $boolean = 'and', $not = false,
-                                      $andSelf = false
+        $andSelf = false
     ) {
         if (NestedSet::isNode($id)) {
             $data = $id->getBounds();
@@ -371,7 +371,7 @@ class Builder extends BuilderBase
     public function withDepth($as = 'depth')
     {
         if ($this->query->columns === null) {
-        $this->query->columns = ['*'];
+            $this->query->columns = ['*'];
         }
 
         $table = $this->wrappedTable();
@@ -605,7 +605,7 @@ class Builder extends BuilderBase
 
         /** @var int $height */
         if ($height > 0) {
-        $height = '+'.$height;
+            $height = '+'.$height;
         }
 
         if (isset($cut)) {
@@ -618,7 +618,7 @@ class Builder extends BuilderBase
         /** @var int $from */
         /** @var int $to */
         if ($distance > 0) {
-        $distance = '+'.$distance;
+            $distance = '+'.$distance;
         }
 
         return new Expression('case '.
@@ -855,7 +855,7 @@ class Builder extends BuilderBase
      * @return int
      */
     protected static function reorderNodes(array &$dictionary, &$fixed,
-                                           $parentId = null, $cut = 1
+        $parentId = null, $cut = 1
     ) {
         if (!isset($dictionary[$parentId])) {
             return $cut;
@@ -935,9 +935,9 @@ class Builder extends BuilderBase
      * @param mixed $parentId
      */
     protected function buildRebuildDictionary(array &$dictionary,
-                                              array $data,
-                                              array &$existing,
-                                              $parentId = null
+        array $data,
+        array &$existing,
+        $parentId = null
     ) {
         $keyName = $this->model->getKeyName();
 
@@ -962,7 +962,7 @@ class Builder extends BuilderBase
             $dictionary[$parentId][] = $model;
 
             if (!isset($itemData['children'])) {
-            continue;
+                continue;
             }
 
             $this->buildRebuildDictionary($dictionary,

@@ -67,14 +67,14 @@ class LanguageManager
             return $paths;
         }
 
-//        $directories = array_merge([Igniter::themesPath()], self::$directories);
-//        foreach ($directories as $directory) {
+        //        $directories = array_merge([Igniter::themesPath()], self::$directories);
+        //        foreach ($directories as $directory) {
         foreach (File::directories($directory) as $path) {
             $langDir = basename($path);
             $paths[$langDir] = $path;
         }
 
-//        }
+        //        }
 
         return $this->paths = $paths;
     }
@@ -111,19 +111,19 @@ class LanguageManager
             $translationLine = array_get($translationLines, $key, $sourceLine);
 
             if ($stringFilter === 'changed' && !array_has($translationLines, $key)) {
-            continue;
+                continue;
             }
 
             if ($stringFilter === 'unchanged' && array_has($translationLines, $key)) {
-            continue;
+                continue;
             }
 
             if ((!is_null($sourceLine) && !is_string($sourceLine))) {
-            continue;
+                continue;
             }
 
             if ((!is_null($translationLine) && !is_string($translationLine))) {
-            continue;
+                continue;
             }
 
             $namespacedKey = sprintf('%s::%s.%s', $file['namespace'], $file['group'], $key);
@@ -195,9 +195,9 @@ class LanguageManager
         ]);
 
         if (isset($items['data'])) {
-        foreach ($items['data'] as &$item) {
-            $item['require'] = [];
-        }
+            foreach ($items['data'] as &$item) {
+                $item['require'] = [];
+            }
         }
 
         return $items;

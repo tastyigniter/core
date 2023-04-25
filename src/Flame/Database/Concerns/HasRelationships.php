@@ -84,7 +84,7 @@ trait HasRelationships
 
         foreach (static::$relationTypes as $type) {
             if (!isset($this->relation[$type])) {
-            continue;
+                continue;
             }
 
             $result[$type] = $this->relation[$type];

@@ -15,7 +15,7 @@ class DemoSchemaSeeder extends Seeder
     public function run()
     {
         if (!DatabaseSeeder::$seedDemo) {
-        return;
+            return;
         }
 
         $this->seedCategories();

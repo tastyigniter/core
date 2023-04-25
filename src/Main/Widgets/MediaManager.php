@@ -694,7 +694,7 @@ class MediaManager extends BaseWidget
     protected function makeReadableSize($size)
     {
         if (!$size) {
-        return '0 B';
+            return '0 B';
         }
 
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];

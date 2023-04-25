@@ -468,7 +468,7 @@ class Lists extends BaseWidget
         } else {
             foreach ($definitions as $columnName => $column) {
                 if ($column->invisible) {
-                continue;
+                    continue;
                 }
 
                 $columns[$columnName] = $definitions[$columnName];
@@ -535,7 +535,7 @@ class Lists extends BaseWidget
 
             // Check that the filter scope matches the active location context
             if ($this->isLocationAware($config)) {
-            continue;
+                continue;
             }
 
             $this->allColumns[$columnName] = $this->makeListColumn($columnName, $config);
@@ -1235,7 +1235,7 @@ class Lists extends BaseWidget
 
             // Check that the filter scope matches the active location context
             if ($this->isLocationAware($config)) {
-            continue;
+                continue;
             }
 
             $button = $this->makeBulkActionButton($actionCode, $config);

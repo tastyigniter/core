@@ -204,19 +204,19 @@ class Languages extends \Igniter\Admin\Classes\AdminController
             case 'downloadLanguage':
                 $result = $languageManager->downloadPack($meta);
                 if ($result) {
-                $json['result'] = 'success';
+                    $json['result'] = 'success';
                 }
                 break;
             case 'extractLanguage':
                 $response = $languageManager->extractPack($meta);
                 if ($response) {
-                $json['result'] = 'success';
+                    $json['result'] = 'success';
                 }
                 break;
             case 'complete':
                 $response = $languageManager->installPack($meta['items'][0] ?? []);
                 if ($response) {
-                $json['result'] = 'success';
+                    $json['result'] = 'success';
                 }
                 break;
         }

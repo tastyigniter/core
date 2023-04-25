@@ -117,14 +117,14 @@ class Payment extends Model
         $fields = ($configFields = $this->getConfigFields()) ? $configFields : [];
         foreach ($fields as $name => $config) {
             if (!array_key_exists($name, $this->attributes)) {
-            continue;
+                continue;
             }
             $data[$name] = $this->attributes[$name];
         }
 
         foreach ($this->attributes as $name => $value) {
             if (in_array($name, $this->fillable)) {
-            continue;
+                continue;
             }
             unset($this->attributes[$name]);
         }
@@ -249,7 +249,7 @@ class Payment extends Model
         $gatewayManager = resolve(PaymentGateways::class);
         foreach ($gatewayManager->listGateways() as $code => $gateway) {
             if (in_array($code, $payments)) {
-            continue;
+                continue;
             }
 
             $model = self::make([

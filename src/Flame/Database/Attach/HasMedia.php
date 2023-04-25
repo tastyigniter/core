@@ -64,7 +64,7 @@ trait HasMedia
             !array_key_exists($key, $mediable = $this->mediable())
             || $this->hasGetMutator($key)
         ) {
-        return parent::getAttribute($key);
+            return parent::getAttribute($key);
         }
 
         $mediableConfig = array_get($mediable, $key, []);
@@ -81,7 +81,7 @@ trait HasMedia
             !array_key_exists($key, $mediable = $this->mediable())
             || $this->hasSetMutator($key)
         ) {
-        return parent::setAttribute($key, $value);
+            return parent::setAttribute($key, $value);
         }
         // Do nothing
     }

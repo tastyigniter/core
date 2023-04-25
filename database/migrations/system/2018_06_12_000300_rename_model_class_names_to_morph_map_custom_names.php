@@ -41,11 +41,11 @@ return new class extends Migration
                     $columnValue = $model->{$column};
 
                     if (!$columnValue) {
-                    continue;
+                        continue;
                     }
 
                     if (!array_key_exists($columnValue, $this->morphMap)) {
-                    continue;
+                        continue;
                     }
 
                     $columnsToUpdate[$column] = array_get($this->morphMap, $columnValue);

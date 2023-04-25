@@ -243,7 +243,7 @@ class Vertex implements Contracts\VertexInterface
         $endLat = asin(sin($lat) * cos($distance / $this->from->getEllipsoid()->getA()) + cos($lat) *
             sin($distance / $this->from->getEllipsoid()->getA()) * cos($bearing));
         $endLon = $lng + atan2(sin($bearing) * sin($distance / $this->from->getEllipsoid()->getA()) * cos($lat),
-                cos($distance / $this->from->getEllipsoid()->getA()) - sin($lat) * sin($endLat));
+            cos($distance / $this->from->getEllipsoid()->getA()) - sin($lat) * sin($endLat));
 
         return new Model\Coordinates(rad2deg($endLat), rad2deg($endLon));
     }

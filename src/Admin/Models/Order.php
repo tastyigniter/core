@@ -216,7 +216,7 @@ class Order extends Model
         if (!isset($this->attributes['order_date'])
             && !isset($this->attributes['order_time'])
         ) {
-        return null;
+            return null;
         }
 
         return make_carbon($this->attributes['order_date'])

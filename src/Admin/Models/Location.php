@@ -305,7 +305,7 @@ class Location extends Model implements LocationInterface
 
         foreach ($paymentGateways as $payment) {
             if ($payments && !in_array($payment->code, $payments)) {
-            continue;
+                continue;
             }
 
             $result[$payment->code] = $payment;

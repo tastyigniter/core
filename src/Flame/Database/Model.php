@@ -174,7 +174,7 @@ class Model extends EloquentModel
                 $eventMethod = $radical.$event; // saving / saved
                 $method = $hook.ucfirst($radical); // beforeSave / afterSave
                 if ($radical != 'fetch') {
-                $method .= 'e';
+                    $method .= 'e';
                 }
 
                 self::$eventMethod(function (Model $model) use ($method) {

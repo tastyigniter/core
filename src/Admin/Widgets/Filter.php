@@ -332,7 +332,7 @@ class Filter extends BaseWidget
 
             // Check that the filter scope matches the active location context
             if ($this->isLocationAware($config)) {
-            continue;
+                continue;
             }
 
             // Validate scope model

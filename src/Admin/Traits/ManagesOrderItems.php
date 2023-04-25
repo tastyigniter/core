@@ -30,7 +30,7 @@ trait ManagesOrderItems
                     if (!$menuItemOptionValue = MenuItemOptionValue::find(
                         $orderMenuOption->menu_option_value_id
                     )) {
-                    return true;
+                        return true;
                     }
 
                     if (!$menuOptionValue = $menuItemOptionValue->option_value) {
@@ -100,7 +100,7 @@ trait ManagesOrderItems
 
         foreach ($content as $rowId => $cartItem) {
             if ($rowId != $cartItem->rowId) {
-            continue;
+                continue;
             }
 
             $orderMenu = $this->menus()->create([

@@ -185,7 +185,7 @@ class FormController extends ControllerAction
         $this->formWidget->bindEvent('form.beforeRefresh', function ($holder) {
             $result = $this->controller->formExtendRefreshData($this->formWidget, $holder->data);
             if (is_array($result)) {
-            $holder->data = $result;
+                $holder->data = $result;
             }
         });
 
@@ -510,9 +510,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                    $model->hasRelation($attribute) &&
-                    in_array($model->getRelationType($attribute), $singularTypes)
-                ));
+                $model->hasRelation($attribute) &&
+                in_array($model->getRelationType($attribute), $singularTypes)
+            ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);

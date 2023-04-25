@@ -105,7 +105,7 @@ class Theme extends Model
                 $componentObj = $manager->makeComponent($code, null, $definition);
 
                 if ($componentObj->isHidden) {
-                continue;
+                    continue;
                 }
 
                 $components[$code] = [$definition['name'], lang($definition['description'])];
@@ -271,14 +271,14 @@ class Theme extends Model
         $themeManager = resolve(ThemeManager::class);
         foreach ($themeManager->paths() as $code => $path) {
             if (!($themeObj = $themeManager->findTheme($code))) {
-            continue;
+                continue;
             }
 
             $installedThemes[] = $name = $themeObj->name ?? $code;
 
             // Only add themes whose meta code match their directory name
             if ($code != $name) {
-            continue;
+                continue;
             }
 
             $theme = self::firstOrNew(['code' => $name]);

@@ -320,7 +320,7 @@ class Theme
         $formFields = ThemeModel::forTheme($this)->getFieldsConfig();
         foreach ($formFields as $attribute => $field) {
             if (!$varNames = array_get($field, 'assetVar')) {
-            continue;
+                continue;
             }
 
             if (!is_array($varNames)) {

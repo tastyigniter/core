@@ -113,7 +113,7 @@ trait EventEmitter
     public function fireEvent(string $event, array $params = [], bool $halt = false): mixed
     {
         if (!is_array($params)) {
-        $params = [$params];
+            $params = [$params];
         }
         $result = [];
 
@@ -122,10 +122,10 @@ trait EventEmitter
             foreach ($this->emitterSingleEvents[$event] as $callback) {
                 $response = call_user_func_array($callback, $params);
                 if (is_null($response)) {
-                continue;
+                    continue;
                 }
                 if ($halt) {
-                return $response;
+                    return $response;
                 }
                 $result[] = $response;
             }
@@ -142,10 +142,10 @@ trait EventEmitter
             foreach ($this->emitterEventSorted[$event] as $callback) {
                 $response = call_user_func_array($callback, $params);
                 if (is_null($response)) {
-                continue;
+                    continue;
                 }
                 if ($halt) {
-                return $response;
+                    return $response;
                 }
                 $result[] = $response;
             }

@@ -61,7 +61,7 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
     {
         rescue(function () {
             if (!Currency::count()) {
-            Currency::upsertFromHub();
+                Currency::upsertFromHub();
             }
         });
 

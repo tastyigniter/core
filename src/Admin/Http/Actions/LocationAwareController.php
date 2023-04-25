@@ -79,7 +79,7 @@ class LocationAwareController extends ControllerAction
                 if (array_get($scope->config, 'locationAware') === true
                     && (bool)$this->getConfig('applyScopeOnListQuery', true)
                 ) {
-                $this->locationApplyScope($query);
+                    $this->locationApplyScope($query);
                 }
             });
         }

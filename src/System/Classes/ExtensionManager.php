@@ -339,7 +339,7 @@ class ExtensionManager
     public function loadExtensionFromConfig($code, $config)
     {
         if (!$this->checkName($code)) {
-        return false;
+            return false;
         }
 
         $identifier = $this->getIdentifier($code);
