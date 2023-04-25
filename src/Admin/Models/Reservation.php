@@ -67,7 +67,7 @@ class Reservation extends Model
 
     public $relation = [
         'belongsTo' => [
-            'customer' => 'Admin\Models\Customers_model',
+            'customer' => \Igniter\Main\Models\Customer::class,
             'related_table' => [\Igniter\Admin\Models\Table::class, 'foreignKey' => 'table_id'],
             'location' => \Igniter\Admin\Models\Location::class,
         ],
@@ -131,7 +131,8 @@ class Reservation extends Model
 
         if (is_null($status)) {
             $query->where('status_id', '>=', 1);
-        } else {
+        }
+        else {
             if (!is_array($status)) {
                 $status = [$status];
             }
@@ -141,13 +142,15 @@ class Reservation extends Model
 
         if ($location instanceof Location) {
             $query->where('location_id', $location->getKey());
-        } elseif (strlen($location)) {
+        }
+        elseif (strlen($location)) {
             $query->where('location_id', $location);
         }
 
         if ($customer instanceof Customer) {
             $query->where('customer_id', $customer->getKey());
-        } elseif (strlen($customer)) {
+        }
+        elseif (strlen($customer)) {
             $query->where('customer_id', $customer);
         }
 
@@ -240,7 +243,7 @@ class Reservation extends Model
         if (!isset($this->attributes['reserve_date'])
             && !isset($this->attributes['reserve_time'])
         ) {
-        return null;
+            return null;
         }
 
         return make_carbon($this->attributes['reserve_date'])
