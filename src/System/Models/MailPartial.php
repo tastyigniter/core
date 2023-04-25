@@ -41,6 +41,7 @@ class MailPartial extends Model
     //
     // Events
     //
+
     protected function afterFetch()
     {
         if (!$this->is_custom) {
@@ -56,6 +57,10 @@ class MailPartial extends Model
     {
         if (is_null($code)) {
             $code = $this->code;
+        }
+
+        if (is_null($code)) {
+            return;
         }
 
         $definitions = resolve(MailManager::class)->listRegisteredPartials();
@@ -84,7 +89,8 @@ class MailPartial extends Model
             }
 
             return $template;
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex) {
             return null;
         }
     }
@@ -103,10 +109,12 @@ class MailPartial extends Model
                 continue;
             }
 
+            $sections = self::getTemplateSections($path);
+
             $partial = new static;
             $partial->code = $code;
             $partial->is_custom = 0;
-            $partial->fillFromView($path);
+            $partial->name = array_get($sections, 'settings.name', '???');
             $partial->save();
         }
     }

@@ -23,7 +23,7 @@ class MailLayout extends FormRequest
             'name' => ['required', 'string', 'between:2,32'],
             'code' => ['sometimes', 'required', 'regex:/^[a-z-_\.\:]+$/i', 'unique:mail_layouts'],
             'layout' => ['string'],
-            'layout_css' => ['string'],
+            'layout_css' => ['nullable', 'string'],
             'plain_layout' => ['string'],
         ];
     }

@@ -63,4 +63,9 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
             $field->disabled = true;
         }
     }
+
+    public function formBeforeSave($model)
+    {
+        $model->is_locked = true;
+    }
 }

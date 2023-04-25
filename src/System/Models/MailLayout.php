@@ -56,10 +56,10 @@ class MailLayout extends Model
         return self::dropdown('name');
     }
 
-    protected function beforeDelete()
+    protected function afterFetch()
     {
-        if ($this->is_locked) {
-            throw new ApplicationException('You cannot delete a locked template');
+        if (!$this->is_locked) {
+            $this->fillFromCode();
         }
     }
 
@@ -86,7 +86,7 @@ class MailLayout extends Model
             return self::$codeCache;
         }
 
-        return self::$codeCache = self::lists('layout_id', 'code');
+        return self::$codeCache = self::lists('code', 'layout_id');
     }
 
     public static function getIdFromCode($code)
@@ -98,6 +98,10 @@ class MailLayout extends Model
     {
         if (is_null($code)) {
             $code = $this->code;
+        }
+
+        if (is_null($code)) {
+            return;
         }
 
         $definitions = resolve(MailManager::class)->listRegisteredLayouts();
@@ -138,10 +142,12 @@ class MailLayout extends Model
                 continue;
             }
 
+            $sections = self::getTemplateSections($path);
+
             $layout = new static;
             $layout->code = $code;
-            $layout->is_locked = true;
-            $layout->fillFromView($path);
+            $layout->is_locked = 0;
+            $layout->name = array_get($sections, 'settings.name', '???');
             $layout->save();
         }
     }

@@ -24,11 +24,13 @@ $config['list']['toolbar'] = [
             'label' => 'igniter::system.extensions.button_settings',
             'class' => 'btn btn-default pull-right',
             'href' => 'settings',
+            'permission' => 'Site.Settings',
         ],
         'payment' => [
             'label' => 'igniter::system.extensions.button_payments',
             'class' => 'btn btn-default pull-right',
             'href' => 'payments',
+            'permission' => 'Admin.Payments',
         ],
     ],
 ];
