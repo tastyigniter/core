@@ -50,7 +50,8 @@
     "orchestra/testbench": "^8.0",
     "pestphp/pest": "^1.21",
     "pestphp/pest-plugin-faker": "^1.0",
-    "pestphp/pest-plugin-laravel": "^1.2"
+    "pestphp/pest-plugin-laravel": "^1.2",
+    "pestphp/pest-plugin-parallel": "^1.2"
   },
   "replace": {
     "kriswallsmith/assetic": "*",
