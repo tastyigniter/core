@@ -4,7 +4,7 @@ namespace Igniter\Flame\Mixins;
 
 use Igniter\System\Mail\AnonymousTemplateMailable;
 
-class Mail
+class MailMixin
 {
     public function sendTemplate()
     {

@@ -5,7 +5,7 @@ namespace Igniter\Flame\Mixins;
 use Igniter\Main\Classes\MainController;
 
 /** @mixin \Illuminate\Routing\Router */
-class Router
+class RouterMixin
 {
     public function pagic()
     {

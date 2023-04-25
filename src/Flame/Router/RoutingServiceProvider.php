@@ -3,7 +3,7 @@
 namespace Igniter\Flame\Router;
 
 use Igniter\Flame\Igniter;
-use Igniter\Flame\Mixins\Router;
+use Igniter\Flame\Mixins\RouterMixin;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +20,7 @@ class RoutingServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        Route::mixin(new Router);
+        Route::mixin(new RouterMixin);
     }
 
     protected function registerMiddlewareGroups()
