@@ -288,7 +288,8 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
 
         if ($this->exists) {
             $saved = $this->performUpdate($query, $options);
-        } else {
+        }
+        else {
             $saved = $this->performInsert($query, $options);
         }
 
@@ -388,6 +389,8 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -420,7 +423,8 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
     {
         try {
             return parent::__call($name, $params);
-        } catch (BadMethodCallException) {
+        }
+        catch (BadMethodCallException) {
             $finder = $this->newFinder();
 
             return call_user_func_array([$finder, $name], $params);

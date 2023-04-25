@@ -211,9 +211,9 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     /**
      * Gets the code section of a template
-     * @return string The template source code
      */
     public function getCode(): string
     {
+        return 'missing-code';
     }
 }

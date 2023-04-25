@@ -90,6 +90,8 @@ class Router
 
             return $page;
         }
+
+        return null;
     }
 
     public function getRouteMap(): Collection
@@ -204,7 +206,6 @@ class Router
         }
 
         return $this->url($name, $parameters);
-
     }
 
     /**

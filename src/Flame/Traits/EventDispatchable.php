@@ -16,16 +16,12 @@ trait EventDispatchable
 
     public static function dispatchIf($boolean, ...$arguments): array|null
     {
-        if ($boolean) {
-            return static::dispatchEvent($arguments);
-        }
+        return $boolean ? static::dispatchEvent($arguments) : null;
     }
 
     public static function dispatchUnless($boolean, ...$arguments): array|null
     {
-        if (!$boolean) {
-            return static::dispatchEvent($arguments);
-        }
+        return !$boolean ? static::dispatchEvent($arguments) : null;
     }
 
     public static function broadcast()

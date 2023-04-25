@@ -12,7 +12,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:dropForeignKeyIfExists\\(\\)\\.$#"
-			count: 6
+			count: 7
 			path: database/migrations/admin/2022_02_17_000300_merge_staffs_into_users_table.php
 
 		-
@@ -56,11 +56,6 @@ parameters:
 			path: database/migrations/system/2022_06_30_010000_drop_foreign_key_constraints_on_all_tables.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$class\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$config\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
@@ -72,7 +67,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/Admin/Classes/AdminController.php
 
 		-
@@ -151,6 +146,31 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:getRequire\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 4
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isLocalPath\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			count: 4
+			path: src/Admin/Classes/AdminController.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addCss\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
@@ -186,42 +206,12 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:isLocalPath\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
-			count: 4
-			path: src/Admin/Classes/AdminController.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$config \\(object\\) does not accept array\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseBulkActionWidget.php
-
-		-
-			message: "#^Parameter \\#1 \\$suffix \\(null\\) of method Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\:\\:getId\\(\\) should be compatible with parameter \\$suffix \\(string\\) of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getId\\(\\)$#"
-			count: 1
-			path: src/Admin/Classes/BaseFormWidget.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$config \\(object\\) does not accept array\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseFormWidget.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:normalizePath\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/BasePaymentGateway.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Classes\\\\BasePaymentGateway\\:\\:getHostObject\\(\\) should return Igniter\\\\Admin\\\\Models\\\\Payment but returns Igniter\\\\Flame\\\\Database\\\\Model\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:normalizePath\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/BasePaymentGateway.php
 
@@ -237,11 +227,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$params$#"
-			count: 1
-			path: src/Admin/Classes/BasePaymentGateway.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Actions\\\\ModelAction\\:\\:\\$configPath \\(array\\) does not accept string\\.$#"
 			count: 1
 			path: src/Admin/Classes/BasePaymentGateway.php
 
@@ -262,7 +247,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
@@ -273,6 +258,31 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setBlock\\(\\)\\.$#"
 			count: 1
+			path: src/Admin/Classes/BaseWidget.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Classes/BaseWidget.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:getRequire\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/BaseWidget.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 4
+			path: src/Admin/Classes/BaseWidget.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isLocalPath\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/BaseWidget.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			count: 4
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
@@ -301,27 +311,7 @@ parameters:
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:isLocalPath\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
-			count: 4
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:render\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$config \\(object\\) does not accept array\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$controller \\(Igniter\\\\Admin\\\\Classes\\\\AdminController\\) does not accept Illuminate\\\\Routing\\\\Controller\\.$#"
 			count: 1
 			path: src/Admin/Classes/BaseWidget.php
 
@@ -332,26 +322,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/FormField.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:attributes\\(\\) should return Igniter\\\\Admin\\\\Classes\\\\FormField but returns null\\.$#"
-			count: 2
-			path: src/Admin/Classes/FormField.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:\\$commentHtml \\(string\\) does not accept bool\\.$#"
-			count: 1
-			path: src/Admin/Classes/FormField.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:\\$commentHtml \\(string\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: src/Admin/Classes/FormField.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:\\$options \\(string\\) does not accept array\\.$#"
 			count: 1
 			path: src/Admin/Classes/FormField.php
 
@@ -397,7 +367,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/Admin/Classes/Navigation.php
 
 		-
@@ -407,6 +377,16 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setBlock\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/Navigation.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Classes/Navigation.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/Navigation.php
 
@@ -426,9 +406,39 @@ parameters:
 			path: src/Admin/Classes/PaymentGateways.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:fromClass\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/PaymentGateways.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:fromClass\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/PaymentGateways.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Classes/PaymentGateways.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/PaymentGateways.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/PaymentGateways.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:put\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/PaymentGateways.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:allFiles\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/RouteRegistrar.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getWeekDaysOptions\\(\\)\\.$#"
@@ -492,16 +502,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminLocation\\:\\:getAll\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/DashboardWidgets/Statistics.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\DashboardWidgets\\\\Statistics\\:\\:getTotalCollectionOrderSum\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: src/Admin/DashboardWidgets/Statistics.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\DashboardWidgets\\\\Statistics\\:\\:getTotalDeliveryOrderSum\\(\\) should return int but returns string\\.$#"
 			count: 1
 			path: src/Admin/DashboardWidgets/Statistics.php
 
@@ -893,6 +893,11 @@ parameters:
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
+			path: src/Admin/Events/Order/CancelEvent.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
 			path: src/Admin/Events/Order/PaymentProcessed.php
 
 		-
@@ -909,6 +914,11 @@ parameters:
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
 			path: src/Admin/Events/Order/RefundProcessed.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Events/Reservation/CancelEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
@@ -941,21 +951,6 @@ parameters:
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Connector\\:\\:getSaveValue\\(\\) should return string but returns array\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Connector\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:\\$value \\(string\\) does not accept null\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php
@@ -969,36 +964,6 @@ parameters:
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getDataTableOptions\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\DataTable\\:\\:getLoadValue\\(\\) should return string but returns array\\<array\\>\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\DataTable\\:\\:getSaveValue\\(\\) should return string but returns array\\|int\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\DatePicker\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DatePicker.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\DatePicker\\:\\:getSaveValue\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DatePicker.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\FormWidgets\\\\DatePicker\\:\\:\\$mode \\(bool\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DatePicker.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\FormWidgets\\\\DatePicker\\:\\:\\$mode \\(bool\\) does not accept string\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DatePicker.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\FormWidgets\\\\PermissionEditor\\:\\:\\$actionCssClasses\\.$#"
@@ -1041,16 +1006,6 @@ parameters:
 			path: src/Admin/FormWidgets/Relation.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Relation\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Relation.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Relation\\:\\:getSaveValue\\(\\) should return string but returns null\\.$#"
-			count: 2
-			path: src/Admin/FormWidgets/Relation.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\FormWidgets\\\\Repeater\\:\\:\\$modelClass\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Repeater.php
@@ -1062,11 +1017,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Repeater.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Repeater\\:\\:getSaveValue\\(\\) should return string but returns array\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Repeater.php
 
@@ -1121,11 +1071,6 @@ parameters:
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\StatusEditor\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\StatusEditor\\:\\:mergeSaveData\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
@@ -1174,16 +1119,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\StockHistory\\:\\:whereIn\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StockEditor.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\StockEditor\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StockEditor.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Helpers\\\\Admin\\:\\:getAjaxHandler\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Admin/Helpers/Admin.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignee_group\\.$#"
@@ -1261,11 +1196,6 @@ parameters:
 			path: src/Admin/Http/Actions/CalendarController.php
 
 		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Actions\\\\CalendarController\\:\\:\\$calendarWidgets \\(array\\<Igniter\\\\Admin\\\\Widgets\\\\Calendar\\>\\) does not accept array\\<Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\>\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/CalendarController.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$formConfig\\.$#"
 			count: 2
 			path: src/Admin/Http/Actions/FormController.php
@@ -1292,16 +1222,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:formExtendRefreshResults\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^PHPDoc type Igniter\\\\Admin\\\\Classes\\\\AdminController\\|Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController of property Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:\\$controller is not covariant with PHPDoc type Illuminate\\\\Routing\\\\Controller of overridden property Igniter\\\\System\\\\Classes\\\\ControllerAction\\:\\:\\$controller\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:\\$formWidget \\(Igniter\\\\Admin\\\\Widgets\\\\Form\\) does not accept Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
@@ -1421,16 +1341,6 @@ parameters:
 			path: src/Admin/Http/Actions/ListController.php
 
 		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Actions\\\\ListController\\:\\:\\$filterWidgets \\(array\\<Igniter\\\\Admin\\\\Widgets\\\\Filter\\>\\) does not accept array\\<Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\>\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Actions\\\\ListController\\:\\:\\$listWidgets \\(array\\<Igniter\\\\Admin\\\\Widgets\\\\Lists\\>\\) does not accept array\\<Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\>\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$locationConfig\\.$#"
 			count: 2
 			path: src/Admin/Http/Actions/LocationAwareController.php
@@ -1521,42 +1431,12 @@ parameters:
 			path: src/Admin/Http/Controllers/Locations.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Login\\:\\:\\$class\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Login\\:\\:\\$config\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Login\\:\\:\\$controller\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Admin\\:\\:getAjaxHandler\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Admin\\:\\:redirect\\(\\)\\.$#"
 			count: 6
 			path: src/Admin/Http/Controllers/Login.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Admin\\:\\:redirectIntended\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Admin\\:\\:validateAjaxHandler\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Controllers/Login.php
 
@@ -1568,11 +1448,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminAuth\\:\\:isLogged\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setBlock\\(\\)\\.$#"
-			count: 1
 			path: src/Admin/Http/Controllers/Login.php
 
 		-
@@ -1593,11 +1468,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
-			count: 1
 			path: src/Admin/Http/Controllers/Login.php
 
 		-
@@ -1657,6 +1527,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Payments\\:\\:formExtendQuery\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Controllers/Payments.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Payments\\:\\:refreshList\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Controllers/Payments.php
 
@@ -1766,11 +1641,6 @@ parameters:
 			path: src/Admin/Http/Controllers/Users.php
 
 		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Controllers\\\\Users\\:\\:\\$requiredPermissions \\(array\\|string\\) does not accept null\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Users.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminAuth\\:\\:check\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Middleware/LogUserLastSeen.php
@@ -1847,11 +1717,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereUnAssigned\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Models/AssignableLog.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\AssignableLog\\:\\:createLog\\(\\) should return bool\\|static\\(Igniter\\\\Admin\\\\Models\\\\AssignableLog\\) but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\.$#"
 			count: 1
 			path: src/Admin/Models/AssignableLog.php
 
@@ -1942,11 +1807,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:findOrFail\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Models/Category.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Category\\:\\:newEloquentBuilder\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Builder but returns Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\.$#"
 			count: 1
 			path: src/Admin/Models/Category.php
 
@@ -2256,11 +2116,6 @@ parameters:
 			path: src/Admin/Models/Location.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:addLocationAreas\\(\\) should return bool but returns int\\<0, max\\>\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:getCurrentTime\\(\\) should return Carbon\\\\Carbon but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/Location.php
@@ -2362,11 +2217,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\LocationArea\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/LocationArea.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\LocationArea\\:\\:performValidation\\(\\) should return bool but empty return statement found\\.$#"
 			count: 1
 			path: src/Admin/Models/LocationArea.php
 
@@ -2606,11 +2456,6 @@ parameters:
 			path: src/Admin/Models/Menu.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:addMenuOption\\(\\) should return bool but returns int\\<0, max\\>\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:addMenuSpecial\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/Menu.php
@@ -2681,16 +2526,6 @@ parameters:
 			path: src/Admin/Models/Menu.php
 
 		-
-			message: "#^PHPDoc type string of property Igniter\\\\Admin\\\\Models\\\\MenuCategory\\:\\:\\$incrementing is not covariant with PHPDoc type bool of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$incrementing\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuCategory.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Models\\\\MenuCategory\\:\\:\\$incrementing \\(string\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuCategory.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\MenuItemOption\\:\\:\\$display_type\\.$#"
 			count: 1
 			path: src/Admin/Models/MenuItemOption.php
@@ -2726,16 +2561,6 @@ parameters:
 			path: src/Admin/Models/MenuItemOption.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\MenuItemOption\\:\\:addMenuOptionValues\\(\\) should return bool but returns int\\<0, max\\>\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuItemOption.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\MenuItemOption\\:\\:performValidation\\(\\) should return bool but empty return statement found\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuItemOption.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\MenuItemOption\\:\\:performValidation\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/MenuItemOption.php
@@ -2767,11 +2592,6 @@ parameters:
 
 		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuItemOptionValue.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\MenuItemOptionValue\\:\\:performValidation\\(\\) should return bool but empty return statement found\\.$#"
 			count: 1
 			path: src/Admin/Models/MenuItemOptionValue.php
 
@@ -2842,11 +2662,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\MenuOption\\:\\:selectRaw\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuOption.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\MenuOption\\:\\:addOptionValues\\(\\) should return bool but returns int\\<0, max\\>\\.$#"
 			count: 1
 			path: src/Admin/Models/MenuOption.php
 
@@ -3017,7 +2832,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$location\\.$#"
-			count: 6
+			count: 7
 			path: src/Admin/Models/Order.php
 
 		-
@@ -3036,6 +2851,11 @@ parameters:
 			path: src/Admin/Models/Order.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$order_datetime\\.$#"
+			count: 2
+			path: src/Admin/Models/Order.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$order_id\\.$#"
 			count: 4
 			path: src/Admin/Models/Order.php
@@ -3047,7 +2867,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$order_type\\.$#"
-			count: 4
+			count: 5
 			path: src/Admin/Models/Order.php
 
 		-
@@ -3122,7 +2942,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Order\\:\\:status_history\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Models/Order.php
 
 		-
@@ -3197,16 +3017,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$order_id$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
 			count: 1
 			path: src/Admin/Models/Order.php
 
@@ -3341,7 +3151,7 @@ parameters:
 			path: src/Admin/Models/Payment.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:findPaymentProfile\\(\\) should return object but returns null\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:whereCode\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Payment.php
 
@@ -3402,11 +3212,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\PaymentLog\\:\\:beforeValidate\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Models/PaymentLog.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\PaymentLog\\:\\:performValidation\\(\\) should return bool but empty return statement found\\.$#"
 			count: 1
 			path: src/Admin/Models/PaymentLog.php
 
@@ -3512,7 +3317,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$location\\.$#"
-			count: 8
+			count: 9
 			path: src/Admin/Models/Reservation.php
 
 		-
@@ -3522,7 +3327,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$reservation_datetime\\.$#"
-			count: 4
+			count: 6
 			path: src/Admin/Models/Reservation.php
 
 		-
@@ -3612,7 +3417,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:status_history\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Models/Reservation.php
 
 		-
@@ -3687,16 +3492,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
 			count: 1
 			path: src/Admin/Models/Reservation.php
 
@@ -3802,16 +3597,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Staff.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
-			count: 1
-			path: src/Admin/Models/Staff.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
 			count: 1
 			path: src/Admin/Models/Staff.php
 
@@ -4241,16 +4026,6 @@ parameters:
 			path: src/Admin/Models/UserRole.php
 
 		-
-			message: "#^PHPDoc type array of property Igniter\\\\Admin\\\\Models\\\\UserRole\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
-			count: 1
-			path: src/Admin/Models/UserRole.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Models\\\\UserRole\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/Admin/Models/UserRole.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\WorkingHour\\:\\:\\$close\\.$#"
 			count: 2
 			path: src/Admin/Models/WorkingHour.php
@@ -4376,32 +4151,7 @@ parameters:
 			path: src/Admin/ServiceProvider.php
 
 		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Calendar\\:\\:\\$aspectRatio \\(string\\) does not accept default value of type int\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Calendar.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Calendar\\:\\:\\$editable \\(string\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Calendar.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Calendar\\:\\:\\$eventLimit \\(string\\) does not accept default value of type int\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Calendar.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\DashboardContainer\\:\\:\\$previewMode\\.$#"
-			count: 1
-			path: src/Admin/Widgets/DashboardContainer.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\DashboardContainer\\:\\:\\$canManage \\(string\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/Admin/Widgets/DashboardContainer.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\DashboardContainer\\:\\:\\$canSetDefault \\(string\\) does not accept default value of type false\\.$#"
 			count: 1
 			path: src/Admin/Widgets/DashboardContainer.php
 
@@ -4427,16 +4177,6 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$options on string\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Filter\\:\\:applyScopeToQuery\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Builder but empty return statement found\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Filter\\:\\:getSearchWidget\\(\\) should return Igniter\\\\Admin\\\\Widgets\\\\SearchBox but returns Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Filter.php
 
@@ -4478,21 +4218,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminLocation\\:\\:getAll\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:dataArrayGet\\(\\) should return array\\|string but returns null\\.$#"
-			count: 2
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$allTabs \\(object\\) does not accept default value of type array\\<string, null\\>\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$data \\(array\\) does not accept stdClass\\.$#"
-			count: 2
 			path: src/Admin/Widgets/Form.php
 
 		-
@@ -4586,11 +4311,6 @@ parameters:
 			path: src/Admin/Widgets/Toolbar.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollection\\:\\:getLastModified\\(\\) should return int\\|null but empty return statement found\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Asset/AssetCollection.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollection\\:\\:getSourceDirectory\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Assetic/Asset/AssetCollection.php
@@ -4614,11 +4334,6 @@ parameters:
 			message: "#^Method Iterator\\<mixed,mixed\\>\\:\\:current\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionFilterIterator.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Factory\\\\AssetFactory\\:\\:createAsset\\(\\) should return Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollection but returns Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollectionInterface\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Factory/AssetFactory.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Factory\\\\AssetFactory\\:\\:findRootDir\\(\\) should return string\\|null but return statement is missing\\.$#"
@@ -4773,16 +4488,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:updateRememberToken\\(\\)\\.$#"
 			count: 1
-			path: src/Flame/Auth/Manager.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Auth\\\\Manager\\:\\:\\$user \\(Igniter\\\\Flame\\\\Auth\\\\Models\\\\User\\) does not accept Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\.$#"
-			count: 1
-			path: src/Flame/Auth/Manager.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Auth\\\\Manager\\:\\:\\$user \\(Igniter\\\\Flame\\\\Auth\\\\Models\\\\User\\) does not accept null\\.$#"
-			count: 2
 			path: src/Flame/Auth/Manager.php
 
 		-
@@ -4941,56 +4646,6 @@ parameters:
 			path: src/Flame/Currency/Currency.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:convert\\(\\) should return string but returns float\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:convert\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:formatToJson\\(\\) should return string but returns array\\<string, mixed\\>\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:\\$cache \\(Illuminate\\\\Contracts\\\\Cache\\\\Factory\\) does not accept Illuminate\\\\Contracts\\\\Cache\\\\Repository\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Database\\:\\:create\\(\\) should return bool but returns string\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Database.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:create\\(\\) should return bool but returns string\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:delete\\(\\) should return int but returns bool\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:delete\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:update\\(\\) should return int but returns bool\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:update\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
-
-		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:put\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Currency/Middleware/CurrencyMiddleware.php
@@ -5022,11 +4677,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method League\\\\Flysystem\\\\FilesystemOperator\\:\\:put\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Manipulator.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Manipulator\\:\\:\\$source \\(League\\\\Flysystem\\\\FilesystemOperator\\) does not accept Illuminate\\\\Filesystem\\\\FilesystemAdapter\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Manipulator.php
 
@@ -5091,17 +4741,42 @@ parameters:
 			path: src/Flame/Database/Attach/Media.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:sizeToString\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:basename\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:delete\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:put\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:sizeToString\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Media.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:getHeightAttribute\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:getStorageDisk\\(\\) should return Illuminate\\\\Filesystem\\\\FilesystemAdapter but returns Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Media.php
 
@@ -5123,11 +4798,6 @@ parameters:
 		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$width$#"
 			count: 2
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$hidden is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$hidden\\.$#"
-			count: 1
 			path: src/Flame/Database/Attach/Media.php
 
 		-
@@ -5201,41 +4871,6 @@ parameters:
 			path: src/Flame/Database/Builder.php
 
 		-
-			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^Return type \\(void\\) of method Igniter\\\\Flame\\\\Database\\\\Connections\\\\Connection\\:\\:fireConnectionEvent\\(\\) should be compatible with return type \\(array\\|null\\) of method Illuminate\\\\Database\\\\Connection\\:\\:fireConnectionEvent\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Connections/Connection.php
-
-		-
 			message: "#^Variable \\$e might not be defined\\.$#"
 			count: 1
 			path: src/Flame/Database/Connectors/ConnectionFactory.php
@@ -5286,32 +4921,7 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:__set\\(\\) with return type void returns void but should not return anything\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:addCasts\\(\\) with return type void returns \\$this\\(Igniter\\\\Flame\\\\Database\\\\Model\\) but should not return anything\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:asDateTime\\(\\) should return Illuminate\\\\Support\\\\Carbon but returns Carbon\\\\Carbon\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getRelationType\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeRelation\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeRelation\\(\\) should return string but returns object\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
@@ -5321,32 +4931,7 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
-			message: "#^Parameter \\#8 \\$inverse \\(bool\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) should be compatible with parameter \\$relation \\(string\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphToMany\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Parameter \\#9 \\$relationName \\(null\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) should be compatible with parameter \\$inverse \\(bool\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphToMany\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
 			message: "#^Result of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:extendableSet\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Pivot\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:newPivot\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Pivot\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:newPivot\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphToMany\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphToMany\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphedByMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphToMany\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphedByMany\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
@@ -5466,52 +5051,12 @@ parameters:
 			path: src/Flame/Database/NestedSet/Builder.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:ancestorsAndSelf\\(\\) should return Kalnoy\\\\Nestedset\\\\Collection but returns array\\<static\\(Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\)\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\.$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:ancestorsOf\\(\\) should return Kalnoy\\\\Nestedset\\\\Collection but returns array\\<static\\(Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\)\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\.$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:columnPatch\\(\\) should return string but returns Illuminate\\\\Database\\\\Query\\\\Expression\\.$#"
-			count: 2
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:descendantsOf\\(\\) should return Kalnoy\\\\Nestedset\\\\Collection but returns array\\<static\\(Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\)\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\.$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:getMissingParentQuery\\(\\) should return \\$this\\(Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\) but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:whereIsLeaf\\(\\) should return \\$this\\(Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\) but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
 			message: "#^PHPDoc tag @var for variable \\$model has invalid type Igniter\\\\Flame\\\\Database\\\\Traits\\\\NestedTree\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
 
 		-
-			message: "#^PHPDoc type Igniter\\\\Flame\\\\Database\\\\Traits\\\\NestedTree\\|Illuminate\\\\Database\\\\Eloquent\\\\Model of property Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:\\$model is not covariant with PHPDoc type Illuminate\\\\Database\\\\Eloquent\\\\Model of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:\\$model\\.$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
 			message: "#^Property Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:\\$model has invalid type Igniter\\\\Flame\\\\Database\\\\Traits\\\\NestedTree\\.$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
-			message: "#^Property Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:\\$orders \\(array\\) does not accept null\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
 
@@ -5522,36 +5067,6 @@ parameters:
 
 		-
 			message: "#^Call to method newCollection\\(\\) on an unknown class Kalnoy\\\\Nestedset\\\\NodeTrait\\.$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/QueryBuilder.php
-
-		-
-			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/QueryBuilder.php
-
-		-
-			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/QueryBuilder.php
-
-		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/QueryBuilder.php
-
-		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/QueryBuilder.php
-
-		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/NestedSet/QueryBuilder.php
-
-		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
@@ -5576,22 +5091,7 @@ parameters:
 			path: src/Flame/Database/PermalinkMaker.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\PermalinkMaker\\:\\:generateSuffix\\(\\) should return string but returns \\(float\\|int\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/PermalinkMaker.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\\\Illuminate\\\\Database\\\\Eloquent\\\\Builder\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 107$#"
-			count: 1
-			path: src/Flame/Database/Pivot.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Database\\\\Pivot\\:\\:\\$guarded is not covariant with PHPDoc type array\\<string\\>\\|bool of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$guarded\\.$#"
-			count: 1
-			path: src/Flame/Database/Pivot.php
-
-		-
-			message: "#^Return type \\(int\\) of method Igniter\\\\Flame\\\\Database\\\\Pivot\\:\\:delete\\(\\) should be compatible with return type \\(bool\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:delete\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Pivot.php
 
@@ -5602,21 +5102,6 @@ parameters:
 
 		-
 			message: "#^Cannot call method all\\(\\) on array\\.$#"
-			count: 1
-			path: src/Flame/Database/Query/Builder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder\\:\\:get\\(\\) should return Illuminate\\\\Support\\\\Collection but returns array\\.$#"
-			count: 2
-			path: src/Flame/Database/Query/Builder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder\\:\\:getCached\\(\\) should return array but returns Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\), mixed\\>\\.$#"
-			count: 1
-			path: src/Flame/Database/Query/Builder.php
-
-		-
-			message: "#^Property Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:\\$orders \\(array\\) does not accept null\\.$#"
 			count: 1
 			path: src/Flame/Database/Query/Builder.php
 
@@ -5687,16 +5172,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\DB\\:\\:parse\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsTo.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:getWithDeferredQualifiedKeyName\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Expression but returns Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Expression\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsTo.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsTo.php
 
@@ -5806,47 +5281,7 @@ parameters:
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:getWithDeferredQualifiedKeyName\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Expression but returns Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Expression\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany but returns array\\.$#"
-			count: 2
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany but returns string\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:sync\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Parameter \\#2 \\$currentPage \\(int\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\)$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
-			message: "#^Return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\) should be compatible with return type \\(array\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
@@ -5932,16 +5367,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\DB\\:\\:parse\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasMany.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:getWithDeferredQualifiedKeyName\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Expression but returns Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Expression\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasMany.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasMany.php
 
@@ -6052,16 +5477,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\DB\\:\\:parse\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasOne.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:getWithDeferredQualifiedKeyName\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Expression but returns Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Expression\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasOne.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasOne.php
 
@@ -6186,16 +5601,6 @@ parameters:
 			path: src/Flame/Database/Relations/MorphMany.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:getWithDeferredQualifiedKeyName\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Expression but returns Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Expression\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphMany.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphMany.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphOne.php
@@ -6267,16 +5672,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\DB\\:\\:parse\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphOne.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:getWithDeferredQualifiedKeyName\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Expression but returns Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Expression\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphOne.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphOne.php
 
@@ -6371,7 +5766,12 @@ parameters:
 			path: src/Flame/Exception/BaseException.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Exception/BaseException.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Exception/BaseException.php
 
@@ -6406,26 +5806,6 @@ parameters:
 			path: src/Flame/Filesystem/Filesystem.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:getFilePermissions\\(\\) should return string but returns float\\|int\\|null\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:getFolderPermissions\\(\\) should return string but returns float\\|int\\|null\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:isDirectoryEmpty\\(\\) should return bool but returns null\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:isPathSymbol\\(\\) should return bool but returns string\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Geolite\\\\AddressMatch\\:\\:\\$components\\.$#"
 			count: 2
 			path: src/Flame/Geolite/AddressMatch.php
@@ -6447,21 +5827,6 @@ parameters:
 
 		-
 			message: "#^Cannot call method getLongitude\\(\\) on null\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Circle\\:\\:getBounds\\(\\) should return Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Bounds but returns null\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Circle\\:\\:getCoordinate\\(\\) should return null but returns Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Circle\\:\\:getCoordinates\\(\\) should return Igniter\\\\Flame\\\\Geolite\\\\Model\\\\CoordinatesCollection but returns null\\.$#"
 			count: 1
 			path: src/Flame/Geolite/Circle.php
 
@@ -6496,44 +5861,9 @@ parameters:
 			path: src/Flame/Geolite/Model/Distance.php
 
 		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Location\\:\\:\\$adminLevels \\(Igniter\\\\Flame\\\\Geolite\\\\Model\\\\AdminLevelCollection\\) does not accept array\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Model/Location.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Geolite/Model/Location.php
-
-		-
-			message: "#^Return type \\(Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface\\) of method Igniter\\\\Flame\\\\Geolite\\\\Polygon\\:\\:getCoordinate\\(\\) should be compatible with return type \\(null\\) of method Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\PolygonInterface\\:\\:getCoordinate\\(\\)$#"
-			count: 1
-			path: src/Flame/Geolite/Polygon.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Provider\\\\ChainProvider\\:\\:distance\\(\\) should return Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Distance but returns int\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Provider/ChainProvider.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:getGradient\\(\\) should return int but returns float\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:getOrdinateIntercept\\(\\) should return int but returns float\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$gradient \\(float\\) does not accept null\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$ordinateIntercept \\(float\\) does not accept null\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:\\$payload\\.$#"
@@ -6556,22 +5886,12 @@ parameters:
 			path: src/Flame/Html/FormBuilder.php
 
 		-
-			message: "#^Property Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:\\$type \\(null\\) does not accept string\\.$#"
-			count: 4
-			path: src/Flame/Html/FormBuilder.php
-
-		-
 			message: "#^Closure invoked with 2 parameters, 1 required\\.$#"
 			count: 1
 			path: src/Flame/Igniter.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Igniter\\:\\:useExtensionsPath\\(\\) should return \\$this\\(Igniter\\\\Flame\\\\Igniter\\) but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Igniter.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Igniter\\:\\:useTempPath\\(\\) should return \\$this\\(Igniter\\\\Flame\\\\Igniter\\) but returns static\\(Igniter\\\\Flame\\\\Igniter\\)\\.$#"
 			count: 1
 			path: src/Flame/Igniter.php
 
@@ -6781,11 +6101,6 @@ parameters:
 			path: src/Flame/Location/WorkingSchedule.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Location\\\\WorkingSchedule\\:\\:nextCloseAt\\(\\) should return DateTimeInterface but returns null\\.$#"
-			count: 1
-			path: src/Flame/Location/WorkingSchedule.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(DateTime\\|mixed Date or timestamp\\)\\: Unexpected token \"Date\", expected variable at offset 33$#"
 			count: 1
 			path: src/Flame/Location/WorkingSchedule.php
@@ -6801,8 +6116,13 @@ parameters:
 			path: src/Flame/Location/WorkingTimeslot.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Mail/Markdown.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Mixins\\\\BlueprintMixin\\:\\:\\$prefix\\.$#"
-			count: 4
+			count: 5
 			path: src/Flame/Mixins/BlueprintMixin.php
 
 		-
@@ -6836,6 +6156,26 @@ parameters:
 			path: src/Flame/Mixins/StringMixin.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:chmod\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Cache/FileSystem.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Pagic/Cache/FileSystem.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Cache/FileSystem.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Cache/FileSystem.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateLoader\\:\\:setSource\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Environment.php
@@ -6846,17 +6186,12 @@ parameters:
 			path: src/Flame/Pagic/Environment.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Environment.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:errors\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Exception/ModelException.php
-
-		-
-			message: "#^PHPDoc type Igniter\\\\Flame\\\\Pagic\\\\Model of property Igniter\\\\Flame\\\\Pagic\\\\Exception\\\\ModelException\\:\\:\\$model is not covariant with PHPDoc type Illuminate\\\\Database\\\\Eloquent\\\\Model of overridden property Igniter\\\\Flame\\\\Exception\\\\ValidationException\\:\\:\\$model\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Exception/ModelException.php
-
-		-
-			message: "#^Return type \\(Igniter\\\\Flame\\\\Pagic\\\\Model\\) of method Igniter\\\\Flame\\\\Pagic\\\\Exception\\\\ModelException\\:\\:getModel\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\) of method Igniter\\\\Flame\\\\Exception\\\\ValidationException\\:\\:getModel\\(\\)$#"
 			count: 1
 			path: src/Flame/Pagic/Exception/ModelException.php
 
@@ -6867,21 +6202,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Cache\\\\Repository\\:\\:tags\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Finder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Finder\\:\\:delete\\(\\) should return bool but returns int\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Finder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Finder\\:\\:insert\\(\\) should return int but returns bool\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Finder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Finder\\:\\:insert\\(\\) should return int but returns true\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Finder.php
 
@@ -6902,6 +6222,26 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateInterface\\:\\:\\$mTime\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Loader.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Loader.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Loader.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Loader.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:lastModified\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Loader.php
 
@@ -6933,6 +6273,11 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$fileName\\.$#"
 			count: 5
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$isHidden\\.$#"
+			count: 1
 			path: src/Flame/Pagic/Model.php
 
 		-
@@ -6981,26 +6326,6 @@ parameters:
 			path: src/Flame/Pagic/Model.php
 
 		-
-			message: "#^Static property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$cache \\(Illuminate\\\\Cache\\\\CacheManager\\) does not accept null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^Static property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$dispatcher \\(Illuminate\\\\Events\\\\Dispatcher\\) does not accept Illuminate\\\\Contracts\\\\Events\\\\Dispatcher\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^Static property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$dispatcher \\(Illuminate\\\\Events\\\\Dispatcher\\) does not accept null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^Static property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$resolver \\(Igniter\\\\Flame\\\\Pagic\\\\Source\\\\SourceResolverInterface\\) does not accept null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 9
 			path: src/Flame/Pagic/Model.php
@@ -7026,11 +6351,6 @@ parameters:
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Parsers\\\\FileParser\\:\\:extractClassFromFile\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$controller$#"
 			count: 1
 			path: src/Flame/Pagic/Parsers/FileParser.php
@@ -7051,11 +6371,6 @@ parameters:
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Processors\\\\Processor\\:\\:processSelect\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Processors/Processor.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\ChainFileSource\\:\\:delete\\(\\) should return int but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Source/ChainFileSource.php
@@ -7066,39 +6381,9 @@ parameters:
 			path: src/Flame/Pagic/Source/ChainFileSource.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\ChainFileSource\\:\\:makeCacheKey\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/ChainFileSource.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:delete\\(\\) should return int but returns bool\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/FileSource.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:insert\\(\\) should return bool but returns int\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/FileSource.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:lastModified\\(\\) should return int but returns null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/FileSource.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:makeCacheKey\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/FileSource.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateLoader\\:\\:getSource\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Template.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Providers\\\\ConsoleSupportServiceProvider\\:\\:\\$providers is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Foundation\\\\Providers\\\\ConsoleSupportServiceProvider\\:\\:\\$providers\\.$#"
-			count: 1
-			path: src/Flame/Providers/ConsoleSupportServiceProvider.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:dispatch\\(\\)\\.$#"
@@ -7121,11 +6406,6 @@ parameters:
 			path: src/Flame/Providers/MacroServiceProvider.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Scaffold\\\\GeneratorCommand\\:\\:handle\\(\\) should return bool\\|null but empty return statement found\\.$#"
-			count: 1
-			path: src/Flame/Scaffold/GeneratorCommand.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Scaffold\\\\GeneratorCommand\\:\\:handle\\(\\) should return bool\\|null but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Scaffold/GeneratorCommand.php
@@ -7138,11 +6418,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Support\\\\ClassLoader\\:\\:requireClass\\(\\)\\.$#"
 			count: 2
-			path: src/Flame/Support/ClassLoader.php
-
-		-
-			message: "#^Cannot use array destructuring on string\\.$#"
-			count: 1
 			path: src/Flame/Support/ClassLoader.php
 
 		-
@@ -7238,11 +6513,6 @@ parameters:
 		-
 			message: "#^Call to static method has\\(\\) on an unknown class Session\\.$#"
 			count: 2
-			path: src/Flame/Support/Helpers/form.php
-
-		-
-			message: "#^Function form_error\\(\\) should return string but returns null\\.$#"
-			count: 1
 			path: src/Flame/Support/Helpers/form.php
 
 		-
@@ -7431,21 +6701,6 @@ parameters:
 			path: src/Flame/Support/Helpers/template.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Support\\\\LogViewer\\:\\:all\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: src/Flame/Support/LogViewer.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Support\\\\RouterHelper\\:\\:getSegmentDefaultValue\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: src/Flame/Support/RouterHelper.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Support\\\\RouterHelper\\:\\:getSegmentRegExp\\(\\) should return string but returns false\\.$#"
-			count: 2
-			path: src/Flame/Support/RouterHelper.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Translation\\\\Localization\\:\\:getConfig\\(\\) invoked with 2 parameters, 1 required\\.$#"
 			count: 2
 			path: src/Flame/Translation/Localization.php
@@ -7491,19 +6746,9 @@ parameters:
 			path: src/Flame/Translation/Models/Translation.php
 
 		-
-			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$fillable is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$fillable\\.$#"
-			count: 1
-			path: src/Flame/Translation/Models/Translation.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Translation\\\\Translator\\:\\:getValidationKey\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Translation/Translator.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:\\$class\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:\\$settings\\.$#"
@@ -7516,17 +6761,12 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$settings\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$components\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$settings\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$isHidden\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
 
@@ -7566,6 +6806,16 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Classes/MainController.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addCss\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
@@ -7601,27 +6851,7 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
-			count: 2
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:findComponentByAlias\\(\\) should return Igniter\\\\System\\\\Classes\\\\BaseComponent but returns null\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:findComponentByHandler\\(\\) should return Igniter\\\\System\\\\Classes\\\\BaseComponent but returns null\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:findComponentByPartial\\(\\) should return Igniter\\\\System\\\\Classes\\\\BaseComponent but returns null\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:getHandler\\(\\) should return string but returns null\\.$#"
+			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
 
@@ -7631,32 +6861,37 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:getRouter\\(\\) should return Igniter\\\\Main\\\\Classes\\\\Router but returns Igniter\\\\Flame\\\\Pagic\\\\Router\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Result of method Igniter\\\\Flame\\\\Pagic\\\\TemplateCode\\:\\:onEnd\\(\\) \\(void\\) is used\\.$#"
-			count: 2
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Result of method Igniter\\\\Flame\\\\Pagic\\\\TemplateCode\\:\\:onStart\\(\\) \\(void\\) is used\\.$#"
-			count: 2
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:sizeToString\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:sizeToString\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MediaItem.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MediaItem\\:\\:lastModifiedAsString\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Main/Classes/MediaItem.php
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 3
+			path: src/Main/Classes/MediaLibrary.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MediaLibrary.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:lastModified\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MediaLibrary.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MediaLibrary.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MediaLibrary.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:put\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MediaLibrary.php
 
@@ -7666,32 +6901,17 @@ parameters:
 			path: src/Main/Classes/RouteRegistrar.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Classes/Theme.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/Theme.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\Theme\\:\\:__get\\(\\) with return type void returns mixed but should not return anything\\.$#"
-			count: 1
-			path: src/Main/Classes/Theme.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\Theme\\:\\:__get\\(\\) with return type void returns null but should not return anything\\.$#"
-			count: 1
-			path: src/Main/Classes/Theme.php
-
-		-
-			message: "#^Property Igniter\\\\Main\\\\Classes\\\\Theme\\:\\:\\$locked \\(string\\) does not accept bool\\.$#"
-			count: 1
-			path: src/Main/Classes/Theme.php
-
-		-
-			message: "#^Property Igniter\\\\Main\\\\Classes\\\\Theme\\:\\:\\$requires \\(string\\) does not accept array\\.$#"
-			count: 1
-			path: src/Main/Classes/Theme.php
-
-		-
-			message: "#^Property Igniter\\\\Main\\\\Classes\\\\Theme\\:\\:\\$requires \\(string\\) does not accept default value of type array\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/Theme.php
 
@@ -7721,17 +6941,57 @@ parameters:
 			path: src/Main/Classes/ThemeManager.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:deleteDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:dirname\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 3
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:glob\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:put\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Classes/ThemeManager.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:where\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/ThemeManager.php
 
 		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:checkName\\(\\) should return bool but returns null\\.$#"
 			count: 1
 			path: src/Main/Classes/ThemeManager.php
 
@@ -7791,23 +7051,43 @@ parameters:
 			path: src/Main/FormWidgets/Components.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:isPathSymbol\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:basename\\(\\)\\.$#"
 			count: 2
 			path: src/Main/FormWidgets/Components.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:copy\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 3
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:glob\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isPathSymbol\\(\\)\\.$#"
+			count: 2
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 2
 			path: src/Main/FormWidgets/Components.php
 
 		-
 			message: "#^Cannot access property \\$fileSource on array\\.$#"
 			count: 3
-			path: src/Main/FormWidgets/Components.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\FormWidgets\\\\Components\\:\\:getSaveValue\\(\\) should return string but returns null\\.$#"
-			count: 1
 			path: src/Main/FormWidgets/Components.php
 
 		-
@@ -7822,16 +7102,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\FormWidgets\\\\MapArea\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MapArea.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Classes\\\\FormField\\:\\:\\$value \\(string\\) does not accept null\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MapArea.php
 
@@ -7871,16 +7141,6 @@ parameters:
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\FormWidgets\\\\MediaFinder\\:\\:getLoadValue\\(\\) should return string but returns array\\<int, string\\|null\\>\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MediaFinder.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\FormWidgets\\\\MediaFinder\\:\\:getSaveValue\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MediaFinder.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
@@ -7912,7 +7172,7 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$data on Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\|string\\.$#"
-			count: 1
+			count: 2
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
@@ -8031,7 +7291,7 @@ parameters:
 			path: src/Main/Http/Controllers/Themes.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:deleteTheme\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
 			count: 2
 			path: src/Main/Http/Controllers/Themes.php
 
@@ -8146,11 +7406,6 @@ parameters:
 			path: src/Main/Models/Customer.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Models\\\\Customer\\:\\:resetPassword\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: src/Main/Models/Customer.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/Customer.php
@@ -8251,22 +7506,42 @@ parameters:
 			path: src/Main/ServiceProvider.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:isPathSymbol\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:basename\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Template/ComponentPartial.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Template/ComponentPartial.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Template/ComponentPartial.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 4
+			path: src/Main/Template/ComponentPartial.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isPathSymbol\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Template/ComponentPartial.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:lastModified\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Template/ComponentPartial.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Template/ComponentPartial.php
 
 		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$component$#"
-			count: 1
-			path: src/Main/Template/ComponentPartial.php
-
-		-
-			message: "#^Property Igniter\\\\Main\\\\Template\\\\ComponentPartial\\:\\:\\$mTime \\(string\\) does not accept int\\.$#"
 			count: 1
 			path: src/Main/Template/ComponentPartial.php
 
@@ -8286,14 +7561,14 @@ parameters:
 			path: src/Main/Template/Content.php
 
 		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Template/Content.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$components\\.$#"
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
-			path: src/Main/Template/Layout.php
+			path: src/Main/Template/Content.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$fileName\\.$#"
@@ -8311,26 +7586,6 @@ parameters:
 			path: src/Main/Template/Layout.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Template\\\\Layout\\:\\:getComponent\\(\\) should return Igniter\\\\System\\\\Classes\\\\BaseComponent but returns null\\.$#"
-			count: 1
-			path: src/Main/Template/Layout.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Template\\\\Layout\\:\\:updateSettings\\(\\) should return int but returns bool\\.$#"
-			count: 1
-			path: src/Main/Template/Layout.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Template\\\\Layout\\:\\:updateSettings\\(\\) should return int but returns false\\.$#"
-			count: 2
-			path: src/Main/Template/Layout.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$components\\.$#"
-			count: 1
-			path: src/Main/Template/Page.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$settings\\.$#"
 			count: 3
 			path: src/Main/Template/Page.php
@@ -8341,19 +7596,19 @@ parameters:
 			path: src/Main/Template/Page.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Template\\\\Page\\:\\:getComponent\\(\\) should return Igniter\\\\System\\\\Classes\\\\BaseComponent but returns null\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:dirname\\(\\)\\.$#"
 			count: 1
-			path: src/Main/Template/Page.php
+			path: src/Main/Widgets/MediaManager.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Template\\\\Page\\:\\:updateSettings\\(\\) should return int but returns bool\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
 			count: 1
-			path: src/Main/Template/Page.php
+			path: src/Main/Widgets/MediaManager.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Template\\\\Page\\:\\:updateSettings\\(\\) should return int but returns false\\.$#"
-			count: 2
-			path: src/Main/Template/Page.php
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:name\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Widgets/MediaManager.php
 
 		-
 			message: "#^Result of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:putSession\\(\\) \\(void\\) is used\\.$#"
@@ -8361,12 +7616,22 @@ parameters:
 			path: src/Main/Widgets/MediaManager.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:isLocalPath\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:getRequire\\(\\)\\.$#"
 			count: 1
 			path: src/System/Actions/ModelAction.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 2
+			path: src/System/Actions/ModelAction.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isLocalPath\\(\\)\\.$#"
+			count: 1
+			path: src/System/Actions/ModelAction.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 2
 			path: src/System/Actions/ModelAction.php
 
@@ -8406,6 +7671,16 @@ parameters:
 			path: src/System/Actions/SettingsModel.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/BaseComponent.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			count: 2
+			path: src/System/Classes/BaseComponent.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addCss\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/BaseComponent.php
@@ -8431,24 +7706,39 @@ parameters:
 			path: src/System/Classes/BaseComponent.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
-			count: 2
-			path: src/System/Classes/BaseComponent.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Classes\\\\BaseComponent\\:\\:\\$page \\(Igniter\\\\Main\\\\Template\\\\Page\\) does not accept Igniter\\\\Flame\\\\Pagic\\\\TemplateCode\\.$#"
-			count: 1
-			path: src/System/Classes/BaseComponent.php
-
-		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/BaseController.php
 
 		-
-			message: "#^Method Igniter\\\\System\\\\Classes\\\\ComponentManager\\:\\:resolve\\(\\) should return string but returns null\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
 			count: 1
-			path: src/System/Classes/ComponentManager.php
+			path: src/System/Classes/BaseExtension.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:copy\\(\\)\\.$#"
+			count: 4
+			path: src/System/Classes/ComposerManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/ComposerManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: src/System/Classes/ComposerManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 2
+			path: src/System/Classes/ComposerManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
+			count: 2
+			path: src/System/Classes/ComposerManager.php
 
 		-
 			message: "#^Method Igniter\\\\System\\\\Classes\\\\ComposerManager\\:\\:updateRequirements\\(\\) invoked with 4 parameters, 3 required\\.$#"
@@ -8467,11 +7757,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__set\\(\\)\\.$#"
-			count: 1
-			path: src/System/Classes/Controller.php
-
-		-
-			message: "#^Method Igniter\\\\System\\\\Classes\\\\Controller\\:\\:locateControllerInPath\\(\\) should return bool\\|Igniter\\\\Admin\\\\Classes\\\\AdminController\\|Igniter\\\\Main\\\\Classes\\\\MainController but returns null\\.$#"
 			count: 1
 			path: src/System/Classes/Controller.php
 
@@ -8502,7 +7787,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/System/Classes/ControllerAction.php
 
 		-
@@ -8511,14 +7796,54 @@ parameters:
 			path: src/System/Classes/ControllerAction.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:isLocalPath\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
+			path: src/System/Classes/ControllerAction.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:getRequire\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/ControllerAction.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 3
+			path: src/System/Classes/ControllerAction.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isLocalPath\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/ControllerAction.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 2
 			path: src/System/Classes/ControllerAction.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:deleteDirectory\\(\\)\\.$#"
+			count: 2
+			path: src/System/Classes/ExtensionManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:directories\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/ExtensionManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
+			path: src/System/Classes/ExtensionManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:glob\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/ExtensionManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 15
+			path: src/System/Classes/ExtensionManager.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:firstOrNew\\(\\)\\.$#"
@@ -8542,31 +7867,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @return with type bool is incompatible with native type void\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Classes\\\\ExtensionManager\\:\\:\\$booted \\(array\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Classes\\\\ExtensionManager\\:\\:\\$booted \\(array\\) does not accept true\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Classes\\\\ExtensionManager\\:\\:\\$registered \\(array\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Classes\\\\ExtensionManager\\:\\:\\$registered \\(array\\) does not accept true\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Property Illuminate\\\\Foundation\\\\PackageManifest\\:\\:\\$manifest \\(array\\) does not accept null\\.$#"
 			count: 1
 			path: src/System/Classes/ExtensionManager.php
 
@@ -8601,6 +7901,21 @@ parameters:
 			path: src/System/Classes/LanguageManager.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:directories\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:glob\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:firstOrCreate\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/LanguageManager.php
@@ -8616,13 +7931,13 @@ parameters:
 			path: src/System/Classes/PackageInfo.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:fromClass\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:fromClass\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/PackageManifest.php
 
 		-
-			message: "#^Property Illuminate\\\\Foundation\\\\PackageManifest\\:\\:\\$manifest \\(array\\) does not accept null\\.$#"
-			count: 1
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 2
 			path: src/System/Classes/PackageManifest.php
 
 		-
@@ -8634,11 +7949,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:pluck\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/UpdateManager.php
-
-		-
-			message: "#^Method Igniter\\\\System\\\\Console\\\\Commands\\\\ExtensionRemove\\:\\:handle\\(\\) with return type void returns void but should not return anything\\.$#"
-			count: 1
-			path: src/System/Console/Commands/ExtensionRemove.php
 
 		-
 			message: "#^Result of method Illuminate\\\\Console\\\\Command\\:\\:error\\(\\) \\(void\\) is used\\.$#"
@@ -8696,6 +8006,16 @@ parameters:
 			path: src/System/Console/Commands/IgniterPasswd.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterUtil.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterUtil.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:where\\(\\)\\.$#"
 			count: 1
 			path: src/System/Console/Commands/IgniterUtil.php
@@ -8716,29 +8036,19 @@ parameters:
 			path: src/System/Console/Commands/IgniterUtil.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
-			count: 1
-			path: src/System/Console/Commands/IgniterUtil.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
-			count: 1
-			path: src/System/Console/Commands/IgniterUtil.php
-
-		-
 			message: "#^Method Illuminate\\\\Console\\\\Command\\:\\:option\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
 			count: 1
 			path: src/System/Console/Commands/IgniterUtil.php
 
 		-
-			message: "#^Method Igniter\\\\System\\\\Console\\\\Commands\\\\ThemeRemove\\:\\:handle\\(\\) with return type void returns void but should not return anything\\.$#"
+			message: "#^Result of method Illuminate\\\\Console\\\\Command\\:\\:error\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/System/Console/Commands/ThemeRemove.php
 
 		-
-			message: "#^Result of method Illuminate\\\\Console\\\\Command\\:\\:error\\(\\) \\(void\\) is used\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
 			count: 1
-			path: src/System/Console/Commands/ThemeRemove.php
+			path: src/System/Console/Commands/ThemeVendorPublish.php
 
 		-
 			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
@@ -8856,9 +8166,39 @@ parameters:
 			path: src/System/Exception/ErrorHandler.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:delete\\(\\)\\.$#"
+			count: 4
+			path: src/System/Helpers/CacheHelper.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:deleteDirectory\\(\\)\\.$#"
+			count: 2
+			path: src/System/Helpers/CacheHelper.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:directories\\(\\)\\.$#"
+			count: 2
+			path: src/System/Helpers/CacheHelper.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:glob\\(\\)\\.$#"
+			count: 1
+			path: src/System/Helpers/CacheHelper.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/System/Helpers/CacheHelper.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:combineGetContents\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/AssetController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Countries\\:\\:refreshList\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Countries.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
@@ -8869,6 +8209,11 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:count\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Countries.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Currencies\\:\\:refreshList\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Currencies.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
@@ -8926,16 +8271,6 @@ parameters:
 			path: src/System/Http/Controllers/Extensions.php
 
 		-
-			message: "#^Property Igniter\\\\System\\\\Http\\\\Controllers\\\\Extensions\\:\\:\\$formWidget \\(Igniter\\\\Admin\\\\Widgets\\\\Form\\) does not accept Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Http\\\\Controllers\\\\Extensions\\:\\:\\$toolbarWidget \\(Igniter\\\\Admin\\\\Widgets\\\\Toolbar\\) does not accept Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$version\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Languages.php
@@ -8948,6 +8283,11 @@ parameters:
 		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:formFindModelObject\\(\\)\\.$#"
 			count: 3
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:refreshList\\(\\)\\.$#"
+			count: 1
 			path: src/System/Http/Controllers/Languages.php
 
 		-
@@ -9041,6 +8381,16 @@ parameters:
 			path: src/System/Http/Controllers/Settings.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Settings.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Settings.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:getCalledExtensionClass\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Settings.php
@@ -9057,16 +8407,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:formExtendRefreshResults\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:\\$formWidget \\(Igniter\\\\Admin\\\\Widgets\\\\Form\\) does not accept Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:\\$toolbarWidget \\(Igniter\\\\Admin\\\\Widgets\\\\Toolbar\\) does not accept Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Settings.php
 
@@ -9091,6 +8431,21 @@ parameters:
 			path: src/System/Http/Controllers/SystemLogs.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
+			path: src/System/Http/Controllers/SystemLogs.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isWritable\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/SystemLogs.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:put\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/SystemLogs.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Updates.php
@@ -9111,38 +8466,53 @@ parameters:
 			path: src/System/Libraries/Assets.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:isPathSymbol\\(\\)\\.$#"
-			count: 1
-			path: src/System/Libraries/Assets.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
 			count: 2
 			path: src/System/Libraries/Assets.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
+			count: 1
+			path: src/System/Libraries/Assets.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/System/Libraries/Assets.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 2
+			path: src/System/Libraries/Assets.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isPathSymbol\\(\\)\\.$#"
+			count: 1
+			path: src/System/Libraries/Assets.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
+			count: 2
+			path: src/System/Libraries/Assets.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
+			count: 1
+			path: src/System/Libraries/Assets.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:name\\(\\)\\.$#"
+			count: 1
+			path: src/System/Libraries/Assets.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:put\\(\\)\\.$#"
+			count: 1
+			path: src/System/Libraries/Assets.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 3
-			path: src/System/Libraries/Assets.php
-
-		-
-			message: "#^Method Igniter\\\\System\\\\Libraries\\\\Assets\\:\\:getBundles\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: src/System/Libraries/Assets.php
-
-		-
-			message: "#^Method Igniter\\\\System\\\\Libraries\\\\Assets\\:\\:getFilters\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: src/System/Libraries/Assets.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Libraries\\\\Assets\\:\\:\\$cacheKeyPrefix \\(bool\\) does not accept string\\.$#"
-			count: 1
-			path: src/System/Libraries/Assets.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Libraries\\\\Assets\\:\\:\\$storagePath \\(string\\) does not accept null\\.$#"
-			count: 1
 			path: src/System/Libraries/Assets.php
 
 		-
@@ -9172,7 +8542,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Country\\:\\:\\$country_id\\.$#"
-			count: 1
+			count: 2
 			path: src/System/Models/Country.php
 
 		-
@@ -9182,6 +8552,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Country\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:find\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
@@ -9212,7 +8587,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$currency_code\\.$#"
-			count: 2
+			count: 3
 			path: src/System/Models/Currency.php
 
 		-
@@ -9266,6 +8641,11 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 2
 			path: src/System/Models/Currency.php
@@ -9282,16 +8662,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\System\\\\Models\\\\Currency\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
@@ -9331,12 +8701,12 @@ parameters:
 			path: src/System/Models/Extension.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:firstOrNew\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:existsInsensitive\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Extension.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:existsInsensitive\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:firstOrNew\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Extension.php
 
@@ -9367,7 +8737,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereCode\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/System/Models/Language.php
 
 		-
@@ -9377,11 +8747,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\System\\\\Models\\\\Language\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$guarded is not covariant with PHPDoc type array\\<string\\>\\|bool of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$guarded\\.$#"
 			count: 1
 			path: src/System/Models/Language.php
 
@@ -9407,7 +8772,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$name\\.$#"
-			count: 1
+			count: 2
 			path: src/System/Models/MailLayout.php
 
 		-
@@ -9417,6 +8782,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getPath\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailLayout.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/MailLayout.php
 
@@ -9432,16 +8802,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/System/Models/MailLayout.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
-			count: 1
-			path: src/System/Models/MailLayout.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
 			count: 1
 			path: src/System/Models/MailLayout.php
 
@@ -9467,7 +8827,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$name\\.$#"
-			count: 1
+			count: 2
 			path: src/System/Models/MailPartial.php
 
 		-
@@ -9481,22 +8841,17 @@ parameters:
 			path: src/System/Models/MailPartial.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailPartial.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:lists\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/MailPartial.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:whereCode\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/MailPartial.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
-			count: 1
-			path: src/System/Models/MailPartial.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
 			count: 1
 			path: src/System/Models/MailPartial.php
 
@@ -9561,6 +8916,11 @@ parameters:
 			path: src/System/Models/MailTemplate.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailTemplate.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:lists\\(\\)\\.$#"
 			count: 2
 			path: src/System/Models/MailTemplate.php
@@ -9571,17 +8931,12 @@ parameters:
 			path: src/System/Models/MailTemplate.php
 
 		-
-			message: "#^PHPDoc type array of property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
 			count: 1
-			path: src/System/Models/MailTemplate.php
+			path: src/System/Models/MailTheme.php
 
 		-
-			message: "#^Property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/System/Models/MailTemplate.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/MailTheme.php
 
@@ -9621,32 +8976,12 @@ parameters:
 			path: src/System/Models/Page.php
 
 		-
-			message: "#^PHPDoc type array of property Igniter\\\\System\\\\Models\\\\Page\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
-			count: 1
-			path: src/System/Models/Page.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Models\\\\Page\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
-			count: 1
-			path: src/System/Models/Page.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\RequestLog\\:\\:\\$count\\.$#"
 			count: 1
 			path: src/System/Models/RequestLog.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\RequestLog\\:\\:firstOrNew\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/RequestLog.php
-
-		-
-			message: "#^PHPDoc type array of property Igniter\\\\System\\\\Models\\\\RequestLog\\:\\:\\$timestamps is not covariant with PHPDoc type bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$timestamps\\.$#"
-			count: 1
-			path: src/System/Models/RequestLog.php
-
-		-
-			message: "#^Property Igniter\\\\System\\\\Models\\\\RequestLog\\:\\:\\$timestamps \\(array\\) does not accept default value of type true\\.$#"
 			count: 1
 			path: src/System/Models/RequestLog.php
 
@@ -9676,7 +9011,12 @@ parameters:
 			path: src/System/Notifications/UpdateFoundNotification.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:getRequire\\(\\)\\.$#"
+			count: 1
+			path: src/System/Providers/MailServiceProvider.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 1
 			path: src/System/Providers/MailServiceProvider.php
 
