@@ -52,7 +52,7 @@
     }
 
     CodeEditor.prototype.registerHandlers = function () {
-        this.$el.closest('[data-control="form-tabs"]').find('.nav-tabs').on('shown.bs.tab', $.proxy(this.refreshEditor, this))
+        this.$el.closest('[data-control="form-tabs"]').find('.nav').on('shown.bs.tab', $.proxy(this.refreshEditor, this))
     }
 
     CodeEditor.prototype.unregisterHandlers = function () {

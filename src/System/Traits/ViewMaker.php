@@ -69,6 +69,10 @@ trait ViewMaker
                 }
             });
 
+        if (is_null($guess) && view()->exists($view)) {
+            return view()->getFinder()->find($view);
+        }
+
         return $guess ?: $view;
     }
 

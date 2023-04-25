@@ -1,5 +1,5 @@
 <div class="toolbar-search d-flex align-items-center px-3 py-4">
-    <div id="marketplace-search" class="form-group search-group has-feedback flex-grow-1 shadow-sm">
+    <div id="marketplace-search" class="form-group search-group has-feedback flex-grow-1 rounded shadow-sm">
         <input
             type="text"
             class="form-control search input-lg"
