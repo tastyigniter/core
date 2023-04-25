@@ -131,8 +131,7 @@ class Reservation extends Model
 
         if (is_null($status)) {
             $query->where('status_id', '>=', 1);
-        }
-        else {
+        } else {
             if (!is_array($status)) {
                 $status = [$status];
             }
@@ -142,15 +141,13 @@ class Reservation extends Model
 
         if ($location instanceof Location) {
             $query->where('location_id', $location->getKey());
-        }
-        elseif (strlen($location)) {
+        } elseif (strlen($location)) {
             $query->where('location_id', $location);
         }
 
         if ($customer instanceof Customer) {
             $query->where('customer_id', $customer->getKey());
-        }
-        elseif (strlen($customer)) {
+        } elseif (strlen($customer)) {
             $query->where('customer_id', $customer);
         }
 
