@@ -89,8 +89,7 @@ class MailPartial extends Model
             }
 
             return $template;
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return null;
         }
     }

@@ -292,25 +292,21 @@ class AdminController extends Controller
                 if ($result instanceof RedirectResponse) {
                     $response[Admin::HANDLER_REDIRECT] = $result->getTargetUrl();
                     $result = null;
-                }
-                elseif (Flash::messages()->isNotEmpty()) {
+                } elseif (Flash::messages()->isNotEmpty()) {
                     $response['#notification'] = $this->makePartial('flash');
                 }
             }
 
             if (is_array($result)) {
                 $response = array_merge($response, $result);
-            }
-            elseif (is_string($result)) {
+            } elseif (is_string($result)) {
                 $response['result'] = $result;
-            }
-            elseif (is_object($result)) {
+            } elseif (is_object($result)) {
                 return $result;
             }
 
             return $response;
-        }
-        catch (ValidationException $ex) {
+        } catch (ValidationException $ex) {
             $this->flashValidationErrors($ex->getErrors());
 
             $response['#notification'] = $this->makePartial('flash');
@@ -318,11 +314,9 @@ class AdminController extends Controller
 //            $response['X_IGNITER_ERROR_MESSAGE'] = $ex->getMessage(); avoid duplicate flash message.
 
             throw new AjaxException($response);
-        }
-        catch (MassAssignmentException $ex) {
+        } catch (MassAssignmentException $ex) {
             throw new ApplicationException(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]));
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
