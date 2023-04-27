@@ -2,10 +2,12 @@
 
 namespace Igniter\Main\Template;
 
+use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Page Template Class
@@ -81,5 +83,20 @@ class Page extends Model
     public function getCodeClassParent()
     {
         return \Igniter\Main\Template\Code\PageCode::class;
+    }
+
+    public static function resolveRouteBinding($value, $field = null)
+    {
+        if (($page = event('main.page.beforeRoute', [$value, $field], true)) !== null) {
+            return $page;
+        }
+
+        $page = self::find($value);
+
+        throw_unless($page, (new ModelNotFoundException)->setModel(Page::class));
+
+        throw_if(!AdminAuth::check() && $page->isHidden, (new ModelNotFoundException)->setModel(Page::class));
+
+        return $page;
     }
 }

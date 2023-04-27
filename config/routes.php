@@ -45,6 +45,7 @@ return [
 
     'middleware' => [
         'web',
+        \Igniter\Main\Http\Middleware\CheckMaintenance::class,
     ],
 
     'adminMiddleware' => [

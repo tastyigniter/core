@@ -151,33 +151,11 @@ class MainController extends Controller
     {
         $this->fireSystemEvent('main.controller.beforeRemap');
 
-        $page = $this->router->findPage($url = request()->path(), $parameters);
-
-        // Show maintenance message if maintenance is enabled
-        if (setting('maintenance_mode') == 1 && !AdminAuth::isLogged()) {
-            return Response::make(
-                View::make('igniter.main::maintenance', ['message' => setting('maintenance_message')]),
-                $this->statusCode
-            );
-        }
+        $url = request()->path();
 
         // If the page was not found or a page is hidden,
         // render the 404 page - either provided by the theme or the built-in one.
-        if (!$page instanceof PageTemplate || $page->isHidden) {
-            if (!Request::ajax()) {
-                $this->statusCode = 404;
-            }
-
-            // Log the 404 request
-            if (!App::runningUnitTests()) {
-                RequestLog::createLog();
-            }
-
-            $page = $this->router->findPage('/404');
-            if (!$page instanceof PageTemplate) {
-                return Response::make(View::make('igniter.main::404'), $this->statusCode);
-            }
-        }
+        throw_unless($page = request()->route('_file_'), NotFoundHttpException::class);
 
         // Loads the requested controller action
         $output = $this->runPage($page);
