@@ -62,6 +62,10 @@ class RouteRegistrar
                 $router->name('igniter.admin.dashboard')->any('/', [Dashboard::class, 'remap']);
 
                 foreach ($this->getAdminPages() as $class) {
+                    if ($class === Dashboard::class) {
+                        continue;
+                    }
+
                     [$name, $uri] = $this->guessRouteUri($class);
                     $router->name($name)->any('/'.$uri.'/{slug?}', [$class, 'remap'])->where('slug', '(.*)?');
                 }
@@ -81,7 +85,7 @@ class RouteRegistrar
 
                 return $result;
             })
-            ->filter(fn ($class) => $this->isAdminPage($class));
+            ->filter(fn($class) => $this->isAdminPage($class));
     }
 
     protected function isAdminPage($class)
