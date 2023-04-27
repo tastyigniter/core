@@ -10,6 +10,8 @@ use Illuminate\Support\Collection;
 
 trait ManagesSource
 {
+    public const DIR_NAME = '';
+
     /**
      * The source resolver instance.
      * @var \Igniter\Flame\Pagic\Source\SourceResolverInterface
@@ -81,7 +83,7 @@ trait ManagesSource
         }
 
         return collect(static::listInTheme($source, $skipCache))
-            ->filter(fn (Model $model) => !$model->isHidden)
+            ->filter(fn(Model $model) => !$model->isHidden)
             ->mapWithKeys(function (Model $model) {
                 $fileName = $model->getKey();
                 $description = (string)($model->description ?: $model->title);
@@ -169,7 +171,7 @@ trait ManagesSource
      */
     public function getTypeDirName(): ?string
     {
-        return $this->dirName;
+        return static::DIR_NAME;
     }
 
     /**

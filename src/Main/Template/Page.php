@@ -19,7 +19,7 @@ class Page extends Model
     /**
      * @var string The directory name associated with the model, eg: _pages.
      */
-    protected $dirName = '_pages';
+    public const DIR_NAME = '_pages';
 
     /**
      * Helper that makes a URL for a page in the active theme.

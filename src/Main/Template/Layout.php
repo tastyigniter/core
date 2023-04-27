@@ -16,7 +16,7 @@ class Layout extends Model
     /**
      * @var string The directory name associated with the model, eg: pages.
      */
-    protected $dirName = '_layouts';
+    public const DIR_NAME = '_layouts';
 
     public $controller;
 

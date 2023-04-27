@@ -9,7 +9,7 @@ class Partial extends Model
     /**
      * @var string The directory name associated with the model
      */
-    protected $dirName = '_partials';
+    public const DIR_NAME = '_partials';
 
     public $settings = [];
 

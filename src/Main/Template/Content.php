@@ -11,7 +11,7 @@ class Content extends Model
     /**
      * @var string The directory name associated with the model
      */
-    protected $dirName = '_content';
+    public const DIR_NAME = '_content';
 
     public static function initCacheItem(&$item)
     {
