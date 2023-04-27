@@ -27,7 +27,7 @@ class ThemeServiceProvider extends ServiceProvider
                 ->filter(function (Theme $theme) use ($resolver) {
                     return !$resolver->hasSource($theme->getName());
                 })
-                ->each(function (Theme $theme) use ($resolver, $manager, $model) {
+                ->each(function (Theme $theme) use ($resolver, $manager) {
                     $resolver->addSource($theme->getName(), $theme->makeFileSource());
 
                     if ($theme->getName() === $manager->getActiveThemeCode()) {
@@ -45,7 +45,7 @@ class ThemeServiceProvider extends ServiceProvider
 
         $manager->bootThemes();
 
-        Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) use ($manager) {
+        Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
             $themeViewPaths = array_get(view()->getFinder()->getHints(), 'igniter.main', []);
             config()->set('view.paths', array_merge($themeViewPaths, config('view.paths')));
         });
