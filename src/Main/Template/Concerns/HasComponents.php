@@ -51,7 +51,7 @@ trait HasComponents
             return null;
         }
 
-        return $this->settings['components'][$componentName];
+        return array_get($this->settings['components'], $componentName);
     }
 
     /**

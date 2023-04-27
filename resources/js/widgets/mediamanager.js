@@ -46,7 +46,7 @@
         this.initScroll()
         this.initUploader()
         this.initSelectonic()
-        this.initFolderTree()
+        // this.initFolderTree()
     }
 
     MediaManager.prototype.registerHandlers = function () {

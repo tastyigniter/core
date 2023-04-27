@@ -3,7 +3,7 @@
 namespace Igniter\Flame\Database\Attach;
 
 use Exception;
-use Igniter\Flame\Database\Attach\Event\MediaTagCleared as MediaTagClearedEvent;
+use Igniter\Flame\Database\Attach\Events\MediaTagCleared as MediaTagClearedEvent;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

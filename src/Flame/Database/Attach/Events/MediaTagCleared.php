@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Flame\Database\Attach\Event;
+namespace Igniter\Flame\Database\Attach\Events;
 
 use Igniter\Flame\Database\Model;
 
