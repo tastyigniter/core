@@ -7,16 +7,15 @@ use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\BaseException;
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Pagic\Router;
 use Igniter\Main\Classes\MainController;
-use Igniter\Main\Classes\Router;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
-use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\View;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
@@ -68,13 +67,11 @@ class ErrorHandler
         // If the exception is already our brand, use it.
         if ($proposedException instanceof BaseException) {
             $exception = $proposedException;
-        }
-        // If there is an active mask prepared, use that.
+        } // If there is an active mask prepared, use that.
         elseif (static::$activeMask !== null) {
             $exception = static::$activeMask;
             $exception->setMask($proposedException);
-        }
-        // Otherwise we should mask it with our own default scent.
+        } // Otherwise we should mask it with our own default scent.
         else {
             $exception = new ApplicationException($proposedException->getMessage(), 0);
             $exception->setMask($proposedException);
@@ -156,26 +153,18 @@ class ErrorHandler
         }
 
         if (!Igniter::hasDatabase() || !$theme = resolve(ThemeManager::class)->getActiveTheme()) {
-            return View::make('igniter.main::error');
+            return null;
         }
-
-        $router = new Router($theme);
 
         // Use the default view if no "/error" URL is found.
-        if (!$router || !$router->findByUrl('/error')) {
-            return View::make('igniter.main::error');
+        if (!$page = resolve(Router::class)->findPage('/error')) {
+            return null;
         }
+
+        $controller = new MainController($theme);
 
         // Route to the main error page.
-        $controller = new MainController($theme);
-        $result = $controller->remap('/error', []);
-
-        // Extract content from response object
-        if ($result instanceof Response) {
-            $result = $result->getContent();
-        }
-
-        return $result;
+        return $controller->runPage($page);
     }
 
     /**
@@ -184,5 +173,15 @@ class ErrorHandler
      */
     public function handleDetailedError($exception)
     {
+        if (!$view = $this->getErrorView()) {
+            return null;
+        }
+
+        return View::make($view, ['exception' => $exception]);
+    }
+
+    protected function getErrorView()
+    {
+        return View::exists('igniter.main::error') ? 'igniter.main::error' : null;
     }
 }

@@ -49,6 +49,8 @@ class Igniter
 
     protected static $controllerPaths = [];
 
+    protected static array $ignoreMigrations = [];
+
     /**
      * Set the extensions path for the application.
      *
@@ -160,6 +162,13 @@ class Igniter
         static::$migrationPaths[$namespace] = $path;
     }
 
+    public function ignoreMigrations(string $namespace = '*')
+    {
+        static::$ignoreMigrations[] = $namespace;
+
+        return new static;
+    }
+
     /**
      * Get the database migration namespaces.
      *
@@ -167,12 +176,16 @@ class Igniter
      */
     public static function migrationPath()
     {
-        return static::$migrationPaths;
+        return !in_array('*', static::$ignoreMigrations)
+            ? array_except(static::$migrationPaths, static::$ignoreMigrations)
+            : [];
     }
 
     public static function coreMigrationPath()
     {
-        return static::$coreMigrationPaths;
+        return !in_array('*', static::$ignoreMigrations)
+            ? array_except(static::$coreMigrationPaths, static::$ignoreMigrations)
+            : [];
     }
 
     public static function getSeedRecords($name)
