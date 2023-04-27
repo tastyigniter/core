@@ -37,7 +37,7 @@ class MediaLibrary
         $this->config = Config::get('igniter.system.assets.media', []);
 
         $this->storageFolder = $this->validatePath($this->getConfig('folder', 'uploads'));
-        $this->storagePath = rtrim($this->getConfig('path', '/media/uploads'), '/');
+        $this->storagePath = $this->getConfig('path', '/media/uploads');
 
         if (!starts_with($this->storagePath, ['//', 'http://', 'https://'])) {
             $this->storagePath = asset($this->storagePath);
@@ -236,14 +236,27 @@ class MediaLibrary
 
     public function getMediaUrl($path)
     {
-        $path = $this->validatePath($path);
+        if (!starts_with($path, dirname($this->storageFolder))) {
+            $path = $this->validatePath($this->storageFolder.$path, true);
+        }
 
-        return $this->storagePath.$path;
+        $path = $this->validatePath($path, true);
+
+        return asset($this->storagePath.$path);
     }
 
     public function getMediaPath($path)
     {
         if (starts_with($path, base_path())) {
+            return $path;
+        }
+
+        return $this->validatePath($this->storageFolder.$path, true);
+    }
+
+    public function getUploadsPath($path)
+    {
+        if (starts_with($path, $this->storageFolder)) {
             return $path;
         }
 
@@ -264,22 +277,18 @@ class MediaLibrary
 
         $path = $this->validatePath($path);
 
-        $filePath = $this->getMediaPath($path);
-        if (!starts_with($path, base_path())) {
-            $filePath = $this->getStorageDisk()->path($filePath);
-        }
+        $filePath = $this->getUploadsPath($path);
 
         $thumbFile = $this->getMediaThumbFile($filePath, $options);
-        $thumbPath = temp_path($this->validatePath($thumbFile, true));
-        $thumbPublicPath = File::localToPublic($thumbPath);
+        $thumbPath = $this->getStorageDisk()->path($thumbFile);
 
-        if (File::exists($thumbPath)) {
-            return asset($thumbPublicPath);
+        if ($this->getStorageDisk()->exists($thumbFile)) {
+            return $this->getMediaUrl($thumbFile);
         }
 
-        $this->ensureDirectoryExists($thumbPath);
+        $this->ensureDirectoryExists($thumbFile);
 
-        if (!File::exists($filePath)) {
+        if (!$this->getStorageDisk()->exists($filePath)) {
             $filePath = $this->getDefaultThumbPath($thumbPath, array_get($options, 'default'));
         }
 
@@ -293,7 +302,7 @@ class MediaLibrary
 
         $manipulator->save($thumbPath);
 
-        return asset($thumbPublicPath);
+        return $this->getMediaUrl($thumbFile);
     }
 
     public function getDefaultThumbPath($thumbPath, $default = null)
@@ -302,7 +311,7 @@ class MediaLibrary
             return $this->getStorageDisk()->path($this->getMediaPath($default));
         }
 
-        File::put($thumbPath, Manipulator::decodedBlankImage());
+        $this->getStorageDisk()->put($thumbPath, Manipulator::decodedBlankImage());
 
         return $thumbPath;
     }
@@ -463,7 +472,7 @@ class MediaLibrary
 
     protected function getThumbDirectory()
     {
-        return $this->validatePath($this->getConfig('thumbFolder', 'public')).'/';
+        return dirname($this->storageFolder).'/'.$this->getConfig('thumbFolder', 'thumb').'/';
     }
 
     protected function getStorageDisk()
@@ -493,7 +502,7 @@ class MediaLibrary
             ? $this->getStorageDisk()->size($path)
             : null;
 
-        $publicUrl = $this->storagePath.$relativePath;
+        $publicUrl = $this->storagePath.$path;
 
         return new MediaItem($relativePath, $size, $lastModified, $itemType, $publicUrl);
     }
@@ -533,10 +542,10 @@ class MediaLibrary
 
     protected function ensureDirectoryExists($path)
     {
-        if (File::exists($directory = dirname($path))) {
+        if ($this->getStorageDisk()->exists($directory = dirname($path))) {
             return;
         }
 
-        File::makeDirectory($directory, 0777, true);
+        $this->getStorageDisk()->makeDirectory($directory);
     }
 }
