@@ -15,14 +15,14 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->increments('translation_id');
             $table->string('locale', 10);
-            $table->string('namespace')->default('*');
-            $table->string('group')->index();
+            $table->string('namespace', 64)->default('*');
+            $table->string('group', 64)->index();
             $table->string('item');
             $table->text('text');
             $table->boolean('unstable')->default(false);
             $table->boolean('locked')->default(false);
             $table->timestamps();
-            $table->unique(['locale', 'namespace', 'group', 'item']);
+            $table->unique(['locale', 'namespace', 'group', 'item'], 'item_unique');
         });
     }
 
