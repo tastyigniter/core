@@ -39,7 +39,7 @@ class IgniterUp extends Command
     public function handle()
     {
         if (Igniter::hasDatabase()) {
-            $this->dropConflictingFoundationTables();
+            $this->renameConflictingFoundationTables();
         }
 
         if (!$this->migrationFileExists('create_notifications_table')) {
@@ -57,28 +57,26 @@ class IgniterUp extends Command
         $manager->migrate();
     }
 
-    protected function dropConflictingFoundationTables()
+    protected function renameConflictingFoundationTables()
     {
         if (!DB::table('settings')->where('item', 'ti_version')->where('value', 'like', 'v3.%')->exists()) {
             return;
         }
 
-        if (!Schema::hasTable('user_preferences')) {
-            return;
+        $this->output->writeln('<info>Renaming conflicting foundation tables...</info>');
+
+        foreach ([
+            'users' => 'admin_users',
+            'cache' => 'cache_bck',
+            'failed_jobs' => 'failed_jobs_bck',
+            'jobs' => 'jobs_bck',
+            'job_batches' => 'job_batches_bck',
+            'sessions' => 'sessions_bck',
+        ] as $from => $to) {
+            if (Schema::hasTable($from) && !Schema::hasTable($to)) {
+                Schema::rename($from, $to);
+            }
         }
-
-        $this->output->writeln('<info>Dropping default foundation tables...</info>');
-
-        Schema::rename('user_groups', 'admin_user_groups');
-        Schema::rename('user_preferences', 'admin_user_preferences');
-        Schema::rename('user_roles', 'admin_user_roles');
-        Schema::rename('users_groups', 'admin_users_groups');
-
-        Schema::dropIfExists('cache');
-        Schema::dropIfExists('failed_jobs');
-        Schema::dropIfExists('jobs');
-        Schema::dropIfExists('job_batches');
-        Schema::dropIfExists('sessions');
     }
 
     protected function migrationFileExists($name): bool
