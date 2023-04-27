@@ -231,6 +231,19 @@ class Igniter
         static::$controllerPaths[$namespace] = $path;
     }
 
+    public static function loadViewsFrom(string|array $path, string $namespace)
+    {
+        $callback = function ($view) use ($path, $namespace) {
+            $view->addNamespace($namespace, $path);
+        };
+
+        app()->afterResolving('view', $callback);
+
+        if (app()->resolved('view')) {
+            $callback(app('view'), app());
+        }
+    }
+
     public static function controllerPath()
     {
         return static::$controllerPaths;

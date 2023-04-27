@@ -4,7 +4,6 @@ namespace Igniter\Main\Classes;
 
 use Exception;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Pagic\Source\FileSource;
 use Igniter\Flame\Pagic\Source\SourceInterface;
@@ -111,19 +110,7 @@ class Theme
         $this->path = realpath($path);
         $this->publicPath = File::localToPublic($path);
         $this->config = $config;
-    }
-
-    /**
-     * Boots the theme.
-     *
-     * @return self
-     */
-    public function boot()
-    {
         $this->fillFromConfig();
-        $this->registerPathSymbol();
-
-        return $this;
     }
 
     /**
@@ -301,12 +288,16 @@ class Theme
 
     public function hasCustomData()
     {
-        return $this->getConfigValue('form', false);
+        return !empty($this->getCustomData());
     }
 
     public function getCustomData()
     {
-        return ThemeModel::forTheme($this)->getThemeData();
+        if (!is_null($this->customData)) {
+            return $this->customData;
+        }
+
+        return $this->customData = ThemeModel::forTheme($this)->getThemeData();
     }
 
     /**
@@ -369,8 +360,6 @@ class Theme
             $this->assetPath = $this->config['asset-path'] ?? '/assets';
         }
 
-        $this->screenshot('screenshot');
-
         if (array_key_exists('locked', $this->config)) {
             $this->locked = (bool)$this->config['locked'];
         }
@@ -424,15 +413,6 @@ class Theme
         }
 
         return $this->fileSource = $source;
-    }
-
-    public function registerPathSymbol()
-    {
-        Igniter::loadResourcesFrom($this->getAssetPath(), $this->getName());
-
-        if ($this->hasParent()) {
-            Igniter::loadResourcesFrom($this->getParent()->getAssetPath(), $this->getParent()->getName());
-        }
     }
 
     /**

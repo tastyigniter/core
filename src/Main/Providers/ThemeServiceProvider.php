@@ -7,6 +7,7 @@ use Igniter\Flame\Pagic\Router;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class ThemeServiceProvider extends ServiceProvider
@@ -26,17 +27,27 @@ class ThemeServiceProvider extends ServiceProvider
                 ->filter(function (Theme $theme) use ($resolver) {
                     return !$resolver->hasSource($theme->getName());
                 })
-                ->each(function (Theme $theme) use ($resolver) {
+                ->each(function (Theme $theme) use ($resolver, $manager, $model) {
                     $resolver->addSource($theme->getName(), $theme->makeFileSource());
+
+                    if ($theme->getName() === $manager->getActiveThemeCode()) {
+                        $resolver->setDefaultSourceName($theme->getName());
+                    }
                 });
 
-            $activeTheme = $manager->getActiveThemeCode();
-            $resolver->setDefaultSourceName($activeTheme);
+            $model->setSource($manager->getActiveThemeCode());
         });
     }
 
     public function boot()
     {
-        resolve(ThemeManager::class)->bootThemes();
+        $manager = resolve(ThemeManager::class);
+
+        $manager->bootThemes();
+
+        Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) use ($manager) {
+            $themeViewPaths = array_get(view()->getFinder()->getHints(), 'igniter.main', []);
+            config()->set('view.paths', array_merge($themeViewPaths, config('view.paths')));
+        });
     }
 }

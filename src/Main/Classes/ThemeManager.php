@@ -8,6 +8,7 @@ use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Pagic\Source\FileSource;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Events\Theme\GetActiveTheme as GetActiveThemeEvent;
+use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
@@ -178,11 +179,25 @@ class ThemeManager
             $this->loadThemes();
         }
 
-        foreach ($this->themes as $theme) {
-            $theme->boot();
-        }
+        collect($this->themes)->each(function (Theme $theme) {
+            $this->bootTheme($theme);
+        });
 
         $this->booted = true;
+    }
+
+    public function bootTheme(Theme $theme)
+    {
+        Igniter::loadResourcesFrom($theme->getAssetPath(), $theme->getName());
+
+        if ($theme->hasParent()) {
+            Igniter::loadResourcesFrom($theme->getParent()->getAssetPath(), $theme->getParent()->getName());
+        }
+
+        if ($theme->isActive()) {
+            Igniter::loadViewsFrom($theme->getParent()->getPath().'/'.Page::DIR_NAME, 'igniter.main');
+            Igniter::loadViewsFrom($theme->getPath().'/'.Page::DIR_NAME, 'igniter.main');
+        }
     }
 
     /**
@@ -720,6 +735,6 @@ class ThemeManager
 
         File::makeDirectory($path, 0777, false, true);
 
-        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
     }
 }
