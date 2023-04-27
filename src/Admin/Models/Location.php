@@ -140,6 +140,13 @@ class Location extends Model implements LocationInterface
     {
     }
 
+    public function beforeSave()
+    {
+        if (is_null($this->location_country_id)) {
+            $this->location_country_id = setting('country_id');
+        }
+    }
+
     protected function afterSave()
     {
         $this->performAfterSave();

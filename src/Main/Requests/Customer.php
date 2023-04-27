@@ -41,7 +41,6 @@ class Customer extends FormRequest
             'addresses.*.address_2' => ['string'],
             'addresses.*.city' => ['required', 'string', 'min:2', 'max:128'],
             'addresses.*.state' => ['string', 'max:128'],
-            'addresses.*.country_id' => ['required', 'integer'],
             'addresses.*.postcode' => ['string'],
         ];
     }

@@ -11,8 +11,6 @@ it('has required rule for location_name, location_email and ...', function () {
 
     expect('required')->toBeIn(array_get((new Location)->rules(), 'location_address_1'));
 
-    expect('required')->toBeIn(array_get((new Location)->rules(), 'location_country_id'));
-
     expect('required')->toBeIn(array_get((new Location)->rules(), 'options.auto_lat_lng'));
 });
 

@@ -24,11 +24,6 @@ $config['form']['fields'] = [
         'label' => 'igniter::main.customers.label_postcode',
         'type' => 'text',
     ],
-    'country_id' => [
-        'label' => 'igniter::main.customers.label_country',
-        'type' => 'select',
-        'options' => [\Igniter\System\Models\Country::class, 'getDropdownOptions'],
-    ],
 ];
 
 return $config;

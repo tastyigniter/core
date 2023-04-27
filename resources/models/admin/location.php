@@ -190,14 +190,6 @@ $config['form']['tabs'] = [
             'type' => 'text',
             'span' => 'left',
         ],
-        'location_country_id' => [
-            'label' => 'lang:igniter::admin.locations.label_country',
-            'type' => 'relation',
-            'relationFrom' => 'country',
-            'nameFrom' => 'country_name',
-            'default' => setting('country_id'),
-            'span' => 'right',
-        ],
         'thumb' => [
             'label' => 'lang:igniter::admin.locations.label_image',
             'type' => 'mediafinder',

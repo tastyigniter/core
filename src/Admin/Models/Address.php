@@ -49,6 +49,13 @@ class Address extends Model
         );
     }
 
+    public function beforeSave()
+    {
+        if (is_null($this->country_id)) {
+            $this->country_id = setting('country_id');
+        }
+    }
+
     //
     // Scopes
     //
