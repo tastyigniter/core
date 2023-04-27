@@ -4,7 +4,6 @@ namespace Igniter\Main\Classes;
 
 use Exception;
 use Igniter\Admin\Facades\Admin;
-use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
@@ -17,12 +16,10 @@ use Igniter\Main\Helpers\MainHelper;
 use Igniter\Main\Template\ComponentPartial;
 use Igniter\Main\Template\Content;
 use Igniter\Main\Template\Layout as LayoutTemplate;
-use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial;
 use Igniter\System\Classes\BaseComponent;
 use Igniter\System\Classes\ComponentManager;
 use Igniter\System\Helpers\ViewHelper;
-use Igniter\System\Models\RequestLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
@@ -30,7 +27,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\View;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Main Controller Class
@@ -539,8 +536,7 @@ class MainController extends Controller
         // Extensibility
         if ($event = $this->fireSystemEvent('main.page.beforeRenderPartial', [$name])) {
             $partial = $event;
-        }
-        // Process Component partial
+        } // Process Component partial
         elseif (str_contains($name, '::')) {
             if (($partial = $this->loadComponentPartial($name, $throwException)) === false) {
                 return false;
@@ -548,8 +544,7 @@ class MainController extends Controller
 
             // Set context for self access
             $this->vars['__SELF__'] = $this->componentContext;
-        }
-        // Process theme partial
+        } // Process theme partial
         elseif (($partial = $this->loadPartial($name, $throwException)) === false) {
             return false;
         }
@@ -582,8 +577,7 @@ class MainController extends Controller
         // Extensibility
         if ($event = $this->fireSystemEvent('main.page.beforeRenderContent', [$name])) {
             $content = $event;
-        }
-        // Load content from theme
+        } // Load content from theme
         elseif (($content = Content::loadCached($this->theme->getName(), $name)) === null) {
             throw new ApplicationException(sprintf(
                 Lang::get('igniter::main.not_found.content'), $name
@@ -822,17 +816,17 @@ class MainController extends Controller
             return $this->currentPageUrl($params);
         }
 
-        return MainHelper::url($path);
+        return MainHelper::url($path, $params);
     }
 
     public function pageUrl($path = null, $params = [])
     {
-        return MainHelper::pageUrl($path);
+        return MainHelper::pageUrl($path, $params);
     }
 
     public function currentPageUrl($params = [])
     {
-        return $this->pageUrl($this->page->getFileName(), $params);
+        return $this->pageUrl($this->page->getBaseFileName(), $params);
     }
 
     public function themeUrl($url = null)

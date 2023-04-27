@@ -7,8 +7,6 @@ use Illuminate\Support\ServiceProvider;
 
 class CurrencyServiceProvider extends ServiceProvider
 {
-    protected $defer = true;
-
     /**
      * Register the service provider.
      *
@@ -38,8 +36,9 @@ class CurrencyServiceProvider extends ServiceProvider
      */
     public function registerCurrency()
     {
-        $this->app->singleton('currency', function ($app) {
+        $this->app->bind(Currency::class, 'currency');
 
+        $this->app->singleton('currency', function ($app) {
             $this->app['events']->fire('currency.beforeRegister', [$this]);
 
             return new Currency(
@@ -60,11 +59,6 @@ class CurrencyServiceProvider extends ServiceProvider
             Console\Cleanup::class,
             Console\Update::class,
         ]);
-    }
-
-    public function provides()
-    {
-        return ['currency', Currency::class];
     }
 
     protected function registerConverter()

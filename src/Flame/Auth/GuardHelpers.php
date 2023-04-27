@@ -51,7 +51,7 @@ trait GuardHelpers
      */
     public function impersonate($user)
     {
-        $oldSession = $this->session->get($this->sessionKey);
+        $oldSession = $this->session->get($this->getName());
         $oldUser = !empty($oldSession[0]) ? $this->getById($oldSession[0]) : false;
 
         $user->fireEvent('model.auth.beforeImpersonate', [$oldUser]);

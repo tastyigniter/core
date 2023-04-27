@@ -209,7 +209,7 @@ return [
         'column_telephone' => 'Telephone',
         'column_date_added' => 'Date Registered',
 
-        'button_activate' => 'Manually Activate',
+        'button_activate' => 'Activate',
 
         'label_first_name' => 'First Name',
         'label_last_name' => 'Last Name',

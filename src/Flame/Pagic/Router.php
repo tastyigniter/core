@@ -194,7 +194,7 @@ class Router
         return $this->urlFromPattern($routeRule['pattern'], $parameters);
     }
 
-    public function pageUrl(string $name, array $parameters = []): string|null
+    public function pageUrl(string|null $name, array $parameters = []): string|null
     {
         if (!is_array($parameters)) {
             $parameters = [];
@@ -205,7 +205,7 @@ class Router
             $parameters['location'] = $location;
         }
 
-        return $this->url($name, $parameters);
+        return is_null($name) ? null : $this->url($name, $parameters);
     }
 
     /**
@@ -297,7 +297,7 @@ class Router
         return RouterHelper::rebuildUrl($url);
     }
 
-    public function resolveLocationRouteParameter(string $name): ?string
+    public function resolveLocationRouteParameter(string|null $name): ?string
     {
         if (isset(static::$locationRouteParameterResolver)) {
             return call_user_func(static::$locationRouteParameterResolver, $name);

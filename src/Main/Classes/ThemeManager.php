@@ -195,7 +195,9 @@ class ThemeManager
         }
 
         if ($theme->isActive()) {
-            Igniter::loadViewsFrom($theme->getParent()->getPath().'/'.Page::DIR_NAME, 'igniter.main');
+            if ($theme->hasParent()) {
+                Igniter::loadViewsFrom($theme->getParent()->getPath().'/'.Page::DIR_NAME, 'igniter.main');
+            }
             Igniter::loadViewsFrom($theme->getPath().'/'.Page::DIR_NAME, 'igniter.main');
         }
     }
