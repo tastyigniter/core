@@ -164,7 +164,7 @@ class UpdateManager
         ]);
 
         $this->migrator->runGroup(Igniter::migrationPath());
-        
+
         return $this;
     }
 

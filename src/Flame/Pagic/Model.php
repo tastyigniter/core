@@ -30,6 +30,7 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
     use Purgeable;
 
     public const DIR_NAME = '';
+
     public const DEFAULT_EXTENSION = 'blade.php';
 
     public static Dispatcher $dispatcher;

@@ -71,8 +71,9 @@ class Migrator extends BaseMigrator
      */
     public function getMigrationName($path)
     {
-        if  (is_null($this->getRepository()->getGroup()))
+        if (is_null($this->getRepository()->getGroup())) {
             return parent::getMigrationName($path);
+        }
 
         return $this->getRepository()->getGroup().'::'.str_replace('.php', '', basename($path));
     }

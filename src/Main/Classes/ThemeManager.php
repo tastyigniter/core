@@ -198,7 +198,7 @@ class ThemeManager
         if ($theme->isActive()) {
             if ($pathsToPublish = $theme->getPathsToPublish()) {
                 foreach (['laravel-assets', 'igniter-assets'] as $group) {
-                    if (! array_key_exists($group, ServiceProvider::$publishGroups)) {
+                    if (!array_key_exists($group, ServiceProvider::$publishGroups)) {
                         ServiceProvider::$publishGroups[$group] = [];
                     }
 
