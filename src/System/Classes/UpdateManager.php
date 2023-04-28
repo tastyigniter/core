@@ -152,61 +152,26 @@ class UpdateManager
 
     public function migrate()
     {
-        $this->prepareMigrationTable();
-
-        $this->migrateApp();
-
-        $this->seedApp();
-
-        foreach (array_keys(Igniter::migrationPath()) as $code) {
-            $this->migrateExtension($code);
-        }
-    }
-
-    protected function prepareMigrationTable()
-    {
-        if ($this->repository->updateRepositoryGroup()) {
-            $this->log('Migration table group column updated');
-        }
-    }
-
-    public function migrateApp()
-    {
         if ($this->logsOutput) {
             $this->migrator->setOutput($this->logsOutput);
         }
 
-        foreach (Igniter::coreMigrationPath() as $group => $path) {
-            $this->log("<info>Migrating $group</info>");
+        $this->migrator->runGroup(Igniter::coreMigrationPath());
 
-            $this->migrator->runGroup([$group => $path]);
-
-            $this->log("<info>Migrated $group</info>");
-        }
-
-        return $this;
-    }
-
-    public function seedApp()
-    {
         Artisan::call('db:seed', [
             '--class' => \Igniter\System\Database\Seeds\DatabaseSeeder::class,
             '--force' => true,
         ]);
 
-        $this->log('<info>Seeded app</info> ');
-
+        $this->migrator->runGroup(Igniter::migrationPath());
+        
         return $this;
     }
 
     public function migrateExtension($name)
     {
-        if (!$this->migrator->repositoryExists()) {
-            return $this->log('<error>Migration table not found.</error>');
-        }
-
-        if (!$this->extensionManager->findExtension($name)) {
-            return $this->log('<error>Unable to find:</error> '.$name);
+        if (!array_has(Igniter::migrationPath(), $name)) {
+            return $this->log('<error>Unable to find migrations for:</error> '.$name);
         }
 
         $this->log("<info>Migrating extension $name</info>");
@@ -217,19 +182,13 @@ class UpdateManager
 
         $this->migrator->runGroup(array_only(Igniter::migrationPath(), $name));
 
-        $this->log("<info>Migrated extension $name</info>");
-
         return $this;
     }
 
     public function purgeExtension($name)
     {
-        if (!$this->migrator->repositoryExists()) {
-            return $this->log('<error>Migration table not found.</error>');
-        }
-
-        if (!$this->extensionManager->findExtension($name)) {
-            return $this->log('<error>Unable to find:</error> '.$name);
+        if (!array_has(Igniter::migrationPath(), $name)) {
+            return $this->log('<error>Unable to find migrations for:</error> '.$name);
         }
 
         $this->log("<info>Purging extension $name</info>");
@@ -240,28 +199,22 @@ class UpdateManager
 
         $this->migrator->resetAll(array_only(Igniter::migrationPath(), $name));
 
-        $this->log("<info>Purged extension $name</info>");
-
         return $this;
     }
 
     public function rollbackExtension($name, array $options = [])
     {
-        if (!$this->migrator->repositoryExists()) {
-            return $this->log('<error>Migration table not found.</error>');
+        if (!array_has(Igniter::migrationPath(), $name)) {
+            return $this->log('<error>Unable to find migrations for:</error> '.$name);
         }
 
-        if (!$this->extensionManager->findExtension($name)) {
-            return $this->log('<error>Unable to find:</error> '.$name);
-        }
+        $this->log("<info>Rolling back extension $name</info>");
 
         if ($this->logsOutput) {
             $this->migrator->setOutput($this->logsOutput);
         }
 
         $this->migrator->rollbackAll(array_only(Igniter::migrationPath(), $name), $options);
-
-        $this->log("<info>Rolled back extension $name</info>");
 
         return $this;
     }

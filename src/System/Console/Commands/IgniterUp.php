@@ -3,14 +3,17 @@
 namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Filesystem\Filesystem;
-use Igniter\Flame\Igniter;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Console\ConfirmableTrait;
+use Illuminate\Console\View\Components\Info;
 use Illuminate\Support\Facades\Schema;
+use Symfony\Component\Console\Input\InputOption;
 
 class IgniterUp extends Command
 {
+    use ConfirmableTrait;
+
     /**
      * The console command name.
      * @var string
@@ -38,33 +41,27 @@ class IgniterUp extends Command
      */
     public function handle()
     {
-        if (Igniter::hasDatabase()) {
-            $this->renameConflictingFoundationTables();
+        if (!$this->confirmToProceed()) {
+            return 1;
         }
 
         if (!$this->migrationFileExists('create_notifications_table')) {
             $this->call('notifications:table');
         }
 
-        $this->output->writeln('<info>Migrating foundation...</info>');
+        resolve('migrator')->getRepository()->prepareMigrationTable();
 
-        $this->call('migrate');
+        $this->renameConflictingFoundationTables();
 
-        $this->output->writeln('<info>Migrating application and extensions...</info>');
+        $this->call('migrate', ['--force' => true]);
 
-        $manager = resolve(UpdateManager::class);
-        $manager->setLogsOutput($this->output);
-        $manager->migrate();
+        resolve(UpdateManager::class)
+            ->setLogsOutput($this->output)
+            ->migrate();
     }
 
     protected function renameConflictingFoundationTables()
     {
-        if (!DB::table('settings')->where('item', 'ti_version')->where('value', 'like', 'v3.%')->exists()) {
-            return;
-        }
-
-        $this->output->writeln('<info>Renaming conflicting foundation tables...</info>');
-
         foreach ([
             'users' => 'admin_users',
             'cache' => 'cache_bck',
@@ -74,6 +71,7 @@ class IgniterUp extends Command
             'sessions' => 'sessions_bck',
         ] as $from => $to) {
             if (Schema::hasTable($from) && !Schema::hasTable($to)) {
+                $this->output->write(Info::class, sprintf('Renaming table %s to %s', $from, $to));
                 Schema::rename($from, $to);
             }
         }
@@ -86,5 +84,12 @@ class IgniterUp extends Command
         return collect($this->files->allFiles($path))->filter(function ($file) use ($name) {
             return str_contains($file, $name);
         })->isNotEmpty();
+    }
+
+    protected function getOptions()
+    {
+        return [
+            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production'],
+        ];
     }
 }

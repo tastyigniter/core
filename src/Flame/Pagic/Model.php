@@ -29,6 +29,7 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
     use EventEmitter;
     use Purgeable;
 
+    public const DIR_NAME = '';
     public const DEFAULT_EXTENSION = 'blade.php';
 
     public static Dispatcher $dispatcher;

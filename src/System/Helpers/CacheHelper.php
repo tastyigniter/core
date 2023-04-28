@@ -45,6 +45,10 @@ class CacheHelper
     public static function clearCache()
     {
         $path = config('igniter.pagic.parsedTemplateCachePath', storage_path('/igniter/cache'));
+        if (!File::isDirectory($path)) {
+            return;
+        }
+
         foreach (File::directories($path) as $directory) {
             File::deleteDirectory($directory);
         }

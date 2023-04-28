@@ -146,6 +146,21 @@ class Theme
     }
 
     /**
+     * @return array
+     */
+    public function getPathsToPublish()
+    {
+        $result = [];
+        foreach ($this->config['publish-paths'] ?? [] as $path) {
+            if (File::isDirectory($this->path.$this->sourcePath.$this->assetPath.$path)) {
+                $result[$this->path.$this->sourcePath.$this->assetPath.$path] = public_path('vendor/'.$this->name);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * @return string
      */
     public function getDirName()

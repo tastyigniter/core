@@ -10,8 +10,6 @@ use Illuminate\Support\Collection;
 
 trait ManagesSource
 {
-    public const DIR_NAME = '';
-
     /**
      * The source resolver instance.
      * @var \Igniter\Flame\Pagic\Source\SourceResolverInterface

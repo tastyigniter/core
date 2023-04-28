@@ -10,7 +10,7 @@ use Igniter\Flame\Database\Attach\HasMedia;
 use Igniter\Flame\Database\Attach\Media;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
-use Igniter\Main\classes\MediaItem;
+use Igniter\Main\Classes\MediaItem;
 use Igniter\Main\Classes\MediaLibrary;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\Collection;

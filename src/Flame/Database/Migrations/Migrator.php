@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Database\Migrations;
 
+use Illuminate\Console\View\Components\Info;
 use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 use Illuminate\Support\Str;
 
@@ -10,6 +11,8 @@ class Migrator extends BaseMigrator
     public function runGroup($paths = [], array $options = [])
     {
         foreach ($paths as $group => $path) {
+            $this->write(Info::class, sprintf('Migrating group %s.', $group));
+
             $this->getRepository()->setGroup($group);
             $this->run($path, $options);
         }
@@ -17,27 +20,25 @@ class Migrator extends BaseMigrator
 
     public function rollbackAll($paths = [], array $options = [])
     {
-        $this->notes = [];
-
         foreach ($paths as $group => $path) {
-            $this->getRepository()->setGroup($group);
+            $this->write(Info::class, sprintf('Rolling back group %s.', $group));
 
+            $this->getRepository()->setGroup($group);
             $this->rollDown($path, $options);
         }
     }
 
     public function resetAll($paths = [], $pretend = false)
     {
-        $this->notes = [];
-
         foreach ($paths as $group => $path) {
-            $this->getRepository()->setGroup($group);
+            $this->write(Info::class, sprintf('Resetting group %s.', $group));
 
-            $this->reset([$path], $pretend);
+            $this->getRepository()->setGroup($group);
+            $this->reset($path, $pretend);
         }
     }
 
-    public function rollDown($paths = [], array $options = [])
+    protected function rollDown($paths = [], array $options = [])
     {
         foreach ($paths as $group => $path) {
             $this->getRepository()->setGroup($group);
@@ -49,7 +50,7 @@ class Migrator extends BaseMigrator
             $this->requireFiles($migrations);
 
             if (count($migrations) === 0) {
-                $this->note('<info>Nothing to rollback.</info>');
+                $this->note(Info::class, 'Nothing to rollback.');
 
                 return;
             }
@@ -60,6 +61,20 @@ class Migrator extends BaseMigrator
         }
 
         return $this;
+    }
+
+    /**
+     * Get the name of the migration.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getMigrationName($path)
+    {
+        if  (is_null($this->getRepository()->getGroup()))
+            return parent::getMigrationName($path);
+
+        return $this->getRepository()->getGroup().'::'.str_replace('.php', '', basename($path));
     }
 
     /**

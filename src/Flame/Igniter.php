@@ -40,9 +40,9 @@ class Igniter
     protected static $hasDatabase;
 
     protected static $coreMigrationPaths = [
-        'igniter.system' => __DIR__.'/../../database/migrations/system',
-        'igniter.admin' => __DIR__.'/../../database/migrations/admin',
-        'igniter.main' => __DIR__.'/../../database/migrations/main',
+        'igniter.system' => [__DIR__.'/../../database/migrations/system'],
+        'igniter.admin' => [__DIR__.'/../../database/migrations/admin'],
+        'igniter.main' => [__DIR__.'/../../database/migrations/main'],
     ];
 
     protected static $migrationPaths = [];

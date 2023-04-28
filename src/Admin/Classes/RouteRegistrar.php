@@ -59,13 +59,9 @@ class RouteRegistrar
             ->domain(config('igniter.routes.domain'))
             ->prefix(Igniter::uri())
             ->group(function (Router $router) {
-                $router->name('igniter.admin.dashboard')->any('/', [Dashboard::class, 'remap']);
+                $router->name('igniter.admin')->any('/', [Dashboard::class, 'remap']);
 
                 foreach ($this->getAdminPages() as $class) {
-                    if ($class === Dashboard::class) {
-                        continue;
-                    }
-
                     [$name, $uri] = $this->guessRouteUri($class);
                     $router->name($name)->any('/'.$uri.'/{slug?}', [$class, 'remap'])->where('slug', '(.*)?');
                 }

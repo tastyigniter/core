@@ -11,7 +11,6 @@
 <body>
 <article>
     <p class="lead">@lang('igniter::main.alert_custom_error')</p>
-    <p>{{$exception->getMessage()}}</p>
 </article>
 </body>
 </html>

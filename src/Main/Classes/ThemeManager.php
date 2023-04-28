@@ -14,6 +14,7 @@ use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Libraries\Assets;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\ServiceProvider;
 
 /**
  * Theme Manager Class
@@ -195,6 +196,18 @@ class ThemeManager
         }
 
         if ($theme->isActive()) {
+            if ($pathsToPublish = $theme->getPathsToPublish()) {
+                foreach (['laravel-assets', 'igniter-assets'] as $group) {
+                    if (! array_key_exists($group, ServiceProvider::$publishGroups)) {
+                        ServiceProvider::$publishGroups[$group] = [];
+                    }
+
+                    ServiceProvider::$publishGroups[$group] = array_merge(
+                        ServiceProvider::$publishGroups[$group], $pathsToPublish
+                    );
+                }
+            }
+
             if ($theme->hasParent()) {
                 Igniter::loadViewsFrom($theme->getParent()->getPath().'/'.Page::DIR_NAME, 'igniter.main');
             }
