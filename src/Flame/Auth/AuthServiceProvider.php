@@ -60,12 +60,6 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function configureGateCallback()
     {
-        Gate::before(function ($user, $ability) {
-            if (Igniter::isAdminUser($user)) {
-                return $user->isSuperUser() ? true : null;
-            }
-        });
-
         Gate::after(function ($user, $ability) {
             if (Igniter::isAdminUser($user)) {
                 return $user->hasPermission($ability) === true ? true : null;
