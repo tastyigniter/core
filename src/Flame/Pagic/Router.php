@@ -125,6 +125,10 @@ class Router
 
         $this->urlMap = Cache::remember($this->getUrlMapCacheKey(), $cacheable, function () {
             $map = [];
+            if (!static::$templateClass::getSourceResolver()->hasSource($this->theme)) {
+                return $map;
+            }
+
             $pages = static::$templateClass::listInTheme($this->theme, true);
             foreach ($pages as $page) {
                 if (!optional($page)->permalink) {
@@ -239,8 +243,7 @@ class Router
              */
             if (!starts_with($patternSegment, ':')) {
                 $url[] = $patternSegment;
-            }
-            /*
+            } /*
              * Dynamic segment
              */
             else {
@@ -268,8 +271,7 @@ class Router
                  */
                 if ($parameterExists) {
                     $url[] = $parameters[$paramName];
-                }
-                /*
+                } /*
                  * Look for a specified default value
                  */
                 elseif ($optional) {
@@ -277,8 +279,7 @@ class Router
 
                     // Do not set $lastPopulatedIndex
                     continue;
-                }
-                /*
+                } /*
                  * Non optional field, use the default value
                  */
                 else {
