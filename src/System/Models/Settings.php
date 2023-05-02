@@ -285,7 +285,7 @@ class Settings extends Model
      */
     public static function defaultExtensions()
     {
-        return Config::get('igniter.system.assets.media.defaultExtensions', [
+        return Config::get('igniter-system.assets.media.defaultExtensions', [
             'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'svg', 'ico', 'webp',
             'doc', 'docx', 'ppt', 'pptx', 'pdf', 'txt', 'xls', 'xlsx',
             'mp4', 'avi', 'mov', 'mpg', 'mpeg', 'mkv', 'webm', 'ogg',
@@ -300,7 +300,7 @@ class Settings extends Model
      */
     public static function imageExtensions()
     {
-        return Config::get('igniter.system.assets.media.imageExtensions', [
+        return Config::get('igniter-system.assets.media.imageExtensions', [
             'jpg', 'jpeg', 'bmp', 'png', 'webp', 'gif', 'svg',
         ]);
     }
@@ -312,7 +312,7 @@ class Settings extends Model
      */
     public static function videoExtensions()
     {
-        return Config::get('igniter.system.assets.media.videoExtensions', [
+        return Config::get('igniter-system.assets.media.videoExtensions', [
             'mp4', 'avi', 'mov', 'mpg', 'mpeg', 'mkv', 'webm', 'ogv',
         ]);
     }
@@ -324,7 +324,7 @@ class Settings extends Model
      */
     public static function audioExtensions()
     {
-        return Config::get('igniter.system.assets.media.audioExtensions', [
+        return Config::get('igniter-system.assets.media.audioExtensions', [
             'mp3', 'wav', 'wma', 'm4a', 'ogg', 'oga',
         ]);
     }

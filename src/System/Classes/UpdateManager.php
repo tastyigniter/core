@@ -65,7 +65,7 @@ class UpdateManager
 
     public function __construct()
     {
-        $this->disableCoreUpdates = config('igniter.system.disableCoreUpdates', false);
+        $this->disableCoreUpdates = config('igniter-system.disableCoreUpdates', false);
 
         $this->bindContainerObjects();
     }

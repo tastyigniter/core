@@ -18,8 +18,8 @@ class AuthServiceProvider extends ServiceProvider
 
     public function register()
     {
-        config()->set('auth.guards', array_merge(config('auth.guards', []), config('igniter.auth.mergeGuards', [])));
-        config()->set('auth.providers', array_merge(config('auth.providers', []), config('igniter.auth.mergeProviders', [])));
+        config()->set('auth.guards', array_merge(config('auth.guards', []), config('igniter-auth.mergeGuards', [])));
+        config()->set('auth.providers', array_merge(config('auth.providers', []), config('igniter-auth.mergeProviders', [])));
     }
 
     /**

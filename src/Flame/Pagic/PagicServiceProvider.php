@@ -38,7 +38,7 @@ class PagicServiceProvider extends ServiceProvider
         $this->app->singleton(Router::class);
 
         $this->app->singleton(FileCache::class, function () {
-            return new FileCache(config('igniter.pagic.parsedTemplateCachePath'));
+            return new FileCache(config('igniter-pagic.parsedTemplateCachePath'));
         });
 
         $this->app->singleton('pagic', function () {

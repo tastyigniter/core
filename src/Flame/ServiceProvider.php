@@ -72,14 +72,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function mergeConfigFiles()
     {
         collect($this->configFiles)->each(function ($config) {
-            $this->mergeConfigFrom($this->root.'/config/'.$config.'.php', 'igniter.'.$config);
+            $this->mergeConfigFrom($this->root.'/config/'.$config.'.php', 'igniter-'.$config);
         });
     }
 
     protected function publishConfigFiles()
     {
         collect($this->configFiles)->each(function ($config) {
-            $this->publishes([$this->root.'/config/'.$config.'.php' => config_path('igniter/'.$config.'.php')], 'igniter');
+            $this->publishes([$this->root.'/config/'.$config.'.php' => config_path('igniter-'.$config.'.php')], 'igniter-config');
         });
     }
 

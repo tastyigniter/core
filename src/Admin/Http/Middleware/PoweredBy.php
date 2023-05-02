@@ -11,7 +11,7 @@ class PoweredBy
     {
         $response = $next($request);
 
-        if (config('igniter.system.sendPoweredByHeader') && $response instanceof Response) {
+        if (config('igniter-system.sendPoweredByHeader') && $response instanceof Response) {
             $response->header('X-Powered-By', 'TastyIgniter');
         }
 

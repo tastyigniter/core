@@ -29,7 +29,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         Igniter::loadControllersFrom(__DIR__.'/Fixtures/Controllers', 'Tests\\Fixtures\\Controllers');
 
         ThemeManager::addDirectory(__DIR__.'/_fixtures/themes');
-        $app['config']->set('igniter.system.defaultTheme', 'tests-theme');
+        $app['config']->set('igniter-system.defaultTheme', 'tests-theme');
     }
 
     protected function defineDatabaseMigrations()

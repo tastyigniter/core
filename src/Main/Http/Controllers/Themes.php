@@ -281,7 +281,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
             return;
         }
 
-        if (!config('igniter.system.publishThemeAssetsBundle', true)) {
+        if (!config('igniter-system.publishThemeAssetsBundle', true)) {
             return;
         }
 

@@ -49,9 +49,9 @@ trait CombinesAssets
     protected function initCombiner()
     {
         $this->cacheKeyPrefix = 'ti.combiner.';
-        $this->useCache = config('igniter.system.enableAssetCache', true);
+        $this->useCache = config('igniter-system.enableAssetCache', true);
         $this->storagePath = storage_path('igniter/combiner/data');
-        $this->assetsCombinerUri = config('igniter.routes.assetsCombinerUri', '/_assets');
+        $this->assetsCombinerUri = config('igniter-routes.assetsCombinerUri', '/_assets');
 
         if (Igniter::runningInAdmin()) {
             $this->assetsCombinerUri = Igniter::uri().$this->assetsCombinerUri;

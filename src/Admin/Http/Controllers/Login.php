@@ -16,7 +16,7 @@ class Login extends AdminController
 
     public function __construct()
     {
-        $this->middleware('throttle:'.config('igniter.auth.rateLimiter', '6,1'));
+        $this->middleware('throttle:'.config('igniter-auth.rateLimiter', '6,1'));
         parent::__construct();
     }
 

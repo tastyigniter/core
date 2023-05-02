@@ -13,7 +13,7 @@ class ImageHelper
             'height' => $height,
         ], is_array($width) ? $width : []);
 
-        $rootFolder = config('igniter.system.assets.media.folder', 'data').'/';
+        $rootFolder = config('igniter-system.assets.media.folder', 'data').'/';
         if (starts_with($path, $rootFolder)) {
             $path = substr($path, strlen($rootFolder));
         }

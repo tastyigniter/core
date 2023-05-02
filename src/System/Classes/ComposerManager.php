@@ -476,7 +476,7 @@ class ComposerManager
         // Don't change the memory_limit, if it's already set to -1 or >= 1.5GB
         $memoryLimit = SystemHelper::phpIniValueInBytes('memory_limit');
         if ($memoryLimit !== -1 && $memoryLimit < 1024 * 1024 * 1536) {
-            @ini_set('memory_limit', config('igniter.system.maxMemoryLimit', '1536M'));
+            @ini_set('memory_limit', config('igniter-system.maxMemoryLimit', '1536M'));
         }
 
         if (!function_exists('set_time_limit') || !@set_time_limit(0)) {

@@ -129,7 +129,7 @@ class Igniter
      */
     public static function extensionsPath()
     {
-        return static::$extensionsPath ?: config('igniter.system.extensionsPath', base_path('extensions'));
+        return static::$extensionsPath ?: config('igniter-system.extensionsPath', base_path('extensions'));
     }
 
     /**
@@ -139,7 +139,7 @@ class Igniter
      */
     public static function themesPath()
     {
-        return static::$themesPath ?: config('igniter.system.themesPath', base_path('themes'));
+        return static::$themesPath ?: config('igniter-system.themesPath', base_path('themes'));
     }
 
     /**
@@ -149,7 +149,7 @@ class Igniter
      */
     public static function tempPath()
     {
-        return static::$tempPath ?: config('igniter.system.tempPath', base_path('storage/temp'));
+        return static::$tempPath ?: config('igniter-system.tempPath', base_path('storage/temp'));
     }
 
     /**
@@ -251,7 +251,7 @@ class Igniter
 
     public static function uri()
     {
-        return config('igniter.routes.adminUri', '/admin');
+        return config('igniter-routes.adminUri', '/admin');
     }
 
     public static function isUser($user)

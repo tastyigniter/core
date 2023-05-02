@@ -89,7 +89,7 @@ if (!function_exists('theme_url')) {
      */
     function theme_url(string $uri = '', bool|null $secure = null): string
     {
-        return asset(trim(config('igniter.system.themesDir'), '/').'/'.$uri, $secure);
+        return asset(trim(config('igniter-system.themesDir'), '/').'/'.$uri, $secure);
     }
 }
 
@@ -705,7 +705,7 @@ if (!function_exists('is_single_location')) {
      */
     function is_single_location(): bool
     {
-        return config('igniter.system.locationMode', setting('site_location_mode')) === \Igniter\Admin\Models\Location::LOCATION_CONTEXT_SINGLE;
+        return config('igniter-system.locationMode', setting('site_location_mode')) === \Igniter\Admin\Models\Location::LOCATION_CONTEXT_SINGLE;
     }
 }
 

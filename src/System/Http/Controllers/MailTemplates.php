@@ -89,8 +89,6 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
             throw new ApplicationException(lang('igniter::system.mail_templates.alert_template_not_found'));
         }
 
-        config()->set('system.suppressTemplateRuntimeNotice', true);
-
         $adminUser = $this->getUser();
 
         $errorLevel = error_reporting(0);

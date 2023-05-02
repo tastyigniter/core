@@ -64,7 +64,7 @@ class ServiceProvider extends AppServiceProvider
         });
 
         $this->app->singleton('admin.auth', function () {
-            return resolve('auth')->guard(config('igniter.auth.guards.admin', 'web'));
+            return resolve('auth')->guard(config('igniter-auth.guards.admin', 'web'));
         });
 
         $this->app->singleton('admin.menu', function ($app) {

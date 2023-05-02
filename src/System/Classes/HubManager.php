@@ -80,7 +80,7 @@ class HubManager
             'version' => Igniter::version(),
         ]));
 
-        if (Config::get('igniter.system.edgeUpdates', false)) {
+        if (Config::get('igniter-system.edgeUpdates', false)) {
             $params['edge'] = 1;
         }
 
@@ -90,7 +90,7 @@ class HubManager
     protected function prepareHeaders(array $params): array
     {
         $headers = [];
-        if ($siteKey = config('igniter.system.carteKey', params('carte_key', ''))) {
+        if ($siteKey = config('igniter-system.carteKey', params('carte_key', ''))) {
             $headers['TI-Rest-Key'] = 'Bearer '.$siteKey;
         }
 

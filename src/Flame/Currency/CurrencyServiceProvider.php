@@ -42,7 +42,7 @@ class CurrencyServiceProvider extends ServiceProvider
             $this->app['events']->dispatch('currency.beforeRegister', [$this]);
 
             return new Currency(
-                $app->config->get('currency', []),
+                $app->config->get('igniter-currency', []),
                 $app['cache']
             );
         });

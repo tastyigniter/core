@@ -51,7 +51,7 @@ trait ManagesSource
     public static function loadCached(string $source, string $fileName): mixed
     {
         return static::on($source)
-            ->remember(config('igniter.pagic.parsedTemplateCacheTTL'))
+            ->remember(config('igniter-pagic.parsedTemplateCacheTTL'))
             ->find($fileName);
     }
 
@@ -68,7 +68,7 @@ trait ManagesSource
         $instance = static::on($source ?? static::$resolver->getDefaultSourceName());
 
         if (!$skipCache) {
-            $instance->remember(config('igniter.pagic.parsedTemplateCacheTTL'));
+            $instance->remember(config('igniter-pagic.parsedTemplateCacheTTL'));
         }
 
         return $instance->get();
@@ -81,7 +81,7 @@ trait ManagesSource
         }
 
         return collect(static::listInTheme($source, $skipCache))
-            ->filter(fn (Model $model) => !$model->isHidden)
+            ->filter(fn(Model $model) => !$model->isHidden)
             ->mapWithKeys(function (Model $model) {
                 $fileName = $model->getKey();
                 $description = (string)($model->description ?: $model->title);

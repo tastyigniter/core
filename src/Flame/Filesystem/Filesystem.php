@@ -442,8 +442,8 @@ class Filesystem extends IlluminateFilesystem
      */
     protected function findSymlinks()
     {
-        $restrictBaseDir = Config::get('igniter.system.restrictBaseDir', true);
-        $deep = Config::get('igniter.system.allowDeepSymlinks', false);
+        $restrictBaseDir = Config::get('igniter-system.restrictBaseDir', true);
+        $deep = Config::get('igniter-system.allowDeepSymlinks', false);
         $basePath = base_path();
         $symlinks = [];
 

@@ -80,7 +80,7 @@ class ServiceProvider extends AppServiceProvider
             return new Libraries\Country;
         });
 
-        $this->app->instance('path.uploads', base_path(Config::get('igniter.system.assets.media.path', 'assets/media/uploads')));
+        $this->app->instance('path.uploads', base_path(Config::get('igniter-system.assets.media.path', 'assets/media/uploads')));
 
         $this->app->singleton(Classes\ComponentManager::class);
         $this->tapSingleton(Classes\ComposerManager::class);

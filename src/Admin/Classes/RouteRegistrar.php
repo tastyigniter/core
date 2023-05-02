@@ -35,11 +35,11 @@ class RouteRegistrar
         $this->router
             ->namespace('Igniter\System\Http\Controllers')
             ->middleware('igniter')
-            ->domain(config('igniter.routes.domain'))
+            ->domain(config('igniter-routes.domain'))
             ->prefix(Igniter::uri())
             ->name('igniter.admin.assets')
             ->group(function (Router $router) {
-                $router->get(config('igniter.routes.assetsCombinerUri', '_assets').'/{asset}', 'AssetController');
+                $router->get(config('igniter-routes.assetsCombinerUri', '_assets').'/{asset}', 'AssetController');
             });
     }
 
@@ -47,7 +47,7 @@ class RouteRegistrar
     {
         $this->router
             ->middleware('igniter')
-            ->domain(config('igniter.routes.domain'))
+            ->domain(config('igniter-routes.domain'))
             ->prefix(Igniter::uri())
             ->group(function (Router $router) {
                 $router->any('/login', [Login::class, 'index'])->name('igniter.admin.login');
@@ -56,7 +56,7 @@ class RouteRegistrar
 
         $this->router
             ->middleware('igniter:admin')
-            ->domain(config('igniter.routes.domain'))
+            ->domain(config('igniter-routes.domain'))
             ->prefix(Igniter::uri())
             ->group(function (Router $router) {
                 $router->name('igniter.admin')->any('/', [Dashboard::class, 'remap']);
@@ -81,7 +81,7 @@ class RouteRegistrar
 
                 return $result;
             })
-            ->filter(fn ($class) => $this->isAdminPage($class));
+            ->filter(fn($class) => $this->isAdminPage($class));
     }
 
     protected function isAdminPage($class)
@@ -93,7 +93,7 @@ class RouteRegistrar
 
     protected function guessRouteUri($class)
     {
-        if (Str::startsWith($class, config('igniter.routes.coreNamespaces', []))) {
+        if (Str::startsWith($class, config('igniter-routes.coreNamespaces', []))) {
             $uri = strtolower($resource = snake_case(class_basename($class)));
             $name = strtolower(implode('.', array_slice(explode('\\', $class), 0, 2)).'.'.$resource);
 

@@ -250,7 +250,7 @@ class ThemeManager
 
     public function getActiveThemeCode()
     {
-        $activeTheme = trim(params('default_themes.main', config('igniter.system.defaultTheme')), '/');
+        $activeTheme = trim(params('default_themes.main', config('igniter-system.defaultTheme')), '/');
 
         if (!is_null($apiResult = GetActiveThemeEvent::dispatchOnce())) {
             $activeTheme = $apiResult;
@@ -750,6 +750,6 @@ class ThemeManager
 
         File::makeDirectory($path, 0777, false, true);
 
-        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
     }
 }

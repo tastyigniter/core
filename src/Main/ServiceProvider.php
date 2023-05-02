@@ -71,7 +71,7 @@ class ServiceProvider extends AppServiceProvider
     protected function registerSingletons()
     {
         $this->app->singleton('main.auth', function () {
-            return resolve('auth')->guard(config('igniter.auth.guards.web', 'web'));
+            return resolve('auth')->guard(config('igniter-auth.guards.web', 'web'));
         });
 
         $this->tapSingleton(MediaLibrary::class);

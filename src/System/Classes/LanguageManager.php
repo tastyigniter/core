@@ -93,7 +93,7 @@ class LanguageManager
                 $result[] = [
                     'namespace' => $namespace,
                     'group' => pathinfo($filePath, PATHINFO_FILENAME),
-                    'system' => in_array(ucfirst($namespace), config('igniter.system.modules', [])),
+                    'system' => in_array(ucfirst($namespace), config('igniter-system.modules', [])),
                 ];
             }
         }

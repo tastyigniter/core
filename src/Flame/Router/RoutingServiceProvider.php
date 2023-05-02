@@ -25,7 +25,7 @@ class RoutingServiceProvider extends ServiceProvider
 
     protected function registerMiddlewareGroups()
     {
-        Route::middlewareGroup('igniter', config('igniter.routes.middleware', []));
-        Route::middlewareGroup('igniter:admin', config('igniter.routes.adminMiddleware', []));
+        Route::middlewareGroup('igniter', config('igniter-routes.middleware', []));
+        Route::middlewareGroup('igniter:admin', config('igniter-routes.adminMiddleware', []));
     }
 }

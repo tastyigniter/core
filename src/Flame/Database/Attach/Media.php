@@ -367,7 +367,7 @@ class Media extends Model
             return $this->disk;
         }
 
-        $diskName = config('igniter.system.assets.attachment.disk');
+        $diskName = config('igniter-system.assets.attachment.disk');
         if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw new Exception("There is no filesystem disk named '{$diskName}''");
         }
@@ -680,7 +680,7 @@ class Media extends Model
      */
     public function getPublicPath()
     {
-        $mediaPath = config('igniter.system.assets.attachment.path', '/storage/app/attachments');
+        $mediaPath = config('igniter-system.assets.attachment.path', '/storage/app/attachments');
         $mediaPath = $this->isPublic()
             ? $mediaPath.'/public'
             : $mediaPath.'/protected';
@@ -707,7 +707,7 @@ class Media extends Model
      */
     public function getStorageDirectory()
     {
-        $mediaFolder = config('igniter.system.assets.attachment.folder', 'attachments');
+        $mediaFolder = config('igniter-system.assets.attachment.folder', 'attachments');
 
         return $this->isPublic() ? $mediaFolder.'/public/' : $mediaFolder.'/protected/';
     }

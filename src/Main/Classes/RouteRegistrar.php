@@ -30,10 +30,10 @@ class RouteRegistrar
         $this->router
             ->namespace('Igniter\System\Http\Controllers')
             ->middleware('igniter')
-            ->domain(config('igniter.routes.domain'))
+            ->domain(config('igniter-routes.domain'))
             ->name('igniter.main.assets')
             ->group(function (IlluminateRouter $router) {
-                $router->get(config('igniter.routes.assetsCombinerUri', '_assets').'/{asset}', 'AssetController');
+                $router->get(config('igniter-routes.assetsCombinerUri', '_assets').'/{asset}', 'AssetController');
             });
     }
 
@@ -41,7 +41,7 @@ class RouteRegistrar
     {
         $this->router
             ->middleware('igniter')
-            ->domain(config('igniter.routes.domain'))
+            ->domain(config('igniter-routes.domain'))
             ->name('igniter.theme.')
             ->group(function (IlluminateRouter $router) {
                 foreach ($this->getThemePageRoutes() as $parts) {

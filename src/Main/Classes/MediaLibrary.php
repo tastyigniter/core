@@ -34,7 +34,7 @@ class MediaLibrary
 
     public function initialize()
     {
-        $this->config = Config::get('igniter.system.assets.media', []);
+        $this->config = Config::get('igniter-system.assets.media', []);
 
         $this->storageFolder = $this->validatePath($this->getConfig('folder', 'uploads'));
         $this->storagePath = $this->getConfig('path', '/media/uploads');
