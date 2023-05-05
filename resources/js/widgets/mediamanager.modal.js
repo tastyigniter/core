@@ -84,7 +84,6 @@
 
         this.dispose()
 
-        mediaManager.mediaManager('dispose')
         mediaManager.remove()
 
         if (this.options.onClose !== undefined)

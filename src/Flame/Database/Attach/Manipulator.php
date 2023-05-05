@@ -87,7 +87,7 @@ class Manipulator
             $this->prepareManipulations()
         );
 
-        $this->tempFilePath = sys_get_temp_dir().DIRECTORY_SEPARATOR.$tempImage;
+        $this->tempFilePath = temp_path().DIRECTORY_SEPARATOR.$tempImage;
 
         return $this;
     }
@@ -154,7 +154,7 @@ class Manipulator
     {
         $config = [
             'source' => $this->source->getDriver(),
-            'cache' => sys_get_temp_dir(),
+            'cache' => temp_path(),
             'driver' => $this->driver,
         ];
 

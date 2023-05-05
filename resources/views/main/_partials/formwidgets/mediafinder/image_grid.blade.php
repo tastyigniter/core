@@ -28,7 +28,7 @@
                         @else
                             <div class="media-icon">
                                 <i
-                                    data-find-file
+                                    data-find-image
                                     class="fa fa-{{ $mediaFileType }} fa-3x text-muted mb-2"
                                 ></i>
                             </div>

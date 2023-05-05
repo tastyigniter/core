@@ -13,7 +13,7 @@
                     ><i class="fa fa-ellipsis-h"></i></button>
                     <div
                         id="{{ $this->getId('folder-tree') }}"
-                        data-control="folder-tree"
+                        data-media-control="folder-tree"
                         class="dropdown-menu"
                     >{!! $this->makePartial('mediamanager/folder_tree') !!}</div>
                 </div>

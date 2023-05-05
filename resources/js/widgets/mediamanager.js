@@ -46,7 +46,7 @@
         this.initScroll()
         this.initUploader()
         this.initSelectonic()
-        // this.initFolderTree()
+        this.initFolderTree()
     }
 
     MediaManager.prototype.registerHandlers = function () {
@@ -398,25 +398,8 @@
     // Folder Tree
 
     MediaManager.prototype.initFolderTree = function () {
-        this.$folderTreeElement = this.$el.find('[data-control="folder-tree"]')
-        var $folderTreeDropdown = this.$el.find('[data-control="folder-tree-dropdown"]'),
-            $folderTree = this.$folderTreeElement.find('.folder-tree')
-
-        $folderTreeDropdown.find('[data-bs-toggle="dropdown"]').dropdown('hide')
-
-        var treeOptions = {
-            data: $folderTree[0].getAttribute('data-tree-data'),
-            expandIcon: 'fa fa-plus',
-            collapseIcon: 'fa fa-minus',
-            nodeIcon: 'fa fa-folder',
-            selectedIcon: 'fa folder-open',
-        }
-
-        $folderTree.treeview(treeOptions)
-        $folderTree.on('nodeSelected', $.proxy(this.onTreeNodeSelected, this))
-
-        $folderTreeDropdown.on('show.bs.dropdown', $.proxy(this.onShowFolderTree, this));
-        $folderTreeDropdown.on('hide.bs.dropdown', $.proxy(this.onHideFolderTree, this));
+        this.$folderTreeElement = this.$el.find('[data-media-control="folder-tree"]')
+        this.$folderTreeElement.on('click', '[data-media-control="folder-tree-item"]', $.proxy(this.onTreeNodeSelected, this))
     }
 
     //
@@ -535,23 +518,9 @@
         $(this).find('form').trigger('submit.dialog')
     }
 
-    MediaManager.prototype.onShowFolderTree = function (event) {
-        var $el = $(event.currentTarget);
-        $el.find('.list-group').addClass('list-group-flush')
-    }
-
-    MediaManager.prototype.onHideFolderTree = function (event) {
-        if (event.clickEvent !== undefined) {
-            var $el = $(event.clickEvent.target);
-            if ($el.hasClass("list-group-item") || $el.parents(".list-group-item").length) {
-                return false;
-            }
-        }
-    }
-
-    MediaManager.prototype.onTreeNodeSelected = function (event, data) {
-        if (data.path)
-            this.goToFolder(data.path);
+    MediaManager.prototype.onTreeNodeSelected = function (event) {
+        if ($(event.currentTarget).data('path').length)
+            this.goToFolder($(event.currentTarget).data('path'));
     }
 
     MediaManager.prototype.onChoose = function (event) {

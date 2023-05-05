@@ -3,7 +3,6 @@
 namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Database\Attach\Manipulator;
-use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\Facades\Cache;
@@ -36,19 +35,14 @@ class MediaLibrary
     {
         $this->config = Config::get('igniter-system.assets.media', []);
 
-        $this->storageFolder = $this->validatePath($this->getConfig('folder', 'uploads'));
-        $this->storagePath = $this->getConfig('path', '/media/uploads');
-
-        if (!starts_with($this->storagePath, ['//', 'http://', 'https://'])) {
-            $this->storagePath = asset($this->storagePath);
-        }
+        $this->storageFolder = $this->getConfig('folder', 'media/uploads/');
+        $this->storagePath = $this->getConfig('path', 'media/uploads/');
 
         $this->ignoreNames = $this->getConfig('ignore', []);
         $this->ignorePatterns = $this->getConfig('ignorePatterns', ['^\..*']);
-        $this->storageFolderNameLength = strlen($this->storageFolder);
     }
 
-    public function listFolderContents($fullPath, $methodName, $recursive = false)
+    public function listFolderContents($path, $methodName, $recursive = false)
     {
         $cached = Cache::get(self::$cacheKey, false);
         $cached = $cached ? @unserialize(@base64_decode($cached)) : [];
@@ -58,18 +52,18 @@ class MediaLibrary
         }
 
         $cacheSuffix = $recursive ? 'recursive' : 'single';
-        $cachedKey = "$cacheSuffix.$methodName.$fullPath";
+        $cachedKey = "$cacheSuffix.$methodName.$path";
 
         if (array_has($cached, $cachedKey)) {
             $folderContents = array_get($cached, $cachedKey);
         } else {
-            $folderContents = $this->scanFolderContents($fullPath, $methodName, $recursive);
+            $folderContents = $this->scanFolderContents($path, $methodName, $recursive);
 
-            $cached[$cacheSuffix][$methodName][$fullPath] = $folderContents;
+            $cached[$cacheSuffix][$methodName][$path] = $folderContents;
             Cache::put(
                 self::$cacheKey,
                 base64_encode(serialize($cached)),
-                $this->getConfig('ttl', now()->addMinutes(10))
+                $this->getConfig('ttl', 0)
             );
         }
 
@@ -89,14 +83,11 @@ class MediaLibrary
 
         $path = $this->validatePath($path);
 
-        $fullPath = $this->getMediaPath($path);
-
-        $folders = $this->listFolderContents($fullPath, 'directories', $recursive);
+        $folders = $this->listFolderContents($path, 'directories', $recursive);
 
         $result = [];
         $folders = array_unique($folders, SORT_LOCALE_STRING);
         foreach ($folders as $folder) {
-            $folder = $this->getMediaRelativePath($folder);
             if (!strlen($folder)) {
                 $folder = '/';
             }
@@ -121,11 +112,7 @@ class MediaLibrary
             $options = ['search' => $options, 'filter' => 'all'];
         }
 
-        $path = $this->validatePath($path);
-
-        $fullPath = $this->getMediaPath($path);
-
-        $files = $this->listFolderContents($fullPath, 'files');
+        $files = $this->listFolderContents($path, 'files');
 
         $this->sortFiles($files, $sortBy);
 
@@ -138,92 +125,60 @@ class MediaLibrary
 
     public function get($path, $stream = false)
     {
-        $path = $this->validatePath($path);
-        $fullPath = $this->getMediaPath($path);
+        $method = $stream ? 'readStream' : 'get';
 
-        $storageDisk = $this->getStorageDisk();
-
-        return $stream
-            ? $storageDisk->readStream($fullPath)
-            : $storageDisk->get($fullPath);
+        return $this->getStorageDisk()->$method($this->getMediaPath($path));
     }
 
     public function put($path, $contents)
     {
-        $path = $this->validatePath($path);
-        $fullPath = $this->getMediaPath($path);
-
-        return $this->getStorageDisk()->put($fullPath, $contents);
+        return $this->getStorageDisk()->put($this->getMediaPath($path), $contents);
     }
 
     public function makeFolder($name)
     {
-        $path = $this->validatePath($name);
-
-        $fullPath = $this->getMediaPath($path);
-
-        return $this->getStorageDisk()->makeDirectory($fullPath);
+        return $this->getStorageDisk()->makeDirectory($this->getMediaPath($name));
     }
 
     public function copyFile($srcPath, $destPath)
     {
-        $srcPath = $this->validatePath($srcPath);
-        $fullSrcPath = $this->getMediaPath($srcPath);
-
-        $destPath = $this->validatePath($destPath);
-        $fullDestPath = $this->getMediaPath($destPath);
-
-        return $this->getStorageDisk()->copy($fullSrcPath, $fullDestPath);
+        return $this->getStorageDisk()->copy(
+            $this->getMediaPath($srcPath),
+            $this->getMediaPath($destPath)
+        );
     }
 
     public function moveFile($path, $newPath)
     {
-        $path = $this->validatePath($path);
-        $fullPath = $this->getMediaPath($path);
-
-        $newPath = $this->validatePath($newPath);
-        $fullNewPath = $this->getMediaPath($newPath);
-
-        return $this->getStorageDisk()->move($fullPath, $fullNewPath);
+        return $this->getStorageDisk()->move(
+            $this->getMediaPath($path),
+            $this->getMediaPath($newPath)
+        );
     }
 
     public function rename($path, $newPath)
     {
-        $path = $this->validatePath($path);
-        $fullPath = $this->getMediaPath($path);
-
-        $newPath = $this->validatePath($newPath);
-        $fullNewPath = $this->getMediaPath($newPath);
-
-        return $this->getStorageDisk()->rename($fullPath, $fullNewPath);
+        return $this->getStorageDisk()->rename(
+            $this->getMediaPath($path),
+            $this->getMediaPath($newPath)
+        );
     }
 
     public function deleteFiles($paths)
     {
-        $fullPaths = [];
-        foreach ($paths as $path) {
-            $path = $this->validatePath($path);
-            $fullPaths[] = $this->getMediaPath($path);
-        }
-
-        return $this->getStorageDisk()->delete($fullPaths);
+        return $this->getStorageDisk()->delete(array_map(function ($path) {
+            return $this->getMediaPath($path);
+        }, (array)$paths));
     }
 
     public function deleteFolder($path)
     {
-        $path = $this->validatePath($path);
-
-        $fullPath = $this->getMediaPath($path);
-
-        return $this->getStorageDisk()->deleteDirectory($fullPath);
+        return $this->getStorageDisk()->deleteDirectory($this->getMediaPath($path));
     }
 
     public function exists($path)
     {
-        $path = $this->validatePath($path);
-        $fullPath = $this->getMediaPath($path);
-
-        return $this->getStorageDisk()->exists($fullPath);
+        return $this->getStorageDisk()->exists($this->getMediaPath($path));
     }
 
     public function validatePath($path, $stripTrailingSlash = false)
@@ -236,22 +191,26 @@ class MediaLibrary
 
     public function getMediaUrl($path)
     {
-        if (!starts_with($path, dirname($this->storageFolder))) {
-            $path = $this->validatePath($this->storageFolder.$path, true);
+        if (!starts_with($path, $this->storagePath)) {
+            $path = $this->storagePath.$path;
         }
 
-        $path = $this->validatePath($path, true);
+        if (starts_with($path, ['//', 'http://', 'https://'])) {
+            return $path;
+        }
 
-        return asset($this->storagePath.$path);
+        $path = $this->getStorageDisk()->url($path);
+
+        return starts_with($this->storagePath, ['//', 'http://', 'https://'])
+            ? $path : asset($path);
     }
 
     public function getMediaPath($path)
     {
-        if (starts_with($path, base_path())) {
-            return $path;
-        }
+        $path = ltrim($path, '/');
 
-        return $this->validatePath($this->storageFolder.$path, true);
+        return starts_with($path, $this->storageFolder)
+            ? $path : $this->storageFolder.$path;
     }
 
     public function getUploadsPath($path)
@@ -275,24 +234,22 @@ class MediaLibrary
             'default' => null,
         ], $options);
 
-        $path = $this->validatePath($path);
+        $path = $this->getMediaPath($this->validatePath($path));
 
-        $filePath = $this->getUploadsPath($path);
-
-        $thumbFile = $this->getMediaThumbFile($filePath, $options);
+        $thumbFile = $this->getMediaThumbFile($path, $options);
         $thumbPath = $this->getStorageDisk()->path($thumbFile);
 
         if ($this->getStorageDisk()->exists($thumbFile)) {
-            return $this->getMediaUrl($thumbFile);
+            return $this->getStorageDisk()->url($thumbFile);
         }
 
         $this->ensureDirectoryExists($thumbFile);
 
-        if (!$this->getStorageDisk()->exists($filePath)) {
-            $filePath = $this->getDefaultThumbPath($thumbPath, array_get($options, 'default'));
+        if (!$this->getStorageDisk()->exists($path)) {
+            $path = $this->getDefaultThumbPath($thumbPath, array_get($options, 'default'));
         }
 
-        $manipulator = Manipulator::make($filePath)->useSource(
+        $manipulator = Manipulator::make($path)->useSource(
             $this->getStorageDisk()
         );
 
@@ -300,9 +257,9 @@ class MediaLibrary
             $manipulator->manipulate(array_except($options, ['extension', 'default']));
         }
 
-        $manipulator->save($thumbPath);
+        $manipulator->save($thumbFile);
 
-        return $this->getMediaUrl($thumbFile);
+        return $this->getStorageDisk()->url($thumbFile);
     }
 
     public function getDefaultThumbPath($thumbPath, $default = null)
@@ -318,13 +275,11 @@ class MediaLibrary
 
     public function getMediaRelativePath($path)
     {
-        $path = $this->validatePath($path);
-
-        if (substr($path, 0, $this->storageFolderNameLength) == $this->storageFolder) {
-            return substr($path, $this->storageFolderNameLength);
+        if (starts_with($path, $this->storageFolder)) {
+            return str_after($path, $this->storageFolder);
         }
 
-        throw new SystemException(sprintf('Cannot convert Media Library path "%s" to a path relative to the Library root.', $path));
+        return $path;
     }
 
     public function getConfig($key = null, $default = null)
@@ -374,12 +329,12 @@ class MediaLibrary
         return $totalSize;
     }
 
-    protected function scanFolderContents($fullPath, $methodName, $recursive = false)
+    protected function scanFolderContents($path, $methodName, $recursive = false)
     {
         $result = [];
         switch ($methodName) {
             case 'files':
-                $files = $this->getStorageDisk()->files($fullPath, $recursive);
+                $files = $this->getStorageDisk()->files($this->getMediaPath($path), $recursive);
                 foreach ($files as $file) {
                     if ($libraryItem = $this->initMediaItem($file, MediaItem::TYPE_FILE)) {
                         $result[] = $libraryItem;
@@ -387,7 +342,7 @@ class MediaLibrary
                 }
                 break;
             case 'directories':
-                $result = $this->getStorageDisk()->directories($fullPath, $recursive);
+                $result = $this->getStorageDisk()->directories($this->getMediaPath($path), $recursive);
                 break;
         }
 
@@ -472,7 +427,7 @@ class MediaLibrary
 
     protected function getThumbDirectory()
     {
-        return dirname($this->storageFolder).'/'.$this->getConfig('thumbFolder', 'thumb').'/';
+        return $this->getConfig('thumbFolder', 'media/attachments/');
     }
 
     protected function getStorageDisk()
@@ -502,7 +457,7 @@ class MediaLibrary
             ? $this->getStorageDisk()->size($path)
             : null;
 
-        $publicUrl = $this->storagePath.$path;
+        $publicUrl = $this->getMediaUrl($path);
 
         return new MediaItem($relativePath, $size, $lastModified, $itemType, $publicUrl);
     }

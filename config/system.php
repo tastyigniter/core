@@ -108,9 +108,9 @@ return [
     'assets' => [
 
         'media' => [
-            'disk' => 'media',
-            'folder' => 'uploads',
-            'path' => '/media/uploads',
+            'disk' => 'public',
+            'folder' => 'media/uploads/',
+            'path' => 'media/uploads/',
             'max_upload_size' => 1500,
             'enable_uploads' => true,
             'enable_new_folder' => true,
@@ -121,9 +121,9 @@ return [
         ],
 
         'attachment' => [
-            'disk' => 'media',
-            'folder' => 'attachments',
-            'path' => '/media/attachments',
+            'disk' => 'public',
+            'folder' => 'media/attachments/',
+            'path' => 'media/attachments/',
         ],
     ],
 

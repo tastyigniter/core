@@ -162,12 +162,13 @@
             $listElement = this.$container.closest('.image-list'),
             $finderElement = $element.closest('.media-finder'),
             isPopulated = $('[data-find-value]', $finderElement).val(),
-            $template = $(this.$template.innerHTML)
+            $template
 
         if (isPopulated || !this.options.isMulti) {
             item = items[0];
+            $template = $(this.$template.innerHTML)
             this.populateValue(item, $template)
-            $finderElement.html($template.html())
+            $finderElement.html($template)
         }
 
         if (!$listElement)
@@ -176,8 +177,9 @@
         var start = isPopulated ? 1 : 0
         for (var i = start, len = items.length; i < len; i++) {
             item = items[i]
+            $template = $(this.$template.innerHTML).clone()
             this.populateValue(item, $template)
-            $listElement.find('> .media-finder:last-child').before($template.clone())
+            $listElement.find('> .media-finder:last-child').before($template)
         }
     }
 
@@ -186,13 +188,20 @@
             $findName = $template.find('[data-find-name]'),
             $findImage = $template.find('[data-find-image]'),
             $findFile = $template.find('[data-find-file]'),
-            $findValue = $template.find('[data-find-value]')
+            $findValue = $template.find('[data-find-value]'),
+            $mediaIcon = $template.find('.media-icon')
 
         if ($findIdentifier.length) $findIdentifier.val(item.identifier)
         if ($findName.length) $findName.text(item.path)
         if ($findImage.length) $findImage.attr('src', item.publicUrl)
         if ($findFile.length) $findFile.removeClass('fa-file').addClass('fa-'+item.fileType)
         if ($findValue.length) $findValue.val(item.path)
+        if ($mediaIcon.length) {
+            $mediaIcon.before(`<img class="img-responsive" src="${item.publicUrl}" alt="${$findName}" />`)
+            $mediaIcon.remove()
+        }
+
+        return $template
     }
 
     MediaFinder.DEFAULTS = {

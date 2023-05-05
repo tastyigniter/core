@@ -9,6 +9,14 @@
 >
     {!! $this->makePartial('mediafinder/image') !!}
 
+    <script type="text/template" data-blank-template>
+    {!! $this->makePartial('mediafinder/image_'.$mode, ['mediaItem' => null]) !!}
+    </script>
+
+    <script type="text/template" data-image-template>
+    {!! $this->makePartial('mediafinder/image_'.$mode, ['mediaItem' => '']) !!}
+    </script>
+
     @if($useAttachment)
         <script type="text/template" data-config-modal-template>
             <div class="modal-dialog">

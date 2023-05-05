@@ -8,7 +8,6 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -124,7 +123,11 @@ class Media extends Model
             return;
         }
 
-        $tempPath = temp_path($filename);
+        $tempPath = $this->getTempPath().$filename;
+        if (!File::isDirectory(dirname($tempPath))) {
+            File::makeDirectory(dirname($tempPath), 775, true);
+        }
+
         File::put($tempPath, $rawData);
 
         $this->addFromFile($tempPath, $tag);
@@ -680,12 +683,7 @@ class Media extends Model
      */
     public function getPublicPath()
     {
-        $mediaPath = config('igniter-system.assets.attachment.path', '/storage/app/attachments');
-        $mediaPath = $this->isPublic()
-            ? $mediaPath.'/public'
-            : $mediaPath.'/protected';
-
-        return URL::asset($mediaPath).'/';
+        return $this->getStorageDisk()->url($this->getStorageDirectory());
     }
 
     /**
@@ -693,7 +691,7 @@ class Media extends Model
      */
     public function getTempPath()
     {
-        $path = temp_path().'/attachments';
+        $path = temp_path().'/attachments/';
 
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
@@ -707,9 +705,9 @@ class Media extends Model
      */
     public function getStorageDirectory()
     {
-        $mediaFolder = config('igniter-system.assets.attachment.folder', 'attachments');
+        $mediaFolder = config('igniter-system.assets.attachment.folder', 'media/attachments/');
 
-        return $this->isPublic() ? $mediaFolder.'/public/' : $mediaFolder.'/protected/';
+        return $this->isPublic() ? $mediaFolder.'public/' : $mediaFolder.'protected/';
     }
 
     /**
