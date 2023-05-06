@@ -50,7 +50,7 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
 
       - name: Run Pest Test Suite
-        run: vendor/bin/pest --verbose --parallel=10
+        run: composer test --parallel
 
     env:
       DB_PORT: 3306
