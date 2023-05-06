@@ -38,7 +38,7 @@ class ThemeServiceProvider extends ServiceProvider
         });
     }
 
-    function loadSourceFromThemes(mixed $manager): void
+    public function loadSourceFromThemes(mixed $manager): void
     {
         collect($manager->listThemes())
             ->filter(function (Theme $theme) {

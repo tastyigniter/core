@@ -48,7 +48,7 @@ class ValidationServiceProvider extends ServiceProvider
                 if (!is_array($validators) || empty($validators)) {
                     continue;
                 }
-                
+
                 foreach ($validators as $name => $validator) {
                     Validator::extend($name, $validator);
                 }
