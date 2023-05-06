@@ -290,12 +290,12 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $file = '/_meta/assets.json';
 
         if (File::exists($path = $theme->path.$file)) {
-            Assets::addFromManifest($theme->publicPath.$file);
+            Assets::addFromManifest($path);
             $loaded = true;
         }
 
-        if ($theme->hasParent() && File::exists($path = $theme->getParent()->path.$file)) {
-            Assets::addFromManifest($theme->getParent()->publicPath.$file);
+        if ($theme->hasParent() && $theme->getParent() && File::exists($path = $theme->getParent()->path.$file)) {
+            Assets::addFromManifest($path);
             $loaded = true;
         }
 

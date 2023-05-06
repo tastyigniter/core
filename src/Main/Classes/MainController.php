@@ -139,8 +139,8 @@ class MainController extends Controller
         }
 
         $this->assetPath[] = $this->theme->getAssetPath();
-        if ($this->theme->hasParent()) {
-            $this->assetPath[] = $this->theme->getParent()->getAssetPath();
+        if ($this->theme->hasParent() && $parent = $this->theme->getParent()) {
+            $this->assetPath[] = $parent->getAssetPath();
         }
     }
 

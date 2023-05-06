@@ -4,8 +4,6 @@ namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
-use Igniter\Flame\Pagic\Source\ChainFileSource;
-use Igniter\Flame\Pagic\Source\FileSource;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Events\Theme\GetActiveTheme as GetActiveThemeEvent;
 use Igniter\Main\Template\Page;
@@ -69,8 +67,8 @@ class ThemeManager
 
         if (File::exists($theme->getSourcePath().'/_meta/assets.json')) {
             $manager->addFromManifest($theme->getSourcePath().'/_meta/assets.json');
-        } elseif ($theme->hasParent()) {
-            $manager->addFromManifest($theme->getParent()->getSourcePath().'/_meta/assets.json');
+        } elseif ($theme->hasParent() && $parent = $theme->getParent()) {
+            $manager->addFromManifest($parent->getSourcePath().'/_meta/assets.json');
         }
     }
 
@@ -212,29 +210,6 @@ class ThemeManager
                 Igniter::loadViewsFrom($parent->getPath().'/'.Page::DIR_NAME, 'igniter.main');
             }
             Igniter::loadViewsFrom($theme->getPath().'/'.Page::DIR_NAME, 'igniter.main');
-        }
-    }
-
-    /**
-     * Ensures this theme is registered as a Pagic source.
-     * @return void
-     */
-    public function registerAsSource()
-    {
-        $resolver = resolve('pagic');
-        if (!$resolver->hasSource($this->getName())) {
-            $files = resolve('files');
-
-            if ($this->hasParent()) {
-                $source = new ChainFileSource([
-                    new FileSource($this->getSourcePath(), $files),
-                    new FileSource($this->getParent()->getSourcePath(), $files),
-                ]);
-            } else {
-                $source = new FileSource($this->getSourcePath(), $files);
-            }
-
-            $resolver->addSource($this->getName(), $source);
         }
     }
 
@@ -750,6 +725,6 @@ class ThemeManager
 
         File::makeDirectory($path, 0777, false, true);
 
-        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
     }
 }
