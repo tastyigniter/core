@@ -155,6 +155,18 @@ abstract class BaseExtension extends ServiceProvider
         $this->commands($key);
     }
 
+    /**
+     * Registers any validation rule implemented by this extension.
+     * The widgets must be returned in the following format:
+     * ['rule' => 'className1'],
+     * ['rule' => 'className2']
+     * @return array
+     */
+    public function registerValidationRules()
+    {
+        return [];
+    }
+
     public function listRequires()
     {
         return SystemHelper::parsePackageCodes(array_get($this->extensionMeta(), 'require', []));
