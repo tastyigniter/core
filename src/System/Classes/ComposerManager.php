@@ -25,16 +25,7 @@ use Throwable;
  */
 class ComposerManager
 {
-    protected const REPOSITORY_URL = 'https://satis.tastyigniter.com';
-
-    protected $logs = [];
-
-    /**
-     * The output interface implementation.
-     *
-     * @var \Illuminate\Console\OutputStyle
-     */
-    protected $logsOutput;
+    protected const REPOSITORY_HOST = 'satis.tastyigniter.com';
 
     /**
      * @var \Composer\Autoload\ClassLoader The primary composer instance.
@@ -322,11 +313,9 @@ class ComposerManager
 
     public function addAuthCredentials(string $username, string $password, string $type = 'http-basic'): void
     {
-        $hostname = parse_url(self::REPOSITORY_URL, PHP_URL_HOST);
-
         $config = new JsonConfigSource(new JsonFile($this->getAuthPath()), true);
 
-        $config->addConfigSetting($type.'.'.$hostname, [
+        $config->addConfigSetting($type.'.'.self::REPOSITORY_HOST, [
             'username' => $username,
             'password' => $password,
         ]);
@@ -471,6 +460,18 @@ class ComposerManager
     // Asserts
     //
 
+    public function assertSchema()
+    {
+        $json = new JsonFile($this->getJsonPath());
+        $config = $json->read();
+
+        $newConfig = $this->assertRepository($config);
+        if ($config !== $newConfig) {
+            $this->logsOutput->writeln('<info>Updating composer.json</info>');
+            $json->write($config);
+        }
+    }
+
     protected function assertPhpIniSet(): void
     {
         // Don't change the memory_limit, if it's already set to -1 or >= 1.5GB
@@ -498,15 +499,15 @@ class ComposerManager
 
     protected function assertRepository(array $config): array
     {
-        foreach ($config['repositories'] ?? [] as $index => $repository) {
-            if (rtrim($repository['url'], '/') === static::REPOSITORY_URL) {
-                unset($config['repositories'][$index]);
+        foreach ($config['repositories'] ?? [] as $repository) {
+            if (str_contains($repository['url'], static::REPOSITORY_HOST)) {
+                return $config;
             }
         }
 
         $config['repositories'][] = [
             'type' => 'composer',
-            'url' => static::REPOSITORY_URL,
+            'url' => 'https://'.static::REPOSITORY_HOST,
             'canonical' => false,
         ];
 

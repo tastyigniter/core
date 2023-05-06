@@ -10,6 +10,7 @@ use Igniter\Admin\Models\UserRole;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\ConfigRewrite;
 use Igniter\Main\Models\CustomerGroup;
+use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Language;
@@ -60,16 +61,13 @@ class IgniterInstall extends Command
      */
     public function handle()
     {
-        $this->callSilent('igniter:package-discover');
-        $this->callSilent('vendor:publish', ['--tag' => 'igniter-assets', '--force' => true]);
+        resolve(ComposerManager::class)->assertSchema();
 
         if ($this->shouldSkipSetup()) {
             return false;
         }
 
         $this->alert('INSTALLATION STARTED');
-
-        $this->line('Enter a new value, or press ENTER for the default');
 
         $this->setSeederProperties();
 
@@ -137,6 +135,8 @@ class IgniterInstall extends Command
 
     protected function setSeederProperties()
     {
+        $this->line('Enter a new value, or press ENTER for the default');
+
         $name = Config::get('database.default');
         $this->dbConfig['host'] = $this->ask('MySQL Host', Config::get("database.connections.$name.host"));
         $this->dbConfig['port'] = $this->ask('MySQL Port', Config::get("database.connections.$name.port") ?: false) ?: '';
