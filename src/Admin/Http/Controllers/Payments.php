@@ -160,6 +160,13 @@ class Payments extends \Igniter\Admin\Classes\AdminController
         $model->class_name = $paymentGateway['class'];
     }
 
+    public function formAfterUpdate($model)
+    {
+        if ($model->status) {
+            Payment::syncAll();
+        }
+    }
+
     public function formValidate($model, $form)
     {
         $rules = [
