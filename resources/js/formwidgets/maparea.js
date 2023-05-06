@@ -22,11 +22,14 @@
     }
 
     MapArea.prototype.bindSorting = function () {
-        var sortableOptions = {
-            handle: this.options.sortableHandle,
-        }
+        var el = this.$sortableContainer.get(0),
+            sortableOptions = {
+                handle: this.options.sortableHandle,
+            }
 
-        this.$sortable = Sortable.create(this.$sortableContainer.get(0), sortableOptions)
+        if (el) {
+            this.$sortable = Sortable.create(this.$sortableContainer.get(0), sortableOptions)
+        }
     }
 
     MapArea.prototype.onModalShown = function (event, $modalEl) {

@@ -35,13 +35,17 @@ class ErrorHandler
 
     public function __construct(ExceptionHandler $handler)
     {
-        $handler->reportable(function (Throwable $ex) {
-            return $this->report($ex);
-        });
+        if (method_exists($handler, 'reportable')) {
+            $handler->reportable(function (Throwable $ex) {
+                return $this->report($ex);
+            });
+        }
 
-        $handler->renderable(function (Throwable $ex) {
-            return $this->render(request(), $ex);
-        });
+        if (method_exists($handler, 'renderable')) {
+            $handler->renderable(function (Throwable $ex) {
+                return $this->render(request(), $ex);
+            });
+        }
     }
 
     /**
@@ -116,7 +120,7 @@ class ErrorHandler
      */
     protected function shouldntReport(Throwable $e)
     {
-        return !is_null(Arr::first($this->dontReport, fn ($type) => $e instanceof $type));
+        return !is_null(Arr::first($this->dontReport, fn($type) => $e instanceof $type));
     }
 
     /**
