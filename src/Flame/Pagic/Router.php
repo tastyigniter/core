@@ -125,10 +125,6 @@ class Router
 
         $this->urlMap = Cache::remember($this->getUrlMapCacheKey(), $cacheable, function () {
             $map = [];
-            if (!static::$templateClass::getSourceResolver()->hasSource($this->theme)) {
-                return $map;
-            }
-
             $pages = static::$templateClass::listInTheme($this->theme, true);
             foreach ($pages as $page) {
                 if (!optional($page)->permalink) {

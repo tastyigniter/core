@@ -67,6 +67,10 @@ trait ManagesSource
 
         $instance = static::on($source ?? static::$resolver->getDefaultSourceName());
 
+        if (!static::getSourceResolver()->hasSource($instance->getSourceName())) {
+            return $instance->newCollection();
+        }
+
         if (!$skipCache) {
             $instance->remember(config('igniter-pagic.parsedTemplateCacheTTL'));
         }
@@ -81,7 +85,7 @@ trait ManagesSource
         }
 
         return collect(static::listInTheme($source, $skipCache))
-            ->filter(fn (Model $model) => !$model->isHidden)
+            ->filter(fn(Model $model) => !$model->isHidden)
             ->mapWithKeys(function (Model $model) {
                 $fileName = $model->getKey();
                 $description = (string)($model->description ?: $model->title);

@@ -15,39 +15,41 @@ class ThemeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->callAfterResolving(Router::class, function ($router) {
+            $manager = resolve(ThemeManager::class);
+
             $router::$templateClass = Page::class;
-            $router->setTheme(resolve(ThemeManager::class)->getActiveThemeCode());
+            $router->setTheme($manager->getActiveThemeCode());
+
+            $this->loadSourceFromThemes($manager);
         });
 
         Model::extend(function (Model $model) {
-            $manager = resolve(ThemeManager::class);
-
-            $resolver = $model->getSourceResolver();
-            collect($manager->listThemes())
-                ->filter(function (Theme $theme) use ($resolver) {
-                    return !$resolver->hasSource($theme->getName());
-                })
-                ->each(function (Theme $theme) use ($resolver, $manager) {
-                    $resolver->addSource($theme->getName(), $theme->makeFileSource());
-
-                    if ($theme->getName() === $manager->getActiveThemeCode()) {
-                        $resolver->setDefaultSourceName($theme->getName());
-                    }
-                });
-
-            $model->setSource($manager->getActiveThemeCode());
+            $model->setSource(resolve(ThemeManager::class)->getActiveThemeCode());
         });
     }
 
     public function boot()
     {
-        $manager = resolve(ThemeManager::class);
-
-        $manager->bootThemes();
+        resolve(ThemeManager::class)->bootThemes();
 
         Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
             $themeViewPaths = array_get(view()->getFinder()->getHints(), 'igniter.main', []);
             config()->set('view.paths', array_merge($themeViewPaths, config('view.paths')));
         });
+    }
+
+    function loadSourceFromThemes(mixed $manager): void
+    {
+        collect($manager->listThemes())
+            ->filter(function (Theme $theme) {
+                return !Page::getSourceResolver()->hasSource($theme->getName());
+            })
+            ->each(function (Theme $theme) use ($manager) {
+                Page::getSourceResolver()->addSource($theme->getName(), $theme->makeFileSource());
+
+                if ($theme->getName() === $manager->getActiveThemeCode()) {
+                    Page::getSourceResolver()->setDefaultSourceName($theme->getName());
+                }
+            });
     }
 }
