@@ -37,7 +37,7 @@ $config['form'] = [
     ],
     'rules' => [
         ['option_id', 'lang:igniter::admin.menu_options.label_option_id', 'required|integer'],
-        ['value', 'lang:igniter::admin.menu_options.label_option_value', 'required|min:2|max:128'],
+        ['value', 'lang:igniter::admin.menu_options.label_option_value', 'required|min:2|max:255'],
         ['price', 'lang:igniter::admin.menu_options.label_option_price', 'required|numeric|min:0'],
         ['priority', 'lang:igniter::admin.menu_options.label_option_price', 'integer'],
         ['ingredients.*', 'lang:igniter::admin.menus.label_ingredients', 'integer'],

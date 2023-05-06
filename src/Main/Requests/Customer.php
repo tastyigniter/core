@@ -37,10 +37,10 @@ class Customer extends FormRequest
             'newsletter' => ['sometimes', 'required', 'boolean'],
             'customer_group_id' => ['required', 'integer'],
             'status' => ['required', 'boolean'],
-            'addresses.*.address_1' => ['required', 'string', 'min:3', 'max:128'],
+            'addresses.*.address_1' => ['required', 'string', 'min:3', 'max:255'],
             'addresses.*.address_2' => ['string'],
-            'addresses.*.city' => ['required', 'string', 'min:2', 'max:128'],
-            'addresses.*.state' => ['string', 'max:128'],
+            'addresses.*.city' => ['required', 'string', 'min:2', 'max:255'],
+            'addresses.*.state' => ['string', 'max:255'],
             'addresses.*.postcode' => ['string'],
         ];
     }

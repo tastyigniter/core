@@ -27,7 +27,7 @@ it('has sometimes rule for inputs', function () {
 });
 
 it('has max characters rule for inputs', function () {
-    expect('between:2,128')->toBeIn(array_get((new User)->rules(), 'name'));
+    expect('between:2,255')->toBeIn(array_get((new User)->rules(), 'name'));
 
     expect('max:96')->toBeIn(array_get((new User)->rules(), 'email'));
 

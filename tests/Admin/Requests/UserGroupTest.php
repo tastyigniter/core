@@ -17,7 +17,7 @@ it('has required rule for inputs', function () {
 });
 
 it('has max characters rule for inputs', function () {
-    expect('between:2,128')->toBeIn(array_get((new UserGroup)->rules(), 'user_group_name'));
+    expect('between:2,255')->toBeIn(array_get((new UserGroup)->rules(), 'user_group_name'));
     expect('max:2')->toBeIn(array_get((new UserGroup)->rules(), 'auto_assign_mode'));
     expect('max:99')->toBeIn(array_get((new UserGroup)->rules(), 'auto_assign_limit'));
 });

@@ -21,7 +21,7 @@ it('has required rule for inputs', function () {
 it('has max characters rule for inputs', function () {
     $rules = (new Country)->rules();
 
-    expect('between:2,128')->toBeIn(array_get($rules, 'country_name'));
+    expect('between:2,255')->toBeIn(array_get($rules, 'country_name'));
 
     expect('size:2')->toBeIn(array_get($rules, 'iso_code_2'));
 

@@ -26,7 +26,7 @@ class GeneralSettings extends FormRequest
     public function rules()
     {
         return [
-            'site_name' => ['required', 'string', 'min:2', 'max:128'],
+            'site_name' => ['required', 'string', 'min:2', 'max:255'],
             'site_email' => ['required', 'email:filter', 'max:96'],
             'site_logo' => ['required', 'string'],
             'distance_unit' => ['required', 'in:mi,km'],

@@ -21,7 +21,7 @@ class Country extends FormRequest
     public function rules()
     {
         return [
-            'country_name' => ['required', 'string', 'between:2,128'],
+            'country_name' => ['required', 'string', 'between:2,255'],
             'priority' => ['required', 'integer'],
             'iso_code_2' => ['required', 'string', 'size:2'],
             'iso_code_3' => ['required', 'string', 'size:3'],

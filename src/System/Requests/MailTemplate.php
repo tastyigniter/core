@@ -20,7 +20,7 @@ class MailTemplate extends FormRequest
     {
         return [
             'layout_id' => ['integer'],
-            'code' => ['sometimes', 'required', 'min:2', 'max:128', 'unique:mail_templates', 'regex:/^[a-z-_\.\:]+$/i'],
+            'code' => ['sometimes', 'required', 'min:2', 'max:255', 'unique:mail_templates', 'regex:/^[a-z-_\.\:]+$/i'],
             'label' => ['required', 'string'],
             'subject' => ['required', 'string'],
             'body' => ['string'],

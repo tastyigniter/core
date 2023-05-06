@@ -164,7 +164,7 @@ class Payments extends \Igniter\Admin\Classes\AdminController
     {
         $rules = [
             'payment' => ['sometimes', 'required', 'alpha_dash'],
-            'name' => ['required', 'min:2', 'max:128'],
+            'name' => ['required', 'min:2', 'max:255'],
             'code' => ['sometimes', 'required', 'alpha_dash', 'unique:payments,code'],
             'priority' => ['required', 'integer'],
             'description' => ['max:255'],

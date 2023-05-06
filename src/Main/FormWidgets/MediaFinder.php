@@ -352,11 +352,11 @@ class MediaFinder extends BaseFormWidget
                 ],
             ],
             'rules' => [
-                ['custom_properties.title', 'lang:igniter::main.media_manager.label_attachment_title', 'string|max:128'],
+                ['custom_properties.title', 'lang:igniter::main.media_manager.label_attachment_title', 'string|max:255'],
                 ['custom_properties.description', 'lang:igniter::main.media_manager.label_attachment_description', 'string|max:255'],
                 ['custom_properties.extras', 'lang:igniter::main.media_manager.label_attachment_properties', 'array'],
-                ['custom_properties.extras.*.key', 'lang:igniter::main.media_manager.label_attachment_property_key', 'string|max:128'],
-                ['custom_properties.extras.*.value', 'lang:igniter::main.media_manager.label_attachment_property_value', 'string|max:128'],
+                ['custom_properties.extras.*.key', 'lang:igniter::main.media_manager.label_attachment_property_key', 'string|max:255'],
+                ['custom_properties.extras.*.value', 'lang:igniter::main.media_manager.label_attachment_property_value', 'string|max:255'],
             ],
         ];
     }

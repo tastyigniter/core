@@ -9,7 +9,7 @@ it('has rules for name input', function () {
 
     expect('required')->toBeIn($rules);
 
-    expect('between:2,128')->toBeIn($rules);
+    expect('between:2,255')->toBeIn($rules);
 });
 
 it('has rules for permalink slug input', function () {

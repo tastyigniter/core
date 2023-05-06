@@ -15,7 +15,7 @@ it('has required rule for inputs', function () {
 });
 
 it('has max characters rule for mealtime_name input', function () {
-    expect('between:2,128')->toBeIn(array_get((new Mealtime)->rules(), 'mealtime_name'));
+    expect('between:2,255')->toBeIn(array_get((new Mealtime)->rules(), 'mealtime_name'));
 });
 
 it('has valid_time rule for start_time and end_time input', function () {

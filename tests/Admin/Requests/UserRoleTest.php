@@ -15,7 +15,7 @@ it('has required rule for inputs', function () {
 it('has max characters rule for inputs', function () {
     expect('between:2,32')->toBeIn(array_get((new UserRole)->rules(), 'code'));
 
-    expect('between:2,128')->toBeIn(array_get((new UserRole)->rules(), 'name'));
+    expect('between:2,255')->toBeIn(array_get((new UserRole)->rules(), 'name'));
 });
 
 it('has alpha_dash rule for inputs', function () {

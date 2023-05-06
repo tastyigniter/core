@@ -27,7 +27,7 @@ class User extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'between:2,128'],
+            'name' => ['required', 'string', 'between:2,255'],
             'email' => ['required', 'max:96', 'email:filter', 'unique:admin_users,email'],
             'username' => ['required', 'alpha_dash', 'between:2,32', 'unique:admin_users,username'],
             'password' => ['sometimes', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'],
