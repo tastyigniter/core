@@ -62,11 +62,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function boot()
     {
-        $this->publishConfigFiles();
+        if ($this->app->runningInConsole()) {
+            $this->publishConfigFiles();
 
-        $this->publishes([
-            $this->root.'/resources/lang' => lang_path('/vendor/igniter'),
-        ], 'igniter-translations');
+            $this->publishes([
+                $this->root.'/resources/lang' => lang_path('/vendor/igniter'),
+            ], 'igniter-translations');
+        }
     }
 
     protected function mergeConfigFiles()

@@ -25,9 +25,11 @@ class ServiceProvider extends AppServiceProvider
         $this->loadViewsFrom($this->root.'/resources/views/admin', 'igniter.admin');
         $this->loadAnonymousComponentFrom('igniter.admin::_components.', 'igniter.admin');
 
-        $this->publishes([
-            $this->root.'/public' => public_path('vendor/igniter'),
-        ], ['igniter-assets', 'laravel-assets']);
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                $this->root.'/public' => public_path('vendor/igniter'),
+            ], ['igniter-assets', 'laravel-assets']);
+        }
 
         $this->defineRoutes();
         $this->defineEloquentMorphMaps();
