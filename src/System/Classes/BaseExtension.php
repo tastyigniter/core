@@ -3,9 +3,11 @@
 namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\SystemException;
+use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Helpers\SystemHelper;
 use Illuminate\Support\ServiceProvider;
+use ReflectionClass;
 
 /**
  * Base Extension Class
@@ -22,18 +24,61 @@ abstract class BaseExtension extends ServiceProvider
      */
     public $disabled = false;
 
-    /**
-     * Register method called when the extension is first installed.
-     */
-    public function register()
+    public function __construct($app)
     {
+        $this->app = $app;
+        $this->booting(function () {
+            $this->bootingExtension();
+        });
     }
 
-    /**
-     * Boot method, called right before the request route.
-     */
-    public function boot()
+    public function bootingExtension()
     {
+        $reflector = new ReflectionClass(get_class($this));
+
+        $config = $this->extensionMeta();
+        $extensionPath = array_get($config, 'directory', dirname($reflector->getFileName(), 2));
+        $extensionCode = array_get($config, 'code');
+        $extensionNamespace = array_get($config, 'namespace', $reflector->getNamespaceName());
+
+        // Register resources path symbol
+        if (File::isDirectory($resourcesPath = $extensionPath.'/resources')) {
+            Igniter::loadResourcesFrom($resourcesPath, $extensionCode);
+        }
+
+        if (File::isDirectory($langPath = $extensionPath.'/resources/lang')) {
+            $this->loadTranslationsFrom($langPath, $extensionCode);
+        }
+
+        // Register migrations path
+        if (File::isDirectory($migrationPath = $extensionPath.'/database/migrations')) {
+            Igniter::loadMigrationsFrom($migrationPath, $extensionCode);
+        }
+
+        if ($this->disabled) {
+            $this->app->bindMethod(static::class.'@boot', function () {
+                return null;
+            });
+
+            return null;
+        }
+
+        // Register controller path
+        if (File::isDirectory($controllerPath = $extensionPath.'/src/Http/Controllers')) {
+            Igniter::loadControllersFrom($controllerPath, $extensionNamespace.'Http\\Controllers');
+        }
+
+        // Register views path
+        if (File::isDirectory($viewsPath = $extensionPath.'/views') ||
+            File::isDirectory($viewsPath = $extensionPath.'/resources/views')) {
+            $this->loadViewsFrom($viewsPath, $extensionCode);
+        }
+
+        // Add routes, if available
+        if (File::exists($routesFile = $extensionPath.'/routes.php') ||
+            File::exists($routesFile = $extensionPath.'/routes/routes.php')) {
+            $this->loadRoutesFrom($routesFile);
+        }
     }
 
     /**

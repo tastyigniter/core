@@ -7,8 +7,6 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Models\Extension;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\View;
 use ZipArchive;
 
 /**
@@ -314,7 +312,11 @@ class ExtensionManager
             throw new SystemException("Missing Extension class '{$class}' in '{$identifier}', create the Extension class to override extensionMeta() method.");
         }
 
-        $classObj = new $class(app());
+        if (!is_subclass_of($class, BaseExtension::class)) {
+            throw new SystemException("Extension class '{$class}' must extend '".BaseExtension::class."'.");
+        }
+
+        $classObj = app()->resolveProvider($class);
 
         // Check for disabled extensions
         if ($this->isDisabled($identifier)) {
@@ -368,130 +370,6 @@ class ExtensionManager
         $this->paths[$identifier] = $path;
 
         return $classObj;
-    }
-
-    /**
-     * Runs the boot() method on all extensions. Can only be called once.
-     * @return void
-     */
-    public function bootExtensions()
-    {
-        if ($this->booted) {
-            return;
-        }
-
-        foreach (array_keys($this->installedExtensions) as $code) {
-            $this->bootExtension($this->findExtension($code));
-        }
-
-        $this->booted = true;
-    }
-
-    /**
-     * Boot a single extension.
-     *
-     * @param \Igniter\System\Classes\BaseExtension $extension
-     *
-     * @return void
-     */
-    public function bootExtension($extension = null)
-    {
-        if (!$extension) {
-            return;
-        }
-
-        if ($extension->disabled) {
-            return;
-        }
-
-        $extension->boot();
-    }
-
-    /**
-     * Runs the register() method on all extensions. Can only be called once.
-     * @return void
-     */
-    public function registerExtensions()
-    {
-        if ($this->registered) {
-            return;
-        }
-
-        foreach ($this->extensions as $code => $extension) {
-            $this->registerExtension($code, $extension);
-        }
-
-        $this->registered = true;
-    }
-
-    /**
-     * Register a single extension.
-     *
-     * @param \Igniter\System\Classes\BaseExtension $extension
-     *
-     * @return void
-     */
-    public function registerExtension($code, $extension = null)
-    {
-        if (!$extension) {
-            return;
-        }
-
-        $extensionPath = $this->getExtensionPath($code);
-        $extensionCode = strtolower($code);
-        $extensionNamespace = array_get($extension->extensionMeta(), 'namespace');
-
-        // Register resources path symbol
-        if (File::isDirectory($resourcesPath = $extensionPath.'/resources')) {
-            Igniter::loadResourcesFrom($resourcesPath, $extensionCode);
-        }
-
-        if (File::isDirectory($resourcesPath = $extensionPath)) {
-            Igniter::loadResourcesFrom($resourcesPath, $extensionCode);
-        }
-
-        if (File::isDirectory($langPath = $extensionPath.'/resources/lang') ||
-            File::isDirectory($langPath = $extensionPath.'/language')) {
-            Lang::addNamespace($extensionCode, $langPath);
-        }
-
-        // Register migrations path
-        if (File::isDirectory($migrationPath = $extensionPath.'/src/Database/Migrations') ||
-            File::isDirectory($migrationPath = $extensionPath.'/database/migrations')) {
-            Igniter::loadMigrationsFrom($migrationPath, $extensionCode);
-        }
-
-        if ($extension->disabled) {
-            return;
-        }
-
-        $extension->register();
-
-        // Register controller path using v3 directory structure
-        if (File::isDirectory($controllerPath = $extensionPath.'/controllers')) {
-            Igniter::loadControllersFrom($controllerPath, $extensionNamespace.'Controllers');
-        }
-
-        // Register controller path using v4 directory structure
-        if (File::isDirectory($controllerPath = $extensionPath.'/src/Http/Controllers')) {
-            Igniter::loadControllersFrom($controllerPath, $extensionNamespace.'Http\\Controllers');
-        }
-
-        if (File::isDirectory($controllerPath = $extensionPath.'/src/Controllers')) {
-            Igniter::loadControllersFrom($controllerPath, $extensionNamespace.'Controllers');
-        }
-
-        // Register views path
-        if (File::isDirectory($viewsPath = $extensionPath.'/views') ||
-            File::isDirectory($viewsPath = $extensionPath.'/resources/views')) {
-            View::addNamespace($extensionCode, $viewsPath);
-        }
-
-        // Add routes, if available
-        if (File::exists($routesFile = $extensionPath.'/routes.php') ||
-            File::exists($routesFile = $extensionPath.'/routes/routes.php')) {
-            require $routesFile;
-        }
     }
 
     /**
@@ -734,8 +612,7 @@ class ExtensionManager
         // Register and boot the extension to make
         // its services available before migrating
         $extension->disabled = false;
-        $this->registerExtension($model->name, $extension);
-        $this->bootExtension($extension);
+        app()->register($extension);
 
         // set extension migration to the latest version
         resolve(UpdateManager::class)->migrateExtension($model->name);

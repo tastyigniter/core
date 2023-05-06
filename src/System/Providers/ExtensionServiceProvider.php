@@ -11,7 +11,9 @@ class ExtensionServiceProvider extends ServiceProvider
     public function register()
     {
         // Register all extensions
-        resolve(ExtensionManager::class)->registerExtensions();
+        foreach (resolve(ExtensionManager::class)->getExtensions() as $extension) {
+            $this->app->register($extension);
+        }
 
         // Allow extensions to use the scheduler
         Event::listen('console.schedule', function ($schedule) {
@@ -22,10 +24,5 @@ class ExtensionServiceProvider extends ServiceProvider
                 }
             }
         });
-    }
-
-    public function boot()
-    {
-        resolve(ExtensionManager::class)->bootExtensions();
     }
 }

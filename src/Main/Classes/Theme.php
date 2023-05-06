@@ -418,10 +418,10 @@ class Theme
             return $this->fileSource;
         }
 
-        if ($this->hasParent()) {
+        if ($this->hasParent() && $parent = $this->getParent()) {
             $source = new ChainFileSource([
                 new FileSource($this->getSourcePath()),
-                new FileSource($this->getParent()->getSourcePath()),
+                new FileSource($parent->getSourcePath()),
             ]);
         } else {
             $source = new FileSource($this->getSourcePath());

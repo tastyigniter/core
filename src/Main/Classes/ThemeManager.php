@@ -191,8 +191,8 @@ class ThemeManager
     {
         Igniter::loadResourcesFrom($theme->getAssetPath(), $theme->getName());
 
-        if ($theme->hasParent()) {
-            Igniter::loadResourcesFrom($theme->getParent()->getAssetPath(), $theme->getParent()->getName());
+        if ($theme->hasParent() && $theme->getParent() && File::isDirectory($path = $theme->getParent()->getAssetPath())) {
+            Igniter::loadResourcesFrom($path, $theme->getParent()->getName());
         }
 
         if ($theme->isActive()) {
@@ -208,8 +208,8 @@ class ThemeManager
                 }
             }
 
-            if ($theme->hasParent()) {
-                Igniter::loadViewsFrom($theme->getParent()->getPath().'/'.Page::DIR_NAME, 'igniter.main');
+            if ($theme->hasParent() && $parent = $theme->getParent()) {
+                Igniter::loadViewsFrom($parent->getPath().'/'.Page::DIR_NAME, 'igniter.main');
             }
             Igniter::loadViewsFrom($theme->getPath().'/'.Page::DIR_NAME, 'igniter.main');
         }
@@ -750,6 +750,6 @@ class ThemeManager
 
         File::makeDirectory($path, 0777, false, true);
 
-        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
     }
 }
