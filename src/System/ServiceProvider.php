@@ -6,13 +6,12 @@ use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Setting\Facades\Setting;
+use Igniter\System\EventSubscribers\ConsoleCommandSubscriber;
 use Igniter\System\Exception\ErrorHandler;
 use Igniter\System\Template\Extension\BladeExtension;
-use Illuminate\Console\Events\CommandFinished;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
@@ -130,15 +129,7 @@ class ServiceProvider extends AppServiceProvider
             $this->registerConsoleCommand($command, $class);
         }
 
-        $commandMap = [
-            'package:discover' => 'igniter:package-discover',
-        ];
-
-        Event::listen(CommandFinished::class, function (CommandFinished $event) use ($commandMap) {
-            if ($igniterCommand = array_get($commandMap, $event->command)) {
-                Artisan::call($igniterCommand, [], $event->output);
-            }
-        });
+        Event::subscribe(ConsoleCommandSubscriber::class);
     }
 
     /*
