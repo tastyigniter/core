@@ -30,6 +30,7 @@ class IgniterInstall extends Command
     use \Illuminate\Console\ConfirmableTrait;
 
     protected const CONFIRM_CREATE_STORAGE_LINK = 'Create a symbolic link of <options=bold>storage/app/public</> at <options=bold>public/storage</> to make uploaded files publicly available?';
+
     protected const LOGIN_TO_ADMIN_DASHBOARD = 'You can now login to the TastyIgniter Admin at %s with credentials provided during installation.';
 
     /**
