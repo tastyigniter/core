@@ -175,6 +175,7 @@ class Extension extends Model
         $availableExtensions = [];
         $manifest = resolve(PackageManifest::class);
         $extensionManager = resolve(ExtensionManager::class);
+        $extensions = self::all();
 
         foreach ($extensionManager->namespaces() as $namespace => $path) {
             $code = $extensionManager->getIdentifier($namespace);
@@ -185,7 +186,7 @@ class Extension extends Model
 
             $availableExtensions[] = $code;
 
-            $model = self::firstOrNew(['name' => $code]);
+            $model = $extensions->firstWhere('name', $code) ?? new static(['name' => $code]);
 
             $enableExtension = ($model->exists && !$extension->disabled);
 

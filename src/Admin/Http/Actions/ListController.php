@@ -43,9 +43,9 @@ class ListController extends ControllerAction
     protected $listWidgets;
 
     /**
-     * @var \Igniter\Admin\Widgets\Toolbar[] Reference to the toolbar widget objects.
+     * @var \Igniter\Admin\Widgets\Toolbar Reference to the toolbar widget object.
      */
-    protected $toolbarWidgets = [];
+    protected $toolbarWidget;
 
     /**
      * @var \Igniter\Admin\Widgets\Filter[] Reference to the filter widget objects.

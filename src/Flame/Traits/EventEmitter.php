@@ -167,7 +167,7 @@ trait EventEmitter
      *
      *     $this->fireEvent('form.myEvent', ['myvalue'], true);
      *
-     *     Event::fire('admin.form.myEvent', [$this, 'myvalue'], true);
+     *     Event::dispatch('admin.form.myEvent', [$this, 'myvalue'], true);
      *
      * @param string $event Event name
      * @param array $params Event parameters
@@ -193,7 +193,7 @@ trait EventEmitter
         }
 
         // Global event second
-        if (!is_null($response = Event::fire($event, $longArgs, $halt))) {
+        if (!is_null($response = Event::dispatch($event, $longArgs, $halt))) {
             if ($halt) {
                 return $response;
             }

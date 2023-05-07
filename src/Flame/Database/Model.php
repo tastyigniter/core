@@ -150,7 +150,7 @@ class Model extends EloquentModel
     /**
      * Extend this object properties upon construction.
      */
-    public static function extend(Closure $callback)
+    public static function extend(callable $callback)
     {
         self::extendableExtendCallback($callback);
     }

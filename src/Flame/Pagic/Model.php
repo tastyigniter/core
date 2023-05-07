@@ -4,6 +4,7 @@ namespace Igniter\Flame\Pagic;
 
 use ArrayAccess;
 use BadMethodCallException;
+use Closure;
 use Exception;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
@@ -400,6 +401,10 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
     protected function performDeleteOnModel(): void
     {
         $this->newFinder()->delete();
+    }
+
+    public static function addGlobalScope($scope, Closure $implementation = null)
+    {
     }
 
     /**
