@@ -8,6 +8,7 @@ use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Illuminate\View\ViewFinderInterface;
@@ -76,6 +77,37 @@ trait ViewMaker
         return $guess ?: $view;
     }
 
+    public function getViewName(string $view, array|string|null $paths = [], string|null $prefix = null): string
+    {
+        if (!is_array($paths)) {
+            $paths = [$paths];
+        }
+
+        $guess = collect($paths)
+            ->prepend($prefix, $view)
+            ->reduce(function ($carry, $directory, $prefix) use ($view) {
+                if (!is_null($carry)) {
+                    return $carry;
+                }
+
+                $viewName = Str::after($view, $prefix.'::');
+
+                if (view()->exists($view = $this->guessViewName($viewName, $directory))) {
+                    return $view;
+                }
+
+                if (view()->exists($view = $this->guessViewName($viewName, $directory).'.index')) {
+                    return $view;
+                }
+            });
+
+        if (is_null($guess) && view()->exists($view)) {
+            return $view;
+        }
+
+        return $guess ?: $view;
+    }
+
     public function guessViewName(string $name, string|null $prefix = 'components.'): string
     {
         if ($prefix && !Str::endsWith($prefix, '.') && !Str::endsWith($prefix, '::')) {
@@ -109,17 +141,9 @@ trait ViewMaker
             return '';
         }
 
-        $layoutPath = $this->getViewPath(strtolower($layout), $this->layoutPath, '_layouts');
+        $layout = $this->getViewName(strtolower($layout), $this->layoutPath, '_layouts');
 
-        if (!File::exists($layoutPath)) {
-            if ($throwException) {
-                throw new SystemException(sprintf(lang('system::lang.not_found.layout'), $layout));
-            }
-
-            return '';
-        }
-
-        return $this->makeFileContent($layoutPath, $vars);
+        return $this->makeViewContent($layout, $vars);
     }
 
     /**
@@ -131,8 +155,8 @@ trait ViewMaker
      */
     public function makeView(string $view): string
     {
-        $viewPath = $this->getViewPath(strtolower($view), $this->viewPath);
-        $contents = $this->makeFileContent($viewPath);
+        $view = $this->getViewName(strtolower($view), $this->viewPath);
+        $contents = $this->makeViewContent($view);
 
         if ($this->suppressLayout || $this->layout === '') {
             return $contents;
@@ -223,6 +247,18 @@ trait ViewMaker
         }
 
         return $compiler->getCompiledPath($filePath);
+    }
+
+    public function makeViewContent(string $view, array $data = []): string
+    {
+        $view = view()->make($view, $data);
+
+        Event::dispatch('composing: '.$view->name(), [$view]);
+
+        return $this->makeFileContent(
+            view()->getFinder()->find($view->name()),
+            $view->getData()
+        );
     }
 
     /**
