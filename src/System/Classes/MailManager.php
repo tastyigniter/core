@@ -132,7 +132,7 @@ class MailManager
 
         $html = $this->renderView($content, $data);
 
-        return Markdown::parse($html);
+        return Markdown::parse($html->toHtml());
     }
 
     /**
@@ -148,7 +148,7 @@ class MailManager
 
         $text = $this->renderView($content, $data);
 
-        return html_entity_decode(preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8');
+        return new HtmlString(html_entity_decode(preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8'));
     }
 
     public function renderTemplate($template, $data = [])
@@ -198,7 +198,7 @@ class MailManager
 
         $content = Blade::render($content, $data);
 
-        return (new StringParser)->parse($content, $data);
+        return new HtmlString((new StringParser)->parse($content, $data));
     }
 
     public function startPartial($code, array $params = [])

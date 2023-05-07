@@ -6,7 +6,6 @@ use Igniter\Flame\Mail\Mailable;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Helpers\ViewHelper;
 use Igniter\System\Models\MailTemplate;
-use Illuminate\Support\HtmlString;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -45,8 +44,8 @@ class TemplateMailable extends Mailable
         $viewData = $this->buildViewData();
 
         return array_filter([
-            'html' => new HtmlString($manager->renderTemplate($template, $viewData)),
-            'text' => new HtmlString($manager->renderTextTemplate($template, $viewData)),
+            'html' => $manager->renderTemplate($template, $viewData),
+            'text' => $manager->renderTextTemplate($template, $viewData),
         ]);
     }
 
@@ -80,7 +79,7 @@ class TemplateMailable extends Mailable
         $class = new ReflectionClass(static::class);
 
         return collect($class->getProperties(ReflectionProperty::IS_PUBLIC))
-            ->filter(fn ($property) => $property->getDeclaringClass()->getName() !== self::class)
+            ->filter(fn($property) => $property->getDeclaringClass()->getName() !== self::class)
             ->map->getName()
             ->values()
             ->all();

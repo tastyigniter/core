@@ -4,10 +4,9 @@ namespace Igniter\System\Mail;
 
 use Igniter\Flame\Database\Model;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 
-class AnonymousTemplateMailable extends TemplateMailable implements ShouldQueue
+class AnonymousTemplateMailable extends TemplateMailable
 {
     use Queueable, SerializesModels;
 

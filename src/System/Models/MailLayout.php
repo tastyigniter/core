@@ -91,7 +91,7 @@ class MailLayout extends Model
 
     public static function getIdFromCode($code)
     {
-        return array_get(self::listCodes(), $code);
+        return array_get(self::listCodes()->flip(), $code);
     }
 
     public function fillFromCode($code = null)
