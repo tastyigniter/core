@@ -51,6 +51,8 @@ class Igniter
 
     protected static array $ignoreMigrations = [];
 
+    protected static array $prunableModels = [];
+
     /**
      * Set the extensions path for the application.
      *
@@ -272,5 +274,19 @@ class Igniter
     public static function version()
     {
         return static::VERSION;
+    }
+
+    public function prunableModel(string|array $modelClass)
+    {
+        if (is_string($modelClass)) {
+            $modelClass = [$modelClass];
+        }
+
+        static::$prunableModels = array_merge(static::$prunableModels, $modelClass);
+    }
+
+    public function prunableModels(): array
+    {
+        return static::$prunableModels;
     }
 }

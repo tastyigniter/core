@@ -2,12 +2,14 @@
 
 namespace Igniter\System\Providers;
 
+use Igniter\Flame\Igniter;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
 
-class EventServiceProvider extends \Illuminate\Foundation\Support\Providers\EventServiceProvider
+class EventServiceProvider extends ServiceProvider
 {
     public function boot()
     {
@@ -21,13 +23,15 @@ class EventServiceProvider extends \Illuminate\Foundation\Support\Providers\Even
     protected function handleConsoleSchedule()
     {
         Event::listen('console.schedule', function (Schedule $schedule) {
-            // Check for system updates every 12 hours
+            // Every 12 hours check for system updates
             $schedule->call(function () {
                 resolve(UpdateManager::class)->requestUpdateListAndNotify();
-            })->name('System Updates Checker')->cron('0 */12 * * *')->evenInMaintenanceMode();
+            })->name('System Updates Checker')->everyThreeHours()->evenInMaintenanceMode();
 
-            // Cleanup activity log
-            $schedule->command('activitylog:cleanup')->name('Activity Log Cleanup')->daily();
+            // Daily check for model records to prune every day
+            $schedule->command('model:prune', [
+                '--model' => Igniter::prunableModels(),
+            ])->name('Prunable Models Checker')->daily();
         });
     }
 
