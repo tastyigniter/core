@@ -29,6 +29,9 @@ class IgniterInstall extends Command
 {
     use \Illuminate\Console\ConfirmableTrait;
 
+    protected const CONFIRM_CREATE_STORAGE_LINK = 'Create a symbolic link of <options=bold>storage/app/public</> at <options=bold>public/storage</> to make uploaded files publicly available?';
+    protected const LOGIN_TO_ADMIN_DASHBOARD = 'You can now login to the TastyIgniter Admin at %s with credentials provided during installation.';
+
     /**
      * The console command name.
      */
@@ -79,7 +82,17 @@ class IgniterInstall extends Command
 
         $this->addSystemValues();
 
+        if ($this->confirm(self::CONFIRM_CREATE_STORAGE_LINK, true)) {
+            $this->call('storage:link');
+        }
+
         $this->alert('INSTALLATION COMPLETE');
+
+        if ($this->confirm('Do you want to show some love by starring the TastyIgniter repository on GitHub?', false)) {
+            $this->openBrowser('https://github.com/tastyigniter/TastyIgniter');
+        }
+
+        $this->alert(sprintf(self::LOGIN_TO_ADMIN_DASHBOARD, admin_url('login')));
     }
 
     /**
@@ -247,5 +260,16 @@ class IgniterInstall extends Command
         }
 
         return !$this->confirm('Application appears to be installed already. Continue anyway?', false);
+    }
+
+    protected function openBrowser(string $url)
+    {
+        if (PHP_OS_FAMILY === 'Darwin') {
+            exec('open '.$url);
+        } elseif (PHP_OS_FAMILY === 'Windows') {
+            exec('start '.$url);
+        } else {
+            exec('xdg-open '.$url);
+        }
     }
 }
