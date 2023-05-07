@@ -318,6 +318,13 @@ class ExtensionManager
 
         $classObj = app()->resolveProvider($class);
 
+        $config = $classObj->extensionMeta();
+        foreach (['code', 'name', 'description', 'author', 'icon'] as $item) {
+            if (!array_key_exists($item, $config)) {
+                throw new SystemException(sprintf(lang('igniter::system.missing.config_key'), $item, $identifier));
+            }
+        }
+
         // Check for disabled extensions
         if ($this->isDisabled($identifier)) {
             $classObj->disabled = true;

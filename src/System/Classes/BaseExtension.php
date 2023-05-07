@@ -38,8 +38,8 @@ abstract class BaseExtension extends ServiceProvider
 
         $config = $this->extensionMeta();
         $extensionPath = array_get($config, 'directory', dirname($reflector->getFileName(), 2));
-        $extensionCode = array_get($config, 'code');
-        $extensionNamespace = array_get($config, 'namespace', $reflector->getNamespaceName());
+        $extensionNamespace = array_get($config, 'namespace', $namespace = $reflector->getNamespaceName());
+        $extensionCode = array_get($config, 'code', str_replace('\\', '.', $namespace));
 
         // Register resources path symbol
         if (File::isDirectory($resourcesPath = $extensionPath.'/resources')) {
@@ -230,7 +230,7 @@ abstract class BaseExtension extends ServiceProvider
         }
 
         $className = get_class($this);
-        $configPath = realpath(dirname(File::fromClass($className)));
+        $configPath = str_before(dirname(File::fromClass($className)), '/src');
         $extensionCode = strtolower(str_replace('/', '.', dirname(str_replace('\\', '/', $className))));
 
         if (File::exists($configFile = $configPath.'/extension.json')) {
@@ -242,15 +242,6 @@ abstract class BaseExtension extends ServiceProvider
         } else {
             throw new SystemException("The configuration file for extension <b>{$className}</b> does not exist. ".
                 'Create the file or override extensionMeta() method in the extension class.');
-        }
-
-        foreach (['code', 'name', 'description', 'author', 'icon'] as $item) {
-            if (!array_key_exists($item, $config)) {
-                throw new SystemException(sprintf(
-                    lang('igniter::system.missing.config_key'),
-                    $item, $extensionCode
-                ));
-            }
         }
 
         return $this->config = $config;

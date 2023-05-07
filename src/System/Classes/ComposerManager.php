@@ -38,21 +38,11 @@ class ComposerManager
 
     protected $workingDir;
 
-    protected $namespacePool = [];
-
-    protected $psr4Pool = [];
-
-    protected $classMapPool = [];
-
-    protected $includeFilesPool = [];
-
     protected $installedPackages = [];
 
     public function initialize()
     {
         $this->storagePath = storage_path('igniter/composer');
-        $this->loader = require base_path('/vendor/autoload.php');
-        $this->preloadPools();
     }
 
     /**
@@ -64,46 +54,31 @@ class ComposerManager
      */
     public function autoload($vendorPath)
     {
+        $this->loader = require base_path('vendor/autoload.php');
+
         $dir = $vendorPath.'/composer';
 
         if (file_exists($file = $dir.'/autoload_namespaces.php')) {
-            $map = require $file;
-            foreach ($map as $namespace => $path) {
-                if (isset($this->namespacePool[$namespace])) {
-                    continue;
-                }
+            foreach (File::getRequire($file) as $namespace => $path) {
                 $this->loader->set($namespace, $path);
-                $this->namespacePool[$namespace] = true;
             }
         }
 
         if (file_exists($file = $dir.'/autoload_psr4.php')) {
-            $map = require $file;
-            foreach ($map as $namespace => $path) {
-                if (isset($this->psr4Pool[$namespace])) {
-                    continue;
-                }
+            foreach (File::getRequire($file) as $namespace => $path) {
                 $this->loader->setPsr4($namespace, $path);
-                $this->psr4Pool[$namespace] = true;
             }
         }
 
         if (file_exists($file = $dir.'/autoload_classmap.php')) {
-            $classMap = require $file;
-            if ($classMap) {
-                $classMapDiff = array_diff_key($classMap, $this->classMapPool);
-                $this->loader->addClassMap($classMapDiff);
-                $this->classMapPool += array_fill_keys(array_keys($classMapDiff), true);
+            if ($classMap = File::getRequire($file)) {
+                $this->loader->addClassMap($classMap);
             }
         }
 
         if (file_exists($file = $dir.'/autoload_files.php')) {
-            $includeFiles = require $file;
-            foreach ($includeFiles as $includeFile) {
+            foreach (File::getRequire($file) as $includeFile) {
                 $relativeFile = $this->stripVendorDir($includeFile, $vendorPath);
-                if (isset($this->includeFilesPool[$relativeFile])) {
-                    continue;
-                }
                 require $includeFile;
                 $this->includeFilesPool[$relativeFile] = true;
             }
@@ -127,7 +102,7 @@ class ComposerManager
 
     public function getConfig($path, $type = 'extension')
     {
-        $composer = json_decode(File::get($path.'/composer.json'), true) ?? [];
+        $composer = File::json($path.'/composer.json') ?? [];
 
         if (!$config = array_get($composer, 'extra.tastyigniter-'.$type, [])) {
             return $config;
@@ -146,14 +121,6 @@ class ComposerManager
         }
 
         return $config;
-    }
-
-    protected function preloadPools()
-    {
-        $this->classMapPool = array_fill_keys(array_keys($this->loader->getClassMap()), true);
-        $this->namespacePool = array_fill_keys(array_keys($this->loader->getPrefixes()), true);
-        $this->psr4Pool = array_fill_keys(array_keys($this->loader->getPrefixesPsr4()), true);
-        $this->includeFilesPool = $this->preloadIncludeFilesPool();
     }
 
     protected function preloadIncludeFilesPool()
