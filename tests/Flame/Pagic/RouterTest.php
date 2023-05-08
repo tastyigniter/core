@@ -1,8 +1,10 @@
 <?php
 
-namespace Tests\Main\Classes;
+namespace Igniter\Flame\Router;
 
-use Igniter\Main\Classes\Router;
+use Igniter\Flame\Pagic\Router;
+
+it('converts a pagic route uri to laravel style')->skip();
 
 it('finds a theme page', function () {
     expect(resolve(Router::class)->findPage('components'))
