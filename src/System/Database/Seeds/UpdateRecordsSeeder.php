@@ -24,11 +24,14 @@ class UpdateRecordsSeeder extends Seeder
         $this->fixPermalinkSlugColumns();
 
         $this->fillColumnsOnMailTemplatesData();
+
+        $this->updateDiskColumnOnMediaAttachments();
     }
 
     protected function updateMorphsOnStatusHistory()
     {
-        if (DB::table('status_history')->where('object_type', \Igniter\Admin\Models\Order::class)->count()) {
+        $types = [\Igniter\Admin\Models\Order::class, \Igniter\Admin\Models\Reservation::class];
+        if (DB::table('status_history')->whereIn('object_type', $types)->count()) {
             return;
         }
 
@@ -51,17 +54,19 @@ class UpdateRecordsSeeder extends Seeder
 
     protected function fixPermalinkSlugColumns()
     {
-        Category::all()->each(function (Category $model) {
-            $model->save();
-        });
-
-        Location::all()->each(function (Location $model) {
-            $model->save();
-        });
+        Category::whereNull('permalink_slug')->get()->each->save();
+        Location::whereNull('permalink_slug')->get()->each->save();
     }
 
     protected function fillColumnsOnMailTemplatesData()
     {
         DB::table('mail_templates')->update(['is_custom' => 1]);
+    }
+
+    protected function updateDiskColumnOnMediaAttachments()
+    {
+        DB::table('media_attachments')
+            ->where('disk_name', 'media')
+            ->update(['disk_name' => 'public']);
     }
 }
