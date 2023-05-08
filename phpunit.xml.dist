@@ -17,11 +17,8 @@
     </testsuites>
     <php>
         <env name="APP_ENV" value="testing"/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="SESSION_DRIVER" value="array"/>
-        <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="APP_URL" value="http://localhost"/>
         <env name="APP_KEY" value="base64:cuULT9tUWlbKtqv1Mk3jBw832yDSMEv0BvXx6hZOFQQ="/>
-        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="testbench"/>
+        <env name="DB_PREFIX" value="v4_"/>
     </php>
 </phpunit>

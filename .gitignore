@@ -5,4 +5,5 @@ composer.lock
 node_modules
 mix-manifest.json
 /public/js/app.js.LICENSE.txt
+.phpunit.result.cache
 

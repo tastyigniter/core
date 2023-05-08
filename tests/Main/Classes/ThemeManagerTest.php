@@ -34,8 +34,8 @@ it('writes a theme file', function () {
 it('renames a theme file', function () {
     $manager = resolve(ThemeManager::class);
 
-    $oldFile = '_pages/components.blade.php';
-    $newFile = '_pages/compon.blade.php';
+    $oldFile = '_pages/components';
+    $newFile = '_pages/compon';
 
     expect($manager->renameFile($oldFile, $newFile, 'tests-theme'))->toBeTrue();
 

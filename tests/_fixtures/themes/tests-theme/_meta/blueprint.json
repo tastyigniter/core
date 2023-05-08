@@ -1,9 +1,11 @@
 {
-  "_pages": {
-    "nested-page": {
-      "title": "Nested page",
-      "layout": "default",
-      "permalink": "/nested/page/:slug"
-    }
-  }
+	"_pages": {
+		"nested-page": {
+			"title": "Nested page",
+			"layout": "default",
+			"permalink": "/nested/page/:slug"
+		},
+		"components": {
+		}
+	}
 }

@@ -66,7 +66,7 @@ class UpdateRecordsSeeder extends Seeder
     protected function updateDiskColumnOnMediaAttachments()
     {
         DB::table('media_attachments')
-            ->where('disk_name', 'media')
-            ->update(['disk_name' => 'public']);
+            ->where('disk', 'media')
+            ->update(['disk' => 'public']);
     }
 }

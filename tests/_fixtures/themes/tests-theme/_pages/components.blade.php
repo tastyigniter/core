@@ -1,8 +1,3 @@
----
-title: 'main::lang.contact.title'
-layout: default
-permalink: /components
----
 <div class="container">
     <div class="row">
         @push('scripts')
