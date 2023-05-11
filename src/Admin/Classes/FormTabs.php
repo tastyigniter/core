@@ -49,6 +49,8 @@ class FormTabs implements IteratorAggregate, ArrayAccess
      */
     public $cssClass;
 
+    public ?array $config = [];
+
     /**
      * Constructor.
      * Specifies a tabs rendering section. Supported sections are:

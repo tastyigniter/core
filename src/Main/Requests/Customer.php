@@ -32,7 +32,7 @@ class Customer extends FormRequest
             'first_name' => ['required', 'string', 'between:1,48'],
             'last_name' => ['required', 'string', 'between:1,48'],
             'email' => ['required', 'email:filter', 'max:96', 'unique:customers,email'],
-            'password' => ['required_if:send_invite,0', 'string', 'min:8', 'max:40', 'same:_confirm_password'],
+            'password' => ['nullable', 'required_if:send_invite,0', 'string', 'min:8', 'max:40', 'same:_confirm_password'],
             'telephone' => ['sometimes', 'string'],
             'newsletter' => ['sometimes', 'required', 'boolean'],
             'customer_group_id' => ['required', 'integer'],

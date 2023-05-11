@@ -164,8 +164,8 @@ class Table extends BaseWidget
 
     public function onGetRecords()
     {
-        $search = Request::post('search');
-        $offset = Request::post('offset');
+        $search = Request::post('search', '');
+        $offset = Request::post('offset', 1);
         $limit = Request::post('limit', $this->getConfig('pageLimit', $this->pageLimit));
 
         $eventResults = $this->fireEvent('table.getRecords', [$offset, $limit, $search], true);

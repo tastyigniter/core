@@ -351,7 +351,7 @@ class Form extends BaseWidget
      *
      * @return void
      */
-    public function addFields(array $fields, $addToArea = null)
+    public function addFields(array $fields, $addToArea = '')
     {
         foreach ($fields as $name => $config) {
             // Check if admin has permissions to show this field

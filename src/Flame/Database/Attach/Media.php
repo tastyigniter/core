@@ -274,7 +274,7 @@ class Media extends Model
     public function getLastModified($fileName = null)
     {
         if (!$fileName) {
-            $fileName = $this->disk_name;
+            $fileName = $this->disk;
         }
 
         return $this->getStorageDisk()->lastModified($this->getStoragePath().$fileName);
