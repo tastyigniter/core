@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Admin\Database\Factories;
+namespace Igniter\Main\Database\Factories;
 
 use Igniter\Flame\Database\Factories\Factory;
 
