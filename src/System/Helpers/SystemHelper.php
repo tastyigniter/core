@@ -2,6 +2,9 @@
 
 namespace Igniter\System\Helpers;
 
+use Igniter\Flame\Exception\SystemException;
+use Igniter\Flame\Support\Facades\File;
+use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
 
 class SystemHelper
@@ -105,10 +108,10 @@ class SystemHelper
         switch ($unit) {
             case 'g':
                 $value *= 1024;
-                // no break
+            // no break
             case 'm':
                 $value *= 1024;
-                // no break
+            // no break
             case 'k':
                 $value *= 1024;
         }
@@ -140,5 +143,34 @@ class SystemHelper
 
                 return $code ? [$code => $version] : [];
             })->filter()->all();
+    }
+
+    public static function extensionConfigFromFile(string $path): array
+    {
+        $configPath = str_before($path, '/src');
+
+        if (File::exists($configFile = $configPath.'/extension.json')) {
+            return json_decode(File::get($configFile), true) ?? [];
+        }
+
+        if (File::exists($configPath.'/composer.json')) {
+            return resolve(ComposerManager::class)->getConfig($configPath);
+        }
+
+        $extensionCode = basename(dirname($configPath)).'.'.basename($configPath);
+        if ($packageConfig = array_get(resolve(PackageManifest::class)->extensions(), $extensionCode)) {
+            return $packageConfig;
+        }
+
+        throw new SystemException("Required extension configuration file not found: $configFile");
+    }
+
+    public static function extensionValidateConfig(array $config, string $identifier)
+    {
+        foreach (['code', 'name', 'description', 'author', 'icon'] as $item) {
+            if (!array_key_exists($item, $config)) {
+                throw new SystemException(sprintf(lang('igniter::system.missing.config_key'), $item, $identifier));
+            }
+        }
     }
 }

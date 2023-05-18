@@ -2,7 +2,6 @@
 
 namespace Igniter\System\Classes;
 
-use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Helpers\SystemHelper;
@@ -87,7 +86,11 @@ abstract class BaseExtension extends ServiceProvider
      */
     public function extensionMeta()
     {
-        return $this->getConfigFromFile();
+        if (isset($this->config)) {
+            return $this->config;
+        }
+
+        return SystemHelper::extensionConfigFromFile(dirname(File::fromClass(get_class($this))));
     }
 
     /**
@@ -215,58 +218,5 @@ abstract class BaseExtension extends ServiceProvider
     public function listRequires()
     {
         return SystemHelper::parsePackageCodes(array_get($this->extensionMeta(), 'require', []));
-    }
-
-    /**
-     * Read configuration from Config file
-     *
-     * @return array|bool
-     * @throws SystemException
-     */
-    protected function getConfigFromFile()
-    {
-        if (isset($this->config)) {
-            return $this->config;
-        }
-
-        $className = get_class($this);
-        $configPath = str_before(dirname(File::fromClass($className)), '/src');
-        $extensionCode = strtolower(str_replace('/', '.', dirname(str_replace('\\', '/', $className))));
-
-        if (File::exists($configFile = $configPath.'/extension.json')) {
-            $config = json_decode(File::get($configFile), true) ?? [];
-        } elseif ($packageConfig = array_get(resolve(PackageManifest::class)->extensions(), $extensionCode)) {
-            $config = $packageConfig;
-        } elseif (File::exists($configPath.'/composer.json')) {
-            $config = resolve(ComposerManager::class)->getConfig($configPath);
-        } else {
-            throw new SystemException("The configuration file for extension <b>{$className}</b> does not exist. ".
-                'Create the file or override extensionMeta() method in the extension class.');
-        }
-
-        return $this->config = $config;
-    }
-
-    protected function getConfigFromComposerJson($configFile)
-    {
-        $composer = json_decode(File::get($configFile), true) ?? [];
-
-        if (!$config = array_get($composer, 'extra.tastyigniter-extension', [])) {
-            return $config;
-        }
-
-        if (array_key_exists('description', $composer)) {
-            $config['description'] = $composer['description'];
-        }
-
-        if (array_key_exists('authors', $composer)) {
-            $config['author'] = $composer['authors'][0]['name'];
-        }
-
-        if (!array_key_exists('homepage', $config) && array_key_exists('homepage', $composer)) {
-            $config['homepage'] = $composer['homepage'];
-        }
-
-        return $config;
     }
 }

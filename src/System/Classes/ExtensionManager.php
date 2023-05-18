@@ -6,6 +6,7 @@ use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Extension;
 use ZipArchive;
 
@@ -301,39 +302,17 @@ class ExtensionManager
         $vendor = basename(dirname($path));
         $namespace = ucfirst($vendor).'\\'.ucfirst(basename($path)).'\\';
         $class = $namespace.'Extension';
-
         $identifier = $this->getIdentifier($namespace);
 
         if (isset($this->extensions[$identifier])) {
             return $this->extensions[$identifier];
         }
 
-        if (!class_exists($class)) {
-            throw new SystemException("Missing Extension class '{$class}' in '{$identifier}', create the Extension class to override extensionMeta() method.");
-        }
-
-        if (!is_subclass_of($class, BaseExtension::class)) {
-            throw new SystemException("Extension class '{$class}' must extend '".BaseExtension::class."'.");
-        }
-
-        $classObj = app()->resolveProvider($class);
-
-        $config = $classObj->extensionMeta();
-        foreach (['code', 'name', 'description', 'author', 'icon'] as $item) {
-            if (!array_key_exists($item, $config)) {
-                throw new SystemException(sprintf(lang('igniter::system.missing.config_key'), $item, $identifier));
-            }
-        }
-
-        // Check for disabled extensions
-        if ($this->isDisabled($identifier)) {
-            $classObj->disabled = true;
-        }
-
-        $this->extensions[$identifier] = $classObj;
-        $this->paths[$identifier] = $path;
-
-        return $classObj;
+        return $this->loadExtensionFromConfig($identifier, [
+            'extensionClass' => $class,
+            'directory' => $path,
+            'namespace' => $namespace,
+        ]);
     }
 
     /**
@@ -362,11 +341,18 @@ class ExtensionManager
             return false;
         }
 
-        if (!($class = array_get($config, 'extensionClass')) || !class_exists($class)) {
-            return false;
+        $class = array_get($config, 'extensionClass');
+        if (!$class || !class_exists($class)) {
+            throw new SystemException("Missing Extension class '{$class}' in '{$identifier}', create the Extension class to override extensionMeta() method.");
         }
 
-        $classObj = new $class(app());
+        if (!is_subclass_of($class, BaseExtension::class)) {
+            throw new SystemException("Extension class '{$class}' must extend '".BaseExtension::class."'.");
+        }
+
+        $classObj = app()->resolveProvider($class);
+
+        SystemHelper::extensionValidateConfig($classObj->extensionMeta(), $identifier);
 
         // Check for disabled extensions
         if ($this->isDisabled($identifier)) {
@@ -475,7 +461,7 @@ class ExtensionManager
      */
     public function isDisabled($code)
     {
-        return !$this->checkName($code) || !array_get($this->installedExtensions, $code, false);
+        return !app()->runningUnitTests() && (!$this->checkName($code) || !array_get($this->installedExtensions, $code, false));
     }
 
     /**

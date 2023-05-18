@@ -108,6 +108,15 @@ class ComposerManager
             return $config;
         }
 
+        $config['type'] = 'tastyigniter-'.$type;
+        $config['package_name'] = array_get($composer, 'name');
+        $config['version'] = array_get($composer, 'version', '--');
+
+        if (!array_key_exists('code', $config)) {
+            $config['code'] = ($type === 'extension')
+                ? basename(dirname($path)).'.'.basename($path) : basename($path);
+        }
+
         if (array_key_exists('description', $composer)) {
             $config['description'] = $composer['description'];
         }
