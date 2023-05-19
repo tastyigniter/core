@@ -64,7 +64,7 @@ abstract class BaseExtension extends ServiceProvider
 
         // Register controller path
         if (File::isDirectory($controllerPath = $extensionPath.'/src/Http/Controllers')) {
-            Igniter::loadControllersFrom($controllerPath, $extensionNamespace.'Http\\Controllers');
+            Igniter::loadControllersFrom($controllerPath, $extensionNamespace.'\\Http\\Controllers');
         }
 
         // Register views path
@@ -86,11 +86,15 @@ abstract class BaseExtension extends ServiceProvider
      */
     public function extensionMeta()
     {
-        if (isset($this->config)) {
+        if (func_get_args()) {
+            return $this->config = func_get_arg(0);
+        }
+
+        if (!is_null($this->config)) {
             return $this->config;
         }
 
-        return SystemHelper::extensionConfigFromFile(dirname(File::fromClass(get_class($this))));
+        return $this->config = SystemHelper::extensionConfigFromFile(dirname(File::fromClass(get_class($this))));
     }
 
     /**

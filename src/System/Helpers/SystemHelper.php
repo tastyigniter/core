@@ -108,10 +108,10 @@ class SystemHelper
         switch ($unit) {
             case 'g':
                 $value *= 1024;
-                // no break
+            // no break
             case 'm':
                 $value *= 1024;
-                // no break
+            // no break
             case 'k':
                 $value *= 1024;
         }
@@ -149,17 +149,17 @@ class SystemHelper
     {
         $configPath = str_before($path, '/src');
 
-        if (File::exists($configFile = $configPath.'/extension.json')) {
-            return json_decode(File::get($configFile), true) ?? [];
+        $extensionCode = basename(dirname($configPath)).'.'.basename($configPath);
+        if ($packageConfig = array_get(resolve(PackageManifest::class)->extensions(), $extensionCode)) {
+            return $packageConfig;
         }
 
         if (File::exists($configPath.'/composer.json')) {
             return resolve(ComposerManager::class)->getConfig($configPath);
         }
 
-        $extensionCode = basename(dirname($configPath)).'.'.basename($configPath);
-        if ($packageConfig = array_get(resolve(PackageManifest::class)->extensions(), $extensionCode)) {
-            return $packageConfig;
+        if (File::exists($configFile = $configPath.'/extension.json')) {
+            return json_decode(File::get($configFile), true) ?? [];
         }
 
         throw new SystemException("Required extension configuration file not found: $configFile");

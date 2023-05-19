@@ -54,25 +54,23 @@ class ComposerManager
      */
     public function autoload($vendorPath)
     {
-        $this->loader = require base_path('vendor/autoload.php');
-
         $dir = $vendorPath.'/composer';
 
         if (file_exists($file = $dir.'/autoload_namespaces.php')) {
             foreach (File::getRequire($file) as $namespace => $path) {
-                $this->loader->set($namespace, $path);
+                $this->getLoader()->set($namespace, $path);
             }
         }
 
         if (file_exists($file = $dir.'/autoload_psr4.php')) {
             foreach (File::getRequire($file) as $namespace => $path) {
-                $this->loader->setPsr4($namespace, $path);
+                $this->getLoader()->setPsr4($namespace, $path);
             }
         }
 
         if (file_exists($file = $dir.'/autoload_classmap.php')) {
             if ($classMap = File::getRequire($file)) {
-                $this->loader->addClassMap($classMap);
+                $this->getLoader()->addClassMap($classMap);
             }
         }
 
@@ -130,6 +128,15 @@ class ComposerManager
         }
 
         return $config;
+    }
+
+    public function getLoader()
+    {
+        if (is_null($this->loader)) {
+            $this->loader = require base_path('vendor/autoload.php');
+        }
+
+        return $this->loader;
     }
 
     protected function preloadIncludeFilesPool()

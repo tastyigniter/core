@@ -137,7 +137,7 @@ class ExtensionManager
         }
 
         foreach ($directories as $directory) {
-            foreach (File::glob($directory.'/*/*/Extension.php') as $path) {
+            foreach (File::glob($directory.'/*/*/{extension,composer}.json', GLOB_BRACE) as $path) {
                 $paths[] = dirname($path);
             }
         }
@@ -304,15 +304,29 @@ class ExtensionManager
         $class = $namespace.'Extension';
         $identifier = $this->getIdentifier($namespace);
 
+        throw_unless($this->checkName($identifier), SystemException::class, 'Extension code can only contain alphabets: '.$identifier);
+
         if (isset($this->extensions[$identifier])) {
             return $this->extensions[$identifier];
         }
 
-        return $this->loadExtensionFromConfig($identifier, [
-            'extensionClass' => $class,
-            'directory' => $path,
-            'namespace' => $namespace,
-        ]);
+        if (File::isDirectory($path.'/src')) {
+            resolve(ComposerManager::class)->getLoader()->setPsr4($namespace, $path.'/src');
+        }
+
+        $extension = $this->resolveExtension($identifier, $path, $class);
+
+        SystemHelper::extensionValidateConfig($extension->extensionMeta(), $identifier);
+
+        // Check for disabled extensions
+        if ($this->isDisabled($identifier)) {
+            $extension->disabled = true;
+        }
+
+        $this->extensions[$identifier] = $extension;
+        $this->paths[$identifier] = $path;
+
+        return $extension;
     }
 
     /**
@@ -326,9 +340,7 @@ class ExtensionManager
      */
     public function loadExtensionFromConfig($code, $config)
     {
-        if (!$this->checkName($code)) {
-            return false;
-        }
+        throw_unless($this->checkName($code), SystemException::class, 'Extension code can only contain alphabets: '.$code);
 
         $identifier = $this->getIdentifier($code);
 
@@ -337,11 +349,29 @@ class ExtensionManager
         }
 
         $path = array_get($config, 'directory');
-        if (!$path || !File::isDirectory($path)) {
-            return false;
+        $class = array_get($config, 'extensionClass');
+        $extension = $this->resolveExtension($identifier, $path, $class);
+
+        SystemHelper::extensionValidateConfig($extension->extensionMeta($config), $identifier);
+
+        // Check for disabled extensions
+        if ($this->isDisabled($identifier)) {
+            $extension->disabled = true;
         }
 
-        $class = array_get($config, 'extensionClass');
+        $this->extensions[$identifier] = $extension;
+        $this->paths[$identifier] = $path;
+
+        return $extension;
+    }
+
+    public function resolveExtension($identifier, $path, $class)
+    {
+        throw_if(
+            !$path || !File::isDirectory($path),
+            SystemException::class, 'Extension directory not found: '.$path
+        );
+
         if (!$class || !class_exists($class)) {
             throw new SystemException("Missing Extension class '{$class}' in '{$identifier}', create the Extension class to override extensionMeta() method.");
         }
@@ -350,19 +380,7 @@ class ExtensionManager
             throw new SystemException("Extension class '{$class}' must extend '".BaseExtension::class."'.");
         }
 
-        $classObj = app()->resolveProvider($class);
-
-        SystemHelper::extensionValidateConfig($classObj->extensionMeta(), $identifier);
-
-        // Check for disabled extensions
-        if ($this->isDisabled($identifier)) {
-            $classObj->disabled = true;
-        }
-
-        $this->extensions[$identifier] = $classObj;
-        $this->paths[$identifier] = $path;
-
-        return $classObj;
+        return app()->resolveProvider($class);
     }
 
     /**
