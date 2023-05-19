@@ -14,11 +14,10 @@ class ScaffoldServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        'CreateExtension' => 'command.create.extension',
-        'CreateComponent' => 'command.create.component',
-        'CreateController' => 'command.create.controller',
-        'CreateModel' => 'command.create.model',
-        'CreateCommand' => 'command.create.command',
+        'MakeExtension' => 'command.make.igniter.extension',
+        'MakeComponent' => 'command.make.igniter.component',
+        'MakeController' => 'command.make.igniter.controller',
+        'MakeModel' => 'command.make.igniter.model',
     ];
 
     /**
@@ -45,38 +44,31 @@ class ScaffoldServiceProvider extends ServiceProvider
         $this->commands(array_values($commands));
     }
 
-    protected function registerCreateExtensionCommand($command)
+    protected function registerMakeExtensionCommand($command)
     {
         $this->app->singleton($command, function ($app) {
-            return new Console\CreateExtension($app['files']);
+            return new Console\MakeExtension($app['files']);
         });
     }
 
-    protected function registerCreateComponentCommand($command)
+    protected function registerMakeComponentCommand($command)
     {
         $this->app->singleton($command, function ($app) {
-            return new Console\CreateComponent($app['files']);
+            return new Console\MakeComponent($app['files']);
         });
     }
 
-    protected function registerCreateControllerCommand($command)
+    protected function registerMakeControllerCommand($command)
     {
         $this->app->singleton($command, function ($app) {
-            return new Console\CreateController($app['files']);
+            return new Console\MakeController($app['files']);
         });
     }
 
-    protected function registerCreateModelCommand($command)
+    protected function registerMakeModelCommand($command)
     {
         $this->app->singleton($command, function ($app) {
-            return new Console\CreateModel($app['files']);
-        });
-    }
-
-    protected function registerCreateCommandCommand($command)
-    {
-        $this->app->singleton($command, function ($app) {
-            return new Console\CreateCommand($app['files']);
+            return new Console\MakeModel($app['files']);
         });
     }
 

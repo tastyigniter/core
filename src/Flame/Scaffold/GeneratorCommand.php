@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Scaffold;
 
+use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\StringParser;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
@@ -125,7 +126,7 @@ abstract class GeneratorCommand extends Command
     /**
      * Build the directory for the class if necessary.
      *
-     * @param  string $path
+     * @param string $path
      *
      * @return string
      */
@@ -149,7 +150,7 @@ abstract class GeneratorCommand extends Command
         $code = $this->argument('extension');
         $destinationPath = str_replace('.', '/', strtolower($code));
 
-        return extension_path($destinationPath.'/'.$className);
+        return Igniter::extensionsPath().'/'.$destinationPath.'/'.$className;
     }
 
     protected function parseString($stubContent)

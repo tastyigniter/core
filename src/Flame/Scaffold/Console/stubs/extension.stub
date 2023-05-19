@@ -1,6 +1,8 @@
-<?php namespace {{studly_author}}\{{studly_name}};
+<?php
 
-use System\Classes\BaseExtension;
+namespace {{studly_author}}\{{studly_name}};
+
+use Igniter\System\Classes\BaseExtension;
 
 /**
  * {{name}} Extension Information File

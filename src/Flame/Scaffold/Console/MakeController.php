@@ -2,33 +2,32 @@
 
 namespace Igniter\Flame\Scaffold\Console;
 
-use Carbon\Carbon;
 use Igniter\Flame\Scaffold\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class CreateModel extends GeneratorCommand
+class MakeController extends GeneratorCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'create:model';
+    protected $name = 'make:igniter-controller';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates a new model.';
+    protected $description = 'Creates a new TastyIgniter controller.';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Model';
+    protected $type = 'Controller';
 
     /**
      * A mapping of stub to generated file.
@@ -36,9 +35,7 @@ class CreateModel extends GeneratorCommand
      * @var array
      */
     protected $stubs = [
-        'model/model.stub' => 'models/{{studly_name}}.php',
-        'model/create_table.stub' => 'database/migrations/{{timestamp}}_create_{{snake_plural_name}}_table.php',
-        'model/config.stub' => 'models/config/{{lower_name}}.php',
+        'controller/controller.stub' => 'src/Http/Controllers/{{studly_name}}.php',
     ];
 
     /**
@@ -55,10 +52,9 @@ class CreateModel extends GeneratorCommand
         }
 
         [$author, $extension] = $code;
-        $model = $this->argument('model');
+        $controller = $this->argument('controller');
 
         $this->vars = [
-            'timestamp' => Carbon::now()->format('Y_m_d_Hmi'),
             'extension' => $extension,
             'lower_extension' => strtolower($extension),
             'title_extension' => title_case($extension),
@@ -69,13 +65,16 @@ class CreateModel extends GeneratorCommand
             'title_author' => title_case($author),
             'studly_author' => studly_case($author),
 
-            'name' => $model,
-            'lower_name' => strtolower($model),
-            'title_name' => title_case($model),
-            'studly_name' => studly_case($model),
-            'plural_name' => str_plural($model),
-            'studly_plural_name' => studly_case(str_plural($model)),
-            'snake_plural_name' => snake_case(str_plural($model)),
+            'name' => $controller,
+            'lower_name' => strtolower($controller),
+            'title_name' => title_case($controller),
+            'studly_name' => studly_case($controller),
+            'singular_name' => str_singular($controller),
+            'studly_singular_name' => studly_case(str_singular($controller)),
+            'snake_singular_name' => snake_case(str_singular($controller)),
+            'plural_name' => str_plural($controller),
+            'studly_plural_name' => studly_case(str_plural($controller)),
+            'snake_plural_name' => snake_case(str_plural($controller)),
         ];
     }
 
@@ -88,7 +87,7 @@ class CreateModel extends GeneratorCommand
     {
         return [
             ['extension', InputArgument::REQUIRED, 'The name of the extension to create. Eg: IgniterLab.Demo'],
-            ['model', InputArgument::REQUIRED, 'The name of the model. Eg: Block'],
+            ['controller', InputArgument::REQUIRED, 'The name of the model. Eg: Blocks'],
         ];
     }
 

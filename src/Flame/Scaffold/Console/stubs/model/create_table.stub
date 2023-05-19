@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('{{lower_author}}_{{lower_extension}}_{{snake_plural_name}}', function(Blueprint $table) {
+        Schema::create('{{lower_author}}_{{snake_plural_name}}', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->timestamps();
@@ -19,6 +19,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('{{lower_author}}_{{lower_extension}}_{{snake_plural_name}}');
+        Schema::dropIfExists('{{lower_author}}_{{snake_plural_name}}');
     }
-}
+};

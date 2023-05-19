@@ -28,6 +28,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         \Igniter\Flame\Providers\MacroServiceProvider::class,
         \Igniter\Flame\Pagic\PagicServiceProvider::class,
         \Igniter\Flame\Router\RoutingServiceProvider::class,
+        \Igniter\Flame\Scaffold\ScaffoldServiceProvider::class,
         \Igniter\Flame\Setting\SettingServiceProvider::class,
         \Igniter\Flame\Translation\TranslationServiceProvider::class,
         \Igniter\Flame\Providers\UrlServiceProvider::class,

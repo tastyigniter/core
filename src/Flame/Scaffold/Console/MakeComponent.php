@@ -6,28 +6,28 @@ use Igniter\Flame\Scaffold\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class CreateController extends GeneratorCommand
+class MakeComponent extends GeneratorCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'create:controller';
+    protected $name = 'make:igniter-component';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates a new controller.';
+    protected $description = 'Creates a new TastyIgniter extension component.';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Controller';
+    protected $type = 'Component';
 
     /**
      * A mapping of stub to generated file.
@@ -35,11 +35,8 @@ class CreateController extends GeneratorCommand
      * @var array
      */
     protected $stubs = [
-        'controller/controller.stub' => 'controllers/{{studly_name}}.php',
-        'controller/index.stub' => 'views/{{lower_name}}/index.blade.php',
-        'controller/create.stub' => 'views/{{lower_name}}/create.blade.php',
-        'controller/edit.stub' => 'views/{{lower_name}}/edit.blade.php',
-        'controller/preview.stub' => 'views/{{lower_name}}/preview.blade.php',
+        'component/component.stub' => 'src/Components/{{studly_name}}.php',
+        'component/default.stub' => 'src/Components/{{lower_name}}/default.blade.php',
     ];
 
     /**
@@ -56,7 +53,7 @@ class CreateController extends GeneratorCommand
         }
 
         [$author, $extension] = $code;
-        $controller = $this->argument('controller');
+        $component = $this->argument('component');
 
         $this->vars = [
             'extension' => $extension,
@@ -69,16 +66,10 @@ class CreateController extends GeneratorCommand
             'title_author' => title_case($author),
             'studly_author' => studly_case($author),
 
-            'name' => $controller,
-            'lower_name' => strtolower($controller),
-            'title_name' => title_case($controller),
-            'studly_name' => studly_case($controller),
-            'singular_name' => str_singular($controller),
-            'studly_singular_name' => studly_case(str_singular($controller)),
-            'snake_singular_name' => snake_case(str_singular($controller)),
-            'plural_name' => str_plural($controller),
-            'studly_plural_name' => studly_case(str_plural($controller)),
-            'snake_plural_name' => snake_case(str_plural($controller)),
+            'name' => $component,
+            'lower_name' => strtolower($component),
+            'title_name' => title_case($component),
+            'studly_name' => studly_case($component),
         ];
     }
 
@@ -91,7 +82,7 @@ class CreateController extends GeneratorCommand
     {
         return [
             ['extension', InputArgument::REQUIRED, 'The name of the extension to create. Eg: IgniterLab.Demo'],
-            ['controller', InputArgument::REQUIRED, 'The name of the model. Eg: Blocks'],
+            ['component', InputArgument::REQUIRED, 'The name of the component. Eg: Block'],
         ];
     }
 
