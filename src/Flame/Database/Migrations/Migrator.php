@@ -34,7 +34,7 @@ class Migrator extends BaseMigrator
             $this->write(Info::class, sprintf('Resetting group %s.', $group));
 
             $this->getRepository()->setGroup($group);
-            $this->reset($path, $pretend);
+            $this->reset((array)$path, $pretend);
         }
     }
 
