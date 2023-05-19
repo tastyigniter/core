@@ -27,9 +27,9 @@ class ExtensionManager
     protected $extensions = [];
 
     /**
-     * @var array of installed extensions.
+     * @var array of disabled extensions.
      */
-    protected $installedExtensions = [];
+    protected $disabledExtensions = [];
 
     /**
      * @var array Cache of registration method results.
@@ -56,9 +56,8 @@ class ExtensionManager
     public function __construct(PackageManifest $packageManifest)
     {
         $this->packageManifest = $packageManifest;
-        $this->loadInstalled();
+        $this->disabledExtensions = $this->packageManifest->disabledAddons();
         $this->loadExtensions();
-        $this->loadDependencies();
     }
 
     public static function addDirectory($directory)
@@ -180,33 +179,6 @@ class ExtensionManager
         }
 
         return $result;
-    }
-
-    /**
-     * Checks all extensions and their dependencies, if not met extensions
-     * are disabled.
-     * @return void
-     */
-    protected function loadDependencies()
-    {
-        foreach ($this->extensions as $code => $extension) {
-            if (!$required = $this->getDependencies($extension)) {
-                continue;
-            }
-
-            $disable = false;
-            foreach ($required as $require) {
-                $extensionObj = $this->findExtension($require);
-                if (!$extensionObj || $extensionObj->disabled) {
-                    $disable = true;
-                }
-            }
-
-            // Only disable extension with missing dependencies.
-            if ($disable && !$extension->disabled) {
-                $this->updateInstalledExtensions($code, false);
-            }
-        }
     }
 
     /**
@@ -479,7 +451,7 @@ class ExtensionManager
      */
     public function isDisabled($code)
     {
-        return !app()->runningUnitTests() && (!$this->checkName($code) || !array_get($this->installedExtensions, $code, false));
+        return !$this->checkName($code) || array_get($this->disabledExtensions, $code, false);
     }
 
     /**
@@ -507,14 +479,6 @@ class ExtensionManager
     }
 
     /**
-     * Loads all installed extension from application config.
-     */
-    public function loadInstalled()
-    {
-        $this->installedExtensions = $this->packageManifest->installExtensions();
-    }
-
-    /**
      * @param string $code
      * @param bool $enable
      * @return bool
@@ -523,13 +487,13 @@ class ExtensionManager
     {
         $code = $this->getIdentifier($code);
 
-        if (is_null($enable)) {
-            array_pull($this->installedExtensions, $code);
+        if ($enable) {
+            array_pull($this->disabledExtensions, $code);
         } else {
-            $this->installedExtensions[$code] = $enable;
+            $this->disabledExtensions[$code] = true;
         }
 
-        $this->packageManifest->installExtensions($this->installedExtensions);
+        $this->packageManifest->writeDisabled($this->disabledExtensions);
 
         if ($extension = $this->findExtension($code)) {
             $extension->disabled = $enable === false;
@@ -663,6 +627,12 @@ class ExtensionManager
      */
     public function deleteExtension(string $code, bool $purgeData = true): void
     {
+        if ($purgeData) {
+            Extension::where('name', $code)->delete();
+
+            resolve(UpdateManager::class)->purgeExtension($code);
+        }
+
         // Remove extensions files from filesystem
         $composerManager = resolve(ComposerManager::class);
         if ($packageName = $composerManager->getPackageName($code)) {
@@ -670,14 +640,5 @@ class ExtensionManager
         }
 
         $this->removeExtension($code);
-
-        if ($purgeData) {
-            Extension::where('name', $code)->delete();
-
-            resolve(UpdateManager::class)->purgeExtension($code);
-        }
-
-        // remove extension from installed.json meta file
-        $this->updateInstalledExtensions($code, null);
     }
 }

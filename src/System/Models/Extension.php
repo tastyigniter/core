@@ -180,7 +180,7 @@ class Extension extends Model
         foreach ($extensionManager->namespaces() as $namespace => $path) {
             $code = $extensionManager->getIdentifier($namespace);
 
-            if (!($extension = $extensionManager->findExtension($code))) {
+            if (!$extensionManager->findExtension($code)) {
                 continue;
             }
 
@@ -188,12 +188,8 @@ class Extension extends Model
 
             $model = $extensions->firstWhere('name', $code) ?? new static(['name' => $code]);
 
-            $enableExtension = ($model->exists && !$extension->disabled);
-
             $model->version = $manifest->getVersion($model->name) ?? $model->version;
             $model->save();
-
-            $extensionManager->updateInstalledExtensions($code, $enableExtension);
         }
 
         self::query()->whereNotIn('name', $availableExtensions)->delete();

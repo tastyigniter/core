@@ -108,7 +108,7 @@ class Theme extends Model
                     continue;
                 }
 
-                $components[$code] = [$definition['name'], lang($definition['description'])];
+                $components[$code] = [$definition['name'], lang($definition['description'] ?? '')];
             } catch (Exception $ex) {
             }
         }

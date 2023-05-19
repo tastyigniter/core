@@ -7,7 +7,7 @@ use Illuminate\Foundation\PackageManifest as BasePackageManifest;
 
 class PackageManifest extends BasePackageManifest
 {
-    protected $metaFile = '/installed.json';
+    protected $metaFile = '/disabled-addons.json';
 
     public function packages()
     {
@@ -153,31 +153,7 @@ class PackageManifest extends BasePackageManifest
     //
     //
 
-    public function installExtensions($extensions = null)
-    {
-        $installed = $this->installed();
-
-        if (is_null($extensions)) {
-            return array_get($installed, 'extensions', []);
-        }
-
-        $installed['extensions'] = $extensions;
-        $this->writeInstalled($installed);
-    }
-
-    public function installThemes($themes = null)
-    {
-        $installed = $this->installed();
-
-        if (is_null($themes)) {
-            return array_get($installed, 'themes', []);
-        }
-
-        $installed['themes'] = $themes;
-        $this->writeInstalled($installed);
-    }
-
-    public function installed()
+    public function disabledAddons()
     {
         $path = dirname($this->manifestPath).$this->metaFile;
         if (!is_file($path)) {
@@ -187,8 +163,8 @@ class PackageManifest extends BasePackageManifest
         return json_decode($this->files->get($path, true), true) ?: [];
     }
 
-    protected function writeInstalled($installed)
+    public function writeDisabled(array $codes)
     {
-        $this->files->replace(dirname($this->manifestPath).$this->metaFile, json_encode($installed));
+        $this->files->replace(dirname($this->manifestPath).$this->metaFile, json_encode($codes));
     }
 }

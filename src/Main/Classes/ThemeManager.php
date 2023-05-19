@@ -24,7 +24,7 @@ class ThemeManager
     /**
      * @var array of disabled themes.
      */
-    public $installedThemes = [];
+    public $disabledThemes = [];
 
     /**
      * @var array used for storing theme information objects.
@@ -50,7 +50,7 @@ class ThemeManager
     public function initialize()
     {
         // This prevents reading settings from the database before its been created
-        $this->loadInstalled();
+        $this->disabledThemes = resolve(PackageManifest::class)->disabledAddons();
         $this->loadThemes();
     }
 
@@ -99,14 +99,6 @@ class ThemeManager
     public function listThemes()
     {
         return $this->themes;
-    }
-
-    /**
-     * Loads all installed theme from application config.
-     */
-    public function loadInstalled()
-    {
-        $this->installedThemes = resolve(PackageManifest::class)->installThemes();
     }
 
     /**
@@ -332,7 +324,7 @@ class ThemeManager
     {
         traceLog('Deprecated. Use $instance::isActive($themeCode) instead');
 
-        return !$this->checkName($name) || !array_get($this->installedThemes, $name, false);
+        return !$this->checkName($name) || !array_get($this->disabledThemes, $name, false);
     }
 
     /**
@@ -605,13 +597,13 @@ class ThemeManager
      */
     public function updateInstalledThemes($code, $enable = true)
     {
-        if (is_null($enable)) {
-            array_pull($this->installedThemes, $code);
+        if ($enable) {
+            array_pull($this->disabledThemes, $code);
         } else {
-            $this->installedThemes[$code] = $enable;
+            $this->disabledThemes[$code] = true;
         }
 
-        resolve(PackageManifest::class)->installThemes($this->installedThemes);
+        resolve(PackageManifest::class)->writeDisabled($this->disabledThemes);
     }
 
     /**
@@ -725,6 +717,6 @@ class ThemeManager
 
         File::makeDirectory($path, 0777, false, true);
 
-        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
     }
 }
