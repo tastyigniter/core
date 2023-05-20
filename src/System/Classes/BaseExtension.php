@@ -37,7 +37,7 @@ abstract class BaseExtension extends ServiceProvider
 
         $config = $this->extensionMeta();
         $extensionPath = array_get($config, 'directory', dirname($reflector->getFileName(), 2));
-        $extensionNamespace = array_get($config, 'namespace', $namespace = $reflector->getNamespaceName());
+        $extensionNamespace = array_get($config, 'namespace', $namespace = $reflector->getNamespaceName().'\\');
         $extensionCode = array_get($config, 'code', str_replace('\\', '.', $namespace));
 
         // Register resources path symbol
@@ -64,7 +64,7 @@ abstract class BaseExtension extends ServiceProvider
 
         // Register controller path
         if (File::isDirectory($controllerPath = $extensionPath.'/src/Http/Controllers')) {
-            Igniter::loadControllersFrom($controllerPath, $extensionNamespace.'\\Http\\Controllers');
+            Igniter::loadControllersFrom($controllerPath, $extensionNamespace.'Http\\Controllers');
         }
 
         // Register views path
