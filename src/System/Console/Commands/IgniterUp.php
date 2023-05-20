@@ -45,10 +45,6 @@ class IgniterUp extends Command
             return 1;
         }
 
-        if (!$this->migrationFileExists('create_notifications_table')) {
-            $this->call('notifications:table');
-        }
-
         resolve('migrator')->getRepository()->prepareMigrationTable();
 
         $this->renameConflictingFoundationTables();
@@ -75,15 +71,6 @@ class IgniterUp extends Command
                 Schema::rename($from, $to);
             }
         }
-    }
-
-    protected function migrationFileExists($name): bool
-    {
-        $path = $this->laravel->databasePath().'/migrations';
-
-        return collect($this->files->allFiles($path))->filter(function ($file) use ($name) {
-            return str_contains($file, $name);
-        })->isNotEmpty();
     }
 
     protected function getOptions()
