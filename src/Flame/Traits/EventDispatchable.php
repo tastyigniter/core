@@ -4,6 +4,8 @@ namespace Igniter\Flame\Traits;
 
 trait EventDispatchable
 {
+    protected static $dispatchNamespacedEvent = null;
+
     public static function dispatchOnce()
     {
         return static::dispatchEvent(func_get_args(), true);
@@ -33,7 +35,7 @@ trait EventDispatchable
     {
         $result = [];
 
-        if (isset(static::$dispatchNamespacedEvent)) {
+        if (!is_null(static::$dispatchNamespacedEvent)) {
             $result = event(static::$dispatchNamespacedEvent, $arguments, $halt);
             if ($halt && !is_null($result)) {
                 return $result;

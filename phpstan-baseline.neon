@@ -6566,19 +6566,9 @@ parameters:
 			path: src/Main/Events/Theme/Activated.php
 
 		-
-			message: "#^Access to an undefined static property static\\(Igniter\\\\Main\\\\Events\\\\Theme\\\\ExtendFormConfig\\)\\:\\:\\$dispatchNamespacedEvent\\.$#"
-			count: 1
-			path: src/Main/Events/Theme/ExtendFormConfig.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
 			path: src/Main/Events/Theme/ExtendFormConfig.php
-
-		-
-			message: "#^Access to an undefined static property static\\(Igniter\\\\Main\\\\Events\\\\Theme\\\\GetActiveTheme\\)\\:\\:\\$dispatchNamespacedEvent\\.$#"
-			count: 1
-			path: src/Main/Events/Theme/GetActiveTheme.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
