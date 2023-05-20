@@ -3,9 +3,7 @@
 namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
-use Igniter\Admin\Events\OrderBeforePaymentProcessed;
 use Igniter\Admin\Events\OrderCanceledEvent;
-use Igniter\Admin\Events\OrderPaymentProcessed;
 use Igniter\Admin\Traits\Assignable;
 use Igniter\Admin\Traits\HasInvoice;
 use Igniter\Admin\Traits\Locationable;

@@ -3,8 +3,6 @@
 namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
-use Igniter\Admin\Events\OrderBeforeRefundProcessed;
-use Igniter\Admin\Events\OrderRefundProcessed;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Validation;
 
