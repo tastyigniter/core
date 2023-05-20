@@ -2,12 +2,12 @@
 
 namespace Igniter\Main\Http\Controllers;
 
-use function flash;
 use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Main\Facades\Auth;
+use function flash;
 use function lang;
 use function post;
 
@@ -31,7 +31,7 @@ class Customers extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::main.customers.text_form_name',
         'model' => \Igniter\Main\Models\Customer::class,
-        'request' => \Igniter\Main\Requests\Customer::class,
+        'request' => \Igniter\Main\Requests\CustomerRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'customers/edit/{customer_id}',

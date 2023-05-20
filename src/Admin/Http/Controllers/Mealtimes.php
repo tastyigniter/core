@@ -25,7 +25,7 @@ class Mealtimes extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::admin.mealtimes.text_form_name',
         'model' => \Igniter\Admin\Models\Mealtime::class,
-        'request' => \Igniter\Admin\Requests\Mealtime::class,
+        'request' => \Igniter\Admin\Requests\MealtimeRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'mealtimes/edit/{mealtime_id}',

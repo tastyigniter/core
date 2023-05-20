@@ -3,7 +3,7 @@
 namespace Igniter\Admin\EventSubscribers;
 
 use Igniter\Admin\Events\Location\DefineOptionsFormFieldsEvent;
-use Igniter\Admin\Requests\Location as LocationRequest;
+use Igniter\Admin\Requests\LocationRequest;
 use Igniter\System\Classes\FormRequest;
 use Illuminate\Contracts\Events\Dispatcher;
 

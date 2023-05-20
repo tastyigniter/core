@@ -24,7 +24,7 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::system.mail_templates.text_form_name',
         'model' => \Igniter\System\Models\MailLayout::class,
-        'request' => \Igniter\System\Requests\MailLayout::class,
+        'request' => \Igniter\System\Requests\MailLayoutRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'mail_layouts/edit/{layout_id}',

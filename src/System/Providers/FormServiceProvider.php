@@ -19,7 +19,7 @@ class FormServiceProvider extends ServiceProvider
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/general'),
                     'form' => 'generalsettings',
-                    'request' => \Igniter\System\Requests\GeneralSettings::class,
+                    'request' => \Igniter\System\Requests\GeneralSettingsRequest::class,
                 ],
                 'mail' => [
                     'label' => 'lang:igniter::system.settings.text_tab_mail',
@@ -29,7 +29,7 @@ class FormServiceProvider extends ServiceProvider
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/mail'),
                     'form' => 'mailsettings',
-                    'request' => \Igniter\System\Requests\MailSettings::class,
+                    'request' => \Igniter\System\Requests\MailSettingsRequest::class,
                 ],
                 'advanced' => [
                     'label' => 'lang:igniter::system.settings.text_tab_server',
@@ -39,7 +39,7 @@ class FormServiceProvider extends ServiceProvider
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/advanced'),
                     'form' => 'advancedsettings',
-                    'request' => \Igniter\System\Requests\AdvancedSettings::class,
+                    'request' => \Igniter\System\Requests\AdvancedSettingsRequest::class,
                 ],
             ]);
         });

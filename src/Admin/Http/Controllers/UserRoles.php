@@ -24,7 +24,7 @@ class UserRoles extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::admin.user_roles.text_form_name',
         'model' => \Igniter\Admin\Models\UserRole::class,
-        'request' => \Igniter\Admin\Requests\UserRole::class,
+        'request' => \Igniter\Admin\Requests\UserRoleRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'user_roles/edit/{user_role_id}',

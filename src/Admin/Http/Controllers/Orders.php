@@ -29,7 +29,7 @@ class Orders extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::admin.orders.text_form_name',
         'model' => \Igniter\Admin\Models\Order::class,
-        'request' => \Igniter\Admin\Requests\Order::class,
+        'request' => \Igniter\Admin\Requests\OrderRequest::class,
         'edit' => [
             'title' => 'lang:igniter::admin.form.edit_title',
             'redirect' => 'orders/edit/{order_id}',

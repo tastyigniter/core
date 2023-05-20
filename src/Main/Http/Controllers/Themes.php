@@ -38,7 +38,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::system.themes.text_form_name',
         'model' => \Igniter\Main\Models\Theme::class,
-        'request' => \Igniter\Main\Requests\Theme::class,
+        'request' => \Igniter\Main\Requests\ThemeRequest::class,
         'edit' => [
             'title' => 'igniter::system.themes.text_edit_title',
             'redirect' => 'themes/edit/{code}',

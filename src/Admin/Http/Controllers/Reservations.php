@@ -40,7 +40,7 @@ class Reservations extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::admin.reservations.text_form_name',
         'model' => \Igniter\Admin\Models\Reservation::class,
-        'request' => \Igniter\Admin\Requests\Reservation::class,
+        'request' => \Igniter\Admin\Requests\ReservationRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'reservations/edit/{reservation_id}',

@@ -28,7 +28,7 @@ class Tables extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::admin.tables.text_form_name',
         'model' => \Igniter\Admin\Models\Table::class,
-        'request' => \Igniter\Admin\Requests\Table::class,
+        'request' => \Igniter\Admin\Requests\TableRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'tables/edit/{table_id}',

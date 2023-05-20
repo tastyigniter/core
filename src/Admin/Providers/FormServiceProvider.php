@@ -34,7 +34,7 @@ class FormServiceProvider extends ServiceProvider
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/setup'),
                     'form' => 'setupsettings',
-                    'request' => \Igniter\Admin\Requests\SetupSettings::class,
+                    'request' => \Igniter\Admin\Requests\SetupSettingsRequest::class,
                 ],
                 'tax' => [
                     'label' => 'lang:igniter::admin.settings.text_tab_tax',
@@ -44,7 +44,7 @@ class FormServiceProvider extends ServiceProvider
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/tax'),
                     'form' => 'taxsettings',
-                    'request' => 'Igniter\Admin\Requests\TaxSettings',
+                    'request' => 'Igniter\Admin\Requests\TaxSettingsRequest',
                 ],
                 'user' => [
                     'label' => 'lang:igniter::admin.settings.text_tab_user',
@@ -54,7 +54,7 @@ class FormServiceProvider extends ServiceProvider
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/user'),
                     'form' => 'usersettings',
-                    'request' => \Igniter\Admin\Requests\UserSettings::class,
+                    'request' => \Igniter\Admin\Requests\UserSettingsRequest::class,
                 ],
             ]);
         });

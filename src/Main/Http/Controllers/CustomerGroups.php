@@ -25,7 +25,7 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::main.customer_groups.text_form_name',
         'model' => \Igniter\Main\Models\CustomerGroup::class,
-        'request' => \Igniter\Main\Requests\CustomerGroup::class,
+        'request' => \Igniter\Main\Requests\CustomerGroupRequest::class,
         'create' => [
             'title' => 'lang:admin::lang.form.create_title',
             'redirect' => 'customer_groups/edit/{customer_group_id}',

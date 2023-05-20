@@ -26,7 +26,7 @@ class Ingredients extends AdminController
     public $formConfig = [
         'name' => 'lang:igniter::admin.ingredients.text_form_name',
         'model' => \Igniter\Admin\Models\Ingredient::class,
-        'request' => \Igniter\Admin\Requests\Ingredient::class,
+        'request' => \Igniter\Admin\Requests\IngredientRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'ingredients/edit/{ingredient_id}',

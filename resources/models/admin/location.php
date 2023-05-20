@@ -245,7 +245,7 @@ $config['form']['tabs'] = [
             'type' => 'scheduleeditor',
             'context' => ['edit'],
             'form' => 'workinghour',
-            'request' => \Igniter\Admin\Requests\WorkingHour::class,
+            'request' => \Igniter\Admin\Requests\WorkingHourRequest::class,
         ],
 
         'delivery_areas' => [
@@ -254,7 +254,7 @@ $config['form']['tabs'] = [
             'type' => 'maparea',
             'context' => ['edit'],
             'form' => 'locationarea',
-            'request' => \Igniter\Admin\Requests\LocationArea::class,
+            'request' => \Igniter\Admin\Requests\LocationAreaRequest::class,
             'commentAbove' => 'lang:igniter::admin.locations.help_delivery_areas',
         ],
 

@@ -29,7 +29,7 @@ class Locations extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::admin.locations.text_form_name',
         'model' => \Igniter\Admin\Models\Location::class,
-        'request' => \Igniter\Admin\Requests\Location::class,
+        'request' => \Igniter\Admin\Requests\LocationRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'locations/edit/{location_id}',

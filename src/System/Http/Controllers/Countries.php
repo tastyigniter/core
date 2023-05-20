@@ -28,7 +28,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::system.countries.text_form_name',
         'model' => \Igniter\System\Models\Country::class,
-        'request' => \Igniter\System\Requests\Country::class,
+        'request' => \Igniter\System\Requests\CountryRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'countries/edit/{country_id}',

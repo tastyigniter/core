@@ -27,7 +27,7 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
     public $formConfig = [
         'name' => 'lang:igniter::system.mail_templates.text_form_name',
         'model' => \Igniter\System\Models\MailTemplate::class,
-        'request' => \Igniter\System\Requests\MailTemplate::class,
+        'request' => \Igniter\System\Requests\MailTemplateRequest::class,
         'create' => [
             'title' => 'lang:igniter::system.mail_templates.text_new_template_title',
             'redirect' => 'mail_templates/edit/{template_id}',
