@@ -67,7 +67,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 3
+			count: 4
 			path: src/Admin/Classes/AdminController.php
 
 		-
@@ -147,7 +147,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Classes/AdminController.php
 
 		-
@@ -201,11 +201,6 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
@@ -247,7 +242,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 3
+			count: 4
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
@@ -262,7 +257,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
@@ -306,11 +301,6 @@ parameters:
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:render\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Classes/BaseWidget.php
@@ -324,11 +314,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/FormField.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\FormTabs\\:\\:\\$config\\.$#"
-			count: 1
-			path: src/Admin/Classes/FormTabs.php
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Classes\\\\FormTabs\\:\\:evalConfig\\(\\) should return array but return statement is missing\\.$#"
@@ -367,7 +352,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 3
+			count: 4
 			path: src/Admin/Classes/Navigation.php
 
 		-
@@ -382,16 +367,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Classes/Navigation.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/Navigation.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/Navigation.php
 
@@ -506,354 +486,14 @@ parameters:
 			path: src/Admin/DashboardWidgets/Statistics.php
 
 		-
-			message: "#^Access to property \\$city on an unknown class Faker\\\\Generator\\.$#"
+			message: "#^Access to an undefined property Faker\\\\Generator\\:\\:\\$secondaryAddress\\.$#"
 			count: 1
 			path: src/Admin/Database/Factories/AddressFactory.php
 
 		-
-			message: "#^Access to property \\$postcode on an unknown class Faker\\\\Generator\\.$#"
+			message: "#^Access to an undefined property Faker\\\\Generator\\:\\:\\$state\\.$#"
 			count: 1
 			path: src/Admin/Database/Factories/AddressFactory.php
-
-		-
-			message: "#^Access to property \\$secondaryAddress on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/AddressFactory.php
-
-		-
-			message: "#^Access to property \\$state on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/AddressFactory.php
-
-		-
-			message: "#^Access to property \\$streetAddress on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/AddressFactory.php
-
-		-
-			message: "#^Call to method numberBetween\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/AddressFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CategoryFactory.php
-
-		-
-			message: "#^Call to method paragraph\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CategoryFactory.php
-
-		-
-			message: "#^Call to method randomDigit\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CategoryFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CategoryFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 2
-			path: src/Admin/Database/Factories/CustomerFactory.php
-
-		-
-			message: "#^Call to method email\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CustomerFactory.php
-
-		-
-			message: "#^Call to method firstName\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CustomerFactory.php
-
-		-
-			message: "#^Call to method ipv6\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CustomerFactory.php
-
-		-
-			message: "#^Call to method lastName\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CustomerFactory.php
-
-		-
-			message: "#^Call to method numberBetween\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 2
-			path: src/Admin/Database/Factories/CustomerFactory.php
-
-		-
-			message: "#^Call to method phoneNumber\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CustomerFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CustomerGroupFactory.php
-
-		-
-			message: "#^Call to method paragraph\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CustomerGroupFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/CustomerGroupFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 2
-			path: src/Admin/Database/Factories/IngredientFactory.php
-
-		-
-			message: "#^Call to method paragraph\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/IngredientFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/IngredientFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationAreaFactory.php
-
-		-
-			message: "#^Call to method hexColor\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationAreaFactory.php
-
-		-
-			message: "#^Call to method randomElement\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationAreaFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationAreaFactory.php
-
-		-
-			message: "#^Access to property \\$email on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationFactory.php
-
-		-
-			message: "#^Access to property \\$latitude on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationFactory.php
-
-		-
-			message: "#^Access to property \\$longitude on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationFactory.php
-
-		-
-			message: "#^Access to property \\$streetAddress on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationFactory.php
-
-		-
-			message: "#^Call to method numberBetween\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationFactory.php
-
-		-
-			message: "#^Call to method text\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/LocationFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/MealtimeFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/MealtimeFactory.php
-
-		-
-			message: "#^Call to method time\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 2
-			path: src/Admin/Database/Factories/MealtimeFactory.php
-
-		-
-			message: "#^Call to method numberBetween\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/MenuFactory.php
-
-		-
-			message: "#^Call to method randomFloat\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/MenuFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/MenuFactory.php
-
-		-
-			message: "#^Call to method date\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/ReservationFactory.php
-
-		-
-			message: "#^Call to method email\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/ReservationFactory.php
-
-		-
-			message: "#^Call to method firstName\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/ReservationFactory.php
-
-		-
-			message: "#^Call to method lastName\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/ReservationFactory.php
-
-		-
-			message: "#^Call to method numberBetween\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/ReservationFactory.php
-
-		-
-			message: "#^Call to method phoneNumber\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/ReservationFactory.php
-
-		-
-			message: "#^Call to method time\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/ReservationFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/StatusFactory.php
-
-		-
-			message: "#^Call to method hexColor\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/StatusFactory.php
-
-		-
-			message: "#^Call to method paragraph\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/StatusFactory.php
-
-		-
-			message: "#^Call to method randomElement\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/StatusFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/StatusFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 2
-			path: src/Admin/Database/Factories/TableFactory.php
-
-		-
-			message: "#^Call to method numberBetween\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 2
-			path: src/Admin/Database/Factories/TableFactory.php
-
-		-
-			message: "#^Call to method randomDigit\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/TableFactory.php
-
-		-
-			message: "#^Call to method randomDigitNotNull\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/TableFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/TableFactory.php
-
-		-
-			message: "#^Access to property \\$email on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserFactory.php
-
-		-
-			message: "#^Access to property \\$name on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 3
-			path: src/Admin/Database/Factories/UserFactory.php
-
-		-
-			message: "#^Call to method dateTime\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserFactory.php
-
-		-
-			message: "#^Call to method userName\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserGroupFactory.php
-
-		-
-			message: "#^Call to method numberBetween\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserGroupFactory.php
-
-		-
-			message: "#^Call to method paragraph\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserGroupFactory.php
-
-		-
-			message: "#^Call to method randomElement\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserGroupFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserGroupFactory.php
-
-		-
-			message: "#^Call to method numberBetween\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserRoleFactory.php
-
-		-
-			message: "#^Call to method paragraph\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserRoleFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserRoleFactory.php
-
-		-
-			message: "#^Call to method slug\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/Admin/Database/Factories/UserRoleFactory.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$notify\\.$#"
@@ -1224,11 +864,6 @@ parameters:
 			message: "#^Method Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:formExtendRefreshResults\\(\\) should return array but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Http\\\\Actions\\\\ListController\\:\\:\\$toolbarWidget\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$listConfig\\.$#"
@@ -1671,6 +1306,11 @@ parameters:
 			path: src/Admin/Jobs/AllocateAssignable.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Address\\:\\:\\$country_id\\.$#"
+			count: 1
+			path: src/Admin/Models/Address.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Address\\:\\:updateOrCreate\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Address.php
@@ -1962,7 +1602,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Location\\:\\:\\$location_country_id\\.$#"
-			count: 1
+			count: 2
 			path: src/Admin/Models/Location.php
 
 		-
@@ -4391,11 +4031,6 @@ parameters:
 			path: src/Flame/Auth/AuthServiceProvider.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Auth\\\\CustomerGuard\\:\\:\\$sessionKey\\.$#"
-			count: 1
-			path: src/Flame/Auth/CustomerGuard.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$address_id\\.$#"
 			count: 1
 			path: src/Flame/Auth/CustomerGuard.php
@@ -4539,11 +4174,6 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany\\:\\:latest\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Auth/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Auth\\\\UserGuard\\:\\:\\$sessionKey\\.$#"
-			count: 1
-			path: src/Flame/Auth/UserGuard.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$email\\.$#"
@@ -4697,12 +4327,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$disk\\.$#"
-			count: 2
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$disk_name\\.$#"
-			count: 1
+			count: 3
 			path: src/Flame/Database/Attach/Media.php
 
 		-
@@ -4757,12 +4382,12 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Database/Attach/Media.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Database/Attach/Media.php
 
 		-
@@ -4881,18 +4506,13 @@ parameters:
 			path: src/Flame/Database/MemoryCache.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Migrations\\\\Migrator\\:\\:\\$notes\\.$#"
-			count: 2
-			path: src/Flame/Database/Migrations/Migrator.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Migrations\\\\Migrator\\:\\:note\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Migrations/Migrator.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Migrations\\\\MigrationRepositoryInterface\\:\\:getGroup\\(\\)\\.$#"
-			count: 1
+			count: 3
 			path: src/Flame/Database/Migrations/Migrator.php
 
 		-
@@ -4907,11 +4527,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getRelationCaller\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
@@ -5786,16 +5401,6 @@ parameters:
 			path: src/Flame/Exception/ComposerException.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Debug\\\\ExceptionHandler\\:\\:renderable\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Exception/ErrorHandler.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Debug\\\\ExceptionHandler\\:\\:reportable\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Exception/ErrorHandler.php
-
-		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$validator$#"
 			count: 1
 			path: src/Flame/Exception/ValidationException.php
@@ -5887,7 +5492,7 @@ parameters:
 
 		-
 			message: "#^Closure invoked with 2 parameters, 1 required\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Igniter.php
 
 		-
@@ -5897,7 +5502,7 @@ parameters:
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/Flame/Igniter.php
 
 		-
@@ -5912,11 +5517,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Location\\\\Contracts\\\\LocationInterface\\:\\:newQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Location/Manager.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Location/Manager.php
 
@@ -6316,7 +5916,7 @@ parameters:
 			path: src/Flame/Pagic/Model.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\SourceResolverInterface\\:\\:hasSource\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Model.php
 
@@ -6766,11 +6366,6 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$isHidden\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\BaseComponent\\:\\:\\$id\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
@@ -6787,11 +6382,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Admin\\:\\:validateAjaxHandlerPartials\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminAuth\\:\\:isLogged\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
 
@@ -6846,11 +6436,6 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
@@ -6866,32 +6451,12 @@ parameters:
 			path: src/Main/Classes/MediaItem.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 3
-			path: src/Main/Classes/MediaLibrary.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MediaLibrary.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:lastModified\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MediaLibrary.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MediaLibrary.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:makeDirectory\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MediaLibrary.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:put\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MediaLibrary.php
 
@@ -6903,6 +6468,11 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
 			count: 2
+			path: src/Main/Classes/Theme.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 1
 			path: src/Main/Classes/Theme.php
 
 		-
@@ -6918,26 +6488,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
 			count: 2
-			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:getName\\(\\)\\.$#"
-			count: 2
-			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:getParent\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:getSourcePath\\(\\)\\.$#"
-			count: 2
-			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:hasParent\\(\\)\\.$#"
-			count: 1
 			path: src/Main/Classes/ThemeManager.php
 
 		-
@@ -6967,7 +6517,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/Main/Classes/ThemeManager.php
 
 		-
@@ -7136,11 +6686,6 @@ parameters:
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Class Igniter\\\\Main\\\\Classes\\\\MediaItem referenced with incorrect case\\: Igniter\\\\Main\\\\classes\\\\MediaItem\\.$#"
-			count: 6
-			path: src/Main/FormWidgets/MediaFinder.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
@@ -7306,6 +6851,11 @@ parameters:
 			path: src/Main/Http/Controllers/Themes.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminAuth\\:\\:isLogged\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Http/Middleware/CheckMaintenance.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$customer_id\\.$#"
 			count: 1
 			path: src/Main/Models/Customer.php
@@ -7332,7 +6882,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$is_activated\\.$#"
-			count: 1
+			count: 2
 			path: src/Main/Models/Customer.php
 
 		-
@@ -7362,7 +6912,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$status\\.$#"
-			count: 2
+			count: 3
 			path: src/Main/Models/Customer.php
 
 		-
@@ -7501,6 +7051,11 @@ parameters:
 			path: src/Main/Providers/ThemeServiceProvider.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Providers/ThemeServiceProvider.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Setting\\\\Facades\\\\Setting\\:\\:get\\(\\)\\.$#"
 			count: 2
 			path: src/Main/ServiceProvider.php
@@ -7588,6 +7143,16 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$settings\\.$#"
 			count: 3
+			path: src/Main/Template/Page.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminAuth\\:\\:check\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Template/Page.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Template\\\\Page\\:\\:find\\(\\)\\.$#"
+			count: 1
 			path: src/Main/Template/Page.php
 
 		-
@@ -7701,19 +7266,24 @@ parameters:
 			path: src/System/Classes/BaseComponent.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/System/Classes/BaseComponent.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/System/Classes/BaseController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
-			count: 1
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
 			path: src/System/Classes/BaseExtension.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 6
+			path: src/System/Classes/BaseExtension.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\ComposerManager\\:\\:\\$includeFilesPool\\.$#"
+			count: 1
+			path: src/System/Classes/ComposerManager.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\ComposerManager\\:\\:\\$logsOutput\\.$#"
+			count: 1
+			path: src/System/Classes/ComposerManager.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:copy\\(\\)\\.$#"
@@ -7727,12 +7297,27 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
-			count: 2
+			count: 1
+			path: src/System/Classes/ComposerManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:getRequire\\(\\)\\.$#"
+			count: 4
 			path: src/System/Classes/ComposerManager.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
 			count: 2
+			path: src/System/Classes/ComposerManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/ComposerManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:json\\(\\)\\.$#"
+			count: 1
 			path: src/System/Classes/ComposerManager.php
 
 		-
@@ -7787,7 +7372,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 3
+			count: 4
 			path: src/System/Classes/ControllerAction.php
 
 		-
@@ -7797,7 +7382,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/System/Classes/ControllerAction.php
 
 		-
@@ -7832,7 +7417,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/System/Classes/ExtensionManager.php
 
 		-
@@ -7842,7 +7427,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
-			count: 15
+			count: 5
 			path: src/System/Classes/ExtensionManager.php
 
 		-
@@ -7861,22 +7446,12 @@ parameters:
 			path: src/System/Classes/ExtensionManager.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$path$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
 			message: "#^PHPDoc tag @return with type bool is incompatible with native type void\\.$#"
 			count: 1
 			path: src/System/Classes/ExtensionManager.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\FormRequest\\:\\:\\$injectRuleParameters\\.$#"
-			count: 1
-			path: src/System/Classes/FormRequest.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/FormRequest.php
 
@@ -7926,6 +7501,11 @@ parameters:
 			path: src/System/Classes/LanguageManager.php
 
 		-
+			message: "#^Call to static method isConfigured\\(\\) on an unknown class Igniter\\\\Broadcast\\\\Models\\\\Settings\\.$#"
+			count: 1
+			path: src/System/Classes/Notification.php
+
+		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/PackageInfo.php
@@ -7949,6 +7529,11 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:pluck\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/UpdateManager.php
+
+		-
+			message: "#^Result of method Illuminate\\\\Console\\\\OutputStyle\\:\\:writeln\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/System/Console/Commands/ExtensionInstall.php
 
 		-
 			message: "#^Result of method Illuminate\\\\Console\\\\Command\\:\\:error\\(\\) \\(void\\) is used\\.$#"
@@ -8041,6 +7626,11 @@ parameters:
 			path: src/System/Console/Commands/IgniterUtil.php
 
 		-
+			message: "#^Result of method Illuminate\\\\Console\\\\OutputStyle\\:\\:writeln\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/System/Console/Commands/ThemeInstall.php
+
+		-
 			message: "#^Result of method Illuminate\\\\Console\\\\Command\\:\\:error\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/System/Console/Commands/ThemeRemove.php
@@ -8051,119 +7641,19 @@ parameters:
 			path: src/System/Console/Commands/ThemeVendorPublish.php
 
 		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Category\\:\\:whereNull\\(\\)\\.$#"
 			count: 1
-			path: src/System/Database/Factories/CountryFactory.php
+			path: src/System/Database/Seeds/UpdateRecordsSeeder.php
 
 		-
-			message: "#^Call to method countryISOAlpha3\\(\\) on an unknown class Faker\\\\Generator\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:whereNull\\(\\)\\.$#"
 			count: 1
-			path: src/System/Database/Factories/CountryFactory.php
-
-		-
-			message: "#^Call to method lexify\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/CountryFactory.php
-
-		-
-			message: "#^Call to method randomDigit\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/CountryFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/CountryFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/CurrencyFactory.php
-
-		-
-			message: "#^Call to method currencyCode\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/CurrencyFactory.php
-
-		-
-			message: "#^Call to method lexify\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 2
-			path: src/System/Database/Factories/CurrencyFactory.php
-
-		-
-			message: "#^Call to method numerify\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/CurrencyFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/CurrencyFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/LanguageFactory.php
-
-		-
-			message: "#^Call to method languageCode\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/LanguageFactory.php
-
-		-
-			message: "#^Call to method lexify\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/LanguageFactory.php
-
-		-
-			message: "#^Call to method boolean\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 2
-			path: src/System/Database/Factories/MailLayoutFactory.php
-
-		-
-			message: "#^Call to method randomHtml\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/MailLayoutFactory.php
-
-		-
-			message: "#^Call to method sentence\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/MailLayoutFactory.php
-
-		-
-			message: "#^Call to method slug\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 1
-			path: src/System/Database/Factories/MailLayoutFactory.php
-
-		-
-			message: "#^Call to method text\\(\\) on an unknown class Faker\\\\Generator\\.$#"
-			count: 2
-			path: src/System/Database/Factories/MailLayoutFactory.php
+			path: src/System/Database/Seeds/UpdateRecordsSeeder.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
 			path: src/System/Events/Assets/BeforePrepareCombiner.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\View\\\\View\\:\\:make\\(\\)\\.$#"
-			count: 2
-			path: src/System/Exception/ErrorHandler.php
-
-		-
-			message: "#^Call to method findByUrl\\(\\) on an unknown class Igniter\\\\Main\\\\Classes\\\\Router\\.$#"
-			count: 1
-			path: src/System/Exception/ErrorHandler.php
-
-		-
-			message: "#^Instantiated class Igniter\\\\Main\\\\Classes\\\\Router not found\\.$#"
-			count: 1
-			path: src/System/Exception/ErrorHandler.php
-
-		-
-			message: "#^Method Igniter\\\\System\\\\Exception\\\\ErrorHandler\\:\\:handleDetailedError\\(\\) should return Illuminate\\\\View\\\\View but return statement is missing\\.$#"
-			count: 1
-			path: src/System/Exception/ErrorHandler.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:delete\\(\\)\\.$#"
@@ -8187,8 +7677,13 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/System/Helpers/CacheHelper.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 2
+			path: src/System/Helpers/SystemHelper.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:combineGetContents\\(\\)\\.$#"
@@ -8697,7 +8192,12 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Extension\\:\\:\\$name\\.$#"
-			count: 4
+			count: 5
+			path: src/System/Models/Extension.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Extension\\:\\:\\$version\\.$#"
+			count: 2
 			path: src/System/Models/Extension.php
 
 		-
@@ -8706,7 +8206,7 @@ parameters:
 			path: src/System/Models/Extension.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:firstOrNew\\(\\)\\.$#"
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Extension.php
 
@@ -9009,6 +8509,11 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\User\\:\\:isEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Notifications/UpdateFoundNotification.php
+
+		-
+			message: "#^Static call to instance method Igniter\\\\Flame\\\\Igniter\\:\\:prunableModels\\(\\)\\.$#"
+			count: 1
+			path: src/System/Providers/EventServiceProvider.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:getRequire\\(\\)\\.$#"
