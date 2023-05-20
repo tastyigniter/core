@@ -2,8 +2,6 @@
 
 namespace Igniter\System\Helpers;
 
-use App\Build\Manifest;
-use App\Rules\ValidVersion;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Support\Facades\File;
@@ -112,10 +110,10 @@ class SystemHelper
         switch ($unit) {
             case 'g':
                 $value *= 1024;
-            // no break
+                // no break
             case 'm':
                 $value *= 1024;
-            // no break
+                // no break
             case 'k':
                 $value *= 1024;
         }
