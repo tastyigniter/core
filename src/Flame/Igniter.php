@@ -113,15 +113,15 @@ class Igniter
     public static function hasDatabase()
     {
         try {
-            $schema = resolve('db.connection')->getSchemaBuilder();
-            $hasDatabase = is_null(static::$hasDatabase)
-                ? ($schema->hasTable('settings') && $schema->hasTable('extension_settings'))
-                : static::$hasDatabase;
+            if (!static::$hasDatabase) {
+                $schema = resolve('db.connection')->getSchemaBuilder();
+                static::$hasDatabase = $schema->hasTable('settings') && $schema->hasTable('extension_settings');
+            }
         } catch (\Exception) {
-            $hasDatabase = null;
+            static::$hasDatabase = false;
         }
 
-        return static::$hasDatabase = $hasDatabase;
+        return static::$hasDatabase;
     }
 
     /**
