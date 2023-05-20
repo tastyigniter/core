@@ -282,8 +282,8 @@ class ExtensionManager
             return $this->extensions[$identifier];
         }
 
-        if (File::isDirectory($path.'/src')) {
-            resolve(ComposerManager::class)->getLoader()->setPsr4($namespace, $path.'/src');
+        if (File::isDirectory($path.'/src') && $loader = resolve(ComposerManager::class)->getLoader()) {
+            $loader->setPsr4($namespace, $path.'/src');
         }
 
         $extension = $this->resolveExtension($identifier, $path, $class);

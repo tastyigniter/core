@@ -132,8 +132,8 @@ class ComposerManager
 
     public function getLoader()
     {
-        if (is_null($this->loader)) {
-            $this->loader = require base_path('vendor/autoload.php');
+        if (is_null($this->loader) && File::isFile($path = base_path('vendor/autoload.php'))) {
+            $this->loader = require $path;
         }
 
         return $this->loader;
