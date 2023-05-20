@@ -132,6 +132,10 @@ class Customer extends AuthUserModel
             return;
         }
 
+        if ($this->status && !$this->is_activated) {
+            $this->completeActivation($this->getActivationCode());
+        }
+
         if (array_key_exists('addresses', $this->attributes)) {
             $this->saveAddresses($this->attributes['addresses']);
         }
