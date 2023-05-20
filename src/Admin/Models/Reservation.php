@@ -3,7 +3,7 @@
 namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
-use Igniter\Admin\Events\Reservation\CancelEvent as ReservationCanceledEvent;
+use Igniter\Admin\Events\ReservationCanceledEvent;
 use Igniter\Admin\Traits\Assignable;
 use Igniter\Admin\Traits\Locationable;
 use Igniter\Admin\Traits\LogsStatusHistory;

@@ -9,7 +9,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use Igniter\Admin\Events\WorkingSchedule\TimeslotValid as TimeslotValidEvent;
+use Igniter\Admin\Events\WorkingScheduleTimeslotValidEvent;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
@@ -456,7 +456,7 @@ class WorkingSchedule
             return false;
         }
 
-        $result = TimeslotValidEvent::dispatchOnce($this, $timeslot);
+        $result = WorkingScheduleTimeslotValidEvent::dispatchOnce($this, $timeslot);
 
         return is_bool($result) ? $result : true;
     }

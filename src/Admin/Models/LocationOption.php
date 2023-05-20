@@ -3,7 +3,6 @@
 namespace Igniter\Admin\Models;
 
 use Exception;
-use Igniter\Admin\Events\Location\DefineOptionsFormFieldsEvent as DefineOptionsFormFieldsEvent;
 use Igniter\Admin\Facades\AdminLocation;
 use Igniter\Flame\Database\Model;
 
@@ -145,7 +144,7 @@ class LocationOption extends Model
 
         $result = [];
 
-        $response = DefineOptionsFormFieldsEvent::dispatch();
+        $response = DefineLocationOptionsFieldsEvent::dispatch();
 
         if (is_array($response)) {
             foreach ($response as $fieldsConfig) {

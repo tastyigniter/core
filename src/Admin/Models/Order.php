@@ -3,9 +3,9 @@
 namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
-use Igniter\Admin\Events\Order\BeforePaymentProcessed as BeforePaymentProcessedEvent;
-use Igniter\Admin\Events\Order\CancelEvent as OrderCanceledEvent;
-use Igniter\Admin\Events\Order\PaymentProcessed as PaymentProcessedEvent;
+use Igniter\Admin\Events\OrderBeforePaymentProcessed;
+use Igniter\Admin\Events\OrderCanceledEvent;
+use Igniter\Admin\Events\OrderPaymentProcessed;
 use Igniter\Admin\Traits\Assignable;
 use Igniter\Admin\Traits\HasInvoice;
 use Igniter\Admin\Traits\Locationable;
@@ -305,12 +305,12 @@ class Order extends Model
     public function markAsPaymentProcessed()
     {
         if (!$this->processed) {
-            BeforePaymentProcessedEvent::dispatch($this);
+            OrderBeforePaymentProcessedEvent::dispatch($this);
 
             $this->processed = 1;
             $this->save();
 
-            PaymentProcessedEvent::dispatch($this);
+            OrderPaymentProcessedEvent::dispatch($this);
         }
 
         return $this->processed;

@@ -1,17 +1,20 @@
 <?php
 
-namespace Igniter\Admin\Events\Order;
+namespace Igniter\Admin\Events;
 
 use Igniter\Admin\Models\Order;
 use Igniter\Flame\Traits\EventDispatchable;
 
-class CancelEvent
+class OrderCanceledEvent
 {
     use EventDispatchable;
 
-    protected static $dispatchNamespacedEvent = 'admin.order.canceled';
-
     public function __construct(public Order $order)
     {
+    }
+
+    public static function eventName()
+    {
+        return 'admin.order.canceled';
     }
 }

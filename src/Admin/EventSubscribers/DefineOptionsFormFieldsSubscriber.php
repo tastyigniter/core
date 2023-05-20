@@ -2,7 +2,7 @@
 
 namespace Igniter\Admin\EventSubscribers;
 
-use Igniter\Admin\Events\Location\DefineOptionsFormFieldsEvent;
+use Igniter\Admin\Events\LocationDefineOptionsFieldsEvent;
 use Igniter\Admin\Requests\LocationRequest;
 use Igniter\System\Classes\FormRequest;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -12,12 +12,12 @@ class DefineOptionsFormFieldsSubscriber
     public function subscribe(Dispatcher $events): array
     {
         return [
-            DefineOptionsFormFieldsEvent::class => 'handle',
+            LocationDefineOptionsFieldsEvent::class => 'handle',
             'system.formRequest.extendValidator' => 'handleValidation',
         ];
     }
 
-    public function handle(DefineOptionsFormFieldsEvent $event): array
+    public function handle(LocationDefineOptionsFieldsEvent $event): array
     {
         return [
             'guest_order' => [

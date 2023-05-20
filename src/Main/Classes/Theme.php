@@ -8,7 +8,7 @@ use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Pagic\Source\FileSource;
 use Igniter\Flame\Pagic\Source\SourceInterface;
 use Igniter\Flame\Support\Facades\File;
-use Igniter\Main\Events\Theme\ExtendFormConfig;
+use Igniter\Main\Events\ThemeExtendFormConfigEvent;
 use Igniter\Main\Models\Theme as ThemeModel;
 use Igniter\Main\Template\Content as ContentTemplate;
 use Igniter\Main\Template\Layout as LayoutTemplate;
@@ -291,7 +291,7 @@ class Theme
 
         $config = $this->getConfigValue('form', []);
 
-        event($event = new ExtendFormConfig($this->getName(), $config));
+        event($event = new ThemeExtendFormConfigEvent($this->getName(), $config));
 
         return $this->formConfigCache = $event->getConfig();
     }

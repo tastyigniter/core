@@ -503,72 +503,67 @@ parameters:
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/Location/DefineOptionsFormFieldsEvent.php
+			path: src/Admin/Events/LocationDefineOptionsFieldsEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/Navigation/ExtendUserMenuLinks.php
+			path: src/Admin/Events/NavigationExtendUserMenuLinksEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/Order/BeforePaymentProcessed.php
+			path: src/Admin/Events/OrderBeforePaymentProcessedEvent.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Events\\\\Order\\\\BeforeRefundProcessed\\:\\:\\$order\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Events\\\\OrderBeforeRefundProcessedEvent\\:\\:\\$order\\.$#"
 			count: 1
-			path: src/Admin/Events/Order/BeforeRefundProcessed.php
+			path: src/Admin/Events/OrderBeforeRefundProcessedEvent.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\PaymentLog\\:\\:\\$order\\.$#"
 			count: 1
-			path: src/Admin/Events/Order/BeforeRefundProcessed.php
+			path: src/Admin/Events/OrderBeforeRefundProcessedEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/Order/BeforeRefundProcessed.php
+			path: src/Admin/Events/OrderBeforeRefundProcessedEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/Order/CancelEvent.php
+			path: src/Admin/Events/OrderCanceledEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/Order/PaymentProcessed.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Events\\\\Order\\\\RefundProcessed\\:\\:\\$order\\.$#"
-			count: 1
-			path: src/Admin/Events/Order/RefundProcessed.php
+			path: src/Admin/Events/OrderPaymentProcessedEvent.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\PaymentLog\\:\\:\\$order\\.$#"
 			count: 1
-			path: src/Admin/Events/Order/RefundProcessed.php
+			path: src/Admin/Events/OrderRefundProcessedEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/Order/RefundProcessed.php
+			path: src/Admin/Events/OrderRefundProcessedEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/Reservation/CancelEvent.php
+			path: src/Admin/Events/ReservationCanceledEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/WorkingSchedule/Created.php
+			path: src/Admin/Events/WorkingScheduleCreatedEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Events/WorkingSchedule/TimeslotValid.php
+			path: src/Admin/Events/WorkingScheduleTimeslotValidEvent.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Admin\\:\\:redirectGuest\\(\\)\\.$#"
@@ -1896,6 +1891,11 @@ parameters:
 			path: src/Admin/Models/LocationOption.php
 
 		-
+			message: "#^Call to static method dispatch\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\DefineLocationOptionsFieldsEvent\\.$#"
+			count: 1
+			path: src/Admin/Models/LocationOption.php
+
+		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
 			path: src/Admin/Models/LocationOption.php
@@ -2641,6 +2641,16 @@ parameters:
 			path: src/Admin/Models/Order.php
 
 		-
+			message: "#^Call to static method dispatch\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\OrderBeforePaymentProcessedEvent\\.$#"
+			count: 1
+			path: src/Admin/Models/Order.php
+
+		-
+			message: "#^Call to static method dispatch\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\OrderPaymentProcessedEvent\\.$#"
+			count: 1
+			path: src/Admin/Models/Order.php
+
+		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Order\\:\\:addOrderMenuOptions\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/Order.php
@@ -2852,6 +2862,16 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\PaymentLog\\:\\:beforeValidate\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/PaymentLog.php
+
+		-
+			message: "#^Call to static method dispatch\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\OrderBeforeRefundProcessedEvent\\.$#"
+			count: 1
+			path: src/Admin/Models/PaymentLog.php
+
+		-
+			message: "#^Call to static method dispatch\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\OrderRefundProcessedEvent\\.$#"
 			count: 1
 			path: src/Admin/Models/PaymentLog.php
 
@@ -6563,17 +6583,17 @@ parameters:
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Main/Events/Theme/Activated.php
+			path: src/Main/Events/ThemeActivatedEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Main/Events/Theme/ExtendFormConfig.php
+			path: src/Main/Events/ThemeExtendFormConfigEvent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/Main/Events/Theme/GetActiveTheme.php
+			path: src/Main/Events/ThemeGetActiveEvent.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$code\\.$#"
@@ -7643,7 +7663,7 @@ parameters:
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
-			path: src/System/Events/Assets/BeforePrepareCombiner.php
+			path: src/System/Events/AssetsBeforePrepareCombinerEvent.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:delete\\(\\)\\.$#"

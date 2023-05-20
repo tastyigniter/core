@@ -1,17 +1,20 @@
 <?php
 
-namespace Igniter\System\Events\Assets;
+namespace Igniter\System\Events;
 
 use Igniter\Flame\Traits\EventDispatchable;
 use Igniter\System\Libraries\Assets;
 
-class BeforePrepareCombiner
+class AssetsBeforePrepareCombinerEvent
 {
     use EventDispatchable;
 
-    protected static $dispatchNamespacedEvent = 'assets.combiner.beforePrepare';
-
     public function __construct(public Assets $library, public array $assets)
     {
+    }
+
+    public static function eventName()
+    {
+        return 'assets.combiner.beforePrepare';
     }
 }

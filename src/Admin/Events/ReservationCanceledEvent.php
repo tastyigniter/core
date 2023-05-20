@@ -1,17 +1,20 @@
 <?php
 
-namespace Igniter\Admin\Events\Reservation;
+namespace Igniter\Admin\Events;
 
 use Igniter\Admin\Models\Reservation;
 use Igniter\Flame\Traits\EventDispatchable;
 
-class CancelEvent
+class ReservationCanceledEvent
 {
     use EventDispatchable;
 
-    protected static $dispatchNamespacedEvent = 'admin.reservation.canceled';
-
     public function __construct(public Reservation $reservation)
     {
+    }
+
+    public static function eventName()
+    {
+        return 'admin.reservation.canceled';
     }
 }

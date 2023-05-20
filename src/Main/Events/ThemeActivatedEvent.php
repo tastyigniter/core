@@ -1,17 +1,20 @@
 <?php
 
-namespace Igniter\Main\Events\Theme;
+namespace Igniter\Main\Events;
 
 use Igniter\Flame\Traits\EventDispatchable;
 use Igniter\Main\Models\Theme;
 
-class Activated
+class ThemeActivatedEvent
 {
     use EventDispatchable;
 
-    protected static $dispatchNamespacedEvent = 'main.theme.activated';
-
     public function __construct(public Theme $theme)
     {
+    }
+
+    public static function eventName()
+    {
+        return 'main.theme.activated';
     }
 }

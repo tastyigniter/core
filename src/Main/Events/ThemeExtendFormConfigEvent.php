@@ -1,10 +1,10 @@
 <?php
 
-namespace Igniter\Main\Events\Theme;
+namespace Igniter\Main\Events;
 
 use Igniter\Flame\Traits\EventDispatchable;
 
-class ExtendFormConfig
+class ThemeExtendFormConfigEvent
 {
     use EventDispatchable;
 

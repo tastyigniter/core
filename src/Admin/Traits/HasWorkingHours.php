@@ -5,7 +5,7 @@ namespace Igniter\Admin\Traits;
 use Carbon\Carbon;
 use Exception;
 use Igniter\Admin\Classes\ScheduleItem;
-use Igniter\Admin\Events\WorkingSchedule\Created as WorkingScheduleCreatedEvent;
+use Igniter\Admin\Events\WorkingScheduleCreatedEvent;
 use Igniter\Flame\Location\WorkingSchedule;
 use Igniter\Local\Classes\OrderTypes;
 use Illuminate\Support\Collection;
