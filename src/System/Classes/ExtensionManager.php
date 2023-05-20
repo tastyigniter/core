@@ -256,27 +256,38 @@ class ExtensionManager
     public function loadExtensions()
     {
         $this->extensions = [];
-        $this->packageManifest->manifest = null;
-
-        foreach ($this->packageManifest->extensions() as $code => $config) {
-            $this->loadExtensionFromConfig($code, $config);
-        }
 
         foreach ($this->folders() as $path) {
             $this->loadExtension($path);
         }
 
+        $this->packageManifest->manifest = null;
+        foreach ($this->packageManifest->extensions() as $code => $config) {
+            $this->loadExtensionFromPackageManifest($code, $config);
+        }
+
         return $this->extensions;
     }
 
+    /**
+     * Loads a single extension in to the manager.
+     *
+     * @param string $path Eg: base_path().'/extensions/vendor/extension';
+     *
+     * @return object|bool
+     * @throws \Igniter\Flame\Exception\SystemException
+     */
     public function loadExtension($path)
     {
-        $vendor = basename(dirname($path));
-        $namespace = ucfirst($vendor).'\\'.ucfirst(basename($path)).'\\';
+        $config = SystemHelper::extensionConfigFromFile($path);
+        $namespace = array_get($config, 'namespace');
         $class = $namespace.'Extension';
-        $identifier = $this->getIdentifier($namespace);
+        $identifier = array_get($config, 'code', $this->getIdentifier($namespace));
 
-        throw_unless($this->checkName($identifier), SystemException::class, 'Extension code can only contain alphabets: '.$identifier);
+        throw_unless(
+            $this->checkName($identifier),
+            new SystemException('Extension code can only contain alphabets: '.$identifier),
+        );
 
         if (isset($this->extensions[$identifier])) {
             return $this->extensions[$identifier];
@@ -287,8 +298,6 @@ class ExtensionManager
         }
 
         $extension = $this->resolveExtension($identifier, $path, $class);
-
-        SystemHelper::extensionValidateConfig($extension->extensionMeta(), $identifier);
 
         // Check for disabled extensions
         if ($this->isDisabled($identifier)) {
@@ -301,20 +310,14 @@ class ExtensionManager
         return $extension;
     }
 
-    /**
-     * Loads a single extension in to the manager.
-     *
-     * @param string $code Eg: extension code
-     * @param string $path Eg: base_path().'/extensions/vendor/extension';
-     *
-     * @return object|bool
-     * @throws \Igniter\Flame\Exception\SystemException
-     */
-    public function loadExtensionFromConfig($code, $config)
+    public function loadExtensionFromPackageManifest($code, $config)
     {
-        throw_unless($this->checkName($code), SystemException::class, 'Extension code can only contain alphabets: '.$code);
-
         $identifier = $this->getIdentifier($code);
+
+        throw_unless(
+            $this->checkName($identifier),
+            new SystemException('Extension code can only contain alphabets: '.$identifier),
+        );
 
         if (isset($this->extensions[$identifier])) {
             return $this->extensions[$identifier];
@@ -324,7 +327,7 @@ class ExtensionManager
         $class = array_get($config, 'extensionClass');
         $extension = $this->resolveExtension($identifier, $path, $class);
 
-        SystemHelper::extensionValidateConfig($extension->extensionMeta($config), $identifier);
+        $extension->extensionMeta($config);
 
         // Check for disabled extensions
         if ($this->isDisabled($identifier)) {
@@ -552,7 +555,12 @@ class ExtensionManager
                 throw new SystemException('Extension registration class was not found.');
             }
 
-            $meta = @json_decode($zip->getFromName($extensionDir.'extension.json'));
+            throw_if(
+                File::exists($configFile = $extensionDir.'extension.json'),
+                new SystemException("extension.json files are no longer supported, please convert to composer.json: $configFile")
+            );
+
+            $meta = @json_decode($zip->getFromName($extensionDir.'composer.json'));
             if (!$meta || !strlen($meta->code)) {
                 throw new SystemException(lang('igniter::system.extensions.error_config_no_found'));
             }

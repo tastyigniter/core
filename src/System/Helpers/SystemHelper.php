@@ -2,10 +2,14 @@
 
 namespace Igniter\System\Helpers;
 
+use App\Build\Manifest;
+use App\Rules\ValidVersion;
 use Igniter\Flame\Exception\SystemException;
+use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
+use Illuminate\Support\Facades\Validator;
 
 class SystemHelper
 {
@@ -108,10 +112,10 @@ class SystemHelper
         switch ($unit) {
             case 'g':
                 $value *= 1024;
-                // no break
+            // no break
             case 'm':
                 $value *= 1024;
-                // no break
+            // no break
             case 'k':
                 $value *= 1024;
         }
@@ -147,30 +151,41 @@ class SystemHelper
 
     public static function extensionConfigFromFile(string $path): array
     {
-        $configPath = str_before($path, '/src');
-
-        $extensionCode = basename(dirname($configPath)).'.'.basename($configPath);
-        if ($packageConfig = array_get(resolve(PackageManifest::class)->extensions(), $extensionCode)) {
-            return $packageConfig;
+        $extensionPath = str_before($path, '/src');
+        if (File::exists($extensionPath.'/composer.json')) {
+            return resolve(ComposerManager::class)->getConfig($extensionPath);
         }
 
-        if (File::exists($configPath.'/composer.json')) {
-            return resolve(ComposerManager::class)->getConfig($configPath);
-        }
+        throw_if(
+            File::exists($manifestFile = $extensionPath.'/extension.json'),
+            new SystemException("extension.json files are no longer supported, please convert to composer.json: $manifestFile")
+        );
 
-        if (File::exists($configFile = $configPath.'/extension.json')) {
-            return json_decode(File::get($configFile), true) ?? [];
-        }
-
-        throw new SystemException("Required extension configuration file not found: $configFile");
+        throw new SystemException("Required extension configuration file not found: $extensionPath/composer.json");
     }
 
-    public static function extensionValidateConfig(array $config, string $identifier)
+    public static function extensionValidateConfig(array $config): array
     {
-        foreach (['code', 'name', 'description', 'author', 'icon'] as $item) {
-            if (!array_key_exists($item, $config)) {
-                throw new SystemException(sprintf(lang('igniter::system.missing.config_key'), $item, $identifier));
-            }
-        }
+        $validator = Validator::make($config, [
+            'code' => [
+                'required',
+                'regex:/^[A-Za-z_-]+(\.?)+[A-Za-z_-]+$/',
+                'max:64',
+            ],
+            'name' => ['required', 'string'],
+            'author' => ['string'],
+            'description' => ['required', 'string', 'max:255'],
+            'icon' => ['sometimes'],
+            'icon.class' => ['sometimes', 'string', 'max:30'],
+            'icon.color' => ['sometimes', 'string', 'max:30'],
+            'icon.image' => ['sometimes', 'string', 'max:30'],
+            'icon.backgroundColor' => ['sometimes', 'string', 'max:30'],
+            'homepage' => ['sometimes', 'url', 'max:255'],
+            'require' => ['sometimes', 'array'],
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator);
+
+        return $config;
     }
 }

@@ -109,6 +109,7 @@ class ComposerManager
         $config['type'] = 'tastyigniter-'.$type;
         $config['package_name'] = array_get($composer, 'name');
         $config['version'] = array_get($composer, 'version', '--');
+        $config['namespace'] = key(array_get($composer, 'autoload.psr-4', []));
 
         if (!array_key_exists('code', $config)) {
             $config['code'] = ($type === 'extension')
