@@ -27,6 +27,8 @@ class Model extends EloquentModel
 
     public $timestamps = false;
 
+    protected $guarded = [];
+
     /**
      * The storage format of the model's time columns.
      * @var string
