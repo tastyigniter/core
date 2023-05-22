@@ -194,7 +194,7 @@ class AdminController extends Controller
 
         // Render the controller view if not already loaded
         if (is_null($result) && !$this->suppressView) {
-            return $this->makeView($this->fatalError ? 'admin::error' : ($this->defaultView ?? $action));
+            return $this->makeView($this->fatalError ? 'igniter.main::error' : ($this->defaultView ?? $action));
         }
 
         return $result;

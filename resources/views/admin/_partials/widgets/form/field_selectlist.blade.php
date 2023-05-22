@@ -1,6 +1,6 @@
 @php
     $fieldOptions = $field->options();
-    $selectMultiple = array_get($field->config, 'mode') == 'checkbox';
+    $selectMultiple = array_get($field->config, 'mode', 'checkbox') == 'checkbox';
     $checkedValues = (array)$field->value;
     $placeholder = $field->placeholder ?: 'igniter::admin.text_please_select';
 @endphp

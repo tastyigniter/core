@@ -28,22 +28,14 @@ class Cleanup extends Command
     protected $currency;
 
     /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        $this->currency = app('currency');
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return void
      */
     public function handle()
     {
+        $this->currency = app('currency');
+
         // Clear cache
         $this->currency->clearCache();
         $this->comment('Currency cache cleaned.');

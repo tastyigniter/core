@@ -124,7 +124,7 @@ return [
                 'currency_converter[api]' => [
                     'label' => 'lang:igniter::system.settings.label_currency_converter',
                     'tab' => 'lang:igniter::system.settings.text_tab_site',
-                    'type' => 'raddiotoggle',
+                    'type' => 'radiotoggle',
                     'default' => 'openexchangerates',
                     'options' => [\Igniter\System\Models\Currency::class, 'getConverterDropdownOptions'],
                 ],
