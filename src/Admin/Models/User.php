@@ -5,10 +5,12 @@ namespace Igniter\Admin\Models;
 use Carbon\Carbon;
 use Igniter\Admin\Classes\PermissionManager;
 use Igniter\Admin\Classes\UserState;
+use Igniter\Admin\Models\Concerns\SendsInvite;
 use Igniter\Admin\Traits\Locationable;
 use Igniter\Flame\Auth\Models\User as AuthUserModel;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Traits\Purgeable;
+use Igniter\System\Models\Concerns\Switchable;
 use Igniter\System\Traits\SendsMailTemplate;
 
 /**
@@ -18,6 +20,7 @@ class User extends AuthUserModel
 {
     use HasFactory;
     use Purgeable;
+    use SendsInvite;
     use SendsMailTemplate;
     use Locationable;
 
@@ -46,8 +49,8 @@ class User extends AuthUserModel
         'super_user' => 'boolean',
         'is_activated' => 'boolean',
         'reset_time' => 'datetime',
-        'date_invited' => 'datetime',
-        'date_activated' => 'datetime',
+        'invited_at' => 'datetime',
+        'activated_at' => 'datetime',
         'last_login' => 'datetime',
     ];
 
@@ -67,7 +70,7 @@ class User extends AuthUserModel
         ],
     ];
 
-    protected $purgeable = ['password_confirm', 'send_invite'];
+    protected $purgeable = ['password_confirm'];
 
     public function getStaffNameAttribute()
     {
@@ -139,21 +142,6 @@ class User extends AuthUserModel
     {
         $this->groups()->detach();
         $this->locations()->detach();
-    }
-
-    protected function sendInvite()
-    {
-        $this->bindEventOnce('model.mailGetData', function ($view, $recipientType) {
-            if ($view === 'igniter.admin::_mail.invite') {
-                $this->reset_code = $inviteCode = $this->generateResetCode();
-                $this->reset_time = now();
-                $this->save();
-
-                return ['invite_code' => $inviteCode];
-            }
-        });
-
-        $this->mailSend('igniter.admin::_mail.invite');
     }
 
     public function beforeLogin()
@@ -297,6 +285,11 @@ class User extends AuthUserModel
     //
     // Helpers
     //
+
+    protected function sendInviteGetTemplateCode(): string
+    {
+        return 'igniter.admin::_mail.invite';
+    }
 
     /**
      * Return the dates of all staff

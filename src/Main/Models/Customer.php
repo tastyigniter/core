@@ -5,6 +5,7 @@ namespace Igniter\Main\Models;
 use Carbon\Carbon;
 use Exception;
 use Igniter\Admin\Models\Address;
+use Igniter\Admin\Models\Concerns\SendsInvite;
 use Igniter\Admin\Models\Order;
 use Igniter\Admin\Models\Reservation;
 use Igniter\Flame\Auth\Models\User as AuthUserModel;
@@ -19,6 +20,7 @@ class Customer extends AuthUserModel
 {
     use Purgeable;
     use SendsMailTemplate;
+    use SendsInvite;
     use HasFactory;
 
     /**
@@ -61,8 +63,8 @@ class Customer extends AuthUserModel
         'status' => 'boolean',
         'is_activated' => 'boolean',
         'last_login' => 'datetime',
-        'date_invited' => 'datetime',
-        'date_activated' => 'datetime',
+        'invited_at' => 'datetime',
+        'activated_at' => 'datetime',
         'reset_time' => 'datetime',
     ];
 
@@ -252,19 +254,9 @@ class Customer extends AuthUserModel
         return $query;
     }
 
-    protected function sendInvite()
+    protected function sendInviteGetTemplateCode(): string
     {
-        $this->bindEventOnce('model.mailGetData', function ($view, $recipientType) {
-            if ($view === 'igniter.admin::_mail.invite_customer') {
-                $this->reset_code = $inviteCode = $this->generateResetCode();
-                $this->reset_time = now();
-                $this->save();
-
-                return ['invite_code' => $inviteCode];
-            }
-        });
-
-        $this->mailSend('igniter.admin::_mail.invite_customer');
+        return 'igniter.admin::_mail.invite_customer';
     }
 
     public function mailGetRecipients($type)

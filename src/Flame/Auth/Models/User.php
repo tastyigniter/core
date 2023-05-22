@@ -237,11 +237,12 @@ class User extends Model implements Authenticatable
 
     public function getActivationCode()
     {
-        $this->activation_code = $activationCode = $this->generateActivationCode();
+        $this->newQuery()->update([
+            'activation_code' => $this->activation_code = $this->generateActivationCode(),
+            'activated_at' => null,
+        ]);
 
-        $this->save();
-
-        return $activationCode;
+        return $this->activation_code;
     }
 
     /**
@@ -256,10 +257,11 @@ class User extends Model implements Authenticatable
         }
 
         if ($activationCode == $this->activation_code) {
-            $this->activation_code = null;
-            $this->is_activated = true;
-            $this->date_activated = $this->freshTimestamp();
-            $this->save();
+            $this->newQuery()->update([
+                'activation_code' => $this->activation_code = null,
+                'is_activated' => $this->is_activated = true,
+                'activated_at' => $this->activated_at = $this->freshTimestamp(),
+            ]);
 
             return true;
         }

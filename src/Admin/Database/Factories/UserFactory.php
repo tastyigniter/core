@@ -15,7 +15,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'username' => str_slug($this->faker->userName()),
-            'date_activated' => $this->faker->dateTime()->format(DateTimeInterface::ATOM),
+            'activated_at' => $this->faker->dateTime()->format(DateTimeInterface::ATOM),
             'is_activated' => $this->faker->boolean(),
             'super_user' => $this->faker->boolean(),
             'status' => $this->faker->boolean(),
