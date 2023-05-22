@@ -4,13 +4,11 @@ namespace Tests;
 
 use Igniter\Flame\Igniter;
 use Igniter\Main\Classes\ThemeManager;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
+    use DatabaseTransactions;
 
     protected function getPackageProviders($app)
     {
@@ -34,7 +32,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function defineDatabaseMigrations()
     {
-        $this->artisan('igniter:up')->run();
+        $this->artisan('igniter:up');
     }
 
     protected function resolveApplicationConfiguration($app)
