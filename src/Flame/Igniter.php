@@ -276,7 +276,7 @@ class Igniter
         return static::VERSION;
     }
 
-    public function prunableModel(string|array $modelClass)
+    public static function prunableModel(string|array $modelClass)
     {
         if (is_string($modelClass)) {
             $modelClass = [$modelClass];
@@ -285,7 +285,7 @@ class Igniter
         static::$prunableModels = array_merge(static::$prunableModels, $modelClass);
     }
 
-    public function prunableModels(): array
+    public static function prunableModels(): array
     {
         return static::$prunableModels;
     }

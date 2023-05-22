@@ -85,9 +85,10 @@ class InitialSchemaSeeder extends Seeder
         DB::table('customer_groups')->insert([
             'group_name' => 'Default group',
             'approval' => false,
+            'is_default' => true,
+            'updated_at' => now(),
+            'created_at' => now(),
         ]);
-
-        DB::table('customer_groups')->update(['updated_at' => now(), 'created_at' => now()]);
     }
 
     protected function seedLanguages()

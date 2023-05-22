@@ -9,7 +9,7 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\HasPermalink;
 use Igniter\Flame\Database\Traits\NestedTree;
 use Igniter\Flame\Database\Traits\Sortable;
-use Illuminate\Support\Facades\DB;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Category Model Class
@@ -22,6 +22,7 @@ class Category extends Model
     use NestedTree;
     use Locationable;
     use HasMedia;
+    use Switchable;
 
     const SORT_ORDER = 'priority';
 
@@ -37,12 +38,13 @@ class Category extends Model
      */
     protected $primaryKey = 'category_id';
 
+    public $timestamps = true;
+
     protected $guarded = [];
 
     protected $casts = [
         'parent_id' => 'integer',
         'priority' => 'integer',
-        'status' => 'boolean',
         'nest_left' => 'integer',
         'nest_right' => 'integer',
     ];
@@ -67,9 +69,14 @@ class Category extends Model
 
     public $mediable = ['thumb'];
 
-    public static $allowedSortingColumns = ['priority asc', 'priority desc'];
+    protected array $queryModifierFilters = [
+        'enabled' => ['applySwitchable', 'default' => true],
+        'location' => 'whereHasOrDoesntHaveLocation',
+    ];
 
-    public $timestamps = true;
+    protected array $queryModifierSorts = ['priority asc', 'priority desc'];
+
+    protected array $queryModifierSearchableFields = ['name', 'description'];
 
     public static function getDropdownOptions()
     {
@@ -88,73 +95,5 @@ class Category extends Model
     public function getCountMenusAttribute($value)
     {
         return $this->menus()->count();
-    }
-
-    //
-    // Scopes
-    //
-
-    public function scopeWhereHasMenus($query)
-    {
-        return $query->whereExists(function ($q) {
-            $prefix = DB::getTablePrefix();
-            $q->select(DB::raw(1))
-                ->from('menu_categories')
-                ->join('menus', 'menus.menu_id', '=', 'menu_categories.menu_id')
-                ->whereNotNull('menus.menu_status')
-                ->where('menus.menu_status', '=', 1)
-                ->whereRaw($prefix.'categories.category_id = '.$prefix.'menu_categories.category_id');
-        });
-    }
-
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('status', 1);
-    }
-
-    public function scopeListFrontEnd($query, $options = [])
-    {
-        extract(array_merge([
-            'page' => 1,
-            'pageLimit' => 20,
-            'enabled' => true,
-            'sort' => 'id asc',
-            'location' => null,
-            'search' => '',
-        ], $options));
-
-        $searchableFields = ['name', 'description'];
-
-        if (strlen($location)) {
-            $query->whereHasOrDoesntHaveLocation($location);
-        }
-
-        if (!is_array($sort)) {
-            $sort = [$sort];
-        }
-
-        foreach ($sort as $_sort) {
-            if (in_array($_sort, self::$allowedSortingColumns)) {
-                $parts = explode(' ', $_sort);
-                if (count($parts) < 2) {
-                    $parts[] = 'desc';
-                }
-                [$sortField, $sortDirection] = $parts;
-                $query->orderBy($sortField, $sortDirection);
-            }
-        }
-
-        $search = trim($search);
-        if (strlen($search)) {
-            $query->search($search, $searchableFields);
-        }
-
-        if ($enabled) {
-            $query->isEnabled();
-        }
-
-        $this->fireEvent('model.extendListFrontEndQuery', [$query]);
-
-        return $query->paginate($pageLimit, $page);
     }
 }

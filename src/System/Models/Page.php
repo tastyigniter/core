@@ -4,6 +4,7 @@ namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\HasPermalink;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Page Class
@@ -11,6 +12,7 @@ use Igniter\Flame\Database\Traits\HasPermalink;
 class Page extends Model
 {
     use HasPermalink;
+    use Switchable;
 
     /**
      * @var string The database table name
@@ -32,7 +34,6 @@ class Page extends Model
     protected $casts = [
         'language_id' => 'integer',
         'metadata' => 'json',
-        'status' => 'boolean',
     ];
 
     public $relation = [
@@ -49,20 +50,6 @@ class Page extends Model
 
     public static function getDropdownOptions()
     {
-        return static::isEnabled()->dropdown('title');
-    }
-
-    //
-    // Scopes
-    //
-
-    /**
-     * Scope a query to only include enabled page
-     *
-     * @return $this
-     */
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('status', 1);
+        return static::whereIsEnabled()->dropdown('title');
     }
 }

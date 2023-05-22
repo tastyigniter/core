@@ -16,7 +16,7 @@ class ExtensionRemove extends Command
      * The console command name.
      * @var string
      */
-    protected $name = 'extension:remove';
+    protected $name = 'igniter:extension-remove';
 
     /**
      * The console command description.
@@ -40,9 +40,9 @@ class ExtensionRemove extends Command
         }
 
         if (!$forceDelete && !$this->confirmToProceed(sprintf(
-            'This will DELETE extension "%s" from the filesystem and database.',
-            $extensionName
-        ))) {
+                'This will DELETE extension "%s" from the filesystem and database.',
+                $extensionName
+            ))) {
             return;
         }
 

@@ -6,8 +6,11 @@ use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Setting\Facades\Setting;
-use Igniter\System\EventSubscribers\ConsoleCommandSubscriber;
 use Igniter\System\Exception\ErrorHandler;
+use Igniter\System\Models\Country;
+use Igniter\System\Models\Language;
+use Igniter\System\Models\Notification;
+use Igniter\System\Models\RequestLog;
 use Igniter\System\Template\Extension\BladeExtension;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\MigrationsStarted;
@@ -26,7 +29,10 @@ class ServiceProvider extends AppServiceProvider
     {
         $this->registerSingletons();
         $this->registerFacadeAliases();
+        $this->registerErrorHandler();
+        $this->registerBladeDirectives();
 
+        $this->app->register(Providers\ConsoleServiceProvider::class);
         $this->app->register(Providers\ExtensionServiceProvider::class);
         $this->app->register(Providers\EventServiceProvider::class);
         $this->app->register(Providers\FormServiceProvider::class);
@@ -34,11 +40,6 @@ class ServiceProvider extends AppServiceProvider
         $this->app->register(Providers\PaginationServiceProvider::class);
         $this->app->register(Providers\PermissionServiceProvider::class);
         $this->app->register(Providers\ValidationServiceProvider::class);
-
-        $this->registerConsoleCommands();
-        $this->registerErrorHandler();
-        $this->registerBladeDirectives();
-
         $this->app->register(\Igniter\Admin\ServiceProvider::class);
         $this->app->register(\Igniter\Main\ServiceProvider::class);
     }
@@ -53,10 +54,13 @@ class ServiceProvider extends AppServiceProvider
         $this->loadAnonymousComponentFrom('igniter.system::_components.', 'igniter.system');
         $this->loadResourcesFrom($this->root.'/resources', 'igniter');
 
+        $this->definePrunableModels();
         $this->defineEloquentMorphMaps();
         $this->resolveFlashSessionKey();
 
         $this->updateTimezone();
+        $this->loadLocalizationConfiguration();
+        $this->loadGeocoderConfiguration();
 
         $this->app['events']->listen(MigrationsStarted::class, function () {
             Schema::disableForeignKeyConstraints();
@@ -104,34 +108,6 @@ class ServiceProvider extends AppServiceProvider
         }
     }
 
-    /**
-     * Register command line specifics
-     */
-    protected function registerConsoleCommands()
-    {
-        foreach (
-            [
-                'igniter.util' => Console\Commands\IgniterUtil::class,
-                'igniter.up' => Console\Commands\IgniterUp::class,
-                'igniter.down' => Console\Commands\IgniterDown::class,
-                'igniter.package-discover' => Console\Commands\IgniterPackageDiscover::class,
-                'igniter.install' => Console\Commands\IgniterInstall::class,
-                'igniter.update' => Console\Commands\IgniterUpdate::class,
-                'igniter.passwd' => Console\Commands\IgniterPasswd::class,
-                'extension.install' => Console\Commands\ExtensionInstall::class,
-                'extension.refresh' => Console\Commands\ExtensionRefresh::class,
-                'extension.remove' => Console\Commands\ExtensionRemove::class,
-                'theme.install' => Console\Commands\ThemeInstall::class,
-                'theme.remove' => Console\Commands\ThemeRemove::class,
-                'theme.vendor-publish' => Console\Commands\ThemeVendorPublish::class,
-            ] as $command => $class
-        ) {
-            $this->registerConsoleCommand($command, $class);
-        }
-
-        Event::subscribe(ConsoleCommandSubscriber::class);
-    }
-
     /*
      * Error handling for uncaught Exceptions
      */
@@ -167,10 +143,41 @@ class ServiceProvider extends AppServiceProvider
         });
     }
 
+    protected function loadLocalizationConfiguration()
+    {
+        $this->app->resolving('translator.localization', function ($localization, $app) {
+            $app['config']->set('localization.locale', Language::getDefault()?->code ?? $app['config']['app.locale']);
+            $app['config']->set('localization.supportedLocales', setting('supported_languages', []) ?: ['en']);
+            $app['config']->set('localization.detectBrowserLocale', (bool)setting('detect_language', false));
+        });
+    }
+
+    protected function loadGeocoderConfiguration()
+    {
+        $this->app->resolving('geocoder', function ($geocoder, $app) {
+            $app['config']->set('geocoder.default', setting('default_geocoder'));
+
+            $region = $app['country']->getCountryCodeById(Country::getDefaultKey());
+            $app['config']->set('geocoder.providers.google.region', $region);
+            $app['config']->set('geocoder.providers.nominatim.region', $region);
+
+            $app['config']->set('geocoder.providers.google.apiKey', setting('maps_api_key'));
+            $app['config']->set('geocoder.precision', setting('geocoder_boundary_precision', 8));
+        });
+    }
+
     protected function resolveFlashSessionKey()
     {
         $this->app->resolving('flash', function (FlashBag $flash) {
             $flash->setSessionKey(Igniter::runningInAdmin() ? 'flash_data_admin' : 'flash_data_main');
         });
+    }
+
+    protected function definePrunableModels()
+    {
+        Igniter::prunableModel([
+            Notification::class,
+            RequestLog::class,
+        ]);
     }
 }

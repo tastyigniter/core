@@ -9,6 +9,7 @@ use Igniter\Flame\Database\Attach\HasMedia;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Menu Model Class
@@ -20,8 +21,10 @@ class Menu extends Model
     use HasMedia;
     use Stockable;
     use HasFactory;
+    use Switchable;
 
-    const LOCATIONABLE_RELATION = 'locations';
+    public const LOCATIONABLE_RELATION = 'locations';
+    public const SWITCHABLE_COLUMN = 'menu_status';
 
     /**
      * @var string The database table name
@@ -33,6 +36,8 @@ class Menu extends Model
      */
     protected $primaryKey = 'menu_id';
 
+    public $timestamps = true;
+
     protected $guarded = [];
 
     protected $casts = [
@@ -40,7 +45,6 @@ class Menu extends Model
         'menu_category_id' => 'integer',
         'minimum_qty' => 'integer',
         'order_restriction' => 'array',
-        'menu_status' => 'boolean',
         'menu_priority' => 'integer',
     ];
 
@@ -66,9 +70,17 @@ class Menu extends Model
 
     public $mediable = ['thumb'];
 
-    public static $allowedSortingColumns = ['menu_priority asc', 'menu_priority desc'];
+    protected array $queryModifierFilters = [
+        'enabled' => ['applySwitchable', 'default' => true],
+        'group' => 'applyCategoryGroup',
+        'location' => 'applyLocation',
+        'category' => 'whereHasCategory',
+        'orderType' => 'applyOrderType',
+    ];
 
-    public $timestamps = true;
+    protected array $queryModifierSorts = ['menu_priority asc', 'menu_priority desc'];
+
+    protected array $queryModifierSearchableFields = ['menu_name', 'menu_description'];
 
     public function getMenuPriceFromAttribute()
     {
@@ -84,141 +96,6 @@ class Menu extends Model
     public function getMinimumQtyAttribute($value)
     {
         return $value ?: 1;
-    }
-
-    //
-    // Scopes
-    //
-
-    public function scopeWhereHasAllergen($query, $allergenId)
-    {
-        $query->whereHas('allergens', function ($q) use ($allergenId) {
-            $q->where('allergen_id', $allergenId);
-            $q->where('is_allergen', 1);
-        });
-    }
-
-    public function scopeWhereHasCategory($query, $categoryId)
-    {
-        $query->whereHas('categories', function ($q) use ($categoryId) {
-            $q->where('categories.category_id', $categoryId);
-        });
-    }
-
-    public function scopeWhereHasIngredient($query, $ingredientId)
-    {
-        $query->whereHas('ingredients', function ($q) use ($ingredientId) {
-            $q->where('ingredient_id', $ingredientId);
-        });
-    }
-
-    public function scopeWhereHasMealtime($query, $mealtimeId)
-    {
-        $query->whereHas('mealtimes', function ($q) use ($mealtimeId) {
-            $q->where('mealtimes.mealtime_id', $mealtimeId);
-        });
-    }
-
-    public function scopeListFrontEnd($query, $options = [])
-    {
-        extract(array_merge([
-            'page' => 1,
-            'pageLimit' => 20,
-            'enabled' => true,
-            'sort' => 'menu_priority asc',
-            'group' => null,
-            'location' => null,
-            'category' => null,
-            'search' => '',
-            'orderType' => null,
-        ], $options));
-
-        $searchableFields = ['menu_name', 'menu_description'];
-
-        if (strlen($location) && is_numeric($location)) {
-            $query->whereHasOrDoesntHaveLocation($location);
-            $query->with(['categories' => function ($q) use ($location) {
-                $q->whereHasOrDoesntHaveLocation($location);
-                $q->isEnabled();
-            }]);
-        }
-
-        if (strlen($category)) {
-            $query->whereHas('categories', function ($q) use ($category) {
-                $q->whereSlug($category);
-            });
-        }
-
-        if (!is_array($sort)) {
-            $sort = [$sort];
-        }
-
-        foreach ($sort as $_sort) {
-            if (in_array($_sort, self::$allowedSortingColumns)) {
-                $parts = explode(' ', $_sort);
-                if (count($parts) < 2) {
-                    $parts[] = 'desc';
-                }
-                [$sortField, $sortDirection] = $parts;
-                $query->orderBy($sortField, $sortDirection);
-            }
-        }
-
-        $search = trim($search);
-        if (strlen($search)) {
-            $query->search($search, $searchableFields);
-        }
-
-        if (strlen($group)) {
-            $query->whereHas('categories', function ($q) use ($group) {
-                $q->groupBy($group);
-            });
-        }
-
-        if ($enabled) {
-            $query->isEnabled();
-        }
-
-        if ($orderType) {
-            $query->where(function ($query) use ($orderType) {
-                $query->whereNull('order_restriction')
-                    ->orWhere('order_restriction', 'like', '%"'.$orderType.'"%');
-            });
-        }
-
-        $this->fireEvent('model.extendListFrontEndQuery', [$query]);
-
-        return $query->paginate($pageLimit, $page);
-    }
-
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('menu_status', 1);
-    }
-
-    //
-    // Events
-    //
-
-    protected function afterSave()
-    {
-        $this->restorePurgedValues();
-
-        if (array_key_exists('menu_options', $this->attributes)) {
-            $this->addMenuOption((array)$this->attributes['menu_options']);
-        }
-
-        if (array_key_exists('special', $this->attributes)) {
-            $this->addMenuSpecial((array)$this->attributes['special']);
-        }
-    }
-
-    protected function beforeDelete()
-    {
-        $this->categories()->detach();
-        $this->mealtimes()->detach();
-        $this->ingredients()->detach();
-        $this->locations()->detach();
     }
 
     //
@@ -374,7 +251,7 @@ class Menu extends Model
         if (count($this->mealtimes) > 0) {
             $isAvailable = false;
             foreach ($this->mealtimes as $mealtime) {
-                if ($mealtime->mealtime_status) {
+                if ($mealtime->isEnabled()) {
                     $isAvailable = $isAvailable || $mealtime->isAvailable($datetime);
                 }
             }
@@ -382,7 +259,7 @@ class Menu extends Model
 
         if (count($this->ingredients) > 0) {
             foreach ($this->ingredients as $ingredient) {
-                if (!$ingredient->status) {
+                if (!$ingredient->isEnabled()) {
                     $isAvailable = false;
                 }
             }

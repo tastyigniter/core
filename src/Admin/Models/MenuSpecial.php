@@ -4,12 +4,17 @@ namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
 use Igniter\Flame\Database\Model;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * MenuSpecial Model Class
  */
 class MenuSpecial extends Model
 {
+    use Switchable;
+
+    public const SWITCHABLE_COLUMN = 'special_status';
+
     /**
      * @var string The database table name
      */
@@ -19,8 +24,7 @@ class MenuSpecial extends Model
 
     protected $fillable = [
         'menu_id', 'start_date',
-        'end_date', 'special_price',
-        'special_status', 'type',
+        'end_date', 'special_price', 'type',
         'validity', 'recurring_every',
         'recurring_from', 'recurring_to',
     ];
@@ -30,7 +34,6 @@ class MenuSpecial extends Model
         'start_date' => 'datetime',
         'end_date' => 'datetime',
         'special_price' => 'float',
-        'special_status' => 'boolean',
         'recurring_from' => 'time',
         'recurring_to' => 'time',
         'recurring_every' => 'array',
@@ -62,7 +65,7 @@ class MenuSpecial extends Model
 
     public function active()
     {
-        if (!$this->special_status) {
+        if ($this->isDisabled()) {
             return false;
         }
 

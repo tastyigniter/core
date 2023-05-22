@@ -228,7 +228,7 @@ abstract class Manager
             $coordinates->getLongitude()
         );
 
-        return $query->orderBy('distance', 'asc')->isEnabled()->limit($limit)->get();
+        return $query->orderBy('distance', 'asc')->whereIsEnabled()->limit($limit)->get();
     }
 
     /**

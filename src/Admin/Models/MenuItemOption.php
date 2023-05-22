@@ -91,26 +91,6 @@ class MenuItemOption extends Model
     }
 
     //
-    // Events
-    //
-    protected function afterSave()
-    {
-        $this->restorePurgedValues();
-
-        if (array_key_exists('menu_option_values', $this->attributes)) {
-            $this->addMenuOptionValues(array_filter(array_map(function ($value) {
-                if (array_get($value, 'is_enabled')) {
-                    unset($value['is_enabled']);
-
-                    return $value;
-                }
-
-                return false;
-            }, $this->attributes['menu_option_values'])));
-        }
-    }
-
-    //
     // Helpers
     //
     public function isRequired()

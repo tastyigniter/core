@@ -8,6 +8,7 @@ use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
+use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Facades\View;
 
 /**
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\View;
 class MailLayout extends Model
 {
     use HasFactory;
+    use Switchable;
 
     protected static $codeCache;
 
@@ -61,19 +63,6 @@ class MailLayout extends Model
         if (!$this->is_locked) {
             $this->fillFromCode();
         }
-    }
-
-    //
-    // Scopes
-    //
-
-    /**
-     * Scope a query to only include enabled mail template
-     * @return $this
-     */
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('status', 1);
     }
 
     //

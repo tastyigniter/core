@@ -25,6 +25,7 @@ return [
     'text_plus' => '+ ',
     'text_please_select' => ' - please select - ',
     'text_use_default' => 'Use Default',
+    'text_is_default' => 'Is Default',
     'text_updated' => 'updated',
     'text_added' => 'added',
     'text_deleted' => 'deleted',

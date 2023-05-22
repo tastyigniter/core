@@ -5,6 +5,7 @@ namespace Igniter\Admin\Models;
 use Igniter\Flame\Database\Attach\HasMedia;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
+use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -14,6 +15,7 @@ class Ingredient extends Model
 {
     use HasMedia;
     use HasFactory;
+    use Switchable;
 
     /**
      * @var string The database table name
@@ -29,7 +31,6 @@ class Ingredient extends Model
 
     protected $casts = [
         'is_allergen' => 'boolean',
-        'status' => 'boolean',
     ];
 
     public $relation = [
@@ -64,23 +65,16 @@ class Ingredient extends Model
     public function scopeWhereHasMenus($query)
     {
         return $query->whereExists(function ($q) {
-            $prefix = DB::getTablePrefix();
             $q->select(DB::raw(1))
                 ->from('ingredientables')
                 ->join('menus', 'menus.menu_id', '=', 'ingredientables.ingredientable_id')
                 ->where('ingredientables.allergenable_type', 'menus')
-                ->whereNotNull('menus.menu_status')
-                ->where('menus.menu_status', '=', 1);
+                ->whereIsEnabled();
         });
     }
 
     public function scopeIsAllergen($query)
     {
         return $query->where('is_allergen', 1);
-    }
-
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('status', 1);
     }
 }

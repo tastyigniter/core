@@ -9,7 +9,6 @@ use Igniter\Admin\Models\UserGroup;
 use Igniter\Admin\Models\UserRole;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\ConfigRewrite;
-use Igniter\Main\Models\CustomerGroup;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Helpers\SystemHelper;
@@ -212,7 +211,6 @@ class IgniterInstall extends Command
 
         params()->set([
             'ti_setup' => 'installed',
-            'default_location_id' => Location::first()->location_id,
         ]);
 
         params()->save();
@@ -222,7 +220,6 @@ class IgniterInstall extends Command
         setting()->set('site_email', DatabaseSeeder::$siteEmail);
         setting()->set('sender_name', DatabaseSeeder::$siteName);
         setting()->set('sender_email', DatabaseSeeder::$siteEmail);
-        setting()->set('customer_group_id', CustomerGroup::first()->customer_group_id);
         setting()->save();
 
         // These parameters are no longer in use

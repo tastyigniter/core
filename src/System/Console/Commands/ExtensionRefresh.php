@@ -16,7 +16,7 @@ class ExtensionRefresh extends Command
      * The console command name.
      * @var string
      */
-    protected $name = 'extension:refresh';
+    protected $name = 'igniter:extension-refresh';
 
     /**
      * The console command description.

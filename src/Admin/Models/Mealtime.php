@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Igniter\Admin\Traits\Locationable;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Mealtime Model Class
@@ -14,8 +15,10 @@ class Mealtime extends Model
 {
     use HasFactory;
     use Locationable;
+    use Switchable;
 
-    const LOCATIONABLE_RELATION = 'locations';
+    public const LOCATIONABLE_RELATION = 'locations';
+    public const SWITCHABLE_COLUMN = 'mealtime_status';
 
     /**
      * @var string The database table name
@@ -30,7 +33,6 @@ class Mealtime extends Model
     protected $casts = [
         'start_time' => 'time',
         'end_time' => 'time',
-        'mealtime_status' => 'boolean',
     ];
 
     public $relation = [
@@ -43,17 +45,12 @@ class Mealtime extends Model
 
     public function getDropdownOptions()
     {
-        $this->isEnabled()->dropdown('mealtime_name');
+        $this->whereIsEnabled()->dropdown('mealtime_name');
     }
 
     //
     // Scopes
     //
-
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('mealtime_status', 1);
-    }
 
     public function isAvailable($datetime = null)
     {

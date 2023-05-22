@@ -14,7 +14,7 @@ class UpdateFoundNotification extends Notification implements CriticalNotificati
 
     public function getRecipients(): array
     {
-        return User::isEnabled()->whereIsSuperUser()->get()->all();
+        return User::whereIsEnabled()->whereIsSuperUser()->get()->all();
     }
 
     public function getTitle(): string

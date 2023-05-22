@@ -144,7 +144,7 @@ class Country
     protected function loadCountries()
     {
         if (!count($this->countriesCollection)) {
-            $this->countriesCollection = CountryModel::isEnabled()->sorted()->get();
+            $this->countriesCollection = CountryModel::whereIsEnabled()->sorted()->get();
         }
 
         return $this->countriesCollection;

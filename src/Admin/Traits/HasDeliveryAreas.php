@@ -2,6 +2,7 @@
 
 namespace Igniter\Admin\Traits;
 
+use Igniter\Admin\Models\LocationArea;
 use Igniter\Flame\Geolite\Facades\Geocoder;
 use Igniter\Flame\Location\Contracts\AreaInterface;
 
@@ -14,8 +15,22 @@ trait HasDeliveryAreas
 
     public static function bootHasDeliveryAreas()
     {
+        static::extend(function (self $model) {
+            $model->relation['hasMany']['delivery_areas'] = [LocationArea::class, 'delete' => true];
+
+            $model->addPurgeable(['delivery_areas']);
+        });
+
         static::saving(function (self $model) {
             $model->geocodeAddressOnSave();
+        });
+
+        static::saved(function (self $model) {
+            $model->restorePurgedValues();
+
+            if (array_key_exists('delivery_areas', $model->getAttributes())) {
+                $model->addLocationAreas((array)array_get($model->getAttributes(), 'delivery_areas', []));
+            }
         });
     }
 

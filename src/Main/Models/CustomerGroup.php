@@ -4,6 +4,7 @@ namespace Igniter\Main\Models;
 
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
+use Igniter\System\Models\Concerns\Defaultable;
 
 /**
  * CustomerGroup Model Class
@@ -11,6 +12,7 @@ use Igniter\Flame\Database\Model;
 class CustomerGroup extends Model
 {
     use HasFactory;
+    use Defaultable;
 
     /**
      * @var string The database table name
@@ -33,8 +35,6 @@ class CustomerGroup extends Model
     ];
 
     public $timestamps = true;
-
-    protected static $defaultGroup;
 
     public static function getDropdownOptions()
     {
@@ -59,37 +59,8 @@ class CustomerGroup extends Model
         return $this->approval == 1;
     }
 
-    public function makeDefault()
+    public function defaultableName()
     {
-        setting('customer_group_id', $this->getKey());
-        setting()->save();
-    }
-
-    /**
-     * Update the default group
-     */
-    public static function updateDefault($groupId)
-    {
-        if ($model = self::find($groupId)) {
-            $model->makeDefault();
-
-            return true;
-        }
-    }
-
-    public static function getDefault()
-    {
-        if (self::$defaultGroup !== null) {
-            return self::$defaultGroup;
-        }
-
-        $defaultGroup = self::where('customer_group_id', setting('customer_group_id'))->first();
-        if (!$defaultGroup) {
-            if ($defaultGroup = self::first()) {
-                $defaultGroup->makeDefault();
-            }
-        }
-
-        return self::$defaultGroup = $defaultGroup;
+        return $this->group_name;
     }
 }

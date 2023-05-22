@@ -6,6 +6,7 @@ use Igniter\Admin\Traits\Locationable;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Sortable;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Tables Model Class
@@ -15,8 +16,10 @@ class Table extends Model
     use Locationable;
     use Sortable;
     use HasFactory;
+    use Switchable;
 
-    const LOCATIONABLE_RELATION = 'locations';
+    public const LOCATIONABLE_RELATION = 'locations';
+    public const SWITCHABLE_COLUMN = 'table_status';
 
     const SORT_ORDER = 'priority';
 
@@ -36,7 +39,6 @@ class Table extends Model
         'extra_capacity' => 'integer',
         'priority' => 'integer',
         'is_joinable' => 'boolean',
-        'table_status' => 'boolean',
     ];
 
     public $relation = [
@@ -51,16 +53,6 @@ class Table extends Model
     {
         return self::selectRaw('table_id, concat(table_name, " (", min_capacity, " - ", max_capacity, ")") AS display_name')
             ->dropdown('display_name');
-    }
-
-    /**
-     * Scope a query to only include enabled location
-     *
-     * @return $this
-     */
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('table_status', 1);
     }
 
     public function scopeWhereBetweenCapacity($query, $noOfGuests)

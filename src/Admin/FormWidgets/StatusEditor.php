@@ -244,7 +244,7 @@ class StatusEditor extends BaseFormWidget
 
         return User::whereHas('groups', function ($query) use ($groupId) {
             $query->where('admin_user_groups.user_group_id', $groupId);
-        })->isEnabled()->dropdown('name');
+        })->whereIsEnabled()->dropdown('name');
     }
 
     public static function getAssigneeGroupOptions()

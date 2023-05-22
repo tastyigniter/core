@@ -2,13 +2,14 @@
 
 namespace Igniter\Admin\Classes;
 
+use Igniter\Admin\Models\Location as LocationModel;
 use Igniter\Flame\Location\Manager;
 
 class Location extends Manager
 {
     protected $sessionKey = 'admin_local_info';
 
-    protected $locationModel = \Igniter\Admin\Models\Location::class;
+    protected $locationModel = LocationModel::class;
 
     protected $listLocationsCache = [];
 
@@ -28,7 +29,7 @@ class Location extends Manager
         }
 
         if ($this->isSingleMode()) {
-            $id = params('default_location_id');
+            $id = LocationModel::getDefaultKey();
         } else {
             $id = $this->getSession('id');
             if (!$id && $this->hasOneLocation() && !$this->getAuth()->isSuperUser()) {
@@ -111,7 +112,7 @@ class Location extends Manager
         }
 
         $locations = $this->getAuth()->isSuperUser()
-            ? $this->createLocationModel()->isEnabled()->get()
+            ? $this->createLocationModel()->whereIsEnabled()->get()
             : $this->getLocations();
 
         return $this->listLocationsCache = $locations;

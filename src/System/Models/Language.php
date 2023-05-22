@@ -4,7 +4,8 @@ namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Traits\Purgeable;
-use Igniter\Flame\Exception\ValidationException;
+use Igniter\System\Models\Concerns\Defaultable;
+use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Facades\Lang;
 
 /**
@@ -14,12 +15,13 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 {
     use Purgeable;
     use HasFactory;
+    use Switchable;
+    use Defaultable;
 
     protected $purgeable = ['translations'];
 
     protected $casts = [
         'original_id' => 'integer',
-        'status' => 'boolean',
     ];
 
     public $relation = [
@@ -47,11 +49,6 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     protected static $supportedLocalesCache;
 
     /**
-     * @var self Default language cache.
-     */
-    protected static $defaultLanguage;
-
-    /**
      * @var self Active language cache.
      */
     protected static $activeLanguage;
@@ -63,37 +60,9 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public static function getDropdownOptions()
     {
-        return self::isEnabled()->dropdown('name', 'code');
+        return self::whereIsEnabled()->dropdown('name', 'code');
     }
 
-    //
-    // Events
-    //
-
-    protected function afterSave()
-    {
-        self::applySupportedLanguages();
-
-        $this->restorePurgedValues();
-
-        if (array_key_exists('translations', $this->attributes)) {
-            $this->addTranslations((array)$this->attributes['translations']);
-        }
-    }
-
-    //
-    // Scopes
-    //
-
-    /**
-     * Scope a query to only include enabled language
-     *
-     * @return $this
-     */
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('status', 1);
-    }
 
     //
     // Helpers
@@ -124,41 +93,9 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         setting()->save();
     }
 
-    /**
-     * Returns the default language defined.
-     * @return self
-     */
-    public static function getDefault()
+    public function defaultableKeyName(): string
     {
-        if (self::$defaultLanguage !== null) {
-            return self::$defaultLanguage;
-        }
-
-        $defaultLanguage = self::isEnabled()
-            ->where('code', setting('default_language'))
-            ->first();
-
-        if (!$defaultLanguage) {
-            if ($defaultLanguage = self::isEnabled()->first()) {
-                $defaultLanguage->makeDefault();
-            }
-        }
-
-        return self::$defaultLanguage = $defaultLanguage;
-    }
-
-    public static function updateDefault($languageCode)
-    {
-        if ($model = self::whereCode($languageCode)->first()) {
-            $model->makeDefault();
-
-            return true;
-        }
-    }
-
-    public function isDefault()
-    {
-        return $this->code == setting('default_language');
+        return 'code';
     }
 
     public static function getActiveLocale()
@@ -180,7 +117,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
             return self::$supportedLocalesCache;
         }
 
-        return self::$supportedLocalesCache = self::isEnabled()->pluck('name', 'code')->all();
+        return self::$supportedLocalesCache = self::whereIsEnabled()->pluck('name', 'code')->all();
     }
 
     public static function supportsLocale()

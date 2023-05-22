@@ -4,6 +4,7 @@ namespace Igniter\Admin\Traits;
 
 use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Facades\AdminLocation;
+use Igniter\Admin\Models\Scopes\LocationableScope;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Igniter;
 
@@ -27,6 +28,8 @@ trait Locationable
      */
     public static function bootLocationable()
     {
+        static::addGlobalScope(new LocationableScope);
+
         static::deleting(function (self $model) {
             $model->detachLocationsOnDelete();
         });
@@ -44,54 +47,6 @@ trait Locationable
     public function locationableGetUserLocation()
     {
         return AdminLocation::getId();
-    }
-
-    //
-    //
-    //
-
-    public function scopeWhereHasLocation($query, $locationId)
-    {
-        return $this->applyLocationScope($query, $locationId);
-    }
-
-    public function scopeWhereHasOrDoesntHaveLocation($query, $locationId)
-    {
-        return $query->whereHasLocation($locationId)
-            ->orDoesntHave($this->locationableRelationName());
-    }
-
-    /**
-     * Apply the Location scope query.
-     *
-     * @param \Igniter\Flame\Database\Builder $builder
-     * @param \Igniter\Flame\Database\Model|array|int $userLocation
-     */
-    protected function applyLocationScope($builder, $userLocation)
-    {
-        $locationId = is_object($userLocation)
-            ? $userLocation->getKey()
-            : $userLocation;
-
-        if (!is_array($locationId)) {
-            $locationId = [$locationId];
-        }
-
-        $relationName = $this->locationableRelationName();
-        $relationObject = $this->getLocationableRelationObject();
-        $locationModel = $relationObject->getRelated();
-
-        if ($this->locationableIsSingleRelationType()) {
-            $builder->whereIn($locationModel->getKeyName(), $locationId);
-        } else {
-            $qualifiedColumnName = $this->locationableIsMorphRelationType()
-                ? $relationObject->getTable().'.'.$locationModel->getKeyName()
-                : $relationObject->getParent()->getTable().'.'.$locationModel->getKeyName();
-
-            $builder->whereHas($relationName, function ($query) use ($qualifiedColumnName, $locationId) {
-                $query->whereIn($qualifiedColumnName, $locationId);
-            });
-        }
     }
 
     //
@@ -117,7 +72,7 @@ trait Locationable
     //
     //
 
-    protected function getLocationableRelationObject()
+    public function getLocationableRelationObject()
     {
         $relationName = $this->locationableRelationName();
 

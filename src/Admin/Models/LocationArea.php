@@ -10,6 +10,8 @@ use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\LocationInterface;
 use Igniter\Flame\Geolite\Facades\Geocoder;
 use Igniter\Flame\Location\Contracts\AreaInterface;
+use Igniter\System\Models\Concerns\Defaultable;
+use Illuminate\Database\Eloquent\Builder;
 use InvalidArgumentException;
 
 /**
@@ -20,6 +22,7 @@ class LocationArea extends Model implements AreaInterface
     use HasFactory;
     use Validation;
     use Sortable;
+    use Defaultable;
 
     const VERTEX = 'vertex';
 
@@ -47,7 +50,6 @@ class LocationArea extends Model implements AreaInterface
     protected $casts = [
         'boundaries' => 'array',
         'conditions' => 'array',
-        'is_default' => 'boolean',
     ];
 
     protected $appends = ['vertices', 'circle'];
@@ -59,7 +61,7 @@ class LocationArea extends Model implements AreaInterface
         '#F16745', '#FFC65D',
     ];
 
-    protected $fillable = ['area_id', 'type', 'name', 'boundaries', 'conditions', 'is_default', 'priority'];
+    protected $fillable = ['area_id', 'type', 'name', 'boundaries', 'conditions', 'priority'];
 
     public $rules = [
         ['type', 'igniter::admin.locations.label_area_type', 'sometimes|required|string'],
@@ -99,16 +101,9 @@ class LocationArea extends Model implements AreaInterface
         return $conditions;
     }
 
-    protected function afterSave()
+    public function defaultable(): Builder
     {
-        if (!$this->is_default) {
-            return;
-        }
-
-        $this->newQuery()
-            ->where('location_id', $this->location_id)
-            ->whereKeyNot($this->getKey())
-            ->update(['is_default' => 0]);
+        return static::query()->where('location_id', $this->location_id);
     }
 
     protected function pickColor()

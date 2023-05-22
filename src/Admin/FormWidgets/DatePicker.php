@@ -78,8 +78,8 @@ class DatePicker extends BaseFormWidget
         }
 
         if ($mode == 'date') {
-            if (setting('default_language') != 'en') {
-                $this->addJs('js/locales/datepicker/bootstrap-datepicker.'.strtolower(str_replace('_', '-', setting('default_language'))).'.min.js', 'bootstrap-datepicker-js');
+            if (($locale = app()->getLocale()) != 'en') {
+                $this->addJs('js/locales/datepicker/bootstrap-datepicker.'.strtolower(str_replace('_', '-', $locale)).'.min.js', 'bootstrap-datepicker-js');
             }
             $this->addCss('datepicker.css', 'datepicker-css');
         }

@@ -70,7 +70,11 @@ trait LogsStatusHistory
 
     public function scopeWhereStatus($query, $statusId)
     {
-        return $query->where('status_id', $statusId);
+        if (is_null($statusId)) {
+            return $query->where('status_id', '>=', 1);
+        }
+
+        return $query->whereIn('status_id', (array)$statusId);
     }
 
     public function scopeWhereHasStatusInHistory($query, $statusId)

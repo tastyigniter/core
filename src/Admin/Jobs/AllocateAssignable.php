@@ -3,10 +3,10 @@
 namespace Igniter\Admin\Jobs;
 
 use Exception;
-use Igniter\Admin\Classes\Allocator;
+use Igniter\Admin\Console\Commands\AllocatorCommand;
 use Igniter\Admin\Models\AssignableLog;
+use Igniter\Admin\Models\Concerns\Assignable;
 use Igniter\Admin\Models\UserGroup;
-use Igniter\Admin\Traits\Assignable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -49,7 +49,7 @@ class AllocateAssignable implements ShouldQueue
                 return;
             }
 
-            Allocator::addSlot($this->assignableLog->getKey());
+            AllocatorCommand::addSlot($this->assignableLog->getKey());
 
             if (!$assignee = $this->assignableLog->assignee_group->findAvailableAssignee()) {
                 throw new Exception(lang('igniter::admin.user_groups.alert_no_available_assignee'));
@@ -57,10 +57,10 @@ class AllocateAssignable implements ShouldQueue
 
             $this->assignableLog->assignable->assignTo($assignee);
 
-            Allocator::removeSlot($this->assignableLog->getKey());
+            AllocatorCommand::removeSlot($this->assignableLog->getKey());
 
             return;
-        } catch (Exception $exception) {
+        } catch (Exception) {
             if (!$lastAttempt) {
                 $waitInSeconds = $this->waitInSecondsAfterAttempt($this->attempts());
 

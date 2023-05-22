@@ -11,7 +11,6 @@ use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Extension;
-use Igniter\System\Notifications\UpdateFoundNotification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -318,23 +317,6 @@ class UpdateManager
         return $result;
     }
 
-    public function requestUpdateListAndNotify()
-    {
-        $cacheKey = 'system_updateList';
-        $result = $this->requestUpdateList(true);
-        if (!is_array($result) || !$result['count']) {
-            Cache::forget($cacheKey);
-
-            return;
-        }
-
-        $cacheItems = Cache::get($cacheKey, []);
-        if ($cacheItems !== $result['items']) {
-            Cache::forever($cacheKey, $result['items']);
-            UpdateFoundNotification::make(array_only($result, ['count']))->broadcast();
-        }
-    }
-
     public function getInstalledItems($type = null)
     {
         if ($this->installedItems) {
@@ -410,6 +392,8 @@ class UpdateManager
             $response['last_checked_at'] = Carbon::now()->toDateTimeString();
 
             Cache::put($cacheKey, $response, now()->addHours(3));
+
+            event('igniter.system.updatesFound', [$response]);
         }
 
         return $response;

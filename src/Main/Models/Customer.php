@@ -11,6 +11,7 @@ use Igniter\Admin\Models\Reservation;
 use Igniter\Flame\Auth\Models\User as AuthUserModel;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Traits\Purgeable;
+use Igniter\System\Models\Concerns\Switchable;
 use Igniter\System\Traits\SendsMailTemplate;
 
 /**
@@ -22,6 +23,7 @@ class Customer extends AuthUserModel
     use SendsMailTemplate;
     use SendsInvite;
     use HasFactory;
+    use Switchable;
 
     /**
      * @var string The database table name
@@ -51,7 +53,7 @@ class Customer extends AuthUserModel
         ],
     ];
 
-    protected $purgeable = ['addresses', 'send_invite'];
+    protected $purgeable = ['addresses'];
 
     public $appends = ['full_name'];
 
@@ -60,7 +62,6 @@ class Customer extends AuthUserModel
         'address_id' => 'integer',
         'customer_group_id' => 'integer',
         'newsletter' => 'boolean',
-        'status' => 'boolean',
         'is_activated' => 'boolean',
         'last_login' => 'datetime',
         'invited_at' => 'datetime',
@@ -70,7 +71,7 @@ class Customer extends AuthUserModel
 
     public static function getDropdownOptions()
     {
-        return static::isEnabled()->selectRaw('customer_id, concat(first_name, " ", last_name) as name')->dropdown('name');
+        return static::whereIsEnabled()->selectRaw('customer_id, concat(first_name, " ", last_name) as name')->dropdown('name');
     }
 
     //
@@ -88,15 +89,6 @@ class Customer extends AuthUserModel
     }
 
     //
-    // Scopes
-    //
-
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('status', 1);
-    }
-
-    //
     // Events
     //
 
@@ -106,41 +98,13 @@ class Customer extends AuthUserModel
             return;
         }
 
-        if ($this->is_activated && $this->status) {
+        if ($this->is_activated && $this->isEnabled()) {
             return;
         }
 
         throw new Exception(sprintf(
             lang('igniter::main.customers.alert_customer_not_active'), $this->email
         ));
-    }
-
-    protected function afterCreate()
-    {
-        $this->saveCustomerGuestOrder();
-
-        $this->restorePurgedValues();
-
-        if ($this->send_invite) {
-            $this->sendInvite();
-        }
-    }
-
-    protected function afterSave()
-    {
-        $this->restorePurgedValues();
-
-        if (!$this->exists) {
-            return;
-        }
-
-        if ($this->status && !$this->is_activated) {
-            $this->completeActivation($this->getActivationCode());
-        }
-
-        if (array_key_exists('addresses', $this->attributes)) {
-            $this->saveAddresses($this->attributes['addresses']);
-        }
     }
 
     public function extendUserQuery($query)
@@ -154,7 +118,7 @@ class Customer extends AuthUserModel
 
     public function enabled()
     {
-        return $this->status;
+        return $this->isEnabled();
     }
 
     public function getCustomerName()

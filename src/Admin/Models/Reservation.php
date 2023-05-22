@@ -4,14 +4,15 @@ namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
 use Igniter\Admin\Events\ReservationCanceledEvent;
-use Igniter\Admin\Traits\Assignable;
+use Igniter\Admin\Models\Concerns\Assignable;
+use Igniter\Admin\Models\Concerns\GeneratesHash;
 use Igniter\Admin\Traits\Locationable;
 use Igniter\Admin\Traits\LogsStatusHistory;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Main\Classes\MainController;
-use Igniter\Main\Models\Customer;
+use Igniter\Main\Models\Concerns\HasCustomer;
 use Igniter\System\Traits\SendsMailTemplate;
 
 /**
@@ -25,6 +26,8 @@ class Reservation extends Model
     use Locationable;
     use Assignable;
     use HasFactory;
+    use HasCustomer;
+    use GeneratesHash;
 
     /**
      * @var string The database table name
@@ -80,125 +83,19 @@ class Reservation extends Model
 
     public $appends = ['customer_name', 'duration', 'table_name', 'reservation_datetime', 'reservation_end_datetime'];
 
-    public static $allowedSortingColumns = [
+    protected array $queryModifierFilters = [
+        'customer' => 'applyCustomer',
+        'location' => 'whereHasLocation',
+        'status' => 'whereStatus',
+        'dateTimeFilter' => 'applyDateTimeFilter',
+    ];
+
+    protected array $queryModifierSorts = [
         'reservation_id asc', 'reservation_id desc',
         'reserve_date asc', 'reserve_date desc',
     ];
 
-    //
-    // Events
-    //
-
-    protected function beforeCreate()
-    {
-        $this->generateHash();
-
-        $this->ip_address = request()->getClientIp();
-        $this->user_agent = request()->userAgent();
-    }
-
-    protected function afterSave()
-    {
-        $this->restorePurgedValues();
-
-        if (array_key_exists('tables', $this->attributes)) {
-            $this->addReservationTables((array)$this->attributes['tables']);
-        }
-
-        if ($this->location->getOption('auto_allocate_table', 1) && !$this->tables()->count()) {
-            $this->addReservationTables($this->getNextBookableTable()->pluck('table_id')->all());
-        }
-    }
-
-    //
-    // Scopes
-    //
-
-    public function scopeListFrontEnd($query, $options = [])
-    {
-        extract(array_merge([
-            'page' => 1,
-            'pageLimit' => 20,
-            'sort' => 'address_id desc',
-            'customer' => null,
-            'location' => null,
-            'status' => null,
-            'search' => '',
-            'dateTimeFilter' => [],
-        ], $options));
-
-        $searchableFields = ['reservation_id', 'first_name', 'last_name', 'email', 'telephone'];
-
-        if (is_null($status)) {
-            $query->where('status_id', '>=', 1);
-        } else {
-            if (!is_array($status)) {
-                $status = [$status];
-            }
-
-            $query->whereIn('status_id', $status);
-        }
-
-        if ($location instanceof Location) {
-            $query->where('location_id', $location->getKey());
-        } elseif (strlen($location)) {
-            $query->where('location_id', $location);
-        }
-
-        if ($customer instanceof Customer) {
-            $query->where('customer_id', $customer->getKey());
-        } elseif (strlen($customer)) {
-            $query->where('customer_id', $customer);
-        }
-
-        if (!is_array($sort)) {
-            $sort = [$sort];
-        }
-
-        foreach ($sort as $_sort) {
-            if (in_array($_sort, self::$allowedSortingColumns)) {
-                $parts = explode(' ', $_sort);
-                if (count($parts) < 2) {
-                    array_push($parts, 'desc');
-                }
-                [$sortField, $sortDirection] = $parts;
-                $query->orderBy($sortField, $sortDirection);
-            }
-        }
-
-        $search = trim($search);
-        if (strlen($search)) {
-            $query->search($search, $searchableFields);
-        }
-
-        $startDateTime = array_get($dateTimeFilter, 'reservationDateTime.startAt', false);
-        $endDateTime = array_get($dateTimeFilter, 'reservationDateTime.endAt', false);
-        if ($startDateTime && $endDateTime) {
-            $query = $this->scopeWhereBetweenReservationDateTime($query, Carbon::parse($startDateTime)->format('Y-m-d H:i:s'), Carbon::parse($endDateTime)->format('Y-m-d H:i:s'));
-        }
-
-        $this->fireEvent('model.extendListFrontEndQuery', [$query]);
-
-        return $query->paginate($pageLimit, $page);
-    }
-
-    public function scopeWhereBetweenReservationDateTime($query, $start, $end)
-    {
-        $query->whereRaw('ADDTIME(reserve_date, reserve_time) between ? and ?', [$start, $end]);
-
-        return $query;
-    }
-
-    public function scopeWhereBetweenDate($query, $dateTime)
-    {
-        $query->whereRaw(
-            '? between DATE_SUB(ADDTIME(reserve_date, reserve_time), INTERVAL (duration - 2) MINUTE)'.
-            ' and DATE_ADD(ADDTIME(reserve_date, reserve_time), INTERVAL duration MINUTE)',
-            [$dateTime]
-        );
-
-        return $query;
-    }
+    protected array $queryModifierSearchableFields = ['reservation_id', 'first_name', 'last_name', 'email', 'telephone'];
 
     //
     // Accessors & Mutators
@@ -401,27 +298,6 @@ class Reservation extends Model
     public function getReservationDates()
     {
         return $this->pluckDates('reserve_date');
-    }
-
-    /**
-     * Generate a unique hash for this reservation.
-     * @return string
-     */
-    protected function generateHash()
-    {
-        $this->hash = $this->createHash();
-        while ($this->newQuery()->where('hash', $this->hash)->count() > 0) {
-            $this->hash = $this->createHash();
-        }
-    }
-
-    /**
-     * Create a hash for this reservation.
-     * @return string
-     */
-    protected function createHash()
-    {
-        return md5(uniqid('reservation', microtime()));
     }
 
     /**

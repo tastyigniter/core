@@ -15,7 +15,7 @@ class ThemeVendorPublish extends VendorPublishCommand
      * The console command name.
      * @var string
      */
-    protected $name = 'theme:vendor-publish';
+    protected $name = 'igniter:theme-vendor-publish';
 
     /**
      * The console command description.

@@ -5,12 +5,15 @@ namespace Igniter\Admin\Models;
 use Carbon\Carbon;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Location\Contracts\WorkingHourInterface;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Working hours Model Class
  */
 class WorkingHour extends Model implements WorkingHourInterface
 {
+    use Switchable;
+
     const CLOSED = 'closed';
 
     const OPEN = 'open';
@@ -39,13 +42,12 @@ class WorkingHour extends Model implements WorkingHourInterface
         'closing_time' => '23:59',
     ];
 
-    public $fillable = ['location_id', 'weekday', 'opening_time', 'closing_time', 'status', 'type'];
+    public $fillable = ['location_id', 'weekday', 'opening_time', 'closing_time', 'type'];
 
     protected $casts = [
         'weekday' => 'integer',
         'opening_time' => 'time',
         'closing_time' => 'time',
-        'status' => 'boolean',
     ];
 
     public static $weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -104,11 +106,6 @@ class WorkingHour extends Model implements WorkingHourInterface
     //
     // Helpers
     //
-
-    public function isEnabled()
-    {
-        return $this->status == 1;
-    }
 
     public function isOpenAllDay()
     {

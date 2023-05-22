@@ -50,12 +50,13 @@ class ServiceProvider extends AppServiceProvider
         $this->registerFacadeAliases();
         $this->registerComponents();
 
+        $this->app->register(Providers\AssetsServiceProvider::class);
+        $this->app->register(Providers\EventServiceProvider::class);
+        $this->app->register(Providers\FormServiceProvider::class);
         $this->app->register(Providers\MenuItemServiceProvider::class);
         $this->app->register(Providers\PagicServiceProvider::class);
-        $this->app->register(Providers\FormServiceProvider::class);
         $this->app->register(Providers\PermissionServiceProvider::class);
         $this->app->register(Providers\ThemeServiceProvider::class);
-        $this->app->register(Providers\AssetsServiceProvider::class);
     }
 
     /**

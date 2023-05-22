@@ -188,7 +188,7 @@ class PaymentGateways
         }
 
         $partials = $theme->listPartials()->pluck('baseFileName', 'baseFileName')->all();
-        $paymentMethods = Payment::isEnabled()->get();
+        $paymentMethods = Payment::whereIsEnabled()->get();
 
         foreach ($paymentMethods as $paymentMethod) {
             $class = $paymentMethod->getGatewayClass();

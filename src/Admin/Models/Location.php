@@ -11,15 +11,17 @@ use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\HasPermalink;
 use Igniter\Flame\Database\Traits\Purgeable;
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Location\Contracts\LocationInterface;
-use Illuminate\Support\Facades\DB;
+use Igniter\System\Models\Concerns\Defaultable;
+use Igniter\System\Models\Concerns\HasCountry;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Location Model Class
  */
 class Location extends Model implements LocationInterface
 {
+    use HasCountry;
     use HasWorkingHours;
     use HasDeliveryAreas;
     use HasFactory;
@@ -28,6 +30,10 @@ class Location extends Model implements LocationInterface
     use HasLocationOptions;
     use LocationHelpers;
     use Purgeable;
+    use Switchable;
+    use Defaultable;
+
+    public const SWITCHABLE_COLUMN = 'location_status';
 
     const KM_UNIT = 111.13384;
 
@@ -55,20 +61,20 @@ class Location extends Model implements LocationInterface
      */
     protected $primaryKey = 'location_id';
 
+    public $timestamps = true;
+
     protected $appends = ['location_thumb'];
 
     protected $casts = [
         'location_country_id' => 'integer',
         'location_lat' => 'double',
         'location_lng' => 'double',
-        'location_status' => 'boolean',
     ];
 
     public $relation = [
         'hasMany' => [
             'all_options' => [\Igniter\Admin\Models\LocationOption::class, 'delete' => true],
             'working_hours' => [\Igniter\Admin\Models\WorkingHour::class, 'delete' => true],
-            'delivery_areas' => [\Igniter\Admin\Models\LocationArea::class, 'delete' => true],
         ],
         'belongsTo' => [
             'country' => [\Igniter\System\Models\Country::class, 'otherKey' => 'country_id', 'foreignKey' => 'location_country_id'],
@@ -79,7 +85,7 @@ class Location extends Model implements LocationInterface
         ],
     ];
 
-    protected $purgeable = ['options', 'delivery_areas'];
+    protected $purgeable = ['options'];
 
     public $permalinkable = [
         'permalink_slug' => [
@@ -93,30 +99,38 @@ class Location extends Model implements LocationInterface
         'gallery' => ['multiple' => true],
     ];
 
-    protected static $allowedSortingColumns = [
+    protected array $queryModifierFilters = [
+        'enabled' => 'applySwitchable',
+        'position' => 'applyPosition',
+    ];
+
+    protected array $queryModifierSorts = [
         'distance asc', 'distance desc',
         'location_id asc', 'location_id desc',
         'location_name asc', 'location_name desc',
     ];
 
+    protected array $queryModifierSearchableFields = [
+        'location_name', 'location_address_1',
+        'location_address_2', 'location_city',
+        'location_state', 'location_postcode',
+        'description',
+    ];
+
     public $url;
-
-    public $timestamps = true;
-
-    protected static $defaultLocation;
 
     public static function getDropdownOptions()
     {
-        return static::isEnabled()->dropdown('location_name');
+        return static::whereIsEnabled()->dropdown('location_name');
     }
 
     public static function onboardingIsComplete()
     {
-        if (!$defaultId = params('default_location_id')) {
+        if (!$defaultId = self::getDefaultKey()) {
             return false;
         }
 
-        if (!$model = self::isEnabled()->find($defaultId)) {
+        if (!$model = self::whereIsEnabled()->find($defaultId)) {
             return false;
         }
 
@@ -124,119 +138,7 @@ class Location extends Model implements LocationInterface
             && isset($model->getAddress()['location_lng'])
             && ($model->hasDelivery() || $model->hasCollection())
             && isset($model->options['hours'])
-            && $model->delivery_areas->where('is_default', 1)->count() > 0;
-    }
-
-    public static function addSortingColumns($newColumns)
-    {
-        self::$allowedSortingColumns = array_merge(self::$allowedSortingColumns, $newColumns);
-    }
-
-    //
-    // Events
-    //
-
-    protected function beforeDelete()
-    {
-    }
-
-    public function beforeSave()
-    {
-        if (is_null($this->location_country_id)) {
-            $this->location_country_id = setting('country_id');
-        }
-    }
-
-    protected function afterSave()
-    {
-        $this->performAfterSave();
-    }
-
-    //
-    // Scopes
-    //
-
-    /**
-     * Scope a query to only include enabled location
-     *
-     * @return $this
-     */
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('location_status', 1);
-    }
-
-    public function scopeListFrontEnd($query, array $options = [])
-    {
-        extract($options = array_merge([
-            'page' => 1,
-            'pageLimit' => 20,
-            'sort' => null,
-            'search' => null,
-            'enabled' => null,
-            'latitude' => null,
-            'longitude' => null,
-            'paginate' => true,
-        ], $options));
-
-        if ($latitude && $longitude) {
-            $query->selectDistance($latitude, $longitude);
-        }
-
-        $searchableFields = [
-            'location_name', 'location_address_1',
-            'location_address_2', 'location_city',
-            'location_state', 'location_postcode',
-            'description',
-        ];
-
-        if (!is_array($sort)) {
-            $sort = [$sort];
-        }
-
-        foreach ($sort as $_sort) {
-            if (in_array($_sort, self::$allowedSortingColumns)) {
-                $parts = explode(' ', $_sort);
-                if (count($parts) < 2) {
-                    $parts[] = 'desc';
-                }
-                [$sortField, $sortDirection] = $parts;
-                $query->orderBy($sortField, $sortDirection);
-            }
-        }
-
-        $search = trim($search);
-        if (strlen($search)) {
-            $query->search($search, $searchableFields);
-        }
-
-        if (!is_null($enabled)) {
-            $query->where('location_status', $enabled);
-        }
-
-        $this->fireEvent('model.extendListFrontEndQuery', [$query]);
-
-        if (is_null($pageLimit)) {
-            return $query;
-        }
-
-        return $query->paginate($pageLimit, $page);
-    }
-
-    public function scopeSelectDistance($query, $latitude = null, $longitude = null)
-    {
-        if (setting('distance_unit') === 'km') {
-            $sql = '( 6371 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) *';
-        } else {
-            $sql = '( 3959 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) *';
-        }
-
-        $sql .= ' cos( radians( location_lng ) - radians(?) ) + sin( radians(?) ) *';
-        $sql .= ' sin( radians( location_lat ) ) ) ) AS distance';
-
-        $query->selectRaw(DB::raw($sql), [$latitude, $longitude, $latitude]);
-
-        return $query;
+            && $model->delivery_areas()->whereIsDefault()->count() > 0;
     }
 
     //
@@ -321,55 +223,8 @@ class Location extends Model implements LocationInterface
         return collect($result);
     }
 
-    public function performAfterSave()
+    public function getDefaultableName()
     {
-        $this->restorePurgedValues();
-
-        if (array_key_exists('delivery_areas', $this->attributes)) {
-            $this->addLocationAreas((array)$this->attributes['delivery_areas']);
-        }
-    }
-
-    public function makeDefault()
-    {
-        if (!$this->location_status) {
-            throw new ValidationException(['location_status' => sprintf(
-                lang('igniter::admin.alert_error_set_default'), $this->location_name
-            )]);
-        }
-
-        params()->set(['default_location_id' => $this->getKey()])->save();
-    }
-
-    /**
-     * Update the default location
-     *
-     * @param string $locationId
-     *
-     * @return bool|null
-     */
-    public static function updateDefault($locationId)
-    {
-        if ($model = self::find($locationId)) {
-            $model->makeDefault();
-
-            return true;
-        }
-    }
-
-    public static function getDefault()
-    {
-        if (self::$defaultLocation !== null) {
-            return self::$defaultLocation;
-        }
-
-        $defaultLocation = self::isEnabled()->where('location_id', params('default_location_id'))->first();
-        if (!$defaultLocation) {
-            if ($defaultLocation = self::isEnabled()->first()) {
-                $defaultLocation->makeDefault();
-            }
-        }
-
-        return self::$defaultLocation = $defaultLocation;
+        return $this->location_name;
     }
 }

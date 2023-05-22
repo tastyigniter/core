@@ -5,8 +5,9 @@ namespace Igniter\System\Models;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Sortable;
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\System\Classes\HubManager;
+use Igniter\System\Models\Concerns\Defaultable;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Country Model Class
@@ -15,6 +16,8 @@ class Country extends Model
 {
     use Sortable;
     use HasFactory;
+    use Defaultable;
+    use Switchable;
 
     const SORT_ORDER = 'priority';
 
@@ -31,7 +34,6 @@ class Country extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'status' => 'boolean',
         'priority' => 'integer',
     ];
 
@@ -43,62 +45,14 @@ class Country extends Model
 
     public $timestamps = true;
 
-    /**
-     * @var self Default country cache.
-     */
-    protected static $defaultCountry;
-
     public static function getDropdownOptions()
     {
-        return static::isEnabled()->dropdown('country_name');
+        return static::whereIsEnabled()->dropdown('country_name');
     }
 
-    public function makeDefault()
+    public function defaultableName()
     {
-        if (!$this->status) {
-            throw new ValidationException(['status' => sprintf(
-                lang('igniter::admin.alert_error_set_default'), $this->country_name
-            )]);
-        }
-
-        setting()->set('country_id', $this->country_id)->save();
-    }
-
-    /**
-     * Returns the default currency defined.
-     * @return self
-     */
-    public static function getDefault()
-    {
-        if (self::$defaultCountry !== null) {
-            return self::$defaultCountry;
-        }
-
-        $defaultCountry = self::isEnabled()
-            ->where('country_id', setting('country_id'))
-            ->first();
-
-        if (!$defaultCountry) {
-            if ($defaultCountry = self::whereIsEnabled()->first()) {
-                $defaultCountry->makeDefault();
-            }
-        }
-
-        return self::$defaultCountry = $defaultCountry;
-    }
-
-    public static function updateDefault($countryId)
-    {
-        if ($model = self::find($countryId)) {
-            $model->makeDefault();
-
-            return true;
-        }
-    }
-
-    public function isDefault()
-    {
-        return $this->country_id == setting('country_id');
+        $this->country_name;
     }
 
     public static function upsertFromHub()
@@ -114,18 +68,5 @@ class Country extends Model
 
             $country->update($item);
         });
-    }
-
-    //
-    // Scopes
-    //
-
-    /**
-     * Scope a query to only include enabled country
-     * @return $this
-     */
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('status', 1);
     }
 }

@@ -12,6 +12,8 @@ use Igniter\Main\Template\Layout;
 use Igniter\System\Classes\ComponentManager;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\PackageManifest;
+use Igniter\System\Models\Concerns\Defaultable;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Theme Model Class
@@ -19,6 +21,8 @@ use Igniter\System\Classes\PackageManifest;
 class Theme extends Model
 {
     use Purgeable;
+    use Switchable;
+    use Defaultable;
 
     const ICON_MIMETYPES = [
         'png' => 'image/png',
@@ -80,11 +84,7 @@ class Theme extends Model
 
     public static function onboardingIsComplete()
     {
-        if (!$code = params('default_themes.main')) {
-            return false;
-        }
-
-        if (!$model = self::where('code', $code)->first()) {
+        if (!$model = self::getDefault()) {
             return false;
         }
 
@@ -173,15 +173,6 @@ class Theme extends Model
     protected function afterFetch()
     {
         $this->applyThemeManager();
-    }
-
-    //
-    // Scopes
-    //
-
-    public function scopeIsEnabled($query)
-    {
-        $query->where('status', 1);
     }
 
     //
@@ -288,7 +279,7 @@ class Theme extends Model
             $theme->description = $themeObj->description ?? '';
             $theme->save();
 
-            $themeManager->updateInstalledThemes($name, $theme->status);
+            $themeManager->updateInstalledThemes($name, $theme->isEnabled());
         }
 
         // Disable themes not found in file system
@@ -316,8 +307,6 @@ class Theme extends Model
         foreach ($theme->getTheme()->listRequires() as $require => $version) {
             if (!$extensionManager->hasExtension($require)) {
                 $notFound[] = $require;
-            } else {
-                $extensionManager->installExtension($require);
             }
         }
 
@@ -325,8 +314,7 @@ class Theme extends Model
             throw new ApplicationException(sprintf('The following required extensions must be installed before activating this theme, %s', implode(', ', $notFound)));
         }
 
-        params()->set('default_themes.main', $theme->code);
-        params()->save();
+        $theme->makeDefault();
 
         ThemeActivatedEvent::dispatch($theme);
 

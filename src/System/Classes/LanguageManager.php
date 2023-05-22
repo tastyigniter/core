@@ -48,7 +48,7 @@ class LanguageManager
 
     public function listLanguages()
     {
-        return Language::isEnabled()->get();
+        return Language::whereIsEnabled()->get();
     }
 
     /**

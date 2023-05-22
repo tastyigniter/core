@@ -19,16 +19,9 @@ class PaymentProfile extends Model
         'is_primary' => 'boolean',
     ];
 
-    public function afterCreate()
+    public function afterSave()
     {
-        if ($this->is_primary) {
-            $this->makePrimary();
-        }
-    }
-
-    public function beforeUpdate()
-    {
-        if ($this->isDirty('is_primary')) {
+        if ($this->is_primary && $this->wasChanged('is_primary')) {
             $this->makePrimary();
         }
     }

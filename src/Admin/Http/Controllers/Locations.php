@@ -113,7 +113,7 @@ class Locations extends \Igniter\Admin\Classes\AdminController
 
         $attributes = $column->attributes;
         $column->iconCssClass = 'fa fa-star-o';
-        if ($record->getKey() == params('default_location_id')) {
+        if ($record->isDefault()) {
             $column->iconCssClass = 'fa fa-star';
         }
 

@@ -6,6 +6,7 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Events\ThemeGetActiveEvent;
+use Igniter\Main\Models\Theme as ThemeModel;
 use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
@@ -19,7 +20,7 @@ use Illuminate\Support\ServiceProvider;
  */
 class ThemeManager
 {
-    protected $themeModel = \Igniter\Main\Models\Theme::class;
+    protected $themeModel = ThemeModel::class;
 
     /**
      * @var array of disabled themes.
@@ -217,13 +218,11 @@ class ThemeManager
 
     public function getActiveThemeCode()
     {
-        $activeTheme = trim(params('default_themes.main', config('igniter-system.defaultTheme')), '/');
-
         if (!is_null($apiResult = ThemeGetActiveEvent::dispatchOnce())) {
-            $activeTheme = $apiResult;
+            return $apiResult;
         }
 
-        return $activeTheme;
+        return trim(ThemeModel::getDefault()?->code ?? config('igniter-system.defaultTheme', ''), '/');
     }
 
     /**
@@ -565,7 +564,7 @@ class ThemeManager
         $this->removeTheme($themeCode);
 
         if ($deleteData) {
-            \Igniter\Main\Models\Theme::where('code', $themeCode)->delete();
+            ThemeModel::where('code', $themeCode)->delete();
 
             resolve(UpdateManager::class)->purgeExtension($themeCode);
         }

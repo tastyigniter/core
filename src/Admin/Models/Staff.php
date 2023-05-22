@@ -85,7 +85,7 @@ class Staff extends Model
 
     public static function getDropdownOptions()
     {
-        return static::isEnabled()->dropdown('staff_name');
+        return static::whereIsEnabled()->dropdown('staff_name');
     }
 
     //

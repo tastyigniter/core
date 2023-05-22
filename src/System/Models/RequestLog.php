@@ -4,6 +4,8 @@ namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Igniter;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Support\Facades\Request;
 
 /**
@@ -11,6 +13,8 @@ use Illuminate\Support\Facades\Request;
  */
 class RequestLog extends Model
 {
+    use Prunable;
+
     /**
      * @var string The database table name
      */
@@ -66,5 +70,14 @@ class RequestLog extends Model
         }
 
         return $this;
+    }
+
+    //
+    // Concerns
+    //
+
+    public function prunable(): Builder
+    {
+        return static::query()->where('created_at', '<=', now()->subDays(setting('activity_log_timeout', 60)));
     }
 }

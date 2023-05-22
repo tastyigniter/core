@@ -139,7 +139,7 @@ class PackageManifest extends BasePackageManifest
             $manifest['directory'] = $directory;
         }
 
-        $result[$code] = $manifest;
+        $result[$code] = array_filter($manifest);
 
         return $result;
     }

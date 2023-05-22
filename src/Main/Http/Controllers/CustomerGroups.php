@@ -78,7 +78,7 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
 
         $attributes = $column->attributes;
         $column->iconCssClass = 'fa fa-star-o';
-        if ($record->getKey() == setting('customer_group_id')) {
+        if ($record->isDefault()) {
             $column->iconCssClass = 'fa fa-star';
         }
 

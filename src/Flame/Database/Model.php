@@ -3,6 +3,7 @@
 namespace Igniter\Flame\Database;
 
 use Closure;
+use Igniter\Flame\Database\Traits\HasQueryModifier;
 use Igniter\Flame\Traits\EventEmitter;
 use Igniter\Flame\Traits\ExtendableTrait;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -13,12 +14,13 @@ use Illuminate\Support\Str;
 /**
  * Model Class
  */
-class Model extends EloquentModel
+abstract class Model extends EloquentModel
 {
     use ExtendableTrait;
     use EventEmitter;
     use Concerns\HasAttributes;
     use Concerns\HasRelationships;
+    use HasQueryModifier;
 
     /**
      * @var array Make the model's attributes public so actions can modify them.

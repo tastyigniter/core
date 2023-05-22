@@ -5,10 +5,13 @@ namespace Igniter\System\Models;
 use Igniter\Flame\Database\Model;
 use Igniter\System\Contracts\CriticalNotification;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Notifications\DatabaseNotification;
 
 class Notification extends DatabaseNotification
 {
+    use Prunable;
+
     protected static function booted(): void
     {
         static::created(function (self $model) {
@@ -49,5 +52,16 @@ class Notification extends DatabaseNotification
     public function scopeWhereNotifiable(Builder $query, Model $notifiable)
     {
         return $query->whereMorphedTo('notifiable', $notifiable);
+    }
+
+    //
+    // Concerns
+    //
+
+    public function prunable(): Builder
+    {
+        return static::query()
+            ->whereNotNull('read_at')
+            ->where('read_at', '<=', now()->subDays(setting('activity_log_timeout', 60)));
     }
 }

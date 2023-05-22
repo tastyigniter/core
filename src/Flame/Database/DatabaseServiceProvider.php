@@ -3,6 +3,8 @@
 namespace Igniter\Flame\Database;
 
 use Doctrine\DBAL\Types\Type;
+use Igniter\Flame\Database\Attach\Media;
+use Igniter\Flame\Database\Attach\Observers\MediaObserver;
 use Igniter\Flame\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\DatabaseServiceProvider as BaseDatabaseServiceProvider;
@@ -21,6 +23,13 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         parent::register();
 
         $this->registerDoctrineTypes();
+    }
+
+    public function boot()
+    {
+        parent::boot();
+
+        Media::observe(MediaObserver::class);
     }
 
     /**

@@ -7,7 +7,8 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Flame\Database\Traits\Sortable;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Flame\Exception\ValidationException;
+use Igniter\System\Models\Concerns\Defaultable;
+use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Facades\Lang;
 
 /**
@@ -17,6 +18,8 @@ class Payment extends Model
 {
     use Sortable;
     use Purgeable;
+    use Switchable;
+    use Defaultable;
 
     const SORT_ORDER = 'priority';
 
@@ -30,29 +33,25 @@ class Payment extends Model
      */
     protected $primaryKey = 'payment_id';
 
-    protected $fillable = ['name', 'code', 'class_name', 'description', 'data', 'status', 'is_default', 'priority'];
+    protected $fillable = ['name', 'code', 'class_name', 'description', 'data', 'priority'];
 
     public $timestamps = true;
 
     protected $casts = [
         'data' => 'array',
-        'status' => 'boolean',
-        'is_default' => 'boolean',
         'priority' => 'integer',
     ];
 
     protected $purgeable = ['payment'];
 
-    protected static $defaultPayment;
-
     public function getDropdownOptions()
     {
-        return $this->isEnabled()->dropdown('name', 'code');
+        return $this->whereIsEnabled()->dropdown('name', 'code');
     }
 
     public static function listDropdownOptions()
     {
-        $all = self::select('code', 'name', 'description')->isEnabled()->get();
+        $all = self::select('code', 'name', 'description')->whereIsEnabled()->get();
         $collection = $all->keyBy('code')->map(function ($model) {
             return [$model->name, $model->description];
         });
@@ -62,7 +61,7 @@ class Payment extends Model
 
     public static function onboardingIsComplete()
     {
-        return self::isEnabled()->count() > 0;
+        return self::whereIsEnabled()->count() > 0;
     }
 
     public function listGateways()
@@ -85,51 +84,20 @@ class Payment extends Model
         $this->attributes['code'] = str_slug($value, '_');
     }
 
-    public function scopeIsEnabled($query)
+    public function purgeConfigFields(): array
     {
-        return $query->where('status', 1);
-    }
-
-    //
-    // Events
-    //
-
-    protected function afterFetch()
-    {
-        $this->applyGatewayClass();
-
-        if (is_array($this->data)) {
-            $this->attributes = array_merge($this->data, $this->attributes);
-        }
-    }
-
-    protected function beforeSave()
-    {
-        if (!$this->exists) {
-            return;
-        }
-
-        if ($this->is_default) {
-            $this->makeDefault();
-        }
-
         $data = [];
-        $fields = ($configFields = $this->getConfigFields()) ? $configFields : [];
-        foreach ($fields as $name => $config) {
-            if (!array_key_exists($name, $this->attributes)) {
+        $attributes = $this->getAttributes();
+        foreach ($this->getConfigFields() ?: [] as $name => $config) {
+            if (!array_key_exists($name, $attributes)) {
                 continue;
             }
-            $data[$name] = $this->attributes[$name];
+
+            $data[$name] = $attributes[$name];
+            unset($attributes[$name]);
         }
 
-        foreach ($this->attributes as $name => $value) {
-            if (in_array($name, $this->fillable)) {
-                continue;
-            }
-            unset($this->attributes[$name]);
-        }
-
-        $this->data = $data;
+        return $data;
     }
 
     //
@@ -190,44 +158,9 @@ class Payment extends Model
     // Helpers
     //
 
-    public function makeDefault()
+    public function defaultableKeyName(): string
     {
-        if (!$this->status) {
-            throw new ValidationException(['status' => sprintf(
-                lang('igniter::admin.alert_error_set_default'), $this->name
-            )]);
-        }
-
-        $this->timestamps = false;
-        $this->newQuery()->where('is_default', '!=', 0)->update(['is_default' => 0]);
-        $this->newQuery()->where('payment_id', $this->payment_id)->update(['is_default' => 1]);
-        $this->timestamps = true;
-    }
-
-    public static function getDefault()
-    {
-        if (self::$defaultPayment !== null) {
-            return self::$defaultPayment;
-        }
-
-        $defaultPayment = self::isEnabled()->where('is_default', true)->first();
-
-        if (!$defaultPayment) {
-            if ($defaultPayment = self::isEnabled()->first()) {
-                $defaultPayment->makeDefault();
-            }
-        }
-
-        return self::$defaultPayment = $defaultPayment;
-    }
-
-    public static function updateDefault($paymentCode)
-    {
-        if ($model = self::whereCode($paymentCode)->first()) {
-            $model->makeDefault();
-
-            return true;
-        }
+        return 'code';
     }
 
     /**
@@ -237,7 +170,7 @@ class Payment extends Model
      */
     public static function listPayments()
     {
-        return self::isEnabled()->get()->filter(function ($model) {
+        return self::whereIsEnabled()->get()->filter(function ($model) {
             return strlen($model->class_name) > 0;
         });
     }

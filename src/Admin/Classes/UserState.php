@@ -2,25 +2,23 @@
 
 namespace Igniter\Admin\Classes;
 
-use Carbon\Carbon;
 use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Models\UserPreference;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Admin User State
  */
 class UserState
 {
-    protected const USER_PREFERENCE_KEY = 'admin_users_state';
+    public const USER_PREFERENCE_KEY = 'admin_users_state';
 
-    protected const ONLINE_STATUS = 1;
+    public const ONLINE_STATUS = 1;
 
-    protected const BACK_SOON_STATUS = 2;
+    public const BACK_SOON_STATUS = 2;
 
-    protected const AWAY_STATUS = 3;
+    public const AWAY_STATUS = 3;
 
-    protected const CUSTOM_STATUS = 4;
+    public const CUSTOM_STATUS = 4;
 
     protected $user;
 
@@ -100,32 +98,6 @@ class UserState
             30 => 'igniter::admin.staff_status.text_clear_minutes',
             0 => 'igniter::admin.staff_status.text_dont_clear',
         ];
-    }
-
-    public static function clearExpiredStatus()
-    {
-        DB::table(UserPreference::make()->getTable())
-            ->where('item', static::USER_PREFERENCE_KEY)
-            ->where('value->status', static::CUSTOM_STATUS)
-            ->where('value->clearAfterMinutes', '!=', 0)
-            ->get()
-            ->each(function ($preference) {
-                $state = json_decode($preference->value);
-                if (!$state->clearAfterMinutes) {
-                    return true;
-                }
-
-                $clearAfterAt = make_carbon($state->updatedAt)
-                    ->addMinutes($state->clearAfterMinutes);
-
-                if (Carbon::now()->lessThan($clearAfterAt)) {
-                    return true;
-                }
-
-                DB::table(UserPreference::make()->getTable())
-                    ->where('id', $preference->id)
-                    ->update(['value' => json_encode((new static)->defaultStateConfig)]);
-            });
     }
 
     //

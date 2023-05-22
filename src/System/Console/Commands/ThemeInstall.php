@@ -13,7 +13,7 @@ class ThemeInstall extends Command
     /**
      * The console command name.
      */
-    protected $name = 'theme:install';
+    protected $name = 'igniter:theme-install';
 
     /**
      * The console command description.

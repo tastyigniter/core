@@ -1,28 +1,29 @@
 <?php
 
-namespace Igniter\Admin\Classes;
+namespace Igniter\Admin\Console\Commands;
 
 use Igniter\Admin\Jobs\AllocateAssignable;
 use Igniter\Admin\Models\AssignableLog;
+use Illuminate\Console\Command;
 
-class Allocator
+class AllocatorCommand extends Command
 {
-    public static function allocate()
+    protected $signature = 'igniter:assignable-allocate';
+
+    protected $description = 'Allocate assignables to assignees';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle(): void
     {
-        if (!$availableSlotCount = self::countAvailableSlot()) {
+        if (!$availableSlotCount = AllocatorCommand::countAvailableSlot()) {
             return;
         }
 
-        $queue = AssignableLog::getUnAssignedQueue($availableSlotCount);
-
-        $queue->each(function ($assignableLog) {
-            AllocateAssignable::dispatch($assignableLog);
-        });
-    }
-
-    public static function isEnabled()
-    {
-        return (bool)params('allocator_is_enabled', false);
+        AssignableLog::getUnAssignedQueue($availableSlotCount)
+            ->lazy()
+            ->each(fn($assignableLog) => AllocateAssignable::dispatch($assignableLog));
     }
 
     public static function addSlot($slot)

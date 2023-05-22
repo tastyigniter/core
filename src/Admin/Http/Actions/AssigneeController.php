@@ -2,7 +2,7 @@
 
 namespace Igniter\Admin\Http\Actions;
 
-use Igniter\Admin\Traits\Assignable;
+use Igniter\Admin\Models\Concerns\Assignable;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\System\Classes\ControllerAction;

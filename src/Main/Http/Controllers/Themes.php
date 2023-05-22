@@ -127,10 +127,9 @@ class Themes extends \Igniter\Admin\Classes\AdminController
             $themeManager = resolve(ThemeManager::class);
             $theme = $themeManager->findTheme($themeCode);
             $model = Theme::whereCode($themeCode)->first();
-            $activeThemeCode = params()->get('default_themes.main');
 
             // Theme must be disabled before it can be deleted
-            if ($model && $model->code == $activeThemeCode) {
+            if ($model && $model->isDefault()) {
                 flash()->warning(sprintf(
                     lang('igniter::admin.alert_error_nothing'),
                     lang('igniter::admin.text_deleted').lang('igniter::system.themes.text_theme_is_active')

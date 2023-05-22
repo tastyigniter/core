@@ -108,6 +108,10 @@ $config['form']['fields'] = [
         'type' => 'switch',
         'comment' => 'lang:igniter::main.customer_groups.help_approval',
     ],
+    'is_default' => [
+        'label' => 'lang:igniter::admin.text_is_default',
+        'type' => 'switch',
+    ],
     'description' => [
         'label' => 'lang:admin::lang.label_description',
         'type' => 'textarea',

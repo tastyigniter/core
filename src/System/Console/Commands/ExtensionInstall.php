@@ -13,7 +13,7 @@ class ExtensionInstall extends Command
     /**
      * The console command name.
      */
-    protected $name = 'extension:install';
+    protected $name = 'igniter:extension-install';
 
     /**
      * The console command description.

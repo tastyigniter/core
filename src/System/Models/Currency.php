@@ -5,15 +5,22 @@ namespace Igniter\System\Models;
 use Igniter\Flame\Currency\Contracts\CurrencyInterface;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\System\Classes\HubManager;
+use Igniter\System\Models\Concerns\Defaultable;
+use Igniter\System\Models\Concerns\HasCountry;
+use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Currency Model Class
  */
 class Currency extends Model implements CurrencyInterface
 {
+    use HasCountry;
     use HasFactory;
+    use Switchable;
+    use Defaultable;
+
+    const SWITCHABLE_COLUMN = 'currency_status';
 
     /**
      * @var string The database table name
@@ -25,9 +32,6 @@ class Currency extends Model implements CurrencyInterface
      */
     protected $primaryKey = 'currency_id';
 
-    /**
-     * @var array The model table column to convert to dates on insert/update
-     */
     public $timestamps = true;
 
     protected $guarded = [];
@@ -36,7 +40,6 @@ class Currency extends Model implements CurrencyInterface
         'country_id' => 'integer',
         'currency_rate' => 'float',
         'symbol_position' => 'boolean',
-        'currency_status' => 'boolean',
     ];
 
     public $relation = [
@@ -45,105 +48,17 @@ class Currency extends Model implements CurrencyInterface
         ],
     ];
 
-    /**
-     * @var self Default currency cache.
-     */
-    protected static $defaultCurrency;
+    protected array $queryModifierFilters = [
+        'enabled' => 'applySwitchable',
+    ];
 
-    public static $allowedSortingColumns = ['currency_name asc', 'currency_name desc', 'currency_code asc', 'currency_code desc'];
+    protected array $queryModifierSorts = ['currency_name asc', 'currency_name desc', 'currency_code asc', 'currency_code desc'];
 
-    public function scopeListFrontEnd($query, $options = [])
+    protected array $queryModifierSearchableFields = ['currency_name', 'currency_code'];
+
+    public function getDefaultableName()
     {
-        extract(array_merge([
-            'page' => 1,
-            'pageLimit' => 20,
-            'enabled' => true,
-            'sort' => 'currency_name asc',
-            'search' => '',
-        ], $options));
-
-        $searchableFields = ['currency_name', 'currency_code'];
-
-        if (!is_array($sort)) {
-            $sort = [$sort];
-        }
-
-        foreach ($sort as $_sort) {
-            if (in_array($_sort, self::$allowedSortingColumns)) {
-                $parts = explode(' ', $_sort);
-                if (count($parts) < 2) {
-                    $parts[] = 'desc';
-                }
-                [$sortField, $sortDirection] = $parts;
-                $query->orderBy($sortField, $sortDirection);
-            }
-        }
-
-        $search = trim($search);
-        if (strlen($search)) {
-            $query->search($search, $searchableFields);
-        }
-
-        if ($enabled) {
-            $query->isEnabled();
-        }
-
-        $this->fireEvent('model.extendListFrontEndQuery', [$query]);
-
-        return $query->paginate($pageLimit, $page);
-    }
-
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('currency_status', 1);
-    }
-
-    public function makeDefault()
-    {
-        if (!$this->currency_status) {
-            throw new ValidationException(['currency_status' => sprintf(
-                lang('igniter::admin.alert_error_set_default'), $this->currency_name
-            )]);
-        }
-
-        setting()->set('default_currency_code', $this->currency_code)->save();
-    }
-
-    public function isDefault()
-    {
-        return $this->currency_code == setting('default_currency_code');
-    }
-
-    /**
-     * Returns the default currency defined.
-     * @return self
-     */
-    public static function getDefault()
-    {
-        if (self::$defaultCurrency !== null) {
-            return self::$defaultCurrency;
-        }
-
-        $defaultCurrency = self::whereIsEnabled()->where('currency_id', setting('default_currency_code'))
-            ->orWhere('currency_code', setting('default_currency_code'))
-            ->first();
-
-        if (!$defaultCurrency) {
-            if ($defaultCurrency = self::whereIsEnabled()->first()) {
-                $defaultCurrency->makeDefault();
-            }
-        }
-
-        return self::$defaultCurrency = $defaultCurrency;
-    }
-
-    public static function updateDefault($currencyId)
-    {
-        if ($model = self::find($currencyId)) {
-            $model->makeDefault();
-
-            return true;
-        }
+        return $this->currency_name;
     }
 
     public static function getDropdownOptions()
@@ -152,7 +67,7 @@ class Currency extends Model implements CurrencyInterface
             ->selectRaw("CONCAT_WS(' - ', country_name, currency_code, currency_symbol) as name")
             ->leftJoin('countries', 'currencies.country_id', '=', 'countries.country_id')
             ->orderBy('priority')
-            ->where('currency_status', 1)
+            ->whereIsEnabled()
             ->dropdown('name', 'currency_id');
     }
 
@@ -164,15 +79,10 @@ class Currency extends Model implements CurrencyInterface
         ];
     }
 
-    public function updateRate($currencyRate)
+    public function updateRate($rate)
     {
-        $this->currency_rate = $currencyRate;
+        $this->currency_rate = $rate;
         $this->save();
-    }
-
-    public function scopeWhereIsEnabled($query)
-    {
-        return $query->where('currency_status', 1);
     }
 
     public static function upsertFromHub()
@@ -238,10 +148,5 @@ class Currency extends Model implements CurrencyInterface
     public function getRate()
     {
         return $this->currency_rate;
-    }
-
-    public function isEnabled()
-    {
-        return $this->currency_status;
     }
 }

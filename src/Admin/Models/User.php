@@ -23,6 +23,7 @@ class User extends AuthUserModel
     use SendsInvite;
     use SendsMailTemplate;
     use Locationable;
+    use Switchable;
 
     const LOCATIONABLE_RELATION = 'locations';
 
@@ -45,7 +46,6 @@ class User extends AuthUserModel
         'user_role_id' => 'integer',
         'sale_permission' => 'integer',
         'language_id' => 'integer',
-        'status' => 'boolean',
         'super_user' => 'boolean',
         'is_activated' => 'boolean',
         'reset_time' => 'datetime',
@@ -99,21 +99,12 @@ class User extends AuthUserModel
 
     public static function getDropdownOptions()
     {
-        return static::isEnabled()->dropdown('name');
+        return static::whereIsEnabled()->dropdown('name');
     }
 
     //
     // Scopes
     //
-
-    /**
-     * Scope a query to only include enabled staff
-     * @return $this
-     */
-    public function scopeIsEnabled($query)
-    {
-        return $query->where('status', 1);
-    }
 
     public function scopeWhereNotSuperUser($query)
     {
@@ -129,25 +120,10 @@ class User extends AuthUserModel
     // Events
     //
 
-    protected function afterCreate()
-    {
-        $this->restorePurgedValues();
-
-        if ($this->send_invite) {
-            $this->sendInvite();
-        }
-    }
-
-    protected function beforeDelete()
-    {
-        $this->groups()->detach();
-        $this->locations()->detach();
-    }
-
     public function beforeLogin()
     {
         app('translator.localization')->setSessionLocale(
-            optional($this->language)->code ?? setting('default_language')
+            optional($this->language)->code ?? app()->getLocale()
         );
     }
 

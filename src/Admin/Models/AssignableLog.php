@@ -5,6 +5,7 @@ namespace Igniter\Admin\Models;
 use Carbon\Carbon;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\DB;
  */
 class AssignableLog extends Model
 {
+    use Prunable;
+
     /**
      * @var string The database table name
      */
@@ -84,8 +87,7 @@ class AssignableLog extends Model
             ->whereUnAssigned()
             ->whereHasAutoAssignGroup()
             ->orderBy('created_at', 'desc')
-            ->limit($limit)
-            ->get();
+            ->limit($limit);
     }
 
     public function isForOrder()
@@ -185,5 +187,14 @@ class AssignableLog extends Model
         return $query->whereHas('assignee_group', function (Builder $query) {
             $query->where('auto_assign', 1);
         });
+    }
+
+    //
+    // Concerns
+    //
+
+    public function prunable(): Builder
+    {
+        return static::query()->where('created_at', '<=', now()->subDays(setting('activity_log_timeout', 60)));
     }
 }

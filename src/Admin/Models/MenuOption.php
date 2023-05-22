@@ -78,24 +78,6 @@ class MenuOption extends Model
     }
 
     //
-    // Events
-    //
-
-    protected function afterSave()
-    {
-        $this->restorePurgedValues();
-
-        if (array_key_exists('values', $this->attributes)) {
-            $this->addOptionValues($this->attributes['values']);
-        }
-    }
-
-    protected function beforeDelete()
-    {
-        $this->locations()->detach();
-    }
-
-    //
     // Helpers
     //
 

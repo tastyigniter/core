@@ -15,7 +15,7 @@ class ThemeRemove extends Command
      * The console command name.
      * @var string
      */
-    protected $name = 'theme:remove';
+    protected $name = 'igniter:theme-remove';
 
     /**
      * The console command description.
@@ -39,9 +39,9 @@ class ThemeRemove extends Command
         }
 
         if (!$forceDelete && !$this->confirmToProceed(sprintf(
-            'This will DELETE theme "%s" from the filesystem and database.',
-            $themeName
-        ))) {
+                'This will DELETE theme "%s" from the filesystem and database.',
+                $themeName
+            ))) {
             return;
         }
 

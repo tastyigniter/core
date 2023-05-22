@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Admin\Traits;
+namespace Igniter\Admin\Models\Concerns;
 
 use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Models\AssignableLog;

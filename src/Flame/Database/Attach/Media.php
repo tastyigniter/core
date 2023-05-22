@@ -6,7 +6,6 @@ use Exception;
 use FilesystemIterator;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -155,37 +154,6 @@ class Media extends Model
             !empty($filename) ? $filename : File::basename($url),
             $tag
         );
-    }
-
-    //
-    // Events
-    //
-
-    protected function beforeSave()
-    {
-        if (!is_null($this->fileToAdd)) {
-            if ($this->fileToAdd instanceof UploadedFile) {
-                $this->addFromRequest($this->fileToAdd);
-            } else {
-                $this->addFromFile($this->fileToAdd);
-            }
-
-            $this->fileToAdd = null;
-        }
-    }
-
-    /**
-     * After model is deleted
-     * - clean up it's thumbnails
-     */
-    protected function afterDelete()
-    {
-        try {
-            $this->deleteThumbs();
-            $this->deleteFile();
-        } catch (Exception $ex) {
-            Log::error($ex);
-        }
     }
 
     //
@@ -408,7 +376,7 @@ class Media extends Model
      * @param null $fileName
      * @return void
      */
-    protected function deleteFile($fileName = null)
+    public function deleteFile($fileName = null)
     {
         if (!$fileName) {
             $fileName = $this->name;

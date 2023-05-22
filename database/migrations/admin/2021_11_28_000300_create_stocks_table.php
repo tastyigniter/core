@@ -1,5 +1,6 @@
 <?php
 
+use Igniter\Admin\Models\Location;
 use Igniter\Admin\Models\Stock;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -68,7 +69,7 @@ return new class extends Migration
             $locationIds = DB::table('locationables')
                 ->where('locationable_type', 'menus')
                 ->where('locationable_id', $menuItem->menu_id)
-                ->pluck('location_id')->all() ?: [params('default_location_id')];
+                ->pluck('location_id')->all() ?: [Location::getDefaultKey()];
 
             foreach ($locationIds as $locationId) {
                 $stockId = DB::table('stocks')->insertGetId([
@@ -106,7 +107,7 @@ return new class extends Migration
             $locationIds = DB::table('locationables')
                 ->where('locationable_type', 'menu_options')
                 ->where('locationable_id', $menuOption->option_id)
-                ->pluck('location_id')->all() ?: [params('default_location_id')];
+                ->pluck('location_id')->all() ?: [Location::getDefaultKey()];
 
             foreach ($locationIds as $locationId) {
                 DB::table('stocks')->insert([
