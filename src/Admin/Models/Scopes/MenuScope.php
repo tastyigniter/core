@@ -70,7 +70,7 @@ class MenuScope extends Scope
         };
     }
 
-    public function addWhereHasMealtime(builder $builder, $mealtimeId)
+    public function addWhereHasMealtime()
     {
         return function (Builder $builder, $mealtimeId) {
             return $builder->whereHas('mealtimes', function (builder $q) use ($mealtimeId) {
