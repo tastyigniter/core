@@ -27,9 +27,4 @@ class LanguageRequest extends FormRequest
             'translations.*.translation' => ['string', 'max:2500'],
         ];
     }
-
-    protected function useDataFrom()
-    {
-        return static::DATA_TYPE_POST;
-    }
 }

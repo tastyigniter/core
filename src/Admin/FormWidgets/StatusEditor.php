@@ -14,7 +14,6 @@ use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Flame\Exception\ValidationException;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -156,17 +155,14 @@ class StatusEditor extends BaseFormWidget
 
         $model = $this->createFormModel();
         $form = $this->makeEditorFormWidget($model);
-        $saveData = $this->mergeSaveData($form->getSaveData());
 
-        try {
-            if ($this->isStatusMode && $recordId == $this->model->{$keyFrom}) {
-                throw new ApplicationException(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context));
-            }
-
-            $this->validateFormWidget($form, $saveData);
-        } catch (ValidationException $ex) {
-            throw new ApplicationException($ex->getMessage());
+        if ($this->isStatusMode && $recordId == $this->model->{$keyFrom}) {
+            throw new ApplicationException(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context));
         }
+
+        $saveData = $this->validateFormWidget($form, array_merge($form->getSaveData(), [
+            'user_id' => $this->getController()->getUser()->getKey(),
+        ]));
 
         DB::transaction(function () use ($saveData, $keyFrom) {
             if ($this->saveRecord($saveData, $keyFrom)) {

@@ -37,9 +37,4 @@ class GeneralSettingsRequest extends FormRequest
             'detect_language' => ['required', 'boolean'],
         ];
     }
-
-    protected function useDataFrom()
-    {
-        return static::DATA_TYPE_POST;
-    }
 }

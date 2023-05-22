@@ -7,13 +7,13 @@ use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\FormExtendable;
+use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Exception\ApplicationException;
 use Igniter\System\Classes\ControllerAction;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
 
 /**
  * Form Controller Class
@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Request;
 class FormController extends ControllerAction
 {
     use FormExtendable;
+    use ValidatesForm;
 
     /**
      * @var string Default context for "create" pages.
@@ -246,13 +247,9 @@ class FormController extends ControllerAction
         $this->controller->formBeforeSave($model);
         $this->controller->formBeforeCreate($model);
 
-        $modelsToSave = $this->prepareModelsToSave($model, $this->formWidget->getSaveData());
+        $saveData = $this->validateSaveData($model, $this->formWidget->getSaveData());
 
-        $this->validateFormRequest($model);
-
-        if ($this->controller->formValidate($model, $this->formWidget) === false) {
-            return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
-        }
+        $modelsToSave = $this->prepareModelsToSave($model, $saveData);
 
         DB::transaction(function () use ($modelsToSave) {
             foreach ($modelsToSave as $modelToSave) {
@@ -296,13 +293,9 @@ class FormController extends ControllerAction
         $this->controller->formBeforeSave($model);
         $this->controller->formBeforeUpdate($model);
 
-        $modelsToSave = $this->prepareModelsToSave($model, $this->formWidget->getSaveData());
+        $saveData = $this->validateSaveData($model, $this->formWidget->getSaveData());
 
-        $this->validateFormRequest($model);
-
-        if ($this->controller->formValidate($model, $this->formWidget) === false) {
-            return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
-        }
+        $modelsToSave = $this->prepareModelsToSave($model, $saveData);
 
         DB::transaction(function () use ($modelsToSave) {
             foreach ($modelsToSave as $modelToSave) {
@@ -510,9 +503,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);
@@ -524,33 +517,19 @@ class FormController extends ControllerAction
         }
     }
 
-    protected function validateFormRequest($model)
+    protected function validateSaveData($model, $saveData)
     {
         $requestClass = $this->getConfig('request', false);
-
-        if ($requestClass === false) {
-            return;
-        }
-
-        if (!class_exists($requestClass)) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
-        }
-
-        $this->resolveFormRequest($requestClass);
-    }
-
-    protected function resolveFormRequest($requestClass)
-    {
-        app()->resolving($requestClass, function ($request, $app) {
-            if (method_exists($request, 'setController')) {
-                $request->setController($this->controller);
-            }
-
-            if (method_exists($request, 'setInputKey')) {
-                $request->setInputKey(strip_class_basename($request));
-            }
+        $validated = $this->validateFormRequest($requestClass, $model, function (FormRequest $request) use ($saveData) {
+            $request->merge($saveData);
         });
 
-        return app()->make($requestClass);
+        $saveData = $validated ?: $saveData;
+
+        if ($this->controller->formValidate($model, $this->formWidget) === false) {
+            return request()->ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+        }
+
+        return $saveData;
     }
 }

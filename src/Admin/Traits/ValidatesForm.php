@@ -4,6 +4,7 @@ namespace Igniter\Admin\Traits;
 
 use Closure;
 use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Igniter;
 use Igniter\System\Helpers\ValidationHelper;
@@ -140,9 +141,11 @@ trait ValidatesForm
 
     protected function validateFormWidget($form, $saveData)
     {
+        $validated = [];
+
         // for backwards support, first of all try and use a rules in the config if we have them
         if ($rules = array_get($form->config, 'rules')) {
-            return $this->validate($saveData, $rules,
+            $validated = $this->validate($saveData, $rules,
                 array_get($form->config, 'validationMessages', []),
                 array_get($form->config, 'validationAttributes', [])
             );
@@ -151,20 +154,32 @@ trait ValidatesForm
         // if we dont have in config then fallback to a FormRequest class
         if ($requestClass = array_get($this->config, 'request')) {
             if (!class_exists($requestClass)) {
-                throw new ApplicationException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
+                throw new SystemException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
             }
 
-            app()->resolving($requestClass, function ($request, $app) use ($form) {
-                if (method_exists($request, 'setController')) {
-                    $request->setController($this->controller);
-                }
-
-                if (method_exists($request, 'setInputKey')) {
-                    $request->setInputKey($form->arrayName);
-                }
-            });
-
-            app()->make($requestClass);
+            $validated = array_merge($validated,
+                $this->resolveFormRequest($requestClass, function ($request) use ($saveData) {
+                    $request->merge($saveData);
+                })->validated()
+            );
         }
+
+        return $validated ?: $saveData;
+    }
+
+    protected function validateFormRequest($requestClass, $model, $callback)
+    {
+        if (!$requestClass || !class_exists($requestClass)) {
+            throw new ApplicationException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
+        }
+
+        return $this->resolveFormRequest($requestClass, $callback)->validated();
+    }
+
+    protected function resolveFormRequest($requestClass, $callback)
+    {
+        app()->resolving($requestClass, $callback);
+
+        return app()->make($requestClass);
     }
 }

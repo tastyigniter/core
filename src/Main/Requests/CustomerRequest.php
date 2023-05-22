@@ -44,9 +44,4 @@ class CustomerRequest extends FormRequest
             'addresses.*.postcode' => ['string'],
         ];
     }
-
-    protected function useDataFrom()
-    {
-        return static::DATA_TYPE_POST;
-    }
 }

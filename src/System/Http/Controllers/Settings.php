@@ -8,12 +8,11 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\FormExtendable;
 use Igniter\Admin\Traits\WidgetMaker;
-use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Models\MailTemplate;
+use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -108,15 +107,19 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
         $this->initWidgets($model, $definition);
 
-        $this->validateFormRequest($model, $definition);
+        $saveData = $this->formWidget->getSaveData();
+
+        $this->validateFormRequest($definition->request, $model, function (Request $request) use ($saveData) {
+            $request->merge($saveData);
+        });
 
         if ($this->formValidate($model, $this->formWidget) === false) {
-            return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+            return request()->ajax() ? ['#notification' => $this->makePartial('flash')] : false;
         }
 
         $this->formBeforeSave($model);
 
-        setting()->set($this->formWidget->getSaveData());
+        setting()->set($saveData);
         setting()->save();
 
         $this->formAfterSave($model);
@@ -139,13 +142,17 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
         $this->initWidgets($model, $definition);
 
-        $this->validateFormRequest($model, $definition);
+        $saveData = $this->formWidget->getSaveData();
+
+        $this->validateFormRequest($definition->request, $model, function (Request $request) use ($saveData) {
+            $request->merge($saveData);
+        });
 
         if ($this->formValidate($model, $this->formWidget) === false) {
-            return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+            return request()->ajax() ? ['#notification' => $this->makePartial('flash')] : false;
         }
 
-        setting()->set($this->formWidget->getSaveData());
+        setting()->set($saveData);
 
         $name = AdminAuth::getStaffName();
         $email = AdminAuth::getStaffEmail();
@@ -249,26 +256,5 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         }
 
         return $this->settingItemErrors = $settingItemErrors;
-    }
-
-    protected function validateFormRequest($model, $definition)
-    {
-        if (!strlen($requestClass = $definition->request)) {
-            return;
-        }
-
-        if (!class_exists($requestClass)) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
-        }
-
-        app()->resolving($requestClass, function ($request, $app) {
-            if (method_exists($request, 'setController')) {
-                $request->setController($this);
-            }
-
-            $request->setInputKey('Setting');
-        });
-
-        return app()->make($requestClass);
     }
 }

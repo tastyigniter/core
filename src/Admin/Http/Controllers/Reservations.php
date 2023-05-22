@@ -145,7 +145,7 @@ class Reservations extends \Igniter\Admin\Classes\AdminController
             'status_history' => function ($q) {
                 $q->orderBy('created_at', 'desc');
             },
-            'status_history.staff',
+            'status_history.user',
             'status_history.status',
         ]);
     }

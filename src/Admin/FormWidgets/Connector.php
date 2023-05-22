@@ -191,7 +191,7 @@ class Connector extends BaseFormWidget
 
         $form = $this->makeItemFormWidget($model);
 
-        $this->validateFormWidget($form, $saveData = $form->getSaveData());
+        $saveData = $this->validateFormWidget($form, $form->getSaveData());
 
         if (!$model->exists) {
             $saveData[$this->model->getKeyName()] = $this->model->getKey();

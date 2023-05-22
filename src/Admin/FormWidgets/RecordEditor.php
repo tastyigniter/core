@@ -127,7 +127,7 @@ class RecordEditor extends BaseFormWidget
 
         $form = $this->makeRecordFormWidget($model);
 
-        $this->validateFormWidget($form, $saveData = $form->getSaveData());
+        $saveData = $this->validateFormWidget($form, $form->getSaveData());
 
         $modelsToSave = $this->prepareModelsToSave($model, $saveData);
 

@@ -29,9 +29,4 @@ class OrderStatusRequest extends FormRequest
             'assignee_id' => ['integer', 'exists:admin_users,user_id'],
         ];
     }
-
-    protected function useDataFrom()
-    {
-        return static::DATA_TYPE_POST;
-    }
 }

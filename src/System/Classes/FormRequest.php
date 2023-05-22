@@ -16,118 +16,9 @@ class FormRequest extends BaseFormRequest
     use RuleInjector;
     use EventEmitter;
 
-    protected const DATA_TYPE_FORM = 'form';
-
-    protected const DATA_TYPE_POST = 'post';
-
-    protected const DATA_TYPE_INPUT = 'input';
-
-    protected $model;
-
-    /**
-     * @var \Igniter\Admin\Classes\AdminController
-     */
-    protected $controller;
-
-    protected $inputKey;
-
-    /**
-     * @return mixed
-     */
-    public function getController()
-    {
-        return $this->controller;
-    }
-
-    /**
-     * @param mixed $controller
-     * @return self;
-     */
-    public function setController($controller)
-    {
-        $this->controller = $controller;
-
-        return $this;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|string
-     */
-    public function getInputKey()
-    {
-        return $this->inputKey;
-    }
-
-    /**
-     * @param bool|string $inputKey
-     * @return \Igniter\System\Classes\FormRequest
-     */
-    public function setInputKey($inputKey)
-    {
-        $this->inputKey = $inputKey;
-
-        return $this;
-    }
-
-    public function getWith($key, $default = null)
-    {
-        if (!is_null($inputKey = $this->getInputKey())) {
-            $key = $inputKey.'.'.$key;
-        }
-
-        return $this->get($key, $default);
-    }
-
-    public function inputWith($key, $default = null)
-    {
-        if (!is_null($inputKey = $this->getInputKey())) {
-            $key = $inputKey.'.'.$key;
-        }
-
-        return $this->input($key, $default);
-    }
-
     protected function useDataFrom()
     {
         return static::DATA_TYPE_FORM;
-    }
-
-    /**
-     * @return \Igniter\Admin\Widgets\Form
-     * @throws \Igniter\Flame\Exception\SystemException
-     */
-    protected function getForm()
-    {
-        return array_get(optional($this->getController())->widgets ?? [], 'form');
-    }
-
-    /**
-     * @return \Igniter\Flame\Database\Model|mixed
-     */
-    protected function getModel()
-    {
-        if ($this->model) {
-            return $this->model;
-        }
-
-        if (!$this->getController()) {
-            return null;
-        }
-
-        if ($this->getController()->methodExists('getFormModel')) {
-            return $this->getController()->getFormModel();
-        }
-
-        if ($this->getController()->methodExists('getRestModel')) {
-            return $this->getController()->getRestModel();
-        }
     }
 
     /**
@@ -146,10 +37,6 @@ class FormRequest extends BaseFormRequest
         $dataHolder->messages = Arr::get($parsedRules, 'messages', $this->messages());
         $dataHolder->attributes = Arr::get($parsedRules, 'attributes', $this->attributes());
 
-        if ($this->getInjectRuleParameters()) {
-            $dataHolder->rules = $this->injectParametersToRules($dataHolder->rules);
-        }
-
         $this->fireSystemEvent('system.formRequest.extendValidator', [$dataHolder]);
 
         return $factory->make(
@@ -167,17 +54,6 @@ class FormRequest extends BaseFormRequest
      */
     public function validationData()
     {
-        if ($this->getForm()) {
-            switch ($this->useDataFrom()) {
-                case static::DATA_TYPE_FORM:
-                    return $this->getForm()->getSaveData();
-                case static::DATA_TYPE_POST:
-                    return post($this->getInputKey(), []);
-                case static::DATA_TYPE_INPUT:
-                    return $this->input($this->getInputKey(), []);
-            }
-        }
-
         return $this->all();
     }
 
