@@ -2,7 +2,6 @@
 
 namespace Igniter\Flame\Providers;
 
-use Igniter\System\Console;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as IlluminateEventServiceProvider;
 
 abstract class ConsoleServiceProvider extends IlluminateEventServiceProvider

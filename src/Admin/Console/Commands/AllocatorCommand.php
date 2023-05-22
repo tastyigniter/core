@@ -23,7 +23,7 @@ class AllocatorCommand extends Command
 
         AssignableLog::getUnAssignedQueue($availableSlotCount)
             ->lazy()
-            ->each(fn($assignableLog) => AllocateAssignable::dispatch($assignableLog));
+            ->each(fn ($assignableLog) => AllocateAssignable::dispatch($assignableLog));
     }
 
     public static function addSlot($slot)

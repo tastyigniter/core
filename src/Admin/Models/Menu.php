@@ -24,6 +24,7 @@ class Menu extends Model
     use Switchable;
 
     public const LOCATIONABLE_RELATION = 'locations';
+
     public const SWITCHABLE_COLUMN = 'menu_status';
 
     /**

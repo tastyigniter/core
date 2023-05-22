@@ -63,7 +63,6 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return self::whereIsEnabled()->dropdown('name', 'code');
     }
 
-
     //
     // Helpers
     //

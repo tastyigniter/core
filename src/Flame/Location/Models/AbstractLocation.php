@@ -10,5 +10,4 @@ use Igniter\Admin\Models\Location;
  */
 class AbstractLocation extends Location
 {
-
 }

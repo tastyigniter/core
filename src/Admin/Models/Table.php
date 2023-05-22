@@ -19,6 +19,7 @@ class Table extends Model
     use Switchable;
 
     public const LOCATIONABLE_RELATION = 'locations';
+
     public const SWITCHABLE_COLUMN = 'table_status';
 
     const SORT_ORDER = 'priority';

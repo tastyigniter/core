@@ -27,5 +27,4 @@ class MediaObserver
             $media->deleteFile();
         });
     }
-
 }

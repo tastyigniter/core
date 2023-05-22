@@ -18,6 +18,7 @@ class Mealtime extends Model
     use Switchable;
 
     public const LOCATIONABLE_RELATION = 'locations';
+
     public const SWITCHABLE_COLUMN = 'mealtime_status';
 
     /**

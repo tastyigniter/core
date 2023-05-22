@@ -40,9 +40,9 @@ class ExtensionRemove extends Command
         }
 
         if (!$forceDelete && !$this->confirmToProceed(sprintf(
-                'This will DELETE extension "%s" from the filesystem and database.',
-                $extensionName
-            ))) {
+            'This will DELETE extension "%s" from the filesystem and database.',
+            $extensionName
+        ))) {
             return;
         }
 
