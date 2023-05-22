@@ -13,13 +13,7 @@ use Illuminate\Support\Arr;
 
 class FormRequest extends BaseFormRequest
 {
-    use RuleInjector;
     use EventEmitter;
-
-    protected function useDataFrom()
-    {
-        return static::DATA_TYPE_FORM;
-    }
 
     /**
      * Create the default validator instance.

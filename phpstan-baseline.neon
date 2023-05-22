@@ -31,6 +31,11 @@ parameters:
 			path: database/migrations/admin/2022_06_30_010000_drop_foreign_key_constraints_on_all_tables.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Fluent\\:\\:nullable\\(\\)\\.$#"
+			count: 2
+			path: database/migrations/admin/2023_05_22_000400_add_invited_at_activated_at_orders_table.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Category\\:\\:pluck\\(\\)\\.$#"
 			count: 1
 			path: database/migrations/system/2018_10_19_000300_create_media_attachments_table.php
@@ -57,11 +62,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$config\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$controller\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
 
@@ -321,7 +321,7 @@ parameters:
 			path: src/Admin/Classes/FormTabs.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Location\\\\Contracts\\\\LocationInterface\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Location\\\\Contracts\\\\LocationInterface\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/Location.php
 
@@ -329,21 +329,6 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasLocationAccess\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/Location.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereHasLocation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/LocationScope.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:locationableGetUserLocation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/LocationScope.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:locationableScopeEnabled\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/LocationScope.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
@@ -381,7 +366,7 @@ parameters:
 			path: src/Admin/Classes/OnboardingSteps.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/PaymentGateways.php
 
@@ -467,13 +452,33 @@ parameters:
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Classes/UserState.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\Widgets\\:\\:\\$bulkActionWidgetHints\\.$#"
 			count: 2
 			path: src/Admin/Classes/Widgets.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Console\\\\Commands\\\\ClearUserStateCommand\\:\\:\\$defaultStateConfig\\.$#"
+			count: 1
+			path: src/Admin/Console/Commands/ClearUserStateCommand.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/Admin/Console/Commands/ClearUserStateCommand.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$value\\.$#"
+			count: 1
+			path: src/Admin/Console/Commands/ClearUserStateCommand.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Console/Commands/ClearUserStateCommand.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminLocation\\:\\:getAll\\(\\)\\.$#"
@@ -706,11 +711,6 @@ parameters:
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\StatusEditor\\:\\:mergeSaveData\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
@@ -857,6 +857,11 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:formExtendRefreshResults\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
@@ -1301,8 +1306,28 @@ parameters:
 			path: src/Admin/Jobs/AllocateAssignable.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Address\\:\\:\\$country_id\\.$#"
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Address\\)\\:\\:COUNTRY_RELATION\\.$#"
 			count: 1
+			path: src/Admin/Models/Address.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Address\\)\\:\\:CUSTOMER_RELATION\\.$#"
+			count: 1
+			path: src/Admin/Models/Address.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Address\\:\\:country\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Models/Address.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Address\\:\\:locationableRelationName\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Models/Address.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getQualifiedForeignKeyName\\(\\)\\.$#"
+			count: 2
 			path: src/Admin/Models/Address.php
 
 		-
@@ -1312,26 +1337,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Address\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Address.php
-
-		-
-			message: "#^Variable \\$customer might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Address.php
-
-		-
-			message: "#^Variable \\$page might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Address.php
-
-		-
-			message: "#^Variable \\$pageLimit might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Address.php
-
-		-
-			message: "#^Variable \\$sort might not be defined\\.$#"
 			count: 1
 			path: src/Admin/Models/Address.php
 
@@ -1382,6 +1387,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$tag\\.$#"
+			count: 1
+			path: src/Admin/Models/Category.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Category\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
 			count: 1
 			path: src/Admin/Models/Category.php
 
@@ -1461,36 +1471,6 @@ parameters:
 			path: src/Admin/Models/Category.php
 
 		-
-			message: "#^Variable \\$enabled might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Category.php
-
-		-
-			message: "#^Variable \\$location might not be defined\\.$#"
-			count: 2
-			path: src/Admin/Models/Category.php
-
-		-
-			message: "#^Variable \\$page might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Category.php
-
-		-
-			message: "#^Variable \\$pageLimit might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Category.php
-
-		-
-			message: "#^Variable \\$search might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Category.php
-
-		-
-			message: "#^Variable \\$sort might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Category.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Ingredient\\:\\:\\$forceDeleting\\.$#"
 			count: 1
 			path: src/Admin/Models/Ingredient.php
@@ -1517,6 +1497,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$tag\\.$#"
+			count: 1
+			path: src/Admin/Models/Ingredient.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Ingredient\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
 			count: 1
 			path: src/Admin/Models/Ingredient.php
 
@@ -1597,7 +1582,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Location\\:\\:\\$location_country_id\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Models/Location.php
 
 		-
@@ -1631,11 +1616,6 @@ parameters:
 			path: src/Admin/Models/Location.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Location\\:\\:\\$location_status\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Location\\:\\:\\$location_telephone\\.$#"
 			count: 1
 			path: src/Admin/Models/Location.php
@@ -1643,6 +1623,11 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Location\\:\\:\\$media\\.$#"
 			count: 2
+			path: src/Admin/Models/Location.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Location\\:\\:\\$name\\.$#"
+			count: 1
 			path: src/Admin/Models/Location.php
 
 		-
@@ -1681,13 +1666,28 @@ parameters:
 			path: src/Admin/Models/Location.php
 
 		-
-			message: "#^Access to an undefined property object\\:\\:\\$delivery_areas\\.$#"
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Location\\)\\:\\:COUNTRY_RELATION\\.$#"
 			count: 1
+			path: src/Admin/Models/Location.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Location\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Admin/Models/Location.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:country\\(\\)\\.$#"
+			count: 2
 			path: src/Admin/Models/Location.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:delivery_areas\\(\\)\\.$#"
 			count: 2
+			path: src/Admin/Models/Location.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:locationableRelationName\\(\\)\\.$#"
+			count: 1
 			path: src/Admin/Models/Location.php
 
 		-
@@ -1711,7 +1711,27 @@ parameters:
 			path: src/Admin/Models/Location.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Models/Location.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Location.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Location.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany\\:\\:sorted\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Location.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getQualifiedForeignKeyName\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Location.php
 
@@ -1721,13 +1741,13 @@ parameters:
 			path: src/Admin/Models/Location.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:find\\(\\)\\.$#"
+			message: "#^Call to an undefined method object\\:\\:delivery_areas\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Location.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:isEnabled\\(\\)\\.$#"
-			count: 3
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
 			path: src/Admin/Models/Location.php
 
 		-
@@ -1741,7 +1761,12 @@ parameters:
 			path: src/Admin/Models/Location.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\Location\\)\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\Location\\)\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Location.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\Location\\)\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Location.php
 
@@ -1766,43 +1791,8 @@ parameters:
 			path: src/Admin/Models/Location.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:updateDefault\\(\\) should return bool\\|null but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Variable \\$enabled might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Variable \\$latitude might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Variable \\$longitude might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Variable \\$page might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Variable \\$pageLimit might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Variable \\$search might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Location.php
-
-		-
-			message: "#^Variable \\$sort might not be defined\\.$#"
-			count: 1
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
 			path: src/Admin/Models/Location.php
 
 		-
@@ -1821,12 +1811,12 @@ parameters:
 			path: src/Admin/Models/LocationArea.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\LocationArea\\:\\:\\$is_default\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\LocationArea\\:\\:\\$location_id\\.$#"
 			count: 1
 			path: src/Admin/Models/LocationArea.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\LocationArea\\:\\:\\$location_id\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\LocationArea\\:\\:\\$name\\.$#"
 			count: 1
 			path: src/Admin/Models/LocationArea.php
 
@@ -1841,12 +1831,42 @@ parameters:
 			path: src/Admin/Models/LocationArea.php
 
 		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\LocationArea\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Admin/Models/LocationArea.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\LocationArea\\:\\:beforeValidate\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/LocationArea.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\LocationArea\\:\\:switchableGetColumn\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Models/LocationArea.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Models/LocationArea.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/LocationArea.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/LocationArea.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Geolite\\\\Facades\\\\Geocoder\\:\\:reverse\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/LocationArea.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\LocationArea\\)\\:\\:where\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/LocationArea.php
 
@@ -1863,6 +1883,11 @@ parameters:
 		-
 			message: "#^PHPDoc tag @throws with type Igniter\\\\Flame\\\\Database\\\\Traits\\\\Validation is not subtype of Throwable$#"
 			count: 1
+			path: src/Admin/Models/LocationArea.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
 			path: src/Admin/Models/LocationArea.php
 
 		-
@@ -1891,11 +1916,6 @@ parameters:
 			path: src/Admin/Models/LocationOption.php
 
 		-
-			message: "#^Call to static method dispatch\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\DefineLocationOptionsFieldsEvent\\.$#"
-			count: 1
-			path: src/Admin/Models/LocationOption.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
 			path: src/Admin/Models/LocationOption.php
@@ -1911,7 +1931,7 @@ parameters:
 			path: src/Admin/Models/Mealtime.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Mealtime\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Mealtime\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Mealtime.php
 
@@ -2002,22 +2022,17 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:categories\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Models/Menu.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:ingredients\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:locations\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Menu.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:mealtimes\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Models/Menu.php
 
 		-
@@ -2121,51 +2136,6 @@ parameters:
 			path: src/Admin/Models/Menu.php
 
 		-
-			message: "#^Variable \\$category might not be defined\\.$#"
-			count: 2
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Variable \\$enabled might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Variable \\$group might not be defined\\.$#"
-			count: 2
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Variable \\$location might not be defined\\.$#"
-			count: 2
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Variable \\$orderType might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Variable \\$page might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Variable \\$pageLimit might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Variable \\$search might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
-			message: "#^Variable \\$sort might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Menu.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\MenuItemOption\\:\\:\\$display_type\\.$#"
 			count: 1
 			path: src/Admin/Models/MenuItemOption.php
@@ -2257,11 +2227,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\MenuOption\\:\\:\\$required\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuOption.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\MenuOption\\:\\:locations\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/MenuOption.php
 
@@ -2371,11 +2336,6 @@ parameters:
 			path: src/Admin/Models/MenuSpecial.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\MenuSpecial\\:\\:\\$special_status\\.$#"
-			count: 1
-			path: src/Admin/Models/MenuSpecial.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\MenuSpecial\\:\\:\\$start_date\\.$#"
 			count: 1
 			path: src/Admin/Models/MenuSpecial.php
@@ -2389,6 +2349,76 @@ parameters:
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\MenuSpecial\\:\\:\\$validity\\.$#"
 			count: 3
 			path: src/Admin/Models/MenuSpecial.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:categories\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/MenuObserver.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:ingredients\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/MenuObserver.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:locations\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/MenuObserver.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Menu\\:\\:mealtimes\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/MenuObserver.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\MenuOption\\:\\:locations\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/MenuOptionObserver.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$ip_address\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/OrderObserver.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$user_agent\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/OrderObserver.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:\\$data\\.$#"
+			count: 2
+			path: src/Admin/Models/Observers/PaymentObserver.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$ip_address\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/ReservationObserver.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$location\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/ReservationObserver.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$user_agent\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/ReservationObserver.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:tables\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/ReservationObserver.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\User\\:\\:groups\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/UserObserver.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\User\\:\\:locations\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Observers/UserObserver.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$address\\.$#"
@@ -2442,7 +2472,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$hash\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Models/Order.php
 
 		-
@@ -2458,11 +2488,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$invoice_prefix\\.$#"
 			count: 5
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$ip_address\\.$#"
-			count: 1
 			path: src/Admin/Models/Order.php
 
 		-
@@ -2546,7 +2571,7 @@ parameters:
 			path: src/Admin/Models/Order.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Order\\:\\:\\$user_agent\\.$#"
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Order\\)\\:\\:CUSTOMER_RELATION\\.$#"
 			count: 1
 			path: src/Admin/Models/Order.php
 
@@ -2558,6 +2583,11 @@ parameters:
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Order\\:\\:assignee_group\\(\\)\\.$#"
 			count: 2
+			path: src/Admin/Models/Order.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Order\\:\\:getCountryRelationName\\(\\)\\.$#"
+			count: 1
 			path: src/Admin/Models/Order.php
 
 		-
@@ -2592,6 +2622,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder\\:\\:whereHas\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Order.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getQualifiedForeignKeyName\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Order.php
 
@@ -2641,16 +2676,6 @@ parameters:
 			path: src/Admin/Models/Order.php
 
 		-
-			message: "#^Call to static method dispatch\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\OrderBeforePaymentProcessedEvent\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Call to static method dispatch\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\OrderPaymentProcessedEvent\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Order\\:\\:addOrderMenuOptions\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/Order.php
@@ -2661,52 +2686,7 @@ parameters:
 			path: src/Admin/Models/Order.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Order\\:\\:generateHash\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$order_id$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Variable \\$customer might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Variable \\$dateTimeFilter might not be defined\\.$#"
-			count: 2
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Variable \\$location might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Variable \\$page might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Variable \\$pageLimit might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Variable \\$search might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Variable \\$sort might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Order.php
-
-		-
-			message: "#^Variable \\$status might not be defined\\.$#"
 			count: 1
 			path: src/Admin/Models/Order.php
 
@@ -2721,17 +2701,7 @@ parameters:
 			path: src/Admin/Models/Payment.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:\\$data\\.$#"
-			count: 2
-			path: src/Admin/Models/Payment.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:\\$gatewayManager\\.$#"
-			count: 1
-			path: src/Admin/Models/Payment.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:\\$is_default\\.$#"
 			count: 1
 			path: src/Admin/Models/Payment.php
 
@@ -2742,12 +2712,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:\\$payment_id\\.$#"
-			count: 3
-			path: src/Admin/Models/Payment.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:\\$status\\.$#"
-			count: 1
+			count: 2
 			path: src/Admin/Models/Payment.php
 
 		-
@@ -2766,6 +2731,16 @@ parameters:
 			path: src/Admin/Models/Payment.php
 
 		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Payment\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Admin/Models/Payment.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Payment\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Admin/Models/Payment.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:beforeRenderPaymentForm\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Payment.php
@@ -2776,18 +2751,28 @@ parameters:
 			path: src/Admin/Models/Payment.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Payment.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Models/Payment.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Payment.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Payment.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:applyGatewayClass\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Models/Payment.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:isEnabled\\(\\)\\.$#"
-			count: 4
 			path: src/Admin/Models/Payment.php
 
 		-
@@ -2801,8 +2786,18 @@ parameters:
 			path: src/Admin/Models/Payment.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:whereCode\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Payment\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Models/Payment.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\Payment\\)\\:\\:where\\(\\)\\.$#"
 			count: 1
+			path: src/Admin/Models/Payment.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
 			path: src/Admin/Models/Payment.php
 
 		-
@@ -2961,23 +2956,13 @@ parameters:
 			path: src/Admin/Models/Reservation.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$hash\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$ip_address\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$last_name\\.$#"
 			count: 3
 			path: src/Admin/Models/Reservation.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$location\\.$#"
-			count: 9
+			count: 8
 			path: src/Admin/Models/Reservation.php
 
 		-
@@ -3046,7 +3031,7 @@ parameters:
 			path: src/Admin/Models/Reservation.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:\\$user_agent\\.$#"
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\Reservation\\)\\:\\:CUSTOMER_RELATION\\.$#"
 			count: 1
 			path: src/Admin/Models/Reservation.php
 
@@ -3058,6 +3043,11 @@ parameters:
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:assignee_group\\(\\)\\.$#"
 			count: 2
+			path: src/Admin/Models/Reservation.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:getCountryRelationName\\(\\)\\.$#"
+			count: 1
 			path: src/Admin/Models/Reservation.php
 
 		-
@@ -3082,7 +3072,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:tables\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Models/Reservation.php
 
 		-
@@ -3102,6 +3092,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereLocationId\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Reservation.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getQualifiedForeignKeyName\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Reservation.php
 
@@ -3146,54 +3141,59 @@ parameters:
 			path: src/Admin/Models/Reservation.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:generateHash\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Reservation\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/Reservation.php
 
 		-
-			message: "#^Variable \\$customer might not be defined\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:selectDistance\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Models/Reservation.php
+			path: src/Admin/Models/Scopes/LocationScope.php
 
 		-
-			message: "#^Variable \\$dateTimeFilter might not be defined\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereHasLocation\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Scopes/LocationableScope.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getLocationableRelationObject\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Scopes/LocationableScope.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:locationableIsMorphRelationType\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Scopes/LocationableScope.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:locationableIsSingleRelationType\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Scopes/LocationableScope.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:locationableRelationName\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/Models/Reservation.php
+			path: src/Admin/Models/Scopes/LocationableScope.php
 
 		-
-			message: "#^Variable \\$location might not be defined\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereHasOrDoesntHaveLocation\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Models/Reservation.php
+			path: src/Admin/Models/Scopes/MenuScope.php
 
 		-
-			message: "#^Variable \\$page might not be defined\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereSlug\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Models/Reservation.php
+			path: src/Admin/Models/Scopes/MenuScope.php
 
 		-
-			message: "#^Variable \\$pageLimit might not be defined\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereBetweenOrderDateTime\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Models/Reservation.php
+			path: src/Admin/Models/Scopes/OrderScope.php
 
 		-
-			message: "#^Variable \\$search might not be defined\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereBetweenReservationDateTime\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^Variable \\$sort might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
-
-		-
-			message: "#^Variable \\$status might not be defined\\.$#"
-			count: 1
-			path: src/Admin/Models/Reservation.php
+			path: src/Admin/Models/Scopes/ReservationScope.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:\\$sale_permission\\.$#"
@@ -3251,7 +3251,7 @@ parameters:
 			path: src/Admin/Models/Staff.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\Staff\\)\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\Staff\\)\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Staff.php
 
@@ -3487,12 +3487,12 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\User\\:\\:\\$reset_code\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Models/User.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\User\\:\\:\\$reset_time\\.$#"
-			count: 2
+			count: 1
 			path: src/Admin/Models/User.php
 
 		-
@@ -3503,11 +3503,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\User\\:\\:\\$sale_permission\\.$#"
 			count: 3
-			path: src/Admin/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\User\\:\\:\\$send_invite\\.$#"
-			count: 1
 			path: src/Admin/Models/User.php
 
 		-
@@ -3536,17 +3531,47 @@ parameters:
 			path: src/Admin/Models/User.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$send_invite\\.$#"
+			count: 1
+			path: src/Admin/Models/User.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\User\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Admin/Models/User.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\User\\:\\:groups\\(\\)\\.$#"
-			count: 3
+			count: 2
 			path: src/Admin/Models/User.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\User\\:\\:locations\\(\\)\\.$#"
-			count: 3
+			count: 2
 			path: src/Admin/Models/User.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\User\\:\\:pluckDates\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/User.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:addPurgeable\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/User.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:restorePurgedValues\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/User.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:sendInvite\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/User.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:sendInviteGetTemplateCode\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/User.php
 
@@ -3571,7 +3596,7 @@ parameters:
 			path: src/Admin/Models/User.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\User\\)\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\User\\)\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/User.php
 
@@ -3608,11 +3633,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\UserGroup\\:\\:\\$users\\.$#"
 			count: 2
-			path: src/Admin/Models/UserGroup.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\User\\:\\:isEnabled\\(\\)\\.$#"
-			count: 1
 			path: src/Admin/Models/UserGroup.php
 
 		-
@@ -3711,12 +3731,12 @@ parameters:
 			path: src/Admin/Models/WorkingHour.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\WorkingHour\\:\\:\\$status\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\WorkingHour\\:\\:\\$weekday\\.$#"
 			count: 1
 			path: src/Admin/Models/WorkingHour.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\WorkingHour\\:\\:\\$weekday\\.$#"
+			message: "#^Access to undefined constant static\\(Igniter\\\\Admin\\\\Models\\\\WorkingHour\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
 			count: 1
 			path: src/Admin/Models/WorkingHour.php
 
@@ -3779,16 +3799,6 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:getKey\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Notifications/StatusUpdatedNotification.php
-
-		-
-			message: "#^Cannot call method everyMinute\\(\\) on void\\.$#"
-			count: 2
-			path: src/Admin/Providers/EventServiceProvider.php
-
-		-
-			message: "#^Result of method Illuminate\\\\Console\\\\Scheduling\\\\CallbackEvent\\:\\:runInBackground\\(\\) \\(void\\) is used\\.$#"
-			count: 2
-			path: src/Admin/Providers/EventServiceProvider.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminLocation\\:\\:check\\(\\)\\.$#"
@@ -4146,13 +4156,13 @@ parameters:
 			path: src/Flame/Auth/Manager.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Auth\\\\Models\\\\User\\:\\:\\$activation_code\\.$#"
-			count: 2
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Auth\\\\Models\\\\User\\:\\:\\$activated_at\\.$#"
+			count: 1
 			path: src/Flame/Auth/Models/User.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Auth\\\\Models\\\\User\\:\\:\\$date_activated\\.$#"
-			count: 1
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Auth\\\\Models\\\\User\\:\\:\\$activation_code\\.$#"
+			count: 2
 			path: src/Flame/Auth/Models/User.php
 
 		-
@@ -4541,12 +4551,27 @@ parameters:
 			path: src/Flame/Database/Migrations/Migrator.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:applySorts\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:afterBoot\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:applyFilters\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getRelationCaller\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:queryModifierSortDirection\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
@@ -4572,7 +4597,7 @@ parameters:
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Flame/Database/Model.php
 
 		-
@@ -5566,76 +5591,6 @@ parameters:
 			path: src/Flame/Location/Models/AbstractArea.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$description\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_address_1\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_address_2\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_city\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_country_id\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_email\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_lat\\.$#"
-			count: 2
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_lng\\.$#"
-			count: 2
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_name\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_postcode\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_state\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:\\$location_telephone\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:getDistanceUnit\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractLocation\\:\\:getOption\\(\\)\\.$#"
-			count: 18
-			path: src/Flame/Location/Models/AbstractLocation.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Location\\\\Models\\\\AbstractWorkingHour\\:\\:\\$close\\.$#"
 			count: 2
 			path: src/Flame/Location/Models/AbstractWorkingHour.php
@@ -6004,6 +5959,11 @@ parameters:
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateLoader\\:\\:getSource\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Template.php
+
+		-
+			message: "#^Cannot call static method extend\\(\\) on \\(int\\|string\\)\\.$#"
+			count: 1
+			path: src/Flame/Providers/EventServiceProvider.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:dispatch\\(\\)\\.$#"
@@ -6866,6 +6826,11 @@ parameters:
 			path: src/Main/Http/Middleware/CheckMaintenance.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$send_invite\\.$#"
+			count: 1
+			path: src/Main/Models/Customer.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$customer_id\\.$#"
 			count: 1
 			path: src/Main/Models/Customer.php
@@ -6892,7 +6857,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$is_activated\\.$#"
-			count: 2
+			count: 1
 			path: src/Main/Models/Customer.php
 
 		-
@@ -6907,22 +6872,37 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$reset_code\\.$#"
-			count: 2
-			path: src/Main/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$reset_time\\.$#"
-			count: 2
-			path: src/Main/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$send_invite\\.$#"
 			count: 1
 			path: src/Main/Models/Customer.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$status\\.$#"
-			count: 3
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$reset_time\\.$#"
+			count: 1
+			path: src/Main/Models/Customer.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Main\\\\Models\\\\Customer\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Main/Models/Customer.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:addPurgeable\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Customer.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:restorePurgedValues\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Customer.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:sendInvite\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Customer.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:sendInviteGetTemplateCode\\(\\)\\.$#"
+			count: 1
 			path: src/Main/Models/Customer.php
 
 		-
@@ -6956,7 +6936,7 @@ parameters:
 			path: src/Main/Models/Customer.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\Main\\\\Models\\\\Customer\\)\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method static\\(Igniter\\\\Main\\\\Models\\\\Customer\\)\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/Customer.php
 
@@ -6976,22 +6956,37 @@ parameters:
 			path: src/Main/Models/CustomerGroup.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\CustomerGroup\\:\\:\\$group_name\\.$#"
+			count: 1
+			path: src/Main/Models/CustomerGroup.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Main\\\\Models\\\\CustomerGroup\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Main/Models/CustomerGroup.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Main\\\\Models\\\\CustomerGroup\\:\\:customers\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/CustomerGroup.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\CustomerGroup\\:\\:find\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Main\\\\Models\\\\CustomerGroup\\:\\:switchableGetColumn\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Models/CustomerGroup.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Models/CustomerGroup.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsDefault\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/CustomerGroup.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\CustomerGroup\\:\\:first\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Models/CustomerGroup.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\CustomerGroup\\:\\:where\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/CustomerGroup.php
 
@@ -7001,9 +6996,29 @@ parameters:
 			path: src/Main/Models/CustomerGroup.php
 
 		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\Main\\\\Models\\\\CustomerGroup\\)\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/CustomerGroup.php
+
+		-
 			message: "#^Method Igniter\\\\Main\\\\Models\\\\CustomerGroup\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
 			path: src/Main/Models/CustomerGroup.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Models/CustomerGroup.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$is_activated\\.$#"
+			count: 1
+			path: src/Main/Models/Observers/CustomerObserver.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Customer\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/Main/Models/Observers/CustomerObserver.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
@@ -7012,7 +7027,37 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$data\\.$#"
-			count: 3
+			count: 4
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
 			path: src/Main/Models/Theme.php
 
 		-
@@ -7027,7 +7072,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:where\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Main/Models/Theme.php
 
 		-
@@ -7046,8 +7091,18 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
 			message: "#^Method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:setAttribute\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Model but return statement is missing\\.$#"
 			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
 			path: src/Main/Models/Theme.php
 
 		-
@@ -7064,6 +7119,11 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Providers/ThemeServiceProvider.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Main\\\\Requests\\\\ThemeRequest\\:\\:getForm\\(\\)\\.$#"
+			count: 3
+			path: src/Main/Requests/ThemeRequest.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Setting\\\\Facades\\\\Setting\\:\\:get\\(\\)\\.$#"
@@ -7461,11 +7521,6 @@ parameters:
 			path: src/System/Classes/ExtensionManager.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\FormRequest\\:\\:\\$injectRuleParameters\\.$#"
-			count: 1
-			path: src/System/Classes/FormRequest.php
-
-		-
 			message: "#^Method Igniter\\\\System\\\\Classes\\\\HubManager\\:\\:requestRemoteData\\(\\) invoked with 4 parameters, 1\\-2 required\\.$#"
 			count: 1
 			path: src/System/Classes/HubManager.php
@@ -7506,7 +7561,7 @@ parameters:
 			path: src/System/Classes/LanguageManager.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/LanguageManager.php
 
@@ -7557,7 +7612,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Location\\:\\:first\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/System/Console/Commands/IgniterInstall.php
 
 		-
@@ -7577,11 +7632,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\UserRole\\:\\:first\\(\\)\\.$#"
-			count: 1
-			path: src/System/Console/Commands/IgniterInstall.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\CustomerGroup\\:\\:first\\(\\)\\.$#"
 			count: 1
 			path: src/System/Console/Commands/IgniterInstall.php
 
@@ -8026,7 +8076,7 @@ parameters:
 			path: src/System/Libraries/Country.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Libraries/Country.php
 
@@ -8046,32 +8096,37 @@ parameters:
 			path: src/System/Mail/TemplateMailable.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Country\\:\\:\\$country_id\\.$#"
-			count: 2
-			path: src/System/Models/Country.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Country\\:\\:\\$country_name\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Country\\:\\:\\$status\\.$#"
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:find\\(\\)\\.$#"
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 2
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsDefault\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:whereIsEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:create\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
@@ -8081,7 +8136,12 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
@@ -8091,8 +8151,13 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/System/Models/Country.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$currency_code\\.$#"
-			count: 3
+			count: 1
 			path: src/System/Models/Currency.php
 
 		-
@@ -8107,11 +8172,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$currency_rate\\.$#"
-			count: 2
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$currency_status\\.$#"
 			count: 2
 			path: src/System/Models/Currency.php
 
@@ -8131,6 +8191,11 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$symbol_position\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
@@ -8141,18 +8206,48 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\:\\:COUNTRY_RELATION\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Models\\\\Currency\\:\\:country\\(\\)\\.$#"
+			count: 2
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Models\\\\Currency\\:\\:locationableRelationName\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 2
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsDefault\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getQualifiedForeignKeyName\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:pluck\\(\\)\\.$#"
 			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:find\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 2
 			path: src/System/Models/Currency.php
 
 		-
@@ -8166,33 +8261,18 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
 			message: "#^Method Igniter\\\\System\\\\Models\\\\Currency\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
 		-
-			message: "#^Variable \\$enabled might not be defined\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Variable \\$page might not be defined\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Variable \\$pageLimit might not be defined\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Variable \\$search might not be defined\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Variable \\$sort might not be defined\\.$#"
-			count: 1
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
 			path: src/System/Models/Currency.php
 
 		-
@@ -8222,16 +8302,26 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$code\\.$#"
-			count: 4
+			count: 3
 			path: src/System/Models/Language.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$name\\.$#"
-			count: 1
+			count: 2
 			path: src/System/Models/Language.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
 			count: 1
 			path: src/System/Models/Language.php
 
@@ -8241,13 +8331,38 @@ parameters:
 			path: src/System/Models/Language.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:isEnabled\\(\\)\\.$#"
-			count: 5
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 2
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsDefault\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
 			path: src/System/Models/Language.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereCode\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 2
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Cannot call method where\\(\\) on bool\\.$#"
+			count: 1
 			path: src/System/Models/Language.php
 
 		-
@@ -8256,8 +8371,23 @@ parameters:
 			path: src/System/Models/Language.php
 
 		-
+			message: "#^Instantiated class Igniter\\\\System\\\\Models\\\\ValidationException not found\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
 			message: "#^Method Igniter\\\\System\\\\Models\\\\Language\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Static call to instance method Igniter\\\\System\\\\Models\\\\Language\\:\\:isEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
 			path: src/System/Models/Language.php
 
 		-
@@ -8287,6 +8417,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$plain_layout\\.$#"
+			count: 1
+			path: src/System/Models/MailLayout.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\MailLayout\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
 			count: 1
 			path: src/System/Models/MailLayout.php
 
@@ -8471,6 +8606,11 @@ parameters:
 			path: src/System/Models/Notification.php
 
 		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Page\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/Page.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:generatePermalinkOnSave\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Page.php
@@ -8481,7 +8621,7 @@ parameters:
 			path: src/System/Models/Page.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Page\\)\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Page\\)\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Page.php
 
@@ -8516,14 +8656,9 @@ parameters:
 			path: src/System/Models/Translation.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\User\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\User\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Notifications/UpdateFoundNotification.php
-
-		-
-			message: "#^Static call to instance method Igniter\\\\Flame\\\\Igniter\\:\\:prunableModels\\(\\)\\.$#"
-			count: 1
-			path: src/System/Providers/EventServiceProvider.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:getRequire\\(\\)\\.$#"
