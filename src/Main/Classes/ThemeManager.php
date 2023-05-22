@@ -222,7 +222,11 @@ class ThemeManager
             return $apiResult;
         }
 
-        return trim(ThemeModel::getDefault()?->code ?? config('igniter-system.defaultTheme', ''), '/');
+        if (Igniter::hasDatabase() && $activeTheme = ThemeModel::getDefault()) {
+            return $activeTheme->code;
+        }
+
+        return config('igniter-system.defaultTheme', '');
     }
 
     /**
