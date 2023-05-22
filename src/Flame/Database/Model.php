@@ -87,6 +87,7 @@ abstract class Model extends EloquentModel
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+        $this->addObservableEvents(['fetching', 'fetched']);
         $this->bootNicerEvents();
         $this->extendableConstruct();
         $this->fill($attributes);
@@ -102,22 +103,6 @@ abstract class Model extends EloquentModel
     public static function make($attributes = [])
     {
         return new static($attributes);
-    }
-
-    /**
-     * Save a new model and return the instance.
-     *
-     * @param string $sessionKey
-     *
-     * @return \Illuminate\Database\Eloquent\Model|static
-     * @throws \Exception
-     */
-    public static function create(array $attributes = [], $sessionKey = null)
-    {
-        $model = new static($attributes);
-        $model->save(null, $sessionKey);
-
-        return $model;
     }
 
     /**
@@ -227,6 +212,7 @@ abstract class Model extends EloquentModel
     public function newFromBuilder($attributes = [], $connection = null)
     {
         $instance = $this->newInstance([], true);
+
         if ($instance->fireModelEvent('fetching') === false) {
             return $instance;
         }
@@ -335,43 +321,9 @@ abstract class Model extends EloquentModel
         static::registerModelEvent('fetched', $callback);
     }
 
-    public function setUpdatedAt($value)
-    {
-        if (!is_null(static::UPDATED_AT)) {
-            $this->{static::UPDATED_AT} = $value;
-        }
-
-        return $this;
-    }
-
-    public function setCreatedAt($value)
-    {
-        if (!is_null(static::CREATED_AT)) {
-            $this->{static::CREATED_AT} = $value;
-        }
-
-        return $this;
-    }
-
     //
     // Overrides
     //
-
-    /**
-     * Get the observable event names.
-     * @return array
-     */
-    public function getObservableEvents()
-    {
-        return array_merge(
-            [
-                'retrieved', 'creating', 'created', 'updating', 'updated',
-                'deleting', 'deleted', 'forceDeleted', 'saving', 'saved',
-                'restoring', 'restored', 'replicating', 'fetching', 'fetched',
-            ],
-            $this->observables
-        );
-    }
 
     protected function isRelationPurgeable($name)
     {
@@ -413,9 +365,9 @@ abstract class Model extends EloquentModel
         return $this->extendableGet($key);
     }
 
-    public function __set($name, $value)
+    public function __set($key, $value)
     {
-        return $this->extendableSet($name, $value);
+        return $this->extendableSet($key, $value);
     }
 
     /**
@@ -425,13 +377,13 @@ abstract class Model extends EloquentModel
      *
      * @return mixed
      */
-    public function __call($method, $params)
+    public function __call($method, $parameters)
     {
         if ($this->hasRelation($method)) {
             return $this->handleRelation($method);
         }
 
-        return $this->extendableCall($method, $params);
+        return $this->extendableCall($method, $parameters);
     }
 
     //
