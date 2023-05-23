@@ -1,11 +1,10 @@
-name: Tests
+name: QA Pipeline
 
 on:
   push:
     branches:
       - master
-      - develop
-      - v4
+      - '*.x'
   pull_request:
 
 jobs:
@@ -29,7 +28,7 @@ jobs:
         ports:
           - 3306
 
-    name: 'Pest Tests ${{ matrix.php }} / ${{ matrix.dbName }}'
+    name: 'QA Pipeline ${{ matrix.php }} / ${{ matrix.dbName }}'
 
     steps:
       - name: Checkout changes
@@ -48,6 +47,9 @@ jobs:
 
       - name: Install composer dependencies
         run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
+
+      - name: Execute static analysis
+        run: composer static
 
       - name: Run Pest Test Suite
         run: composer test --parallel
