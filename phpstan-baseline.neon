@@ -6467,7 +6467,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
-			count: 2
+			count: 3
 			path: src/Main/Classes/ThemeManager.php
 
 		-
