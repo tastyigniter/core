@@ -40,8 +40,8 @@
     "kalnoy/nestedset": "~6.0",
     "scssphp/scssphp": "~1.0",
     "symfony/yaml": "~6.0",
-    "tastyigniter/ti-ext-local": "v4.x-dev as 4.0",
     "tastyigniter/ti-ext-cart": "v4.x-dev as 4.0",
+    "tastyigniter/ti-ext-local": "v4.x-dev as 4.0",
     "league/glide": "~2.2"
   },
   "require-dev": {
