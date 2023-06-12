@@ -111,9 +111,9 @@ class ServiceProvider extends AppServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-                     'Assets' => \Igniter\System\Facades\Assets::class,
-                     'Country' => \Igniter\System\Facades\Country::class,
-                 ] as $alias => $class) {
+            'Assets' => \Igniter\System\Facades\Assets::class,
+            'Country' => \Igniter\System\Facades\Country::class,
+        ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
     }
