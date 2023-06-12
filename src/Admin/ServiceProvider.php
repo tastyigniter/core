@@ -50,6 +50,7 @@ class ServiceProvider extends AppServiceProvider
         $this->app->register(Providers\EventServiceProvider::class);
         $this->app->register(Providers\FormServiceProvider::class);
         $this->app->register(Providers\MenuItemServiceProvider::class);
+        $this->app->register(Providers\PermissionServiceProvider::class);
 
         if (Igniter::runningInAdmin()) {
             $this->registerAssets();
@@ -92,12 +93,10 @@ class ServiceProvider extends AppServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-            'Admin' => \Igniter\Admin\Facades\Admin::class,
-            'AdminAuth' => \Igniter\Admin\Facades\AdminAuth::class,
-            'AdminLocation' => \Igniter\Admin\Facades\AdminLocation::class,
-            'AdminMenu' => \Igniter\Admin\Facades\AdminMenu::class,
-            'Template' => \Igniter\Admin\Facades\Template::class,
-        ] as $alias => $class) {
+                     'AdminHelper' => \Igniter\Admin\Facades\AdminHelper::class,
+                     'AdminMenu' => \Igniter\Admin\Facades\AdminMenu::class,
+                     'Template' => \Igniter\Admin\Facades\Template::class,
+                 ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
     }
@@ -153,16 +152,5 @@ class ServiceProvider extends AppServiceProvider
         Route::group([], function ($router) {
             (new Classes\RouteRegistrar($router))->all();
         });
-    }
-
-    protected function registerEventSubscribers()
-    {
-        foreach ([
-            AssigneeUpdatedSubscriber::class,
-            DefineOptionsFormFieldsSubscriber::class,
-            StatusUpdatedSubscriber::class,
-        ] as $class) {
-            Event::subscribe($class);
-        }
     }
 }

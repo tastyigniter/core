@@ -81,7 +81,7 @@ class RouteRegistrar
 
                 return $result;
             })
-            ->filter(fn ($class) => $this->isAdminPage($class));
+            ->filter(fn($class) => $this->isAdminPage($class));
     }
 
     protected function isAdminPage($class)
@@ -104,6 +104,12 @@ class RouteRegistrar
         $uri = strtolower(implode('/', array_slice(explode('\\', $class), 0, 2)).'/'.$resource);
         $name = str_replace('/', '.', $uri);
 
+        if (method_exists($class, 'getSlug')) {
+            $slug = $class::getSlug();
+            return [$name, $slug];
+        }
+
         return [$name, $uri];
     }
 }
+

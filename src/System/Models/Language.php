@@ -103,7 +103,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
             return self::$activeLanguage;
         }
 
-        $activeLanguage = self::isEnabled()
+        $activeLanguage = self::applySwitchable()
             ->where('code', app()->getLocale())
             ->first();
 

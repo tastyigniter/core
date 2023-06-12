@@ -28,7 +28,7 @@ trait Defaultable
 
     public static function updateDefault(mixed $id): bool
     {
-        return ($model = static::where((new static)->defaultableKeyName(), $id))
+        return ($model = static::firstWhere((new static)->defaultableKeyName(), $id))
             ? $model->makeDefault() : false;
     }
 
@@ -49,7 +49,7 @@ trait Defaultable
             $query->whereIsEnabled();
         }
 
-        $defaultQuery = $query->whereIsDefault();
+        $defaultQuery = $query->applyDefaultable(true);
         if (!$defaultModel = $defaultQuery->first()) {
             if ($defaultModel = $query->first()) {
                 $defaultModel->makeDefault();

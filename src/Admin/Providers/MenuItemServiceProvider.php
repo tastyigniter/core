@@ -165,13 +165,6 @@ class MenuItemServiceProvider extends ServiceProvider
                             'title' => lang('igniter::admin.side_menu.status'),
                             'permission' => 'Admin.Statuses',
                         ],
-                        'payments' => [
-                            'priority' => 50,
-                            'class' => 'payments',
-                            'href' => admin_url('payments'),
-                            'title' => lang('igniter::admin.side_menu.payment'),
-                            'permission' => 'Admin.Payments',
-                        ],
                     ],
                 ],
                 'marketing' => [

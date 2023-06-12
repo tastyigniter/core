@@ -25,6 +25,6 @@ class Serialize implements CastsAttributes
      */
     public function serialize($model, string $key, $value, array $attributes)
     {
-        return (string)$value;
+        return serialize($value);
     }
 }

@@ -216,13 +216,6 @@ class FormServiceProvider extends ServiceProvider
                     'url' => admin_url('extensions'),
                     'complete' => [\Igniter\System\Models\Extension::class, 'onboardingIsComplete'],
                 ],
-                'admin::payments' => [
-                    'label' => 'igniter::admin.dashboard.onboarding.label_payments',
-                    'description' => 'igniter::admin.dashboard.onboarding.help_payments',
-                    'icon' => 'fa-credit-card',
-                    'url' => admin_url('payments'),
-                    'complete' => [\Igniter\Admin\Models\Payment::class, 'onboardingIsComplete'],
-                ],
                 'admin::menus' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_menus',
                     'description' => 'igniter::admin.dashboard.onboarding.help_menus',
