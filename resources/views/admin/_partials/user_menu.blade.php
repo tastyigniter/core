@@ -1,5 +1,5 @@
 @php
-    $userPanel = \Igniter\Admin\Classes\UserPanel::forUser();
+    $userPanel = \Igniter\User\Classes\UserPanel::forUser();
 @endphp
 <li class="nav-item dropdown">
     <a href="#" class="nav-link" data-bs-toggle="dropdown">

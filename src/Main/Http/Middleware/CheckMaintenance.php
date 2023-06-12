@@ -2,8 +2,8 @@
 
 namespace Igniter\Main\Http\Middleware;
 
-use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Flame\Igniter;
+use Igniter\User\Facades\AdminAuth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 

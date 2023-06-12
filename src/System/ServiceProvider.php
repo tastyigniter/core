@@ -9,15 +9,17 @@ use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\System\Exception\ErrorHandler;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Language;
-use Igniter\System\Models\Notification;
 use Igniter\System\Models\RequestLog;
 use Igniter\System\Template\Extension\BladeExtension;
+use Igniter\User\Models\Notification;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ServiceProvider extends AppServiceProvider
 {
@@ -101,9 +103,9 @@ class ServiceProvider extends AppServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-            'Assets' => \Igniter\System\Facades\Assets::class,
-            'Country' => \Igniter\System\Facades\Country::class,
-        ] as $alias => $class) {
+                     'Assets' => \Igniter\System\Facades\Assets::class,
+                     'Country' => \Igniter\System\Facades\Country::class,
+                 ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
     }
@@ -129,7 +131,6 @@ class ServiceProvider extends AppServiceProvider
             'languages' => \Igniter\System\Models\Language::class,
             'mail_layouts' => \Igniter\System\Models\MailLayout::class,
             'mail_templates' => \Igniter\System\Models\MailTemplate::class,
-            'notifications' => \Igniter\System\Models\Notification::class,
             'pages' => \Igniter\System\Models\Page::class,
             'settings' => \Igniter\System\Models\Settings::class,
             'themes' => \Igniter\Main\Models\Theme::class,

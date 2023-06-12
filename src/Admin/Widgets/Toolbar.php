@@ -4,8 +4,8 @@ namespace Igniter\Admin\Widgets;
 
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ToolbarButton;
-use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Facades\Template;
+use Igniter\User\Facades\AdminAuth;
 
 class Toolbar extends BaseWidget
 {

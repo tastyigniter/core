@@ -2,9 +2,9 @@
 
 namespace Igniter\Flame;
 
-use Igniter\Admin\Models\User;
 use Igniter\Flame\Filesystem\Filesystem;
-use Igniter\Main\Models\Customer;
+use Igniter\User\Models\Customer;
+use Igniter\User\Models\User;
 
 class Igniter
 {

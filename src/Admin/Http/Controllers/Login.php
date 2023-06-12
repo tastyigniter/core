@@ -3,11 +3,11 @@
 namespace Igniter\Admin\Http\Controllers;
 
 use Igniter\Admin\Classes\AdminController;
-use Igniter\Admin\Facades\Admin;
-use Igniter\Admin\Facades\AdminAuth;
+use Igniter\Admin\Facades\AdminHelper;
 use Igniter\Admin\Facades\Template;
-use Igniter\Admin\Models\User;
 use Igniter\Flame\Exception\ValidationException;
+use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Models\User;
 use Illuminate\Support\Facades\Mail;
 
 class Login extends AdminController

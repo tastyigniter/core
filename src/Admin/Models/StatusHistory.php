@@ -32,7 +32,7 @@ class StatusHistory extends Model
 
     public $relation = [
         'belongsTo' => [
-            'user' => \Igniter\Admin\Models\User::class,
+            'user' => \Igniter\User\Models\User::class,
             'status' => [\Igniter\Admin\Models\Status::class, 'status_id'],
         ],
         'morphTo' => [

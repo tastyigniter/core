@@ -2,11 +2,11 @@
 
 namespace Igniter\Main\Template;
 
-use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**

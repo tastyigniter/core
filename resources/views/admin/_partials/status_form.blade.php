@@ -1,5 +1,5 @@
 @php
-    $staffState = \Igniter\Admin\Classes\UserState::forUser()
+    $staffState = \Igniter\User\Classes\UserState::forUser()
 @endphp
 <div
     class="modal fade"
@@ -12,7 +12,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">@lang('igniter::admin.staff_status.text_set_status')</h4>
+                <h4 class="modal-title">@lang('igniter.user::default.staff_status.text_set_status')</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form
@@ -44,7 +44,7 @@
                             class="form-control"
                             name="message"
                             value="{{ $staffState->getMessage() }}"
-                            placeholder="@lang('igniter::admin.staff_status.text_lunch_break')"
+                            placeholder="@lang('igniter.user::default.staff_status.text_lunch_break')"
                         >
                     </div>
                     <div

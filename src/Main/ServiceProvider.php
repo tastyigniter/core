@@ -47,11 +47,9 @@ class ServiceProvider extends AppServiceProvider
     public function register()
     {
         $this->registerSingletons();
-        $this->registerFacadeAliases();
         $this->registerComponents();
 
         $this->app->register(Providers\AssetsServiceProvider::class);
-        $this->app->register(Providers\EventServiceProvider::class);
         $this->app->register(Providers\FormServiceProvider::class);
         $this->app->register(Providers\MenuItemServiceProvider::class);
         $this->app->register(Providers\PagicServiceProvider::class);
@@ -71,23 +69,8 @@ class ServiceProvider extends AppServiceProvider
 
     protected function registerSingletons()
     {
-        $this->app->singleton('main.auth', function () {
-            return resolve('auth')->guard(config('igniter-auth.guards.web', 'web'));
-        });
-
         $this->tapSingleton(MediaLibrary::class);
         $this->tapSingleton(ThemeManager::class);
-    }
-
-    protected function registerFacadeAliases()
-    {
-        $loader = AliasLoader::getInstance();
-
-        foreach ([
-            'Auth' => \Igniter\Main\Facades\Auth::class,
-        ] as $alias => $class) {
-            $loader->alias($alias, $class);
-        }
     }
 
     protected function defineRoutes()

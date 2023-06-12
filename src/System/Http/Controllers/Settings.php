@@ -3,13 +3,13 @@
 namespace Igniter\System\Http\Controllers;
 
 use Exception;
-use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\FormExtendable;
 use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Models\MailTemplate;
+use Igniter\User\Facades\AdminAuth;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;

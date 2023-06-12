@@ -2,9 +2,9 @@
 
 namespace Igniter\System\Notifications;
 
-use Igniter\Admin\Models\User;
-use Igniter\System\Classes\Notification;
 use Igniter\System\Contracts\CriticalNotification;
+use Igniter\User\Classes\Notification;
+use Igniter\User\Models\User;
 
 class UpdateFoundNotification extends Notification implements CriticalNotification
 {

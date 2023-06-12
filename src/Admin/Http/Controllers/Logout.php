@@ -2,7 +2,7 @@
 
 namespace Igniter\Admin\Http\Controllers;
 
-use Igniter\Admin\Facades\AdminAuth;
+use Igniter\User\Facades\AdminAuth;
 
 class Logout extends \Igniter\Admin\Classes\AdminController
 {

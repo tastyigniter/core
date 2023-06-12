@@ -210,15 +210,8 @@ return [
         'text_partials' => 'Partials',
         'text_empty' => 'There are no mail templates available.',
         'text_variables' => 'Variables',
-        'text_password_reset_request_alert' => 'Password reset request email to admin',
-        'text_password_reset_alert' => 'Password reset email to admin',
         'text_internal' => 'Internal Message',
         'text_contact' => 'Contact email to admin',
-        'text_order_update' => 'Order status update email to customer',
-        'text_reservation_update' => 'Reservation status update email to customer',
-        'text_invite' => 'Invite email to staff to access the TastyIgniter Admin',
-        'text_invite_customer' => 'Invite email to customer to place an order',
-        'text_low_stock_alert' => 'Low stock alert email to location',
 
         'button_test_message' => 'Send test message',
 

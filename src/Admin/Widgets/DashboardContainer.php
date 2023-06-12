@@ -4,8 +4,8 @@ namespace Igniter\Admin\Widgets;
 
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\Widgets;
-use Igniter\Admin\Models\UserPreference;
 use Igniter\Flame\Exception\ApplicationException;
+use Igniter\User\Models\UserPreference;
 
 class DashboardContainer extends BaseWidget
 {

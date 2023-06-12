@@ -16,7 +16,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected $root = __DIR__.'/../..';
 
     protected $providers = [
-        \Igniter\Flame\Auth\AuthServiceProvider::class,
         \Igniter\Flame\Currency\CurrencyServiceProvider::class,
         \Igniter\Flame\Providers\ConsoleSupportServiceProvider::class,
         \Igniter\Flame\Database\DatabaseServiceProvider::class,
@@ -37,7 +36,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     ];
 
     protected $configFiles = [
-        'auth', 'currency', 'geocoder', 'routes', 'system',
+        'currency', 'geocoder', 'routes', 'system',
     ];
 
     public function register()
@@ -122,17 +121,17 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-            'Flash' => \Igniter\Flame\Flash\Facades\Flash::class,
-            'Form' => \Igniter\Flame\Html\FormFacade::class,
-            'Html' => \Igniter\Flame\Html\HtmlFacade::class,
-            'Model' => \Igniter\Flame\Database\Model::class,
-            'Parameter' => \Igniter\Flame\Setting\Facades\Parameter::class,
-            'Setting' => \Igniter\Flame\Setting\Facades\Setting::class,
-            'SystemException' => \Igniter\Flame\Exception\SystemException::class,
-            'ApplicationException' => \Igniter\Flame\Exception\ApplicationException::class,
-            'AjaxException' => \Igniter\Flame\Exception\AjaxException::class,
-            'ValidationException' => \Igniter\Flame\Exception\ValidationException::class,
-        ] as $alias => $class) {
+                     'Flash' => \Igniter\Flame\Flash\Facades\Flash::class,
+                     'Form' => \Igniter\Flame\Html\FormFacade::class,
+                     'Html' => \Igniter\Flame\Html\HtmlFacade::class,
+                     'Model' => \Igniter\Flame\Database\Model::class,
+                     'Parameter' => \Igniter\Flame\Setting\Facades\Parameter::class,
+                     'Setting' => \Igniter\Flame\Setting\Facades\Setting::class,
+                     'SystemException' => \Igniter\Flame\Exception\SystemException::class,
+                     'ApplicationException' => \Igniter\Flame\Exception\ApplicationException::class,
+                     'AjaxException' => \Igniter\Flame\Exception\AjaxException::class,
+                     'ValidationException' => \Igniter\Flame\Exception\ValidationException::class,
+                 ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
     }

@@ -2,10 +2,10 @@
 
 namespace Igniter\Admin\Http\Controllers;
 
-use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Widgets\DashboardContainer;
+use Igniter\User\Facades\AdminAuth;
 use Illuminate\Support\Facades\Request;
 
 class Dashboard extends \Igniter\Admin\Classes\AdminController

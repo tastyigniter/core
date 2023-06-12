@@ -23,9 +23,10 @@ class MenuItemServiceProvider extends ServiceProvider
     protected function registerMainMenuItems()
     {
         AdminMenu::registerCallback(function (Navigation $manager) {
-            $menuItems = [
+            $manager->registerMainItems([
                 'preview' => [
                     'icon' => 'fa-store',
+                    'priority' => 10,
                     'attributes' => [
                         'class' => 'nav-link front-end',
                         'title' => 'lang:igniter::admin.side_menu.storefront',
@@ -33,39 +34,16 @@ class MenuItemServiceProvider extends ServiceProvider
                         'target' => '_blank',
                     ],
                 ],
-                'locations' => [
-                    'type' => 'partial',
-                    'path' => 'locations/picker',
-                    'options' => [\Igniter\Admin\Classes\UserPanel::class, 'listLocations'],
-                ],
-                'notifications' => [
-                    'label' => 'lang:igniter::admin.text_activity_title',
-                    'icon' => 'fa-bell',
-                    'type' => 'dropdown',
-                    'options' => [\Igniter\Admin\Classes\UserPanel::class, 'listNotifications'],
-                    'partial' => 'notifications.latest',
-                    'permission' => 'Admin.Notifications',
-                ],
                 'settings' => [
                     'icon' => 'fa-gear',
+                    'priority' => 20,
                     'attributes' => [
                         'class' => 'nav-link front-end',
                         'title' => 'lang:igniter::admin.side_menu.setting',
                         'href' => admin_url('settings'),
                     ],
                 ],
-                'user' => [
-                    'type' => 'partial',
-                    'path' => 'user_menu',
-                    'options' => [\Igniter\Admin\Classes\UserPanel::class, 'listMenuLinks'],
-                ],
-            ];
-
-            if (AdminLocation::listLocations()->isEmpty()) {
-                unset($menuItems['locations']);
-            }
-
-            $manager->registerMainItems($menuItems);
+            ]);
         });
     }
 
@@ -112,14 +90,6 @@ class MenuItemServiceProvider extends ServiceProvider
                     'title' => lang('igniter::admin.side_menu.marketing'),
                     'child' => [],
                 ],
-                'customers' => [
-                    'priority' => 100,
-                    'class' => 'customers',
-                    'icon' => 'fa-user',
-                    'href' => admin_url('customers'),
-                    'title' => lang('igniter::admin.side_menu.customer'),
-                    'permission' => 'Admin.Customers',
-                ],
                 'design' => [
                     'priority' => 200,
                     'class' => 'design',
@@ -163,13 +133,6 @@ class MenuItemServiceProvider extends ServiceProvider
                     'icon' => 'fa-cog',
                     'title' => lang('igniter::admin.side_menu.system'),
                     'child' => [
-                        'users' => [
-                            'priority' => 0,
-                            'class' => 'users',
-                            'href' => admin_url('users'),
-                            'title' => lang('igniter::admin.side_menu.user'),
-                            'permission' => 'Admin.Staffs',
-                        ],
                         'extensions' => [
                             'priority' => 10,
                             'class' => 'extensions',

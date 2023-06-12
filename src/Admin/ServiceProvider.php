@@ -2,16 +2,12 @@
 
 namespace Igniter\Admin;
 
-use Igniter\Admin\EventSubscribers\AssigneeUpdatedSubscriber;
-use Igniter\Admin\EventSubscribers\DefineOptionsFormFieldsSubscriber;
-use Igniter\Admin\EventSubscribers\StatusUpdatedSubscriber;
-use Igniter\Admin\Helpers\Admin as AdminHelper;
+use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\System\Libraries\Assets;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 
 class ServiceProvider extends AppServiceProvider
@@ -41,8 +37,6 @@ class ServiceProvider extends AppServiceProvider
      */
     public function register()
     {
-        $this->registerEventSubscribers();
-
         $this->registerSingletons();
         $this->registerFacadeAliases();
 
@@ -65,10 +59,6 @@ class ServiceProvider extends AppServiceProvider
             return new AdminHelper;
         });
 
-        $this->app->singleton('admin.auth', function () {
-            return resolve('auth')->guard(config('igniter-auth.guards.admin', 'web'));
-        });
-
         $this->app->singleton('admin.menu', function ($app) {
             return new Classes\Navigation('igniter.admin::_partials');
         });
@@ -78,8 +68,6 @@ class ServiceProvider extends AppServiceProvider
         });
 
         $this->app->singleton(Classes\OnboardingSteps::class);
-        $this->app->singleton(Classes\PaymentGateways::class);
-        $this->app->singleton(Classes\PermissionManager::class);
         $this->app->singleton(Classes\Widgets::class);
     }
 

@@ -21,7 +21,7 @@ use Illuminate\Routing\Controller;
 
 class AdminController extends Controller
 {
-    use \Igniter\Admin\Traits\HasAuthentication;
+    use \Igniter\User\Traits\HasAuthentication;
     use \Igniter\Admin\Traits\ControllerUtils;
     use \Igniter\Admin\Traits\ControllerHelpers;
     use \Igniter\Admin\Traits\ValidatesForm;

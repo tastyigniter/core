@@ -2,8 +2,8 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Admin\Models\User;
 use Igniter\Flame\Exception\ApplicationException;
+use Igniter\User\Models\User;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Question\Question;
