@@ -25,7 +25,7 @@ class StatusEditor extends BaseFormWidget
     use ValidatesForm;
 
     /**
-     * @var Order|\Igniter\Admin\Models\Reservation Form model object.
+     * @var Order|\Igniter\Reservation\Models\Reservation Form model object.
      */
     public $model;
 

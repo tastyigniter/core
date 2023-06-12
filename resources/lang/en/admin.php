@@ -58,6 +58,8 @@ return [
     'label_code' => 'Code',
     'label_name' => 'Name',
     'label_type' => 'Type',
+    'label_first_name' => 'First name',
+    'label_last_name' => 'Last name',
     'label_email' => 'Email',
     'label_status' => 'Status',
     'label_location' => 'Location(s)',
@@ -116,6 +118,9 @@ return [
     'title_access_denied' => 'Access denied',
     'title_page_not_found' => 'No page found',
     'alert_page_not_found' => 'There\'s no page at this address, check the URL and try again.',
+
+    'error_table_widget_data_not_specified' => 'The Table widget data source is not specified in the configuration.',
+    'error_table_widget_data_class_not_found' => 'The Table widget data source class "%s" could not be found.',
 
     'text_settings_title' => 'Settings',
     'text_message_title' => 'Your messages',
@@ -589,65 +594,5 @@ return [
         'alert_already_added' => 'The selected %s must be different from the current %s',
         'alert_invalid_action' => 'Invalid action.',
         'alert_status_not_found' => 'Status ID [%s] not found.',
-    ],
-
-    'stocks' => [
-        'text_title' => 'Stocks',
-        'text_form_name' => 'Stock',
-        'text_title_manage_stock' => 'Manage Stock',
-        'text_title_stock_history' => 'Stock History',
-        'text_stock_description' => 'Managing stock for <b>%s</b> at %s location(s)',
-        'text_empty' => 'There are no locations available.',
-
-        'button_manage_stock' => 'Manage Stock',
-        'button_stock_history' => 'Stock History',
-
-        'text_action_none' => 'Select reason',
-        'text_action_in_stock' => '[+] Stock Received',
-        'text_action_restock' => '[+] Restock',
-        'text_action_recount' => '[=] Stock Re-count',
-        'text_action_sold' => '[-] Sold',
-        'text_action_returned' => '[-] Returned',
-        'text_action_waste' => '[-] Waste',
-
-        'label_is_tracked' => 'Track Stock',
-        'label_quantity' => 'Stock Quantity',
-        'label_stock_action' => 'Stock Action',
-        'label_stock_quantity' => 'Add, remove or recount stock',
-        'label_low_stock_alert' => 'Low Stock Alerts',
-        'label_low_stock_threshold' => 'Low Stock Threshold',
-
-        'column_staff_name' => 'User Name',
-        'column_quantity' => 'Quantity',
-        'column_created_at' => 'Calculated At',
-
-        'help_is_tracked' => 'When enabled, ordered menu and/or options quantities are automatically subtracted.',
-        'help_low_stock_alert' => 'Enable automated low stock alerts so that you receive emails when the stock quantity falls below or equals the specified threshold.',
-    ],
-
-    'tables' => [
-        'text_title' => 'Tables',
-        'text_form_name' => 'Table',
-        'text_empty' => 'There are no tables available.',
-        'text_filter_search' => 'Search by name or capacity.',
-
-        'column_min_capacity' => 'Minimum Capacity',
-        'column_capacity' => 'Maximum Capacity',
-        'column_extra_capacity' => 'Extra Capacity',
-        'column_priority' => 'Priority',
-        'column_joinable' => 'Is Joinable',
-
-        'label_min_capacity' => 'Minimum Capacity',
-        'label_capacity' => 'Maximum Capacity',
-        'label_extra_capacity' => 'Extra Capacity',
-        'label_priority' => 'Priority',
-        'label_joinable' => 'Is Joinable',
-
-        'help_tables' => 'Select a table to attach to this location.',
-        'help_extra_capacity' => 'Used internally by the user to determine table convenience/inconvenience.',
-
-        'error_capacity' => 'The Maximum capacity value must be greater than minimum capacity value.',
-        'error_table_widget_data_not_specified' => 'The Table widget data source is not specified in the configuration.',
-        'error_table_widget_data_class_not_found' => 'The Table widget data source class "%s" could not be found.',
     ],
 ];

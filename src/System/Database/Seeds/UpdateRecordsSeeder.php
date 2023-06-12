@@ -30,14 +30,14 @@ class UpdateRecordsSeeder extends Seeder
 
     protected function updateMorphsOnStatusHistory()
     {
-        $types = [\Igniter\Admin\Models\Order::class, \Igniter\Admin\Models\Reservation::class];
+        $types = [\Igniter\Cart\Models\Order::class, \Igniter\Reservation\Models\Reservation::class];
         if (DB::table('status_history')->whereIn('object_type', $types)->count()) {
             return;
         }
 
         $morphs = [
-            'order' => \Igniter\Admin\Models\Order::class,
-            'reserve' => \Igniter\Admin\Models\Reservation::class,
+            'order' => \Igniter\Cart\Models\Order::class,
+            'reserve' => \Igniter\Reservation\Models\Reservation::class,
         ];
 
         DB::table('status_history')->get()->each(function ($model) use ($morphs) {
