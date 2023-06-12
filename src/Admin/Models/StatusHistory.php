@@ -3,6 +3,7 @@
 namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
+use Igniter\Cart\Models\Order;
 use Igniter\Flame\Database\Model;
 
 /**

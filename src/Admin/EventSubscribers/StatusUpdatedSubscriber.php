@@ -2,10 +2,10 @@
 
 namespace Igniter\Admin\EventSubscribers;
 
-use Igniter\Admin\Models\Order;
-use Igniter\Admin\Models\Reservation;
 use Igniter\Admin\Models\StatusHistory;
 use Igniter\Admin\Notifications\StatusUpdatedNotification;
+use Igniter\Cart\Models\Order;
+use Igniter\Reservation\Models\Reservation;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class StatusUpdatedSubscriber

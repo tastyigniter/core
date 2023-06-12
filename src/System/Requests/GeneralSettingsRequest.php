@@ -18,6 +18,9 @@ class GeneralSettingsRequest extends FormRequest
             'timezone' => lang('igniter::system.settings.label_timezone'),
             'detect_language' => lang('igniter::system.settings.label_detect_language'),
             'country_id' => lang('igniter::system.settings.label_country'),
+
+            'menus_page' => lang('igniter::system.settings.label_menus_page'),
+            'reservation_page' => lang('igniter::system.settings.label_reservation_page'),
         ];
     }
 

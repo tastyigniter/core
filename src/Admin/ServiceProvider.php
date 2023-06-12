@@ -96,33 +96,8 @@ class ServiceProvider extends AppServiceProvider
     protected function defineEloquentMorphMaps()
     {
         Relation::morphMap([
-            'addresses' => \Igniter\Admin\Models\Address::class,
-            'assignable_logs' => \Igniter\Admin\Models\AssignableLog::class,
-            'categories' => \Igniter\Admin\Models\Category::class,
-            'customer_groups' => \Igniter\Main\Models\CustomerGroup::class,
-            'customers' => \Igniter\Main\Models\Customer::class,
-            'ingredients' => \Igniter\Admin\Models\Ingredient::class,
-            'location_areas' => \Igniter\Admin\Models\LocationArea::class,
-            'locations' => \Igniter\Admin\Models\Location::class,
-            'mealtimes' => \Igniter\Admin\Models\Mealtime::class,
-            'menu_categories' => \Igniter\Admin\Models\MenuCategory::class,
-            'menu_item_option_values' => \Igniter\Admin\Models\MenuItemOptionValue::class,
-            'menu_option_values' => \Igniter\Admin\Models\MenuOptionValue::class,
-            'menu_options' => \Igniter\Admin\Models\MenuOption::class,
-            'menus' => \Igniter\Admin\Models\Menu::class,
-            'menus_specials' => \Igniter\Admin\Models\MenuSpecial::class,
-            'orders' => \Igniter\Admin\Models\Order::class,
-            'payment_logs' => \Igniter\Admin\Models\PaymentLog::class,
-            'payments' => \Igniter\Admin\Models\Payment::class,
-            'reservations' => \Igniter\Admin\Models\Reservation::class,
             'status_history' => \Igniter\Admin\Models\StatusHistory::class,
             'statuses' => \Igniter\Admin\Models\Status::class,
-            'stocks' => \Igniter\Admin\Models\Stock::class,
-            'stock_history' => \Igniter\Admin\Models\StockHistory::class,
-            'tables' => \Igniter\Admin\Models\Table::class,
-            'user_groups' => \Igniter\Admin\Models\UserGroup::class,
-            'users' => \Igniter\Admin\Models\User::class,
-            'working_hours' => \Igniter\Admin\Models\WorkingHour::class,
         ]);
     }
 

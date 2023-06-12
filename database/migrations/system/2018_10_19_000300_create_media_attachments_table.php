@@ -1,8 +1,8 @@
 <?php
 
-use Igniter\Admin\Models\Category;
-use Igniter\Admin\Models\Location;
-use Igniter\Admin\Models\Menu;
+use Igniter\Cart\Models\Category;
+use Igniter\Cart\Models\Menu;
+use Igniter\Local\Models\Location;
 use Igniter\Main\Classes\MediaLibrary;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

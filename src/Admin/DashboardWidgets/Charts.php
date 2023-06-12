@@ -3,10 +3,10 @@
 namespace Igniter\Admin\DashboardWidgets;
 
 use Igniter\Admin\Classes\BaseDashboardWidget;
-use Igniter\Admin\Models\Order;
-use Igniter\Admin\Models\Reservation;
 use Igniter\Admin\Traits\HasChartDatasets;
-use Igniter\Main\Models\Customer;
+use Igniter\Cart\Models\Order;
+use Igniter\Reservation\Models\Reservation;
+use Igniter\User\Models\Customer;
 
 /**
  * Charts dashboard widget.

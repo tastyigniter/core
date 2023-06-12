@@ -15,7 +15,7 @@
     </div>
     <div class="mr-3 flex-fill text-center">
         <label class="form-label">
-            {{ lang('igniter::admin.orders.label_assign_staff') }}
+            {{ lang('igniter.cart::default.orders.label_assign_staff') }}
         </label>
         <a
             class="d-flex align-items-center justify-content-center"

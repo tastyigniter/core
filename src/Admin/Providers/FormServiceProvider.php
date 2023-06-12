@@ -12,52 +12,12 @@ class FormServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->registerSystemSettings();
-
         if (Igniter::runningInAdmin()) {
             $this->registerDashboardWidgets();
             $this->registerBulkActionWidgets();
             $this->registerFormWidgets();
             $this->registerOnboardingSteps();
         }
-    }
-
-    protected function registerSystemSettings()
-    {
-        Settings::registerCallback(function (Settings $manager) {
-            $manager->registerSettingItems('core', [
-                'setup' => [
-                    'label' => 'lang:igniter::admin.settings.text_tab_setup',
-                    'description' => 'lang:igniter::admin.settings.text_tab_desc_setup',
-                    'icon' => 'fa fa-file-invoice',
-                    'priority' => 1,
-                    'permission' => ['Site.Settings'],
-                    'url' => admin_url('settings/edit/setup'),
-                    'form' => 'setupsettings',
-                    'request' => \Igniter\Admin\Requests\SetupSettingsRequest::class,
-                ],
-                'tax' => [
-                    'label' => 'lang:igniter::admin.settings.text_tab_tax',
-                    'description' => 'lang:igniter::admin.settings.text_tab_desc_tax',
-                    'icon' => 'fa fa-file',
-                    'priority' => 6,
-                    'permission' => ['Site.Settings'],
-                    'url' => admin_url('settings/edit/tax'),
-                    'form' => 'taxsettings',
-                    'request' => 'Igniter\Admin\Requests\TaxSettingsRequest',
-                ],
-                'user' => [
-                    'label' => 'lang:igniter::admin.settings.text_tab_user',
-                    'description' => 'lang:igniter::admin.settings.text_tab_desc_user',
-                    'icon' => 'fa fa-user',
-                    'priority' => 3,
-                    'permission' => ['Site.Settings'],
-                    'url' => admin_url('settings/edit/user'),
-                    'form' => 'usersettings',
-                    'request' => \Igniter\Admin\Requests\UserSettingsRequest::class,
-                ],
-            ]);
-        });
     }
 
     /*
@@ -142,11 +102,6 @@ class FormServiceProvider extends ServiceProvider
                 'code' => 'markdowneditor',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\PermissionEditor::class, [
-                'label' => 'Permission Editor',
-                'code' => 'permissioneditor',
-            ]);
-
             $manager->registerFormWidget(\Igniter\Admin\FormWidgets\RecordEditor::class, [
                 'label' => 'Record Editor',
                 'code' => 'recordeditor',
@@ -170,16 +125,6 @@ class FormServiceProvider extends ServiceProvider
             $manager->registerFormWidget(\Igniter\Admin\FormWidgets\StatusEditor::class, [
                 'label' => 'Status Editor',
                 'code' => 'statuseditor',
-            ]);
-
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\ScheduleEditor::class, [
-                'label' => 'Schedule Editor',
-                'code' => 'scheduleeditor',
-            ]);
-
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\StockEditor::class, [
-                'label' => 'Stock Editor',
-                'code' => 'stockeditor',
             ]);
         });
     }

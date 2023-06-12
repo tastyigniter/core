@@ -1,7 +1,7 @@
 <?php
 
-use Igniter\Admin\Models\Location;
-use Igniter\Admin\Models\Stock;
+use Igniter\Cart\Models\Stock;
+use Igniter\Local\Models\Location;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;

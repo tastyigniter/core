@@ -2,8 +2,8 @@
 
 namespace Igniter\Admin\Notifications;
 
-use Igniter\Admin\Models\Order;
-use Igniter\System\Classes\Notification;
+use Igniter\Cart\Models\Order;
+use Igniter\User\Classes\Notification;
 
 class StatusUpdatedNotification extends Notification
 {
