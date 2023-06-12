@@ -5,7 +5,6 @@ namespace Igniter\Admin\Providers;
 use Igniter\Admin\Classes\OnboardingSteps;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\Flame\Igniter;
-use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
 
 class FormServiceProvider extends ServiceProvider
@@ -138,6 +137,7 @@ class FormServiceProvider extends ServiceProvider
                     'description' => 'igniter::admin.dashboard.onboarding.help_settings',
                     'icon' => 'fa-gears',
                     'url' => admin_url('settings'),
+                    'priority' => 10,
                     'complete' => [\Igniter\System\Models\Settings::class, 'onboardingIsComplete'],
                 ],
                 'admin::themes' => [
@@ -145,6 +145,7 @@ class FormServiceProvider extends ServiceProvider
                     'description' => 'igniter::admin.dashboard.onboarding.help_themes',
                     'icon' => 'fa-paint-brush',
                     'url' => admin_url('themes'),
+                    'priority' => 20,
                     'complete' => [\Igniter\Main\Models\Theme::class, 'onboardingIsComplete'],
                 ],
                 'admin::extensions' => [
@@ -152,6 +153,7 @@ class FormServiceProvider extends ServiceProvider
                     'description' => 'igniter::admin.dashboard.onboarding.help_extensions',
                     'icon' => 'fa-plug',
                     'url' => admin_url('extensions'),
+                    'priority' => 30,
                     'complete' => [\Igniter\System\Models\Extension::class, 'onboardingIsComplete'],
                 ],
                 'admin::menus' => [
@@ -159,12 +161,14 @@ class FormServiceProvider extends ServiceProvider
                     'description' => 'igniter::admin.dashboard.onboarding.help_menus',
                     'icon' => 'fa-cutlery',
                     'url' => admin_url('menus'),
+                    'priority' => 40,
                 ],
                 'admin::mail' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_mail',
                     'description' => 'igniter::admin.dashboard.onboarding.help_mail',
                     'icon' => 'fa-envelope',
                     'url' => admin_url('settings/edit/mail'),
+                    'priority' => 50,
                 ],
             ]);
         });

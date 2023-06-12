@@ -2,7 +2,6 @@
 
 namespace Igniter\Flame\Pagic;
 
-use Closure;
 use Igniter\Flame\Support\RouterHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -64,11 +63,6 @@ class Router
      */
     public function findPage(string $url, array $parameters = []): mixed
     {
-        $apiResult = event('router.beforeRoute', [$url, $this, $parameters], true);
-        if ($apiResult !== null) {
-            return $apiResult;
-        }
-
         $fileName = array_get($parameters, '_file_', $url);
 
         for ($pass = 1; $pass <= 2; $pass++) {

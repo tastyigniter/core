@@ -67,6 +67,14 @@ class ServiceProvider extends AppServiceProvider
         $this->app['events']->listen(MigrationsStarted::class, function () {
             Schema::disableForeignKeyConstraints();
         });
+
+        if (!Igniter::runningInAdmin()) {
+            $this->app['events']->listen('exception.beforeRender', function ($exception, $httpCode, $request) {
+                if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+                    RequestLog::createLog();
+                }
+            });
+        }
     }
 
     protected function updateTimezone()

@@ -94,13 +94,13 @@ class RouteRegistrar
     protected function guessRouteUri($class)
     {
         if (Str::startsWith($class, config('igniter-routes.coreNamespaces', []))) {
-            $uri = strtolower($resource = snake_case(class_basename($class)));
+            $uri = $resource = strtolower(snake_case(class_basename($class)));
             $name = strtolower(implode('.', array_slice(explode('\\', $class), 0, 2)).'.'.$resource);
 
             return [$name, $uri];
         }
 
-        $resource = snake_case(class_basename($class));
+        $resource = strtolower(snake_case(class_basename($class)));
         $uri = strtolower(implode('/', array_slice(explode('\\', $class), 0, 2)).'/'.$resource);
         $name = str_replace('/', '.', $uri);
 

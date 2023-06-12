@@ -3,7 +3,7 @@
 namespace Igniter\Main\Classes;
 
 use Exception;
-use Igniter\Admin\Facades\Admin;
+use Igniter\Admin\Facades\AdminHelper;
 use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -315,14 +316,14 @@ class MainController extends Controller
 
     protected function processHandlers()
     {
-        if (!$handler = Admin::getAjaxHandler()) {
+        if (!$handler = AdminHelper::getAjaxHandler()) {
             return false;
         }
 
         try {
-            Admin::validateAjaxHandler($handler);
+            AdminHelper::validateAjaxHandler($handler);
 
-            $partials = Admin::validateAjaxHandlerPartials();
+            $partials = AdminHelper::validateAjaxHandlerPartials();
 
             $response = [];
 
@@ -816,11 +817,15 @@ class MainController extends Controller
             return $this->currentPageUrl($params);
         }
 
-        return MainHelper::url($path, $params);
+        return URL::to($path, $params);
     }
 
     public function pageUrl($path = null, $params = [])
     {
+        if (is_null($path)) {
+            return $this->currentPageUrl($params);
+        }
+
         return MainHelper::pageUrl($path, $params);
     }
 

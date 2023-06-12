@@ -56,13 +56,13 @@ class Table extends BaseWidget
 
         $dataSourceClass = $this->getConfig('dataSource');
         if (!strlen($dataSourceClass)) {
-            throw new Exception(lang('igniter::admin.tables.error_table_widget_data_not_specified'));
+            throw new Exception(lang('igniter::admin.error_table_widget_data_not_specified'));
         }
 
         $dataSourceClass = $this->dataSourceAliases;
 
         if (!class_exists($dataSourceClass)) {
-            throw new Exception(sprintf(lang('igniter::admin.tables.error_table_widget_data_class_not_found'), $dataSourceClass));
+            throw new Exception(sprintf(lang('igniter::admin.error_table_widget_data_class_not_found'), $dataSourceClass));
         }
 
         $this->dataSource = new $dataSourceClass($this->recordsKeyFrom);

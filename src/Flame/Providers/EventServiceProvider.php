@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Providers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as IlluminateEventServiceProvider;
 
 abstract class EventServiceProvider extends IlluminateEventServiceProvider
@@ -10,6 +11,8 @@ abstract class EventServiceProvider extends IlluminateEventServiceProvider
      * The model query scopes to register.
      */
     protected array $scopes = [];
+
+    protected array $morphMap = [];
 
     public function register()
     {
@@ -23,6 +26,8 @@ abstract class EventServiceProvider extends IlluminateEventServiceProvider
                     }
                 });
             }
+
+            Relation::enforceMorphMap($this->morphMap);
         });
     }
 }

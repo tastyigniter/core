@@ -14,37 +14,42 @@ class Widgets
     /**
      * @var array An array of list action widgets.
      */
-    protected $bulkActionWidgets;
+    protected ?array $bulkActionWidgets = null;
 
     /**
      * @var array Cache of list action widget registration callbacks.
      */
-    protected $bulkActionWidgetCallbacks = [];
+    protected array $bulkActionWidgetCallbacks = [];
+
+    /**
+     * @var array An array of list action widgets hints.
+     */
+    protected array $bulkActionWidgetHints = [];
 
     /**
      * @var array An array of form widgets.
      */
-    protected $formWidgets;
+    protected ?array $formWidgets = null;
 
     /**
      * @var array Cache of form widget registration callbacks.
      */
-    protected $formWidgetCallbacks = [];
+    protected array $formWidgetCallbacks = [];
 
     /**
      * @var array An array of form widgets hints.
      */
-    protected $formWidgetHints;
+    protected array $formWidgetHints = [];
 
     /**
      * @var array An array of dashboard widgets.
      */
-    protected $dashboardWidgets;
+    protected ?array $dashboardWidgets = [];
 
     /**
      * @var array Cache of dashboard widget registration callbacks.
      */
-    protected $dashboardWidgetCallbacks = [];
+    protected array $dashboardWidgetCallbacks = [];
 
     /**
      * @var ExtensionManager

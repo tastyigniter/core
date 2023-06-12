@@ -92,6 +92,8 @@ class MenuItem
      */
     public $cssClass;
 
+    public $priority = 0;
+
     /**
      * @var array Raw item configuration.
      */
@@ -154,6 +156,10 @@ class MenuItem
      */
     protected function evalConfig($config)
     {
+        if (isset($config['priority'])) {
+            $this->priority = $config['priority'];
+        }
+
         if (isset($config['anchor'])) {
             $this->anchor = $config['anchor'];
         }

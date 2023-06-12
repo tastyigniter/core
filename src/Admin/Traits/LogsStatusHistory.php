@@ -20,7 +20,7 @@ trait LogsStatusHistory
 
             $model->addCasts([
                 'status_id' => 'integer',
-                'status_updated_at' => 'dateTime',
+                'status_updated_at' => 'datetime',
             ]);
         });
     }

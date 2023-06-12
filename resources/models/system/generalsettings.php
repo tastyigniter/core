@@ -31,19 +31,10 @@ return [
                     'type' => 'text',
                     'span' => 'right',
                 ],
-                'country_id' => [
-                    'label' => 'lang:igniter::system.settings.label_country',
-                    'tab' => 'igniter::system.settings.text_tab_general',
-                    'type' => 'selectlist',
-                    'span' => 'left',
-                    'options' => ['Igniter\System\Models\Country', 'getDropdownOptions'],
-                ],
                 'site_logo' => [
                     'label' => 'igniter::system.settings.label_site_logo',
                     'tab' => 'igniter::system.settings.text_tab_general',
                     'type' => 'mediafinder',
-                    'mode' => 'inline',
-                    'span' => 'right',
                 ],
                 'menus_page' => [
                     'label' => 'igniter::system.settings.label_menus_page',
@@ -174,7 +165,7 @@ return [
                 'timezone' => [
                     'label' => 'lang:igniter::system.settings.label_timezone',
                     'tab' => 'lang:igniter::system.settings.text_tab_site',
-                    'type' => 'selectlist',
+                    'type' => 'select',
                     'options' => 'listTimezones',
                     'comment' => 'lang:igniter::system.settings.help_timezone',
                     'placeholder' => 'lang:igniter::admin.text_please_select',

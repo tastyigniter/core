@@ -269,14 +269,14 @@ class AdminController extends Controller
 
     protected function processHandlers(): mixed
     {
-        if (!$handler = Admin::getAjaxHandler()) {
+        if (!$handler = AdminHelper::getAjaxHandler()) {
             return false;
         }
 
         try {
-            Admin::validateAjaxHandler($handler);
+            AdminHelper::validateAjaxHandler($handler);
 
-            $partials = Admin::validateAjaxHandlerPartials();
+            $partials = AdminHelper::validateAjaxHandlerPartials();
 
             $response = [];
 
@@ -290,7 +290,7 @@ class AdminController extends Controller
 
             if (request()->ajax()) {
                 if ($result instanceof RedirectResponse) {
-                    $response[Admin::HANDLER_REDIRECT] = $result->getTargetUrl();
+                    $response[AdminHelper::HANDLER_REDIRECT] = $result->getTargetUrl();
                     $result = null;
                 } elseif (Flash::messages()->isNotEmpty()) {
                     $response['#notification'] = $this->makePartial('flash');

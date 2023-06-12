@@ -23,7 +23,7 @@ class Login extends AdminController
     public function index()
     {
         if (AdminAuth::isLogged()) {
-            return Admin::redirect('dashboard');
+            return AdminHelper::redirect('dashboard');
         }
 
         Template::setTitle(lang('igniter::admin.login.text_title'));
@@ -34,14 +34,14 @@ class Login extends AdminController
     public function reset()
     {
         if (AdminAuth::isLogged()) {
-            return Admin::redirect('dashboard');
+            return AdminHelper::redirect('dashboard');
         }
 
         $code = input('code');
         if (strlen($code) && !User::whereResetCode(input('code'))->first()) {
             flash()->error(lang('igniter::admin.login.alert_failed_reset'));
 
-            return Admin::redirect('login');
+            return AdminHelper::redirect('login');
         }
 
         Template::setTitle(lang('igniter::admin.login.text_password_reset_title'));
@@ -68,8 +68,8 @@ class Login extends AdminController
         session()->regenerate();
 
         return $this->createResponse(($redirectUrl = input('redirect'))
-            ? Admin::redirect($redirectUrl)
-            : Admin::redirectIntended('dashboard'));
+            ? AdminHelper::redirect($redirectUrl)
+            : AdminHelper::redirectIntended('dashboard'));
     }
 
     public function onRequestResetPassword()
@@ -93,7 +93,7 @@ class Login extends AdminController
 
         flash()->success(lang('igniter::admin.login.alert_email_sent'));
 
-        return $this->createResponse(Admin::redirect('login'));
+        return $this->createResponse(AdminHelper::redirect('login'));
     }
 
     public function onResetPassword()
@@ -121,7 +121,7 @@ class Login extends AdminController
 
         flash()->success(lang('igniter::admin.login.alert_success_reset'));
 
-        return $this->createResponse(Admin::redirect('login'));
+        return $this->createResponse(AdminHelper::redirect('login'));
     }
 
     protected function createResponse($redirectResponse): array

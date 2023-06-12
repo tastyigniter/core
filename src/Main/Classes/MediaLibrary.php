@@ -237,7 +237,6 @@ class MediaLibrary
         $path = $this->getMediaPath($this->validatePath($path));
 
         $thumbFile = $this->getMediaThumbFile($path, $options);
-        $thumbPath = $this->getStorageDisk()->path($thumbFile);
 
         if ($this->getStorageDisk()->exists($thumbFile)) {
             return $this->getStorageDisk()->url($thumbFile);
@@ -246,7 +245,7 @@ class MediaLibrary
         $this->ensureDirectoryExists($thumbFile);
 
         if (!$this->getStorageDisk()->exists($path)) {
-            $path = $this->getDefaultThumbPath($thumbPath, array_get($options, 'default'));
+            $path = $this->getDefaultThumbPath($thumbFile, array_get($options, 'default'));
         }
 
         $manipulator = Manipulator::make($path)->useSource(
@@ -262,15 +261,15 @@ class MediaLibrary
         return $this->getStorageDisk()->url($thumbFile);
     }
 
-    public function getDefaultThumbPath($thumbPath, $default = null)
+    public function getDefaultThumbPath($thumbFile, $default = null)
     {
         if ($default) {
             return $this->getStorageDisk()->path($this->getMediaPath($default));
         }
 
-        $this->getStorageDisk()->put($thumbPath, Manipulator::decodedBlankImage());
+        $this->getStorageDisk()->put($thumbFile, Manipulator::decodedBlankImage());
 
-        return $thumbPath;
+        return $thumbFile;
     }
 
     public function getMediaRelativePath($path)

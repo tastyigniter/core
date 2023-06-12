@@ -5,6 +5,6 @@
         <p class="lead mt-3">@lang('igniter::admin.alert_user_restricted')</p>
         <a href="javascript:;" onclick="history.go(-1); return false;">@lang('igniter::admin.text_back_link')</a>
         <br><br>
-        <a href="{{ Admin::url('/') }}">@lang('igniter::admin.text_admin_link')</a>
+        <a href="{{ AdminHelper::url('/') }}">@lang('igniter::admin.text_admin_link')</a>
     </div>
 </div>

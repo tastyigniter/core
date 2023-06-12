@@ -7,21 +7,12 @@ use Illuminate\Support\Facades\URL;
 
 class MainHelper
 {
-    public static function url(string|null $path = null, array $params = [])
-    {
-        if (!$url = resolve(Router::class)->url($path, $params)) {
-            $url = $path;
-        }
-
-        return URL::to($url);
-    }
-
     public static function pageUrl(string|null $path = null, array $params = [])
     {
-        if (!$url = resolve(Router::class)->pageUrl($path, $params)) {
-            $url = $path;
+        if (!is_null($path)) {
+            $path = resolve(Router::class)->pageUrl($path, $params);
         }
 
-        return URL::to($url);
+        return URL::to($path);
     }
 }

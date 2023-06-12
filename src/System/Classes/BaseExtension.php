@@ -3,15 +3,15 @@
 namespace Igniter\System\Classes;
 
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Providers\EventServiceProvider;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Helpers\SystemHelper;
-use Illuminate\Support\ServiceProvider;
 use ReflectionClass;
 
 /**
  * Base Extension Class
  */
-abstract class BaseExtension extends ServiceProvider
+abstract class BaseExtension extends EventServiceProvider
 {
     /**
      * @var array

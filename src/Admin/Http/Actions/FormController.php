@@ -403,7 +403,7 @@ class FormController extends ControllerAction
         $title = lang($this->getConfig('name'));
         $lang = lang($this->getConfig($this->context.'[title]', $default));
 
-        $pageTitle = (strpos($lang, ':name') !== false)
+        $pageTitle = str_contains($lang, ':name')
             ? str_replace(':name', $title, $lang) : $lang;
 
         Template::setTitle($pageTitle);
@@ -503,9 +503,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);
@@ -519,10 +519,13 @@ class FormController extends ControllerAction
 
     protected function validateSaveData($model, $saveData)
     {
-        $requestClass = $this->getConfig('request', false);
-        $validated = $this->validateFormRequest($requestClass, $model, function (FormRequest $request) use ($saveData) {
-            $request->merge($saveData);
-        });
+        $validated = null;
+
+        if (!is_null($requestClass = $this->getConfig('request'))) {
+            $validated = $this->validateFormRequest($requestClass, $model, function (FormRequest $request) use ($saveData) {
+                $request->merge($saveData);
+            });
+        }
 
         $saveData = $validated ?: $saveData;
 

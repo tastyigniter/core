@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\URL;
 
 /**
  * Admin Helper
- * @see \Igniter\Admin\Facades\Admin
+ * @see \Igniter\Admin\Facades\AdminHelper
  */
-class Admin
+class AdminHelper
 {
     /**
      * Returns the admin URI segment.

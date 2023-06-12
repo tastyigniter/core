@@ -1,7 +1,7 @@
 <?php
 
 use Carbon\Carbon;
-use Igniter\Admin\Facades\Admin;
+use Igniter\Admin\Facades\AdminHelper;
 use Igniter\Flame\Currency\Currency;
 use Igniter\Flame\Support\StringParser;
 use Illuminate\Routing\UrlGenerator;
@@ -448,7 +448,7 @@ if (!function_exists('admin_url')) {
      */
     function admin_url(string $uri = '', array $params = []): string
     {
-        return Admin::url($uri, $params);
+        return AdminHelper::url($uri, $params);
     }
 }
 

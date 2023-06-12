@@ -5,10 +5,10 @@ namespace Igniter\Admin\Widgets;
 use Carbon\Carbon;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\MenuItem;
-use Igniter\Admin\Classes\UserState;
-use Igniter\Admin\Facades\AdminLocation;
-use Igniter\Admin\Models\Location;
 use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Local\Facades\AdminLocation;
+use Igniter\Local\Models\Location;
+use Igniter\User\Classes\UserState;
 
 class Menu extends BaseWidget
 {
@@ -93,6 +93,8 @@ class Menu extends BaseWidget
         }
 
         $this->addItems($this->items);
+
+        $this->allItems = collect($this->allItems)->sortBy('priority')->all();
 
         $this->itemsDefined = true;
     }

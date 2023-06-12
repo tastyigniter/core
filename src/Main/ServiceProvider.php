@@ -8,13 +8,8 @@ use Igniter\Main\Classes\MediaLibrary;
 use Igniter\Main\Classes\RouteRegistrar;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\ComponentManager;
-use Igniter\System\Models\RequestLog;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ServiceProvider extends AppServiceProvider
 {
@@ -29,12 +24,6 @@ class ServiceProvider extends AppServiceProvider
 
         View::share('site_name', Setting::get('site_name'));
         View::share('site_logo', Setting::get('site_logo'));
-
-        Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
-            if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
-                RequestLog::createLog();
-            }
-        });
 
         $this->defineRoutes();
     }

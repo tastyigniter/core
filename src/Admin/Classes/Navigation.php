@@ -238,6 +238,19 @@ class Navigation
 
     public function registerNavItem($code, $item, $parent = null)
     {
+        $defaultDefinitions = [
+            'code' => $code,
+            'class' => null,
+            'title' => null,
+            'icon' => null,
+            'href' => null,
+            'priority' => null,
+            'child' => null,
+            'permission' => null,
+        ];
+
+        $item = array_filter(array_merge($defaultDefinitions, $item));
+
         if (!is_null($parent)) {
             $this->navItems[$parent]['child'][$code] = $item;
         } else {

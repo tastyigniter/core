@@ -4,7 +4,7 @@ namespace Igniter\Admin\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Admin extends Facade
+class AdminHelper extends Facade
 {
     public const HANDLER_REDIRECT = 'X_IGNITER_REDIRECT';
 
@@ -12,7 +12,7 @@ class Admin extends Facade
      * Get the registered name of the component.
      *
      * @return string
-     * @see \Igniter\Admin\Helpers\Admin
+     * @see \Igniter\Admin\Helpers\AdminHelper
      */
     protected static function getFacadeAccessor()
     {
