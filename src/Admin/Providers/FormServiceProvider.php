@@ -195,13 +195,6 @@ class FormServiceProvider extends ServiceProvider
                     'url' => admin_url('settings'),
                     'complete' => [\Igniter\System\Models\Settings::class, 'onboardingIsComplete'],
                 ],
-                'admin::locations' => [
-                    'label' => 'igniter::admin.dashboard.onboarding.label_locations',
-                    'description' => 'igniter::admin.dashboard.onboarding.help_locations',
-                    'icon' => 'fa-store',
-                    'url' => admin_url('locations'),
-                    'complete' => [\Igniter\Admin\Models\Location::class, 'onboardingIsComplete'],
-                ],
                 'admin::themes' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_themes',
                     'description' => 'igniter::admin.dashboard.onboarding.help_themes',

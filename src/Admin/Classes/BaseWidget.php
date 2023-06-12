@@ -2,10 +2,10 @@
 
 namespace Igniter\Admin\Classes;
 
-use Igniter\Admin\Traits\LocationAwareWidget;
 use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Traits\EventEmitter;
+use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\System\Traits\AssetMaker;
 use Igniter\System\Traits\ConfigMaker;
 use Igniter\System\Traits\SessionMaker;
@@ -70,8 +70,12 @@ class BaseWidget extends Extendable
         // Add paths from the controller context
         $this->partialPath = array_unique($this->partialPath);
 
-        $this->assetPath[] = 'igniter::css/'.dirname($path);
-        $this->assetPath[] = 'igniter::js/'.dirname($path);
+        $this->assetPath[] = 'igniter::css/' . dirname($path);
+        $this->assetPath[] = 'igniter::js/' . dirname($path);
+        $this->assetPath[] = $namespace . '::css/' . dirname($path);
+        $this->assetPath[] = $namespace . '::js/' . dirname($path);
+        $this->assetPath[] = $namespace . '::css';
+        $this->assetPath[] = $namespace . '::js';
         $this->assetPath = array_merge($this->assetPath, $controller->assetPath);
 
         $this->configPath = $controller->configPath;

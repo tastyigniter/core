@@ -5,7 +5,7 @@ namespace Igniter\Admin\FormWidgets;
 use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
-use Igniter\Admin\Traits\LocationAwareWidget;
+use Igniter\Local\Traits\LocationAwareWidget;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation as RelationBase;
 use Illuminate\Support\Facades\DB;

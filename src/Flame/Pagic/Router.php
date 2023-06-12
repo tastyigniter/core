@@ -48,13 +48,6 @@ class Router
 
     protected array $urlMap = [];
 
-    /**
-     * The location route parameter resolver callback.
-     *
-     * @var \Closure
-     */
-    protected static $locationRouteParameterResolver;
-
     public function __construct(protected string $theme = 'default')
     {
     }
@@ -194,18 +187,15 @@ class Router
         return $this->urlFromPattern($routeRule['pattern'], $parameters);
     }
 
-    public function pageUrl(string|null $name, array $parameters = []): string|null
+    public function pageUrl(string $name, array $parameters = []): string|null
     {
         if (!is_array($parameters)) {
             $parameters = [];
         }
 
         $parameters = array_merge($this->getParameters(), $parameters);
-        if (!isset($parameters['location']) && $location = $this->resolveLocationRouteParameter($name)) {
-            $parameters['location'] = $location;
-        }
 
-        return is_null($name) ? null : $this->url($name, $parameters);
+        return $this->url($name, $parameters) ?? $name;
     }
 
     /**
@@ -292,22 +282,5 @@ class Router
         $url = array_slice($url, 0, $lastPopulatedIndex + 1);
 
         return RouterHelper::rebuildUrl($url);
-    }
-
-    public function resolveLocationRouteParameter(string|null $name): ?string
-    {
-        if (isset(static::$locationRouteParameterResolver)) {
-            return call_user_func(static::$locationRouteParameterResolver, $name);
-        }
-    }
-
-    /**
-     * Set the location route parameter resolver callback.
-     *
-     * @return void
-     */
-    public function setLocationRouteParameterResolver(Closure $resolver)
-    {
-        static::$locationRouteParameterResolver = $resolver;
     }
 }

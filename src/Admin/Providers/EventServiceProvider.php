@@ -2,25 +2,7 @@
 
 namespace Igniter\Admin\Providers;
 
-use Igniter\Admin\Models\Category;
-use Igniter\Admin\Models\Location;
-use Igniter\Admin\Models\Menu;
-use Igniter\Admin\Models\MenuItemOption;
-use Igniter\Admin\Models\Observers\MenuItemOptionObserver;
-use Igniter\Admin\Models\Observers\MenuObserver;
-use Igniter\Admin\Models\Observers\OrderObserver;
-use Igniter\Admin\Models\Observers\PaymentObserver;
-use Igniter\Admin\Models\Observers\ReservationObserver;
-use Igniter\Admin\Models\Observers\UserObserver;
-use Igniter\Admin\Models\Order;
-use Igniter\Admin\Models\Payment;
-use Igniter\Admin\Models\Reservation;
-use Igniter\Admin\Models\Scopes\CategoryScope;
-use Igniter\Admin\Models\Scopes\LocationScope;
-use Igniter\Admin\Models\Scopes\MenuScope;
-use Igniter\Admin\Models\Scopes\OrderScope;
-use Igniter\Admin\Models\Scopes\ReservationScope;
-use Igniter\Admin\Models\User;
+use Igniter\Admin\EventSubscribers\StatusUpdatedSubscriber;
 use Igniter\Flame\Providers\EventServiceProvider as FlameEventServiceProvider;
 
 class EventServiceProvider extends FlameEventServiceProvider

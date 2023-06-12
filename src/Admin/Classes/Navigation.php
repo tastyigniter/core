@@ -157,6 +157,11 @@ class Navigation
         }
     }
 
+    public function removeMainItem($itemCode)
+    {
+        unset($this->mainItems[$itemCode]);
+    }
+
     public function loadItems()
     {
         if ($this->navItemsLoaded) {

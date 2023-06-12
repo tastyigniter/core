@@ -3,9 +3,7 @@
 namespace Igniter\Admin\Classes;
 
 use Exception;
-use Igniter\Admin\Facades\Admin;
-use Igniter\Admin\Facades\AdminAuth;
-use Igniter\Admin\Facades\AdminLocation;
+use Igniter\Admin\Facades\AdminHelper;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Widgets\Menu;
 use Igniter\Admin\Widgets\Toolbar;
@@ -13,8 +11,10 @@ use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
-use Igniter\Flame\Location\Contracts\LocationInterface;
+use Igniter\Local\Contracts\LocationInterface;
+use Igniter\Local\Facades\AdminLocation;
 use Igniter\Main\Widgets\MediaManager;
+use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;

@@ -304,10 +304,11 @@ if (!function_exists('currency')) {
      */
     function currency(
         float|string|null $amount = null,
-        string|null $from = null,
-        string|null $to = null,
-        bool $format = true
-    ): Currency|string {
+        string|null       $from = null,
+        string|null       $to = null,
+        bool              $format = true
+    ): Currency|string
+    {
         if (is_null($amount)) {
             return resolve(Currency::class);
         }
@@ -322,9 +323,10 @@ if (!function_exists('currency_format')) {
      */
     function currency_format(
         float|string|null $amount = null,
-        string|null $currency = null,
-        bool $include_symbol = true
-    ): string {
+        string|null       $currency = null,
+        bool              $include_symbol = true
+    ): string
+    {
         return resolve('currency')->format($amount, $currency, $include_symbol);
     }
 }
@@ -705,7 +707,7 @@ if (!function_exists('is_single_location')) {
      */
     function is_single_location(): bool
     {
-        return config('igniter-system.locationMode', setting('site_location_mode')) === \Igniter\Admin\Models\Location::LOCATION_CONTEXT_SINGLE;
+        return config('igniter-system.locationMode', setting('site_location_mode')) === \Igniter\Local\Models\Location::LOCATION_CONTEXT_SINGLE;
     }
 }
 

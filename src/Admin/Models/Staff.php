@@ -2,11 +2,11 @@
 
 namespace Igniter\Admin\Models;
 
-use Igniter\Admin\Classes\UserState;
-use Igniter\Admin\Traits\Locationable;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
+use Igniter\Local\Models\Concerns\Locationable;
+use Igniter\User\Classes\UserState;
 
 /**
  * Staff Model Class
@@ -60,7 +60,7 @@ class Staff extends Model
             'groups' => [\Igniter\Admin\Models\UserGroup::class, 'table' => 'admin_users_groups'],
         ],
         'morphToMany' => [
-            'locations' => [\Igniter\Admin\Models\Location::class, 'name' => 'locationable'],
+            'locations' => [\Igniter\Local\Models\Location::class, 'name' => 'locationable'],
         ],
     ];
 

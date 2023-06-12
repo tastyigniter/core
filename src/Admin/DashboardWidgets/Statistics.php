@@ -4,10 +4,10 @@ namespace Igniter\Admin\DashboardWidgets;
 
 use Carbon\Carbon;
 use Igniter\Admin\Classes\BaseDashboardWidget;
-use Igniter\Admin\Models\Order;
-use Igniter\Admin\Models\Reservation;
-use Igniter\Admin\Traits\LocationAwareWidget;
-use Igniter\Main\Models\Customer;
+use Igniter\Cart\Models\Order;
+use Igniter\Local\Traits\LocationAwareWidget;
+use Igniter\Reservation\Models\Reservation;
+use Igniter\User\Models\Customer;
 
 /**
  * Statistic dashboard widget.

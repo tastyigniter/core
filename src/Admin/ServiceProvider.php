@@ -46,7 +46,6 @@ class ServiceProvider extends AppServiceProvider
         $this->registerSingletons();
         $this->registerFacadeAliases();
 
-        $this->app->register(Providers\MailServiceProvider::class);
         $this->app->register(Providers\EventServiceProvider::class);
         $this->app->register(Providers\FormServiceProvider::class);
         $this->app->register(Providers\MenuItemServiceProvider::class);
@@ -76,10 +75,6 @@ class ServiceProvider extends AppServiceProvider
 
         $this->app->singleton('admin.template', function ($app) {
             return new Classes\Template;
-        });
-
-        $this->app->singleton('admin.location', function ($app) {
-            return new \Igniter\Admin\Classes\Location;
         });
 
         $this->app->singleton(Classes\OnboardingSteps::class);

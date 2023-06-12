@@ -20,16 +20,6 @@ class FormServiceProvider extends ServiceProvider
                 'code' => 'components',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Main\FormWidgets\MapArea::class, [
-                'label' => 'Map Area',
-                'code' => 'maparea',
-            ]);
-
-            $manager->registerFormWidget(\Igniter\Main\FormWidgets\MapView::class, [
-                'label' => 'Map View',
-                'code' => 'mapview',
-            ]);
-
             $manager->registerFormWidget(\Igniter\Main\FormWidgets\MediaFinder::class, [
                 'label' => 'Media finder',
                 'code' => 'mediafinder',

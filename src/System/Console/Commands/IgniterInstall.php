@@ -2,17 +2,17 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Admin\Facades\AdminAuth;
-use Igniter\Admin\Models\Location;
-use Igniter\Admin\Models\User;
-use Igniter\Admin\Models\UserGroup;
-use Igniter\Admin\Models\UserRole;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\ConfigRewrite;
+use Igniter\Local\Models\Location;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Language;
+use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Models\User;
+use Igniter\User\Models\UserGroup;
+use Igniter\User\Models\UserRole;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;

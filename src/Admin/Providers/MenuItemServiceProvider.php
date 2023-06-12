@@ -2,12 +2,8 @@
 
 namespace Igniter\Admin\Providers;
 
-use Igniter\Admin\Classes\MenuItem;
 use Igniter\Admin\Classes\Navigation;
-use Igniter\Admin\Facades\AdminLocation;
 use Igniter\Admin\Facades\AdminMenu;
-use Igniter\Admin\Models\User;
-use Igniter\Admin\Widgets\Menu;
 use Igniter\Flame\Igniter;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,14 +14,6 @@ class MenuItemServiceProvider extends ServiceProvider
         if (Igniter::runningInAdmin()) {
             $this->registerMainMenuItems();
             $this->registerNavMenuItems();
-        }
-    }
-
-    public function boot()
-    {
-        if (Igniter::runningInAdmin()) {
-            $this->replaceNavMenuItem();
-            $this->defineMainMenuEventListeners();
         }
     }
 
@@ -100,43 +88,7 @@ class MenuItemServiceProvider extends ServiceProvider
                     'class' => 'restaurant',
                     'icon' => 'fa-gem',
                     'title' => lang('igniter::admin.side_menu.restaurant'),
-                    'child' => [
-                        'locations' => [
-                            'priority' => 10,
-                            'class' => 'locations',
-                            'href' => admin_url('locations'),
-                            'title' => lang('igniter::admin.side_menu.location'),
-                            'permission' => 'Admin.Locations',
-                        ],
-                        'menus' => [
-                            'priority' => 20,
-                            'class' => 'menus',
-                            'href' => admin_url('menus'),
-                            'title' => lang('igniter::admin.side_menu.menu'),
-                            'permission' => 'Admin.Menus',
-                        ],
-                        'categories' => [
-                            'priority' => 30,
-                            'class' => 'categories',
-                            'href' => admin_url('categories'),
-                            'title' => lang('igniter::admin.side_menu.category'),
-                            'permission' => 'Admin.Categories',
-                        ],
-                        'mealtimes' => [
-                            'priority' => 40,
-                            'class' => 'mealtimes',
-                            'href' => admin_url('mealtimes'),
-                            'title' => lang('igniter::admin.side_menu.mealtimes'),
-                            'permission' => 'Admin.Mealtimes',
-                        ],
-                        'tables' => [
-                            'priority' => 50,
-                            'class' => 'tables',
-                            'href' => admin_url('tables'),
-                            'title' => lang('igniter::admin.side_menu.table'),
-                            'permission' => 'Admin.Tables',
-                        ],
-                    ],
+                    'child' => [],
                 ],
                 'sales' => [
                     'priority' => 30,
@@ -144,20 +96,6 @@ class MenuItemServiceProvider extends ServiceProvider
                     'icon' => 'fa-file-invoice',
                     'title' => lang('igniter::admin.side_menu.sale'),
                     'child' => [
-                        'orders' => [
-                            'priority' => 10,
-                            'class' => 'orders',
-                            'href' => admin_url('orders'),
-                            'title' => lang('igniter::admin.side_menu.order'),
-                            'permission' => 'Admin.Orders',
-                        ],
-                        'reservations' => [
-                            'priority' => 20,
-                            'class' => 'reservations',
-                            'href' => admin_url('reservations'),
-                            'title' => lang('igniter::admin.side_menu.reservation'),
-                            'permission' => 'Admin.Reservations',
-                        ],
                         'statuses' => [
                             'priority' => 40,
                             'class' => 'statuses',
@@ -270,36 +208,6 @@ class MenuItemServiceProvider extends ServiceProvider
                     ],
                 ],
             ]);
-        });
-    }
-
-    protected function replaceNavMenuItem()
-    {
-        AdminMenu::registerCallback(function (Navigation $manager) {
-            // Change nav menu if single location mode is activated
-            if (AdminLocation::check()) {
-                $manager->mergeNavItem('locations', [
-                    'href' => admin_url('locations/settings'),
-                    'title' => lang('igniter::admin.locations.text_form_name'),
-                ], 'restaurant');
-            }
-        });
-    }
-
-    protected function defineMainMenuEventListeners()
-    {
-        Menu::extend(function (Menu $menu) {
-            $menu->bindEvent('menu.getUnreadCount', function (MenuItem $item, User $user) {
-                if ($item->itemName === 'notifications') {
-                    return $user->unreadNotifications()->count();
-                }
-            });
-
-            $menu->bindEvent('menu.markAsRead', function (MenuItem $item, User $user) {
-                if ($item->itemName === 'notifications') {
-                    return $user->unreadNotifications()->update(['read_at' => now()]);
-                }
-            });
         });
     }
 }

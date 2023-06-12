@@ -2,8 +2,8 @@
 
 namespace Igniter\System\Database\Seeds;
 
-use Igniter\Admin\Models\Category;
-use Igniter\Admin\Models\Location;
+use Igniter\Cart\Models\Category;
+use Igniter\Local\Models\Location;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

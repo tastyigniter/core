@@ -5,6 +5,7 @@ namespace Igniter\Admin\Traits;
 use Carbon\Carbon;
 use DateInterval;
 use DatePeriod;
+use Igniter\Local\Traits\LocationAwareWidget;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 

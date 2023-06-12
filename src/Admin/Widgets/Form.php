@@ -7,10 +7,10 @@ use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Classes\FormTabs;
 use Igniter\Admin\Classes\Widgets;
-use Igniter\Admin\Facades\AdminAuth;
 use Igniter\Admin\Traits\FormModelWidget;
-use Igniter\Admin\Traits\LocationAwareWidget;
 use Igniter\Flame\Database\Model;
+use Igniter\Local\Traits\LocationAwareWidget;
+use Igniter\User\Facades\AdminAuth;
 
 class Form extends BaseWidget
 {

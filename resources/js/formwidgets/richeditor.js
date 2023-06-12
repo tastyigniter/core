@@ -125,7 +125,7 @@
             ['insert', ['link', 'mediafinder']],
             ['view', ['fullscreen', 'codeview', 'help']]
         ],
-        buttons: { mediafinder: undefined }        
+        buttons: {mediafinder: undefined}
     }
 
     // RICHEDITOR PLUGIN DEFINITION
@@ -163,4 +163,4 @@
         $("[data-control=\"rich-editor\"]").richEditor()
     })
 
-}(window.jQuery)
+}(window.jQuery);
