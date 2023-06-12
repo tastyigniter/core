@@ -39,9 +39,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::resolveApplicationConfiguration($app);
 
-        $configs = [
-            'auth', 'currency', 'geocoder', 'system',
-        ];
+        $configs = ['currency', 'geocoder', 'system'];
 
         foreach ($configs as $config) {
             $app['config']->set("igniter.$config", require(__DIR__."/../config/{$config}.php"));
