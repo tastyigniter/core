@@ -3,6 +3,7 @@
 namespace Igniter\System\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LanguageRequest extends FormRequest
 {
@@ -21,7 +22,9 @@ class LanguageRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'between:2,32'],
-            'code' => ['required', 'regex:/^[a-zA-Z_]+$/', 'unique:languages'],
+            'code' => ['required', 'regex:/^[a-zA-Z_]+$/',
+                Rule::unique('languages')->ignore($this->getRecordId(), 'language_id'),
+            ],
             'status' => ['required', 'boolean'],
             'translations.*.source' => ['string', 'max:2500'],
             'translations.*.translation' => ['string', 'max:2500'],

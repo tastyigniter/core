@@ -3,6 +3,7 @@
 namespace Igniter\System\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Illuminate\Validation\Rule;
 
 class MailTemplateRequest extends FormRequest
 {
@@ -20,7 +21,10 @@ class MailTemplateRequest extends FormRequest
     {
         return [
             'layout_id' => ['integer'],
-            'code' => ['sometimes', 'required', 'min:2', 'max:255', 'unique:mail_templates', 'regex:/^[a-z-_\.\:]+$/i'],
+            'code' => ['sometimes', 'required', 'min:2', 'max:255',
+                Rule::unique('mail_templates')->ignore($this->getRecordId(), 'template_id'),
+                'regex:/^[a-z-_\.\:]+$/i',
+            ],
             'label' => ['required', 'string'],
             'subject' => ['required', 'string'],
             'body' => ['string'],

@@ -3,6 +3,7 @@
 namespace Igniter\System\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Illuminate\Validation\Rule;
 
 class MailPartialRequest extends FormRequest
 {
@@ -19,7 +20,9 @@ class MailPartialRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'code' => ['sometimes', 'required', 'regex:/^[a-z-_\.\:]+$/i', 'unique:mail_partials'],
+            'code' => ['sometimes', 'required', 'regex:/^[a-z-_\.\:]+$/i',
+                Rule::unique('mail_partials')->ignore($this->getRecordId(), 'partial_id'),
+            ],
             'html' => ['required', 'string'],
         ];
     }

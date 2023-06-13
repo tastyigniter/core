@@ -3,6 +3,7 @@
 namespace Igniter\System\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Illuminate\Validation\Rule;
 
 class MailLayoutRequest extends FormRequest
 {
@@ -21,7 +22,9 @@ class MailLayoutRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'between:2,32'],
-            'code' => ['sometimes', 'required', 'regex:/^[a-z-_\.\:]+$/i', 'unique:mail_layouts'],
+            'code' => ['sometimes', 'required', 'regex:/^[a-z-_\.\:]+$/i',
+                Rule::unique('mail_layouts')->ignore($this->getRecordId(), 'layout_id'),
+            ],
             'layout' => ['string'],
             'layout_css' => ['nullable', 'string'],
             'plain_layout' => ['string'],

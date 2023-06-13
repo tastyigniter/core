@@ -61,4 +61,9 @@ class FormRequest extends BaseFormRequest
     {
         throw new ValidationException($validator);
     }
+
+    protected function getRecordId()
+    {
+        return str_after($this->route('slug'), '/');
+    }
 }
