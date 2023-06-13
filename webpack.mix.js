@@ -35,6 +35,7 @@ mix.combine([
     'node_modules/bootstrap-table/dist/bootstrap-table.min.css',
     'node_modules/codemirror/lib/codemirror.css',
     'node_modules/codemirror/theme/material.css',
+    'node_modules/flatpickr/dist/themes/light.css',
     'node_modules/daterangepicker/daterangepicker.css',
     'node_modules/dropzone/dist/dropzone.css',
     'node_modules/easymde/dist/easymde.min.css',
@@ -60,6 +61,7 @@ mix.combine([
 ], `${dist}/js/vendor.chart.js`)
 
 mix.combine([
+    'node_modules/flatpickr/dist/flatpickr.min.js',
     'node_modules/daterangepicker/daterangepicker.js',
     'node_modules/fullcalendar/main.min.js',
     `${src}/js/vendor/timesheet/timesheet.js`,
@@ -96,8 +98,8 @@ mix.copyDirectory(
     'node_modules/summernote/dist/lang',
     `${dist}/js/locales/summernote`
 ).copyDirectory(
-    'node_modules/bootstrap-datepicker/dist/locales',
-    `${dist}/js/locales/datepicker`
+    'node_modules/flatpickr/dist/l10n',
+    `${dist}/js/locales/flatpickr`
 ).copy(
     'node_modules/fullcalendar/locales-all.min.js',
     `${dist}/js/locales/fullcalendar/locales-all.min.js`

@@ -24,6 +24,7 @@
     "daterangepicker": "^3.1.0",
     "dropzone": "^6.0.0-beta.2",
     "easymde": "^2.16.1",
+    "flatpickr": "^4.6.13",
     "fullcalendar": "^5.10.2",
     "inputmask": "^5.0.7",
     "jquery": "^3.5.1",
