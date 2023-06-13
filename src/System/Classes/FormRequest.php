@@ -64,6 +64,7 @@ class FormRequest extends BaseFormRequest
 
     protected function getRecordId()
     {
-        return str_after($this->route('slug'), '/');
+        return ($slug = $this->route('slug'))
+            ? str_after($slug, '/') : null;
     }
 }
