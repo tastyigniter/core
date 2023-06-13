@@ -11,8 +11,13 @@
         this.options = $.extend({}, RecordEditorModal.DEFAULTS, options)
 
         this.options.attributes = $.extend({}, {
-            id: this.options.alias+'-record-editor-modal',
-            ariaLabelled: '#'+this.options.alias+'-record-editor-modal'
+            id: this.options.alias + '-record-editor-modal',
+            ariaLabelled: '#' + this.options.alias + '-record-editor-modal'
+        }, this.options.attributes)
+
+        this.options.attributes = $.extend({}, {
+            id: this.options.alias + '-record-editor-modal',
+            ariaLabelled: '#' + this.options.alias + '-record-editor-modal'
         }, this.options.attributes)
 
         this.init()
@@ -37,13 +42,13 @@
     RecordEditorModal.prototype.show = function () {
         this.$modalRootElement.html(
             '<div class="modal-dialog"><div class="modal-content"><div class="modal-body"><div class="text-center">'
-            +'<div class="ti-loading spinner-border fa-3x fa-fw" role="status"></div><div class="fw-bold mt-2">Loading...</div>'
-            +'</div></div></div></div>'
+            + '<div class="ti-loading spinner-border fa-3x fa-fw" role="status"></div><div class="fw-bold mt-2">Loading...</div>'
+            + '</div></div></div></div>'
         );
 
         $('body').append(this.$modalRootElement)
 
-        this.modal = new bootstrap.Modal('#'+this.options.attributes.id)
+        this.modal = new bootstrap.Modal('#' + this.options.attributes.id)
         this.modal.show()
     }
 
@@ -130,11 +135,9 @@
         onFail: undefined,
         onClose: undefined,
         attributes: {
-            id: 'record-editor-modal',
-            class: 'record-modal modal fade',
+            class: 'record-editor-modal modal fade',
             role: 'dialog',
             tabindex: -1,
-            ariaLabelled: '#record-editor-modal',
             ariaHidden: true,
         },
         recordDataCache: {}
@@ -155,7 +158,7 @@
         new $.ti.recordEditor.modal(options)
     })
 
-    $.ajaxPrefilter(function(options) {
+    $.ajaxPrefilter(function (options) {
         if (!$.isEmptyObject(RecordEditorModal.DEFAULTS.recordDataCache)) {
             if (!options.headers) options.headers = {}
             options.headers['X-IGNITER-RECORD-EDITOR-REQUEST-DATA'] = JSON.stringify(RecordEditorModal.DEFAULTS.recordDataCache)
