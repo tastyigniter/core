@@ -144,6 +144,13 @@ abstract class Model extends EloquentModel
         self::extendableExtendCallback($callback);
     }
 
+    public static function implement(string|array $class): void
+    {
+        self::extendableExtendCallback(function ($instance) use ($class) {
+            $instance->implement = array_unique(array_merge($instance->implement, (array)$class));
+        });
+    }
+
     /**
      * Bind some nicer events to this model, in the format of method overrides.
      */
