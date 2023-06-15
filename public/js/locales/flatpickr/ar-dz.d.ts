@@ -1,5 +1,4 @@
-import {CustomLocale} from "../types/locale";
-
+import { CustomLocale } from "../types/locale";
 export declare const AlgerianArabic: CustomLocale;
 declare const _default: {
     ar?: CustomLocale | undefined;

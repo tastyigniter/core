@@ -1,9 +1,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-        typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.index = {}));
-}(this, (function (exports) {
-    'use strict';
+    typeof define === 'function' && define.amd ? define(['exports'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.index = {}));
+}(this, (function (exports) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -20,7 +19,7 @@
     PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
 
-    var __assign = function () {
+    var __assign = function() {
         __assign = Object.assign || function __assign(t) {
             for (var s, i = 1, n = arguments.length; i < n; i++) {
                 s = arguments[i];
@@ -1814,9 +1813,7 @@
             ],
         },
         firstDayOfWeek: 1,
-        ordinal: function () {
-            return "°";
-        },
+        ordinal: function () { return "°"; },
         rangeSeparator: " al ",
         weekAbbreviation: "Se",
         scrollTitle: "Scrolla per aumentare",
@@ -3807,6 +3804,6 @@
 
     exports.default = l10n;
 
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
