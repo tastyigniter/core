@@ -213,4 +213,22 @@ trait FormExtendable
             call_user_func_array($callback, [$widget, $widget->model, $widget->getContext()]);
         });
     }
+
+    /**
+     * Static helper for extending form fields.
+     *
+     * @param callable $callback
+     *
+     * @return void
+     */
+    public static function extendFormFieldsBefore($callback)
+    {
+        $calledClass = self::getCalledExtensionClass();
+        Event::listen('admin.form.extendFieldsBefore', function ($widget) use ($calledClass, $callback) {
+            if (!is_a($widget->getController(), $calledClass)) {
+                return;
+            }
+            call_user_func_array($callback, [$widget, $widget->model, $widget->getContext()]);
+        });
+    }
 }
