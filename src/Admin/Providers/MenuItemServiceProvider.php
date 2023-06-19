@@ -140,13 +140,6 @@ class MenuItemServiceProvider extends ServiceProvider
                             'title' => lang('igniter::admin.side_menu.extension'),
                             'permission' => 'Admin.Extensions',
                         ],
-                        'localisation' => [
-                            'priority' => 10,
-                            'class' => 'localisation',
-                            'href' => admin_url('currencies'),
-                            'title' => lang('igniter::admin.side_menu.localisation'),
-                            'permission' => ['Site.Languages', 'Site.Languages', 'Site.Countries'],
-                        ],
                         'settings' => [
                             'priority' => 20,
                             'class' => 'settings',

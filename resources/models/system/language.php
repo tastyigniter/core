@@ -16,22 +16,15 @@ $config['list']['filter'] = [
 
 $config['list']['toolbar'] = [
     'buttons' => [
+        'back' => [
+            'label' => 'lang:igniter::admin.button_icon_back',
+            'class' => 'btn btn-outline-secondary',
+            'href' => 'settings',
+        ],
         'create' => [
             'label' => 'lang:igniter::admin.button_new',
             'class' => 'btn btn-primary',
             'href' => 'languages/create',
-        ],
-        'countries' => [
-            'label' => 'lang:igniter::admin.side_menu.country',
-            'class' => 'btn btn-default',
-            'href' => 'countries',
-            'permission' => 'Site.Countries',
-        ],
-        'currencies' => [
-            'label' => 'lang:igniter::admin.side_menu.currency',
-            'class' => 'btn btn-default',
-            'href' => 'currencies',
-            'permission' => 'Site.Currencies',
         ],
         'browse' => [
             'label' => 'lang:igniter::system.languages.button_browse',

@@ -363,11 +363,17 @@ return [
         'text_tab_restaurant' => 'Restaurant',
         'text_tab_mail' => 'Mail',
         'text_tab_server' => 'Advanced',
+        'text_tab_language' => 'Languages',
+        'text_tab_currency' => 'Currencies',
+        'text_tab_country' => 'Countries',
 
         'text_tab_desc_general' => 'Configure your restaurant name, email, logo and geolocation settings',
         'text_tab_desc_site' => 'Configure your site default country, language, currency and timezone settings.',
         'text_tab_desc_mail' => 'Settings for sending out emails',
         'text_tab_desc_server' => 'Manage advanced system settings such as enabling/disabling maintenance.',
+        'text_tab_desc_language' => 'Manage languages available on your site.',
+        'text_tab_desc_currency' => 'Manage currencies available on your site.',
+        'text_tab_desc_country' => 'Manage countries available on your site.',
 
         'text_tab_title_maps' => 'Geolocation',
         'text_tab_title_date_time' => 'Date/Time',

@@ -223,7 +223,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     protected function getFieldConfig($code, $model)
     {
         $settingItem = $model->getSettingItem('core.'.$code);
-        if (!is_array($settingItem->form)) {
+        if ($settingItem->form && !is_array($settingItem->form)) {
             $settingItem->form = array_get($this->makeConfig($settingItem->form, ['form']), 'form', []);
         }
 
