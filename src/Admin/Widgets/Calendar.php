@@ -5,7 +5,6 @@ namespace Igniter\Admin\Widgets;
 use Carbon\Carbon;
 use Exception;
 use Igniter\Admin\Classes\BaseWidget;
-use Illuminate\Support\Facades\Request;
 
 class Calendar extends BaseWidget
 {
@@ -77,14 +76,14 @@ class Calendar extends BaseWidget
 
     public function onGenerateEvents()
     {
-        $startAt = Request::get('start');
-        $endAt = Request::get('end');
+        $startAt = request()->input('start');
+        $endAt = request()->input('end');
 
         $eventResults = $this->fireEvent('calendar.generateEvents', [$startAt, $endAt]);
 
         $generatedEvents = [];
         if (count($eventResults)) {
-            $generatedEvents = $eventResults[0];
+            $generatedEvents = array_merge(...$eventResults);
         }
 
         return [
@@ -94,9 +93,9 @@ class Calendar extends BaseWidget
 
     public function onUpdateEvent()
     {
-        $eventId = Request::get('eventId');
-        $startAt = Request::get('start');
-        $endAt = Request::get('end');
+        $eventId = request()->input('eventId');
+        $startAt = request()->input('start');
+        $endAt = request()->input('end');
 
         $this->fireEvent('calendar.updateEvent', [$eventId, $startAt, $endAt]);
     }

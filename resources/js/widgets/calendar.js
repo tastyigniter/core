@@ -16,6 +16,9 @@
         this.$form = this.$el.closest('form')
         this.picker = null
         this.calendar = null
+        this.eventData = null
+        this.$modalRootElement = null
+        this.$popoverTemplate = this.$el.find('[data-calendar-popover-template]')
 
         // Init
         this.init()
@@ -41,14 +44,30 @@
         this.options.events = $.proxy(this.generateEvents, this);
         this.calendar = new FullCalendar.Calendar(this.$calendar[0], this.options);
 
-        this.$calendar.find('.fc-toolbar .btn').removeClass('btn-primary').addClass(this.options.toolbarButtonClass)
-
         this.calendar.on('eventClick', $.proxy(this.onClickEvent, this))
         this.calendar.on('eventDrop', $.proxy(this.onUpdateEvent, this))
         this.calendar.on('eventResize', $.proxy(this.onUpdateEvent, this))
-        this.calendar.on('datesSet', $.proxy(this.hidePopovers, this))
 
         this.calendar.render();
+    }
+
+    Calendar.prototype.showPopover = function () {
+        this.$modalRootElement = $('<div/>', {
+            id: 'calender-editor-modal',
+            class: 'calender-editor-modal modal fade',
+            role: 'dialog',
+            tabindex: -1,
+            ariaHidden: true,
+        })
+
+        this.$modalRootElement.one('hide.bs.modal', $.proxy(this.onModalHide, this))
+
+        this.$modalRootElement.html(Mustache.render(this.$popoverTemplate.html(), this.eventData));
+
+        $('body').append(this.$modalRootElement)
+
+        var modal = new bootstrap.Modal('#' + this.$modalRootElement.attr('id'))
+        modal.show()
     }
 
     Calendar.prototype.onClickEvent = function (eventObj) {
@@ -58,20 +77,8 @@
         var renderProps = {...eventObj.event.extendedProps};
         renderProps.id = eventObj.event.id;
 
-        var $el = $(eventObj.el);
-        $el.addClass('popover-dismissable')
-
-        this.hidePopovers();
-
-        $el.popover({
-            title: eventObj.event.title,
-            content: Mustache.render(this.$el.find('[data-calendar-popover-template]').html(), renderProps),
-            trigger: 'click focus',
-            placement: 'bottom',
-            html: true,
-            container: this.$el
-        })
-        .popover('toggle')
+        this.eventData = renderProps
+        this.showPopover();
     }
 
     Calendar.prototype.onUpdateEvent = function (eventObj) {
@@ -95,19 +102,20 @@
         var $button = $(event.currentTarget)
 
         if (!this.picker) {
-            this.picker = $button.datepicker()
-            $button.datepicker().on('changeDate', $.proxy(this.onPickerDateChanged, this))
+            this.picker = $button.flatpickr()
+            this.picker.config.onChange.push($.proxy(this.onPickerDateChanged, this))
         }
 
-        $button.datepicker('show')
+        this.picker.open()
     }
 
-    Calendar.prototype.onPickerDateChanged = function (event) {
-        this.calendar.gotoDate(event.date)
+    Calendar.prototype.onPickerDateChanged = function (selectedDates, dateStr, instance) {
+        this.calendar.gotoDate(dateStr)
     }
 
-    Calendar.prototype.hidePopovers = function() {
-        $('.popover.show').remove()
+    Calendar.prototype.onModalHide = function (event) {
+        this.$modalRootElement.remove()
+        this.$modalRootElement = null
     }
 
     Calendar.prototype.generateEvents = function (fetchInfo, callback, failure) {
