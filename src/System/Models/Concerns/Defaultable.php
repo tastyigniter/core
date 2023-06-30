@@ -20,7 +20,7 @@ trait Defaultable
         });
 
         static::saved(function (self $model) {
-            if ($model->isDefault()) {
+            if ($model->wasChanged($model->defaultableGetColumn()) && $model->isDefault()) {
                 $model->makeDefault();
             }
         });
@@ -69,17 +69,15 @@ trait Defaultable
             }
         }
 
-        if (!$this->isDefault()) {
-            static::withoutTimestamps(function () {
-                $this->defaultable()
-                    ->where($this->defaultableGetColumn(), '!=', 0)
-                    ->update([$this->defaultableGetColumn() => 0]);
+        static::withoutTimestamps(function () {
+            $this->defaultable()
+                ->where($this->defaultableGetColumn(), '!=', 0)
+                ->update([$this->defaultableGetColumn() => 0]);
 
-                $this->defaultable()
-                    ->where($this->defaultableKeyName(), $this->{$this->defaultableKeyName()})
-                    ->update([$this->defaultableGetColumn() => 1]);
-            });
-        }
+            $this->defaultable()
+                ->where($this->defaultableKeyName(), $this->{$this->defaultableKeyName()})
+                ->update([$this->defaultableGetColumn() => 1]);
+        });
 
         return true;
     }
