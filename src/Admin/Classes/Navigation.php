@@ -45,11 +45,6 @@ class Navigation
         return $this->navItems;
     }
 
-    public function isCollapsed()
-    {
-        return array_get($_COOKIE, 'ti_sidebarToggleState') == 'collapsed';
-    }
-
     public function getVisibleNavItems()
     {
         $navItems = $this->getNavItems();
@@ -215,6 +210,10 @@ class Navigation
         }
 
         foreach ($definitions as $name => $definition) {
+            if ($definition instanceof MainMenuItem) {
+                $name = $definition->itemName;
+            }
+
             $this->mainItems[$name] = $definition;
         }
     }

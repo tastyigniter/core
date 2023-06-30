@@ -35,7 +35,6 @@
     }
 
     .nav-link > .fa {
-      font-size: $mainmenu-icon-size;
       vertical-align: middle;
     }
 
@@ -88,8 +87,6 @@
   }
 
   .dropdown-menu {
-    left: auto;
-    right: 25px;
     padding: .3rem;
     margin-top: -8px;
     line-height: $line-height-base;
@@ -235,7 +232,6 @@
       .navbar-toggler {
         display: inline-block;
         color: $white;
-        font-size: $mainmenu-icon-size;
       }
     }
   }

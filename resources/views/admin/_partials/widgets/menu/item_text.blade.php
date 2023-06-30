@@ -1,9 +1,9 @@
 <li
-    id="{{$this->getId($item->itemName)}}"
-    class="nav-item"
+  id="{{$this->getId($item->itemName)}}"
+  class="nav-item"
 >
-    <span class="btn-location">
-        <i class="fa fa-bank fa-fw visible-xs-inline-block"></i>
+    <div {!! $item->getAttributes()!!}>
+        <i class="fa {{ $item->icon }}"></i>
         <span class="text-nowrap hidden-xs"><strong>{{ $item->label }}</strong></span>
-    </span>
+    </div>
 </li>

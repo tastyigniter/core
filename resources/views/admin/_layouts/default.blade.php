@@ -26,9 +26,6 @@
 <div id="notification">
     @partial('igniter.admin::flash')
 </div>
-@if(AdminAuth::isLogged())
-    @partial('igniter.admin::status_form')
-@endif
 @scripts
 </body>
 </html>

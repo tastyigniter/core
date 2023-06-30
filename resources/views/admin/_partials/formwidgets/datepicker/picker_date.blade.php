@@ -14,5 +14,4 @@
         {!! $field->getAttributes() !!}
         {!! $this->previewMode ? 'readonly="readonly"' : '' !!}
     />
-    <span class="input-group-text"><i class="fa fa-calendar-o"></i></span>
 </div>

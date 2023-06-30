@@ -2,43 +2,43 @@
 
 namespace Igniter\Admin\Widgets;
 
-use Carbon\Carbon;
+use Exception;
+use Igniter\Admin\Classes\BaseMainMenuWidget;
 use Igniter\Admin\Classes\BaseWidget;
-use Igniter\Admin\Classes\MenuItem;
+use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Local\Facades\AdminLocation;
-use Igniter\Local\Models\Location;
-use Igniter\User\Classes\UserState;
 
 class Menu extends BaseWidget
 {
     /**
-     * @var array Item definition configuration.
+     * @var ?array Item definition configuration.
      */
-    public $items;
+    public ?array $items = null;
 
     /**
-     * @var string The context of this menu, items that do not belong
+     * @var null|string|array The context of this menu, items that do not belong
      * to this context will not be shown.
      */
-    public $context = null;
+    public null|string|array $context = null;
 
     protected $defaultAlias = 'top-menu';
 
     /**
      * @var bool Determines if item definitions have been created.
      */
-    protected $itemsDefined = false;
+    protected bool $itemsDefined = false;
 
     /**
      * @var array Collection of all items used in this menu.
      */
-    protected $allItems = [];
+    protected array $allItems = [];
+
+    protected array $widgets = [];
 
     /**
      * @var array List of CSS classes to apply to the menu container element
      */
-    public $cssClasses = [];
+    public array $cssClasses = [];
 
     public function initialize()
     {
@@ -46,6 +46,12 @@ class Menu extends BaseWidget
             'items',
             'context',
         ]);
+    }
+
+    public function bindToController()
+    {
+        $this->defineMenuItems();
+        parent::bindToController();
     }
 
     public function render()
@@ -65,6 +71,7 @@ class Menu extends BaseWidget
     public function loadAssets()
     {
         $this->addJs('mainmenu.js', 'mainmenu-js');
+        $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
     }
 
     /**
@@ -96,6 +103,16 @@ class Menu extends BaseWidget
 
         $this->allItems = collect($this->allItems)->sortBy('priority')->all();
 
+        // Bind all main menu widgets to controller
+        foreach ($this->allItems as $item) {
+            if ($item->type !== 'widget') {
+                continue;
+            }
+
+            $widget = $this->makeMenuItemWidget($item);
+            $widget->bindToController();
+        }
+
         $this->itemsDefined = true;
     }
 
@@ -115,29 +132,27 @@ class Menu extends BaseWidget
                 }
             }
 
-            $this->allItems[$name] = $itemObj;
+            $this->allItems[$itemObj->itemName] = $itemObj;
         }
     }
 
     /**
      * Creates a menu item object from name and configuration.
      *
-     * @return \Igniter\Admin\Classes\MenuItem
+     * @return \Igniter\Admin\Classes\MainMenuItem
      */
     protected function makeMenuItem($name, $config)
     {
+        if ($config instanceof MainMenuItem) {
+            return $config;
+        }
+
         $label = $config['label'] ?? null;
         $itemType = $config['type'] ?? null;
 
-        $item = new MenuItem($name, $label);
+        $item = new MainMenuItem($name, $label);
         $item->displayAs($itemType, $config);
 
-        // Defer the execution of badge unread count
-        $item->unreadCount(function () use ($item) {
-            $user = $this->getLoggedUser();
-
-            return $this->fireEvent('menu.getUnreadCount', [$item, $user], true);
-        });
 
         // Get menu item options from model
         $optionModelTypes = ['dropdown', 'partial'];
@@ -188,6 +203,26 @@ class Menu extends BaseWidget
         return $this->getController()->getUser();
     }
 
+    public function makeMenuItemWidget(MainMenuItem $item): ?BaseMainMenuWidget
+    {
+        if ($item->type !== 'widget') {
+            return null;
+        }
+
+        if (isset($this->widgets[$item->itemName])) {
+            return $this->widgets[$item->itemName];
+        }
+
+        $widgetConfig = $this->makeConfig($item->config);
+        $widgetConfig['alias'] = $this->alias.studly_case(name_to_id($item->itemName));
+
+        throw_unless(class_exists($widgetClass = $widgetConfig['widget']), new Exception(sprintf(
+            lang('igniter::admin.alert_widget_class_name'), $widgetClass
+        )));
+
+        return $this->widgets[$item->itemName] = new $widgetClass($this->controller, $item, $widgetConfig);
+    }
+
     //
     // Event handlers
     //
@@ -203,83 +238,17 @@ class Menu extends BaseWidget
             throw new ApplicationException(lang('igniter::admin.side_menu.alert_invalid_menu'));
         }
 
-        $this->defineMenuItems();
-
         if (!$item = $this->getItem($itemName)) {
             throw new ApplicationException(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
         }
 
         // Return a partial if item has a path defined
         return [
-            '#'.$this->getId($item->itemName.'-options') => $this->makePartial($item->partial, [
+            '#'.$this->getId($item->itemName.'-options') => $this->makePartial($item->path, [
                 'item' => $item,
                 'itemOptions' => $item->options(),
             ]),
         ];
-    }
-
-    /**
-     * Mark menu items as read.
-     * @return array
-     * @throws \Exception
-     */
-    public function onMarkOptionsAsRead()
-    {
-        if (!strlen($itemName = post('item'))) {
-            throw new ApplicationException(lang('igniter::admin.side_menu.alert_invalid_menu'));
-        }
-
-        $this->defineMenuItems();
-
-        if (!$item = $this->getItem($itemName)) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
-        }
-
-        $user = $this->getLoggedUser();
-        $this->fireEvent('menu.markAsRead', [$item, $user]);
-
-        // Return a partial if item has a path defined
-        return [
-            '#'.$this->getId($item->itemName.'-options') => $this->makePartial($item->partial, [
-                'item' => $item,
-                'itemOptions' => $item->options(),
-            ]),
-        ];
-    }
-
-    public function onChooseLocation()
-    {
-        $location = null;
-        if (is_numeric($locationId = post('location'))) {
-            $location = Location::find($locationId);
-        }
-
-        if ($location && AdminLocation::hasAccess($location)) {
-            AdminLocation::setCurrent($location);
-        } else {
-            AdminLocation::clearCurrent();
-        }
-
-        return $this->controller->redirectBack();
-    }
-
-    public function onSetUserStatus()
-    {
-        $status = (int)post('status');
-        $message = (string)post('message');
-        $clearAfterMinutes = (int)post('clear_after');
-
-        if ($status < 1 && !strlen($message)) {
-            throw new ApplicationException(lang('igniter::admin.side_menu.alert_invalid_status'));
-        }
-
-        $stateData['status'] = $status;
-        $stateData['isAway'] = $status !== 1;
-        $stateData['updatedAt'] = Carbon::now();
-        $stateData['awayMessage'] = e($message);
-        $stateData['clearAfterMinutes'] = $clearAfterMinutes;
-
-        UserState::forUser($this->controller->getUser())->updateState($stateData);
     }
 
     /**

@@ -24,16 +24,16 @@ $orange: #FF4900 !default;
 
 $theme-colors: () !default;
 $theme-colors: map-merge((
-  "primary": $primary,
-  "default": $secondary,
-  "secondary": $secondary,
-  "success": $success,
-  "info": $info,
-  "warning": $warning,
-  "danger": $danger,
-  "light": $light,
-  "dark": $dark,
-  "orange": $orange
+        "primary": $primary,
+        "default": $secondary,
+        "secondary": $secondary,
+        "success": $success,
+        "info": $info,
+        "warning": $warning,
+        "danger": $danger,
+        "light": $light,
+        "dark": $dark,
+        "orange": $orange
 ), $theme-colors);
 //
 // Options
@@ -190,7 +190,6 @@ $logo-line-height: 32px !default;
 // Main menu
 //
 $mainmenu-font-size: 24px !default;
-$mainmenu-icon-size: 16px !default;
 $mainmenu-dropdown-width: 300px !default;
 $mainmenu-menu-max-height: 60vh !default;
 $mainmenu-padding-x: 0.5rem !default;

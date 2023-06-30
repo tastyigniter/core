@@ -1,15 +1,15 @@
 <li
-    id="{{$this->getId($item->itemName)}}"
-    @class(['nav-item dropdown'])
-    data-mainmenu-item="{{$item->itemName}}"
+  id="{{$this->getId($item->itemName)}}"
+  @class(['nav-item dropdown'])
+  data-mainmenu-item="{{$item->itemName}}"
 >
     <a
-        class="nav-link"
-        data-bs-toggle="dropdown"
-        data-bs-auto-close="outside"
+      class="nav-link"
+      data-bs-toggle="dropdown"
+      data-bs-auto-close="outside"
+      {!! $item->getAttributes()!!}
     >
         <i class="fa {{ $item->icon }}" role="button"></i>
-        <span @class(['badge text-bg-danger', 'hide' => !$item->unreadCount()])>&nbsp;</span>
     </a>
     <ul id="{{ $this->getId($item->itemName.'-options') }}" class="dropdown-menu overflow-hidden">
         <li class="dropdown-body">

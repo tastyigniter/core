@@ -8,101 +8,109 @@ use Igniter\Flame\Html\HtmlFacade as Html;
  * Menu item definition
  * A translation of the menu item configuration
  */
-class MenuItem
+class MainMenuItem
 {
-    /**
-     * @var string Item name.
-     */
-    public $itemName;
+    protected const LINK_TYPE = 'link';
+    protected const TEXT_TYPE = 'text';
+    protected const DROPDOWN_TYPE = 'dropdown';
+    protected const PARTIAL_TYPE = 'partial';
+    protected const WIDGET_TYPE = 'widget';
 
     /**
-     * @var string A prefix to the field identifier so it can be totally unique.
+     * @var ?string Item name.
      */
-    public $idPrefix;
+    public ?string $itemName = null;
 
     /**
-     * @var string Menu item label.
+     * @var ?string A prefix to the field identifier so it can be totally unique.
      */
-    public $label;
+    public ?string $idPrefix = null;
 
     /**
-     * @var string Menu item anchor.
+     * @var ?string Menu item label.
      */
-    public $anchor;
+    public ?string $label = null;
+
+    /**
+     * @var ?string Menu item anchor.
+     */
+    public ?string $anchor = null;
 
     /**
      * @var string Menu item type.
      */
-    public $type = 'link';
+    public string $type = 'link';
 
     /**
      * @var string Menu dropdown menu options.
      */
-    public $options;
+    public mixed $options = null;
 
     /**
-     * @var string Specifies contextual visibility of this menu item.
+     * @var null|string|array Specifies contextual visibility of this menu item.
      */
-    public $context = null;
+    public null|string|array $context = null;
 
     /**
      * @var bool Specify if the item is disabled or not.
      */
-    public $disabled = false;
+    public bool $disabled = false;
+
+    public ?string $icon = null;
+
+    /**
+     * @var ?string Specifies a path for partial-type fields.
+     */
+    public ?string $path = null;
 
     /**
      * @var array Contains a list of attributes specified in the item configuration.
      */
-    public $icon;
+    public array $attributes = [];
 
     /**
-     * @var array Contains a list of attributes specified in the item configuration.
+     * @var null|string|array Specifies a CSS class to attach to the item container.
      */
-    public $badge;
+    public null|string|array $cssClass = null;
 
-    public $badgeCount;
+    public int $priority = 0;
 
-    /**
-     * @var array Contains a list of attributes specified in the item configuration.
-     */
-    public $viewMoreUrl;
+    public null|string|array $permission = null;
 
-    /**
-     * @var array Contains a list of attributes specified in the item configuration.
-     */
-    public $optionsView;
+    public array $config = [];
 
-    /**
-     * @var string Specifies a path for partial-type fields.
-     */
-    public $path;
-
-    /**
-     * @var string Specifies a path to override partial for non partial-type fields.
-     */
-    public $partial;
-
-    /**
-     * @var array Contains a list of attributes specified in the item configuration.
-     */
-    public $attributes = [];
-
-    /**
-     * @var string Specifies a CSS class to attach to the item container.
-     */
-    public $cssClass;
-
-    public $priority = 0;
-
-    /**
-     * @var array Raw item configuration.
-     */
-    public $config;
-
-    public function __construct($itemName, $label)
+    public function __construct(string $itemName, ?string $label = null)
     {
         $this->itemName = $itemName;
         $this->label = $label;
+    }
+
+    public static function make(string $name, ?string $type = null, array $config = [])
+    {
+        $instance = new static($name);
+        $instance->displayAs($type, $config);
+
+        return $instance;
+    }
+
+    public static function dropdown(string $name): MainMenuItem
+    {
+        return static::make($name, static::DROPDOWN_TYPE);
+    }
+
+    public static function link(string $name)
+    {
+        return static::make($name, static::LINK_TYPE);
+    }
+
+    public static function partial(string $name, string $path = null)
+    {
+        return static::make($name, static::PARTIAL_TYPE)->path($path);
+    }
+
+    public static function widget(string $name, string $class)
+    {
+        return static::make($name, static::WIDGET_TYPE, ['widget' => $class]);
     }
 
     /**
@@ -115,7 +123,9 @@ class MenuItem
         if ($value === null) {
             if (is_array($this->options)) {
                 return $this->options;
-            } elseif (is_callable($this->options)) {
+            }
+
+            if (is_callable($this->options)) {
                 $callable = $this->options;
 
                 return $callable();
@@ -176,28 +186,8 @@ class MenuItem
             $this->icon = $config['icon'];
         }
 
-        if (isset($config['badge'])) {
-            $this->badge = $config['badge'];
-        }
-
-        if (isset($config['badgeCount'])) {
-            $this->badgeCount = $config['badgeCount'];
-        }
-
-        if (isset($config['viewMoreUrl'])) {
-            $this->viewMoreUrl = $config['viewMoreUrl'];
-        }
-
-        if (isset($config['optionsView'])) {
-            $this->optionsView = $config['optionsView'];
-        }
-
         if (isset($config['path'])) {
             $this->path = $config['path'];
-        }
-
-        if (isset($config['partial'])) {
-            $this->partial = $config['partial'];
         }
 
         if (isset($config['cssClass'])) {
@@ -263,20 +253,69 @@ class MenuItem
         return name_to_id($id);
     }
 
-    public function unreadCount($value = null)
+    public function label(string $label): MainMenuItem
     {
-        if (is_null($value)) {
-            if (is_callable($this->badgeCount)) {
-                $callable = $this->badgeCount;
+        $this->label = $label;
+        return $this;
+    }
 
-                return $callable();
-            }
+    public function idPrefix(string $idPrefix): MainMenuItem
+    {
+        $this->idPrefix = $idPrefix;
+        return $this;
+    }
 
-            return null;
-        }
+    public function anchor(string $anchor): MainMenuItem
+    {
+        $this->anchor = $anchor;
+        return $this;
+    }
 
-        $this->badgeCount = $value;
+    public function disabled(): MainMenuItem
+    {
+        $this->disabled = true;
+        return $this;
+    }
 
+    public function icon(string $icon): MainMenuItem
+    {
+        $this->icon = $icon;
+        return $this;
+    }
+
+    public function attributes(array $attributes): MainMenuItem
+    {
+        $this->attributes = $attributes;
+        return $this;
+    }
+
+    public function path(string $path): MainMenuItem
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+    public function priority(int $priority): MainMenuItem
+    {
+        $this->priority = $priority;
+        return $this;
+    }
+
+    public function permission(array|string|null $permission): MainMenuItem
+    {
+        $this->permission = $permission;
+        return $this;
+    }
+
+    public function config(array $config): MainMenuItem
+    {
+        $this->config = $config;
+        return $this;
+    }
+
+    public function mergeConfig(array $config): MainMenuItem
+    {
+        $this->config = array_merge($this->config, $config);
         return $this;
     }
 }

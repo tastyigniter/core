@@ -316,17 +316,6 @@ return [
 
     ],
 
-    'notifications' => [
-        'text_title' => 'Notifications',
-        'text_filter_search' => 'Search notifications...',
-        'text_empty' => 'There are no notifications available.',
-
-        'button_mark_as_read' => 'Mark all as read',
-
-        'activity_system' => 'System',
-        'activity_self' => 'You',
-    ],
-
     'permissions' => [
         'name' => 'System',
         'countries' => 'Create, edit and delete countries',

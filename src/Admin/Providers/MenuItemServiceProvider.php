@@ -2,6 +2,7 @@
 
 namespace Igniter\Admin\Providers;
 
+use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Flame\Igniter;
@@ -24,25 +25,32 @@ class MenuItemServiceProvider extends ServiceProvider
     {
         AdminMenu::registerCallback(function (Navigation $manager) {
             $manager->registerMainItems([
-                'preview' => [
-                    'icon' => 'fa-store',
-                    'priority' => 10,
-                    'attributes' => [
+                MainMenuItem::link('preview')
+                    ->icon('fa-store')
+                    ->priority(10)
+                    ->attributes([
                         'class' => 'nav-link front-end',
-                        'title' => 'lang:igniter::admin.side_menu.storefront',
+                        'title' => lang('igniter::admin.side_menu.storefront'),
                         'href' => page_url('home'),
                         'target' => '_blank',
-                    ],
-                ],
-                'settings' => [
-                    'icon' => 'fa-gear',
-                    'priority' => 20,
-                    'attributes' => [
+                    ]),
+                MainMenuItem::link('help')
+                    ->icon('fa-circle-question')
+                    ->priority(15)
+                    ->attributes([
                         'class' => 'nav-link front-end',
-                        'title' => 'lang:igniter::admin.side_menu.setting',
+                        'title' => lang('igniter::admin.text_support'),
+                        'href' => 'https://tastyigniter.com/support',
+                        'target' => '_blank',
+                    ]),
+                MainMenuItem::link('settings')
+                    ->icon('fa-gear')
+                    ->priority(20)
+                    ->attributes([
+                        'class' => 'nav-link front-end',
+                        'title' => lang('igniter::admin.side_menu.setting'),
                         'href' => admin_url('settings'),
-                    ],
-                ],
+                    ]),
             ]);
         });
     }

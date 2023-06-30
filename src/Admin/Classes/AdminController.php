@@ -206,10 +206,6 @@ class AdminController extends Controller
             return;
         }
 
-        if (AdminMenu::isCollapsed()) {
-            $this->bodyClass .= 'sidebar-collapsed';
-        }
-
         $config = [];
         $config['alias'] = 'mainmenu';
         $config['items'] = AdminMenu::getMainItems();
