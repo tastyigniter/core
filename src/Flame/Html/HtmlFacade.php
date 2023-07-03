@@ -4,9 +4,6 @@ namespace Igniter\Flame\Html;
 
 use Illuminate\Support\Facades\Facade;
 
-/**
- * @see \Collective\Html\HtmlBuilder
- */
 class HtmlFacade extends Facade
 {
     /**

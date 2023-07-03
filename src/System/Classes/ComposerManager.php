@@ -451,7 +451,6 @@ class ComposerManager
 
         $newConfig = $this->assertRepository($config);
         if ($config !== $newConfig) {
-            $this->logsOutput->writeln('<info>Updating composer.json</info>');
             $json->write($config);
         }
     }

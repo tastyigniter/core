@@ -25,7 +25,7 @@ class SettingsModel extends ModelAction
     /**
      * @var array Internal cache of model objects.
      */
-    private static $instances = [];
+    protected static $instances = [];
 
     protected $requiredProperties = ['settingsFieldsConfig', 'settingsCode'];
 
@@ -57,9 +57,6 @@ class SettingsModel extends ModelAction
         $this->model->bindEvent('model.setAttribute', [$this, 'setSettingsValue']);
         $this->model->bindEvent('model.saveInternal', [$this, 'saveModelInternal']);
 
-        /*
-         * Parse the config
-         */
         $this->recordCode = $this->model->settingsCode;
     }
 
@@ -106,9 +103,7 @@ class SettingsModel extends ModelAction
      */
     public function getSettingsRecord()
     {
-        $record = $this->model->where('item', $this->recordCode)->first();
-
-        return $record ?: null;
+        return $this->model->where('item', $this->recordCode)->first();
     }
 
     /**
@@ -211,17 +206,7 @@ class SettingsModel extends ModelAction
      */
     protected function isKeyAllowed($key)
     {
-        // core columns
-        if ($key == 'id' || $key == 'item' || $key == 'data') {
-            return true;
-        }
-
-        // relations
-        if ($this->model->hasRelation($key)) {
-            return true;
-        }
-
-        return false;
+        return in_array($key, ['id', 'item', 'data']) || $this->hasRelation($key);
     }
 
     /**
