@@ -32,6 +32,20 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
         $this->getConnection()->getSchemaBuilder()->dropColumns($this->table, ['group']);
     }
 
+    public function getRan()
+    {
+        $builder = $this->table();
+
+        if (!is_null($this->group)) {
+            $builder->where('migration', 'like', $this->group.'::%');
+        }
+
+        return $builder
+            ->orderBy('batch', 'asc')
+            ->orderBy('migration', 'asc')
+            ->pluck('migration')->all();
+    }
+
     /**
      * Get the module or extension the migration belongs to.
      *
