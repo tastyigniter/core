@@ -11,8 +11,6 @@ use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
-use Igniter\Local\Contracts\LocationInterface;
-use Igniter\Local\Facades\AdminLocation;
 use Igniter\Main\Widgets\MediaManager;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\MassAssignmentException;
@@ -315,19 +313,5 @@ class AdminController extends Controller
         } catch (Exception $ex) {
             throw $ex;
         }
-    }
-
-    //
-    // Locationable
-    //
-
-    public function getUserLocation(): LocationInterface|null
-    {
-        return AdminLocation::getLocation();
-    }
-
-    public function getLocationId(): int|null
-    {
-        return AdminLocation::getId();
     }
 }

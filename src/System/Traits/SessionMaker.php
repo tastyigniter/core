@@ -76,6 +76,13 @@ trait SessionMaker
         session()->forget($sessionKey);
     }
 
+    public function setSessionKey(string $key)
+    {
+        $this->sessionKey = $key;
+
+        return $this;
+    }
+
     /**
      * Returns a unique session identifier for this location.
      */

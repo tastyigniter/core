@@ -206,7 +206,7 @@ class SettingsModel extends ModelAction
      */
     protected function isKeyAllowed($key)
     {
-        return in_array($key, ['id', 'item', 'data']) || $this->hasRelation($key);
+        return in_array($key, ['id', 'item', 'data']) || $this->model->hasRelation($key);
     }
 
     /**
