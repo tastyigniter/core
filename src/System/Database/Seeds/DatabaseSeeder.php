@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
 
     public static $seedInitial = true;
 
-    public static $seedDemo = false;
+    public static $seedDemo = true;
 
     /**
      * Run the database seeds.

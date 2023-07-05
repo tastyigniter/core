@@ -161,7 +161,7 @@ class IgniterInstall extends Command
         DatabaseSeeder::$siteName = $this->ask('Site Name', DatabaseSeeder::$siteName);
         DatabaseSeeder::$siteUrl = $this->ask('Site URL', Config::get('app.url'));
 
-        DatabaseSeeder::$seedDemo = $this->confirm('Install demo data?', DatabaseSeeder::$seedDemo);
+        DatabaseSeeder::$seedDemo = $this->confirm('Install demo data?', !Igniter::hasDatabase());
     }
 
     protected function createSuperUser()

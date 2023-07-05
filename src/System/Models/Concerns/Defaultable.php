@@ -44,14 +44,8 @@ trait Defaultable
             return static::$defaultModels[static::class];
         }
 
-        $query = (new static)->defaultable();
-        if (in_array(Switchable::class, class_uses_recursive(static::class))) {
-            $query->whereIsEnabled();
-        }
-
-        $defaultQuery = $query->applyDefaultable(true);
-        if (!$defaultModel = $defaultQuery->first()) {
-            if ($defaultModel = $query->first()) {
+        if (!$defaultModel = (new static)->defaultableFindQuery()->applyDefaultable(true)->first()) {
+            if ($defaultModel = (new static)->defaultableFindQuery()->first()) {
                 $defaultModel->makeDefault();
             }
         }
@@ -61,7 +55,7 @@ trait Defaultable
 
     public function makeDefault(): bool
     {
-        if (in_array(Switchable::class, class_uses_recursive(static::class))) {
+        if ($this->defaultableUsesSwitchable()) {
             if (!$this->{$this->switchableGetColumn()}) {
                 throw new ValidationException([$this->switchableGetColumn() => sprintf(
                     lang('igniter::admin.alert_error_set_default'), $this->defaultableName()
@@ -126,5 +120,20 @@ trait Defaultable
         return $default
             ? $query->where($this->qualifyColumn($this->defaultableGetColumn()), true)
             : $query->where($this->qualifyColumn($this->defaultableGetColumn()), '!=', true);
+    }
+
+    protected function defaultableUsesSwitchable(): bool
+    {
+        return in_array(Switchable::class, class_uses_recursive(static::class));
+    }
+
+    protected function defaultableFindQuery(): Builder
+    {
+        $query = static::query();
+        if ($this->defaultableUsesSwitchable()) {
+            $query->whereIsEnabled();
+        }
+
+        return $query;
     }
 }
