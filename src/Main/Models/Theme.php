@@ -56,16 +56,6 @@ class Theme extends Model
 
     public $timestamps = true;
 
-    /**
-     * @var ThemeManager
-     */
-    public $manager;
-
-    /**
-     * @var \Igniter\Main\Classes\Theme
-     */
-    public $themeClass;
-
     protected $fieldConfig;
 
     protected $fieldValues = [];
@@ -170,46 +160,18 @@ class Theme extends Model
         }
     }
 
-    protected function afterFetch()
-    {
-        $this->applyThemeManager();
-    }
-
     //
     // Manager
     //
 
-    /**
-     * Attach the theme object to this class
-     * @return bool
-     */
-    public function applyThemeManager()
-    {
-        $code = $this->code;
-
-        if (!$code) {
-            return false;
-        }
-
-        $themeManager = resolve(ThemeManager::class);
-        if (!$themeClass = $themeManager->findTheme($code)) {
-            return false;
-        }
-
-        $this->manager = $themeManager;
-        $this->themeClass = $themeClass;
-
-        return true;
-    }
-
     public function getManager()
     {
-        return $this->manager;
+        return resolve(ThemeManager::class);
     }
 
     public function getTheme()
     {
-        return $this->themeClass;
+        return $this->getManager()->findTheme($this->code);
     }
 
     public function getFieldsConfig()
