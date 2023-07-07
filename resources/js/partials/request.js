@@ -91,167 +91,167 @@ if (window.jQuery.request !== undefined)
 
         var self = this,
             requestOptions = {
-            context: context,
-            headers: {
-                'X-IGNITER-REQUEST-HANDLER': handler,
-            },
-            success: function (data, textStatus, jqXHR) {
-                // Stop beforeUpdate() OR data-request-before-update returns false
-                if (self.options.beforeUpdate.apply(self, [data, textStatus, jqXHR]) === false) return
-                if (options.fireBeforeUpdate && eval('(function($el, context, data, textStatus, jqXHR) {'+
-                    options.fireBeforeUpdate+'}.call($el.get(0), $el, context, data, textStatus, jqXHR))') === false) return
+                context: context,
+                headers: {
+                    'X-IGNITER-REQUEST-HANDLER': handler,
+                },
+                success: function (data, textStatus, jqXHR) {
+                    // Stop beforeUpdate() OR data-request-before-update returns false
+                    if (self.options.beforeUpdate.apply(self, [data, textStatus, jqXHR]) === false) return
+                    if (options.fireBeforeUpdate && eval('(function($el, context, data, textStatus, jqXHR) {' +
+                        options.fireBeforeUpdate + '}.call($el.get(0), $el, context, data, textStatus, jqXHR))') === false) return
 
-                // Trigger 'ajaxBeforeUpdate' on the form, stop if event.preventDefault() is called
-                var _event = jQuery.Event('ajaxBeforeUpdate')
-                $triggerEl.trigger(_event, [context, data, textStatus, jqXHR])
-                if (_event.isDefaultPrevented()) return
-
-                // Proceed with the update process
-                var updatePromise = requestOptions.handleUpdateResponse(data, textStatus, jqXHR)
-
-                updatePromise.done(function () {
-                    $triggerEl.trigger('ajaxSuccess', [context, data, textStatus, jqXHR])
-                    options.fireSuccess && eval('(function($el, context, data, textStatus, jqXHR) {'+options.fireSuccess+'}.call($el.get(0), $el, context, data, textStatus, jqXHR))')
-                })
-
-                return updatePromise
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                var errorMsg,
-                    updatePromise = $.Deferred()
-
-                if (errorThrown == 'abort')
-                    return
-
-                isRedirect = false
-                options.redirect = null
-
-                if (jqXHR.status == 406 && jqXHR.responseJSON) {
-                    errorMsg = jqXHR.responseJSON['X_IGNITER_ERROR_MESSAGE']
-                    updatePromise = requestOptions.handleUpdateResponse(jqXHR.responseJSON, textStatus, jqXHR)
-                } else {
-                    errorMsg = jqXHR.responseText ? jqXHR.responseText : jqXHR.statusText
-                    updatePromise.resolve()
-                }
-
-                updatePromise.done(function () {
-                    var _event = jQuery.Event('ajaxError')
-                    $triggerEl.trigger(_event, [context, textStatus, jqXHR])
+                    // Trigger 'ajaxBeforeUpdate' on the form, stop if event.preventDefault() is called
+                    var _event = jQuery.Event('ajaxBeforeUpdate')
+                    $triggerEl.trigger(_event, [context, data, textStatus, jqXHR])
                     if (_event.isDefaultPrevented()) return
 
-                    // Stop here if the data-request-error attribute returns false
-                    if (options.fireError && eval('(function($el, context, textStatus, jqXHR) {'+options.fireError+'}.call($el.get(0), $el, context, textStatus, jqXHR))') === false)
+                    // Proceed with the update process
+                    var updatePromise = requestOptions.handleUpdateResponse(data, textStatus, jqXHR)
+
+                    updatePromise.done(function () {
+                        $triggerEl.trigger('ajaxSuccess', [context, data, textStatus, jqXHR])
+                        options.fireSuccess && eval('(function($el, context, data, textStatus, jqXHR) {' + options.fireSuccess + '}.call($el.get(0), $el, context, data, textStatus, jqXHR))')
+                    })
+
+                    return updatePromise
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    var errorMsg,
+                        updatePromise = $.Deferred()
+
+                    if (errorThrown == 'abort')
                         return
 
-                    requestOptions.handleErrorMessage(errorMsg)
-                })
+                    isRedirect = false
+                    options.redirect = null
 
-                return updatePromise
+                    if (jqXHR.status == 406 && jqXHR.responseJSON) {
+                        errorMsg = jqXHR.responseJSON['X_IGNITER_ERROR_MESSAGE']
+                        updatePromise = requestOptions.handleUpdateResponse(jqXHR.responseJSON, textStatus, jqXHR)
+                    } else {
+                        errorMsg = jqXHR.responseText ? jqXHR.responseText : jqXHR.statusText
+                        updatePromise.resolve()
+                    }
 
-            },
-            complete: function (data, textStatus, jqXHR) {
-                $triggerEl.trigger('ajaxComplete', [context, data, textStatus, jqXHR])
-                options.fireComplete && eval('(function($el, context, data, textStatus, jqXHR) {'+options.fireComplete+'}.call($el.get(0), $el, context, data, textStatus, jqXHR))')
-            },
+                    updatePromise.done(function () {
+                        var _event = jQuery.Event('ajaxError')
+                        $triggerEl.trigger(_event, [context, textStatus, jqXHR])
+                        if (_event.isDefaultPrevented()) return
 
-            // Custom function, requests confirmation from the user
-            handleConfirmMessage: function (message) {
-                var _event = jQuery.Event('ajaxConfirmMessage')
+                        // Stop here if the data-request-error attribute returns false
+                        if (options.fireError && eval('(function($el, context, textStatus, jqXHR) {' + options.fireError + '}.call($el.get(0), $el, context, textStatus, jqXHR))') === false)
+                            return
 
-                _event.promise = $.Deferred()
-                if ($(window).triggerHandler(_event, [message]) !== undefined) {
-                    _event.promise.done(function () {
-                        options.confirm = null
-                        new Request(element, handler, options)
+                        requestOptions.handleErrorMessage(errorMsg)
                     })
-                    return false
-                }
 
-                if (_event.isDefaultPrevented()) return
-                if (message) return confirm(message)
-            },
+                    return updatePromise
 
-            handleErrorMessage: function (message) {
-                var _event = jQuery.Event('ajaxErrorMessage')
-                $(window).trigger(_event, [message])
-                if (_event.isDefaultPrevented()) return
-                if (message) alert(message)
-            },
+                },
+                complete: function (data, textStatus, jqXHR) {
+                    $triggerEl.trigger('ajaxComplete', [context, data, textStatus, jqXHR])
+                    options.fireComplete && eval('(function($el, context, data, textStatus, jqXHR) {' + options.fireComplete + '}.call($el.get(0), $el, context, data, textStatus, jqXHR))')
+                },
 
-            handleValidationMessage: function (message, fields) {
-                $triggerEl.trigger('ajaxValidation', [context, message, fields])
+                // Custom function, requests confirmation from the user
+                handleConfirmMessage: function (message) {
+                    var _event = jQuery.Event('ajaxConfirmMessage')
 
-                var isFirstInvalidField = true
-                $.each(fields, function focusErrorField(fieldName, fieldMessages) {
-                    fieldName = fieldName.replace(/\.(\w+)/g, '[$1]')
+                    _event.promise = $.Deferred()
+                    if ($(window).triggerHandler(_event, [message]) !== undefined) {
+                        _event.promise.done(function () {
+                            options.confirm = null
+                            new Request(element, handler, options)
+                        })
+                        return false
+                    }
 
-                    var fieldElement = $form.find('[name="'+fieldName+'"], [name="'+fieldName+'[]"], [name$="['+fieldName+']"], [name$="['+fieldName+'][]"]').filter(':enabled').first()
-                    if (fieldElement.length > 0) {
+                    if (_event.isDefaultPrevented()) return
+                    if (message) return confirm(message)
+                },
 
-                        var _event = jQuery.Event('ajaxInvalidField')
-                        $(window).trigger(_event, [fieldElement.get(0), fieldName, fieldMessages, isFirstInvalidField])
+                handleErrorMessage: function (message) {
+                    var _event = jQuery.Event('ajaxErrorMessage')
+                    $(window).trigger(_event, [message])
+                    if (_event.isDefaultPrevented()) return
+                    if (message) alert(message)
+                },
 
-                        if (isFirstInvalidField) {
-                            if (!_event.isDefaultPrevented()) fieldElement.focus()
-                            isFirstInvalidField = false
+                handleValidationMessage: function (message, fields) {
+                    $triggerEl.trigger('ajaxValidation', [context, message, fields])
+
+                    var isFirstInvalidField = true
+                    $.each(fields, function focusErrorField(fieldName, fieldMessages) {
+                        fieldName = fieldName.replace(/\.(\w+)/g, '[$1]')
+
+                        var fieldElement = $form.find('[name="' + fieldName + '"], [name="' + fieldName + '[]"], [name$="[' + fieldName + ']"], [name$="[' + fieldName + '][]"]').filter(':enabled').first()
+                        if (fieldElement.length > 0) {
+
+                            var _event = jQuery.Event('ajaxInvalidField')
+                            $(window).trigger(_event, [fieldElement.get(0), fieldName, fieldMessages, isFirstInvalidField])
+
+                            if (isFirstInvalidField) {
+                                if (!_event.isDefaultPrevented()) fieldElement.focus()
+                                isFirstInvalidField = false
+                            }
                         }
-                    }
-                })
-            },
+                    })
+                },
 
-            // Custom function, redirect the browser to another location
-            handleRedirectResponse: function (url) {
-                window.location.href = url
-            },
+                // Custom function, redirect the browser to another location
+                handleRedirectResponse: function (url) {
+                    window.location.href = url
+                },
 
-            // Custom function, handle any application specific response
-            handleUpdateResponse: function (data, textStatus, jqXHR) {
-                var updatePromise = $.Deferred().done(function () {
-                    var dataArray = []
-                    try {
-                        dataArray = jQuery.type(data) === 'object' ? data : jQuery.parseJSON(data)
-                    } catch (e) {
-                    }
-
-                    for (var partial in dataArray) {
-                        var selector = partial
-                        if (jQuery.type(selector) === 'string' && selector.charAt(0) == '@') {
-                            $(selector.substring(1)).append(dataArray[partial]).trigger('ajaxUpdate', [context, data, textStatus, jqXHR])
-                        } else if (jQuery.type(selector) == 'string' && selector.charAt(0) == '^') {
-                            $(selector.substring(1)).prepend(dataArray[partial]).trigger('ajaxUpdate', [context, data, textStatus, jqXHR])
-                        } else if (jQuery.type(selector) == 'string' && selector.charAt(0) == '~') {
-                            $(selector.substring(1)).replaceWith(dataArray[partial]).trigger('ajaxUpdate', [context, data, textStatus, jqXHR])
-                        } else {
-                            $(selector).trigger('ajaxBeforeReplace')
-                            $(selector).html(dataArray[partial]).trigger('ajaxUpdate', [context, data, textStatus, jqXHR])
+                // Custom function, handle any application specific response
+                handleUpdateResponse: function (data, textStatus, jqXHR) {
+                    var updatePromise = $.Deferred().done(function () {
+                        var dataArray = []
+                        try {
+                            dataArray = jQuery.type(data) === 'object' ? data : jQuery.parseJSON(data)
+                        } catch (e) {
                         }
+
+                        for (var partial in dataArray) {
+                            var selector = partial
+                            if (jQuery.type(selector) === 'string' && selector.charAt(0) == '@') {
+                                $(selector.substring(1)).append(dataArray[partial]).trigger('ajaxUpdate', [context, data, textStatus, jqXHR])
+                            } else if (jQuery.type(selector) == 'string' && selector.charAt(0) == '^') {
+                                $(selector.substring(1)).prepend(dataArray[partial]).trigger('ajaxUpdate', [context, data, textStatus, jqXHR])
+                            } else if (jQuery.type(selector) == 'string' && selector.charAt(0) == '~') {
+                                $(selector.substring(1)).replaceWith(dataArray[partial]).trigger('ajaxUpdate', [context, data, textStatus, jqXHR])
+                            } else {
+                                $(selector).trigger('ajaxBeforeReplace')
+                                $(selector).html(dataArray[partial]).trigger('ajaxUpdate', [context, data, textStatus, jqXHR])
+                            }
+                        }
+
+                        // Wait for .html() method to finish rendering from partial updates
+                        setTimeout(function () {
+                            $(window)
+                                .trigger('ajaxUpdateComplete', [context, data, textStatus, jqXHR])
+                                .trigger('resize')
+                        }, 0)
+                    })
+
+                    // Handle redirect
+                    if (data['X_IGNITER_REDIRECT']) {
+                        options.redirect = data['X_IGNITER_REDIRECT']
+                        isRedirect = true
                     }
 
-                    // Wait for .html() method to finish rendering from partial updates
-                    setTimeout(function () {
-                        $(window)
-                            .trigger('ajaxUpdateComplete', [context, data, textStatus, jqXHR])
-                            .trigger('resize')
-                    }, 0)
-                })
+                    if (isRedirect)
+                        requestOptions.handleRedirectResponse(options.redirect)
 
-                // Handle redirect
-                if (data['X_IGNITER_REDIRECT']) {
-                    options.redirect = data['X_IGNITER_REDIRECT']
-                    isRedirect = true
-                }
+                    if (data['X_IGNITER_ERROR_FIELDS'])
+                        requestOptions.handleValidationMessage(data['X_IGNITER_ERROR_MESSAGE'], data['X_IGNITER_ERROR_FIELDS'])
 
-                if (isRedirect)
-                    requestOptions.handleRedirectResponse(options.redirect)
+                    updatePromise.resolve()
 
-                if (data['X_IGNITER_ERROR_FIELDS'])
-                    requestOptions.handleValidationMessage(data['X_IGNITER_ERROR_MESSAGE'], data['X_IGNITER_ERROR_FIELDS'])
-
-                updatePromise.resolve()
-
-                return updatePromise
-            },
-        }
+                    return updatePromise
+                },
+            }
 
         // Allow default business logic to be called from user functions
         context.success = requestOptions.success
@@ -367,9 +367,9 @@ if (window.jQuery.request !== undefined)
         if (typeof value == 'object') return value
 
         try {
-            return JSON.parse(JSON.stringify(eval("({"+value+"})")))
+            return JSON.parse(JSON.stringify(eval("({" + value + "})")))
         } catch (e) {
-            throw new Error('Error parsing the '+name+' attribute value. '+e)
+            throw new Error('Error parsing the ' + name + ' attribute value. ' + e)
         }
     }
 

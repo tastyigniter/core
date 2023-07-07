@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Classes;
 
-use Exception;
 use Igniter\Admin\Facades\AdminHelper;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Widgets\Menu;
@@ -301,17 +300,12 @@ class AdminController extends Controller
 
             return $response;
         } catch (ValidationException $ex) {
-            $this->flashValidationErrors($ex->getErrors());
-
-            $response['#notification'] = $this->makePartial('flash');
             $response['X_IGNITER_ERROR_FIELDS'] = $ex->getFields();
-            //            $response['X_IGNITER_ERROR_MESSAGE'] = $ex->getMessage(); avoid duplicate flash message.
+            $response['X_IGNITER_ERROR_MESSAGE'] = lang('igniter::admin.alert_form_error_message');
 
             throw new AjaxException($response);
         } catch (MassAssignmentException $ex) {
             throw new ApplicationException(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]));
-        } catch (Exception $ex) {
-            throw $ex;
         }
     }
 }

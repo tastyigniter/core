@@ -13,7 +13,7 @@
 
         if ($element.length === 0) {
             $element = $('<div />', {
-                class: 'alert alert-'+options.class
+                class: 'alert alert-' + options.class
             }).html(options.text)
         }
 
@@ -76,13 +76,13 @@
         $('[data-control="flash-message"]').each(function (index, element) {
             setTimeout(function () {
                 $.ti.flashMessage($(element).data(), element)
-            }, (index+1) * 500)
+            }, (index + 1) * 500)
         })
 
         $('[data-control="flash-overlay"]').each(function (index, element) {
             var $this = $(element),
                 options = $.extend({}, $this.data(), $this.data('closeOnEsc') === true ? {
-                    timer: (index+1) * 3000
+                    timer: (index + 1) * 3000
                 } : {})
             Swal.fire(options)
         })
@@ -95,7 +95,7 @@
             $field
 
         $.each(fields, function (fieldName, fieldMessages) {
-            $field = $('[data-validate-for="'+fieldName+'"]', $this)
+            $field = $('[data-validate-for="' + fieldName + '"]', $this)
             messages = $.merge(messages, fieldMessages)
             if (!!$field.length) {
                 if (!$field.text().length || $field.data('emptyMode') == true) {
@@ -139,4 +139,20 @@
         $('[data-validate-error]', $this).removeClass('visible')
     })
 
+    $(window).on('ajaxInvalidField', function (event, fieldElement, fieldName, fieldMessages) {
+        var $fieldContainer = $(fieldElement).addClass('has-error').closest('[data-field-name]'),
+            $feedbackElement = $('<div />')
+                .attr('data-error-name', fieldName)
+                .addClass('text-sm text-danger mt-1').text(fieldMessages.join('<br>'))
+
+        $fieldContainer.find('[data-error-name]').remove()
+        $fieldContainer.find('.form-label').addClass('text-danger')
+        $fieldContainer.append($feedbackElement)
+    })
+
+    $(document).on('input', 'input.has-error, textarea.has-error, select.has-error', function (e) {
+        var $fieldContainer = $(this).closest('[data-field-name]')
+        $fieldContainer.find('[data-error-name]').remove()
+        $fieldContainer.find('.form-label').removeClass('text-danger')
+    })
 }(window.jQuery)

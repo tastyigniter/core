@@ -13,13 +13,11 @@ trait SessionMaker
     public function getSession(string|null $key = null, mixed $default = null): mixed
     {
         $sessionKey = $this->makeSessionKey();
-        $sessionData = [];
-
-        if (!is_null($cached = session()->get($sessionKey))) {
-            $sessionData = $this->decodeSessionData($cached);
+        if (!is_null($key)) {
+            $sessionKey .= '.'.$key;
         }
 
-        return is_null($key) ? $sessionData : ($sessionData[$key] ?? $default);
+        return session()->get($sessionKey, $default);
     }
 
     /**
@@ -30,19 +28,12 @@ trait SessionMaker
      */
     public function putSession(string $key, mixed $value): void
     {
-        $sessionKey = $this->makeSessionKey();
-
-        $sessionData = $this->getSession();
-        $sessionData[$key] = $value;
-
-        session()->put($sessionKey, $this->encodeSessionData($sessionData));
+        session()->put($this->makeSessionKey().'.'.$key, $value);
     }
 
     public function hasSession(string $key): bool
     {
-        $sessionData = $this->getSession();
-
-        return array_key_exists($key, $sessionData);
+        return session()->has($this->makeSessionKey().'.'.$key);
     }
 
     /**
@@ -53,27 +44,17 @@ trait SessionMaker
      */
     public function flashSession(string $key, mixed $value): void
     {
-        $sessionKey = $this->makeSessionKey();
-
-        $sessionData = $this->getSession();
-        $sessionData[$key] = $value;
-
-        session()->flash($sessionKey, $this->encodeSessionData($sessionData));
+        session()->flash($this->makeSessionKey().'.'.$key, $value);
     }
 
     public function forgetSession(string $key): void
     {
-        $sessionData = $this->getSession();
-        unset($sessionData[$key]);
-
-        $sessionKey = $this->makeSessionKey();
-        session()->put($sessionKey, $this->encodeSessionData($sessionData));
+        session()->forget($this->makeSessionKey().'.'.$key);
     }
 
     public function resetSession(): void
     {
-        $sessionKey = $this->makeSessionKey();
-        session()->forget($sessionKey);
+        session()->forget($this->makeSessionKey());
     }
 
     public function setSessionKey(string $key)
@@ -93,33 +74,5 @@ trait SessionMaker
         }
 
         return get_class_id(get_class($this));
-    }
-
-    protected function encodeSessionData($data): string|null
-    {
-        if (is_null($data)) {
-            return null;
-        }
-
-        if (!isset($this->encodeSession) || $this->encodeSession === true) {
-            $data = base64_encode(serialize($data));
-        }
-
-        return $data;
-    }
-
-    protected function decodeSessionData(string $data): mixed
-    {
-        if (!is_string($data)) {
-            return null;
-        }
-
-        $encodeSession = (!isset($this->encodeSession) || $this->encodeSession === true);
-
-        if ($encodeSession || $data) {
-            $data = @unserialize(@base64_decode($data));
-        }
-
-        return $data;
     }
 }
