@@ -6,7 +6,6 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -37,6 +36,14 @@ class ErrorHandler
 
     public function __construct(ExceptionHandler $handler)
     {
+        if (method_exists($handler, 'map')) {
+            $handler->map(TokenMismatchException::class, function (TokenMismatchException $e) {
+                return (new FlashException(
+                    lang('igniter::admin.alert_invalid_csrf_token'), 'danger', 419, $e->getPrevious()
+                ))->important()->overlay();
+            });
+        }
+
         if (method_exists($handler, 'reportable')) {
             $handler->reportable(function (Throwable $ex) {
                 return $this->report($ex);
@@ -113,10 +120,6 @@ class ErrorHandler
         if ($event = Event::dispatch('exception.beforeRender', [$e, $statusCode, $request], true)) {
             return Response::make($event, $statusCode);
         }
-
-        if ($response = $this->renderException($e)) {
-            return Response::make($response, $statusCode);
-        }
     }
 
     /**
@@ -126,7 +129,7 @@ class ErrorHandler
      */
     protected function shouldntReport(Throwable $e)
     {
-        return !is_null(Arr::first($this->dontReport, fn ($type) => $e instanceof $type));
+        return !is_null(Arr::first($this->dontReport, fn($type) => $e instanceof $type));
     }
 
     /**
@@ -146,48 +149,5 @@ class ErrorHandler
         }
 
         return $code;
-    }
-
-    protected function renderException(Throwable $proposedException)
-    {
-        // Disable the error handler for test and CLI environment
-        if (App::runningUnitTests() || App::runningInConsole()) {
-            return;
-        }
-
-        if ($proposedException->getPrevious() instanceof TokenMismatchException) {
-            $proposedException = new HttpException(419, lang('igniter::admin.alert_invalid_csrf_token'), $proposedException->getPrevious());
-        }
-
-        //        if (Request::ajax() && $proposedException instanceof AjaxException) {
-        //            return $proposedException->getContents();
-        //        }
-
-        //        $this->beforeHandleError($proposedException);
-        //
-        //        // Clear the output buffer
-        //        while (ob_get_level()) {
-        //            ob_end_clean();
-        //        }
-        //
-        //        // Friendly error pages are used
-        //        if (($customError = $this->handleCustomError()) !== null) {
-        //            return $customError;
-        //        }
-        //
-        //        // If the exception is already our brand, use it.
-        //        if ($proposedException instanceof BaseException) {
-        //            $exception = $proposedException;
-        //        } // If there is an active mask prepared, use that.
-        //        elseif (static::$activeMask !== null) {
-        //            $exception = static::$activeMask;
-        //            $exception->setMask($proposedException);
-        //        } // Otherwise we should mask it with our own default scent.
-        //        else {
-        //            $exception = new ApplicationException($proposedException->getMessage(), 0);
-        //            $exception->setMask($proposedException);
-        //        }
-        //
-        //        return $this->handleDetailedError($exception);
     }
 }

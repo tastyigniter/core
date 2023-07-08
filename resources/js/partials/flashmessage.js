@@ -18,7 +18,7 @@
             options.allowEscapeKey = false
         }
 
-        if (options.overlay !== undefined) {
+        if (options.overlay) {
             return FlashMessage.overlay(options)
         }
 

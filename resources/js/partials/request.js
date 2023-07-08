@@ -144,9 +144,7 @@ if (window.jQuery.request !== undefined)
                         $.each(jqXHR.responseJSON['X_IGNITER_FLASH_MESSAGES'], function (index, message) {
                             requestOptions.handleFlashMessage(message)
                         })
-                    }
-
-                    if (jqXHR.status == 406 && jqXHR.responseJSON) {
+                    } else if (jqXHR.status == 406 && jqXHR.responseJSON) {
                         errorMsg = jqXHR.responseJSON['X_IGNITER_ERROR_MESSAGE']
                         updatePromise = requestOptions.handleUpdateResponse(jqXHR.responseJSON, textStatus, jqXHR)
                     } else {

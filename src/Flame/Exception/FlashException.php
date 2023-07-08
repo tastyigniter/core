@@ -16,11 +16,11 @@ class FlashException extends Exception
 
     protected bool $shouldReport = false;
 
-    public function __construct($message, protected string $type = 'danger')
+    public function __construct($message, protected string $type = 'danger', $code = 406, Exception $previous = null)
     {
         $this->message = $message;
 
-        parent::__construct($message, 406);
+        parent::__construct($message, $code);
     }
 
     public static function alert(string $message, string $type = 'danger'): self
