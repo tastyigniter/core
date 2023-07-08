@@ -20,7 +20,7 @@ class FlashException extends Exception
     {
         $this->message = $message;
 
-        parent::__construct($message, $code);
+        parent::__construct($message, $code, $previous);
     }
 
     public static function alert(string $message, string $type = 'danger'): self
