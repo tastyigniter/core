@@ -147,8 +147,6 @@ class RecordEditor extends BaseFormWidget
     {
         $model = $this->findFormModel(post('recordId'));
 
-        $form = $this->makeRecordFormWidget($model);
-
         $model->delete();
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->formName).' deleted'))->now();

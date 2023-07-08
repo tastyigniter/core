@@ -158,7 +158,7 @@ class MediaLibrary
 
     public function rename($path, $newPath)
     {
-        return $this->getStorageDisk()->rename(
+        return $this->getStorageDisk()->move(
             $this->getMediaPath($path),
             $this->getMediaPath($newPath)
         );
