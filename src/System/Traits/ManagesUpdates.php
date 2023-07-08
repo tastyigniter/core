@@ -5,6 +5,7 @@ namespace Igniter\System\Traits;
 use Exception;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ComposerException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\UpdateManager;
 
 trait ManagesUpdates
@@ -32,7 +33,7 @@ trait ManagesUpdates
         $itemsCodes = post('install_items') ?? [];
         $items = collect(post('items') ?? [])->whereIn('name', $itemsCodes);
         if ($items->isEmpty()) {
-            throw new ApplicationException(lang('igniter::system.updates.alert_no_items'));
+            throw FlashException::error(lang('igniter::system.updates.alert_no_items'));
         }
 
         $this->validateItems();
@@ -49,7 +50,7 @@ trait ManagesUpdates
     {
         $items = post('items') ?? [];
         if (!count($items)) {
-            throw new ApplicationException(lang('igniter::system.updates.alert_no_items'));
+            throw FlashException::error(lang('igniter::system.updates.alert_no_items'));
         }
 
         $this->validateItems();
@@ -70,7 +71,7 @@ trait ManagesUpdates
         $itemsToUpdate = array_get($updates, 'items', []);
 
         if (!count($itemsToUpdate)) {
-            throw new ApplicationException(lang('igniter::system.updates.alert_no_items'));
+            throw FlashException::error(lang('igniter::system.updates.alert_no_items'));
         }
 
         return [
@@ -103,7 +104,7 @@ trait ManagesUpdates
     {
         $itemCode = post('code', '');
         if (!strlen($itemCode)) {
-            throw new ApplicationException(lang('igniter::system.updates.alert_item_to_ignore'));
+            throw FlashException::error(lang('igniter::system.updates.alert_item_to_ignore'));
         }
 
         $updateManager = resolve(UpdateManager::class);
@@ -119,7 +120,7 @@ trait ManagesUpdates
     {
         $carteKey = post('carte_key');
         if (!strlen($carteKey)) {
-            throw new ApplicationException(lang('igniter::system.updates.alert_no_carte_key'));
+            throw FlashException::error(lang('igniter::system.updates.alert_no_carte_key'));
         }
 
         $response = resolve(UpdateManager::class)->applySiteDetail($carteKey);

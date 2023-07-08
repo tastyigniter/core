@@ -67,29 +67,25 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
     public function edit($context, $settingCode = null)
     {
-        try {
-            $this->settingCode = $settingCode;
-            [$model, $definition] = $this->findSettingDefinitions($settingCode);
-            if (!$definition) {
-                throw new Exception(sprintf(lang('igniter::system.settings.alert_settings_not_found'), $settingCode));
-            }
+        $this->settingCode = $settingCode;
+        [$model, $definition] = $this->findSettingDefinitions($settingCode);
+        if (!$definition) {
+            throw new Exception(sprintf(lang('igniter::system.settings.alert_settings_not_found'), $settingCode));
+        }
 
-            if ($definition->permission && !AdminAuth::user()->hasPermission($definition->permission)) {
-                return Response::make(View::make('admin::access_denied'), 403);
-            }
+        if ($definition->permission && !AdminAuth::user()->hasPermission($definition->permission)) {
+            return Response::make(View::make('admin::access_denied'), 403);
+        }
 
-            $pageTitle = sprintf(lang('igniter::system.settings.text_edit_title'), lang($definition->label));
-            Template::setTitle($pageTitle);
-            Template::setHeading($pageTitle);
+        $pageTitle = sprintf(lang('igniter::system.settings.text_edit_title'), lang($definition->label));
+        Template::setTitle($pageTitle);
+        Template::setHeading($pageTitle);
 
-            $this->initWidgets($model, $definition);
+        $this->initWidgets($model, $definition);
 
-            $this->validateSettingItems();
-            if ($errors = array_get($this->settingItemErrors, $settingCode)) {
-                Session::flash('errors', $errors);
-            }
-        } catch (Exception $ex) {
-            $this->handleError($ex);
+        $this->validateSettingItems();
+        if ($errors = array_get($this->settingItemErrors, $settingCode)) {
+            Session::flash('errors', $errors);
         }
     }
 

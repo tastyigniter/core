@@ -54,13 +54,23 @@ if (window.jQuery.request !== undefined)
             $triggerEl = !!$form.length ? $form : $el,
             context = {handler: handler, options: options},
             loading = options.loading !== undefined && options.loading.length ? $(options.loading) : null,
-            isRedirect = options.redirect !== undefined && options.redirect.length
+            isRedirect = options.redirect !== undefined && options.redirect.length,
+            useFlash = options.flash !== undefined
 
         var _event = jQuery.Event('ajaxSetup')
         $triggerEl.trigger(_event, context)
         if (_event.isDefaultPrevented()) return
 
         if ($.type(loading) == 'string') loading = $(loading)
+
+        var requestHeaders = {
+            'X-IGNITER-REQUEST-HANDLER': handler,
+            'X-IGNITER-REQUEST-PARTIALS': this.extractPartials(options.update)
+        }
+
+        if (useFlash) {
+            requestHeaders['X-IGNITER-REQUEST-FLASH'] = 1
+        }
 
         var requestData,
             inputName,
@@ -92,9 +102,7 @@ if (window.jQuery.request !== undefined)
         var self = this,
             requestOptions = {
                 context: context,
-                headers: {
-                    'X-IGNITER-REQUEST-HANDLER': handler,
-                },
+                headers: requestHeaders,
                 success: function (data, textStatus, jqXHR) {
                     // Stop beforeUpdate() OR data-request-before-update returns false
                     if (self.options.beforeUpdate.apply(self, [data, textStatus, jqXHR]) === false) return
@@ -105,6 +113,12 @@ if (window.jQuery.request !== undefined)
                     var _event = jQuery.Event('ajaxBeforeUpdate')
                     $triggerEl.trigger(_event, [context, data, textStatus, jqXHR])
                     if (_event.isDefaultPrevented()) return
+
+                    if (useFlash && data['X_IGNITER_FLASH_MESSAGES']) {
+                        $.each(data['X_IGNITER_FLASH_MESSAGES'], function (index, message) {
+                            requestOptions.handleFlashMessage(message)
+                        })
+                    }
 
                     // Proceed with the update process
                     var updatePromise = requestOptions.handleUpdateResponse(data, textStatus, jqXHR)
@@ -125,6 +139,12 @@ if (window.jQuery.request !== undefined)
 
                     isRedirect = false
                     options.redirect = null
+
+                    if (jqXHR.responseJSON['X_IGNITER_FLASH_MESSAGES']) {
+                        $.each(jqXHR.responseJSON['X_IGNITER_FLASH_MESSAGES'], function (index, message) {
+                            requestOptions.handleFlashMessage(message)
+                        })
+                    }
 
                     if (jqXHR.status == 406 && jqXHR.responseJSON) {
                         errorMsg = jqXHR.responseJSON['X_IGNITER_ERROR_MESSAGE']
@@ -168,7 +188,13 @@ if (window.jQuery.request !== undefined)
                     }
 
                     if (_event.isDefaultPrevented()) return
-                    if (message) return confirm(message)
+                    if (message) {
+                        $.ti.flashMessage.confirm(message, function () {
+                            options.confirm = null
+                            new Request(element, handler, options)
+                        })
+                        return false
+                    }
                 },
 
                 handleErrorMessage: function (message) {
@@ -201,7 +227,7 @@ if (window.jQuery.request !== undefined)
 
                 // Custom function, redirect the browser to another location
                 handleRedirectResponse: function (url) {
-                    window.location.href = url
+                    window.location.assign(url)
                 },
 
                 // Custom function, handle any application specific response
@@ -251,6 +277,10 @@ if (window.jQuery.request !== undefined)
 
                     return updatePromise
                 },
+
+                handleFlashMessage: function (message) {
+                    $.ti.flashMessage(message)
+                },
             }
 
         // Allow default business logic to be called from user functions
@@ -290,6 +320,15 @@ if (window.jQuery.request !== undefined)
             .always(function (dataOrXhr, textStatus, xhrOrError) {
                 $el.trigger('ajaxAlways', [context, dataOrXhr, textStatus, xhrOrError])
             })
+    }
+
+    Request.prototype.extractPartials = function (update) {
+        var result = []
+
+        for (var partial in update)
+            result.push(partial)
+
+        return result.join('&')
     }
 
     Request.DEFAULTS = {

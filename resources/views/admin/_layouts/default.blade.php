@@ -16,15 +16,15 @@
     <x-igniter.admin::header>
         {!! $this->widgets['mainmenu']->render() !!}
     </x-igniter.admin::header>
-    <x-igniter.admin::aside :navItems="AdminMenu::getVisibleNavItems()"/>
+    <x-igniter.admin::aside :navItems="AdminMenu::getVisibleNavItems()" />
 @endif
 <div class="page-wrapper">
     <div class="page-content">
         {!! Template::getBlock('body') !!}
     </div>
-</div>
-<div id="notification">
-    @partial('igniter.admin::flash')
+    <div id="notification">
+        @partial('igniter.admin::flash')
+    </div>
 </div>
 @scripts
 </body>

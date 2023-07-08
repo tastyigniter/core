@@ -5,7 +5,7 @@ namespace Igniter\Main\Models;
 use Exception;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Events\ThemeActivatedEvent;
 use Igniter\Main\Template\Layout;
@@ -273,7 +273,7 @@ class Theme extends Model
         }
 
         if (count($notFound)) {
-            throw new ApplicationException(sprintf('The following required extensions must be installed before activating this theme, %s', implode(', ', $notFound)));
+            throw FlashException::error(sprintf('The following required extensions must be installed before activating this theme, %s', implode(', ', $notFound)));
         }
 
         $theme->makeDefault();

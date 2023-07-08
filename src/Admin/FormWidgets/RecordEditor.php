@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Html\HtmlFacade as Html;
 use Illuminate\Support\Facades\DB;
 
@@ -158,9 +158,9 @@ class RecordEditor extends BaseFormWidget
 
     public function onAttachRecord()
     {
-        if (!$recordId = post('recordId')) {
-            throw new ApplicationException('Please select a record to attach.');
-        }
+        throw_unless($recordId = post('recordId'),
+            FlashException::error('Please select a record to attach.')
+        );
 
         $model = $this->findFormModel($recordId);
 
@@ -223,9 +223,10 @@ class RecordEditor extends BaseFormWidget
         $model = $this->createFormModel();
         $methodName = 'get'.studly_case($this->fieldName).'RecordEditorOptions';
 
-        if (!$model->methodExists($methodName) && !$model->methodExists('getRecordEditorOptions')) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.alert_missing_method'), 'getRecordEditorOptions', get_class($model)));
-        }
+        throw_if(
+            !$model->methodExists($methodName) && !$model->methodExists('getRecordEditorOptions'),
+            FlashException::error(sprintf(lang('igniter::admin.alert_missing_method'), 'getRecordEditorOptions', get_class($model)))
+        );
 
         if ($model->methodExists($methodName)) {
             $result = $model->$methodName();

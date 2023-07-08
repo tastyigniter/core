@@ -9,7 +9,7 @@ use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Html\HtmlFacade as Html;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\User\Facades\AdminAuth;
@@ -891,7 +891,7 @@ class Lists extends BaseWidget
         $value = make_carbon($value);
 
         if (!$value instanceof Carbon) {
-            throw new ApplicationException(sprintf(
+            throw FlashException::error(sprintf(
                 lang('igniter::admin.list.invalid_column_datetime'), $column->columnName
             ));
         }
@@ -1163,18 +1163,18 @@ class Lists extends BaseWidget
     {
         $requestData = post();
         if (!strlen($code = array_get($requestData, 'code'))) {
-            throw new ApplicationException(lang('igniter::admin.list.missing_action_code'));
+            throw FlashException::error(lang('igniter::admin.list.missing_action_code'));
         }
 
         $parts = explode('.', $code);
         $actionCode = array_shift($parts);
         if (!$bulkAction = array_get($this->getAvailableBulkActions(), $actionCode)) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.list.action_not_found'), $actionCode));
+            throw FlashException::error(sprintf(lang('igniter::admin.list.action_not_found'), $actionCode));
         }
 
         $checkedIds = array_get($requestData, 'checked');
         if (!$checkedIds || !is_array($checkedIds) || !count($checkedIds)) {
-            throw new ApplicationException(lang('igniter::admin.list.delete_empty'));
+            throw FlashException::error(lang('igniter::admin.list.delete_empty'));
         }
 
         $alias = post('alias') ?: $this->primaryAlias;

@@ -6,7 +6,7 @@ use Exception;
 use Igniter\Admin\Classes\BaseMainMenuWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\MainMenuItem;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 
 class Menu extends BaseWidget
 {
@@ -188,7 +188,7 @@ class Menu extends BaseWidget
     public function getItem($item)
     {
         if (!isset($this->allItems[$item])) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.side_menu.alert_no_definition'), $item));
+            throw FlashException::error(sprintf(lang('igniter::admin.side_menu.alert_no_definition'), $item));
         }
 
         return $this->allItems[$item];
@@ -235,11 +235,11 @@ class Menu extends BaseWidget
     public function onGetDropdownOptions()
     {
         if (!strlen($itemName = input('item'))) {
-            throw new ApplicationException(lang('igniter::admin.side_menu.alert_invalid_menu'));
+            throw FlashException::error(lang('igniter::admin.side_menu.alert_invalid_menu'));
         }
 
         if (!$item = $this->getItem($itemName)) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
+            throw FlashException::error(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
         }
 
         // Return a partial if item has a path defined

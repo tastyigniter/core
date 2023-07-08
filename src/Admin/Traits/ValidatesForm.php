@@ -3,7 +3,7 @@
 namespace Igniter\Admin\Traits;
 
 use Closure;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Igniter;
@@ -170,7 +170,7 @@ trait ValidatesForm
     protected function validateFormRequest($requestClass, $model, $callback)
     {
         if (!$requestClass || !class_exists($requestClass)) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
+            throw FlashException::error(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
         }
 
         return $this->resolveFormRequest($requestClass, $callback)->validated();

@@ -6,7 +6,6 @@ use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Setting\Facades\Setting;
-use Igniter\System\Exception\ErrorHandler;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\RequestLog;
@@ -17,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -31,7 +29,6 @@ class ServiceProvider extends AppServiceProvider
     {
         $this->registerSingletons();
         $this->registerFacadeAliases();
-        $this->registerErrorHandler();
         $this->registerBladeDirectives();
 
         $this->app->register(Providers\ConsoleServiceProvider::class);
@@ -116,18 +113,6 @@ class ServiceProvider extends AppServiceProvider
         ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
-    }
-
-    /*
-     * Error handling for uncaught Exceptions
-     */
-    protected function registerErrorHandler()
-    {
-        Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
-            if ($result = (new ErrorHandler)->handleException($exception)) {
-                return $result;
-            }
-        });
     }
 
     protected function defineEloquentMorphMaps()

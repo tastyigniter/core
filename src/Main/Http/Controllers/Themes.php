@@ -119,42 +119,38 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function delete($context, $themeCode = null)
     {
-        try {
-            $pageTitle = lang('igniter::system.themes.text_delete_title');
-            Template::setTitle($pageTitle);
-            Template::setHeading($pageTitle);
+        $pageTitle = lang('igniter::system.themes.text_delete_title');
+        Template::setTitle($pageTitle);
+        Template::setHeading($pageTitle);
 
-            $themeManager = resolve(ThemeManager::class);
-            $theme = $themeManager->findTheme($themeCode);
-            $model = Theme::whereCode($themeCode)->first();
+        $themeManager = resolve(ThemeManager::class);
+        $theme = $themeManager->findTheme($themeCode);
+        $model = Theme::whereCode($themeCode)->first();
 
-            // Theme must be disabled before it can be deleted
-            if ($model && $model->isDefault()) {
-                flash()->warning(sprintf(
-                    lang('igniter::admin.alert_error_nothing'),
-                    lang('igniter::admin.text_deleted').lang('igniter::system.themes.text_theme_is_active')
-                ));
+        // Theme must be disabled before it can be deleted
+        if ($model && $model->isDefault()) {
+            flash()->warning(sprintf(
+                lang('igniter::admin.alert_error_nothing'),
+                lang('igniter::admin.text_deleted').lang('igniter::system.themes.text_theme_is_active')
+            ));
 
-                return $this->redirectBack();
-            }
-
-            // Theme not found in filesystem
-            // so delete from database
-            if (!$theme) {
-                $model->delete();
-                flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
-
-                return $this->redirectBack();
-            }
-
-            // Lets display a delete confirmation screen
-            // with list of files to be deleted
-            $this->vars['themeModel'] = $model;
-            $this->vars['themeObj'] = $theme;
-            $this->vars['themeData'] = $model->data;
-        } catch (Exception $ex) {
-            $this->handleError($ex);
+            return $this->redirectBack();
         }
+
+        // Theme not found in filesystem
+        // so delete from database
+        if (!$theme) {
+            $model->delete();
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
+
+            return $this->redirectBack();
+        }
+
+        // Lets display a delete confirmation screen
+        // with list of files to be deleted
+        $this->vars['themeModel'] = $model;
+        $this->vars['themeObj'] = $theme;
+        $this->vars['themeData'] = $model->data;
     }
 
     public function index_onSetDefault()

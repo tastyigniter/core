@@ -7,7 +7,7 @@ use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Contracts\Validation\Validator;
@@ -138,7 +138,7 @@ class TemplateEditor extends BaseFormWidget
     public function onManageSource()
     {
         if ($this->manager->isLocked($this->model->code)) {
-            throw new ApplicationException(lang('igniter::system.themes.alert_theme_locked'));
+            throw FlashException::error(lang('igniter::system.themes.alert_theme_locked'));
         }
 
         $data = $this->validate(post(), [
@@ -172,7 +172,7 @@ class TemplateEditor extends BaseFormWidget
     public function onSaveSource()
     {
         if ($this->manager->isLocked($this->model->code)) {
-            throw new ApplicationException(lang('igniter::system.themes.alert_theme_locked'));
+            throw FlashException::error(lang('igniter::system.themes.alert_theme_locked'));
         }
 
         if (!$this->templateWidget) {
@@ -230,7 +230,7 @@ class TemplateEditor extends BaseFormWidget
     protected function getTemplateEditorOptions()
     {
         if (!($themeObject = $this->model->getTheme()) || !$themeObject instanceof Theme) {
-            throw new ApplicationException('Missing theme object on '.get_class($this->model));
+            throw FlashException::error('Missing theme object on '.get_class($this->model));
         }
 
         /** @var \Igniter\Flame\Pagic\Model $templateClass */

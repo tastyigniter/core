@@ -69,4 +69,9 @@ trait AssetMaker
     {
         Assets::addCss($this->getAssetPath($href), $attributes);
     }
+
+    public function addRss($href, $attributes = [])
+    {
+        Assets::addRss($this->getAssetPath($href), $attributes);
+    }
 }

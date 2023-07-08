@@ -8,7 +8,7 @@ use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Database\Attach\HasMedia;
 use Igniter\Flame\Database\Attach\Media;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Main\Classes\MediaItem;
 use Igniter\Main\Classes\MediaLibrary;
@@ -250,19 +250,19 @@ class MediaFinder extends BaseFormWidget
         }
 
         if (!array_key_exists($this->fieldName, $this->model->mediable())) {
-            throw new ApplicationException(sprintf(lang('igniter::main.media_manager.alert_missing_mediable'),
+            throw FlashException::error(sprintf(lang('igniter::main.media_manager.alert_missing_mediable'),
                 $this->fieldName, get_class($this->model)
             ));
         }
 
         $items = post('items');
         if (!is_array($items)) {
-            throw new ApplicationException(lang('igniter::main.media_manager.alert_select_item_to_attach'));
+            throw FlashException::error(lang('igniter::main.media_manager.alert_select_item_to_attach'));
         }
 
         $model = $this->model;
         if (!$model->exists) {
-            throw new ApplicationException(lang('igniter::main.media_manager.alert_only_attach_to_saved'));
+            throw FlashException::error(lang('igniter::main.media_manager.alert_only_attach_to_saved'));
         }
 
         $manager = resolve(MediaLibrary::class);

@@ -6,59 +6,127 @@
     "use strict"
 
     var FlashMessage = function (options, el) {
-        var options = $.extend({}, FlashMessage.DEFAULTS, options),
-            $element = $(el)
+        options = $.extend({}, FlashMessage.DEFAULTS, options)
 
-        $('body > p.flash-message').remove()
-
-        if ($element.length === 0) {
-            $element = $('<div />', {
-                class: 'alert alert-' + options.class
-            }).html(options.text)
+        if (options.interval > 0) {
+            options.timer = options.interval * 1000
         }
 
-        $element.addClass('flash-message animated fadeInDown')
-        $element.attr('data-control', null)
-
-        if (options.allowDismiss) {
-            $element.addClass('alert-dismissible')
-            $element.append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true"></button>')
+        if (!options.allowDismiss || options.important) {
+            options.timer = 0
+            options.allowOutsideClick = false
+            options.allowEscapeKey = false
         }
 
-        $element.on('click', 'button', remove)
-        if (options.interval > 0) $element.on('click', remove)
-
-        $(options.container).prepend($element)
-
-        var timer = null
-
-        setTimeout(function () {
-            $element.addClass('show')
-        }, 100)
-
-        if (options.allowDismiss && options.interval > 0)
-            timer = window.setTimeout(remove, options.interval * 1000)
-
-        function removeElement() {
-            $element.remove()
+        if (options.overlay !== undefined) {
+            return FlashMessage.overlay(options)
         }
 
-        function remove() {
-            window.clearInterval(timer)
+        options = $.extend(options, FlashMessage.TOAST_DEFAULTS, FlashMessage.getIcon(options))
 
-            $element.addClass('fadeOutUp')
-            $element.on('animationend', () => {
-                removeElement()
-            });
+        return Swal.fire(FlashMessage.parseOptions(options))
+    }
+
+    FlashMessage.overlay = function (options) {
+        options = $.extend({}, FlashMessage.DEFAULTS, FlashMessage.SWAL_DEFAULTS, options)
+
+        options = $.extend(options, FlashMessage.getIcon(options))
+
+        return Swal.fire(FlashMessage.parseOptions(options))
+    }
+
+    FlashMessage.confirm = function (message, confirmCallback, cancelCallback) {
+        var options = $.extend({
+            text: message,
+            showCancelButton: true,
+            allowOutsideClick: false,
+        }, FlashMessage.DEFAULTS, FlashMessage.SWAL_DEFAULTS)
+
+        return Swal.fire(FlashMessage.parseOptions(options)).then((result) => {
+            if (result.isConfirmed) {
+                confirmCallback()
+            } else if (result.isDismissed) {
+                cancelCallback()
+            }
+        })
+
+    }
+
+    FlashMessage.getIcon = function (options) {
+        return FlashMessage.ICONS[options.level ?? options.class]
+    }
+
+    FlashMessage.parseOptions = function (options) {
+        return Object.keys(options)
+            .filter(key => !Object.keys(FlashMessage.DEFAULTS)
+                .includes(key)).reduce((obj, key) => {
+                obj[key] = options[key];
+                return obj;
+            }, {});
+    }
+
+    FlashMessage.TOAST_DEFAULTS = {
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 0,
+        timerProgressBar: true,
+        showClass: {
+            popup: 'animated fadeInRight'
+        },
+        hideClass: {
+            popup: 'animated fadeOutRight'
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
+    }
+
+    FlashMessage.SWAL_DEFAULTS = {
+        position: 'top',
+        timerProgressBar: true,
+        customClass: {
+            container: 'modal-backdrop',
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-secondary',
+        },
+        showClass: {
+            popup: 'animated fadeInDown'
+        },
     }
 
     FlashMessage.DEFAULTS = {
         container: '#notification',
+        level: undefined,
+        important: undefined,
+        overlay: undefined,
         class: 'success',
-        text: 'text',
         interval: 5,
         allowDismiss: true,
+    }
+
+    FlashMessage.ICONS = {
+        warning: {
+            icon: 'warning',
+            iconHtml: '<i class="fa fa-fw fa-exclamation-triangle"></i>',
+        },
+        danger: {
+            icon: 'error',
+            iconHtml: '<i class="fa fa-fw fa-times-circle"></i>',
+        },
+        success: {
+            icon: 'success',
+            iconHtml: '<i class="fa fa-fw fa-check"></i>',
+        },
+        info: {
+            icon: 'info',
+            iconHtml: '<i class="fa fa-fw fa-info-circle"></i>',
+        },
+        question: {
+            icon: 'question',
+            iconHtml: '<i class="fa fa-fw fa-question-circle"></i>',
+        },
     }
 
     // FLASH MESSAGE PLUGIN DEFINITION
@@ -80,11 +148,9 @@
         })
 
         $('[data-control="flash-overlay"]').each(function (index, element) {
-            var $this = $(element),
-                options = $.extend({}, $this.data(), $this.data('closeOnEsc') === true ? {
-                    timer: (index + 1) * 3000
-                } : {})
-            Swal.fire(options)
+            $.ti.flashMessage.overlay($.extend({}, $(element).data(), $(element).data('closeOnEsc') === true ? {
+                timer: (index + 1) * 3000
+            } : {}))
         })
     })
 
@@ -155,4 +221,13 @@
         $fieldContainer.find('[data-error-name]').remove()
         $fieldContainer.find('.form-label').removeClass('text-danger')
     })
+
+    window.legacyAlert = window.alert;
+    window.alert = function (message, title, type, params) {
+        $.ti.flashMessage.overlay($.extend({
+            title: title,
+            text: message,
+            type: type
+        }, params || {}));
+    };
 }(window.jQuery)

@@ -84,8 +84,6 @@ trait CombinesAssets
      */
     public function combine($type, array $assets = [])
     {
-        $assets = $this->prepareAssets($assets);
-
         $combiner = $this->prepareCombiner($assets);
         $lastMod = $combiner->getLastModified();
 

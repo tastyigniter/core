@@ -224,17 +224,13 @@ class FormController extends ControllerAction
 
     public function create($context = null)
     {
-        try {
-            $this->context = $context ?: $this->getConfig('create[context]', self::CONTEXT_CREATE);
+        $this->context = $context ?: $this->getConfig('create[context]', self::CONTEXT_CREATE);
 
-            $this->setFormTitle('lang:igniter::admin.form.create_title');
+        $this->setFormTitle('lang:igniter::admin.form.create_title');
 
-            $model = $this->controller->formCreateModelObject();
-            $model = $this->controller->formExtendModel($model) ?: $model;
-            $this->initForm($model, $context);
-        } catch (Exception $ex) {
-            $this->controller->handleError($ex);
-        }
+        $model = $this->controller->formCreateModelObject();
+        $model = $this->controller->formExtendModel($model) ?: $model;
+        $this->initForm($model, $context);
     }
 
     public function create_onSave($context = null)
@@ -270,17 +266,13 @@ class FormController extends ControllerAction
 
     public function edit($context = null, $recordId = null)
     {
-        try {
-            $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
+        $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
 
-            $this->setFormTitle('lang:igniter::admin.form.edit_title');
+        $this->setFormTitle('lang:igniter::admin.form.edit_title');
 
-            $model = $this->controller->formFindModelObject($recordId);
+        $model = $this->controller->formFindModelObject($recordId);
 
-            $this->initForm($model, $context);
-        } catch (Exception $ex) {
-            $this->controller->handleError($ex);
-        }
+        $this->initForm($model, $context);
     }
 
     public function edit_onSave($context = null, $recordId = null)
@@ -337,16 +329,12 @@ class FormController extends ControllerAction
 
     public function preview($context = null, $recordId = null)
     {
-        try {
-            $this->context = $context ?: $this->getConfig('preview[context]', self::CONTEXT_PREVIEW);
+        $this->context = $context ?: $this->getConfig('preview[context]', self::CONTEXT_PREVIEW);
 
-            $this->setFormTitle('lang:igniter::admin.form.preview_title');
+        $this->setFormTitle('lang:igniter::admin.form.preview_title');
 
-            $model = $this->controller->formFindModelObject($recordId);
-            $this->initForm($model, $context);
-        } catch (Exception $ex) {
-            $this->controller->handleError($ex);
-        }
+        $model = $this->controller->formFindModelObject($recordId);
+        $this->initForm($model, $context);
     }
 
     //
@@ -503,9 +491,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);

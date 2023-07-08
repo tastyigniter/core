@@ -7,7 +7,7 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Widgets\Menu;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Exception\AjaxException;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
 use Igniter\Main\Widgets\MediaManager;
@@ -226,13 +226,13 @@ class AdminController extends Controller
             $this->execPageAction($this->action, $this->params);
 
             if (!isset($this->widgets[$widgetName])) {
-                throw new ApplicationException(sprintf(lang('igniter::admin.alert_widget_not_bound_to_controller'), $widgetName));
+                throw FlashException::error(sprintf(lang('igniter::admin.alert_widget_not_bound_to_controller'), $widgetName));
             }
 
             $widget = $this->widgets[$widgetName];
 
             if (!$widget->methodExists($handlerName)) {
-                throw new ApplicationException(sprintf(lang('igniter::admin.alert_ajax_handler_not_found'), $handler));
+                throw FlashException::error(sprintf(lang('igniter::admin.alert_ajax_handler_not_found'), $handler));
             }
 
             $result = call_user_func_array([$widget, $handlerName], array_values($params));
@@ -305,7 +305,7 @@ class AdminController extends Controller
 
             throw new AjaxException($response);
         } catch (MassAssignmentException $ex) {
-            throw new ApplicationException(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]));
+            throw FlashException::error(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]));
         }
     }
 }

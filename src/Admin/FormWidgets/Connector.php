@@ -7,7 +7,7 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -218,7 +218,7 @@ class Connector extends BaseFormWidget
 
         $model = $this->getRelationModel()->find($recordId);
         if (!$model) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.form.not_found'), $recordId));
+            throw FlashException::error(sprintf(lang('igniter::admin.form.not_found'), $recordId));
         }
 
         $model->delete();

@@ -8,7 +8,7 @@ window.Cookies = require('js-cookie');
 window.Alpine = require('alpinejs')
 window.moment = require('moment');
 
-window.Swal = require('sweetalert2');
+window.Swal = require('sweetalert2/dist/sweetalert2.js');
 require('js-cookie');
 require('metismenu');
 

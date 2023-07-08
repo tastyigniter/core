@@ -2,6 +2,9 @@
 
 namespace Igniter\Flame\Exception;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 class AjaxException extends BaseException
 {
     /**
@@ -12,7 +15,7 @@ class AjaxException extends BaseException
     /**
      * Constructor.
      */
-    public function __construct($contents)
+    public function __construct($contents, $code = 406)
     {
         if (is_string($contents)) {
             $contents = ['result' => $contents];
@@ -20,7 +23,7 @@ class AjaxException extends BaseException
 
         $this->contents = $contents;
 
-        parent::__construct(json_encode($contents));
+        parent::__construct(json_encode($contents), $code);
     }
 
     /**
@@ -29,5 +32,15 @@ class AjaxException extends BaseException
     public function getContents()
     {
         return $this->contents;
+    }
+
+    public function report(): bool
+    {
+        return false;
+    }
+
+    public function render(Request $request): Response
+    {
+        return response($this->getContents(), $this->code);
     }
 }

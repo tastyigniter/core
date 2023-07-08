@@ -4,7 +4,7 @@ namespace Igniter\Admin\Traits;
 
 use Exception;
 use Igniter\Admin\Classes\FormField;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 
 /**
  * Form Model Widget Trait
@@ -18,7 +18,7 @@ trait FormModelWidget
     public function createFormModel()
     {
         if (!$this->modelClass) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.alert_missing_field_property'), get_class($this)));
+            throw FlashException::error(sprintf(lang('igniter::admin.alert_missing_field_property'), get_class($this)));
         }
 
         $class = $this->modelClass;
@@ -28,13 +28,13 @@ trait FormModelWidget
 
     /**
      * @return \Igniter\Flame\Database\Model
-     * @throws \Igniter\Flame\Exception\ApplicationException
+     * @throws \Igniter\Flame\Exception\FlashException
      */
     public function findFormModel($recordId)
     {
         $recordId = strip_tags($recordId);
         if (!strlen($recordId)) {
-            throw new ApplicationException(lang('igniter::admin.form.missing_id'));
+            throw FlashException::error(lang('igniter::admin.form.missing_id'));
         }
 
         $model = $this->createFormModel();
@@ -64,7 +64,7 @@ trait FormModelWidget
         try {
             return $this->formField->resolveModelAttribute($this->model, $attribute);
         } catch (Exception $ex) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
+            throw FlashException::error(sprintf(lang('igniter::admin.alert_missing_model_definition'),
                 get_class($this->model),
                 $attribute
             ));
@@ -81,7 +81,7 @@ trait FormModelWidget
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
         if (!$model || !$model->hasRelation($attribute)) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
+            throw FlashException::error(sprintf(lang('igniter::admin.alert_missing_model_definition'),
                 get_class($this->model),
                 $this->valueFrom
             ));
@@ -95,7 +95,7 @@ trait FormModelWidget
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
         if (!$model || !$model->hasRelation($attribute)) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
+            throw FlashException::error(sprintf(lang('igniter::admin.alert_missing_model_definition'),
                 get_class($this->model),
                 $this->valueFrom
             ));
@@ -139,9 +139,9 @@ trait FormModelWidget
         $singularTypes = ['belongsTo', 'hasOne', 'morphTo', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value)) {
                 $this->setModelAttributes($model->{$attribute}, $value);

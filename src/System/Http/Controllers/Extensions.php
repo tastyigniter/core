@@ -6,7 +6,7 @@ use Exception;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\WidgetMaker;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Models\Extension;
@@ -75,30 +75,26 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
         AdminMenu::setContext('settings', 'system');
 
-        try {
-            if (!strlen($vendor) || !strlen($extension)) {
-                throw new SystemException(lang('igniter::system.extensions.alert_setting_missing_id'));
-            }
-
-            $extensionCode = $vendor.'.'.$extension.'.'.$context;
-            if (!$settingItem = Settings::make()->getSettingItem($extensionCode)) {
-                throw new SystemException(lang('igniter::system.extensions.alert_setting_not_found'));
-            }
-
-            if ($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions)) {
-                throw new SystemException(lang('igniter::admin.alert_user_restricted'));
-            }
-
-            $pageTitle = lang($settingItem->label ?: 'text_edit_title');
-            Template::setTitle($pageTitle);
-            Template::setHeading($pageTitle);
-
-            $model = $this->formFindModelObject($settingItem);
-
-            $this->initFormWidget($model, $action);
-        } catch (Exception $ex) {
-            $this->handleError($ex);
+        if (!strlen($vendor) || !strlen($extension)) {
+            throw new SystemException(lang('igniter::system.extensions.alert_setting_missing_id'));
         }
+
+        $extensionCode = $vendor.'.'.$extension.'.'.$context;
+        if (!$settingItem = Settings::make()->getSettingItem($extensionCode)) {
+            throw new SystemException(lang('igniter::system.extensions.alert_setting_not_found'));
+        }
+
+        if ($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions)) {
+            throw new SystemException(lang('igniter::admin.alert_user_restricted'));
+        }
+
+        $pageTitle = lang($settingItem->label ?: 'text_edit_title');
+        Template::setTitle($pageTitle);
+        Template::setHeading($pageTitle);
+
+        $model = $this->formFindModelObject($settingItem);
+
+        $this->initFormWidget($model, $action);
     }
 
     public function delete($context, $extensionCode = null)
@@ -107,46 +103,42 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
             throw new SystemException(lang('igniter::admin.alert_user_restricted'));
         }
 
-        try {
-            $pageTitle = lang('igniter::system.extensions.text_delete_title');
-            Template::setTitle($pageTitle);
-            Template::setHeading($pageTitle);
+        $pageTitle = lang('igniter::system.extensions.text_delete_title');
+        Template::setTitle($pageTitle);
+        Template::setHeading($pageTitle);
 
-            $extensionManager = resolve(ExtensionManager::class);
-            $extensionClass = $extensionManager->findExtension($extensionCode);
+        $extensionManager = resolve(ExtensionManager::class);
+        $extensionClass = $extensionManager->findExtension($extensionCode);
 
-            // Extension not found in filesystem
-            // so delete from database
-            if (!$extensionClass) {
-                $extensionManager->deleteExtension($extensionCode);
-                flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Extension deleted '));
+        // Extension not found in filesystem
+        // so delete from database
+        if (!$extensionClass) {
+            $extensionManager->deleteExtension($extensionCode);
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Extension deleted '));
 
-                return $this->redirectBack();
-            }
-
-            // Extension must be disabled before it can be deleted
-            if (!$extensionClass->disabled) {
-                flash()->warning(sprintf(lang('igniter::admin.alert_error_nothing'), lang('igniter::admin.text_deleted').lang('igniter::system.extensions.alert_is_installed')));
-
-                return $this->redirectBack();
-            }
-
-            // Lets display a delete confirmation screen
-            // with list of files to be deleted
-            $meta = $extensionClass->extensionMeta();
-            $this->vars['extensionModel'] = Extension::where('name', $extensionCode)->first();
-            $this->vars['extensionMeta'] = $meta;
-            $this->vars['extensionName'] = $meta['name'] ?? '';
-            $this->vars['extensionData'] = $this->extensionHasMigrations($extensionCode);
-        } catch (Exception $ex) {
-            $this->handleError($ex);
+            return $this->redirectBack();
         }
+
+        // Extension must be disabled before it can be deleted
+        if (!$extensionClass->disabled) {
+            flash()->warning(sprintf(lang('igniter::admin.alert_error_nothing'), lang('igniter::admin.text_deleted').lang('igniter::system.extensions.alert_is_installed')));
+
+            return $this->redirectBack();
+        }
+
+        // Lets display a delete confirmation screen
+        // with list of files to be deleted
+        $meta = $extensionClass->extensionMeta();
+        $this->vars['extensionModel'] = Extension::where('name', $extensionCode)->first();
+        $this->vars['extensionMeta'] = $meta;
+        $this->vars['extensionName'] = $meta['name'] ?? '';
+        $this->vars['extensionData'] = $this->extensionHasMigrations($extensionCode);
     }
 
     public function index_onLoadReadme($context = null)
     {
         if (!$recordId = trim(post('recordId'))) {
-            throw new ApplicationException(lang('igniter::admin.alert_error_try_again'));
+            throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
         }
 
         return $this->makePartial('extensions/extension_readme', [
@@ -157,13 +149,13 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     public function index_onInstall($context = null)
     {
         if (!$extensionCode = trim(post('code'))) {
-            throw new ApplicationException(lang('igniter::admin.alert_error_try_again'));
+            throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
         }
 
         $manager = resolve(ExtensionManager::class);
         $extension = $manager->findExtension($extensionCode);
         if ($feedback = $this->checkDependencies($extension)) {
-            throw new ApplicationException($feedback);
+            throw FlashException::error($feedback);
         }
 
         if ($manager->installExtension($extensionCode)) {
@@ -179,7 +171,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     public function index_onUninstall($context = null)
     {
         if (!$extensionCode = trim(post('code'))) {
-            throw new ApplicationException(lang('igniter::admin.alert_error_try_again'));
+            throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
         }
 
         $manager = resolve(ExtensionManager::class);
@@ -236,7 +228,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     {
         $manager = resolve(ExtensionManager::class);
         if (!$extension = $manager->findExtension($extensionCode)) {
-            throw new ApplicationException(lang('igniter::admin.alert_error_try_again'));
+            throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
         }
 
         $purgeData = post('delete_data') == 1;

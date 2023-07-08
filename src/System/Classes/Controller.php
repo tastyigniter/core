@@ -3,11 +3,9 @@
 namespace Igniter\System\Classes;
 
 use Closure;
-use Exception;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\RouterHelper;
 use Igniter\Flame\Traits\ExtendableTrait;
-use Igniter\System\Exception\ErrorHandler;
 use Igniter\System\Facades\Assets;
 use Illuminate\Routing\Controller as IlluminateController;
 use Illuminate\Support\Facades\App;
@@ -25,6 +23,7 @@ use Illuminate\Support\Facades\View;
  * /admin/acme/cod/(any)    `Acme.Cod` extension
  * /(any)                   `main` app directory
  * @see \Igniter\Admin\Classes\AdminController|\Igniter\Main\Classes\MainController  controller class
+ * @deprecated No longer used, will be removed in v5.0.0
  */
 class Controller extends IlluminateController
 {
@@ -120,16 +119,10 @@ class Controller extends IlluminateController
      */
     public function combineAssets($asset)
     {
-        try {
-            $parts = explode('-', $asset);
-            $cacheKey = $parts[0];
+        $parts = explode('-', $asset);
+        $cacheKey = $parts[0];
 
-            return Assets::combineGetContents($cacheKey);
-        } catch (Exception $ex) {
-            $errorMessage = ErrorHandler::getDetailedMessage($ex);
-
-            return '/* '.e($errorMessage).' */';
-        }
+        return Assets::combineGetContents($cacheKey);
     }
 
     protected function locateController($url)

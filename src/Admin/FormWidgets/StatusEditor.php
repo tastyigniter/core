@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\FormWidgets;
 
-use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Models\Status;
@@ -10,7 +9,7 @@ use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Cart\Models\Order;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
@@ -126,9 +125,9 @@ class StatusEditor extends BaseFormWidget
     public function onLoadRecord()
     {
         $context = post('recordId');
-        if (!in_array($context, ['load-status', 'load-assignee'])) {
-            throw new ApplicationException(lang('igniter::admin.statuses.alert_invalid_action'));
-        }
+        throw_unless(in_array($context, ['load-status', 'load-assignee']),
+            FlashException::error(lang('igniter::admin.statuses.alert_invalid_action'))
+        );
 
         $this->setMode(str_after($context, 'load-'));
 
@@ -156,9 +155,10 @@ class StatusEditor extends BaseFormWidget
         $model = $this->createFormModel();
         $form = $this->makeEditorFormWidget($model);
 
-        if ($this->isStatusMode && $recordId == $this->model->{$keyFrom}) {
-            throw new ApplicationException(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context));
-        }
+        throw_if(
+            $this->isStatusMode && $recordId == $this->model->{$keyFrom},
+            FlashException::error(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context))
+        );
 
         $saveData = $this->validateFormWidget($form, array_merge($form->getSaveData(), [
             'user_id' => $this->getController()->getUser()->getKey(),
@@ -182,22 +182,22 @@ class StatusEditor extends BaseFormWidget
 
     public function onLoadStatus()
     {
-        if (!strlen($statusId = post('statusId'))) {
-            throw new ApplicationException(lang('igniter::admin.form.missing_id'));
-        }
+        throw_unless(strlen($statusId = post('statusId')),
+            FlashException::error(lang('igniter::admin.form.missing_id'))
+        );
 
-        if (!$status = Status::find($statusId)) {
-            throw new Exception(sprintf(lang('igniter::admin.statuses.alert_status_not_found'), $statusId));
-        }
+        throw_unless($status = Status::find($statusId),
+            FlashException::error(sprintf(lang('igniter::admin.statuses.alert_status_not_found'), $statusId))
+        );
 
         return $status->toArray();
     }
 
     public function onLoadAssigneeList()
     {
-        if (!strlen($groupId = post('groupId'))) {
-            throw new ApplicationException(lang('igniter::admin.form.missing_id'));
-        }
+        throw_unless(strlen(post('groupId')),
+            FlashException::error(lang('igniter::admin.form.missing_id'))
+        );
 
         $this->setMode('assignee');
 
@@ -327,7 +327,7 @@ class StatusEditor extends BaseFormWidget
         $permission = $this->getModeConfig($saleType);
 
         if (!$this->controller->getUser()->hasPermission($permission)) {
-            throw new ApplicationException(lang('igniter::admin.alert_user_restricted'));
+            throw FlashException::error(lang('igniter::admin.alert_user_restricted'));
         }
     }
 

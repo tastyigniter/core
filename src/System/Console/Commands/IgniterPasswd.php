@@ -2,7 +2,7 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Models\User;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,7 +39,7 @@ class IgniterPasswd extends Command
             ?? $this->ask('Admin email to reset');
 
         if (!$user = User::whereEmail($email)->first()) {
-            throw new ApplicationException('The specified user does not exist.');
+            throw FlashException::error('The specified user does not exist.');
         }
 
         if (is_null($password = $this->argument('password'))) {

@@ -4,7 +4,6 @@ namespace Igniter\Admin\Traits;
 
 use Exception;
 use Igniter\Admin\Facades\AdminHelper;
-use Igniter\System\Exception\ErrorHandler;
 use Illuminate\Support\Facades\Redirect;
 
 trait ControllerHelpers
@@ -46,7 +45,7 @@ trait ControllerHelpers
      */
     public function handleError(Exception $exception)
     {
-        $errorMessage = ErrorHandler::getDetailedMessage($exception);
+        $errorMessage = $exception->getMessage();
         $this->fatalError = $errorMessage;
         $this->vars['fatalError'] = $errorMessage;
 

@@ -246,6 +246,7 @@ class Navigation
             'priority' => null,
             'child' => null,
             'permission' => null,
+            'target' => '_self',
         ];
 
         $item = array_filter(array_merge($defaultDefinitions, $item));

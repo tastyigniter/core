@@ -3,7 +3,7 @@
 namespace Igniter\System\Http\Controllers;
 
 use Igniter\Admin\Facades\AdminMenu;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Models\MailTemplate;
 use Illuminate\Support\Facades\Mail;
 
@@ -82,11 +82,11 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
     public function onTestTemplate($context, $recordId)
     {
         if (!strlen($recordId)) {
-            throw new ApplicationException(lang('igniter::system.mail_templates.alert_template_id_not_found'));
+            throw FlashException::error(lang('igniter::system.mail_templates.alert_template_id_not_found'));
         }
 
         if (!$model = $this->formFindModelObject($recordId)) {
-            throw new ApplicationException(lang('igniter::system.mail_templates.alert_template_not_found'));
+            throw FlashException::error(lang('igniter::system.mail_templates.alert_template_not_found'));
         }
 
         $adminUser = $this->getUser();

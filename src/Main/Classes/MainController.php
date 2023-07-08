@@ -2,11 +2,9 @@
 
 namespace Igniter\Main\Classes;
 
-use Exception;
 use Igniter\Admin\Facades\AdminHelper;
 use Igniter\Flame\Exception\AjaxException;
-use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Flame\Exception\SystemException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
 use Igniter\Flame\Pagic\Parsers\FileParser;
@@ -108,7 +106,7 @@ class MainController extends Controller
      *
      * @param null $theme
      *
-     * @throws \Igniter\Flame\Exception\ApplicationException
+     * @throws \Igniter\Flame\Exception\FlashException
      */
     public function __construct($theme = null)
     {
@@ -127,7 +125,7 @@ class MainController extends Controller
     protected function initialize()
     {
         if (!$this->theme) {
-            throw new ApplicationException(lang('igniter::main.not_found.active_theme'));
+            throw FlashException::error(lang('igniter::main.not_found.active_theme'));
         }
 
         $this->theme->loadThemeFile();
@@ -177,7 +175,7 @@ class MainController extends Controller
         if (!$page->layout) {
             $layout = LayoutTemplate::initFallback($this->theme->getName());
         } elseif (($layout = LayoutTemplate::loadCached($this->theme->getName(), $page->layout)) === null) {
-            throw new ApplicationException(sprintf(
+            throw FlashException::error(sprintf(
                 Lang::get('igniter::main.not_found.layout_name'), $page->layout
             ));
         }
@@ -329,7 +327,7 @@ class MainController extends Controller
 
             // Process Components handler
             if (!$result = $this->runHandler($handler)) {
-                throw new ApplicationException(sprintf(Lang::get('igniter::main.not_found.ajax_handler'), $handler));
+                throw FlashException::error(sprintf(Lang::get('igniter::main.not_found.ajax_handler'), $handler));
             }
 
             foreach ($partials as $partial) {
@@ -354,11 +352,9 @@ class MainController extends Controller
             return Response::make($response, $this->statusCode);
         } catch (ValidationException $ex) {
             $response['X_IGNITER_ERROR_FIELDS'] = $ex->getFields();
-            $response['X_IGNITER_ERROR_MESSAGE'] = $ex->getMessage();
+            $response['X_IGNITER_ERROR_MESSAGE'] = lang('igniter::admin.alert_form_error_message');
 
             throw new AjaxException($response);
-        } catch (Exception $ex) {
-            throw $ex;
         }
     }
 
@@ -395,30 +391,6 @@ class MainController extends Controller
         return false;
     }
 
-    protected function validateHandler($handler)
-    {
-        if (!preg_match('/^(?:\w+\:{2})?on[A-Z]{1}[\w+]*$/', $handler)) {
-            throw new SystemException("Invalid ajax handler name: {$handler}");
-        }
-    }
-
-    protected function validateHandlerPartials()
-    {
-        if (!$partials = trim(Request::header('X-IGNITER-REQUEST-PARTIALS'))) {
-            return [];
-        }
-
-        $partials = explode('&', $partials);
-
-        foreach ($partials as $partial) {
-            if (!preg_match('/^(?:\w+\:{2}|@)?[a-z0-9\_\-\.\/]+$/i', $partial)) {
-                throw new SystemException("Invalid partial name: $partial");
-            }
-        }
-
-        return $partials;
-    }
-
     //
     // Getters
     //
@@ -453,7 +425,7 @@ class MainController extends Controller
 
     /**
      * Returns the routing object.
-     * @return \Igniter\Main\Classes\Router
+     * @return \Igniter\Flame\Pagic\Router
      */
     public function getRouter()
     {
@@ -571,7 +543,7 @@ class MainController extends Controller
      * @param array $params Parameter variables to pass to the view.
      *
      * @return string
-     * @throws \Igniter\Flame\Exception\ApplicationException
+     * @throws \Igniter\Flame\Exception\FlashException
      */
     public function renderContent($name, array $params = [])
     {
@@ -580,7 +552,7 @@ class MainController extends Controller
             $content = $event;
         } // Load content from theme
         elseif (($content = Content::loadCached($this->theme->getName(), $name)) === null) {
-            throw new ApplicationException(sprintf(
+            throw FlashException::error(sprintf(
                 Lang::get('igniter::main.not_found.content'), $name
             ));
         }
@@ -615,7 +587,7 @@ class MainController extends Controller
      * @param bool $throwException Throw an exception if the partial is not found.
      *
      * @return mixed Partial contents or false if not throwing an exception.
-     * @throws \Igniter\Flame\Exception\ApplicationException
+     * @throws \Igniter\Flame\Exception\FlashException
      */
     public function renderComponent($name, array $params = [], $throwException = true)
     {
@@ -872,7 +844,7 @@ class MainController extends Controller
     protected function handleException($message, $throwException)
     {
         if ($throwException) {
-            throw new ApplicationException($message);
+            throw FlashException::error($message);
         }
 
         flash()->danger($message);

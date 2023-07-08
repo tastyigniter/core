@@ -5,7 +5,7 @@ namespace Igniter\System\Http\Controllers;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Widgets\Form;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Language;
@@ -163,7 +163,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
     {
         $items = post('items') ?? [];
         if (!count($items)) {
-            throw new ApplicationException(lang('igniter::system.updates.alert_no_items'));
+            throw FlashException::error(lang('igniter::system.updates.alert_no_items'));
         }
 
         $this->validateItems();

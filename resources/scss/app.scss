@@ -11,11 +11,11 @@
 // Helpers: Utilities
 @import "helpers/utilities";
 //
-// Bootstrap components
-@import "vendor/bootstrap-components";
-//
 // Vendors: Bootstrap, FontAwesome, SweetAlert
 @import "vendor/+import_vendors";
+//
+// Bootstrap components
+@import "vendor/bootstrap-components";
 //
 // Bootstrap components
 @import "utilities/replace";

@@ -19,21 +19,18 @@ class Assets
 {
     use CombinesAssets;
 
-    protected static $registeredPaths = [];
+    protected static array $registeredPaths = [];
 
-    protected static $registeredCallback = [];
+    protected static array $registeredCallback = [];
 
-    protected $assets = ['icon' => [], 'meta' => [], 'js' => [], 'css' => [], 'jsVars' => []];
+    protected array $assets = [];
 
-    protected $jsVarNamespace = 'app';
+    protected string $jsVarNamespace = 'app';
 
     public function __construct()
     {
-        $this->initialize();
-    }
+        $this->flush();
 
-    public function initialize()
-    {
         static::$registeredPaths[] = public_path();
 
         $this->initCombiner();
@@ -50,17 +47,13 @@ class Assets
 
     /**
      * Set the default assets paths.
-     *
-     * @param string $path
-     *
-     * @return void
      */
-    public function registerSourcePath($path)
+    public function registerSourcePath(string $path)
     {
         static::$registeredPaths[] = $path;
     }
 
-    public function addFromManifest($path)
+    public function addFromManifest(string $path)
     {
         $assetsConfigPath = $this->getAssetPath($path);
         if (!File::exists($assetsConfigPath)) {
@@ -100,24 +93,19 @@ class Assets
         }
     }
 
-    public function addTag($type, $tag, $options = [])
+    public function addTag(string $type, null|string|array $tag, array $options = []): self
     {
-        switch ($type) {
-            case 'icon':
-            case 'favicon':
-                return $this->addFavIcon($tag);
-            case 'meta':
-                return $this->addMeta($tag);
-            case 'css':
-            case 'style':
-                return $this->addCss($tag, $options);
-            case 'js':
-            case 'script':
-                return $this->addJs($tag, $options);
-        }
+        return match ($type) {
+            'icon', 'favicon' => $this->addFavIcon($tag),
+            'meta' => $this->addMeta($tag),
+            'css', 'style' => $this->addCss($tag, $options),
+            'js', 'script' => $this->addJs($tag, $options),
+            default => $this,
+        };
+
     }
 
-    public function getFavIcon()
+    public function getFavIcon(): ?string
     {
         $favIcons = array_map(function ($href) {
             $attributes = ['rel' => 'shortcut icon', 'type' => 'image/x-icon'];
@@ -134,7 +122,7 @@ class Assets
         return $favIcons ? implode("\t\t", $favIcons) : null;
     }
 
-    public function getMetas()
+    public function getMetas(): ?string
     {
         if (!count($this->assets['meta'])) {
             return null;
@@ -147,17 +135,22 @@ class Assets
         return $metas ? implode("\t\t", $metas) : null;
     }
 
-    public function getCss()
+    public function getRss(): ?string
+    {
+        return $this->getAsset('rss');
+    }
+
+    public function getCss(): ?string
     {
         return $this->getAsset('css');
     }
 
-    public function getJs()
+    public function getJs(): ?string
     {
         return $this->getAsset('js');
     }
 
-    public function getJsVars()
+    public function getJsVars(): ?string
     {
         if (!$this->assets['jsVars']) {
             return '';
@@ -175,28 +168,33 @@ class Assets
         return "<script>{$output}</script>";
     }
 
-    public function addFavIcon($icon)
+    public function addFavIcon(string|array $icon): self
     {
         $this->assets['icon'][] = $icon;
 
         return $this;
     }
 
-    public function addMeta(array $meta = [])
+    public function addMeta(array $meta = []): self
     {
         $this->assets['meta'][] = $meta;
 
         return $this;
     }
 
-    public function addCss($path, $attributes = null)
+    public function addRss(string $path, null|string|array $attributes = []): self
+    {
+        $this->putAsset('rss', $path, $attributes);
+    }
+
+    public function addCss(string $path, null|string|array $attributes = null): self
     {
         $this->putAsset('css', $path, $attributes);
 
         return $this;
     }
 
-    public function addJs($path, $attributes = null)
+    public function addJs(string $path, null|string|array $attributes = null): self
     {
         $this->putAsset('js', $path, $attributes);
 
@@ -208,7 +206,7 @@ class Assets
         $this->assets['jsVars'] = array_merge($this->assets['jsVars'], $variables);
     }
 
-    public function mergeJsVars($key, $value)
+    public function mergeJsVars(string $key, array $value)
     {
         $vars = array_get($this->assets['jsVars'], $key, []);
 
@@ -219,22 +217,24 @@ class Assets
 
     public function flush()
     {
-        $this->assets = ['icon' => [], 'meta' => [], 'js' => [], 'css' => [], 'jsVars' => []];
+        $this->assets = ['icon' => [], 'meta' => [], 'rss' => [], 'js' => [], 'css' => [], 'jsVars' => []];
     }
 
-    protected function putAsset($type, $path, $attributes)
+    protected function putAsset(string $type, string $path, null|string|array $attributes)
     {
         $this->assets[$type][] = ['path' => $path, 'attributes' => $attributes];
     }
 
-    protected function getAsset($type)
+    protected function getAsset(string $type): ?string
     {
         $assets = $this->getUniqueAssets($type);
         if (!$assets) {
             return null;
         }
 
-        $assetsToCombine = $this->filterAssetsToCombine($assets);
+        $assetsToCombine = $this->prepareAssets(
+            $this->filterAssetsToCombine($assets)
+        );
 
         $assets[] = [
             'path' => $this->combine($type, $assetsToCombine),
@@ -244,7 +244,7 @@ class Assets
         return $this->buildAssetUrls($type, $assets);
     }
 
-    protected function getAssetPath($name)
+    protected function getAssetPath(string $name): string
     {
         if (starts_with($name, ['//', 'http://', 'https://'])) {
             return $name;
@@ -267,7 +267,7 @@ class Assets
         return $name;
     }
 
-    protected function filterAssetsToCombine(&$assets)
+    protected function filterAssetsToCombine(array &$assets): array
     {
         $result = [];
         foreach ($assets as $key => $asset) {
@@ -285,10 +285,8 @@ class Assets
 
     /**
      * Removes duplicate assets from the assets array.
-     *
-     * @return array
      */
-    protected function getUniqueAssets($type)
+    protected function getUniqueAssets(string $type): array
     {
         if (!count($this->assets[$type])) {
             return [];
@@ -315,7 +313,7 @@ class Assets
         return $collection;
     }
 
-    protected function prepUrl($path, $suffix = null)
+    protected function prepUrl(string $path, ?string $suffix = null): string
     {
         $path = $this->getAssetPath($path);
 
@@ -324,13 +322,13 @@ class Assets
         }
 
         if (!is_null($suffix)) {
-            $suffix = (strpos($path, '?') === false) ? '?'.$suffix : '&'.$suffix;
+            $suffix = !str_contains($path, '?') ? '?'.$suffix : '&'.$suffix;
         }
 
         return $path.$suffix;
     }
 
-    protected function buildAssetUrls($type, $assets)
+    protected function buildAssetUrls(string $type, array $assets): string
     {
         $tags = [];
         foreach ($assets as $asset) {
@@ -342,37 +340,42 @@ class Assets
         return implode(PHP_EOL, $tags).PHP_EOL;
     }
 
-    protected function buildAssetUrl($type, $file, $attributes = null)
+    protected function buildAssetUrl(string $type, string $file, null|string|array $attributes = null)
     {
         if (!is_array($attributes)) {
             $attributes = ['name' => $attributes];
         }
 
-        if ($type == 'js') {
-            $attributes = array_merge([
-                'charset' => strtolower(setting('charset', 'UTF-8')),
-                'type' => 'text/javascript',
-                'src' => asset($file),
-            ], $attributes);
-            $html = '<script'.Html::attributes($attributes).'></script>'.PHP_EOL;
+        if ($type == 'rss') {
+            $html = '<link'.Html::attributes(array_merge([
+                    'rel' => 'alternate',
+                    'href' => $file,
+                    'title' => 'RSS',
+                    'type' => 'application/rss+xml'
+                ], $attributes)).'>'.PHP_EOL;
+        } else if ($type == 'js') {
+            $html = '<script'.Html::attributes(array_merge([
+                    'charset' => strtolower(setting('charset', 'UTF-8')),
+                    'type' => 'text/javascript',
+                    'src' => asset($file),
+                ], $attributes)).'></script>'.PHP_EOL;
         } else {
-            $attributes = array_merge([
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => asset($file),
-            ], $attributes);
-            $html = '<link'.Html::attributes($attributes).'>'.PHP_EOL;
+            $html = '<link'.Html::attributes(array_merge([
+                    'rel' => 'stylesheet',
+                    'type' => 'text/css',
+                    'href' => asset($file),
+                ], $attributes)).'>'.PHP_EOL;
         }
 
         return $html;
     }
 
-    protected function transformJsVar($value)
+    protected function transformJsVar(mixed $value): false|string
     {
         return json_encode($value);
     }
 
-    protected function transformJsObjectVar($value)
+    protected function transformJsObjectVar(mixed $value): false|string
     {
         if ($value instanceof JsonSerializable || $value instanceof StdClass) {
             return json_encode($value);

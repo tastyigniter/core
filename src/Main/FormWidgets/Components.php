@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Traits\ValidatesForm;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
@@ -131,7 +131,7 @@ class Components extends BaseFormWidget
             : array_get($data, 'recordId');
 
         if (!$template = $this->data->fileSource) {
-            throw new ApplicationException('Template file not found');
+            throw FlashException::error('Template file not found');
         }
 
         $partialToOverride = array_get($data, name_to_dot_string($this->formField->arrayName.'[componentData][partial]'));
@@ -170,11 +170,11 @@ class Components extends BaseFormWidget
     {
         $codeAlias = post('code');
         if (!strlen($codeAlias)) {
-            throw new ApplicationException('Invalid component selected');
+            throw FlashException::error('Invalid component selected');
         }
 
         if (!$template = $this->data->fileSource) {
-            throw new ApplicationException('Template file not found');
+            throw FlashException::error('Template file not found');
         }
 
         $attributes = $template->getAttributes();
@@ -362,11 +362,11 @@ class Components extends BaseFormWidget
         }
 
         if (!File::exists($componentPath.'/'.$fileName)) {
-            throw new ApplicationException('The selected component partial does not exist in the component directory');
+            throw FlashException::error('The selected component partial does not exist in the component directory');
         }
 
         if (File::exists($themePartialPath.'/'.$fileName)) {
-            throw new ApplicationException('The selected component partial already exists in active theme partials directory.');
+            throw FlashException::error('The selected component partial already exists in active theme partials directory.');
         }
 
         if (!File::exists($themePartialPath)) {

@@ -3,7 +3,7 @@
 namespace Igniter\Main\Classes;
 
 use Exception;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Pagic\Source\FileSource;
 use Igniter\Flame\Pagic\Source\SourceInterface;
@@ -223,7 +223,7 @@ class Theme
         if (file_exists($file = $this->screenshot)) {
             $extension = pathinfo($file, PATHINFO_EXTENSION);
             if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES)) {
-                throw new ApplicationException('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
+                throw FlashException::error('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
             }
 
             $mimeType = ThemeModel::ICON_MIMETYPES[$extension];
