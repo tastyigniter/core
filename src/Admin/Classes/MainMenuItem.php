@@ -11,9 +11,13 @@ use Igniter\Flame\Html\HtmlFacade as Html;
 class MainMenuItem
 {
     protected const LINK_TYPE = 'link';
+
     protected const TEXT_TYPE = 'text';
+
     protected const DROPDOWN_TYPE = 'dropdown';
+
     protected const PARTIAL_TYPE = 'partial';
+
     protected const WIDGET_TYPE = 'widget';
 
     /**
@@ -256,66 +260,77 @@ class MainMenuItem
     public function label(string $label): MainMenuItem
     {
         $this->label = $label;
+
         return $this;
     }
 
     public function idPrefix(string $idPrefix): MainMenuItem
     {
         $this->idPrefix = $idPrefix;
+
         return $this;
     }
 
     public function anchor(string $anchor): MainMenuItem
     {
         $this->anchor = $anchor;
+
         return $this;
     }
 
     public function disabled(): MainMenuItem
     {
         $this->disabled = true;
+
         return $this;
     }
 
     public function icon(string $icon): MainMenuItem
     {
         $this->icon = $icon;
+
         return $this;
     }
 
     public function attributes(array $attributes): MainMenuItem
     {
         $this->attributes = $attributes;
+
         return $this;
     }
 
     public function path(string $path): MainMenuItem
     {
         $this->path = $path;
+
         return $this;
     }
 
     public function priority(int $priority): MainMenuItem
     {
         $this->priority = $priority;
+
         return $this;
     }
 
     public function permission(array|string|null $permission): MainMenuItem
     {
         $this->permission = $permission;
+
         return $this;
     }
 
     public function config(array $config): MainMenuItem
     {
         $this->config = $config;
+
         return $this;
     }
 
     public function mergeConfig(array $config): MainMenuItem
     {
         $this->config = array_merge($this->config, $config);
+
         return $this;
     }
 }

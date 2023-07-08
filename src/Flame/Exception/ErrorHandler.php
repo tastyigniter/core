@@ -126,7 +126,7 @@ class ErrorHandler
      */
     protected function shouldntReport(Throwable $e)
     {
-        return !is_null(Arr::first($this->dontReport, fn($type) => $e instanceof $type));
+        return !is_null(Arr::first($this->dontReport, fn ($type) => $e instanceof $type));
     }
 
     /**
@@ -159,35 +159,35 @@ class ErrorHandler
             $proposedException = new HttpException(419, lang('igniter::admin.alert_invalid_csrf_token'), $proposedException->getPrevious());
         }
 
-//        if (Request::ajax() && $proposedException instanceof AjaxException) {
-//            return $proposedException->getContents();
-//        }
+        //        if (Request::ajax() && $proposedException instanceof AjaxException) {
+        //            return $proposedException->getContents();
+        //        }
 
-//        $this->beforeHandleError($proposedException);
-//
-//        // Clear the output buffer
-//        while (ob_get_level()) {
-//            ob_end_clean();
-//        }
-//
-//        // Friendly error pages are used
-//        if (($customError = $this->handleCustomError()) !== null) {
-//            return $customError;
-//        }
-//
-//        // If the exception is already our brand, use it.
-//        if ($proposedException instanceof BaseException) {
-//            $exception = $proposedException;
-//        } // If there is an active mask prepared, use that.
-//        elseif (static::$activeMask !== null) {
-//            $exception = static::$activeMask;
-//            $exception->setMask($proposedException);
-//        } // Otherwise we should mask it with our own default scent.
-//        else {
-//            $exception = new ApplicationException($proposedException->getMessage(), 0);
-//            $exception->setMask($proposedException);
-//        }
-//
-//        return $this->handleDetailedError($exception);
+        //        $this->beforeHandleError($proposedException);
+        //
+        //        // Clear the output buffer
+        //        while (ob_get_level()) {
+        //            ob_end_clean();
+        //        }
+        //
+        //        // Friendly error pages are used
+        //        if (($customError = $this->handleCustomError()) !== null) {
+        //            return $customError;
+        //        }
+        //
+        //        // If the exception is already our brand, use it.
+        //        if ($proposedException instanceof BaseException) {
+        //            $exception = $proposedException;
+        //        } // If there is an active mask prepared, use that.
+        //        elseif (static::$activeMask !== null) {
+        //            $exception = static::$activeMask;
+        //            $exception->setMask($proposedException);
+        //        } // Otherwise we should mask it with our own default scent.
+        //        else {
+        //            $exception = new ApplicationException($proposedException->getMessage(), 0);
+        //            $exception->setMask($proposedException);
+        //        }
+        //
+        //        return $this->handleDetailedError($exception);
     }
 }

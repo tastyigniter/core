@@ -5,7 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     protected array $items = [
         'checkout' => [
             'guest_order' => 'guest_order',
@@ -52,9 +53,9 @@ return new class extends Migration {
                 if (array_key_exists('future_days', $keys)) {
                     $values['future_days'] = array_only($values['future_days'] ?? [],
                         $code === 'delivery' ? [
-                            'enable_delivery', 'min_delivery_days', 'delivery_days'
+                            'enable_delivery', 'min_delivery_days', 'delivery_days',
                         ] : [
-                            'enable_collection', 'min_collection_days', 'collection_days'
+                            'enable_collection', 'min_collection_days', 'collection_days',
                         ]
                     );
 

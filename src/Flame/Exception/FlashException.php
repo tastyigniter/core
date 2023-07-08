@@ -94,11 +94,12 @@ class FlashException extends Exception
 
     public function render(Request $request): false|Response
     {
-        if (!$request->ajax())
+        if (!$request->ajax()) {
             return false;
+        }
 
         return response([
-            'X_IGNITER_FLASH_MESSAGES' => [$this->getContents()]
+            'X_IGNITER_FLASH_MESSAGES' => [$this->getContents()],
         ], $this->code);
     }
 }

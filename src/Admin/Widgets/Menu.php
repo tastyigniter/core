@@ -153,7 +153,6 @@ class Menu extends BaseWidget
         $item = new MainMenuItem($name, $label);
         $item->displayAs($itemType, $config);
 
-
         // Get menu item options from model
         $optionModelTypes = ['dropdown', 'partial'];
         if (in_array($item->type, $optionModelTypes, false)) {
