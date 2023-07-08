@@ -66,6 +66,11 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$sessionKey\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
 			count: 4
 			path: src/Admin/Classes/AdminController.php
@@ -111,11 +116,6 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:isCollapsed\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setBlock\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
@@ -151,16 +151,6 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Facades\\\\AdminLocation\\:\\:getId\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Facades\\\\AdminLocation\\:\\:getLocation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addCss\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
@@ -172,6 +162,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addMeta\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addRss\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
 
@@ -199,6 +194,11 @@ parameters:
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$sessionKey\\.$#"
+			count: 1
+			path: src/Admin/Classes/BaseWidget.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$assetPath\\.$#"
@@ -266,6 +266,11 @@ parameters:
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addRss\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/BaseWidget.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:flush\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/BaseWidget.php
@@ -293,7 +298,12 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Classes/MenuItem.php
+			path: src/Admin/Classes/MainMenuItem.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/MainMenuItem.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
@@ -1024,26 +1034,6 @@ parameters:
 			message: "#^Variable \\$scope might not be defined\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Facades\\\\AdminLocation\\:\\:clearCurrent\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Menu.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Facades\\\\AdminLocation\\:\\:hasAccess\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Menu.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Facades\\\\AdminLocation\\:\\:setCurrent\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Menu.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Models\\\\Location\\:\\:find\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Menu.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
@@ -2311,6 +2301,11 @@ parameters:
 			path: src/Flame/Exception/ComposerException.php
 
 		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 5
+			path: src/Flame/Exception/FlashException.php
+
+		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$validator$#"
 			count: 1
 			path: src/Flame/Exception/ValidationException.php
@@ -3126,6 +3121,11 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addRss\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:flush\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
@@ -3142,11 +3142,6 @@ parameters:
 
 		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:getRouter\\(\\) has invalid return type Igniter\\\\Main\\\\Classes\\\\Router\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
 
@@ -3557,7 +3552,7 @@ parameters:
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/Main/Models/Theme.php
 
 		-
@@ -3756,11 +3751,6 @@ parameters:
 			path: src/System/Actions/SettingsModel.php
 
 		-
-			message: "#^Unsafe access to private property Igniter\\\\System\\\\Actions\\\\SettingsModel\\:\\:\\$instances through static\\:\\:\\.$#"
-			count: 1
-			path: src/System/Actions/SettingsModel.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/BaseComponent.php
@@ -3786,6 +3776,11 @@ parameters:
 			path: src/System/Classes/BaseComponent.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addRss\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/BaseComponent.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:flush\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/BaseComponent.php
@@ -3802,11 +3797,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\ComposerManager\\:\\:\\$includeFilesPool\\.$#"
-			count: 1
-			path: src/System/Classes/ComposerManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\ComposerManager\\:\\:\\$logsOutput\\.$#"
 			count: 1
 			path: src/System/Classes/ComposerManager.php
 
@@ -4291,6 +4281,11 @@ parameters:
 			path: src/System/Http/Controllers/Languages.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:\\$sessionKey\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:formFindModelObject\\(\\)\\.$#"
 			count: 3
 			path: src/System/Http/Controllers/Languages.php
@@ -4387,7 +4382,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:getCalledExtensionClass\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/System/Http/Controllers/Settings.php
 
 		-
@@ -4472,7 +4467,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
-			count: 4
+			count: 5
 			path: src/System/Libraries/Assets.php
 
 		-
@@ -4597,7 +4592,7 @@ parameters:
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/System/Models/Country.php
 
 		-
@@ -4712,7 +4707,7 @@ parameters:
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/System/Models/Currency.php
 
 		-
@@ -4817,7 +4812,7 @@ parameters:
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/System/Models/Language.php
 
 		-

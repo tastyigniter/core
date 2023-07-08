@@ -185,6 +185,8 @@ class Assets
     public function addRss(string $path, null|string|array $attributes = []): self
     {
         $this->putAsset('rss', $path, $attributes);
+
+        return $this;
     }
 
     public function addCss(string $path, null|string|array $attributes = null): self
@@ -348,23 +350,23 @@ class Assets
 
         if ($type == 'rss') {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'alternate',
-                'href' => $file,
-                'title' => 'RSS',
-                'type' => 'application/rss+xml',
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'alternate',
+                    'href' => $file,
+                    'title' => 'RSS',
+                    'type' => 'application/rss+xml',
+                ], $attributes)).'>'.PHP_EOL;
         } elseif ($type == 'js') {
             $html = '<script'.Html::attributes(array_merge([
-                'charset' => strtolower(setting('charset', 'UTF-8')),
-                'type' => 'text/javascript',
-                'src' => asset($file),
-            ], $attributes)).'></script>'.PHP_EOL;
+                    'charset' => strtolower(setting('charset', 'UTF-8')),
+                    'type' => 'text/javascript',
+                    'src' => asset($file),
+                ], $attributes)).'></script>'.PHP_EOL;
         } else {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => asset($file),
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'stylesheet',
+                    'type' => 'text/css',
+                    'href' => asset($file),
+                ], $attributes)).'>'.PHP_EOL;
         }
 
         return $html;
