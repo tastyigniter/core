@@ -234,45 +234,41 @@ class MediaManager extends BaseWidget
     {
         $mediaLibrary = $this->getMediaLibrary();
 
-        try {
-            if (!$this->getSetting('enable_rename')) {
-                throw FlashException::error(lang('igniter::main.media_manager.alert_rename_disabled'));
-            }
-
-            if (!$path = $mediaLibrary->validatePath(post('path'))) {
-                throw FlashException::error(lang('igniter::main.media_manager.alert_invalid_path'));
-            }
-
-            $name = trim(post('name'));
-            if (!strlen($name)) {
-                throw FlashException::error(lang('igniter::main.media_manager.alert_file_name_required'));
-            }
-
-            if (!$this->validateFileName($name)) {
-                throw FlashException::error(lang('igniter::main.media_manager.alert_invalid_file_name'));
-            }
-
-            $newPath = File::dirname($path).'/'.$name;
-            if ($mediaLibrary->exists($newPath)) {
-                throw FlashException::error(lang('igniter::main.media_manager.alert_file_exists'));
-            }
-
-            $mediaLibrary->rename($path, $newPath);
-
-            $mediaLibrary->resetCache();
-
-            $this->setCurrentFolder($newPath);
-
-            $this->prepareVars();
-
-            return [
-                '#'.$this->getId('item-list') => $this->makePartial('mediamanager/item_list'),
-                '#'.$this->getId('folder-tree') => $this->makePartial('mediamanager/folder_tree'),
-                '#'.$this->getId('breadcrumb') => $this->makePartial('mediamanager/breadcrumb'),
-            ];
-        } catch (Exception $ex) {
-            return $ex->getMessage();
+        if (!$this->getSetting('enable_rename')) {
+            throw FlashException::error(lang('igniter::main.media_manager.alert_rename_disabled'));
         }
+
+        if (!$path = $mediaLibrary->validatePath(post('path'))) {
+            throw FlashException::error(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
+
+        $name = trim(post('name'));
+        if (!strlen($name)) {
+            throw FlashException::error(lang('igniter::main.media_manager.alert_file_name_required'));
+        }
+
+        if (!$this->validateFileName($name)) {
+            throw FlashException::error(lang('igniter::main.media_manager.alert_invalid_file_name'));
+        }
+
+        $newPath = File::dirname($path).'/'.$name;
+        if ($mediaLibrary->exists($newPath)) {
+            throw FlashException::error(lang('igniter::main.media_manager.alert_file_exists'));
+        }
+
+        $mediaLibrary->rename($path, $newPath);
+
+        $mediaLibrary->resetCache();
+
+        $this->setCurrentFolder($newPath);
+
+        $this->prepareVars();
+
+        return [
+            '#'.$this->getId('item-list') => $this->makePartial('mediamanager/item_list'),
+            '#'.$this->getId('folder-tree') => $this->makePartial('mediamanager/folder_tree'),
+            '#'.$this->getId('breadcrumb') => $this->makePartial('mediamanager/breadcrumb'),
+        ];
     }
 
     public function onRenameFile()
