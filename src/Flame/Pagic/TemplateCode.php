@@ -62,7 +62,7 @@ class TemplateCode extends Extendable implements ArrayAccess
     /**
      * Dynamically handle calls into the controller instance.
      */
-    public function __call(string $name, array|null $params): mixed
+    public function __call(string $name, ?array $params): mixed
     {
         if ($this->methodExists($name)) {
             return call_user_func_array([$this, $name], $params);

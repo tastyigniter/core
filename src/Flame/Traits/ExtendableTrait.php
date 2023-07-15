@@ -52,7 +52,7 @@ trait ExtendableTrait
     /**
      * @var ClassLoader|null Class loader instance.
      */
-    protected static ClassLoader|null $extendableClassLoader = null;
+    protected static ?ClassLoader $extendableClassLoader = null;
 
     /**
      * Constructor.
@@ -382,7 +382,7 @@ trait ExtendableTrait
     /**
      * Magic method for __call()
      */
-    public function extendableCall(string $name, array|null $params = null): mixed
+    public function extendableCall(string $name, array $params = null): mixed
     {
         if (isset($this->extensionData['methods'][$name])) {
             $extension = $this->extensionData['methods'][$name];
@@ -416,7 +416,7 @@ trait ExtendableTrait
     /**
      * Magic method for __callStatic()
      */
-    public static function extendableCallStatic(string $name, array|null $params = null): mixed
+    public static function extendableCallStatic(string $name, array $params = null): mixed
     {
         $className = get_called_class();
 

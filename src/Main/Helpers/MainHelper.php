@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\URL;
 
 class MainHelper
 {
-    public static function pageUrl(string|null $path = null, array $params = [])
+    public static function pageUrl(string $path = null, array $params = [])
     {
         if (!is_null($path)) {
             $path = resolve(Router::class)->pageUrl($path, $params);

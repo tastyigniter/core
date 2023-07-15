@@ -233,7 +233,7 @@ class FileSource extends AbstractSource implements SourceInterface
         }
     }
 
-    public function path(string $path): string|null
+    public function path(string $path): ?string
     {
         if (!$this->files->exists($this->basePath.'/'.$path)) {
             return null;

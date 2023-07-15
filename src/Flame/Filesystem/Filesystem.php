@@ -215,7 +215,7 @@ class Filesystem extends IlluminateFilesystem
      * Converts a path using path symbol. Returns the original path if
      * no symbol is used and no default is specified.
      */
-    public function symbolizePath(string $path, bool|null $default = false): string|bool|null
+    public function symbolizePath(string $path, ?bool $default = false): string|bool|null
     {
         if (!$symbol = $this->isPathSymbol($path)) {
             return $default === false ? $path : $default;

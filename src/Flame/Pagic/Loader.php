@@ -20,7 +20,7 @@ class Loader implements TemplateLoader
 
     protected array $cache = [];
 
-    protected TemplateInterface|null $source;
+    protected ?TemplateInterface $source;
 
     /**
      * Sets a object to load the template from.

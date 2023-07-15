@@ -17,7 +17,7 @@ interface TemplateInterface
     /**
      * Returns the local file path to the template.
      */
-    public function getFilePath(string|null $fileName = null): ?string;
+    public function getFilePath(string $fileName = null): ?string;
 
     /**
      * Returns the file name.
@@ -42,7 +42,7 @@ interface TemplateInterface
     /**
      * Gets the code section of a template
      */
-    public function getCode(): string|null;
+    public function getCode(): ?string;
 
     /**
      * Returns the key used by the Template cache.

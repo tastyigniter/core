@@ -10,7 +10,7 @@ trait SessionMaker
      * @param string $key Unique key for the data store.
      * @param string $default A default value to use when value is not found.
      */
-    public function getSession(string|null $key = null, mixed $default = null): mixed
+    public function getSession(string $key = null, mixed $default = null): mixed
     {
         $sessionKey = $this->makeSessionKey();
         if (!is_null($key)) {

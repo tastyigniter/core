@@ -148,7 +148,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
         }
     }
 
-    public function path(string $path): string|null
+    public function path(string $path): ?string
     {
         foreach ($this->sources as $source) {
             if ($filePath = $source->path($path)) {

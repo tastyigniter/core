@@ -96,7 +96,7 @@ trait ManagesSource
             ->sort()->all();
     }
 
-    public static function resolveSource(string|null $source = null): SourceInterface
+    public static function resolveSource(string $source = null): SourceInterface
     {
         return static::$resolver->source($source);
     }
@@ -156,7 +156,7 @@ trait ManagesSource
     /**
      * File name should always contain an extension.
      */
-    public function setFileNameAttribute(string|null $value): void
+    public function setFileNameAttribute(?string $value): void
     {
         $fileName = trim($value);
 

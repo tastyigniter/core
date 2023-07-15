@@ -172,7 +172,7 @@ class Router
     /**
      * Builds a URL together by matching route name and supplied parameters
      */
-    public function url(string $name, array $parameters = []): string|null
+    public function url(string $name, array $parameters = []): ?string
     {
         if (!$routeRule = collect($this->getUrlMap())->firstWhere('file', $name)) {
             return null;
@@ -181,7 +181,7 @@ class Router
         return $this->urlFromPattern($routeRule['pattern'], $parameters);
     }
 
-    public function pageUrl(string $name, array $parameters = []): string|null
+    public function pageUrl(string $name, array $parameters = []): ?string
     {
         if (!is_array($parameters)) {
             $parameters = [];

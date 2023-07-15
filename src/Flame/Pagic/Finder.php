@@ -21,7 +21,7 @@ class Finder
     /**
      * Filter by these file extensions.
      */
-    public array|null $extensions = null;
+    public ?array $extensions = null;
 
     /**
      * The columns that should be returned.
@@ -41,7 +41,7 @@ class Finder
     /**
      * Match files using the specified pattern.
      */
-    public string|null $fileMatch = null;
+    public ?string $fileMatch = null;
 
     /**
      * The maximum number of records to return.
@@ -56,12 +56,12 @@ class Finder
     /**
      * The key that should be used when caching the query.
      */
-    protected string|null $cacheKey = null;
+    protected ?string $cacheKey = null;
 
     /**
      * The number of seconds to cache the query.
      */
-    protected int|null $cacheSeconds = null;
+    protected ?int $cacheSeconds = null;
 
     /**
      * The tags for the query cache.
@@ -71,7 +71,7 @@ class Finder
     /**
      * The cache driver to be used.
      */
-    protected string|null $cacheDriver = null;
+    protected ?string $cacheDriver = null;
 
     /**
      * Internal variable to specify if the record was loaded from cache.
@@ -428,7 +428,7 @@ class Finder
     /**
      * Indicate that the query results should be cached.
      */
-    public function remember(\DateTime|int|null $seconds, string|null $key = null): static
+    public function remember(\DateTime|int|null $seconds, string $key = null): static
     {
         [$this->cacheSeconds, $this->cacheKey] = [$seconds, $key];
 
@@ -598,7 +598,7 @@ class Finder
         MemorySource::$cache = [];
     }
 
-    public function __call(string $method, array|null $parameters): mixed
+    public function __call(string $method, ?array $parameters): mixed
     {
         $className = get_class($this);
 

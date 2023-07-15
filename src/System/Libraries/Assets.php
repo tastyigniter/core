@@ -189,14 +189,14 @@ class Assets
         return $this;
     }
 
-    public function addCss(string $path, null|string|array $attributes = null): self
+    public function addCss(string $path, string|array $attributes = null): self
     {
         $this->putAsset('css', $path, $attributes);
 
         return $this;
     }
 
-    public function addJs(string $path, null|string|array $attributes = null): self
+    public function addJs(string $path, string|array $attributes = null): self
     {
         $this->putAsset('js', $path, $attributes);
 
@@ -315,7 +315,7 @@ class Assets
         return $collection;
     }
 
-    protected function prepUrl(string $path, ?string $suffix = null): string
+    protected function prepUrl(string $path, string $suffix = null): string
     {
         $path = $this->getAssetPath($path);
 
@@ -342,7 +342,7 @@ class Assets
         return implode(PHP_EOL, $tags).PHP_EOL;
     }
 
-    protected function buildAssetUrl(string $type, string $file, null|string|array $attributes = null)
+    protected function buildAssetUrl(string $type, string $file, string|array $attributes = null)
     {
         if (!is_array($attributes)) {
             $attributes = ['name' => $attributes];

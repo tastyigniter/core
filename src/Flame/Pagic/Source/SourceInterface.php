@@ -61,7 +61,7 @@ interface SourceInterface
      */
     public function delete($dirName, $fileName, $extension);
 
-    public function path(string $path): string|null;
+    public function path(string $path): ?string;
 
     /**
      * Return the last modified date of an object

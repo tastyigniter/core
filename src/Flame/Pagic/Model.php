@@ -126,7 +126,7 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
     /**
      * Create a collection of models from plain arrays.
      */
-    public static function hydrate(array $items, string|null $source = null): Collection
+    public static function hydrate(array $items, string $source = null): Collection
     {
         $instance = new static;
         $instance->setSource($source);
@@ -237,7 +237,7 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
     /**
      * Create a new model instance that is existing.
      */
-    public function newFromFinder(array $attributes = [], string|null $source = null): static
+    public function newFromFinder(array $attributes = [], string $source = null): static
     {
         $instance = $this->newInstance([], true);
 
@@ -425,7 +425,7 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
         $this->setAttribute($name, $value);
     }
 
-    public function __call(string $name, array|null $params): mixed
+    public function __call(string $name, ?array $params): mixed
     {
         try {
             return parent::__call($name, $params);
@@ -436,7 +436,7 @@ abstract class Model extends Extendable implements TemplateInterface, ArrayAcces
         }
     }
 
-    public static function __callStatic(string $name, array|null $params): mixed
+    public static function __callStatic(string $name, ?array $params): mixed
     {
         return call_user_func_array([new static, $name], $params);
     }

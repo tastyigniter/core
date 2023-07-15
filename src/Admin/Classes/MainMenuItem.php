@@ -83,13 +83,13 @@ class MainMenuItem
 
     public array $config = [];
 
-    public function __construct(string $itemName, ?string $label = null)
+    public function __construct(string $itemName, string $label = null)
     {
         $this->itemName = $itemName;
         $this->label = $label;
     }
 
-    public static function make(string $name, ?string $type = null, array $config = [])
+    public static function make(string $name, string $type = null, array $config = [])
     {
         $instance = new static($name);
         $instance->displayAs($type, $config);

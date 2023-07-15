@@ -14,17 +14,17 @@ trait EventDispatchable
         return static::dispatchEvent(func_get_args(), true);
     }
 
-    public static function dispatch(): array|null
+    public static function dispatch(): ?array
     {
         return static::dispatchEvent(func_get_args());
     }
 
-    public static function dispatchIf($boolean, ...$arguments): array|null
+    public static function dispatchIf($boolean, ...$arguments): ?array
     {
         return $boolean ? static::dispatchEvent($arguments) : null;
     }
 
-    public static function dispatchUnless($boolean, ...$arguments): array|null
+    public static function dispatchUnless($boolean, ...$arguments): ?array
     {
         return !$boolean ? static::dispatchEvent($arguments) : null;
     }

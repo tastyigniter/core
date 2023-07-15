@@ -35,12 +35,12 @@ class Extendable
         $this->extendableSet($name, $value);
     }
 
-    public function __call(string $name, array|null $params): mixed
+    public function __call(string $name, ?array $params): mixed
     {
         return $this->extendableCall($name, $params);
     }
 
-    public static function __callStatic(string $name, array|null $params): mixed
+    public static function __callStatic(string $name, ?array $params): mixed
     {
         return self::extendableCallStatic($name, $params);
     }

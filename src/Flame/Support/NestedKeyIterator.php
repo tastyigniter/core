@@ -44,7 +44,7 @@ class NestedKeyIterator extends \RecursiveIteratorIterator
     /**
      * {@inheritdoc}
      */
-    public function callGetChildren(): RecursiveIterator|null
+    public function callGetChildren(): ?RecursiveIterator
     {
         $this->stack[] = parent::key();
 

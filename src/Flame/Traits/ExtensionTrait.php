@@ -22,7 +22,7 @@ trait ExtensionTrait
     /**
      * @var string|null The calling class when using a static method.
      */
-    public static string|null $extendableStaticCalledClass = null;
+    public static ?string $extendableStaticCalledClass = null;
 
     protected array $extensionHidden = [
         'fields' => [],
@@ -77,7 +77,7 @@ trait ExtensionTrait
         return in_array($name, $this->extensionHidden['methods']);
     }
 
-    public static function getCalledExtensionClass(): string|null
+    public static function getCalledExtensionClass(): ?string
     {
         return self::$extendableStaticCalledClass;
     }

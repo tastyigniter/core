@@ -7,7 +7,7 @@ use Illuminate\Support\HtmlString;
 
 class PackageInfo
 {
-    protected array|null $iconCache = null;
+    protected ?array $iconCache = null;
 
     public function __construct(
         public string $code,
