@@ -2,8 +2,8 @@
 
 namespace Igniter\Admin\Traits;
 
-use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\RouterHelper;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait ControllerUtils
 {
@@ -57,7 +57,7 @@ trait ControllerUtils
         }
 
         if (in_array(strtolower($action), array_map('strtolower', $this->hiddenActions))) {
-            throw new SystemException(sprintf(
+            throw new NotFoundHttpException(sprintf(
                 'Method [%s] is not allowed in the controller [%s]',
                 $action, get_class($this)
             ));
@@ -75,7 +75,7 @@ trait ControllerUtils
     public function callAction($method, $parameters)
     {
         if (!$this->checkAction($method)) {
-            throw new SystemException(sprintf(
+            throw new NotFoundHttpException(sprintf(
                 'Method [%s] is not found in the controller [%s]',
                 $method, get_class($this)
             ));
