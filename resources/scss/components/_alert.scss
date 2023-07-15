@@ -38,8 +38,6 @@
 
 body.swal2-toast-shown {
   .swal2-container {
-    width: 420px;
-
     &.swal2-top-end {
       top: 65px !important;
       right: 15px !important;
@@ -58,14 +56,15 @@ body:not(.swal2-toast-shown) {
   background-color: $gray-200;
   border: 0;
 
-  .swal2-toast {
-    background-color: $gray-100;
+  &.swal2-toast {
+    padding: 0.6em 1em;
 
     .swal2-icon {
       width: 1.5em;
       min-width: 1.5em;
       height: 1.5em;
       margin: 0;
+      border-width: 0;
     }
   }
 

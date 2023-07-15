@@ -22,17 +22,23 @@
             return FlashMessage.overlay(options)
         }
 
-        options = $.extend(options, FlashMessage.TOAST_DEFAULTS, FlashMessage.getIcon(options))
+        options = $.extend(FlashMessage.TOAST_DEFAULTS, options, FlashMessage.getIcon(options))
 
         return Swal.fire(FlashMessage.parseOptions(options))
     }
 
     FlashMessage.overlay = function (options) {
-        options = $.extend({}, FlashMessage.DEFAULTS, FlashMessage.SWAL_DEFAULTS, options)
+        options = $.extend({},
+            FlashMessage.DEFAULTS,
+            FlashMessage.SWAL_DEFAULTS,
+            options, FlashMessage.getIcon(options)
+        )
 
-        options = $.extend(options, FlashMessage.getIcon(options))
-
-        return Swal.fire(FlashMessage.parseOptions(options))
+        return Swal.fire(FlashMessage.parseOptions(options)).then((result) => {
+            if (result.isConfirmed && options.actionUrl) {
+                window.location.assign(options.actionUrl)
+            }
+        })
     }
 
     FlashMessage.confirm = function (message, confirmCallback, cancelCallback) {
@@ -49,7 +55,6 @@
                 cancelCallback()
             }
         })
-
     }
 
     FlashMessage.getIcon = function (options) {
@@ -80,19 +85,29 @@
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+        },
+        customClass: {
+            popup: 'bg-light',
+        },
     }
 
     FlashMessage.SWAL_DEFAULTS = {
         position: 'top',
         timerProgressBar: true,
+        reverseButtons: true,
+        buttonsStyling: false,
         customClass: {
             container: 'modal-backdrop',
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-secondary',
+            confirmButton: 'btn btn-primary mx-2',
+            cancelButton: 'btn btn-light mx-2',
+            closeButton: 'btn btn-danger mx-2',
+            denyButton: 'btn btn-danger mx-2',
         },
         showClass: {
             popup: 'animated fadeInDown'
+        },
+        hideClass: {
+            popup: 'animated fadeOutUp'
         },
     }
 
@@ -104,28 +119,29 @@
         class: 'success',
         interval: 5,
         allowDismiss: true,
+        actionUrl: undefined,
     }
 
     FlashMessage.ICONS = {
         warning: {
             icon: 'warning',
-            iconHtml: '<i class="fa fa-fw fa-exclamation-triangle"></i>',
+            iconHtml: '<i class="fa fa-fw fa-xs fa-exclamation-triangle"></i>',
         },
         danger: {
             icon: 'error',
-            iconHtml: '<i class="fa fa-fw fa-times-circle"></i>',
+            iconHtml: '<i class="fa fa-fw fa-xs fa-times-circle"></i>',
         },
         success: {
             icon: 'success',
-            iconHtml: '<i class="fa fa-fw fa-check"></i>',
+            iconHtml: '<i class="fa fa-fw fa-xs fa-check"></i>',
         },
         info: {
             icon: 'info',
-            iconHtml: '<i class="fa fa-fw fa-info-circle"></i>',
+            iconHtml: '<i class="fa fa-fw fa-xs fa-info-circle"></i>',
         },
         question: {
             icon: 'question',
-            iconHtml: '<i class="fa fa-fw fa-question-circle"></i>',
+            iconHtml: '<i class="fa fa-fw fa-xs fa-question-circle"></i>',
         },
     }
 
@@ -141,16 +157,18 @@
     // ===============
 
     $(document).render(function () {
-        $('[data-control="flash-message"]').each(function (index, element) {
+        $('[data-control="flash-message"]:not(.loaded)').each(function (index, element) {
             setTimeout(function () {
                 $.ti.flashMessage($(element).data(), element)
             }, (index + 1) * 500)
+            $(element).addClass('loaded')
         })
 
-        $('[data-control="flash-overlay"]').each(function (index, element) {
+        $('[data-control="flash-overlay"]:not(.loaded)').each(function (index, element) {
             $.ti.flashMessage.overlay($.extend({}, $(element).data(), $(element).data('closeOnEsc') === true ? {
                 timer: (index + 1) * 3000
             } : {}))
+            $(element).addClass('loaded')
         })
     })
 

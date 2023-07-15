@@ -199,7 +199,9 @@ if (window.jQuery.request !== undefined)
                     var _event = jQuery.Event('ajaxErrorMessage')
                     $(window).trigger(_event, [message])
                     if (_event.isDefaultPrevented()) return
-                    if (message) alert(message)
+                    if (message) {
+                        $.ti.flashMessage({text: message, class: 'danger'})
+                    }
                 },
 
                 handleValidationMessage: function (message, fields) {

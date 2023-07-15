@@ -16,6 +16,8 @@ class FlashException extends Exception
 
     protected bool $shouldReport = false;
 
+    protected ?string $actionUrl;
+
     public function __construct($message, protected string $type = 'danger', $code = 406, Exception $previous = null)
     {
         $this->message = $message;
@@ -69,6 +71,13 @@ class FlashException extends Exception
         return $this;
     }
 
+    public function actionUrl(string $url): self
+    {
+        $this->actionUrl = $url;
+
+        return $this;
+    }
+
     public function shouldReport(): self
     {
         $this->shouldReport = true;
@@ -84,6 +93,7 @@ class FlashException extends Exception
             'text' => $this->message,
             'important' => $this->important,
             'overlay' => $this->overlay,
+            'actionUrl' => $this->actionUrl,
         ];
     }
 

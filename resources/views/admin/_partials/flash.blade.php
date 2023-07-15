@@ -13,7 +13,7 @@
           @class(['alert alert-'.$message['level'], 'alert-important' => $message['important']])
           data-control="flash-message"
           data-icon="{{ $message['level'] }}"
-          data-title="{!! array_get($message, 'message') !!}"
+          data-text="{!! array_get($message, 'message') !!}"
           data-allow-dismiss="{{ $message['important'] ? 'false' : 'true' }}"
           role="alert"
         >{!! $message['message'] !!}</div>

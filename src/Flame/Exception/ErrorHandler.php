@@ -40,7 +40,7 @@ class ErrorHandler
             $handler->map(TokenMismatchException::class, function (TokenMismatchException $e) {
                 return (new FlashException(
                     lang('igniter::admin.alert_invalid_csrf_token'), 'danger', 419, $e->getPrevious()
-                ))->important()->overlay();
+                ))->important()->overlay()->actionUrl(url()->current());
             });
         }
 
