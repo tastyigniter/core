@@ -24,7 +24,6 @@
         data-attach-loading=""
         data-request="{{ $this->getEventHandler('onBulkAction') }}"
         data-request-data="code: '{{ $button->name }}'{{ $button->name === 'delete' ? ",_method:'DELETE'" : '' }}"
-        data-request-form="#list-form"
         tabindex="0"
     >{!! $button->label ?: $button->name !!}</button>
 @endif
