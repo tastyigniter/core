@@ -16,7 +16,7 @@ class FlashException extends Exception
 
     protected bool $shouldReport = false;
 
-    protected ?string $actionUrl;
+    protected ?string $actionUrl = null;
 
     public function __construct($message, protected string $type = 'danger', $code = 406, Exception $previous = null)
     {
