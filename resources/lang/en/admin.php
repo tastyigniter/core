@@ -113,7 +113,7 @@ return [
     'alert_ajax_handler_not_found' => 'Ajax handler [%s] is not found.',
     'alert_user_not_logged' => 'User is not logged in',
     'alert_access_denied' => 'Access denied.',
-    'alert_invalid_csrf_token' => 'Invalid security token, please reload the page and try again.',
+    'alert_invalid_csrf_token' => 'Your session has expired, please reload the page and try again.',
 
     'title_access_denied' => 'Access denied',
     'title_page_not_found' => 'No page found',
