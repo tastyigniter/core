@@ -13,6 +13,8 @@ return [
 
     'domain' => env('IGNITER_DOMAIN_NAME', null),
 
+    'adminDomain' => env('IGNITER_DOMAIN_NAME', null),
+
     /*
     |--------------------------------------------------------------------------
     | Back-end URI

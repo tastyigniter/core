@@ -35,7 +35,7 @@ class RouteRegistrar
         $this->router
             ->namespace('Igniter\System\Http\Controllers')
             ->middleware('igniter')
-            ->domain(config('igniter-routes.domain'))
+            ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::uri())
             ->name('igniter.admin.assets')
             ->group(function (Router $router) {
@@ -47,7 +47,7 @@ class RouteRegistrar
     {
         $this->router
             ->middleware('igniter')
-            ->domain(config('igniter-routes.domain'))
+            ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::uri())
             ->group(function (Router $router) {
                 $router->any('/login', [Login::class, 'index'])->name('igniter.admin.login');
@@ -56,7 +56,7 @@ class RouteRegistrar
 
         $this->router
             ->middleware('igniter:admin')
-            ->domain(config('igniter-routes.domain'))
+            ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::uri())
             ->group(function (Router $router) {
                 $router->name('igniter.admin')->any('/', [Dashboard::class, 'remap']);
