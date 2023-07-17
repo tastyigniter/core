@@ -88,7 +88,8 @@ class RouteRegistrar
     {
         return is_subclass_of($class, AdminController::class)
             && !(new ReflectionClass($class))->isAbstract()
-            && $class !== Login::class;
+            && $class !== Login::class
+            && !$class::$skipRouteRegister;
     }
 
     protected function guessRouteUri($class)

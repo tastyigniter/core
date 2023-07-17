@@ -66,6 +66,8 @@ class AdminController extends Controller
      */
     public $bodyClass;
 
+    public static bool $skipRouteRegister = false;
+
     /**
      * Class constructor
      */

@@ -28,7 +28,7 @@ class Login extends AdminController
 
         Template::setTitle(lang('igniter::admin.login.text_title'));
 
-        return $this->makeView('igniter.admin::auth.login');
+        return $this->makeView('auth.login');
     }
 
     public function reset()
