@@ -8,7 +8,6 @@
 
     <div class="field-radiolist">
         @foreach($fieldOptions as $value => $option)
-            @continue(!in_array($value, $checkedValues))
             @php
                 $radioId = 'radio_'.$field->getId().'_'.$loop->iteration;
                 if (!is_array($option)) $option = [$option];
@@ -21,7 +20,7 @@
                     name="{{ $field->getName() }}"
                     value="{{ $value }}"
                     disabled="disabled"
-                    checked="checked"
+                    @checked(in_array($value, $checkedValues))
                 >
                 <label class="form-check-label" for="{{ $radioId }}">
                     {{ is_lang_key($option[0]) ? lang($option[0]) : $option[0] }}
