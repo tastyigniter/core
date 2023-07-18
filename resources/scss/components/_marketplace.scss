@@ -2,9 +2,11 @@
   margin-bottom: 0;
   border-top: 1px solid $gray-300;
 }
+
 .panel-carte {
   margin-bottom: 0;
 }
+
 .panel-items {
   background-color: transparent !important;
 
@@ -17,13 +19,16 @@
     margin: 0 15px;
   }
 }
+
 .items-list .panel-item {
   background-color: $gray-200;
   border: 1px solid $gray-300;
 }
+
 .item-extension .media {
   margin: 15px;
 }
+
 .search-group {
   margin-bottom: 0;
   position: relative;
@@ -87,9 +92,11 @@
     border-top: 1px solid $gray-200;
   }
 }
+
 #item-modal .modal-dialog {
   margin: 80px auto;
 }
+
 .update-item .description {
   max-height: 120px;
   overflow: auto;
@@ -100,6 +107,7 @@
     font-size: 95%;
   }
 }
+
 .extension-icon {
   background-color: $gray-200;
   background-position: center;
@@ -119,6 +127,7 @@
     font-size: 32px;
   }
 }
+
 .list-extensions {
   .card.disabled {
     background-color: $gray-300;

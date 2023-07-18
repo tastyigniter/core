@@ -7,7 +7,7 @@
                 <a href="{{ $record->meta['homepage']}}"><i class="fa fa-external-link fa-2x"></i></a>
             @endisset
         </div>
-        <div class="modal-body bg-light markdown">
+        <div class="modal-body markdown">
             {{ new \Illuminate\Support\HtmlString($record->readme) }}
         </div>
     </div>

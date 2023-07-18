@@ -2,7 +2,7 @@
 
     <div
         id="{{ $this->getId($tabs->section.'-tabs') }}"
-        class="{{ $tabs->cssClass }}">
+        class="p-4 {{ $tabs->cssClass }}">
         <div class="form-fields">
             {!! $this->makePartial('form/form_fields', ['fields' => $tabs]) !!}
         </div>

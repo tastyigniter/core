@@ -137,7 +137,7 @@ class CalendarController extends ControllerAction
         return $widget;
     }
 
-    public function renderCalendar($alias = null)
+    public function renderCalendar($alias = null, $noToolbar = false)
     {
         if (is_null($alias) || !isset($this->listConfig[$alias])) {
             $alias = $this->primaryAlias;
@@ -145,7 +145,7 @@ class CalendarController extends ControllerAction
 
         $list = [];
 
-        if (!is_null($this->toolbarWidget)) {
+        if (!$noToolbar && !is_null($this->toolbarWidget)) {
             $list[] = $this->toolbarWidget->render();
         }
 
@@ -156,6 +156,13 @@ class CalendarController extends ControllerAction
         $list[] = $this->calendarWidgets[$alias]->render();
 
         return implode(PHP_EOL, $list);
+    }
+
+    public function renderCalendarToolbar()
+    {
+        if (!is_null($this->toolbarWidget)) {
+            return $this->toolbarWidget->render();
+        }
     }
 
     /**

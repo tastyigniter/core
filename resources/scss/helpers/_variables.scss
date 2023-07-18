@@ -18,7 +18,7 @@ $success: #28A745 !default;
 $info: #5A67D8 !default;
 $warning: #FD7E14 !default;
 $danger: #DC3545 !default;
-$light: $gray-100 !default;
+$light: $gray-200 !default;
 $dark: $gray-900 !default;
 $orange: #FF4900 !default;
 
@@ -75,10 +75,10 @@ $font-size-sm: $font-size-base * .875 !default;
 //
 $table-cell-padding: .45rem !default;
 $table-cell-padding-sm: .1rem !default;
-$table-head-bg: $gray-300 !default;
+$table-head-bg: $gray-200 !default;
 $table-accent-bg: $gray-200 !default;
-$table-border-color: $gray-300 !default;
-$table-hover-bg: $gray-300 !default;
+$table-border-color: $gray-200 !default;
+$table-hover-bg: $gray-200 !default;
 //
 // Buttons + Forms
 //
@@ -101,21 +101,21 @@ $btn-active-box-shadow: none !default;
 // Forms
 //
 $input-bg: $white !default;
-$input-disabled-bg: $gray-300 !default;
+$input-disabled-bg: $gray-200 !default;
 $input-color: $dark !default;
 $input-border-color: $gray-300 !default;
 $input-border-radius: 3px !default;
 $input-box-shadow: none !default;
 $custom-control-indicator-size: 1.5rem !default;
-$input-disabled-bg: $gray-300 !default;
+$input-disabled-bg: $gray-200 !default;
 $input-height-border: 3px !default;
 $form-check-input-width: 1.25em;
 $form-fields-padding: 1.25rem .725rem !default;
 $form-fields-padding-x: 20px !default;
 $form-nav-link-padding-y: .52rem !default;
 $form-nav-link-padding-x: 1.2rem !default;
-$custom-control-indicator-border-color: $gray-300 !default;
-$custom-control-indicator-disabled-bg: $gray-400 !default;
+$custom-control-indicator-border-color: $gray-200 !default;
+$custom-control-indicator-disabled-bg: $gray-300 !default;
 
 // Navs
 //
@@ -130,7 +130,6 @@ $dropdown-padding-x: .5rem !default;
 // Cards
 $card-border-color: $gray-300 !default;
 $card-cap-bg: $gray-300 !default;
-$card-bg: $gray-200 !default;
 $card-spacer-y: .625rem !default;
 $card-spacer-x: 0.9375rem !default;
 
@@ -138,17 +137,12 @@ $card-spacer-x: 0.9375rem !default;
 $accordion-button-active-bg: transparent !default;
 $accordion-button-active-color: inherit !default;
 
-// Popover
-$popover-bg: $gray-200 !default;
-
 // Dropdowns
-$dropdown-bg: $gray-200 !default;
 $dropdown-border-color: rgba($black, .15) !default;
-$dropdown-divider-bg: $gray-300 !default;
+$dropdown-divider-bg: $gray-200 !default;
 
 $dropdown-link-color: $gray-900 !default;
-$dropdown-link-hover-color: darken($gray-900, 5%) !default;
-$dropdown-link-hover-bg: $gray-300 !default;
+$dropdown-link-hover-bg: $gray-200 !default;
 
 $dropdown-link-disabled-color: $gray-600 !default;
 
@@ -159,14 +153,14 @@ $alert-bg-scale: -20% !default;
 $alert-border-scale: -20% !default;
 $alert-color-scale: 80% !default;
 // List group
-$list-group-bg: $gray-100 !default;
 $list-group-hover-bg: $gray-200 !default;
 $list-group-action-color: $body-color !default;
 $list-group-border-color: $input-border-color !default;
 
 // Modals
-$modal-content-bg: $gray-200 !default;
 $modal-header-border-color: $gray-300 !default;
+$modal-header-border-width: 0 !default;
+$modal-footer-border-width: 0 !default;
 $modal-xl: 1140px !default;
 $modal-lg: 800px !default;
 $modal-md: 600px !default;

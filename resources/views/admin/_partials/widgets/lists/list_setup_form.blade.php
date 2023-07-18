@@ -23,7 +23,7 @@
                             />
                         @else
                             <div class="list-group-item bg-transparent px-2">
-                                <div class="btn btn-handle form-check-handle mr-2">
+                                <div class="btn btn-handle shadow-none form-check-handle mr-2">
                                     <i class="fa fa-arrows-alt-v text-muted"></i>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -71,14 +71,14 @@
         <div class="modal-footer progress-indicator-container">
             <button
                 type="button"
-                class="btn btn-link text-danger mr-auto"
+                class="btn btn-link fw-bold text-decoration-none text-danger mr-auto"
                 data-request="{{ $this->getEventHandler('onResetSetup')}}"
                 data-request-before-update="$('#{{ $this->getId() }}-setup-modal').modal('hide')"
                 data-progress-indicator="@lang('igniter::admin.text_resetting')"
             >@lang('igniter::admin.list.button_reset_setup')</button>
             <button
                 type="button"
-                class="btn btn-link"
+                class="btn btn-link fw-bold text-decoration-none"
                 data-bs-dismiss="modal"
             >@lang('igniter::admin.list.button_cancel_setup')</button>
             <button

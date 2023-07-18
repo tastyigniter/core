@@ -1,7 +1,7 @@
 <div
     class="col col-sm-{{ $widget->property('width') }} my-3"
 >
-    <div class="widget-item card {{ $widget->property('cssClass', 'bg-light') }} p-3 shadow-sm">
+    <div class="widget-item card {{ $widget->property('cssClass') }} p-3 shadow-sm">
         <div class="widget-item-action">
             <a class="btn shadow-none handle pull-left"><i class="fa fa-arrows-alt"></i></a>
             @if($this->canManage)

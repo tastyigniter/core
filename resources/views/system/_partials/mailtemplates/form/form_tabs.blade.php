@@ -19,15 +19,15 @@
     </ul>
 </div>
 
-<div class="row no-gutters">
-    <div class="col-md-8">
+<div class="row m-0">
+    <div class="col-md-8 p-0">
         <div class="tab-content">
             @foreach($tabs as $name => $fields)
                 @php
                     $tabName = '#'.$type.'tab-'.$loop->iteration;
                 @endphp
                 <div
-                    class="tab-pane {{ ($tabName == $activeTab) ? 'active' : '' }}"
+                    class="tab-pane p-4 {{ ($tabName == $activeTab) ? 'active' : '' }}"
                     id="{{ $type.'tab-'.$loop->iteration }}">
                     <div class="form-fields">
                         {!! $this->makePartial('form/form_fields', ['fields' => $fields]) !!}
@@ -36,9 +36,9 @@
             @endforeach
         </div>
     </div>
-    <div class="col-md-4 pl-md-3">
+    <div class="col-md-4 p-0">
         {!! $this->makePartial('mailtemplates/variables', [
-            'cssClass' => ' form-fields pl-0',
+            'cssClass' => ' p-3',
             'variables' => resolve(\Igniter\System\Classes\MailManager::class)->listRegisteredVariables(),
         ]) !!}
     </div>

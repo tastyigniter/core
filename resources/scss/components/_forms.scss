@@ -48,12 +48,14 @@
 .input-group-icon {
   @extend .input-group-text;
 }
+
 .form-control {
   &:disabled,
   &[readonly] {
     border-color: $gray-300;
   }
 }
+
 // Widget
 //
 .form-widget {
@@ -65,18 +67,30 @@
     margin-top: 0;
   }
 }
+
 .form-fields {
-  --bs-gutter-x: 1.45rem;
-  --bs-gutter-y: 0;
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 1.5rem;
   display: flex;
   flex-wrap: wrap;
-  padding: calc(var(--bs-gutter-x) * 1.2) calc(var(--bs-gutter-x) * 0.3);
+  margin-right: calc(-.5 * var(--bs-gutter-x));
+  margin-left: calc(-.5 * var(--bs-gutter-x));
 
   > * {
     padding-right: calc(var(--bs-gutter-x) * .5);
     padding-left: calc(var(--bs-gutter-x) * .5);
-    margin-top: var(--bs-gutter-y);
+    flex: 0 0 auto;
+    max-width: 100%;
   }
+
+  @include media-breakpoint-up(md) {
+    > * {
+      flex: 0 0 auto;
+      width: 50%;
+    }
+  }
+
+  @include make-grid-columns();
 
   .form-group:empty {
     display: none;
@@ -112,43 +126,42 @@
     }
   }
 }
+
 .hidden-field {
   margin: 0;
 }
+
 // Tabs
 //
 .form-nav {
-  padding-top: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-
   &.nav-tabs {
-    background-color: $gray-300;
-
     .nav-item {
     }
 
     .nav-link {
-      border-width: 4px 2px 0;
+      border-width: 0 0 4px;
       border-color: transparent;
       color: $body-color;
       padding: $form-nav-link-padding-y $form-nav-link-padding-x;
       font-weight: 500;
+      border-radius: 0;
+    }
+
+    .nav-link.active {
+      border-width: 0 0 4px;
+      border-style: solid;
+      border-color: $gray-300;
+      background-color: transparent;
     }
 
     .nav-link:hover,
     .nav-link:focus {
-      border-color: transparent;
-    }
-
-    .nav-link.active {
-      border-width: 4px 2px 0;
-      border-style: solid;
-      border-color: $gray-300;
       background-color: $gray-200;
+      border-color: transparent;
     }
   }
 }
+
 @include media-breakpoint-down(sm) {
   .form-widget .tab-heading {
     background-color: $gray-300;
@@ -171,6 +184,7 @@
     }
   }
 }
+
 // Field Section
 .field-section {
   .section-title {
@@ -179,11 +193,13 @@
     margin-bottom: 0;
   }
 }
+
 .field-custom-container {
   padding-top: $input-padding-y;
   padding-bottom: $input-padding-y;
   height: add($input-height-inner, 0.25rem);
 }
+
 // Control label
 .help-block {
   @extend .form-text;
@@ -194,6 +210,7 @@
     margin-bottom: 10px;
   }
 }
+
 .control-colorpicker {
   .form-control-color {
     height: calc(#{$input-height} - 13px);
@@ -203,6 +220,7 @@
     }
   }
 }
+
 .daterangepicker td.active,
 .daterangepicker td.active:hover,
 .daterangepicker .ranges li.active {

@@ -18,14 +18,14 @@
         ) !!}
         <div
             id="{{ $this->getId('form-modal-fields') }}"
-            class="modal-body p-0 progress-indicator-container"
+            class="modal-body p-3 progress-indicator-container"
         >
             {!! $this->makePartial('statuseditor/fields', ['formWidget' => $formWidget]) !!}
         </div>
         <div class="modal-footer text-right">
             <button
                 type="button"
-                class="btn btn-link"
+                class="btn btn-link fw-bold text-decoration-none"
                 data-bs-dismiss="modal"
             >@lang('igniter::admin.button_close')</button>
             <button

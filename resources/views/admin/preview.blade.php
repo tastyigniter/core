@@ -4,7 +4,11 @@
         'role'   => 'form',
     ]) !!}
 
-    {!! $this->renderForm(['preview' => true]) !!}
+    {!! $this->renderFormToolbar() !!}
+
+    <div class="card shadow-sm mx-3">
+        {!! $this->renderForm(['preview' => true]) !!}
+    </div>
 
     {!! form_close() !!}
 </div>

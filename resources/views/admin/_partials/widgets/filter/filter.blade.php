@@ -45,7 +45,7 @@
                         data-attach-loading
                     >@lang('igniter::admin.text_apply')</button>
                     <button
-                        class="btn btn-link"
+                        class="btn btn-link fw-bold text-decoration-none"
                         type="button"
                         data-request="{{ $onClearHandler }}"
                         data-request-before-update="$('#{{ $filterId }}-button').dropdown('hide')"

@@ -1,4 +1,4 @@
-<div class="toolbar-search d-flex align-items-center px-3 py-4">
+<div class="toolbar-search d-flex align-items-center px-3">
     <div id="marketplace-search" class="form-group search-group has-feedback flex-grow-1 rounded shadow-sm">
         <input
             type="text"

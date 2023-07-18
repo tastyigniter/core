@@ -6,7 +6,7 @@
     @endif
 
     @if ($showCheckboxes)
-        <th class="list-action text-nowrap">
+        <th class="list-action text-nowrap pb-0">
             <div class="form-check">
                 <input
                     type="checkbox" id="{{ 'checkboxAll-'.$listId }}"

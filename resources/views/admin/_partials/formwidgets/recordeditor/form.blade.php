@@ -12,7 +12,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
         </div>
         <input type="hidden" name="recordId" value="{{ $formRecordId }}">
-        <div class="modal-body p-0">
+        <div class="modal-body p-3">
             <div
                 class="form-fields"
                 data-control="formwidget"
@@ -26,7 +26,7 @@
         <div class="modal-footer text-right">
             <button
                 type="button"
-                class="btn btn-link"
+                class="btn btn-link fw-bold text-decoration-none"
                 data-bs-dismiss="modal"
             >@lang('igniter::admin.button_close')</button>
             <button

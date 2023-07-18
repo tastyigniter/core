@@ -8,7 +8,8 @@
     ) !!}
 
     {!! $this->toolbarWidget->render() !!}
-    {!! $this->formWidget->render() !!}
-
+    <div class="card shadow-sm mx-3">
+        {!! $this->formWidget->render() !!}
+    </div>
     {!! form_close() !!}
 </div>

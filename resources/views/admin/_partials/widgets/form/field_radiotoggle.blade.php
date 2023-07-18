@@ -5,7 +5,7 @@
     @if($fieldCount = count($fieldOptions))
         <div
             id="{{ $field->getId() }}"
-            class="btn-group btn-group-toggle bg-light"
+            class="btn-group btn-group-toggle"
         >
             @foreach($fieldOptions as $key => $value)
                 <input
@@ -20,7 +20,7 @@
                 />
                 <label
                     for="{{ $field->getId($loop->iteration) }}"
-                    class="btn btn-light text-nowrap {{ $this->previewMode ? 'disabled' : '' }}"
+                    class="btn btn-white text-nowrap {{ $this->previewMode ? 'disabled' : '' }}"
                 >{{ is_lang_key($value) ? lang($value) : $value }}</label>
             @endforeach
         </div>

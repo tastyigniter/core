@@ -36,6 +36,7 @@
     border-top: 2px solid $table-border-color;
   }
 }
+
 .table-striped {
   thead th {
     background-color: $table-head-bg;
@@ -72,6 +73,7 @@
 .table .list-setup {
   width: 1px;
 }
+
 .list-table {
   .table {
     thead {
@@ -92,7 +94,8 @@
   }
 
   .bulk-actions {
-    background: $gray-200;
+    background: $white;
+    border-radius: $border-radius;
     position: absolute;
     top: 1px;
     left: 0;
@@ -110,6 +113,7 @@
     }
   }
 }
+
 .table-striped {
   thead th {
     background-color: $gray-200;

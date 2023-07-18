@@ -1,15 +1,15 @@
 <div
     id="{{ $this->getId('item-'.$index) }}"
-    class="card bg-light shadow-sm mb-2"
+    class="card shadow-sm mb-3"
     data-item-index="{{ $index }}"
 >
     <div class="card-body">
-        <div class="d-flex w-100 justify-content-between">
+        <div class="d-flex w-100 align-items-center justify-content-between">
             @if(!$this->previewMode && $sortable)
                 <input type="hidden" name="{{ $sortableInputName }}[]" value="{{ $item->getKey() }}">
                 <div class="align-self-center">
                     <a
-                        class="btn handle {{ $this->getId('items') }}-handle"
+                        class="btn handle shadow-none mr-2 {{ $this->getId('items') }}-handle"
                         role="button">
                         <i class="fa fa-arrows-alt-v text-black-50"></i>
                     </a>

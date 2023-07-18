@@ -1,4 +1,4 @@
-<div class="card bg-light p-4 shadow-sm m-4">
+<div class="card p-4 shadow-sm m-4">
     <div class="text-center my-5 m-auto">
         <i class="fa fa-ban fa-4x text-muted mb-4"></i>
         <h1>@lang('igniter::admin.title_access_denied')</h1>

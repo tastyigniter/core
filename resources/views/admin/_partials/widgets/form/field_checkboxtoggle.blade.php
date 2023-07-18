@@ -7,7 +7,7 @@
     @if($this->previewMode && $field->value)
         <div
             id="{{ $field->getId() }}"
-            class="btn-group btn-group-toggle bg-light"
+            class="btn-group btn-group-toggle"
         >
             @foreach($fieldOptions as $value => $option)
                 @php
@@ -25,14 +25,14 @@
                 />
                 <label
                     for="{{ $checkboxId }}"
-                    class="btn btn-light text-nowrap"
+                    class="btn btn-white text-nowrap"
                 >{{ is_lang_key($option[0]) ? lang($option[0]) : $option[0] }}</label>
             @endforeach
         </div>
     @elseif (!$this->previewMode && count($fieldOptions))
         <div
             id="{{ $field->getId() }}"
-            class="btn-group btn-group-toggle bg-light"
+            class="btn-group btn-group-toggle"
         >
             @foreach($fieldOptions as $value => $option)
                 @php
@@ -51,7 +51,7 @@
                 />
                 <label
                     for="{{ $checkboxId }}"
-                    class="btn btn-light text-nowrap"
+                    class="btn btn-white text-nowrap"
                 >{{ is_lang_key($option[0]) ? lang($option[0]) : $option[0] }}</label>
             @endforeach
         </div>

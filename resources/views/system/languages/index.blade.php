@@ -3,7 +3,9 @@
 
     {!! $this->makePartial('updates/search', ['itemType' => 'language']) !!}
 
-    {!! $this->widgets['list_filter']->render() !!}
+    <div class="card shadow-sm m-3">
+        {!! $this->widgets['list_filter']->render() !!}
 
-    {!! $this->widgets['list']->render() !!}
+        {!! $this->widgets['list']->render() !!}
+    </div>
 </div>

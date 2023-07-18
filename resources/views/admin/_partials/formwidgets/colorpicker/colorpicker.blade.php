@@ -6,7 +6,7 @@
         <label class="input-group-text border-none p-0">
             <input
                 id="{{ $this->getId('input') }}"
-                class="form-control form-control-color p-0"
+                class="form-control form-control-color border-0 p-0"
                 type="color"
                 name="{{ $name }}"
                 value="{{ $value }}"
@@ -16,7 +16,7 @@
             />
         </label>
         <button
-            class="btn btn-outline-secondary border-0 dropdown-toggle py-0"
+            class="btn btn-outline-secondary border-0 dropdown-toggle shadow-none py-0"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"

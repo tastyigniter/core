@@ -3,7 +3,7 @@
         <tr>
             @if ($showDragHandle)
                 <td class="list-action">
-                    <div class="btn btn-handle">
+                    <div class="btn btn-handle shadow-none">
                         <i class="fa fa-arrows-alt-v"></i>
                     </div>
                 </td>

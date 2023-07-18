@@ -3,8 +3,8 @@
   top: $page-top;
   bottom: 0;
   width: $page-margin-left;
-  z-index: 1030;
 }
+
 .nav-sidebar {
   background-color: $sidenav-bg;
   overflow-x: hidden;
@@ -116,6 +116,7 @@
     transform: rotate(-135deg) translate(0, -50%);
   }
 }
+
 @include media-breakpoint-down(sm) {
   .navbar-brand {
     display: none;

@@ -14,11 +14,13 @@
     padding-bottom: $page-padding-y;
   }
 }
+
 @include media-breakpoint-down(sm) {
   .page-wrapper {
     left: 0;
   }
 }
+
 body.dragging, body.dragging {
   cursor: move !important;
 

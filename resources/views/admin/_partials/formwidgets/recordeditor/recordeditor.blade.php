@@ -1,11 +1,11 @@
 <div
     id="{{ $this->getId() }}"
-    class="control-recordeditor rounded bg-white"
+    class="control-recordeditor rounded border py-1"
     data-control="record-editor"
     data-alias="{{ $this->alias }}"
 >
     @unless($this->previewMode)
-        <div class="list-group list-group-flush vh-50 overflow-auto p-2">
+        <div class="list-group list-group-flush vh-50 overflow-auto">
             @foreach ($field->options() as $value => $option)
                 @php if (!is_array($option)) $option = [$option] @endphp
                 <div class="record-editor-item list-group-item list-group-item-action">

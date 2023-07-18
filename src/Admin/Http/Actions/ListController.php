@@ -269,7 +269,7 @@ class ListController extends ControllerAction
         return $widget;
     }
 
-    public function renderList($alias = null)
+    public function renderList($alias = null, $listOnly = false)
     {
         if (is_null($alias) || !isset($this->listConfig[$alias])) {
             $alias = $this->primaryAlias;
@@ -277,11 +277,11 @@ class ListController extends ControllerAction
 
         $list = [];
 
-        if (isset($this->toolbarWidget[$alias])) {
+        if (!$listOnly && isset($this->toolbarWidget[$alias])) {
             $list[] = $this->toolbarWidget[$alias]->render();
         }
 
-        if (isset($this->filterWidgets[$alias])) {
+        if (!$listOnly && isset($this->filterWidgets[$alias])) {
             $list[] = $this->filterWidgets[$alias]->render();
         }
 
@@ -301,6 +301,22 @@ class ListController extends ControllerAction
         }
 
         return $this->listWidgets[$alias]->onRefresh();
+    }
+
+    public function renderListToolbar($alias = null)
+    {
+        $alias = $alias ?? $this->primaryAlias;
+        if (isset($this->toolbarWidget[$alias])) {
+            return $this->toolbarWidget[$alias]->render();
+        }
+    }
+
+    public function renderListFilter($alias = null)
+    {
+        $alias = $alias ?? $this->primaryAlias;
+        if (isset($this->filterWidgets[$alias])) {
+            return $this->filterWidgets[$alias]->render();
+        }
     }
 
     /**

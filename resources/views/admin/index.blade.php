@@ -1,3 +1,7 @@
 <div class="row-fluid">
-    {!! $this->renderList() !!}
+    {!! $this->renderListToolbar() !!}
+    <div class="card shadow-sm mx-3">
+        {!! $this->renderListFilter() !!}
+        {!! $this->renderList(null, true) !!}
+    </div>
 </div>

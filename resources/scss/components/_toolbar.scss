@@ -1,6 +1,5 @@
 .toolbar {
   .toolbar-action {
-    background-color: $gray-300;
     clear: both;
     width: 100%;
     padding: $page-padding-x;
@@ -14,13 +13,8 @@
     }
   }
 }
-.toolbar-action {
-  .btn-group {
-    &:not(:last-child) {
-      margin-right: 8px;
-    }
-  }
 
+.toolbar-action {
   > .btn {
     margin-left: 5px;
     margin-right: 5px;
@@ -41,14 +35,6 @@
     &:active {
       box-shadow: none;
     }
-  }
-
-  .btn + .btn {
-    margin-left: $btn-spacer;
-  }
-
-  .btn + .btn-group {
-    margin-left: $btn-spacer;
   }
 
   .btn-group {

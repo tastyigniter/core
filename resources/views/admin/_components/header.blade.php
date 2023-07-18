@@ -1,5 +1,5 @@
 @if(AdminAuth::isLogged())
-    <nav {{ $attributes->merge(['class' => 'navbar navbar-top navbar-expand navbar-fixed-top'])}}>
+    <nav {{ $attributes->merge(['class' => 'navbar navbar-top navbar-expand'])}}>
         <div class="container-fluid">
             <div class="navbar-brand">
                 <a class="logo" href="{{ admin_url('dashboard') }}">
