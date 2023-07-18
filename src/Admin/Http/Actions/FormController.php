@@ -349,7 +349,7 @@ class FormController extends ControllerAction
      * @return string Rendered HTML for the form.
      * @throws \Exception
      */
-    public function renderForm($options = [], $noToolbar = false,)
+    public function renderForm($options = [], $noToolbar = false)
     {
         if (!$this->formWidget) {
             throw new Exception(lang('igniter::admin.form.not_ready'));
@@ -498,9 +498,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                    $model->hasRelation($attribute) &&
-                    in_array($model->getRelationType($attribute), $singularTypes)
-                ));
+                $model->hasRelation($attribute) &&
+                in_array($model->getRelationType($attribute), $singularTypes)
+            ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);
