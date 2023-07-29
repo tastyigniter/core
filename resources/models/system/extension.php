@@ -49,7 +49,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-stop',
         'attributes' => [
-            'class' => 'btn btn-outline-default mr-3 shadow-none',
+            'class' => 'btn btn-light mr-3 shadow-none',
             'data-request' => 'onUninstall',
             'data-request-data' => 'code:\'{name}\'',
         ],

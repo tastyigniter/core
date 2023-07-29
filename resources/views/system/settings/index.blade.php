@@ -14,7 +14,7 @@
                             href="{{ $category->url }}"
                             role="button"
                         >
-                            <div class="card shadow-sm h-100">
+                            <div class="card shadow-sm card-hover h-100">
                                 <div class="card-body d-flex align-items-center">
                                     <div class="pr-3">
                                         @if ($item == 'core' && count(array_get($settingItemErrors, $category->code, [])))

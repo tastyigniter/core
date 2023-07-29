@@ -1,6 +1,6 @@
 <div
     id="{{ $this->getId('item-'.$index) }}"
-    class="card shadow-sm mb-3"
+    class="card shadow-sm card-hover mb-3"
     data-item-index="{{ $index }}"
 >
     <div class="card-body">

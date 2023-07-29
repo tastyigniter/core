@@ -22,7 +22,7 @@
         @if($this->canManage)
             <button
                 type="button"
-                class="btn btn-outline-primary"
+                class="btn btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#newWidgetModal"
                 data-request="{{ $this->getEventHandler('onLoadAddPopup') }}"
@@ -30,7 +30,7 @@
             ><i class="fa fa-plus"></i>&nbsp;&nbsp;@lang('igniter::admin.dashboard.button_add_widget')</button>
             <button
                 type="button"
-                class="btn btn-outline-danger"
+                class="btn btn-light text-danger"
                 data-request="{{ $this->getEventHandler('onResetWidgets') }}"
                 data-request-confirm="@lang('igniter::admin.alert_warning_confirm')"
                 data-attach-loading
@@ -41,7 +41,7 @@
         @if($this->canSetDefault)
             <button
                 type="button"
-                class="btn btn-outline-default pull-right"
+                class="btn btn-light text-reset pull-right"
                 data-request="{{ $this->getEventHandler('onSetAsDefault') }}"
                 data-request-confirm="@lang('igniter::admin.dashboard.alert_set_default_confirm')"
                 data-attach-loading

@@ -13,7 +13,7 @@
 
     <div id="notification"></div>
 
-    <div class="media-container">
+    <div class="media-container bg-white">
         <div class="row no-gutters">
             <div
                 class="col-9 border-right wrap-none wrap-left"

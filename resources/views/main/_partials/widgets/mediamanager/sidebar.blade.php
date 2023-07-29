@@ -7,7 +7,7 @@
         <div class="sidebar-preview-toolbar">
             <button
                 type="button"
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-sm btn-light text-danger"
                 title="@lang('igniter::main.media_manager.button_cancel')"
                 data-media-control="cancel-selection">
                 <i class="fa fa-times"></i>
@@ -15,7 +15,7 @@
 
             <button
                 type="button"
-                class="btn btn-sm btn-outline-default"
+                class="btn btn-sm btn-light"
                 title="@lang('igniter::main.media_manager.button_rename')"
                 data-media-control="rename-item"
                 data-swal-title="@lang('igniter::main.media_manager.text_file_name')"
@@ -25,7 +25,7 @@
 
             <button
                 type="button"
-                class="btn btn-sm btn-outline-default"
+                class="btn btn-sm btn-light"
                 title="@lang('igniter::main.media_manager.button_move')"
                 data-media-control="move-item"
                 data-swal-title="@lang('igniter::main.media_manager.text_move_destination_folder')"
@@ -35,7 +35,7 @@
 
             <button
                 type="button"
-                class="btn btn-sm btn-outline-default"
+                class="btn btn-sm btn-light"
                 title="@lang('igniter::main.media_manager.button_copy')"
                 data-media-control="copy-item"
                 data-swal-title="@lang('igniter::main.media_manager.text_copy_destination_folder')"
@@ -45,7 +45,7 @@
 
             <button
                 type="button"
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-sm btn-light text-danger"
                 title="@lang('igniter::main.media_manager.button_delete')"
                 data-media-control="delete-item"
                 data-swal-confirm="@lang('igniter::admin.alert_warning_confirm')"
@@ -84,7 +84,7 @@
         <div class="sidebar-preview-toolbar">
             <button
                 type="button"
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-sm btn-light text-danger"
                 title="@lang('igniter::main.media_manager.button_cancel')"
                 data-media-control="cancel-selection">
                 <i class="fa fa-times"></i>
@@ -92,7 +92,7 @@
 
             <button
                 type="button"
-                class="btn btn-sm btn-outline-default"
+                class="btn btn-sm btn-light"
                 title="@lang('igniter::main.media_manager.button_move')"
                 data-media-control="move-item"
                 {{ !$this->getSetting('enable_move') ? 'disabled' : '' }}>
@@ -101,7 +101,7 @@
 
             <button
                 type="button"
-                class="btn btn-sm btn-outline-default"
+                class="btn btn-sm btn-light"
                 title="@lang('igniter::main.media_manager.button_copy')"
                 data-media-control="copy-item"
                 {{ !$this->getSetting('enable_copy') ? 'disabled' : '' }}>
@@ -110,7 +110,7 @@
 
             <button
                 type="button"
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-sm btn-light text-danger"
                 title="@lang('igniter::main.media_manager.button_delete')"
                 data-media-control="delete-item"
                 {{ !$this->getSetting('enable_delete') ? 'disabled' : '' }}>

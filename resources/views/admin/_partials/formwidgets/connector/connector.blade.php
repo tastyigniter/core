@@ -18,7 +18,7 @@
         <div>
             <button
                 type="button"
-                class="btn btn-outline-default"
+                class="btn btn-light"
                 data-control="load-item"
             ><i class="fa fa-plus"></i>&nbsp;&nbsp;{{ $newRecordTitle }}</button>
         </div>

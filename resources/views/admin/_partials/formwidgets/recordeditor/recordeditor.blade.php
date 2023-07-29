@@ -58,7 +58,7 @@
             @if($showCreateButton)
                 <button
                     type="button"
-                    class="btn btn-outline-default"
+                    class="btn btn-light"
                     data-control="create-record"
                     data-toggle="record-editor"
                     data-alias="{{$this->alias}}"

@@ -21,11 +21,6 @@
     width: 100%;
 }
 
-.media-container {
-    padding: 0;
-    background-color: var(--bs-gray-200);
-}
-
 .media-manager .navbar-media {
     border: 0 none;
 }
