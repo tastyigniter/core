@@ -118,7 +118,7 @@ class AdminController extends Controller
         $this->assetPath[] = 'igniter::js';
     }
 
-    protected function initialize(): static
+    public function initialize(): static
     {
         // Set an instance of the admin user
         $this->setUser(AdminAuth::user());

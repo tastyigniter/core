@@ -26,7 +26,7 @@
         <div class="modal-footer text-right">
             <button
                 type="button"
-                class="btn btn-link fw-bold text-decoration-none"
+                class="btn btn-link text-danger fw-bold text-decoration-none"
                 data-bs-dismiss="modal"
             >@lang('igniter::admin.button_close')</button>
             <button

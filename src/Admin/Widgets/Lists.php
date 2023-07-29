@@ -1161,8 +1161,7 @@ class Lists extends BaseWidget
 
     public function onBulkAction()
     {
-        $requestData = post();
-        if (!strlen($code = array_get($requestData, 'code'))) {
+        if (!strlen($code = request()->input('code'))) {
             throw FlashException::error(lang('igniter::admin.list.missing_action_code'));
         }
 
@@ -1172,20 +1171,20 @@ class Lists extends BaseWidget
             throw FlashException::error(sprintf(lang('igniter::admin.list.action_not_found'), $actionCode));
         }
 
-        $checkedIds = array_get($requestData, 'checked');
+        $checkedIds = request()->input('checked');
         if (!$checkedIds || !is_array($checkedIds) || !count($checkedIds)) {
             throw FlashException::error(lang('igniter::admin.list.delete_empty'));
         }
 
-        $alias = post('alias') ?: $this->primaryAlias;
+        $alias = request()->input('alias') ?: $this->primaryAlias;
 
         $query = $this->prepareModel();
 
-        $records = post('select_all') === '1'
+        $records = request()->input('select_all') === '1'
             ? $query->get()
             : $query->whereIn($this->model->getKeyName(), $checkedIds)->get();
 
-        $bulkAction->handleAction($requestData, $records);
+        $bulkAction->handleAction(request()->input(), $records);
 
         return $this->controller->refreshList($alias);
     }

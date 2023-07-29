@@ -48,7 +48,7 @@ class Login extends AdminController
 
         $this->vars['resetCode'] = input('code');
 
-        return $this->makeView('igniter.admin::auth.reset');
+        return $this->makeView('auth.reset');
     }
 
     public function onLogin()

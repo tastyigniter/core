@@ -74,6 +74,8 @@ trait ControllerUtils
 
     public function callAction($method, $parameters)
     {
+        $this->action = $method == 'remap' ? $this->action : $method;
+
         if (!$this->checkAction($method)) {
             throw new NotFoundHttpException(sprintf(
                 'Method [%s] is not found in the controller [%s]',
@@ -86,7 +88,7 @@ trait ControllerUtils
         }
 
         if (method_exists($this, 'remap')) {
-            return $this->remap($method == 'remap' ? $this->action : $method, $this->params);
+            return $this->remap($this->action, $this->params);
         }
 
         return $this->{$method}(...$parameters);
