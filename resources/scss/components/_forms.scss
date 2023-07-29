@@ -135,29 +135,21 @@
 //
 .form-nav {
   &.nav-tabs {
-    .nav-item {
-    }
-
     .nav-link {
-      border-width: 0 0 4px;
-      border-color: transparent;
-      color: $body-color;
+      border: 0 none;
+      font-weight: $font-weight-semibold;
       padding: $form-nav-link-padding-y $form-nav-link-padding-x;
-      font-weight: 500;
-      border-radius: 0;
     }
 
     .nav-link.active {
-      border-width: 0 0 4px;
-      border-style: solid;
-      border-color: $gray-300;
       background-color: transparent;
+      color: $primary;
+      font-weight: $font-weight-bold;
     }
 
     .nav-link:hover,
     .nav-link:focus {
-      background-color: $gray-200;
-      border-color: transparent;
+      color: $primary;
     }
   }
 }

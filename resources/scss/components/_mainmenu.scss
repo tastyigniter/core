@@ -1,8 +1,6 @@
 .navbar-top {
-  background-color: $white;
+  background-color: $sidenav-bg;
   padding: 0;
-  border-bottom: 1px solid $gray-400;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .075);
 
   &.navbar-expand {
     .navbar {
@@ -10,8 +8,11 @@
     }
 
     .navbar-nav {
+      > .nav-item {
+        line-height: $mainmenu-line-height;
+      }
+
       .nav-link {
-        line-height: $page-top-line-height;
         color: $body-color;
         padding: $mainmenu-padding-x $mainmenu-padding-y;
         position: relative;
@@ -29,13 +30,15 @@
       position: relative;
     }
 
-    li.nav-item > a img {
-      max-width: 32px;
-      max-height: 32px;
-    }
+    .nav-link {
+      img {
+        max-width: $logo-line-height;
+        max-height: $logo-line-height;
+      }
 
-    .nav-link > .fa {
-      vertical-align: middle;
+      > .fa {
+        vertical-align: middle;
+      }
     }
 
     .nav-link > .badge {
@@ -252,17 +255,9 @@
 }
 
 .page-title {
-  margin: 0px;
-  padding-left: 15px;
-  font-size: $mainmenu-font-size;
-
   .small,
   small {
-    color: $gray-600;
-  }
-
-  span {
-    vertical-align: text-top;
+    color: $text-muted;
   }
 }
 

@@ -1,24 +1,28 @@
 // ======================================================================== //
-// Tastyigniter's Admin UI
+// TastyIgniter Admin UI
 // ======================================================================== //
 //
 // Helpers
-@import "helpers/+import-helpers";
+@import "../../node_modules/bootstrap/scss/functions";
 //
-// Bootstrap Helpers
-@import "vendor/bootstrap-helpers";
+// Variables, Mixins
+@import "helpers/variables";
+@import "helpers/mixins";
 //
-// Helpers: Utilities
-@import "helpers/utilities";
+// Vendors: Bootstrap Helpers
+@import "helpers/bootstrap-helpers";
 //
-// Vendors: Bootstrap, FontAwesome, SweetAlert
+// Helpers: Maps
+@import "helpers/maps";
+//
+// Vendors: FontAwesome, SweetAlert
 @import "vendor/+import_vendors";
 //
-// Bootstrap components
-@import "vendor/bootstrap-components";
+// Vendors: Bootstrap components
+@import "helpers/bootstrap-components";
 //
-// Bootstrap components
-@import "utilities/replace";
+// Bootstrap backward compatibility
+@import "helpers/bootstrap-replace";
 //
 // Components
 @import "components/+import-components";

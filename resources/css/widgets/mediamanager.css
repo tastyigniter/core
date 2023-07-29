@@ -1,15 +1,14 @@
 .media-modal {
-    padding: 0 !important;
+    padding: 20px !important;
 }
 
 .media-modal .modal-dialog {
-    max-width: 100%;
+    max-width: 99%;
     margin-top: 0;
     margin-bottom: 0;
 }
 
 .media-modal .modal-content {
-    border-radius: unset;
     margin-bottom: 0;
     border: 0 none;
 }

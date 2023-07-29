@@ -1,8 +1,8 @@
 $white: #FFFFFF !default;
 $gray-100: #FCFDFF !default;
 $gray-200: #E8E9EF !default;
-$gray-300: #D2D4DF !default;
-$gray-400: #C0C2CE !default;
+$gray-300: #d9dbe5 !default;
+$gray-400: darken(#d9dbe5, 5%) !default;
 $gray-500: #9194A6 !default;
 $gray-600: #6F7B9C !default;
 $gray-700: #48557B !default;
@@ -12,7 +12,7 @@ $black: #000329 !default;
 //
 // Colors
 //
-$primary: #2170C0 !default;
+$primary: darken(#3F80EA, 5%) !default;
 $secondary: $gray-700 !default;
 $success: #28A745 !default;
 $info: #5A67D8 !default;
@@ -44,7 +44,7 @@ $icon-font-path: '../fonts/';
 $fa-font-path: $icon-font-path+'FontAwesome';
 // Body
 //
-$body-bg: $gray-200 !default;
+$body-bg: $gray-300 !default;
 $body-color: $gray-800 !default;
 
 $link-hover-decoration: none !default;
@@ -83,8 +83,6 @@ $table-hover-bg: $gray-200 !default;
 // Buttons + Forms
 //
 // Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
-$input-btn-padding-y: .5rem !default;
-$input-btn-padding-x: .75rem !default;
 $input-spacer: 6px !default;
 $input-font-size: 0.9375rem !default;
 //
@@ -112,8 +110,8 @@ $input-height-border: 3px !default;
 $form-check-input-width: 1.25em;
 $form-fields-padding: 1.25rem .725rem !default;
 $form-fields-padding-x: 20px !default;
-$form-nav-link-padding-y: .52rem !default;
-$form-nav-link-padding-x: 1.2rem !default;
+$form-nav-link-padding-y: .75rem !default;
+$form-nav-link-padding-x: 1rem !default;
 $custom-control-indicator-border-color: $gray-200 !default;
 $custom-control-indicator-disabled-bg: $gray-300 !default;
 
@@ -174,8 +172,7 @@ $badge-color: inherit !default;
 //
 $page-padding-x: 20px !default;
 $page-padding-y: 30px !default;
-$page-top: 64px !default;
-$page-top-line-height: 48px !default;
+$page-top: 0 !default;
 $page-bottom: 0 !default;
 $page-margin-left: 230px !default;
 $logo-font-size: 3rem !default;
@@ -183,7 +180,7 @@ $logo-line-height: 32px !default;
 //
 // Main menu
 //
-$mainmenu-font-size: 24px !default;
+$mainmenu-line-height: 42px !default;
 $mainmenu-dropdown-width: 300px !default;
 $mainmenu-menu-max-height: 60vh !default;
 $mainmenu-padding-x: 0.5rem !default;
@@ -191,11 +188,10 @@ $mainmenu-padding-y: 1rem !default;
 //
 // Side nav
 //
-$sidenav-bg: $gray-900 !default;
+$sidenav-bg: $gray-300 !default;
+$sidenav-icon-color: $text-muted !default;
 $sidenav-font-size: 15px !default;
 $sidenav-submenu-font-size: $font-size-base !default;
-$sidenav-font-weight: 500 !default;
-$sidenav-font-size-bold: 600 !default;
 $sidenav-line-height: 50px !default;
 $sidenav-line-height-sm: 42px !default;
 $sidenav-padding-x: 0 !default;

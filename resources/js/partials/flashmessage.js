@@ -86,9 +86,6 @@
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         },
-        customClass: {
-            popup: 'bg-light',
-        },
     }
 
     FlashMessage.SWAL_DEFAULTS = {

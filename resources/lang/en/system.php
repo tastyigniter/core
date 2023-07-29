@@ -426,8 +426,6 @@ return [
         'label_default_geocoder' => 'Default Geocoder',
         'label_menus_page' => 'Menu Items Page',
         'label_reservation_page' => 'Reservation Page',
-        'label_allow_registration' => 'Allow customer registration',
-        'label_registration_email' => 'Send Registration Email',
         'label_mail_logo' => 'Logo',
         'label_sender_name' => 'Sender Name',
         'label_sender_email' => 'Sender Email',
