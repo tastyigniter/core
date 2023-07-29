@@ -68,7 +68,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-star-o',
         'attributes' => [
-            'class' => 'btn btn-outline-warning bg-transparent',
+            'class' => 'btn btn-light text-warning',
             'data-request' => 'onSetDefault',
             'data-request-data' => 'default:{currency_id}',
         ],

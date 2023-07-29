@@ -10,7 +10,7 @@
         'data-request' => $this->alias.'::onSaveAttachmentConfig',
     ]) !!}
     <input type="hidden" name="media_id" value="{{ $formMediaId }}">
-    <div class="modal-body p-0">
+    <div class="modal-body">
         <div class="form-fields">
             @foreach($formWidget->getFields() as $field)
                 {!! $formWidget->renderField($field) !!}
@@ -25,7 +25,7 @@
         ><i class="fa fa-link"></i></a>
         <button
             type="button"
-            class="btn btn-link"
+            class="btn btn-link fw-bold text-decoration-none"
             data-bs-dismiss="modal"
         >@lang('igniter::admin.button_close')</button>
         <button

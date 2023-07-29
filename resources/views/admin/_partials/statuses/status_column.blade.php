@@ -6,7 +6,7 @@
 @else
     <div class="dropdown">
         <button
-            class="btn font-weight-bold p-0 dropdown-toggle"
+            class="btn shadow-none font-weight-bold p-0 dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
             aria-haspopup="true"

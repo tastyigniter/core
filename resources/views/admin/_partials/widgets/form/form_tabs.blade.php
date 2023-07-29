@@ -20,7 +20,7 @@
         <div
             class="tab-pane p-3 {{ (('#'.$tabs->section.'tab-'.$loop->iteration) == $activeTab) ? 'active' : '' }}"
             id="{{ $tabs->section.'tab-'.$loop->iteration }}">
-            <div class="form-fields">
+            <div class="form-fields row g-3">
                 {!! $this->makePartial('form/form_fields', ['fields' => $fields]) !!}
             </div>
         </div>

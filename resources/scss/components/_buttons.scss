@@ -2,31 +2,34 @@
   border-bottom-width: $btn-border-bottom-width;
   cursor: pointer;
 }
+
 .btn-edit {
   color: $primary;
   background-color: transparent;
   box-shadow: none;
 }
+
 .list-action .btn,
 .btn-action {
-  border: 0;
   padding: $btn-action-padding;
-  box-shadow: none;
 }
+
 .btn-light {
-  background-color: $light;
+  background-color: $white;
   border-color: $gray-300;
 
   &:hover {
-    background-color: $gray-200;
-    border-color: $gray-400;
+    background-color: $light;
+    border-color: $gray-300;
   }
 }
+
 .btn-secondary, .btn-default {
   &:hover {
     color: $white;
   }
 }
+
 .btn-light:not(:disabled):not(.disabled):active,
 .btn-light:not(:disabled):not(.disabled).active,
 .show > .btn-light.dropdown-toggle {

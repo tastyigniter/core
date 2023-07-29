@@ -21,7 +21,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-paint-brush',
         'attributes' => [
-            'class' => 'btn btn-outline-default mr-2 shadow-none',
+            'class' => 'btn btn-light mr-2 shadow-none',
             'href' => 'themes/edit/{code}',
         ],
     ],
@@ -29,7 +29,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-file',
         'attributes' => [
-            'class' => 'btn btn-outline-default mr-2 shadow-none',
+            'class' => 'btn btn-light mr-2 shadow-none',
             'href' => 'themes/source/{code}',
         ],
     ],
@@ -37,7 +37,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-star-o',
         'attributes' => [
-            'class' => 'btn btn-outline-warning mr-2 bg-transparent shadow-none',
+            'class' => 'btn btn-light text-warning mr-2 shadow-none',
             'title' => 'lang:igniter::system.themes.text_set_default',
             'data-request' => 'onSetDefault',
             'data-request-form' => '#list-form',
@@ -48,7 +48,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-trash-o',
         'attributes' => [
-            'class' => 'btn btn-outline-danger shadow-none',
+            'class' => 'btn btn-light text-danger shadow-none',
             'href' => 'themes/delete/{code}',
         ],
     ],

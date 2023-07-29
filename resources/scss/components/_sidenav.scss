@@ -26,6 +26,7 @@
     width: $page-margin-left;
     padding-bottom: 35px;
     padding-right: 10px;
+    padding-left: 5px;
   }
 
   .nav {
@@ -35,10 +36,12 @@
 
     > li > a {
       display: block;
-      line-height: $sidenav-line-height;
-      padding: $sidenav-padding-x $sidenav-padding-y;
       font-weight: $font-weight-semibold;
-      font-size: $sidenav-font-size;
+
+      &:hover,
+      &:focus {
+        background-color: $sidenav-hover-bg;
+      }
 
       .fa {
         color: $sidenav-icon-color;
@@ -48,8 +51,9 @@
     li.active > a,
     .nav li.active > a,
     .nav li > a.active {
-      background-color: transparent;
+      background-color: $sidenav-hover-bg;
       font-weight: $font-weight-bold;
+      border-radius: $input-border-radius;
     }
 
     .nav {
@@ -59,15 +63,8 @@
 
       a {
         padding-left: 48px;
-        line-height: $sidenav-line-height-sm;
         text-transform: none;
         font-weight: $font-weight-semibold;
-        font-size: $sidenav-submenu-font-size;
-      }
-
-      li > a:hover,
-      li > a:focus {
-        background-color: transparent;
       }
     }
 
@@ -78,7 +75,6 @@
     .fa-fw {
       width: 1.8em;
       text-align: left;
-      font-size: 17px;
     }
   }
 

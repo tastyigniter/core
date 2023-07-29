@@ -1,11 +1,11 @@
 @foreach($records as $record)
-    <div class="card {{ ($record->status) ? 'shadow-sm' : 'disabled' }} mb-3">
+    <div class="card shadow-sm mb-3">
         <div class="card-body p-3">
             <div class="row align-items-center">
                 <div class="col-md-auto">
                     <span
-                      class="extension-icon rounded"
-                      style="{{ $record->icon['styles'] ?? '' }}"
+                        class="extension-icon rounded"
+                        style="{{ $record->icon['styles'] ?? '' }}"
                     ><i class="{{ $record->icon['class'] ?? '' }}"></i></span>
                 </div>
                 <div class="list-action col-md-auto">

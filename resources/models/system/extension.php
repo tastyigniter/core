@@ -40,7 +40,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-play',
         'attributes' => [
-            'class' => 'btn btn-outline-success mr-3 shadow-none',
+            'class' => 'btn btn-light text-success mr-3 shadow-none',
             'data-request' => 'onInstall',
             'data-request-data' => 'code:\'{name}\'',
         ],
@@ -58,7 +58,7 @@ $config['list']['columns'] = [
         'type' => 'button',
         'iconCssClass' => 'fa fa-trash-o',
         'attributes' => [
-            'class' => 'btn btn-outline-danger shadow-none',
+            'class' => 'btn btn-light text-danger shadow-none',
             'href' => 'extensions/delete/{name}',
         ],
     ],

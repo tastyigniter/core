@@ -1,5 +1,5 @@
 @foreach($records ?? [] as $theme)
-    <div class="card shadow-sm mb-3">
+    <div class="card shadow-sm  mb-3">
         <div class="d-flex align-items-center p-4 w-100">
             @unless($theme->getTheme())
                 {!! $this->makePartial('themes/not_found', ['theme' => $theme]) !!}

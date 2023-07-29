@@ -27,13 +27,13 @@
                         data-control="form-tabs"
                         data-store-name="{{ $templateWidget->getCookieKey() }}"
                     >
-                        <div class="tab-heading border-bottom py-2">
-                            <ul class="form-nav nav nav-pills fw-bold py-0">
+                        <div class="tab-heading">
+                            <ul class="form-nav nav nav-tabs">
                                 @foreach($templateSecondaryTabs as $name => $fields)
-                                    <li class="nav-item mr-3">
+                                    <li class="nav-item">
                                         <a
                                             @class([
-                                                'nav-link px-2 py-1',
+                                                'nav-link',
                                                 'active' => (('#'.$templateSecondaryTabs->section.'tab-'.$loop->iteration) == $templateWidget->getActiveTab())
                                             ])
                                             href="{{ '#'.$templateSecondaryTabs->section.'tab-'.$loop->iteration }}"
@@ -43,12 +43,12 @@
                                 @endforeach
                             </ul>
                         </div>
-                        <div class="tab-content">
+                        <div class="tab-content p-3">
                             @foreach($templateSecondaryTabs as $name => $fields)
                                 <div
                                     class="tab-pane {{ (('#'.$templateSecondaryTabs->section.'tab-'.$loop->iteration) == $templateWidget->getActiveTab()) ? 'active' : '' }}"
                                     id="{{ $templateSecondaryTabs->section.'tab-'.$loop->iteration }}">
-                                    <div class="form-fields px-0 py-3">
+                                    <div class="form-fields row g-3">
                                         {!! $templateWidget->makePartial('form/form_fields', ['fields' => $fields]) !!}
                                     </div>
                                 </div>

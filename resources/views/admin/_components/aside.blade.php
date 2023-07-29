@@ -1,8 +1,8 @@
 @props(['navItems'])
 @if(AdminAuth::isLogged())
     <aside {{ $attributes->merge(['class' => 'sidebar', 'role' => 'navigation'])}}>
-        <div class="navbar-brand mb-3">
-            <a class="logo p-3 pb-0" href="{{ admin_url('dashboard') }}">
+        <div class="navbar-brand p-3 mb-3">
+            <a class="logo" href="{{ admin_url('dashboard') }}">
                 <i class="logo-svg">
                     <svg
                         class="align-top"
@@ -37,14 +37,14 @@
             >
                 @foreach($navItems as $code => $item)
                     @if(isset($item['child']) && empty($item['child']))
-                  @continue;
+                        @continue;
                     @endif
                     <x-igniter.admin::nav.item
                         :code="$code"
                         class="nav-item"
                     >
                         <x-igniter.admin::nav.item-link
-                            class="nav-link {{ !empty($item['child']) ? 'has-arrow' : '' }} {{ $item['class'] ?? '' }}"
+                            class="nav-link mb-1 {{ !empty($item['child']) ? 'has-arrow' : '' }} {{ $item['class'] ?? '' }}"
                             href="{{ $item['href'] ?? '#' }}"
                             target="{{ $item['target'] ?? '_self' }}"
                         >
@@ -59,24 +59,24 @@
                             >
                                 @foreach($children as $childCode => $childItem)
                                     @if(isset($childItem['child']) && empty($childItem['child']))
-                          @continue;
+                                        @continue;
+                                    @endif
+                                    <x-igniter.admin::nav.item
+                                        :code="$childCode"
+                                        class="nav-item w-100"
+                                    >
+                                        <x-igniter.admin::nav.item-link
+                                            class="nav-link mb-1 {{ $childItem['class'] ?? '' }}"
+                                            href="{{ $childItem['href'] ?? '#' }}"
+                                            target="{{ $childItem['target'] ?? '_self' }}"
+                                        >
+                                            <span>{{ $childItem['title'] }}</span>
+                                        </x-igniter.admin::nav.item-link>
+                                    </x-igniter.admin::nav.item>
+                                @endforeach
+                            </x-igniter.admin::nav>
                         @endif
-                        <x-igniter.admin::nav.item
-                          :code="$childCode"
-                          class="nav-item w-100"
-                        >
-                          <x-igniter.admin::nav.item-link
-                            class="nav-link {{ $childItem['class'] ?? '' }}"
-                            href="{{ $childItem['href'] ?? '#' }}"
-                            target="{{ $childItem['target'] ?? '_self' }}"
-                          >
-                            <span>{{ $childItem['title'] }}</span>
-                          </x-igniter.admin::nav.item-link>
-                        </x-igniter.admin::nav.item>
-                      @endforeach
-                    </x-igniter.admin::nav>
-                  @endif
-                </x-igniter.admin::nav.item>
+                    </x-igniter.admin::nav.item>
               @endforeach
             </x-igniter.admin::nav>
         </div>

@@ -112,6 +112,7 @@ $form-fields-padding: 1.25rem .725rem !default;
 $form-fields-padding-x: 20px !default;
 $form-nav-link-padding-y: .75rem !default;
 $form-nav-link-padding-x: 1rem !default;
+$form-label-font-size: 0.825rem !default;
 $custom-control-indicator-border-color: $gray-200 !default;
 $custom-control-indicator-disabled-bg: $gray-300 !default;
 
@@ -189,11 +190,11 @@ $mainmenu-padding-y: 1rem !default;
 // Side nav
 //
 $sidenav-bg: $gray-300 !default;
+$sidenav-hover-bg: $gray-400 !default;
 $sidenav-icon-color: $text-muted !default;
 $sidenav-font-size: 15px !default;
 $sidenav-submenu-font-size: $font-size-base !default;
-$sidenav-line-height: 50px !default;
-$sidenav-line-height-sm: 42px !default;
+$sidenav-line-height: 42px !default;
 $sidenav-padding-x: 0 !default;
 $sidenav-padding-y: 1rem !default;
 $dropdown-item-padding-y: 0.5rem !default;
