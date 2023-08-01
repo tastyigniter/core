@@ -2,7 +2,7 @@
     <div class="login-container">
         <div class="card">
             <div class="card-body">
-                <h5>@lang('igniter::admin.login.text_reset_password_title')</h5>
+                <h4>@lang('igniter::admin.login.text_reset_password_title')</h4>
                 {!! form_open(current_url(),
                     [
                         'id' => 'edit-form',
@@ -49,7 +49,7 @@
                 <div class="form-group">
                     <div class="pull-left">
                         <a
-                            class="btn btn-outline-default"
+                            class="btn btn-light"
                             href="{{ admin_url('login') }}"
                         >@lang('igniter::admin.login.text_back_to_login')</a>
                     </div>

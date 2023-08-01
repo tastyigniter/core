@@ -5,6 +5,7 @@ namespace Igniter\Admin\Http\Actions;
 use Exception;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\FormField;
+use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\FormExtendable;
 use Igniter\Admin\Traits\ValidatesForm;
@@ -403,6 +404,10 @@ class FormController extends ControllerAction
 
         Template::setTitle($pageTitle);
         Template::setHeading($pageTitle);
+
+        if ($backUrl = $this->getConfig($this->context.'[back]', $this->getConfig($this->context.'[redirectClose]'))) {
+            AdminMenu::setPreviousUrl($backUrl);
+        }
     }
 
     /**
@@ -498,9 +503,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);

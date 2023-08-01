@@ -28,7 +28,7 @@
                                 autocomplete="off"
                             />
                             <a
-                                class="btn btn-outline-default btn-carte-help"
+                                class="btn btn-light text-info btn-carte-help"
                                 onclick="$('#carte-help').slideToggle()"
                             ><i class="fa fa-question-circle"></i></a>
                             <button

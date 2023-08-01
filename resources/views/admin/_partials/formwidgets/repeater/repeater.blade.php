@@ -40,7 +40,7 @@
                         <th colspan="99">
                             <div class="list-action">
                                 <button
-                                    class="btn btn-primary"
+                                    class="btn btn-light"
                                     data-control="add-item"
                                     type="button">
                                     <i class="fa fa-plus"></i>

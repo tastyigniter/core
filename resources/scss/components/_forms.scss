@@ -69,65 +69,22 @@
 }
 
 .form-fields {
-  //--bs-gutter-x: 1.5rem;
-  //--bs-gutter-y: 1.5rem;
-  //display: flex;
-  //flex-wrap: wrap;
-  //margin-right: calc(-.5 * var(--bs-gutter-x));
-  //margin-left: calc(-.5 * var(--bs-gutter-x));
-  //
-  //> * {
-  //  padding-right: calc(var(--bs-gutter-x) * .5);
-  //  padding-left: calc(var(--bs-gutter-x) * .5);
-  //  flex: 0 0 auto;
-  //  max-width: 100%;
-  //}
-  //
-  //@include media-breakpoint-up(md) {
-  //  > * {
-  //    flex: 0 0 auto;
-  //    width: 50%;
-  //  }
-  //}
-  //
-  //@include make-grid-columns();
+  @extend .row, .gy-2, .gx-3;
 
-  &.row {
-    .form-group {
-      &:empty {
-        display: none;
-      }
-    }
-
-    > .span-left,
-    > .span-right {
-      @extend .col-lg-6;
-
-      &.flex-width {
-        @extend .col-lg-3;
-      }
+  .form-group {
+    &:empty {
+      display: none;
     }
   }
 
-  //> .flex-width {
-  //  width: auto;
-  //}
-  //
-  //> .flex-width .row > div {
-  //  width: 100%;
-  //}
-  //
-  //> .span-full {
-  //  width: 100%;
-  //}
+  > .span-left,
+  > .span-right {
+    @extend .col-lg-6;
 
-  //@include media-breakpoint-up(sm) {
-  //  > .span-left,
-  //  > .span-right {
-  //    flex: 0 0 auto;
-  //    width: 50%;
-  //  }
-  //}
+    &.flex-width {
+      @extend .col-lg-3;
+    }
+  }
 }
 
 .hidden-field {

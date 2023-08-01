@@ -48,7 +48,7 @@
                                 <div
                                     class="tab-pane {{ (('#'.$templateSecondaryTabs->section.'tab-'.$loop->iteration) == $templateWidget->getActiveTab()) ? 'active' : '' }}"
                                     id="{{ $templateSecondaryTabs->section.'tab-'.$loop->iteration }}">
-                                    <div class="form-fields row g-3">
+                                    <div class="form-fields">
                                         {!! $templateWidget->makePartial('form/form_fields', ['fields' => $fields]) !!}
                                     </div>
                                 </div>

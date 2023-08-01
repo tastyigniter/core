@@ -44,7 +44,7 @@
             </div>
             <button
                 type="button"
-                class="btn btn-outline-default"
+                class="btn btn-light"
                 data-bs-toggle="modal"
                 data-bs-target="#{{ $this->getId('modal') }}"
                 data-modal-title="{{ sprintf(lang($this->addLabel), $selectedTypeLabel) }}"
@@ -55,7 +55,7 @@
             @if(!empty($selectedTemplateFile))
                 <button
                     type="button"
-                    class="btn btn-outline-default"
+                    class="btn btn-light"
                     data-bs-toggle="modal"
                     data-bs-target="#{{ $this->getId('modal') }}"
                     data-modal-title="{{ sprintf(lang($this->editLabel), $selectedTypeLabel) }}"
@@ -65,7 +65,7 @@
                 </button>
                 <button
                     type="button"
-                    class="btn btn-outline-danger"
+                    class="btn btn-light text-danger"
                     title="{{ sprintf(lang($this->deleteLabel), $selectedTypeLabel) }}"
                     data-request="{{ $this->getEventHandler('onManageSource') }}"
                     data-request-data="action: 'delete'"

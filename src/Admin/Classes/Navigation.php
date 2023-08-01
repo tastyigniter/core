@@ -25,6 +25,8 @@ class Navigation
 
     protected $callbacks = [];
 
+    protected $previousPageUrl;
+
     public function __construct($path = null)
     {
         $this->viewPath[] = $path;
@@ -197,6 +199,18 @@ class Navigation
 
             return AdminAuth::user()->hasPermission($permission);
         })->toArray();
+    }
+
+    public function setPreviousUrl(string $url): static
+    {
+        $this->previousPageUrl = $url;
+
+        return $this;
+    }
+
+    public function getPreviousUrl()
+    {
+        return $this->previousPageUrl;
     }
 
     //

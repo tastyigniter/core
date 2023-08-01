@@ -9,11 +9,6 @@ $config['list']['filter'] = [
 
 $config['list']['toolbar'] = [
     'buttons' => [
-        'back' => [
-            'label' => 'lang:igniter::admin.button_icon_back',
-            'class' => 'btn btn-outline-secondary',
-            'href' => 'system_logs',
-        ],
         'refresh' => [
             'label' => 'lang:igniter::admin.button_refresh',
             'class' => 'btn btn-primary',
@@ -61,16 +56,6 @@ $config['list']['columns'] = [
     'count' => [
         'label' => 'lang:igniter::system.request_logs.column_count',
         'type' => 'text',
-    ],
-];
-
-$config['form']['toolbar'] = [
-    'buttons' => [
-        'back' => [
-            'label' => 'lang:igniter::admin.button_icon_back',
-            'class' => 'btn btn-outline-secondary',
-            'href' => 'request_logs',
-        ],
     ],
 ];
 

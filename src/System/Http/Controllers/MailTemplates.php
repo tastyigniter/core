@@ -42,7 +42,7 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::system.mail_templates.text_preview_template_title',
-            'redirect' => 'mail_templates/preview/{template_id}',
+            'back' => 'mail_templates',
         ],
         'delete' => [
             'redirect' => 'mail_templates',

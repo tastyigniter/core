@@ -64,11 +64,6 @@ $config['list']['columns'] = [
 
 $config['form']['toolbar'] = [
     'buttons' => [
-        'back' => [
-            'label' => 'lang:igniter::admin.button_icon_back',
-            'class' => 'btn btn-outline-secondary',
-            'href' => 'mail_layouts',
-        ],
         'save' => [
             'label' => 'lang:igniter::admin.button_save',
             'context' => ['create', 'edit'],

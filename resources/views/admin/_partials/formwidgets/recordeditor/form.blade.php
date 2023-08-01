@@ -14,7 +14,7 @@
         <input type="hidden" name="recordId" value="{{ $formRecordId }}">
         <div class="modal-body p-3">
             <div
-                class="form-fields row g-3"
+                class="form-fields"
                 data-control="formwidget"
                 data-refresh-handler="{{$this->getEventHandler('onRefresh')}}"
             >

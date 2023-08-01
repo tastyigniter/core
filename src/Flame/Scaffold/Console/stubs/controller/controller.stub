@@ -41,7 +41,7 @@ class {{studly_name}} extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => '{{lower_author}}/{{lower_extension}}/{{lower_name}}',
+            'back' => '{{lower_author}}/{{lower_extension}}/{{lower_name}}',
         ],
         'configFile' => '{{snake_singular_name}}',
     ];

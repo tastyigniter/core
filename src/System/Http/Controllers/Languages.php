@@ -50,7 +50,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => 'languages',
+            'back' => 'languages',
         ],
         'delete' => [
             'redirect' => 'languages',

@@ -1,6 +1,6 @@
 <ul
     id="{{ $this->getId() }}"
-    class="navbar-nav"
+    class="navbar-nav align-items-center"
     data-control="mainmenu"
     data-alias="{{ $this->alias }}"
 >

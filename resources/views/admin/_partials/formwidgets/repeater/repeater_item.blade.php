@@ -4,7 +4,7 @@
     @if(!$this->previewMode && $sortable)
         <td class="repeater-item-handle">
             <input type="hidden" name="{{ $sortableInputName }}[]" value="{{ $indexValue }}">
-            <div class="btn {{ $this->getId('items') }}-handle">
+            <div class="btn shadow-none {{ $this->getId('items') }}-handle">
                 <i class="fa fa-arrows-alt-v"></i>
             </div>
         </td>
@@ -13,7 +13,7 @@
     @if(!$this->previewMode && $showRemoveButton)
         <td class="list-action repeater-item-remove">
             <a
-                class="btn btn-outline-danger border-none"
+                class="btn shadow-none btn-outline-danger border-none"
                 role="button"
                 data-control="remove-item"
                 data-target="#{{ $this->getId('item-'.$indexValue) }}"

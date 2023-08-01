@@ -1,12 +1,12 @@
 <div class="container-fluid pt-4">
-    @foreach($settings as $item => $categories)
-        @continue(!count($categories))
-        @unless($item == 'core')
-            <h5 class="mb-2 px-3">{{ ucwords($item) }}</h5>
-        @endunless
+    <div class="card shadow-sm p-3 mb-3">
+        @foreach($settings as $item => $categories)
+            @continue(!count($categories))
+            @unless($item == 'core')
+                <h4 class="py-2 my-4 border-bottom">{{ ucwords($item) }}</h4>
+            @endunless
 
-        <div class="card shadow-sm p-4 mb-3">
-            <div class="row gy-4">
+            <div class="row g-3">
                 @foreach($categories as $key => $category)
                     <div class="col-lg-4">
                         <a
@@ -27,17 +27,17 @@
                                         @else
                                             <i class="text-muted fa fa-puzzle-piece fa-fw"></i>
                                         @endif
-                                </div>
-                                <div class="">
-                                    <h5>@lang($category->label)</h5>
-                                    <p class="no-margin text-muted">{!! $category->description ? lang($category->description) : '' !!}</p>
+                                    </div>
+                                    <div class="">
+                                        <h5 class="mb-1">@lang($category->label)</h5>
+                                        <p class="no-margin text-muted">{!! $category->description ? lang($category->description) : '' !!}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
+                        </a>
+                    </div>
+                @endforeach
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 </div>

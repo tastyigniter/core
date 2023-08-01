@@ -19,6 +19,7 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter::system.currencies.text_empty',
             'defaultSort' => ['currency_status', 'DESC'],
             'configFile' => 'currency',
+            'back' => 'settings',
         ],
     ];
 
@@ -40,7 +41,7 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => 'currencies',
+            'back' => 'currencies',
         ],
         'delete' => [
             'redirect' => 'currencies',

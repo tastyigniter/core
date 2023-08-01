@@ -2,7 +2,7 @@
   .toolbar-action {
     clear: both;
     width: 100%;
-    padding: $page-padding-x;
+    padding: 0 $page-padding-x $page-padding-x;
   }
 
   @include media-breakpoint-down(sm) {
@@ -61,22 +61,23 @@
     float: right;
   }
 
-  .btn-primary {
-    color: #FFFFFF;
-
-    &:hover {
-      color: #FFFFFF;
-    }
-  }
-
-  .btn-outline-primary {
-    color: $primary;
-
-    &:hover {
-      color: #FFFFFF;
-    }
-  }
-
+  //
+  //.btn-primary {
+  //  color: #FFFFFF;
+  //
+  //  &:hover {
+  //    color: #FFFFFF;
+  //  }
+  //}
+  //
+  //.btn-outline-primary {
+  //  color: $primary;
+  //
+  //  &:hover {
+  //    color: #FFFFFF;
+  //  }
+  //}
+  //
   @each $color, $value in $theme-colors {
     @if not ($color == "primary") {
       .btn-#{$color} {

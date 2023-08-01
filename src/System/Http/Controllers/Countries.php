@@ -22,6 +22,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter::system.countries.text_empty',
             'defaultSort' => ['country_name', 'ASC'],
             'configFile' => 'country',
+            'back' => 'settings',
         ],
     ];
 
@@ -43,7 +44,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => 'countries',
+            'back' => 'countries',
         ],
         'delete' => [
             'redirect' => 'countries',

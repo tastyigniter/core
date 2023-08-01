@@ -1,18 +1,19 @@
 $white: #FFFFFF !default;
-$gray-100: #FCFDFF !default;
-$gray-200: #E8E9EF !default;
-$gray-300: #d9dbe5 !default;
-$gray-400: darken(#d9dbe5, 5%) !default;
-$gray-500: #9194A6 !default;
-$gray-600: #6F7B9C !default;
-$gray-700: #48557B !default;
-$gray-800: #2E3B61 !default;
-$gray-900: #192957 !default;
+$gray-100: #F5F5F7 !default;
+$gray-200: darken($gray-100, 4%) !default;
+$gray-300: darken($gray-200, 5%) !default;
+$gray-400: darken($gray-300, 10%) !default;
+$gray-500: darken($gray-400, 12%) !default;
+$gray-600: darken($gray-500, 15%) !default;
+$gray-700: darken($gray-600, 15%) !default;
+$gray-800: darken($gray-700, 15%) !default;
+$gray-900: darken($gray-800, 15%) !default;
 $black: #000329 !default;
 //
 // Colors
 //
-$primary: darken(#3F80EA, 5%) !default;
+$orange: #FF4900 !default;
+$primary: $orange !default;
 $secondary: $gray-700 !default;
 $success: #28A745 !default;
 $info: #5A67D8 !default;
@@ -20,7 +21,6 @@ $warning: #FD7E14 !default;
 $danger: #DC3545 !default;
 $light: $gray-200 !default;
 $dark: $gray-900 !default;
-$orange: #FF4900 !default;
 
 $theme-colors: () !default;
 $theme-colors: map-merge((
@@ -44,8 +44,8 @@ $icon-font-path: '../fonts/';
 $fa-font-path: $icon-font-path+'FontAwesome';
 // Body
 //
-$body-bg: $gray-300 !default;
-$body-color: $gray-800 !default;
+$body-bg: $gray-200 !default;
+$body-color: $dark !default;
 
 $link-hover-decoration: none !default;
 //
@@ -119,8 +119,8 @@ $custom-control-indicator-disabled-bg: $gray-300 !default;
 // Navs
 //
 $nav-tabs-border-radius: .625rem !default;
-$nav-link-color: $body-color !default;
-$nav-link-hover-color: shift-color($body-color, 20%) !default;
+$nav-link-color: lighten($body-color, 15%) !default;
+$nav-link-hover-color: $body-color !default;
 // Dropdowns
 //
 // Dropdown menu container and contents.
@@ -181,16 +181,15 @@ $logo-line-height: 32px !default;
 //
 // Main menu
 //
-$mainmenu-line-height: 42px !default;
 $mainmenu-dropdown-width: 300px !default;
 $mainmenu-menu-max-height: 60vh !default;
-$mainmenu-padding-x: 0.5rem !default;
+$mainmenu-padding-x: 0.35rem !default;
 $mainmenu-padding-y: 1rem !default;
 //
 // Side nav
 //
-$sidenav-bg: $gray-300 !default;
-$sidenav-hover-bg: $gray-400 !default;
+$sidenav-bg: lighten($body-bg, 6%) !default;
+$sidenav-hover-bg: darken($body-bg, 2%) !default;
 $sidenav-icon-color: $text-muted !default;
 $sidenav-font-size: 15px !default;
 $sidenav-submenu-font-size: $font-size-base !default;

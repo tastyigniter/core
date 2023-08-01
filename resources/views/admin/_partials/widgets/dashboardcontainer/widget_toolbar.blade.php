@@ -18,7 +18,7 @@
     </div>
 </div>
 @if($this->canManage || $this->canSetDefault)
-    <div class="toolbar-action pt-3">
+    <div class="toolbar-action pt-0">
         @if($this->canManage)
             <button
                 type="button"

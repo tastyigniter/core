@@ -2,6 +2,7 @@
 
 namespace Igniter\Admin\Http\Actions;
 
+use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\ListExtendable;
 use Igniter\System\Classes\ControllerAction;
@@ -93,9 +94,13 @@ class ListController extends ControllerAction
 
     public function index()
     {
-        $pageTitle = lang($this->getConfig('title', 'lang:text_title'));
+        $pageTitle = lang($this->getConfig('title', 'No title'));
         Template::setTitle($pageTitle);
         Template::setHeading($pageTitle);
+
+        if ($backUrl = $this->getConfig('back')) {
+            AdminMenu::setPreviousUrl($backUrl);
+        }
 
         $this->makeLists();
     }

@@ -39,7 +39,7 @@ class Statuses extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => 'statuses',
+            'back' => 'statuses',
         ],
         'delete' => [
             'redirect' => 'statuses',

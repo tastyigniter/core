@@ -18,6 +18,7 @@ class MailPartials extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter::system.mail_templates.text_empty',
             'defaultSort' => ['partial_id', 'DESC'],
             'configFile' => 'mailpartial',
+            'back' => 'mail_templates',
         ],
     ];
 
@@ -39,7 +40,7 @@ class MailPartials extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::system.mail_templates.text_preview_partial_title',
-            'redirect' => 'mail_partials',
+            'back' => 'mail_partials',
         ],
         'delete' => [
             'redirect' => 'mail_partials',

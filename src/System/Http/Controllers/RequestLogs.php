@@ -19,6 +19,7 @@ class RequestLogs extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter::system.request_logs.text_empty',
             'defaultSort' => ['count', 'DESC'],
             'configFile' => 'requestlog',
+            'back' => 'system_logs',
         ],
     ];
 
@@ -27,7 +28,7 @@ class RequestLogs extends \Igniter\Admin\Classes\AdminController
         'model' => \Igniter\System\Models\RequestLog::class,
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => 'request_logs',
+            'back' => 'request_logs',
         ],
         'delete' => [
             'redirect' => 'request_logs',

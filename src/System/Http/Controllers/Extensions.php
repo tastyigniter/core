@@ -74,6 +74,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         }
 
         AdminMenu::setContext('settings', 'system');
+        AdminMenu::setPreviousUrl('settings');
 
         if (!strlen($vendor) || !strlen($extension)) {
             throw new SystemException(lang('igniter::system.extensions.alert_setting_missing_id'));

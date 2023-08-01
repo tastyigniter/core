@@ -18,6 +18,7 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter::system.mail_templates.text_empty',
             'defaultSort' => ['layout_id', 'DESC'],
             'configFile' => 'maillayout',
+            'back' => 'mail_templates',
         ],
     ];
 
@@ -39,7 +40,7 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => 'mail_layouts',
+            'back' => 'mail_layouts',
         ],
         'delete' => [
             'redirect' => 'mail_layouts',

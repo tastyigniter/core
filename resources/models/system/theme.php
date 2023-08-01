@@ -75,11 +75,6 @@ $config['list']['columns'] = [
 
 $config['form']['toolbar'] = [
     'buttons' => [
-        'back' => [
-            'label' => 'lang:igniter::admin.button_icon_back',
-            'class' => 'btn btn-default ml-0',
-            'href' => 'themes',
-        ],
         'save' => [
             'label' => 'lang:igniter::admin.button_save',
             'class' => 'btn btn-primary',

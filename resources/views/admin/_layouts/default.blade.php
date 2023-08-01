@@ -22,7 +22,7 @@
                 {!! $this->widgets['mainmenu']->render() !!}
             </x-igniter.admin::header>
         @endif
-        <div class="page-content">
+        <div class="page-content pt-4">
             {!! Template::getBlock('body') !!}
         </div>
         <div id="notification">

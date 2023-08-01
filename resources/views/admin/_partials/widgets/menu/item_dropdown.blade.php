@@ -4,10 +4,11 @@
   data-mainmenu-item="{{$item->itemName}}"
 >
     <a
-      class="nav-link"
-      data-bs-toggle="dropdown"
-      data-bs-auto-close="outside"
-      {!! $item->getAttributes()!!}
+        href="#"
+        class="nav-link"
+        data-bs-toggle="dropdown"
+        data-bs-auto-close="outside"
+        {!! $item->getAttributes()!!}
     >
         <i class="fa {{ $item->icon }}" role="button"></i>
     </a>

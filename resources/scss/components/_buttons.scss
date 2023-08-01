@@ -24,15 +24,22 @@
   }
 }
 
-.btn-secondary, .btn-default {
-  &:hover {
-    color: $white;
-  }
-}
-
 .btn-light:not(:disabled):not(.disabled):active,
 .btn-light:not(:disabled):not(.disabled).active,
 .show > .btn-light.dropdown-toggle {
   background-color: $gray-400;
   border-color: $gray-400;
+}
+
+.btn-primary,
+.btn-success,
+.btn-secondary,
+.btn-default {
+  color: $white;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $white;
+  }
 }

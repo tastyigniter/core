@@ -1,5 +1,5 @@
 .navbar-top {
-  background-color: $sidenav-bg;
+  background-color: $body-bg;
   padding: 0;
 
   &.navbar-expand {
@@ -8,14 +8,16 @@
     }
 
     .navbar-nav {
-      > .nav-item {
-        line-height: $mainmenu-line-height;
-      }
-
       .nav-link {
         color: $body-color;
         padding: $mainmenu-padding-x $mainmenu-padding-y;
         position: relative;
+
+        &:hover,
+        &:focus {
+          background-color: $gray-300;
+          border-radius: $input-border-radius;
+        }
 
         .icon-border {
           border-width: 3px;

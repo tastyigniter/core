@@ -80,6 +80,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         $pageTitle = sprintf(lang('igniter::system.settings.text_edit_title'), lang($definition->label));
         Template::setTitle($pageTitle);
         Template::setHeading($pageTitle);
+        AdminMenu::setPreviousUrl('settings');
 
         $this->initWidgets($model, $definition);
 
