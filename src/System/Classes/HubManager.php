@@ -56,9 +56,9 @@ class HubManager
     {
         $client = Http::baseUrl(Config::get('igniter.system.hubEndpoint', static::ENDPOINT));
 
-        $client->acceptJson()->withHeaders($this->prepareHeaders($params));
-
-        $response = $client->post($uri, $this->prepareRequest($params));
+        $response = $client->acceptJson()
+            ->withHeaders($this->prepareHeaders($params))
+            ->post($uri, $this->prepareRequest($params));
 
         if (!$response->ok()) {
             if ($errors = $response->json('errors')) {

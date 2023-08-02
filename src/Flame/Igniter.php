@@ -101,7 +101,7 @@ class Igniter
     public static function runningInAdmin()
     {
         $requestPath = str_finish(normalize_uri(request()->path()), '/');
-        $adminUri = str_finish(normalize_uri(static::uri()), '/');
+        $adminUri = str_finish(normalize_uri(static::adminUri()), '/');
 
         return starts_with($requestPath, $adminUri);
     }
@@ -252,6 +252,11 @@ class Igniter
     }
 
     public static function uri()
+    {
+        return config('igniter-routes.uri');
+    }
+
+    public static function adminUri()
     {
         return config('igniter-routes.adminUri', '/admin');
     }

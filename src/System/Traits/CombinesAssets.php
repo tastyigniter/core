@@ -54,7 +54,7 @@ trait CombinesAssets
         $this->assetsCombinerUri = config('igniter-routes.assetsCombinerUri', '/_assets');
 
         if (Igniter::runningInAdmin()) {
-            $this->assetsCombinerUri = Igniter::uri().$this->assetsCombinerUri;
+            $this->assetsCombinerUri = Igniter::adminUri().$this->assetsCombinerUri;
         }
 
         $this->registerFilter('css', new \Igniter\Flame\Assetic\Filter\CssImportFilter);

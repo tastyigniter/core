@@ -20,7 +20,7 @@ class AdminHelper
      */
     public function uri()
     {
-        return Igniter::uri();
+        return Igniter::adminUri();
     }
 
     /**

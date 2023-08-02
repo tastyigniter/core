@@ -249,7 +249,7 @@ class Controller extends IlluminateController
         }
 
         $pathParts = explode('/', request()->path());
-        if (Igniter::uri()) {
+        if (Igniter::adminUri()) {
             array_shift($pathParts);
         }
 

@@ -2,6 +2,7 @@
 
 namespace Igniter\Main\Classes;
 
+use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Router;
 use Illuminate\Routing\Router as IlluminateRouter;
 
@@ -32,6 +33,7 @@ class RouteRegistrar
             ->middleware('igniter')
             ->domain(config('igniter-routes.domain'))
             ->name('igniter.main.assets')
+            ->prefix(Igniter::uri())
             ->group(function (IlluminateRouter $router) {
                 $router->get(config('igniter-routes.assetsCombinerUri', '_assets').'/{asset}', 'AssetController');
             });
@@ -43,6 +45,7 @@ class RouteRegistrar
             ->middleware('igniter')
             ->domain(config('igniter-routes.domain'))
             ->name('igniter.theme.')
+            ->prefix(Igniter::uri())
             ->group(function (IlluminateRouter $router) {
                 foreach ($this->getThemePageRoutes() as $parts) {
                     $route = $router->pagic($parts['uri'], $parts['route'])

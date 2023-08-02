@@ -17,6 +17,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Front-end URI
+    |--------------------------------------------------------------------------
+    |
+    | Specifies the URI prefix used for accessing customer (front-end) pages.
+    |
+    */
+
+    'uri' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Back-end URI
     |--------------------------------------------------------------------------
     |
@@ -47,12 +58,13 @@ return [
 
     'middleware' => [
         'web',
+        \Igniter\System\Http\Middleware\CheckRequirements::class,
+        \Igniter\Admin\Http\Middleware\PoweredBy::class,
         \Igniter\Main\Http\Middleware\CheckMaintenance::class,
     ],
 
     'adminMiddleware' => [
         'igniter',
-        \Igniter\Admin\Http\Middleware\PoweredBy::class,
     ],
 
     'coreNamespaces' => [
