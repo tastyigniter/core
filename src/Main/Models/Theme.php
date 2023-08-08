@@ -132,12 +132,12 @@ class Theme extends Model
 
     public function getLockedAttribute()
     {
-        return $this->getTheme()->locked;
+        return $this->getTheme()?->locked;
     }
 
     public function getScreenshotAttribute()
     {
-        return $this->getTheme()->getScreenshotData();
+        return $this->getTheme()?->getScreenshotData();
     }
 
     public function setAttribute($key, $value)
