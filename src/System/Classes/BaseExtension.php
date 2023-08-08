@@ -37,7 +37,7 @@ abstract class BaseExtension extends EventServiceProvider
 
         $config = SystemHelper::extensionValidateConfig($this->extensionMeta());
 
-        $extensionPath = array_get($config, 'directory', dirname($reflector->getFileName(), 2));
+        $extensionPath = dirname($reflector->getFileName(), 2);
         $extensionNamespace = array_get($config, 'namespace', $namespace = $reflector->getNamespaceName().'\\');
         $extensionCode = array_get($config, 'code', str_replace('\\', '.', $namespace));
 

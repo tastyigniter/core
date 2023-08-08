@@ -323,7 +323,7 @@ class ExtensionManager
             return $this->extensions[$identifier];
         }
 
-        $path = array_get($config, 'directory');
+        $path = base_path(array_get($config, 'directory'));
         $class = array_get($config, 'extensionClass');
         $extension = $this->resolveExtension($identifier, $path, $class);
 
@@ -343,7 +343,7 @@ class ExtensionManager
     public function resolveExtension($identifier, $path, $class)
     {
         throw_if(
-            !$path || !File::isDirectory($path),
+            !$path || !File::isDirectory($path) || $path === base_path(),
             SystemException::class, 'Extension directory not found: '.$path
         );
 

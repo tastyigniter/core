@@ -112,7 +112,7 @@ class PackageManifest extends BasePackageManifest
         $manifest['require'] = $this->formatRequire(array_get($package, 'require'));
         $manifest['namespace'] = $namespace;
         $manifest['extensionClass'] = $class;
-        $manifest['directory'] = $directory;
+        $manifest['directory'] = str_after($directory, base_path());
 
         $result[$code] = array_filter($manifest);
 
