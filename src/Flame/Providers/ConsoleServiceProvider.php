@@ -10,6 +10,8 @@ abstract class ConsoleServiceProvider extends IlluminateEventServiceProvider
 
     public function register()
     {
+        parent::register();
+
         foreach ($this->commands as $command => $class) {
             if (is_string($command)) {
                 $key = 'command.igniter.'.$command;
