@@ -2,7 +2,6 @@
 
 namespace Igniter\Flame\Setting;
 
-use Igniter\Flame\Setting\Middleware\SaveSetting;
 use Illuminate\Support\ServiceProvider;
 
 class SettingServiceProvider extends ServiceProvider

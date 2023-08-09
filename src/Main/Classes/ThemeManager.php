@@ -226,7 +226,7 @@ class ThemeManager
     /**
      * Returns a theme object based on its name.
      */
-    public function findTheme(?string $themeCode = null): ?Theme
+    public function findTheme(string $themeCode = null): ?Theme
     {
         return $this->hasTheme($themeCode) ? $this->themes[$themeCode] : null;
     }
@@ -234,7 +234,7 @@ class ThemeManager
     /**
      * Checks to see if an extension has been registered.
      */
-    public function hasTheme(?string $themeCode = null): bool
+    public function hasTheme(string $themeCode = null): bool
     {
         return isset($this->themes[$themeCode]);
     }
@@ -242,7 +242,7 @@ class ThemeManager
     /**
      * Returns the theme domain by looking in its path.
      */
-    public function findParent(?string $themeCode = null): ?Theme
+    public function findParent(string $themeCode = null): ?Theme
     {
         return $this->findTheme($this->findTheme($themeCode)?->getParentName());
     }
@@ -250,7 +250,7 @@ class ThemeManager
     /**
      * Returns the parent theme code.
      */
-    public function findParentCode(?string $themeCode = null): ?string
+    public function findParentCode(string $themeCode = null): ?string
     {
         return $this->findTheme($themeCode)?->getParentName();
     }
