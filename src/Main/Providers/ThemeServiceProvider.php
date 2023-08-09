@@ -15,16 +15,12 @@ class ThemeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->callAfterResolving(Router::class, function ($router) {
-            $manager = resolve(ThemeManager::class);
-
             $router::$templateClass = Page::class;
-            $router->setTheme($manager->getActiveThemeCode());
-
-            $this->loadSourceFromThemes($manager);
+            $router->setTheme(Theme::getActiveCode());
         });
 
         Model::extend(function (Model $model) {
-            $model->setSource(resolve(ThemeManager::class)->getActiveThemeCode());
+            $model->setSource(Theme::getActiveCode());
         });
     }
 
@@ -38,20 +34,5 @@ class ThemeServiceProvider extends ServiceProvider
             $themeViewPaths = array_get(view()->getFinder()->getHints(), 'igniter.main', []);
             config()->set('view.paths', array_merge($themeViewPaths, config('view.paths')));
         });
-    }
-
-    public function loadSourceFromThemes(mixed $manager): void
-    {
-        collect($manager->listThemes())
-            ->filter(function (Theme $theme) {
-                return !Page::getSourceResolver()->hasSource($theme->getName());
-            })
-            ->each(function (Theme $theme) use ($manager) {
-                Page::getSourceResolver()->addSource($theme->getName(), $theme->makeFileSource());
-
-                if ($theme->getName() === $manager->getActiveThemeCode()) {
-                    Page::getSourceResolver()->setDefaultSourceName($theme->getName());
-                }
-            });
     }
 }

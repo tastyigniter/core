@@ -4,11 +4,13 @@ namespace Igniter\Main\Classes;
 
 use Exception;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Pagic\Source\FileSource;
 use Igniter\Flame\Pagic\Source\SourceInterface;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Events\ThemeExtendFormConfigEvent;
+use Igniter\Main\Events\ThemeGetActiveEvent;
 use Igniter\Main\Models\Theme as ThemeModel;
 use Igniter\Main\Template\Content as ContentTemplate;
 use Igniter\Main\Template\Layout as LayoutTemplate;
@@ -249,6 +251,19 @@ class Theme
         if (File::exists($path = $this->getParentPath().'/theme.php')) {
             require $path;
         }
+    }
+
+    public static function getActiveCode(): ?string
+    {
+        if (!is_null($apiResult = ThemeGetActiveEvent::dispatchOnce())) {
+            return $apiResult;
+        }
+
+        if (Igniter::hasDatabase() && $activeTheme = ThemeModel::getDefault()) {
+            return $activeTheme->code;
+        }
+
+        return config('igniter-system.defaultTheme', '');
     }
 
     //

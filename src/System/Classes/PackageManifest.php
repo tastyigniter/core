@@ -136,7 +136,7 @@ class PackageManifest extends BasePackageManifest
         $manifest['require'] = $this->formatRequire(array_get($package, 'require'));
 
         if (!array_key_exists('directory', $manifest)) {
-            $manifest['directory'] = $directory;
+            $manifest['directory'] = str_after($directory, base_path());
         }
 
         $result[$code] = array_filter($manifest);

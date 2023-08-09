@@ -5,7 +5,6 @@ namespace Igniter\Main\Classes;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
-use Igniter\Main\Events\ThemeGetActiveEvent;
 use Igniter\Main\Models\Theme as ThemeModel;
 use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ComposerManager;
@@ -50,9 +49,7 @@ class ThemeManager
 
     public function initialize()
     {
-        // This prevents reading settings from the database before its been created
         $this->disabledThemes = resolve(PackageManifest::class)->disabledAddons();
-        $this->loadThemes();
     }
 
     public static function addDirectory($directory)
@@ -132,7 +129,7 @@ class ThemeManager
 
         $config = $this->validateMetaFile($config, $code);
 
-        $path = array_get($config, 'directory');
+        $path = base_path(array_get($config, 'directory'));
         $themeObject = new Theme($path, $config);
 
         $themeObject->active = $this->isActive($code);
@@ -156,7 +153,7 @@ class ThemeManager
             return false;
         }
 
-        $config['directory'] = $path;
+        $config['directory'] = str_after($path, base_path());
 
         return $this->loadThemeFromConfig(basename($path), $config);
     }
@@ -180,6 +177,12 @@ class ThemeManager
 
     public function bootTheme(Theme $theme)
     {
+        Page::getSourceResolver()->addSource($theme->getName(), $theme->makeFileSource());
+
+        if ($theme->isActive()) {
+            Page::getSourceResolver()->setDefaultSourceName($theme->getName());
+        }
+
         Igniter::loadResourcesFrom($theme->getAssetPath(), $theme->getName());
 
         if ($theme->hasParent() && $theme->getParent() && File::isDirectory($path = $theme->getParent()->getAssetPath())) {
@@ -210,71 +213,46 @@ class ThemeManager
     // Management Methods
     //
 
-    public function getActiveTheme()
+    public function getActiveTheme(): ?Theme
     {
-        return ($activeTheme = $this->findTheme($this->getActiveThemeCode()))
-            ? $activeTheme : null;
+        return $this->findTheme($this->getActiveThemeCode());
     }
 
-    public function getActiveThemeCode()
+    public function getActiveThemeCode(): ?string
     {
-        if (!is_null($apiResult = ThemeGetActiveEvent::dispatchOnce())) {
-            return $apiResult;
-        }
-
-        if (Igniter::hasDatabase() && $activeTheme = ThemeModel::getDefault()) {
-            return $activeTheme->code;
-        }
-
-        return config('igniter-system.defaultTheme', '');
+        return Theme::getActiveCode();
     }
 
     /**
      * Returns a theme object based on its name.
-     *
-     * @return \Igniter\Main\Classes\Theme|null
      */
-    public function findTheme($themeCode)
+    public function findTheme(?string $themeCode = null): ?Theme
     {
-        if (!$this->hasTheme($themeCode)) {
-            return null;
-        }
-
-        return $this->themes[$themeCode];
+        return $this->hasTheme($themeCode) ? $this->themes[$themeCode] : null;
     }
 
     /**
      * Checks to see if an extension has been registered.
-     *
-     * @return bool
      */
-    public function hasTheme($themeCode)
+    public function hasTheme(?string $themeCode = null): bool
     {
         return isset($this->themes[$themeCode]);
     }
 
     /**
      * Returns the theme domain by looking in its path.
-     *
-     * @return \Igniter\Main\Classes\Theme|null
      */
-    public function findParent($themeCode)
+    public function findParent(?string $themeCode = null): ?Theme
     {
-        $theme = $this->findTheme($themeCode);
-
-        return $theme ? $this->findTheme($theme->getParentName()) : null;
+        return $this->findTheme($this->findTheme($themeCode)?->getParentName());
     }
 
     /**
      * Returns the parent theme code.
-     *
-     * @return string
      */
-    public function findParentCode($themeCode)
+    public function findParentCode(?string $themeCode = null): ?string
     {
-        $theme = $this->findTheme($themeCode);
-
-        return $theme ? $theme->getParentName() : null;
+        return $this->findTheme($themeCode)?->getParentName();
     }
 
     public function paths()
@@ -323,11 +301,11 @@ class ThemeManager
      *
      * @return bool
      */
-    public function isDisabled($name)
+    public function isDisabled($themeCode)
     {
         traceLog('Deprecated. Use $instance::isActive($themeCode) instead');
 
-        return !$this->checkName($name) || !array_get($this->disabledThemes, $name, false);
+        return !$this->checkName($themeCode) || !array_get($this->disabledThemes, $themeCode, false);
     }
 
     /**
