@@ -307,7 +307,8 @@ if (!function_exists('currency')) {
         string $from = null,
         string $to = null,
         bool $format = true
-    ): Currency|string {
+    ): Currency|string
+    {
         if (is_null($amount)) {
             return resolve(Currency::class);
         }
@@ -324,7 +325,8 @@ if (!function_exists('currency_format')) {
         float|string $amount = null,
         string $currency = null,
         bool $include_symbol = true
-    ): string {
+    ): string
+    {
         return resolve('currency')->format($amount, $currency, $include_symbol);
     }
 }
@@ -473,6 +475,17 @@ if (!function_exists('media_url')) {
     function media_url(string $path = null)
     {
         return resolve(\Igniter\Main\Classes\MediaLibrary::class)->getMediaUrl($path);
+    }
+}
+
+if (!function_exists('media_thumb')) {
+    /**
+     * Media thumbnail
+     * Returns the full thumbnail (including segments) of the assets media uploads directory
+     */
+    function media_thumb(string $path, array $options = [])
+    {
+        return \Igniter\Main\Helpers\ImageHelper::resize($path, $options);
     }
 }
 
