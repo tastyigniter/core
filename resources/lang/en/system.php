@@ -124,8 +124,6 @@ return [
 
         'button_browse' => '<i class="fa fa-globe"></i>&nbsp;&nbsp;Browse more extensions&nbsp;&nbsp;<i class="fa fa-external-link-alt"></i>',
         'button_delete' => 'Delete',
-        'button_payments' => 'Manage Payments',
-        'button_settings' => 'Manage Settings',
         'button_yes_delete' => 'Yes, delete',
         'button_return_to_list' => 'No, return to list',
 

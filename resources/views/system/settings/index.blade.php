@@ -1,5 +1,5 @@
 <div class="container-fluid pt-4">
-    <div class="card shadow-sm p-3 mb-3">
+    <div class="px-2 mb-3">
         @foreach($settings as $item => $categories)
             @continue(!count($categories))
             @unless($item == 'core')

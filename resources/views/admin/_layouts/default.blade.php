@@ -3,11 +3,15 @@
 <head>
     {!! get_metas() !!}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {!! get_favicon() !!}
-    @empty($pageTitle = Template::getTitle())
-        <title>{{setting('site_name')}}</title>
+    @if ($site_logo !== 'no_photo.png')
+        <link href="{{ media_thumb($site_logo, ['width' => 64, 'height' => 64]) }}" rel="shortcut icon" type="image/ico">
     @else
-        <title>{{ $pageTitle }}@lang('igniter::admin.site_title_separator'){{setting('site_name')}}</title>
+        {!! get_favicon() !!}
+    @endif
+    @empty($pageTitle = Template::getTitle())
+        <title>{{$site_name}}</title>
+    @else
+        <title>{{ $pageTitle }}@lang('igniter::admin.site_title_separator'){{$site_name}}</title>
     @endempty
     @styles
 </head>
