@@ -30,7 +30,9 @@ class ThemeServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        resolve(ThemeManager::class)->bootThemes();
+        $this->app->booted(function () {
+            resolve(ThemeManager::class)->bootThemes();
+        });
 
         Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
             $themeViewPaths = array_get(view()->getFinder()->getHints(), 'igniter.main', []);

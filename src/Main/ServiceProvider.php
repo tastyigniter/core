@@ -22,10 +22,12 @@ class ServiceProvider extends AppServiceProvider
     {
         $this->loadViewsFrom($this->root.'/resources/views/main', 'igniter.main');
 
-        View::share('site_name', Setting::get('site_name'));
-        View::share('site_logo', Setting::get('site_logo'));
+        $this->app->booted(function () {
+            View::share('site_name', Setting::get('site_name'));
+            View::share('site_logo', Setting::get('site_logo'));
 
-        $this->defineRoutes();
+            $this->defineRoutes();
+        });
     }
 
     /**

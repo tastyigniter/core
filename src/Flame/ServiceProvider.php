@@ -47,9 +47,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->bindPathsInContainer();
 
-        $this->app[\Illuminate\Contracts\Http\Kernel::class]
-            ->pushMiddleware(\Igniter\Flame\Setting\Middleware\SaveSetting::class);
-
         $this->app->make(Router::class)->middlewareGroup('web', [
             \Igniter\Flame\Translation\Middleware\Localization::class,
         ]);

@@ -15,33 +15,25 @@ class SettingServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerManager();
-
-        $this->registerStores();
-
-        $this->app->singleton(SaveSetting::class);
-    }
-
-    protected function registerManager()
-    {
-        $this->app->singleton('setting.manager', function ($app) {
-            return new SettingManager($app);
-        });
-    }
-
-    protected function registerStores()
-    {
         $this->app->singleton('system.setting', function ($app) {
-            return $app['setting.manager']->driver();
+            $store = new DatabaseSettingStore($app['db'], $app['cache.store']);
+            $store->setCacheKey('igniter.setting.system');
+            $store->setExtraColumns(['sort' => 'config']);
+
+            return $store;
         });
 
         $this->app->singleton('system.parameter', function ($app) {
-            return $app['setting.manager']->driver('prefs');
+            $store = new DatabaseSettingStore($app['db'], $app['cache.store']);
+            $store->setCacheKey('igniter.setting.parameters');
+            $store->setExtraColumns(['sort' => 'prefs']);
+
+            return $store;
         });
     }
 
     public function provides()
     {
-        return ['setting.manager', 'system.setting', 'system.parameter', SaveSetting::class];
+        return ['system.setting', 'system.parameter'];
     }
 }

@@ -57,7 +57,8 @@ class ServiceProvider extends AppServiceProvider
         $this->defineEloquentMorphMaps();
         $this->resolveFlashSessionKey();
 
-        $this->updateTimezone();
+        $this->app->booted(fn () => $this->updateTimezone());
+
         $this->loadLocalizationConfiguration();
         $this->loadGeocoderConfiguration();
 
