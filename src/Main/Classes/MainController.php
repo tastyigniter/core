@@ -157,7 +157,7 @@ class MainController extends Controller
         $output = $this->runPage($page);
 
         // Extensibility
-        if ($event = $this->fireEvent('controller.beforeResponse', [$url, $page, $output])) {
+        if ($event = $this->fireSystemEvent('main.controller.beforeResponse', [$url, $page, $output])) {
             return $event;
         }
 

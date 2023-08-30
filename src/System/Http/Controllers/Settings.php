@@ -99,7 +99,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         }
 
         if ($definition->permission && !AdminAuth::user()->hasPermission($definition->permission)) {
-            return Response::make(View::make('admin::access_denied'), 403);
+            return Response::make(View::make('igniter.admin::access_denied'), 403);
         }
 
         $this->initWidgets($model, $definition);

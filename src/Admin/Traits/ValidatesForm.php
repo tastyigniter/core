@@ -8,10 +8,8 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Igniter;
 use Igniter\System\Helpers\ValidationHelper;
-use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 
 trait ValidatesForm
 {
@@ -32,7 +30,7 @@ trait ValidatesForm
             return false;
         }
 
-        return $this->extractInputFromRules($request, $rules);
+        return $validator->validated();
     }
 
     /**
@@ -50,7 +48,7 @@ trait ValidatesForm
             throw new ValidationException($validator);
         }
 
-        return $this->extractInputFromRules($request, $rules);
+        return $validator->validated();
     }
 
     public function makeValidator($request, array $rules, array $messages = [], array $customAttributes = [])
@@ -59,7 +57,7 @@ trait ValidatesForm
         $rules = Arr::get($parsed, 'rules', $rules);
         $customAttributes = Arr::get($parsed, 'attributes', $customAttributes);
 
-        $validator = $this->getValidationFactory()->make(
+        $validator = validator()->make(
             $request ?? [], $rules, $messages, $customAttributes
         );
 
@@ -96,31 +94,6 @@ trait ValidatesForm
         }
 
         return $result;
-    }
-
-    /**
-     * Get the request input based on the given validation rules.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return array
-     */
-    protected function extractInputFromRules($request, array $rules)
-    {
-        return collect($request)->only(
-            collect($this->parseRules($rules))->keys()->map(function ($rule) {
-                return Str::contains($rule, '.') ? explode('.', $rule)[0] : $rule;
-            })->unique()->toArray()
-        )->toArray();
-    }
-
-    /**
-     * Get a validation factory instance.
-     * @return \Illuminate\Contracts\Validation\Factory
-     */
-    protected function getValidationFactory()
-    {
-        return app(Factory::class);
     }
 
     public function validateAfter(Closure $callback)

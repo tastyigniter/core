@@ -244,7 +244,9 @@ class FormController extends ControllerAction
         $this->controller->formBeforeSave($model);
         $this->controller->formBeforeCreate($model);
 
-        $saveData = $this->validateSaveData($model, $this->formWidget->getSaveData());
+        if (($saveData = $this->validateSaveData($model, $this->formWidget->getSaveData())) === false) {
+            return false;
+        }
 
         $modelsToSave = $this->prepareModelsToSave($model, $saveData);
 
@@ -286,7 +288,9 @@ class FormController extends ControllerAction
         $this->controller->formBeforeSave($model);
         $this->controller->formBeforeUpdate($model);
 
-        $saveData = $this->validateSaveData($model, $this->formWidget->getSaveData());
+        if (($saveData = $this->validateSaveData($model, $this->formWidget->getSaveData())) === false) {
+            return false;
+        }
 
         $modelsToSave = $this->prepareModelsToSave($model, $saveData);
 
@@ -503,9 +507,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);
@@ -529,8 +533,8 @@ class FormController extends ControllerAction
 
         $saveData = $validated ?: $saveData;
 
-        if ($this->controller->formValidate($model, $this->formWidget) === false) {
-            return request()->ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+        if (($validated = $this->controller->formValidate($model, $this->formWidget)) !== false) {
+            $saveData = $validated;
         }
 
         return $saveData;

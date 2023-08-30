@@ -117,12 +117,12 @@ class FormField
     /**
      * @var string Specifies a comment to accompany the field
      */
-    public $comment;
+    public $commentAbove;
 
     /**
-     * @var string Specifies the comment position.
+     * @var string Specifies a comment to accompany the field
      */
-    public $commentPosition = 'below';
+    public $comment;
 
     /**
      * @var string Specifies if the comment is in HTML format.
@@ -323,10 +323,10 @@ class FormField
             $this->tab($config['tab']);
         }
         if (isset($config['commentAbove'])) {
-            $this->comment($config['commentAbove'], 'above');
+            $this->commentAbove = $config['commentAbove'];
         }
         if (isset($config['comment'])) {
-            $this->comment($config['comment']);
+            $this->comment = $config['comment'];
         }
         if (isset($config['default'])) {
             $this->defaults = $config['default'];
@@ -348,28 +348,6 @@ class FormField
         }
 
         return $config;
-    }
-
-    /**
-     * Adds a text comment above or below the field.
-     *
-     * @param string $text Specifies a comment text.
-     * @param string $position Specifies a comment position.
-     * @param bool $isHtml Set to true if you use HTML formatting in the comment
-     * Supported values are 'below' and 'above'
-     *
-     * @return $this
-     */
-    public function comment($text, $position = 'below', $isHtml = null)
-    {
-        $this->comment = $text;
-        $this->commentPosition = $position;
-
-        if ($isHtml !== null) {
-            $this->commentHtml = $isHtml;
-        }
-
-        return $this;
     }
 
     /**

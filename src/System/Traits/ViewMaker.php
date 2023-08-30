@@ -5,7 +5,6 @@ namespace Igniter\System\Traits;
 use ErrorException;
 use Exception;
 use Igniter\Admin\Facades\Template;
-use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Event;
@@ -178,21 +177,21 @@ trait ViewMaker
      */
     public function makePartial(string $partial, array $vars = [], bool $throwException = true): string
     {
-        $partialPath = $this->getViewPath(strtolower($partial), $this->partialPath, '_partials');
+        $view = $this->getViewName(strtolower($partial), $this->partialPath, '_partials');
 
-        if (!File::exists($partialPath)) {
-            if ($throwException) {
-                throw new SystemException(sprintf(lang('system::lang.not_found.partial'), $partial));
-            }
-
-            return '';
-        }
+//        if (!File::exists($partialPath)) {
+//            if ($throwException) {
+//                throw new SystemException(sprintf(lang('system::lang.not_found.partial'), $partial));
+//            }
+//
+//            return '';
+//        }
 
         if (isset($this->controller)) {
             $vars = array_merge($this->controller->vars, $vars);
         }
 
-        return $this->makeFileContent($partialPath, $vars);
+        return $this->makeViewContent($view, $vars);
     }
 
     /**

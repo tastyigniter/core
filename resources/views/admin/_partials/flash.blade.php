@@ -19,18 +19,15 @@
         >{!! $message['message'] !!}</div>
     @endif
 @endforeach
-@if($messages = session('admin_errors', collect())->all())
+@if($messages = session()->pull('admin_errors'))
     <div
       class="alert alert-danger"
       data-control="flash-message"
       data-allow-dismiss="false"
         role="alert"
     >
-        @foreach($messages as $message)
+        @foreach($messages->all() as $message)
             <p>{!! $message !!}</p>
         @endforeach
     </div>
-    @php
-        session()->forget('admin_errors')
-    @endphp
 @endif

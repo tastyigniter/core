@@ -1098,7 +1098,7 @@ class Form extends BaseWidget
     protected function getSourceData()
     {
         return $this->arrayName
-            ? post($this->arrayName)
-            : post();
+            ? request()->input($this->arrayName)
+            : request()->input();
     }
 }
