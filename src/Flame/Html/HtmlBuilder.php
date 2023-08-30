@@ -10,7 +10,7 @@ use Illuminate\Support\Traits\Macroable;
 
 class HtmlBuilder
 {
-    use Macroable, Componentable {
+    use Componentable, Macroable {
         Macroable::__call as macroCall;
         Componentable::__call as componentCall;
     }

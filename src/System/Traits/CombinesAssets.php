@@ -296,7 +296,6 @@ trait CombinesAssets
     /**
      * Registers bundle.
      *
-     * @param null $destination
      * @param string $appContext
      *
      * @return void

@@ -16,10 +16,10 @@ use Illuminate\Support\Str;
  */
 abstract class Model extends EloquentModel
 {
-    use ExtendableTrait;
-    use EventEmitter;
     use Concerns\HasAttributes;
     use Concerns\HasRelationships;
+    use EventEmitter;
+    use ExtendableTrait;
     use HasQueryModifier;
 
     /**
@@ -211,8 +211,6 @@ abstract class Model extends EloquentModel
      * Create a new model instance that is existing.
      *
      * @param array $attributes
-     *
-     * @param null $connection
      *
      * @return \Illuminate\Database\Eloquent\Model|static
      */
@@ -472,7 +470,6 @@ abstract class Model extends EloquentModel
      * Save the model to the database.
      *
      * @param array $options
-     * @param null $sessionKey
      *
      * @return bool
      * @throws \Exception
@@ -486,7 +483,6 @@ abstract class Model extends EloquentModel
      * Save the model and all of its relationships.
      *
      * @param array $options
-     * @param null $sessionKey
      *
      * @return bool
      * @throws \Exception

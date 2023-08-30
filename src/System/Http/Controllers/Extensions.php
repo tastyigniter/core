@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Request;
 
 class Extensions extends \Igniter\Admin\Classes\AdminController
 {
-    use WidgetMaker;
     use ManagesUpdates;
+    use WidgetMaker;
 
     public $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,

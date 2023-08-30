@@ -19,7 +19,7 @@ use Traversable;
  *
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  */
-class FilterCollection implements FilterInterface, \IteratorAggregate, \Countable
+class FilterCollection implements \Countable, \IteratorAggregate, FilterInterface
 {
     private $filters = [];
 
@@ -35,7 +35,6 @@ class FilterCollection implements FilterInterface, \IteratorAggregate, \Countabl
      *
      * If the supplied filter is another filter collection, each of its
      * filters will be checked.
-     * @param \Igniter\Flame\Assetic\Filter\FilterInterface $filter
      */
     public function ensure(FilterInterface $filter)
     {

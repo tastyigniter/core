@@ -75,7 +75,6 @@ class Media extends Model
 
     /**
      * Creates a file object from a file an uploaded file.
-     * @param null $tag
      * @return self
      */
     public function addFromRequest(UploadedFile $uploadedFile, $tag = null)
@@ -90,7 +89,6 @@ class Media extends Model
 
     /**
      * Creates a file object from a file on the disk.
-     * @param null $tag
      * @return self|void
      */
     public function addFromFile($filePath, $tag = null)
@@ -113,7 +111,6 @@ class Media extends Model
      * @param $rawData string Raw data
      * @param $filename string Filename
      *
-     * @param null $tag
      * @return $this|void
      */
     public function addFromRaw($rawData, $filename, $tag = null)
@@ -139,7 +136,6 @@ class Media extends Model
      * Creates a file object from url
      * @param $url string URL
      * @param $filename string Filename
-     * @param null $tag
      * @return $this
      * @throws \Exception
      */
@@ -373,7 +369,6 @@ class Media extends Model
 
     /**
      * Delete file contents from storage device.
-     * @param null $fileName
      * @return void
      */
     public function deleteFile($fileName = null)

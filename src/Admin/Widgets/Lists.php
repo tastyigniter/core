@@ -1051,8 +1051,6 @@ class Lists extends BaseWidget
     /**
      * Returns true if the column can be sorted.
      *
-     * @param null $column
-     *
      * @return bool
      */
     protected function isSortable($column = null)

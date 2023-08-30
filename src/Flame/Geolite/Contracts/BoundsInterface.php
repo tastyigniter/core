@@ -30,7 +30,6 @@ interface BoundsInterface
     public function getAsPolygon();
 
     /**
-     * @param  \Igniter\Flame\Geolite\Contracts\BoundsInterface $bounds
      * @return BoundsInterface
      */
     public function merge(BoundsInterface $bounds);

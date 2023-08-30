@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany as HasManyBase;
  */
 class HasMany extends HasManyBase
 {
-    use HasOneOrMany;
     use DefinedConstraints;
+    use HasOneOrMany;
 
     /**
      * Create a new has many relationship instance.

@@ -368,7 +368,6 @@ trait HasRelationships
      * @param string $related
      * @param string|null $foreignKey
      * @param string|null $localKey
-     * @param null $relationName
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function hasOne($related, $foreignKey = null, $localKey = null, $relationName = null)
@@ -422,7 +421,6 @@ trait HasRelationships
      * @param string $related
      * @param string|null $foreignKey
      * @param string|null $localKey
-     * @param null $relationName
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function hasMany($related, $foreignKey = null, $localKey = null, $relationName = null)
@@ -453,7 +451,6 @@ trait HasRelationships
      * @param string|null $secondKey
      * @param string|null $localKey
      * @param string|null $secondLocalKey
-     * @param null $relationName
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function hasManyThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null, $relationName = null)
@@ -535,7 +532,6 @@ trait HasRelationships
      * @param string|null $type
      * @param string|null $id
      * @param string|null $localKey
-     * @param null $relationName
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
     public function morphOne($related, $name, $type = null, $id = null, $localKey = null, $relationName = null)
@@ -613,7 +609,6 @@ trait HasRelationships
      * @param string|null $type
      * @param string|null $id
      * @param string|null $localKey
-     * @param null $relationName
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function morphMany($related, $name, $type = null, $id = null, $localKey = null, $relationName = null)
@@ -649,7 +644,6 @@ trait HasRelationships
      * @param string|null $parentKey
      * @param string|null $relatedKey
      * @param bool $inverse
-     * @param null $relationName
      * @return \Igniter\Flame\Database\Relations\MorphToMany
      */
     public function morphToMany(
@@ -697,7 +691,6 @@ trait HasRelationships
      * @param string|null $relatedPivotKey
      * @param string|null $parentKey
      * @param string|null $relatedKey
-     * @param null $relationName
      * @return \Igniter\Flame\Database\Relations\MorphToMany
      */
     public function morphedByMany(

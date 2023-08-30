@@ -22,7 +22,6 @@ trait ListExtendable
      * Controller override: Extend supplied model
      *
      * @param Model $model
-     * @param null $alias
      *
      * @return\Igniter\Flame\Database\Model
      */

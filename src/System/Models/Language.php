@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Lang;
  */
 class Language extends \Igniter\Flame\Translation\Models\Language
 {
-    use Purgeable;
-    use HasFactory;
-    use Switchable;
     use Defaultable;
+    use HasFactory;
+    use Purgeable;
+    use Switchable;
 
     protected $purgeable = ['translations'];
 

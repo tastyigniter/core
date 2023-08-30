@@ -119,8 +119,6 @@ class Environment
 
     /**
      * Gets the current cache implementation.
-     *
-     * @return \Igniter\Flame\Pagic\Cache\FileSystem
      */
     public function getCache(): Cache\FileSystem
     {

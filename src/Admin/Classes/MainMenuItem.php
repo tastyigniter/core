@@ -237,8 +237,6 @@ class MainMenuItem
     /**
      * Returns a value suitable for the item id property.
      *
-     * @param null $suffix
-     *
      * @return string
      */
     public function getId($suffix = null)

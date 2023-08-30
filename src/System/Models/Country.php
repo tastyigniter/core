@@ -14,9 +14,9 @@ use Igniter\System\Models\Concerns\Switchable;
  */
 class Country extends Model
 {
-    use Sortable;
-    use HasFactory;
     use Defaultable;
+    use HasFactory;
+    use Sortable;
     use Switchable;
 
     const SORT_ORDER = 'priority';

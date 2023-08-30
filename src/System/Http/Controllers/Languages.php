@@ -14,8 +14,8 @@ use Igniter\System\Traits\SessionMaker;
 
 class Languages extends \Igniter\Admin\Classes\AdminController
 {
-    use SessionMaker;
     use ManagesUpdates;
+    use SessionMaker;
 
     public $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,

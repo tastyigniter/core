@@ -32,15 +32,11 @@ abstract class AbstractProvider
 
     /**
      * Handle the geocoder request.
-     *
-     * @param \Igniter\Flame\Geolite\Contracts\GeoQueryInterface $query
      */
     abstract public function geocodeQuery(GeoQueryInterface $query): Collection;
 
     /**
      * Handle the reverse geocoding request.
-     *
-     * @param \Igniter\Flame\Geolite\Contracts\GeoQueryInterface $query
      */
     abstract public function reverseQuery(GeoQueryInterface $query): Collection;
 

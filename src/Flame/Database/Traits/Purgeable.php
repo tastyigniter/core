@@ -66,8 +66,6 @@ trait Purgeable
     /**
      * Removes purged attributes, used before saving.
      *
-     * @param null $attributesToPurge
-     *
      * @return array Clean attributes
      */
     public function purgeAttributes($attributesToPurge = null)
@@ -109,8 +107,6 @@ trait Purgeable
 
     /**
      * Returns the original value of a single attribute.
-     *
-     * @return null
      */
     public function getOriginalPurgeValue($attribute)
     {

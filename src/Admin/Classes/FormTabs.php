@@ -13,7 +13,7 @@ use Traversable;
  *
  * Adapted from october\backend\class\FormTabs
  */
-class FormTabs implements IteratorAggregate, ArrayAccess
+class FormTabs implements ArrayAccess, IteratorAggregate
 {
     const SECTION_OUTSIDE = 'outside';
 

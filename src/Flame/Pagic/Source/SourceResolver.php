@@ -48,7 +48,6 @@ class SourceResolver implements SourceResolverInterface
      * Add a source to the resolver.
      *
      * @param  string $name
-     * @param \Igniter\Flame\Pagic\Source\SourceInterface $source
      *
      * @return void
      */

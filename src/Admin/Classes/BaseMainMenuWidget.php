@@ -27,8 +27,6 @@ class BaseMainMenuWidget extends BaseWidget
     /**
      * Returns a unique ID for this widget. Useful in creating HTML markup.
      *
-     * @param null $suffix
-     *
      * @return string
      */
     public function getId($suffix = null)

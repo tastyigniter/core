@@ -19,12 +19,12 @@ use JsonSerializable;
 /**
  * Model class.
  */
-abstract class Model extends Extendable implements TemplateInterface, ArrayAccess, Arrayable, Jsonable, JsonSerializable
+abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsonable, JsonSerializable, TemplateInterface
 {
-    use Concerns\HidesAttributes;
-    use Concerns\HasAttributes;
     use Concerns\GuardsAttributes;
+    use Concerns\HasAttributes;
     use Concerns\HasEvents;
+    use Concerns\HidesAttributes;
     use Concerns\ManagesCache;
     use Concerns\ManagesSource;
     use EventEmitter;

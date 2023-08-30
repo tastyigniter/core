@@ -15,8 +15,8 @@ use Igniter\User\Classes\UserState;
 class Staff extends Model
 {
     use HasFactory;
-    use Purgeable;
     use Locationable;
+    use Purgeable;
 
     const LOCATIONABLE_RELATION = 'locations';
 

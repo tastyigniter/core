@@ -5,7 +5,7 @@ namespace Igniter\Flame\Geolite;
 use Igniter\Flame\Geolite\Contracts\PolygonInterface;
 use Traversable;
 
-class Polygon implements PolygonInterface, \Countable, \IteratorAggregate, \ArrayAccess, \JsonSerializable
+class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable, PolygonInterface
 {
     const TYPE = 'POLYGON';
 

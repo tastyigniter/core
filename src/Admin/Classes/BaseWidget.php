@@ -17,13 +17,13 @@ use Igniter\System\Traits\ViewMaker;
  */
 class BaseWidget extends Extendable
 {
-    use WidgetMaker;
-    use SessionMaker;
-    use ViewMaker;
     use AssetMaker;
     use ConfigMaker;
     use EventEmitter;
     use LocationAwareWidget;
+    use SessionMaker;
+    use ViewMaker;
+    use WidgetMaker;
 
     /**
      * @var \Igniter\Admin\Classes\AdminController Admin controller object.

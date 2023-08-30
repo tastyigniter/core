@@ -20,7 +20,6 @@ trait ConfigMaker
      *
      * @param array $configFile
      * @param array $requiredConfig
-     * @param null $index
      *
      * @return array
      */

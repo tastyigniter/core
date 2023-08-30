@@ -71,8 +71,6 @@ class GeoQuery implements Contracts\GeoQueryInterface
     }
 
     /**
-     * @param \Igniter\Flame\Geolite\Model\Bounds $bounds
-     *
      * @return self
      */
     public function withBounds(Model\Bounds $bounds)
@@ -184,8 +182,6 @@ class GeoQuery implements Contracts\GeoQueryInterface
     }
 
     /**
-     * @param \Igniter\Flame\Geolite\Model\Coordinates $coordinates
-     *
      * @return \Igniter\Flame\Geolite\Contracts\GeoQueryInterface
      */
     public function withCoordinates(Model\Coordinates $coordinates)

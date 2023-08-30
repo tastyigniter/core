@@ -169,8 +169,6 @@ class FilterScope
     /**
      * Returns a value suitable for the scope id property.
      *
-     * @param null $suffix
-     *
      * @return string
      */
     public function getId($suffix = null)

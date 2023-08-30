@@ -20,9 +20,9 @@ use Igniter\System\Models\Concerns\Switchable;
  */
 class Theme extends Model
 {
+    use Defaultable;
     use Purgeable;
     use Switchable;
-    use Defaultable;
 
     const ICON_MIMETYPES = [
         'png' => 'image/png',

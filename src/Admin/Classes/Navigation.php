@@ -10,8 +10,8 @@ use Igniter\User\Facades\AdminAuth;
 
 class Navigation
 {
-    use ViewMaker;
     use EventEmitter;
+    use ViewMaker;
 
     protected $navItems = [];
 

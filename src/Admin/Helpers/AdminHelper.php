@@ -78,7 +78,6 @@ class AdminHelper
      *
      * @param int $status
      * @param array $headers
-     * @param null $secure
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -92,7 +91,6 @@ class AdminHelper
      *
      * @param int $status
      * @param array $headers
-     * @param null $secure
      *
      * @return \Illuminate\Http\RedirectResponse
      */

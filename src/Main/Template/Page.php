@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class Page extends Model
 {
-    use Concerns\UsesBlueprint;
     use Concerns\HasComponents;
     use Concerns\HasViewBag;
+    use Concerns\UsesBlueprint;
 
     /**
      * @var string The directory name associated with the model, eg: _pages.

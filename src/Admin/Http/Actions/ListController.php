@@ -343,8 +343,6 @@ class ListController extends ControllerAction
     /**
      * Returns the configuration used by this behavior.
      *
-     * @param null $alias
-     *
      * @return \Igniter\Admin\Classes\BaseWidget
      */
     public function getListConfig($alias = null)

@@ -14,9 +14,9 @@ use Igniter\System\Traits\ViewMaker;
 class ControllerAction
 {
     use ConfigMaker;
+    use ExtensionTrait;
     use ViewMaker;
     use WidgetMaker;
-    use ExtensionTrait;
 
     /**
      * @var \Igniter\Admin\Classes\AdminController|\Illuminate\Routing\Controller Reference to the controller associated to this action

@@ -18,17 +18,17 @@ use Illuminate\Routing\Controller;
 
 class AdminController extends Controller
 {
-    use \Igniter\User\Traits\HasAuthentication;
-    use \Igniter\Admin\Traits\ControllerUtils;
     use \Igniter\Admin\Traits\ControllerHelpers;
+    use \Igniter\Admin\Traits\ControllerUtils;
     use \Igniter\Admin\Traits\ValidatesForm;
     use \Igniter\Admin\Traits\WidgetMaker;
+    use \Igniter\Flame\Traits\EventEmitter;
+    use \Igniter\Flame\Traits\ExtendableTrait;
     use \Igniter\System\Traits\AssetMaker;
     use \Igniter\System\Traits\ConfigMaker;
     use \Igniter\System\Traits\SessionMaker;
     use \Igniter\System\Traits\ViewMaker;
-    use \Igniter\Flame\Traits\EventEmitter;
-    use \Igniter\Flame\Traits\ExtendableTrait;
+    use \Igniter\User\Traits\HasAuthentication;
 
     /**
      * @var string Used for storing a fatal error.

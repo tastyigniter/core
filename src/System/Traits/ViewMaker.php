@@ -179,13 +179,13 @@ trait ViewMaker
     {
         $view = $this->getViewName(strtolower($partial), $this->partialPath, '_partials');
 
-//        if (!File::exists($partialPath)) {
-//            if ($throwException) {
-//                throw new SystemException(sprintf(lang('system::lang.not_found.partial'), $partial));
-//            }
-//
-//            return '';
-//        }
+        //        if (!File::exists($partialPath)) {
+        //            if ($throwException) {
+        //                throw new SystemException(sprintf(lang('system::lang.not_found.partial'), $partial));
+        //            }
+        //
+        //            return '';
+        //        }
 
         if (isset($this->controller)) {
             $vars = array_merge($this->controller->vars, $vars);

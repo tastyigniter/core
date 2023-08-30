@@ -15,10 +15,10 @@ use Igniter\System\Models\Concerns\Switchable;
  */
 class Currency extends Model implements CurrencyInterface
 {
+    use Defaultable;
     use HasCountry;
     use HasFactory;
     use Switchable;
-    use Defaultable;
 
     const SWITCHABLE_COLUMN = 'currency_status';
 

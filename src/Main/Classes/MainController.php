@@ -33,11 +33,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class MainController extends Controller
 {
-    use \Igniter\Main\Traits\ComponentMaker;
-    use \Igniter\System\Traits\AssetMaker;
+    use \Igniter\Admin\Traits\ControllerUtils;
     use \Igniter\Flame\Traits\EventEmitter;
     use \Igniter\Flame\Traits\ExtendableTrait;
-    use \Igniter\Admin\Traits\ControllerUtils;
+    use \Igniter\Main\Traits\ComponentMaker;
+    use \Igniter\System\Traits\AssetMaker;
 
     /**
      * @var \Igniter\Main\Classes\Theme The main theme processed by the controller.
@@ -103,8 +103,6 @@ class MainController extends Controller
 
     /**
      * Class constructor
-     *
-     * @param null $theme
      *
      * @throws \Igniter\Flame\Exception\FlashException
      */

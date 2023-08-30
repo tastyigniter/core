@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\View;
 
 class Settings extends \Igniter\Admin\Classes\AdminController
 {
-    use WidgetMaker;
     use FormExtendable;
+    use WidgetMaker;
 
     protected $requiredPermissions = 'Site.Settings';
 

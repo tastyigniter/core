@@ -168,7 +168,6 @@ class BelongsToMany extends BelongsToManyBase
     /**
      * Override detach() method of BelongToMany relation.
      * This is necessary in order to fire 'model.relation.beforeDetach', 'model.relation.afterDetach' events
-     * @param null $ids
      * @param bool $touch
      * @return int|void
      */

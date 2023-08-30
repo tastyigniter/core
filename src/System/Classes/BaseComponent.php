@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Lang;
  */
 abstract class BaseComponent extends Extendable
 {
-    use EventEmitter;
     use AssetMaker;
+    use EventEmitter;
     use PropertyContainer;
 
     public $defaultPartial = 'default';

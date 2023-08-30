@@ -498,8 +498,6 @@ class Filter extends BaseWidget
     /**
      * Returns a scope value for this widget instance.
      *
-     * @param null $default
-     *
      * @return string
      */
     public function getScopeValue($scope, $default = null)

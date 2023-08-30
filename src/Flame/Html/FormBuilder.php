@@ -16,7 +16,7 @@ use Illuminate\Support\Traits\Macroable;
 
 class FormBuilder
 {
-    use Macroable, Componentable {
+    use Componentable, Macroable {
         Macroable::__call as macroCall;
         Componentable::__call as componentCall;
     }
@@ -95,15 +95,12 @@ class FormBuilder
 
     /**
      * Input Type.
-     *
-     * @var null
      */
     protected $type = null;
 
     /**
      * Create a new form builder instance.
      *
-     * @param \Igniter\Flame\Html\HtmlBuilder $html
      * @param string $csrfToken
      */
     public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, $csrfToken, Request $request = null)

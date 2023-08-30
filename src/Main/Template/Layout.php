@@ -9,9 +9,9 @@ use Igniter\Flame\Pagic\Model;
  */
 class Layout extends Model
 {
-    use Concerns\UsesBlueprint;
     use Concerns\HasComponents;
     use Concerns\HasViewBag;
+    use Concerns\UsesBlueprint;
 
     /**
      * @var string The directory name associated with the model, eg: pages.

@@ -16,7 +16,7 @@ namespace Igniter\Flame\Assetic\Asset;
  *
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  */
-interface AssetCollectionInterface extends AssetInterface, \Traversable
+interface AssetCollectionInterface extends \Traversable, AssetInterface
 {
     /**
      * Returns all child assets.

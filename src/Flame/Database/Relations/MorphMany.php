@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany as MorphManyBase;
  */
 class MorphMany extends MorphManyBase
 {
-    use MorphOneOrMany;
     use DefinedConstraints;
+    use MorphOneOrMany;
 
     /**
      * Create a new has many relationship instance.

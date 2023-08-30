@@ -1037,8 +1037,6 @@ class Form extends BaseWidget
     /**
      * Variant to array_get() but preserves dots in key names.
      *
-     * @param null $default
-     *
      * @return array|string
      */
     protected function dataArrayGet(array $array, array $parts, $default = null)

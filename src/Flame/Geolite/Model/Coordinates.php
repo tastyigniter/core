@@ -26,7 +26,6 @@ class Coordinates implements CoordinatesInterface
     /**
      * @param float $latitude
      * @param float $longitude
-     * @param \Igniter\Flame\Geolite\Model\Ellipsoid|null $ellipsoid
      */
     public function __construct($latitude, $longitude, Ellipsoid $ellipsoid = null)
     {

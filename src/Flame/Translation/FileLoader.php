@@ -27,8 +27,6 @@ class FileLoader extends FileLoaderBase
     }
 
     /**
-     * @param null $namespace
-     *
      * @return array
      */
     public function loadFromDrivers($locale, $group, $namespace = null)
