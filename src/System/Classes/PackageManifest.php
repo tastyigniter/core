@@ -47,7 +47,7 @@ class PackageManifest extends BasePackageManifest
     {
         $packages = [];
 
-        if ($this->files->exists($path = $this->vendorPath.'/composer/installed.json')) {
+        if ($this->files->exists($path = $this->vendorPath . '/composer/installed.json')) {
             $installed = json_decode($this->files->get($path), true);
             $packages = $installed['packages'] ?? $installed;
         }
@@ -63,7 +63,7 @@ class PackageManifest extends BasePackageManifest
     {
         $packages = [];
 
-        if ($this->files->exists($path = $this->vendorPath.'/composer/installed.json')) {
+        if ($this->files->exists($path = $this->vendorPath . '/composer/installed.json')) {
             $installed = json_decode($this->files->get($path), true);
             $packages = $installed['packages'] ?? $installed;
         }
@@ -95,11 +95,11 @@ class PackageManifest extends BasePackageManifest
         }
 
         $namespace = key($autoload);
-        $class = $namespace.'Extension';
-        $directory = str_before(dirname(File::fromClass($class)), '/'.rtrim(current($autoload), '/'));
+        $class = $namespace . 'Extension';
+        $directory = str_before(dirname(File::fromClass($class)), '/' . rtrim(current($autoload), '/'));
         $code = strtolower(str_replace('\\', '.', trim($namespace, '\\')));
 
-        $json = json_decode(File::get($directory.'/composer.json'), true);
+        $json = json_decode(File::get($directory . '/composer.json'), true);
         $manifest = $json['extra']['tastyigniter-extension'] ?? [];
 
         $manifest['code'] = $code = array_get($manifest, 'code', $code);
@@ -121,8 +121,8 @@ class PackageManifest extends BasePackageManifest
 
     protected function formatTheme($package, $result = [])
     {
-        $directory = $this->vendorPath.'/composer/'.array_get($package, 'install-path');
-        $json = json_decode(File::get($directory.'/composer.json'), true);
+        $directory = $this->vendorPath . '/composer/' . array_get($package, 'install-path');
+        $json = json_decode(File::get($directory . '/composer.json'), true);
         $manifest = $json['extra']['tastyigniter-theme'] ?? [];
 
         $manifest['code'] = $code = array_get($manifest, 'code');
@@ -132,7 +132,7 @@ class PackageManifest extends BasePackageManifest
         $manifest['description'] = array_get($package, 'description');
         $manifest['author'] = array_get($package, 'authors.0.name');
         $manifest['homepage'] = array_get($package, 'homepage');
-        $manifest['publish'] = array_get($manifest, 'publish');
+        $manifest['publish-paths'] = array_get($manifest, 'publish-paths');
         $manifest['require'] = $this->formatRequire(array_get($package, 'require'));
 
         if (!array_key_exists('directory', $manifest)) {
@@ -155,7 +155,7 @@ class PackageManifest extends BasePackageManifest
 
     public function disabledAddons()
     {
-        $path = dirname($this->manifestPath).$this->metaFile;
+        $path = dirname($this->manifestPath) . $this->metaFile;
         if (!is_file($path)) {
             return [];
         }
@@ -165,6 +165,6 @@ class PackageManifest extends BasePackageManifest
 
     public function writeDisabled(array $codes)
     {
-        $this->files->replace(dirname($this->manifestPath).$this->metaFile, json_encode($codes));
+        $this->files->replace(dirname($this->manifestPath) . $this->metaFile, json_encode($codes));
     }
 }

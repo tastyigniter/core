@@ -26,7 +26,7 @@
                     <a
                         class="sort-col"
                         data-request="{{ $this->getEventHandler('onSort') }}"
-                        data-request-form="#list-form"
+                        data-request-form="#lists-list-form"
                         data-request-data="sort_by: '{{ $column->columnName }}'">
                         <i class="fa fa-sort-{{ ($sortColumn == $column->columnName) ? strtoupper($sortDirection).' active' : 'ASC' }}"></i>&nbsp;
                         {{ $this->getHeaderValue($column) }}
