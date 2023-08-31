@@ -136,7 +136,7 @@ class Theme
      */
     public function getSourcePath()
     {
-        return $this->path . $this->sourcePath;
+        return $this->path.$this->sourcePath;
     }
 
     /**
@@ -144,7 +144,7 @@ class Theme
      */
     public function getAssetPath()
     {
-        return $this->path . $this->sourcePath . $this->assetPath;
+        return $this->path.$this->sourcePath.$this->assetPath;
     }
 
     /**
@@ -154,8 +154,8 @@ class Theme
     {
         $result = [];
         foreach ($this->config['publish-paths'] ?? [] as $path) {
-            if (File::isDirectory($this->path . $this->sourcePath . $this->assetPath . $path)) {
-                $result[$this->path . $this->sourcePath . $this->assetPath . $path] = public_path('vendor/' . $this->name);
+            if (File::isDirectory($this->path.$this->sourcePath.$this->assetPath.$path)) {
+                $result[$this->path.$this->sourcePath.$this->assetPath.$path] = public_path('vendor/'.$this->name);
             }
         }
 
@@ -205,8 +205,8 @@ class Theme
     {
         foreach ($this->getFindInPaths() as $findInPath => $publicPath) {
             foreach (ThemeModel::ICON_MIMETYPES as $extension => $mimeType) {
-                if (File::isFile($findInPath . '/' . $name . '.' . $extension)) {
-                    $this->screenshot = $findInPath . '/' . $name . '.' . $extension;
+                if (File::isFile($findInPath.'/'.$name.'.'.$extension)) {
+                    $this->screenshot = $findInPath.'/'.$name.'.'.$extension;
                     break 2;
                 }
             }
@@ -229,7 +229,7 @@ class Theme
         if (file_exists($file = $this->screenshot)) {
             $extension = pathinfo($file, PATHINFO_EXTENSION);
             if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES)) {
-                throw FlashException::error('Invalid theme icon file type in: ' . $this->name . '. Only SVG and PNG images are supported');
+                throw FlashException::error('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
             }
 
             $mimeType = ThemeModel::ICON_MIMETYPES[$extension];
@@ -248,11 +248,11 @@ class Theme
 
     public function loadThemeFile()
     {
-        if (File::exists($path = $this->getPath() . '/theme.php')) {
+        if (File::exists($path = $this->getPath().'/theme.php')) {
             require $path;
         }
 
-        if (File::exists($path = $this->getParentPath() . '/theme.php')) {
+        if (File::exists($path = $this->getParentPath().'/theme.php')) {
             require $path;
         }
     }
@@ -283,7 +283,7 @@ class Theme
         $configCache = [];
         $findInPaths = array_reverse(array_keys($this->getFindInPaths()));
         foreach ($findInPaths as $findInPath) {
-            $config = File::exists($path = $findInPath . '/_meta/fields.php')
+            $config = File::exists($path = $findInPath.'/_meta/fields.php')
                 ? File::getRequire($path) : [];
 
             foreach (array_get($config, 'form', []) as $key => $definitions) {
