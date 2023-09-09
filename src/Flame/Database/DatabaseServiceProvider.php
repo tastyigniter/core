@@ -9,6 +9,7 @@ use Igniter\Flame\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\DatabaseServiceProvider as BaseDatabaseServiceProvider;
 use Illuminate\Database\DatabaseTransactionsManager;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class DatabaseServiceProvider extends BaseDatabaseServiceProvider
 {
@@ -30,6 +31,10 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         parent::boot();
 
         Media::observe(MediaObserver::class);
+
+        Relation::morphMap([
+            'media' => \Igniter\Flame\Database\Attach\Media::class,
+        ]);
     }
 
     /**

@@ -93,9 +93,9 @@ class Page extends Model
 
         $page = self::find($value);
 
-        throw_unless($page, (new ModelNotFoundException)->setModel(Page::class));
+        throw_unless($page, (new ModelNotFoundException)->setModel(__CLASS__));
 
-        throw_if(!AdminAuth::check() && $page->isHidden, (new ModelNotFoundException)->setModel(Page::class));
+        throw_if(!AdminAuth::check() && $page->isHidden, (new ModelNotFoundException)->setModel(__CLASS__));
 
         return $page;
     }

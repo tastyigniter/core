@@ -5,7 +5,6 @@ window.$ = window.jQuery = require('jquery');
 window.Popper = require('@popperjs/core');
 window.bootstrap = require('bootstrap');
 window.Cookies = require('js-cookie');
-window.Alpine = require('alpinejs')
 window.moment = require('moment');
 
 window.Swal = require('sweetalert2/dist/sweetalert2.js');

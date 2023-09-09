@@ -63,10 +63,10 @@ class ThemeManager
             return;
         }
 
-        if (File::exists($theme->getSourcePath().'/_meta/assets.json')) {
-            $manager->addFromManifest($theme->getSourcePath().'/_meta/assets.json');
+        if (File::exists($theme->getSourcePath() . '/_meta/assets.json')) {
+            $manager->addFromManifest($theme->getSourcePath() . '/_meta/assets.json');
         } elseif ($theme->hasParent() && $parent = $theme->getParent()) {
-            $manager->addFromManifest($parent->getSourcePath().'/_meta/assets.json');
+            $manager->addFromManifest($parent->getSourcePath() . '/_meta/assets.json');
         }
     }
 
@@ -189,23 +189,16 @@ class ThemeManager
             Igniter::loadResourcesFrom($path, $theme->getParent()->getName());
         }
 
-        if ($theme->isActive()) {
-            if ($pathsToPublish = $theme->getPathsToPublish()) {
-                foreach (['laravel-assets', 'igniter-assets'] as $group) {
-                    if (!array_key_exists($group, ServiceProvider::$publishGroups)) {
-                        ServiceProvider::$publishGroups[$group] = [];
-                    }
-
-                    ServiceProvider::$publishGroups[$group] = array_merge(
-                        ServiceProvider::$publishGroups[$group], $pathsToPublish
-                    );
+        if ($pathsToPublish = $theme->getPathsToPublish()) {
+            foreach (['laravel-assets', 'igniter-assets'] as $group) {
+                if (!array_key_exists($group, ServiceProvider::$publishGroups)) {
+                    ServiceProvider::$publishGroups[$group] = [];
                 }
-            }
 
-            if ($theme->hasParent() && $parent = $theme->getParent()) {
-                Igniter::loadViewsFrom($parent->getPath().'/'.Page::DIR_NAME, 'igniter.main');
+                ServiceProvider::$publishGroups[$group] = array_merge(
+                    ServiceProvider::$publishGroups[$group], $pathsToPublish
+                );
             }
-            Igniter::loadViewsFrom($theme->getPath().'/'.Page::DIR_NAME, 'igniter.main');
         }
     }
 
@@ -274,7 +267,7 @@ class ThemeManager
         }
 
         foreach ($directories as $directory) {
-            foreach (File::glob($directory.'/*/theme.json') as $path) {
+            foreach (File::glob($directory . '/*/theme.json') as $path) {
                 $paths[] = dirname($path);
             }
         }
@@ -340,8 +333,8 @@ class ThemeManager
 
     public function isLockedPath($path)
     {
-        if (starts_with($path, Igniter::themesPath().'/')) {
-            $path = substr($path, strlen(Igniter::themesPath().'/'));
+        if (starts_with($path, Igniter::themesPath() . '/')) {
+            $path = substr($path, strlen(Igniter::themesPath() . '/'));
         }
 
         $themeCode = str_before($path, '/');
@@ -387,7 +380,7 @@ class ThemeManager
         }
 
         foreach ($base as $folder) {
-            if (File::isFile($path = $themePath.$folder.$filename)) {
+            if (File::isFile($path = $themePath . $folder . $filename)) {
                 return $path;
             }
         }
@@ -421,7 +414,7 @@ class ThemeManager
     {
         $theme = $this->findTheme($themeCode);
         [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
-        $path = $theme->getPath().'/'.$dirName.'/'.$fileName;
+        $path = $theme->getPath() . '/' . $dirName . '/' . $fileName;
 
         if (File::isFile($path)) {
             throw new SystemException("Theme template file already exists: $filePath");
@@ -479,8 +472,8 @@ class ThemeManager
             throw new SystemException(lang('igniter::system.themes.alert_theme_path_locked'));
         }
 
-        $oldFilePath = $theme->path.'/'.$dirName.'/'.$fileName;
-        $newFilePath = $theme->path.'/'.$newDirName.'/'.$newFileName;
+        $oldFilePath = $theme->path . '/' . $dirName . '/' . $fileName;
+        $newFilePath = $theme->path . '/' . $newDirName . '/' . $newFileName;
 
         if ($oldFilePath == $newFilePath) {
             throw new SystemException("Theme template file already exists: $filePath");
@@ -600,11 +593,11 @@ class ThemeManager
         }
 
         $childThemeCode = $this->themeModel::generateUniqueCode($model->code);
-        $childThemePath = Igniter::themesPath().'/'.$childThemeCode;
+        $childThemePath = Igniter::themesPath() . '/' . $childThemeCode;
 
         $themeConfig = [
             'code' => $childThemeCode,
-            'name' => $parentTheme->label.' [child]',
+            'name' => $parentTheme->label . ' [child]',
             'description' => $parentTheme->description,
         ];
 
@@ -633,12 +626,12 @@ class ThemeManager
      */
     public function getMetaFromFile($path, $throw = true)
     {
-        if (File::exists($metaPath = $path.'/theme.json')) {
+        if (File::exists($metaPath = $path . '/theme.json')) {
             return json_decode(File::get($metaPath), true);
         }
 
         if ($throw) {
-            throw new SystemException('Theme does not have a registration file in: '.$metaPath);
+            throw new SystemException('Theme does not have a registration file in: ' . $metaPath);
         }
     }
 
@@ -661,11 +654,11 @@ class ThemeManager
     protected function validateMetaFile($config, $code)
     {
         foreach ([
-            'code',
-            'name',
-            'description',
-            'author',
-        ] as $item) {
+                     'code',
+                     'name',
+                     'description',
+                     'author',
+                 ] as $item) {
             if (!array_key_exists($item, $config)) {
                 throw new SystemException(sprintf(
                     Lang::get('igniter::system.missing.config_key'),
@@ -698,6 +691,6 @@ class ThemeManager
 
         File::makeDirectory($path, 0777, false, true);
 
-        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::put($path . '/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 }
