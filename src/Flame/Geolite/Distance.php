@@ -215,7 +215,7 @@ class Distance implements Contracts\DistanceInterface
             $sinSigma = sqrt(($cosU2 * $sinLambda) * ($cosU2 * $sinLambda) +
                 ($cosU1 * $sinU2 - $sinU1 * $cosU2 * $cosLambda) * ($cosU1 * $sinU2 - $sinU1 * $cosU2 * $cosLambda));
 
-            if (0.0 === $sinSigma) {
+            if ($sinSigma === 0.0) {
                 return 0.0; // co-incident points
             }
 
@@ -234,7 +234,7 @@ class Distance implements Contracts\DistanceInterface
                     ($cos2SigmaM + $cC * $cosSigma * (-1 + 2 * $cos2SigmaM * $cos2SigmaM)));
         } while (abs($lambda - $lambdaP) > 1e-12 && --$iterLimit > 0);
 
-        if (0 === $iterLimit) {
+        if ($iterLimit === 0) {
             throw new GeoliteException('Vincenty formula failed to converge !');
         }
 

@@ -67,7 +67,7 @@ class Environment
      */
     public function getLoader(): Contracts\TemplateLoader
     {
-        if (null === $this->loader) {
+        if ($this->loader === null) {
             throw new LogicException('You must set a loader first.');
         }
 

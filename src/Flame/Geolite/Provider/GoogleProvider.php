@@ -306,7 +306,7 @@ class GoogleProvider extends AbstractProvider
                 $geometry->viewport->northeast->lat,
                 $geometry->viewport->northeast->lng
             );
-        } elseif ('ROOFTOP' === $geometry->location_type) {
+        } elseif ($geometry->location_type === 'ROOFTOP') {
             // Fake bounds
             $address->setBounds(
                 $coordinates->lat,

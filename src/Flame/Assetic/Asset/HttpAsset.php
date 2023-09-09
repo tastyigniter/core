@@ -36,9 +36,9 @@ class HttpAsset extends BaseAsset
      */
     public function __construct($sourceUrl, $filters = [], $ignoreErrors = false, array $vars = [])
     {
-        if (0 === strpos($sourceUrl, '//')) {
+        if (strpos($sourceUrl, '//') === 0) {
             $sourceUrl = 'http:'.$sourceUrl;
-        } elseif (false === strpos($sourceUrl, '://')) {
+        } elseif (strpos($sourceUrl, '://') === false) {
             throw new \InvalidArgumentException(sprintf('"%s" is not a valid URL.', $sourceUrl));
         }
 
@@ -57,7 +57,7 @@ class HttpAsset extends BaseAsset
             VarUtils::resolve($this->sourceUrl, $this->getVars(), $this->getValues())
         );
 
-        if (false === $content && !$this->ignoreErrors) {
+        if ($content === false && !$this->ignoreErrors) {
             throw new \RuntimeException(sprintf('Unable to load asset from URL "%s"', $this->sourceUrl));
         }
 
@@ -66,9 +66,9 @@ class HttpAsset extends BaseAsset
 
     public function getLastModified()
     {
-        if (false !== @file_get_contents($this->sourceUrl, false, stream_context_create(['http' => ['method' => 'HEAD']]))) {
+        if (@file_get_contents($this->sourceUrl, false, stream_context_create(['http' => ['method' => 'HEAD']])) !== false) {
             foreach ($http_response_header as $header) {
-                if (0 === stripos($header, 'Last-Modified: ')) {
+                if (stripos($header, 'Last-Modified: ') === 0) {
                     [, $mtime] = explode(':', $header, 2);
 
                     return strtotime(trim($mtime));

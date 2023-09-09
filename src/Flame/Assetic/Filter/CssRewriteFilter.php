@@ -30,30 +30,30 @@ class CssRewriteFilter extends BaseCssFilter
         $sourcePath = $asset->getSourcePath();
         $targetPath = $asset->getTargetPath();
 
-        if (null === $sourcePath || null === $targetPath || $sourcePath == $targetPath) {
+        if ($sourcePath === null || $targetPath === null || $sourcePath == $targetPath) {
             return;
         }
 
         // learn how to get from the target back to the source
-        if (false !== strpos($sourceBase, '://')) {
+        if (strpos($sourceBase, '://') !== false) {
             [$scheme, $url] = explode('://', $sourceBase.'/'.$sourcePath, 2);
             [$host, $path] = explode('/', $url, 2);
 
             $host = $scheme.'://'.$host.'/';
-            $path = false === strpos($path, '/') ? '' : dirname($path);
+            $path = strpos($path, '/') === false ? '' : dirname($path);
             $path .= '/';
         } else {
             // assume source and target are on the same host
             $host = '';
 
             // pop entries off the target until it fits in the source
-            if ('.' == dirname($sourcePath)) {
+            if (dirname($sourcePath) == '.') {
                 $path = str_repeat('../', substr_count($targetPath, '/'));
             } elseif ('.' == $targetDir = dirname($targetPath)) {
                 $path = dirname($sourcePath).'/';
             } else {
                 $path = '';
-                while (0 !== strpos($sourcePath, $targetDir)) {
+                while (strpos($sourcePath, $targetDir) !== 0) {
                     if (false !== $pos = strrpos($targetDir, '/')) {
                         $targetDir = substr($targetDir, 0, $pos);
                         $path .= '../';
@@ -68,26 +68,26 @@ class CssRewriteFilter extends BaseCssFilter
         }
 
         $content = $this->filterReferences($asset->getContent(), function ($matches) use ($host, $path) {
-            if (false !== strpos($matches['url'], '://') || 0 === strpos($matches['url'], '//') || 0 === strpos($matches['url'], 'data:')) {
+            if (strpos($matches['url'], '://') !== false || strpos($matches['url'], '//') === 0 || strpos($matches['url'], 'data:') === 0) {
                 // absolute or protocol-relative or data uri
                 return $matches[0];
             }
 
-            if (isset($matches['url'][0]) && '/' == $matches['url'][0]) {
+            if (isset($matches['url'][0]) && $matches['url'][0] == '/') {
                 // root relative
                 return str_replace($matches['url'], $host.$matches['url'], $matches[0]);
             }
 
             // document relative
             $url = $matches['url'];
-            while (0 === strpos($url, '../') && 2 <= substr_count($path, '/')) {
+            while (strpos($url, '../') === 0 && substr_count($path, '/') >= 2) {
                 $path = substr($path, 0, strrpos(rtrim($path, '/'), '/') + 1);
                 $url = substr($url, 3);
             }
 
             $parts = [];
             foreach (explode('/', $host.$path.$url) as $part) {
-                if ('..' === $part && count($parts) && '..' !== end($parts)) {
+                if ($part === '..' && count($parts) && end($parts) !== '..') {
                     array_pop($parts);
                 } else {
                     $parts[] = $part;

@@ -103,7 +103,7 @@ class AssetCollectionIterator implements \RecursiveIterator
 
     public function valid(): bool
     {
-        return false !== current($this->assets);
+        return current($this->assets) !== false;
     }
 
     public function hasChildren(): bool
@@ -123,7 +123,7 @@ class AssetCollectionIterator implements \RecursiveIterator
     {
         foreach ($this->vars as $var) {
             $var = '{'.$var.'}';
-            if (false !== strpos($name, $var) && false !== strpos($this->output, $var)) {
+            if (strpos($name, $var) !== false && strpos($this->output, $var) !== false) {
                 $name = str_replace($var, '', $name);
             }
         }

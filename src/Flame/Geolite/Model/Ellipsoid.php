@@ -229,7 +229,7 @@ class Ellipsoid
      */
     public function __construct($name, $a, $invF)
     {
-        if (0.0 >= (float)$invF) {
+        if ((float)$invF <= 0.0) {
             throw new InvalidArgumentException('The inverse flattening cannot be negative or equal to zero !');
         }
 
@@ -271,7 +271,7 @@ class Ellipsoid
      */
     public static function createFromArray(array $newEllipsoid)
     {
-        if (!isset($newEllipsoid['name'], $newEllipsoid['a'], $newEllipsoid['invF']) || 3 !== count($newEllipsoid)) {
+        if (!isset($newEllipsoid['name'], $newEllipsoid['a'], $newEllipsoid['invF']) || count($newEllipsoid) !== 3) {
             throw new InvalidArgumentException('Ellipsoid arrays should contain `name`, `a` and `invF` keys !');
         }
 

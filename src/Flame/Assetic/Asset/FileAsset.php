@@ -35,13 +35,13 @@ class FileAsset extends BaseAsset
      */
     public function __construct($source, $filters = [], $sourceRoot = null, $sourcePath = null, array $vars = [])
     {
-        if (null === $sourceRoot) {
+        if ($sourceRoot === null) {
             $sourceRoot = dirname($source);
-            if (null === $sourcePath) {
+            if ($sourcePath === null) {
                 $sourcePath = basename($source);
             }
-        } elseif (null === $sourcePath) {
-            if (0 !== strpos($source, $sourceRoot)) {
+        } elseif ($sourcePath === null) {
+            if (strpos($source, $sourceRoot) !== 0) {
                 throw new \InvalidArgumentException(sprintf('The source "%s" is not in the root directory "%s"', $source, $sourceRoot));
             }
 

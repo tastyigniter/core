@@ -114,7 +114,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
     {
         $partial = new static($component);
         $filePath = $partial->getFilePath($fileName);
-        if ('' === File::extension($filePath)) {
+        if (File::extension($filePath) === '') {
             $filePath .= '.'.$partial->getDefaultExtension();
         }
 

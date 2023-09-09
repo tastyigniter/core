@@ -42,25 +42,25 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
         $sourcePath = $asset->getSourcePath();
 
         $callback = function ($matches) use ($importFilter, $sourceRoot, $sourcePath) {
-            if (!$matches['url'] || null === $sourceRoot) {
+            if (!$matches['url'] || $sourceRoot === null) {
                 return $matches[0];
             }
 
             $importRoot = $sourceRoot;
 
-            if (false !== strpos($matches['url'], '://')) {
+            if (strpos($matches['url'], '://') !== false) {
                 // absolute
                 [$importScheme, $tmp] = explode('://', $matches['url'], 2);
                 [$importHost, $importPath] = explode('/', $tmp, 2);
                 $importRoot = $importScheme.'://'.$importHost;
-            } elseif (0 === strpos($matches['url'], '//')) {
+            } elseif (strpos($matches['url'], '//') === 0) {
                 // protocol-relative
                 [$importHost, $importPath] = explode('/', substr($matches['url'], 2), 2);
                 $importRoot = '//'.$importHost;
-            } elseif ('/' == $matches['url'][0]) {
+            } elseif ($matches['url'][0] == '/') {
                 // root-relative
                 $importPath = substr($matches['url'], 1);
-            } elseif (null !== $sourcePath) {
+            } elseif ($sourcePath !== null) {
                 // document-relative
                 $importPath = $matches['url'];
                 if ('.' != $sourceDir = dirname($sourcePath)) {
@@ -71,9 +71,9 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
             }
 
             $importSource = $importRoot.'/'.$importPath;
-            if (false !== strpos($importSource, '://') || 0 === strpos($importSource, '//')) {
+            if (strpos($importSource, '://') !== false || strpos($importSource, '//') === 0) {
                 $import = new HttpAsset($importSource, [$importFilter], true);
-            } elseif ('css' != pathinfo($importPath, PATHINFO_EXTENSION) || !file_exists($importSource)) {
+            } elseif (pathinfo($importPath, PATHINFO_EXTENSION) != 'css' || !file_exists($importSource)) {
                 // ignore non-css and non-existant imports
                 return $matches[0];
             } else {

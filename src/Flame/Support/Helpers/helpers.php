@@ -896,7 +896,7 @@ if (!function_exists('array_insert_after')) {
     {
         $keys = array_keys($array);
         $index = array_search($key, $keys, true);
-        $position = false === $index ? count($array) : $index + 1;
+        $position = $index === false ? count($array) : $index + 1;
 
         return array_merge(array_slice($array, 0, $position), $value, array_slice($array, $position));
     }

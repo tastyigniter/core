@@ -43,13 +43,13 @@ class FilesystemCache implements CacheInterface
 
     public function set($key, $value)
     {
-        if (!is_dir($this->dir) && false === @mkdir($this->dir, 0777, true)) {
+        if (!is_dir($this->dir) && @mkdir($this->dir, 0777, true) === false) {
             throw new \RuntimeException('Unable to create directory '.$this->dir);
         }
 
         $path = $this->dir.'/'.$key;
 
-        if (false === @file_put_contents($path, $value)) {
+        if (@file_put_contents($path, $value) === false) {
             throw new \RuntimeException('Unable to write file '.$path);
         }
     }
@@ -58,7 +58,7 @@ class FilesystemCache implements CacheInterface
     {
         $path = $this->dir.'/'.$key;
 
-        if (file_exists($path) && false === @unlink($path)) {
+        if (file_exists($path) && @unlink($path) === false) {
             throw new \RuntimeException('Unable to remove file '.$path);
         }
     }

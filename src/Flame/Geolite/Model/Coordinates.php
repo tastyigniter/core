@@ -134,7 +134,7 @@ class Coordinates implements CoordinatesInterface
      */
     public function normalizeLongitude($longitude)
     {
-        if (180 === $longitude % 360) {
+        if ($longitude % 360 === 180) {
             return 180.0;
         }
 

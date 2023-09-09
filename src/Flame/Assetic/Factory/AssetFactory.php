@@ -196,7 +196,7 @@ class AssetFactory
 
         // filters
         foreach ($filters as $filter) {
-            if ('?' != $filter[0]) {
+            if ($filter[0] != '?') {
                 $asset->ensureFilter($this->getFilter($filter));
             } elseif (!$options['debug']) {
                 $asset->ensureFilter($this->getFilter(substr($filter, 1)));
@@ -207,7 +207,7 @@ class AssetFactory
         if (!empty($options['vars'])) {
             $toAdd = [];
             foreach ($options['vars'] as $var) {
-                if (false !== strpos($options['output'], '{'.$var.'}')) {
+                if (strpos($options['output'], '{'.$var.'}') !== false) {
                     continue;
                 }
 
@@ -220,7 +220,7 @@ class AssetFactory
         }
 
         // append consensus extension if missing
-        if (1 == count($extensions) && !pathinfo($options['output'], PATHINFO_EXTENSION) && $extension = key($extensions)) {
+        if (count($extensions) == 1 && !pathinfo($options['output'], PATHINFO_EXTENSION) && $extension = key($extensions)) {
             $options['output'] .= '.'.$extension;
         }
 
@@ -296,11 +296,11 @@ class AssetFactory
      */
     protected function parseInput($input, array $options = [])
     {
-        if ('@' == $input[0]) {
+        if ($input[0] == '@') {
             return $this->createAssetReference(substr($input, 1));
         }
 
-        if (false !== strpos($input, '://') || 0 === strpos($input, '//')) {
+        if (strpos($input, '://') !== false || strpos($input, '//') === 0) {
             return $this->createHttpAsset($input, $options['vars']);
         }
 
@@ -316,7 +316,7 @@ class AssetFactory
             $input = $this->root.'/'.$path;
         }
 
-        if (false !== strpos($input, '*')) {
+        if (strpos($input, '*') !== false) {
             return $this->createGlobAsset($input, $root, $options['vars']);
         }
 
@@ -396,7 +396,7 @@ class AssetFactory
 
     private static function isAbsolutePath($path)
     {
-        return '/' == $path[0] || '\\' == $path[0] || (3 < strlen($path) && ctype_alpha($path[0]) && $path[1] == ':' && ('\\' == $path[2] || '/' == $path[2]));
+        return $path[0] == '/' || $path[0] == '\\' || (strlen($path) > 3 && ctype_alpha($path[0]) && $path[1] == ':' && ($path[2] == '\\' || $path[2] == '/'));
     }
 
     /**
@@ -410,7 +410,7 @@ class AssetFactory
     private static function findRootDir($path, array $roots)
     {
         foreach ($roots as $root) {
-            if (0 === strpos($path, $root)) {
+            if (strpos($path, $root) === 0) {
                 return $root;
             }
         }

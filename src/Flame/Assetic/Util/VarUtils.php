@@ -33,7 +33,7 @@ abstract class VarUtils
     {
         $map = [];
         foreach ($vars as $var) {
-            if (false === strpos($template, '{'.$var.'}')) {
+            if (strpos($template, '{'.$var.'}') === false) {
                 continue;
             }
 
