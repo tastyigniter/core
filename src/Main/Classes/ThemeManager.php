@@ -185,7 +185,7 @@ class ThemeManager
         }
 
         $paths = collect([$theme->getPath().'/resources', $theme->getPath()])
-            ->filter(fn($path) => File::isDirectory($path))
+            ->filter(fn ($path) => File::isDirectory($path))
             ->each(function ($path) use ($provider, $theme) {
                 $provider->loadThemeViewsFrom($path, $theme->hasParent()
                     ? $theme->getParent()->getName()
@@ -196,7 +196,7 @@ class ThemeManager
         if ($theme->hasParent()) {
             $paths->merge(
                 collect([$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath()])
-                    ->filter(fn($path) => File::isDirectory($path))
+                    ->filter(fn ($path) => File::isDirectory($path))
             );
         }
 
