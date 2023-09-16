@@ -27,12 +27,17 @@ class ThemeServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->booted(function () {
-            resolve(ThemeManager::class)->bootThemes();
+            resolve(ThemeManager::class)->bootThemes($this);
         });
 
         Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
             $themeViewPaths = array_get(view()->getFinder()->getHints(), 'igniter.main', []);
             config()->set('view.paths', array_merge($themeViewPaths, config('view.paths')));
         });
+    }
+
+    public function loadThemeViewsFrom(string|array $path, string $namespace)
+    {
+        $this->loadViewsFrom($path, $namespace);
     }
 }

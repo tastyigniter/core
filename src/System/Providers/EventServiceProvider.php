@@ -32,12 +32,12 @@ class EventServiceProvider extends FlameEventServiceProvider
     protected function loadConfiguration()
     {
         Event::listen('currency.beforeRegister', function () {
-            app('config')->set('currency.default', Currency::getDefaultKey());
-            app('config')->set('currency.converter', setting('currency_converter.api', 'openexchangerates'));
-            app('config')->set('currency.converters.openexchangerates.apiKey', setting('currency_converter.oer.apiKey'));
-            app('config')->set('currency.converters.fixerio.apiKey', setting('currency_converter.fixerio.apiKey'));
-            app('config')->set('currency.ratesCacheDuration', setting('currency_converter.refreshInterval'));
-            app('config')->set('currency.model', Currency::class);
+            app('config')->set('igniter-currency.default', Currency::getDefaultKey());
+            app('config')->set('igniter-currency.converter', setting('currency_converter.api', 'openexchangerates'));
+            app('config')->set('igniter-currency.converters.openexchangerates.apiKey', setting('currency_converter.oer.apiKey'));
+            app('config')->set('igniter-currency.converters.fixerio.apiKey', setting('currency_converter.fixerio.apiKey'));
+            app('config')->set('igniter-currency.ratesCacheDuration', setting('currency_converter.refreshInterval'));
+            app('config')->set('igniter-currency.model', Currency::class);
         });
     }
 }

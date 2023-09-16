@@ -6,6 +6,7 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Models\Theme as ThemeModel;
+use Igniter\Main\Providers\ThemeServiceProvider;
 use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
@@ -158,7 +159,7 @@ class ThemeManager
         return $this->loadThemeFromConfig(basename($path), $config);
     }
 
-    public function bootThemes()
+    public function bootThemes(ThemeServiceProvider $provider)
     {
         if ($this->booted) {
             return;
@@ -168,14 +169,14 @@ class ThemeManager
             $this->loadThemes();
         }
 
-        collect($this->themes)->each(function (Theme $theme) {
-            $this->bootTheme($theme);
+        collect($this->themes)->each(function (Theme $theme) use ($provider) {
+            $this->bootTheme($theme, $provider);
         });
 
         $this->booted = true;
     }
 
-    public function bootTheme(Theme $theme)
+    public function bootTheme(Theme $theme, ThemeServiceProvider $provider)
     {
         Page::getSourceResolver()->addSource($theme->getName(), $theme->makeFileSource());
 
@@ -183,11 +184,25 @@ class ThemeManager
             Page::getSourceResolver()->setDefaultSourceName($theme->getName());
         }
 
-        Igniter::loadResourcesFrom($theme->getAssetPath(), $theme->getName());
+        $paths = collect([$theme->getPath().'/resources', $theme->getPath()])
+            ->filter(fn($path) => File::isDirectory($path))
+            ->each(function ($path) use ($provider, $theme) {
+                $provider->loadThemeViewsFrom($path, $theme->hasParent()
+                    ? $theme->getParent()->getName()
+                    : $theme->getName()
+                );
+            });
 
-        if ($theme->hasParent() && $theme->getParent() && File::isDirectory($path = $theme->getParent()->getAssetPath())) {
-            Igniter::loadResourcesFrom($path, $theme->getParent()->getName());
+        if ($theme->hasParent()) {
+            $paths->merge(
+                collect([$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath()])
+                    ->filter(fn($path) => File::isDirectory($path))
+            );
         }
+
+        $paths->each(function ($path) use ($theme) {
+            Igniter::loadResourcesFrom($path, $theme->getName());
+        });
 
         if ($pathsToPublish = $theme->getPathsToPublish()) {
             foreach (['laravel-assets', 'igniter-assets'] as $group) {

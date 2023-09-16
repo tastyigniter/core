@@ -100,6 +100,8 @@ class Theme
 
     protected $screenshotData;
 
+    protected $parentTheme;
+
     protected static $allowedTemplateModels = [
         '_layouts' => LayoutTemplate::class,
         '_pages' => PageTemplate::class,
@@ -182,12 +184,16 @@ class Theme
 
     public function getParent()
     {
-        return resolve(ThemeManager::class)->findTheme($this->getParentName());
+        if (!is_null($this->parentTheme)) {
+            return $this->parentTheme;
+        }
+
+        return $this->parentTheme = resolve(ThemeManager::class)->findTheme($this->getParentName());
     }
 
     public function hasParent()
     {
-        return !is_null($this->parentName);
+        return !is_null($this->parentName) && !is_null($this->getParent());
     }
 
     public function requires($require)

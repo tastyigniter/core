@@ -18,7 +18,7 @@ trait HasQueryModifier
 
     public function scopeListFrontEnd(Builder $builder, array $options): LengthAwarePaginator
     {
-        $this->applyFilters($options, $builder);
+        $builder->applyFilters($options);
 
         $this->fireEvent('model.extendListFrontEndQuery', [$builder]);
 

@@ -250,7 +250,7 @@ class Form extends BaseWidget
     public function renderFieldElement($field)
     {
         return $this->makePartial(
-            'form/field_'.$field->type,
+            'form/field_' . $field->type,
             [
                 'field' => $field,
                 'formModel' => $this->model,
@@ -326,12 +326,12 @@ class Form extends BaseWidget
                 }
 
                 $fieldObject = $this->allFields[$field];
-                $result['#'.$fieldObject->getId('group')] = $this->makePartial('field', ['field' => $fieldObject]);
+                $result['#' . $fieldObject->getId('group')] = $this->makePartial('field', ['field' => $fieldObject]);
             }
         }
 
         if (empty($result)) {
-            $result = ['#'.$this->getId() => $this->makePartial('form')];
+            $result = ['#' . $this->getId() => $this->makePartial('form')];
         }
 
         // Extensibility
@@ -514,7 +514,7 @@ class Form extends BaseWidget
         }
 
         $widgetConfig = $this->makeConfig($field->config);
-        $widgetConfig['alias'] = $this->alias.studly_case(name_to_id($field->fieldName));
+        $widgetConfig['alias'] = $this->alias . studly_case(name_to_id($field->fieldName));
         $widgetConfig['sessionKey'] = $this->getSessionKey();
         $widgetConfig['previewMode'] = $this->previewMode;
         $widgetConfig['model'] = $this->model;
@@ -774,18 +774,18 @@ class Form extends BaseWidget
 
         $tabs = $this->allTabs->primary;
         $type = $tabs->section;
-        $activeTabIndex = (int)str_after($activeTab, '#'.$type.'tab-');
+        $activeTabIndex = (int)str_after($activeTab, '#' . $type . 'tab-');
 
         // In cases where a tab has been removed, the first tab becomes the active tab
         $activeTab = ($activeTabIndex <= count($tabs->fields))
-            ? $activeTab : '#'.$type.'tab-1';
+            ? $activeTab : '#' . $type . 'tab-1';
 
         return $this->activeTab = $activeTab;
     }
 
     public function getCookieKey()
     {
-        return $this->makeSessionKey().'-'.$this->context;
+        return $this->makeSessionKey() . '-' . $this->context;
     }
 
     /**
@@ -990,7 +990,7 @@ class Form extends BaseWidget
         if (!is_array($fieldOptions) && !$fieldOptions) {
             [$model, $attribute] = $field->resolveModelAttribute($this->model, $field->fieldName);
 
-            $methodName = 'get'.studly_case($attribute).'Options';
+            $methodName = 'get' . studly_case($attribute) . 'Options';
             if (
                 !$this->objectMethodExists($model, $methodName) &&
                 !$this->objectMethodExists($model, 'getDropdownOptions')
@@ -1096,7 +1096,7 @@ class Form extends BaseWidget
     protected function getSourceData()
     {
         return $this->arrayName
-            ? request()->input($this->arrayName)
-            : request()->input();
+            ? post($this->arrayName)
+            : post();
     }
 }
