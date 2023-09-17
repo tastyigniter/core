@@ -159,6 +159,22 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         return $this->redirectBack();
     }
 
+    public function edit_onReset($context, $themeCode = null)
+    {
+        $formController = $this->asExtension('FormController');
+        $model = $this->formFindModelObject($themeCode);
+        $formController->initForm($model, $context);
+
+        $model->data = [];
+        $model->save();
+
+        $this->formAfterSave($model);
+
+        if ($redirect = $formController->makeRedirect($context, $model)) {
+            return $redirect;
+        }
+    }
+
     public function source_onSave($context, $themeCode = null)
     {
         $this->defaultView = 'edit';

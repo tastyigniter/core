@@ -16,6 +16,8 @@ return [
 
     'text_maintenance_enabled' => 'Maintenance Enabled',
 
+    'button_reset_to_default' => 'Reset to Defaults',
+
     'menu_home' => 'Home',
     'menu_menu' => 'View Menu',
     'menu_reservation' => 'Reservation',

@@ -26,7 +26,7 @@ class FileSystem
     public function getCacheKey($name, $hashName = false)
     {
         $hash = md5($name);
-        $result = $this->path.'/';
+        $result = str_finish($this->path, '/');
         if ($hashName) {
             return $result.$hash.'.php';
         }
