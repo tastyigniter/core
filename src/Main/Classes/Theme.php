@@ -465,6 +465,7 @@ class Theme
             ->map(function (Theme $theme) {
                 if (File::exists($path = $theme->getSourcePath().$theme->assetConfigFile)) {
                     Assets::addFromManifest($theme->getSourcePath().$theme->assetConfigFile);
+
                     return $path;
                 }
 
@@ -480,8 +481,8 @@ class Theme
             $this->applyAssetVariablesOnCombinerFilters(array_flatten($combiner->getFilters()));
         });
 
-        rescue(fn() => Artisan::call('igniter:util', ['name' => 'compile scss']),
-            fn($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
+        rescue(fn () => Artisan::call('igniter:util', ['name' => 'compile scss']),
+            fn ($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
 
         Event::dispatch('main.theme.assetsBundled', [$this]);
     }

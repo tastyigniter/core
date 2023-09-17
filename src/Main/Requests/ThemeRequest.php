@@ -14,6 +14,7 @@ class ThemeRequest extends FormRequest
 
         return collect($this->fields())->mapWithKeys(function ($config, $field) {
             $dottedName = implode('.', name_to_array($field));
+
             return [$dottedName => array_get($config, 'label')];
         })->filter()->all();
     }
@@ -26,6 +27,7 @@ class ThemeRequest extends FormRequest
 
         return collect($this->fields())->mapWithKeys(function ($config, $field) {
             $dottedName = implode('.', name_to_array($field));
+
             return [$dottedName => array_get($config, 'rules')];
         })->filter()->all();
     }
