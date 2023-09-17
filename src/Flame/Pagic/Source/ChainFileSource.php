@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Pagic\Source;
 
+use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Pagic\Processors\Processor;
 
 class ChainFileSource extends AbstractSource implements SourceInterface
@@ -150,8 +151,10 @@ class ChainFileSource extends AbstractSource implements SourceInterface
 
     public function path(string $path): ?string
     {
+        $files = resolve(Filesystem::class);
         foreach ($this->sources as $source) {
-            if ($filePath = $source->path($path)) {
+            $filePath = $source->path($path);
+            if ($files->exists($filePath)) {
                 return $filePath;
             }
         }

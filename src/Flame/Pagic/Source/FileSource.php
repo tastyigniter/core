@@ -44,7 +44,7 @@ class FileSource extends AbstractSource implements SourceInterface
     {
         $this->basePath = $basePath;
 
-        $this->files = $files ?: new Filesystem;
+        $this->files = $files ?: resolve(Filesystem::class);
         $this->finder = new Finder;
         $this->processor = new Processor;
     }
@@ -235,10 +235,6 @@ class FileSource extends AbstractSource implements SourceInterface
 
     public function path(string $path): ?string
     {
-        if (!$this->files->exists($this->basePath.'/'.$path)) {
-            return null;
-        }
-
         return $this->basePath.'/'.$path;
     }
 

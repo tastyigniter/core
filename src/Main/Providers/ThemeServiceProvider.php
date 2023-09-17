@@ -4,6 +4,7 @@ namespace Igniter\Main\Providers;
 
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Router;
+use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;
@@ -27,7 +28,8 @@ class ThemeServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->booted(function () {
-            resolve(ThemeManager::class)->bootThemes($this);
+            resolve(ThemeManager::class)->bootThemes();
+            $this->registerThemesViewNamespace(resolve(ThemeManager::class)->listThemes());
         });
 
         Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
@@ -36,8 +38,16 @@ class ThemeServiceProvider extends ServiceProvider
         });
     }
 
-    public function loadThemeViewsFrom(string|array $path, string $namespace)
+    public function registerThemesViewNamespace(array $themes)
     {
-        $this->loadViewsFrom($path, $namespace);
+        foreach ($themes as $theme) {
+            if (File::isDirectory($theme->getSourcePath())) {
+                $this->loadViewsFrom($theme->getSourcePath(), $theme->getName());
+
+                if ($theme->hasParent()) {
+                    $this->loadViewsFrom($theme->getSourcePath(), $theme->getParent()->getName());
+                }
+            }
+        }
     }
 }

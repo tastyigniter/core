@@ -6,7 +6,6 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Models\Theme as ThemeModel;
-use Igniter\Main\Providers\ThemeServiceProvider;
 use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
@@ -64,27 +63,13 @@ class ThemeManager
             return;
         }
 
-        if (File::exists($theme->getSourcePath().'/_meta/assets.json')) {
-            $manager->addFromManifest($theme->getSourcePath().'/_meta/assets.json');
-        } elseif ($theme->hasParent() && $parent = $theme->getParent()) {
-            $manager->addFromManifest($parent->getSourcePath().'/_meta/assets.json');
-        }
-    }
-
-    public function applyAssetVariablesOnCombinerFilters(array $filters, Theme $theme = null)
-    {
-        $theme = !is_null($theme) ? $theme : $this->getActiveTheme();
-
-        if (!$theme || !$theme->hasCustomData()) {
-            return;
-        }
-
-        $assetVars = $theme->getAssetVariables();
-        foreach ($filters as $filter) {
-            if (method_exists($filter, 'setVariables')) {
-                $filter->setVariables($assetVars);
-            }
-        }
+        collect([$theme])
+            ->merge($theme->hasParent() ? [$theme->getParent()] : [])
+            ->each(function (Theme $theme) use ($manager) {
+                if (File::exists($theme->getSourcePath().$theme->assetConfigFile)) {
+                    $manager->addFromManifest($theme->getSourcePath().$theme->assetConfigFile);
+                }
+            });
     }
 
     //
@@ -159,7 +144,7 @@ class ThemeManager
         return $this->loadThemeFromConfig(basename($path), $config);
     }
 
-    public function bootThemes(ThemeServiceProvider $provider)
+    public function bootThemes()
     {
         if ($this->booted) {
             return;
@@ -169,14 +154,14 @@ class ThemeManager
             $this->loadThemes();
         }
 
-        collect($this->themes)->each(function (Theme $theme) use ($provider) {
-            $this->bootTheme($theme, $provider);
+        collect($this->themes)->each(function (Theme $theme) {
+            $this->bootTheme($theme);
         });
 
         $this->booted = true;
     }
 
-    public function bootTheme(Theme $theme, ThemeServiceProvider $provider)
+    public function bootTheme(Theme $theme)
     {
         Page::getSourceResolver()->addSource($theme->getName(), $theme->makeFileSource());
 
@@ -184,25 +169,12 @@ class ThemeManager
             Page::getSourceResolver()->setDefaultSourceName($theme->getName());
         }
 
-        $paths = collect([$theme->getPath().'/resources', $theme->getPath()])
-            ->filter(fn ($path) => File::isDirectory($path))
-            ->each(function ($path) use ($provider, $theme) {
-                $provider->loadThemeViewsFrom($path, $theme->hasParent()
-                    ? $theme->getParent()->getName()
-                    : $theme->getName()
-                );
+        collect([$theme->getPath().'/resources', $theme->getPath()])
+            ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath()] : [])
+            ->filter(fn($path) => File::isDirectory($path))
+            ->each(function ($path) use ($theme) {
+                Igniter::loadResourcesFrom($path, $theme->getName());
             });
-
-        if ($theme->hasParent()) {
-            $paths->merge(
-                collect([$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath()])
-                    ->filter(fn ($path) => File::isDirectory($path))
-            );
-        }
-
-        $paths->each(function ($path) use ($theme) {
-            Igniter::loadResourcesFrom($path, $theme->getName());
-        });
 
         if ($pathsToPublish = $theme->getPathsToPublish()) {
             foreach (['laravel-assets', 'igniter-assets'] as $group) {
