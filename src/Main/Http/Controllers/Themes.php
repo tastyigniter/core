@@ -5,16 +5,10 @@ namespace Igniter\Main\Http\Controllers;
 use Exception;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
-use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
-use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\CacheHelper;
-use Igniter\System\Libraries\Assets as AssetsManager;
 use Igniter\System\Traits\ManagesUpdates;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Log;
 
 class Themes extends \Igniter\Admin\Classes\AdminController
 {
@@ -234,7 +228,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
         if ($formConfig['context'] != 'source') {
             $formConfig['tabs']['fields'] = $formConfig['model']->getFieldsConfig();
-            $formConfig['data'] = array_merge($formConfig['model']->getFieldValues(), $formConfig['data']);
+            $formConfig['data'] = array_merge($formConfig['data'], $formConfig['model']->getFieldValues());
             $formConfig['arrayName'] .= '[data]';
 
             return;
@@ -263,53 +257,14 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         return $result;
     }
 
-    public function formAfterSave($model)
+    public function formAfterSave(Theme $model)
     {
         if ($this->widgets['form']->context != 'source') {
-            $this->buildAssetsBundle($model);
-        }
-    }
+            if (!config('igniter-system.publishThemeAssetsBundle', true)) {
+                return;
+            }
 
-    protected function buildAssetsBundle($model)
-    {
-        if (!$model->getFieldsConfig()) {
-            return;
-        }
-
-        if (!config('igniter-system.publishThemeAssetsBundle', true)) {
-            return;
-        }
-
-        $loaded = false;
-        $theme = $model->getTheme();
-        $file = '/_meta/assets.json';
-
-        if (File::exists($path = $theme->path.$file)) {
-            Assets::addFromManifest($path);
-            $loaded = true;
-        }
-
-        if ($theme->hasParent() && $theme->getParent() && File::exists($path = $theme->getParent()->path.$file)) {
-            Assets::addFromManifest($path);
-            $loaded = true;
-        }
-
-        if (!$loaded) {
-            return;
-        }
-
-        Event::listen('assets.combiner.beforePrepare', function (AssetsManager $combiner, $assets) use ($theme) {
-            resolve(ThemeManager::class)->applyAssetVariablesOnCombinerFilters(
-                array_flatten($combiner->getFilters()), $theme
-            );
-        });
-
-        try {
-            Artisan::call('igniter:util', ['name' => 'compile scss']);
-            Artisan::call('igniter:util', ['name' => 'compile js']);
-        } catch (Exception $ex) {
-            Log::error($ex);
-            flash()->error('Building assets bundle error: '.$ex->getMessage())->important();
+            $model->getTheme()->buildAssetsBundle();
         }
     }
 }

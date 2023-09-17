@@ -16,7 +16,11 @@ use Igniter\Main\Template\Content as ContentTemplate;
 use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial as PartialTemplate;
+use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\SystemHelper;
+use Igniter\System\Libraries\Assets as AssetsManager;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Event;
 
 class Theme
 {
@@ -64,6 +68,16 @@ class Theme
      * @var string The theme relative path to the assets directory
      */
     public $assetPath;
+
+    /**
+     * @var string The theme relative path to the form fields file
+     */
+    public $formConfigFile;
+
+    /**
+     * @var string The theme relative path to the assets config file
+     */
+    public $assetConfigFile;
 
     /**
      * @var string The theme path relative to base path
@@ -145,6 +159,14 @@ class Theme
      * @return string
      */
     public function getAssetPath()
+    {
+        return $this->path.$this->assetPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAssetConfigFile()
     {
         return $this->path.$this->assetPath;
     }
@@ -289,7 +311,7 @@ class Theme
         $configCache = [];
         $findInPaths = array_reverse(array_keys($this->getFindInPaths()));
         foreach ($findInPaths as $findInPath) {
-            $config = File::exists($path = $findInPath.'/_meta/fields.php')
+            $config = File::exists($path = $findInPath.$this->formConfigFile)
                 ? File::getRequire($path) : [];
 
             foreach (array_get($config, 'form', []) as $key => $definitions) {
@@ -337,7 +359,16 @@ class Theme
             return $this->customData;
         }
 
-        return $this->customData = ThemeModel::forTheme($this)->getThemeData();
+        $themeData = ThemeModel::forTheme($this)->getThemeData();
+
+        $customData = [];
+        foreach ($this->getFormConfig() as $item) {
+            foreach (array_get($item, 'fields', []) as $name => $field) {
+                $customData[$name] = array_get($themeData, $name, array_get($field, 'default'));
+            }
+        }
+
+        return $this->customData = array_undot($customData);
     }
 
     /**
@@ -347,6 +378,10 @@ class Theme
     public function getAssetVariables()
     {
         $result = [];
+
+        if (!ThemeModel::forTheme($this)->getThemeData()) {
+            return $result;
+        }
 
         $formFields = ThemeModel::forTheme($this)->getFieldsConfig();
         foreach ($formFields as $attribute => $field) {
@@ -400,9 +435,55 @@ class Theme
             $this->assetPath = $this->config['asset-path'] ?? '/assets';
         }
 
+        if (!$this->formConfigFile) {
+            $this->formConfigFile = $this->config['form-config-file'] ?? '/_meta/fields.php';
+        }
+
+        if (!$this->assetConfigFile) {
+            $this->assetConfigFile = $this->config['assets-config-file'] ?? '/_meta/assets.json';
+        }
+
         if (array_key_exists('locked', $this->config)) {
             $this->locked = (bool)$this->config['locked'];
         }
+    }
+
+    public function applyAssetVariablesOnCombinerFilters(array $filters)
+    {
+        $assetVars = $this->getAssetVariables();
+        foreach ($filters as $filter) {
+            if (method_exists($filter, 'setVariables')) {
+                $filter->setVariables($assetVars);
+            }
+        }
+    }
+
+    public function buildAssetsBundle()
+    {
+        $paths = collect([$this])
+            ->merge($this->hasParent() ? [$this->getParent()] : [])
+            ->map(function (Theme $theme) {
+                if (File::exists($path = $theme->getSourcePath().$theme->assetConfigFile)) {
+                    Assets::addFromManifest($theme->getSourcePath().$theme->assetConfigFile);
+                    return $path;
+                }
+
+                return null;
+            })
+            ->filter();
+
+        if ($paths->isEmpty()) {
+            return;
+        }
+
+        Event::listen('assets.combiner.beforePrepare', function (AssetsManager $combiner, $assets) {
+            $this->applyAssetVariablesOnCombinerFilters(array_flatten($combiner->getFilters()));
+        });
+
+        rescue(fn() => Artisan::call('igniter:util', ['name' => 'compile scss']),
+            fn($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
+
+        Event::dispatch('main.theme.assetsBundled', [$this]);
     }
 
     //
@@ -497,11 +578,7 @@ class Theme
      */
     public function __get($name)
     {
-        if ($this->hasCustomData()) {
-            return array_get($this->getCustomData(), $name);
-        }
-
-        return null;
+        return array_get($this->getCustomData(), $name);
     }
 
     /**

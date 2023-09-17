@@ -113,7 +113,7 @@ class IgniterUtil extends Command
     {
         $this->comment('Compiling registered asset bundles...');
 
-        config()->set('system.enableAssetMinify', (bool)$this->option('minify', true));
+        config()->set('igniter-system.enableAssetMinify', (bool)($this->option('minify') ?? true));
         $appContext = $this->option('admin') ? 'admin' : 'main';
         $bundles = Assets::getBundles($type, $appContext);
 

@@ -6,50 +6,47 @@ use Igniter\System\Classes\FormRequest;
 
 class ThemeRequest extends FormRequest
 {
-    /**
-     * @var \Igniter\Main\Http\Controllers\Themes
-     */
-    protected $controller;
-
     public function attributes()
     {
-        $attributes = [];
-
-        if (($form = $this->getForm()) && $form->context != 'source') {
-            $fieldsConfig = $this->controller->asExtension('FormController')->getFormModel()->getFieldsConfig();
-            foreach ($fieldsConfig as $name => $field) {
-                if (!array_key_exists('rules', $field)) {
-                    continue;
-                }
-
-                $dottedName = implode('.', name_to_array($name));
-                $attributes[$dottedName] = $field['label'];
-            }
+        if (!$this->isEditFormContext()) {
+            return [];
         }
 
-        return $attributes;
+        return collect($this->fields())->mapWithKeys(function ($config, $field) {
+            $dottedName = implode('.', name_to_array($field));
+            return [$dottedName => array_get($config, 'label')];
+        })->filter()->all();
     }
 
     public function rules()
     {
-        $rules = [];
-        if (($form = $this->getForm()) && $form->context != 'source') {
-            $fieldsConfig = $this->controller->asExtension('FormController')->getFormModel()->getFieldsConfig();
-            foreach ($fieldsConfig as $name => $field) {
-                if (!array_key_exists('rules', $field)) {
-                    continue;
-                }
-
-                $dottedName = implode('.', name_to_array($name));
-                $rules[$dottedName] = $field['rules'];
-            }
+        if (!$this->isEditFormContext()) {
+            return [];
         }
 
-        return $rules;
+        return collect($this->fields())->mapWithKeys(function ($config, $field) {
+            $dottedName = implode('.', name_to_array($field));
+            return [$dottedName => array_get($config, 'rules')];
+        })->filter()->all();
     }
 
+    /**
+     * Get data to be validated from the request.
+     *
+     * @return array
+     */
     public function validationData()
     {
-        return array_undot($this->getForm()->getSaveData());
+        return array_undot($this->all());
+    }
+
+    protected function isEditFormContext()
+    {
+        return $this->route()->getController()->getFormContext() === 'edit';
+    }
+
+    protected function fields()
+    {
+        return $this->route()->getController()->getFormModel()->getFieldsConfig();
     }
 }

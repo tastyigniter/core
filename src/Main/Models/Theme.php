@@ -197,20 +197,12 @@ class Theme extends Model
 
     public function getFieldValues()
     {
-        return $this->data ?: [];
+        return array_dot($this->data ?: []);
     }
 
     public function getThemeData()
     {
-        $data = [];
-        $formConfig = $this->getTheme()->getFormConfig();
-        foreach ($formConfig as $section => $item) {
-            foreach (array_get($item, 'fields', []) as $name => $field) {
-                $data[$name] = array_get($this->data, $name, array_get($field, 'default'));
-            }
-        }
-
-        return $data;
+        return $this->data;
     }
 
     //
