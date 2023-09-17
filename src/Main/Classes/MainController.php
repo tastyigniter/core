@@ -21,6 +21,7 @@ use Igniter\System\Helpers\ViewHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
@@ -147,9 +148,14 @@ class MainController extends Controller
 
         $url = request()->path();
 
+        $page = Event::fire('router.beforeRoute', [$url, $this->router], true);
+        if (is_null($page)) {
+            $page = request()->route('_file_');
+        }
+
         // If the page was not found or a page is hidden,
         // render the 404 page - either provided by the theme or the built-in one.
-        throw_unless($page = request()->route('_file_'), NotFoundHttpException::class);
+        throw_unless($page, NotFoundHttpException::class);
 
         // Loads the requested controller action
         $output = $this->runPage($page);
