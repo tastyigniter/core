@@ -161,7 +161,7 @@ class AdminController extends Controller
         }
 
         if ($action === '404') {
-            return response()->make($this->makeView('404'), 404);
+            return response()->make($this->makeView('igniter.admin::404'), 404);
         }
 
         // Execute post handler and AJAX event
@@ -183,7 +183,7 @@ class AdminController extends Controller
     protected function execPageAction(string $action, array $params): mixed
     {
         if (!$this->checkAction($action)) {
-            return response()->make($this->makeView('404'), 404);
+            return response()->make($this->makeView('igniter.admin::404'), 404);
         }
 
         array_unshift($params, $action);

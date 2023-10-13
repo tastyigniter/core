@@ -197,6 +197,27 @@ class Settings extends Model
 
         $this->allItems = $allItems;
         $this->items = $catItems;
+
+        $this->fireSystemEvent('system.settings.extendItems', [$this]);
+    }
+
+    public function removeSettingItem($code)
+    {
+        unset($this->allItems[$code]);
+
+        if (starts_with($code, 'core.')) {
+            foreach ($this->items['core'] as $key => $item) {
+                if ($item->code == str_after($code, 'core.')) {
+                    unset($this->items['core'][$key]);
+                }
+            }
+        } else {
+            foreach ($this->items['extensions'] as $key => $item) {
+                if (ends_with($code, '.'.$item->code)) {
+                    unset($this->items['extensions'][$key]);
+                }
+            }
+        }
     }
 
     public function registerSettingItems($owner, array $definitions)

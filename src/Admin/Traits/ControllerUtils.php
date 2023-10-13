@@ -76,15 +76,15 @@ trait ControllerUtils
     {
         $this->action = $method == 'remap' ? $this->action : $method;
 
+        if (method_exists($this, 'initialize')) {
+            $this->initialize();
+        }
+
         if (!$this->checkAction($method)) {
             throw new NotFoundHttpException(sprintf(
                 'Method [%s] is not found in the controller [%s]',
                 $method, get_class($this)
             ));
-        }
-
-        if (method_exists($this, 'initialize')) {
-            $this->initialize();
         }
 
         if (method_exists($this, 'remap')) {
