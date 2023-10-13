@@ -212,10 +212,6 @@ trait ManagesSource
 
     /**
      * Returns the local file path to the template.
-     *
-     * @param string $fileName
-     *
-     * @return string
      */
     public function getFilePath(string $fileName = null): ?string
     {
@@ -234,7 +230,6 @@ trait ManagesSource
 
     /**
      * Returns the file name.
-     * @return string
      */
     public function getFileName(): ?string
     {
@@ -243,7 +238,6 @@ trait ManagesSource
 
     /**
      * Returns the file name without the extension.
-     * @return string
      */
     public function getBaseFileName(): ?string
     {
@@ -252,7 +246,6 @@ trait ManagesSource
 
     /**
      * Returns the file content.
-     * @return string
      */
     public function getContent(): ?string
     {
@@ -279,7 +272,6 @@ trait ManagesSource
 
     /**
      * Returns the key used by the Template cache.
-     * @return string
      */
     public function getTemplateCacheKey(): ?string
     {

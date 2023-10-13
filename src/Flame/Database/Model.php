@@ -469,8 +469,6 @@ abstract class Model extends EloquentModel
     /**
      * Save the model to the database.
      *
-     * @param array $options
-     *
      * @return bool
      * @throws \Exception
      */

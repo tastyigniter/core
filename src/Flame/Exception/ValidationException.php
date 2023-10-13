@@ -31,7 +31,6 @@ class ValidationException extends Exception
      * Create a new validation exception instance.
      *
      * @param \Illuminate\Contracts\Validation\Validator $validator
-     * @param \Illuminate\Database\Eloquent\Model $model
      * @return void
      */
     public function __construct($validation, Model $model = null)

@@ -34,7 +34,6 @@ interface DriverInterface
      * Update given currency.
      *
      * @param string $code
-     * @param DateTime $timestamp
      *
      * @return int
      */

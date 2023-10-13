@@ -4,9 +4,6 @@ namespace Igniter\Flame\Setting;
 
 class MemorySettingStore extends SettingStore
 {
-    /**
-     * @param array $items
-     */
     public function __construct(array $items = null)
     {
         if ($items) {
