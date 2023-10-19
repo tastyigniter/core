@@ -16,11 +16,7 @@ use Igniter\Main\Template\Content as ContentTemplate;
 use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial as PartialTemplate;
-use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\SystemHelper;
-use Igniter\System\Libraries\Assets as AssetsManager;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Event;
 
 class Theme
 {
@@ -309,8 +305,12 @@ class Theme
         }
 
         $configCache = [];
-        $findInPaths = array_reverse(array_keys($this->getFindInPaths()));
-        foreach ($findInPaths as $findInPath) {
+        $paths[] = $this->getSourcePath();
+        if ($parent = $this->getParent()) {
+            $paths[] = $parent->getSourcePath();
+        }
+
+        foreach (array_reverse($paths) as $findInPath) {
             $config = File::exists($path = $findInPath.$this->formConfigFile)
                 ? File::getRequire($path) : [];
 
@@ -451,45 +451,6 @@ class Theme
         if (array_key_exists('locked', $this->config)) {
             $this->locked = (bool)$this->config['locked'];
         }
-    }
-
-    public function applyAssetVariablesOnCombinerFilters(array $filters)
-    {
-        $assetVars = $this->getAssetVariables();
-        foreach ($filters as $filter) {
-            if (method_exists($filter, 'setVariables')) {
-                $filter->setVariables($assetVars);
-            }
-        }
-    }
-
-    public function buildAssetsBundle()
-    {
-        $paths = collect([$this])
-            ->merge($this->hasParent() ? [$this->getParent()] : [])
-            ->map(function (Theme $theme) {
-                if (File::exists($path = $theme->getSourcePath().$theme->assetConfigFile)) {
-                    Assets::addFromManifest($theme->getSourcePath().$theme->assetConfigFile);
-
-                    return $path;
-                }
-
-                return null;
-            })
-            ->filter();
-
-        if ($paths->isEmpty()) {
-            return;
-        }
-
-        Event::listen('assets.combiner.beforePrepare', function (AssetsManager $combiner, $assets) {
-            $this->applyAssetVariablesOnCombinerFilters(array_flatten($combiner->getFilters()));
-        });
-
-        rescue(fn () => Artisan::call('igniter:util', ['name' => 'compile scss']),
-            fn ($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
-
-        Event::dispatch('main.theme.assetsBundled', [$this]);
     }
 
     //

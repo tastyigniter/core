@@ -272,15 +272,4 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
         return $result;
     }
-
-    public function formAfterSave(Theme $model)
-    {
-        if ($this->widgets['form']->context != 'source') {
-            if (!config('igniter-system.publishThemeAssetsBundle', true)) {
-                return;
-            }
-
-            $model->getTheme()->buildAssetsBundle();
-        }
-    }
 }

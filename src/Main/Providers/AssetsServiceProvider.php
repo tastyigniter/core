@@ -5,7 +5,6 @@ namespace Igniter\Main\Providers;
 use Igniter\Flame\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Libraries\Assets;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AssetsServiceProvider extends ServiceProvider
@@ -14,7 +13,6 @@ class AssetsServiceProvider extends ServiceProvider
     {
         if (!$this->app->runningInConsole() && !Igniter::runningInAdmin()) {
             $this->registerAssets();
-            $this->registerCombinerEvent();
         }
     }
 
@@ -24,15 +22,6 @@ class AssetsServiceProvider extends ServiceProvider
             $manager->registerSourcePath(Igniter::themesPath());
 
             resolve(ThemeManager::class)->addAssetsFromActiveThemeManifest($manager);
-        });
-    }
-
-    protected function registerCombinerEvent()
-    {
-        Event::listen('assets.combiner.beforePrepare', function (Assets $combiner, $assets) {
-            resolve(ThemeManager::class)->getActiveTheme()?->applyAssetVariablesOnCombinerFilters(
-                array_flatten($combiner->getFilters())
-            );
         });
     }
 }

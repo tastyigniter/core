@@ -2,6 +2,7 @@
 
 namespace Igniter\Main\Providers;
 
+use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Router;
 use Igniter\Flame\Support\Facades\File;
@@ -28,6 +29,10 @@ class ThemeServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->booted(function () {
+            if (!Igniter::hasDatabase(true)) {
+                return;
+            }
+
             resolve(ThemeManager::class)->bootThemes();
             $this->registerThemesViewNamespace(resolve(ThemeManager::class)->listThemes());
         });

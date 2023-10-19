@@ -4,11 +4,9 @@ namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Model;
-use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
-use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\CacheHelper;
 use Igniter\System\Models\Extension;
 use Illuminate\Console\Command;
@@ -97,40 +95,6 @@ class IgniterUtil extends Command
         $this->comment('Ping? Pong!');
         sleep(1);
         $this->comment('-');
-    }
-
-    protected function utilCompileJs()
-    {
-        $this->utilCompileAssets('js');
-    }
-
-    protected function utilCompileScss()
-    {
-        $this->utilCompileAssets('scss');
-    }
-
-    protected function utilCompileAssets($type = null)
-    {
-        $this->comment('Compiling registered asset bundles...');
-
-        config()->set('igniter-system.enableAssetMinify', (bool)($this->option('minify') ?? true));
-        $appContext = $this->option('admin') ? 'admin' : 'main';
-        $bundles = Assets::getBundles($type, $appContext);
-
-        if (!$bundles) {
-            $this->comment('Nothing to compile!');
-
-            return;
-        }
-
-        foreach ($bundles as $destination => $assets) {
-            $destination = File::symbolizePath($destination);
-            $publicDestination = File::localToPublic(realpath(dirname($destination))).'/'.basename($destination);
-
-            Assets::combineToFile($assets, $destination);
-            $this->comment(implode(', ', array_map('basename', $assets)));
-            $this->comment(sprintf(' -> %s', $publicDestination));
-        }
     }
 
     protected function utilRemoveDuplicates()
