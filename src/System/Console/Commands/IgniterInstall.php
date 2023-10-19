@@ -110,7 +110,7 @@ class IgniterInstall extends Command
         if (!file_exists(base_path().'/.env')) {
             $this->moveExampleFile('env', null, 'backup');
             $this->copyExampleFile('env', 'example', null);
-        } else if (!$this->confirm('Rewrite environment file?')) {
+        } elseif (!$this->confirm('Rewrite environment file?')) {
             return;
         }
 
