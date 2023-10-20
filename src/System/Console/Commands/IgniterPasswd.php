@@ -62,7 +62,7 @@ class IgniterPasswd extends Command
     protected function getArguments()
     {
         return [
-            ['username', InputArgument::OPTIONAL, 'The email of the Admin user o reset'],
+            ['email', InputArgument::OPTIONAL, 'The email of the Admin user o reset'],
             ['password', InputArgument::OPTIONAL, 'The new password'],
         ];
     }

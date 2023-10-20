@@ -37,13 +37,6 @@ return [
                     'ses' => 'igniter::system.settings.text_ses',
                 ],
             ],
-            'mail_logo' => [
-                'label' => 'igniter::system.settings.label_mail_logo',
-                'type' => 'mediafinder',
-                'span' => 'right',
-                'mode' => 'inline',
-                'comment' => 'igniter::system.settings.help_mail_logo',
-            ],
 
             'sendmail_path' => [
                 'label' => 'igniter::system.settings.label_sendmail_path',
@@ -170,6 +163,13 @@ return [
                     'field' => 'protocol',
                     'condition' => 'value[ses]',
                 ],
+            ],
+            'mail_logo' => [
+                'label' => 'igniter::system.settings.label_mail_logo',
+                'type' => 'mediafinder',
+                'span' => 'right',
+                'mode' => 'inline',
+                'comment' => 'igniter::system.settings.help_mail_logo',
             ],
             'test_email' => [
                 'label' => 'igniter::system.settings.label_test_email',
