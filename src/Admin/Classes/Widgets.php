@@ -44,7 +44,7 @@ class Widgets
     /**
      * @var array An array of dashboard widgets.
      */
-    protected ?array $dashboardWidgets = [];
+    protected ?array $dashboardWidgets = null;
 
     /**
      * @var array Cache of dashboard widget registration callbacks.

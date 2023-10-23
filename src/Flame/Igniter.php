@@ -53,6 +53,8 @@ class Igniter
 
     protected static array $prunableModels = [];
 
+    public static bool $disableThemes = false;
+
     /**
      * Set the extensions path for the application.
      *

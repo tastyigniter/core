@@ -250,7 +250,7 @@ trait ViewMaker
 
     public function makeViewContent(string $view, array $data = []): string
     {
-        $view = view()->make($view, $data);
+        $view = view()->make($view, array_merge($this->vars, $data));
 
         Event::dispatch('composing: '.$view->name(), [$view]);
 

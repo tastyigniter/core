@@ -33,6 +33,10 @@ class ThemeServiceProvider extends ServiceProvider
                 return;
             }
 
+            if (Igniter::$disableThemes) {
+                return;
+            }
+            
             resolve(ThemeManager::class)->bootThemes();
             $this->registerThemesViewNamespace(resolve(ThemeManager::class)->listThemes());
         });

@@ -6,7 +6,6 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Widgets\DashboardContainer;
 use Igniter\User\Facades\AdminAuth;
-use Illuminate\Support\Facades\Request;
 
 class Dashboard extends \Igniter\Admin\Classes\AdminController
 {
@@ -21,10 +20,6 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
 
     public function index()
     {
-        if (is_null(Request::segment(2))) {
-            return $this->redirect('dashboard');
-        }
-
         Template::setTitle(lang('igniter::admin.dashboard.text_title'));
         Template::setHeading(lang('igniter::admin.dashboard.text_heading'));
 
