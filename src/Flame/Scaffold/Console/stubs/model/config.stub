@@ -14,7 +14,7 @@ return [
 //                    'label' => 'lang:igniter::admin.button_delete',
 //                    'class' => 'btn btn-danger',
 //                    'data-attach-loading' => '',
-//                    'data-request-form' => '#list-form',
+//                    'data-request-form' => '#lists-list-form',
 //                    'data-request' => 'onDelete',
 //                    'data-request-data' => "_method:'DELETE'",
 //                    'data-request-confirm' => 'lang:igniter::admin.alert_warning_confirm'

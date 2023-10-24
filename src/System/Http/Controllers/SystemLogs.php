@@ -25,7 +25,7 @@ class SystemLogs extends \Igniter\Admin\Classes\AdminController
         ]);
         Template::setButton(lang('igniter::system.system_logs.button_empty'), [
             'class' => 'btn btn-danger',
-            'data-request-form' => '#list-form',
+            'data-request-form' => '#lists-list-form',
             'data-request' => 'onEmptyLog',
         ]);
         Template::setButton(lang('igniter::system.system_logs.button_request_logs'), [

@@ -19,7 +19,7 @@ $config['list']['toolbar'] = [
             'class' => 'btn btn-danger',
             'data-attach-loading' => '',
             'data-request' => 'onEmptyLog',
-            'data-request-form' => '#list-form',
+            'data-request-form' => '#lists-list-form',
             'data-request-data' => "_method:'DELETE'",
             'data-request-confirm' => 'lang:igniter::admin.alert_warning_confirm',
         ],

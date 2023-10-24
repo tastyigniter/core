@@ -40,7 +40,7 @@ $config['list']['columns'] = [
             'class' => 'btn btn-light text-warning mr-2 shadow-none',
             'title' => 'lang:igniter::system.themes.text_set_default',
             'data-request' => 'onSetDefault',
-            'data-request-form' => '#list-form',
+            'data-request-form' => '#lists-list-form',
             'data-request-data' => 'code:\'{code}\'',
         ],
     ],
