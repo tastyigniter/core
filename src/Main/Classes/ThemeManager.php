@@ -171,7 +171,7 @@ class ThemeManager
 
         collect([$theme->getPath().'/resources', $theme->getPath()])
             ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath()] : [])
-            ->filter(fn ($path) => File::isDirectory($path))
+            ->filter(fn($path) => File::isDirectory($path))
             ->each(function ($path) use ($theme) {
                 Igniter::loadResourcesFrom($path, $theme->getName());
             });
@@ -676,7 +676,7 @@ class ThemeManager
             throw new SystemException('Child theme path already exists.');
         }
 
-        File::makeDirectory($path, 0777, false, true);
+        File::makeDirectory($path, 0777, true, true);
 
         File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }

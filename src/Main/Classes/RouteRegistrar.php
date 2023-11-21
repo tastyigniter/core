@@ -5,6 +5,7 @@ namespace Igniter\Main\Classes;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Router;
 use Illuminate\Routing\Router as IlluminateRouter;
+use Illuminate\Support\Collection;
 
 class RouteRegistrar
 {
@@ -62,8 +63,12 @@ class RouteRegistrar
             });
     }
 
-    protected function getThemePageRoutes()
+    protected function getThemePageRoutes(): array|Collection
     {
+        if (Igniter::$disableThemeRoutes) {
+            return [];
+        }
+
         return resolve(Router::class)->getRouteMap();
     }
 }

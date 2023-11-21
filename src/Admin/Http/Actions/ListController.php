@@ -6,6 +6,7 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\ListExtendable;
 use Igniter\System\Classes\ControllerAction;
+use Illuminate\Support\Facades\DB;
 
 /**
  * List Controller Class
@@ -132,9 +133,11 @@ class ListController extends ControllerAction
 
         // Delete records
         if ($count = $records->count()) {
-            foreach ($records as $record) {
-                $record->delete();
-            }
+            DB::transaction(function () use ($records) {
+                foreach ($records as $record) {
+                    $record->delete();
+                }
+            });
 
             $prefix = ($count > 1) ? ' records' : 'record';
             flash()->success(sprintf(lang('igniter::admin.alert_success'), '['.$count.']'.$prefix.' '.lang('igniter::admin.text_deleted')));
