@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Exception</title>
-    <link rel="shortcut icon" href="{{ asset('vendor/igniter/admin/images/favicon.svg') }}" type="image/ico">
+    <link rel="shortcut icon" href="{{ asset('vendor/igniter/images/favicon.svg') }}" type="image/ico">
     <link href="{{ asset('vendor/igniter/admin/css/static.css') }}" rel="stylesheet">
 </head>
 <body>
