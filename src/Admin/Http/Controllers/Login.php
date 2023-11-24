@@ -88,7 +88,7 @@ class Login extends AdminController
                 'staff_name' => $user->name,
                 'reset_link' => admin_url('login/reset?code='.$user->reset_code),
             ];
-            Mail::queueTemplate('igniter.admin::_mail.password_reset_request', $data, $user);
+            Mail::queueTemplate('igniter.user::mail.admin_password_reset_request', $data, $user);
         }
 
         flash()->success(lang('igniter::admin.login.alert_email_sent'));
@@ -115,7 +115,7 @@ class Login extends AdminController
             throw new ValidationException(['password' => lang('igniter::admin.login.alert_failed_reset')]);
         }
 
-        Mail::queueTemplate('igniter.admin::_mail.password_reset', [
+        Mail::queueTemplate('igniter.user::mail.admin_password_reset', [
             'staff_name' => $user->name,
         ], $user);
 
