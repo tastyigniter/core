@@ -57,7 +57,10 @@ trait ControllerUtils
         }
 
         if (in_array(strtolower($action), array_map('strtolower', $this->hiddenActions))) {
-            return false;
+            throw new NotFoundHttpException(sprintf(
+                'Method [%s] is not allowed in the controller [%s]',
+                $action, get_class($this)
+            ));
         }
 
         if (method_exists($this, $action)) {

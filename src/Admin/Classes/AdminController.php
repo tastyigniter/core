@@ -15,6 +15,7 @@ use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminController extends Controller
 {
@@ -182,21 +183,27 @@ class AdminController extends Controller
 
     protected function execPageAction(string $action, array $params): mixed
     {
-        if (!$this->checkAction($action)) {
+        try {
+            if (!$this->checkAction($action)) {
+                return response()->make($this->makeView('igniter.admin::404'), 404);
+            }
+
+            array_unshift($params, $action);
+
+            // Execute the action
+            $result = call_user_func_array([$this, $action], array_values($params));
+
+            // Render the controller view if not already loaded
+            if (is_null($result) && !$this->suppressView) {
+                return $this->makeView($this->fatalError ? 'igniter.main::error' : ($this->defaultView ?? $action));
+            }
+
+            return $result;
+        }
+        catch (NotFoundHttpException $ex) {
+            logger()->error($ex->getMessage());
             return response()->make($this->makeView('igniter.admin::404'), 404);
         }
-
-        array_unshift($params, $action);
-
-        // Execute the action
-        $result = call_user_func_array([$this, $action], array_values($params));
-
-        // Render the controller view if not already loaded
-        if (is_null($result) && !$this->suppressView) {
-            return $this->makeView($this->fatalError ? 'igniter.main::error' : ($this->defaultView ?? $action));
-        }
-
-        return $result;
     }
 
     protected function makeMainMenuWidget(): void

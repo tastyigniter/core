@@ -13,6 +13,7 @@ use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Support\Facades\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Extensions extends \Igniter\Admin\Classes\AdminController
 {
@@ -77,12 +78,12 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setPreviousUrl('settings');
 
         if (!strlen($vendor) || !strlen($extension)) {
-            throw new SystemException(lang('igniter::system.extensions.alert_setting_missing_id'));
+            throw new NotFoundHttpException(lang('igniter::system.extensions.alert_setting_missing_id'));
         }
 
         $extensionCode = $vendor.'.'.$extension.'.'.$context;
         if (!$settingItem = Settings::make()->getSettingItem($extensionCode)) {
-            throw new SystemException(lang('igniter::system.extensions.alert_setting_not_found'));
+            throw new NotFoundHttpException(lang('igniter::system.extensions.alert_setting_not_found'));
         }
 
         if ($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions)) {
