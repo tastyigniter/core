@@ -199,9 +199,9 @@ class AdminController extends Controller
             }
 
             return $result;
-        }
-        catch (NotFoundHttpException $ex) {
+        } catch (NotFoundHttpException $ex) {
             logger()->error($ex->getMessage());
+
             return response()->make($this->makeView('igniter.admin::404'), 404);
         }
     }
