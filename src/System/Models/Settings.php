@@ -213,7 +213,7 @@ class Settings extends Model
             }
         } else {
             foreach ($this->items['extensions'] as $key => $item) {
-                if (ends_with($code, '.'.$item->code)) {
+                if ($code === $item->owner.'.'.$item->code) {
                     unset($this->items['extensions'][$key]);
                 }
             }
