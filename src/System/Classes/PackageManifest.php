@@ -96,10 +96,10 @@ class PackageManifest extends BasePackageManifest
 
         $namespace = key($autoload);
         $class = $namespace.'Extension';
-        $directory = str_before(dirname(File::fromClass($class)), '/'.rtrim(current($autoload), '/'));
+        $directory = str_before(dirname(File::fromClass($class)), DIRECTORY_SEPARATOR.rtrim(current($autoload), '/'));
         $code = strtolower(str_replace('\\', '.', trim($namespace, '\\')));
 
-        $json = json_decode(File::get($directory.'/composer.json'), true);
+        $json = json_decode(File::get($directory.DIRECTORY_SEPARATOR.'composer.json'), true);
         $manifest = $json['extra']['tastyigniter-extension'] ?? [];
 
         $manifest['code'] = $code = array_get($manifest, 'code', $code);
