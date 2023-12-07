@@ -69,7 +69,7 @@ trait EventEmitter
      *
      * @param string|null $event Event to destroy
      */
-    public function unbindEvent(string $event = null): static
+    public function unbindEvent(?string $event = null): static
     {
         // Multiple events
         if (is_array($event)) {

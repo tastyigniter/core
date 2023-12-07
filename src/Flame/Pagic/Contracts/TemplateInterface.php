@@ -17,7 +17,7 @@ interface TemplateInterface
     /**
      * Returns the local file path to the template.
      */
-    public function getFilePath(string $fileName = null): ?string;
+    public function getFilePath(?string $fileName = null): ?string;
 
     /**
      * Returns the file name.

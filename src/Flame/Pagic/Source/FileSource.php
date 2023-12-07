@@ -40,7 +40,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Create a new source instance.
      */
-    public function __construct($basePath, Filesystem $files = null)
+    public function __construct($basePath, ?Filesystem $files = null)
     {
         $this->basePath = $basePath;
 

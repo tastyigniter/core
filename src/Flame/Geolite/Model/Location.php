@@ -112,7 +112,7 @@ class Location implements Contracts\LocationInterface
     /**
      * @return self
      */
-    public function withFormattedAddress(string $formattedAddress = null)
+    public function withFormattedAddress(?string $formattedAddress = null)
     {
         $new = clone $this;
         $new->formattedAddress = $formattedAddress;
@@ -159,7 +159,7 @@ class Location implements Contracts\LocationInterface
     /**
      * @return self
      */
-    public function addAdminLevel(int $level, string $name, string $code = null)
+    public function addAdminLevel(int $level, string $name, ?string $code = null)
     {
         $this->adminLevels->put($level, new AdminLevel($level, $name, $code));
 

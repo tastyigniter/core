@@ -472,7 +472,7 @@ abstract class Model extends EloquentModel
      * @return bool
      * @throws \Exception
      */
-    public function save(array $options = null, $sessionKey = null)
+    public function save(?array $options = null, $sessionKey = null)
     {
         return $this->saveInternal(['force' => false] + (array)$options);
     }

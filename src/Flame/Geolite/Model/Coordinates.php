@@ -27,7 +27,7 @@ class Coordinates implements CoordinatesInterface
      * @param float $latitude
      * @param float $longitude
      */
-    public function __construct($latitude, $longitude, Ellipsoid $ellipsoid = null)
+    public function __construct($latitude, $longitude, ?Ellipsoid $ellipsoid = null)
     {
         $this->latitude = $this->normalizeLatitude($latitude);
         $this->longitude = $this->normalizeLongitude($longitude);

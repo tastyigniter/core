@@ -88,7 +88,7 @@ abstract class BaseAsset implements AssetInterface
      * @param string $content The asset content
      * @param FilterInterface $additionalFilter An additional filter
      */
-    protected function doLoad($content, FilterInterface $additionalFilter = null)
+    protected function doLoad($content, ?FilterInterface $additionalFilter = null)
     {
         $filter = clone $this->filters;
         if ($additionalFilter) {
@@ -104,7 +104,7 @@ abstract class BaseAsset implements AssetInterface
         $this->loaded = true;
     }
 
-    public function dump(FilterInterface $additionalFilter = null)
+    public function dump(?FilterInterface $additionalFilter = null)
     {
         if (!$this->loaded) {
             $this->load();

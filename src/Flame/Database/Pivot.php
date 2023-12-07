@@ -42,7 +42,7 @@ class Pivot extends Model
      * @param bool $exists
      * @return void
      */
-    public function __construct(ModelBase $parent = null, $attributes = [], $table = null, $exists = false)
+    public function __construct(?ModelBase $parent = null, $attributes = [], $table = null, $exists = false)
     {
         parent::__construct();
 

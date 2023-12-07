@@ -18,7 +18,7 @@ class FlashException extends Exception
 
     protected ?string $actionUrl = null;
 
-    public function __construct($message, protected string $type = 'danger', $code = 406, Exception $previous = null)
+    public function __construct($message, protected string $type = 'danger', $code = 406, ?Exception $previous = null)
     {
         $this->message = $message;
 
@@ -30,22 +30,22 @@ class FlashException extends Exception
         return new static($message, $type);
     }
 
-    public static function info(string $message, string $title = null): self
+    public static function info(string $message, ?string $title = null): self
     {
         return (new static($message, 'info'))->title($title);
     }
 
-    public static function success(string $message, string $title = null): self
+    public static function success(string $message, ?string $title = null): self
     {
         return (new static($message, 'success'))->title($title);
     }
 
-    public static function error(string $message, string $title = null): self
+    public static function error(string $message, ?string $title = null): self
     {
         return (new static($message, 'danger'))->title($title);
     }
 
-    public static function warning(string $message, string $title = null): self
+    public static function warning(string $message, ?string $title = null): self
     {
         return (new static($message, 'warning'))->title($title);
     }

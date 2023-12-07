@@ -131,7 +131,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return $this->coordinates->get($key);
     }
 
-    public function put($key, Contracts\CoordinatesInterface $coordinate = null)
+    public function put($key, ?Contracts\CoordinatesInterface $coordinate = null)
     {
         if (is_array($key)) {
             $values = $key;

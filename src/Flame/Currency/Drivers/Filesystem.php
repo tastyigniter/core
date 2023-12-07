@@ -91,7 +91,7 @@ class Filesystem extends AbstractDriver
     /**
      * {@inheritdoc}
      */
-    public function update($code, array $attributes, DateTime $timestamp = null)
+    public function update($code, array $attributes, ?DateTime $timestamp = null)
     {
         // Get blacklist path
         $path = $this->config('path');

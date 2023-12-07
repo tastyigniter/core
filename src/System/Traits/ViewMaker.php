@@ -45,7 +45,7 @@ trait ViewMaker
      */
     public $suppressLayout = false;
 
-    public function getViewPath(string $view, array|string|null $paths = [], string $prefix = null): string
+    public function getViewPath(string $view, array|string|null $paths = [], ?string $prefix = null): string
     {
         if (!is_array($paths)) {
             $paths = [$paths];
@@ -76,7 +76,7 @@ trait ViewMaker
         return $guess ?: $view;
     }
 
-    public function getViewName(string $view, array|string|null $paths = [], string $prefix = null): string
+    public function getViewName(string $view, array|string|null $paths = [], ?string $prefix = null): string
     {
         if (!is_array($paths)) {
             $paths = [$paths];
@@ -133,7 +133,7 @@ trait ViewMaker
      * @return string The layout contents, or false.
      * @throws \Igniter\Flame\Exception\SystemException
      */
-    public function makeLayout(string $name = null, array $vars = [], bool $throwException = true): string
+    public function makeLayout(?string $name = null, array $vars = [], bool $throwException = true): string
     {
         $layout = $name ?? $this->layout;
         if ($layout == '') {

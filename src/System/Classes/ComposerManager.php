@@ -204,7 +204,7 @@ class ComposerManager
     //
     //
 
-    public function install(?array $requirements, IOInterface $io = null): void
+    public function install(?array $requirements, ?IOInterface $io = null): void
     {
         $this->assertPhpIniSet();
         $this->assertHomeEnvSet();
@@ -254,7 +254,7 @@ class ComposerManager
         }
     }
 
-    public function uninstall(array $requirements, IOInterface $io = null): void
+    public function uninstall(array $requirements, ?IOInterface $io = null): void
     {
         $this->assertPhpIniSet();
         $this->assertHomeEnvSet();
@@ -324,7 +324,7 @@ class ComposerManager
         return $jsonPath;
     }
 
-    protected function getLockPath(string $jsonPath = null): ?string
+    protected function getLockPath(?string $jsonPath = null): ?string
     {
         $jsonPath ??= $this->getJsonPath();
 

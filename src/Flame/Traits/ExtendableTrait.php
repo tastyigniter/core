@@ -181,7 +181,7 @@ trait ExtendableTrait
     /**
      * Programmatically adds a method to the extendable class
      */
-    public function addDynamicMethod(string $dynamicName, callable $method, string $extension = null): void
+    public function addDynamicMethod(string $dynamicName, callable $method, ?string $extension = null): void
     {
         if (
             is_string($method) &&
@@ -382,7 +382,7 @@ trait ExtendableTrait
     /**
      * Magic method for __call()
      */
-    public function extendableCall(string $name, array $params = null): mixed
+    public function extendableCall(string $name, ?array $params = null): mixed
     {
         if (isset($this->extensionData['methods'][$name])) {
             $extension = $this->extensionData['methods'][$name];
@@ -416,7 +416,7 @@ trait ExtendableTrait
     /**
      * Magic method for __callStatic()
      */
-    public static function extendableCallStatic(string $name, array $params = null): mixed
+    public static function extendableCallStatic(string $name, ?array $params = null): mixed
     {
         $className = get_called_class();
 

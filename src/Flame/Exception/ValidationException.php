@@ -33,7 +33,7 @@ class ValidationException extends Exception
      * @param \Illuminate\Contracts\Validation\Validator $validator
      * @return void
      */
-    public function __construct($validation, Model $model = null)
+    public function __construct($validation, ?Model $model = null)
     {
         parent::__construct();
 

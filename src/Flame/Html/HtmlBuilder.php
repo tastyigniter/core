@@ -32,7 +32,7 @@ class HtmlBuilder
     /**
      * Create a new HTML builder instance.
      */
-    public function __construct(UrlGenerator $url = null, Factory $view)
+    public function __construct(?UrlGenerator $url = null, Factory $view)
     {
         $this->url = $url;
         $this->view = $view;

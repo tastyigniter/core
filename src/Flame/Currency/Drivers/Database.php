@@ -99,7 +99,7 @@ class Database extends AbstractDriver
     /**
      * {@inheritdoc}
      */
-    public function update($code, array $attributes, DateTime $timestamp = null)
+    public function update($code, array $attributes, ?DateTime $timestamp = null)
     {
         $table = $this->config('table');
 

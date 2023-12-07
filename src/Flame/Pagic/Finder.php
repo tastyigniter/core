@@ -185,7 +185,7 @@ class Finder
     /**
      * Get an array with the values of a given column.
      */
-    public function lists(string $column, string $key = null): Collection
+    public function lists(string $column, ?string $key = null): Collection
     {
         $select = is_null($key) ? [$column] : [$column, $key];
 
@@ -364,7 +364,7 @@ class Finder
     /**
      * Validate the supplied filename, extension and path.
      */
-    protected function validateFileName(string $fileName = null): bool
+    protected function validateFileName(?string $fileName = null): bool
     {
         if ($fileName === null) {
             $fileName = $this->model->fileName;
@@ -428,7 +428,7 @@ class Finder
     /**
      * Indicate that the query results should be cached.
      */
-    public function remember(\DateTime|int|null $seconds, string $key = null): static
+    public function remember(\DateTime|int|null $seconds, ?string $key = null): static
     {
         [$this->cacheSeconds, $this->cacheKey] = [$seconds, $key];
 

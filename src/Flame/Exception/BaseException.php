@@ -48,7 +48,7 @@ class BaseException extends Exception
      * @param int $code Error code.
      * @param \Exception|null $previous Previous exception.
      */
-    public function __construct($message = '', $code = 500, Exception $previous = null)
+    public function __construct($message = '', $code = 500, ?Exception $previous = null)
     {
         if ($this->className === null) {
             $this->className = get_called_class();

@@ -126,7 +126,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Create a collection of models from plain arrays.
      */
-    public static function hydrate(array $items, string $source = null): Collection
+    public static function hydrate(array $items, ?string $source = null): Collection
     {
         $instance = new static;
         $instance->setSource($source);
@@ -237,7 +237,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Create a new model instance that is existing.
      */
-    public function newFromFinder(array $attributes = [], string $source = null): static
+    public function newFromFinder(array $attributes = [], ?string $source = null): static
     {
         $instance = $this->newInstance([], true);
 
@@ -403,7 +403,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
         $this->newFinder()->delete();
     }
 
-    public static function addGlobalScope($scope, Closure $implementation = null)
+    public static function addGlobalScope($scope, ?Closure $implementation = null)
     {
     }
 

@@ -143,7 +143,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
      *
      * @param string $fileName Specifies the file name to return the path to.
      */
-    public function getFilePath(string $fileName = null): string
+    public function getFilePath(?string $fileName = null): string
     {
         if ($fileName === null) {
             $fileName = $this->fileName;

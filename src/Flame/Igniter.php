@@ -217,7 +217,7 @@ class Igniter
         return app()->bootstrapPath().'/cache/classes.php';
     }
 
-    public static function loadResourcesFrom(string $path, string $namespace = null)
+    public static function loadResourcesFrom(string $path, ?string $namespace = null)
     {
         $callback = function (Filesystem $files) use ($path, $namespace) {
             $files->addPathSymbol($namespace, $path);

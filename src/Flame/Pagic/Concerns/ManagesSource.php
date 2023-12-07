@@ -59,7 +59,7 @@ trait ManagesSource
      * Returns the list of objects in the specified theme.
      * This method is used internally by the system.
      */
-    public static function listInTheme(string|Theme $source = null, bool $skipCache = false): Collection
+    public static function listInTheme(string|Theme|null $source = null, bool $skipCache = false): Collection
     {
         if ($source instanceof Theme) {
             $source = $source->getName();
@@ -78,7 +78,7 @@ trait ManagesSource
         return $instance->get();
     }
 
-    public static function getDropdownOptions(string|Theme $source = null, bool $skipCache = false): array
+    public static function getDropdownOptions(string|Theme|null $source = null, bool $skipCache = false): array
     {
         if ($source instanceof Theme) {
             $source = $source->getDirName();
@@ -96,7 +96,7 @@ trait ManagesSource
             ->sort()->all();
     }
 
-    public static function resolveSource(string $source = null): SourceInterface
+    public static function resolveSource(?string $source = null): SourceInterface
     {
         return static::$resolver->source($source);
     }
@@ -195,7 +195,7 @@ trait ManagesSource
     /**
      * Returns the base file name and extension. Applies a default extension, if none found.
      */
-    public function getFileNameParts(string $fileName = null): array
+    public function getFileNameParts(?string $fileName = null): array
     {
         if ($fileName === null) {
             $fileName = $this->fileName;
@@ -213,7 +213,7 @@ trait ManagesSource
     /**
      * Returns the local file path to the template.
      */
-    public function getFilePath(string $fileName = null): ?string
+    public function getFilePath(?string $fileName = null): ?string
     {
         if ($fileName === null) {
             $fileName = $this->fileName;

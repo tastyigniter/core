@@ -726,7 +726,7 @@ class MainController extends Controller
         return null;
     }
 
-    public function setComponentContext(BaseComponent $component = null)
+    public function setComponentContext(?BaseComponent $component = null)
     {
         $this->componentContext = $component;
     }
