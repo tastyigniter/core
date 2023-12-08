@@ -53,7 +53,9 @@ class Igniter
 
     protected static array $prunableModels = [];
 
-    public static bool $disableThemeRoutes = false;
+    protected static bool $disableThemeRoutes = false;
+
+    protected static bool $autoloadExtensions = true;
 
     /**
      * Set the extensions path for the application.
@@ -112,10 +114,10 @@ class Igniter
      * Returns true if a database connection is present.
      * @return bool
      */
-    public static function hasDatabase()
+    public static function hasDatabase($force = false)
     {
         try {
-            if (!static::$hasDatabase) {
+            if ($force || !static::$hasDatabase) {
                 $schema = resolve('db.connection')->getSchemaBuilder();
                 static::$hasDatabase = $schema->hasTable('settings') && $schema->hasTable('extension_settings');
             }
@@ -295,5 +297,23 @@ class Igniter
     public static function prunableModels(): array
     {
         return static::$prunableModels;
+    }
+
+    public static function disableThemeRoutes(null|bool $value = null)
+    {
+        if (is_null($value)) {
+            return static::$disableThemeRoutes;
+        }
+
+        static::$disableThemeRoutes = $value;
+    }
+
+    public static function autoloadExtensions(null|bool $value = null)
+    {
+        if (is_null($value)) {
+            return static::$autoloadExtensions;
+        }
+
+        static::$autoloadExtensions = $value;
     }
 }

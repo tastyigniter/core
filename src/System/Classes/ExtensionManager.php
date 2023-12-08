@@ -58,6 +58,10 @@ class ExtensionManager
         $this->packageManifest = $packageManifest;
         $this->disabledExtensions = $this->packageManifest->disabledAddons();
         $this->loadExtensions();
+
+        if (!Igniter::autoloadExtensions()) {
+            $this->disableWithMissingDependencies();
+        }
     }
 
     public static function addDirectory($directory)
@@ -179,6 +183,33 @@ class ExtensionManager
         }
 
         return $result;
+    }
+
+    /**
+     * Checks all extensions and their dependencies, if not met extensions
+     * are disabled.
+     * @return void
+     */
+    protected function disableWithMissingDependencies()
+    {
+        foreach ($this->extensions as $code => $extension) {
+            if (!$required = $this->getDependencies($extension)) {
+                continue;
+            }
+
+            $disable = false;
+            foreach ($required as $require) {
+                $extensionObj = $this->findExtension($require);
+                if (!$extensionObj || $extensionObj->disabled) {
+                    $disable = true;
+                }
+            }
+
+            // Only disable extension with missing dependencies.
+            if ($disable && !$extension->disabled) {
+                $this->updateInstalledExtensions($code, false);
+            }
+        }
     }
 
     /**
@@ -454,7 +485,7 @@ class ExtensionManager
      */
     public function isDisabled($code)
     {
-        return !$this->checkName($code) || array_get($this->disabledExtensions, $code, false);
+        return !$this->checkName($code) || array_get($this->disabledExtensions, $code, !Igniter::autoloadExtensions());
     }
 
     /**

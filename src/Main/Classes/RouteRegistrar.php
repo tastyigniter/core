@@ -65,7 +65,7 @@ class RouteRegistrar
 
     protected function getThemePageRoutes(): array|Collection
     {
-        if (Igniter::$disableThemeRoutes) {
+        if (Igniter::disableThemeRoutes()) {
             return [];
         }
 
