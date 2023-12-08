@@ -299,7 +299,7 @@ class Igniter
         return static::$prunableModels;
     }
 
-    public static function disableThemeRoutes(null|bool $value = null)
+    public static function disableThemeRoutes(?bool $value = null)
     {
         if (is_null($value)) {
             return static::$disableThemeRoutes;
@@ -308,7 +308,7 @@ class Igniter
         static::$disableThemeRoutes = $value;
     }
 
-    public static function autoloadExtensions(null|bool $value = null)
+    public static function autoloadExtensions(?bool $value = null)
     {
         if (is_null($value)) {
             return static::$autoloadExtensions;

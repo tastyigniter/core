@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Classes;
 
-use Igniter\Admin\Http\Controllers\Dashboard;
 use Igniter\Admin\Http\Controllers\Login;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
