@@ -50,6 +50,7 @@ class RouteRegistrar
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
             ->group(function (Router $router) {
+                $router->name('igniter.admin')->any('/', [Login::class, 'index']);
                 $router->any('/login', [Login::class, 'index'])->name('igniter.admin.login');
                 $router->any('/login/reset/{slug?}', [Login::class, 'reset'])->name('igniter.admin.reset');
             });
@@ -59,8 +60,6 @@ class RouteRegistrar
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
             ->group(function (Router $router) {
-                $router->name('igniter.admin')->any('/', [Dashboard::class, 'remap']);
-
                 foreach ($this->getAdminPages() as $class) {
                     [$name, $uri] = $this->guessRouteUri($class);
                     $router->name($name)->any('/'.$uri.'/{slug?}', [$class, 'remap'])->where('slug', '(.*)?');

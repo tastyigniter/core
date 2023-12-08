@@ -22,6 +22,11 @@ class Login extends AdminController
 
     public function index()
     {
+        // Redirect /admin to /admin/login
+        if (!request()->routeIs('igniter.admin.login')) {
+            return AdminHelper::redirect('login');
+        }
+
         if (AdminAuth::isLogged()) {
             return AdminHelper::redirect('dashboard');
         }
