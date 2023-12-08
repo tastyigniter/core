@@ -25,9 +25,11 @@ return new class extends Migration
             'tables',
             'admin_users',
         ] as $table) {
-            Schema::table($table, function (Blueprint $table) {
-                $table->timestamps();
-            });
+            if (!Schema::hasColumn($table, 'created_at')) {
+                Schema::table($table, function (Blueprint $table) {
+                    $table->timestamps();
+                });
+            }
         }
 
         Schema::table('customers', function (Blueprint $table) {

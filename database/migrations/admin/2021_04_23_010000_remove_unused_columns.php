@@ -33,9 +33,11 @@ return new class extends Migration
             $table->dropColumn('permissions');
         });
 
-        Schema::table('admin_users', function (Blueprint $table) {
-            $table->dropColumn('salt');
-        });
+        if (Schema::hasColumn('admin_users', 'salt')) {
+            Schema::table('admin_users', function (Blueprint $table) {
+                $table->dropColumn('salt');
+            });
+        }
     }
 
     public function down()

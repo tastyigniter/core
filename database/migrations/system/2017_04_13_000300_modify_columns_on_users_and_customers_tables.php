@@ -26,19 +26,17 @@ return new class extends Migration
             $table->dateTime('last_login')->nullable();
         });
 
-        rescue(function () {
-            Schema::table('admin_users', function (Blueprint $table) {
-                $table->string('salt', 9)->nullable()->change();
-                $table->string('password')->change();
-                $table->boolean('super_user')->nullable();
-                $table->string('reset_code')->nullable();
-                $table->dateTime('reset_time')->nullable();
-                $table->string('activation_code')->nullable();
-                $table->string('remember_token')->nullable();
-                $table->boolean('is_activated')->nullable();
-                $table->dateTime('date_activated')->nullable();
-                $table->dateTime('last_login')->nullable();
-            });
+        Schema::table('admin_users', function (Blueprint $table) {
+            $table->string('salt', 9)->nullable()->change();
+            $table->string('password')->change();
+            $table->boolean('super_user')->nullable();
+            $table->string('reset_code')->nullable();
+            $table->dateTime('reset_time')->nullable();
+            $table->string('activation_code')->nullable();
+            $table->string('remember_token')->nullable();
+            $table->boolean('is_activated')->nullable();
+            $table->dateTime('date_activated')->nullable();
+            $table->dateTime('last_login')->nullable();
         });
     }
 

@@ -41,9 +41,11 @@ return new class extends Migration
             'user_preferences' => 'id',
             'admin_users' => 'user_id',
         ] as $table => $key) {
-            Schema::table($table, function (Blueprint $table) use ($key) {
-                $table->unsignedBigInteger($key, true)->change();
-            });
+            if (Schema::hasColumn($table, $key)) {
+                Schema::table($table, function (Blueprint $table) use ($key) {
+                    $table->unsignedBigInteger($key, true)->change();
+                });
+            }
         }
     }
 

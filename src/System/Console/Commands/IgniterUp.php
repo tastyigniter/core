@@ -58,8 +58,12 @@ class IgniterUp extends Command
 
     protected function renameConflictingFoundationTables()
     {
+        if (Schema::hasColumn('users', 'staff_id')) {
+            $this->output->write(Info::class, 'Renaming tastyigniter admin users table to admin_users');
+            Schema::rename('users', 'admin_users');
+        }
+
         foreach ([
-            'users' => 'admin_users',
             'cache' => 'cache_bck',
             'failed_jobs' => 'failed_jobs_bck',
             'jobs' => 'jobs_bck',
