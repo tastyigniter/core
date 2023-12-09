@@ -26,6 +26,10 @@ class IgniterPackageDiscover extends Command
      */
     public function handle(PackageManifest $manifest)
     {
+        if ($manifest->files->exists($manifest->manifestPath)) {
+            $manifest->files->delete($manifest->manifestPath);
+        }
+
         $this->components->info('Discovering addons');
 
         $manifest->build();

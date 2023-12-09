@@ -38,6 +38,11 @@ class PackageManifest extends BasePackageManifest
         })->filter()->all();
     }
 
+    public function getPackagePath($path)
+    {
+        return $this->vendorPath.'/composer/'.$path;
+    }
+
     public function getVersion($code)
     {
         return collect($this->getManifest())->where('code', $code)->value('version');
@@ -94,15 +99,15 @@ class PackageManifest extends BasePackageManifest
             return $result;
         }
 
-        $namespace = key($autoload);
-        $class = $namespace.'Extension';
-        $directory = str_before(dirname(File::fromClass($class)), DIRECTORY_SEPARATOR.rtrim(current($autoload), '/'));
-        $code = strtolower(str_replace('\\', '.', trim($namespace, '\\')));
-
-        $json = json_decode(File::get($directory.DIRECTORY_SEPARATOR.'composer.json'), true);
+        $directory = $this->vendorPath.'/composer/'.array_get($package, 'install-path');
+        $json = json_decode(File::get($directory.'/composer.json'), true);
         $manifest = $json['extra']['tastyigniter-extension'] ?? [];
 
-        $manifest['code'] = $code = array_get($manifest, 'code', $code);
+        $namespace = key($autoload);
+        $guessedCode = strtolower(str_replace('\\', '.', trim($namespace, '\\')));
+
+        $manifest['namespace'] = $namespace;
+        $manifest['code'] = $code = array_get($manifest, 'code', $guessedCode);
         $manifest['type'] = 'tastyigniter-extension';
         $manifest['package_name'] = array_get($package, 'name');
         $manifest['version'] = array_get($package, 'version');
@@ -110,9 +115,7 @@ class PackageManifest extends BasePackageManifest
         $manifest['author'] = array_get($package, 'authors.0.name');
         $manifest['homepage'] = array_get($package, 'homepage');
         $manifest['require'] = $this->formatRequire(array_get($package, 'require'));
-        $manifest['namespace'] = $namespace;
-        $manifest['extensionClass'] = $class;
-        $manifest['directory'] = str_after($directory, base_path());
+        $manifest['installPath'] = array_get($package, 'install-path');
 
         $result[$code] = array_filter($manifest);
 
@@ -134,10 +137,7 @@ class PackageManifest extends BasePackageManifest
         $manifest['homepage'] = array_get($package, 'homepage');
         $manifest['publish-paths'] = array_get($manifest, 'publish-paths');
         $manifest['require'] = $this->formatRequire(array_get($package, 'require'));
-
-        if (!array_key_exists('directory', $manifest)) {
-            $manifest['directory'] = str_after($directory, base_path());
-        }
+        $manifest['installPath'] = array_get($package, 'install-path');
 
         $result[$code] = array_filter($manifest);
 

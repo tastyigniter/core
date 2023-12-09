@@ -293,8 +293,13 @@ class ExtensionManager
         }
 
         $this->packageManifest->manifest = null;
-        foreach ($this->packageManifest->extensions() as $code => $config) {
-            $this->loadExtensionFromPackageManifest($code, $config);
+        foreach ($this->packageManifest->extensions() as $config) {
+            if (!File::exists($path = $this->packageManifest->getPackagePath(array_get($config, 'installPath')))) {
+                logger()->warning('Extension not found: '.$path);
+                continue;
+            }
+
+            $this->loadExtensionFromPackageManifest($path, $config);
         }
 
         return $this->extensions;
@@ -341,8 +346,9 @@ class ExtensionManager
         return $extension;
     }
 
-    public function loadExtensionFromPackageManifest($code, $config)
+    protected function loadExtensionFromPackageManifest($path, $config)
     {
+        $code = array_get($config, 'code');
         $identifier = $this->getIdentifier($code);
 
         throw_unless(
@@ -354,8 +360,7 @@ class ExtensionManager
             return $this->extensions[$identifier];
         }
 
-        $path = base_path(array_get($config, 'directory'));
-        $class = array_get($config, 'extensionClass');
+        $class = array_get($config, 'namespace').'Extension';
         $extension = $this->resolveExtension($identifier, $path, $class);
 
         $extension->extensionMeta($config);

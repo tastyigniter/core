@@ -92,8 +92,14 @@ class ThemeManager
      */
     public function loadThemes()
     {
-        foreach (resolve(PackageManifest::class)->themes() as $code => $config) {
-            $this->loadThemeFromConfig($code, $config);
+        $packageManifest = resolve(PackageManifest::class);
+        foreach ($packageManifest->themes() as $config) {
+            if (!File::exists($path = $packageManifest->getPackagePath(array_get($config, 'installPath')))) {
+                logger()->warning('Theme not found: '.$path);
+                continue;
+            }
+
+            $this->loadThemeFromConfig($path, $config);
         }
 
         foreach ($this->folders() as $path) {
@@ -103,19 +109,19 @@ class ThemeManager
         return $this->themes;
     }
 
-    public function loadThemeFromConfig($code, $config)
+    protected function loadThemeFromConfig($path, $config)
     {
+        $code = array_get($config, 'code');
+        if (!$code || !$this->checkName($code)) {
+            return false;
+        }
+
         if (isset($this->themes[$code])) {
             return $this->themes[$code];
         }
 
-        if (!$this->checkName($code)) {
-            return false;
-        }
-
         $config = $this->validateMetaFile($config, $code);
 
-        $path = base_path(array_get($config, 'directory'));
         $themeObject = new Theme($path, $config);
 
         $themeObject->active = $this->isActive($code);
@@ -139,9 +145,11 @@ class ThemeManager
             return false;
         }
 
-        $config['directory'] = str_after($path, base_path());
+        if (!array_key_exists('code', $config)) {
+            $config['code'] = basename($path);
+        }
 
-        return $this->loadThemeFromConfig(basename($path), $config);
+        return $this->loadThemeFromConfig($path, $config);
     }
 
     public function bootThemes()
