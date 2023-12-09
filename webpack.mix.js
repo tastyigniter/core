@@ -80,8 +80,6 @@ mix.combine([
     'node_modules/easymde/dist/easymde.min.js',
 ], `${dist}/js/vendor.editor.js`)
 
-mix.copyDirectory(`${src}/images`, `${dist}/images`)
-
 // We only want to copy these files when building for production
 if (!mix.inProduction()) return
 
