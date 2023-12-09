@@ -29,10 +29,12 @@
                 class="btn btn-link text-danger fw-bold text-decoration-none"
                 data-bs-dismiss="modal"
             >@lang('igniter::admin.button_close')</button>
-            <button
-                type="submit"
-                class="btn btn-primary"
-            >@lang('igniter::admin.button_save')</button>
+            @unless($formWidget->previewMode)
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >@lang('igniter::admin.button_save')</button>
+            @endunless
         </div>
     </div>
     {!! form_close() !!}

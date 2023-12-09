@@ -11,9 +11,11 @@ class UrlServiceProvider extends ServiceProvider
      * Register the service provider.
      * @return void
      */
-    public function register()
+    public function boot()
     {
-        $this->forceUrlGeneratorPolicy();
+        $this->app->booted(function () {
+            $this->forceUrlGeneratorPolicy();
+        });
     }
 
     /**
