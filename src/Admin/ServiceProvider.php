@@ -6,8 +6,6 @@ use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\System\Libraries\Assets;
-use Igniter\System\Models\RequestLog;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Route;

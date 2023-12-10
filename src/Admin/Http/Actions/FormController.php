@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Http\Actions;
 
-use Exception;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Facades\AdminMenu;

@@ -125,11 +125,13 @@ class FlashException extends Exception
     {
         if (!is_null($this->redirectUrl)) {
             $this->toFlashBag();
+
             return redirect()->to($this->redirectUrl);
         }
 
         if ($this->response instanceof Response) {
             $this->toFlashBag()->now();
+
             return $this->response;
         }
 
@@ -149,8 +151,12 @@ class FlashException extends Exception
     protected function toFlashBag(): FlashBag
     {
         $flashBag = flash($this->message, $this->type);
-        if ($this->overlay) $flashBag->overlay();
-        if ($this->important) $flashBag->important();
+        if ($this->overlay) {
+            $flashBag->overlay();
+        }
+        if ($this->important) {
+            $flashBag->important();
+        }
 
         return $flashBag;
     }
