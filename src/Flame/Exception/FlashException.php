@@ -3,8 +3,9 @@
 namespace Igniter\Flame\Exception;
 
 use Exception;
+use Igniter\Flame\Flash\FlashBag;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class FlashException extends Exception
 {
@@ -17,6 +18,10 @@ class FlashException extends Exception
     protected bool $shouldReport = false;
 
     protected ?string $actionUrl = null;
+
+    protected ?string $redirectUrl = null;
+
+    protected ?Response $response = null;
 
     public function __construct($message, protected string $type = 'danger', $code = 406, ?Exception $previous = null)
     {
@@ -78,6 +83,20 @@ class FlashException extends Exception
         return $this;
     }
 
+    public function redirectTo(string $url): self
+    {
+        $this->redirectUrl = $url;
+
+        return $this;
+    }
+
+    public function setResponse(Response $response): self
+    {
+        $this->response = $response;
+
+        return $this;
+    }
+
     public function shouldReport(): self
     {
         $this->shouldReport = true;
@@ -102,14 +121,37 @@ class FlashException extends Exception
         return $this->shouldReport ?: null;
     }
 
-    public function render(Request $request): false|Response
+    public function render(Request $request)
     {
-        if (!$request->ajax()) {
-            return false;
+        if (!is_null($this->redirectUrl)) {
+            $this->toFlashBag();
+            return redirect()->to($this->redirectUrl);
         }
 
-        return response([
-            'X_IGNITER_FLASH_MESSAGES' => [$this->getContents()],
-        ], $this->code);
+        if ($this->response instanceof Response) {
+            $this->toFlashBag()->now();
+            return $this->response;
+        }
+
+        if ($request->expectsJson()) {
+            return response([
+                'X_IGNITER_FLASH_MESSAGES' => [$this->getContents()],
+            ], $this->code);
+        }
+
+        if ($controller = $request->route()->getController()) {
+            return response($controller->makeView('flash_exception', $this->getContents()), 500);
+        }
+
+        return false;
+    }
+
+    protected function toFlashBag(): FlashBag
+    {
+        $flashBag = flash($this->message, $this->type);
+        if ($this->overlay) $flashBag->overlay();
+        if ($this->important) $flashBag->important();
+
+        return $flashBag;
     }
 }

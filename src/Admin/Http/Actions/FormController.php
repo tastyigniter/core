@@ -11,6 +11,7 @@ use Igniter\Admin\Traits\FormExtendable;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Database\Model;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\ControllerAction;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
@@ -355,9 +356,7 @@ class FormController extends ControllerAction
      */
     public function renderForm($options = [], $noToolbar = false)
     {
-        if (!$this->formWidget) {
-            throw new Exception(lang('igniter::admin.form.not_ready'));
-        }
+        throw_unless($this->formWidget, FlashException::error(lang('igniter::admin.form.not_ready')));
 
         if (!$noToolbar && !is_null($this->toolbarWidget)) {
             $form[] = $this->toolbarWidget->render();

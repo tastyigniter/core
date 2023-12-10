@@ -6,9 +6,12 @@ use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\System\Libraries\Assets;
+use Igniter\System\Models\RequestLog;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ServiceProvider extends AppServiceProvider
 {
@@ -29,6 +32,16 @@ class ServiceProvider extends AppServiceProvider
 
         $this->defineRoutes();
         $this->defineEloquentMorphMaps();
+
+        if (Igniter::runningInAdmin()) {
+            $this->app['events']->listen('exception.beforeRender', function ($exception, $httpCode, $request) {
+                if ($exception instanceof NotFoundHttpException) {
+                    if ($controller = $request->route()->getController()) {
+                        return response($controller->makeView('igniter.admin::404'), 404);
+                    }
+                }
+            });
+        }
     }
 
     /**

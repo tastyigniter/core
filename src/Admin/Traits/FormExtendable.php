@@ -2,7 +2,7 @@
 
 namespace Igniter\Admin\Traits;
 
-use Exception;
+use Igniter\Flame\Exception\FlashException;
 use Illuminate\Support\Facades\Event;
 
 trait FormExtendable
@@ -75,9 +75,7 @@ trait FormExtendable
     public function formFindModelObject($recordId)
     {
         $recordId = strip_tags($recordId); //remove html tags from url(reflective xss)
-        if (!strlen($recordId)) {
-            throw new Exception(lang('igniter::admin.form.missing_id'));
-        }
+        throw_unless(strlen($recordId), FlashException::error(lang('igniter::admin.form.missing_id')));
 
         $model = $this->controller->formCreateModelObject();
 
@@ -91,13 +89,9 @@ trait FormExtendable
 
         $result = $query->find($recordId);
 
-        if (!$result) {
-            throw new Exception(sprintf(lang('igniter::admin.form.not_found'), $recordId));
-        }
+        throw_unless($result, FlashException::error(sprintf(lang('igniter::admin.form.not_found'), $recordId)));
 
-        $result = $this->controller->formExtendModel($result) ?: $result;
-
-        return $result;
+        return $this->controller->formExtendModel($result) ?: $result;
     }
 
     /**

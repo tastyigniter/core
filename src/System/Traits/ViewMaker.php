@@ -152,10 +152,10 @@ trait ViewMaker
      *
      * @param string $view Specifies the view name, without extension. Eg: "index".
      */
-    public function makeView(string $view): string
+    public function makeView(string $view, array $data = []): string
     {
         $view = $this->getViewName(strtolower($view), $this->viewPath);
-        $contents = $this->makeViewContent($view);
+        $contents = $this->makeViewContent($view, $data);
 
         if ($this->suppressLayout || $this->layout === '') {
             return $contents;
