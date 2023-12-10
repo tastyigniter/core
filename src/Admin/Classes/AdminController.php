@@ -149,12 +149,8 @@ class AdminController extends Controller
         $this->fireSystemEvent('admin.controller.beforeRemap');
 
         // Check that user has permission to view this page
-        if ($this->requiredPermissions && !$this->authorize($this->requiredPermissions)) {
-            return response()->make(request()->ajax()
-                ? lang('igniter::admin.alert_user_restricted')
-                : $this->makeView('access_denied'), 403
-            );
-        }
+        throw_if($this->requiredPermissions && !$this->authorize($this->requiredPermissions),
+            FlashException::error(lang('igniter::admin.alert_user_restricted')));
 
         if ($event = $this->fireSystemEvent('admin.controller.beforeResponse', [$action, $params])) {
             return $event;
