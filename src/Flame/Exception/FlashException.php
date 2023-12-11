@@ -141,7 +141,7 @@ class FlashException extends Exception
             ], $this->code);
         }
 
-        if ($controller = $request->route()->getController()) {
+        if ($controller = $request->route()?->getController()) {
             return response($controller->makeView('flash_exception', $this->getContents()), 500);
         }
 

@@ -34,7 +34,7 @@ class ServiceProvider extends AppServiceProvider
         if (Igniter::runningInAdmin()) {
             $this->app['events']->listen('exception.beforeRender', function ($exception, $httpCode, $request) {
                 if ($exception instanceof NotFoundHttpException) {
-                    if ($controller = $request->route()->getController()) {
+                    if ($controller = $request->route()?->getController()) {
                         return response($controller->makeView('igniter.admin::404'), 404);
                     }
                 }
