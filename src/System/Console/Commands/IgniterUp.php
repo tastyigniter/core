@@ -63,6 +63,10 @@ class IgniterUp extends Command
             Schema::rename('users', 'admin_users');
         }
 
+        if (Schema::hasColumn('admin_users', 'reset_code')) {
+            return;
+        }
+
         foreach ([
             'cache' => 'cache_bck',
             'failed_jobs' => 'failed_jobs_bck',
