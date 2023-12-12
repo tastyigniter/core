@@ -2,8 +2,8 @@
 
 namespace Igniter\Flame\Database\Traits;
 
-use Igniter\Flame\Database\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\Filters\FiltersScope;
 
 trait HasQueryModifier
@@ -16,7 +16,7 @@ trait HasQueryModifier
 
     protected array $queryModifierSearchableFields = [];
 
-    public function scopeListFrontEnd(Builder $builder, array $options): LengthAwarePaginator
+    public function scopeListFrontEnd(Builder $builder, array $options = []): LengthAwarePaginator
     {
         $builder->applyFilters($options);
 
@@ -29,7 +29,7 @@ trait HasQueryModifier
         return $builder->paginate($pageLimit, array_get($options, 'page', 1));
     }
 
-    public function scopeApplyFilters(Builder $builder, array $options): Builder
+    public function scopeApplyFilters(Builder $builder, array $options = []): Builder
     {
         $search = trim(array_get($options, 'search', ''));
         if (strlen($search) && $searchableFields = $this->queryModifierSearchableFields) {
@@ -49,7 +49,7 @@ trait HasQueryModifier
         return $builder;
     }
 
-    public function scopeApplySorts(Builder $builder, array $sorts): Builder
+    public function scopeApplySorts(Builder $builder, array $sorts = []): Builder
     {
         foreach ($sorts as $sort) {
             if (in_array($sort, $this->queryModifierSorts)) {
