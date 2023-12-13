@@ -1401,16 +1401,6 @@ parameters:
 			path: src/Flame/Database/Migrations/Migrator.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:applyFilters\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:applySorts\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:afterBoot\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
@@ -1422,6 +1412,21 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:queryModifierSortDirection\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyFilters\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applySorts\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:search\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
@@ -2294,6 +2299,11 @@ parameters:
 			message: "#^Call to an undefined method Composer\\\\IO\\\\IOInterface\\:\\:getOutput\\(\\)\\.$#"
 			count: 2
 			path: src/Flame/Exception/ComposerException.php
+
+		-
+			message: "#^Cannot call method getController\\(\\) on object\\|string\\.$#"
+			count: 1
+			path: src/Flame/Exception/FlashException.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
@@ -4099,21 +4109,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
 			count: 1
 			path: src/System/Console/Commands/ThemeVendorPublish.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Cart\\\\Models\\\\Category\\:\\:whereNull\\(\\)\\.$#"
-			count: 1
-			path: src/System/Database/Seeds/UpdateRecordsSeeder.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Models\\\\Location\\:\\:whereNull\\(\\)\\.$#"
-			count: 1
-			path: src/System/Database/Seeds/UpdateRecordsSeeder.php
-
-		-
-			message: "#^Class Igniter\\\\Reservation\\\\Models\\\\Reservation not found\\.$#"
-			count: 2
-			path: src/System/Database/Seeds/UpdateRecordsSeeder.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
