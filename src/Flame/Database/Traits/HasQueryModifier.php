@@ -16,17 +16,17 @@ trait HasQueryModifier
 
     protected array $queryModifierSearchableFields = [];
 
-    public function scopeListFrontEnd(Builder $builder, array $options = []): LengthAwarePaginator
+    public function scopeListFrontEnd(Builder $builder, array $options = []): Builder|LengthAwarePaginator
     {
         $builder->applyFilters($options);
 
         $this->fireEvent('model.extendListFrontEndQuery', [$builder]);
 
-        if (is_null($pageLimit = array_get($options, 'pageLimit'))) {
-            return $builder;
+        if (!is_null($pageLimit = array_get($options, 'pageLimit'))) {
+            return $builder->paginate($pageLimit, array_get($options, 'page', 1));
         }
 
-        return $builder->paginate($pageLimit, array_get($options, 'page', 1));
+        return $builder;
     }
 
     public function scopeApplyFilters(Builder $builder, array $options = []): Builder
