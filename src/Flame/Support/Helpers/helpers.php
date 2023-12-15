@@ -481,9 +481,9 @@ if (!function_exists('media_thumb')) {
      * Media thumbnail
      * Returns the full thumbnail (including segments) of the assets media uploads directory
      */
-    function media_thumb(string $path, array $options = [])
+    function media_thumb(?string $path, array $options = [])
     {
-        return \Igniter\Main\Helpers\ImageHelper::resize($path, $options);
+        return \Igniter\Main\Helpers\ImageHelper::resize($path ?? 'no_photo.png', $options);
     }
 }
 
