@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
@@ -29,8 +28,8 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('menu_item_options');
         Schema::dropIfExists('menu_item_option_values');
         Schema::dropIfExists('order_menu_options');
+        Schema::dropIfExists('menu_item_options');
     }
 };
