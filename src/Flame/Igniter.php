@@ -40,9 +40,9 @@ class Igniter
     protected static $hasDatabase;
 
     protected static $coreMigrationPaths = [
-        'igniter.system' => [__DIR__ . '/../../database/migrations/system'],
-        'igniter.admin' => [__DIR__ . '/../../database/migrations/admin'],
-        'igniter.main' => [__DIR__ . '/../../database/migrations/main'],
+        'igniter.system' => [__DIR__.'/../../database/migrations/system'],
+        'igniter.admin' => [__DIR__.'/../../database/migrations/admin'],
+        'igniter.main' => [__DIR__.'/../../database/migrations/main'],
     ];
 
     protected static $migrationPaths = [];
@@ -196,7 +196,7 @@ class Igniter
 
     public static function getSeedRecords($name)
     {
-        return json_decode(file_get_contents(__DIR__ . '/../../database/records/' . $name . '.json'), true);
+        return json_decode(file_get_contents(__DIR__.'/../../database/records/'.$name.'.json'), true);
     }
 
     /**
@@ -206,7 +206,7 @@ class Igniter
      */
     public static function getCachedAddonsPath()
     {
-        return app()->bootstrapPath() . '/cache/addons.php';
+        return app()->bootstrapPath().'/cache/addons.php';
     }
 
     /**
@@ -216,7 +216,7 @@ class Igniter
      */
     public static function getCachedClassesPath()
     {
-        return app()->bootstrapPath() . '/cache/classes.php';
+        return app()->bootstrapPath().'/cache/classes.php';
     }
 
     public static function loadResourcesFrom(string $path, ?string $namespace = null)
