@@ -28,7 +28,7 @@ class MailTemplateRequest extends FormRequest
             'label' => ['required', 'string'],
             'subject' => ['required', 'string'],
             'body' => ['string'],
-            'plain_body' => ['string'],
+            'plain_body' => ['nullable', 'string'],
         ];
     }
 }
