@@ -2,8 +2,8 @@
 
 return [
     'system_name' => 'TastyIgniter',
-    'system_powered' => '<a target="_blank" href="http://tastyigniter.com">Powered by TastyIgniter</a>',
-    'copyright' => 'Thank you for using <a target="_blank" href="http://tastyigniter.com">TastyIgniter</a>',
+    'system_powered' => '<a target="_blank" href="https://tastyigniter.com">Powered by TastyIgniter</a>',
+    'copyright' => 'Thank you for using <a target="_blank" href="https://tastyigniter.com">TastyIgniter</a>',
     'version' => 'Version',
 
     'no_database' => [
@@ -422,8 +422,6 @@ return [
         'label_maps_api_key' => 'Google Maps API Key',
         'label_distance_unit' => 'Distance Unit',
         'label_default_geocoder' => 'Default Geocoder',
-        'label_menus_page' => 'Menu Items Page',
-        'label_reservation_page' => 'Reservation Page',
         'label_mail_logo' => 'Logo',
         'label_sender_name' => 'Sender Name',
         'label_sender_email' => 'Sender Email',
@@ -463,8 +461,6 @@ return [
         'help_currency_converter_fixer_api' => 'You can <a target="_blank" href="https://fixer.io/signup/">sign up here</a> for your Fixer.io API.',
         'help_special_category' => 'Select which category to use automatically for special menus',
         'help_default_location' => 'Choose or add a new location to set as your main/default restaurant location.',
-        'help_menus_page' => 'Choose a page to display your menu items',
-        'help_reservation_page' => 'Choose a page to display your booking form',
         'help_delete_thumbs' => 'This will delete all created thumbs. Note thumbs are automatically created.',
         'help_media_max_size' => 'The maximum size (in kilobytes) limit for file when uploading.',
         'help_media_extensions' => 'The allowed file extensions for uploaded files. Multiple extensions can be separated by commas.',

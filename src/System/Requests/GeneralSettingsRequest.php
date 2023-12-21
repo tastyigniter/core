@@ -18,9 +18,6 @@ class GeneralSettingsRequest extends FormRequest
             'timezone' => lang('igniter::system.settings.label_timezone'),
             'detect_language' => lang('igniter::system.settings.label_detect_language'),
             'country_id' => lang('igniter::system.settings.label_country'),
-
-            'menus_page' => lang('igniter::system.settings.label_menus_page'),
-            'reservation_page' => lang('igniter::system.settings.label_reservation_page'),
         ];
     }
 
@@ -33,8 +30,6 @@ class GeneralSettingsRequest extends FormRequest
             'distance_unit' => ['required', 'in:mi,km'],
             'default_geocoder' => ['required', 'in:nominatim,google,chain'],
             'maps_api_key' => ['required_if:default_geocoder,google', 'alpha_dash'],
-            'menus_page' => ['required', 'string'],
-            'reservation_page' => ['required', 'string'],
 
             'timezone' => ['required', 'timezone'],
             'detect_language' => ['required', 'boolean'],

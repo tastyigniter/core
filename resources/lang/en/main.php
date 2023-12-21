@@ -2,7 +2,7 @@
 
 return [
     'site_title' => '%s - %s',
-    'site_copyright' => '&copy; %s %s - ',
+    'site_copyright' => '&copy; %s %s',
 
     'text_free' => 'Free',
     'text_equals' => ' = ',
