@@ -21,7 +21,7 @@ class StatusRequest extends FormRequest
     {
         return [
             'status_name' => ['required', 'string', 'between:2,32'],
-            'status_for' => ['required', 'in:order,reservation'],
+            'status_for' => ['required', 'in:order,reserve'],
             'status_color' => ['string', 'max:7'],
             'status_comment' => ['string', 'max:1028'],
             'notify_customer' => ['required', 'boolean'],
