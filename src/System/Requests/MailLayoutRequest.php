@@ -27,7 +27,7 @@ class MailLayoutRequest extends FormRequest
             ],
             'layout' => ['string'],
             'layout_css' => ['nullable', 'string'],
-            'plain_layout' => ['string'],
+            'plain_layout' => ['nullable', 'string'],
         ];
     }
 }
