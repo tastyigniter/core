@@ -53,7 +53,7 @@ class Igniter
 
     protected static array $prunableModels = [];
 
-    public static bool $disableThemeRoutes = false;
+    protected static bool $disableThemeRoutes = false;
 
     protected static bool $autoloadExtensions = true;
 

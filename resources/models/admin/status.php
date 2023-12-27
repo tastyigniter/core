@@ -8,7 +8,7 @@ $config['list']['filter'] = [
             'conditions' => 'status_for = :filtered',
             'options' => [
                 'order' => 'lang:igniter::admin.statuses.text_order',
-                'reserve' => 'lang:igniter::admin.statuses.text_reservation',
+                'reservation' => 'lang:igniter::admin.statuses.text_reservation',
             ],
         ],
     ],

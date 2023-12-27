@@ -18,6 +18,8 @@ class UpdateRecordsSeeder extends Seeder
     public function run()
     {
         $this->updateDiskColumnOnMediaAttachments();
+
+        $this->updateStatusForColumnOnStatusesTable();
     }
 
     protected function updateDiskColumnOnMediaAttachments()
@@ -25,5 +27,16 @@ class UpdateRecordsSeeder extends Seeder
         DB::table('media_attachments')
             ->where('disk', 'media')
             ->update(['disk' => 'public']);
+    }
+
+    protected function updateStatusForColumnOnStatusesTable()
+    {
+        if (!DB::table('statuses')->where('status_for', 'reserve')->exists()) {
+            return;
+        }
+
+        DB::table('statuses')
+            ->where('status_for', 'reserve')
+            ->update(['status_for' => 'reservation']);
     }
 }
