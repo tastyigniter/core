@@ -6,8 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDeliveryCommentOrdersTable extends Migration
-{
+return new class extends Migration {
     public function up()
     {
         if (Schema::hasColumn('orders', 'delivery_comment')) {
@@ -25,4 +24,4 @@ class AddDeliveryCommentOrdersTable extends Migration
             $table->dropColumn('delivery_comment');
         });
     }
-}
+};
