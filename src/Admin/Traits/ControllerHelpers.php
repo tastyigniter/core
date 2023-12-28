@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Traits;
 
-use Exception;
 use Igniter\Admin\Facades\AdminHelper;
 use Illuminate\Support\Facades\Redirect;
 
@@ -36,19 +35,5 @@ trait ControllerHelpers
     public function refresh()
     {
         return Redirect::back();
-    }
-
-    /**
-     * Sets standard page variables in the case of a controller error.
-     *
-     * @throws \Exception
-     */
-    public function handleError(Exception $exception)
-    {
-        $errorMessage = $exception->getMessage();
-        $this->fatalError = $errorMessage;
-        $this->vars['fatalError'] = $errorMessage;
-
-        flash()->error($errorMessage)->important();
     }
 }

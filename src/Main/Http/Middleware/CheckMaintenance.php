@@ -13,7 +13,7 @@ class CheckMaintenance
     {
         if (!Igniter::runningInAdmin() && setting('maintenance_mode') && !AdminAuth::isLogged()) {
             return Response::make(
-                View::make('igniter.main::maintenance', ['message' => setting('maintenance_message')]),
+                View::make('igniter.system::maintenance', ['message' => setting('maintenance_message')]),
                 503
             );
         }

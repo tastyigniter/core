@@ -10,6 +10,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Event;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -55,6 +56,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->registerProviders();
         $this->registerFacadeAliases();
         $this->registerErrorHandler();
+        $this->registerErrorViewPaths();
     }
 
     public function boot()
@@ -140,6 +142,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->callAfterResolving(ExceptionHandler::class, function ($handler) {
             new ErrorHandler($handler);
+        });
+    }
+
+    protected function registerErrorViewPaths()
+    {
+        Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
+            $themeViewPaths = array_get(view()->getFinder()->getHints(), 'igniter.system', []);
+            config()->set('view.paths', array_merge($themeViewPaths, config('view.paths')));
         });
     }
 

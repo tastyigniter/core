@@ -6,8 +6,9 @@ use Exception;
 use Igniter\Flame\Flash\FlashBag;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-class FlashException extends Exception
+class FlashException extends Exception implements HttpExceptionInterface
 {
     protected bool $important = false;
 
@@ -30,29 +31,29 @@ class FlashException extends Exception
         parent::__construct($message, $code, $previous);
     }
 
-    public static function alert(string $message, string $type = 'danger'): self
+    public static function alert(string $message, string $type = 'danger', int $statusCode = 406): self
     {
-        return new static($message, $type);
+        return new static($message, $type, $statusCode);
     }
 
-    public static function info(string $message, ?string $title = null): self
+    public static function info(string $message, ?string $title = null, int $statusCode = 406): self
     {
-        return (new static($message, 'info'))->title($title);
+        return (new static($message, 'info', $statusCode))->title($title);
     }
 
-    public static function success(string $message, ?string $title = null): self
+    public static function success(string $message, ?string $title = null, int $statusCode = 200): self
     {
-        return (new static($message, 'success'))->title($title);
+        return (new static($message, 'success', $statusCode))->title($title);
     }
 
-    public static function error(string $message, ?string $title = null): self
+    public static function error(string $message, ?string $title = null, int $statusCode = 406): self
     {
-        return (new static($message, 'danger'))->title($title);
+        return (new static($message, 'danger', $statusCode))->title($title);
     }
 
-    public static function warning(string $message, ?string $title = null): self
+    public static function warning(string $message, ?string $title = null, int $statusCode = 406): self
     {
-        return (new static($message, 'warning'))->title($title);
+        return (new static($message, 'warning', $statusCode))->title($title);
     }
 
     public function title(?string $title): self
@@ -116,6 +117,16 @@ class FlashException extends Exception
         ];
     }
 
+    public function getStatusCode(): int
+    {
+        return $this->code;
+    }
+
+    public function getHeaders(): array
+    {
+        return [];
+    }
+
     public function report(): ?bool
     {
         return $this->shouldReport ?: null;
@@ -135,14 +146,16 @@ class FlashException extends Exception
             return $this->response;
         }
 
-        if ($request->expectsJson()) {
-            return response([
-                'X_IGNITER_FLASH_MESSAGES' => [$this->getContents()],
-            ], $this->code);
-        }
+        if (!config('app.debug')) {
+            if ($request->expectsJson()) {
+                return response([
+                    'X_IGNITER_FLASH_MESSAGES' => [$this->getContents()],
+                ], $this->code);
+            }
 
-        if ($controller = $request->route()?->getController()) {
-            return response($controller->makeView('flash_exception', $this->getContents()), 500);
+            if ($controller = $request->route()?->getController()) {
+                return response($controller->makeView('flash_exception', $this->getContents()), 500);
+            }
         }
 
         return false;

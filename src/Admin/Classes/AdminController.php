@@ -15,6 +15,7 @@ use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminController extends Controller
 {
@@ -29,11 +30,6 @@ class AdminController extends Controller
     use \Igniter\System\Traits\SessionMaker;
     use \Igniter\System\Traits\ViewMaker;
     use \Igniter\User\Traits\HasAuthentication;
-
-    /**
-     * @var string Used for storing a fatal error.
-     */
-    protected $fatalError;
 
     /**
      * @var \Igniter\Admin\Classes\BaseWidget[] A list of BaseWidget objects used on this page
@@ -156,9 +152,10 @@ class AdminController extends Controller
             return $event;
         }
 
-        if ($action === '404') {
-            return response()->make($this->makeView('404'), 404);
-        }
+        throw_if($action === '404', new NotFoundHttpException(sprintf(
+            'Method [%s] is not found in the controller [%s]',
+            $action, get_class($this)
+        )));
 
         // Execute post handler and AJAX event
         if (($handlerResponse = $this->processHandlers()) && $handlerResponse !== true) {
@@ -179,7 +176,10 @@ class AdminController extends Controller
     protected function execPageAction(string $action, array $params): mixed
     {
         if (!$this->checkAction($action)) {
-            return response()->make($this->makeView('404'), 404);
+            throw new NotFoundHttpException(sprintf(
+                'Method [%s] is not found in the controller [%s]',
+                $action, get_class($this)
+            ));
         }
 
         array_unshift($params, $action);
@@ -189,7 +189,7 @@ class AdminController extends Controller
 
         // Render the controller view if not already loaded
         if (is_null($result) && !$this->suppressView) {
-            return $this->makeView($this->fatalError ? 'igniter.main::error' : ($this->defaultView ?? $action));
+            return $this->makeView($this->defaultView ?? $action);
         }
 
         return $result;

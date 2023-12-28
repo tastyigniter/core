@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class ErrorHandler
@@ -39,8 +40,13 @@ class ErrorHandler
         if (method_exists($handler, 'map')) {
             $handler->map(TokenMismatchException::class, function (TokenMismatchException $e) {
                 return (new FlashException(
-                    lang('igniter::admin.alert_invalid_csrf_token'), 'danger', 419, $e->getPrevious()
+                    lang('igniter::admin.alert_invalid_csrf_token'), 'danger', 419, $e
                 ))->important()->overlay()->actionUrl(url()->current());
+            });
+
+            $handler->map(NotFoundHttpException::class, function (NotFoundHttpException $e) {
+                return (new FlashException($e->getMessage(), 'danger', 404, $e))
+                    ->title(lang('igniter::admin.title_page_not_found'));
             });
         }
 
@@ -129,7 +135,7 @@ class ErrorHandler
      */
     protected function shouldntReport(Throwable $e)
     {
-        return !is_null(Arr::first($this->dontReport, fn ($type) => $e instanceof $type));
+        return !is_null(Arr::first($this->dontReport, fn($type) => $e instanceof $type));
     }
 
     /**

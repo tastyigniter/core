@@ -33,11 +33,6 @@ class BaseController extends Extendable
     protected $params;
 
     /**
-     * @var object Object used for storing a fatal error.
-     */
-    protected $fatalError;
-
-    /**
      * @var array Default actions which cannot be called as actions.
      */
     public $hiddenActions = [
