@@ -27,11 +27,11 @@ if (!function_exists('assets_url')) {
      * Assets URL
      * Returns the full URL (including segments) of the assets directory
      *
-     * @deprecated Remove in v5
+     * @deprecated Remove before v5
      */
     function assets_url(?string $uri = null, ?bool $secure = null): void
     {
-        traceLog('assets_url() has been deprecated. Use $model->getThumb(). Remove in v5');
+        traceLog('assets_url() has been deprecated. Use $model->getThumb().');
     }
 }
 
@@ -57,11 +57,11 @@ if (!function_exists('image_url')) {
      * Image Assets URL
      * Returns the full URL (including segments) of the assets image directory
      *
-     * @deprecated Remove in v5
+     * @deprecated Remove before v5
      */
     function image_url(?string $uri = null, ?bool $protocol = null): string
     {
-        traceLog('image_url() has been deprecated, use asset() instead. Remove in v5');
+        traceLog('image_url() has been deprecated, use asset() instead.');
 
         return asset('assets/images/'.$uri, $protocol);
     }
@@ -71,11 +71,11 @@ if (!function_exists('image_path')) {
     /**
      * Get the path to the assets image folder.
      *
-     * @deprecated Remove in v5
+     * @deprecated Remove before v5
      */
     function image_path(string $path = ''): string
     {
-        traceLog('image_path() has been deprecated, use asset() instead. Remove in v5');
+        traceLog('image_path() has been deprecated, use asset() instead.');
 
         return asset('images').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
