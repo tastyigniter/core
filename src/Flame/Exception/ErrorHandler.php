@@ -135,7 +135,7 @@ class ErrorHandler
      */
     protected function shouldntReport(Throwable $e)
     {
-        return !is_null(Arr::first($this->dontReport, fn($type) => $e instanceof $type));
+        return !is_null(Arr::first($this->dontReport, fn ($type) => $e instanceof $type));
     }
 
     /**
