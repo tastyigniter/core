@@ -69,12 +69,6 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function edit($context, $themeCode = null)
     {
-        if (!resolve(ThemeManager::class)->isActive($themeCode)) {
-            flash()->error(lang('igniter::system.themes.alert_customize_not_active'));
-
-            return $this->redirect('themes');
-        }
-
         if (resolve(ThemeManager::class)->isLocked($themeCode)) {
             Template::setButton(lang('igniter::system.themes.button_child'), [
                 'class' => 'btn btn-default pull-right',

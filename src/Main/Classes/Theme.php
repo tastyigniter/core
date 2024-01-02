@@ -66,14 +66,9 @@ class Theme
     public $assetPath;
 
     /**
-     * @var string The theme relative path to the form fields file
+     * @var string The theme relative path to the meta directory
      */
-    public $formConfigFile;
-
-    /**
-     * @var string The theme relative path to the assets config file
-     */
-    public $assetConfigFile;
+    public $metaPath;
 
     /**
      * @var string The theme path relative to base path
@@ -154,15 +149,23 @@ class Theme
     /**
      * @return string
      */
-    public function getAssetPath()
+    public function getMetaPath()
     {
-        return $this->path.$this->assetPath;
+        if (is_null($this->metaPath)) {
+            foreach (['/_meta', '/meta'] as $metaPath) {
+                if (File::isDirectory($this->path.$metaPath)) {
+                    $this->metaPath = $metaPath;
+                }
+            }
+        }
+
+        return $this->path.$this->metaPath;
     }
 
     /**
      * @return string
      */
-    public function getAssetConfigFile()
+    public function getAssetPath()
     {
         return $this->path.$this->assetPath;
     }
@@ -172,6 +175,12 @@ class Theme
      */
     public function getPathsToPublish()
     {
+        $publishPath = $this->config['publish-paths'] ?? null;
+
+        if (!$publishPath && File::exists($this->getAssetPath())) {
+            return [$this->getAssetPath() => public_path('vendor/'.$this->name)];
+        }
+
         $result = [];
         foreach ($this->config['publish-paths'] ?? [] as $path) {
             if (File::isDirectory($this->path.$path)) {
@@ -305,14 +314,13 @@ class Theme
         }
 
         $configCache = [];
-        $paths[] = $this->getSourcePath();
+        $paths[] = $this->getMetaPath().'/fields.php';
         if ($parent = $this->getParent()) {
-            $paths[] = $parent->getSourcePath();
+            $paths[] = $parent->getMetaPath().'/fields.php';
         }
 
-        foreach (array_reverse($paths) as $findInPath) {
-            $config = File::exists($path = $findInPath.$this->formConfigFile)
-                ? File::getRequire($path) : [];
+        foreach (array_reverse($paths) as $formConfigFile) {
+            $config = File::exists($formConfigFile) ? File::getRequire($formConfigFile) : [];
 
             foreach (array_get($config, 'form', []) as $key => $definitions) {
                 foreach ($definitions as $index => $definition) {
@@ -440,12 +448,8 @@ class Theme
             $this->assetPath = $this->config['asset-path'] ?? '/assets';
         }
 
-        if (!$this->formConfigFile) {
-            $this->formConfigFile = $this->config['form-config-file'] ?? '/_meta/fields.php';
-        }
-
-        if (!$this->assetConfigFile) {
-            $this->assetConfigFile = $this->config['assets-config-file'] ?? '/_meta/assets.json';
+        if (!$this->metaPath) {
+            $this->metaPath = $this->config['meta-path'] ?? null;
         }
 
         if (array_key_exists('locked', $this->config)) {

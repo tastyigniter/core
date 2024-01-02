@@ -2,7 +2,7 @@
     {!! $this->makePartial('lists/list_button', ['record' => $theme, 'column' => $this->getColumn('source')]) !!}
 @endif
 
-@if ($theme->getTheme()->isActive() && $theme->getTheme()->hasCustomData())
+@if ($theme->getTheme()->hasCustomData())
     {!! $this->makePartial('lists/list_button', ['record' => $theme, 'column' => $this->getColumn('edit')]) !!}
 @endif
 

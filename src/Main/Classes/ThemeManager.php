@@ -66,8 +66,8 @@ class ThemeManager
         collect([$theme])
             ->merge($theme->hasParent() ? [$theme->getParent()] : [])
             ->each(function (Theme $theme) use ($manager) {
-                if (File::exists($theme->getSourcePath().$theme->assetConfigFile)) {
-                    $manager->addFromManifest($theme->getSourcePath().$theme->assetConfigFile);
+                if (File::exists($assetConfigFile = $theme->getMetaPath().'/assets.json')) {
+                    $manager->addFromManifest($assetConfigFile);
                 }
             });
     }
@@ -179,7 +179,7 @@ class ThemeManager
 
         collect([$theme->getPath().'/resources', $theme->getPath()])
             ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath()] : [])
-            ->filter(fn ($path) => File::isDirectory($path))
+            ->filter(fn($path) => File::isDirectory($path))
             ->each(function ($path) use ($theme) {
                 Igniter::loadResourcesFrom($path, $theme->getName());
             });

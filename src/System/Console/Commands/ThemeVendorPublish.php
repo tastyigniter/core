@@ -2,7 +2,6 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Foundation\Console\VendorPublishCommand;
 use Symfony\Component\Console\Input\InputOption;
@@ -68,10 +67,7 @@ class ThemeVendorPublish extends VendorPublishCommand
     {
         $published = false;
 
-        $publishTo = public_path('vendor/'.$theme->getName());
-        $pathsToPublish = $this->pathsToPublishFromTheme($theme);
-
-        foreach ($pathsToPublish as $from) {
+        foreach ($theme->getPathsToPublish() as $from => $publishTo) {
             $this->publishItem($from, $publishTo);
 
             $published = true;
@@ -80,24 +76,6 @@ class ThemeVendorPublish extends VendorPublishCommand
         if ($published === false) {
             $this->comment('No publishable resources for theme ['.$theme->getName().'].');
         }
-    }
-
-    /**
-     * Get all of the paths to publish.
-     *
-     * @param \Igniter\Main\Classes\Theme $theme
-     * @return array
-     */
-    protected function pathsToPublishFromTheme($theme)
-    {
-        $publishPath = array_get($theme->config, 'publish', []);
-        if (!$publishPath && File::exists($theme->getAssetPath())) {
-            return [$theme->getAssetPath()];
-        }
-
-        return array_map(function ($path) use ($theme) {
-            return $theme->getPath().'/'.$path;
-        }, $publishPath);
     }
 
     /**
