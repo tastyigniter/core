@@ -148,7 +148,7 @@ class Statistics extends BaseDashboardWidget
         $count = 0;
         $contextMethod = 'getTotal'.studly_case($context).'Sum';
         if (method_exists($this, $contextMethod)) {
-            $count = $this->$contextMethod($this->property('range'), function($range, $query) {
+            $count = $this->$contextMethod($this->property('range'), function ($range, $query) {
                 $this->applyRangeQuery($query, $range);
                 $this->locationApplyScope($query);
             });
