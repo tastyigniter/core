@@ -7,6 +7,7 @@ use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Widgets\Table;
+use Igniter\Local\Traits\LocationAwareWidget;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Collection;
 class DataTable extends BaseFormWidget
 {
     use FormModelWidget;
+    use LocationAwareWidget;
 
     //
     // Configurable properties

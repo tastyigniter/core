@@ -5,7 +5,6 @@ namespace Igniter\Admin\Classes;
 use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Traits\EventEmitter;
-use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\System\Traits\AssetMaker;
 use Igniter\System\Traits\ConfigMaker;
 use Igniter\System\Traits\SessionMaker;
@@ -20,7 +19,6 @@ class BaseWidget extends Extendable
     use AssetMaker;
     use ConfigMaker;
     use EventEmitter;
-    use LocationAwareWidget;
     use SessionMaker;
     use ViewMaker;
     use WidgetMaker;
