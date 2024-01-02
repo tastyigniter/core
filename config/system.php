@@ -141,7 +141,7 @@ return [
     |
     */
 
-    'urlPolicy' => 'force',
+    'urlPolicy' => env('IGNITER_URL_POLICY', 'detect'),
 
     /*
     |--------------------------------------------------------------------------
