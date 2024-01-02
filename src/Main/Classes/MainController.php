@@ -299,23 +299,6 @@ class MainController extends Controller
     //
     //
 
-    /**
-     * Returns the AJAX handler for the current request, if available.
-     * @return string
-     */
-    public function getHandler()
-    {
-        if (Request::ajax() && $handler = Request::header('X-IGNITER-REQUEST-HANDLER')) {
-            return trim($handler);
-        }
-
-        if ($handler = post('_handler')) {
-            return trim($handler);
-        }
-
-        return null;
-    }
-
     protected function processHandlers()
     {
         if (!$handler = AdminHelper::getAjaxHandler()) {
