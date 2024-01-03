@@ -737,7 +737,7 @@ class Form extends BaseWidget
             } elseif ($value !== null) {
                 // Number fields should be converted to integers
                 if ($field->type === 'number') {
-                    $value = !strlen(trim($value)) ? null : (float)$value;
+                    $value = strlen(trim($value)) ? (int)$value : null;
                 }
 
                 $this->dataArraySet($result, $parts, $value);

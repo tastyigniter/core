@@ -87,7 +87,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         }
 
         if ($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions)) {
-            throw new SystemException(lang('igniter::admin.alert_user_restricted'));
+            throw new FlashException(lang('igniter::admin.alert_user_restricted'));
         }
 
         $pageTitle = lang($settingItem->label ?: 'text_edit_title');

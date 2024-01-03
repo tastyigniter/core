@@ -7,7 +7,6 @@ use Exception;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Illuminate\View\ViewFinderInterface;
@@ -252,7 +251,7 @@ trait ViewMaker
     {
         $view = view()->make($view, array_merge($this->vars, $data));
 
-        Event::dispatch('composing: '.$view->name(), [$view]);
+        View::callComposer($view);
 
         return $this->makeFileContent(
             view()->getFinder()->find($view->name()),
