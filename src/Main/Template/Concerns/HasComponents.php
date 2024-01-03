@@ -9,34 +9,6 @@ trait HasComponents
     public $loadedComponents = [];
 
     /**
-     * Boot the sortable trait for this model.
-     *
-     * @return void
-     */
-    public static function bootHasComponents()
-    {
-        static::retrieved(function (self $model) {
-            $model->parseComponentSettings();
-        });
-    }
-
-    protected function parseComponentSettings()
-    {
-        $settings = $this->settings ?? [];
-        foreach ($settings as $setting => $value) {
-            preg_match('/\[(.*?)\]/', $setting, $match);
-            if (!isset($match[1])) {
-                continue;
-            }
-
-            $settings['components'][$match[1]] = is_array($value) ? $value : [];
-            unset($settings[$setting]);
-        }
-
-        $this->original['settings'] = $this->attributes['settings'] = $settings;
-    }
-
-    /**
      * Returns a component by its name.
      * This method is used only in the admin and for internal system needs when
      * the standard way to access components is not an option.

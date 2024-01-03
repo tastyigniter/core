@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Pagic\Parsers;
 
+use Illuminate\Support\Str;
 use Symfony\Component\Yaml\Yaml;
 
 class SectionParser
@@ -47,22 +48,19 @@ class SectionParser
         // Data, code and markup
         if ($count === 4) {
             $frontMatter = trim($doc[1]);
-            $result['settings'] = Yaml::parse($frontMatter);
+            $result['settings'] = self::parseSettings($frontMatter);
             $result['code'] = trim($doc[2]);
             $result['markup'] = $doc[3];
-        }
-        // Data and markup
+        } // Data and markup
         elseif ($count === 3) {
             $frontMatter = trim($doc[1]);
-            $result['settings'] = Yaml::parse($frontMatter);
+            $result['settings'] = self::parseSettings($frontMatter);
             $result['markup'] = $doc[2];
-        }
-        // Only markup
+        } // Only markup
         elseif ($count === 2) {
             $result['code'] = trim($doc[0]);
             $result['markup'] = $doc[1];
-        }
-        // Only markup, no separator
+        } // Only markup, no separator
         elseif ($count === 1 && !is_null($content)) {
             $result['markup'] = $doc[0];
         }
@@ -85,7 +83,7 @@ class SectionParser
         $content = [];
 
         if ($settings) {
-            $content[] = self::SOURCE_SEPARATOR.PHP_EOL.trim(Yaml::dump($settings), PHP_EOL);
+            $content[] = self::renderSettings($settings);
         }
 
         if ($code) {
@@ -99,5 +97,37 @@ class SectionParser
         $content[] = $markup;
 
         return trim(implode(PHP_EOL.self::SOURCE_SEPARATOR.PHP_EOL, $content));
+    }
+
+    protected static function parseSettings(string $frontMatter)
+    {
+        $settings = Yaml::parse($frontMatter);
+
+        foreach ($settings ?? [] as $setting => $value) {
+            preg_match('/\[(.*?)\]/', $setting, $match);
+            if (!isset($match[1])) {
+                continue;
+            }
+
+            $settings['components'][$match[1]] = is_array($value) ? $value : [];
+            unset($settings[$setting]);
+        }
+
+        return $settings;
+    }
+
+    protected static function renderSettings(array $settings)
+    {
+        foreach ($settings['components'] ?? [] as $name => $component) {
+            $settings[Str::of($name)->start('[')->finish(']')->toString()] = $component;
+        }
+
+        unset($settings['components']);
+
+        $content = Yaml::dump($settings, 3, 4,
+            Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE
+        );
+
+        return self::SOURCE_SEPARATOR.PHP_EOL.trim($content, PHP_EOL);
     }
 }

@@ -33,10 +33,6 @@ class FileSource extends AbstractSource implements SourceInterface
      */
     public $finder;
 
-    protected $blueprintCache;
-
-    protected $blueprintPath = '_meta/blueprint.json';
-
     /**
      * Create a new source instance.
      */
@@ -351,31 +347,5 @@ class FileSource extends AbstractSource implements SourceInterface
         return collect($iterator)->map(function (\SplFileInfo $fileInfo) {
             return $fileInfo->getRelativePathName();
         })->values()->all();
-    }
-
-    public function writeBlueprint(array $blueprint): bool
-    {
-        $path = $this->basePath.'/'.$this->blueprintPath;
-
-        if (!$this->files->exists($path)
-            && !$this->files->isDirectory(dirname($path))) {
-            $this->files->makeDirectory(dirname($path));
-        }
-
-        return (bool)$this->files->put($path, json_encode($blueprint, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-    }
-
-    public function loadBlueprint(): array
-    {
-        if ($this->blueprintCache) {
-            return $this->blueprintCache;
-        }
-
-        $path = $this->basePath.'/'.$this->blueprintPath;
-        if (!$this->files->exists($path)) {
-            return [];
-        }
-
-        return $this->blueprintCache = json_decode($this->files->get($path), true);
     }
 }

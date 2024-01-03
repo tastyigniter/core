@@ -82,8 +82,4 @@ interface SourceInterface
      * @return string
      */
     public function makeCacheKey($name = '');
-
-    public function writeBlueprint(array $blueprint): bool;
-
-    public function loadBlueprint(): array;
 }

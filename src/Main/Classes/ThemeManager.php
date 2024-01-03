@@ -411,6 +411,10 @@ class ThemeManager
         [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
         $path = $theme->getPath().'/'.$dirName.'/'.$fileName;
 
+        if (!File::extension($path)) {
+            $path .= '.'.Model::DEFAULT_EXTENSION;
+        }
+
         if (File::isFile($path)) {
             throw new SystemException("Theme template file already exists: $filePath");
         }

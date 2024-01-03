@@ -31,20 +31,6 @@ class ChainFileSource extends AbstractSource implements SourceInterface
         return array_first($this->sources);
     }
 
-    public function writeBlueprint(array $blueprint): bool
-    {
-        return $this->getActiveSource()->writeBlueprint($blueprint);
-    }
-
-    public function loadBlueprint(): array
-    {
-        $sourceResults = array_map(function (SourceInterface $source) {
-            return array_dot($source->loadBlueprint());
-        }, array_reverse($this->sources));
-
-        return array_undot(array_merge(...$sourceResults));
-    }
-
     /**
      * Returns a single source.
      *
@@ -128,7 +114,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     public function delete($dirName, $fileName, $extension)
     {
         // Delete from only the active source
-        $this->getActiveSource()->delete($dirName, $fileName, $extension);
+        return $this->getActiveSource()->delete($dirName, $fileName, $extension);
     }
 
     /**

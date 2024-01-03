@@ -6,7 +6,6 @@ use ArrayAccess;
 use BadMethodCallException;
 use Closure;
 use Exception;
-use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Traits\EventEmitter;
@@ -28,7 +27,6 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     use Concerns\ManagesCache;
     use Concerns\ManagesSource;
     use EventEmitter;
-    use Purgeable;
 
     public const DIR_NAME = '';
 
@@ -50,11 +48,6 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
      * The accessors to append to the model's array form.
      */
     protected array $appends = [];
-
-    /**
-     * @var array List of attribute names which are not considered "settings".
-     */
-    protected array $purgeable = ['settings'];
 
     /**
      * Indicates if the model exists.
