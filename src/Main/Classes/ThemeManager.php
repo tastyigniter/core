@@ -654,11 +654,11 @@ class ThemeManager
     protected function validateMetaFile($config, $code)
     {
         foreach ([
-                     'code',
-                     'name',
-                     'description',
-                     'author',
-                 ] as $item) {
+            'code',
+            'name',
+            'description',
+            'author',
+        ] as $item) {
             if (!array_key_exists($item, $config)) {
                 throw new SystemException(sprintf(
                     Lang::get('igniter::system.missing.config_key'),

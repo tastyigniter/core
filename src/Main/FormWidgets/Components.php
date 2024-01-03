@@ -336,6 +336,7 @@ class Components extends BaseFormWidget
             return collect(File::glob($componentPath.'/*.blade.php'))
                 ->mapWithKeys(function ($path) {
                     $name = str_before(File::basename($path), '.'.Model::DEFAULT_EXTENSION);
+
                     return [$name => $name];
                 });
         });
