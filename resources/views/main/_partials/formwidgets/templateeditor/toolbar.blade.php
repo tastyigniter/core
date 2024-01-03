@@ -68,7 +68,7 @@
                     class="btn btn-light text-danger"
                     title="{{ sprintf(lang($this->deleteLabel), $selectedTypeLabel) }}"
                     data-request="{{ $this->getEventHandler('onManageSource') }}"
-                    data-request-data="action: 'delete'"
+                    data-request-data="action: 'delete', name: '{{ $selectedTemplateFile }}'"
                     data-request-confirm="@lang('igniter::admin.alert_warning_confirm')"
                     data-progress-indicator="@lang('igniter::admin.text_deleting')"
                 ><i class="fa fa-trash"></i></button>

@@ -85,13 +85,17 @@ trait ManagesSource
         }
 
         return collect(static::listInTheme($source, $skipCache))
-            ->filter(fn (Model $model) => !$model->isHidden)
             ->mapWithKeys(function (Model $model) {
                 $fileName = $model->getKey();
                 $description = (string)($model->description ?: $model->title);
-                $description = strlen($description) ? lang($description) : $fileName;
+                $description = str_limit(strlen($description) ? lang($description) : $fileName, 40);
+                $description .= ' ['.$fileName.']';
 
-                return [$fileName => str_limit($description, 40).' ['.$fileName.']'];
+                if ($model->isHidden) {
+                    $description .= ' - Hidden';
+                }
+
+                return [$fileName => $description];
             })
             ->sort()->all();
     }

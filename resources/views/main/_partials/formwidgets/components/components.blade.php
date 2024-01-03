@@ -1,24 +1,29 @@
 <div
+        id="{{ $this->getId() }}"
     data-control="components"
     data-alias="{{ $this->alias }}"
+        data-attach-handler="{{ $this->getEventHandler('onSaveRecord') }}"
     data-remove-handler="{{ $this->getEventHandler('onRemoveComponent') }}"
     data-sortable-container=".components-container"
 >
+    <div class="mb-3">
+        <select
+                data-control="selectlist"
+                class="form-select"
+                data-component-control="attach"
+        >
+            <option>@lang($this->prompt)</option>
+            @foreach($components as $code => $name)
+                <option value="{{ $code }}">{{ lang($name[0]).' - '.$name[1] }}</option>
+            @endforeach
+        </select>
+    </div>
     <div class="components list-group list-group-flush d-flex">
         <div
             id="{{ $this->getId('container') }}"
             class="components-container"
         >
-            {!! $this->makePartial('container', ['components' => $components]) !!}
+            {!! $this->makePartial('container', ['components' => $templateComponents]) !!}
         </div>
-        <div
-            class="list-group-item list-group-item-action border components-item components-picker"
-            data-component-control="load"
-            data-component-context="create"
-        >
-            <i class="fa fa-plus"></i>
-            <span class="text-muted">@lang($this->prompt)</span>
-        </div>
-
     </div>
 </div>

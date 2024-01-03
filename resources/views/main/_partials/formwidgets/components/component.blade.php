@@ -10,7 +10,7 @@
             data-component-context="edit"
         >
             <span class="d-block mb-1">@lang($component->name)</span>
-            <p class="text-muted text-sm mb-0">{{ $component->description ? lang($component->description) : '' }}</p>
+            <p class="text-muted text-sm mb-0"><code>{{ $component->alias }}</code></p>
             @if($component->fatalError)
                 <p class="text-danger text-sm mb-0">{{ $component->fatalError }}</p>
             @endif
@@ -20,7 +20,7 @@
                 data-component-control="drag"
                 class="handle btn btn-light btn-sm mr-1"
                 role="button"
-            ><i class="fa fa-arrows-alt"></i></a>
+            ><i class="fa fa-arrows-up-down"></i></a>
             <a
                 role="button"
                 class="partial btn btn-light btn-sm mr-1"

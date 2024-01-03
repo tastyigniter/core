@@ -15,9 +15,7 @@
                     <div
                         id="{{ $this->getId($templatePrimaryTabs->section.'-tabs') }}"
                         class="{{ $templatePrimaryTabs->cssClass }}">
-                        <div class="py-3">
-                            {!! $templateWidget->makePartial('form/form_fields', ['fields' => $templatePrimaryTabs]) !!}
-                        </div>
+                        {!! $templateWidget->makePartial('form/form_fields', ['fields' => $templatePrimaryTabs]) !!}
                     </div>
                 </div>
                 <div @class(['col-md-9' => $templatePrimaryTabs->hasFields(), 'col-md-12' => !$templatePrimaryTabs->hasFields()])>

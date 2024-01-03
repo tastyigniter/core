@@ -143,7 +143,7 @@ class TemplateEditor extends BaseFormWidget
 
         $data = $this->validate(post(), [
             'action' => ['required', 'in:delete,rename,new'],
-            'name' => ['present', 'regex:/^[a-zA-Z-_\/]+$/'],
+            'name' => ['present', 'regex:/^[a-zA-Z-_\.\/]+$/'],
         ], [], [
             'action' => 'Source Action',
             'name' => 'Source Name',
@@ -223,6 +223,13 @@ class TemplateEditor extends BaseFormWidget
         $widgetConfig['context'] = 'edit';
         $widget = $this->makeWidget(Form::class, $widgetConfig);
         $widget->bindToController();
+
+        if ($componentsWidget = $widget->getFormWidget('settings[components]')) {
+            $componentsWidget->bindEvent('partialCopied', function ($partialName) {
+                $this->setTemplateValue('type', '_partials');
+                $this->setTemplateValue('file', $partialName);
+            });
+        }
 
         return $widget;
     }

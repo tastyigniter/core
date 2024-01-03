@@ -149,22 +149,19 @@ class ComponentPartial extends Extendable implements TemplateInterface
             $fileName = $this->fileName;
         }
 
-        if (File::isPathSymbol($this->componentPath)) {
-            $this->componentPath = File::symbolizePath($this->componentPath);
-        }
-
         $basename = $fileName;
         if (!strlen(File::extension($basename))) {
             $basename .= '.'.$this->defaultExtension;
         }
 
-        if (File::isFile($path = $this->componentPath.'/'.$basename)) {
+        $path = $this->componentPath.'/'.$basename;
+        if (File::isFile($path = File::symbolizePath($path))) {
             return $path;
         }
 
         // Check the shared "/partials" directory for the partial
         $sharedPath = dirname($this->componentPath, 2).'/_partials/'.$basename;
-        if (File::isFile($sharedPath)) {
+        if (File::isFile($sharedPath = File::symbolizePath($sharedPath))) {
             return $sharedPath;
         }
 

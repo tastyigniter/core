@@ -12,7 +12,9 @@
     Components.prototype.constructor = Components
 
     Components.prototype.init = function () {
-        this.$el.on('click', '[data-component-control]', $.proxy(this.onControlClick, this))
+        this.$el.on('change', '[data-component-control="attach"]', $.proxy(this.onAttachComponent, this))
+        this.$el.on('click', '[data-component-control="load"]', $.proxy(this.onLoadComponent, this))
+        this.$el.on('click', '[data-component-control="remove"]', $.proxy(this.onRemoveComponent, this))
     }
 
     Components.prototype.initSortable = function () {
@@ -24,8 +26,24 @@
         })
     }
 
-    Components.prototype.loadComponentForm = function ($button) {
-        var $container = this.$el.find('.components-container'),
+    // EVENT HANDLERS
+    // ============================
+
+    Components.prototype.onAttachComponent = function (event) {
+        var $select = $(event.currentTarget),
+            componentAlias = $select.val()
+
+        $select.prop('disabled', true)
+        $.request(this.options.attachHandler, {
+            data: {recordId: componentAlias},
+        }).always(function () {
+            $select.prop('disabled', false)
+        });
+    }
+
+    Components.prototype.onLoadComponent = function (event) {
+        var $button = $(event.currentTarget),
+            $container = this.$el.find('.components-container'),
             $component = $button.closest('[data-control="component"]'),
             componentAlias = $component.data('componentAlias'),
             componentContext = $button.data('componentContext')
@@ -42,8 +60,9 @@
         })
     }
 
-    Components.prototype.removeComponent = function ($button) {
-        var prompt = $button.data('prompt'),
+    Components.prototype.onRemoveComponent = function (event) {
+        var $button = $(event.currentTarget),
+            prompt = $button.data('prompt'),
             $component = $button.closest('[data-control="component"]'),
             componentAlias = $component.data('componentAlias')
 
@@ -60,25 +79,9 @@
         });
     }
 
-    // EVENT HANDLERS
-    // ============================
-
-    Components.prototype.onControlClick = function (event) {
-        var $el = $(event.currentTarget),
-            control = $el.data('component-control')
-
-        switch (control) {
-            case 'load':
-                this.loadComponentForm($el)
-                break;
-            case 'remove':
-                this.removeComponent($el)
-                break;
-        }
-    }
-
     Components.DEFAULTS = {
         alias: undefined,
+        attachHandler: undefined,
         removeHandler: undefined,
         sortableContainer: '.is-sortable',
     }

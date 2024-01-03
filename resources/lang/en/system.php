@@ -529,7 +529,7 @@ return [
         'button_source' => '<i class="fa fa-file"></i>&nbsp;&nbsp;Edit template files',
         'button_customize' => '<i class="fa fa-paint-brush"></i>&nbsp;&nbsp;Customize',
         'button_child' => '<i class="fa fa-child"></i>&nbsp;&nbsp;Create child theme',
-        'button_choose' => 'Choose',
+        'button_choose' => 'Choose a component to attach',
         'button_new_source' => 'New %s',
         'button_rename_source' => 'Rename %s',
         'button_delete_source' => 'Delete %s',
@@ -538,7 +538,7 @@ return [
         'button_yes_copy' => 'Yes, copy',
         'button_return_to_list' => 'No, return to list',
 
-        'help_components' => 'Render the component on a layout or page by adding <code>@component(&#x27;componentAlias&#x27;)</code> to the markup. Learn more <a href="https://tastyigniter.com/docs/master/customize/components">here</a>.',
+        'help_components' => 'Render the component on a layout or page by adding <code>@componentPartial(&#x27;componentAlias&#x27;)</code> to the markup. Learn more <a href="https://tastyigniter.com/docs/master/customize/components">here</a>.',
         'help_component_alias' => 'DO NOT CHANGE. Except you know what you are doing.',
         'help_override_partial' => 'The selected component partial file will be copied to the active theme partial directory under <code>%s</code>.',
 
@@ -551,6 +551,7 @@ return [
         'alert_theme_path_locked' => 'This template belongs to a locked theme, such actions are restricted.',
         'alert_changes_confirm' => 'Conflicting versions, template file has changed. Reload the page to continue.',
         'alert_customize_not_active' => 'You can only customize an active theme.',
+        'alert_component_partial_not_found' => 'The selected component partial does not exist in the component directory',
     ],
 
     'updates' => [

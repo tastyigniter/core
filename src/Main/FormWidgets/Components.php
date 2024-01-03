@@ -78,6 +78,7 @@ class Components extends BaseFormWidget
     {
         $this->vars['field'] = $this->formField;
         $this->vars['components'] = $this->getComponents();
+        $this->vars['templateComponents'] = $this->loadTemplateComponents();
     }
 
     public function getSaveValue($value)
@@ -91,19 +92,16 @@ class Components extends BaseFormWidget
 
     public function onLoadRecord()
     {
-        $this->validate(post(), [
+        $data = $this->validate(post(), [
             'alias' => ['string'],
-            'context' => ['required', 'string', 'in:create,edit,partial'],
+            'context' => ['required', 'string', 'in:edit,partial'],
         ]);
 
-        $codeAlias = post('alias');
+        $codeAlias = array_get($data, 'alias');
         $componentObj = $this->makeComponentBy($codeAlias);
-        $context = post('context');
+        $context = array_get($data, 'context');
 
-        $formTitle = $context == 'create' ? $this->addTitle : $this->editTitle;
-        if ($context === 'partial') {
-            $formTitle = $this->copyPartialTitle;
-        }
+        $formTitle = $context == 'partial' ? $this->copyPartialTitle : $this->editTitle;
 
         return $this->makePartial('igniter.admin::formwidgets/recordeditor/form', [
             'formRecordId' => $codeAlias,
@@ -122,48 +120,36 @@ class Components extends BaseFormWidget
 
         $data = $this->validate(post(), [
             'recordId' => ['nullable', 'string'],
-            name_to_dot_string($this->formField->arrayName).'.componentData.component' => ['array'],
+            name_to_dot_string($this->formField->arrayName).'.componentData' => ['array'],
         ]);
 
-        $isCreateContext = request()->method() === 'POST';
-        $codeAlias = $isCreateContext
-            ? array_get($data, name_to_dot_string($this->formField->arrayName.'[componentData][component]'))
-            : array_get($data, 'recordId');
+        $codeAlias = array_get($data, 'recordId');
+        if ($isCreateContext = (request()->method() === 'POST')) {
+            $codeAlias = $this->getUniqueAlias($codeAlias);
+        }
 
         if (!$template = $this->data->fileSource) {
             throw FlashException::error('Template file not found');
         }
 
         $partialToOverride = array_get($data, name_to_dot_string($this->formField->arrayName.'[componentData][partial]'));
-
         if (strlen($partialToOverride)) {
             $this->overrideComponentPartial($codeAlias, $partialToOverride);
 
-            flash()->success(sprintf(lang('igniter::admin.alert_success'),
-                'Component partial copied'
-            ))->now();
-        } else {
-            if (!is_array($codeAlias)) {
-                $codeAlias = [$codeAlias];
-            }
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Component partial copied'))->now();
 
-            foreach ($codeAlias as $_codeAlias) {
-                $this->updateComponent($_codeAlias, $isCreateContext, $template);
-            }
-
-            flash()->success(sprintf(lang('igniter::admin.alert_success'),
-                'Component '.($isCreateContext ? 'added' : 'updated')
-            ))->now();
-
-            $this->formField->value = array_get($template->settings, 'components');
+            return $this->controller->redirectBack();
         }
 
-        return [
-            '#notification' => $this->makePartial('flash'),
-            '#'.$this->getId('container') => $this->makePartial('container', [
-                'components' => $this->getComponents(),
-            ]),
-        ];
+        $this->updateComponent($codeAlias, $isCreateContext, $template);
+
+        flash()->success(sprintf(lang('igniter::admin.alert_success'),
+            'Component '.($isCreateContext ? 'added' : 'updated')
+        ))->now();
+
+        $this->formField->value = array_get($template->settings, 'components');
+
+        return $this->reload();
     }
 
     public function onRemoveComponent()
@@ -178,7 +164,7 @@ class Components extends BaseFormWidget
         }
 
         $attributes = $template->getAttributes();
-        unset($attributes[$codeAlias]);
+        unset($attributes['settings']['components'][$codeAlias]);
         $template->setRawAttributes($attributes);
 
         $template->mTime = Carbon::now()->timestamp;
@@ -186,10 +172,15 @@ class Components extends BaseFormWidget
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Component removed'))->now();
 
-        return ['#notification' => $this->makePartial('flash')];
+        return $this->reload();
     }
 
     protected function getComponents()
+    {
+        return $this->model::getComponentOptions();
+    }
+
+    protected function loadTemplateComponents()
     {
         $components = [];
         if (!$loadValue = (array)$this->getLoadValue()) {
@@ -300,17 +291,17 @@ class Components extends BaseFormWidget
 
     protected function updateComponent($codeAlias, $isCreateContext, $template)
     {
-        $componentObj = $this->makeComponentBy($codeAlias);
+        throw_unless($componentObj = $this->makeComponentBy($codeAlias), FlashException::error('Invalid component selected'));
+
         $form = $this->makeComponentFormWidget('edit', $componentObj);
-        $properties = $isCreateContext
-            ? $this->manager->getComponentPropertyValues($componentObj)
-            : $form->getSaveData();
 
-        $properties = $this->convertComponentPropertyValues($properties);
+        $properties = [];
 
-        if ($isCreateContext) {
-            $properties['alias'] = $this->getUniqueAlias($codeAlias);
-        } else {
+        if (!$isCreateContext) {
+            $properties = $form->getSaveData();
+
+            $properties = $this->convertComponentPropertyValues($properties);
+
             [$rules, $attributes] = $this->manager->getComponentPropertyRules($componentObj);
             $this->validate($properties, $rules, [], $attributes);
         }
@@ -339,12 +330,13 @@ class Components extends BaseFormWidget
             $componentPath = File::symbolizePath($componentPath);
         }
 
-        $formField->comment(sprintf(lang('igniter::system.themes.help_override_partial'), $themePartialPath));
+        $formField->comment = sprintf(lang('igniter::system.themes.help_override_partial'), $themePartialPath);
 
         $formField->options(function () use ($componentPath) {
             return collect(File::glob($componentPath.'/*.blade.php'))
                 ->mapWithKeys(function ($path) {
-                    return [File::basename($path) => str_before(File::basename($path), '.'.Model::DEFAULT_EXTENSION)];
+                    $name = str_before(File::basename($path), '.'.Model::DEFAULT_EXTENSION);
+                    return [$name => $name];
                 });
         });
     }
@@ -354,25 +346,25 @@ class Components extends BaseFormWidget
         $componentObj = $this->makeComponentBy($codeAlias);
 
         $activeTheme = $this->model->getTheme();
-        $themePartialPath = sprintf('%s/%s/%s', $activeTheme->path, '_partials', $componentObj->alias);
+        $themePartialPath = sprintf('%s/%s/%s/%s.%s', $activeTheme->path, '_partials', $componentObj->alias, $fileName, Model::DEFAULT_EXTENSION);
 
         $componentPath = $componentObj->getPath();
         if (File::isPathSymbol($componentPath)) {
             $componentPath = File::symbolizePath($componentPath);
         }
 
-        if (!File::exists($componentPath.'/'.$fileName)) {
-            throw FlashException::error('The selected component partial does not exist in the component directory');
+        $componentPath .= DIRECTORY_SEPARATOR.$fileName.'.'.Model::DEFAULT_EXTENSION;
+
+        if (!File::exists($componentPath)) {
+            throw FlashException::error(lang('igniter::system.themes.alert_component_partial_not_found'));
         }
 
-        if (File::exists($themePartialPath.'/'.$fileName)) {
-            throw FlashException::error('The selected component partial already exists in active theme partials directory.');
+        if (!File::isDirectory(dirname($themePartialPath))) {
+            File::makeDirectory(dirname($themePartialPath), 077, true, true);
         }
 
-        if (!File::exists($themePartialPath)) {
-            File::makeDirectory($themePartialPath, 077, true);
-        }
+        File::copy($componentPath, $themePartialPath);
 
-        File::copy($componentPath.'/'.$fileName, $themePartialPath.'/'.$fileName);
+        $this->fireEvent('partialCopied', [$codeAlias.'.'.$fileName]);
     }
 }

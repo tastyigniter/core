@@ -4,6 +4,7 @@ namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Models\Theme as ThemeModel;
 use Igniter\Main\Template\Page;
@@ -398,7 +399,7 @@ class ThemeManager
 
         [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
 
-        if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
+        if (!strlen($fileName) || !$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException("Theme template file not found: $filePath");
         }
 
@@ -653,11 +654,11 @@ class ThemeManager
     protected function validateMetaFile($config, $code)
     {
         foreach ([
-            'code',
-            'name',
-            'description',
-            'author',
-        ] as $item) {
+                     'code',
+                     'name',
+                     'description',
+                     'author',
+                 ] as $item) {
             if (!array_key_exists($item, $config)) {
                 throw new SystemException(sprintf(
                     Lang::get('igniter::system.missing.config_key'),

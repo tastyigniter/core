@@ -4,21 +4,12 @@ return [
     'form' => [
         'fields' => [
             'settings[components]' => [
-                'label' => 'igniter::system.themes.text_tab_components',
+                'label' => 'lang:igniter::system.themes.text_tab_components',
                 'type' => 'components',
                 'prompt' => 'igniter::system.themes.button_choose',
                 'comment' => 'igniter::system.themes.help_components',
                 'form' => [
                     'fields' => [
-                        'component' => [
-                            'label' => 'igniter::system.themes.label_component',
-                            'type' => 'select',
-                            'context' => 'create',
-                            'multiOption' => true,
-                            'attributes' => [
-                                'data-static-dropdown' => 'true',
-                            ],
-                        ],
                         'alias' => [
                             'label' => 'igniter::system.themes.label_component_alias',
                             'type' => 'text',
@@ -67,6 +58,7 @@ return [
                     'label' => 'igniter::system.themes.label_layout',
                     'type' => 'select',
                     'options' => 'getLayoutOptions',
+                    'placeholder' => 'lang:igniter::admin.text_please_select',
                 ],
                 'settings[description]' => [
                     'tab' => 'igniter::system.themes.text_tab_meta',
