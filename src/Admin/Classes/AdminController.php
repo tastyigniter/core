@@ -137,6 +137,7 @@ class AdminController extends Controller
 
         // Top menu widget is available on all admin pages
         $this->makeMainMenuWidget();
+
         return $this;
     }
 
