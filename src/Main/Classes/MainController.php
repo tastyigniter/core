@@ -360,7 +360,7 @@ class MainController extends Controller
             }
         } // Process page specific handler (index_onSomething)
         else {
-            $pageHandler = $this->action.'_'.$handler;
+            $pageHandler = $this->action . '_' . $handler;
             if ($this->methodExists($pageHandler)) {
                 $result = call_user_func_array([$this, $pageHandler], array_values($this->params));
 
@@ -490,7 +490,7 @@ class MainController extends Controller
 
         // Alias @ symbol for ::
         if (starts_with($name, '@')) {
-            $name = '::'.substr($name, 1);
+            $name = '::' . substr($name, 1);
         }
 
         // Extensibility
@@ -595,7 +595,7 @@ class MainController extends Controller
         }
 
         if (!str_contains($name, '::')) {
-            $name .= '::'.$componentObj->defaultPartial;
+            $name .= '::' . $componentObj->defaultPartial;
         }
 
         $result = $this->renderPartial($name, [], false);

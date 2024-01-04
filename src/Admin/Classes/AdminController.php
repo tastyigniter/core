@@ -11,6 +11,7 @@ use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
 use Igniter\Main\Widgets\MediaManager;
+use Igniter\System\Libraries\Assets;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
@@ -62,12 +63,14 @@ class AdminController extends Controller
      */
     public $bodyClass;
 
+    protected $assets;
+
     public static bool $skipRouteRegister = false;
 
     /**
      * Class constructor
      */
-    public function __construct()
+    public function __construct($theme = null)
     {
         $this->setRequiredProperties();
 
@@ -75,6 +78,7 @@ class AdminController extends Controller
         $this->definePaths();
 
         $this->extendableConstruct();
+        $this->assets = resolve(Assets::class);
     }
 
     protected function definePaths(): void
@@ -133,7 +137,6 @@ class AdminController extends Controller
 
         // Top menu widget is available on all admin pages
         $this->makeMainMenuWidget();
-
         return $this;
     }
 
@@ -292,6 +295,8 @@ class AdminController extends Controller
                 $response = array_merge($response, $result);
             } elseif (is_string($result)) {
                 $response['result'] = $result;
+                $response['X_IGNITER_ASSETS_CSS'] = $this->assets->getCss();
+                $response['X_IGNITER_ASSETS_JS'] = $this->assets->getJs();
             } elseif (is_object($result)) {
                 return $result;
             }
