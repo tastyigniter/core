@@ -443,8 +443,8 @@ class Theme
             }
         });
 
-        $notes = rescue(fn() => Assets::combineBundles(),
-            fn($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
+        $notes = rescue(fn () => Assets::combineBundles(),
+            fn ($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
 
         Event::dispatch('main.theme.assetsBundled', [$this]);
 
