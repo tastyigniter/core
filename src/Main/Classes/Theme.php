@@ -414,6 +414,16 @@ class Theme
         return $result;
     }
 
+    public function renderAssetVariables()
+    {
+        $content = '';
+        foreach ($this->getAssetVariables() as $key => $value) {
+            $content .= sprintf('--%s: %s;', $key, $value);
+        }
+
+        return $content;
+    }
+
     public function fillFromConfig()
     {
         if (isset($this->config['code'])) {
