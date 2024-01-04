@@ -16,7 +16,10 @@ use Igniter\Main\Template\Content as ContentTemplate;
 use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial as PartialTemplate;
+use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\SystemHelper;
+use Igniter\System\Libraries\Assets as AssetsManager;
+use Illuminate\Support\Facades\Event;
 
 class Theme
 {
@@ -414,14 +417,38 @@ class Theme
         return $result;
     }
 
-    public function renderAssetVariables()
+    public function buildAssetsBundle()
     {
-        $content = '';
-        foreach ($this->getAssetVariables() as $key => $value) {
-            $content .= sprintf('--%s: %s;', $key, $value);
+        $paths = collect([$this])
+            ->merge($this->hasParent() ? [$this->getParent()] : [])
+            ->map(function (Theme $theme) {
+                if (File::exists($path = $theme->getMetaPath().'/assets.json')) {
+                    Assets::addFromManifest($path);
+
+                    return $path;
+                }
+            })
+            ->filter();
+
+        if ($paths->isEmpty()) {
+            return;
         }
 
-        return $content;
+        Event::listen('assets.combiner.beforePrepare', function (AssetsManager $combiner, $assets) {
+            $assetVars = $this->getAssetVariables();
+            foreach (array_flatten($combiner->getFilters()) as $filter) {
+                if (method_exists($filter, 'setVariables')) {
+                    $filter->setVariables($assetVars);
+                }
+            }
+        });
+
+        $notes = rescue(fn() => Assets::combineBundles(),
+            fn($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
+
+        Event::dispatch('main.theme.assetsBundled', [$this]);
+
+        return $notes;
     }
 
     public function fillFromConfig()

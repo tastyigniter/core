@@ -105,6 +105,21 @@ trait CombinesAssets
         return $this->assetsCombinerUri.'/'.$cacheData['uri'];
     }
 
+    public function combineBundles(string $type = 'scss', $appContext = 'main')
+    {
+        $notes = [];
+        foreach ($this->getBundles($type, $appContext) ?? [] as $destination => $assets) {
+            $destination = File::symbolizePath($destination);
+            $publicDestination = File::localToPublic(realpath(dirname($destination))).'/'.basename($destination);
+
+            $this->combineToFile($assets, $destination);
+            $notes[] = implode(', ', array_map('basename', $assets));
+            $notes[] = sprintf(' -> %s', $publicDestination);
+        }
+
+        return $notes;
+    }
+
     /**
      * Combines a collection of assets files to a destination file
      *

@@ -61,6 +61,15 @@ class Assets
         }
 
         $content = json_decode(File::get($assetsConfigPath), true) ?: [];
+        if ($bundles = array_get($content, 'bundles')) {
+            foreach ($bundles as $bundle) {
+                $this->registerBundle(
+                    array_get($bundle, 'type'),
+                    array_get($bundle, 'files'),
+                    array_get($bundle, 'destination')
+                );
+            }
+        }
 
         $this->addTags(array_except($content, 'bundles'));
     }

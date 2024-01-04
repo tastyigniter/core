@@ -4,6 +4,7 @@ namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Model;
+use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
@@ -95,6 +96,25 @@ class IgniterUtil extends Command
         $this->comment('Ping? Pong!');
         sleep(1);
         $this->comment('-');
+    }
+
+    protected function utilCompileScss()
+    {
+        $this->comment('Compiling registered asset bundles...');
+
+        $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
+
+        $notes = $activeTheme->buildAssetsBundle();
+
+        if (!$notes) {
+            $this->comment('Nothing to compile!');
+
+            return;
+        }
+
+        foreach ($notes as $note) {
+            $this->comment($note);
+        }
     }
 
     protected function utilRemoveDuplicates()

@@ -178,9 +178,9 @@ class ThemeManager
             Page::getSourceResolver()->setDefaultSourceName($theme->getName());
         }
 
-        collect([$theme->getPath().'/resources', $theme->getPath()])
-            ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath()] : [])
-            ->filter(fn ($path) => File::isDirectory($path))
+        collect([$theme->getPath().'/resources', $theme->getPath().'/assets', $theme->getPath()])
+            ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath().'/assets', $theme->getParent()->getPath()] : [])
+            ->filter(fn($path) => File::isDirectory($path))
             ->each(function ($path) use ($theme) {
                 Igniter::loadResourcesFrom($path, $theme->getName());
             });
