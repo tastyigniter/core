@@ -146,13 +146,13 @@ class FlashException extends Exception implements HttpExceptionInterface
             return $this->response;
         }
 
-        if (!config('app.debug')) {
-            if ($request->expectsJson()) {
-                return response([
-                    'X_IGNITER_FLASH_MESSAGES' => [$this->getContents()],
-                ], $this->code);
-            }
+        if ($request->expectsJson()) {
+            return response([
+                'X_IGNITER_FLASH_MESSAGES' => [$this->getContents()],
+            ], $this->code);
+        }
 
+        if (!config('app.debug')) {
             if ($controller = $request->route()?->getController()) {
                 return response($controller->makeView('flash_exception', $this->getContents()), 500);
             }

@@ -22,11 +22,11 @@ trait HasQueryModifier
 
         $this->fireEvent('model.extendListFrontEndQuery', [$builder]);
 
-        if (!is_null($pageLimit = array_get($options, 'pageLimit'))) {
-            return $builder->paginate($pageLimit, array_get($options, 'page', 1));
+        if (!array_key_exists('pageLimit', $options)) {
+            return $builder;
         }
 
-        return $builder;
+        return $builder->paginate(array_get($options, 'pageLimit'), array_get($options, 'page', 1));
     }
 
     public function scopeApplyFilters(Builder $builder, array $options = []): Builder
