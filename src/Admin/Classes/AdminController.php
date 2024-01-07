@@ -143,8 +143,9 @@ class AdminController extends Controller
 
         $this->fireSystemEvent('admin.controller.beforeRemap');
 
-        // Check that user has permission to view this page
-        throw_if($this->requiredPermissions && !$this->authorize($this->requiredPermissions),
+        // Check that user has permission to access this page
+        $requiredPermissions = $this->getRequiredPermissionsForAction($action);
+        throw_if($requiredPermissions && !$this->authorize($requiredPermissions),
             FlashException::error(lang('igniter::admin.alert_user_restricted')));
 
         if ($event = $this->fireSystemEvent('admin.controller.beforeResponse', [$action, $params])) {
@@ -300,5 +301,17 @@ class AdminController extends Controller
         } catch (MassAssignmentException $ex) {
             throw FlashException::error(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]));
         }
+    }
+
+    protected function getRequiredPermissionsForAction(string $actionToCheck): array
+    {
+        return collect((array)$this->requiredPermissions)
+            ->map(function ($permission, $action) use ($actionToCheck) {
+                return (!is_string($action) || $action === '*' || $action === $actionToCheck)
+                    ? (array)$permission : null;
+            })
+            ->filter()
+            ->collapse()
+            ->all();
     }
 }
