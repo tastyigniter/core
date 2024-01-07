@@ -63,8 +63,6 @@ class AdminController extends Controller
      */
     public $bodyClass;
 
-    protected $assets;
-
     public static bool $skipRouteRegister = false;
 
     /**
@@ -78,7 +76,6 @@ class AdminController extends Controller
         $this->definePaths();
 
         $this->extendableConstruct();
-        $this->assets = resolve(Assets::class);
     }
 
     protected function definePaths(): void
@@ -296,8 +293,9 @@ class AdminController extends Controller
                 $response = array_merge($response, $result);
             } elseif (is_string($result)) {
                 $response['result'] = $result;
-                $response['X_IGNITER_ASSETS_CSS'] = $this->assets->getCss();
-                $response['X_IGNITER_ASSETS_JS'] = $this->assets->getJs();
+                $assets = resolve(Assets::class);
+                $response['X_IGNITER_ASSETS_CSS'] = $assets->getCss();
+                $response['X_IGNITER_ASSETS_JS'] = $assets->getJs();
             } elseif (is_object($result)) {
                 return $result;
             }

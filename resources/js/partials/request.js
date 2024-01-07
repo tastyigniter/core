@@ -270,7 +270,6 @@ if (window.jQuery.request !== undefined)
                     if (data['X_IGNITER_ASSETS_CSS']) {
                         document.getElementsByTagName('head')[0].insertAdjacentHTML('beforeEnd', data['X_IGNITER_ASSETS_CSS'])
                         const myNewCssElement = document.querySelector('head > link:last-of-type')
-                        console.log(myNewCssElement, 'my new css')
                         myNewCssElement.addEventListener('load', function() {
                             console.log('new css loaded')
                         })
@@ -278,13 +277,15 @@ if (window.jQuery.request !== undefined)
                     if (data['X_IGNITER_ASSETS_JS']) {
                         let newScriptElement = $(data['X_IGNITER_ASSETS_JS'])
                         // update with latest script by removing first script element
-                        $('body > script')[0].remove();
-                        $('body').append(newScriptElement);
-                        console.log(newScriptElement)
-
-                        newScriptElement.on('load', function() {
-                            console.log('new script element loaded')
+                        // $('body > script')[0].remove();
+                        let script = document.createElement('script')
+                        script.src = newScriptElement.attr('src')
+                        script.async = true
+                        script.addEventListener('load', function() {
+                            console.log('new script loaded')
                         })
+                        $('head').append(script)
+                        console.log(newScriptElement.attr('src'))
                     }
 
                     if (isRedirect)

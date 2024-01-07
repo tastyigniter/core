@@ -114,6 +114,6 @@ class IgniterUpdate extends Command
     {
         $updates = $this->updateManager->requestUpdateList($forceUpdate);
 
-        return array_get($updates, 'items');
+        return array_get($updates, 'items')->toArray();
     }
 }
