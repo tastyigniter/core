@@ -2671,11 +2671,6 @@ parameters:
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\ChainFileSource\\:\\:delete\\(\\) should return int but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/ChainFileSource.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\ChainFileSource\\:\\:lastModified\\(\\) should return int but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Source/ChainFileSource.php
@@ -2719,6 +2714,11 @@ parameters:
 			message: "#^Method Igniter\\\\Flame\\\\Scaffold\\\\GeneratorCommand\\:\\:makeDirectory\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Scaffold/GeneratorCommand.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/ServiceProvider.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Support\\\\ClassLoader\\:\\:requireClass\\(\\)\\.$#"
@@ -3182,12 +3182,12 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 2
+			count: 4
 			path: src/Main/Classes/Theme.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Main/Classes/Theme.php
 
 		-
@@ -3197,6 +3197,16 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/Theme.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:addFromManifest\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/Theme.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:combineBundles\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/Theme.php
 
@@ -3223,6 +3233,11 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
 			count: 4
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
+			count: 1
 			path: src/Main/Classes/ThemeManager.php
 
 		-
@@ -3311,8 +3326,13 @@ parameters:
 			path: src/Main/FormWidgets/Components.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getComponentOptions\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:basename\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Main/FormWidgets/Components.php
 
 		-
@@ -3322,11 +3342,16 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 3
+			count: 1
 			path: src/Main/FormWidgets/Components.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:glob\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/Components.php
 
@@ -3401,6 +3426,11 @@ parameters:
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getFormWidget\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getTheme\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
@@ -3436,17 +3466,17 @@ parameters:
 			path: src/Main/Http/Controllers/MediaManager.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$context\\.$#"
+			count: 1
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Http\\\\Controllers\\\\Themes\\:\\:\\$checkUrl\\.$#"
 			count: 1
 			path: src/Main/Http/Controllers/Themes.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:onSaveSource\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Http/Controllers/Themes.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Main\\\\Http\\\\Controllers\\\\Themes\\:\\:formAfterSave\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Http/Controllers/Themes.php
 
@@ -3566,11 +3596,6 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Providers/ThemeServiceProvider.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Providers/ThemeServiceProvider.php
@@ -3606,18 +3631,13 @@ parameters:
 			path: src/Main/Template/ComponentPartial.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isPathSymbol\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Template/ComponentPartial.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:lastModified\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Template/ComponentPartial.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Main/Template/ComponentPartial.php
 
 		-
@@ -4106,11 +4126,6 @@ parameters:
 			path: src/System/Console/Commands/ThemeRemove.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 1
-			path: src/System/Console/Commands/ThemeVendorPublish.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
 			path: src/System/Events/AssetsBeforePrepareCombinerEvent.php
@@ -4361,11 +4376,6 @@ parameters:
 			path: src/System/Http/Controllers/Settings.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
-			count: 2
-			path: src/System/Http/Controllers/Settings.php
-
-		-
 			message: "#^Method Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:formExtendRefreshData\\(\\) should return array but return statement is missing\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Settings.php
@@ -4462,7 +4472,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:localToPublic\\(\\)\\.$#"
-			count: 2
+			count: 3
 			path: src/System/Libraries/Assets.php
 
 		-
@@ -4482,7 +4492,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
-			count: 3
+			count: 4
 			path: src/System/Libraries/Assets.php
 
 		-
@@ -4762,11 +4772,6 @@ parameters:
 
 		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Instantiated class Igniter\\\\System\\\\Models\\\\ValidationException not found\\.$#"
 			count: 1
 			path: src/System/Models/Language.php
 
