@@ -7,13 +7,11 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Flame\Exception\FlashException;
-use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Support\Facades\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Extensions extends \Igniter\Admin\Classes\AdminController
 {
@@ -36,7 +34,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    protected $requiredPermissions = ['Admin.Extensions', 'Site.Settings'];
+    protected $requiredPermissions = ['Admin.Extensions', 'edit' => ['Site.Settings']];
 
     /**
      * @var \Igniter\Admin\Widgets\Form
@@ -57,10 +55,6 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function index()
     {
-        if (!$this->getUser()->hasPermission('Admin.Extensions')) {
-            throw new SystemException(lang('igniter::admin.alert_user_restricted'));
-        }
-
         Extension::syncAll();
 
         $this->initUpdate('extension');
@@ -70,25 +64,21 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function edit($action, $vendor = null, $extension = null, $context = null)
     {
-        if (!$this->getUser()->hasPermission('Site.Settings')) {
-            throw new SystemException(lang('igniter::admin.alert_user_restricted'));
-        }
-
         AdminMenu::setContext('settings', 'system');
         AdminMenu::setPreviousUrl('settings');
 
-        if (!strlen($vendor) || !strlen($extension)) {
-            throw new NotFoundHttpException(lang('igniter::system.extensions.alert_setting_missing_id'));
-        }
+        throw_if(!strlen($vendor) || !strlen($extension),
+            FlashException::error(lang('igniter::system.extensions.alert_setting_missing_id'))
+        );
 
         $extensionCode = $vendor.'.'.$extension.'.'.$context;
-        if (!$settingItem = Settings::make()->getSettingItem($extensionCode)) {
-            throw new NotFoundHttpException(lang('igniter::system.extensions.alert_setting_not_found'));
-        }
+        throw_if(!$settingItem = Settings::make()->getSettingItem($extensionCode),
+            FlashException::error(lang('igniter::system.extensions.alert_setting_not_found'))
+        );
 
-        if ($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions)) {
-            throw new FlashException(lang('igniter::admin.alert_user_restricted'));
-        }
+        throw_if($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions),
+            FlashException::error(lang('igniter::admin.alert_user_restricted'))
+        );
 
         $pageTitle = lang($settingItem->label ?: 'text_edit_title');
         Template::setTitle($pageTitle);
@@ -101,10 +91,6 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function delete($context, $extensionCode = null)
     {
-        if (!$this->getUser()->hasPermission('Admin.Extensions')) {
-            throw new SystemException(lang('igniter::admin.alert_user_restricted'));
-        }
-
         $pageTitle = lang('igniter::system.extensions.text_delete_title');
         Template::setTitle($pageTitle);
         Template::setHeading($pageTitle);
@@ -191,18 +177,18 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function edit_onSave($action, $vendor = null, $extension = null, $context = null)
     {
-        if (!strlen($vendor) || !strlen($extension)) {
-            throw new SystemException(lang('igniter::system.extensions.alert_setting_missing_id'));
-        }
+        throw_if(!strlen($vendor) || !strlen($extension),
+            FlashException::error(lang('igniter::system.extensions.alert_setting_missing_id'))
+        );
 
         $extensionCode = $vendor.'.'.$extension.'.'.$context;
-        if (!$settingItem = Settings::make()->getSettingItem($extensionCode)) {
-            throw new SystemException(lang('igniter::system.extensions.alert_setting_not_found'));
-        }
+        throw_unless($settingItem = Settings::make()->getSettingItem($extensionCode),
+            FlashException::error(lang('igniter::system.extensions.alert_setting_not_found'))
+        );
 
-        if ($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions)) {
-            throw new SystemException(lang('igniter::admin.alert_user_restricted'));
-        }
+        throw_if($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions),
+            FlashException::error(lang('igniter::admin.alert_user_restricted'))
+        );
 
         $model = $this->formFindModelObject($settingItem);
 
@@ -280,17 +266,15 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     protected function createModel($class)
     {
-        if (!strlen($class)) {
-            throw new SystemException(lang('igniter::system.extensions.alert_setting_model_missing'));
-        }
+        throw_unless(strlen($class),
+            FlashException::error(lang('igniter::system.extensions.alert_setting_model_missing'))
+        );
 
-        if (!class_exists($class)) {
-            throw new SystemException(sprintf(lang('igniter::system.extensions.alert_setting_model_not_found'), $class));
-        }
+        throw_unless(class_exists($class),
+            FlashException::error(sprintf(lang('igniter::system.extensions.alert_setting_model_not_found'), $class))
+        );
 
-        $model = new $class;
-
-        return $model;
+        return new $class;
     }
 
     protected function formFindModelObject($settingItem)

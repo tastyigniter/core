@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Cache\Repository;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Arr;
-use UnexpectedValueException;
 
 class DatabaseSettingStore extends SettingStore
 {
@@ -182,7 +181,7 @@ class DatabaseSettingStore extends SettingStore
      * database. Call array_dot on a multidimensional array before passing it
      * into this method!
      *
-     * @param  array $data Call array_dot on a multidimensional array before passing it into this method!
+     * @param array $data Call array_dot on a multidimensional array before passing it into this method!
      *
      * @return array
      */
@@ -225,7 +224,7 @@ class DatabaseSettingStore extends SettingStore
     /**
      * Parse data coming from the database.
      *
-     * @param  \Illuminate\Support\Collection $data
+     * @param \Illuminate\Support\Collection $data
      *
      * @return array
      */
@@ -241,7 +240,7 @@ class DatabaseSettingStore extends SettingStore
                 $key = $row->{$this->keyColumn};
                 $value = $this->parseKeyValue($row->{$this->valueColumn});
             } else {
-                throw new UnexpectedValueException('Expected array or object, got '.gettype($row));
+                throw new \InvalidArgumentException('Expected array or object, got '.gettype($row));
             }
 
             Arr::set($results, $key, $value);

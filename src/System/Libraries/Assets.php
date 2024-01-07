@@ -390,7 +390,7 @@ class Assets
 
         // Otherwise, if the object doesn't even have a __toString() method, we can't proceed.
         if (!method_exists($value, '__toString')) {
-            throw new \Exception('Cannot transform this object to JavaScript.');
+            throw new \RuntimeException('Cannot transform this object to JavaScript.');
         }
 
         return "'{$value}'";

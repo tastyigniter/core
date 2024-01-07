@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Database\Traits;
 
-use Exception;
+use BadMethodCallException;
 
 /**
  * Sortable model trait
@@ -67,7 +67,7 @@ trait Sortable
         }
 
         if (count($itemIds) != count($itemOrders)) {
-            throw new Exception('Invalid setSortableOrder call - count of itemIds do not match count of itemOrders');
+            throw new BadMethodCallException('Invalid setSortableOrder call - count of itemIds do not match count of itemOrders');
         }
 
         foreach ($itemIds as $index => $id) {

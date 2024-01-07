@@ -249,7 +249,7 @@ class PermalinkMaker
                 } elseif (is_callable($method)) {
                     $suffix = $method($slug, $separator, collect($reserved));
                 } else {
-                    throw new \UnexpectedValueException('Sluggable "uniqueSuffix" for '.get_class($this->model).':'.$attribute.' is not null, or a closure.');
+                    throw new \InvalidArgumentException('Sluggable "uniqueSuffix" for '.get_class($this->model).':'.$attribute.' is not null, or a closure.');
                 }
 
                 return $slug.$separator.$suffix;
@@ -258,7 +258,7 @@ class PermalinkMaker
             return $slug;
         }
 
-        throw new \UnexpectedValueException('Sluggable "reserved" for '.get_class($this->model).':'.$attribute.' is not null, an array, or a closure that returns null/array.');
+        throw new \InvalidArgumentException('Sluggable "reserved" for '.get_class($this->model).':'.$attribute.' is not null, an array, or a closure that returns null/array.');
     }
 
     /**

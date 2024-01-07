@@ -15,7 +15,6 @@ use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminController extends Controller
 {
@@ -152,10 +151,9 @@ class AdminController extends Controller
             return $event;
         }
 
-        throw_if($action === '404', new NotFoundHttpException(sprintf(
-            'Method [%s] is not found in the controller [%s]',
-            $action, get_class($this)
-        )));
+        throw_if($action === '404', FlashException::error(
+            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this))
+        ));
 
         // Execute post handler and AJAX event
         if (($handlerResponse = $this->processHandlers()) && $handlerResponse !== true) {
@@ -175,12 +173,9 @@ class AdminController extends Controller
 
     protected function execPageAction(string $action, array $params): mixed
     {
-        if (!$this->checkAction($action)) {
-            throw new NotFoundHttpException(sprintf(
-                'Method [%s] is not found in the controller [%s]',
-                $action, get_class($this)
-            ));
-        }
+        throw_unless($this->checkAction($action), FlashException::error(
+            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this))
+        ));
 
         array_unshift($params, $action);
 

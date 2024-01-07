@@ -2,8 +2,8 @@
 
 namespace Igniter\Admin\Traits;
 
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Support\RouterHelper;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait ControllerUtils
 {
@@ -56,12 +56,9 @@ trait ControllerUtils
             return false;
         }
 
-        if (in_array(strtolower($action), array_map('strtolower', $this->hiddenActions))) {
-            throw new NotFoundHttpException(sprintf(
-                'Method [%s] is not allowed in the controller [%s]',
-                $action, get_class($this)
-            ));
-        }
+        throw_if(in_array(strtolower($action), array_map('strtolower', $this->hiddenActions)),
+            FlashException::error(sprintf('Method [%s] is not allowed in the controller [%s]', $action, get_class($this)))
+        );
 
         if (method_exists($this, $action)) {
             $methodInfo = new \ReflectionMethod($this, $action);
@@ -80,12 +77,9 @@ trait ControllerUtils
             $this->initialize();
         }
 
-        if (!$this->checkAction($method)) {
-            throw new NotFoundHttpException(sprintf(
-                'Method [%s] is not found in the controller [%s]',
-                $method, get_class($this)
-            ));
-        }
+        throw_unless($this->checkAction($method), FlashException::error(
+            sprintf('Method [%s] is not found in the controller [%s]', $method, get_class($this))
+        ));
 
         if (method_exists($this, 'remap')) {
             return $this->remap($this->action, $this->params);

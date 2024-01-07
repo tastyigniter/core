@@ -4,7 +4,7 @@ namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
@@ -95,7 +95,7 @@ class MailLayout extends Model
 
         $definitions = resolve(MailManager::class)->listRegisteredLayouts();
         if (!$definition = array_get($definitions, $code)) {
-            throw new ApplicationException('Unable to find a registered layout with code: '.$code);
+            throw new SystemException('Unable to find a registered layout with code: '.$code);
         }
 
         $this->fillFromView($definition);

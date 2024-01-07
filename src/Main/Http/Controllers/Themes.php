@@ -2,9 +2,9 @@
 
 namespace Igniter\Main\Http\Controllers;
 
-use Exception;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Helpers\CacheHelper;
@@ -249,9 +249,9 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function formFindModelObject($recordId)
     {
-        if (!strlen($recordId)) {
-            throw new Exception(lang('igniter::admin.form.missing_id'));
-        }
+        throw_unless(strlen($recordId),
+            FlashException::error(lang('igniter::admin.form.missing_id'))
+        );
 
         $model = $this->formCreateModelObject();
 
@@ -260,9 +260,9 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->fireEvent('admin.controller.extendFormQuery', [$query]);
         $result = $query->where('code', $recordId)->first();
 
-        if (!$result) {
-            throw new Exception(sprintf(lang('igniter::admin.form.not_found'), $recordId));
-        }
+        throw_unless($result,
+            FlashException::error(sprintf(lang('igniter::admin.form.not_found'), $recordId))
+        );
 
         return $result;
     }

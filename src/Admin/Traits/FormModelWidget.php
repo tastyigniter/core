@@ -32,20 +32,18 @@ trait FormModelWidget
      */
     public function findFormModel($recordId)
     {
-        $recordId = strip_tags($recordId);
-        if (!strlen($recordId)) {
-            throw FlashException::error(lang('igniter::admin.form.missing_id'));
-        }
+        throw_unless(strlen($recordId = strip_tags($recordId)),
+            FlashException::error(lang('igniter::admin.form.missing_id'))
+        );
 
         $model = $this->createFormModel();
 
         // Prepare query and find model record
         $query = $model->newQuery();
-        $result = $query->find($recordId);
 
-        if (!$result) {
-            throw new Exception(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model)));
-        }
+        throw_unless($result = $query->find($recordId),
+            FlashException::error(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model)))
+        );
 
         return $result;
     }

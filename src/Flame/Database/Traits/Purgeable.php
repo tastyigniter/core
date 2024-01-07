@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Database\Traits;
 
-use Exception;
+use LogicException;
 
 /**
  * Purgeable model trait
@@ -32,7 +32,7 @@ trait Purgeable
     public static function bootPurgeable()
     {
         if (!property_exists(get_called_class(), 'purgeable')) {
-            throw new Exception(sprintf(
+            throw new LogicException(sprintf(
                 'You must define a $purgeable property in %s to use the Purgeable trait.', get_called_class()
             ));
         }

@@ -2,8 +2,8 @@
 
 namespace Igniter\Admin\Traits;
 
-use Exception;
 use Igniter\Admin\Classes\FormField;
+use Igniter\Flame\Exception\SystemException;
 
 /**
  * Widget Maker Trait Class
@@ -28,7 +28,7 @@ trait WidgetMaker
             : $this;
 
         if (!class_exists($class)) {
-            throw new Exception(sprintf(lang('igniter::admin.alert_widget_class_name'), $class));
+            throw new SystemException(sprintf(lang('igniter::admin.alert_widget_class_name'), $class));
         }
 
         return new $class($controller, $widgetConfig);
@@ -51,7 +51,7 @@ trait WidgetMaker
             : $this;
 
         if (!class_exists($class)) {
-            throw new Exception(sprintf(lang('igniter::admin.alert_widget_class_name'), $class));
+            throw new SystemException(sprintf(lang('igniter::admin.alert_widget_class_name'), $class));
         }
 
         if (is_string($fieldConfig)) {

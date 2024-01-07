@@ -2,9 +2,9 @@
 
 namespace Igniter\Admin\Widgets;
 
-use Exception;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\TableDataSource;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Html\HtmlFacade;
 use Illuminate\Support\Facades\Request;
 
@@ -56,13 +56,13 @@ class Table extends BaseWidget
 
         $dataSourceClass = $this->getConfig('dataSource');
         if (!strlen($dataSourceClass)) {
-            throw new Exception(lang('igniter::admin.error_table_widget_data_not_specified'));
+            throw new SystemException(lang('igniter::admin.error_table_widget_data_not_specified'));
         }
 
         $dataSourceClass = $this->dataSourceAliases;
 
         if (!class_exists($dataSourceClass)) {
-            throw new Exception(sprintf(lang('igniter::admin.error_table_widget_data_class_not_found'), $dataSourceClass));
+            throw new SystemException(sprintf(lang('igniter::admin.error_table_widget_data_class_not_found'), $dataSourceClass));
         }
 
         $this->dataSource = new $dataSourceClass($this->recordsKeyFrom);

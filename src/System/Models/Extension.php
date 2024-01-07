@@ -3,7 +3,6 @@
 namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Mail\Markdown;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
@@ -100,7 +99,7 @@ class Extension extends Model
             if (file_exists($file = resolve(ExtensionManager::class)->path($this->name, $image))) {
                 $extension = pathinfo($file, PATHINFO_EXTENSION);
                 if (!array_key_exists($extension, self::ICON_MIMETYPES)) {
-                    throw new ApplicationException('Invalid extension icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
+                    throw new \InvalidArgumentException('Invalid extension icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
                 }
 
                 $mimeType = self::ICON_MIMETYPES[$extension];

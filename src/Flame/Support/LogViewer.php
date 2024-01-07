@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Support;
 
-use Exception;
+use InvalidArgumentException;
 
 /**
  * Class LogViewer
@@ -84,7 +84,7 @@ class LogViewer
         $file = $logsPath.'/'.$file;
         // check if requested file is really in the logs directory
         if (dirname($file) !== $logsPath) {
-            throw new Exception('No such log file');
+            throw new InvalidArgumentException('No such log file');
         }
 
         return $file;

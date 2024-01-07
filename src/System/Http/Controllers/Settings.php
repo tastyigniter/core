@@ -7,6 +7,7 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\FormExtendable;
 use Igniter\Admin\Traits\WidgetMaker;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Models\MailTemplate;
 use Igniter\User\Facades\AdminAuth;
@@ -69,11 +70,12 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     {
         $this->settingCode = $settingCode;
         [$model, $definition] = $this->findSettingDefinitions($settingCode);
-        if (!$definition) {
-            throw new Exception(sprintf(lang('igniter::system.settings.alert_settings_not_found'), $settingCode));
-        }
 
-        if ($definition->permission && !AdminAuth::user()->hasPermission($definition->permission)) {
+        throw_unless($definition, FlashException::error(
+            sprintf(lang('igniter::system.settings.alert_settings_not_found'), $settingCode)
+        ));
+
+        if ($definition->permission && !$this->getUser()->hasPermission($definition->permission)) {
             return Response::make(View::make('admin::access_denied'), 403);
         }
 
@@ -94,11 +96,11 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     {
         $this->settingCode = $settingCode;
         [$model, $definition] = $this->findSettingDefinitions($settingCode);
-        if (!$definition) {
-            throw new Exception(lang('igniter::system.settings.alert_settings_not_found'));
-        }
+        throw_unless($definition,
+            FlashException::error(lang('igniter::system.settings.alert_settings_not_found'))
+        );
 
-        if ($definition->permission && !AdminAuth::user()->hasPermission($definition->permission)) {
+        if ($definition->permission && !$this->getUser()->hasPermission($definition->permission)) {
             return Response::make(View::make('igniter.admin::access_denied'), 403);
         }
 
@@ -133,9 +135,9 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     public function edit_onTestMail()
     {
         [$model, $definition] = $this->findSettingDefinitions('mail');
-        if (!$definition) {
-            throw new Exception(lang('igniter::system.settings.alert_settings_not_found'));
-        }
+        throw_unless($definition,
+            FlashException::error(lang('igniter::system.settings.alert_settings_not_found'))
+        );
 
         $this->initWidgets($model, $definition);
 
@@ -191,9 +193,9 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
     protected function findSettingDefinitions($code)
     {
-        if (!strlen($code)) {
-            throw new Exception(lang('igniter::admin.form.missing_id'));
-        }
+        throw_unless(strlen($code),
+            FlashException::error(lang('igniter::admin.form.missing_id'))
+        );
 
         // Prep the list widget config
         $model = $this->createModel();
@@ -206,7 +208,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     protected function createModel()
     {
         if (!isset($this->modelClass) || !strlen($this->modelClass)) {
-            throw new Exception(lang('igniter::system.settings.alert_settings_missing_model'));
+            throw FlashException::error(lang('igniter::system.settings.alert_settings_missing_model'));
         }
 
         return new $this->modelClass();

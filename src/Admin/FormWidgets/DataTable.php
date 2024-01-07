@@ -2,11 +2,11 @@
 
 namespace Igniter\Admin\FormWidgets;
 
-use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Widgets\Table;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -176,7 +176,7 @@ class DataTable extends BaseFormWidget
         $methodName = 'get'.studly_case($this->fieldName).'DataTableOptions';
 
         if (!$this->model->methodExists($methodName) && !$this->model->methodExists('getDataTableOptions')) {
-            throw new Exception(sprintf(lang('igniter::admin.alert_missing_method'), 'getDataTableOptions', get_class($this->model)));
+            throw new SystemException(sprintf(lang('igniter::admin.alert_missing_method'), 'getDataTableOptions', get_class($this->model)));
         }
 
         if ($this->model->methodExists($methodName)) {

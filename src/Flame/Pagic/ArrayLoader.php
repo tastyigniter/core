@@ -3,6 +3,7 @@
 namespace Igniter\Flame\Pagic;
 
 use Exception;
+use InvalidArgumentException;
 
 /**
  * Loads a template from an array.
@@ -69,7 +70,7 @@ class ArrayLoader extends Loader
     public function getCacheKey(string $name): string
     {
         if (!isset($this->templates[$name])) {
-            throw new Exception(sprintf('Template "%s" is not defined.', $name));
+            throw new InvalidArgumentException(sprintf('Template "%s" is not defined.', $name));
         }
 
         return $name.':'.$this->templates[$name];
@@ -78,7 +79,7 @@ class ArrayLoader extends Loader
     public function isFresh(string $name, int $time): bool
     {
         if (!isset($this->templates[$name])) {
-            throw new Exception(sprintf('Template "%s" is not defined.', $name));
+            throw new InvalidArgumentException(sprintf('Template "%s" is not defined.', $name));
         }
 
         return true;

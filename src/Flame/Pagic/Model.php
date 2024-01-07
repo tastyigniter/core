@@ -5,7 +5,6 @@ namespace Igniter\Flame\Pagic;
 use ArrayAccess;
 use BadMethodCallException;
 use Closure;
-use Exception;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Traits\EventEmitter;
@@ -13,6 +12,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use JsonSerializable;
 
 /**
@@ -365,7 +365,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     public function delete(): bool
     {
         if (is_null($this->fileName)) {
-            throw new Exception('No file name (fileName) defined on model.');
+            throw new InvalidArgumentException('No file name (fileName) defined on model.');
         }
 
         if ($this->exists) {

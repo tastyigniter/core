@@ -2,9 +2,9 @@
 
 namespace Igniter\Flame\Database\Concerns;
 
+use BadMethodCallException;
 use Carbon\Carbon;
 use DateTimeInterface;
-use Exception;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -112,7 +112,7 @@ trait HasAttributes
     public function setAttribute($key, $value)
     {
         if (empty($key)) {
-            throw new Exception('Cannot access empty model attribute.');
+            throw new BadMethodCallException('Cannot access empty model attribute.');
         }
 
         if ($this->hasSetMutator($key)) {

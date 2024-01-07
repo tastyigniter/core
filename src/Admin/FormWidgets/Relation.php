@@ -2,9 +2,9 @@
 
 namespace Igniter\Admin\FormWidgets;
 
-use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation as RelationBase;
@@ -210,9 +210,8 @@ class Relation extends BaseFormWidget
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
         if (!$model || !$model->hasRelation($attribute)) {
-            throw new Exception(sprintf(lang('igniter::admin.alert_missing_model_definition'),
-                get_class($this->model),
-                $this->valueFrom
+            throw new SystemException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
+                get_class($this->model), $this->valueFrom
             ));
         }
 

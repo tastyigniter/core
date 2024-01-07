@@ -3,13 +3,13 @@
 namespace Igniter\Admin\Widgets;
 
 use Carbon\Carbon;
-use Exception;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Html\HtmlFacade as Html;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\User\Facades\AdminAuth;
@@ -236,8 +236,8 @@ class Lists extends BaseWidget
 
     protected function validateModel()
     {
-        if (!$this->model || !$this->model instanceof \Illuminate\Database\Eloquent\Model) {
-            throw new Exception(sprintf(lang('igniter::admin.list.missing_model'), get_class($this->controller)));
+        if (!$this->model instanceof \Illuminate\Database\Eloquent\Model) {
+            throw new SystemException(sprintf(lang('igniter::admin.list.missing_model'), get_class($this->controller)));
         }
 
         return $this->model;
@@ -345,7 +345,7 @@ class Lists extends BaseWidget
             if (isset($column->relation)) {
                 $relationType = $this->model->getRelationType($column->relation);
                 if ($relationType == 'morphTo') {
-                    throw new Exception(sprintf(lang('igniter::admin.list.alert_relationship_not_supported'), 'morphTo'));
+                    throw new SystemException(sprintf(lang('igniter::admin.list.alert_relationship_not_supported'), 'morphTo'));
                 }
 
                 $table = $this->model->makeRelation($column->relation)->getTable();
@@ -455,7 +455,7 @@ class Lists extends BaseWidget
         if ($this->columnOverride && is_array($this->columnOverride)) {
             $invalidColumns = array_diff($this->columnOverride, array_keys($definitions));
             if (!count($definitions)) {
-                throw new Exception(sprintf(
+                throw new SystemException(sprintf(
                     lang('igniter::admin.list.missing_column'), implode(',', $invalidColumns)
                 ));
             }
@@ -484,7 +484,7 @@ class Lists extends BaseWidget
     protected function defineListColumns()
     {
         if (!isset($this->columns) || !is_array($this->columns) || !count($this->columns)) {
-            throw new Exception(sprintf(lang('igniter::admin.list.missing_column'), get_class($this->controller)));
+            throw new SystemException(sprintf(lang('igniter::admin.list.missing_column'), get_class($this->controller)));
         }
 
         $this->addColumns($this->columns);
@@ -1269,7 +1269,7 @@ class Lists extends BaseWidget
         $actionCode = array_get($actionButton->config, 'code', $actionButton->name);
         $widgetClass = resolve(Widgets::class)->resolveBulkActionWidget($actionCode);
         if (!class_exists($widgetClass)) {
-            throw new Exception(sprintf(lang('igniter::admin.alert_widget_class_name'), $widgetClass));
+            throw new SystemException(sprintf(lang('igniter::admin.alert_widget_class_name'), $widgetClass));
         }
 
         $widget = new $widgetClass($this->controller, $actionButton, $widgetConfig);
@@ -1298,7 +1298,7 @@ class Lists extends BaseWidget
         }
 
         if (!$this->model->hasRelation($column->relation)) {
-            throw new Exception(sprintf(lang('igniter::admin.alert_missing_model_definition'), get_class($this->model), $column->relation));
+            throw new SystemException(sprintf(lang('igniter::admin.alert_missing_model_definition'), get_class($this->model), $column->relation));
         }
 
         if (!$multi) {

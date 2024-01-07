@@ -2,9 +2,9 @@
 
 namespace Igniter\Flame\Database\Traits;
 
-use Exception;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\PermalinkMaker;
+use LogicException;
 
 /**
  * HasPermalink model trait
@@ -25,7 +25,7 @@ trait HasPermalink
     public static function bootHasPermalink()
     {
         if (!property_exists(get_called_class(), 'permalinkable')) {
-            throw new Exception(sprintf(
+            throw new LogicException(sprintf(
                 'You must define a $permalinkable property in %s to use the HasPermalink trait.', get_called_class()
             ));
         }

@@ -3,7 +3,6 @@
 namespace Igniter\System\Actions;
 
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Traits\ExtensionTrait;
 use Igniter\System\Traits\ConfigMaker;
 
@@ -30,7 +29,7 @@ class ModelAction
      *
      * @param Model $model
      *
-     * @throws \Igniter\Flame\Exception\SystemException
+     * @throws \LogicException
      */
     public function __construct($model)
     {
@@ -38,7 +37,7 @@ class ModelAction
 
         foreach ($this->requiredProperties as $property) {
             if (!isset($model->{$property})) {
-                throw new SystemException(sprintf(
+                throw new \LogicException(sprintf(
                     'Class %s must define property %s used by %s',
                     get_class($model), $property, get_called_class()
                 ));

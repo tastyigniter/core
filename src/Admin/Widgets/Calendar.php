@@ -3,8 +3,8 @@
 namespace Igniter\Admin\Widgets;
 
 use Carbon\Carbon;
-use Exception;
 use Igniter\Admin\Classes\BaseWidget;
+use Igniter\Flame\Exception\SystemException;
 
 class Calendar extends BaseWidget
 {
@@ -103,7 +103,7 @@ class Calendar extends BaseWidget
     public function renderPopoverPartial()
     {
         if (!strlen($this->popoverPartial)) {
-            throw new Exception(sprintf(lang('igniter::admin.calendar.missing_partial'), get_class($this->controller)));
+            throw new SystemException(sprintf(lang('igniter::admin.calendar.missing_partial'), get_class($this->controller)));
         }
 
         return $this->makePartial($this->popoverPartial);

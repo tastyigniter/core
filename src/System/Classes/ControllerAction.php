@@ -2,7 +2,6 @@
 
 namespace Igniter\System\Classes;
 
-use Exception;
 use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Flame\Traits\ExtensionTrait;
 use Igniter\System\Traits\ConfigMaker;
@@ -52,7 +51,7 @@ class ControllerAction
 
         foreach ($this->requiredProperties as $property) {
             if (!isset($controller->{$property})) {
-                throw new Exception('Class '.get_class($controller)." must define property [{$property}] used by ".get_called_class());
+                throw new \LogicException('Class '.get_class($controller)." must define property [{$property}] used by ".get_called_class());
             }
         }
     }

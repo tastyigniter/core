@@ -4,7 +4,7 @@ namespace Igniter\System\Models;
 
 use Exception;
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
@@ -65,7 +65,7 @@ class MailPartial extends Model
 
         $definitions = resolve(MailManager::class)->listRegisteredPartials();
         if (!$definition = array_get($definitions, $code)) {
-            throw new ApplicationException('Unable to find a registered partial with code: '.$code);
+            throw new SystemException('Unable to find a registered partial with code: '.$code);
         }
 
         $this->fillFromView($definition);

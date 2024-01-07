@@ -226,15 +226,11 @@ class ComponentManager
     {
         $className = $this->resolve($name);
         if (!$className) {
-            throw new SystemException(sprintf(
-                'Component "%s" is not registered.', $name
-            ));
+            throw new SystemException(sprintf('Component "%s" is not registered.', $name));
         }
 
         if (!class_exists($className)) {
-            throw new SystemException(sprintf(
-                'Component class "%s" not found.', $className
-            ));
+            throw new SystemException(sprintf('Component class "%s" not found.', $className));
         }
 
         // Create and register the new controller.

@@ -2,7 +2,7 @@
 
 namespace Igniter\System\Classes;
 
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Models\Language;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -245,7 +245,7 @@ class LanguageManager
             return true;
         }
 
-        throw new ApplicationException('Failed to extract '.$packCode.' archive file');
+        throw new SystemException('Failed to extract '.$packCode.' archive file');
     }
 
     public function installPack($item)

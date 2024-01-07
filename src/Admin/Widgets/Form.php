@@ -2,13 +2,13 @@
 
 namespace Igniter\Admin\Widgets;
 
-use Exception;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Classes\FormTabs;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Flame\Database\Model;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\User\Facades\AdminAuth;
 
@@ -221,7 +221,7 @@ class Form extends BaseWidget
     {
         if (is_string($field)) {
             if (!isset($this->allFields[$field])) {
-                throw new Exception(sprintf(
+                throw new SystemException(sprintf(
                     lang('igniter::admin.form.missing_definition'),
                     $field
                 ));
@@ -460,7 +460,7 @@ class Form extends BaseWidget
         else {
             $fieldType = $config['type'] ?? null;
             if (!is_string($fieldType) && !is_null($fieldType)) {
-                throw new Exception(sprintf(
+                throw new SystemException(sprintf(
                     lang('igniter::admin.form.field_invalid_type'), gettype($fieldType)
                 ));
             }
@@ -476,11 +476,6 @@ class Form extends BaseWidget
 
         // Set field value
         $field->value = $this->getFieldValue($field);
-
-        // Check model if field is required
-        //        if (!$field->required AND $this->model AND method_exists($this->model, 'isAttributeRequired')) {
-        //            $field->required = $this->model->isAttributeRequired($field->fieldName);
-        //        }
 
         // Get field options from model
         if (in_array($field->type, $this->optionModelTypes, false)) {
@@ -524,7 +519,7 @@ class Form extends BaseWidget
         $widgetClass = $this->widgetManager->resolveFormWidget($widgetName);
 
         if (!class_exists($widgetClass)) {
-            throw new Exception(sprintf(lang('igniter::admin.alert_widget_class_name'), $widgetClass));
+            throw new SystemException(sprintf(lang('igniter::admin.alert_widget_class_name'), $widgetClass));
         }
 
         $widget = $this->makeFormWidget($widgetClass, $field, $widgetConfig);
@@ -649,7 +644,7 @@ class Form extends BaseWidget
     {
         if (is_string($field)) {
             if (!isset($this->allFields[$field])) {
-                throw new Exception(lang(
+                throw new SystemException(lang(
                     'igniter::admin.form.missing_definition',
                     compact('field')
                 ));
@@ -822,7 +817,7 @@ class Form extends BaseWidget
     protected function validateModel()
     {
         if (!$this->model) {
-            throw new Exception(sprintf(
+            throw new SystemException(sprintf(
                 lang('igniter::admin.form.missing_model'), get_class($this->controller)
             ));
         }
@@ -995,7 +990,7 @@ class Form extends BaseWidget
                 !$this->objectMethodExists($model, $methodName) &&
                 !$this->objectMethodExists($model, 'getDropdownOptions')
             ) {
-                throw new Exception(sprintf(lang('igniter::admin.form.options_method_not_exists'),
+                throw new SystemException(sprintf(lang('igniter::admin.form.options_method_not_exists'),
                     get_class($model), $methodName, $field->fieldName
                 ));
             }
@@ -1006,7 +1001,7 @@ class Form extends BaseWidget
         } // Field options are an explicit method reference
         elseif (is_string($fieldOptions)) {
             if (!$this->objectMethodExists($this->model, $fieldOptions)) {
-                throw new Exception(sprintf(lang('igniter::admin.form.options_method_not_exists'),
+                throw new SystemException(sprintf(lang('igniter::admin.form.options_method_not_exists'),
                     get_class($this->model), $fieldOptions, $field->fieldName
                 ));
             }

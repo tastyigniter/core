@@ -8,7 +8,7 @@ use Igniter\Flame\Assetic\Asset\AssetCollection;
 use Igniter\Flame\Assetic\Asset\FileAsset;
 use Igniter\Flame\Assetic\Asset\HttpAsset;
 use Igniter\Flame\Assetic\Cache\FilesystemCache;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Events\AssetsBeforePrepareCombinerEvent;
@@ -155,7 +155,7 @@ trait CombinesAssets
     {
         $cacheData = $this->getCache($cacheKey);
         if (!$cacheData) {
-            throw new ApplicationException(sprintf(lang('igniter::system.not_found.combiner'), $cacheKey));
+            throw new SystemException(sprintf(lang('igniter::system.not_found.combiner'), $cacheKey));
         }
 
         $lastModTime = gmdate("D, d M Y H:i:s \G\M\T", array_get($cacheData, 'lastMod'));

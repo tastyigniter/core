@@ -2,7 +2,6 @@
 
 namespace Igniter\Flame\Database\Attach;
 
-use Exception;
 use FilesystemIterator;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Support\Facades\File;
@@ -142,7 +141,7 @@ class Media extends Model
     public function addFromUrl($url, $filename = null, $tag = null)
     {
         if (!$stream = @fopen($url, 'rb')) {
-            throw new Exception(sprintf('Error opening file "%s"', $url));
+            throw new \RuntimeException(sprintf('Error opening file "%s"', $url));
         }
 
         return $this->addFromRaw(
@@ -336,7 +335,7 @@ class Media extends Model
 
         $diskName = config('igniter-system.assets.attachment.disk');
         if (is_null(config("filesystems.disks.{$diskName}"))) {
-            throw new Exception("There is no filesystem disk named '{$diskName}''");
+            throw new \LogicException("There is no filesystem disk named '{$diskName}''");
         }
 
         return $this->disk = $diskName;

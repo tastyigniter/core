@@ -134,7 +134,7 @@ class BelongsToMany extends BelongsToManyBase
          *
          *     $model->bindEvent('model.relation.beforeAttach', function (string $relationName, array $attachedIdList, array $insertData) use (\Igniter\Flame\Database\Model $model) {
          *         if (!$model->isRelationValid($attachedIdList)) {
-         *             throw new \Exception("Invalid relation!");
+         *             throw new \InvalidArgumentException("Invalid relation!");
          *             return false;
          *         }
          *     });
@@ -186,7 +186,7 @@ class BelongsToMany extends BelongsToManyBase
          *
          *     $model->bindEvent('model.relation.beforeDetach', function (string $relationName, array $attachedIdList) use (\Igniter\Flame\Database\Model $model) {
          *         if (!$model->isRelationValid($attachedIdList)) {
-         *             throw new \Exception("Invalid relation!");
+         *             throw new \InvalidArgumentException("Invalid relation!");
          *             return false;
          *         }
          *     });

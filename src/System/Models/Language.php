@@ -7,6 +7,7 @@ use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Language Model Class

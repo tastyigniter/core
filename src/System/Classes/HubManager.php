@@ -2,7 +2,7 @@
 
 namespace Igniter\System\Classes;
 
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -65,7 +65,7 @@ class HubManager
                 logger()->debug('Server validation errors: '.print_r($errors, true));
             }
 
-            throw new ApplicationException($response->json('message'));
+            throw new SystemException($response->json('message'));
         }
 
         return $response->json();

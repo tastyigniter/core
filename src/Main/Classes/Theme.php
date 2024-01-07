@@ -2,7 +2,6 @@
 
 namespace Igniter\Main\Classes;
 
-use Exception;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Source\ChainFileSource;
@@ -443,8 +442,8 @@ class Theme
             }
         });
 
-        $notes = rescue(fn () => Assets::combineBundles(),
-            fn ($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
+        $notes = rescue(fn() => Assets::combineBundles(),
+            fn($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
 
         Event::dispatch('main.theme.assetsBundled', [$this]);
 
@@ -571,7 +570,7 @@ class Theme
     public function getTemplateClass($dirName)
     {
         if (!isset(self::$allowedTemplateModels[$dirName])) {
-            throw new Exception(sprintf('Source Model not found for [%s].', $dirName));
+            throw new \RuntimeException(sprintf('Source Model not found for [%s].', $dirName));
         }
 
         return self::$allowedTemplateModels[$dirName];

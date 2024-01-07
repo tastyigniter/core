@@ -3,7 +3,6 @@
 namespace Igniter\Flame\Traits;
 
 use BadMethodCallException;
-use Exception;
 use Igniter\Flame\Support\ClassLoader;
 use Illuminate\Support\Facades\App;
 use ReflectionClass;
@@ -79,7 +78,7 @@ trait ExtendableTrait
         } elseif (is_array($this->implement)) {
             $uses = $this->implement;
         } else {
-            throw new Exception(sprintf('Class %s contains an invalid $implement value', get_class($this)));
+            throw new \InvalidArgumentException(sprintf('Class %s contains an invalid $implement value', get_class($this)));
         }
 
         foreach (array_unique($uses) as $use) {
@@ -141,11 +140,7 @@ trait ExtendableTrait
         $extensionName = $this->extensionNormalizeClassName($extensionName);
 
         if (isset($this->extensionData['extensions'][$extensionName])) {
-            throw new Exception(sprintf(
-                'Class %s has already been extended with %s',
-                get_class($this),
-                $extensionName
-            ));
+            throw new \LogicException(sprintf('Class %s has already been extended with %s', get_class($this), $extensionName));
         }
 
         $this->extensionData['extensions'][$extensionName] = $extensionObject = new $extensionName($this);
@@ -160,7 +155,7 @@ trait ExtendableTrait
     protected function extensionExtractMethods(string $extensionName, object $extensionObject): void
     {
         if (!method_exists($extensionObject, 'extensionIsHiddenMethod')) {
-            throw new Exception(sprintf(
+            throw new \LogicException(sprintf(
                 'Extension %s should implement Igniter\Flame\Traits\ExtensionTrait.',
                 $extensionName
             ));
@@ -437,7 +432,7 @@ trait ExtendableTrait
                 } elseif (is_array($implement)) {
                     $uses = $implement;
                 } else {
-                    throw new Exception(sprintf('Class %s contains an invalid $implement value', $className));
+                    throw new \InvalidArgumentException(sprintf('Class %s contains an invalid $implement value', $className));
                 }
 
                 foreach ($uses as $use) {

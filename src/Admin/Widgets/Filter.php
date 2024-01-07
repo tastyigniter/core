@@ -2,9 +2,9 @@
 
 namespace Igniter\Admin\Widgets;
 
-use Exception;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\FilterScope;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Http\RedirectResponse;
@@ -267,11 +267,14 @@ class Filter extends BaseWidget
         $options = $scope->options;
 
         if (is_scalar($options)) {
-            $model = $this->getScopeModel($scope->scopeName);
+            if (!$model = $this->getScopeModel($scope->scopeName)) {
+                throw new SystemException(sprintf(lang('igniter::admin.list.filter_missing_scope_model'), $scope->scopeName));
+            }
+
             $methodName = $options;
 
             if (!$model->methodExists($methodName)) {
-                throw new Exception(sprintf(lang('igniter::admin.list.filter_missing_definitions'),
+                throw new SystemException(sprintf(lang('igniter::admin.list.filter_missing_definitions'),
                     get_class($model), $methodName, $scope->scopeName
                 ));
             }
@@ -545,9 +548,7 @@ class Filter extends BaseWidget
     public function getScope($scope)
     {
         if (!isset($this->allScopes[$scope])) {
-            throw new Exception(sprintf(lang('igniter::admin.list.filter_missing_scope_definitions'),
-                $scope
-            ));
+            throw new SystemException(sprintf(lang('igniter::admin.list.filter_missing_scope_definitions'), $scope));
         }
 
         return $this->allScopes[$scope];

@@ -182,6 +182,7 @@ return [
         'button_apply_setup' => 'Apply changes',
         'filter_missing_definitions' => "The model class %s must define a method %s returning options for the '%s' filter.",
         'filter_missing_scope_definitions' => 'No definition for scope %s',
+        'filter_missing_scope_model' => 'No model for scope %s',
         'help_visible_columns' => 'Set which columns are visible and in what order to display them',
         'help_page_limit' => 'Limit how many records are shown per page',
         'alert_relationship_not_supported' => 'The relationship %s is not supported for list columns.',

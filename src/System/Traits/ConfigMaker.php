@@ -52,19 +52,16 @@ trait ConfigMaker
         // Convert config to array
         if (is_object($configFile)) {
             $config = (array)$configFile;
-        }
-        // Embedded config
+        } // Embedded config
         elseif (is_array($configFile)) {
             $config = $configFile;
-        }
-        // Process config from file contents
+        } // Process config from file contents
         else {
             $configFile = $this->getConfigPath($configFile.$this->configFileExtension);
 
             if (!File::isFile($configFile)) {
                 throw new SystemException(sprintf(
-                    Lang::get('igniter::system.not_found.config'),
-                    $configFile, get_called_class()
+                    Lang::get('igniter::system.not_found.config'), $configFile, get_called_class()
                 ));
             }
 
@@ -75,8 +72,7 @@ trait ConfigMaker
         foreach ($requiredConfig as $property) {
             if (!is_array($config) || !array_key_exists($property, $config)) {
                 throw new SystemException(sprintf(
-                    Lang::get('igniter::system.required.config'),
-                    get_called_class(), $property
+                    Lang::get('igniter::system.required.config'), get_called_class(), $property
                 ));
             }
         }

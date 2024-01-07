@@ -2,7 +2,6 @@
 
 namespace Igniter\Flame\Database\Attach;
 
-use Exception;
 use Igniter\Flame\Database\Attach\Events\MediaTagCleared as MediaTagClearedEvent;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -141,7 +140,7 @@ trait HasMedia
     public function findMedia($mediaId)
     {
         if (!$media = $this->media->find($mediaId)) {
-            throw new Exception(sprintf(
+            throw new \RuntimeException(sprintf(
                 "Media with id '%s' cannot be deleted because it does not exist or does not belong to model %s with id %s",
                 $mediaId, get_class($this), $this->getKey()
             ));
@@ -198,7 +197,7 @@ trait HasMedia
                 $foundMedia = Media::findOrFail($newMedia['id']);
 
                 if ($tag !== '*' && $foundMedia->tag !== $tag) {
-                    throw new Exception("Media id {$foundMedia->getKey()} is not part of collection '{$tag}''");
+                    throw new \InvalidArgumentException("Media id {$foundMedia->getKey()} is not part of collection '{$tag}''");
                 }
 
                 $foundMedia->fill($newMedia);

@@ -483,7 +483,7 @@ class ClassLoader
     protected function write(array $manifest)
     {
         if (!is_writable($path = dirname($this->manifestPath))) {
-            throw new Exception('The '.$path.' directory must be present and writable.');
+            throw new \RuntimeException('The '.$path.' directory must be present and writable.');
         }
 
         $this->files->put(

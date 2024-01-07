@@ -2,7 +2,6 @@
 
 namespace Igniter\Flame\Database\Traits;
 
-use Exception;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\System\Helpers\ValidationHelper;
 use Illuminate\Support\Arr;
@@ -10,6 +9,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
+use LogicException;
 
 /**
  * Adapted from https://github.com/dwightwatson/validating/blob/master/src/ValidatingTrait.php
@@ -50,7 +50,7 @@ trait Validation
     public static function bootValidation()
     {
         if (!property_exists(get_called_class(), 'rules')) {
-            throw new Exception(sprintf(
+            throw new LogicException(sprintf(
                 'You must define a $rules property in %s to use the Validation trait.',
                 get_called_class()
             ));

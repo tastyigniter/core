@@ -384,11 +384,11 @@ class ExtensionManager
         );
 
         if (!$class || !class_exists($class)) {
-            throw new SystemException("Missing Extension class '{$class}' in '{$identifier}', create the Extension class to override extensionMeta() method.");
+            throw new \LogicException("Missing Extension class '{$class}' in '{$identifier}', create the Extension class to override extensionMeta() method.");
         }
 
         if (!is_subclass_of($class, BaseExtension::class)) {
-            throw new SystemException("Extension class '{$class}' must extend '".BaseExtension::class."'.");
+            throw new \LogicException("Extension class '{$class}' must extend '".BaseExtension::class."'.");
         }
 
         return app()->resolveProvider($class);
