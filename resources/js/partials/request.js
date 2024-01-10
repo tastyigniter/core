@@ -280,11 +280,10 @@ if (window.jQuery.request !== undefined)
                         // $('body > script')[0].remove();
                         let script = document.createElement('script')
                         script.src = newScriptElement.attr('src')
-                        script.async = true
                         script.addEventListener('load', function() {
                             console.log('new script loaded')
                         })
-                        $('head').append(script)
+                        $('body').append(script)
                         console.log(newScriptElement.attr('src'))
                     }
 

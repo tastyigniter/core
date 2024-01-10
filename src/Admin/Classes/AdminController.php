@@ -274,6 +274,7 @@ class AdminController extends Controller
 
             $params = $this->params;
             array_unshift($params, $this->action);
+            $this->execPageAction($this->action, $params);
             $result = $this->executePageHandler($handler, $params);
 
             foreach ($partials as $partial) {
