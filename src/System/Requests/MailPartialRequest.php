@@ -24,6 +24,7 @@ class MailPartialRequest extends FormRequest
                 Rule::unique('mail_partials')->ignore($this->getRecordId(), 'partial_id'),
             ],
             'html' => ['required', 'string'],
+            'text' => ['nullable', 'string'],
         ];
     }
 }

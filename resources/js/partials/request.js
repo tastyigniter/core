@@ -145,7 +145,7 @@ if (window.jQuery.request !== undefined)
                             requestOptions.handleFlashMessage(message)
                         })
                     } else if (jqXHR.status == 406 && jqXHR.responseJSON) {
-                        errorMsg = jqXHR.responseJSON['X_IGNITER_ERROR_MESSAGE']
+                        errorMsg = validationErrorBagsToString(jqXHR.responseJSON['X_IGNITER_ERROR_FIELDS'])
                         updatePromise = requestOptions.handleUpdateResponse(jqXHR.responseJSON, textStatus, jqXHR)
                     } else {
                         errorMsg = jqXHR.responseText ? jqXHR.responseText : jqXHR.statusText
@@ -200,7 +200,7 @@ if (window.jQuery.request !== undefined)
                     $(window).trigger(_event, [message])
                     if (_event.isDefaultPrevented()) return
                     if (message) {
-                        $.ti.flashMessage({text: message, class: 'danger'})
+                        $.ti.flashMessage({html: message, class: 'danger'})
                     }
                 },
 
@@ -421,5 +421,16 @@ if (window.jQuery.request !== undefined)
 
             $appendToForm.append(input)
         })
+    }
+
+    function validationErrorBagsToString(errorBag) {
+        let formattedErrorMessage = '';
+        for (let errorKey in errorBag) {
+            const errors = errorBag[errorKey]
+            for (let error in errors) {
+                formattedErrorMessage += errors[error] + '<br>'
+            }
+        }
+        return formattedErrorMessage.slice(0, -4)
     }
 }(window.jQuery);

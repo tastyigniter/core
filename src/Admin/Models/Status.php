@@ -43,14 +43,14 @@ class Status extends Model
      */
     public function getStatusForNameAttribute($value)
     {
-        return ($this->status_for == 'reserve') ? lang('igniter::admin.statuses.text_reservation') : lang('igniter::admin.statuses.text_order');
+        return ($this->status_for == 'reservation') ? lang('igniter::admin.statuses.text_reservation') : lang('igniter::admin.statuses.text_order');
     }
 
     public function getStatusForDropdownOptions()
     {
         return [
             'order' => lang('igniter::admin.statuses.text_order'),
-            'reserve' => lang('igniter::admin.statuses.text_reservation'),
+            'reservation' => lang('igniter::admin.statuses.text_reservation'),
         ];
     }
 
@@ -85,7 +85,7 @@ class Status extends Model
      */
     public function scopeIsForReservation($query)
     {
-        return $query->where('status_for', 'reserve');
+        return $query->where('status_for', 'reservation');
     }
 
     //
