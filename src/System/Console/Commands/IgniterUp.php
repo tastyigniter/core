@@ -63,12 +63,12 @@ class IgniterUp extends Command
         }
 
         foreach ([
-                     'cache' => 'cache_bck',
-                     'failed_jobs' => 'failed_jobs_bck',
-                     'jobs' => 'jobs_bck',
-                     'job_batches' => 'job_batches_bck',
-                     'sessions' => 'sessions_bck',
-                 ] as $from => $to) {
+            'cache' => 'cache_bck',
+            'failed_jobs' => 'failed_jobs_bck',
+            'jobs' => 'jobs_bck',
+            'job_batches' => 'job_batches_bck',
+            'sessions' => 'sessions_bck',
+        ] as $from => $to) {
             if (Schema::hasTable($from) && !Schema::hasTable($to)) {
                 $this->components->info(sprintf('Renaming table %s to %s', $from, $to));
                 Schema::rename($from, $to);

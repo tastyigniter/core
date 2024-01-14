@@ -172,7 +172,7 @@ class ThemeManager
 
         collect([$theme->getPath().'/resources', $theme->getPath().'/assets', $theme->getPath()])
             ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath().'/assets', $theme->getParent()->getPath()] : [])
-            ->filter(fn($path) => File::isDirectory($path))
+            ->filter(fn ($path) => File::isDirectory($path))
             ->each(function ($path) use ($theme) {
                 Igniter::loadResourcesFrom($path, $theme->getName());
             });
@@ -592,11 +592,11 @@ class ThemeManager
     protected function validateMetaFile(array $config, string $code): array
     {
         foreach ([
-                     'code',
-                     'name',
-                     'description',
-                     'author',
-                 ] as $item) {
+            'code',
+            'name',
+            'description',
+            'author',
+        ] as $item) {
             if (!array_key_exists($item, $config)) {
                 throw new SystemException(sprintf(
                     Lang::get('igniter::system.missing.config_key'),

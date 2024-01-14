@@ -37,13 +37,14 @@ class ExtensionRemove extends Command
         $extensionName = $extensionManager->getIdentifier(strtolower($extensionName));
         if (!$extensionManager->hasExtension($extensionName)) {
             $this->error(sprintf('Unable to find a registered extension called "%s"', $extensionName));
+
             return;
         }
 
         if (!$forceDelete && !$this->confirmToProceed(sprintf(
-                'This will DELETE extension "%s" from the filesystem and database.',
-                $extensionName
-            ))) {
+            'This will DELETE extension "%s" from the filesystem and database.',
+            $extensionName
+        ))) {
             return;
         }
 

@@ -36,13 +36,14 @@ class ThemeRemove extends Command
         $themeName = strtolower($themeName);
         if (!$themeManager->hasTheme($themeName)) {
             $this->error(sprintf('Unable to find a registered theme called "%s"', $themeName));
+
             return;
         }
 
         if (!$forceDelete && !$this->confirmToProceed(sprintf(
-                'This will DELETE theme "%s" from the filesystem and database.',
-                $themeName
-            ))) {
+            'This will DELETE theme "%s" from the filesystem and database.',
+            $themeName
+        ))) {
             return;
         }
 
