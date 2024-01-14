@@ -1,5 +1,6 @@
 <div
     class="folder-tree px-2"
+    data-folders='@json($folderList)'
 >
     <ul class="list-group list-group-flush">
         @foreach($folderList as $path)
