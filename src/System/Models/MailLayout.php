@@ -31,9 +31,6 @@ class MailLayout extends Model
      */
     protected $primaryKey = 'layout_id';
 
-    /**
-     * @var array The model table column to convert to dates on insert/update
-     */
     public $timestamps = true;
 
     protected $casts = [

@@ -68,7 +68,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     public function makeDefault()
     {
         if (!$this->status) {
-            throw new ValidationException(['status' => sprintf(
+            throw ValidationException::withMessages(['status' => sprintf(
                 lang('igniter::admin.alert_error_set_default'), $this->name
             )]);
         }
@@ -82,7 +82,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return 'code';
     }
 
-    public static function getActiveLocale(): ?static
+    public static function getActiveLocale(): ?self
     {
         if (self::$activeLanguage !== null) {
             return self::$activeLanguage;

@@ -2,12 +2,13 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    level: 2
+    level: 5
     paths:
         - src/
         - config/
         - database/
         - resources/
+    treatPhpDocTypesAsCertain: false
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'
 #    excludePaths:

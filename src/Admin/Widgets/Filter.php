@@ -90,7 +90,7 @@ class Filter extends BaseWidget
         $this->vars['scopes'] = $this->getScopes();
     }
 
-    public function getSearchWidget(): SearchBox
+    public function getSearchWidget(): ?SearchBox
     {
         return $this->searchWidget;
     }
@@ -199,7 +199,7 @@ class Filter extends BaseWidget
      * model relation or from a supplied array. Optionally apply a search
      * constraint to the options.
      */
-    protected function getAvailableOptions(FilterScope $scope): array
+    protected function getAvailableOptions(FilterScope $scope): array|Collection
     {
         if ($scope->options) {
             return $this->getOptionsFromArray($scope);

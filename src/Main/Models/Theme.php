@@ -280,7 +280,7 @@ class Theme extends Model
     {
         do {
             $uniqueCode = $code.($suffix ? '-'.$suffix : '');
-            $suffix = strtolower(str_random('3'));
+            $suffix = strtolower(str_random(3));
         } while (self::themeCodeExists($uniqueCode)); // Already in the DB? Fail. Try again
 
         return $uniqueCode;

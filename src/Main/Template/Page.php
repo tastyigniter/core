@@ -25,7 +25,7 @@ class Page extends Model
      */
     public static function url(string $page, array $params = []): string
     {
-        $controller = MainController::getController() ?: new MainController;
+        $controller = MainController::getController();
 
         return $controller->pageUrl($page, $params);
     }
@@ -59,7 +59,7 @@ class Page extends Model
             return null;
         }
 
-        $controller = MainController::getController() ?: new MainController;
+        $controller = MainController::getController();
         $pageUrl = $controller->pageUrl($item->reference, [], false);
 
         return [

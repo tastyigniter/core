@@ -67,7 +67,7 @@ class MainController extends Controller
     protected ?Page $page = null;
 
     /** Cache of this controller */
-    protected static $controller;
+    protected static ?self $controller = null;
 
     /** Contains the rendered page contents string. */
     protected ?string $pageContents = null;
@@ -356,11 +356,10 @@ class MainController extends Controller
     /**
      * Returns an existing instance of the controller.
      * If the controller doesn't exists, returns null.
-     * @return self Returns the controller object or null.
      */
-    public static function getController(): static
+    public static function getController(): ?self
     {
-        return self::$controller;
+        return self::$controller ?: new self;
     }
 
     /**

@@ -30,9 +30,6 @@ class Staff extends Model
      */
     protected $primaryKey = 'staff_id';
 
-    /**
-     * @var array The model table column to convert to dates on insert/update
-     */
     public $timestamps = true;
 
     protected $guarded = [];

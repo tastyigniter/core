@@ -26,7 +26,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
     public string $defaultTab = 'igniter::admin.form.undefined_tab';
 
     /** Should these tabs stretch to the bottom of the page layout. */
-    public ?string $stretch = null;
+    public ?bool $stretch = null;
 
     /** If set to TRUE, fields will not be displayed in tabs. */
     public bool $suppressTabs = false;

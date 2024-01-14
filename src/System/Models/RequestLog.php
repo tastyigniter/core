@@ -22,9 +22,6 @@ class RequestLog extends Model
 
     protected $guarded = [];
 
-    /**
-     * @var array The model table column to convert to dates on insert/update
-     */
     public $timestamps = true;
 
     protected $casts = [

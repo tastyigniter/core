@@ -284,12 +284,12 @@ class TemplateEditor extends BaseFormWidget
         return optional($this->templateWidget->data)->fileSource->mTime;
     }
 
-    public function getTemplateValue(string $name, ?string $default = null): string
+    public function getTemplateValue(string $name, mixed $default = null): mixed
     {
         return $this->getSession($this->model->code.'-selected-'.$name, $default);
     }
 
-    public function setTemplateValue(string $name, string $value)
+    public function setTemplateValue(string $name, mixed $value)
     {
         $this->putSession($this->model->code.'-selected-'.$name, $value);
     }

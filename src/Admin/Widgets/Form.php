@@ -679,7 +679,7 @@ class Form extends BaseWidget
     /**
      * Returns the active context for displaying the form.
      */
-    public function getContext(): string
+    public function getContext(): ?string
     {
         return $this->context;
     }
@@ -835,7 +835,7 @@ class Form extends BaseWidget
     /**
      * Looks at the model for defined options.
      */
-    protected function getOptionsFromModel(FormField $field, ?array $fieldOptions): mixed
+    protected function getOptionsFromModel(FormField $field, null|string|array $fieldOptions): mixed
     {
         // Advanced usage, supplied options are callable
         if (is_array($fieldOptions) && is_callable($fieldOptions)) {

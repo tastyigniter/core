@@ -226,7 +226,7 @@ class Connector extends BaseFormWidget
         return $this->reload();
     }
 
-    protected function processLoadValue(): array|Collection
+    protected function processLoadValue(): mixed
     {
         $value = $this->getLoadValue();
         if (!$this->sortable) {

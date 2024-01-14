@@ -226,9 +226,7 @@ class Menu extends BaseWidget
             throw FlashException::error(lang('igniter::admin.side_menu.alert_invalid_menu'));
         }
 
-        if (!$item = $this->getItem($itemName)) {
-            throw FlashException::error(sprintf(lang('igniter::admin.side_menu.alert_menu_not_found'), $itemName));
-        }
+        $item = $this->getItem($itemName);
 
         // Return a partial if item has a path defined
         return [

@@ -59,7 +59,6 @@ class SystemHelper
         // ini_set can return false or an empty string depending on your php version / FastCGI.
         // If ini_set has been disabled in php.ini, the value will be null because of our muted error handler
         return
-            $result !== null &&
             $result !== false &&
             $result !== '' &&
             $result !== $newValue;
@@ -110,10 +109,10 @@ class SystemHelper
         switch ($unit) {
             case 'g':
                 $value *= 1024;
-                // no break
+            // no break
             case 'm':
                 $value *= 1024;
-                // no break
+            // no break
             case 'k':
                 $value *= 1024;
         }

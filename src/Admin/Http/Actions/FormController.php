@@ -412,12 +412,6 @@ class FormController extends ControllerAction
 
     /**
      * Sets a data collection to a model attributes, relations will also be set.
-     *
-     * @param \Igniter\Flame\Database\Model $model Model to save to
-     *
-     * @param array $saveData Data to save.
-     *
-     * @return void
      */
     protected function setModelAttributes(Model $model, mixed $saveData)
     {
@@ -430,9 +424,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);

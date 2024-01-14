@@ -145,11 +145,7 @@ class RouterHelper
             return true;
         }
 
-        if ($optMarkerPos !== false && $regexMarkerPos !== false) {
-            return $optMarkerPos < $regexMarkerPos;
-        }
-
-        return false;
+        return $optMarkerPos < $regexMarkerPos;
     }
 
     /**

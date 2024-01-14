@@ -2,7 +2,7 @@
 
 namespace Igniter\System\Models\Concerns;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Query\Builder;
 
 trait Switchable
 {

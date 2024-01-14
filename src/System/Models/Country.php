@@ -52,7 +52,7 @@ class Country extends Model
 
     public function defaultableName()
     {
-        $this->country_name;
+        return $this->country_name;
     }
 
     public static function upsertFromHub()

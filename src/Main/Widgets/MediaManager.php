@@ -159,7 +159,7 @@ class MediaManager extends BaseWidget
         }
 
         if (post('resetSearch')) {
-            $this->setSearchTerm(null);
+            $this->setSearchTerm('');
         }
 
         $this->setCurrentFolder($path);
@@ -274,7 +274,7 @@ class MediaManager extends BaseWidget
 
         $validated = $this->validate(post(), [
             'path' => ['string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
-            'file' => ['filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)', 'ends_with:'.implode(',', array_map(fn ($value) => '.'.$value, $mediaLibrary->getAllowedExtensions()))],
+            'file' => ['filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)', 'ends_with:'.implode(',', array_map(fn($value) => '.'.$value, $mediaLibrary->getAllowedExtensions()))],
             'name' => ['filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)'],
         ], [
             'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),

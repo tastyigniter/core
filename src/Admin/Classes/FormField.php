@@ -408,7 +408,7 @@ class FormField
     /**
      * Returns a value suitable for the field name property.
      */
-    public function getName(?string $arrayName = null): string
+    public function getName(null|false|string $arrayName = null): string
     {
         if ($arrayName === null) {
             $arrayName = $this->arrayName;

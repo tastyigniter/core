@@ -235,7 +235,7 @@ class Repeater extends BaseFormWidget
     /**
      * Returns the load data at a given index.
      */
-    protected function getLoadValueFromIndex(array|Collection $loadValue, mixed $index): mixed
+    protected function getLoadValueFromIndex(mixed $loadValue, mixed $index): mixed
     {
         if (is_array($loadValue)) {
             return array_get($loadValue, $index, []);

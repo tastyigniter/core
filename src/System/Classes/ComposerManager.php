@@ -30,7 +30,7 @@ class ComposerManager
     protected const REPOSITORY_HOST = 'satis.tastyigniter.com';
 
     /** The primary composer instance. */
-    protected ClassLoader $loader;
+    protected ?ClassLoader $loader = null;
 
     protected ?string $storagePath = null;
 

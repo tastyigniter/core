@@ -96,7 +96,7 @@ class Country
         return $this->defaultFormat;
     }
 
-    public function listAll(?string $column = null, string $key = 'country_id'): array
+    public function listAll(?string $column = null, string $key = 'country_id'): Collection
     {
         $this->loadCountries();
 
@@ -116,7 +116,7 @@ class Country
         $result = [];
         foreach ($this->requiredAddressKeys as $key) {
             if ($key == 'country') {
-                $this->processCountryValue($address[$key], $result);
+                $this->processCountryValue($address[$key] ?? '', $result);
             } else {
                 $result[$key] = $address[$key] ?? '';
             }
@@ -127,7 +127,7 @@ class Country
 
     protected function processCountryValue(int|string|array $country, array &$result)
     {
-        if (!is_string($country) && isset($country['country_name'])) {
+        if (is_array($country) && isset($country['country_name'])) {
             $result['country'] = $country['country_name'];
             $result['format'] = $country['format'];
         } elseif (is_numeric($country)) {

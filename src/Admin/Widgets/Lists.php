@@ -122,9 +122,7 @@ class Lists extends BaseWidget
             'defaultSort',
         ]);
 
-        $this->pageLimit = $this->getSession('page_limit',
-            $this->pageLimit ?? 20
-        );
+        $this->pageLimit = $this->getSession('page_limit', $this->pageLimit ?? 20);
 
         if ($this->showPagination == 'auto') {
             $this->showPagination = $this->pageLimit && $this->pageLimit > 0;
@@ -924,10 +922,10 @@ class Lists extends BaseWidget
     /**
      * Returns the current sorting column, saved in a session or cached.
      */
-    protected function getSortColumn(): string
+    protected function getSortColumn(): ?string
     {
         if (!$this->isSortable()) {
-            return false;
+            return null;
         }
 
         if ($this->sortColumn !== null) {

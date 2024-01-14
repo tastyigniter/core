@@ -111,7 +111,7 @@ class IgniterInstall extends Command
             return;
         }
 
-        if (strlen(!$this->laravel['config']['app.key'])) {
+        if (!$this->laravel['config']['app.key']) {
             SystemHelper::replaceInEnv('APP_KEY=', 'APP_KEY='.$this->generateEncryptionKey());
         }
 
@@ -230,7 +230,7 @@ class IgniterInstall extends Command
         return 'base64:'.base64_encode(random_bytes(32));
     }
 
-    protected function moveExampleFile(string $name, string $old, string $new)
+    protected function moveExampleFile(string $name, ?string $old, ?string $new)
     {
         // /$old.$name => /$new.$name
         if (file_exists(base_path().'/'.$old.'.'.$name)) {
@@ -238,7 +238,7 @@ class IgniterInstall extends Command
         }
     }
 
-    protected function copyExampleFile(string $name, string $old, string $new)
+    protected function copyExampleFile(string $name, ?string $old, ?string $new)
     {
         // /$old.$name => /$new.$name
         if (file_exists(base_path().'/'.$old.'.'.$name)) {

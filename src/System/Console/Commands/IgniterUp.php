@@ -6,7 +6,6 @@ use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Console\View\Components\Info;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -55,7 +54,7 @@ class IgniterUp extends Command
     protected function renameConflictingFoundationTables()
     {
         if (Schema::hasColumn('users', 'staff_id')) {
-            $this->output->write(Info::class, 'Renaming tastyigniter admin users table to admin_users');
+            $this->components->info('Renaming tastyigniter admin users table to admin_users');
             Schema::rename('users', 'admin_users');
         }
 
@@ -64,14 +63,14 @@ class IgniterUp extends Command
         }
 
         foreach ([
-            'cache' => 'cache_bck',
-            'failed_jobs' => 'failed_jobs_bck',
-            'jobs' => 'jobs_bck',
-            'job_batches' => 'job_batches_bck',
-            'sessions' => 'sessions_bck',
-        ] as $from => $to) {
+                     'cache' => 'cache_bck',
+                     'failed_jobs' => 'failed_jobs_bck',
+                     'jobs' => 'jobs_bck',
+                     'job_batches' => 'job_batches_bck',
+                     'sessions' => 'sessions_bck',
+                 ] as $from => $to) {
             if (Schema::hasTable($from) && !Schema::hasTable($to)) {
-                $this->output->write(Info::class, sprintf('Renaming table %s to %s', $from, $to));
+                $this->components->info(sprintf('Renaming table %s to %s', $from, $to));
                 Schema::rename($from, $to);
             }
         }
