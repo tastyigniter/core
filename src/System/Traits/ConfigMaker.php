@@ -8,22 +8,15 @@ use Illuminate\Support\Facades\Lang;
 
 trait ConfigMaker
 {
-    /**
-     * @var array Specifies a path to the config directory.
-     */
-    public $configPath;
+    /** Specifies a path to the config directory. */
+    public array $configPath = [];
 
-    protected $configFileExtension = '.php';
+    protected string $configFileExtension = '.php';
 
     /**
      * Reads the contents of the supplied file and applies it to this object.
-     *
-     * @param array $configFile
-     * @param array $requiredConfig
-     *
-     * @return array
      */
-    public function loadConfig($configFile = [], $requiredConfig = [], $index = null)
+    public function loadConfig(mixed $configFile = null, array $requiredConfig = [], $index = null): ?array
     {
         $config = $this->makeConfig($configFile, $requiredConfig);
 
@@ -36,14 +29,8 @@ trait ConfigMaker
 
     /**
      * Reads the contents of the supplied file and applies it to this object.
-     *
-     * @param string|array $configFile
-     * @param array $requiredConfig
-     *
-     * @return array
-     * @throws \Igniter\Flame\Exception\SystemException
      */
-    public function makeConfig($configFile, $requiredConfig = [])
+    public function makeConfig(mixed $configFile, array $requiredConfig = []): ?array
     {
         if (!$configFile) {
             $configFile = [];
@@ -86,7 +73,7 @@ trait ConfigMaker
      *
      * @return array The config array
      */
-    public function mergeConfig($configLeft, $configRight)
+    public function mergeConfig(array $configLeft, array $configRight): array
     {
         $configLeft = $this->makeConfig($configLeft);
 
@@ -99,13 +86,8 @@ trait ConfigMaker
      * Locates a file based on it's definition. If the file starts with
      * the ~ symbol it will be returned in context of the application base path,
      * otherwise it will be returned in context of the config path.
-     *
-     * @param string $fileName File to load.
-     * @param mixed $configPath Explicitly define a config path.
-     *
-     * @return string Full path to the config file.
      */
-    public function getConfigPath($fileName, $configPath = null)
+    public function getConfigPath(string $fileName, null|string|array $configPath = null): string
     {
         if (!$configPath) {
             $configPath = $this->configPath;

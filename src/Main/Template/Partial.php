@@ -6,20 +6,16 @@ use Igniter\Flame\Pagic\Model;
 
 class Partial extends Model
 {
-    /**
-     * @var string The directory name associated with the model
-     */
+    /** The directory name associated with the model */
     public const DIR_NAME = '_partials';
 
-    public $settings = [];
+    public array $settings = [];
 
     /**
      * Returns name of a PHP class to use as parent
      * for the PHP class created for the template's PHP section.
-     *
-     * @return mixed Returns the class name or null.
      */
-    public function getCodeClassParent()
+    public function getCodeClassParent(): string
     {
         return \Igniter\Main\Template\Code\PartialCode::class;
     }

@@ -8,6 +8,7 @@ use Igniter\Cart\Models\Order;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\Reservation\Models\Reservation;
 use Igniter\User\Models\Customer;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Statistic dashboard widget.
@@ -19,7 +20,7 @@ class Statistics extends BaseDashboardWidget
     /**
      * @var string A unique alias to identify this widget.
      */
-    protected $defaultAlias = 'statistics';
+    protected string $defaultAlias = 'statistics';
 
     /**
      * Renders the widget.
@@ -31,7 +32,7 @@ class Statistics extends BaseDashboardWidget
         return $this->makePartial('statistics/statistics');
     }
 
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [
             'context' => [
@@ -54,7 +55,7 @@ class Statistics extends BaseDashboardWidget
         ];
     }
 
-    public function listContext()
+    public function listContext(): array
     {
         return [
             'sale' => [
@@ -108,24 +109,24 @@ class Statistics extends BaseDashboardWidget
         ];
     }
 
-    public function getContextOptions()
+    public function getContextOptions(): array
     {
         return array_map(function ($context) {
             return array_get($context, 'label');
         }, $this->listContext());
     }
 
-    public function getContextLabel($context)
+    public function getContextLabel($context): string
     {
         return array_get(array_get($this->listContext(), $context, []), 'label', '--');
     }
 
-    public function getContextColor($context)
+    public function getContextColor($context): string
     {
         return array_get(array_get($this->listContext(), $context, []), 'color', 'success');
     }
 
-    public function getContextIcon($context)
+    public function getContextIcon($context): string
     {
         return array_get(array_get($this->listContext(), $context, []), 'icon', 'fa fa-4x fa-bar-chart-o');
     }
@@ -143,7 +144,7 @@ class Statistics extends BaseDashboardWidget
         $this->vars['statsCount'] = $this->callContextCountMethod($context);
     }
 
-    protected function callContextCountMethod($context)
+    protected function callContextCountMethod(string $context): int|string
     {
         $count = 0;
         $contextMethod = 'getTotal'.studly_case($context).'Sum';
@@ -157,7 +158,7 @@ class Statistics extends BaseDashboardWidget
         return empty($count) ? 0 : $count;
     }
 
-    protected function applyRangeQuery($query, $range)
+    protected function applyRangeQuery(Builder $query, string $range)
     {
         if ($range === 'week') {
             $start = Carbon::now()->subWeek();
@@ -177,10 +178,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total amount of order sales
-     *
-     * @return string
      */
-    protected function getTotalSaleSum($range, $callback)
+    protected function getTotalSaleSum(string $range, \Closure $callback): string
     {
         $query = Order::query();
         $query->where('status_id', '>', '0')
@@ -193,10 +192,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total amount of lost order sales
-     *
-     * @return string
      */
-    protected function getTotalLostSaleSum($range, $callback)
+    protected function getTotalLostSaleSum(string $range, \Closure $callback): string
     {
         $query = Order::query();
         $query->where(function ($query) {
@@ -211,10 +208,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total amount of cash payment order sales
-     *
-     * @return string
      */
-    protected function getTotalCashPaymentSum($range, $callback)
+    protected function getTotalCashPaymentSum(string $range, \Closure $callback): string
     {
         $query = Order::query();
         $query->where(function ($query) {
@@ -229,10 +224,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total number of customers
-     *
-     * @return int
      */
-    protected function getTotalCustomerSum($range, $callback)
+    protected function getTotalCustomerSum(string $range, \Closure $callback): int
     {
         $query = Customer::query();
         $this->applyRangeQuery($query, $range);
@@ -242,10 +235,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total number of orders placed
-     *
-     * @return int
      */
-    protected function getTotalOrderSum($range, $callback)
+    protected function getTotalOrderSum(string $range, \Closure $callback): int
     {
         $query = Order::query();
 
@@ -256,10 +247,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total number of completed orders
-     *
-     * @return int
      */
-    protected function getTotalCompletedOrderSum($range, $callback)
+    protected function getTotalCompletedOrderSum(string $range, \Closure $callback): int
     {
         $query = Order::query();
         $query->whereIn('status_id', setting('completed_order_status') ?? []);
@@ -271,12 +260,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total number of delivery orders
-     *
-     * @param string $range
-     *
-     * @return int
      */
-    protected function getTotalDeliveryOrderSum($range, $callback)
+    protected function getTotalDeliveryOrderSum(string $range, \Closure $callback): string
     {
         $query = Order::query();
         $query->where(function ($query) {
@@ -291,10 +276,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total number of collection orders
-     *
-     * @return int
      */
-    protected function getTotalCollectionOrderSum($range, $callback)
+    protected function getTotalCollectionOrderSum(string $range, \Closure $callback): string
     {
         $query = Order::query();
         $query->where(function ($query) {
@@ -309,10 +292,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total number of reserved tables
-     *
-     * @return int
      */
-    protected function getTotalReservedTableSum($range, $callback)
+    protected function getTotalReservedTableSum(string $range, \Closure $callback): int
     {
         $query = Reservation::with('tables');
         $query->where('status_id', setting('confirmed_reservation_status'));
@@ -328,10 +309,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total number of reserved table guests
-     *
-     * @return int
      */
-    protected function getTotalReservedGuestSum($range, $callback)
+    protected function getTotalReservedGuestSum(string $range, \Closure $callback): int
     {
         $query = Reservation::query();
         $query->where('status_id', setting('confirmed_reservation_status'));
@@ -343,10 +322,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total number of reservations
-     *
-     * @return int
      */
-    protected function getTotalReservationSum($range, $callback)
+    protected function getTotalReservationSum(string $range, \Closure $callback): int
     {
         $query = Reservation::query();
         $query->where('status_id', '!=', setting('canceled_reservation_status'));
@@ -358,10 +335,8 @@ class Statistics extends BaseDashboardWidget
 
     /**
      * Return the total number of completed reservations
-     *
-     * @return int
      */
-    protected function getTotalCompletedReservationSum($range, $callback)
+    protected function getTotalCompletedReservationSum(string $range, \Closure $callback): int
     {
         $query = Reservation::query();
         $query->where('status_id', setting('confirmed_reservation_status'));

@@ -2,6 +2,8 @@
 
 namespace Igniter\Admin\Classes;
 
+use Illuminate\Support\Collection;
+
 /**
  * Bulk Action Widget base class
  * Widgets used specifically for lists
@@ -63,7 +65,7 @@ class BaseBulkActionWidget extends BaseWidget
         return $this->actionButton;
     }
 
-    public function handleAction($requestData, $records)
+    public function handleAction(array $requestData, Collection $records)
     {
     }
 }

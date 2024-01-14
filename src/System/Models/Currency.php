@@ -110,32 +110,32 @@ class Currency extends Model implements CurrencyInterface
     //
     //
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->currency_id;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->currency_name;
     }
 
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->currency_code;
     }
 
-    public function getSymbol()
+    public function getSymbol(): ?string
     {
         return $this->currency_symbol;
     }
 
-    public function getSymbolPosition()
+    public function getSymbolPosition(): ?string
     {
         return $this->symbol_position;
     }
 
-    public function getFormat()
+    public function getFormat(): string
     {
         $format = ($this->thousand_sign ?: '!').'0'.$this->decimal_sign;
         $format .= str_repeat('0', $this->decimal_position);
@@ -145,7 +145,7 @@ class Currency extends Model implements CurrencyInterface
             : $this->getSymbol().'1'.$format;
     }
 
-    public function getRate()
+    public function getRate(): ?string
     {
         return $this->currency_rate;
     }

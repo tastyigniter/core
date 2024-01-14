@@ -6,12 +6,12 @@ use Igniter\Admin\Facades\AdminMenu;
 
 class Statuses extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\Admin\Models\Status::class,
             'title' => 'lang:igniter::admin.statuses.text_title',
@@ -21,7 +21,7 @@ class Statuses extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter::admin.statuses.text_form_name',
         'model' => \Igniter\Admin\Models\Status::class,
         'request' => \Igniter\Admin\Requests\StatusRequest::class,
@@ -47,7 +47,7 @@ class Statuses extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'status',
     ];
 
-    protected $requiredPermissions = 'Admin.Statuses';
+    protected null|string|array $requiredPermissions = 'Admin.Statuses';
 
     public function __construct()
     {

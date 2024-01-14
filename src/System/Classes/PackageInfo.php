@@ -27,7 +27,7 @@ class PackageInfo
     ) {
     }
 
-    public static function fromArray(array $array)
+    public static function fromArray(array $array): static
     {
         return new static(
             $array['code'],
@@ -47,7 +47,7 @@ class PackageInfo
         );
     }
 
-    public function isCore()
+    public function isCore(): bool
     {
         return $this->type === 'core';
     }
@@ -70,7 +70,7 @@ class PackageInfo
         return Markdown::parse($tag['description']);
     }
 
-    public function publishedAt()
+    public function publishedAt(): string
     {
         return make_carbon($this->publishedAt)->isoFormat(lang('igniter::system.moment.date_format'));
     }

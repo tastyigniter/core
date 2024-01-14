@@ -10,7 +10,6 @@ class DemoSchemaSeeder extends Seeder
 {
     /**
      * Run the demo schema seeds.
-     * @return void
      */
     public function run()
     {
@@ -23,22 +22,6 @@ class DemoSchemaSeeder extends Seeder
         $this->seedMenuOptions();
 
         $this->seedMenuItems();
-    }
-
-    protected function seedWorkingHours($locationId)
-    {
-        foreach (['opening', 'delivery', 'collection'] as $type) {
-            foreach (['0', '1', '2', '3', '4', '5', '6'] as $day) {
-                DB::table('working_hours')->insert([
-                    'location_id' => $locationId,
-                    'weekday' => $day,
-                    'type' => $type,
-                    'opening_time' => '00:00',
-                    'closing_time' => '23:59',
-                    'status' => 1,
-                ]);
-            }
-        }
     }
 
     protected function seedCategories()

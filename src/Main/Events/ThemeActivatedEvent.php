@@ -13,7 +13,7 @@ class ThemeActivatedEvent
     {
     }
 
-    public static function eventName()
+    public static function eventName(): string
     {
         return 'main.theme.activated';
     }

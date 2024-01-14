@@ -57,7 +57,7 @@ trait SessionMaker
         session()->forget($this->makeSessionKey());
     }
 
-    public function setSessionKey(string $key)
+    public function setSessionKey(string $key): self
     {
         $this->sessionKey = $key;
 

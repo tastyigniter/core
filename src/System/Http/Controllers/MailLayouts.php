@@ -3,15 +3,17 @@
 namespace Igniter\System\Http\Controllers;
 
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Widgets\Form;
+use Igniter\System\Models\MailLayout;
 
 class MailLayouts extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\System\Models\MailLayout::class,
             'title' => 'lang:igniter::system.mail_templates.text_title',
@@ -22,7 +24,7 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter::system.mail_templates.text_form_name',
         'model' => \Igniter\System\Models\MailLayout::class,
         'request' => \Igniter\System\Requests\MailLayoutRequest::class,
@@ -48,7 +50,7 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'maillayout',
     ];
 
-    protected $requiredPermissions = 'Admin.MailTemplates';
+    protected null|string|array $requiredPermissions = 'Admin.MailTemplates';
 
     public function __construct()
     {
@@ -57,7 +59,7 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('mail_templates', 'design');
     }
 
-    public function formExtendFields($form)
+    public function formExtendFields(Form $form)
     {
         if ($form->context != 'create') {
             $field = $form->getField('code');
@@ -65,7 +67,7 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
         }
     }
 
-    public function formBeforeSave($model)
+    public function formBeforeSave(MailLayout $model)
     {
         $model->is_locked = true;
     }

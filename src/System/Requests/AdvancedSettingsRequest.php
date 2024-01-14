@@ -6,7 +6,7 @@ use Igniter\System\Classes\FormRequest;
 
 class AdvancedSettingsRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'enable_request_log' => lang('igniter::system.settings.label_enable_request_log'),
@@ -16,7 +16,7 @@ class AdvancedSettingsRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'enable_request_log' => ['required', 'boolean'],

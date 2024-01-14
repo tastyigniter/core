@@ -7,22 +7,22 @@ use Symfony\Component\Mime\Address;
 
 trait SendsMailTemplate
 {
-    public function mailGetReplyTo()
+    public function mailGetReplyTo(): array
     {
         return [];
     }
 
-    public function mailGetRecipients($type)
+    public function mailGetRecipients(string $type): array
     {
         return [];
     }
 
-    public function mailGetData()
+    public function mailGetData(): array
     {
         return [];
     }
 
-    public function mailSend($view, $recipientType = null)
+    public function mailSend(string $view, ?string $recipientType = null)
     {
         $vars = $this->mailGetData();
 
@@ -36,7 +36,7 @@ trait SendsMailTemplate
         }
     }
 
-    protected function mailBuildMessageTo($recipientType = null)
+    protected function mailBuildMessageTo(?string $recipientType = null): array
     {
         $recipients = [];
         foreach ($this->mailGetRecipients($recipientType) as $recipient) {

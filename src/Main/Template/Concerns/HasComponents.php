@@ -2,22 +2,18 @@
 
 namespace Igniter\Main\Template\Concerns;
 
-use Igniter\System\Classes\ComponentManager;
+use Igniter\System\Classes\BaseComponent;
 
 trait HasComponents
 {
-    public $loadedComponents = [];
+    public array $loadedComponents = [];
 
     /**
      * Returns a component by its name.
      * This method is used only in the admin and for internal system needs when
      * the standard way to access components is not an option.
-     *
-     * @param string $componentName Specifies the component name.
-     *
-     * @return \Igniter\System\Classes\BaseComponent
      */
-    public function getComponent($componentName)
+    public function getComponent(string $componentName): ?BaseComponent
     {
         if (!$this->hasComponent($componentName)) {
             return null;
@@ -28,19 +24,15 @@ trait HasComponents
 
     /**
      * Checks if the object has a component with the specified name.
-     *
-     * @param string $componentName Specifies the component name.
-     *
-     * @return mixed Return false or the full component name used on the page (it could include the alias).
      */
-    public function hasComponent($componentName)
+    public function hasComponent(string $componentName): bool
     {
         $components = $this->settings['components'] ?? [];
 
         return array_has(is_array($components) ? $components : [], $componentName);
     }
 
-    public function updateComponent($alias, array $properties)
+    public function updateComponent(string $alias, array $properties): bool
     {
         $attributes = $this->attributes;
 
@@ -67,54 +59,9 @@ trait HasComponents
         $this->attributes['settings']['components'] = $components;
     }
 
-    public function getComponents()
+    public function getComponents(): array
     {
         return $this->settings['components'] ?? [];
-    }
-
-    //
-    //
-    //
-
-    public function makeComponent($componentName)
-    {
-        if (!$name = $this->resolveComponentName($componentName)) {
-            return null;
-        }
-
-        return resolve(ComponentManager::class)->makeComponent(
-            $componentName,
-            null,
-            $this->settings['components'][$name]
-        );
-    }
-
-    public function resolveComponentName($componentName)
-    {
-        $componentManager = resolve(ComponentManager::class);
-        $componentName = $componentManager->resolve($componentName);
-
-        foreach ($this->settings['components'] ?? [] as $name => $values) {
-            $result = $name;
-            if ($name == $componentName) {
-                return $result;
-            }
-
-            $parts = explode(' ', $name);
-            if (count($parts) > 1) {
-                $name = trim($parts[0]);
-                if ($name == $componentName) {
-                    return $result;
-                }
-            }
-
-            $name = $componentManager->resolve($name);
-            if ($name == $componentName) {
-                return $result;
-            }
-        }
-
-        return false;
     }
 
     public function runComponents()

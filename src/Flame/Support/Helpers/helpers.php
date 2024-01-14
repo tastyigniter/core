@@ -1,7 +1,7 @@
 <?php
 
 use Carbon\Carbon;
-use Igniter\Admin\Facades\AdminHelper;
+use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Currency\Currency;
 use Igniter\Flame\Support\StringParser;
 use Illuminate\Routing\UrlGenerator;

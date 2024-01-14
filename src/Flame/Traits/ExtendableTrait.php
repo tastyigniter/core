@@ -20,12 +20,12 @@ trait ExtendableTrait
     /**
      * A list of controller behavours/traits to be implemented
      */
-    public $implement = [];
+    public array $implement = [];
 
     /**
      * @var array Class reflection information, including behaviors.
      */
-    protected $extensionData = [
+    protected array $extensionData = [
         'extensions' => [],
         'methods' => [],
         'dynamicMethods' => [],
@@ -337,7 +337,7 @@ trait ExtendableTrait
             }
         }
 
-        $parent = get_parent_class();
+        $parent = get_parent_class(__CLASS__);
         if ($parent !== false && method_exists($parent, '__get')) {
             return parent::__get($name);
         }
@@ -361,7 +361,7 @@ trait ExtendableTrait
         /*
          * This targets trait usage in particular
          */
-        $parent = get_parent_class();
+        $parent = get_parent_class(__CLASS__);
         if ($parent !== false && method_exists($parent, '__set')) {
             parent::__set($name, $value);
         }
@@ -396,7 +396,7 @@ trait ExtendableTrait
             }
         }
 
-        $parent = get_parent_class();
+        $parent = get_parent_class(__CLASS__);
         if ($parent !== false && method_exists($parent, '__call')) {
             return parent::__call($name, $params);
         }
@@ -461,10 +461,10 @@ trait ExtendableTrait
             }
         }
 
-        // $parent = get_parent_class($className);
-        // if ($parent !== false && method_exists($parent, '__callStatic')) {
-        //    return parent::__callStatic($name, $params);
-        // }
+        $parent = get_parent_class(__CLASS__);
+        if ($parent !== false && method_exists($parent, '__callStatic')) {
+            return parent::__callStatic($name, $params);
+        }
 
         throw new BadMethodCallException(sprintf(
             'Call to undefined method %s::%s()',

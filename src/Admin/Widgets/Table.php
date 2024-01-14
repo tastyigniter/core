@@ -10,40 +10,28 @@ use Illuminate\Support\Facades\Request;
 
 class Table extends BaseWidget
 {
-    protected $defaultAlias = 'table';
+    protected string $defaultAlias = 'table';
 
-    /**
-     * @var array Table columns
-     */
-    protected $columns = [];
+    /** Table columns */
+    protected array $columns = [];
 
-    /**
-     * @var bool Show data table header
-     */
-    protected $showHeader = true;
+    /** Show data table header */
+    protected bool $showHeader = true;
 
-    /**
-     * @var \Igniter\Admin\Classes\TableDataSource
-     */
-    protected $dataSource = null;
+    protected ?TableDataSource $dataSource = null;
 
-    /**
-     * @var string Field name used for request data.
-     */
-    protected $fieldName = null;
+    /** Field name used for request data. */
+    protected ?string $fieldName = null;
 
-    /**
-     * @var string
-     */
-    protected $recordsKeyFrom;
+    protected ?string $recordsKeyFrom = null;
 
-    protected $dataSourceAliases = \Igniter\Admin\Classes\TableDataSource::class;
+    protected string $dataSourceAliases = \Igniter\Admin\Classes\TableDataSource::class;
 
-    public $showPagination = true;
+    public bool $showPagination = true;
 
-    public $useAjax = false;
+    public bool $useAjax = false;
 
-    public $pageLimit = 10;
+    public int $pageLimit = 10;
 
     /**
      * Initialize the widget, called by the constructor and free from its parameters.
@@ -54,8 +42,7 @@ class Table extends BaseWidget
         $this->fieldName = $this->getConfig('fieldName', $this->alias);
         $this->recordsKeyFrom = $this->getConfig('keyFrom', 'rows');
 
-        $dataSourceClass = $this->getConfig('dataSource');
-        if (!strlen($dataSourceClass)) {
+        if (!$this->getConfig('dataSource')) {
             throw new SystemException(lang('igniter::admin.error_table_widget_data_not_specified'));
         }
 
@@ -68,7 +55,7 @@ class Table extends BaseWidget
         $this->dataSource = new $dataSourceClass($this->recordsKeyFrom);
 
         if (Request::method() == 'post' && $this->isClientDataSource()) {
-            if (strpos($this->fieldName, '[') === false) {
+            if (!str_contains($this->fieldName, '[')) {
                 $requestDataField = $this->fieldName.'TableData';
             } else {
                 $requestDataField = $this->fieldName.'[TableData]';
@@ -84,9 +71,8 @@ class Table extends BaseWidget
 
     /**
      * Returns the data source object.
-     * @return \Igniter\Admin\Classes\TableDataSource
      */
-    public function getDataSource()
+    public function getDataSource(): TableDataSource
     {
         return $this->dataSource;
     }
@@ -131,7 +117,7 @@ class Table extends BaseWidget
         $this->addJs('table.js', 'table-js');
     }
 
-    public function prepareColumnsArray()
+    public function prepareColumnsArray(): array
     {
         $result = [];
 
@@ -152,17 +138,17 @@ class Table extends BaseWidget
         return $result;
     }
 
-    public function getAttributes()
+    public function getAttributes(): string
     {
         return HtmlFacade::attributes($this->getConfig('attributes', []));
     }
 
-    protected function isClientDataSource()
+    protected function isClientDataSource(): bool
     {
         return $this->dataSource instanceof TableDataSource;
     }
 
-    public function onGetRecords()
+    public function onGetRecords(): array
     {
         $search = Request::post('search', '');
         $offset = Request::post('offset', 1);
@@ -178,7 +164,7 @@ class Table extends BaseWidget
         ];
     }
 
-    public function onGetDropdownOptions()
+    public function onGetDropdownOptions(): array
     {
         $columnName = Request::get('column');
         $rowData = Request::get('rowData');
@@ -195,7 +181,7 @@ class Table extends BaseWidget
         ];
     }
 
-    public function processRecords($records)
+    public function processRecords(array $records): array
     {
         foreach ($records as $index => $record) {
             $records[$index] = $this->processRecord($record);
@@ -204,7 +190,7 @@ class Table extends BaseWidget
         return $records;
     }
 
-    protected function processRecord($record)
+    protected function processRecord(array $record): array
     {
         foreach ($this->columns as $key => $column) {
             if (isset($record[$key], $column['partial'])) {

@@ -3,11 +3,13 @@
 namespace Igniter\Admin\Traits;
 
 use Closure;
+use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Igniter;
 use Igniter\System\Helpers\ValidationHelper;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 
@@ -17,15 +19,13 @@ trait ValidatesForm
 
     /**
      * Validate the given request with the given rules.
-     *
-     * @return array|bool
      */
-    public function validatePasses($request, array $rules, array $messages = [], array $customAttributes = [])
+    public function validatePasses(mixed $request, array $rules, array $messages = [], array $customAttributes = []): array|false
     {
         $validator = $this->makeValidator($request, $rules, $messages, $customAttributes);
 
         if ($validator->fails()) {
-            $this->flashValidationErrors($validator->errors());
+            $this->flashValidationErrors($validator->errors()->toArray());
 
             return false;
         }
@@ -35,15 +35,13 @@ trait ValidatesForm
 
     /**
      * Validate the given request with the given rules.
-     *
-     * @return array
      */
-    public function validate($request, array $rules, array $messages = [], array $customAttributes = [])
+    public function validate(mixed $request, array $rules, array $messages = [], array $customAttributes = []): array
     {
         $validator = $this->makeValidator($request, $rules, $messages, $customAttributes);
 
         if ($validator->fails()) {
-            $this->flashValidationErrors($validator->errors());
+            $this->flashValidationErrors($validator->errors()->toArray());
 
             throw new ValidationException($validator);
         }
@@ -51,7 +49,7 @@ trait ValidatesForm
         return $validator->validated();
     }
 
-    public function makeValidator($request, array $rules, array $messages = [], array $customAttributes = [])
+    public function makeValidator(mixed $request, array $rules, array $messages = [], array $customAttributes = []): Validator
     {
         $parsed = ValidationHelper::prepareRules($rules);
         $rules = Arr::get($parsed, 'rules', $rules);
@@ -68,7 +66,7 @@ trait ValidatesForm
         return $validator;
     }
 
-    public function parseRules(array $rules)
+    public function parseRules(array $rules): array
     {
         if (!isset($rules[0])) {
             return $rules;
@@ -82,7 +80,7 @@ trait ValidatesForm
         return $result;
     }
 
-    public function parseAttributes(array $rules)
+    public function parseAttributes(array $rules): array
     {
         if (!isset($rules[0])) {
             return [];
@@ -101,7 +99,7 @@ trait ValidatesForm
         $this->validateAfterCallback = $callback;
     }
 
-    protected function flashValidationErrors($errors)
+    protected function flashValidationErrors(array $errors)
     {
         $sessionKey = 'errors';
 
@@ -109,10 +107,10 @@ trait ValidatesForm
             $sessionKey = 'admin_errors';
         }
 
-        return Session::flash($sessionKey, $errors);
+        Session::flash($sessionKey, $errors);
     }
 
-    protected function validateFormWidget($form, $saveData)
+    protected function validateFormWidget(Form $form, mixed $saveData): mixed
     {
         $validated = [];
 
@@ -140,7 +138,7 @@ trait ValidatesForm
         return $validated ?: $saveData;
     }
 
-    protected function validateFormRequest($requestClass, $model, $callback)
+    protected function validateFormRequest(?string $requestClass, callable $callback)
     {
         if (!$requestClass || !class_exists($requestClass)) {
             throw FlashException::error(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
@@ -149,7 +147,7 @@ trait ValidatesForm
         return $this->resolveFormRequest($requestClass, $callback)->validated();
     }
 
-    protected function resolveFormRequest($requestClass, $callback)
+    protected function resolveFormRequest(string $requestClass, callable $callback)
     {
         app()->resolving($requestClass, $callback);
 

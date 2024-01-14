@@ -2,26 +2,21 @@
 
 namespace Igniter\Admin\Classes;
 
-use Igniter\Admin\Http\Controllers\Login;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
 
 class RouteRegistrar
 {
-    protected $router;
-
-    public function __construct(Router $router)
+    public function __construct(protected Router $router)
     {
-        $this->router = $router;
     }
 
     /**
      * Register routes for admin and frontend.
-     *
-     * @return void
      */
     public function all()
     {
@@ -45,16 +40,6 @@ class RouteRegistrar
     public function forAdminPages()
     {
         $this->router
-            ->middleware('igniter')
-            ->domain(config('igniter-routes.adminDomain'))
-            ->prefix(Igniter::adminUri())
-            ->group(function (Router $router) {
-                $router->name('igniter.admin')->any('/', [Login::class, 'index']);
-                $router->any('/login', [Login::class, 'index'])->name('igniter.admin.login');
-                $router->any('/login/reset/{slug?}', [Login::class, 'reset'])->name('igniter.admin.reset');
-            });
-
-        $this->router
             ->middleware('igniter:admin')
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
@@ -66,7 +51,7 @@ class RouteRegistrar
             });
     }
 
-    protected function getAdminPages()
+    protected function getAdminPages(): Collection
     {
         return collect(Igniter::controllerPath())
             ->flatMap(function ($path, $namespace) {
@@ -82,15 +67,14 @@ class RouteRegistrar
             ->filter(fn ($class) => $this->isAdminPage($class));
     }
 
-    protected function isAdminPage($class)
+    protected function isAdminPage(string $class): bool
     {
         return is_subclass_of($class, AdminController::class)
             && !(new ReflectionClass($class))->isAbstract()
-            && $class !== Login::class
             && !$class::$skipRouteRegister;
     }
 
-    protected function guessRouteUri($class)
+    protected function guessRouteUri(string $class): array
     {
         if (Str::startsWith($class, config('igniter-routes.coreNamespaces', []))) {
             $uri = $resource = strtolower(snake_case(class_basename($class)));

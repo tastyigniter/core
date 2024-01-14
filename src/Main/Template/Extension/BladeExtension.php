@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\System\Template\Extension;
+namespace Igniter\Main\Template\Extension;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
@@ -31,22 +31,22 @@ class BladeExtension
     //
     //
 
-    public function compilesStyles($expression)
+    public function compilesStyles(string $expression): string
     {
         return "<?php echo \Igniter\System\Facades\Assets::getCss(); ?>\n".
             "<?php echo \$__env->yieldPushContent('styles'); ?>";
     }
 
-    public function compilesScripts($expression)
+    public function compilesScripts(string $expression): string
     {
         return "<?php echo \Igniter\System\Facades\Assets::getJs(); ?>\n".
             "<?php echo \$__env->yieldPushContent('scripts'); ?>";
     }
 
-    public function compilesPartial($expression)
+    public function compilesPartial(string $expression): string
     {
         $expression = $this->stripParentheses($expression);
-        [$partial, $data] = strpos($expression, ',') !== false
+        [$partial, $data] = str_contains($expression, ',')
             ? array_map('trim', explode(',', trim($expression, '()'), 2)) + ['', '[]']
             : [trim($expression, '()'), '[]'];
 
@@ -59,10 +59,10 @@ class BladeExtension
         return "<?php echo \$__env->make({$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
     }
 
-    public function compilesPartialIf($expression)
+    public function compilesPartialIf(string $expression): string
     {
         $expression = $this->stripParentheses($expression);
-        [$partial, $data] = strpos($expression, ',') !== false
+        [$partial, $data] = str_contains($expression, ',')
             ? array_map('trim', explode(',', trim($expression, '()'), 2)) + ['', '[]']
             : [trim($expression, '()'), '[]'];
 
@@ -75,7 +75,7 @@ class BladeExtension
         return "<?php if (\$__env->exists({$expression})) echo \$__env->make({$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
     }
 
-    public function compilesPartialWhen($expression)
+    public function compilesPartialWhen(string $expression): string
     {
         $expression = $this->stripParentheses($expression);
         $expression = $this->appendPartialPath($expression);
@@ -83,7 +83,7 @@ class BladeExtension
         return "<?php echo \$__env->renderWhen($expression, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path'])); ?>";
     }
 
-    public function compilesPartialUnless($expression)
+    public function compilesPartialUnless(string $expression): string
     {
         $expression = $this->stripParentheses($expression);
         $expression = $this->appendPartialPath($expression);
@@ -91,7 +91,7 @@ class BladeExtension
         return "<?php echo \$__env->renderWhen(! $expression, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path'])); ?>";
     }
 
-    public function compilesPartialFirst($expression)
+    public function compilesPartialFirst(string $expression): string
     {
         $expression = $this->stripParentheses($expression);
         $expression = $this->appendPartialPath($expression);
@@ -103,32 +103,32 @@ class BladeExtension
     //
     //
 
-    public function compilesThemeContent($expression)
+    public function compilesThemeContent(string $expression): string
     {
         return "<?php echo controller()->renderContent({$expression}); ?>";
     }
 
-    public function compilesComponentPartial($expression)
+    public function compilesComponentPartial(string $expression): string
     {
         return "<?php echo controller()->renderComponent({$expression}); ?>";
     }
 
-    public function compilesComponentPartialIf($expression)
+    public function compilesComponentPartialIf(string $expression): string
     {
         return "<?php if (controller()->hasComponent({$expression})) echo controller()->renderComponent({$expression}); ?>";
     }
 
-    public function compilesPage($expression)
+    public function compilesPage(string $expression): string
     {
         return '<?php echo controller()->renderPage(); ?>';
     }
 
-    public function compilesThemePartial($expression)
+    public function compilesThemePartial(string $expression): string
     {
         return "<?php echo controller()->renderPartial({$expression}); ?>";
     }
 
-    public function compilesThemePartialIf($expression)
+    public function compilesThemePartialIf(string $expression): string
     {
         return "<?php if (controller()->hasComponent({$expression})) echo controller()->renderPartial({$expression}); ?>";
     }
@@ -137,12 +137,12 @@ class BladeExtension
     //
     //
 
-    public function stripQuotes($string)
+    public function stripQuotes(string $string): string
     {
         return preg_replace("/[\"\']/", '', $string);
     }
 
-    public function stripParentheses($expression)
+    public function stripParentheses(string $expression): string
     {
         if (Str::startsWith($expression, '(')) {
             $expression = substr($expression, 1, -1);
@@ -151,9 +151,9 @@ class BladeExtension
         return $expression;
     }
 
-    public function appendPartialPath($expression)
+    public function appendPartialPath(string $expression): string
     {
-        [$condition, $partial, $data] = strpos($expression, ',') !== false
+        [$condition, $partial, $data] = str_contains($expression, ',')
             ? array_map('trim', explode(',', trim($expression, '()'), 2)) + ['', '', '[]']
             : [trim($expression, '()'), '', '[]'];
 
@@ -164,7 +164,7 @@ class BladeExtension
         return sprintf('%s, %s, %s', $condition, '"'.$partial.'"', $data);
     }
 
-    public function guessViewName($name, $prefix = 'components.')
+    public function guessViewName(string $name, string $prefix = 'components.'): string
     {
         if (!Str::endsWith($prefix, '.')) {
             $prefix .= '.';

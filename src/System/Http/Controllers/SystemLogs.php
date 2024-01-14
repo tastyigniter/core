@@ -9,9 +9,9 @@ use Igniter\Flame\Support\LogViewer;
 
 class SystemLogs extends \Igniter\Admin\Classes\AdminController
 {
-    protected $requiredPermissions = 'Admin.SystemLogs';
+    protected null|string|array $requiredPermissions = 'Admin.SystemLogs';
 
-    protected $logFile = 'system.';
+    protected string $logFile = '/logs/laravel';
 
     public function index()
     {
@@ -58,17 +58,15 @@ class SystemLogs extends \Igniter\Admin\Classes\AdminController
 
     /**
      * Get the path to the logs file
-     *
-     * @return string
      */
-    protected function getLogsFile()
+    protected function getLogsFile(): string
     {
         // default daily rotating logs (Laravel 5.0)
-        $path = storage_path().'/logs/laravel-'.date('Y-m-d').'.log';
+        $path = storage_path($this->logFile.'-'.date('Y-m-d').'.log');
 
         // single file logs
         if (!file_exists($path)) {
-            $path = storage_path().'/logs/laravel.log';
+            $path = storage_path($this->logFile.'.log');
         }
 
         return $path;

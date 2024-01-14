@@ -4,6 +4,8 @@ namespace Igniter\System\Classes;
 
 use Carbon\Carbon;
 use Composer\IO\BufferIO;
+use Igniter\Flame\Database\Migrations\DatabaseMigrationRepository;
+use Igniter\Flame\Database\Migrations\Migrator;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
@@ -11,6 +13,7 @@ use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Extension;
+use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -20,47 +23,23 @@ use Illuminate\Support\Facades\Cache;
  */
 class UpdateManager
 {
-    protected $logs = [];
+    protected array $logs = [];
 
-    /**
-     * The output interface implementation.
-     *
-     * @var \Illuminate\Console\OutputStyle
-     */
-    protected $logsOutput;
+    protected ?OutputStyle $logsOutput = null;
 
-    protected $logFile;
+    protected array $installedItems = [];
 
-    protected $updatedFiles;
+    protected ThemeManager $themeManager;
 
-    protected $installedItems;
+    protected HubManager $hubManager;
 
-    /**
-     * @var ThemeManager
-     */
-    protected $themeManager;
+    protected ExtensionManager $extensionManager;
 
-    /**
-     * @var HubManager
-     */
-    protected $hubManager;
+    protected Migrator $migrator;
 
-    /**
-     * @var ExtensionManager
-     */
-    protected $extensionManager;
+    protected DatabaseMigrationRepository $repository;
 
-    /**
-     * @var \Igniter\Flame\Database\Migrations\Migrator
-     */
-    protected $migrator;
-
-    /**
-     * @var \Igniter\Flame\Database\Migrations\DatabaseMigrationRepository
-     */
-    protected $repository;
-
-    protected $disableCoreUpdates;
+    protected bool $disableCoreUpdates;
 
     public function __construct()
     {
@@ -81,11 +60,8 @@ class UpdateManager
 
     /**
      * Set the output implementation that should be used by the console.
-     *
-     * @param \Illuminate\Console\OutputStyle $output
-     * @return $this
      */
-    public function setLogsOutput($output)
+    public function setLogsOutput(OutputStyle $output): static
     {
         $this->logsOutput = $output;
         $this->migrator->setOutput($output);
@@ -93,7 +69,7 @@ class UpdateManager
         return $this;
     }
 
-    public function log($message)
+    public function log(string $message): static
     {
         if (!is_null($this->logsOutput)) {
             $this->logsOutput->writeln($message);
@@ -104,17 +80,14 @@ class UpdateManager
         return $this;
     }
 
-    /**
-     * @return \Igniter\System\Classes\UpdateManager $this
-     */
-    public function resetLogs()
+    public function resetLogs(): static
     {
         $this->logs = [];
 
         return $this;
     }
 
-    public function getLogs()
+    public function getLogs(): array
     {
         return $this->logs;
     }
@@ -123,7 +96,7 @@ class UpdateManager
     //
     //
 
-    public function down()
+    public function down(): static
     {
         if (!$this->migrator->repositoryExists()) {
             return $this->log('<error>Migration table not found.</error>');
@@ -149,7 +122,7 @@ class UpdateManager
         return $this;
     }
 
-    public function migrate()
+    public function migrate(): static
     {
         if ($this->logsOutput) {
             $this->migrator->setOutput($this->logsOutput);
@@ -167,7 +140,7 @@ class UpdateManager
         return $this;
     }
 
-    public function migrateExtension($name)
+    public function migrateExtension(string $name): static
     {
         if (!array_has(Igniter::migrationPath(), $name)) {
             return $this->log('<error>Unable to find migrations for:</error> '.$name);
@@ -184,7 +157,7 @@ class UpdateManager
         return $this;
     }
 
-    public function purgeExtension($name)
+    public function purgeExtension(string $name): static
     {
         if (!array_has(Igniter::migrationPath(), $name)) {
             return $this->log('<error>Unable to find migrations for:</error> '.$name);
@@ -201,7 +174,7 @@ class UpdateManager
         return $this;
     }
 
-    public function rollbackExtension($name, array $options = [])
+    public function rollbackExtension(string $name, array $options = []): static
     {
         if (!array_has(Igniter::migrationPath(), $name)) {
             return $this->log('<error>Unable to find migrations for:</error> '.$name);
@@ -222,7 +195,7 @@ class UpdateManager
     //
     //
 
-    public function isLastCheckDue()
+    public function isLastCheckDue(): bool
     {
         $response = $this->requestUpdateList();
 
@@ -233,7 +206,7 @@ class UpdateManager
         return true;
     }
 
-    public function listItems($itemType)
+    public function listItems(string $itemType): array
     {
         $installedItems = $this->getInstalledItems();
 
@@ -254,7 +227,7 @@ class UpdateManager
         return $items;
     }
 
-    public function searchItems($itemType, $searchQuery)
+    public function searchItems(string $itemType, string $searchQuery): array
     {
         $installedItems = $this->getInstalledItems();
 
@@ -274,12 +247,12 @@ class UpdateManager
         return $items;
     }
 
-    public function getSiteDetail()
+    public function getSiteDetail(): ?array
     {
         return params('carte_info');
     }
 
-    public function applySiteDetail($key)
+    public function applySiteDetail(string $key): array
     {
         SystemHelper::replaceInEnv('IGNITER_CARTE_KEY=', 'IGNITER_CARTE_KEY='.$key);
 
@@ -295,14 +268,11 @@ class UpdateManager
         return $info;
     }
 
-    public function requestUpdateList($force = false)
+    public function requestUpdateList(bool $force = false): array
     {
         $installedItems = $this->getInstalledItems();
 
         $result = $this->fetchItemsToUpdate($installedItems, $force);
-        if (!is_array($result)) {
-            return $result;
-        }
 
         [$ignoredItems, $items] = $result['items']->filter(function (PackageInfo $packageInfo) {
             return !($packageInfo->isCore() && $this->disableCoreUpdates);
@@ -317,7 +287,7 @@ class UpdateManager
         return $result;
     }
 
-    public function getInstalledItems($type = null)
+    public function getInstalledItems(?string $type = null): array
     {
         if ($this->installedItems) {
             return ($type && isset($this->installedItems[$type]))
@@ -351,7 +321,7 @@ class UpdateManager
         return $this->installedItems = array_collapse($installedItems);
     }
 
-    public function requestApplyItems($names): Collection
+    public function requestApplyItems(array $names): Collection
     {
         return $this->getHubManager()
             ->applyItems($names)
@@ -373,17 +343,17 @@ class UpdateManager
         setting()->set('ignored_updates', array_filter($ignoredUpdates));
     }
 
-    public function getIgnoredUpdates()
+    public function getIgnoredUpdates(): array
     {
         return array_dot(setting()->get('ignored_updates') ?? []);
     }
 
-    public function isMarkedAsIgnored($code)
+    public function isMarkedAsIgnored(string $code): bool
     {
         return array_get($this->getIgnoredUpdates(), $code, false);
     }
 
-    protected function fetchItemsToUpdate($params, $force = false): array
+    protected function fetchItemsToUpdate(array $params, bool $force = false): array
     {
         $cacheKey = 'hub_updates';
 
@@ -426,9 +396,6 @@ class UpdateManager
         throw_if($hasErrors, new ApplicationException($errorMessage));
     }
 
-    /**
-     * @throws \Igniter\Flame\Exception\ComposerException
-     */
     public function install(array $requirements)
     {
         $io = new BufferIO();
@@ -449,7 +416,7 @@ class UpdateManager
         $this->log(lang('igniter::system.updates.progress_install_ok')."\nOutput: ".$io->getOutput());
     }
 
-    public function completeInstall($requirements)
+    public function completeInstall(array $requirements)
     {
         collect($requirements)->map(function ($package) {
             return $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
@@ -473,10 +440,7 @@ class UpdateManager
         throw new SystemException(lang('igniter::system.updates.progress_completed'));
     }
 
-    /**
-     * @return \Igniter\System\Classes\HubManager
-     */
-    protected function getHubManager()
+    protected function getHubManager(): HubManager
     {
         return $this->hubManager;
     }

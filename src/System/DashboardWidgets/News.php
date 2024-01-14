@@ -13,9 +13,9 @@ class News extends BaseDashboardWidget
     /**
      * @var string A unique alias to identify this widget.
      */
-    protected $defaultAlias = 'news';
+    protected string $defaultAlias = 'news';
 
-    public $newsRss = 'https://tastyigniter.com/feed?ref=dashboard';
+    public string $newsRss = 'https://tastyigniter.com/feed?ref=dashboard';
 
     public function render()
     {
@@ -24,7 +24,7 @@ class News extends BaseDashboardWidget
         return $this->makePartial('news/news');
     }
 
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [
             'title' => [
@@ -45,7 +45,7 @@ class News extends BaseDashboardWidget
         $this->vars['newsFeed'] = $this->loadFeedItems();
     }
 
-    public function loadFeedItems()
+    public function loadFeedItems(): array
     {
         $dom = $this->createRssDocument();
         if (!$dom || !$dom->load($this->newsRss)) {
@@ -68,7 +68,7 @@ class News extends BaseDashboardWidget
         return array_slice($newsFeed, 0, $count);
     }
 
-    public function createRssDocument()
+    public function createRssDocument(): ?DOMDocument
     {
         return class_exists('DOMDocument', false) ? new DOMDocument() : null;
     }

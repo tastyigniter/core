@@ -19,7 +19,7 @@ class ColorPicker extends BaseFormWidget
     /**
      * @var array Default available colors
      */
-    public $availableColors = [
+    public array $availableColors = [
         '#1abc9c', '#16a085',
         '#9b59b6', '#8e44ad',
         '#34495e', '#2b3e50',
@@ -28,26 +28,20 @@ class ColorPicker extends BaseFormWidget
         '#95a5a6', '#7f8c8d',
     ];
 
-    /**
-     * @var bool Show opacity slider
-     */
-    public $showAlpha = false;
+    /** Show opacity slider */
+    public bool $showAlpha = false;
 
-    /**
-     * @var bool If true, the color picker is set to read-only mode
-     */
-    public $readOnly = false;
+    /** If true, the color picker is set to read-only mode */
+    public bool $readOnly = false;
 
-    /**
-     * @var bool If true, the color picker is set to disabled mode
-     */
-    public $disabled = false;
+    /** If true, the color picker is set to disabled mode */
+    public bool $disabled = false;
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'colorpicker';
+    protected string $defaultAlias = 'colorpicker';
 
     public function initialize()
     {
@@ -84,12 +78,12 @@ class ColorPicker extends BaseFormWidget
         $this->addJs('colorpicker.js', 'colorpicker-js');
     }
 
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): ?string
     {
-        return strlen($value) ? $value : null;
+        return !empty($value) ? $value : null;
     }
 
-    protected function availableColors()
+    protected function availableColors(): array
     {
         $colors = [];
         foreach ($this->availableColors as $availableColor) {

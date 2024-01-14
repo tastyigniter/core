@@ -7,6 +7,7 @@ use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\Main\Classes\MediaLibrary;
 use Igniter\Main\Classes\RouteRegistrar;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\Template\Extension\BladeExtension;
 use Igniter\System\Classes\ComponentManager;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -39,6 +40,7 @@ class ServiceProvider extends AppServiceProvider
     {
         $this->registerSingletons();
         $this->registerComponents();
+        $this->registerBladeDirectives();
 
         $this->app->register(Providers\AssetsServiceProvider::class);
         $this->app->register(Providers\FormServiceProvider::class);
@@ -53,8 +55,17 @@ class ServiceProvider extends AppServiceProvider
      */
     protected function registerComponents()
     {
-        resolve(ComponentManager::class)->registerComponents(function ($manager) {
-            $manager->registerComponent(\Igniter\Main\Components\ViewBag::class, 'viewBag');
+        resolve(ComponentManager::class)->registerComponents(function (ComponentManager $manager) {
+            $manager->registerComponent(\Igniter\Main\Components\BlankComponent::class, [
+                'code' => 'blankComponent',
+                'name' => 'Blank Component',
+            ]);
+
+            $manager->registerComponent(\Igniter\Main\Components\ViewBag::class, [
+                'code' => 'viewBag',
+                'name' => 'ViewBag Component',
+                'description' => 'Stores custom template properties.',
+            ]);
         });
     }
 
@@ -72,6 +83,13 @@ class ServiceProvider extends AppServiceProvider
 
         Route::group([], function ($router) {
             (new RouteRegistrar($router))->all();
+        });
+    }
+
+    protected function registerBladeDirectives()
+    {
+        $this->callAfterResolving('blade.compiler', function ($compiler, $app) {
+            (new BladeExtension)->register();
         });
     }
 }

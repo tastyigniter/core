@@ -22,7 +22,7 @@ trait HasChartDatasets
         $this->addJs('dashboardwidgets/charts.js', 'charts-js');
     }
 
-    public function onFetchDatasets()
+    public function onFetchDatasets(): array
     {
         $start = post('start');
         $end = post('end');
@@ -38,15 +38,14 @@ trait HasChartDatasets
         return $this->getDatasets($start, $end);
     }
 
-    protected function getDatasets($start, $end)
+    protected function getDatasets(\DateTimeInterface $start, \DateTimeInterface $end): array
     {
-        $config = [];
-        $results[] = $this->makeDataset($config, $start, $end);
-
-        return $results;
+        return [
+            $this->makeDataset([], $start, $end),
+        ];
     }
 
-    protected function makeDataset($config, $start, $end)
+    protected function makeDataset(array $config, \DateTimeInterface $start, \DateTimeInterface $end): array
     {
         [$r, $g, $b] = sscanf($config['color'], '#%02x%02x%02x');
         $backgroundColor = sprintf('rgba(%s, %s, %s, 0.5)', $r, $g, $b);
@@ -60,7 +59,7 @@ trait HasChartDatasets
         ]);
     }
 
-    protected function queryDatasets($config, $start, $end)
+    protected function queryDatasets(array $config, \DateTimeInterface $start, \DateTimeInterface $end): array
     {
         $modelClass = $config['model'];
         $dateColumnName = $config['column'];
@@ -75,7 +74,7 @@ trait HasChartDatasets
         return $this->getPointsArray($dateRanges, $query->get());
     }
 
-    protected function getDatePeriod($start, $end)
+    protected function getDatePeriod(\DateTimeInterface $start, \DateTimeInterface $end): DatePeriod
     {
         return new DatePeriod(
             Carbon::parse($start)->startOfDay(),
@@ -84,7 +83,7 @@ trait HasChartDatasets
         );
     }
 
-    protected function getPointsArray($dateRanges, Collection $result)
+    protected function getPointsArray(DatePeriod $dateRanges, Collection $result): array
     {
         $points = [];
         $keyedResult = $result->pluck('y', 'x');

@@ -7,7 +7,7 @@ use Igniter\Admin\Facades\Template;
 
 class MediaManager extends \Igniter\Admin\Classes\AdminController
 {
-    protected $requiredPermissions = 'Admin.MediaManager';
+    protected null|string|array $requiredPermissions = 'Admin.MediaManager';
 
     public function __construct()
     {

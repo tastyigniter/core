@@ -4,10 +4,8 @@ namespace Igniter\System\Traits;
 
 trait PropertyContainer
 {
-    /**
-     * @var array Holds the component layout settings array.
-     */
-    protected $properties;
+    /** Holds the component layout settings array. */
+    protected array $properties = [];
 
     /**
      * Validates the properties against the defined properties of the class.
@@ -17,7 +15,7 @@ trait PropertyContainer
      *
      * @return array The validated property set, with defaults applied.
      */
-    public function validateProperties(array $properties)
+    public function validateProperties(array $properties): array
     {
         $definedProperties = $this->defineProperties();
 
@@ -29,46 +27,38 @@ trait PropertyContainer
             }
         }
 
-        $properties = array_merge($defaultProperties, $properties);
-
-        return $properties;
+        return array_merge($defaultProperties, $properties);
     }
 
     /**
      * Defines the properties used by this class.
      * This method should be used as an override in the extended class.
      */
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [];
     }
 
     /**
      * Sets multiple properties.
-     *
-     * @param array $properties
      */
-    public function setProperties($properties)
+    public function setProperties(array $properties)
     {
         $this->properties = $this->validateProperties($properties);
     }
 
     /**
      * Sets a property value
-     *
-     * @param string $name
-     * @param mixed $value
      */
-    public function setProperty($name, $value)
+    public function setProperty(string $name, mixed $value)
     {
         $this->properties[$name] = $value;
     }
 
     /**
      * Returns all properties.
-     * @return array
      */
-    public function getProperties()
+    public function getProperties(): array
     {
         return $this->properties;
     }
@@ -81,7 +71,7 @@ trait PropertyContainer
      *
      * @return mixed The property value or the default specified.
      */
-    public function property($name, $default = null)
+    public function property(string $name, mixed $default = null): mixed
     {
         return array_key_exists($name, $this->properties)
             ? $this->properties[$name]
@@ -95,7 +85,7 @@ trait PropertyContainer
      *
      * @return array Return an array of option values and descriptions
      */
-    public function getPropertyOptions($property)
+    public function getPropertyOptions(string $property): array
     {
         return [];
     }

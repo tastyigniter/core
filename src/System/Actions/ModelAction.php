@@ -14,24 +14,13 @@ class ModelAction
     use ConfigMaker;
     use ExtensionTrait;
 
-    /**
-     * @var Model Reference to the controller associated to this action
-     */
-    protected $model;
+    /** Reference to the controller associated to this action */
+    protected Model $model;
 
-    /**
-     * @var array Properties that must exist in the controller using this action.
-     */
-    protected $requiredProperties = [];
+    /** Properties that must exist in the controller using this action. */
+    protected array $requiredProperties = [];
 
-    /**
-     * ModelAction constructor.
-     *
-     * @param Model $model
-     *
-     * @throws \LogicException
-     */
-    public function __construct($model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
 

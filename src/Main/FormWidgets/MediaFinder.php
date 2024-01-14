@@ -9,7 +9,6 @@ use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Database\Attach\HasMedia;
 use Igniter\Flame\Database\Attach\Media;
 use Igniter\Flame\Exception\FlashException;
-use Igniter\Flame\Exception\SystemException;
 use Igniter\Main\Classes\MediaItem;
 use Igniter\Main\Classes\MediaLibrary;
 use Igniter\System\Models\Settings;
@@ -35,37 +34,29 @@ class MediaFinder extends BaseFormWidget
     // Configurable properties
     //
 
-    /**
-     * @var string Prompt to display if no record is selected.
-     */
-    public $prompt = 'lang:igniter::admin.text_empty';
+    /** Prompt to display if no record is selected. */
+    public string $prompt = 'lang:igniter::admin.text_empty';
 
-    /**
-     * @var string Display mode. Values: grid, inline.
-     */
-    public $mode = 'grid';
+    /** Display mode. Values: grid, inline. */
+    public string $mode = 'grid';
 
-    public $isMulti = false;
+    public bool $isMulti = false;
 
-    /**
-     * @var array Options used for generating thumbnails.
-     */
-    public $thumbOptions = [
+    /** Options used for generating thumbnails. */
+    public array $thumbOptions = [
         'fit' => 'contain',
         'width' => 122,
         'height' => 122,
     ];
 
-    /**
-     * @var bool Automatically attaches the chosen file if the parent record exists. Defaults to false.
-     */
-    public $useAttachment = false;
+    /** Automatically attaches the chosen file if the parent record exists. Defaults to false. */
+    public bool $useAttachment = false;
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'media';
+    protected string $defaultAlias = 'media';
 
     public function initialize()
     {
@@ -110,14 +101,16 @@ class MediaFinder extends BaseFormWidget
         $this->addCss('mediafinder.css', 'mediafinder-css');
     }
 
-    public function getMediaIdentifier($media)
+    public function getMediaIdentifier(null|string|Media $media): mixed
     {
         if ($media instanceof Media) {
             return $media->getKey();
         }
+
+        return null;
     }
 
-    public function getMediaName($media)
+    public function getMediaName(null|string|Media $media): string
     {
         if ($media instanceof Media) {
             return $media->getFilename();
@@ -126,20 +119,16 @@ class MediaFinder extends BaseFormWidget
         return trim($media, '/');
     }
 
-    public function getMediaPath($media)
+    public function getMediaPath(null|string|Media $media): string
     {
         if ($media instanceof Media) {
             return $media->getDiskPath();
         }
 
-        try {
-            return resolve(MediaLibrary::class)->getMediaRelativePath(trim((string)$media, '/'));
-        } catch (SystemException $ex) {
-            return $media;
-        }
+        return resolve(MediaLibrary::class)->getMediaRelativePath(trim((string)$media, '/'));
     }
 
-    public function getMediaThumb($media)
+    public function getMediaThumb(null|string|Media $media): string
     {
         if ($media instanceof Media) {
             return $media->getThumb($this->thumbOptions);
@@ -152,7 +141,7 @@ class MediaFinder extends BaseFormWidget
         return resolve(MediaLibrary::class)->getMediaThumb($path, $this->thumbOptions);
     }
 
-    public function getMediaFileType($media)
+    public function getMediaFileType(null|string|Media $media): string
     {
         $path = trim($media, '/');
         if ($media instanceof Media) {
@@ -179,14 +168,14 @@ class MediaFinder extends BaseFormWidget
         return MediaItem::FILE_TYPE_DOCUMENT;
     }
 
-    public function onLoadAttachmentConfig()
+    public function onLoadAttachmentConfig(): array
     {
         if (!$this->useAttachment || !$mediaId = post('media_id')) {
-            return;
+            return [];
         }
 
-        if (!in_array(HasMedia::class, class_uses_recursive(get_class($this->model)))) {
-            return;
+        if (!in_array(HasMedia::class, class_uses_recursive($this->model::class))) {
+            return [];
         }
 
         $media = $this->model->findMedia($mediaId);
@@ -199,14 +188,14 @@ class MediaFinder extends BaseFormWidget
         ];
     }
 
-    public function onSaveAttachmentConfig()
+    public function onSaveAttachmentConfig(): array
     {
         if (!$this->useAttachment || !$mediaId = post('media_id')) {
-            return;
+            return [];
         }
 
-        if (!in_array(HasMedia::class, class_uses_recursive(get_class($this->model)))) {
-            return;
+        if (!in_array(HasMedia::class, class_uses_recursive($this->model::class))) {
+            return [];
         }
 
         $media = $this->model->findMedia($mediaId);
@@ -232,26 +221,26 @@ class MediaFinder extends BaseFormWidget
             return;
         }
 
-        if (!in_array(HasMedia::class, class_uses_recursive(get_class($this->model)))) {
+        if (!in_array(HasMedia::class, class_uses_recursive($this->model::class))) {
             return;
         }
 
         $this->model->deleteMedia($mediaId);
     }
 
-    public function onAddAttachment()
+    public function onAddAttachment(): array
     {
         if (!$this->useAttachment) {
-            return;
+            return [];
         }
 
-        if (!in_array(HasMedia::class, class_uses_recursive(get_class($this->model)))) {
-            return;
+        if (!in_array(HasMedia::class, class_uses_recursive($this->model::class))) {
+            return [];
         }
 
         if (!array_key_exists($this->fieldName, $this->model->mediable())) {
             throw FlashException::error(sprintf(lang('igniter::main.media_manager.alert_missing_mediable'),
-                $this->fieldName, get_class($this->model)
+                $this->fieldName, $this->model::class
             ));
         }
 
@@ -281,7 +270,7 @@ class MediaFinder extends BaseFormWidget
         return $items;
     }
 
-    public function getLoadValue()
+    public function getLoadValue(): mixed
     {
         $value = parent::getLoadValue();
         if (!is_array($value) && !$value instanceof Collection) {
@@ -299,7 +288,7 @@ class MediaFinder extends BaseFormWidget
         return $value ?? [];
     }
 
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): mixed
     {
         if ($this->useAttachment || $this->formField->disabled || $this->formField->hidden) {
             return FormField::NO_SAVE_DATA;
@@ -308,12 +297,14 @@ class MediaFinder extends BaseFormWidget
         return $value;
     }
 
-    protected function makeAttachmentConfigFormWidget($model)
+    protected function makeAttachmentConfigFormWidget($model): Form
     {
         $widgetConfig = $this->getAttachmentFieldsConfig();
         $widgetConfig['model'] = $model;
         $widgetConfig['alias'] = $this->alias.'AttachmentConfig';
         $widgetConfig['arrayName'] = 'media';
+
+        /** @var Form $widget */
         $widget = $this->makeWidget(Form::class, $widgetConfig);
 
         $widget->bindToController();
@@ -321,7 +312,7 @@ class MediaFinder extends BaseFormWidget
         return $widget;
     }
 
-    protected function getAttachmentFieldsConfig()
+    protected function getAttachmentFieldsConfig(): array
     {
         return [
             'fields' => [

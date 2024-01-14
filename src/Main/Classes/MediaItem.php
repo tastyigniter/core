@@ -8,79 +8,58 @@ use Igniter\System\Models\Settings;
 
 class MediaItem
 {
-    const TYPE_FILE = 'file';
+    public const TYPE_FILE = 'file';
 
-    const TYPE_FOLDER = 'folder';
+    public const TYPE_FOLDER = 'folder';
 
-    const FILE_TYPE_IMAGE = 'image';
+    public const FILE_TYPE_IMAGE = 'image';
 
-    const FILE_TYPE_DOCUMENT = 'document';
+    public const FILE_TYPE_DOCUMENT = 'document';
 
-    const FILE_TYPE_VIDEO = 'video';
+    public const FILE_TYPE_VIDEO = 'video';
 
-    const FILE_TYPE_AUDIO = 'audio';
+    public const FILE_TYPE_AUDIO = 'audio';
 
-    /**
-     * @var string The item basename.
-     */
-    public $name;
+    /** The item basename. */
+    public string $name;
 
-    /**
-     * @var string The item path relative to the Library root.
-     */
-    public $path;
+    /** The item path relative to the Library root. */
+    public string $path;
 
-    /**
-     * @var int The file size or folder files count.
-     */
-    public $size;
+    /** The file size or folder files count. */
+    public ?int $size = null;
 
-    /**
-     * @var int The last modification time (Unix timestamp).
-     */
-    public $lastModified;
+    /** The last modification time (Unix timestamp). */
+    public ?int $lastModified = null;
 
-    /**
-     * @var string The item type. ex. file or folder
-     */
-    public $type;
+    /** The item type. ex. file or folder */
+    public string $type;
+
+    /** The item file type. ex. image, audio, video */
+    public ?string $fileType = null;
+
+    /** Specifies the public URL of the item. */
+    public ?string $publicUrl = null;
 
     /**
-     * @var string The item file type. ex. image, audio, video
-     */
-    public $fileType;
-
-    /**
-     * @var string Specifies the public URL of the item.
-     */
-    public $publicUrl;
-
-    /**
-     * @var array Contains a default list of image files.
+     * Contains a default list of image files.
      * Override with config: system.assets.media.imageExtensions
      */
-    protected static $imageExtensions;
+    protected static ?array $imageExtensions = null;
 
     /**
-     * @var array Contains a default list of video files.
+     * Contains a default list of video files.
      * Override with config: system.assets.media.videoExtensions
      */
-    protected static $videoExtensions;
+    protected static ?array $videoExtensions = null;
 
     /**
-     * @var array Contains a default list of audio files.
+     * Contains a default list of audio files.
      * Override with config: system.assets.media.audioExtensions
      */
-    protected static $audioExtensions;
+    protected static ?array $audioExtensions = null;
 
-    /**
-     * @param string $path
-     * @param int $size
-     * @param int $lastModified
-     * @param string $type
-     * @param string $publicUrl
-     */
-    public function __construct($path, $size, $lastModified, $type, $publicUrl)
+    public function __construct(string $path, ?int $size, ?int $lastModified, string $type, string $publicUrl)
     {
         $this->name = basename($path);
         $this->path = $path;
@@ -91,15 +70,12 @@ class MediaItem
         $this->fileType = $this->getFileType();
     }
 
-    /**
-     * @return bool
-     */
-    public function isFile()
+    public function isFile(): bool
     {
         return $this->type == self::TYPE_FILE;
     }
 
-    public function getFileType()
+    public function getFileType(): ?string
     {
         if (!$this->isFile()) {
             return null;
@@ -139,9 +115,8 @@ class MediaItem
 
     /**
      * Returns the item size as string.
-     * @return string Returns the size as string.
      */
-    public function sizeToString()
+    public function sizeToString(): string
     {
         return $this->type == self::TYPE_FILE
             ? File::sizeToString($this->size)
@@ -150,9 +125,8 @@ class MediaItem
 
     /**
      * Returns the item last modification date as string.
-     * @return string Returns the item's last modification date as string.
      */
-    public function lastModifiedAsString()
+    public function lastModifiedAsString(): ?string
     {
         if (!($date = $this->lastModified)) {
             return null;

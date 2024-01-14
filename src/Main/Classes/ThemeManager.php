@@ -4,6 +4,7 @@ namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Models\Theme as ThemeModel;
@@ -20,40 +21,38 @@ use Illuminate\Support\ServiceProvider;
  */
 class ThemeManager
 {
-    protected $themeModel = ThemeModel::class;
+    protected string $themeModel = ThemeModel::class;
 
     /**
      * @var array of disabled themes.
      */
-    public $disabledThemes = [];
+    public array $disabledThemes = [];
 
     /**
      * @var array used for storing theme information objects.
      */
-    public $themes = [];
-
-    public $activeTheme;
+    public array $themes = [];
 
     /**
      * @var array of themes and their directory paths.
      */
-    protected $paths = [];
+    protected array $paths = [];
 
-    protected $config = [
+    protected array $config = [
         'allowedImageExt' => ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff'],
         'allowedFileExt' => ['html', 'txt', 'xml', 'js', 'css', 'php', 'json'],
     ];
 
-    protected $booted = false;
+    protected bool $booted = false;
 
-    protected static $directories = [];
+    protected static array $directories = [];
 
     public function initialize()
     {
         $this->disabledThemes = resolve(PackageManifest::class)->disabledAddons();
     }
 
-    public static function addDirectory($directory)
+    public static function addDirectory(string $directory)
     {
         self::$directories[] = $directory;
     }
@@ -79,19 +78,16 @@ class ThemeManager
 
     /**
      * Returns a list of all themes in the system.
-     * @return array A list of all themes in the system.
      */
-    public function listThemes()
+    public function listThemes(): array
     {
         return $this->themes;
     }
 
     /**
      * Finds all available themes and loads them in to the $themes array.
-     * @return array
-     * @throws \Igniter\Flame\Exception\SystemException
      */
-    public function loadThemes()
+    public function loadThemes(): array
     {
         $packageManifest = resolve(PackageManifest::class);
         foreach ($packageManifest->themes() as $config) {
@@ -110,11 +106,11 @@ class ThemeManager
         return $this->themes;
     }
 
-    protected function loadThemeFromConfig($path, $config)
+    protected function loadThemeFromConfig($path, $config): ?Theme
     {
         $code = array_get($config, 'code');
         if (!$code || !$this->checkName($code)) {
-            return false;
+            return null;
         }
 
         if (isset($this->themes[$code])) {
@@ -135,15 +131,11 @@ class ThemeManager
 
     /**
      * Loads a single theme in to the manager.
-     *
-     * @param string $path
-     *
-     * @return bool|object
      */
-    public function loadTheme($path)
+    public function loadTheme(string $path): ?Theme
     {
         if (!$config = $this->getMetaFromFile($path, false)) {
-            return false;
+            return null;
         }
 
         if (!array_key_exists('code', $config)) {
@@ -180,7 +172,7 @@ class ThemeManager
 
         collect([$theme->getPath().'/resources', $theme->getPath().'/assets', $theme->getPath()])
             ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath().'/assets', $theme->getParent()->getPath()] : [])
-            ->filter(fn ($path) => File::isDirectory($path))
+            ->filter(fn($path) => File::isDirectory($path))
             ->each(function ($path) use ($theme) {
                 Igniter::loadResourcesFrom($path, $theme->getName());
             });
@@ -244,16 +236,15 @@ class ThemeManager
         return $this->findTheme($themeCode)?->getParentName();
     }
 
-    public function paths()
+    public function paths(): array
     {
         return $this->paths;
     }
 
     /**
      * Create a Directory Map of all themes
-     * @return array A list of all themes in the system.
      */
-    public function folders()
+    public function folders(): array
     {
         $paths = [];
 
@@ -273,10 +264,8 @@ class ThemeManager
 
     /**
      * Determines if a theme is activated by looking at the default themes config.
-     *
-     * @return bool
      */
-    public function isActive($themeCode)
+    public function isActive(string $themeCode): bool
     {
         if (!$this->checkName($themeCode)) {
             return false;
@@ -287,10 +276,8 @@ class ThemeManager
 
     /**
      * Determines if a theme is disabled by looking at the installed themes config.
-     *
-     * @return bool
      */
-    public function isDisabled($themeCode)
+    public function isDisabled(string $themeCode): bool
     {
         traceLog('Deprecated. Use $instance::isActive($themeCode) instead');
 
@@ -299,10 +286,8 @@ class ThemeManager
 
     /**
      * Checks to see if a theme has been registered.
-     *
-     * @return bool
      */
-    public function checkName($themeCode)
+    public function checkName(string $themeCode): ?string
     {
         if ($themeCode == 'errors') {
             return null;
@@ -311,12 +296,12 @@ class ThemeManager
         return (str_starts_with($themeCode, '_') || preg_match('/\s/', $themeCode)) ? null : $themeCode;
     }
 
-    public function isLocked($themeCode)
+    public function isLocked(string $themeCode): bool
     {
         return (bool)optional($this->findTheme($themeCode))->locked;
     }
 
-    public function checkParent($themeCode)
+    public function checkParent(string $themeCode): bool
     {
         foreach ($this->themes as $theme) {
             if ($theme->hasParent() && $theme->getParentName() == $themeCode) {
@@ -327,7 +312,7 @@ class ThemeManager
         return false;
     }
 
-    public function isLockedPath($path)
+    public function isLockedPath(string $path): bool
     {
         if (starts_with($path, Igniter::themesPath().'/')) {
             $path = substr($path, strlen(Igniter::themesPath().'/'));
@@ -344,10 +329,8 @@ class ThemeManager
 
     /**
      * Returns a theme path based on its name.
-     *
-     * @return string|null
      */
-    public function findPath($themeCode)
+    public function findPath($themeCode): ?string
     {
         return $this->paths()[$themeCode] ?? null;
     }
@@ -357,14 +340,8 @@ class ThemeManager
      * Scans for files located within themes directories. Also scans each theme
      * directories for layouts, partials, and content. Generates fatal error if file
      * not found.
-     *
-     * @param string $filename The file.
-     * @param string $themeCode The theme code.
-     * @param string $base The folder within the theme eg. layouts, partials, content
-     *
-     * @return string|bool
      */
-    public function findFile($filename, $themeCode, $base = null)
+    public function findFile(string $filename, string $themeCode, null|string|array $base = null): false|string
     {
         $path = $this->findPath($themeCode);
 
@@ -387,17 +364,12 @@ class ThemeManager
     /**
      * Load a single theme generic file into an array. The file will be
      * found by looking in the _layouts, _pages, _partials, _content, themes folders.
-     *
-     * @param string $filePath The name of the file to locate.
-     * @param string $themeCode The theme to check.
-     *
-     * @return \Igniter\Flame\Pagic\Contracts\TemplateInterface
      */
-    public function readFile($filePath, $themeCode)
+    public function readFile(string $filePath, string $themeCode): TemplateInterface
     {
         $theme = $this->findTheme($themeCode);
 
-        [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
+        [$dirName, $fileName] = $this->getFileNameParts($filePath);
 
         if (!strlen($fileName) || !$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException("Theme template file not found: $filePath");
@@ -406,10 +378,10 @@ class ThemeManager
         return $template;
     }
 
-    public function newFile($filePath, $themeCode)
+    public function newFile($filePath, $themeCode): string|false
     {
         $theme = $this->findTheme($themeCode);
-        [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
+        [$dirName, $fileName] = $this->getFileNameParts($filePath);
         $path = $theme->getPath().'/'.$dirName.'/'.$fileName;
 
         if (!File::extension($path)) {
@@ -424,22 +396,17 @@ class ThemeManager
             File::makeDirectory(File::dirname($path), 0777, true, true);
         }
 
-        File::put($path, "\n");
+        return File::put($path, "\n") ? $path : false;
     }
 
     /**
      * Write an existing theme layout, page, partial or content file.
-     *
-     * @param string $filePath The name of the file to locate.
-     * @param string $themeCode The theme to check.
-     *
-     * @return bool
      */
-    public function writeFile($filePath, array $attributes, $themeCode)
+    public function writeFile(string $filePath, array $attributes, string $themeCode): bool
     {
         $theme = $this->findTheme($themeCode);
 
-        [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
+        [$dirName, $fileName] = $this->getFileNameParts($filePath);
 
         if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException("Theme template file not found: $filePath");
@@ -450,18 +417,12 @@ class ThemeManager
 
     /**
      * Rename a theme layout, page, partial or content in the file system.
-     *
-     * @param string $filePath The name of the file to locate.
-     * @param string $newFilePath
-     * @param string $themeCode The theme to check.
-     *
-     * @return bool
      */
-    public function renameFile($filePath, $newFilePath, $themeCode)
+    public function renameFile(string $filePath, string $newFilePath, string $themeCode): bool|int
     {
         $theme = $this->findTheme($themeCode);
 
-        [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
+        [$dirName, $fileName] = $this->getFileNameParts($filePath);
         [$newDirName, $newFileName] = $this->getFileNameParts($newFilePath, $theme);
 
         if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
@@ -484,17 +445,12 @@ class ThemeManager
 
     /**
      * Delete a theme layout, page, partial or content from the file system.
-     *
-     * @param string $filePath The name of the file to locate.
-     * @param string $themeCode The theme to check.
-     *
-     * @return bool
      */
-    public function deleteFile($filePath, $themeCode)
+    public function deleteFile(string $filePath, string $themeCode): bool
     {
         $theme = $this->findTheme($themeCode);
 
-        [$dirName, $fileName] = $this->getFileNameParts($filePath, $theme);
+        [$dirName, $fileName] = $this->getFileNameParts($filePath);
 
         if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException("Theme template file not found: $filePath");
@@ -509,12 +465,8 @@ class ThemeManager
 
     /**
      * Delete existing theme folder from filesystem.
-     *
-     * @param null $themeCode The theme to delete
-     *
-     * @return bool
      */
-    public function removeTheme($themeCode)
+    public function removeTheme(string $themeCode): bool
     {
         $themePath = $this->findPath($themeCode);
         if (!is_dir($themePath)) {
@@ -547,7 +499,7 @@ class ThemeManager
         $this->updateInstalledThemes($themeCode, null);
     }
 
-    public function installTheme($code, $version = null)
+    public function installTheme(string $code, ?string $version = null): bool
     {
         $model = $this->themeModel::firstOrNew(['code' => $code]);
 
@@ -569,7 +521,7 @@ class ThemeManager
     /**
      * Update installed extensions config value
      */
-    public function updateInstalledThemes($code, $enable = true)
+    public function updateInstalledThemes(string $code, ?bool $enable = true)
     {
         if ($enable) {
             array_pull($this->disabledThemes, $code);
@@ -580,12 +532,7 @@ class ThemeManager
         resolve(PackageManifest::class)->writeDisabled($this->disabledThemes);
     }
 
-    /**
-     * @param \Igniter\Main\Models\Theme $model
-     * @return \Igniter\Main\Models\Theme
-     * @throws \Igniter\Flame\Exception\SystemException
-     */
-    public function createChildTheme($model)
+    public function createChildTheme(ThemeModel $model): ThemeModel
     {
         $parentTheme = $this->findTheme($model->code);
         if ($parentTheme->hasParent()) {
@@ -618,13 +565,8 @@ class ThemeManager
 
     /**
      * Read configuration from Config/Meta file
-     *
-     * @param string $themeCode
-     *
-     * @return array|null
-     * @throws \Igniter\Flame\Exception\SystemException
      */
-    public function getMetaFromFile($path, $throw = true)
+    public function getMetaFromFile(string $path, bool $throw = true): array
     {
         if (File::exists($metaPath = $path.'/theme.json')) {
             return json_decode(File::get($metaPath), true);
@@ -633,9 +575,11 @@ class ThemeManager
         if ($throw) {
             throw new SystemException('Theme does not have a registration file in: '.$metaPath);
         }
+
+        return [];
     }
 
-    public function getFileNameParts($path, Theme $theme)
+    protected function getFileNameParts(string $path): array
     {
         $parts = explode('/', $path);
         $dirName = $parts[0];
@@ -646,19 +590,15 @@ class ThemeManager
 
     /**
      * Check configuration in Config file
-     *
-     * @param string $code
-     * @return array|null
-     * @throws \Igniter\Flame\Exception\SystemException
      */
-    protected function validateMetaFile($config, $code)
+    protected function validateMetaFile(array $config, string $code): array
     {
         foreach ([
-            'code',
-            'name',
-            'description',
-            'author',
-        ] as $item) {
+                     'code',
+                     'name',
+                     'description',
+                     'author',
+                 ] as $item) {
             if (!array_key_exists($item, $config)) {
                 throw new SystemException(sprintf(
                     Lang::get('igniter::system.missing.config_key'),
@@ -677,7 +617,7 @@ class ThemeManager
         return $config;
     }
 
-    protected function writeChildThemeMetaFile($path, $parentTheme, $themeConfig)
+    protected function writeChildThemeMetaFile(string $path, string $parentTheme, array $themeConfig)
     {
         $themeConfig['parent'] = $parentTheme->name;
         $themeConfig['version'] = array_get($parentTheme->config, 'version');

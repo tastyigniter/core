@@ -9,31 +9,25 @@ use Igniter\Flame\Html\HtmlFacade as Html;
  */
 class Template
 {
-    protected $themeCode;
+    protected ?string $themeCode = null;
 
-    protected $pageTitle;
+    protected ?string $pageTitle = null;
 
-    protected $pageHeading;
+    protected ?string $pageHeading = null;
 
-    protected $pageButtons = [];
+    protected array $pageButtons = [];
 
-    public $blocks = [];
+    public array $blocks = [];
 
     /**
      * Returns the layout block contents but does not deletes the block from memory.
      *
      * @param string $name Specifies the block name.
      * @param string $default Specifies a default block value to use if the block requested is not exists.
-     *
-     * @return string
      */
-    public function getBlock($name, $default = null)
+    public function getBlock(string $name, ?string $default = null): string
     {
-        if (!isset($this->blocks[$name])) {
-            return $default;
-        }
-
-        return $this->blocks[$name];
+        return $this->blocks[$name] ?? $default;
     }
 
     /**
@@ -42,7 +36,7 @@ class Template
      * @param string $name Specifies the block name.
      * @param string $contents Specifies the block content.
      */
-    public function appendBlock($name, $contents)
+    public function appendBlock(string $name, string $contents)
     {
         if (!isset($this->blocks[$name])) {
             $this->blocks[$name] = null;
@@ -57,37 +51,37 @@ class Template
      * @param string $name Specifies the block name.
      * @param string $contents Specifies the block content.
      */
-    public function setBlock($name, $contents)
+    public function setBlock(string $name, string $contents)
     {
         $this->blocks[$name] = $contents;
     }
 
-    public function getTheme()
+    public function getTheme(): string
     {
         return $this->themeCode;
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->pageTitle;
     }
 
-    public function getHeading()
+    public function getHeading(): string
     {
         return $this->pageHeading;
     }
 
-    public function getButtonList()
+    public function getButtonList(): string
     {
         return implode(PHP_EOL, $this->pageButtons);
     }
 
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->pageTitle = $title;
     }
 
-    public function setHeading($heading)
+    public function setHeading(string $heading)
     {
         if (strpos($heading, ':')) {
             [$normal, $small] = explode(':', $heading);
@@ -97,7 +91,7 @@ class Template
         $this->pageHeading = $heading;
     }
 
-    public function setButton($name, array $attributes = [])
+    public function setButton(string $name, array $attributes = [])
     {
         $this->pageButtons[] = '<a'.Html::attributes($attributes).'>'.$name.'</a>';
     }

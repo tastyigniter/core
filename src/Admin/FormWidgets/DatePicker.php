@@ -16,33 +16,25 @@ class DatePicker extends BaseFormWidget
     // Configurable properties
     //
 
-    /**
-     * @var bool Display mode: datetime, date, time.
-     */
-    public $mode = 'date';
+    /** Display mode: datetime, date, time. */
+    public string $mode = 'date';
 
-    /**
-     * @var string the minimum/earliest date that can be selected.
-     * eg: 2000-01-01
-     */
-    public $startDate = null;
+    /** The minimum/earliest date that can be selected. eg: 2000-01-01 */
+    public null|int|string|\DateTimeInterface $startDate = null;
 
-    /**
-     * @var string the maximum/latest date that can be selected.
-     * eg: 2020-12-31
-     */
-    public $endDate = null;
+    /** The maximum/latest date that can be selected. eg: 2020-12-31 */
+    public null|int|string|\DateTimeInterface $endDate = null;
 
-    public $dateFormat = 'Y-m-d';
+    public string $dateFormat = 'Y-m-d';
 
-    public $timeFormat = 'H:i';
+    public string $timeFormat = 'H:i';
 
-    protected $datesDisabled;
+    public array $datesDisabled = [];
 
     //
     // Object properties
     //
-    protected $defaultAlias = 'datepicker';
+    protected string $defaultAlias = 'datepicker';
 
     public function initialize()
     {
@@ -51,6 +43,7 @@ class DatePicker extends BaseFormWidget
             'mode',
             'startDate',
             'endDate',
+            'datesDisabled',
         ]);
 
         $this->mode = strtolower($this->mode);
@@ -135,13 +128,13 @@ class DatePicker extends BaseFormWidget
         $this->vars['datesDisabled'] = $this->datesDisabled;
     }
 
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): mixed
     {
         if ($this->formField->disabled || $this->formField->hidden) {
             return FormField::NO_SAVE_DATA;
         }
 
-        if (!strlen($value)) {
+        if (!$value) {
             return null;
         }
 

@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 
 class MailPartialRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'name' => lang('igniter::admin.label_name'),
@@ -16,7 +16,7 @@ class MailPartialRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => ['required', 'string'],

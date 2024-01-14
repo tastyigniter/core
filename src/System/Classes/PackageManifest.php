@@ -7,43 +7,43 @@ use Illuminate\Foundation\PackageManifest as BasePackageManifest;
 
 class PackageManifest extends BasePackageManifest
 {
-    protected $metaFile = '/disabled-addons.json';
+    protected string $metaFile = '/disabled-addons.json';
 
-    public function packages()
+    public function packages(): array
     {
         return $this->getManifest();
     }
 
-    public function extensions()
+    public function extensions(): array
     {
         return collect($this->getManifest())->where('type', 'tastyigniter-extension')->all();
     }
 
-    public function themes()
+    public function themes(): array
     {
         return collect($this->getManifest())->where('type', 'tastyigniter-theme')->all();
     }
 
-    public function extensionConfig($key)
+    public function extensionConfig(string $key): array
     {
         return collect($this->extensions())->flatMap(function ($configuration) use ($key) {
             return (array)($configuration[$key] ?? []);
         })->filter()->all();
     }
 
-    public function themeConfig($key)
+    public function themeConfig(string $key): array
     {
         return collect($this->themes())->flatMap(function ($configuration) use ($key) {
             return (array)($configuration[$key] ?? []);
         })->filter()->all();
     }
 
-    public function getPackagePath($path)
+    public function getPackagePath(string $path)
     {
         return $this->vendorPath.'/composer/'.$path;
     }
 
-    public function getVersion($code)
+    public function getVersion(string $code)
     {
         return collect($this->getManifest())->where('code', $code)->value('version');
     }
@@ -93,7 +93,7 @@ class PackageManifest extends BasePackageManifest
             ->all());
     }
 
-    protected function formatExtension($package, $result = [])
+    protected function formatExtension(array $package, array $result = []): array
     {
         if (!$autoload = array_get($package, 'autoload.psr-4', [])) {
             return $result;
@@ -122,7 +122,7 @@ class PackageManifest extends BasePackageManifest
         return $result;
     }
 
-    protected function formatTheme($package, $result = [])
+    protected function formatTheme(array $package, array $result = []): array
     {
         $directory = $this->vendorPath.'/composer/'.array_get($package, 'install-path');
         $json = json_decode(File::get($directory.'/composer.json'), true);
@@ -144,7 +144,7 @@ class PackageManifest extends BasePackageManifest
         return $result;
     }
 
-    protected function formatRequire($require)
+    protected function formatRequire(?array $require): ?array
     {
         return $require;
     }
@@ -153,7 +153,7 @@ class PackageManifest extends BasePackageManifest
     //
     //
 
-    public function disabledAddons()
+    public function disabledAddons(): array
     {
         $path = dirname($this->manifestPath).$this->metaFile;
         if (!is_file($path)) {

@@ -6,9 +6,11 @@ use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Router;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class ThemeServiceProvider extends ServiceProvider
@@ -34,6 +36,10 @@ class ThemeServiceProvider extends ServiceProvider
 
             ($manager = resolve(ThemeManager::class))->bootThemes();
             $this->registerThemesViewNamespace($manager->listThemes());
+
+            Event::listen('main.controller.beforeRemap', function (MainController $controller) {
+                $controller->getTheme()?->loadThemeFile();
+            });
         });
     }
 

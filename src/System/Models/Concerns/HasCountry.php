@@ -2,7 +2,7 @@
 
 namespace Igniter\System\Models\Concerns;
 
-use Igniter\Flame\Database\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait HasCountry

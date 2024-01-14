@@ -10,26 +10,10 @@ use Igniter\System\Classes\BaseComponent;
  */
 class ViewBag extends BaseComponent
 {
-    /**
-     * @var bool This component is hidden from the admin UI.
-     */
-    public $isHidden = true;
+    /** This component is hidden from the admin UI. */
+    public bool $isHidden = true;
 
-    /**
-     * @return array
-     */
-    public function componentDetails()
-    {
-        return [
-            'name' => 'viewBag',
-            'description' => 'Stores custom template properties.',
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function validateProperties(array $properties)
+    public function validateProperties(array $properties): array
     {
         return $properties;
     }

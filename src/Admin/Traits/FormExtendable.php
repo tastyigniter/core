@@ -2,7 +2,10 @@
 
 namespace Igniter\Admin\Traits;
 
+use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 trait FormExtendable
@@ -10,69 +13,64 @@ trait FormExtendable
     /**
      * Called to validate create or edit form.
      */
-    public function formValidate($model, $form)
+    public function formValidate(Model $model, $form)
     {
     }
 
     /**
      * Called before the creation or updating form is saved.
      */
-    public function formBeforeSave($model)
+    public function formBeforeSave(Model $model)
     {
     }
 
     /**
      * Called after the creation or updating form is saved.
      */
-    public function formAfterSave($model)
+    public function formAfterSave(Model $model)
     {
     }
 
     /**
      * Called before the creation form is saved.
      */
-    public function formBeforeCreate($model)
+    public function formBeforeCreate(Model $model)
     {
     }
 
     /**
      * Called after the creation form is saved.
      */
-    public function formAfterCreate($model)
+    public function formAfterCreate(Model $model)
     {
     }
 
     /**
      * Called before the updating form is saved.
      */
-    public function formBeforeUpdate($model)
+    public function formBeforeUpdate(Model $model)
     {
     }
 
     /**
      * Called after the updating form is saved.
      */
-    public function formAfterUpdate($model)
+    public function formAfterUpdate(Model $model)
     {
     }
 
     /**
      * Called after the form model is deleted.
      */
-    public function formAfterDelete($model)
+    public function formAfterDelete(Model $model)
     {
     }
 
     /**
      * Finds a Model record by its primary identifier, used by edit actions. This logic
      * can be changed by overriding it in the controller.
-     *
-     * @param string $recordId
-     *
-     * @return\Igniter\Flame\Database\Model
-     * @throws \Exception
      */
-    public function formFindModelObject($recordId)
+    public function formFindModelObject(?string $recordId): Model
     {
         $recordId = strip_tags($recordId); //remove html tags from url(reflective xss)
         throw_unless(strlen($recordId), FlashException::error(lang('igniter::admin.form.missing_id')));
@@ -99,7 +97,7 @@ trait FormExtendable
      * by overriding it in the controller.
      * @return\Igniter\Flame\Database\Model
      */
-    public function formCreateModelObject()
+    public function formCreateModelObject(): Model
     {
         return $this->createModel();
     }
@@ -111,7 +109,7 @@ trait FormExtendable
      *
      * @return void
      */
-    public function formExtendFieldsBefore($host)
+    public function formExtendFieldsBefore(Form $host)
     {
     }
 
@@ -122,43 +120,28 @@ trait FormExtendable
      *
      * @return void
      */
-    public function formExtendFields($host, $fields)
+    public function formExtendFields(Form $host, $fields)
     {
     }
 
     /**
      * Called before the form is refreshed, should return an array of additional save data.
-     *
-     * @param \Igniter\Admin\Widgets\Form $host The hosting form widget
-     * @param array $saveData Current save data
-     *
-     * @return array
      */
-    public function formExtendRefreshData($host, $saveData)
+    public function formExtendRefreshData(Form $host, array $saveData)
     {
     }
 
     /**
      * Called when the form is refreshed, giving the opportunity to modify the form fields.
-     *
-     * @param \Igniter\Admin\Widgets\Form $host The hosting form widget
-     * @param array $fields Current form fields
-     *
-     * @return array
      */
-    public function formExtendRefreshFields($host, $fields)
+    public function formExtendRefreshFields(Form $host, array $fields)
     {
     }
 
     /**
      * Called after the form is refreshed, should return an array of additional result parameters.
-     *
-     * @param \Igniter\Admin\Widgets\Form $host The hosting form widget
-     * @param array $result Current result parameters.
-     *
-     * @return array
      */
-    public function formExtendRefreshResults($host, $result)
+    public function formExtendRefreshResults(Form $host, array $result)
     {
     }
 
@@ -170,59 +153,49 @@ trait FormExtendable
      *
      * @return\Igniter\Flame\Database\Model
      */
-    public function formExtendModel($model)
+    public function formExtendModel(Model $model)
     {
     }
 
     /**
      * Extend the query used for finding the form model. Extra conditions
      * can be applied to the query, for example, $query->withTrashed();
-     *
-     * @param \Igniter\Flame\Database\Builder $query
-     *
-     * @return void
      */
-    public function formExtendQuery($query)
+    public function formExtendQuery(Builder $query)
     {
     }
 
-    public function formExtendConfig($formConfig)
+    public function formExtendConfig(array $formConfig)
     {
     }
 
-    /**
-     * Static helper for extending form fields.
-     *
-     * @param callable $callback
-     *
-     * @return void
-     */
-    public static function extendFormFields($callback)
+    /** Static helper for extending form fields. */
+    public static function extendFormFields(callable $callback)
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.form.extendFields', function ($widget) use ($calledClass, $callback) {
             if (!is_a($widget->getController(), $calledClass)) {
                 return;
             }
-            call_user_func_array($callback, [$widget, $widget->model, $widget->getContext()]);
+
+            $callback($widget, $widget->model, $widget->getContext());
         });
     }
 
     /**
      * Static helper for extending form fields.
      *
-     * @param callable $callback
-     *
      * @return void
      */
-    public static function extendFormFieldsBefore($callback)
+    public static function extendFormFieldsBefore(callable $callback)
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.form.extendFieldsBefore', function ($widget) use ($calledClass, $callback) {
             if (!is_a($widget->getController(), $calledClass)) {
                 return;
             }
-            call_user_func_array($callback, [$widget, $widget->model, $widget->getContext()]);
+
+            $callback($widget, $widget->model, $widget->getContext());
         });
     }
 }

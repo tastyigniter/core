@@ -2,9 +2,13 @@
 
 namespace Igniter\Admin\Http\Actions;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\ListExtendable;
+use Igniter\Admin\Widgets\Filter;
+use Igniter\Admin\Widgets\Lists;
+use Igniter\Admin\Widgets\Toolbar;
 use Igniter\System\Classes\ControllerAction;
 use Illuminate\Support\Facades\DB;
 
@@ -15,10 +19,8 @@ class ListController extends ControllerAction
 {
     use ListExtendable;
 
-    /**
-     * @var string The primary list alias to use.
-     */
-    protected $primaryAlias = 'list';
+    /** The primary list alias to use. */
+    protected string $primaryAlias = 'list';
 
     /**
      * Define controller list configuration array.
@@ -35,40 +37,24 @@ class ListController extends ControllerAction
      *          ],
      *      ],
      *  ];
-     * @var array
      */
-    public $listConfig;
+    public array $listConfig;
 
     /**
      * @var \Igniter\Admin\Widgets\Lists[] Reference to the list widget objects
      */
-    protected $listWidgets;
+    protected array $listWidgets = [];
 
-    /**
-     * @var \Igniter\Admin\Widgets\Toolbar Reference to the toolbar widget object.
-     */
-    protected $toolbarWidget;
+    protected array $toolbarWidgets = [];
 
-    /**
-     * @var \Igniter\Admin\Widgets\Filter[] Reference to the filter widget objects.
-     */
-    protected $filterWidgets = [];
+    protected array $filterWidgets = [];
 
-    protected $requiredProperties = ['listConfig'];
+    protected array $requiredProperties = ['listConfig'];
 
-    /**
-     * @var array Required controller configuration array keys
-     */
-    protected $requiredConfig = ['model', 'configFile'];
+    /** Required controller configuration array keys */
+    protected array $requiredConfig = ['model', 'configFile'];
 
-    /**
-     * List_Controller constructor.
-     *
-     * @param \Illuminate\Routing\Controller $controller
-     *
-     * @throws \Exception
-     */
-    public function __construct($controller)
+    public function __construct(AdminController $controller)
     {
         parent::__construct($controller);
 
@@ -106,7 +92,7 @@ class ListController extends ControllerAction
         $this->makeLists();
     }
 
-    public function index_onDelete()
+    public function index_onDelete(): array
     {
         $checkedIds = post('checked');
         if (!$checkedIds || !is_array($checkedIds) || !count($checkedIds)) {
@@ -150,10 +136,8 @@ class ListController extends ControllerAction
 
     /**
      * Creates all the widgets based on the model config.
-     *
-     * @return array List of Igniter\Admin\Classes\BaseWidget objects
      */
-    public function makeLists()
+    public function makeLists(): array
     {
         $this->listWidgets = [];
 
@@ -166,10 +150,8 @@ class ListController extends ControllerAction
 
     /**
      * Prepare the widgets used by this action
-     *
-     * @return \Igniter\Admin\Classes\BaseWidget
      */
-    public function makeList($alias)
+    public function makeList(?string $alias = null): Lists
     {
         if (!$alias || !isset($this->listConfig[$alias])) {
             $alias = $this->primaryAlias;
@@ -192,7 +174,8 @@ class ListController extends ControllerAction
         $columnConfig['model'] = $model;
         $columnConfig['alias'] = $alias;
 
-        $widget = $this->makeWidget(\Igniter\Admin\Widgets\Lists::class, array_merge($columnConfig, $listConfig));
+        /** @var Lists $widget */
+        $widget = $this->makeWidget(Lists::class, array_merge($columnConfig, $listConfig));
 
         $widget->bindEvent('list.extendColumns', function () use ($widget) {
             $this->controller->listExtendColumns($widget);
@@ -222,10 +205,10 @@ class ListController extends ControllerAction
 
         // Prep the optional toolbar widget
         if (isset($this->controller->widgets['toolbar']) && (isset($listConfig['toolbar']) || isset($modelConfig['toolbar']))) {
-            $this->toolbarWidget[$alias] = clone $this->controller->widgets['toolbar'];
-            if ($this->toolbarWidget[$alias] instanceof \Igniter\Admin\Widgets\Toolbar) {
-                $this->toolbarWidget[$alias]->reInitialize($listConfig['toolbar'] ?? $modelConfig['toolbar']);
-                $this->toolbarWidget[$alias]->bindToController();
+            $this->toolbarWidgets[$alias] = clone $this->controller->widgets['toolbar'];
+            if ($this->toolbarWidgets[$alias] instanceof Toolbar) {
+                $this->toolbarWidgets[$alias]->reInitialize($listConfig['toolbar'] ?? $modelConfig['toolbar']);
+                $this->toolbarWidgets[$alias]->bindToController();
             }
         }
 
@@ -233,7 +216,7 @@ class ListController extends ControllerAction
         if (array_get($modelConfig, 'filter')) {
             $filterConfig = $modelConfig['filter'];
             $filterConfig['alias'] = "{$widget->alias}_filter";
-            $filterWidget = $this->makeWidget(\Igniter\Admin\Widgets\Filter::class, $filterConfig);
+            $filterWidget = $this->makeWidget(Filter::class, $filterConfig);
             $filterWidget->bindToController();
 
             if ($searchWidget = $filterWidget->getSearchWidget()) {
@@ -277,7 +260,7 @@ class ListController extends ControllerAction
         return $widget;
     }
 
-    public function renderList($alias = null, $listOnly = false)
+    public function renderList(?string $alias = null, bool $listOnly = false): string
     {
         if (is_null($alias) || !isset($this->listConfig[$alias])) {
             $alias = $this->primaryAlias;
@@ -285,8 +268,8 @@ class ListController extends ControllerAction
 
         $list = [];
 
-        if (!$listOnly && isset($this->toolbarWidget[$alias])) {
-            $list[] = $this->toolbarWidget[$alias]->render();
+        if (!$listOnly && isset($this->toolbarWidgets[$alias])) {
+            $list[] = $this->toolbarWidgets[$alias]->render();
         }
 
         if (!$listOnly && isset($this->filterWidgets[$alias])) {
@@ -298,7 +281,7 @@ class ListController extends ControllerAction
         return implode(PHP_EOL, $list);
     }
 
-    public function refreshList($alias = null)
+    public function refreshList(?string $alias = null): array
     {
         if (!$this->listWidgets) {
             $this->makeLists();
@@ -311,30 +294,28 @@ class ListController extends ControllerAction
         return $this->listWidgets[$alias]->onRefresh();
     }
 
-    public function renderListToolbar($alias = null)
+    public function renderListToolbar(?string $alias = null)
     {
         $alias = $alias ?? $this->primaryAlias;
-        if (isset($this->toolbarWidget[$alias])) {
-            return $this->toolbarWidget[$alias]->render();
+        if (isset($this->toolbarWidgets[$alias])) {
+            return $this->toolbarWidgets[$alias]->render();
         }
     }
 
-    public function renderListFilter($alias = null)
+    public function renderListFilter(?string $alias = null): mixed
     {
         $alias = $alias ?? $this->primaryAlias;
         if (isset($this->filterWidgets[$alias])) {
             return $this->filterWidgets[$alias]->render();
         }
+
+        return null;
     }
 
     /**
      * Returns the widget used by this behavior.
-     *
-     * @param string $alias
-     *
-     * @return \Igniter\Admin\Classes\BaseWidget
      */
-    public function getListWidget($alias = null)
+    public function getListWidget(?string $alias = null): ?Lists
     {
         if (!$alias) {
             $alias = $this->primaryAlias;
@@ -345,10 +326,8 @@ class ListController extends ControllerAction
 
     /**
      * Returns the configuration used by this behavior.
-     *
-     * @return \Igniter\Admin\Classes\BaseWidget
      */
-    public function getListConfig($alias = null)
+    public function getListConfig(?string $alias = null): array
     {
         if (!$alias) {
             $alias = $this->primaryAlias;

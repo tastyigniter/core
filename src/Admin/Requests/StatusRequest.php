@@ -6,7 +6,7 @@ use Igniter\System\Classes\FormRequest;
 
 class StatusRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'status_name' => lang('igniter::admin.label_name'),
@@ -17,7 +17,7 @@ class StatusRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'status_name' => ['required', 'string', 'between:2,32'],

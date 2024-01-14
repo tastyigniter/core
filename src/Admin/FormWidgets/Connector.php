@@ -8,7 +8,7 @@ use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -19,58 +19,56 @@ class Connector extends BaseFormWidget
     use FormModelWidget;
     use ValidatesForm;
 
-    const INDEX_SEARCH = '___index__';
+    public const INDEX_SEARCH = '___index__';
 
-    const SORT_PREFIX = '___dragged_';
+    public const SORT_PREFIX = '___dragged_';
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'connector';
+    protected string $defaultAlias = 'connector';
 
-    protected $sortableInputName;
+    protected ?string $sortableInputName = null;
 
     //
     // Configurable properties
     //
 
-    public $sortColumnName = 'priority';
+    public string $sortColumnName = 'priority';
 
-    public $nameFrom = 'name';
+    public string $nameFrom = 'name';
 
-    public $descriptionFrom = 'description';
+    public string $descriptionFrom = 'description';
 
-    public $partial;
+    public ?string $partial = null;
 
-    public $formName = 'Record';
+    public string $formName = 'Record';
 
-    /**
-     * @var array Form field configuration
-     */
-    public $form;
+    /** Form field configuration */
+    public null|string|array $form = null;
 
-    public $newRecordTitle = 'New %s';
+    public string $newRecordTitle = 'New %s';
 
-    public $editRecordTitle = 'Edit %s';
+    public string $editRecordTitle = 'Edit %s';
 
-    public $emptyMessage = 'igniter::admin.list.text_empty';
+    public string $emptyMessage = 'igniter::admin.list.text_empty';
 
-    public $confirmMessage = 'igniter::admin.alert_warning_confirm';
+    public string $confirmMessage = 'igniter::admin.alert_warning_confirm';
 
     /**
      * @var bool Items can be sorted.
      */
-    public $sortable = false;
+    public bool $sortable = false;
 
     /**
      * @var bool Items can be edited.
      */
-    public $editable = true;
+    public bool $editable = true;
 
-    public $popupSize;
+    public ?string $popupSize = null;
 
-    public $hideNewButton = true;
+    public bool $hideNewButton = true;
 
     public function initialize()
     {
@@ -115,7 +113,7 @@ class Connector extends BaseFormWidget
         $this->addJs('connector.js', 'connector-js');
     }
 
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): mixed
     {
         if (!$this->sortable) {
             return FormField::NO_SAVE_DATA;
@@ -155,7 +153,7 @@ class Connector extends BaseFormWidget
     public function onRefresh()
     {
         $model = $this->getRelationModel();
-        if (strlen($recordId = post('recordId'))) {
+        if (strlen($recordId = post('recordId', ''))) {
             $model = $model->find($recordId);
         }
 
@@ -164,12 +162,12 @@ class Connector extends BaseFormWidget
         return $widget->onRefresh();
     }
 
-    public function onLoadRecord()
+    public function onLoadRecord(): mixed
     {
         $model = $this->getRelationModel();
         $formTitle = lang($this->newRecordTitle);
 
-        if (strlen($recordId = post('recordId'))) {
+        if (strlen($recordId = post('recordId', ''))) {
             $model = $model->find($recordId);
             $formTitle = lang($this->editRecordTitle);
         }
@@ -181,11 +179,11 @@ class Connector extends BaseFormWidget
         ]);
     }
 
-    public function onSaveRecord()
+    public function onSaveRecord(): mixed
     {
         $model = $this->getRelationModel();
 
-        if (strlen($recordId = post('recordId'))) {
+        if (strlen($recordId = post('recordId', ''))) {
             $model = $model->find($recordId);
         }
 
@@ -210,9 +208,9 @@ class Connector extends BaseFormWidget
         return $this->reload();
     }
 
-    public function onDeleteRecord()
+    public function onDeleteRecord(): mixed
     {
-        if (!strlen($recordId = post('recordId'))) {
+        if (!strlen($recordId = post('recordId', ''))) {
             return false;
         }
 
@@ -228,7 +226,7 @@ class Connector extends BaseFormWidget
         return $this->reload();
     }
 
-    protected function processLoadValue()
+    protected function processLoadValue(): array|Collection
     {
         $value = $this->getLoadValue();
         if (!$this->sortable) {
@@ -240,7 +238,7 @@ class Connector extends BaseFormWidget
             : sort_array($value, $this->sortColumnName);
     }
 
-    protected function processSaveValue($value)
+    protected function processSaveValue($value): array|Collection
     {
         $items = $this->formField->value;
         if (!$items instanceof Collection) {
@@ -261,13 +259,15 @@ class Connector extends BaseFormWidget
         return $results;
     }
 
-    protected function makeItemFormWidget($model)
+    protected function makeItemFormWidget($model): Form
     {
         $widgetConfig = is_string($this->form) ? $this->loadConfig($this->form, ['form'], 'form') : $this->form;
         $widgetConfig['model'] = $model;
         $widgetConfig['alias'] = $this->alias.'FormConnector';
         $widgetConfig['arrayName'] = $this->formField->arrayName.'[connectorData]';
         $widgetConfig['context'] = $model->exists ? 'edit' : 'create';
+
+        /** @var Form $widget */
         $widget = $this->makeWidget(Form::class, $widgetConfig);
 
         $widget->bindToController();

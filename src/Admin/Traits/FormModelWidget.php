@@ -5,6 +5,8 @@ namespace Igniter\Admin\Traits;
 use Exception;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Flame\Exception\FlashException;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Form Model Widget Trait
@@ -13,9 +15,9 @@ use Igniter\Flame\Exception\FlashException;
  */
 trait FormModelWidget
 {
-    protected $modelsToSave;
+    protected array $modelsToSave = [];
 
-    public function createFormModel()
+    public function createFormModel(): Model
     {
         if (!$this->modelClass) {
             throw FlashException::error(sprintf(lang('igniter::admin.alert_missing_field_property'), get_class($this)));
@@ -26,11 +28,7 @@ trait FormModelWidget
         return new $class;
     }
 
-    /**
-     * @return \Igniter\Flame\Database\Model
-     * @throws \Igniter\Flame\Exception\FlashException
-     */
-    public function findFormModel($recordId)
+    public function findFormModel(string $recordId): Model
     {
         throw_unless(strlen($recordId = strip_tags($recordId)),
             FlashException::error(lang('igniter::admin.form.missing_id'))
@@ -52,64 +50,53 @@ trait FormModelWidget
      * Returns the final model and attribute name of
      * a nested HTML array attribute.
      * Eg: list($model, $attribute) = $this->resolveModelAttribute($this->valueFrom);
-     *
-     * @param string $attribute .
-     *
-     * @return array
      */
-    public function resolveModelAttribute($attribute = null)
+    public function resolveModelAttribute(?string $attribute = null): array
     {
         try {
             return $this->formField->resolveModelAttribute($this->model, $attribute);
-        } catch (Exception $ex) {
+        } catch (Exception) {
             throw FlashException::error(sprintf(lang('igniter::admin.alert_missing_model_definition'),
-                get_class($this->model),
-                $attribute
+                $this->model::class, $attribute
             ));
         }
     }
 
-    /**
-     * Returns the model of a relation type.
-     * @return \Igniter\Admin\FormWidgets\Relation
-     * @throws \Exception
-     */
-    protected function getRelationModel()
+    /** Returns the model of a relation type. */
+    protected function getRelationModel(): Model
     {
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
         if (!$model || !$model->hasRelation($attribute)) {
             throw FlashException::error(sprintf(lang('igniter::admin.alert_missing_model_definition'),
-                get_class($this->model),
-                $this->valueFrom
+                $this->model::class, $this->valueFrom
             ));
         }
 
         return $model->makeRelation($attribute);
     }
 
-    protected function getRelationObject()
+    protected function getRelationObject(): Relation
     {
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
         if (!$model || !$model->hasRelation($attribute)) {
             throw FlashException::error(sprintf(lang('igniter::admin.alert_missing_model_definition'),
-                get_class($this->model),
-                $this->valueFrom
+                $this->model::class, $this->valueFrom
             ));
         }
 
         return $model->{$attribute}();
     }
 
-    protected function getRelationType()
+    protected function getRelationType(): string
     {
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
         return $model->getRelationType($attribute);
     }
 
-    protected function prepareModelsToSave($model, $saveData)
+    protected function prepareModelsToSave(?Model $model, mixed $saveData): array
     {
         $this->modelsToSave = [];
         $this->setModelAttributes($model, $saveData);
@@ -117,16 +104,8 @@ trait FormModelWidget
         return $this->modelsToSave;
     }
 
-    /**
-     * Sets a data collection to a model attributes, relations will also be set.
-     *
-     * @param \Igniter\Flame\Database\Model $model Model to save to
-     *
-     * @param array $saveData Data to save.
-     *
-     * @return void
-     */
-    protected function setModelAttributes($model, $saveData)
+    /** Sets a data collection to a model attributes, relations will also be set. */
+    protected function setModelAttributes(?Model $model, mixed $saveData)
     {
         if (!is_array($saveData) || !$model) {
             return;

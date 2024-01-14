@@ -15,22 +15,22 @@ class HubManager
 {
     const ENDPOINT = 'https://api.tastyigniter.com/v2';
 
-    public function listItems($filter = [])
+    public function listItems(array $filter = []): array
     {
         return $this->requestRemoteData('items', array_merge(['include' => 'require'], $filter));
     }
 
-    public function getDetail($type, $itemName = [])
+    public function getDetail(string $type, array $itemName = []): array
     {
-        return $this->requestRemoteData("{$type}/detail", ['item' => $itemName]);
+        return $this->requestRemoteData("$type/detail", ['item' => $itemName]);
     }
 
-    public function getDetails($type, $itemNames = [])
+    public function getDetails(string $type, array $itemNames = []): array
     {
-        return $this->requestRemoteData("{$type}/details", ['items' => $itemNames]);
+        return $this->requestRemoteData("$type/details", ['items' => $itemNames]);
     }
 
-    public function applyItems($itemNames = [], $params = []): Collection
+    public function applyItems(array $itemNames = [], array $params = []): Collection
     {
         $response = $this->requestRemoteData('core/apply', array_merge($params, [
             'items' => $itemNames,
@@ -47,12 +47,12 @@ class HubManager
         });
     }
 
-    public function getDataset($type)
+    public function getDataset(string $type): array
     {
         return array_get($this->requestRemoteData("dataset/$type"), 'data', []);
     }
 
-    protected function requestRemoteData($uri, $params = [])
+    protected function requestRemoteData(string $uri, array $params = []): array
     {
         $client = Http::baseUrl(Config::get('igniter.system.hubEndpoint', static::ENDPOINT));
 
@@ -71,7 +71,7 @@ class HubManager
         return $response->json();
     }
 
-    protected function prepareRequest($params)
+    protected function prepareRequest(array $params): array
     {
         $params['client'] = 'tastyigniter';
         $params['server'] = base64_encode(serialize([
@@ -110,12 +110,12 @@ class HubManager
     // Language Packs
     //
 
-    public function listLanguages($filter = [])
+    public function listLanguages(array $filter = []): array
     {
         return $this->requestRemoteData('languages', $filter);
     }
 
-    public function applyLanguagePack($locale, $build = null)
+    public function applyLanguagePack(string $locale, ?string $build = null): array
     {
         return $this->requestRemoteData('language/apply', [
             'locale' => $locale,
@@ -123,7 +123,7 @@ class HubManager
         ]);
     }
 
-    public function downloadLanguagePack($filePath, $fileHash, $params = [])
+    public function downloadLanguagePack(string $filePath, string $fileHash, array $params = []): array
     {
         return $this->requestRemoteData('language/download', $params, $filePath, $fileHash);
     }

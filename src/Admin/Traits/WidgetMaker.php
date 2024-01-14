@@ -2,6 +2,8 @@
 
 namespace Igniter\Admin\Traits;
 
+use Igniter\Admin\Classes\BaseFormWidget;
+use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Flame\Exception\SystemException;
 
@@ -15,17 +17,12 @@ trait WidgetMaker
     /**
      * Makes a widget object with the supplied configuration
      * ex. model config
-     *
-     * @param string $class Widget class name
-     * @param array $widgetConfig An array of config.
-     *
-     * @return \Igniter\Admin\Classes\BaseWidget The widget object
      */
-    public function makeWidget($class, $widgetConfig = [])
-    {
-        $controller = property_exists($this, 'controller') && $this->controller
-            ? $this->controller
-            : $this;
+    public function makeWidget(
+        string $class,
+        array $widgetConfig = [],
+    ): BaseWidget {
+        $controller = (property_exists($this, 'controller')) ? $this->controller : $this;
 
         if (!class_exists($class)) {
             throw new SystemException(sprintf(lang('igniter::admin.alert_widget_class_name'), $class));
@@ -44,11 +41,12 @@ trait WidgetMaker
      * @return \Igniter\Admin\Classes\BaseFormWidget The widget object
      * @throws \Exception
      */
-    public function makeFormWidget($class, $fieldConfig = [], $widgetConfig = [])
-    {
-        $controller = (property_exists($this, 'controller') && $this->controller)
-            ? $this->controller
-            : $this;
+    public function makeFormWidget(
+        string $class,
+        string|array|FormField $fieldConfig = [],
+        array $widgetConfig = [],
+    ): BaseFormWidget {
+        $controller = (property_exists($this, 'controller')) ? $this->controller : $this;
 
         if (!class_exists($class)) {
             throw new SystemException(sprintf(lang('igniter::admin.alert_widget_class_name'), $class));

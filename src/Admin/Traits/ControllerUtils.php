@@ -7,20 +7,14 @@ use Igniter\Flame\Support\RouterHelper;
 
 trait ControllerUtils
 {
-    /**
-     * @var string Page method name being called.
-     */
-    protected $action;
+    /** Page method name being called. */
+    protected string $action;
 
-    /**
-     * @var array Routed parameters.
-     */
-    protected $params;
+    /** Routed parameters. */
+    protected array $params;
 
-    /**
-     * @var array Default actions which cannot be called as actions.
-     */
-    public $hiddenActions = [
+    /** Default actions which cannot be called as actions. */
+    public array $hiddenActions = [
         'checkAction',
         'pageAction',
         'execPageAction',
@@ -28,15 +22,8 @@ trait ControllerUtils
         'pageCycle',
     ];
 
-    /**
-     * @var array Array of actions available without authentication.
-     */
-    protected $publicActions = [];
-
-    /**
-     * @var array Controller specified methods which cannot be called as actions.
-     */
-    protected $guarded = [];
+    /** Controller specified methods which cannot be called as actions. */
+    protected array $guarded = [];
 
     protected function setRequiredProperties()
     {
@@ -50,7 +37,7 @@ trait ControllerUtils
         $this->params = array_slice($segments, 1);
     }
 
-    public function checkAction($action)
+    public function checkAction(string $action): bool
     {
         if (!$methodExists = $this->handlerMethodExists($action)) {
             return false;
@@ -88,19 +75,22 @@ trait ControllerUtils
         return $this->{$method}(...$parameters);
     }
 
-    public function getClass()
+    public function getClass(): string
     {
-        return $this->class ?? get_class($this);
+        return get_class($this);
     }
 
-    public function getAction()
+    public function getAction(): string
     {
         return $this->action;
     }
 
-    protected function runHandler($handler, $params = [], $action = null)
+    protected function runHandler(string $handler, array $params = [], $action = null): mixed
     {
-        $pageHandler = $action.'_'.$handler;
+        $pageHandler = $handler;
+        if (!is_null($action)) {
+            $pageHandler = $action.'_'.$handler;
+        }
 
         if ($this->handlerMethodExists($pageHandler)) {
             $result = call_user_func_array([$this, $pageHandler], array_values($params));
@@ -114,9 +104,11 @@ trait ControllerUtils
 
             return $result ?: true;
         }
+
+        return false;
     }
 
-    protected function handlerMethodExists($handler)
+    protected function handlerMethodExists(string $handler): bool
     {
         return method_exists($this, 'methodExists')
             ? $this->methodExists($handler)

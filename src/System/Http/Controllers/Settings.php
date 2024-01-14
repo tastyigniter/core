@@ -7,9 +7,12 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\FormExtendable;
 use Igniter\Admin\Traits\WidgetMaker;
+use Igniter\Admin\Widgets\Form;
+use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Models\MailTemplate;
+use Igniter\System\Models\Settings as SettingsModel;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
@@ -23,23 +26,17 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     use FormExtendable;
     use WidgetMaker;
 
-    protected $requiredPermissions = 'Site.Settings';
+    protected null|string|array $requiredPermissions = 'Site.Settings';
 
-    protected $modelClass = \Igniter\System\Models\Settings::class;
+    protected $modelClass = SettingsModel::class;
 
-    /**
-     * @var \Igniter\Admin\Widgets\Form
-     */
-    public $formWidget;
+    public ?Form $formWidget = null;
 
-    /**
-     * @var \Igniter\Admin\Widgets\Toolbar
-     */
-    public $toolbarWidget;
+    public ?Toolbar $toolbarWidget = null;
 
-    public $settingCode;
+    public ?string $settingCode = null;
 
-    public $settingItemErrors = [];
+    public array $settingItemErrors = [];
 
     public function __construct()
     {
@@ -66,7 +63,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         $this->vars['settingItemErrors'] = $this->settingItemErrors;
     }
 
-    public function edit($context, $settingCode = null)
+    public function edit(string $context, ?string $settingCode = null)
     {
         $this->settingCode = $settingCode;
         [$model, $definition] = $this->findSettingDefinitions($settingCode);
@@ -92,7 +89,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         }
     }
 
-    public function edit_onSave($context, $settingCode = null)
+    public function edit_onSave(string $context, ?string $settingCode = null)
     {
         $this->settingCode = $settingCode;
         [$model, $definition] = $this->findSettingDefinitions($settingCode);
@@ -108,7 +105,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
         $saveData = $this->formWidget->getSaveData();
 
-        $this->validateFormRequest($definition->request, $model, function (Request $request) use ($saveData) {
+        $this->validateFormRequest($definition->request, function (Request $request) use ($saveData) {
             $request->merge($saveData);
         });
 
@@ -143,7 +140,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
         $saveData = $this->formWidget->getSaveData();
 
-        $this->validateFormRequest($definition->request, $model, function (Request $request) use ($saveData) {
+        $this->validateFormRequest($definition->request, function (Request $request) use ($saveData) {
             $request->merge($saveData);
         });
 
@@ -169,7 +166,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         return $this->refresh();
     }
 
-    public function initWidgets($model, $definition)
+    public function initWidgets(SettingsModel $model, \stdClass $definition)
     {
         $modelConfig = $this->getFieldConfig($definition->code, $model);
 
@@ -181,7 +178,8 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         $formConfig['context'] = 'edit';
 
         // Form Widget with extensibility
-        $this->formWidget = $this->makeWidget(\Igniter\Admin\Widgets\Form::class, $formConfig);
+        /** @var Form $this ->formWidget */
+        $this->formWidget = $this->makeWidget(Form::class, $formConfig);
         $this->formWidget->bindToController();
 
         // Prep the optional toolbar widget
@@ -191,7 +189,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         }
     }
 
-    protected function findSettingDefinitions($code)
+    protected function findSettingDefinitions(string $code): array
     {
         throw_unless(strlen($code),
             FlashException::error(lang('igniter::admin.form.missing_id'))
@@ -205,7 +203,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         return [$model, $definition];
     }
 
-    protected function createModel()
+    protected function createModel(): SettingsModel
     {
         if (!isset($this->modelClass) || !strlen($this->modelClass)) {
             throw FlashException::error(lang('igniter::system.settings.alert_settings_missing_model'));
@@ -214,12 +212,12 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         return new $this->modelClass();
     }
 
-    protected function formAfterSave($model)
+    protected function formAfterSave(SettingsModel $model)
     {
         $this->validateSettingItems(true);
     }
 
-    protected function getFieldConfig($code, $model)
+    protected function getFieldConfig(string $code, SettingsModel $model): array
     {
         $settingItem = $model->getSettingItem('core.'.$code);
         if ($settingItem->form && !is_array($settingItem->form)) {
@@ -229,7 +227,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         return $settingItem->form ?? [];
     }
 
-    protected function validateSettingItems($skipSession = false)
+    protected function validateSettingItems(bool $skipSession = false): array
     {
         $settingItemErrors = Session::get('settings.errors', []);
 

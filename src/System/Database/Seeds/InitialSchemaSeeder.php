@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class InitialSchemaSeeder extends Seeder
 {
-    protected $recordsPath = '/database/records';
+    protected string $recordsPath = '/database/records';
 
     /**
      * Run the initial schema seeds.
@@ -123,7 +123,7 @@ class InitialSchemaSeeder extends Seeder
         $this->seedLocationTables($locationId);
     }
 
-    protected function seedLocationTables($locationId)
+    protected function seedLocationTables(int $locationId)
     {
         if (DB::table('tables')->count()) {
             return;

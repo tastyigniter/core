@@ -25,7 +25,7 @@ abstract class Currency extends Model implements CurrencyInterface
         return $query->where('is_enabled', 1);
     }
 
-    public function getFormat()
+    public function getFormat(): string
     {
         return '1,0.00';
     }

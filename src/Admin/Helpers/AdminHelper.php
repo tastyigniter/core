@@ -5,48 +5,37 @@ namespace Igniter\Admin\Helpers;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\RouterHelper;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\URL;
 
 /**
  * Admin Helper
- * @see \Igniter\Admin\Facades\AdminHelper
+ * @see \Igniter\Admin\Helpers\AdminHelper
  */
 class AdminHelper
 {
+    public const HANDLER_REDIRECT = 'X_IGNITER_REDIRECT';
+
     /**
      * Returns the admin URI segment.
      */
-    public function uri()
+    public static function uri(): string
     {
         return Igniter::adminUri();
     }
 
-    /**
-     * Generate an absolute URL in context of the Admin
-     *
-     * @param string $path
-     * @param array $parameters
-     * @param bool|null $secure
-     *
-     * @return string
-     */
-    public function url($path = null, $parameters = [], $secure = null)
+    /** Generate an absolute URL in context of the Admin */
+    public static function url(?string $path = null, array $parameters = [], ?bool $secure = null): string
     {
-        return URL::to($this->uri().'/'.$path, $parameters, $secure);
+        return URL::to(self::uri().'/'.$path, $parameters, $secure);
     }
 
-    /**
-     * Returns the base admin URL from which this request is executed.
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    public function baseUrl($path = null)
+    /** Returns the base admin URL from which this request is executed. */
+    public static function baseUrl(?string $path = null): string
     {
-        $adminUri = $this->uri();
+        $adminUri = self::uri();
         $baseUrl = Request::getBaseUrl();
 
         if ($path === null) {
@@ -58,59 +47,31 @@ class AdminHelper
         return $baseUrl.'/'.$adminUri.$path;
     }
 
-    /**
-     * Create a new redirect response to a given admin path.
-     *
-     * @param string $path
-     * @param int $status
-     * @param array $headers
-     * @param bool|null $secure
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function redirect($path, $status = 302, $headers = [], $secure = null)
+    /** Create a new redirect response to a given admin path. */
+    public static function redirect(?string $path = null, int $status = 302, array $headers = [], ?bool $secure = null): RedirectResponse
     {
-        return Redirect::to($this->uri().'/'.$path, $status, $headers, $secure);
+        return Redirect::to(self::uri().'/'.$path, $status, $headers, $secure);
     }
 
-    /**
-     * Create a new admin redirect response, while putting the current URL in the session.
-     *
-     * @param int $status
-     * @param array $headers
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function redirectGuest($path, $status = 302, $headers = [], $secure = null)
+    /** Create a new admin redirect response, while putting the current URL in the session. */
+    public static function redirectGuest(?string $path = null, int $status = 302, array $headers = [], ?bool $secure = null): RedirectResponse
     {
-        return Redirect::guest($this->uri().'/'.$path, $status, $headers, $secure);
+        return Redirect::guest(self::uri().'/'.$path, $status, $headers, $secure);
     }
 
-    /**
-     * Create a new redirect response to the previously intended admin location.
-     *
-     * @param int $status
-     * @param array $headers
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function redirectIntended($path = '/', $status = 302, $headers = [], $secure = null)
+    /** Create a new redirect response to the previously intended admin location. */
+    public static function redirectIntended(?string $path = null, int $status = 302, array $headers = [], ?bool $secure = null): RedirectResponse
     {
-        $path = $path == '/' ? $path : '/'.$path;
-
-        return Redirect::intended($this->uri().$path, $status, $headers, $secure);
+        return Redirect::intended(self::uri().'/'.$path, $status, $headers, $secure);
     }
 
-    public function hasAjaxHandler()
+    public static function hasAjaxHandler(): bool
     {
         return !empty(request()->header('X-IGNITER-REQUEST-HANDLER'));
     }
 
-    /**
-     * Returns the AJAX handler for the current request, if available.
-     * @return string
-     */
-    public function getAjaxHandler()
+    /** Returns the AJAX handler for the current request, if available. */
+    public static function getAjaxHandler(): ?string
     {
         if (request()->ajax() && $handler = request()->header('X-IGNITER-REQUEST-HANDLER')) {
             return trim($handler);
@@ -123,14 +84,14 @@ class AdminHelper
         return null;
     }
 
-    public function validateAjaxHandler($handler)
+    public static function validateAjaxHandler(string $handler)
     {
         if (!preg_match('/^(?:\w+\:{2})?on[A-Z]{1}[\w+]*$/', $handler)) {
             throw new SystemException(sprintf(lang('igniter::admin.alert_invalid_ajax_handler_name'), $handler));
         }
     }
 
-    public function validateAjaxHandlerPartials()
+    public static function validateAjaxHandlerPartials(): array
     {
         if (!$partials = trim(request()->header('X-IGNITER-REQUEST-PARTIALS', ''))) {
             return [];

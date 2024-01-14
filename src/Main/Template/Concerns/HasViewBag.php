@@ -7,20 +7,16 @@ use Igniter\Main\Components\ViewBag;
 trait HasViewBag
 {
     /**
-     * @var array Contains the view bag properties.
+     * Contains the view bag properties.
      * This property is used by the page editor internally.
      */
-    public $viewBag = [];
+    public array $viewBag = [];
 
-    /**
-     * @var mixed Cache store for the getViewBag method.
-     */
-    protected $viewBagCache = false;
+    /** Cache store for the getViewBag method. */
+    protected ?ViewBag $viewBagCache = null;
 
     /**
      * Boot the sortable trait for this model.
-     *
-     * @return void
      */
     public static function bootHasViewBag()
     {
@@ -33,11 +29,10 @@ trait HasViewBag
      * Returns the configured view bag component.
      * This method is used only in the back-end and for internal system needs when
      * the standard way to access components is not an option.
-     * @return \Igniter\Main\Components\ViewBag
      */
-    public function getViewBag()
+    public function getViewBag(): ViewBag
     {
-        if ($this->viewBagCache !== false) {
+        if ($this->viewBagCache !== null) {
             return $this->viewBagCache;
         }
 

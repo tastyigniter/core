@@ -2,6 +2,7 @@
 
 namespace Igniter\System\Http\Controllers;
 
+use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\System\Models\Country;
 
@@ -10,12 +11,12 @@ use Igniter\System\Models\Country;
  */
 class Countries extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\System\Models\Country::class,
             'title' => 'lang:igniter::system.countries.text_title',
@@ -26,7 +27,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter::system.countries.text_form_name',
         'model' => \Igniter\System\Models\Country::class,
         'request' => \Igniter\System\Requests\CountryRequest::class,
@@ -52,7 +53,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'country',
     ];
 
-    protected $requiredPermissions = 'Site.Countries';
+    protected null|string|array $requiredPermissions = 'Site.Countries';
 
     public function __construct()
     {
@@ -72,7 +73,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function index_onSetDefault($context = null)
+    public function index_onSetDefault(?string $context)
     {
         if (Country::updateDefault(post('default'))) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::system.countries.alert_set_default')));
@@ -81,7 +82,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
         return $this->refreshList('list');
     }
 
-    public function listOverrideColumnValue($record, $column, $alias = null)
+    public function listOverrideColumnValue(Country $record, ListColumn $column, ?string $alias = null)
     {
         if ($column->type == 'button' && $column->columnName == 'default') {
             $column->iconCssClass = $record->isDefault() ? 'fa fa-star' : 'fa fa-star-o';

@@ -2,6 +2,7 @@
 
 namespace Igniter\System\Classes;
 
+use Composer\Autoload\ClassLoader;
 use Composer\Composer;
 use Composer\Config\JsonConfigSource;
 use Composer\DependencyResolver\Request;
@@ -16,6 +17,7 @@ use Igniter\Flame\Exception\ComposerException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Helpers\SystemHelper;
+use Illuminate\Support\Collection;
 use Seld\JsonLint\DuplicateKeyException;
 use Seld\JsonLint\JsonParser;
 use Throwable;
@@ -27,18 +29,16 @@ class ComposerManager
 {
     protected const REPOSITORY_HOST = 'satis.tastyigniter.com';
 
-    /**
-     * @var \Composer\Autoload\ClassLoader The primary composer instance.
-     */
-    protected $loader;
+    /** The primary composer instance. */
+    protected ClassLoader $loader;
 
-    protected $storagePath;
+    protected ?string $storagePath = null;
 
-    protected $prevErrorHandler;
+    protected mixed $prevErrorHandler = null;
 
-    protected $workingDir;
+    protected ?string $workingDir = null;
 
-    protected $installedPackages = [];
+    protected ?Collection $installedPackages = null;
 
     public function initialize()
     {
@@ -48,11 +48,11 @@ class ComposerManager
     /**
      * Similar function to including vendor/autoload.php.
      *
-     * @param string $vendorPath Absoulte path to the vendor directory.
+     * @param string $vendorPath Absolute path to the vendor directory.
      *
      * @return void
      */
-    public function autoload($vendorPath)
+    public function autoload(string $vendorPath)
     {
         $dir = $vendorPath.'/composer';
 
@@ -83,12 +83,12 @@ class ComposerManager
         }
     }
 
-    public function getPackageVersion($name)
+    public function getPackageVersion(string $name): ?string
     {
         return array_get($this->loadInstalledPackages()->get($name, []), 'version');
     }
 
-    public function getPackageName($name)
+    public function getPackageName(string $name): ?string
     {
         return array_get($this->loadInstalledPackages()->get($name, []), 'name');
     }
@@ -98,7 +98,7 @@ class ComposerManager
         return $this->loadInstalledPackages();
     }
 
-    public function getConfig($path, $type = 'extension')
+    public function getConfig(string $path, string $type = 'extension')
     {
         $composer = File::json($path.'/composer.json') ?? [];
 
@@ -158,12 +158,8 @@ class ComposerManager
 
     /**
      * Removes the vendor directory from a path.
-     *
-     * @param string $path
-     *
-     * @return string
      */
-    protected function stripVendorDir($path, $vendorDir)
+    protected function stripVendorDir(string $path, string $vendorDir): string
     {
         $path = realpath($path);
         $vendorDir = realpath($vendorDir);
@@ -175,7 +171,7 @@ class ComposerManager
         return $path;
     }
 
-    protected function loadInstalledPackages()
+    protected function loadInstalledPackages(): Collection
     {
         if ($this->installedPackages) {
             return $this->installedPackages;
@@ -204,7 +200,7 @@ class ComposerManager
     //
     //
 
-    public function install(?array $requirements, ?IOInterface $io = null): void
+    public function install(?array $requirements, ?IOInterface $io = null)
     {
         $this->assertPhpIniSet();
         $this->assertHomeEnvSet();
@@ -254,7 +250,7 @@ class ComposerManager
         }
     }
 
-    public function uninstall(array $requirements, ?IOInterface $io = null): void
+    public function uninstall(array $requirements, ?IOInterface $io = null)
     {
         $this->assertPhpIniSet();
         $this->assertHomeEnvSet();
@@ -295,7 +291,7 @@ class ComposerManager
         }
     }
 
-    public function addAuthCredentials(string $username, string $password, string $type = 'http-basic'): void
+    public function addAuthCredentials(string $username, string $password, string $type = 'http-basic')
     {
         $config = new JsonConfigSource(new JsonFile($this->getAuthPath()), true);
 
@@ -305,6 +301,7 @@ class ComposerManager
         ]);
     }
 
+    /** @noinspection PhpUndefinedConstantInspection */
     protected function getJsonPath(): string
     {
         if (defined('IGNITER_COMPOSER_PATH')) {
@@ -338,7 +335,7 @@ class ComposerManager
         return base_path('auth.json');
     }
 
-    protected function backupComposerFiles(): void
+    protected function backupComposerFiles()
     {
         $jsonBackupPath = $this->storagePath.'/backups/composer.json';
         $lockBackupPath = $this->storagePath.'/backups/composer.lock';
@@ -354,7 +351,7 @@ class ComposerManager
         }
     }
 
-    protected function restoreComposerFiles(): void
+    protected function restoreComposerFiles()
     {
         $jsonBackupPath = $this->storagePath.'/backups/composer.json';
         $lockBackupPath = $this->storagePath.'/backups/composer.lock';
@@ -366,7 +363,7 @@ class ComposerManager
         }
     }
 
-    protected function updateRequirements(IOInterface $io, string $jsonPath, array $requirements): void
+    protected function updateRequirements(IOInterface $io, string $jsonPath, array $requirements)
     {
         $requireKey = 'require';
         $requireDevKey = 'require-dev';
@@ -455,7 +452,7 @@ class ComposerManager
         }
     }
 
-    protected function assertPhpIniSet(): void
+    protected function assertPhpIniSet()
     {
         // Don't change the memory_limit, if it's already set to -1 or >= 1.5GB
         $memoryLimit = SystemHelper::phpIniValueInBytes('memory_limit');
@@ -468,7 +465,7 @@ class ComposerManager
         }
     }
 
-    protected function assertHomeEnvSet(): void
+    protected function assertHomeEnvSet()
     {
         if (!getenv('COMPOSER_HOME') && !getenv(Platform::isWindows() ? 'APPDATA' : 'HOME')) {
             $path = $this->storagePath.'/home';

@@ -6,7 +6,7 @@ use Igniter\System\Classes\BaseComponent;
 
 class {{studly_name}} extends BaseComponent
 {
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [];
     }

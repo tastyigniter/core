@@ -2,6 +2,7 @@
 
 namespace Igniter\System\Http\Controllers;
 
+use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Widgets\Form;
@@ -11,18 +12,19 @@ use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Language;
 use Igniter\System\Traits\ManagesUpdates;
 use Igniter\System\Traits\SessionMaker;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class Languages extends \Igniter\Admin\Classes\AdminController
 {
     use ManagesUpdates;
     use SessionMaker;
 
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\System\Models\Language::class,
             'title' => 'lang:igniter::system.languages.text_title',
@@ -32,7 +34,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter::system.languages.text_form_name',
         'model' => \Igniter\System\Models\Language::class,
         'request' => \Igniter\System\Requests\LanguageRequest::class,
@@ -58,13 +60,13 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'language',
     ];
 
-    protected $requiredPermissions = 'Site.Languages';
+    protected null|string|array $requiredPermissions = 'Site.Languages';
 
-    protected $localeFiles;
+    protected ?array $localeFiles = null;
 
-    protected $totalStrings;
+    protected int $totalStrings = 0;
 
-    protected $totalTranslated;
+    protected int $totalTranslated = 0;
 
     public function __construct()
     {
@@ -92,7 +94,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return resolve(LanguageManager::class)->searchLanguages($filter['search']);
     }
 
-    public function edit($context = null, $recordId = null)
+    public function edit(?string $context = null, ?string $recordId = null)
     {
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
         $this->addJs('formwidgets/translationseditor.js', 'translationseditor-js');
@@ -104,7 +106,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('FormController')->edit($context, $recordId);
     }
 
-    public function index_onSetDefault($context = null)
+    public function index_onSetDefault(?string $context = null)
     {
         if (Language::updateDefault(post('default'))) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::system.languages.alert_set_default')));
@@ -113,14 +115,14 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return $this->refreshList('list');
     }
 
-    public function listOverrideColumnValue($record, $column, $alias = null)
+    public function listOverrideColumnValue(Language $record, ListColumn $column, ?string $alias = null)
     {
         if ($column->type == 'button' && $column->columnName == 'default') {
             $column->iconCssClass = $record->isDefault() ? 'fa fa-star' : 'fa fa-star-o';
         }
     }
 
-    public function edit_onSubmitFilter($context = null, $recordId = null)
+    public function edit_onSubmitFilter(?string $context = null, ?string $recordId = null)
     {
         $model = $this->formFindModelObject($recordId);
 
@@ -138,7 +140,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return $this->asExtension('FormController')->makeRedirect('edit', $model);
     }
 
-    public function edit_onCheckUpdates($context = null, $recordId = null)
+    public function edit_onCheckUpdates(?string $context = null, ?string $recordId = null)
     {
         $model = $this->formFindModelObject($recordId);
 
@@ -171,21 +173,18 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $response = resolve(LanguageManager::class)->applyLanguagePack($items[0]['name']);
 
         return [
-            'steps' => $this->buildProcessSteps([$response], $items),
+            'steps' => $this->buildProcessSteps([$response]),
         ];
     }
 
-    public function edit_onApplyUpdate($context = null, $recordId = null)
+    public function edit_onApplyUpdate(?string $context = null, ?string $recordId = null)
     {
         $model = $this->formFindModelObject($recordId);
 
         $response = resolve(LanguageManager::class)->applyLanguagePack($model->code);
 
         return [
-            'steps' => $this->buildProcessSteps([$response], [[
-                'name' => $model->code,
-                'action' => 'update',
-            ]]),
+            'steps' => $this->buildProcessSteps([$response]),
         ];
     }
 
@@ -224,7 +223,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return $json;
     }
 
-    public function formExtendFields(Form $form, $fields)
+    public function formExtendFields(Form $form, array $fields)
     {
         if ($form->getContext() !== 'edit') {
             return;
@@ -258,17 +257,17 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $this->vars['translatedProgress'] = $this->totalStrings ? round(($this->totalTranslated * 100) / $this->totalStrings, 2) : 0;
     }
 
-    protected function getFilterValue($key, $default = null)
+    protected function getFilterValue(string $key, ?string $default = null)
     {
         return $this->getSession('translation_'.$key, $default);
     }
 
-    protected function setFilterValue($key, $value)
+    protected function setFilterValue(string $key, string $value)
     {
         $this->putSession('translation_'.$key, trim($value));
     }
 
-    protected function prepareNamespaces()
+    protected function prepareNamespaces(): array
     {
         $result = [];
 
@@ -288,7 +287,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return $result;
     }
 
-    protected function prepareTranslations($model)
+    protected function prepareTranslations(Language $model): LengthAwarePaginator
     {
         $this->totalStrings = 0;
         $this->totalTranslated = 0;

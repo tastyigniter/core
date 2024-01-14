@@ -18,9 +18,9 @@ class Charts extends BaseDashboardWidget
     /**
      * @var string A unique alias to identify this widget.
      */
-    protected $defaultAlias = 'charts';
+    protected string $defaultAlias = 'charts';
 
-    protected $datasetOptions = [
+    protected array $datasetOptions = [
         'label' => null,
         'data' => [],
         'fill' => true,
@@ -28,14 +28,14 @@ class Charts extends BaseDashboardWidget
         'borderColor' => null,
     ];
 
-    public $contextDefinitions;
+    public array $contextDefinitions = [];
 
     public function initialize()
     {
         $this->setProperty('rangeFormat', 'MMMM D, YYYY');
     }
 
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [
             'title' => [
@@ -53,7 +53,7 @@ class Charts extends BaseDashboardWidget
         return $this->makePartial('charts/charts');
     }
 
-    public function listContext()
+    public function listContext(): array
     {
         $this->contextDefinitions = [
             'customer' => [
@@ -81,7 +81,7 @@ class Charts extends BaseDashboardWidget
         return $this->contextDefinitions;
     }
 
-    protected function getDatasets($start, $end)
+    protected function getDatasets(\DateTimeInterface $start, \DateTimeInterface $end): array
     {
         $result = [];
         foreach ($this->listContext() as $context => $config) {

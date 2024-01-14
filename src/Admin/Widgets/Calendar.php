@@ -8,30 +8,20 @@ use Igniter\Flame\Exception\SystemException;
 
 class Calendar extends BaseWidget
 {
-    /**
-     * @var string Defines the width-to-height aspect ratio of the calendar.
-     */
-    public $aspectRatio = 2;
+    /** Defines the width-to-height aspect ratio of the calendar. */
+    public int $aspectRatio = 2;
 
-    /**
-     * @var string Determines whether the events on the calendar can be modified.
-     */
-    public $editable = true;
+    /** Determines whether the events on the calendar can be modified. */
+    public bool $editable = true;
 
-    /**
-     * @var string Defines the number of events displayed on a day
-     */
-    public $eventLimit = 5;
+    /** Defines the number of events displayed on a day */
+    public int $eventLimit = 5;
 
-    /**
-     * @var string Defines initial date displayed when the calendar first loads.
-     */
-    public $defaultDate;
+    /** Defines initial date displayed when the calendar first loads. */
+    public ?string $defaultDate = null;
 
-    /**
-     * @var string Defines the event popover partial.
-     */
-    public $popoverPartial;
+    /** Defines the event popover partial. */
+    public ?string $popoverPartial = null;
 
     public function initialize()
     {
@@ -74,7 +64,7 @@ class Calendar extends BaseWidget
         $this->vars['eventLimit'] = $this->eventLimit;
     }
 
-    public function onGenerateEvents()
+    public function onGenerateEvents(): array
     {
         $startAt = request()->input('start');
         $endAt = request()->input('end');
@@ -100,9 +90,9 @@ class Calendar extends BaseWidget
         $this->fireEvent('calendar.updateEvent', [$eventId, $startAt, $endAt]);
     }
 
-    public function renderPopoverPartial()
+    public function renderPopoverPartial(): mixed
     {
-        if (!strlen($this->popoverPartial)) {
+        if (!$this->popoverPartial) {
             throw new SystemException(sprintf(lang('igniter::admin.calendar.missing_partial'), get_class($this->controller)));
         }
 

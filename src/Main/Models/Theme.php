@@ -6,6 +6,7 @@ use Exception;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\Main\Classes\Theme as ThemeData;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Events\ThemeActivatedEvent;
 use Igniter\Main\Template\Layout;
@@ -60,7 +61,7 @@ class Theme extends Model
 
     protected $fieldValues = [];
 
-    public static function forTheme(\Igniter\Main\Classes\Theme $theme)
+    public static function forTheme(ThemeData $theme)
     {
         $themeCode = $theme->getName();
         if ($instance = array_get(self::$instances, $themeCode)) {
@@ -99,7 +100,7 @@ class Theme extends Model
                 }
 
                 $components[$code] = [$definition['name'], lang($definition['description'] ?? '')];
-            } catch (Exception $ex) {
+            } catch (Exception) {
             }
         }
 
@@ -182,7 +183,7 @@ class Theme extends Model
 
         $fields = [];
         $formConfig = $this->getTheme()->getFormConfig();
-        foreach ($formConfig as $section => $item) {
+        foreach ($formConfig as $item) {
             foreach (array_get($item, 'fields', []) as $name => $field) {
                 if (!isset($field['tab'])) {
                     $field['tab'] = $item['title'];

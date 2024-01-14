@@ -3,11 +3,14 @@
 namespace Igniter\Admin\FormWidgets;
 
 use Igniter\Admin\Classes\BaseFormWidget;
+use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Html\HtmlFacade as Html;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -18,41 +21,41 @@ class RecordEditor extends BaseFormWidget
     use FormModelWidget;
     use ValidatesForm;
 
-    public $form;
+    public null|string|array $form = null;
 
-    public $modelClass;
+    public ?string $modelClass = null;
 
-    public $addonLeft;
+    public ?string $addonLeft = null;
 
-    public $addonRight;
+    public ?string $addonRight = null;
 
-    public $popupSize;
+    public ?string $popupSize = null;
 
-    public $formName = 'Record';
+    public string $formName = 'Record';
 
-    public $hideEditButton = false;
+    public bool $hideEditButton = false;
 
-    public $hideDeleteButton = false;
+    public bool $hideDeleteButton = false;
 
-    public $hideCreateButton = false;
+    public bool $hideCreateButton = false;
 
-    public $showAttachButton = true;
+    public bool $showAttachButton = true;
 
-    public $attachToField = 'field_name';
+    public string $attachToField = 'field_name';
 
-    public $addLabel = 'New';
+    public string $addLabel = 'New';
 
-    public $editLabel = 'Edit';
+    public string $editLabel = 'Edit';
 
-    public $deleteLabel = 'Delete';
+    public string $deleteLabel = 'Delete';
 
-    public $attachLabel = 'Attach';
+    public string $attachLabel = 'Attach';
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'recordeditor';
+    protected string $defaultAlias = 'recordeditor';
 
     public function initialize()
     {
@@ -106,7 +109,7 @@ class RecordEditor extends BaseFormWidget
         $this->vars['showAttachButton'] = $this->showAttachButton;
     }
 
-    public function onLoadRecord()
+    public function onLoadRecord(): mixed
     {
         $model = strlen($recordId = post('recordId', ''))
             ? $this->findFormModel($recordId)
@@ -119,9 +122,9 @@ class RecordEditor extends BaseFormWidget
         ]);
     }
 
-    public function onSaveRecord()
+    public function onSaveRecord(): array
     {
-        $model = strlen($recordId = post('recordId'))
+        $model = strlen($recordId = post('recordId', ''))
             ? $this->findFormModel($recordId)
             : $this->createFormModel();
 
@@ -143,7 +146,7 @@ class RecordEditor extends BaseFormWidget
         return $this->reload();
     }
 
-    public function onDeleteRecord()
+    public function onDeleteRecord(): array
     {
         $model = $this->findFormModel(post('recordId'));
 
@@ -154,7 +157,7 @@ class RecordEditor extends BaseFormWidget
         return $this->reload();
     }
 
-    public function onAttachRecord()
+    public function onAttachRecord(): array
     {
         throw_unless($recordId = post('recordId'),
             FlashException::error('Please select a record to attach.')
@@ -178,7 +181,7 @@ class RecordEditor extends BaseFormWidget
         ];
     }
 
-    protected function makeRecordFormWidget($model)
+    protected function makeRecordFormWidget(Model $model): Form
     {
         $context = $model->exists ? 'edit' : 'create';
 
@@ -187,6 +190,8 @@ class RecordEditor extends BaseFormWidget
         $widgetConfig['alias'] = $this->alias.'RecordEditor';
         $widgetConfig['arrayName'] = $this->formField->arrayName.'[recordData]';
         $widgetConfig['context'] = $context;
+
+        /** @var Form $widget */
         $widget = $this->makeWidget(Form::class, $widgetConfig);
 
         $widget->bindToController();
@@ -194,7 +199,7 @@ class RecordEditor extends BaseFormWidget
         return $widget;
     }
 
-    protected function makeFieldAddon($string)
+    protected function makeFieldAddon(string $string): ?string
     {
         $name = camel_case('addon_'.$string);
         $config = $this->{$name};
@@ -216,7 +221,7 @@ class RecordEditor extends BaseFormWidget
         return '<'.$config->tag.Html::attributes($config->attributes).'>'.lang($config->label).'</'.$config->tag.'>';
     }
 
-    protected function getRecordEditorOptions()
+    protected function getRecordEditorOptions(): array|Collection
     {
         $model = $this->createFormModel();
         $methodName = 'get'.studly_case($this->fieldName).'RecordEditorOptions';
@@ -241,11 +246,11 @@ class RecordEditor extends BaseFormWidget
             return;
         }
 
-        if (!strlen($requestData = request()->header('X-IGNITER-RECORD-EDITOR-REQUEST-DATA'))) {
+        if (!strlen($requestData = request()->header('X-IGNITER-RECORD-EDITOR-REQUEST-DATA', ''))) {
             return;
         }
 
-        if (!strlen($recordId = array_get(json_decode($requestData, true), $this->alias.'.recordId'))) {
+        if (!strlen($recordId = array_get(json_decode($requestData, true), $this->alias.'.recordId', ''))) {
             return;
         }
 
@@ -254,7 +259,7 @@ class RecordEditor extends BaseFormWidget
         $this->makeRecordFormWidget($model);
     }
 
-    protected function makeFormField()
+    protected function makeFormField(): FormField
     {
         $field = clone $this->formField;
 

@@ -10,7 +10,7 @@ class AnonymousTemplateMailable extends TemplateMailable
 {
     use Queueable, SerializesModels;
 
-    public static function create($templateCode): static
+    public static function create(string $templateCode): static
     {
         $instance = new static;
 

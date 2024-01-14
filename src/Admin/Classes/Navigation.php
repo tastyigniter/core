@@ -13,32 +13,32 @@ class Navigation
     use EventEmitter;
     use ViewMaker;
 
-    protected $navItems = [];
+    protected array $navItems = [];
 
-    protected $mainItems;
+    protected ?array $mainItems = null;
 
-    protected $navItemsLoaded = false;
+    protected bool $navItemsLoaded = false;
 
-    protected $navContextItemCode;
+    protected ?string $navContextItemCode = null;
 
-    protected $navContextParentCode;
+    protected ?string $navContextParentCode = null;
 
-    protected $callbacks = [];
+    protected array $callbacks = [];
 
-    protected $previousPageUrl;
+    protected ?string $previousPageUrl = null;
 
-    public function __construct($path = null)
+    public function __construct(?string $path = null)
     {
         $this->viewPath[] = $path;
     }
 
-    public function setContext($itemCode, $parentCode = null)
+    public function setContext(string $itemCode, ?string $parentCode = null)
     {
         $this->navContextItemCode = $itemCode;
         $this->navContextParentCode = is_null($parentCode) ? $itemCode : $parentCode;
     }
 
-    public function getNavItems()
+    public function getNavItems(): array
     {
         if (!$this->navItems) {
             $this->loadItems();
@@ -47,7 +47,7 @@ class Navigation
         return $this->navItems;
     }
 
-    public function getVisibleNavItems()
+    public function getVisibleNavItems(): array
     {
         $navItems = $this->getNavItems();
 
@@ -57,7 +57,7 @@ class Navigation
 
         $navItems = $this->filterPermittedNavItems($navItems);
 
-        foreach ($navItems as $code => &$navItem) {
+        foreach ($navItems as &$navItem) {
             if (!isset($navItem['child']) || !count($navItem['child'])) {
                 continue;
             }
@@ -72,7 +72,7 @@ class Navigation
         return $navItems;
     }
 
-    public function isActiveNavItem($code)
+    public function isActiveNavItem(string $code): bool
     {
         if ($code == $this->navContextParentCode) {
             return true;
@@ -85,7 +85,7 @@ class Navigation
         return false;
     }
 
-    public function getMainItems()
+    public function getMainItems(): array
     {
         if (!$this->mainItems) {
             $this->loadItems();
@@ -94,7 +94,7 @@ class Navigation
         return $this->filterPermittedNavItems($this->mainItems);
     }
 
-    public function render($partial)
+    public function render(string $partial): string
     {
         $navItems = $this->getVisibleNavItems();
 
@@ -103,7 +103,7 @@ class Navigation
         ]);
     }
 
-    public function addNavItem($itemCode, array $options = [], $parentCode = null)
+    public function addNavItem(string $itemCode, array $options = [], ?string $parentCode = null)
     {
         $navItemDefaults = [
             'code' => $itemCode,
@@ -132,7 +132,7 @@ class Navigation
         }
     }
 
-    public function mergeNavItem($itemCode, array $options = [], $parentCode = null)
+    public function mergeNavItem(string $itemCode, array $options = [], ?string $parentCode = null)
     {
         if ($parentCode) {
             if ($oldItem = array_get($this->navItems, $parentCode.'.child.'.$itemCode, [])) {
@@ -145,7 +145,7 @@ class Navigation
         }
     }
 
-    public function removeNavItem($itemCode, $parentCode = null)
+    public function removeNavItem(string $itemCode, ?string $parentCode = null)
     {
         if (!is_null($parentCode)) {
             unset($this->navItems[$parentCode]['child'][$itemCode]);
@@ -154,7 +154,7 @@ class Navigation
         }
     }
 
-    public function removeMainItem($itemCode)
+    public function removeMainItem(string $itemCode)
     {
         unset($this->mainItems[$itemCode]);
     }
@@ -172,7 +172,7 @@ class Navigation
 
         // Load extension items
         $extensions = resolve(ExtensionManager::class)->getExtensions();
-        foreach ($extensions as $code => $extension) {
+        foreach ($extensions as $extension) {
             if (!$extension instanceof BaseExtension) {
                 continue;
             }
@@ -190,7 +190,7 @@ class Navigation
         $this->navItemsLoaded = true;
     }
 
-    public function filterPermittedNavItems($items)
+    public function filterPermittedNavItems(array $items): array
     {
         return collect($items)->filter(function ($item) {
             if (!$permission = array_get($item, 'permission')) {
@@ -208,7 +208,7 @@ class Navigation
         return $this;
     }
 
-    public function getPreviousUrl()
+    public function getPreviousUrl(): ?string
     {
         return $this->previousPageUrl;
     }
@@ -217,7 +217,7 @@ class Navigation
     // Registration
     //
 
-    public function registerMainItems($definitions = null)
+    public function registerMainItems(?array $definitions = null)
     {
         if (!$this->mainItems) {
             $this->mainItems = [];
@@ -232,7 +232,7 @@ class Navigation
         }
     }
 
-    public function registerNavItems($definitions = null, $parent = null)
+    public function registerNavItems(?array $definitions = null, ?string $parent = null)
     {
         if (!$this->navItems) {
             $this->navItems = [];
@@ -249,7 +249,7 @@ class Navigation
         }
     }
 
-    public function registerNavItem($code, $item, $parent = null)
+    public function registerNavItem(string $code, array $item, ?string $parent = null)
     {
         $defaultDefinitions = [
             'code' => $code,

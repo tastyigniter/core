@@ -23,33 +23,17 @@ class BaseWidget extends Extendable
     use ViewMaker;
     use WidgetMaker;
 
-    /**
-     * @var \Igniter\Admin\Classes\AdminController Admin controller object.
-     */
-    protected $controller;
+    protected AdminController $controller;
 
-    /**
-     * @var object Supplied configuration.
-     */
-    public $config;
+    public ?array $config = null;
 
-    /**
-     * @var string Defined alias used for this widget.
-     */
-    public $alias;
+    /** Defined alias used for this widget. */
+    public ?string $alias = null;
 
-    /**
-     * @var string A unique alias to identify this widget.
-     */
-    protected $defaultAlias = 'widget';
+    /** A unique alias to identify this widget. */
+    protected string $defaultAlias = 'widget';
 
-    /**
-     * Constructor
-     *
-     * @param \Illuminate\Routing\Controller $controller
-     * @param array $config
-     */
-    public function __construct($controller, $config = [])
+    public function __construct(AdminController $controller, array $config = [])
     {
         $this->controller = $controller;
 
@@ -106,7 +90,6 @@ class BaseWidget extends Extendable
 
     /**
      * Renders the widgets primary contents.
-     * @return string HTML markup supplied by this widget.
      */
     public function render()
     {
@@ -136,11 +119,9 @@ class BaseWidget extends Extendable
      * Transfers config values stored inside the $config property directly
      * on to the root object properties.
      *
-     * @param array $properties
-     *
      * @return void
      */
-    protected function fillFromConfig($properties = null)
+    protected function fillFromConfig(?array $properties = null)
     {
         if ($properties === null) {
             $properties = array_keys((array)$this->config);
@@ -160,7 +141,7 @@ class BaseWidget extends Extendable
      *
      * @return string A unique identifier.
      */
-    public function getId($suffix = null)
+    public function getId(?string $suffix = null): string
     {
         $id = class_basename(get_called_class());
 
@@ -179,10 +160,8 @@ class BaseWidget extends Extendable
      * Returns a fully qualified event handler name for this widget.
      *
      * @param string $name The ajax event handler name.
-     *
-     * @return string
      */
-    public function getEventHandler($name)
+    public function getEventHandler(string $name): string
     {
         return $this->alias.'::'.$name;
     }
@@ -190,7 +169,7 @@ class BaseWidget extends Extendable
     /**
      * Returns the controller using this widget.
      */
-    public function getController()
+    public function getController(): AdminController
     {
         return $this->controller;
     }
@@ -198,10 +177,9 @@ class BaseWidget extends Extendable
     /**
      * Sets the widget configuration values
      *
-     * @param array $config
      * @param array $required Required config items
      */
-    public function setConfig($config, array $required = [])
+    public function setConfig(array $config, array $required = [])
     {
         $this->config = $this->makeConfig($config, $required);
     }
@@ -209,12 +187,10 @@ class BaseWidget extends Extendable
     /**
      * Get the widget configuration values.
      *
-     * @param string $name Config name, supports array names like "field[key]"
+     * @param ?string $name Config name, supports array names like "field[key]"
      * @param mixed $default Default value if nothing is found
-     *
-     * @return mixed
      */
-    public function getConfig($name = null, $default = null)
+    public function getConfig(?string $name = null, mixed $default = null): mixed
     {
         if (is_null($name)) {
             return $this->config;
@@ -223,7 +199,7 @@ class BaseWidget extends Extendable
         $nameArray = name_to_array($name);
 
         $fieldName = array_shift($nameArray);
-        $result = isset($this->config[$fieldName]) ? $this->config[$fieldName] : $default;
+        $result = $this->config[$fieldName] ?? $default;
 
         foreach ($nameArray as $key) {
             if (!is_array($result) || !array_key_exists($key, $result)) {
@@ -247,9 +223,8 @@ class BaseWidget extends Extendable
 
     /**
      * Returns a unique session identifier for this widget and controller action.
-     * @return string
      */
-    protected function makeSessionKey()
+    protected function makeSessionKey(): string
     {
         // The controller action is intentionally omitted, session should be shared for all actions
         return 'widget.'.class_basename($this->controller).'-'.$this->getId();

@@ -9,27 +9,24 @@ use Igniter\User\Facades\AdminAuth;
 
 class Toolbar extends BaseWidget
 {
-    protected $context = 'index';
+    protected string $context = 'index';
 
-    protected $defaultAlias = 'toolbar';
+    protected string $defaultAlias = 'toolbar';
 
-    protected $previewMode = false;
+    protected bool $previewMode = false;
 
     /**
      * @var array List of CSS classes to apply to the toolbar container element
      */
-    public $cssClasses = [];
+    public array $cssClasses = [];
 
-    public $buttons = [];
+    public array $buttons = [];
 
-    public $allButtons = [];
+    public array $allButtons = [];
 
-    /**
-     * @var string
-     */
-    public $container;
+    public ?string $container = null;
 
-    protected $buttonsDefined;
+    protected bool $buttonsDefined = false;
 
     public function initialize()
     {
@@ -72,10 +69,6 @@ class Toolbar extends BaseWidget
             return;
         }
 
-        if (!is_array($this->buttons)) {
-            $this->buttons = [];
-        }
-
         $this->fireSystemEvent('admin.toolbar.extendButtonsBefore');
 
         $this->prepareButtons();
@@ -94,7 +87,7 @@ class Toolbar extends BaseWidget
         }
     }
 
-    public function renderButtonMarkup($buttonObj)
+    public function renderButtonMarkup(string|ToolbarButton $buttonObj): mixed
     {
         if (is_string($buttonObj)) {
             return $buttonObj;
@@ -109,12 +102,12 @@ class Toolbar extends BaseWidget
         return $this->makePartial($partialName, ['button' => $buttonObj]);
     }
 
-    public function getContext()
+    public function getContext(): string
     {
         return $this->context;
     }
 
-    public function addButtons($buttons)
+    public function addButtons(array $buttons)
     {
         $buttons = $this->makeButtons($buttons);
 
@@ -123,22 +116,22 @@ class Toolbar extends BaseWidget
         }
     }
 
-    public function addButton($name, array $attributes = [])
+    public function addButton(string $name, array $attributes = [])
     {
         $this->allButtons[$name] = $this->makeButton($name, $attributes);
     }
 
-    public function removeButton($name)
+    public function removeButton(string $name)
     {
         unset($this->allButtons[$name]);
     }
 
-    public function mergeAttributes($name, array $attributes = [])
+    public function mergeAttributes(string $name, array $attributes = [])
     {
         $this->buttons[$name] = array_merge($this->buttons[$name], $attributes);
     }
 
-    public function getButtonList()
+    public function getButtonList(): array
     {
         $buttons = [];
         foreach ($this->allButtons as $buttonObj) {
@@ -148,7 +141,7 @@ class Toolbar extends BaseWidget
         return $buttons;
     }
 
-    protected function makeButtons($buttons)
+    protected function makeButtons($buttons): array
     {
         $result = [];
         foreach ($buttons as $name => $attributes) {
@@ -173,10 +166,7 @@ class Toolbar extends BaseWidget
         return $result;
     }
 
-    /**
-     * @return mixed
-     */
-    protected function makeButton(string $name, array $config)
+    protected function makeButton(string $name, array $config): ToolbarButton
     {
         $buttonType = array_get($config, 'type', 'link');
 

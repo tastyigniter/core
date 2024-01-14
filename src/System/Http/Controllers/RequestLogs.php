@@ -7,12 +7,12 @@ use Igniter\System\Models\RequestLog;
 
 class RequestLogs extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\System\Models\RequestLog::class,
             'title' => 'lang:igniter::system.request_logs.text_title',
@@ -23,7 +23,7 @@ class RequestLogs extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter::system.request_logs.text_form_name',
         'model' => \Igniter\System\Models\RequestLog::class,
         'preview' => [
@@ -36,7 +36,7 @@ class RequestLogs extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'requestlog',
     ];
 
-    protected $requiredPermissions = 'Admin.SystemLogs';
+    protected null|string|array $requiredPermissions = 'Admin.SystemLogs';
 
     public function __construct()
     {

@@ -2,14 +2,16 @@
 
 namespace Igniter\Flame\Traits;
 
+use Illuminate\Broadcasting\PendingBroadcast;
+
 trait EventDispatchable
 {
-    public static function eventName()
+    public static function eventName(): string
     {
         return '';
     }
 
-    public static function dispatchOnce()
+    public static function dispatchOnce(): mixed
     {
         return static::dispatchEvent(func_get_args(), true);
     }
@@ -29,12 +31,12 @@ trait EventDispatchable
         return !$boolean ? static::dispatchEvent($arguments) : null;
     }
 
-    public static function broadcast()
+    public static function broadcast(): PendingBroadcast
     {
         return broadcast(new static(...func_get_args()));
     }
 
-    protected static function dispatchEvent($arguments, $halt = false)
+    protected static function dispatchEvent($arguments, $halt = false): mixed
     {
         $result = [];
 

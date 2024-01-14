@@ -13,9 +13,9 @@ class Cache extends BaseDashboardWidget
     /**
      * @var string A unique alias to identify this widget.
      */
-    protected $defaultAlias = 'cache';
+    protected string $defaultAlias = 'cache';
 
-    protected static $caches = [
+    protected static array $caches = [
         [
             'path' => 'framework/views',
             'color' => '#2980b9',
@@ -41,7 +41,7 @@ class Cache extends BaseDashboardWidget
         return $this->makePartial('cache/cache');
     }
 
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [
             'title' => [
@@ -74,7 +74,7 @@ class Cache extends BaseDashboardWidget
         $this->vars['formattedTotalCacheSize'] = $this->formatSize($totalCacheSize);
     }
 
-    public function onClearCache()
+    public function onClearCache(): array
     {
         try {
             CacheHelper::clear();
@@ -89,12 +89,12 @@ class Cache extends BaseDashboardWidget
         ];
     }
 
-    protected function formatSize($size)
+    protected function formatSize(int $size): string
     {
-        return round($size / 1024, 0).' KB';
+        return round($size / 1024).' KB';
     }
 
-    protected function folderSize($directory)
+    protected function folderSize(string $directory): int
     {
         if (count(scandir($directory, SCANDIR_SORT_NONE)) == 2) {
             return 0;

@@ -12,14 +12,10 @@ class Layout extends Model
     use Concerns\HasComponents;
     use Concerns\HasViewBag;
 
-    /**
-     * @var string The directory name associated with the model, eg: pages.
-     */
+    /** The directory name associated with the model, eg: pages. */
     public const DIR_NAME = '_layouts';
 
-    public $controller;
-
-    public static function initFallback($source)
+    public static function initFallback(string $source): self
     {
         $model = self::on($source);
         $model->markup = '<?= page(); ?>';
@@ -31,9 +27,8 @@ class Layout extends Model
     /**
      * Returns name of a PHP class to use as parent
      * for the PHP class created for the template's PHP section.
-     * @return mixed Returns the class name or null.
      */
-    public function getCodeClassParent()
+    public function getCodeClassParent(): string
     {
         return \Igniter\Main\Template\Code\LayoutCode::class;
     }

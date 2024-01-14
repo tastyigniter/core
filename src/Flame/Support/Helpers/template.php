@@ -3,8 +3,11 @@
 /**
  * Template helper functions
  */
+
+use Igniter\Flame\Pagic\Environment;
+
 if (!function_exists('pagic')) {
-    function pagic(?string $name = null, array $vars = [])
+    function pagic(?string $name = null, array $vars = []): Environment|string
     {
         if (is_null($name)) {
             return resolve('pagic');

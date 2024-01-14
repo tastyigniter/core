@@ -2,17 +2,18 @@
 
 namespace Igniter\System\Http\Controllers;
 
+use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\System\Models\Currency;
 
 class Currencies extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\System\Models\Currency::class,
             'title' => 'lang:igniter::system.currencies.text_title',
@@ -23,7 +24,7 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter::system.currencies.text_form_name',
         'model' => \Igniter\System\Models\Currency::class,
         'request' => \Igniter\System\Requests\CurrencyRequest::class,
@@ -49,7 +50,7 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'currency',
     ];
 
-    protected $requiredPermissions = 'Site.Currencies';
+    protected null|string|array $requiredPermissions = 'Site.Currencies';
 
     public function __construct()
     {
@@ -69,7 +70,7 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function index_onSetDefault($context = null)
+    public function index_onSetDefault(?string $context)
     {
         if (Currency::updateDefault(post('default'))) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::system.currencies.alert_set_default')));
@@ -78,7 +79,7 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
         return $this->refreshList('list');
     }
 
-    public function listOverrideColumnValue($record, $column, $alias = null)
+    public function listOverrideColumnValue(Currency $record, ListColumn $column, ?string $alias = null)
     {
         if ($column->type == 'button' && $column->columnName == 'default') {
             $column->iconCssClass = $record->isDefault() ? 'fa fa-star' : 'fa fa-star-o';

@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 
 class MailLayoutRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'name' => lang('igniter::admin.label_name'),
@@ -18,7 +18,7 @@ class MailLayoutRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'between:2,32'],

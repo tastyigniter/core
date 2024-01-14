@@ -52,23 +52,17 @@ class Widgets
     protected array $dashboardWidgetCallbacks = [];
 
     /**
-     * @var ExtensionManager
-     */
-    protected $extensionManager;
-
-    /**
      * Initialize this singleton.
      */
-    public function __construct(ExtensionManager $extensionManager)
+    public function __construct(protected ExtensionManager $extensionManager)
     {
-        $this->extensionManager = $extensionManager;
     }
 
     //
     // List Action Widgets
     //
 
-    public function listBulkActionWidgets()
+    public function listBulkActionWidgets(): array
     {
         if ($this->bulkActionWidgets === null) {
             $this->bulkActionWidgets = [];
@@ -90,7 +84,7 @@ class Widgets
         return $this->bulkActionWidgets;
     }
 
-    public function registerBulkActionWidget($className, $widgetInfo)
+    public function registerBulkActionWidget(string $className, array $widgetInfo)
     {
         $widgetCode = $widgetInfo['code'] ?? null;
 
@@ -115,7 +109,7 @@ class Widgets
      *
      * @return string The class name resolved, or the original name.
      */
-    public function resolveBulkActionWidget($name)
+    public function resolveBulkActionWidget(string $name): string
     {
         if ($this->bulkActionWidgets === null) {
             $this->listBulkActionWidgets();
@@ -143,7 +137,7 @@ class Widgets
      * Returns a list of registered form widgets.
      * @return array Array keys are class names.
      */
-    public function listFormWidgets()
+    public function listFormWidgets(): array
     {
         if ($this->formWidgets === null) {
             $this->formWidgets = [];
@@ -178,7 +172,7 @@ class Widgets
      *
      * @return void
      */
-    public function registerFormWidget($className, $widgetInfo = null)
+    public function registerFormWidget(string $className, ?array $widgetInfo = null)
     {
         $widgetCode = $widgetInfo['code'] ?? null;
 
@@ -215,7 +209,7 @@ class Widgets
      *
      * @return string The class name resolved, or the original name.
      */
-    public function resolveFormWidget($name)
+    public function resolveFormWidget(string $name): string
     {
         if ($this->formWidgets === null) {
             $this->listFormWidgets();
@@ -243,7 +237,7 @@ class Widgets
      * Returns a list of registered dashboard widgets.
      * @return array Array keys are class names.
      */
-    public function listDashboardWidgets()
+    public function listDashboardWidgets(): array
     {
         if ($this->dashboardWidgets === null) {
             $this->dashboardWidgets = [];
@@ -273,7 +267,7 @@ class Widgets
     /*
      * Registers a single dashboard widget.
      */
-    public function registerDashboardWidget($className, $widgetInfo)
+    public function registerDashboardWidget(string $className, array $widgetInfo)
     {
         $this->dashboardWidgets[$className] = $widgetInfo;
     }

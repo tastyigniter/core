@@ -2,12 +2,12 @@
 
 namespace Igniter\Admin\Traits;
 
+use Igniter\Admin\Models\Status;
 use Igniter\Admin\Models\StatusHistory;
+use Illuminate\Database\Eloquent\Builder;
 
 trait LogsStatusHistory
 {
-    public $formWidgetStatusData = [];
-
     public static function bootLogsStatusHistory()
     {
         self::extend(function (self $model) {
@@ -25,22 +25,22 @@ trait LogsStatusHistory
         });
     }
 
-    public function getStatusNameAttribute()
+    public function getStatusNameAttribute(): ?string
     {
         return $this->status ? $this->status->status_name : null;
     }
 
-    public function getStatusColorAttribute()
+    public function getStatusColorAttribute(): ?string
     {
         return $this->status ? $this->status->status_color : null;
     }
 
-    public function getLatestStatusHistory()
+    public function getLatestStatusHistory(): ?self
     {
         return $this->status_history->first();
     }
 
-    public function addStatusHistory($status, array $statusData = [])
+    public function addStatusHistory(?Status $status, array $statusData = []): StatusHistory|false
     {
         if (!$this->exists || !$status) {
             return false;
@@ -59,7 +59,7 @@ trait LogsStatusHistory
         return $history;
     }
 
-    public function hasStatus($statusId = null)
+    public function hasStatus(null|string|int $statusId = null): bool
     {
         if (is_null($statusId)) {
             return $this->status_history->isNotEmpty();
@@ -68,7 +68,7 @@ trait LogsStatusHistory
         return $this->status_history()->where('status_id', $statusId)->exists();
     }
 
-    public function scopeWhereStatus($query, $statusId)
+    public function scopeWhereStatus($query, null|string|array $statusId): Builder
     {
         if (is_null($statusId)) {
             return $query->where('status_id', '>=', 1);
@@ -77,14 +77,14 @@ trait LogsStatusHistory
         return $query->whereIn('status_id', (array)$statusId);
     }
 
-    public function scopeWhereHasStatusInHistory($query, $statusId)
+    public function scopeWhereHasStatusInHistory($query, string|int $statusId): Builder
     {
         return $query->whereHas('status_history', function ($q) use ($statusId) {
             return $q->where('status_id', $statusId);
         });
     }
 
-    public function scopeDoesntHaveStatusInHistory($query, $statusId)
+    public function scopeDoesntHaveStatusInHistory($query, string|int $statusId): Builder
     {
         return $query->whereDoesntHave('status_history', function ($q) use ($statusId) {
             return $q->where('status_id', $statusId);

@@ -342,7 +342,7 @@ class Assets
         return implode(PHP_EOL, $tags).PHP_EOL;
     }
 
-    protected function buildAssetUrl(string $type, string $file, string|array|null $attributes = null)
+    protected function buildAssetUrl(string $type, string $file, string|array|null $attributes = null): string
     {
         if (!is_array($attributes)) {
             $attributes = ['name' => $attributes];

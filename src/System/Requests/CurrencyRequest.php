@@ -6,7 +6,7 @@ use Igniter\System\Classes\FormRequest;
 
 class CurrencyRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'currency_name' => lang('igniter::system.currencies.label_title'),
@@ -22,7 +22,7 @@ class CurrencyRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'currency_name' => ['required', 'string', 'between:2,32'],

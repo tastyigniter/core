@@ -7,6 +7,7 @@ use Igniter\Admin\Classes\BaseMainMenuWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\User\Models\User;
 
 class Menu extends BaseWidget
 {
@@ -21,7 +22,7 @@ class Menu extends BaseWidget
      */
     public null|string|array $context = null;
 
-    protected $defaultAlias = 'top-menu';
+    protected string $defaultAlias = 'top-menu';
 
     /**
      * @var bool Determines if item definitions have been created.
@@ -76,10 +77,8 @@ class Menu extends BaseWidget
 
     /**
      * Renders the HTML element for a item
-     *
-     * @return string
      */
-    public function renderItemElement($item)
+    public function renderItemElement(MainMenuItem $item)
     {
         $params = ['item' => $item];
 
@@ -138,10 +137,8 @@ class Menu extends BaseWidget
 
     /**
      * Creates a menu item object from name and configuration.
-     *
-     * @return \Igniter\Admin\Classes\MainMenuItem
      */
-    protected function makeMenuItem($name, $config)
+    protected function makeMenuItem(string $name, array|MainMenuItem $config): MainMenuItem
     {
         if ($config instanceof MainMenuItem) {
             return $config;
@@ -169,22 +166,16 @@ class Menu extends BaseWidget
 
     /**
      * Get all the registered items for the instance.
-     * @return array
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->allItems;
     }
 
     /**
      * Get a specified item object
-     *
-     * @param string $item
-     *
-     * @return mixed
-     * @throws \Exception
      */
-    public function getItem($item)
+    public function getItem($item): MainMenuItem
     {
         if (!isset($this->allItems[$item])) {
             throw FlashException::error(sprintf(lang('igniter::admin.side_menu.alert_no_definition'), $item));
@@ -193,10 +184,10 @@ class Menu extends BaseWidget
         return $this->allItems[$item];
     }
 
-    public function getLoggedUser()
+    public function getLoggedUser(): ?User
     {
         if (!$this->getController()->checkUser()) {
-            return false;
+            return null;
         }
 
         return $this->getController()->getUser();
@@ -228,12 +219,10 @@ class Menu extends BaseWidget
 
     /**
      * Update a menu item value.
-     * @return array
-     * @throws \Exception
      */
-    public function onGetDropdownOptions()
+    public function onGetDropdownOptions(): array
     {
-        if (!strlen($itemName = input('item'))) {
+        if (!strlen($itemName = input('item', ''))) {
             throw FlashException::error(lang('igniter::admin.side_menu.alert_invalid_menu'));
         }
 
@@ -252,14 +241,13 @@ class Menu extends BaseWidget
 
     /**
      * Returns the active context for displaying the menu.
-     * @return string
      */
-    public function getContext()
+    public function getContext(): string
     {
         return $this->context;
     }
 
-    protected function getOptionsFromModel($item, $itemOptions)
+    protected function getOptionsFromModel(MainMenuItem $item, callable $itemOptions): mixed
     {
         if (is_array($itemOptions) && is_callable($itemOptions)) {
             $user = $this->getLoggedUser();

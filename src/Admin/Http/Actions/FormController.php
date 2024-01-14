@@ -8,13 +8,14 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\FormExtendable;
 use Igniter\Admin\Traits\ValidatesForm;
+use Igniter\Admin\Widgets\Form;
 use Igniter\Admin\Widgets\Toolbar;
-use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\ControllerAction;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
 
 /**
  * Form Controller Class
@@ -24,79 +25,41 @@ class FormController extends ControllerAction
     use FormExtendable;
     use ValidatesForm;
 
-    /**
-     * @var string Default context for "create" pages.
-     */
+    /** Default context for "create" pages. */
     const CONTEXT_CREATE = 'create';
 
-    /**
-     * @var string Default context for "edit" pages.
-     */
+    /** Default context for "edit" pages. */
     const CONTEXT_EDIT = 'edit';
 
-    /**
-     * @var string Default context for "preview" pages.
-     */
+    /** Default context for "preview" pages. */
     const CONTEXT_PREVIEW = 'preview';
 
-    /**
-     * @var AdminController|FormController Reference to the back end controller.
-     */
-    protected $controller;
+    /** Define controller list configuration array. */
+    public array $formConfig;
+
+    protected ?Form $formWidget = null;
+
+    protected ?Toolbar $toolbarWidget = null;
+
+    protected array $requiredProperties = ['formConfig'];
 
     /**
-     * Define controller list configuration array.
-     * @var array
-     */
-    public $formConfig;
-
-    /**
-     * @var \Igniter\Admin\Widgets\Form Reference to the widget object.
-     */
-    protected $formWidget;
-
-    /**
-     * @var \Igniter\Admin\Classes\BaseWidget Reference to the toolbar widget objects.
-     */
-    protected $toolbarWidget;
-
-    protected $requiredProperties = ['formConfig'];
-
-    /**
-     * @var array Configuration values that must exist when applying the primary config file.
+     * Configuration values that must exist when applying the primary config file.
      * - modelClass: Class name for the model
      * - form: Form field configs
      */
-    protected $requiredConfig = ['model', 'configFile'];
+    protected array $requiredConfig = ['model', 'configFile'];
 
-    /**
-     * @var string The context to pass to the form widget.
-     */
-    protected $context;
+    /** The context to pass to the form widget. */
+    protected null|string|array $context = null;
 
-    /**
-     * @var Model The initialized model used by the form.
-     */
-    protected $model;
+    /** The initialized model used by the form. */
+    protected ?Model $model = null;
 
-    /**
-     * @var Model The initialized request used by the form.
-     */
-    protected $request;
+    /** List of prepared models that require saving. */
+    protected array $modelsToSave = [];
 
-    /**
-     * @var array List of prepared models that require saving.
-     */
-    protected $modelsToSave = [];
-
-    /**
-     * FormController constructor.
-     *
-     * @param AdminController $controller
-     *
-     * @throws \Exception
-     */
-    public function __construct($controller)
+    public function __construct(protected ?AdminController $controller = null)
     {
         parent::__construct($controller);
 
@@ -137,13 +100,8 @@ class FormController extends ControllerAction
 
     /**
      * Prepare the widgets used by this action
-     *
-     * @param \Igniter\Flame\Database\Model $model
-     *
-     * @return void
-     * @throws \Exception
      */
-    public function initForm($model, $context = null)
+    public function initForm(Model $model, ?string $context = null)
     {
         if ($context !== null) {
             $this->context = $context;
@@ -172,8 +130,8 @@ class FormController extends ControllerAction
 
         $this->controller->formExtendConfig($formConfig);
 
-        // Form Widget with extensibility
-        $this->formWidget = $this->makeWidget(\Igniter\Admin\Widgets\Form::class, $formConfig);
+        /** @var Form $this ->formWidget */
+        $this->formWidget = $this->makeWidget(Form::class, $formConfig);
 
         $this->formWidget->bindEvent('form.extendFieldsBefore', function () {
             $this->controller->formExtendFieldsBefore($this->formWidget);
@@ -201,7 +159,7 @@ class FormController extends ControllerAction
         $this->formWidget->bindToController();
 
         // Prep the optional toolbar widget
-        if (isset($modelConfig['toolbar']) && isset($this->controller->widgets['toolbar'])) {
+        if (isset($modelConfig['toolbar'], $this->controller->widgets['toolbar'])) {
             $this->toolbarWidget = $this->controller->widgets['toolbar'];
             if ($this->toolbarWidget instanceof Toolbar) {
                 $this->toolbarWidget->reInitialize($modelConfig['toolbar']);
@@ -212,17 +170,14 @@ class FormController extends ControllerAction
         $this->model = $model;
     }
 
-    /**
-     * Prepares common form data
-     */
-    protected function prepareVars($model)
+    protected function prepareVars(?Model $model)
     {
         $this->controller->vars['formModel'] = $model;
         $this->controller->vars['formContext'] = $this->getFormContext();
         $this->controller->vars['formRecordName'] = lang($this->getConfig('name', 'form_name'));
     }
 
-    public function create($context = null)
+    public function create(?string $context = null)
     {
         $this->context = $context ?: $this->getConfig('create[context]', self::CONTEXT_CREATE);
 
@@ -233,7 +188,7 @@ class FormController extends ControllerAction
         $this->initForm($model, $context);
     }
 
-    public function create_onSave($context = null)
+    public function create_onSave(?string $context = null): ?RedirectResponse
     {
         $this->context = $context ?: $this->getConfig('create[context]', self::CONTEXT_CREATE);
         $model = $this->controller->formCreateModelObject();
@@ -244,7 +199,7 @@ class FormController extends ControllerAction
         $this->controller->formBeforeCreate($model);
 
         if (($saveData = $this->validateSaveData($model, $this->formWidget->getSaveData())) === false) {
-            return false;
+            return null;
         }
 
         $modelsToSave = $this->prepareModelsToSave($model, $saveData);
@@ -261,12 +216,10 @@ class FormController extends ControllerAction
         $title = sprintf(lang('igniter::admin.form.create_success'), lang($this->getConfig('name')));
         flash()->success(lang($this->getConfig('create[flashSave]', $title)));
 
-        if ($redirect = $this->makeRedirect($context, $model)) {
-            return $redirect;
-        }
+        return $this->makeRedirect($context, $model) ?: null;
     }
 
-    public function edit($context = null, $recordId = null)
+    public function edit(?string $context = null, mixed $recordId = null)
     {
         $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
 
@@ -277,7 +230,7 @@ class FormController extends ControllerAction
         $this->initForm($model, $context);
     }
 
-    public function edit_onSave($context = null, $recordId = null)
+    public function edit_onSave(?string $context = null, mixed $recordId = null): ?RedirectResponse
     {
         $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
 
@@ -288,7 +241,7 @@ class FormController extends ControllerAction
         $this->controller->formBeforeUpdate($model);
 
         if (($saveData = $this->validateSaveData($model, $this->formWidget->getSaveData())) === false) {
-            return false;
+            return null;
         }
 
         $modelsToSave = $this->prepareModelsToSave($model, $saveData);
@@ -305,12 +258,10 @@ class FormController extends ControllerAction
         $title = sprintf(lang('igniter::admin.form.edit_success'), lang($this->getConfig('name')));
         flash()->success(lang($this->getConfig('edit[flashSave]', $title)));
 
-        if ($redirect = $this->makeRedirect($context, $model)) {
-            return $redirect;
-        }
+        return $this->makeRedirect($context, $model) ?: null;
     }
 
-    public function edit_onDelete($context = null, $recordId = null)
+    public function edit_onDelete(?string $context = null, mixed $recordId = null): ?RedirectResponse
     {
         $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
 
@@ -326,12 +277,10 @@ class FormController extends ControllerAction
             flash()->success(sprintf(lang($this->getConfig('edit[flashDelete]', 'igniter::admin.form.delete_success')), $title));
         }
 
-        if ($redirect = $this->makeRedirect('delete', $model)) {
-            return $redirect;
-        }
+        return $this->makeRedirect('delete', $model) ?: null;
     }
 
-    public function preview($context = null, $recordId = null)
+    public function preview(?string $context = null, mixed $recordId = null)
     {
         $this->context = $context ?: $this->getConfig('preview[context]', self::CONTEXT_PREVIEW);
 
@@ -345,15 +294,7 @@ class FormController extends ControllerAction
     // Utils
     //
 
-    /**
-     * Render the form.
-     *
-     * @param array $options Custom options to pass to the form widget.
-     *
-     * @return string Rendered HTML for the form.
-     * @throws \Exception
-     */
-    public function renderForm($options = [], $noToolbar = false)
+    public function renderForm(array $options = [], bool $noToolbar = false): string
     {
         throw_unless($this->formWidget, FlashException::error(lang('igniter::admin.form.not_ready')));
 
@@ -375,27 +316,21 @@ class FormController extends ControllerAction
 
     /**
      * Returns the model initialized by this form behavior.
-     * @return Model
      */
-    public function getFormModel()
+    public function getFormModel(): ?Model
     {
         return $this->model;
     }
 
     /**
      * Returns the form context from the postback or configuration.
-     * @return string
      */
-    public function getFormContext()
+    public function getFormContext(): ?string
     {
-        if ($context = post('form_context')) {
-            return $context;
-        }
-
-        return $this->context;
+        return post('form_context', $this->context);
     }
 
-    protected function setFormTitle($default)
+    protected function setFormTitle(?string $default = null)
     {
         $title = lang($this->getConfig('name'));
         $lang = lang($this->getConfig($this->context.'[title]', $default));
@@ -413,9 +348,8 @@ class FormController extends ControllerAction
 
     /**
      * Internal method, prepare the form model object
-     * @return Model
      */
-    protected function createModel()
+    protected function createModel(): Model
     {
         $class = $this->config['model'];
 
@@ -424,15 +358,9 @@ class FormController extends ControllerAction
 
     /**
      * Returns a Redirect object based on supplied context and parses the model primary key.
-     *
-     * @param string $context Redirect context, eg: create, edit, delete
-     * @param Model $model The active model to parse in it's ID and attributes.
-     *
-     * @return Redirect
      */
-    public function makeRedirect($context = null, $model = null)
+    public function makeRedirect(?string $context = null, ?Model $model = null): ?RedirectResponse
     {
-        $redirectUrl = null;
         if (post('new') && !ends_with($context, '-new')) {
             $context .= '-new';
         }
@@ -458,11 +386,9 @@ class FormController extends ControllerAction
      * Internal method, returns a redirect URL from the config based on
      * supplied context. Otherwise the default redirect is used.
      *
-     * @param string $context Redirect context, eg: create, edit, delete.
-     *
-     * @return string
+     * @param ?string $context Redirect context, eg: create, edit, delete.
      */
-    protected function getRedirectUrl($context = null)
+    protected function getRedirectUrl(?string $context = null): string
     {
         $redirectContext = explode('-', $context, 2)[0];
         $redirectAction = explode('-', $context, 2)[1] ?? '';
@@ -476,7 +402,7 @@ class FormController extends ControllerAction
         return $redirects[$context] ?? $redirects['default'];
     }
 
-    protected function prepareModelsToSave($model, $saveData)
+    protected function prepareModelsToSave(Model $model, array $saveData): array
     {
         $this->modelsToSave = [];
         $this->setModelAttributes($model, $saveData);
@@ -493,9 +419,9 @@ class FormController extends ControllerAction
      *
      * @return void
      */
-    protected function setModelAttributes($model, $saveData)
+    protected function setModelAttributes(Model $model, mixed $saveData)
     {
-        if (!is_array($saveData) || !$model) {
+        if (!is_array($saveData)) {
             return;
         }
 
@@ -504,9 +430,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);
@@ -518,12 +444,12 @@ class FormController extends ControllerAction
         }
     }
 
-    protected function validateSaveData($model, $saveData)
+    protected function validateSaveData(Model $model, mixed $saveData): bool|array
     {
         $validated = null;
 
         if (!is_null($requestClass = $this->getConfig('request'))) {
-            $validated = $this->validateFormRequest($requestClass, $model, function (FormRequest $request) use ($saveData) {
+            $validated = $this->validateFormRequest($requestClass, function (FormRequest $request) use ($saveData) {
                 $request->merge($saveData);
             });
         }

@@ -33,26 +33,14 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public $timestamps = true;
 
-    /**
-     *  List of variables that cannot be mass assigned
-     * @var array
-     */
-    protected $guarded = [];
+    /** Object cache of self, by code. */
+    protected static array $localesCache = [];
 
-    /**
-     * @var array Object cache of self, by code.
-     */
-    protected static $localesCache = [];
+    /** A cache of supported locales. */
+    protected static ?array $supportedLocalesCache = null;
 
-    /**
-     * @var array A cache of supported locales.
-     */
-    protected static $supportedLocalesCache;
-
-    /**
-     * @var self Active language cache.
-     */
-    protected static $activeLanguage;
+    /** Active language cache. */
+    protected static ?self $activeLanguage = null;
 
     public static function applySupportedLanguages()
     {
@@ -68,17 +56,13 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     // Helpers
     //
 
-    public static function findByCode($code = null)
+    public static function findByCode(?string $code = null): ?static
     {
         if (!$code) {
             return null;
         }
 
-        if (isset(self::$localesCache[$code])) {
-            return self::$localesCache[$code];
-        }
-
-        return self::$localesCache[$code] = self::whereCode($code)->first();
+        return self::$localesCache[$code] ?? (self::$localesCache[$code] = self::whereCode($code)->first());
     }
 
     public function makeDefault()
@@ -98,7 +82,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return 'code';
     }
 
-    public static function getActiveLocale()
+    public static function getActiveLocale(): ?static
     {
         if (self::$activeLanguage !== null) {
             return self::$activeLanguage;
@@ -111,7 +95,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return self::$activeLanguage = $activeLanguage;
     }
 
-    public static function listSupported()
+    public static function listSupported(): array
     {
         if (self::$supportedLocalesCache) {
             return self::$supportedLocalesCache;
@@ -120,7 +104,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return self::$supportedLocalesCache = self::whereIsEnabled()->pluck('name', 'code')->all();
     }
 
-    public static function supportsLocale()
+    public static function supportsLocale(): bool
     {
         return count(self::listSupported()) > 1;
     }
@@ -134,7 +118,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         traceLog('Method Language::listAllFiles() has been deprecated. Use Translator loader instead.');
     }
 
-    public function getLines($locale, $group, $namespace = null)
+    public function getLines(string $locale, string $group, ?string $namespace = null): array
     {
         $lines = app('translation.loader')->load($locale, $group, $namespace);
 
@@ -143,12 +127,12 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return array_dot($lines);
     }
 
-    public function getTranslations($group, $namespace = null)
+    public function getTranslations(string $group, ?string $namespace = null): array
     {
         return $this->getLines($this->code, $group, $namespace);
     }
 
-    public function addTranslations($translations)
+    public function addTranslations(array $translations): bool
     {
         $languageId = $this->getKey();
         if (!is_numeric($languageId)) {
@@ -156,19 +140,21 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         }
 
         foreach ($translations as $key => $translation) {
-            preg_match('/^(.+)::(?:(.+?))\.(.+)+$/', $key, $matches);
+            preg_match('/^(.+)::(.+?)\.(.+)+$/', $key, $matches);
 
             if (!$matches || count($matches) !== 4) {
                 continue;
             }
 
-            [$code, $namespace, $group, $item] = $matches;
+            [, $namespace, $group, $item] = $matches;
 
             $this->updateTranslation($group, $namespace, $item, $translation['translation']);
         }
+
+        return true;
     }
 
-    public function updateTranslations($group, $namespace = null, array $lines = [])
+    public function updateTranslations(string $group, ?string $namespace = null, array $lines = []): array
     {
         return collect($lines)->map(function ($text, $key) use ($group, $namespace) {
             $this->updateTranslation($group, $namespace, $key, $text);
@@ -177,9 +163,9 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         })->filter()->toArray();
     }
 
-    public function updateTranslation($group, $namespace, $key, $text)
+    public function updateTranslation(string $group, string $namespace, string $key, string $text)
     {
-        $oldText = Lang::get("{$namespace}::{$group}.{$key}", [], $this->code);
+        $oldText = Lang::get("$namespace::$group.$key", [], $this->code);
 
         if (strcmp($text, $oldText) === 0) {
             return false;

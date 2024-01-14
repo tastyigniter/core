@@ -7,10 +7,8 @@ use Igniter\System\Facades\Assets;
 
 trait AssetMaker
 {
-    /**
-     * @var array Specifies a path to the asset directory.
-     */
-    public $assetPath;
+    /** Specifies a path to the asset directory. */
+    public array $assetPath = [];
 
     public function flushAssets()
     {
@@ -21,13 +19,8 @@ trait AssetMaker
      * Locates a file based on it's definition. If the file starts with
      * a forward slash, it will be returned in context of the application public path,
      * otherwise it will be returned in context of the asset path.
-     *
-     * @param string $fileName File to load.
-     * @param string $assetPath Explicitly define an asset path.
-     *
-     * @return string Relative path to the asset file.
      */
-    public function getAssetPath($fileName, $assetPath = null)
+    public function getAssetPath(string $fileName, mixed $assetPath = null): string
     {
         if (starts_with($fileName, ['//', 'http://', 'https://'])) {
             return $fileName;
@@ -55,22 +48,22 @@ trait AssetMaker
         return $fileName;
     }
 
-    public function addMeta($meta)
+    public function addMeta(array $meta)
     {
         Assets::addMeta($meta);
     }
 
-    public function addJs($href, $attributes = null)
+    public function addJs(string $href, string|array|null $attributes = null)
     {
         Assets::addJs($this->getAssetPath($href), $attributes);
     }
 
-    public function addCss($href, $attributes = null)
+    public function addCss(string $href, string|array|null $attributes = null)
     {
         Assets::addCss($this->getAssetPath($href), $attributes);
     }
 
-    public function addRss($href, $attributes = [])
+    public function addRss(string $href, string|array|null $attributes = [])
     {
         Assets::addRss($this->getAssetPath($href), $attributes);
     }

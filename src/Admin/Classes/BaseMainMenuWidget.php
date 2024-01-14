@@ -6,8 +6,6 @@ class BaseMainMenuWidget extends BaseWidget
 {
     protected MainMenuItem $menuItem;
 
-    protected $itemName;
-
     /**
      * Constructor
      *
@@ -15,7 +13,7 @@ class BaseMainMenuWidget extends BaseWidget
      * @param $menuItem \Igniter\Admin\Classes\MainMenuItem Object containing general form field information.
      * @param $config array Configuration the relates to this widget.
      */
-    public function __construct($controller, $menuItem, $config = [])
+    public function __construct(AdminController $controller, MainMenuItem $menuItem, array $config = [])
     {
         $this->menuItem = $menuItem;
 
@@ -26,10 +24,8 @@ class BaseMainMenuWidget extends BaseWidget
 
     /**
      * Returns a unique ID for this widget. Useful in creating HTML markup.
-     *
-     * @return string
      */
-    public function getId($suffix = null)
+    public function getId(?string $suffix = null): string
     {
         $id = parent::getId($suffix);
         $id .= '-'.$this->menuItem->getId();

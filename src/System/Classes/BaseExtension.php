@@ -13,15 +13,10 @@ use ReflectionClass;
  */
 abstract class BaseExtension extends EventServiceProvider
 {
-    /**
-     * @var array
-     */
-    protected $config;
+    protected ?array $config = null;
 
-    /**
-     * @var bool Determine if this extension should be loaded (false) or not (true).
-     */
-    public $disabled = false;
+    /** Determine if this extension should be loaded (false) or not (true). */
+    public bool $disabled = false;
 
     public function __construct($app)
     {
@@ -83,9 +78,8 @@ abstract class BaseExtension extends EventServiceProvider
 
     /**
      * Returns information about this extension
-     * @return array
      */
-    public function extensionMeta()
+    public function extensionMeta(): array
     {
         if (func_get_args()) {
             return $this->config = func_get_arg(0);
@@ -102,9 +96,8 @@ abstract class BaseExtension extends EventServiceProvider
      * Registers any front-end components implemented in this extension.
      * The components must be returned in the following format:
      * ['path/to/class' => ['code' => 'component_code']]
-     * @return array
      */
-    public function registerComponents()
+    public function registerComponents(): array
     {
         return [];
     }
@@ -113,55 +106,47 @@ abstract class BaseExtension extends EventServiceProvider
      * Registers any payment gateway implemented in this extension.
      * The payment gateway must be returned in the following format:
      * ['path/to/class' => 'alias']
-     * @return array
      */
-    public function registerPaymentGateways()
+    public function registerPaymentGateways(): array
     {
         return [];
     }
 
     /**
      * Registers back-end navigation menu items for this extension.
-     * @return array
      */
-    public function registerNavigation()
+    public function registerNavigation(): array
     {
         return [];
     }
 
     /**
      * Registers any back-end permissions used by this extension.
-     * @return array
      */
-    public function registerPermissions()
+    public function registerPermissions(): array
     {
         return [];
     }
 
     /**
      * Registers the back-end setting links used by this extension.
-     * @return array
      */
-    public function registerSettings()
+    public function registerSettings(): array
     {
         return [];
     }
 
     /**
      * Registers scheduled tasks that are executed on a regular basis.
-     *
-     * @param string $schedule
-     * @return void
      */
-    public function registerSchedule($schedule)
+    public function registerSchedule(string $schedule)
     {
     }
 
     /**
      * Registers any dashboard widgets provided by this extension.
-     * @return array
      */
-    public function registerDashboardWidgets()
+    public function registerDashboardWidgets(): array
     {
         return [];
     }
@@ -171,9 +156,8 @@ abstract class BaseExtension extends EventServiceProvider
      * The widgets must be returned in the following format:
      * ['className1' => 'alias'],
      * ['className2' => 'anotherAlias']
-     * @return array
      */
-    public function registerFormWidgets()
+    public function registerFormWidgets(): array
     {
         return [];
     }
@@ -185,21 +169,16 @@ abstract class BaseExtension extends EventServiceProvider
      *  'igniter.demo::mail.registration' => 'Registration email to customer.',
      * ]
      * The array key will be used as the template code
-     * @return array
      */
-    public function registerMailTemplates()
+    public function registerMailTemplates(): array
     {
         return [];
     }
 
     /**
      * Registers a new console (artisan) command
-     *
-     * @param string $key The command name
-     * @param string $class The command class
-     * @return void
      */
-    public function registerConsoleCommand($key, $class)
+    public function registerConsoleCommand(string $key, string $class)
     {
         $key = 'command.'.$key;
 
@@ -213,9 +192,8 @@ abstract class BaseExtension extends EventServiceProvider
      * The widgets must be returned in the following format:
      * ['rule' => 'className1'],
      * ['rule' => 'className2']
-     * @return array
      */
-    public function registerValidationRules()
+    public function registerValidationRules(): array
     {
         return [];
     }

@@ -10,90 +10,54 @@ namespace Igniter\Admin\Classes;
  */
 class FilterScope
 {
-    /**
-     * @var string Scope name.
-     */
-    public $scopeName;
+    /** A prefix to the field identifier so it can be totally unique. */
+    public ?string $idPrefix = null;
 
-    /**
-     * @var string A prefix to the field identifier so it can be totally unique.
-     */
-    public $idPrefix;
+    /** Column to display for the display name */
+    public string $nameFrom = 'name';
 
-    /**
-     * @var string Column to display for the display name
-     */
-    public $nameFrom = 'name';
+    /** Column to display for the description (optional) */
+    public ?string $descriptionFrom = null;
 
-    /**
-     * @var string Column to display for the description (optional)
-     */
-    public $descriptionFrom;
+    /** Filter scope value. */
+    public ?string $value = null;
 
-    /**
-     * @var string Filter scope label.
-     */
-    public $label;
+    /** Filter mode. */
+    public string $type = 'select';
 
-    /**
-     * @var string Filter scope value.
-     */
-    public $value;
+    /** Filter options. */
+    public null|string|array $options = null;
 
-    /**
-     * @var string Filter mode.
-     */
-    public $type = 'select';
+    /** Specifies contextual visibility of this form scope. */
+    public null|string|array $context = null;
 
-    /**
-     * @var string Filter options.
-     */
-    public $options;
+    /** Specify if the scope is disabled or not. */
+    public bool $disabled = false;
 
-    /**
-     * @var string Specifies contextual visibility of this form scope.
-     */
-    public $context;
+    /** Specifies a default value for supported scopes. */
+    public ?string $defaults = null;
 
-    /**
-     * @var bool Specify if the scope is disabled or not.
-     */
-    public $disabled = false;
+    /** Raw SQL conditions to use when applying this scope. */
+    public ?string $conditions = null;
 
-    /**
-     * @var string Specifies a default value for supported scopes.
-     */
-    public $defaults;
+    /** Model scope method to use when applying this filter scope. */
+    public ?string $scope = null;
 
-    /**
-     * @var string Raw SQL conditions to use when applying this scope.
-     */
-    public $conditions;
+    /** Specifies a CSS class to attach to the scope container. */
+    public ?string $cssClass = null;
 
-    /**
-     * @var string Model scope method to use when applying this filter scope.
-     */
-    public $scope;
+    /** Filter scope mode. */
+    public ?string $mode = null;
 
-    /**
-     * @var string Specifies a CSS class to attach to the scope container.
-     */
-    public $cssClass;
+    public ?string $minDate = null;
 
-    /**
-     * @var string Filter scope mode.
-     */
-    public $mode;
+    public ?string $maxDate = null;
 
-    /**
-     * @var array Raw scope configuration.
-     */
-    public $config;
+    /** Raw scope configuration. */
+    public array $config = [];
 
-    public function __construct($scopeName, $label)
+    public function __construct(public string $scopeName, public string $label)
     {
-        $this->scopeName = $scopeName;
-        $this->label = $label;
     }
 
     /**
@@ -106,7 +70,7 @@ class FilterScope
      *
      * @return $this
      */
-    public function displayAs($type, $config = [])
+    public function displayAs(string $type, array $config = []): self
     {
         $this->type = strtolower($type) ?: $this->type;
         $this->config = $this->evalConfig($config);
@@ -116,12 +80,8 @@ class FilterScope
 
     /**
      * Process options and apply them to this object.
-     *
-     * @param array $config
-     *
-     * @return array
      */
-    protected function evalConfig($config)
+    protected function evalConfig(array $config): array
     {
         if (isset($config['options'])) {
             $this->options = $config['options'];
@@ -168,10 +128,8 @@ class FilterScope
 
     /**
      * Returns a value suitable for the scope id property.
-     *
-     * @return string
      */
-    public function getId($suffix = null)
+    public function getId(?string $suffix = null): string
     {
         $id = 'scope';
         $id .= '-'.$this->scopeName;

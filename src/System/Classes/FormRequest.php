@@ -16,10 +16,8 @@ class FormRequest extends BaseFormRequest
 
     /**
      * Create the default validator instance.
-     *
-     * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function createDefaultValidator(Factory $factory)
+    protected function createDefaultValidator(Factory $factory): Validator
     {
         $registeredRules = $this->container->call([$this, 'rules']);
         $parsedRules = ValidationHelper::prepareRules($registeredRules);
@@ -41,28 +39,14 @@ class FormRequest extends BaseFormRequest
     }
 
     /**
-     * Get data to be validated from the request.
-     *
-     * @return array
-     */
-    public function validationData()
-    {
-        return $this->all();
-    }
-
-    /**
      * Handle a failed validation attempt.
-     *
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
     protected function failedValidation(Validator $validator)
     {
         throw new ValidationException($validator);
     }
 
-    protected function getRecordId()
+    protected function getRecordId(): ?string
     {
         return ($slug = $this->route('slug'))
             ? str_after($slug, '/') : null;

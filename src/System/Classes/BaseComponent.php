@@ -22,56 +22,32 @@ abstract class BaseComponent extends Extendable
 
     public $defaultPartial = 'default';
 
-    /**
-     * @var string Alias used for this component.
-     */
-    public $alias;
+    /** Alias used for this component. */
+    public ?string $alias = null;
 
-    /**
-     * @var string Component class name or class alias.
-     */
-    public $name;
+    /** Component class name or class alias. */
+    public ?string $name = null;
 
-    /**
-     * @var bool Determines whether the component is hidden from the admin UI.
-     */
-    public $isHidden = false;
+    /** Determines whether the component is hidden from the admin UI. */
+    public bool $isHidden = false;
 
-    /**
-     * @var string Icon of the extension that defines the component.
-     * This field is used internally.
+    /** Icon of the extension that defines the component. * This field is used internally.
      */
-    public $extensionIcon;
+    public ?string $extensionIcon = null;
 
-    protected $path;
+    protected ?string $path = null;
 
-    /**
-     * @var string Specifies the component directory name.
-     */
-    protected $dirName;
+    /** Specifies the component directory name. */
+    protected ?string $dirName = null;
 
-    /**
-     * @var array Holds the component layout settings array.
-     */
-    protected $properties;
+    /** Holds the component layout settings array. */
+    protected array $properties = [];
 
-    /**
-     * @var MainController Controller object.
-     */
-    protected $controller;
+    protected ?MainController $controller = null;
 
-    /**
-     * @var \Igniter\Main\Template\Page Page template object.
-     */
-    protected $page;
+    protected ?TemplateCode $page;
 
-    /**
-     * Class constructor
-     *
-     * @param \Igniter\Flame\Pagic\TemplateCode $page
-     * @param array $properties
-     */
-    public function __construct($page = null, $properties = [])
+    public function __construct(?TemplateCode $page = null, array $properties = [])
     {
         if ($page instanceof TemplateCode) {
             $this->page = $page;
@@ -92,7 +68,7 @@ abstract class BaseComponent extends Extendable
     /**
      * Returns the absolute component view path.
      */
-    public function getPath()
+    public function getPath(): string
     {
         $namespace = implode('.', array_slice(explode('/', $this->dirName), 0, 2));
 
@@ -122,10 +98,9 @@ abstract class BaseComponent extends Extendable
 
     /**
      * Renders a requested partial in context of this component,
-     * @return mixed
      * @see \Igniter\Main\Classes\MainController::renderPartial for usage.
      */
-    public function renderPartial()
+    public function renderPartial(): mixed
     {
         $this->controller->setComponentContext($this);
         $result = call_user_func_array([$this->controller, 'renderPartial'], func_get_args());
@@ -137,7 +112,7 @@ abstract class BaseComponent extends Extendable
     /**
      * Executes an AJAX handler.
      */
-    public function runEventHandler($handler)
+    public function runEventHandler(string $handler): mixed
     {
         $result = $this->{$handler}();
 
@@ -146,7 +121,7 @@ abstract class BaseComponent extends Extendable
         return $result;
     }
 
-    public function getEventHandler($handler)
+    public function getEventHandler(string $handler): string
     {
         return $this->alias.'::'.$handler;
     }
@@ -155,7 +130,7 @@ abstract class BaseComponent extends Extendable
     // Property helpers
     //
 
-    public function param($name, $default = null)
+    public function param(string $name, mixed $default = null): mixed
     {
         $segment = $this->controller->param($name);
         if (is_null($segment)) {
@@ -176,7 +151,7 @@ abstract class BaseComponent extends Extendable
     {
         try {
             return parent::__call($name, $params);
-        } catch (BadMethodCallException $ex) {
+        } catch (BadMethodCallException) {
         }
 
         if (method_exists($this->controller, $name)) {

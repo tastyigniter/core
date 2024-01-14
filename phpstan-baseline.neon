@@ -76,41 +76,6 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:getAjaxHandler\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:redirect\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:redirectGuest\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:redirectIntended\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:url\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:validateAjaxHandler\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:validateAjaxHandlerPartials\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:getMainItems\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
@@ -176,6 +141,11 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__callStatic\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
 			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__get\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
@@ -186,27 +156,12 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$sessionKey\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$assetPath\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$configPath\\.$#"
-			count: 1
-			path: src/Admin/Classes/BaseWidget.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$partialPath\\.$#"
 			count: 1
 			path: src/Admin/Classes/BaseWidget.php
 
@@ -266,7 +221,7 @@ parameters:
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:render\\(\\) should return string but return statement is missing\\.$#"
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
 			count: 1
 			path: src/Admin/Classes/BaseWidget.php
 
@@ -279,11 +234,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/FormField.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Classes\\\\FormTabs\\:\\:evalConfig\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Classes/FormTabs.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
@@ -376,22 +326,32 @@ parameters:
 			path: src/Admin/EventSubscribers/StatusUpdatedSubscriber.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$previewMode\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\FormWidgets\\\\Connector\\:\\:\\$modelClass\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\FormWidgets\\\\Relation\\:\\:find\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:find\\(\\)\\.$#"
 			count: 4
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
-			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Connector.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Connector.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Connector.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKeyName\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php
 
@@ -401,7 +361,27 @@ parameters:
 			path: src/Admin/FormWidgets/DataTable.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getDataTableOptions\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getDataTableOptions\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/DataTable.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/DataTable.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/DataTable.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:methodExists\\(\\)\\.$#"
+			count: 3
+			path: src/Admin/FormWidgets/DataTable.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:newQuery\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DataTable.php
 
@@ -411,8 +391,33 @@ parameters:
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:attachRecordTo\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getFormWidget\\(\\)\\.$#"
 			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:attachRecordTo\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRecordEditorOptions\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:methodExists\\(\\)\\.$#"
+			count: 4
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
@@ -421,12 +426,7 @@ parameters:
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\FormWidgets\\\\Relation\\:\\:newQuery\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:newQuery\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Relation.php
 
@@ -436,8 +436,13 @@ parameters:
 			path: src/Admin/FormWidgets/Repeater.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
 			count: 1
+			path: src/Admin/FormWidgets/Repeater.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			count: 2
 			path: src/Admin/FormWidgets/Repeater.php
 
 		-
@@ -446,12 +451,32 @@ parameters:
 			path: src/Admin/FormWidgets/Repeater.php
 
 		-
-			message: "#^Access to property \\$assignee_group_id on an unknown class Igniter\\\\Reservation\\\\Models\\\\Reservation\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$assignee_group_id\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Access to property \\$assignee_id on an unknown class Igniter\\\\Reservation\\\\Models\\\\Reservation\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$assignee_id\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:addStatusHistory\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:updateAssignTo\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
@@ -486,37 +511,17 @@ parameters:
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Call to method addStatusHistory\\(\\) on an unknown class Igniter\\\\Reservation\\\\Models\\\\Reservation\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Call to method updateAssignTo\\(\\) on an unknown class Igniter\\\\Reservation\\\\Models\\\\Reservation\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\FormWidgets\\\\StatusEditor\\:\\:\\$model has unknown class Igniter\\\\Reservation\\\\Models\\\\Reservation as its type\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$calendarConfig\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$calendarConfig\\.$#"
 			count: 3
 			path: src/Admin/Http/Actions/CalendarController.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:calendarGenerateEvents\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:calendarGenerateEvents\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/CalendarController.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:calendarUpdateEvent\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:calendarUpdateEvent\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/CalendarController.php
 
@@ -528,11 +533,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setTitle\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Http/Actions/CalendarController.php
-
-		-
-			message: "#^Cannot call method render\\(\\) on array\\<Igniter\\\\Admin\\\\Widgets\\\\Toolbar\\>\\.$#"
-			count: 2
 			path: src/Admin/Http/Actions/CalendarController.php
 
 		-
@@ -541,6 +541,111 @@ parameters:
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$formWidget\\.$#"
+			count: 6
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$toolbarWidget\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Access to protected property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$controller\\.$#"
+			count: 6
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formAfterCreate\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formAfterDelete\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formAfterSave\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formAfterUpdate\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formBeforeCreate\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formBeforeSave\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formBeforeUpdate\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formCreateModelObject\\(\\)\\.$#"
+			count: 3
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendConfig\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendFields\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendFieldsBefore\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendModel\\(\\)\\.$#"
+			count: 3
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendQuery\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendRefreshData\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendRefreshFields\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendRefreshResults\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formFindModelObject\\(\\)\\.$#"
+			count: 4
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formValidate\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setPreviousUrl\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
@@ -556,33 +661,78 @@ parameters:
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:formExtendRefreshData\\(\\) should return array but return statement is missing\\.$#"
+			message: "#^Call to protected method prepareVars\\(\\) of class Igniter\\\\Admin\\\\Widgets\\\\Form\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:formExtendRefreshFields\\(\\) should return array but return statement is missing\\.$#"
+			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:prepareVars\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Http\\\\Actions\\\\FormController\\:\\:formExtendRefreshResults\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$listConfig\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$listConfig\\.$#"
 			count: 3
 			path: src/Admin/Http/Actions/ListController.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:addFilter\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:getListConfig\\(\\)\\.$#"
 			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendColumns\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendModel\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendQuery\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendQueryBefore\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendRecords\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listFilterExtendQuery\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listFilterExtendScopes\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listFilterExtendScopesBefore\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listOverrideColumnValue\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listOverrideHeaderValue\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:refreshList\\(\\)\\.$#"
+			count: 2
 			path: src/Admin/Http/Actions/ListController.php
 
 		-
@@ -591,81 +741,6 @@ parameters:
 			path: src/Admin/Http/Actions/ListController.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:onRefresh\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:setSearchOptions\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:setSearchTerm\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:getListConfig\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listExtendColumns\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listExtendModel\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listExtendQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listExtendQueryBefore\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listExtendRecords\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listFilterExtendQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listFilterExtendScopes\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listFilterExtendScopesBefore\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listOverrideColumnValue\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:listOverrideHeaderValue\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Controller\\:\\:refreshList\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setPreviousUrl\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/ListController.php
@@ -681,12 +756,7 @@ parameters:
 			path: src/Admin/Http/Actions/ListController.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Http\\\\Actions\\\\ListController\\:\\:listOverrideColumnValue\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Http\\\\Actions\\\\ListController\\:\\:listOverrideHeaderValue\\(\\) should return string but return statement is missing\\.$#"
+			message: "#^PHPDoc tag @param for parameter \\$scope with type array is incompatible with native type Igniter\\\\Admin\\\\Classes\\\\FilterScope\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/ListController.php
 
@@ -709,61 +779,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isSuperUser\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Controllers/Dashboard.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:redirect\\(\\)\\.$#"
-			count: 7
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:redirectIntended\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setTitle\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:attempt\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isLogged\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\User\\:\\:whereEmail\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\User\\:\\:whereResetCode\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isImpersonator\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Logout.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:logout\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Logout.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:stopImpersonate\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Logout.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
@@ -926,12 +941,12 @@ parameters:
 			path: src/Admin/Widgets/DashboardContainer.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\FilterScope\\:\\:\\$maxDate\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\SearchBox\\:\\:\\$searchWidget\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Filter.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\FilterScope\\:\\:\\$minDate\\.$#"
+			message: "#^Binary operation \"\\-\" between non\\-empty\\-string and 1 results in an error\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Filter.php
 
@@ -939,26 +954,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Cannot access property \\$options on string\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Filter\\:\\:onSubmit\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$searchQuery$#"
-			count: 1
-			path: src/Admin/Widgets/Filter.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\:\\:\\$type\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$formField\\.$#"
@@ -976,17 +971,37 @@ parameters:
 			path: src/Admin/Widgets/Form.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Form.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Lists\\:\\:\\$primaryAlias\\.$#"
+			message: "#^PHPDoc tag @param for parameter \\$field with type Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget is incompatible with native type Igniter\\\\Admin\\\\Classes\\\\FormField\\.$#"
 			count: 1
-			path: src/Admin/Widgets/Lists.php
+			path: src/Admin/Widgets/Form.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Lists\\:\\:\\$totalRecordsCount\\.$#"
+			message: "#^PHPDoc tag @param for parameter \\$field with type mixed is not subtype of native type Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^PHPDoc tag @return with type mixed is not subtype of native type Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\|null\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Lists\\:\\:\\$primaryAlias\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Lists.php
 
@@ -1001,8 +1016,33 @@ parameters:
 			path: src/Admin/Widgets/Lists.php
 
 		-
+			message: "#^Call to an undefined method DateTimeInterface\\:\\:diffForHumans\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Call to an undefined method DateTimeInterface\\:\\:isoFormat\\(\\)\\.$#"
+			count: 3
+			path: src/Admin/Widgets/Lists.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:refreshList\\(\\)\\.$#"
 			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeRelation\\(\\)\\.$#"
+			count: 2
 			path: src/Admin/Widgets/Lists.php
 
 		-
@@ -1012,11 +1052,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Cannot call method getTable\\(\\) on string\\.$#"
 			count: 2
 			path: src/Admin/Widgets/Lists.php
 
@@ -2736,6 +2771,11 @@ parameters:
 			path: src/Flame/Support/Extendable.php
 
 		-
+			message: "#^Igniter\\\\Flame\\\\Support\\\\Extendable\\:\\:extendableCallStatic\\(\\) calls parent\\:\\:__callStatic\\(\\) but Igniter\\\\Flame\\\\Support\\\\Extendable does not extend any class\\.$#"
+			count: 1
+			path: src/Flame/Support/Extendable.php
+
+		-
 			message: "#^Igniter\\\\Flame\\\\Support\\\\Extendable\\:\\:extendableGet\\(\\) calls parent\\:\\:__get\\(\\) but Igniter\\\\Flame\\\\Support\\\\Extendable does not extend any class\\.$#"
 			count: 1
 			path: src/Flame/Support/Extendable.php
@@ -2981,11 +3021,6 @@ parameters:
 			path: src/Flame/Support/Helpers/form.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:url\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Support/Helpers/helpers.php
-
-		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:getClassId\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Support/Helpers/helpers.php
@@ -3071,22 +3106,12 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$layout\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\BaseComponent\\:\\:\\$id\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:getAjaxHandler\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:validateAjaxHandler\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminHelper\\:\\:validateAjaxHandlerPartials\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
 
@@ -3136,6 +3161,11 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__callStatic\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
 			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__get\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
@@ -3156,9 +3186,29 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
+			message: "#^PHPDoc tag @param for parameter \\$name with type mixed is not subtype of native type string\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^PHPDoc tag @return with type Igniter\\\\Main\\\\Classes\\\\MainController is not subtype of native type static\\(Igniter\\\\Main\\\\Classes\\\\MainController\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:sizeToString\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MediaItem.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:path\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MediaLibrary.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:url\\(\\)\\.$#"
+			count: 3
+			path: src/Main/Classes/MediaLibrary.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
@@ -3182,7 +3232,12 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 4
+			count: 5
+			path: src/Main/Classes/Theme.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:getRequire\\(\\)\\.$#"
+			count: 1
 			path: src/Main/Classes/Theme.php
 
 		-
@@ -3211,8 +3266,18 @@ parameters:
 			path: src/Main/Classes/Theme.php
 
 		-
+			message: "#^Variable \\$apiResult in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Main/Classes/Theme.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
 			count: 2
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:find\\(\\)\\.$#"
+			count: 4
 			path: src/Main/Classes/ThemeManager.php
 
 		-
@@ -3276,24 +3341,29 @@ parameters:
 			path: src/Main/Classes/ThemeManager.php
 
 		-
+			message: "#^Cannot access property \\$config on string\\.$#"
+			count: 3
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Cannot access property \\$name on string\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Cannot access property \\$requires on string\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
 			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Main/Classes/ThemeManager.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:getMetaFromFile\\(\\) should return array\\|null but return statement is missing\\.$#"
+			message: "#^Method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:getFileNameParts\\(\\) invoked with 2 parameters, 1 required\\.$#"
 			count: 1
 			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$themeCode$#"
-			count: 1
-			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Components\\\\BlankComponent\\:\\:\\$componentCssClass\\.$#"
-			count: 1
-			path: src/Main/Components/BlankComponent.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
@@ -3311,23 +3381,18 @@ parameters:
 			path: src/Main/Events/ThemeGetActiveEvent.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$code\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/Components.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getField\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateInterface\\:\\:updateComponent\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/Components.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getTheme\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getTheme\\(\\)\\.$#"
 			count: 2
-			path: src/Main/FormWidgets/Components.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getComponentOptions\\(\\)\\.$#"
-			count: 1
 			path: src/Main/FormWidgets/Components.php
 
 		-
@@ -3371,37 +3436,27 @@ parameters:
 			path: src/Main/FormWidgets/Components.php
 
 		-
-			message: "#^Cannot access property \\$fileSource on array\\.$#"
-			count: 3
-			path: src/Main/FormWidgets/Components.php
-
-		-
-			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
+			message: "#^Call to an undefined static method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getComponentOptions\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/Components.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:deleteMedia\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:deleteMedia\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:findMedia\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:findMedia\\(\\)\\.$#"
 			count: 2
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:mediable\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:mediable\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:newMediaInstance\\(\\)\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/MediaFinder.php
-
-		-
-			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:newMediaInstance\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
 
@@ -3411,8 +3466,8 @@ parameters:
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$code\\.$#"
-			count: 9
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$data\\.$#"
+			count: 2
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
@@ -3426,27 +3481,27 @@ parameters:
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getFormWidget\\(\\)\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
+			count: 9
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getSaveData\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getTheme\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Cannot access property \\$data on Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\|string\\.$#"
-			count: 2
-			path: src/Main/FormWidgets/TemplateEditor.php
-
-		-
-			message: "#^Cannot call method getSaveData\\(\\) on Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\|string\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getTheme\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:flash\\(\\) \\(void\\) is used\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 
@@ -3472,6 +3527,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Http\\\\Controllers\\\\Themes\\:\\:\\$checkUrl\\.$#"
+			count: 1
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$data\\.$#"
 			count: 1
 			path: src/Main/Http/Controllers/Themes.php
 
@@ -3541,8 +3601,13 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
 			count: 3
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
 			path: src/Main/Models/Theme.php
 
 		-
@@ -3641,11 +3706,6 @@ parameters:
 			path: src/Main/Template/ComponentPartial.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$component$#"
-			count: 1
-			path: src/Main/Template/ComponentPartial.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 2
 			path: src/Main/Template/ComponentPartial.php
@@ -3682,12 +3742,12 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$settings\\.$#"
-			count: 3
+			count: 2
 			path: src/Main/Template/Layout.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$settings\\.$#"
-			count: 3
+			count: 2
 			path: src/Main/Template/Page.php
 
 		-
@@ -3711,6 +3771,11 @@ parameters:
 			path: src/Main/Widgets/MediaManager.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:extension\\(\\)\\.$#"
+			count: 3
+			path: src/Main/Widgets/MediaManager.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Widgets/MediaManager.php
@@ -3718,11 +3783,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:name\\(\\)\\.$#"
 			count: 1
-			path: src/Main/Widgets/MediaManager.php
-
-		-
-			message: "#^Result of method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:putSession\\(\\) \\(void\\) is used\\.$#"
-			count: 2
 			path: src/Main/Widgets/MediaManager.php
 
 		-
@@ -3816,6 +3876,11 @@ parameters:
 			path: src/System/Classes/BaseExtension.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:fromClass\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/BaseExtension.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
 			count: 6
 			path: src/System/Classes/BaseExtension.php
@@ -3876,6 +3941,11 @@ parameters:
 			path: src/System/Classes/Controller.php
 
 		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__callStatic\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/Controller.php
+
+		-
 			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__get\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/Controller.php
@@ -3889,26 +3959,6 @@ parameters:
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$inPath$#"
 			count: 1
 			path: src/System/Classes/Controller.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$configPath\\.$#"
-			count: 1
-			path: src/System/Classes/ControllerAction.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$hiddenActions\\.$#"
-			count: 2
-			path: src/System/Classes/ControllerAction.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$partialPath\\.$#"
-			count: 1
-			path: src/System/Classes/ControllerAction.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Routing\\\\Controller\\:\\:\\$vars\\.$#"
-			count: 1
-			path: src/System/Classes/ControllerAction.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
@@ -3938,6 +3988,11 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 2
+			path: src/System/Classes/ControllerAction.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
+			count: 1
 			path: src/System/Classes/ControllerAction.php
 
 		-
@@ -3981,19 +4036,9 @@ parameters:
 			path: src/System/Classes/ExtensionManager.php
 
 		-
-			message: "#^PHPDoc tag @return with type bool is incompatible with native type void\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
 			message: "#^Method Igniter\\\\System\\\\Classes\\\\HubManager\\:\\:requestRemoteData\\(\\) invoked with 4 parameters, 1\\-2 required\\.$#"
 			count: 1
 			path: src/System/Classes/HubManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\LanguageManager\\:\\:\\$hubManager\\.$#"
-			count: 2
-			path: src/System/Classes/LanguageManager.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$can_update\\.$#"
@@ -4029,6 +4074,31 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$body\\.$#"
+			count: 1
+			path: src/System/Classes/MailManager.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$layout\\.$#"
+			count: 1
+			path: src/System/Classes/MailManager.php
+
+		-
+			message: "#^Cannot access property \\$body on string\\.$#"
+			count: 1
+			path: src/System/Classes/MailManager.php
+
+		-
+			message: "#^Cannot access property \\$layout on string\\.$#"
+			count: 2
+			path: src/System/Classes/MailManager.php
+
+		-
+			message: "#^Cannot access property \\$plain_body on string\\.$#"
+			count: 2
+			path: src/System/Classes/MailManager.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
@@ -4097,11 +4167,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\User\\:\\:whereEmail\\(\\)\\.$#"
-			count: 1
-			path: src/System/Console/Commands/IgniterPasswd.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$fallback$#"
 			count: 1
 			path: src/System/Console/Commands/IgniterPasswd.php
 
@@ -4196,23 +4261,38 @@ parameters:
 			path: src/System/Http/Controllers/Currencies.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$formWidget\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$toolbarWidget\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Extensions\\:\\:\\$checkUrl\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Extensions.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:reInitialize\\(\\)\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Extension\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getFieldConfig\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getSettingsRecord\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Extensions.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getSettingItem\\(\\)\\.$#"
 			count: 2
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
-			message: "#^Call to an undefined method object\\:\\:getSaveData\\(\\)\\.$#"
-			count: 1
 			path: src/System/Http/Controllers/Extensions.php
 
 		-
@@ -4246,9 +4326,9 @@ parameters:
 			path: src/System/Http/Controllers/Extensions.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$version\\.$#"
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
 			count: 1
-			path: src/System/Http/Controllers/Languages.php
+			path: src/System/Http/Controllers/Extensions.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:\\$checkUrl\\.$#"
@@ -4281,14 +4361,29 @@ parameters:
 			path: src/System/Http/Controllers/Languages.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$is_locked\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/MailLayouts.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
 			count: 1
+			path: src/System/Http/Controllers/MailLayouts.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$is_custom\\.$#"
+			count: 1
 			path: src/System/Http/Controllers/MailPartials.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/MailPartials.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$is_custom\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/MailTemplates.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\MailTemplates\\:\\:formFindModelObject\\(\\)\\.$#"
@@ -4321,13 +4416,18 @@ parameters:
 			path: src/System/Http/Controllers/RequestLogs.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:\\$controller\\.$#"
-			count: 5
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$formWidget\\.$#"
+			count: 1
 			path: src/System/Http/Controllers/Settings.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:reInitialize\\(\\)\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$toolbarWidget\\.$#"
 			count: 1
+			path: src/System/Http/Controllers/Settings.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:\\$controller\\.$#"
+			count: 5
 			path: src/System/Http/Controllers/Settings.php
 
 		-
@@ -4376,17 +4476,7 @@ parameters:
 			path: src/System/Http/Controllers/Settings.php
 
 		-
-			message: "#^Method Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:formExtendRefreshData\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Method Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:formExtendRefreshFields\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Method Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:formExtendRefreshResults\\(\\) should return array but return statement is missing\\.$#"
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Settings.php
 
@@ -4501,6 +4591,11 @@ parameters:
 			path: src/System/Libraries/Country.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Collection\\:\\:find\\(\\)\\.$#"
+			count: 2
+			path: src/System/Libraries/Country.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Libraries/Country.php
@@ -4536,8 +4631,13 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
 			count: 3
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
 			path: src/System/Models/Country.php
 
 		-
@@ -4641,8 +4741,13 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
 			count: 3
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
 			path: src/System/Models/Currency.php
 
 		-
@@ -4741,8 +4846,13 @@ parameters:
 			path: src/System/Models/Language.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
 			count: 3
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
 			path: src/System/Models/Language.php
 
 		-
@@ -4817,6 +4927,11 @@ parameters:
 
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\MailLayout\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/MailLayout.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/MailLayout.php
 
@@ -5002,6 +5117,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Models\\\\Page\\:\\:whereSlug\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Page.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Page.php
 

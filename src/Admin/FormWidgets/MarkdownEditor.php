@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Flame\Mail\Markdown;
 
 /**
- * Code Editor
+ * Markdown Editor
  * Renders a code editor field.
  */
 class MarkdownEditor extends BaseFormWidget
@@ -18,13 +18,13 @@ class MarkdownEditor extends BaseFormWidget
     /**
      * @var string Display mode: split, tab.
      */
-    public $mode = 'tab';
+    public string $mode = 'tab';
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'markdown';
+    protected string $defaultAlias = 'markdown';
 
     public function initialize()
     {
@@ -63,7 +63,7 @@ class MarkdownEditor extends BaseFormWidget
         $this->addJs('markdowneditor.js', 'markdowneditor-js');
     }
 
-    public function onRefresh()
+    public function onRefresh(): array
     {
         $value = post($this->formField->getName());
         $previewHtml = Markdown::parse($value)->toHtml();

@@ -97,7 +97,7 @@ class MainMenuItem
         return $instance;
     }
 
-    public static function dropdown(string $name): MainMenuItem
+    public static function dropdown(string $name): self
     {
         return static::make($name, static::DROPDOWN_TYPE);
     }
@@ -255,77 +255,77 @@ class MainMenuItem
         return name_to_id($id);
     }
 
-    public function label(string $label): MainMenuItem
+    public function label(string $label): self
     {
         $this->label = $label;
 
         return $this;
     }
 
-    public function idPrefix(string $idPrefix): MainMenuItem
+    public function idPrefix(string $idPrefix): self
     {
         $this->idPrefix = $idPrefix;
 
         return $this;
     }
 
-    public function anchor(string $anchor): MainMenuItem
+    public function anchor(string $anchor): self
     {
         $this->anchor = $anchor;
 
         return $this;
     }
 
-    public function disabled(): MainMenuItem
+    public function disabled(): self
     {
         $this->disabled = true;
 
         return $this;
     }
 
-    public function icon(string $icon): MainMenuItem
+    public function icon(string $icon): self
     {
         $this->icon = $icon;
 
         return $this;
     }
 
-    public function attributes(array $attributes): MainMenuItem
+    public function attributes(array $attributes): self
     {
         $this->attributes = $attributes;
 
         return $this;
     }
 
-    public function path(string $path): MainMenuItem
+    public function path(string $path): self
     {
         $this->path = $path;
 
         return $this;
     }
 
-    public function priority(int $priority): MainMenuItem
+    public function priority(int $priority): self
     {
         $this->priority = $priority;
 
         return $this;
     }
 
-    public function permission(array|string|null $permission): MainMenuItem
+    public function permission(array|string|null $permission): self
     {
         $this->permission = $permission;
 
         return $this;
     }
 
-    public function config(array $config): MainMenuItem
+    public function config(array $config): self
     {
         $this->config = $config;
 
         return $this;
     }
 
-    public function mergeConfig(array $config): MainMenuItem
+    public function mergeConfig(array $config): self
     {
         $this->config = array_merge($this->config, $config);
 

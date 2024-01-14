@@ -2,6 +2,7 @@
 
 namespace Igniter\System\Console\Commands;
 
+use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Foundation\Console\VendorPublishCommand;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,10 +27,8 @@ class ThemeVendorPublish extends VendorPublishCommand
 
     /**
      * The themes to publish.
-     *
-     * @var array
      */
-    protected $themes = [];
+    protected array $themes = [];
 
     /**
      * Execute the console command.
@@ -59,11 +58,8 @@ class ThemeVendorPublish extends VendorPublishCommand
 
     /**
      * Publishes the assets for a theme.
-     *
-     * @param \Igniter\Main\Classes\Theme $theme
-     * @return void
      */
-    protected function publishTheme($theme)
+    protected function publishTheme(Theme $theme)
     {
         $published = false;
 

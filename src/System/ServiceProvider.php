@@ -9,7 +9,6 @@ use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\RequestLog;
-use Igniter\System\Template\Extension\BladeExtension;
 use Igniter\User\Models\Notification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -29,7 +28,6 @@ class ServiceProvider extends AppServiceProvider
     {
         $this->registerSingletons();
         $this->registerFacadeAliases();
-        $this->registerBladeDirectives();
 
         $this->app->register(Providers\ConsoleServiceProvider::class);
         $this->app->register(Providers\ExtensionServiceProvider::class);
@@ -129,13 +127,6 @@ class ServiceProvider extends AppServiceProvider
             'settings' => \Igniter\System\Models\Settings::class,
             'themes' => \Igniter\Main\Models\Theme::class,
         ]);
-    }
-
-    protected function registerBladeDirectives()
-    {
-        $this->callAfterResolving('blade.compiler', function ($compiler, $app) {
-            (new BladeExtension)->register();
-        });
     }
 
     protected function loadLocalizationConfiguration()

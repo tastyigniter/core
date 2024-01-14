@@ -6,7 +6,7 @@ use Igniter\Main\Classes\MediaLibrary;
 
 class ImageHelper
 {
-    public static function resize($path, $width = 0, $height = 0)
+    public static function resize(string $path, int|array $width = 0, int $height = 0): string
     {
         $options = array_merge([
             'width' => is_array($width) ? 0 : $width,

@@ -7,40 +7,36 @@ use Igniter\System\Models\Page as PageModel;
 
 trait UsesPage
 {
-    protected static $staticPagesCache = [];
+    protected static array $staticPagesCache = [];
 
-    protected static $staticPageOptionsCache;
+    protected static ?array $staticPageOptionsCache = null;
 
-    protected static $themePageOptionsCache;
+    protected static ?array $themePageOptionsCache = null;
 
-    public function findStaticPage($id)
+    public function findStaticPage($id): ?PageModel
     {
-        if (isset(self::$staticPagesCache[$id])) {
-            return self::$staticPagesCache[$id];
-        }
-
-        return self::$staticPagesCache[$id] = PageModel::find($id);
+        return self::$staticPagesCache[$id] ?? (self::$staticPagesCache[$id] = PageModel::find($id));
     }
 
-    public function getStaticPagePermalink($id)
+    public function getStaticPagePermalink($id): string
     {
         $page = $this->findStaticPage($id);
 
-        return $page ? $page->permalink_slug : '';
+        return $page->permalink_slug ?? '';
     }
 
-    public static function getThemePageOptions()
+    public static function getThemePageOptions(): array
     {
-        if (self::$themePageOptionsCache) {
+        if (!is_null(self::$themePageOptionsCache)) {
             return self::$themePageOptionsCache;
         }
 
         return self::$themePageOptionsCache = Page::getDropdownOptions();
     }
 
-    public static function getStaticPageOptions()
+    public static function getStaticPageOptions(): array
     {
-        if (self::$staticPageOptionsCache) {
+        if (!is_null(self::$staticPageOptionsCache)) {
             return self::$staticPageOptionsCache;
         }
 

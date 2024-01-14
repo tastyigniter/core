@@ -2,6 +2,8 @@
 
 namespace Igniter\Admin\Widgets;
 
+use Igniter\Admin\Classes\AdminController;
+use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\Flame\Exception\FlashException;
@@ -14,24 +16,20 @@ class DashboardContainer extends BaseWidget
     //
 
     /**
-     * @var string The unique dashboard context name
+     * The unique dashboard context name
      * Defines the context where the container is used.
      * Widget settings are saved in a specific context.
      */
-    public $context = 'dashboard';
+    public string $context = 'dashboard';
+
+    /** Determines whether widgets could be added and deleted. */
+    public bool $canManage = true;
+
+    /** Determines whether widgets could be set as default. */
+    public bool $canSetDefault = false;
 
     /**
-     * @var string Determines whether widgets could be added and deleted.
-     */
-    public $canManage = true;
-
-    /**
-     * @var string Determines whether widgets could be set as default.
-     */
-    public $canSetDefault = false;
-
-    /**
-     * @var array A list of default widgets to load.
+     * A list of default widgets to load.
      * This structure could be defined in the controller containerConfig property
      * Example structure:
      *
@@ -46,32 +44,21 @@ class DashboardContainer extends BaseWidget
      *     ]
      * ];
      */
-    public $defaultWidgets = [];
+    public array $defaultWidgets = [];
 
     //
     // Object properties
     //
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $defaultAlias = 'dashboardContainer';
+    protected string $defaultAlias = 'dashboardContainer';
 
-    /**
-     * @var array Collection of all dashboard widgets used by this container.
-     */
-    protected $dashboardWidgets = [];
+    /** Collection of all dashboard widgets used by this container. */
+    protected array $dashboardWidgets = [];
 
-    /**
-     * @var bool Determines if dashboard widgets have been created.
-     */
-    protected $widgetsDefined = false;
+    /** Determines if dashboard widgets have been created. */
+    protected bool $widgetsDefined = false;
 
-    /**
-     * Constructor.
-     * @param array $config
-     */
-    public function __construct($controller, $config = [])
+    public function __construct(AdminController $controller, array $config = [])
     {
         parent::__construct($controller, $config);
 
@@ -108,7 +95,7 @@ class DashboardContainer extends BaseWidget
     // Event handlers
     //
 
-    public function onRenderWidgets()
+    public function onRenderWidgets(): array
     {
         $this->defineDashboardWidgets();
         $this->vars['widgets'] = $this->dashboardWidgets;
@@ -116,7 +103,7 @@ class DashboardContainer extends BaseWidget
         return ['#'.$this->getId('container') => $this->makePartial('dashboardcontainer/widget_container')];
     }
 
-    public function onLoadAddPopup()
+    public function onLoadAddPopup(): array
     {
         $this->vars['gridColumns'] = $this->getWidgetPropertyWidthOptions();
         $this->vars['widgets'] = resolve(Widgets::class)->listDashboardWidgets();
@@ -124,7 +111,7 @@ class DashboardContainer extends BaseWidget
         return ['#'.$this->getId('new-widget-modal-content') => $this->makePartial('new_widget_popup')];
     }
 
-    public function onLoadUpdatePopup()
+    public function onLoadUpdatePopup(): array
     {
         $widgetAlias = trim(post('widgetAlias'));
 
@@ -139,7 +126,7 @@ class DashboardContainer extends BaseWidget
         return ['#'.$widgetAlias.'-modal-content' => $this->makePartial('widget_form')];
     }
 
-    public function onAddWidget()
+    public function onAddWidget(): array
     {
         $className = trim(post('className'));
         $size = trim(post('size'));
@@ -168,7 +155,7 @@ class DashboardContainer extends BaseWidget
         ];
     }
 
-    public function onResetWidgets()
+    public function onResetWidgets(): array
     {
         if (!$this->canManage) {
             throw FlashException::error(lang('igniter::admin.alert_access_denied'));
@@ -196,7 +183,7 @@ class DashboardContainer extends BaseWidget
         flash()->success(lang('igniter::admin.dashboard.make_default_success'));
     }
 
-    public function onUpdateWidget()
+    public function onUpdateWidget(): array
     {
         if (!$this->canManage) {
             throw FlashException::error(lang('igniter::admin.alert_access_denied'));
@@ -224,13 +211,7 @@ class DashboardContainer extends BaseWidget
         $this->removeWidget($alias);
     }
 
-    /**
-     * @param \Igniter\Admin\Classes\BaseDashboardWidget $widget
-     *
-     * @return array
-     * @throws \Igniter\Flame\Exception\FlashException
-     */
-    public function addWidget($widget, $size)
+    protected function addWidget(BaseDashboardWidget $widget, mixed $size): array
     {
         if (!$this->canManage) {
             throw FlashException::error(lang('igniter::admin.alert_access_denied'));
@@ -326,7 +307,7 @@ class DashboardContainer extends BaseWidget
         $this->widgetsDefined = true;
     }
 
-    protected function makeDashboardWidget($alias, $widgetInfo)
+    protected function makeDashboardWidget(string $alias, array $widgetInfo)
     {
         $config = $widgetInfo['config'];
         $config['alias'] = $alias;
@@ -351,7 +332,7 @@ class DashboardContainer extends BaseWidget
         $this->defineDashboardWidgets();
     }
 
-    protected function removeWidget($alias)
+    protected function removeWidget(string $alias)
     {
         if (!$this->canManage) {
             throw FlashException::error(lang('igniter::admin.alert_access_denied'));
@@ -366,7 +347,7 @@ class DashboardContainer extends BaseWidget
         $this->setWidgetsToUserPreferences($widgets);
     }
 
-    public function getFormWidget($alias, $widget)
+    public function getFormWidget(string $alias, BaseDashboardWidget $widget): Form
     {
         $formConfig['fields'] = $this->getWidgetPropertyConfig($widget);
 
@@ -376,13 +357,14 @@ class DashboardContainer extends BaseWidget
         $formConfig['alias'] = $this->alias.studly_case('Form_'.$alias);
         $formConfig['arrayName'] = $alias.'_fields';
 
-        $formWidget = $this->makeWidget(\Igniter\Admin\Widgets\Form::class, $formConfig);
+        /** @var Form $formWidget */
+        $formWidget = $this->makeWidget(Form::class, $formConfig);
         $formWidget->bindToController();
 
         return $formWidget;
     }
 
-    protected function findWidgetByAlias($alias)
+    protected function findWidgetByAlias(string $alias): BaseDashboardWidget
     {
         $this->defineDashboardWidgets();
 
@@ -394,24 +376,19 @@ class DashboardContainer extends BaseWidget
         return $widgets[$alias]['widget'];
     }
 
-    protected function getWidgetClassName($widget)
+    protected function getWidgetClassName(BaseDashboardWidget $widget): string
     {
         return get_class($widget);
     }
 
-    protected function getWidgetPropertyConfigTitle($widget)
+    protected function getWidgetPropertyConfigTitle(BaseDashboardWidget $widget): ?string
     {
         $config = $this->getWidgetPropertyConfig($widget);
 
         return array_get($config, 'title');
     }
 
-    /**
-     * @param \Igniter\Admin\Classes\BaseDashboardWidget $widget
-     *
-     * @return array
-     */
-    protected function getWidgetPropertyConfig($widget)
+    protected function getWidgetPropertyConfig(BaseDashboardWidget $widget): array
     {
         $properties = $widget->defineProperties();
 
@@ -452,12 +429,7 @@ class DashboardContainer extends BaseWidget
         return $result;
     }
 
-    /**
-     * @param \Igniter\Admin\Classes\BaseDashboardWidget $widget
-     *
-     * @return array
-     */
-    protected function getWidgetPropertyValues($widget)
+    protected function getWidgetPropertyValues(BaseDashboardWidget $widget): array
     {
         $result = [];
 
@@ -471,7 +443,7 @@ class DashboardContainer extends BaseWidget
         return $result;
     }
 
-    protected function getWidgetPropertyWidthOptions()
+    protected function getWidgetPropertyWidthOptions(): array
     {
         $sizes = [];
         for ($i = 1; $i <= 12; $i++) {
@@ -481,7 +453,7 @@ class DashboardContainer extends BaseWidget
         return $sizes;
     }
 
-    protected function checkWidgetPropertyType($type)
+    protected function checkWidgetPropertyType($type): bool
     {
         return in_array($type, [
             'text',
@@ -496,7 +468,7 @@ class DashboardContainer extends BaseWidget
     // User Preferences
     //
 
-    protected function getWidgetsFromUserPreferences()
+    protected function getWidgetsFromUserPreferences(): array
     {
         $defaultWidgets = params()->get($this->getSystemParametersKey(), $this->defaultWidgets);
 
@@ -510,7 +482,7 @@ class DashboardContainer extends BaseWidget
         return $widgets;
     }
 
-    protected function setWidgetsToUserPreferences($widgets)
+    protected function setWidgetsToUserPreferences(array $widgets)
     {
         UserPreference::onUser()->set($this->getUserPreferencesKey(), $widgets);
     }
@@ -520,7 +492,7 @@ class DashboardContainer extends BaseWidget
         UserPreference::onUser()->reset($this->getUserPreferencesKey());
     }
 
-    protected function saveWidgetProperties($alias, $properties)
+    protected function saveWidgetProperties(string $alias, array $properties)
     {
         $widgets = $this->getWidgetsFromUserPreferences();
 
@@ -531,17 +503,17 @@ class DashboardContainer extends BaseWidget
         }
     }
 
-    protected function getUserPreferencesKey()
+    protected function getUserPreferencesKey(): string
     {
         return 'admin_dashboardwidgets_'.$this->context;
     }
 
-    protected function getSystemParametersKey()
+    protected function getSystemParametersKey(): string
     {
         return 'admin_dashboardwidgets_default_'.$this->context;
     }
 
-    protected function getUniqueAlias($widgets)
+    protected function getUniqueAlias($widgets): string
     {
         $num = count($widgets);
         do {

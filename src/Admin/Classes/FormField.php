@@ -13,180 +13,101 @@ use Illuminate\Database\Eloquent\Model;
  */
 class FormField
 {
-    /**
-     * @var int Value returned when the form field should not contribute any save data.
-     */
-    const NO_SAVE_DATA = -1;
+    /** Value returned when the form field should not contribute any save data. */
+    public const NO_SAVE_DATA = -1;
 
-    /**
-     * @var string Form field name.
-     */
-    public $fieldName;
+    /** If the field element names should be contained in an array. * Eg: <input name="nameArray[fieldName]" /> */
+    public ?string $arrayName = null;
 
-    /**
-     * @var string If the field element names should be contained in an array.
-     * Eg: <input name="nameArray[fieldName]" />
-     */
-    public $arrayName;
+    /** A prefix to the field identifier so it can be totally unique. */
+    public ?string $idPrefix = null;
 
-    /**
-     * @var string A prefix to the field identifier so it can be totally unique.
-     */
-    public $idPrefix;
+    /** Form field value. */
+    public mixed $value = null;
 
-    /**
-     * @var string Form field label.
-     */
-    public $label;
+    /** Model attribute to use for the display value. */
+    public ?string $valueFrom = null;
 
-    /**
-     * @var string Form field value.
-     */
-    public $value;
+    /** Specifies a default value for supported fields. */
+    public mixed $defaults = null;
 
-    /**
-     * @var string Model attribute to use for the display value.
-     */
-    public $valueFrom;
+    /** Model attribute to use for the default value. */
+    public ?string $defaultFrom = null;
 
-    /**
-     * @var string Specifies a default value for supported fields.
-     */
-    public $defaults;
+    /** Specifies if this field belongs to a tab. */
+    public ?string $tab = null;
 
-    /**
-     * @var string Model attribute to use for the default value.
-     */
-    public $defaultFrom;
+    /** Display mode. Text, textarea */
+    public string $type = 'text';
 
-    /**
-     * @var string Specifies if this field belongs to a tab.
-     */
-    public $tab;
+    /** Field options. */
+    public mixed $options = null;
 
-    /**
-     * @var string Display mode. Text, textarea
-     */
-    public $type = 'text';
+    /** Specifies a side. Possible values: auto, left, right, full. */
+    public string $span = 'full';
 
-    /**
-     * @var string Field options.
-     */
-    public $options;
+    /** Specifies a size. Possible values: tiny, small, large, huge, giant. */
+    public string $size = 'large';
 
-    /**
-     * @var string Specifies a side. Possible values: auto, left, right, full.
-     */
-    public $span = 'full';
+    /** Specifies contextual visibility of this form field. */
+    public null|string|array $context = null;
 
-    /**
-     * @var string Specifies a size. Possible values: tiny, small, large, huge, giant.
-     */
-    public $size = 'large';
+    /** Specifies if this field is mandatory. */
+    public bool $required = false;
 
-    /**
-     * @var string Specifies contextual visibility of this form field.
-     */
-    public $context = null;
+    /** Specify if the field is read-only or not. */
+    public bool $readOnly = false;
 
-    /**
-     * @var bool Specifies if this field is mandatory.
-     */
-    public $required = false;
+    /** Specify if the field is disabled or not. */
+    public bool $disabled = false;
 
-    /**
-     * @var bool Specify if the field is read-only or not.
-     */
-    public $readOnly = false;
+    /** Specify if the field is hidden. Hiddens fields are not included in postbacks. */
+    public bool $hidden = false;
 
-    /**
-     * @var bool Specify if the field is disabled or not.
-     */
-    public $disabled = false;
+    /** Specifies if this field stretch to fit the page height. */
+    public bool $stretch = false;
 
-    /**
-     * @var bool Specify if the field is hidden. Hiddens fields are not included in postbacks.
-     */
-    public $hidden = false;
+    /** Specifies a comment to accompany the field */
+    public ?string $commentAbove = null;
 
-    /**
-     * @var bool Specifies if this field stretch to fit the page height.
-     */
-    public $stretch = false;
+    /** Specifies a comment to accompany the field */
+    public ?string $comment = null;
 
-    /**
-     * @var string Specifies a comment to accompany the field
-     */
-    public $commentAbove;
+    /** Specifies if the comment is in HTML format. */
+    public bool $commentHtml = false;
 
-    /**
-     * @var string Specifies a comment to accompany the field
-     */
-    public $comment;
+    /** Specifies a message to display when there is no value supplied (placeholder). */
+    public ?string $placeholder = null;
 
-    /**
-     * @var string Specifies if the comment is in HTML format.
-     */
-    public $commentHtml = false;
+    /** Contains a list of attributes specified in the field configuration. */
+    public array $attributes = [];
 
-    /**
-     * @var string Specifies a message to display when there is no value supplied (placeholder).
-     */
-    public $placeholder;
+    /** Specifies a CSS class to attach to the field container. */
+    public ?string $cssClass = null;
 
-    /**
-     * @var array Contains a list of attributes specified in the field configuration.
-     */
-    public $attributes;
+    /** Specifies a path for partial-type fields. */
+    public ?string $path = null;
 
-    /**
-     * @var string Specifies a CSS class to attach to the field container.
-     */
-    public $cssClass;
+    /** Raw field configuration. */
+    public array $config = [];
 
-    /**
-     * @var string Specifies a path for partial-type fields.
-     */
-    public $path;
+    /** Other field names this field depends on, when the other fields are modified, this field will update. */
+    public array $dependsOn = [];
 
-    /**
-     * @var array Raw field configuration.
-     */
-    public $config;
+    /** Other field names this field can be triggered by, see the Trigger API documentation. */
+    public array $trigger = [];
 
-    /**
-     * @var array Other field names this field depends on, when the other fields are modified, this field will update.
-     */
-    public $dependsOn;
+    /** Other field names text is converted in to a URL, slug or file name value in this field. */
+    public string|array $preset = [];
 
-    /**
-     * @var array Other field names this field can be triggered by, see the Trigger API documentation.
-     */
-    public $trigger;
-
-    /**
-     * @var array Other field names text is converted in to a URL, slug or file name value in this field.
-     */
-    public $preset;
-
-    /**
-     * Constructor.
-     *
-     * @param string $fieldName
-     * @param string $label
-     */
-    public function __construct($fieldName, $label)
+    public function __construct(public string $fieldName, public ?string $label = null)
     {
-        $this->fieldName = $fieldName;
-        $this->label = $label;
     }
 
     /**
      * If this field belongs to a tab.
-     *
-     * @return $this
      */
-    public function tab($value)
+    public function tab(string $value): self
     {
         $this->tab = $value;
 
@@ -197,10 +118,8 @@ class FormField
      * Sets a side of the field on a form.
      *
      * @param string $value Specifies a side. Possible values: left, right, full
-     *
-     * @return $this
      */
-    public function span($value = 'full')
+    public function span(string $value = 'full'): self
     {
         $this->span = $value;
 
@@ -211,10 +130,8 @@ class FormField
      * Sets a side of the field on a form.
      *
      * @param string $value Specifies a size. Possible values: tiny, small, large, huge, giant
-     *
-     * @return $this
      */
-    public function size($value = 'large')
+    public function size(string $value = 'large'): self
     {
         $this->size = $value;
 
@@ -223,26 +140,24 @@ class FormField
 
     /**
      * Sets field options, for dropdowns, radio lists and checkbox lists.
-     *
-     * @param array $value
-     *
-     * @return self|array
      */
-    public function options($value = null)
+    public function options(mixed $value = null): mixed
     {
         if ($value === null) {
             if (is_array($this->options)) {
                 return $this->options;
-            } elseif (is_callable($this->options)) {
+            }
+
+            if (is_callable($this->options)) {
                 $callable = $this->options;
 
                 return $callable();
             }
 
             return [];
-        } else {
-            $this->options = $value;
         }
+
+        $this->options = $value;
 
         return $this;
     }
@@ -262,7 +177,7 @@ class FormField
      *
      * @return $this
      */
-    public function displayAs($type, $config = [])
+    public function displayAs(string $type, array $config = []): self
     {
         $this->type = strtolower($type) ?: $this->type;
         $this->config = $this->evalConfig($config);
@@ -272,17 +187,9 @@ class FormField
 
     /**
      * Process options and apply them to this object.
-     *
-     * @param array $config
-     *
-     * @return array
      */
-    protected function evalConfig($config)
+    protected function evalConfig(array $config): array
     {
-        if (is_null($config)) {
-            $config = [];
-        }
-
         /*
          * Standard config:property values
          */
@@ -354,23 +261,14 @@ class FormField
      * Sets the attributes for this field in a given position.
      * - field: Attributes are added to the form field element (input, select, textarea, etc)
      * - container: Attributes are added to the form field container (div.form-group)
-     *
-     * @param array $items
-     * @param string $position
-     *
-     * @return self
      */
-    public function attributes($items, $position = 'field')
+    public function attributes(array $items, string $position = 'field'): self
     {
-        if (!is_array($items)) {
-            return null;
-        }
-
         $multiArray = array_filter($items, 'is_array');
         if (!$multiArray) {
             $this->attributes[$position] = $items;
 
-            return null;
+            return $this;
         }
 
         foreach ($items as $_position => $_items) {
@@ -382,13 +280,8 @@ class FormField
 
     /**
      * Checks if the field has the supplied [unfiltered] attribute.
-     *
-     * @param string $name
-     * @param string $position
-     *
-     * @return bool
      */
-    public function hasAttribute($name, $position = 'field')
+    public function hasAttribute(string $name, string $position = 'field'): bool
     {
         if (!isset($this->attributes[$position])) {
             return false;
@@ -399,14 +292,8 @@ class FormField
 
     /**
      * Returns the attributes for this field at a given position.
-     *
-     * @param string $position
-     *
-     * @param bool $htmlBuild
-     *
-     * @return string
      */
-    public function getAttributes($position = 'field', $htmlBuild = true)
+    public function getAttributes(string $position = 'field', bool $htmlBuild = true): string|array
     {
         $result = array_get($this->attributes, $position, []);
         $result = $this->filterAttributes($result, $position);
@@ -417,13 +304,8 @@ class FormField
     /**
      * Adds any circumstantial attributes to the field based on other
      * settings, such as the 'disabled' option.
-     *
-     * @param array $attributes
-     * @param string $position
-     *
-     * @return array
      */
-    protected function filterAttributes($attributes, $position = 'field')
+    protected function filterAttributes(array $attributes, string $position = 'field'): array
     {
         $position = strtolower($position);
 
@@ -447,15 +329,10 @@ class FormField
 
     /**
      * Adds attributes used specifically by the Trigger API
-     *
-     * @param array $attributes
-     * @param string $position
-     *
-     * @return array
      */
-    protected function filterTriggerAttributes($attributes, $position = 'field')
+    protected function filterTriggerAttributes(array $attributes, string $position = 'field'): array
     {
-        if (!$this->trigger || !is_array($this->trigger)) {
+        if (!$this->trigger) {
             return $attributes;
         }
 
@@ -486,20 +363,15 @@ class FormField
             'data-trigger-closest-parent' => 'form',
         ];
 
-        $attributes = $attributes + $newAttributes;
+        $attributes += $newAttributes;
 
         return $attributes;
     }
 
     /**
      * Adds attributes used specifically by the Input Preset API
-     *
-     * @param array $attributes
-     * @param string $position
-     *
-     * @return array
      */
-    protected function filterPresetAttributes($attributes, $position = 'field')
+    protected function filterPresetAttributes(array $attributes, string $position = 'field'): array
     {
         if (!$this->preset || $position != 'field') {
             return $attributes;
@@ -528,19 +400,15 @@ class FormField
             $newAttributes['data-input-preset-prefix-input'] = $prefixInput;
         }
 
-        $attributes = $attributes + $newAttributes;
+        $attributes += $newAttributes;
 
         return $attributes;
     }
 
     /**
      * Returns a value suitable for the field name property.
-     *
-     * @param string $arrayName Specify a custom array name
-     *
-     * @return string
      */
-    public function getName($arrayName = null)
+    public function getName(?string $arrayName = null): string
     {
         if ($arrayName === null) {
             $arrayName = $this->arrayName;
@@ -548,19 +416,15 @@ class FormField
 
         if ($arrayName) {
             return $arrayName.'['.implode('][', name_to_array($this->fieldName)).']';
-        } else {
-            return $this->fieldName;
         }
+
+        return $this->fieldName;
     }
 
     /**
      * Returns a value suitable for the field id property.
-     *
-     * @param string $suffix Specify a suffix string
-     *
-     * @return string
      */
-    public function getId($suffix = null)
+    public function getId(?string $suffix = null): string
     {
         $id = 'field';
         if ($this->arrayName) {
@@ -582,13 +446,8 @@ class FormField
 
     /**
      * Returns a raw config item value.
-     *
-     * @param string $value
-     * @param string $default
-     *
-     * @return mixed
      */
-    public function getConfig($value, $default = null)
+    public function getConfig(string $value, mixed $default = null): mixed
     {
         return array_get($this->config, $value, $default);
     }
@@ -596,13 +455,8 @@ class FormField
     /**
      * Returns this fields value from a supplied data set, which can be
      * an array or a model or another generic collection.
-     *
-     * @param mixed $data
-     * @param mixed $default
-     *
-     * @return mixed
      */
-    public function getValueFromData($data, $default = null)
+    public function getValueFromData(mixed $data, mixed $default = null): mixed
     {
         $fieldName = $this->valueFrom ?: $this->fieldName;
 
@@ -612,18 +466,14 @@ class FormField
     /**
      * Returns the default value for this field, the supplied data is used
      * to source data when defaultFrom is specified.
-     *
-     * @param mixed $data
-     *
-     * @return mixed
      */
-    public function getDefaultFromData($data)
+    public function getDefaultFromData(mixed $data): mixed
     {
         if ($this->defaultFrom) {
             return $this->getFieldNameFromData($this->defaultFrom, $data);
         }
 
-        if ($this->defaults !== '') {
+        if (!is_null($this->defaults) && $this->defaults !== '') {
             return $this->defaults;
         }
 
@@ -633,12 +483,8 @@ class FormField
     /**
      * Returns the final model and attribute name of a nested attribute.
      * Eg: list($model, $attribute) = $this->resolveAttribute('person[phone]');
-     *
-     * @param string $attribute .
-     *
-     * @return array
      */
-    public function resolveModelAttribute($model, $attribute = null)
+    public function resolveModelAttribute(Model $model, null|string|array $attribute = null): array
     {
         if ($attribute === null) {
             $attribute = $this->valueFrom ?: $this->fieldName;
@@ -656,14 +502,8 @@ class FormField
 
     /**
      * Internal method to extract the value of a field name from a data set.
-     *
-     * @param string $fieldName
-     * @param mixed $data
-     * @param mixed $default
-     *
-     * @return mixed
      */
-    protected function getFieldNameFromData($fieldName, $data, $default = null)
+    protected function getFieldNameFromData(string $fieldName, mixed $data, mixed $default = null): mixed
     {
         // Array field name, eg: field[key][key2][key3]
         $keyParts = name_to_array($fieldName);

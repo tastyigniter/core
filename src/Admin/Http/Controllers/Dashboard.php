@@ -9,7 +9,7 @@ use Igniter\User\Facades\AdminAuth;
 
 class Dashboard extends \Igniter\Admin\Classes\AdminController
 {
-    public $containerConfig = [];
+    public array $containerConfig = [];
 
     public function __construct()
     {
@@ -18,7 +18,7 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('dashboard');
     }
 
-    public function index()
+    public function index(): mixed
     {
         Template::setTitle(lang('igniter::admin.dashboard.text_title'));
         Template::setHeading(lang('igniter::admin.dashboard.text_heading'));
@@ -37,7 +37,7 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
         new DashboardContainer($this, $this->containerConfig);
     }
 
-    protected function getDefaultWidgets()
+    protected function getDefaultWidgets(): array
     {
         return [
             'onboarding' => [
@@ -91,7 +91,7 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
         ];
     }
 
-    protected function canManageWidgets()
+    protected function canManageWidgets(): bool
     {
         return $this->getUser()->hasPermission('Admin.Dashboard');
     }

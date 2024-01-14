@@ -7,32 +7,22 @@ use Illuminate\Http\RedirectResponse;
 
 class SearchBox extends BaseWidget
 {
-    /**
-     * @var string Search placeholder text.
-     */
-    public $prompt;
+    /** Search placeholder text. */
+    public ?string $prompt = null;
 
-    /**
-     * @var string Defines the search mode. Commonly passed to the search() query.
-     */
-    public $mode;
+    /** Defines the search mode. Commonly passed to the search() query. */
+    public ?string $mode = null;
 
-    /**
-     * @var string Custom scope method name. Commonly passed to the query.
-     */
-    public $scope;
+    /** Custom scope method name. Commonly passed to the query. */
+    public ?string $scope = null;
 
-    protected $defaultAlias = 'search';
+    protected string $defaultAlias = 'search';
 
-    /**
-     * @var string Active search term pulled from session data.
-     */
-    protected $activeTerm;
+    /** Active search term pulled from session data. */
+    protected ?string $activeTerm = null;
 
-    /**
-     * @var array List of CSS classes to apply to the list container element.
-     */
-    public $cssClasses = [];
+    /** List of CSS classes to apply to the list container element. */
+    public array $cssClasses = [];
 
     /**
      * Initialize the widget, called by the constructor and free from its parameters.
@@ -82,14 +72,14 @@ class SearchBox extends BaseWidget
             [$redirect] = $result;
 
             return ($redirect instanceof RedirectResponse) ?
-                $redirect : call_user_func_array('array_merge', $result);
+                $redirect : array_merge(...$result);
         }
     }
 
     /**
      * Returns an active search term for this widget instance.
      */
-    public function getActiveTerm()
+    public function getActiveTerm(): string
     {
         return $this->activeTerm = $this->getSession('term', '');
     }
@@ -97,9 +87,9 @@ class SearchBox extends BaseWidget
     /**
      * Sets an active search term for this widget instance.
      */
-    public function setActiveTerm($term)
+    public function setActiveTerm(?string $term)
     {
-        if (strlen($term)) {
+        if ($term) {
             $this->putSession('term', $term);
         } else {
             $this->resetSession();
@@ -110,9 +100,8 @@ class SearchBox extends BaseWidget
 
     /**
      * Returns a value suitable for the field name property.
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->alias;
     }

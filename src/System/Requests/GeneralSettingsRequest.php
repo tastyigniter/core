@@ -6,7 +6,7 @@ use Igniter\System\Classes\FormRequest;
 
 class GeneralSettingsRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'site_name' => lang('igniter::system.settings.label_site_name'),
@@ -21,7 +21,7 @@ class GeneralSettingsRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'site_name' => ['required', 'string', 'min:2', 'max:255'],

@@ -7,27 +7,27 @@ use Igniter\Flame\Igniter;
 
 /**
  * Settings model extension
- * Based on October/ModelBehaviour
+ * Adapted from October/ModelBehaviour
  * Usage:
  * In the model class definition:
- *   public $implement = [\Igniter\System\Actions\SettingsModel::class];
- *   public $settingsCode = 'owner_extension_settings';
- *   public $settingsFieldsConfig = 'Settings';
+ *   public array $implement = [\Igniter\System\Actions\SettingsModel::class];
+ *   public string $settingsCode = 'owner_extension_settings';
+ *   public string $settingsFieldsConfig = 'Settings';
  */
 class SettingsModel extends ModelAction
 {
-    protected $recordCode;
+    protected ?string $recordCode = null;
 
-    protected $fieldConfig;
+    protected ?array $fieldConfig = null;
 
-    protected $fieldValues = [];
+    protected array $fieldValues = [];
 
     /**
      * @var array Internal cache of model objects.
      */
     protected static $instances = [];
 
-    protected $requiredProperties = ['settingsFieldsConfig', 'settingsCode'];
+    protected array $requiredProperties = ['settingsFieldsConfig', 'settingsCode'];
 
     /**
      * Constructor
@@ -90,18 +90,16 @@ class SettingsModel extends ModelAction
 
     /**
      * Checks if the model has been set up previously, intended as a static method
-     * @return bool
      */
-    public function isConfigured()
+    public function isConfigured(): bool
     {
         return Igniter::hasDatabase() && $this->getSettingsRecord() !== null;
     }
 
     /**
      * Returns the raw Model record that stores the settings.
-     * @return Model
      */
-    public function getSettingsRecord()
+    public function getSettingsRecord(): ?Model
     {
         return $this->model->where('item', $this->recordCode)->first();
     }
@@ -109,7 +107,7 @@ class SettingsModel extends ModelAction
     /**
      * Set a single or array key pair of values, intended as a static method
      */
-    public function set($key, $value = null)
+    public function set(string|array $key, mixed $value = null): bool
     {
         $data = is_array($key) ? $key : [$key => $value];
         $obj = self::instance();
@@ -121,7 +119,7 @@ class SettingsModel extends ModelAction
     /**
      * Helper for getSettingsValue, intended as a static method
      */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         return $this->instance()->getSettingsValue($key, $default);
     }
@@ -129,7 +127,7 @@ class SettingsModel extends ModelAction
     /**
      * Get a single setting value, or return a default value
      */
-    public function getSettingsValue($key, $default = null)
+    public function getSettingsValue(string $key, mixed $default = null): mixed
     {
         if ($this->model->hasGetMutator($key)) {
             return $this->model->getAttribute($key);
@@ -145,7 +143,7 @@ class SettingsModel extends ModelAction
     /**
      * Set a single setting value, if allowed.
      */
-    public function setSettingsValue($key, $value)
+    public function setSettingsValue(string $key, mixed $value)
     {
         if ($this->isKeyAllowed($key)) {
             return;
@@ -172,7 +170,6 @@ class SettingsModel extends ModelAction
 
     /**
      * Internal save method for the model
-     * @return void
      */
     public function saveModelInternal()
     {
@@ -204,7 +201,7 @@ class SettingsModel extends ModelAction
      * Checks if a key is legitimate or should be added to
      * the field value collection
      */
-    protected function isKeyAllowed($key)
+    protected function isKeyAllowed(string $key): bool
     {
         return in_array($key, ['id', 'item', 'data']) || $this->model->hasRelation($key);
     }
@@ -212,7 +209,7 @@ class SettingsModel extends ModelAction
     /**
      * Returns the field configuration used by this model.
      */
-    public function getFieldConfig()
+    public function getFieldConfig(): ?array
     {
         if ($this->fieldConfig !== null) {
             return $this->fieldConfig;
@@ -224,7 +221,7 @@ class SettingsModel extends ModelAction
     /**
      * Returns a cache key for this record.
      */
-    protected function getCacheKey()
+    protected function getCacheKey(): string
     {
         return 'extensions::settings.'.$this->recordCode;
     }

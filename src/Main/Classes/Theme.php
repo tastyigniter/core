@@ -4,6 +4,7 @@ namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Igniter;
+use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Pagic\Source\FileSource;
 use Igniter\Flame\Pagic\Source\SourceInterface;
@@ -22,136 +23,87 @@ use Illuminate\Support\Facades\Event;
 
 class Theme
 {
-    /**
-     * @var string The theme name
-     */
-    public $name;
+    /** The theme name */
+    public ?string $name = null;
 
-    /**
-     * @var string Theme label.
-     */
-    public $label;
+    /** Theme label. */
+    public ?string $label = null;
 
-    /**
-     * @var string Specifies a description to accompany the theme
-     */
-    public $description;
+    /** Specifies a description to accompany the theme */
+    public ?string $description = null;
 
-    /**
-     * @var string The theme author
-     */
-    public $author;
+    /** The theme author */
+    public ?string $author = null;
 
-    /**
-     * @var string The parent theme code
-     */
-    public $parentName;
+    /** The parent theme code */
+    public ?string $parentName = null;
 
-    /**
-     * @var string List of extension code and version required by this theme
-     */
-    public $requires = [];
+    /** List of extension code and version required by this theme */
+    public array $requires = [];
 
-    /**
-     * @var string The theme path absolute base path
-     */
-    public $path;
+    /** The theme relative path to the templates files */
+    public ?string $sourcePath = null;
 
-    /**
-     * @var string The theme relative path to the templates files
-     */
-    public $sourcePath;
+    /** The theme relative path to the assets directory */
+    public ?string $assetPath = null;
 
-    /**
-     * @var string The theme relative path to the assets directory
-     */
-    public $assetPath;
+    /** The theme relative path to the meta directory */
+    public ?string $metaPath = null;
 
-    /**
-     * @var string The theme relative path to the meta directory
-     */
-    public $metaPath;
+    /** The theme path relative to base path */
+    public ?string $publicPath;
 
-    /**
-     * @var string The theme path relative to base path
-     */
-    public $publicPath;
+    /** Determine if this theme is active. */
+    public bool $active = false;
 
-    /**
-     * @var bool Determine if this theme is active (false) or not (true).
-     */
-    public $active;
+    public bool $locked = false;
 
-    /**
-     * @var string The theme author
-     */
-    public $locked;
+    /** Path to the screenshot image, relative to this theme folder. */
+    public ?string $screenshot = null;
 
-    /**
-     * @var string Path to the screenshot image, relative to this theme folder.
-     */
-    public $screenshot;
+    /** Cached theme configuration. */
+    protected ?array $configCache = null;
 
-    public $config = [];
+    protected ?array $customData = null;
 
-    /**
-     * @var array Cached theme configuration.
-     */
-    protected $configCache;
+    protected ?SourceInterface $fileSource = null;
 
-    protected $customData;
+    protected ?array $formConfigCache = null;
 
-    protected $fileSource;
+    protected ?string $screenshotData = null;
 
-    protected $formConfigCache;
+    protected ?self $parentTheme = null;
 
-    protected $screenshotData;
-
-    protected $parentTheme;
-
-    protected static $allowedTemplateModels = [
+    protected static array $allowedTemplateModels = [
         '_layouts' => LayoutTemplate::class,
         '_pages' => PageTemplate::class,
         '_partials' => PartialTemplate::class,
         '_content' => ContentTemplate::class,
     ];
 
-    public function __construct($path, array $config = [])
+    public function __construct(public string $path, public array $config = [])
     {
         $this->path = realpath($path);
         $this->publicPath = File::localToPublic($path);
-        $this->config = $config;
         $this->fillFromConfig();
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @return string
-     */
-    public function getSourcePath()
+    public function getSourcePath(): string
     {
         return $this->path.$this->sourcePath;
     }
 
-    /**
-     * @return string
-     */
-    public function getMetaPath()
+    public function getMetaPath(): string
     {
         if (is_null($this->metaPath)) {
             foreach (['/_meta', '/meta'] as $metaPath) {
@@ -164,18 +116,12 @@ class Theme
         return $this->path.$this->metaPath;
     }
 
-    /**
-     * @return string
-     */
-    public function getAssetPath()
+    public function getAssetPath(): string
     {
         return $this->path.$this->assetPath;
     }
 
-    /**
-     * @return array
-     */
-    public function getPathsToPublish()
+    public function getPathsToPublish(): array
     {
         $publishPath = $this->config['publish-paths'] ?? null;
 
@@ -193,25 +139,22 @@ class Theme
         return $result;
     }
 
-    /**
-     * @return string
-     */
-    public function getDirName()
+    public function getDirName(): string
     {
         return basename($this->path);
     }
 
-    public function getParentPath()
+    public function getParentPath(): ?string
     {
         return optional($this->getParent())->getPath();
     }
 
-    public function getParentName()
+    public function getParentName(): ?string
     {
         return $this->parentName;
     }
 
-    public function getParent()
+    public function getParent(): ?self
     {
         if (!is_null($this->parentTheme)) {
             return $this->parentTheme;
@@ -220,12 +163,12 @@ class Theme
         return $this->parentTheme = resolve(ThemeManager::class)->findTheme($this->getParentName());
     }
 
-    public function hasParent()
+    public function hasParent(): bool
     {
         return !is_null($this->parentName) && !is_null($this->getParent());
     }
 
-    public function requires($require)
+    public function requires($require): self
     {
         if (!is_array($require)) {
             $require = [$require];
@@ -236,7 +179,7 @@ class Theme
         return $this;
     }
 
-    public function screenshot($name)
+    public function screenshot($name): self
     {
         foreach ($this->getFindInPaths() as $findInPath => $publicPath) {
             foreach (ThemeModel::ICON_MIMETYPES as $extension => $mimeType) {
@@ -250,7 +193,7 @@ class Theme
         return $this;
     }
 
-    public function getScreenshotData()
+    public function getScreenshotData(): string
     {
         if (!is_null($this->screenshotData)) {
             return $this->screenshotData;
@@ -270,13 +213,13 @@ class Theme
             $mimeType = ThemeModel::ICON_MIMETYPES[$extension];
             $data = base64_encode(file_get_contents($file));
 
-            $screenshotData = "data:{$mimeType};base64,{$data}";
+            $screenshotData = "data:$mimeType;base64,$data";
         }
 
         return $this->screenshotData = $screenshotData;
     }
 
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->active;
     }
@@ -294,6 +237,7 @@ class Theme
 
     public static function getActiveCode(): ?string
     {
+        /** @var string $apiResult */
         if (!is_null($apiResult = ThemeGetActiveEvent::dispatchOnce())) {
             return $apiResult;
         }
@@ -309,19 +253,15 @@ class Theme
     //
     //
 
-    public function getConfig()
+    public function getConfig(): array
     {
         if (!is_null($this->configCache)) {
             return $this->configCache;
         }
 
         $configCache = [];
-        $paths[] = $this->getMetaPath().'/fields.php';
-        if ($parent = $this->getParent()) {
-            $paths[] = $parent->getMetaPath().'/fields.php';
-        }
-
-        foreach (array_reverse($paths) as $formConfigFile) {
+        foreach (array_filter([$this->getParent(), $this]) as $theme) {
+            $formConfigFile = $theme->getMetaPath().'/fields.php';
             $config = File::exists($formConfigFile) ? File::getRequire($formConfigFile) : [];
 
             foreach (array_get($config, 'form', []) as $key => $definitions) {
@@ -340,7 +280,7 @@ class Theme
         return $this->configCache = $configCache;
     }
 
-    public function getFormConfig()
+    public function getFormConfig(): array
     {
         if (!is_null($this->formConfigCache)) {
             return $this->formConfigCache;
@@ -353,22 +293,22 @@ class Theme
         return $this->formConfigCache = $event->getConfig();
     }
 
-    public function getConfigValue($name, $default = null)
+    public function getConfigValue(string $name, mixed $default = null): mixed
     {
         return array_get($this->getConfig(), $name, $default);
     }
 
-    public function hasFormConfig()
+    public function hasFormConfig(): bool
     {
         return $this->hasParent() ? $this->getParent()->hasFormConfig() : !empty($this->getFormConfig());
     }
 
-    public function hasCustomData()
+    public function hasCustomData(): bool
     {
         return !empty($this->getCustomData());
     }
 
-    public function getCustomData()
+    public function getCustomData(): array
     {
         if (!is_null($this->customData)) {
             return $this->customData;
@@ -388,9 +328,8 @@ class Theme
 
     /**
      * Returns variables that should be passed to the asset combiner.
-     * @return array
      */
-    public function getAssetVariables()
+    public function getAssetVariables(): array
     {
         $result = [];
 
@@ -416,7 +355,7 @@ class Theme
         return $result;
     }
 
-    public function buildAssetsBundle()
+    public function buildAssetsBundle(): array
     {
         $paths = collect([$this])
             ->merge($this->hasParent() ? [$this->getParent()] : [])
@@ -430,7 +369,7 @@ class Theme
             ->filter();
 
         if ($paths->isEmpty()) {
-            return;
+            return [];
         }
 
         Event::listen('assets.combiner.beforePrepare', function (AssetsManager $combiner, $assets) {
@@ -493,6 +432,17 @@ class Theme
         }
     }
 
+    protected function getFindInPaths(): array
+    {
+        $findInPaths = [];
+        $findInPaths[$this->path] = $this->publicPath;
+        if ($parent = $this->getParent()) {
+            $findInPaths[$parent->path] = $parent->publicPath;
+        }
+
+        return $findInPaths;
+    }
+
     //
     //
     //
@@ -543,31 +493,21 @@ class Theme
         return $this->fileSource = $source;
     }
 
-    /**
-     * @return \Igniter\Flame\Pagic\Model|\Igniter\Flame\Pagic\Finder
-     */
-    public function onTemplate($dirName)
+    public function onTemplate($dirName): Model
     {
         $modelClass = $this->getTemplateClass($dirName);
 
         return $modelClass::on($this->getName());
     }
 
-    /**
-     * @return \Igniter\Flame\Pagic\Model
-     */
-    public function newTemplate($dirName)
+    public function newTemplate(string $dirName): Model
     {
         $class = $this->getTemplateClass($dirName);
 
         return new $class;
     }
 
-    /**
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getTemplateClass($dirName)
+    public function getTemplateClass(string $dirName): string
     {
         if (!isset(self::$allowedTemplateModels[$dirName])) {
             throw new \RuntimeException(sprintf('Source Model not found for [%s].', $dirName));
@@ -578,40 +518,21 @@ class Theme
 
     /**
      * Implements the getter functionality.
-     *
-     * @param string $name
-     *
-     * @return void
      */
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         return array_get($this->getCustomData(), $name);
     }
 
     /**
      * Determine if an attribute exists on the object.
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    public function __isset($key)
+    public function __isset(string $key): bool
     {
         if ($this->hasCustomData()) {
             return array_has($this->getCustomData(), $key);
         }
 
         return false;
-    }
-
-    protected function getFindInPaths()
-    {
-        $findInPaths = [];
-        $findInPaths[$this->path] = $this->publicPath;
-        if ($parent = $this->getParent()) {
-            $findInPaths[$parent->path] = $parent->publicPath;
-        }
-
-        return $findInPaths;
     }
 }

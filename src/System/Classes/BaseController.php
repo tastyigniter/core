@@ -7,6 +7,7 @@ use Igniter\Flame\Traits\EventEmitter;
 
 /**
  * Base Controller Class
+ * @deprecated No longer used, will be removed in v5.0.0
  */
 class BaseController extends Extendable
 {
@@ -15,7 +16,7 @@ class BaseController extends Extendable
     /**
      * A list of controller behavours/traits to be implemented
      */
-    public $implement = [];
+    public array $implement = [];
 
     /**
      * @var string Page controller class name being called.

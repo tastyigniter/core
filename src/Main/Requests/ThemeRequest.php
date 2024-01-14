@@ -6,7 +6,7 @@ use Igniter\System\Classes\FormRequest;
 
 class ThemeRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         if (!$this->isEditFormContext()) {
             return [];
@@ -19,7 +19,7 @@ class ThemeRequest extends FormRequest
         })->filter()->all();
     }
 
-    public function rules()
+    public function rules(): array
     {
         if (!$this->isEditFormContext()) {
             return [];
@@ -34,20 +34,18 @@ class ThemeRequest extends FormRequest
 
     /**
      * Get data to be validated from the request.
-     *
-     * @return array
      */
-    public function validationData()
+    public function validationData(): array
     {
         return array_undot($this->all());
     }
 
-    protected function isEditFormContext()
+    protected function isEditFormContext(): bool
     {
         return $this->route()->getController()->getFormContext() === 'edit';
     }
 
-    protected function fields()
+    protected function fields(): array
     {
         return $this->route()->getController()->getFormModel()->getFieldsConfig();
     }

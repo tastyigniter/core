@@ -7,10 +7,11 @@ use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ComposerException;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\UpdateManager;
+use Illuminate\Http\RedirectResponse;
 
 trait ManagesUpdates
 {
-    public function search()
+    public function search(): array
     {
         $json = [];
 
@@ -28,7 +29,7 @@ trait ManagesUpdates
         return $json;
     }
 
-    public function onApplyRecommended()
+    public function onApplyRecommended(): array
     {
         $itemsCodes = post('install_items') ?? [];
         $items = collect(post('items') ?? [])->whereIn('name', $itemsCodes);
@@ -42,11 +43,11 @@ trait ManagesUpdates
         $response = array_get($response, 'data', []);
 
         return [
-            'steps' => $this->buildProcessSteps($response, $items),
+            'steps' => $this->buildProcessSteps($response),
         ];
     }
 
-    public function onApplyItems()
+    public function onApplyItems(): array
     {
         $items = post('items') ?? [];
         if (!count($items)) {
@@ -61,11 +62,11 @@ trait ManagesUpdates
             ->all();
 
         return [
-            'steps' => $this->buildProcessSteps($response, $items),
+            'steps' => $this->buildProcessSteps($response),
         ];
     }
 
-    public function onApplyUpdate()
+    public function onApplyUpdate(): array
     {
         $updates = resolve(UpdateManager::class)->requestUpdateList();
         $itemsToUpdate = array_get($updates, 'items', []);
@@ -79,7 +80,7 @@ trait ManagesUpdates
         ];
     }
 
-    public function onLoadRecommended()
+    public function onLoadRecommended(): string
     {
         $itemType = post('itemType');
         $items = (in_array($itemType, ['theme', 'extension']))
@@ -92,7 +93,7 @@ trait ManagesUpdates
         ]);
     }
 
-    public function onCheckUpdates()
+    public function onCheckUpdates(): RedirectResponse
     {
         $updateManager = resolve(UpdateManager::class);
         $updateManager->requestUpdateList(true);
@@ -100,7 +101,7 @@ trait ManagesUpdates
         return $this->redirect($this->checkUrl);
     }
 
-    public function onIgnoreUpdate()
+    public function onIgnoreUpdate(): array
     {
         $itemCode = post('code', '');
         if (!strlen($itemCode)) {
@@ -116,7 +117,7 @@ trait ManagesUpdates
         ];
     }
 
-    public function onApplyCarte()
+    public function onApplyCarte(): array
     {
         $carteKey = post('carte_key');
         if (!strlen($carteKey)) {
@@ -130,7 +131,7 @@ trait ManagesUpdates
         ];
     }
 
-    public function onProcessItems()
+    public function onProcessItems(): array
     {
         return $this->processInstallOrUpdate();
     }
@@ -139,7 +140,7 @@ trait ManagesUpdates
     //
     //
 
-    protected function initUpdate($itemType)
+    protected function initUpdate(string $itemType)
     {
         $this->prepareAssets();
 
@@ -157,7 +158,7 @@ trait ManagesUpdates
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
     }
 
-    protected function buildProcessSteps($itemsToUpdate, $params = [])
+    protected function buildProcessSteps(array $itemsToUpdate): array
     {
         $processSteps = [];
         $itemsToUpdate = collect($itemsToUpdate);
@@ -178,7 +179,7 @@ trait ManagesUpdates
         return $processSteps;
     }
 
-    protected function processInstallOrUpdate()
+    protected function processInstallOrUpdate(): array
     {
         $json = [];
         $success = false;
@@ -222,7 +223,7 @@ trait ManagesUpdates
         return $json;
     }
 
-    protected function validateItems()
+    protected function validateItems(): array
     {
         return $this->validate(post(), [
             'items.*.name' => ['required'],
@@ -237,7 +238,7 @@ trait ManagesUpdates
         ]);
     }
 
-    protected function validateProcess()
+    protected function validateProcess(): array
     {
         $rules = [
             'process' => ['required', 'in:check,install,complete'],

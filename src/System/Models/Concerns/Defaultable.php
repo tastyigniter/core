@@ -3,7 +3,7 @@
 namespace Igniter\System\Models\Concerns;
 
 use Igniter\Flame\Exception\ValidationException;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 trait Defaultable
 {
@@ -105,17 +105,17 @@ trait Defaultable
         return static::query();
     }
 
-    public function scopeWhereIsDefault(Builder $query)
+    public function scopeWhereIsDefault(Builder $query): Builder
     {
         return $query->applyDefaultable(true);
     }
 
-    public function scopeWhereNotDefault(Builder $query)
+    public function scopeWhereNotDefault(Builder $query): Builder
     {
         return $query->applyDefaultable(false);
     }
 
-    public function scopeApplyDefaultable(Builder $query, bool $default = true)
+    public function scopeApplyDefaultable(Builder $query, bool $default = true): Builder
     {
         return $default
             ? $query->where($this->qualifyColumn($this->defaultableGetColumn()), true)

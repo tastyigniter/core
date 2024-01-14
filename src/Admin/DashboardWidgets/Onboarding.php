@@ -13,14 +13,14 @@ class Onboarding extends BaseDashboardWidget
     /**
      * @var string A unique alias to identify this widget.
      */
-    protected $defaultAlias = 'onboarding';
+    protected string $defaultAlias = 'onboarding';
 
     public function initialize()
     {
         $this->setProperty('cssClass', 'widget-item-onboarding');
     }
 
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [
             'title' => [
@@ -50,7 +50,7 @@ class Onboarding extends BaseDashboardWidget
         $this->vars['onboarding'] = $this->getOnboarding();
     }
 
-    protected function getOnboarding()
+    protected function getOnboarding(): OnboardingSteps
     {
         return resolve(OnboardingSteps::class);
     }

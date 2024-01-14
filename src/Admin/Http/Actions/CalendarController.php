@@ -2,15 +2,16 @@
 
 namespace Igniter\Admin\Http\Actions;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\Template;
+use Igniter\Admin\Widgets\Calendar;
+use Igniter\Admin\Widgets\Toolbar;
 use Igniter\System\Classes\ControllerAction;
 
 class CalendarController extends ControllerAction
 {
-    /**
-     * @var string The primary calendar alias to use.
-     */
-    protected $primaryAlias = 'calendar';
+    /** The primary calendar alias to use. */
+    protected string $primaryAlias = 'calendar';
 
     /**
      * Define controller calendar configuration array.
@@ -20,40 +21,29 @@ class CalendarController extends ControllerAction
      *          'configFile'   => null,
      *      ],
      *  ];
-     * @var array
      */
-    public $calendarConfig;
+    public array $calendarConfig = [];
 
     /**
      * @var \Igniter\Admin\Widgets\Calendar[] Reference to the list widget objects
      */
-    protected $calendarWidgets;
+    protected array $calendarWidgets = [];
 
-    /**
-     * @var \Igniter\Admin\Widgets\Toolbar[] Reference to the toolbar widget objects.
-     */
-    protected $toolbarWidget;
+    protected ?Toolbar $toolbarWidget = null;
 
     /**
      * @var \Igniter\Admin\Widgets\Filter[] Reference to the filter widget objects.
      */
-    protected $filterWidgets = [];
+    protected array $filterWidgets = [];
 
-    public $requiredProperties = ['calendarConfig'];
+    public array $requiredProperties = ['calendarConfig'];
 
     /**
      * @var array Required controller configuration array keys
      */
-    protected $requiredConfig = ['configFile'];
+    protected array $requiredConfig = ['configFile'];
 
-    /**
-     * List_Controller constructor.
-     *
-     * @param \Illuminate\Routing\Controller $controller
-     *
-     * @throws \Exception
-     */
-    public function __construct($controller)
+    public function __construct(AdminController $controller)
     {
         parent::__construct($controller);
 
@@ -80,12 +70,7 @@ class CalendarController extends ControllerAction
         $this->makeCalendars();
     }
 
-    /**
-     * Creates all the widgets based on the model config.
-     *
-     * @return array List of Igniter\Admin\Classes\BaseWidget objects
-     */
-    protected function makeCalendars()
+    protected function makeCalendars(): array
     {
         $this->calendarWidgets = [];
 
@@ -98,10 +83,8 @@ class CalendarController extends ControllerAction
 
     /**
      * Prepare the widgets used by this action
-     *
-     * @return \Igniter\Admin\Classes\BaseWidget
      */
-    protected function makeCalendar($alias)
+    protected function makeCalendar($alias): Calendar
     {
         if (!isset($this->calendarConfig[$alias])) {
             $alias = $this->primaryAlias;
@@ -114,7 +97,8 @@ class CalendarController extends ControllerAction
         $configFile = $calendarConfig['configFile'];
         $modelConfig = $this->loadConfig($configFile, ['calendar'], 'calendar');
 
-        $widget = $this->makeWidget(\Igniter\Admin\Widgets\Calendar::class, $calendarConfig);
+        /** @var Calendar $widget */
+        $widget = $this->makeWidget(Calendar::class, $calendarConfig);
 
         $widget->bindEvent('calendar.generateEvents', function ($startAt, $endAt) {
             return $this->controller->calendarGenerateEvents($startAt, $endAt);
@@ -127,7 +111,7 @@ class CalendarController extends ControllerAction
         $widget->bindToController();
 
         // Prep the optional toolbar widget
-        if (isset($modelConfig['toolbar']) && isset($this->controller->widgets['toolbar'])) {
+        if (isset($modelConfig['toolbar'], $this->controller->widgets['toolbar'])) {
             $this->toolbarWidget = $this->controller->widgets['toolbar'];
             if ($this->toolbarWidget instanceof \Igniter\Admin\Widgets\Toolbar) {
                 $this->toolbarWidget->reInitialize($modelConfig['toolbar']);
@@ -137,7 +121,7 @@ class CalendarController extends ControllerAction
         return $widget;
     }
 
-    public function renderCalendar($alias = null, $noToolbar = false)
+    public function renderCalendar(?string $alias = null, bool $noToolbar = false): string
     {
         if (is_null($alias) || !isset($this->listConfig[$alias])) {
             $alias = $this->primaryAlias;
@@ -167,12 +151,8 @@ class CalendarController extends ControllerAction
 
     /**
      * Returns the widget used by this behavior.
-     *
-     * @param string $alias
-     *
-     * @return \Igniter\Admin\Classes\BaseWidget
      */
-    public function getCalendarWidget($alias = null)
+    public function getCalendarWidget(?string $alias = null): Calendar
     {
         if (!$alias) {
             $alias = $this->primaryAlias;
@@ -181,12 +161,12 @@ class CalendarController extends ControllerAction
         return array_get($this->calendarWidgets, $alias);
     }
 
-    public function calendarGenerateEvents($startAt, $endAt)
+    public function calendarGenerateEvents(?string $startAt, ?string $endAt)
     {
         return [];
     }
 
-    public function calendarUpdateEvent($eventId, $startAt, $endAt)
+    public function calendarUpdateEvent(string $eventId, ?string $startAt, ?string $endAt)
     {
     }
 }

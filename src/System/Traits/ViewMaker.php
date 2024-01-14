@@ -15,35 +15,23 @@ use Throwable;
 
 trait ViewMaker
 {
-    /**
-     * @var array A list of variables to pass to the page.
-     */
-    public $vars = [];
+    /** A list of variables to pass to the page. */
+    public array $vars = [];
 
-    /**
-     * @var array Specifies a path to the views directory. ex. ['package::view' => 'package']
-     */
-    public $viewPath;
+    /** Specifies a path to the views directory. ex. ['package::view' => 'package'] */
+    public array $viewPath = [];
 
-    /**
-     * @var array Specifies a path to the layout directory.
-     */
-    public $layoutPath;
+    /** Specifies a path to the layout directory. */
+    public array $layoutPath = [];
 
-    /**
-     * @var array Specifies a path to the partials directory.
-     */
-    public $partialPath;
+    /** Specifies a path to the partials directory. */
+    public array $partialPath = [];
 
-    /**
-     * @var string Layout to use for the view.
-     */
-    public $layout;
+    /** Layout to use for the view. */
+    public ?string $layout = null;
 
-    /**
-     * @var bool Prevents the use of a layout.
-     */
-    public $suppressLayout = false;
+    /** Prevents the use of a layout. */
+    public bool $suppressLayout = false;
 
     public function getViewPath(string $view, array|string|null $paths = [], ?string $prefix = null): string
     {

@@ -3,11 +3,12 @@
 namespace Igniter\Admin\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class PoweredBy
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         $response = $next($request);
 

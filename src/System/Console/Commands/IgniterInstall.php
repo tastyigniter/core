@@ -42,12 +42,9 @@ class IgniterInstall extends Command
      */
     protected $description = 'Set up TastyIgniter for the first time.';
 
-    /**
-     * @var \Igniter\Flame\Support\ConfigRewrite
-     */
-    protected $configRewrite;
+    protected ConfigRewrite $configRewrite;
 
-    protected $dbConfig = [];
+    protected array $dbConfig = [];
 
     /**
      * Create a new command instance.
@@ -233,7 +230,7 @@ class IgniterInstall extends Command
         return 'base64:'.base64_encode(random_bytes(32));
     }
 
-    protected function moveExampleFile($name, $old, $new)
+    protected function moveExampleFile(string $name, string $old, string $new)
     {
         // /$old.$name => /$new.$name
         if (file_exists(base_path().'/'.$old.'.'.$name)) {
@@ -241,7 +238,7 @@ class IgniterInstall extends Command
         }
     }
 
-    protected function copyExampleFile($name, $old, $new)
+    protected function copyExampleFile(string $name, string $old, string $new)
     {
         // /$old.$name => /$new.$name
         if (file_exists(base_path().'/'.$old.'.'.$name)) {

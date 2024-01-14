@@ -9,11 +9,8 @@ use Illuminate\Support\Collection;
 
 class RouteRegistrar
 {
-    protected IlluminateRouter $router;
-
-    public function __construct(IlluminateRouter $router)
+    public function __construct(protected IlluminateRouter $router)
     {
-        $this->router = $router;
     }
 
     /**

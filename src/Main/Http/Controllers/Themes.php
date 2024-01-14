@@ -9,17 +9,18 @@ use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Helpers\CacheHelper;
 use Igniter\System\Traits\ManagesUpdates;
+use Illuminate\Http\RedirectResponse;
 
 class Themes extends \Igniter\Admin\Classes\AdminController
 {
     use ManagesUpdates;
 
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\Main\Models\Theme::class,
             'title' => 'lang:igniter::system.themes.text_title',
@@ -29,7 +30,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter::system.themes.text_form_name',
         'model' => \Igniter\Main\Models\Theme::class,
         'request' => \Igniter\Main\Requests\ThemeRequest::class,
@@ -49,7 +50,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'theme',
     ];
 
-    protected $requiredPermissions = 'Site.Themes';
+    protected null|string|array $requiredPermissions = 'Site.Themes';
 
     public function __construct()
     {
@@ -67,7 +68,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function edit($context, $themeCode = null)
+    public function edit(string $context, string $themeCode)
     {
         if (resolve(ThemeManager::class)->isLocked($themeCode)) {
             Template::setButton(lang('igniter::system.themes.button_child'), [
@@ -84,7 +85,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('FormController')->edit($context, $themeCode);
     }
 
-    public function source($context, $themeCode = null)
+    public function source(string $context, string $themeCode)
     {
         $this->defaultView = 'edit';
         if (resolve(ThemeManager::class)->isLocked($themeCode)) {
@@ -105,7 +106,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('FormController')->edit($context, $themeCode);
     }
 
-    public function delete($context, $themeCode = null)
+    public function delete(string $context, string $themeCode)
     {
         $pageTitle = lang('igniter::system.themes.text_delete_title');
         Template::setTitle($pageTitle);
@@ -134,14 +135,14 @@ class Themes extends \Igniter\Admin\Classes\AdminController
             return $this->redirectBack();
         }
 
-        // Lets display a delete confirmation screen
+        // Let's display a delete confirmation screen
         // with list of files to be deleted
         $this->vars['themeModel'] = $model;
         $this->vars['themeObj'] = $theme;
         $this->vars['themeData'] = $model->data;
     }
 
-    public function index_onSetDefault()
+    public function index_onSetDefault(): RedirectResponse
     {
         $themeName = post('code');
         if ($theme = Theme::activateTheme($themeName)) {
@@ -153,7 +154,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         return $this->redirectBack();
     }
 
-    public function edit_onReset($context, $themeCode = null)
+    public function edit_onReset(string $context, string $themeCode): ?RedirectResponse
     {
         $formController = $this->asExtension('FormController');
         $model = $this->formFindModelObject($themeCode);
@@ -164,12 +165,10 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
         $this->formAfterSave($model);
 
-        if ($redirect = $formController->makeRedirect($context, $model)) {
-            return $redirect;
-        }
+        return $formController->makeRedirect($context, $model) ?: null;
     }
 
-    public function source_onSave($context, $themeCode = null)
+    public function source_onSave(string $context, string $themeCode): ?RedirectResponse
     {
         $this->defaultView = 'edit';
         $formController = $this->asExtension('FormController');
@@ -182,12 +181,10 @@ class Themes extends \Igniter\Admin\Classes\AdminController
             sprintf(lang('igniter::admin.form.edit_success'), lang('lang:igniter::system.themes.text_form_name'))
         );
 
-        if ($redirect = $formController->makeRedirect($context, $model)) {
-            return $redirect;
-        }
+        return $formController->makeRedirect($context, $model) ?: null;
     }
 
-    public function onCreateChild($context, $themeCode = null)
+    public function onCreateChild(string $context, string $themeCode): RedirectResponse
     {
         $manager = resolve(ThemeManager::class);
 
@@ -203,7 +200,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         return $this->redirect('themes/source/'.$childTheme->code);
     }
 
-    public function delete_onDelete($context = null, $themeCode = null)
+    public function delete_onDelete(string $context, string $themeCode): RedirectResponse
     {
         if (resolve(ThemeManager::class)->deleteTheme($themeCode, post('delete_data', 1) == 1)) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
@@ -214,7 +211,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         return $this->redirect('themes');
     }
 
-    public function listOverrideColumnValue($record, $column, $alias = null)
+    public function listOverrideColumnValue($record, $column, $alias = null): ?array
     {
         if ($column->type != 'button' || $column->columnName != 'default') {
             return null;
@@ -232,7 +229,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         return $attributes;
     }
 
-    public function formExtendConfig(&$formConfig)
+    public function formExtendConfig(array &$formConfig)
     {
         $formConfig['data'] = $formConfig['model']->toArray();
 
@@ -247,7 +244,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $formConfig['arrayName'] .= '[source]';
     }
 
-    public function formFindModelObject($recordId)
+    public function formFindModelObject(string $recordId): Theme
     {
         throw_unless(strlen($recordId),
             FlashException::error(lang('igniter::admin.form.missing_id'))

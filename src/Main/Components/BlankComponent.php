@@ -2,42 +2,25 @@
 
 namespace Igniter\Main\Components;
 
+use Igniter\Flame\Pagic\TemplateCode;
 use Igniter\System\Classes\BaseComponent;
 
 class BlankComponent extends BaseComponent
 {
-    /**
-     * @var bool This component is hidden from the admin UI.
-     */
-    public $isHidden = true;
+    /** This component is hidden from the admin UI. */
+    public bool $isHidden = true;
 
-    /**
-     * @var string Error message that is shown with this error component.
-     */
-    protected $errorMessage;
+    /** Error message that is shown with this error component. */
+    protected ?string $errorMessage;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($cmsObject, $properties, $errorMessage)
+    public function __construct(?TemplateCode $page, array $properties, ?string $errorMessage)
     {
         $this->errorMessage = $errorMessage;
-        $this->componentCssClass = 'blank-component';
 
-        parent::__construct($cmsObject, $properties);
+        parent::__construct($page, $properties);
     }
 
-    /**
-     * @return array
-     */
-    public function componentDetails()
-    {
-        return [
-            'name' => 'Blank component',
-        ];
-    }
-
-    public function onRender()
+    public function onRender(): string
     {
         return $this->errorMessage;
     }

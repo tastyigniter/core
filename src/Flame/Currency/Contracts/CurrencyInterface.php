@@ -4,21 +4,21 @@ namespace Igniter\Flame\Currency\Contracts;
 
 interface CurrencyInterface
 {
-    public function getId();
+    public function getId(): ?int;
 
-    public function getName();
+    public function getName(): ?string;
 
-    public function getCode();
+    public function getCode(): ?string;
 
-    public function getSymbol();
+    public function getSymbol(): ?string;
 
-    public function getSymbolPosition();
+    public function getSymbolPosition(): ?string;
 
-    public function getFormat();
+    public function getFormat(): string;
 
-    public function getRate();
+    public function getRate(): ?string;
 
-    public function isEnabled();
+    public function isEnabled(): bool;
 
     public function updateRate($rate);
 }

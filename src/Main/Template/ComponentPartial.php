@@ -5,41 +5,32 @@ namespace Igniter\Main\Template;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Main\Classes\Theme;
 use Igniter\System\Classes\BaseComponent;
 
 class ComponentPartial extends Extendable implements TemplateInterface
 {
-    /**
-     * @var string The component partial file name.
-     */
-    public $fileName;
+    /** The component partial file name. */
+    public ?string $fileName = null;
+
+    /** Last modified time. */
+    public ?int $mTime = null;
+
+    /** Partial content. */
+    public ?string $content = null;
+
+    /** Allowable file extensions. */
+    protected array $allowedExtensions = ['blade.php', 'php'];
+
+    /** Default file extension. */
+    protected string $defaultExtension = 'blade.php';
 
     /**
-     * @var string Last modified time.
-     */
-    public $mTime;
-
-    /**
-     * @var string Partial content.
-     */
-    public $content;
-
-    /**
-     * @var array Allowable file extensions.
-     */
-    protected $allowedExtensions = ['blade.php', 'php'];
-
-    /**
-     * @var string Default file extension.
-     */
-    protected $defaultExtension = 'blade.php';
-
-    /**
-     * @var int The maximum allowed path nesting level. The default value is 2,
+     * The maximum allowed path nesting level. The default value is 2,
      * meaning that files can only exist in the root directory, or in a
      * subdirectory. Set to null if any level is allowed.
      */
-    protected $maxNesting = 2;
+    protected int $maxNesting = 2;
 
     /**
      * Creates an instance of the object and associates it with a component.
@@ -49,23 +40,17 @@ class ComponentPartial extends Extendable implements TemplateInterface
         $this->extendableConstruct();
     }
 
-    public static function load(string $source, string $fileName): mixed
+    public static function load(string $source, string $fileName): ?self
     {
         return (new static($source))->find($fileName);
     }
 
-    public static function loadCached(string $source, string $fileName): mixed
+    public static function loadCached(string $source, string $fileName): ?self
     {
         return static::load($source, $fileName);
     }
 
-    /**
-     * @param \Igniter\Main\Classes\Theme $theme
-     * @param \Igniter\System\Classes\BaseComponent $component
-     * @param string $fileName
-     * @return mixed
-     */
-    public static function loadOverrideCached($theme, $componentName, $fileName)
+    public static function loadOverrideCached(Theme $theme, string $componentName, string $fileName): ?Partial
     {
         $partial = Partial::loadCached($theme->getName(), $componentName.'/'.$fileName);
 
@@ -78,12 +63,8 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     /**
      * Find a single template by its file name.
-     *
-     * @param string $fileName
-     *
-     * @return mixed|static
      */
-    public function find($fileName)
+    public function find(string $fileName): ?self
     {
         $filePath = $this->getFilePath($fileName);
 
@@ -104,13 +85,8 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     /**
      * Returns true if the specific component contains a matching partial.
-     *
-     * @param BaseComponent $component Specifies a component the file belongs to.
-     * @param string $fileName Specifies the file name to check.
-     *
-     * @return bool
      */
-    public static function check(BaseComponent $component, $fileName)
+    public static function check(BaseComponent $component, string $fileName): bool
     {
         $partial = new static($component);
         $filePath = $partial->getFilePath($fileName);
@@ -131,17 +107,14 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     /**
      * Returns the default extension used by this template.
-     * @return string
      */
-    public function getDefaultExtension()
+    public function getDefaultExtension(): string
     {
         return $this->defaultExtension;
     }
 
     /**
      * Returns the absolute file path.
-     *
-     * @param string $fileName Specifies the file name to return the path to.
      */
     public function getFilePath(?string $fileName = null): string
     {

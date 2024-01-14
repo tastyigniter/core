@@ -2,8 +2,8 @@
 
 namespace Igniter\Admin\Classes;
 
-use Igniter\Admin\Facades\AdminHelper;
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Admin\Widgets\Menu;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Exception\AjaxException;
@@ -33,33 +33,22 @@ class AdminController extends Controller
     /**
      * @var \Igniter\Admin\Classes\BaseWidget[] A list of BaseWidget objects used on this page
      */
-    public $widgets = [];
+    public array $widgets = [];
 
-    /**
-     * @var string Name of the view to use.
-     */
-    public $defaultView;
+    /** Name of the view to use. */
+    public ?string $defaultView = null;
 
-    /**
-     * @var bool Prevents the automatic view display.
-     */
-    public $suppressView = false;
+    /** Prevents the automatic view display. */
+    public bool $suppressView = false;
 
-    /**
-     * @var string|array Permission required to view this page.
-     * ex. Admin.Banners.Access
-     */
-    protected $requiredPermissions;
+    /** Permission required to view this page. ex. Admin.Banners.Access */
+    protected null|string|array $requiredPermissions = null;
 
-    /**
-     * @var string Page title
-     */
-    public $pageTitle;
+    /** Page title */
+    public ?string $pageTitle = null;
 
-    /**
-     * @var string Body class property used for customising the layout on a controller basis.
-     */
-    public $bodyClass;
+    /** Body class property used for customising the layout on a controller basis. */
+    public ?string $bodyClass = null;
 
     public static bool $skipRouteRegister = false;
 
@@ -243,7 +232,7 @@ class AdminController extends Controller
 
         $this->execPageAction($this->action, $this->params);
 
-        foreach ((array)$this->widgets as $widget) {
+        foreach ($this->widgets as $widget) {
             if ($widget->methodExists($handler)) {
                 $result = call_user_func_array([$widget, $handler], array_values($params));
 

@@ -9,42 +9,28 @@ use Igniter\Flame\Html\HtmlFacade as Html;
  */
 class ToolbarButton
 {
-    /**
-     * @var string Toolbar button name.
-     */
-    public $name;
+    /** Display mode. Link, Button or Dropdown */
+    public string $type = 'link';
 
-    /**
-     * @var string Display mode. Link, Button or Dropdown
-     */
-    public $type = 'link';
+    public ?string $label = null;
 
-    public $label;
+    public null|string|array $context = null;
 
-    public $context;
+    public null|string|array $permission = null;
 
-    public $permission;
+    public ?bool $disabled = null;
 
-    public $disabled;
+    public ?string $cssClass = null;
 
-    /**
-     * @var mixed|string|null
-     */
-    public $cssClass;
+    public array $config = [];
 
-    /**
-     * @var array Raw field configuration.
-     */
-    public $config;
-
-    protected $menuItems;
+    protected ?array $menuItems = null;
 
     /**
      * Constructor.
      */
-    public function __construct($name)
+    public function __construct(public string $name)
     {
-        $this->name = $name;
     }
 
     /**
@@ -56,7 +42,7 @@ class ToolbarButton
      *
      * @return $this
      */
-    public function displayAs($type, $config)
+    public function displayAs(string $type, array $config)
     {
         $this->type = strtolower($type) ?: $this->type;
         $this->config = $this->evalConfig($config);
@@ -66,12 +52,8 @@ class ToolbarButton
 
     /**
      * Returns the attributes for this item.
-     *
-     * @param bool $htmlBuild
-     *
-     * @return array|string
      */
-    public function getAttributes($htmlBuild = true)
+    public function getAttributes(bool $htmlBuild = true): array|string
     {
         $config = array_except($this->config, [
             'label', 'context', 'permission', 'partial',
@@ -97,23 +79,19 @@ class ToolbarButton
         return $htmlBuild ? Html::attributes($attributes) : $attributes;
     }
 
-    public function menuItems($value = null)
+    public function menuItems(?array $value = null): self|array
     {
         if (is_null($value)) {
             return $this->menuItems ?? [];
-        } else {
-            $this->menuItems = $value;
         }
+
+        $this->menuItems = $value;
 
         return $this;
     }
 
-    protected function evalConfig($config)
+    protected function evalConfig(array $config): array
     {
-        if (is_null($config)) {
-            $config = [];
-        }
-
         $applyConfigValues = [
             'context',
             'permission',

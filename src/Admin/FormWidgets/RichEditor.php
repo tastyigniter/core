@@ -16,22 +16,20 @@ class RichEditor extends BaseFormWidget
     // Configurable properties
     //
 
-    /**
-     * @var bool Determines whether content has HEAD and HTML tags.
-     */
-    public $fullPage = false;
+    /** Determines whether content has HEAD and HTML tags. */
+    public bool $fullPage = false;
 
-    public $stretch;
+    public ?string $stretch = null;
 
-    public $size;
+    public ?string $size = null;
 
-    public $toolbarButtons = null;
+    public ?string $toolbarButtons = null;
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'richeditor';
+    protected string $defaultAlias = 'richeditor';
 
     public function initialize()
     {
@@ -73,15 +71,14 @@ class RichEditor extends BaseFormWidget
 
     /**
      * Determine the toolbar buttons to use based on config.
-     * @return string
      */
-    protected function evalToolbarButtons()
+    protected function evalToolbarButtons(): ?array
     {
         $buttons = $this->toolbarButtons;
 
         if (is_string($buttons)) {
             $buttons = array_map(function ($button) {
-                return strlen($button) ? $button : '|';
+                return $button ?: '|';
             }, explode('|', $buttons));
         }
 

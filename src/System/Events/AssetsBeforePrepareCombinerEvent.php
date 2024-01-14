@@ -13,7 +13,7 @@ class AssetsBeforePrepareCombinerEvent
     {
     }
 
-    public static function eventName()
+    public static function eventName(): string
     {
         return 'assets.combiner.beforePrepare';
     }

@@ -39,7 +39,7 @@ class Extension extends Model
     /**
      * @var \Igniter\System\Classes\BaseExtension
      */
-    protected $class;
+    public $class;
 
     public static function onboardingIsComplete()
     {

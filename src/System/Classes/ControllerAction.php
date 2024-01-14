@@ -2,6 +2,7 @@
 
 namespace Igniter\System\Classes;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Flame\Traits\ExtensionTrait;
 use Igniter\System\Traits\ConfigMaker;
@@ -17,65 +18,37 @@ class ControllerAction
     use ViewMaker;
     use WidgetMaker;
 
-    /**
-     * @var \Igniter\Admin\Classes\AdminController|\Illuminate\Routing\Controller Reference to the controller associated to this action
-     */
-    protected $controller;
+    /** List of controller configuration */
+    protected ?array $config = null;
 
-    /**
-     * @var array List of controller configuration
-     */
-    protected $config;
+    /** Properties that must exist in the controller using this action. */
+    protected array $requiredProperties = [];
 
-    /**
-     * @var array Properties that must exist in the controller using this action.
-     */
-    protected $requiredProperties = [];
-
-    /**
-     * ControllerAction constructor.
-     *
-     * @param \Illuminate\Routing\Controller $controller
-     *
-     * @throws \Exception
-     */
-    public function __construct($controller = null)
+    public function __construct(protected ?AdminController $controller = null)
     {
-        if ($controller !== null) {
-            $this->controller = $controller;
-        }
-
         // Add paths from the extension / module context
         $this->configPath = $this->controller->configPath;
         $this->partialPath = $this->controller->partialPath;
 
         foreach ($this->requiredProperties as $property) {
             if (!isset($controller->{$property})) {
-                throw new \LogicException('Class '.get_class($controller)." must define property [{$property}] used by ".get_called_class());
+                throw new \LogicException('Class '.$this->controller::class." must define property [$property] used by ".get_called_class());
             }
         }
     }
 
     /**
      * Sets the widget configuration values
-     *
-     * @param string|array $config
-     * @param array $required Required config items
      */
-    public function setConfig($config, $required = [])
+    public function setConfig(null|string|array $config, array $required = [])
     {
         $this->config = $this->makeConfig($config, $required);
     }
 
     /**
      * Get the widget configuration values.
-     *
-     * @param string $name Config name, supports array names like "field[key]"
-     * @param mixed $default Default value if nothing is found
-     *
-     * @return mixed
      */
-    public function getConfig($name = null, $default = null)
+    public function getConfig(?string $name = null, mixed $default = null): mixed
     {
         if (is_null($name)) {
             return $this->config;
@@ -84,7 +57,7 @@ class ControllerAction
         $nameArray = name_to_array($name);
 
         $fieldName = array_shift($nameArray);
-        $result = isset($this->config[$fieldName]) ? $this->config[$fieldName] : $default;
+        $result = $this->config[$fieldName] ?? $default;
 
         foreach ($nameArray as $key) {
             if (!is_array($result) || !array_key_exists($key, $result)) {
@@ -100,7 +73,7 @@ class ControllerAction
     /**
      * Protects a public method from being available as an controller method.
      */
-    protected function hideAction($methodName)
+    protected function hideAction(string|array $methodName)
     {
         if (!is_array($methodName)) {
             $methodName = [$methodName];

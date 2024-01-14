@@ -13,6 +13,8 @@ use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -23,76 +25,61 @@ class StatusEditor extends BaseFormWidget
     use FormModelWidget;
     use ValidatesForm;
 
-    /**
-     * @var Order|\Igniter\Reservation\Models\Reservation Form model object.
-     */
-    public $model;
+    public ?Model $model = null;
 
-    public $form;
+    public null|string|array $form = null;
 
-    public $formTitle = 'igniter::admin.statuses.text_editor_title';
+    public string $formTitle = 'igniter::admin.statuses.text_editor_title';
 
-    /**
-     * @var string Text to display for the title of the popup list form
-     */
-    public $statusFormName = 'Status';
+    /** Text to display for the title of the popup list form */
+    public string $statusFormName = 'Status';
 
-    public $statusArrayName = 'statusData';
+    public string $statusArrayName = 'statusData';
 
-    /**
-     * @var string Relation column to display for the name
-     */
-    public $statusKeyFrom = 'status_id';
+    /** Relation column to display for the name */
+    public string $statusKeyFrom = 'status_id';
 
-    /**
-     * @var string Relation column to display for the name
-     */
-    public $statusNameFrom = 'status_name';
+    /** Relation column to display for the name */
+    public string $statusNameFrom = 'status_name';
 
-    /**
-     * @var string Relation column to display for the color
-     */
-    public $statusColorFrom = 'status_color';
+    /** Relation column to display for the color */
+    public string $statusColorFrom = 'status_color';
 
-    public $statusRelationFrom = 'status';
+    public string $statusRelationFrom = 'status';
 
-    public $statusModelClass = \Igniter\Admin\Models\StatusHistory::class;
+    public string $statusModelClass = \Igniter\Admin\Models\StatusHistory::class;
 
-    /**
-     * @var string Text to display for the title of the popup list form
-     */
-    public $assigneeFormName = 'Assignee';
+    /** Text to display for the title of the popup list form */
+    public string $assigneeFormName = 'Assignee';
 
-    public $assigneeArrayName = 'assigneeData';
+    public string $assigneeArrayName = 'assigneeData';
 
-    public $assigneeKeyFrom = 'assignee_id';
+    public string $assigneeKeyFrom = 'assignee_id';
 
-    public $assigneeGroupKeyFrom = 'assignee_group_id';
+    public string $assigneeGroupKeyFrom = 'assignee_group_id';
 
-    /**
-     * @var string Relation column to display for the name
-     */
-    public $assigneeNameFrom = 'name';
+    /** Relation column to display for the name */
+    public string $assigneeNameFrom = 'name';
 
-    public $assigneeGroupNameFrom = 'user_group_name';
+    public string $assigneeGroupNameFrom = 'user_group_name';
 
-    public $assigneeRelationFrom = 'assignee';
+    public string $assigneeRelationFrom = 'assignee';
 
-    public $assigneeModelClass = \Igniter\User\Models\AssignableLog::class;
+    public string $assigneeModelClass = \Igniter\User\Models\AssignableLog::class;
 
-    public $assigneeOrderPermission = 'Admin.AssignOrders';
+    public string $assigneeOrderPermission = 'Admin.AssignOrders';
 
-    public $assigneeReservationPermission = 'Admin.AssignReservations';
+    public string $assigneeReservationPermission = 'Admin.AssignReservations';
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'statuseditor';
+    protected string $defaultAlias = 'statuseditor';
 
-    protected $modelClass;
+    protected ?string $modelClass = null;
 
-    protected $isStatusMode;
+    protected bool $isStatusMode = true;
 
     public function initialize()
     {
@@ -122,7 +109,7 @@ class StatusEditor extends BaseFormWidget
         return $this->makePartial('statuseditor/statuseditor');
     }
 
-    public function onLoadRecord()
+    public function onLoadRecord(): mixed
     {
         $context = post('recordId');
         throw_unless(in_array($context, ['load-status', 'load-assignee']),
@@ -140,7 +127,7 @@ class StatusEditor extends BaseFormWidget
         ]);
     }
 
-    public function onSaveRecord()
+    public function onSaveRecord(): array
     {
         $this->setMode($context = post('context'));
 
@@ -180,9 +167,9 @@ class StatusEditor extends BaseFormWidget
         ];
     }
 
-    public function onLoadStatus()
+    public function onLoadStatus(): array
     {
-        throw_unless(strlen($statusId = post('statusId')),
+        throw_unless(strlen($statusId = post('statusId', '')),
             FlashException::error(lang('igniter::admin.form.missing_id'))
         );
 
@@ -193,9 +180,9 @@ class StatusEditor extends BaseFormWidget
         return $status->toArray();
     }
 
-    public function onLoadAssigneeList()
+    public function onLoadAssigneeList(): array
     {
-        throw_unless(strlen(post('groupId')),
+        throw_unless(strlen(post('groupId', '')),
             FlashException::error(lang('igniter::admin.form.missing_id'))
         );
 
@@ -227,14 +214,14 @@ class StatusEditor extends BaseFormWidget
         $this->vars['assignee'] = $this->model->{$this->assigneeRelationFrom};
     }
 
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): int
     {
         return FormField::NO_SAVE_DATA;
     }
 
-    public static function getAssigneeOptions($form, $field)
+    public static function getAssigneeOptions(Form $form, $field): array|Collection
     {
-        if (!strlen($groupId = post('groupId', $form->getField('assignee_group_id')->value))) {
+        if (!strlen($groupId = post('groupId', $form->getField('assignee_group_id')->value ?? ''))) {
             return [];
         }
 

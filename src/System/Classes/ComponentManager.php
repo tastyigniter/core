@@ -3,6 +3,7 @@
 namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\SystemException;
+use Igniter\Flame\Pagic\TemplateCode;
 
 /**
  * Components class for TastyIgniter.
@@ -10,39 +11,26 @@ use Igniter\Flame\Exception\SystemException;
  */
 class ComponentManager
 {
-    /**
-     * @var array Cache of registration callbacks.
-     */
-    public $registry = [];
+    /** Cache of registration callbacks. */
+    public array $registry = [];
 
-    /**
-     * @var array Cache of registration components callbacks.
-     */
-    protected $componentsCallbacks = [];
+    /** Cache of registration components callbacks. */
+    protected array $componentsCallbacks = [];
 
-    /**
-     * @var array An array where keys are codes and values are class paths.
-     */
-    protected $codeMap = [];
+    /** An array where keys are codes and values are class paths. */
+    protected array $codeMap = [];
 
-    /**
-     * @var array An array where keys are class paths and values are codes.
-     */
-    protected $classMap = [];
+    /** An array where keys are class paths and values are codes. */
+    protected array $classMap = [];
 
-    /**
-     * @var array An array containing references to a corresponding extension for each component class.
-     */
-    protected $extensionMap = [];
+    /** An array containing references to a corresponding extension for each component class. */
+    protected array $extensionMap = [];
 
-    /**
-     * @var array A cached array of components component_meta.
-     */
-    protected $components = [];
+    /** A cached array of components component_meta. */
+    protected ?array $components = null;
 
     /**
      * Scans each extension and loads it components.
-     * @return void
      */
     protected function loadComponents()
     {
@@ -53,7 +41,7 @@ class ComponentManager
 
         // Load extensions components
         $extensions = resolve(ExtensionManager::class)->getExtensions();
-        foreach ($extensions as $name => $extension) {
+        foreach ($extensions as $extension) {
             $components = $extension->registerComponents();
             if (!is_array($components)) {
                 continue;
@@ -77,8 +65,6 @@ class ComponentManager
      *        );
      *   });
      * </pre>
-     *
-     * @return void
      */
     public function registerComponents(callable $definitions)
     {
@@ -87,12 +73,8 @@ class ComponentManager
 
     /**
      * Registers a single component.
-     *
-     * @param string $class_path
-     * @param array $component
-     * @param object $extension Extension
      */
-    public function registerComponent($class_path, $component = null, $extension = null)
+    public function registerComponent(string $classPath, null|string|array $component = null, ?BaseExtension $extension = null)
     {
         if (!$this->classMap) {
             $this->classMap = [];
@@ -112,25 +94,24 @@ class ComponentManager
             'description' => null,
         ], $component);
 
-        $code = $component['code'] ?? strtolower(basename($class_path));
+        $code = $component['code'] ?? strtolower(basename($classPath));
 
-        $this->codeMap[$code] = $class_path;
-        $this->classMap[$class_path] = $code;
+        $this->codeMap[$code] = $classPath;
+        $this->classMap[$classPath] = $code;
         $this->components[$code] = array_merge($component, [
             'code' => $code,
-            'path' => $class_path,
+            'path' => $classPath,
         ]);
 
         if ($extension !== null) {
-            $this->extensionMap[$class_path] = $extension;
+            $this->extensionMap[$classPath] = $extension;
         }
     }
 
     /**
      * Returns a list of registered components.
-     * @return array Array keys are codes, values are component meta array.
      */
-    public function listComponents()
+    public function listComponents(): ?array
     {
         if ($this->components == null) {
             $this->loadComponents();
@@ -142,12 +123,8 @@ class ComponentManager
     /**
      * Returns a class name from a component code
      * Normalizes a class name or converts an code to it's class name.
-     *
-     * @param string $name
-     *
-     * @return string The class name resolved, or null.
      */
-    public function resolve($name)
+    public function resolve(string $name): ?string
     {
         $this->listComponents();
 
@@ -165,12 +142,8 @@ class ComponentManager
 
     /**
      * Checks to see if a component has been registered.
-     *
-     * @param string $name A component class name or alias.
-     *
-     * @return bool Returns true if the component is registered, otherwise false.
      */
-    public function hasComponent($name)
+    public function hasComponent(string $name): bool
     {
         $class_path = $this->resolve($name);
         if (!$class_path) {
@@ -182,10 +155,8 @@ class ComponentManager
 
     /**
      * Returns component details based on its name.
-     *
-     * @return mixed|null
      */
-    public function findComponent($name)
+    public function findComponent($name): ?BaseComponent
     {
         if (!$this->hasComponent($name)) {
             return null;
@@ -195,34 +166,9 @@ class ComponentManager
     }
 
     /**
-     * Returns payment gateway details based on its name.
-     *
-     * @return mixed|null
-     */
-    public function getMeta($name)
-    {
-        if (!$this->hasComponent($name)) {
-            return null;
-        }
-
-        if (isset($this->components[$name])) {
-            return $this->components[$name];
-        }
-
-        return null;
-    }
-
-    /**
      * Makes a component/gateway object with properties set.
-     *
-     * @param string $name A component/gateway class name or code.
-     * @param \Igniter\Main\Template\Code\PageCode $page The page that spawned this component.
-     * @param array $params The properties set by the Page or Layout.
-     *
-     * @return \Igniter\System\Classes\BaseComponent The component object.
-     * @throws \Igniter\Flame\Exception\SystemException
      */
-    public function makeComponent($name, $page = null, $params = [])
+    public function makeComponent(string $name, ?TemplateCode $page = null, array $params = []): BaseComponent
     {
         $className = $this->resolve($name);
         if (!$className) {
@@ -242,31 +188,20 @@ class ComponentManager
 
     /**
      * Returns a parent extension for a specific component.
-     *
-     * @param mixed $component A component to find the extension for.
-     *
-     * @return mixed Returns the extension object or null.
      */
-    public function findComponentExtension($component)
+    public function findComponentExtension(string $component): ?BaseExtension
     {
-        $class_path = $this->resolve($component);
-        if (isset($this->extensionMap[$class_path])) {
-            return $this->extensionMap[$class_path];
-        }
+        $classPath = $this->resolve($component);
 
-        return null;
+        return $this->extensionMap[$classPath] ?? null;
     }
 
     /**
      * Convert class alias to class path
-     *
-     * @param string $alias
-     *
-     * @return string
      */
-    public function convertCodeToPath($alias)
+    public function convertCodeToPath(string $alias): string
     {
-        if (strpos($alias, '/') === false) {
+        if (!str_contains($alias, '/')) {
             return $alias;
         }
 
@@ -279,13 +214,8 @@ class ComponentManager
 
     /**
      * Returns a component property configuration as a JSON string or array.
-     *
-     * @param mixed $component The component object
-     * @param bool $addAliasProperty Determines if the Alias property should be added to the result.
-     *
-     * @return array
      */
-    public function getComponentPropertyConfig($component, $addAliasProperty = true)
+    public function getComponentPropertyConfig(BaseComponent $component, bool $addAliasProperty = true): array
     {
         $result = [];
 
@@ -355,12 +285,8 @@ class ComponentManager
 
     /**
      * Returns a component property values.
-     *
-     * @param mixed $component The component object
-     *
-     * @return array
      */
-    public function getComponentPropertyValues($component)
+    public function getComponentPropertyValues(BaseComponent $component): array
     {
         $result = [];
 
@@ -374,7 +300,7 @@ class ComponentManager
         return $result;
     }
 
-    public function getComponentPropertyRules($component)
+    public function getComponentPropertyRules(BaseComponent $component): array
     {
         $properties = $component->defineProperties();
 
@@ -389,7 +315,7 @@ class ComponentManager
         return [$rules, $attributes];
     }
 
-    protected function checkComponentPropertyType($type)
+    protected function checkComponentPropertyType(string $type): bool
     {
         return in_array($type, [
             'text',

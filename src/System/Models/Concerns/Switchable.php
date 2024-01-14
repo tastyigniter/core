@@ -2,6 +2,8 @@
 
 namespace Igniter\System\Models\Concerns;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
+
 trait Switchable
 {
     public function switchableGetColumn(): string
@@ -23,24 +25,24 @@ trait Switchable
         return (bool)$this->{$this->switchableGetColumn()};
     }
 
-    public function scopeIsEnabled($query)
+    public function scopeIsEnabled(Builder $query): Builder
     {
         return $query->whereIsEnabled();
     }
 
-    public function scopeWhereIsEnabled($query)
+    public function scopeWhereIsEnabled(Builder $query): Builder
     {
         return $query
             ->whereNotNull($this->qualifyColumn($this->switchableGetColumn()))
             ->where($this->qualifyColumn($this->switchableGetColumn()), true);
     }
 
-    public function scopeWhereIsDisabled($query)
+    public function scopeWhereIsDisabled(Builder $query): Builder
     {
         return $query->where($this->qualifyColumn($this->switchableGetColumn()), '!=', true);
     }
 
-    public function scopeApplySwitchable($query, $switch = true)
+    public function scopeApplySwitchable(Builder $query, bool $switch = true): Builder
     {
         return $query->where($this->qualifyColumn($this->switchableGetColumn()), $switch);
     }

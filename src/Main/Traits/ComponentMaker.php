@@ -8,17 +8,14 @@ use Igniter\System\Classes\ComponentManager;
 
 trait ComponentMaker
 {
-    /**
-     * @var \Igniter\System\Classes\BaseComponent[]
-     */
-    public $components = [];
+    public array $components = [];
 
     public function loadComponent(string $name, BaseComponent $component, Model $template)
     {
         $this->components[$name] = $component;
     }
 
-    public function makeComponent($componentName)
+    public function makeComponent(string $componentName): ?BaseComponent
     {
         if (!$name = $this->resolveComponentName($componentName)) {
             return null;
@@ -31,7 +28,7 @@ trait ComponentMaker
         );
     }
 
-    public function resolveComponentName($componentName)
+    public function resolveComponentName(string $componentName): false|string
     {
         $componentManager = resolve(ComponentManager::class);
         $componentName = $componentManager->resolve($componentName);

@@ -3,18 +3,19 @@
 namespace Igniter\System\Http\Controllers;
 
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Models\MailTemplate;
 use Illuminate\Support\Facades\Mail;
 
 class MailTemplates extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\System\Models\MailTemplate::class,
             'title' => 'lang:igniter::system.mail_templates.text_template_title',
@@ -24,7 +25,7 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter::system.mail_templates.text_form_name',
         'model' => \Igniter\System\Models\MailTemplate::class,
         'request' => \Igniter\System\Requests\MailTemplateRequest::class,
@@ -50,7 +51,7 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'mailtemplate',
     ];
 
-    protected $requiredPermissions = 'Admin.MailTemplates';
+    protected null|string|array $requiredPermissions = 'Admin.MailTemplates';
 
     public function __construct()
     {
@@ -66,7 +67,7 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function formExtendFields($form)
+    public function formExtendFields(Form $form)
     {
         if ($form->context != 'create') {
             $field = $form->getField('code');
@@ -74,12 +75,12 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
         }
     }
 
-    public function formBeforeSave($model)
+    public function formBeforeSave(MailTemplate $model)
     {
         $model->is_custom = true;
     }
 
-    public function onTestTemplate($context, $recordId)
+    public function onTestTemplate(?string $context = null, ?string $recordId = null)
     {
         if (!strlen($recordId)) {
             throw FlashException::error(lang('igniter::system.mail_templates.alert_template_id_not_found'));

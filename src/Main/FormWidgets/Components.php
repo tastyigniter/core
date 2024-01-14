@@ -5,12 +5,17 @@ namespace Igniter\Main\FormWidgets;
 use Carbon\Carbon;
 use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
+use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\ValidatesForm;
+use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\System\Classes\BaseComponent;
 use Igniter\System\Classes\ComponentManager;
+use Illuminate\Http\RedirectResponse;
 
 /**
  * Components
@@ -20,30 +25,23 @@ class Components extends BaseFormWidget
 {
     use ValidatesForm;
 
-    protected static $onAddItemCalled;
-
-    /**
-     * @var \Igniter\System\Classes\ComponentManager
-     */
-    protected $manager;
+    protected ComponentManager $manager;
 
     //
     // Configurable properties
     //
-    /**
-     * @var array Form field configuration
-     */
-    public $form;
 
-    public $prompt;
+    public null|string|array $form = null;
 
-    public $addTitle = 'igniter::main.components.button_new';
+    public ?string $prompt = null;
 
-    public $editTitle = 'igniter::main.components.button_edit';
+    public string $addTitle = 'igniter::main.components.button_new';
 
-    public $copyPartialTitle = 'igniter::main.components.button_copy_partial';
+    public string $editTitle = 'igniter::main.components.button_edit';
 
-    protected $components = [];
+    public string $copyPartialTitle = 'igniter::main.components.button_copy_partial';
+
+    protected array $components = [];
 
     public function initialize()
     {
@@ -71,9 +69,6 @@ class Components extends BaseFormWidget
         $this->addJs('components.js', 'components-js');
     }
 
-    /**
-     * Prepares the list data
-     */
     public function prepareVars()
     {
         $this->vars['field'] = $this->formField;
@@ -81,16 +76,16 @@ class Components extends BaseFormWidget
         $this->vars['templateComponents'] = $this->loadTemplateComponents();
     }
 
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): int
     {
         if (is_array($value)) {
             $this->data->fileSource->sortComponents(array_flip($value));
         }
 
-        return null;
+        return FormField::NO_SAVE_DATA;
     }
 
-    public function onLoadRecord()
+    public function onLoadRecord(): string
     {
         $data = $this->validate(post(), [
             'alias' => ['string'],
@@ -110,12 +105,12 @@ class Components extends BaseFormWidget
         ]);
     }
 
-    public function onSaveRecord()
+    public function onSaveRecord(): null|array|RedirectResponse
     {
         if (resolve(ThemeManager::class)->isLocked($this->model->code)) {
             flash()->danger(lang('igniter::system.themes.alert_theme_locked'))->important();
 
-            return;
+            return null;
         }
 
         $data = $this->validate(post(), [
@@ -152,7 +147,7 @@ class Components extends BaseFormWidget
         return $this->reload();
     }
 
-    public function onRemoveComponent()
+    public function onRemoveComponent(): array
     {
         $codeAlias = post('code');
         if (!strlen($codeAlias)) {
@@ -175,12 +170,12 @@ class Components extends BaseFormWidget
         return $this->reload();
     }
 
-    protected function getComponents()
+    protected function getComponents(): array
     {
         return $this->model::getComponentOptions();
     }
 
-    protected function loadTemplateComponents()
+    protected function loadTemplateComponents(): array
     {
         $components = [];
         if (!$loadValue = (array)$this->getLoadValue()) {
@@ -210,7 +205,7 @@ class Components extends BaseFormWidget
         return $components;
     }
 
-    protected function makeComponentBy($codeAlias)
+    protected function makeComponentBy(string $codeAlias): ?BaseComponent
     {
         $componentObj = null;
         if (strlen($codeAlias)) {
@@ -223,7 +218,7 @@ class Components extends BaseFormWidget
         return $componentObj;
     }
 
-    protected function makeComponentFormWidget($context, $componentObj = null)
+    protected function makeComponentFormWidget(string $context, ?BaseComponent $componentObj = null): Form
     {
         $propertyConfig = $propertyValues = [];
         if ($componentObj) {
@@ -239,7 +234,8 @@ class Components extends BaseFormWidget
         $formConfig['previewMode'] = $this->previewMode;
         $formConfig['context'] = $context;
 
-        $widget = $this->makeWidget(\Igniter\Admin\Widgets\Form::class, $formConfig);
+        /** @var Form $widget */
+        $widget = $this->makeWidget(Form::class, $formConfig);
 
         $widget->bindEvent('form.extendFields', function ($allFields) use ($widget, $componentObj) {
             if (!$formField = $widget->getField('partial')) {
@@ -254,7 +250,7 @@ class Components extends BaseFormWidget
         return $widget;
     }
 
-    protected function mergeComponentFormConfig($formConfig, $propertyConfig)
+    protected function mergeComponentFormConfig(array $formConfig, array $propertyConfig): array
     {
         $fields = array_merge(
             array_get($formConfig, 'fields'),
@@ -270,11 +266,11 @@ class Components extends BaseFormWidget
         return $formConfig;
     }
 
-    protected function getUniqueAlias($alias)
+    protected function getUniqueAlias(string $alias): string
     {
         $existingComponents = (array)$this->getLoadValue();
         while (isset($existingComponents[$alias])) {
-            if (strpos($alias, ' ') === false) {
+            if (!str_contains($alias, ' ')) {
                 $alias .= ' '.$alias;
             }
 
@@ -284,12 +280,12 @@ class Components extends BaseFormWidget
         return $alias;
     }
 
-    protected function getCodeAlias($name)
+    protected function getCodeAlias(string $name): array
     {
         return strpos($name, ' ') ? explode(' ', $name) : [$name, $name];
     }
 
-    protected function updateComponent($codeAlias, $isCreateContext, $template)
+    protected function updateComponent(string $codeAlias, bool $isCreateContext, TemplateInterface $template)
     {
         throw_unless($componentObj = $this->makeComponentBy($codeAlias), FlashException::error('Invalid component selected'));
 
@@ -309,7 +305,7 @@ class Components extends BaseFormWidget
         $template->updateComponent($codeAlias, $properties);
     }
 
-    protected function convertComponentPropertyValues($properties)
+    protected function convertComponentPropertyValues(array $properties): array
     {
         return array_map(function ($propertyValue) {
             if (is_numeric($propertyValue)) {
@@ -320,7 +316,7 @@ class Components extends BaseFormWidget
         }, $properties);
     }
 
-    protected function extendPartialField($formField, $componentObj)
+    protected function extendPartialField(FormField $formField, BaseComponent $componentObj)
     {
         $activeTheme = $this->model->getTheme();
         $themePartialPath = sprintf('%s/%s/%s/', $activeTheme->name, '_partials', $componentObj->alias);
@@ -342,7 +338,7 @@ class Components extends BaseFormWidget
         });
     }
 
-    protected function overrideComponentPartial($codeAlias, $fileName)
+    protected function overrideComponentPartial(string $codeAlias, string $fileName)
     {
         $componentObj = $this->makeComponentBy($codeAlias);
 

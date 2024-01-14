@@ -49,8 +49,8 @@ class ValidationServiceProvider extends ServiceProvider
                     continue;
                 }
 
-                foreach ($validators as $name => $validator) {
-                    Validator::extend($name, $validator);
+                foreach ($validators as $name => $validatorExtension) {
+                    Validator::extend($name, $validatorExtension);
                 }
             }
         });

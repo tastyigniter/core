@@ -6,7 +6,7 @@ use Igniter\System\Classes\FormRequest;
 
 class MailSettingsRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'sender_name' => lang('igniter::system.settings.label_sender_name'),
@@ -33,7 +33,7 @@ class MailSettingsRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'sender_name' => ['required', 'string'],

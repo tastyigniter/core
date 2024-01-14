@@ -35,11 +35,11 @@ class ConsoleSubscriber
         ])->name('Prunable Models Checker')->daily();
     }
 
-    public function handleCommandStarting(CommandStarting $event): void
+    public function handleCommandStarting(CommandStarting $event)
     {
     }
 
-    public function handleCommandFinished(CommandFinished $event): void
+    public function handleCommandFinished(CommandFinished $event)
     {
         match ($event->command) {
             'package:discover' => Artisan::call('igniter:package-discover', [], $event->output),

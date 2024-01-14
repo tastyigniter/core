@@ -38,7 +38,7 @@ class MailTheme extends Model
 
     const PROMOTION_BORDER_COLOR = '#9ba2ab';
 
-    public $implement = [\Igniter\System\Actions\SettingsModel::class];
+    public array $implement = [\Igniter\System\Actions\SettingsModel::class];
 
     /**
      * @var string Unique code

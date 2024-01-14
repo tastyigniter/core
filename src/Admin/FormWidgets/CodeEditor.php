@@ -14,24 +14,24 @@ class CodeEditor extends BaseFormWidget
     // Configurable properties
     //
 
-    public $mode = 'css';
+    public string $mode = 'css';
 
-    public $theme = 'material';
+    public string $theme = 'material';
 
     /**
      * @var bool Determines whether content has HEAD and HTML tags.
      */
-    public $fullPage = false;
+    public bool $fullPage = false;
 
-    public $lineSeparator;
+    public ?string $lineSeparator = null;
 
-    public $readOnly = false;
+    public bool $readOnly = false;
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'codeeditor';
+    protected string $defaultAlias = 'codeeditor';
 
     public function initialize()
     {
@@ -58,9 +58,6 @@ class CodeEditor extends BaseFormWidget
         $this->addJs('codeeditor.js', 'codeeditor-js');
     }
 
-    /**
-     * Prepares the list data
-     */
     public function prepareVars()
     {
         $this->vars['field'] = $this->formField;

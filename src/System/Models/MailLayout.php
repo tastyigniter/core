@@ -31,8 +31,6 @@ class MailLayout extends Model
      */
     protected $primaryKey = 'layout_id';
 
-    protected $guarded = [];
-
     /**
      * @var array The model table column to convert to dates on insert/update
      */

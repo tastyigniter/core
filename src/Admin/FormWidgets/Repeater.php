@@ -4,6 +4,7 @@ namespace Igniter\Admin\FormWidgets;
 
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Traits\FormModelWidget;
+use Igniter\Admin\Widgets\Form;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -14,56 +15,48 @@ class Repeater extends BaseFormWidget
 {
     use FormModelWidget;
 
-    const INDEX_SEARCH = '@@index';
+    public const INDEX_SEARCH = '@@index';
 
-    const SORT_PREFIX = '___dragged_';
+    public const SORT_PREFIX = '___dragged_';
 
     //
     // Configurable properties
     //
 
-    /**
-     * @var array Form field configuration
-     */
-    public $form;
+    /** Form field configuration */
+    public null|string|array $form = null;
 
-    /**
-     * @var string Prompt text for adding new items.
-     */
-    public $prompt;
+    /** Prompt text for adding new items. */
+    public ?string $prompt = null;
 
-    /**
-     * @var bool Items can be sorted.
-     */
-    public $sortable = false;
+    /** Items can be sorted. */
+    public bool $sortable = false;
 
-    public $sortColumnName = 'priority';
+    public string $sortColumnName = 'priority';
 
-    public $showAddButton = true;
+    public bool $showAddButton = true;
 
-    public $showRemoveButton = true;
+    public bool $showRemoveButton = true;
 
-    public $emptyMessage = 'lang:igniter::admin.text_empty';
+    public string $emptyMessage = 'lang:igniter::admin.text_empty';
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'repeater';
+    protected string $defaultAlias = 'repeater';
 
-    /**
-     * @var int Count of repeated items.
-     */
-    protected $indexCount = 0;
+    /** Count of repeated items. */
+    protected int $indexCount = 0;
 
-    protected $itemDefinitions = [];
+    protected array $itemDefinitions = [];
 
-    protected $sortableInputName;
+    protected ?string $sortableInputName = null;
 
     /**
      * @var array Collection of form widgets.
      */
-    protected $formWidgets = [];
+    protected array $formWidgets = [];
 
     public function initialize()
     {
@@ -97,7 +90,7 @@ class Repeater extends BaseFormWidget
         return $this->makePartial('repeater/repeater');
     }
 
-    public function getLoadValue()
+    public function getLoadValue(): mixed
     {
         $value = parent::getLoadValue();
 
@@ -114,7 +107,7 @@ class Repeater extends BaseFormWidget
         return $value;
     }
 
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): mixed
     {
         return (array)$this->processSaveValue($value);
     }
@@ -141,7 +134,7 @@ class Repeater extends BaseFormWidget
         $this->vars['sortableInputName'] = $this->sortableInputName;
     }
 
-    public function getVisibleColumns()
+    public function getVisibleColumns(): array
     {
         if (!isset($this->itemDefinitions['fields'])) {
             return [];
@@ -159,14 +152,14 @@ class Repeater extends BaseFormWidget
         return $columns;
     }
 
-    public function getFormWidgetTemplate()
+    public function getFormWidgetTemplate(): Form
     {
         $index = self::INDEX_SEARCH;
 
         return $this->makeItemFormWidget($index, []);
     }
 
-    protected function processSaveValue($value)
+    protected function processSaveValue(mixed $value): mixed
     {
         if (!is_array($value) || !$value) {
             return $value;
@@ -179,8 +172,6 @@ class Repeater extends BaseFormWidget
             if ($sortedIndexes && $this->sortable) {
                 $data[$this->sortColumnName] = $sortedIndexes[$index];
             }
-
-            $items[$index] = $data;
         }
 
         return $value;
@@ -220,7 +211,7 @@ class Repeater extends BaseFormWidget
         }
     }
 
-    protected function makeItemFormWidget($index, $model)
+    protected function makeItemFormWidget($index, $model): Form
     {
         $data = null;
         if (!$model instanceof Model) {
@@ -234,7 +225,8 @@ class Repeater extends BaseFormWidget
         $config['alias'] = $this->alias.'Form'.$index;
         $config['arrayName'] = $this->formField->getName().'['.$index.']';
 
-        $widget = $this->makeWidget(\Igniter\Admin\Widgets\Form::class, $config);
+        /** @var Form $widget */
+        $widget = $this->makeWidget(Form::class, $config);
         $widget->bindToController();
 
         return $widget;
@@ -242,23 +234,21 @@ class Repeater extends BaseFormWidget
 
     /**
      * Returns the load data at a given index.
-     *
-     * @param int $index
-     *
-     * @return mixed
      */
-    protected function getLoadValueFromIndex($loadValue, $index)
+    protected function getLoadValueFromIndex(array|Collection $loadValue, mixed $index): mixed
     {
         if (is_array($loadValue)) {
             return array_get($loadValue, $index, []);
-        } elseif ($loadValue instanceof Collection) {
+        }
+
+        if ($loadValue instanceof Collection) {
             return $loadValue->get($index);
         }
 
         return null;
     }
 
-    protected function getRelationModel()
+    protected function getRelationModel(): Model
     {
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 

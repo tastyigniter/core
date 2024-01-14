@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 
 class MailTemplateRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'layout_id' => lang('igniter::system.mail_templates.label_layout'),
@@ -17,7 +17,7 @@ class MailTemplateRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'layout_id' => ['integer'],

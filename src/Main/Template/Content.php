@@ -8,17 +8,15 @@ use Igniter\Flame\Support\Facades\File;
 
 class Content extends Model
 {
-    /**
-     * @var string The directory name associated with the model
-     */
+    /** The directory name associated with the model */
     public const DIR_NAME = '_content';
 
-    public static function initCacheItem(&$item)
+    public static function initCacheItem(array &$item)
     {
         $item['parsedMarkup'] = (new static($item))->parseMarkup();
     }
 
-    public function getParsedMarkupAttribute()
+    public function getParsedMarkupAttribute(): ?string
     {
         if (array_key_exists('parsedMarkup', $this->attributes)) {
             return $this->attributes['parsedMarkup'];
@@ -29,23 +27,15 @@ class Content extends Model
 
     /**
      * Parses the content markup according to the file type.
-     * @return string
      */
-    public function parseMarkup()
+    public function parseMarkup(): ?string
     {
         $extension = strtolower(File::extension($this->fileName));
 
-        switch ($extension) {
-            case 'txt':
-                $result = htmlspecialchars($this->markup);
-                break;
-            case 'md':
-                $result = Markdown::parse($this->markup)->toHtml();
-                break;
-            default:
-                $result = $this->markup;
-        }
-
-        return $result;
+        return match ($extension) {
+            'txt' => htmlspecialchars($this->markup),
+            'md' => Markdown::parse($this->markup)->toHtml(),
+            default => $this->markup,
+        };
     }
 }

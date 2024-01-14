@@ -7,29 +7,19 @@ namespace Igniter\Admin\Classes;
  */
 class TableDataSource
 {
-    /**
-     * @var string Specifies a name of record's key column
-     */
-    protected $keyColumn;
+    /** Internal record offset */
+    protected int $offset = 0;
 
-    /**
-     * @var int Internal record offset
-     */
-    protected $offset = 0;
-
-    /**
-     * @var array Keeps the data source data.
-     */
-    protected $data = [];
+    /** Keeps the data source data. */
+    protected array $data = [];
 
     /**
      * Class constructor.
      *
      * @param string $keyColumn Specifies a name of the key column.
      */
-    public function construct($keyColumn = 'id')
+    public function __construct(protected string $keyColumn = 'id')
     {
-        $this->keyColumn = $keyColumn;
     }
 
     /**
@@ -40,16 +30,15 @@ class TableDataSource
      *
      * @param array $records Records to initialize in the data source.
      */
-    public function initRecords($records)
+    public function initRecords(array $records)
     {
         $this->data = array_merge($this->data, $records);
     }
 
     /**
      * Returns a total number of records in the data source.
-     * @return int
      */
-    public function getCount()
+    public function getCount(): int
     {
         return count($this->data);
     }
@@ -71,7 +60,7 @@ class TableDataSource
      * @return array Returns the records.
      * If there are no more records, returns an empty array.
      */
-    public function getRecords($offset, $count)
+    public function getRecords($offset, $count): array
     {
         return array_slice($this->data, $offset, $count);
     }
@@ -80,7 +69,7 @@ class TableDataSource
      * Returns all records in the data source.
      * This method is specific only for the client memory data sources.
      */
-    public function getAllRecords()
+    public function getAllRecords(): array
     {
         return $this->data;
     }
@@ -102,7 +91,7 @@ class TableDataSource
      * @return array Returns the records.
      * If there are no more records, returns an empty array.
      */
-    public function readRecords($count = 10)
+    public function readRecords(int $count = 10): array
     {
         $result = $this->getRecords($this->offset, $count);
         $this->offset += count($result);

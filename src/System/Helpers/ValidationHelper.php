@@ -10,7 +10,7 @@ class ValidationHelper
      *
      * @return array
      */
-    public static function prepareRules($rules)
+    public static function prepareRules(array $rules)
     {
         $result = [];
 
@@ -18,7 +18,7 @@ class ValidationHelper
             return $result;
         }
 
-        foreach ($rules as $key => $value) {
+        foreach ($rules as $value) {
             $name = $value[0] ?? '';
             if (isset($value[2])) {
                 $result['rules'][$name] = explode('|', $value[2]);

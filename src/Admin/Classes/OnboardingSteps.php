@@ -10,17 +10,13 @@ use Igniter\System\Classes\ExtensionManager;
  */
 class OnboardingSteps
 {
-    /**
-     * @var array Cache of registration callbacks.
-     */
-    private static $callbacks = [];
+    /** Cache of registration callbacks. */
+    private static array $callbacks = [];
 
-    /**
-     * @var array List of registered onboarding steps.
-     */
-    private $steps;
+    /** List of registered onboarding steps. */
+    private ?array $steps = null;
 
-    public function getStep($code)
+    public function getStep(string $code): ?string
     {
         if (!$this->steps) {
             $this->loadSteps();
@@ -29,7 +25,7 @@ class OnboardingSteps
         return $this->steps[$code] ?? null;
     }
 
-    public function removeStep($code)
+    public function removeStep(string $code)
     {
         unset($this->steps[$code]);
     }
@@ -39,7 +35,7 @@ class OnboardingSteps
      *
      * @return array Array keys are codes, values are onboarding steps meta array.
      */
-    public function listSteps()
+    public function listSteps(): array
     {
         if (is_null($this->steps)) {
             $this->loadSteps();
@@ -50,10 +46,8 @@ class OnboardingSteps
 
     /**
      * Determine if all onboarding is complete.
-     *
-     * @return bool
      */
-    public function completed()
+    public function completed(): bool
     {
         return collect($this->steps)->filter(function ($step) {
             return !$this->stepIsCompleted($step);
@@ -62,27 +56,23 @@ class OnboardingSteps
 
     /**
      * Determine if the onboarding is still in progress.
-     *
-     * @return bool
      */
-    public function inProgress()
+    public function inProgress(): bool
     {
         return !$this->completed();
     }
 
     /**
      * Get the next incomplete onboarding step, or null if all steps are completed.
-     *
-     * @return null|\stdClass
      */
-    public function nextIncompleteStep()
+    public function nextIncompleteStep(): ?\stdClass
     {
         return collect($this->steps)->first(function ($step) {
             return !$this->stepIsCompleted($step);
         });
     }
 
-    protected function stepIsCompleted($callable)
+    protected function stepIsCompleted(?callable $callable): bool
     {
         return is_callable($callable) ? $callable() : false;
     }

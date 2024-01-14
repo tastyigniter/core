@@ -7,6 +7,7 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation as RelationBase;
 use Illuminate\Support\Facades\DB;
 
@@ -24,48 +25,34 @@ class Relation extends BaseFormWidget
     // Configurable properties
     //
 
-    /**
-     * @var string Relation name, if this field name does not represents a model relationship.
-     */
-    public $relationFrom;
+    /** Relation name, if this field name does not represents a model relationship. */
+    public ?string $relationFrom = null;
 
-    /**
-     * @var string Model column to use for the name reference
-     */
-    public $nameFrom = 'name';
+    /** Model column to use for the name reference */
+    public string $nameFrom = 'name';
 
-    /**
-     * @var string Custom SQL column selection to use for the name reference
-     */
-    public $sqlSelect;
+    /** Custom SQL column selection to use for the name reference */
+    public ?string $sqlSelect = null;
 
-    /**
-     * @var string Empty value to use if the relation is singluar (belongsTo)
-     */
-    public $emptyOption;
+    /** Empty value to use if the relation is singluar (belongsTo) */
+    public ?string $emptyOption = null;
 
-    /**
-     * @var string Use a custom scope method for the list query.
-     */
-    public $scope;
+    /** Use a custom scope method for the list query. */
+    public ?string $scope = null;
 
-    /**
-     * @var string Define the order of the list query.
-     */
-    public $order;
+    /** Define the order of the list query. */
+    public ?string $order = null;
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'relation';
+    protected string $defaultAlias = 'relation';
 
-    public $relatedModel;
+    public Model $relatedModel;
 
-    /**
-     * @var FormField Object used for rendering a simple field type
-     */
-    public $clonedFormField;
+    /** Object used for rendering a simple field type */
+    public FormField $clonedFormField;
 
     public function initialize()
     {
@@ -88,7 +75,7 @@ class Relation extends BaseFormWidget
         return $this->makePartial('relation/relation');
     }
 
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): mixed
     {
         if ($this->formField->disabled || $this->formField->hidden) {
             return FormField::NO_SAVE_DATA;
@@ -114,14 +101,10 @@ class Relation extends BaseFormWidget
      * Returns the final model and attribute name of
      * a nested HTML array attribute.
      * Eg: list($model, $attribute) = $this->resolveModelAttribute($this->valueFrom);
-     *
-     * @param string $attribute .
-     *
-     * @return array
      */
-    public function resolveModelAttribute($attribute)
+    public function resolveModelAttribute(string $attribute): array
     {
-        $attribute = $this->relationFrom ? $this->relationFrom : $attribute;
+        $attribute = $this->relationFrom ?: $attribute;
 
         return $this->formField->resolveModelAttribute($this->model, $attribute);
     }
@@ -129,7 +112,7 @@ class Relation extends BaseFormWidget
     /**
      * Makes the form object used for rendering a simple field type
      */
-    protected function makeFormField()
+    protected function makeFormField(): FormField
     {
         return $this->clonedFormField = RelationBase::noConstraints(function () {
             $field = clone $this->formField;
@@ -190,7 +173,7 @@ class Relation extends BaseFormWidget
         });
     }
 
-    protected function processFieldValue($value, $model)
+    protected function processFieldValue(mixed $value, Model $model)
     {
         if ($value instanceof Collection) {
             $value = $value->pluck($model->getKeyName())->toArray();
@@ -202,16 +185,14 @@ class Relation extends BaseFormWidget
     /**
      * Returns the value as a relation object from the model,
      * supports nesting via HTML array.
-     * @return \Igniter\Admin\FormWidgets\Relation
-     * @throws \Exception
      */
-    protected function getRelationObject()
+    protected function getRelationObject(): \Illuminate\Database\Eloquent\Relations\Relation
     {
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
         if (!$model || !$model->hasRelation($attribute)) {
             throw new SystemException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
-                get_class($this->model), $this->valueFrom
+                $this->model::class, $this->valueFrom
             ));
         }
 

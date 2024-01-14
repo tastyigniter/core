@@ -9,12 +9,12 @@ use Igniter\Admin\Facades\AdminMenu;
  */
 class {{studly_name}} extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\FormController::class,
         \Igniter\Admin\Http\Actions\ListController::class
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \{{studly_author}}\{{studly_extension}}\Models\{{studly_singular_name}}::class,
             'title' => '{{title_name}}',
@@ -24,7 +24,7 @@ class {{studly_name}} extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => '{{title_name}}',
         'model' => \{{studly_author}}\{{studly_extension}}\Models\{{studly_singular_name}}::class,
         'create' => [
@@ -46,7 +46,7 @@ class {{studly_name}} extends \Igniter\Admin\Classes\AdminController
         'configFile' => '{{snake_singular_name}}',
     ];
 
-    protected $requiredPermissions = '{{studly_author}}.{{studly_extension}}';
+    protected null|string|array $requiredPermissions = '{{studly_author}}.{{studly_extension}}';
 
     public function __construct()
     {

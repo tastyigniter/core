@@ -26,13 +26,9 @@ class IgniterUp extends Command
      */
     protected $description = 'Builds database tables for TastyIgniter and all extensions.';
 
-    protected Filesystem $files;
-
-    public function __construct(Filesystem $files)
+    public function __construct(protected Filesystem $files)
     {
         parent::__construct();
-
-        $this->files = $files;
     }
 
     /**
@@ -42,7 +38,7 @@ class IgniterUp extends Command
     public function handle()
     {
         if (!$this->confirmToProceed()) {
-            return 1;
+            return;
         }
 
         resolve('migrator')->getRepository()->prepareMigrationTable();

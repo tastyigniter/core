@@ -10,115 +10,63 @@ namespace Igniter\Admin\Classes;
  */
 class ListColumn
 {
-    /**
-     * @var string List column name.
-     */
-    public $columnName;
+    /** Display mode. Text, number */
+    public string $type = 'text';
 
-    /**
-     * @var string List column label.
-     */
-    public $label;
+    /** Specifies if this column can be searched. */
+    public bool $searchable = false;
 
-    /**
-     * @var string Display mode. Text, number
-     */
-    public $type = 'text';
+    /** Specifies if this column is hidden by default. */
+    public bool $invisible = false;
 
-    /**
-     * @var bool Specifies if this column can be searched.
-     */
-    public $searchable = false;
+    /** Specifies if this column can be sorted. */
+    public bool $sortable = true;
 
-    /**
-     * @var bool Specifies if this column is hidden by default.
-     */
-    public $invisible = false;
+    /** Specifies if this column can be edited. */
+    public bool $editable = false;
 
-    /**
-     * @var bool Specifies if this column can be sorted.
-     */
-    public $sortable = true;
+    /** Model attribute to use for the display value, this will override any $sqlSelect definition. */
+    public ?string $valueFrom = null;
 
-    /**
-     * @var bool Specifies if this column can be edited.
-     */
-    public $editable = false;
+    /** Specifies a default value when value is empty. */
+    public mixed $defaults = null;
 
-    /**
-     * @var string Model attribute to use for the display value, this will
-     * override any $sqlSelect definition.
+    /** Custom SQL for selecting this record display value, the @ symbol is replaced with the table name.
      */
-    public $valueFrom;
+    public ?string $sqlSelect = null;
 
-    /**
-     * @var string Specifies a default value when value is empty.
-     */
-    public $defaults;
+    /** Relation name, if this column represents a model relationship. */
+    public ?string $relation = null;
 
-    /**
-     * @var string Custom SQL for selecting this record display value,
-     * the @ symbol is replaced with the table name.
-     */
-    public $sqlSelect;
-
-    /**
-     * @var string Relation name, if this column represents a model relationship.
-     */
-    public $relation;
-
-    /**
-     * @var string sets the column width, can be specified in percents (10%) or pixels (50px).
+    /** sets the column width, can be specified in percents (10%) or pixels (50px).
      * There could be a single column without width specified, it will be stretched to take the
      * available space.
      */
-    public $width;
+    public ?string $width = null;
 
-    /**
-     * @var string Specify a CSS class to attach to the list cell element.
-     */
-    public $cssClass;
+    /** Specify a CSS class to attach to the list cell element. */
+    public ?string $cssClass = null;
 
-    /**
-     * @var array Contains a list of attributes specified in the list configuration used by button type.
-     */
-    public $attributes;
+    /** Contains a list of attributes specified in the list configuration used by button type. */
+    public array $attributes = [];
 
-    /**
-     * @var string Specify a format or style for the column value, such as a Date.
-     */
-    public $format;
+    /** Specify a format or style for the column value, such as a Date. */
+    public ?string $format = null;
 
-    /**
-     * @var string Specifies a path for partial-type fields.
-     */
-    public $path;
+    /** Specifies a path for partial-type fields. */
+    public ?string $path = null;
 
-    /**
-     * @var string Specifies a icon cssClass
-     */
-    public $formatter;
+    /** Specifies a icon cssClass */
+    public ?\Closure $formatter = null;
 
-    /**
-     * @var string Specifies a icon cssClass
-     */
-    public $iconCssClass;
+    /** Specifies a icon cssClass */
+    public ?string $iconCssClass = null;
 
-    /**
-     * @var array Raw field configuration.
-     */
-    public $config;
+    /** Raw field configuration. */
+    public array $config = [];
 
-    /**
-     * Constructor.
-     *
-     * @param string $columnName
-     * @param string $label
-     */
-    public function __construct($columnName, $label)
+    public function __construct(public string $columnName, public ?string $label = null)
     {
-        $this->columnName = $columnName;
-        $this->label = $label;
     }
 
     /**
@@ -130,7 +78,7 @@ class ListColumn
      *
      * @return $this
      */
-    public function displayAs($type, $config)
+    public function displayAs(?string $type, array $config = []): self
     {
         $this->type = strtolower($type ?: $this->type);
         $this->config = $this->evalConfig($config);
@@ -140,12 +88,8 @@ class ListColumn
 
     /**
      * Process options and apply them to this object.
-     *
-     * @param array $config
-     *
-     * @return array
      */
-    protected function evalConfig($config)
+    protected function evalConfig(array $config): array
     {
         if (isset($config['width'])) {
             $this->width = $config['width'];
@@ -212,21 +156,16 @@ class ListColumn
 
     /**
      * Returns a HTML valid name for the column name.
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return name_to_id($this->columnName);
     }
 
     /**
      * Returns a value suitable for the column id property.
-     *
-     * @param string $suffix Specify a suffix string
-     *
-     * @return string
      */
-    public function getId($suffix = null)
+    public function getId(?string $suffix = null): string
     {
         $id = 'column';
 

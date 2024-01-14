@@ -13,54 +13,32 @@ use Illuminate\Support\HtmlString;
 
 class MailManager
 {
-    /**
-     * @var array A cache of templates.
-     */
-    protected $templateCache = [];
+    /** A cache of templates. */
+    protected array $templateCache = [];
 
-    /**
-     * @var array Cache of registration callbacks.
-     */
-    protected $callbacks = [];
+    /** Cache of registration callbacks. */
+    protected array $callbacks = [];
 
-    /**
-     * @var array List of registered templates in the system
-     */
-    protected $registeredTemplates;
+    /** List of registered templates in the system */
+    protected ?array $registeredTemplates = null;
 
-    /**
-     * @var array List of registered partials in the system
-     */
-    protected $registeredPartials;
+    /** List of registered partials in the system */
+    protected ?array $registeredPartials = null;
 
-    /**
-     * @var array List of registered layouts in the system
-     */
-    protected $registeredLayouts;
+    /** List of registered layouts in the system */
+    protected ?array $registeredLayouts = null;
 
-    /**
-     * @var array List of registered variables in the system
-     */
-    protected $registeredVariables;
+    /** List of registered variables in the system */
+    protected ?array $registeredVariables = null;
 
-    /**
-     * @var bool Internal marker for rendering mode
-     */
-    protected $isRenderingHtml = false;
+    /** Internal marker for rendering mode */
+    protected bool $isRenderingHtml = false;
 
-    /**
-     * The partials being rendered.
-     *
-     * @var array
-     */
-    protected $partialStack = [];
+    /** The partials being rendered. */
+    protected array $partialStack = [];
 
-    /**
-     * The original data passed to the partial.
-     *
-     * @var array
-     */
-    protected $partialData = [];
+    /** The original data passed to the partial. */
+    protected array $partialData = [];
 
     public function applyMailerConfigValues()
     {
@@ -102,7 +80,7 @@ class MailManager
         }
     }
 
-    public function getTemplate($code)
+    public function getTemplate(string $code): MailTemplate
     {
         if (isset($this->templateCache[$code])) {
             $template = $this->templateCache[$code];
@@ -119,12 +97,8 @@ class MailManager
 
     /**
      * Render the Markdown template into HTML.
-     *
-     * @param string $content
-     * @param array $data
-     * @return string
      */
-    public function render($content, $data = [])
+    public function render(string $content, array $data = []): string
     {
         if (!$content) {
             return '';
@@ -137,10 +111,8 @@ class MailManager
 
     /**
      * Render the Markdown template into text.
-     * @param array $data
-     * @return string
      */
-    public function renderText($content, $data = [])
+    public function renderText(?string $content, array $data = []): string|HtmlString
     {
         if (!$content) {
             return '';
@@ -151,7 +123,7 @@ class MailManager
         return new HtmlString(html_entity_decode(preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8'));
     }
 
-    public function renderTemplate($template, $data = [])
+    public function renderTemplate(MailTemplate $template, array $data = []): string
     {
         $this->isRenderingHtml = true;
 
@@ -163,14 +135,14 @@ class MailManager
                     'body' => $html,
                     'layout_css' => $template->layout->layout_css,
                     'custom_css' => MailTheme::renderCss(),
-                ] + (array)$data
+                ] + $data
             );
         }
 
         return $html;
     }
 
-    public function renderTextTemplate($template, $data = [])
+    public function renderTextTemplate(MailTemplate $template, array $data = []): string|HtmlString
     {
         $this->isRenderingHtml = false;
 
@@ -185,14 +157,14 @@ class MailManager
             $text = $this->renderView($template->layout->plain_layout,
                 [
                     'body' => $text,
-                ] + (array)$data
+                ] + $data
             );
         }
 
         return $text;
     }
 
-    public function renderView($content, $data = [])
+    public function renderView(string $content, array $data = []): HtmlString
     {
         $this->registerBladeDirectives();
 
@@ -201,7 +173,7 @@ class MailManager
         return new HtmlString((new StringParser)->parse($content, $data));
     }
 
-    public function startPartial($code, array $params = [])
+    public function startPartial(string $code, array $params = [])
     {
         if (ob_start()) {
             $this->partialStack[] = $code;
@@ -211,10 +183,8 @@ class MailManager
         }
     }
 
-    public function renderPartial()
+    public function renderPartial(): string|HtmlString
     {
-        $this->isRenderingHtml = true;
-
         $code = array_pop($this->partialStack);
         if (!$partial = MailPartial::findOrMakePartial($code)) {
             return '<!-- Missing partial: '.$code.' -->';
@@ -240,7 +210,6 @@ class MailManager
 
     /**
      * Loads registered templates from extensions
-     * @return void
      */
     public function loadRegisteredTemplates()
     {
@@ -258,9 +227,8 @@ class MailManager
 
     /**
      * Returns a list of the registered layouts.
-     * @return array
      */
-    public function listRegisteredLayouts()
+    public function listRegisteredLayouts(): array
     {
         if (is_null($this->registeredLayouts)) {
             $this->loadRegisteredTemplates();
@@ -271,9 +239,8 @@ class MailManager
 
     /**
      * Returns a list of the registered templates.
-     * @return array
      */
-    public function listRegisteredTemplates()
+    public function listRegisteredTemplates(): array
     {
         if (is_null($this->registeredTemplates)) {
             $this->loadRegisteredTemplates();
@@ -284,9 +251,8 @@ class MailManager
 
     /**
      * Returns a list of the registered partials.
-     * @return array
      */
-    public function listRegisteredPartials()
+    public function listRegisteredPartials(): array
     {
         if (is_null($this->registeredPartials)) {
             $this->loadRegisteredTemplates();
@@ -297,9 +263,8 @@ class MailManager
 
     /**
      * Returns a list of the registered variables.
-     * @return array
      */
-    public function listRegisteredVariables()
+    public function listRegisteredVariables(): array
     {
         if (is_null($this->registeredVariables)) {
             $this->loadRegisteredTemplates();
@@ -385,7 +350,7 @@ class MailManager
         });
     }
 
-    protected function processRegistrationMethodValues($extension, $method)
+    protected function processRegistrationMethodValues(BaseExtension $extension, string $method)
     {
         if (!method_exists($extension, $method)) {
             return;

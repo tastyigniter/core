@@ -7,6 +7,7 @@ use Igniter\Admin\Classes\FilterScope;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\User\Facades\AdminAuth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -18,48 +19,32 @@ class Filter extends BaseWidget
 {
     use LocationAwareWidget;
 
-    /**
-     * @var array|string Search widget configuration or partial name, optional.
-     */
-    public $search;
+    /** string Search widget configuration or partial name, optional. */
+    public ?array $search = null;
 
-    /**
-     * @var BaseWidget Reference to the search widget object.
-     */
-    protected $searchWidget;
+    /** Reference to the search widget object. */
+    protected ?SearchBox $searchWidget = null;
 
-    /**
-     * @var array Scope definition configuration.
-     */
-    public $scopes;
+    /** Scope definition configuration. */
+    public ?array $scopes = null;
 
-    /**
-     * @var string The context of this filter, scopes that do not belong
-     * to this context will not be shown.
+    /** The context of this filter, scopes that do not belong * to this context will not be shown.
      */
-    public $context;
+    public ?string $context = null;
 
-    protected $defaultAlias = 'filter';
+    protected string $defaultAlias = 'filter';
 
-    /**
-     * @var bool Determines if scope definitions have been created.
-     */
-    protected $scopesDefined = false;
+    /** Determines if scope definitions have been created. */
+    protected bool $scopesDefined = false;
 
-    /**
-     * @var array Collection of all scopes used in this filter.
-     */
-    protected $allScopes = [];
+    /** Collection of all scopes used in this filter. */
+    protected array $allScopes = [];
 
-    /**
-     * @var array Collection of all scopes models used in this filter.
-     */
-    protected $scopeModels = [];
+    /** Collection of all scopes models used in this filter. */
+    protected array $scopeModels = [];
 
-    /**
-     * @var array List of CSS classes to apply to the filter container element
-     */
-    public $cssClasses = [];
+    /** List of CSS classes to apply to the filter container element */
+    public array $cssClasses = [];
 
     public function loadAssets()
     {
@@ -79,7 +64,8 @@ class Filter extends BaseWidget
         if (isset($this->search)) {
             $searchConfig = $this->search;
             $searchConfig['alias'] = $this->alias.'Search';
-            $this->searchWidget = $this->makeWidget(\Igniter\Admin\Widgets\SearchBox::class, $searchConfig);
+            /** @var SearchBox $this ->searchWidget */
+            $this->searchWidget = $this->makeWidget(SearchBox::class, $searchConfig);
             $this->searchWidget->bindToController();
         }
     }
@@ -104,10 +90,7 @@ class Filter extends BaseWidget
         $this->vars['scopes'] = $this->getScopes();
     }
 
-    /**
-     * @return \Igniter\Admin\Widgets\SearchBox
-     */
-    public function getSearchWidget()
+    public function getSearchWidget(): SearchBox
     {
         return $this->searchWidget;
     }
@@ -115,7 +98,7 @@ class Filter extends BaseWidget
     /**
      * Renders the HTML element for a scope
      */
-    public function renderScopeElement($scope)
+    public function renderScopeElement($scope): mixed
     {
         $params = ['scope' => $scope];
 
@@ -124,7 +107,6 @@ class Filter extends BaseWidget
 
     /**
      * Update a filter scope value.
-     * @return array
      */
     public function onSubmit()
     {
@@ -145,7 +127,7 @@ class Filter extends BaseWidget
                     break;
 
                 case 'checkbox':
-                    $checked = $value == '1' ? true : false;
+                    $checked = $value == '1';
                     $this->setScopeValue($scope, $checked);
                     break;
 
@@ -195,12 +177,12 @@ class Filter extends BaseWidget
         }
     }
 
-    public function getSelectOptions($scopeName)
+    public function getSelectOptions($scopeName): array
     {
         $this->defineFilterScopes();
 
         $scope = $this->getScope($scopeName);
-        $activeKey = $scope->value ? $scope->value : null;
+        $activeKey = $scope->value ?: null;
 
         return [
             'available' => $this->getAvailableOptions($scope),
@@ -216,13 +198,8 @@ class Filter extends BaseWidget
      * Returns the available options a scope can use, either from the
      * model relation or from a supplied array. Optionally apply a search
      * constraint to the options.
-     *
-     * @param string $scope
-     * @param string $searchQuery
-     *
-     * @return array
      */
-    protected function getAvailableOptions($scope)
+    protected function getAvailableOptions(FilterScope $scope): array
     {
         if ($scope->options) {
             return $this->getOptionsFromArray($scope);
@@ -240,10 +217,8 @@ class Filter extends BaseWidget
 
     /**
      * Looks at the model for defined scope items.
-     *
-     * @return Collection
      */
-    protected function getOptionsFromModel($scope)
+    protected function getOptionsFromModel(FilterScope $scope): Collection
     {
         $model = $this->getScopeModel($scope->scopeName);
         $query = $model->newQuery();
@@ -258,10 +233,8 @@ class Filter extends BaseWidget
 
     /**
      * Look at the defined set of options for scope items, or the model method.
-     *
-     * @return array
      */
-    protected function getOptionsFromArray($scope)
+    protected function getOptionsFromArray(FilterScope $scope): array|Collection
     {
         // Load the data
         $options = $scope->options;
@@ -300,7 +273,7 @@ class Filter extends BaseWidget
 
         $this->fireSystemEvent('admin.filter.extendScopesBefore');
 
-        if (!isset($this->scopes) || !is_array($this->scopes)) {
+        if (!is_array($this->scopes)) {
             $this->scopes = [];
         }
 
@@ -357,13 +330,11 @@ class Filter extends BaseWidget
 
     /**
      * Creates a filter scope object from name and configuration.
-     *
-     * @return \Igniter\Admin\Classes\FilterScope
      */
-    protected function makeFilterScope($name, $config)
+    protected function makeFilterScope(string $name, array $config): FilterScope
     {
-        $label = $config['label'] ?? null;
-        $scopeType = $config['type'] ?? null;
+        $label = $config['label'] ?? '';
+        $scopeType = $config['type'] ?? '';
 
         $scope = new FilterScope($name, $label);
         $scope->displayAs($scopeType, $config);
@@ -380,12 +351,8 @@ class Filter extends BaseWidget
 
     /**
      * Applies all scopes to a DB query.
-     *
-     * @param \Igniter\Flame\Database\Builder $query
-     *
-     * @return \Igniter\Flame\Database\Builder
      */
-    public function applyAllScopesToQuery($query)
+    public function applyAllScopesToQuery(Builder $query): Builder
     {
         $this->defineFilterScopes();
 
@@ -398,20 +365,15 @@ class Filter extends BaseWidget
 
     /**
      * Applies a filter scope constraints to a DB query.
-     *
-     * @param string $scope
-     * @param \Igniter\Flame\Database\Builder $query
-     *
-     * @return \Igniter\Flame\Database\Builder
      */
-    public function applyScopeToQuery($scope, $query)
+    public function applyScopeToQuery(string|FilterScope $scope, Builder $query): Builder
     {
         if (is_string($scope)) {
             $scope = $this->getScope($scope);
         }
 
         if ($scope->disabled || ($scope->value !== '0' && !$scope->value)) {
-            return;
+            return $query;
         }
 
         switch ($scope->type) {
@@ -461,7 +423,7 @@ class Filter extends BaseWidget
 
                 if ($scopeConditions = $scope->conditions) {
                     // Switch scope: multiple conditions, value either 1 or 2
-                    if (is_array($scopeConditions)) {
+                    if (!is_string($scopeConditions)) {
                         $conditionNum = is_array($value) ? 0 : $value - 1;
                         [$scopeConditions] = array_slice($scopeConditions, $conditionNum);
                     }
@@ -489,7 +451,7 @@ class Filter extends BaseWidget
     // Access layer
     //
 
-    public function getScopeName($scope)
+    public function getScopeName(string|FilterScope $scope): string
     {
         if (is_string($scope)) {
             $scope = $this->getScope($scope);
@@ -500,10 +462,8 @@ class Filter extends BaseWidget
 
     /**
      * Returns a scope value for this widget instance.
-     *
-     * @return string
      */
-    public function getScopeValue($scope, $default = null)
+    public function getScopeValue(string|FilterScope $scope, mixed $default = null): mixed
     {
         if (is_string($scope)) {
             $scope = $this->getScope($scope);
@@ -517,7 +477,7 @@ class Filter extends BaseWidget
     /**
      * Sets an scope value for this widget instance.
      */
-    public function setScopeValue($scope, $value)
+    public function setScopeValue(string|FilterScope $scope, mixed $value)
     {
         if (is_string($scope)) {
             $scope = $this->getScope($scope);
@@ -531,21 +491,16 @@ class Filter extends BaseWidget
 
     /**
      * Get all the registered scopes for the instance.
-     * @return array
      */
-    public function getScopes()
+    public function getScopes(): array
     {
         return $this->allScopes;
     }
 
     /**
      * Get a specified scope object
-     *
-     * @param string $scope
-     *
-     * @return mixed
      */
-    public function getScope($scope)
+    public function getScope(string $scope): FilterScope
     {
         if (!isset($this->allScopes[$scope])) {
             throw new SystemException(sprintf(lang('igniter::admin.list.filter_missing_scope_definitions'), $scope));
@@ -556,12 +511,8 @@ class Filter extends BaseWidget
 
     /**
      * Returns the display name column for a scope.
-     *
-     * @param string $scope
-     *
-     * @return string
      */
-    public function getScopeNameFrom($scope)
+    public function getScopeNameFrom(string|FilterScope $scope): string
     {
         if (is_string($scope)) {
             $scope = $this->getScope($scope);
@@ -572,34 +523,26 @@ class Filter extends BaseWidget
 
     /**
      * Returns the active context for displaying the filter.
-     * @return string
      */
-    public function getContext()
+    public function getContext(): string
     {
         return $this->context;
     }
 
-    public function isActiveState()
+    public function isActiveState(): bool
     {
         $cookieKey = $this->getCookieKey();
 
         return (bool)@json_decode(array_get($_COOKIE, $cookieKey, ''));
     }
 
-    public function getCookieKey()
+    public function getCookieKey(): string
     {
         return 'ti_displayListFilter';
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getScopeModel($scope)
+    protected function getScopeModel($scope): mixed
     {
-        if (!isset($this->scopeModels[$scope])) {
-            return null;
-        }
-
-        return $this->scopeModels[$scope];
+        return $this->scopeModels[$scope] ?? null;
     }
 }

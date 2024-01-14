@@ -8,6 +8,7 @@ use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Widgets\Table;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -28,29 +29,23 @@ class DataTable extends BaseFormWidget
     /**
      * @var string Table size
      */
-    public $size = 'large';
+    public string $size = 'large';
 
-    /**
-     * @var bool Default sort
-     */
-    public $defaultSort = null;
+    public null|string|array $defaultSort = null;
 
-    public $searchableFields = [];
+    public array $searchableFields = [];
 
-    public $showRefreshButton = false;
+    public bool $showRefreshButton = false;
 
-    public $useAjax = false;
+    public bool $useAjax = false;
 
     //
     // Object properties
     //
 
-    protected $defaultAlias = 'datatable';
+    protected string $defaultAlias = 'datatable';
 
-    /**
-     * @var \Igniter\Admin\Widgets\Table Table widget
-     */
-    protected $table;
+    protected ?Table $table = null;
 
     public function initialize()
     {
@@ -87,7 +82,7 @@ class DataTable extends BaseFormWidget
         return $this->makePartial('datatable/datatable');
     }
 
-    public function getLoadValue()
+    public function getLoadValue(): mixed
     {
         $value = parent::getLoadValue();
         if ($value instanceof Collection) {
@@ -103,7 +98,7 @@ class DataTable extends BaseFormWidget
         return $value;
     }
 
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): mixed
     {
         $dataSource = $this->table->getDataSource();
 
@@ -121,10 +116,7 @@ class DataTable extends BaseFormWidget
         return $result ?: FormField::NO_SAVE_DATA;
     }
 
-    /**
-     * @return \Igniter\Admin\Widgets\Table   The table to be displayed.
-     */
-    public function getTable()
+    public function getTable(): Table
     {
         return $this->table;
     }
@@ -140,14 +132,14 @@ class DataTable extends BaseFormWidget
         $this->vars['size'] = $this->size;
     }
 
-    public function getDataTableRecords($offset, $limit, $search)
+    public function getDataTableRecords(int $offset, int $limit, string $search): LengthAwarePaginator
     {
         $relationObject = $this->getRelationObject();
         $query = $relationObject->newQuery();
 
         $this->locationApplyScope($query);
 
-        if (strlen($search)) {
+        if ($search) {
             $query->search($search, $this->searchableFields);
         }
 
@@ -166,17 +158,16 @@ class DataTable extends BaseFormWidget
      * to obtain values for autocomplete field types.
      *
      * @param string $field Table field name
-     * @param string $data Data for the entire table
+     * @param array $data Data for the entire table
      *
-     * @return array
      * @throws \Exception
      */
-    public function getDataTableOptions($field, $data)
+    public function getDataTableOptions(string $field, array $data): array
     {
         $methodName = 'get'.studly_case($this->fieldName).'DataTableOptions';
 
         if (!$this->model->methodExists($methodName) && !$this->model->methodExists('getDataTableOptions')) {
-            throw new SystemException(sprintf(lang('igniter::admin.alert_missing_method'), 'getDataTableOptions', get_class($this->model)));
+            throw new SystemException(sprintf(lang('igniter::admin.alert_missing_method'), 'getDataTableOptions', $this->model::class));
         }
 
         if ($this->model->methodExists($methodName)) {
@@ -185,11 +176,7 @@ class DataTable extends BaseFormWidget
             $result = $this->model->getDataTableOptions($this->fieldName, $field, $data);
         }
 
-        if (!is_array($result)) {
-            $result = [];
-        }
-
-        return $result;
+        return is_array($result) ? $result : [];
     }
 
     /**
@@ -208,7 +195,7 @@ class DataTable extends BaseFormWidget
         $dataSource->initRecords($records);
     }
 
-    protected function makeTableWidget()
+    protected function makeTableWidget(): Table
     {
         $config = $this->config;
 
@@ -216,7 +203,8 @@ class DataTable extends BaseFormWidget
         $config['alias'] = studly_case(name_to_id($this->fieldName)).'datatable';
         $config['fieldName'] = $this->fieldName;
 
-        $table = new Table($this->getController(), $config);
+        /** @var Table $table */
+        $table = $this->makeWidget(Table::class, $config);
 
         $table->bindEvent('table.getRecords', [$this, 'getDataTableRecords']);
         $table->bindEvent('table.getDropdownOptions', [$this, 'getDataTableOptions']);

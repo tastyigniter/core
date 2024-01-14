@@ -4,25 +4,21 @@ namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Translation\FileLoader;
 use Igniter\System\Models\Language;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use ZipArchive;
 
 class LanguageManager
 {
-    /**
-     * @var \Igniter\Flame\Translation\FileLoader
-     */
-    protected $loader;
+    protected FileLoader $loader;
 
-    /**
-     * @var \Igniter\Flame\Filesystem\Filesystem
-     */
-    protected $files;
+    protected string $langPath;
 
-    protected $langPath;
+    protected HubManager $hubManager;
 
     /**
      * @var array of languages and their directory paths.
@@ -32,13 +28,12 @@ class LanguageManager
     public function initialize()
     {
         $this->loader = App::make('translation.loader');
-        $this->files = App::make('files');
         $this->langPath = App::langPath();
 
         $this->hubManager = resolve(HubManager::class);
     }
 
-    public function namespaces()
+    public function namespaces(): array
     {
         $namespaces = $this->loader->namespaces();
         asort($namespaces);
@@ -46,16 +41,15 @@ class LanguageManager
         return $namespaces;
     }
 
-    public function listLanguages()
+    public function listLanguages(): Collection
     {
         return Language::whereIsEnabled()->get();
     }
 
     /**
      * Create a Directory Map of all themes
-     * @return array A list of all themes in the system.
      */
-    public function paths()
+    public function paths(): array
     {
         if ($this->paths) {
             return $this->paths;
@@ -67,14 +61,10 @@ class LanguageManager
             return $paths;
         }
 
-        //        $directories = array_merge([Igniter::themesPath()], self::$directories);
-        //        foreach ($directories as $directory) {
         foreach (File::directories($directory) as $path) {
             $langDir = basename($path);
             $paths[$langDir] = $path;
         }
-
-        //        }
 
         return $this->paths = $paths;
     }
@@ -83,7 +73,7 @@ class LanguageManager
     // Translations
     //
 
-    public function listLocaleFiles($locale)
+    public function listLocaleFiles(string $locale): array
     {
         $result = [];
         $namespaces = $this->loader->namespaces();
@@ -101,7 +91,7 @@ class LanguageManager
         return $result;
     }
 
-    public function listTranslations($sourceLines, $translationLines, $options = [])
+    public function listTranslations(array $sourceLines, array $translationLines, array $options = []): array
     {
         $file = array_get($options, 'file');
         $stringFilter = array_get($options, 'stringFilter');
@@ -137,7 +127,7 @@ class LanguageManager
         return $result;
     }
 
-    public function searchTranslations($translations, $term = null)
+    public function searchTranslations(array $translations, ?string $term = null): array
     {
         if (!strlen($term)) {
             return $translations;
@@ -160,7 +150,7 @@ class LanguageManager
         return $result;
     }
 
-    public function paginateTranslations($translations, $perPage = 50)
+    public function paginateTranslations(array $translations, int $perPage = 50): LengthAwarePaginator
     {
         $page = Paginator::resolveCurrentPage();
 
@@ -179,7 +169,7 @@ class LanguageManager
         ));
     }
 
-    public function canUpdate(Language $language)
+    public function canUpdate(Language $language): bool
     {
         return !in_array($language->code, ['en', 'en_US', 'en_GB']) && $language->can_update;
     }
@@ -188,7 +178,7 @@ class LanguageManager
     //
     //
 
-    public function searchLanguages($term)
+    public function searchLanguages(string $term): array
     {
         $items = $this->getHubManager()->listLanguages([
             'search' => $term,
@@ -203,14 +193,14 @@ class LanguageManager
         return $items;
     }
 
-    public function applyLanguagePack($locale, $build = null)
+    public function applyLanguagePack(string $locale, ?string $build = null): array
     {
         $response = $this->getHubManager()->applyLanguagePack($locale, $build);
 
         return array_get($response, 'data', []);
     }
 
-    public function downloadPack($meta)
+    public function downloadPack(array $meta): array
     {
         $packCode = array_get($meta, 'code');
         $packHash = array_get($meta, 'hash');
@@ -226,7 +216,7 @@ class LanguageManager
         ]);
     }
 
-    public function extractPack($meta)
+    public function extractPack(array $meta): bool
     {
         $packCode = array_get($meta, 'code');
 
@@ -248,7 +238,7 @@ class LanguageManager
         throw new SystemException('Failed to extract '.$packCode.' archive file');
     }
 
-    public function installPack($item)
+    public function installPack(array $item): bool
     {
         $model = Language::firstOrCreate(['code' => $item['code']]);
         $model->name = $item['name'];
@@ -258,17 +248,14 @@ class LanguageManager
         return true;
     }
 
-    public function getFilePath($packCode)
+    public function getFilePath(string $packCode): string
     {
         $fileName = md5($packCode).'.zip';
 
-        return storage_path("temp/{$fileName}");
+        return storage_path("temp/$fileName");
     }
 
-    /**
-     * @return \Igniter\System\Classes\HubManager
-     */
-    protected function getHubManager()
+    protected function getHubManager(): HubManager
     {
         return $this->hubManager;
     }

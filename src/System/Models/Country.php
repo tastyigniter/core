@@ -19,7 +19,7 @@ class Country extends Model
     use Sortable;
     use Switchable;
 
-    const SORT_ORDER = 'priority';
+    public const SORT_ORDER = 'priority';
 
     /**
      * @var string The database table name

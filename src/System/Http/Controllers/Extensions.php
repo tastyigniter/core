@@ -3,10 +3,16 @@
 namespace Igniter\System\Http\Controllers;
 
 use Exception;
+use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\WidgetMaker;
+use Igniter\Admin\Widgets\Form;
+use Igniter\Admin\Widgets\Toolbar;
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\System\Actions\SettingsModel;
+use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
@@ -18,11 +24,11 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     use ManagesUpdates;
     use WidgetMaker;
 
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\System\Models\Extension::class,
             'title' => 'lang:igniter::system.extensions.text_title',
@@ -34,17 +40,11 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    protected $requiredPermissions = ['Admin.Extensions', 'edit' => ['Site.Settings']];
+    protected null|string|array $requiredPermissions = ['Admin.Extensions', 'edit' => ['Site.Settings']];
 
-    /**
-     * @var \Igniter\Admin\Widgets\Form
-     */
-    public $formWidget;
+    public ?Form $formWidget = null;
 
-    /**
-     * @var \Igniter\Admin\Widgets\Toolbar
-     */
-    public $toolbarWidget;
+    public ?Toolbar $toolbarWidget = null;
 
     public function __construct()
     {
@@ -62,7 +62,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function edit($action, $vendor = null, $extension = null, $context = null)
+    public function edit($action, ?string $vendor = null, ?string $extension = null, ?string $context = null)
     {
         AdminMenu::setContext('settings', 'system');
         AdminMenu::setPreviousUrl('settings');
@@ -89,7 +89,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->initFormWidget($model, $action);
     }
 
-    public function delete($context, $extensionCode = null)
+    public function delete(string $context, ?string $extensionCode = null)
     {
         $pageTitle = lang('igniter::system.extensions.text_delete_title');
         Template::setTitle($pageTitle);
@@ -123,7 +123,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->vars['extensionData'] = $this->extensionHasMigrations($extensionCode);
     }
 
-    public function index_onLoadReadme($context = null)
+    public function index_onLoadReadme(?string $context = null)
     {
         if (!$recordId = trim(post('recordId'))) {
             throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
@@ -134,7 +134,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         ]);
     }
 
-    public function index_onInstall($context = null)
+    public function index_onInstall(?string $context = null)
     {
         if (!$extensionCode = trim(post('code'))) {
             throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
@@ -148,7 +148,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
         if ($manager->installExtension($extensionCode)) {
             $title = array_get($extension->extensionMeta(), 'name');
-            flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension {$title} installed "));
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension $title installed "));
         } else {
             flash()->danger(lang('igniter::admin.alert_error_try_again'));
         }
@@ -156,7 +156,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         return $this->redirectBack();
     }
 
-    public function index_onUninstall($context = null)
+    public function index_onUninstall(?string $context = null)
     {
         if (!$extensionCode = trim(post('code'))) {
             throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
@@ -167,7 +167,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
         if ($manager->uninstallExtension($extensionCode)) {
             $title = $extension ? array_get($extension->extensionMeta(), 'name') : $extensionCode;
-            flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension {$title} uninstalled "));
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension $title uninstalled "));
         } else {
             flash()->danger(lang('igniter::admin.alert_error_try_again'));
         }
@@ -175,7 +175,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         return $this->redirectBack();
     }
 
-    public function edit_onSave($action, $vendor = null, $extension = null, $context = null)
+    public function edit_onSave(string $action, ?string $vendor = null, ?string $extension = null, ?string $context = null)
     {
         throw_if(!strlen($vendor) || !strlen($extension),
             FlashException::error(lang('igniter::system.extensions.alert_setting_missing_id'))
@@ -198,6 +198,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
             return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
         }
 
+        /** @var SettingsModel $model */
         $saved = $model->set($this->formWidget->getSaveData());
         if ($saved) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($settingItem->label).' settings updated '));
@@ -212,7 +213,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         return $this->refresh();
     }
 
-    public function delete_onDelete($context = null, $extensionCode = null)
+    public function delete_onDelete(?string $context = null, ?string $extensionCode = null)
     {
         $manager = resolve(ExtensionManager::class);
         if (!$extension = $manager->findExtension($extensionCode)) {
@@ -222,7 +223,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $purgeData = post('delete_data') == 1;
         if ($manager->deleteExtension($extensionCode, $purgeData)) {
             $title = array_get($extension->extensionMeta(), 'name');
-            flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension {$title} deleted "));
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension $title deleted "));
         } else {
             flash()->danger(lang('igniter::admin.alert_error_try_again'));
         }
@@ -230,7 +231,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         return $this->redirect('extensions');
     }
 
-    public function listOverrideColumnValue($record, $column, $alias = null)
+    public function listOverrideColumnValue(Extension $record, ListColumn $column, ?string $alias = null): ?array
     {
         if ($column->type != 'button') {
             return null;
@@ -242,9 +243,11 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
             return $attributes;
         }
+
+        return null;
     }
 
-    protected function initFormWidget($model, $context = null)
+    protected function initFormWidget(Model $model, ?string $context = null)
     {
         $config = $model->getFieldConfig();
 
@@ -254,17 +257,18 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $modelConfig['context'] = $context;
 
         // Form Widget with extensibility
-        $this->formWidget = $this->makeWidget(\Igniter\Admin\Widgets\Form::class, $modelConfig);
+        /** @var Form $this ->formWidget */
+        $this->formWidget = $this->makeWidget(Form::class, $modelConfig);
         $this->formWidget->bindToController();
 
         // Prep the optional toolbar widget
-        if (isset($config['toolbar']) && isset($this->widgets['toolbar'])) {
+        if (isset($config['toolbar'], $this->widgets['toolbar'])) {
             $this->toolbarWidget = $this->widgets['toolbar'];
             $this->toolbarWidget->reInitialize($config['toolbar']);
         }
     }
 
-    protected function createModel($class)
+    protected function createModel(string $class): Model
     {
         throw_unless(strlen($class),
             FlashException::error(lang('igniter::system.extensions.alert_setting_model_missing'))
@@ -277,7 +281,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         return new $class;
     }
 
-    protected function formFindModelObject($settingItem)
+    protected function formFindModelObject($settingItem): Model
     {
         $model = $this->createModel($settingItem->model);
 
@@ -291,10 +295,10 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         return $result;
     }
 
-    protected function formValidate($model, $form)
+    protected function formValidate(Model $model, Form $form): array|false|null
     {
         if (!isset($form->config['rules'])) {
-            return;
+            return null;
         }
 
         return $this->validatePasses($form->getSaveData(),
@@ -304,7 +308,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         );
     }
 
-    protected function checkDependencies($extension)
+    protected function checkDependencies(BaseExtension $extension): string
     {
         $feedback = null;
         $extensionManager = resolve(ExtensionManager::class);
@@ -312,24 +316,24 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         foreach ($required as $require) {
             $requireExtension = $extensionManager->findExtension($require);
             if (!$requireExtension) {
-                $feedback .= "Required extension [{$require}] was not found.\n";
+                $feedback .= "Required extension [$require] was not found.\n";
             }
 
             if ($extensionManager->isDisabled($require)) {
-                $feedback .= "Required extension [{$require}] must be enabled to proceed.\n";
+                $feedback .= "Required extension [$require] must be enabled to proceed.\n";
             }
         }
 
         return $feedback;
     }
 
-    protected function extensionHasMigrations($extension)
+    protected function extensionHasMigrations(string $extensionCode): bool
     {
         try {
             $extensionManager = resolve(ExtensionManager::class);
 
-            return count($extensionManager->files($extension, 'database/migrations')) > 0;
-        } catch (Exception $ex) {
+            return count($extensionManager->files($extensionCode, 'database/migrations')) > 0;
+        } catch (Exception) {
             return false;
         }
     }

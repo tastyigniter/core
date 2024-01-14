@@ -17,16 +17,13 @@ class Page extends Model
     use Concerns\HasComponents;
     use Concerns\HasViewBag;
 
-    /**
-     * @var string The directory name associated with the model, eg: _pages.
-     */
+    /** The directory name associated with the model, eg: _pages. */
     public const DIR_NAME = '_pages';
 
     /**
      * Helper that makes a URL for a page in the active theme.
-     * @return string
      */
-    public static function url($page, array $params = [])
+    public static function url(string $page, array $params = []): string
     {
         $controller = MainController::getController() ?: new MainController;
 
@@ -35,16 +32,15 @@ class Page extends Model
 
     /**
      * Handler for the pages.menuitem.getTypeInfo event.
-     * @return array|void
      */
-    public static function getMenuTypeInfo(string $type)
+    public static function getMenuTypeInfo(string $type): ?array
     {
         if ($type !== 'theme-page') {
-            return;
+            return null;
         }
 
         if (!$themeCode = resolve(ThemeManager::class)->getActiveThemeCode()) {
-            return;
+            return null;
         }
 
         $references = self::getDropdownOptions($themeCode);
@@ -56,12 +52,11 @@ class Page extends Model
 
     /**
      * Handler for the pages.menuitem.resolveItem event.
-     * @return array|void
      */
-    public static function resolveMenuItem($item, string $url, Theme $theme)
+    public static function resolveMenuItem(mixed $item, string $url, Theme $theme): ?array
     {
         if (!$item->reference) {
-            return;
+            return null;
         }
 
         $controller = MainController::getController() ?: new MainController;
@@ -76,15 +71,13 @@ class Page extends Model
     /**
      * Returns name of a PHP class to use as parent
      * for the PHP class created for the template's PHP section.
-     *
-     * @return mixed Returns the class name or null.
      */
-    public function getCodeClassParent()
+    public function getCodeClassParent(): string
     {
         return \Igniter\Main\Template\Code\PageCode::class;
     }
 
-    public static function resolveRouteBinding($value, $field = null)
+    public static function resolveRouteBinding(string $value, ?string $field = null): mixed
     {
         if (($page = event('main.page.beforeRoute', [$value, $field], true)) !== null) {
             return $page;

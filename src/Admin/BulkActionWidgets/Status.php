@@ -3,6 +3,7 @@
 namespace Igniter\Admin\BulkActionWidgets;
 
 use Igniter\Admin\Classes\BaseBulkActionWidget;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Status extends BaseBulkActionWidget
@@ -16,7 +17,7 @@ class Status extends BaseBulkActionWidget
         ]);
     }
 
-    public function handleAction($requestData, $records)
+    public function handleAction(array $requestData, Collection $records)
     {
         $code = array_get($requestData, 'code');
         [$actionCode, $statusCode] = explode('.', $code, 2);

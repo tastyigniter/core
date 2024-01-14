@@ -71,12 +71,8 @@ class IgniterPasswd extends Command
      * Prompt the user for input but hide the answer from the console.
      *
      * Also allows for a default to be specified.
-     *
-     * @param string $question
-     * @param bool $fallback
-     * @return string
      */
-    protected function optionalSecret($question)
+    protected function optionalSecret(string $question): mixed
     {
         $question = new Question($question, false);
 
@@ -87,10 +83,8 @@ class IgniterPasswd extends Command
 
     /**
      * Generate a password and flag it as an automatically-generated password.
-     *
-     * @return string
      */
-    protected function generatePassword()
+    protected function generatePassword(): string
     {
         $this->generatedPassword = true;
 

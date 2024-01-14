@@ -6,7 +6,7 @@ use Igniter\System\Classes\FormRequest;
 
 class CountryRequest extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'country_name' => lang('igniter::admin.label_name'),
@@ -18,7 +18,7 @@ class CountryRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'country_name' => ['required', 'string', 'between:2,255'],

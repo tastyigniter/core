@@ -2,6 +2,8 @@
 
 namespace Igniter\Admin\Classes;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Form Widget base class
  * Widgets used specifically for forms
@@ -14,49 +16,26 @@ class BaseFormWidget extends BaseWidget
     // Configurable properties
     //
 
-    /**
-     * @var \Igniter\Flame\Database\Model Form model object.
-     */
-    public $model;
+    public ?Model $model = null;
 
-    /**
-     * @var array Dataset containing field values, if none supplied model should be used.
-     */
-    public $data;
+    /** Dataset containing field values, if none supplied model should be used. */
+    public mixed $data = null;
 
-    /**
-     * @var string Active session key, used for editing forms and deferred bindings.
-     */
-    public $sessionKey;
+    /** Render this form with uneditable preview data. */
+    public bool $previewMode = false;
 
-    /**
-     * @var bool Render this form with uneditable preview data.
-     */
-    public $previewMode = false;
-
-    /**
-     * @var bool Determines if this form field should display comments and labels.
-     */
-    public $showLabels = true;
+    /** Determines if this form field should display comments and labels. */
+    public bool $showLabels = true;
 
     //
     // Object properties
     //
 
-    /**
-     * @var \Igniter\Admin\Classes\FormField Object containing general form field information.
-     */
-    protected $formField;
+    protected FormField $formField;
 
-    /**
-     * @var string Form field name.
-     */
-    protected $fieldName;
+    protected string $fieldName;
 
-    /**
-     * @var string Model attribute to get/set value from.
-     */
-    protected $valueFrom;
+    protected string $valueFrom;
 
     /**
      * Constructor
@@ -65,7 +44,7 @@ class BaseFormWidget extends BaseWidget
      * @param $formField \Igniter\Admin\Classes\FormField Object containing general form field information.
      * @param $configuration array Configuration the relates to this widget.
      */
-    public function __construct($controller, $formField, $configuration = [])
+    public function __construct(AdminController $controller, FormField $formField, array $configuration = [])
     {
         $this->formField = $formField;
         $this->fieldName = $formField->fieldName;
@@ -84,12 +63,8 @@ class BaseFormWidget extends BaseWidget
         parent::__construct($controller, $configuration);
     }
 
-    /**
-     * Returns a unique ID for this widget. Useful in creating HTML markup.
-     *
-     * @return string
-     */
-    public function getId($suffix = null)
+    /** Returns a unique ID for this widget. Useful in creating HTML markup. */
+    public function getId(?string $suffix = null): string
     {
         $id = parent::getId($suffix);
         $id .= '-'.$this->fieldName;
@@ -100,12 +75,8 @@ class BaseFormWidget extends BaseWidget
     /**
      * Process the postback value for this widget. If the value is omitted from
      * postback data, it will be NULL, otherwise it will be an empty string.
-     *
-     * @param mixed $value The existing value for this widget.
-     *
-     * @return string The new value for this widget.
      */
-    public function getSaveValue($value)
+    public function getSaveValue(mixed $value): mixed
     {
         return $value;
     }
@@ -113,9 +84,8 @@ class BaseFormWidget extends BaseWidget
     /**
      * Returns the value for this form field,
      * supports nesting via HTML array.
-     * @return string
      */
-    public function getLoadValue()
+    public function getLoadValue(): mixed
     {
         if ($this->formField->value !== null) {
             return $this->formField->value;

@@ -2,30 +2,27 @@
 
 namespace Igniter\Admin\Traits;
 
-use Igniter\Flame\Database\Model;
+use Igniter\Admin\Classes\FilterScope;
+use Igniter\Admin\Classes\ListColumn;
+use Igniter\Admin\Widgets\Filter;
+use Igniter\Admin\Widgets\Lists;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 trait ListExtendable
 {
     /**
      * Called after the list columns are defined.
-     *
-     * @param \Igniter\Admin\Widgets\Lists $host The hosting list widget
-     *
-     * @return void
      */
-    public function listExtendColumns($host)
+    public function listExtendColumns(Lists $host)
     {
     }
 
     /**
      * Controller override: Extend supplied model
-     *
-     * @param Model $model
-     *
-     * @return\Igniter\Flame\Database\Model
      */
-    public function listExtendModel($model, $alias = null)
+    public function listExtendModel(Model $model, ?string $alias = null): Model
     {
         return $model;
     }
@@ -33,10 +30,8 @@ trait ListExtendable
     /**
      * Controller override: Extend the query used for populating the list
      * before the default query is processed.
-     *
-     * @param \Igniter\Flame\Database\Builder $query
      */
-    public function listExtendQueryBefore($query, $alias = null)
+    public function listExtendQueryBefore(Builder $query, ?string $alias = null)
     {
     }
 
@@ -46,7 +41,7 @@ trait ListExtendable
      *
      * @param \Igniter\Flame\Database\Builder $query
      */
-    public function listExtendQuery($query, $alias = null)
+    public function listExtendQuery(Builder $query, ?string $alias = null)
     {
     }
 
@@ -55,7 +50,7 @@ trait ListExtendable
      * after the query is processed.
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection $records
      */
-    public function listExtendRecords($records, $alias = null)
+    public function listExtendRecords(mixed $records, ?string $alias = null)
     {
     }
 
@@ -66,72 +61,50 @@ trait ListExtendable
      * @param \Igniter\Flame\Database\Builder $query
      * @param array $scope
      */
-    public function listFilterExtendQuery($query, $scope)
+    public function listFilterExtendQuery(Builder $query, FilterScope $scope)
     {
     }
 
-    /**
-     * Called before the filter scopes are defined.
-     *
-     * @param \Igniter\Admin\Widgets\Filter $host The hosting filter widget
-     *
-     * @return void
-     */
-    public function listFilterExtendScopesBefore($host)
+    /** Called before the filter scopes are defined. */
+    public function listFilterExtendScopesBefore(Filter $host)
     {
     }
 
     /**
      * Called after the filter scopes are defined.
-     *
-     * @param \Igniter\Admin\Widgets\Filter $host The hosting filter widget
-     *
-     * @return void
      */
-    public function listFilterExtendScopes($host, $scopes)
+    public function listFilterExtendScopes(Filter $host, array $scopes)
     {
     }
 
     /**
      * Replace a table column value (<td>...</td>)
-     *
-     * @param Model $record The populated model used for the column
-     * @param string $column The column to override
-     * @param string $alias List alias (optional)
-     *
-     * @return string HTML view
      */
-    public function listOverrideColumnValue($record, $column, $alias = null)
+    public function listOverrideColumnValue(Model $record, ListColumn $column, ?string $alias = null)
     {
     }
 
     /**
      * Replace the entire table header contents (<th>...</th>) with custom HTML
-     *
-     * @param string $columnName The column name to override
-     * @param string $alias List alias (optional)
-     *
-     * @return string HTML view
      */
-    public function listOverrideHeaderValue($columnName, $alias = null)
+    public function listOverrideHeaderValue(ListColumn $column, ?string $alias = null)
     {
     }
 
     /**
      * Static helper for extending list columns.
      *
-     * @param callable $callback
-     *
      * @return void
      */
-    public static function extendListColumns($callback)
+    public static function extendListColumns(callable $callback)
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.list.extendColumns', function ($widget) use ($calledClass, $callback) {
             if (!is_a($widget->getController(), $calledClass)) {
                 return;
             }
-            call_user_func_array($callback, [$widget, $widget->model]);
+
+            $callback($widget, $widget->model);
         });
     }
 }
