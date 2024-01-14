@@ -3,6 +3,7 @@
 namespace Tests\Admin\Classes;
 
 use Tests\Fixtures\Controllers\TestController;
+
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
