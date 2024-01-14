@@ -38,6 +38,7 @@
     "symfony/yaml": "~6.0",
     "tastyigniter/ti-ext-cart": "v4.x-dev as 4.0",
     "tastyigniter/ti-ext-local": "v4.x-dev as 4.0",
+    "tastyigniter/ti-ext-reservation": "v4.x-dev as 4.0",
     "tastyigniter/ti-ext-user": "v4.x-dev as 4.0",
     "league/glide": "~2.2"
   },
@@ -46,7 +47,7 @@
     "laravel/pint": "^1.2",
     "mockery/mockery": "^1.5.1",
     "nunomaduro/collision": "^6.3",
-    "nunomaduro/larastan": "^2.4.0",
+    "larastan/larastan": "^2.4.0",
     "orchestra/testbench": "^8.0",
     "pestphp/pest": "^1.21",
     "pestphp/pest-plugin-laravel": "^1.2",

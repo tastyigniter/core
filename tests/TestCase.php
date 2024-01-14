@@ -4,6 +4,7 @@ namespace Tests;
 
 use Igniter\Flame\Igniter;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\System\Classes\PackageManifest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
@@ -38,6 +39,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function resolveApplicationConfiguration($app)
     {
         parent::resolveApplicationConfiguration($app);
+
+        $app->afterResolving(PackageManifest::class, function ($instance) {
+            $instance->vendorPath = __DIR__.'/../vendor';
+        });
 
         $configs = ['currency', 'geocoder', 'system'];
 

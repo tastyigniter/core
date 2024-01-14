@@ -5,12 +5,14 @@ namespace Tests;
 use Igniter\Flame\Igniter;
 
 it('checks for admin routes', function () {
-    $this->get('/admin');
+    $adminUri = Igniter::adminUri();
+
+    $this->get('/'.$adminUri);
     expect(Igniter::runningInAdmin())->toBeTrue();
 
-    $this->get('/admin-login');
+    $this->get('/'.$adminUri.'-login');
     expect(Igniter::runningInAdmin())->toBeFalse();
 
-    $this->get('/admin/login');
+    $this->get('/'.$adminUri.'/login');
     expect(Igniter::runningInAdmin())->toBeTrue();
 });

@@ -10,8 +10,10 @@ it('has defined paths to locate widget partials', function () {
 
     $widget = $controller->makeWidget(TestWidget::class);
 
-    expect('tests.fixtures::_partials.widgets/testwidget')->toBeIn($widget->partialPath);
-    expect('tests.fixtures::_partials.widgets')->toBeIn($widget->partialPath);
+    expect('tests.fixtures::_partials.widgets/testwidget')
+        ->toBeIn($widget->partialPath)
+        ->and('tests.fixtures::_partials.widgets')
+        ->toBeIn($widget->partialPath);
 });
 
 it('has defined paths to locate widget asset files', function () {

@@ -82,9 +82,9 @@ it('can find asset file', function () {
 });
 
 it('runs the requested controller action', function () {
-    get('admin/login')->assertStatus(200);
-})->skip();
+    $this->get('admin/login')->assertStatus(200);
+});
 
 it('runs the requested controller handler', function () {
-    post('admin/login', ['_handler' => 'onLogin'])->assertSessionHas('admin_errors');
-})->skip();
+    $this->post('admin/login', ['_handler' => 'onLogin'])->assertSessionHas('admin_errors');
+});

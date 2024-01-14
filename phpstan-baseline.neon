@@ -286,42 +286,7 @@ parameters:
 			path: src/Admin/Classes/ToolbarButton.php
 
 		-
-			message: "#^Class Igniter\\\\Reservation\\\\Models\\\\Reservation not found\\.$#"
-			count: 1
-			path: src/Admin/DashboardWidgets/Charts.php
-
-		-
-			message: "#^Call to static method query\\(\\) on an unknown class Igniter\\\\Reservation\\\\Models\\\\Reservation\\.$#"
-			count: 3
-			path: src/Admin/DashboardWidgets/Statistics.php
-
-		-
-			message: "#^Call to static method with\\(\\) on an unknown class Igniter\\\\Reservation\\\\Models\\\\Reservation\\.$#"
-			count: 1
-			path: src/Admin/DashboardWidgets/Statistics.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$notify\\.$#"
-			count: 1
-			path: src/Admin/EventSubscribers/StatusUpdatedSubscriber.php
-
-		-
-			message: "#^Call to method mailSend\\(\\) on an unknown class Igniter\\\\Reservation\\\\Models\\\\Reservation\\.$#"
-			count: 1
-			path: src/Admin/EventSubscribers/StatusUpdatedSubscriber.php
-
-		-
-			message: "#^Call to method reloadRelations\\(\\) on an unknown class Igniter\\\\Reservation\\\\Models\\\\Reservation\\.$#"
-			count: 1
-			path: src/Admin/EventSubscribers/StatusUpdatedSubscriber.php
-
-		-
-			message: "#^Class Igniter\\\\Reservation\\\\Models\\\\Reservation not found\\.$#"
-			count: 1
-			path: src/Admin/EventSubscribers/StatusUpdatedSubscriber.php
-
-		-
-			message: "#^Parameter \\$record of method Igniter\\\\Admin\\\\EventSubscribers\\\\StatusUpdatedSubscriber\\:\\:handleStatusAdded\\(\\) has invalid type Igniter\\\\Reservation\\\\Models\\\\Reservation\\.$#"
 			count: 1
 			path: src/Admin/EventSubscribers/StatusUpdatedSubscriber.php
 
