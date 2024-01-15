@@ -27,7 +27,7 @@ class Filesystem extends AbstractDriver
     /**
      * {@inheritdoc}
      */
-    public function create(array $params)
+    public function create()
     {
         // Get blacklist path
         $path = $this->config('path');
@@ -60,7 +60,7 @@ class Filesystem extends AbstractDriver
     /**
      * {@inheritdoc}
      */
-    public function all()
+    public function all(): array
     {
         // Get blacklist path
         $path = $this->config('path');
@@ -76,7 +76,7 @@ class Filesystem extends AbstractDriver
     /**
      * {@inheritdoc}
      */
-    public function find($code, $active = 1)
+    public function find(string $code, int $active = 1): mixed
     {
         $currency = Arr::get($this->all(), $code);
 

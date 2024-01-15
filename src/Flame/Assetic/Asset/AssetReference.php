@@ -21,20 +21,14 @@ use Igniter\Flame\Assetic\Filter\FilterInterface;
  */
 class AssetReference implements AssetInterface
 {
-    private $am;
+    private array $filters = [];
 
-    private $name;
+    private bool $clone = false;
 
-    private $filters = [];
+    private ?AssetInterface $asset = null;
 
-    private $clone = false;
-
-    private $asset;
-
-    public function __construct(AssetManager $am, $name)
+    public function __construct(private readonly AssetManager $am, private readonly string $name)
     {
-        $this->am = $am;
-        $this->name = $name;
     }
 
     public function __clone()
@@ -51,7 +45,7 @@ class AssetReference implements AssetInterface
         $this->filters[] = $filter;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         $this->flushFilters();
 
@@ -71,14 +65,14 @@ class AssetReference implements AssetInterface
         return $this->callAsset(__FUNCTION__, [$additionalFilter]);
     }
 
-    public function dump(?FilterInterface $additionalFilter = null)
+    public function dump(FilterInterface $additionalFilter = null): string
     {
         $this->flushFilters();
 
         return $this->callAsset(__FUNCTION__, [$additionalFilter]);
     }
 
-    public function getContent()
+    public function getContent(): string
     {
         return $this->callAsset(__FUNCTION__);
     }
@@ -88,42 +82,42 @@ class AssetReference implements AssetInterface
         $this->callAsset(__FUNCTION__, [$content]);
     }
 
-    public function getSourceRoot()
+    public function getSourceRoot(): ?string
     {
         return $this->callAsset(__FUNCTION__);
     }
 
-    public function getSourcePath()
+    public function getSourcePath(): ?string
     {
         return $this->callAsset(__FUNCTION__);
     }
 
-    public function getSourceDirectory()
+    public function getSourceDirectory(): ?string
     {
         return $this->callAsset(__FUNCTION__);
     }
 
-    public function getTargetPath()
+    public function getTargetPath(): ?string
     {
         return $this->callAsset(__FUNCTION__);
     }
 
-    public function setTargetPath($targetPath)
+    public function setTargetPath(string $targetPath)
     {
         $this->callAsset(__FUNCTION__, [$targetPath]);
     }
 
-    public function getLastModified()
+    public function getLastModified(): ?int
     {
         return $this->callAsset(__FUNCTION__);
     }
 
-    public function getVars()
+    public function getVars(): array
     {
         return $this->callAsset(__FUNCTION__);
     }
 
-    public function getValues()
+    public function getValues(): array
     {
         return $this->callAsset(__FUNCTION__);
     }
@@ -135,7 +129,7 @@ class AssetReference implements AssetInterface
 
     // private
 
-    private function callAsset($method, $arguments = [])
+    private function callAsset($method, $arguments = []): mixed
     {
         $asset = $this->resolve();
 
@@ -151,7 +145,7 @@ class AssetReference implements AssetInterface
         }
     }
 
-    private function resolve()
+    private function resolve(): AssetInterface
     {
         if ($this->asset) {
             return $this->asset;

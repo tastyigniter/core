@@ -23,10 +23,6 @@ use RecursiveFilterIterator;
  */
 class AssetCollectionFilterIterator extends \RecursiveFilterIterator
 {
-    private $visited;
-
-    private $sources;
-
     /**
      * Constructor.
      *
@@ -34,12 +30,9 @@ class AssetCollectionFilterIterator extends \RecursiveFilterIterator
      * @param array $visited An array of visited asset objects
      * @param array $sources An array of visited source strings
      */
-    public function __construct(AssetCollectionIterator $iterator, array $visited = [], array $sources = [])
+    public function __construct(AssetCollectionIterator $iterator, private array $visited = [], private array $sources = [])
     {
         parent::__construct($iterator);
-
-        $this->visited = $visited;
-        $this->sources = $sources;
     }
 
     /**

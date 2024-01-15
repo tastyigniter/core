@@ -28,7 +28,7 @@ class Database extends AbstractDriver
     /**
      * {@inheritdoc}
      */
-    public function create(array $params)
+    public function create()
     {
         // Ensure the currency doesn't already exist
         if ($this->find($params['code'], null) !== null) {
@@ -55,7 +55,7 @@ class Database extends AbstractDriver
     /**
      * {@inheritdoc}
      */
-    public function all()
+    public function all(): array
     {
         $collection = new Collection($this->database->table($this->config('table'))->get());
 
@@ -83,7 +83,7 @@ class Database extends AbstractDriver
     /**
      * {@inheritdoc}
      */
-    public function find($code, $active = 1)
+    public function find(string $code, int $active = 1): mixed
     {
         $query = $this->database->table($this->config('table'))
             ->where('currency_code', strtoupper($code));

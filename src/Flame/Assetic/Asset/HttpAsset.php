@@ -31,14 +31,15 @@ class HttpAsset extends BaseAsset
      * @param string $sourceUrl The source URL
      * @param array $filters An array of filters
      * @param bool $ignoreErrors
+     * @param array $vars
      *
      * @throws \InvalidArgumentException If the first argument is not an URL
      */
-    public function __construct($sourceUrl, $filters = [], $ignoreErrors = false, array $vars = [])
+    public function __construct(string $sourceUrl, array $filters = [], bool $ignoreErrors = false, array $vars = [])
     {
-        if (strpos($sourceUrl, '//') === 0) {
+        if (str_starts_with($sourceUrl, '//')) {
             $sourceUrl = 'http:'.$sourceUrl;
-        } elseif (strpos($sourceUrl, '://') === false) {
+        } elseif (!str_contains($sourceUrl, '://')) {
             throw new \InvalidArgumentException(sprintf('"%s" is not a valid URL.', $sourceUrl));
         }
 
@@ -64,7 +65,7 @@ class HttpAsset extends BaseAsset
         $this->doLoad($content, $additionalFilter);
     }
 
-    public function getLastModified()
+    public function getLastModified(): ?int
     {
         if (@file_get_contents($this->sourceUrl, false, stream_context_create(['http' => ['method' => 'HEAD']])) !== false) {
             foreach ($http_response_header as $header) {

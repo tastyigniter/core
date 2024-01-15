@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Currency\Console;
 
+use Igniter\Flame\Currency\Currency;
 use Illuminate\Console\Command;
 
 class Cleanup extends Command
@@ -20,12 +21,7 @@ class Cleanup extends Command
      */
     protected $description = 'Cleanup currency cache';
 
-    /**
-     * Currency instance
-     *
-     * @var \Igniter\Flame\Currency\Currency
-     */
-    protected $currency;
+    protected ?Currency $currency = null;
 
     /**
      * Execute the console command.

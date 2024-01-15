@@ -61,12 +61,12 @@ class Template
         return $this->themeCode;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->pageTitle;
     }
 
-    public function getHeading(): string
+    public function getHeading(): ?string
     {
         return $this->pageHeading;
     }

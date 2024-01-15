@@ -23,14 +23,12 @@ use Igniter\Flame\Assetic\Factory\AssetFactory;
  */
 class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterface
 {
-    private $importFilter;
-
     /**
      * Constructor.
      *
-     * @param FilterInterface $importFilter Filter for each imported asset
+     * @param ?FilterInterface $importFilter Filter for each imported asset
      */
-    public function __construct(?FilterInterface $importFilter = null)
+    public function __construct(private ?FilterInterface $importFilter = null)
     {
         $this->importFilter = $importFilter ?: new CssRewriteFilter();
     }
@@ -100,7 +98,7 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
     {
     }
 
-    public function getChildren(AssetFactory $factory, $content, $loadPath = null)
+    public function getChildren(AssetFactory $factory, $content, $loadPath = null): array
     {
         // todo
         return [];

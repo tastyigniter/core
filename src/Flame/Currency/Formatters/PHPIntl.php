@@ -25,7 +25,7 @@ class PHPIntl implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public function format($value, $code = null)
+    public function format(float $value, string $code = null): string
     {
         return $this->formatter->formatCurrency($value, $code);
     }

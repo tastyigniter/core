@@ -11,14 +11,14 @@ interface DriverInterface
      *
      * @return bool
      */
-    public function create(array $params);
+    public function create(): bool;
 
     /**
      * Get all currencies.
      *
      * @return array
      */
-    public function all();
+    public function all(): array;
 
     /**
      * Get given currency from storage.
@@ -28,21 +28,15 @@ interface DriverInterface
      *
      * @return mixed
      */
-    public function find($code, $active = 1);
+    public function find(string $code, int $active = 1): mixed;
 
     /**
      * Update given currency.
-     *
-     * @param string $code
-     *
-     * @return int
      */
-    public function update($code, array $attributes, ?DateTime $timestamp = null);
+    public function update(string $code, array $attributes, ?DateTime $timestamp = null): int;
 
     /**
      * Remove given currency from storage.
-     *
-     * @return int
      */
-    public function delete($code);
+    public function delete($code): int;
 }

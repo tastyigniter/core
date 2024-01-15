@@ -24,13 +24,9 @@ use Igniter\Flame\Assetic\Filter\FilterInterface;
  */
 abstract class BaseAsset implements AssetInterface
 {
-    private $filters;
+    private FilterCollection $filters;
 
-    private $sourceRoot;
-
-    private $sourcePath;
-
-    private $sourceDir;
+    private ?string $sourceDir = null;
 
     private $targetPath;
 
@@ -38,26 +34,20 @@ abstract class BaseAsset implements AssetInterface
 
     private $loaded;
 
-    private $vars;
-
     private $values;
 
-    /**
-     * Constructor.
-     *
-     * @param array $filters Filters for the asset
-     * @param string $sourceRoot The root directory
-     * @param string $sourcePath The asset path
-     */
-    public function __construct($filters = [], $sourceRoot = null, $sourcePath = null, array $vars = [])
+    public function __construct(
+        array $filters,
+        private readonly ?string $sourceRoot = null,
+        private readonly ?string $sourcePath = null,
+        private readonly array $vars = []
+    )
     {
         $this->filters = new FilterCollection($filters);
-        $this->sourceRoot = $sourceRoot;
-        $this->sourcePath = $sourcePath;
         if ($sourcePath && $sourceRoot) {
             $this->sourceDir = dirname("$sourceRoot/$sourcePath");
         }
-        $this->vars = $vars;
+
         $this->values = [];
         $this->loaded = false;
     }
@@ -72,7 +62,7 @@ abstract class BaseAsset implements AssetInterface
         $this->filters->ensure($filter);
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return $this->filters->all();
     }
@@ -86,7 +76,7 @@ abstract class BaseAsset implements AssetInterface
      * Encapsulates asset loading logic.
      *
      * @param string $content The asset content
-     * @param FilterInterface $additionalFilter An additional filter
+     * @param ?FilterInterface $additionalFilter An additional filter
      */
     protected function doLoad($content, ?FilterInterface $additionalFilter = null)
     {
@@ -104,7 +94,7 @@ abstract class BaseAsset implements AssetInterface
         $this->loaded = true;
     }
 
-    public function dump(?FilterInterface $additionalFilter = null)
+    public function dump(FilterInterface $additionalFilter = null): string
     {
         if (!$this->loaded) {
             $this->load();
@@ -121,41 +111,41 @@ abstract class BaseAsset implements AssetInterface
         return $asset->getContent();
     }
 
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent($content)
+    public function setContent(string $content)
     {
         $this->content = $content;
     }
 
-    public function getSourceRoot()
+    public function getSourceRoot(): ?string
     {
         return $this->sourceRoot;
     }
 
-    public function getSourcePath()
+    public function getSourcePath(): ?string
     {
         return $this->sourcePath;
     }
 
-    public function getSourceDirectory()
+    public function getSourceDirectory(): ?string
     {
         return $this->sourceDir;
     }
 
-    public function getTargetPath()
+    public function getTargetPath(): ?string
     {
         return $this->targetPath;
     }
 
-    public function setTargetPath($targetPath)
+    public function setTargetPath(string $targetPath)
     {
         if ($this->vars) {
             foreach ($this->vars as $var) {
-                if (strpos($targetPath, $var) === false) {
+                if (!str_contains($targetPath, $var)) {
                     throw new \RuntimeException(sprintf('The asset target path "%s" must contain the variable "{%s}".', $targetPath, $var));
                 }
             }
@@ -164,7 +154,7 @@ abstract class BaseAsset implements AssetInterface
         $this->targetPath = $targetPath;
     }
 
-    public function getVars()
+    public function getVars(): array
     {
         return $this->vars;
     }
@@ -181,7 +171,7 @@ abstract class BaseAsset implements AssetInterface
         $this->loaded = false;
     }
 
-    public function getValues()
+    public function getValues(): array
     {
         return $this->values;
     }

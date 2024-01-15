@@ -35,12 +35,12 @@ class CssRewriteFilter extends BaseCssFilter
         }
 
         // learn how to get from the target back to the source
-        if (strpos($sourceBase, '://') !== false) {
+        if (str_contains($sourceBase, '://')) {
             [$scheme, $url] = explode('://', $sourceBase.'/'.$sourcePath, 2);
             [$host, $path] = explode('/', $url, 2);
 
             $host = $scheme.'://'.$host.'/';
-            $path = strpos($path, '/') === false ? '' : dirname($path);
+            $path = !str_contains($path, '/') ? '' : dirname($path);
             $path .= '/';
         } else {
             // assume source and target are on the same host
@@ -53,7 +53,7 @@ class CssRewriteFilter extends BaseCssFilter
                 $path = dirname($sourcePath).'/';
             } else {
                 $path = '';
-                while (strpos($sourcePath, $targetDir) !== 0) {
+                while (!str_starts_with($sourcePath, $targetDir)) {
                     if (false !== $pos = strrpos($targetDir, '/')) {
                         $targetDir = substr($targetDir, 0, $pos);
                         $path .= '../';

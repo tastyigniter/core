@@ -47,7 +47,7 @@ class AssetFactory
      * @param string $root The default root directory
      * @param bool $debug Filters prefixed with a "?" will be omitted in debug mode
      */
-    public function __construct($root, $debug = false)
+    public function __construct(string $root, bool $debug = false)
     {
         $this->root = rtrim($root, '/');
         $this->debug = $debug;
@@ -60,7 +60,7 @@ class AssetFactory
      *
      * @param bool $debug Debug mode
      */
-    public function setDebug($debug)
+    public function setDebug(bool $debug)
     {
         $this->debug = $debug;
     }
@@ -70,7 +70,7 @@ class AssetFactory
      *
      * @return bool Debug mode
      */
-    public function isDebug()
+    public function isDebug(): bool
     {
         return $this->debug;
     }
@@ -80,7 +80,7 @@ class AssetFactory
      *
      * @param string $output The default output string
      */
-    public function setDefaultOutput($output)
+    public function setDefaultOutput(string $output)
     {
         $this->output = $output;
     }
@@ -90,7 +90,7 @@ class AssetFactory
      *
      * @return AssetManager|null The asset manager
      */
-    public function getAssetManager()
+    public function getAssetManager(): ?AssetManager
     {
         return $this->am;
     }
@@ -110,7 +110,7 @@ class AssetFactory
      *
      * @return FilterManager|null The filter manager
      */
-    public function getFilterManager()
+    public function getFilterManager(): ?FilterManager
     {
         return $this->fm;
     }
@@ -144,7 +144,7 @@ class AssetFactory
      *
      * @return AssetCollection An asset collection
      */
-    public function createAsset($inputs = [], $filters = [], array $options = [])
+    public function createAsset(array|string $inputs = [], array|string $filters = [], array $options = []): AssetCollection
     {
         if (!is_array($inputs)) {
             $inputs = [$inputs];
@@ -207,7 +207,7 @@ class AssetFactory
         if (!empty($options['vars'])) {
             $toAdd = [];
             foreach ($options['vars'] as $var) {
-                if (strpos($options['output'], '{'.$var.'}') !== false) {
+                if (str_contains($options['output'], '{'.$var.'}')) {
                     continue;
                 }
 
@@ -294,13 +294,13 @@ class AssetFactory
      *
      * @return AssetInterface An asset
      */
-    protected function parseInput($input, array $options = [])
+    protected function parseInput(string $input, array $options = []): AssetInterface
     {
         if ($input[0] == '@') {
             return $this->createAssetReference(substr($input, 1));
         }
 
-        if (strpos($input, '://') !== false || strpos($input, '//') === 0) {
+        if (str_contains($input, '://') || str_starts_with($input, '//')) {
             return $this->createHttpAsset($input, $options['vars']);
         }
 
@@ -316,7 +316,7 @@ class AssetFactory
             $input = $this->root.'/'.$path;
         }
 
-        if (strpos($input, '*') !== false) {
+        if (str_contains($input, '*')) {
             return $this->createGlobAsset($input, $root, $options['vars']);
         }
 
@@ -325,7 +325,7 @@ class AssetFactory
 
     protected function createAssetCollection(array $assets = [], array $options = [])
     {
-        return new AssetCollection($assets, [], null, isset($options['vars']) ? $options['vars'] : []);
+        return new AssetCollection($assets, [], null, $options['vars'] ?? []);
     }
 
     protected function createAssetReference($name)
@@ -371,7 +371,7 @@ class AssetFactory
      *
      * @return AssetCollectionInterface
      */
-    private function applyWorkers(AssetCollectionInterface $asset)
+    private function applyWorkers(AssetCollectionInterface $asset): AssetCollectionInterface
     {
         foreach ($asset as $leaf) {
             foreach ($this->workers as $worker) {
@@ -407,10 +407,10 @@ class AssetFactory
      *
      * @return string|null The matching root directory, if found
      */
-    private static function findRootDir($path, array $roots)
+    private static function findRootDir(string $path, array $roots): ?string
     {
         foreach ($roots as $root) {
-            if (strpos($path, $root) === 0) {
+            if (str_starts_with($path, $root)) {
                 return $root;
             }
         }

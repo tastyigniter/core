@@ -25,7 +25,7 @@ interface CacheInterface
      *
      * @return bool Whether the cache has a value for this key
      */
-    public function has($key);
+    public function has(string $key): bool;
 
     /**
      * Returns the value for a key.
@@ -34,7 +34,7 @@ interface CacheInterface
      *
      * @return string|null The value in the cache
      */
-    public function get($key);
+    public function get(string $key): ?string;
 
     /**
      * Sets a value in the cache.
@@ -42,12 +42,12 @@ interface CacheInterface
      * @param string $key A unique key
      * @param string $value The value to cache
      */
-    public function set($key, $value);
+    public function set(string $key, string $value);
 
     /**
      * Removes a value from the cache.
      *
      * @param string $key A unique key
      */
-    public function remove($key);
+    public function remove(string $key);
 }

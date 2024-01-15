@@ -23,7 +23,7 @@ interface AssetCollectionInterface extends \Traversable, AssetInterface
      *
      * @return array An array of AssetInterface objects
      */
-    public function all();
+    public function all(): array;
 
     /**
      * Adds an asset to the current collection.
@@ -42,7 +42,7 @@ interface AssetCollectionInterface extends \Traversable, AssetInterface
      *
      * @throws \InvalidArgumentException If the asset cannot be found
      */
-    public function removeLeaf(AssetInterface $leaf, $graceful = false);
+    public function removeLeaf(AssetInterface $leaf, bool $graceful = false): bool;
 
     /**
      * Replaces an existing leaf with a new one.
@@ -55,5 +55,5 @@ interface AssetCollectionInterface extends \Traversable, AssetInterface
      *
      * @throws \InvalidArgumentException If the asset cannot be found
      */
-    public function replaceLeaf(AssetInterface $needle, AssetInterface $replacement, $graceful = false);
+    public function replaceLeaf(AssetInterface $needle, AssetInterface $replacement, bool $graceful = false): bool;
 }

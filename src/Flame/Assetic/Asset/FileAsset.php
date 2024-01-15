@@ -64,7 +64,7 @@ class FileAsset extends BaseAsset
         $this->doLoad(file_get_contents($source), $additionalFilter);
     }
 
-    public function getLastModified()
+    public function getLastModified(): ?int
     {
         $source = VarUtils::resolve($this->source, $this->getVars(), $this->getValues());
 

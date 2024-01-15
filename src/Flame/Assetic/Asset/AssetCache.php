@@ -20,16 +20,13 @@ use Igniter\Flame\Assetic\Filter\HashableInterface;
  *
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  */
-class AssetCache implements AssetInterface
+readonly class AssetCache implements AssetInterface
 {
-    private $asset;
-
-    private $cache;
-
-    public function __construct(AssetInterface $asset, CacheInterface $cache)
+    public function __construct(
+        private AssetInterface $asset,
+        private CacheInterface $cache
+    )
     {
-        $this->asset = $asset;
-        $this->cache = $cache;
     }
 
     public function ensureFilter(FilterInterface $filter)
@@ -37,7 +34,7 @@ class AssetCache implements AssetInterface
         $this->asset->ensureFilter($filter);
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return $this->asset->getFilters();
     }
@@ -60,7 +57,7 @@ class AssetCache implements AssetInterface
         $this->cache->set($cacheKey, $this->asset->getContent());
     }
 
-    public function dump(?FilterInterface $additionalFilter = null)
+    public function dump(FilterInterface $additionalFilter = null): string
     {
         $cacheKey = self::getCacheKey($this->asset, $additionalFilter, 'dump');
         if ($this->cache->has($cacheKey)) {
@@ -73,7 +70,7 @@ class AssetCache implements AssetInterface
         return $content;
     }
 
-    public function getContent()
+    public function getContent(): string
     {
         return $this->asset->getContent();
     }
@@ -83,37 +80,37 @@ class AssetCache implements AssetInterface
         $this->asset->setContent($content);
     }
 
-    public function getSourceRoot()
+    public function getSourceRoot(): ?string
     {
         return $this->asset->getSourceRoot();
     }
 
-    public function getSourcePath()
+    public function getSourcePath(): ?string
     {
         return $this->asset->getSourcePath();
     }
 
-    public function getSourceDirectory()
+    public function getSourceDirectory(): ?string
     {
         return $this->asset->getSourceDirectory();
     }
 
-    public function getTargetPath()
+    public function getTargetPath(): ?string
     {
         return $this->asset->getTargetPath();
     }
 
-    public function setTargetPath($targetPath)
+    public function setTargetPath(string $targetPath)
     {
         $this->asset->setTargetPath($targetPath);
     }
 
-    public function getLastModified()
+    public function getLastModified(): ?int
     {
         return $this->asset->getLastModified();
     }
 
-    public function getVars()
+    public function getVars(): array
     {
         return $this->asset->getVars();
     }
@@ -123,7 +120,7 @@ class AssetCache implements AssetInterface
         $this->asset->setValues($values);
     }
 
-    public function getValues()
+    public function getValues(): array
     {
         return $this->asset->getValues();
     }
@@ -140,7 +137,7 @@ class AssetCache implements AssetInterface
      *  * filters
      *
      * @param AssetInterface $asset The asset
-     * @param FilterInterface $additionalFilter Any additional filter being applied
+     * @param ?FilterInterface $additionalFilter Any additional filter being applied
      * @param string $salt Salt for the key
      *
      * @return string A key for identifying the current asset

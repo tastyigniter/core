@@ -20,28 +20,29 @@ use Igniter\Flame\Assetic\Filter\FilterInterface;
  */
 class StringAsset extends BaseAsset
 {
-    private $string;
-
-    private $lastModified;
+    private ?int $lastModified = null;
 
     /**
      * Constructor.
      *
      * @param string $content The content of the asset
      * @param array $filters Filters for the asset
-     * @param string $sourceRoot The source asset root directory
-     * @param string $sourcePath The source asset path
+     * @param ?string $sourceRoot The source asset root directory
+     * @param ?string $sourcePath The source asset path
      */
-    public function __construct($content, $filters = [], $sourceRoot = null, $sourcePath = null)
+    public function __construct(
+        private readonly string $content,
+        array $filters = [],
+        ?string $sourceRoot = null,
+        ?string $sourcePath = null
+    )
     {
-        $this->string = $content;
-
         parent::__construct($filters, $sourceRoot, $sourcePath);
     }
 
     public function load(?FilterInterface $additionalFilter = null)
     {
-        $this->doLoad($this->string, $additionalFilter);
+        $this->doLoad($this->content, $additionalFilter);
     }
 
     public function setLastModified($lastModified)
@@ -49,7 +50,7 @@ class StringAsset extends BaseAsset
         $this->lastModified = $lastModified;
     }
 
-    public function getLastModified()
+    public function getLastModified(): ?int
     {
         return $this->lastModified;
     }

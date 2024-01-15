@@ -25,12 +25,12 @@ class FilesystemCache implements CacheInterface
         $this->dir = $dir;
     }
 
-    public function has($key)
+    public function has(string $key): bool
     {
         return file_exists($this->dir.'/'.$key);
     }
 
-    public function get($key)
+    public function get(string $key): ?string
     {
         $path = $this->dir.'/'.$key;
 
@@ -41,7 +41,7 @@ class FilesystemCache implements CacheInterface
         return file_get_contents($path);
     }
 
-    public function set($key, $value)
+    public function set(string $key, string $value)
     {
         if (!is_dir($this->dir) && @mkdir($this->dir, 0777, true) === false) {
             throw new \RuntimeException('Unable to create directory '.$this->dir);
@@ -54,7 +54,7 @@ class FilesystemCache implements CacheInterface
         }
     }
 
-    public function remove($key)
+    public function remove(string $key)
     {
         $path = $this->dir.'/'.$key;
 

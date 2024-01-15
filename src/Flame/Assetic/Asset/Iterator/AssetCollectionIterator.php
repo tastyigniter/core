@@ -24,15 +24,15 @@ use RecursiveIterator;
  */
 class AssetCollectionIterator implements \RecursiveIterator
 {
-    private $assets;
+    private array $assets;
 
-    private $filters;
+    private array $filters;
 
-    private $vars;
+    private array $vars;
 
-    private $output;
+    private ?string $output;
 
-    private $clones;
+    private \SplObjectStorage $clones;
 
     public function __construct(AssetCollectionInterface $coll, \SplObjectStorage $clones)
     {
@@ -123,7 +123,7 @@ class AssetCollectionIterator implements \RecursiveIterator
     {
         foreach ($this->vars as $var) {
             $var = '{'.$var.'}';
-            if (strpos($name, $var) !== false && strpos($this->output, $var) !== false) {
+            if (str_contains($name, $var) && str_contains($this->output, $var)) {
                 $name = str_replace($var, '', $name);
             }
         }
