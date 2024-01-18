@@ -2,17 +2,17 @@
 
 namespace Tests\Admin\Classes;
 
-use Admin\Fixtures\Controllers\TestController;
-use Admin\Fixtures\Widgets\TestWidget;
+use Tests\Admin\Fixtures\Controllers\TestController;
+use Tests\Admin\Fixtures\Widgets\TestWidget;
 
 it('has defined paths to locate widget partials', function () {
     $controller = resolve(TestController::class);
 
     $widget = $controller->makeWidget(TestWidget::class);
 
-    expect('tests.fixtures::_partials.widgets/testwidget')
+    expect('tests.admin::_partials.fixtures/widgets/testwidget')
         ->toBeIn($widget->partialPath)
-        ->and('tests.fixtures::_partials.widgets')
+        ->and('tests.admin::_partials.fixtures/widgets')
         ->toBeIn($widget->partialPath);
 });
 
@@ -21,5 +21,5 @@ it('has defined paths to locate widget asset files', function () {
 
     $widget = $controller->makeWidget(TestWidget::class);
 
-    expect('igniter::css/widgets')->toBeIn($widget->assetPath);
+    expect('igniter::css/fixtures/widgets')->toBeIn($widget->assetPath);
 });

@@ -21,13 +21,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function defineEnvironment($app)
     {
         $viewPaths = $app['config']->get('view.paths');
-        $viewPaths[] = __DIR__.'/_fixtures/views/';
+        $viewPaths[] = __DIR__.'/../resources/views/';
 
         $app['config']->set('view.paths', $viewPaths);
 
-        Igniter::loadControllersFrom(__DIR__.'/Fixtures/Controllers', 'Tests\\Fixtures\\Controllers');
+        Igniter::loadControllersFrom(__DIR__.'/Admin/Fixtures/Controllers', 'Tests\\Admin\\Fixtures\\Controllers');
 
-        ThemeManager::addDirectory(__DIR__.'/_fixtures/themes');
+        ThemeManager::addDirectory(__DIR__.'/../resources/themes');
         $app['config']->set('igniter-system.defaultTheme', 'tests-theme');
     }
 
@@ -41,13 +41,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         parent::resolveApplicationConfiguration($app);
 
         $app->afterResolving(PackageManifest::class, function ($instance) {
-            $instance->vendorPath = __DIR__.'/../vendor';
+            $instance->vendorPath = __DIR__.'/../../vendor';
         });
 
         $configs = ['currency', 'geocoder', 'system'];
 
         foreach ($configs as $config) {
-            $app['config']->set("igniter.$config", require (__DIR__."/../config/{$config}.php"));
+            $app['config']->set("igniter.$config", require(__DIR__."/../../config/{$config}.php"));
         }
     }
 }

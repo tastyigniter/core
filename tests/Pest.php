@@ -1,8 +1,8 @@
 <?php
 
-uses(Tests\TestCase::class)->in(__DIR__);
+uses(Tests\TestCase::class)->in(__DIR__.'/src');
 
 function testThemePath()
 {
-    return realpath(__DIR__.'/_fixtures/themes/tests-theme');
+    return realpath(__DIR__.'/resources/themes/tests-theme');
 }

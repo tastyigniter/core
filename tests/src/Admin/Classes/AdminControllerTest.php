@@ -2,30 +2,30 @@
 
 namespace Tests\Admin\Classes;
 
-use Admin\Fixtures\Controllers\TestController;
+use Tests\Admin\Fixtures\Controllers\TestController;
 
 it('has defined paths to locate layouts', function () {
     $controller = resolve(TestController::class);
 
-    expect('igniter.admin::_layouts')->toBeIn($controller->layoutPath);
-    expect('tests.fixtures::_layouts')->toBeIn($controller->layoutPath);
-    expect('tests.fixtures::')->not()->toBeIn($controller->layoutPath);
+    expect('igniter.admin::_layouts')->toBeIn($controller->layoutPath)
+        ->and('tests.admin::_layouts')->toBeIn($controller->layoutPath)
+        ->and('tests.admin::')->not()->toBeIn($controller->layoutPath);
 });
 
 it('has defined paths to locate views', function () {
     $controller = resolve(TestController::class);
 
     expect('igniter.admin::')->toBeIn($controller->viewPath);
-    expect('tests.fixtures::testcontroller')->toBeIn($controller->viewPath);
-    expect('tests.fixtures::')->toBeIn($controller->viewPath);
+    expect('tests.admin::testcontroller')->toBeIn($controller->viewPath);
+    expect('tests.admin::')->toBeIn($controller->viewPath);
 });
 
 it('has defined paths to locate partials', function () {
     $controller = resolve(TestController::class);
 
     expect('igniter.admin::_partials')->toBeIn($controller->partialPath);
-    expect('tests.fixtures::_partials')->toBeIn($controller->partialPath);
-    expect('tests.fixtures::')->not()->toBeIn($controller->partialPath);
+    expect('tests.admin::_partials')->toBeIn($controller->partialPath);
+    expect('tests.admin::')->not()->toBeIn($controller->partialPath);
 });
 
 it('has defined paths to locate model config files', function () {
@@ -34,13 +34,13 @@ it('has defined paths to locate model config files', function () {
     expect('igniter::models/admin')->toBeIn($controller->configPath);
     expect('igniter::models/system')->toBeIn($controller->configPath);
     expect('igniter::models/main')->toBeIn($controller->configPath);
-    expect('tests.fixtures::models')->toBeIn($controller->configPath);
+    expect('tests.admin::models')->toBeIn($controller->configPath);
 });
 
 it('has defined paths to locate asset files', function () {
     $controller = resolve(TestController::class);
 
-    expect('tests.fixtures::')->toBeIn($controller->assetPath);
+    expect('tests.admin::')->toBeIn($controller->assetPath);
     expect('igniter::')->toBeIn($controller->assetPath);
     expect('igniter::js')->toBeIn($controller->assetPath);
     expect('igniter::css')->toBeIn($controller->assetPath);
@@ -77,8 +77,8 @@ it('can find controller config file', function () {
 it('can find asset file', function () {
     $controller = resolve(TestController::class);
 
-    expect($controller->getAssetPath('app.js'))->toEndWith('js/app.js');
-    expect($controller->getAssetPath('$/igniter/js/vendor.js'))->toEndWith('igniter/js/vendor.js');
+    expect($controller->getAssetPath('app.js'))->toEndWith('js/app.js')
+        ->and($controller->getAssetPath('$/igniter/js/vendor.js'))->toEndWith('igniter/js/vendor.js');
 });
 
 it('runs the requested controller action', function () {
