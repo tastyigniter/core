@@ -131,7 +131,7 @@ class TemplateEditor extends BaseFormWidget
     public function onManageSource(): RedirectResponse
     {
         if ($this->manager->isLocked($this->model->code)) {
-            throw FlashException::error(lang('igniter::system.themes.alert_theme_locked'));
+            throw new FlashException(lang('igniter::system.themes.alert_theme_locked'));
         }
 
         $data = $this->validate(post(), [
@@ -165,7 +165,7 @@ class TemplateEditor extends BaseFormWidget
     public function onSaveSource()
     {
         if ($this->manager->isLocked($this->model->code)) {
-            throw FlashException::error(lang('igniter::system.themes.alert_theme_locked'));
+            throw new FlashException(lang('igniter::system.themes.alert_theme_locked'));
         }
 
         if (!$this->templateWidget) {
@@ -232,7 +232,7 @@ class TemplateEditor extends BaseFormWidget
     protected function getTemplateEditorOptions(): array
     {
         if (!($themeObject = $this->model->getTheme()) || !$themeObject instanceof Theme) {
-            throw FlashException::error('Missing theme object on '.$this->model::class);
+            throw new FlashException('Missing theme object on '.$this->model::class);
         }
 
         /** @var \Igniter\Flame\Pagic\Model $templateClass */

@@ -113,7 +113,7 @@ class StatusEditor extends BaseFormWidget
     {
         $context = post('recordId');
         throw_unless(in_array($context, ['load-status', 'load-assignee']),
-            FlashException::error(lang('igniter::admin.statuses.alert_invalid_action'))
+            new FlashException(lang('igniter::admin.statuses.alert_invalid_action'))
         );
 
         $this->setMode(str_after($context, 'load-'));
@@ -144,7 +144,7 @@ class StatusEditor extends BaseFormWidget
 
         throw_if(
             $this->isStatusMode && $recordId == $this->model->{$keyFrom},
-            FlashException::error(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context))
+            new FlashException(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context))
         );
 
         $saveData = $this->validateFormWidget($form, array_merge($form->getSaveData(), [
@@ -170,11 +170,11 @@ class StatusEditor extends BaseFormWidget
     public function onLoadStatus(): array
     {
         throw_unless(strlen($statusId = post('statusId', '')),
-            FlashException::error(lang('igniter::admin.form.missing_id'))
+            new FlashException(lang('igniter::admin.form.missing_id'))
         );
 
         throw_unless($status = Status::find($statusId),
-            FlashException::error(sprintf(lang('igniter::admin.statuses.alert_status_not_found'), $statusId))
+            new FlashException(sprintf(lang('igniter::admin.statuses.alert_status_not_found'), $statusId))
         );
 
         return $status->toArray();
@@ -183,7 +183,7 @@ class StatusEditor extends BaseFormWidget
     public function onLoadAssigneeList(): array
     {
         throw_unless(strlen(post('groupId', '')),
-            FlashException::error(lang('igniter::admin.form.missing_id'))
+            new FlashException(lang('igniter::admin.form.missing_id'))
         );
 
         $this->setMode('assignee');
@@ -314,7 +314,7 @@ class StatusEditor extends BaseFormWidget
         $permission = $this->getModeConfig($saleType);
 
         if (!$this->controller->getUser()->hasPermission($permission)) {
-            throw FlashException::error(lang('igniter::admin.alert_user_restricted'));
+            throw new FlashException(lang('igniter::admin.alert_user_restricted'));
         }
     }
 

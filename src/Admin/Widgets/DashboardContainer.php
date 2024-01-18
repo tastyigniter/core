@@ -116,7 +116,7 @@ class DashboardContainer extends BaseWidget
         $widgetAlias = trim(post('widgetAlias'));
 
         if (!$widgetAlias) {
-            throw FlashException::error(lang('igniter::admin.dashboard.alert_select_widget_to_update'));
+            throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_update'));
         }
 
         $this->vars['widgetAlias'] = $widgetAlias;
@@ -132,16 +132,16 @@ class DashboardContainer extends BaseWidget
         $size = trim(post('size'));
 
         if (!$className) {
-            throw FlashException::error(lang('igniter::admin.dashboard.alert_select_widget_to_add'));
+            throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_add'));
         }
 
         if (!class_exists($className)) {
-            throw FlashException::error(lang('igniter::admin.dashboard.alert_widget_class_not_found'));
+            throw new FlashException(lang('igniter::admin.dashboard.alert_widget_class_not_found'));
         }
 
         $widget = new $className($this->controller);
         if (!($widget instanceof \Igniter\Admin\Classes\BaseDashboardWidget)) {
-            throw FlashException::error(lang('igniter::admin.dashboard.alert_invalid_widget'));
+            throw new FlashException(lang('igniter::admin.dashboard.alert_invalid_widget'));
         }
 
         $widgetInfo = $this->addWidget($widget, $size);
@@ -158,7 +158,7 @@ class DashboardContainer extends BaseWidget
     public function onResetWidgets(): array
     {
         if (!$this->canManage) {
-            throw FlashException::error(lang('igniter::admin.alert_access_denied'));
+            throw new FlashException(lang('igniter::admin.alert_access_denied'));
         }
 
         $this->resetWidgets();
@@ -173,7 +173,7 @@ class DashboardContainer extends BaseWidget
     public function onSetAsDefault()
     {
         if (!$this->canSetDefault) {
-            throw FlashException::error(lang('igniter::admin.alert_access_denied'));
+            throw new FlashException(lang('igniter::admin.alert_access_denied'));
         }
 
         $widgets = $this->getWidgetsFromUserPreferences();
@@ -186,7 +186,7 @@ class DashboardContainer extends BaseWidget
     public function onUpdateWidget(): array
     {
         if (!$this->canManage) {
-            throw FlashException::error(lang('igniter::admin.alert_access_denied'));
+            throw new FlashException(lang('igniter::admin.alert_access_denied'));
         }
 
         $alias = post('alias');
@@ -214,7 +214,7 @@ class DashboardContainer extends BaseWidget
     protected function addWidget(BaseDashboardWidget $widget, mixed $size): array
     {
         if (!$this->canManage) {
-            throw FlashException::error(lang('igniter::admin.alert_access_denied'));
+            throw new FlashException(lang('igniter::admin.alert_access_denied'));
         }
 
         $widgets = $this->getWidgetsFromUserPreferences();
@@ -250,18 +250,18 @@ class DashboardContainer extends BaseWidget
         $priorities = trim(post('priorities'));
 
         if (!$aliases) {
-            throw FlashException::error(lang('igniter::admin.dashboard.alert_invalid_aliases'));
+            throw new FlashException(lang('igniter::admin.dashboard.alert_invalid_aliases'));
         }
 
         if (!$priorities) {
-            throw FlashException::error(lang('igniter::admin.dashboard.alert_invalid_priorities'));
+            throw new FlashException(lang('igniter::admin.dashboard.alert_invalid_priorities'));
         }
 
         $aliases = explode(',', $aliases);
         $priorities = explode(',', $priorities);
 
         if (count($aliases) != count($priorities)) {
-            throw FlashException::error(lang('igniter::admin.dashboard.alert_invalid_data_posted'));
+            throw new FlashException(lang('igniter::admin.dashboard.alert_invalid_data_posted'));
         }
 
         $widgets = $this->getWidgetsFromUserPreferences();
@@ -335,7 +335,7 @@ class DashboardContainer extends BaseWidget
     protected function removeWidget(string $alias)
     {
         if (!$this->canManage) {
-            throw FlashException::error(lang('igniter::admin.alert_access_denied'));
+            throw new FlashException(lang('igniter::admin.alert_access_denied'));
         }
 
         $widgets = $this->getWidgetsFromUserPreferences();
@@ -370,7 +370,7 @@ class DashboardContainer extends BaseWidget
 
         $widgets = $this->dashboardWidgets;
         if (!isset($widgets[$alias])) {
-            throw FlashException::error(lang('igniter::admin.dashboard.alert_widget_not_found'));
+            throw new FlashException(lang('igniter::admin.dashboard.alert_widget_not_found'));
         }
 
         return $widgets[$alias]['widget'];

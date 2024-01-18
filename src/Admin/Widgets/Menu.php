@@ -178,7 +178,7 @@ class Menu extends BaseWidget
     public function getItem($item): MainMenuItem
     {
         if (!isset($this->allItems[$item])) {
-            throw FlashException::error(sprintf(lang('igniter::admin.side_menu.alert_no_definition'), $item));
+            throw new FlashException(sprintf(lang('igniter::admin.side_menu.alert_no_definition'), $item));
         }
 
         return $this->allItems[$item];
@@ -223,7 +223,7 @@ class Menu extends BaseWidget
     public function onGetDropdownOptions(): array
     {
         if (!strlen($itemName = input('item', ''))) {
-            throw FlashException::error(lang('igniter::admin.side_menu.alert_invalid_menu'));
+            throw new FlashException(lang('igniter::admin.side_menu.alert_invalid_menu'));
         }
 
         $item = $this->getItem($itemName);

@@ -34,7 +34,7 @@ trait ManagesUpdates
         $itemsCodes = post('install_items') ?? [];
         $items = collect(post('items') ?? [])->whereIn('name', $itemsCodes);
         if ($items->isEmpty()) {
-            throw FlashException::error(lang('igniter::system.updates.alert_no_items'));
+            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
         }
 
         $this->validateItems();
@@ -51,7 +51,7 @@ trait ManagesUpdates
     {
         $items = post('items') ?? [];
         if (!count($items)) {
-            throw FlashException::error(lang('igniter::system.updates.alert_no_items'));
+            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
         }
 
         $this->validateItems();
@@ -72,7 +72,7 @@ trait ManagesUpdates
         $itemsToUpdate = array_get($updates, 'items', []);
 
         if (!count($itemsToUpdate)) {
-            throw FlashException::error(lang('igniter::system.updates.alert_no_items'));
+            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
         }
 
         return [
@@ -105,7 +105,7 @@ trait ManagesUpdates
     {
         $itemCode = post('code', '');
         if (!strlen($itemCode)) {
-            throw FlashException::error(lang('igniter::system.updates.alert_item_to_ignore'));
+            throw new FlashException(lang('igniter::system.updates.alert_item_to_ignore'));
         }
 
         $updateManager = resolve(UpdateManager::class);
@@ -121,7 +121,7 @@ trait ManagesUpdates
     {
         $carteKey = post('carte_key');
         if (!strlen($carteKey)) {
-            throw FlashException::error(lang('igniter::system.updates.alert_no_carte_key'));
+            throw new FlashException(lang('igniter::system.updates.alert_no_carte_key'));
         }
 
         $response = resolve(UpdateManager::class)->applySiteDetail($carteKey);

@@ -68,7 +68,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         $this->settingCode = $settingCode;
         [$model, $definition] = $this->findSettingDefinitions($settingCode);
 
-        throw_unless($definition, FlashException::error(
+        throw_unless($definition, new FlashException(
             sprintf(lang('igniter::system.settings.alert_settings_not_found'), $settingCode)
         ));
 
@@ -94,7 +94,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         $this->settingCode = $settingCode;
         [$model, $definition] = $this->findSettingDefinitions($settingCode);
         throw_unless($definition,
-            FlashException::error(lang('igniter::system.settings.alert_settings_not_found'))
+            new FlashException(lang('igniter::system.settings.alert_settings_not_found'))
         );
 
         if ($definition->permission && !$this->getUser()->hasPermission($definition->permission)) {
@@ -133,7 +133,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     {
         [$model, $definition] = $this->findSettingDefinitions('mail');
         throw_unless($definition,
-            FlashException::error(lang('igniter::system.settings.alert_settings_not_found'))
+            new FlashException(lang('igniter::system.settings.alert_settings_not_found'))
         );
 
         $this->initWidgets($model, $definition);
@@ -192,7 +192,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     protected function findSettingDefinitions(string $code): array
     {
         throw_unless(strlen($code),
-            FlashException::error(lang('igniter::admin.form.missing_id'))
+            new FlashException(lang('igniter::admin.form.missing_id'))
         );
 
         // Prep the list widget config
@@ -206,7 +206,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     protected function createModel(): SettingsModel
     {
         if (!isset($this->modelClass) || !strlen($this->modelClass)) {
-            throw FlashException::error(lang('igniter::system.settings.alert_settings_missing_model'));
+            throw new FlashException(lang('igniter::system.settings.alert_settings_missing_model'));
         }
 
         return new $this->modelClass();

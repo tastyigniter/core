@@ -39,7 +39,7 @@ class IgniterPasswd extends Command
             ?? $this->ask('Admin email to reset');
 
         if (!$user = User::whereEmail($email)->first()) {
-            throw FlashException::error('The specified user does not exist.');
+            throw new FlashException('The specified user does not exist.');
         }
 
         if (is_null($password = $this->argument('password'))) {

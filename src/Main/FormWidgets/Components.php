@@ -124,7 +124,7 @@ class Components extends BaseFormWidget
         }
 
         if (!$template = $this->data->fileSource) {
-            throw FlashException::error('Template file not found');
+            throw new FlashException('Template file not found');
         }
 
         $partialToOverride = array_get($data, name_to_dot_string($this->formField->arrayName.'[componentData][partial]'));
@@ -151,11 +151,11 @@ class Components extends BaseFormWidget
     {
         $codeAlias = post('code');
         if (!strlen($codeAlias)) {
-            throw FlashException::error('Invalid component selected');
+            throw new FlashException('Invalid component selected');
         }
 
         if (!$template = $this->data->fileSource) {
-            throw FlashException::error('Template file not found');
+            throw new FlashException('Template file not found');
         }
 
         $attributes = $template->getAttributes();
@@ -287,7 +287,7 @@ class Components extends BaseFormWidget
 
     protected function updateComponent(string $codeAlias, bool $isCreateContext, TemplateInterface $template)
     {
-        throw_unless($componentObj = $this->makeComponentBy($codeAlias), FlashException::error('Invalid component selected'));
+        throw_unless($componentObj = $this->makeComponentBy($codeAlias), new FlashException('Invalid component selected'));
 
         $form = $this->makeComponentFormWidget('edit', $componentObj);
 
@@ -353,7 +353,7 @@ class Components extends BaseFormWidget
         $componentPath .= DIRECTORY_SEPARATOR.$fileName.'.'.Model::DEFAULT_EXTENSION;
 
         if (!File::exists($componentPath)) {
-            throw FlashException::error(lang('igniter::system.themes.alert_component_partial_not_found'));
+            throw new FlashException(lang('igniter::system.themes.alert_component_partial_not_found'));
         }
 
         if (!File::isDirectory(dirname($themePartialPath))) {

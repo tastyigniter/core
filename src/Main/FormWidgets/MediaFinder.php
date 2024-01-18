@@ -239,19 +239,19 @@ class MediaFinder extends BaseFormWidget
         }
 
         if (!array_key_exists($this->fieldName, $this->model->mediable())) {
-            throw FlashException::error(sprintf(lang('igniter::main.media_manager.alert_missing_mediable'),
+            throw new FlashException(sprintf(lang('igniter::main.media_manager.alert_missing_mediable'),
                 $this->fieldName, $this->model::class
             ));
         }
 
         $items = post('items');
         if (!is_array($items)) {
-            throw FlashException::error(lang('igniter::main.media_manager.alert_select_item_to_attach'));
+            throw new FlashException(lang('igniter::main.media_manager.alert_select_item_to_attach'));
         }
 
         $model = $this->model;
         if (!$model->exists) {
-            throw FlashException::error(lang('igniter::main.media_manager.alert_only_attach_to_saved'));
+            throw new FlashException(lang('igniter::main.media_manager.alert_only_attach_to_saved'));
         }
 
         $manager = resolve(MediaLibrary::class);

@@ -296,7 +296,7 @@ class FormController extends ControllerAction
 
     public function renderForm(array $options = [], bool $noToolbar = false): string
     {
-        throw_unless($this->formWidget, FlashException::error(lang('igniter::admin.form.not_ready')));
+        throw_unless($this->formWidget, new FlashException(lang('igniter::admin.form.not_ready')));
 
         if (!$noToolbar && !is_null($this->toolbarWidget)) {
             $form[] = $this->toolbarWidget->render();
@@ -424,9 +424,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);

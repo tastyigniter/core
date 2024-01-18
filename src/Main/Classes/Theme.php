@@ -207,7 +207,7 @@ class Theme
         if (file_exists($file = $this->screenshot)) {
             $extension = pathinfo($file, PATHINFO_EXTENSION);
             if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES)) {
-                throw FlashException::error('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
+                throw new FlashException('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
             }
 
             $mimeType = ThemeModel::ICON_MIMETYPES[$extension];
@@ -381,8 +381,8 @@ class Theme
             }
         });
 
-        $notes = rescue(fn () => Assets::combineBundles(),
-            fn ($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
+        $notes = rescue(fn() => Assets::combineBundles(),
+            fn($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
 
         Event::dispatch('main.theme.assetsBundled', [$this]);
 

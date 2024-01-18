@@ -160,7 +160,7 @@ class RecordEditor extends BaseFormWidget
     public function onAttachRecord(): array
     {
         throw_unless($recordId = post('recordId'),
-            FlashException::error('Please select a record to attach.')
+            new FlashException('Please select a record to attach.')
         );
 
         $model = $this->findFormModel($recordId);
@@ -228,7 +228,7 @@ class RecordEditor extends BaseFormWidget
 
         throw_if(
             !$model->methodExists($methodName) && !$model->methodExists('getRecordEditorOptions'),
-            FlashException::error(sprintf(lang('igniter::admin.alert_missing_method'), 'getRecordEditorOptions', get_class($model)))
+            new FlashException(sprintf(lang('igniter::admin.alert_missing_method'), 'getRecordEditorOptions', get_class($model)))
         );
 
         if ($model->methodExists($methodName)) {

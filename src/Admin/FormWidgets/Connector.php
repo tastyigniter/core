@@ -216,7 +216,7 @@ class Connector extends BaseFormWidget
 
         $model = $this->getRelationModel()->find($recordId);
         if (!$model) {
-            throw FlashException::error(sprintf(lang('igniter::admin.form.not_found'), $recordId));
+            throw new FlashException(sprintf(lang('igniter::admin.form.not_found'), $recordId));
         }
 
         $model->delete();

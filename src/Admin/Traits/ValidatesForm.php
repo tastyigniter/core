@@ -141,7 +141,7 @@ trait ValidatesForm
     protected function validateFormRequest(?string $requestClass, callable $callback)
     {
         if (!$requestClass || !class_exists($requestClass)) {
-            throw FlashException::error(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
+            throw new FlashException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
         }
 
         return $this->resolveFormRequest($requestClass, $callback)->validated();

@@ -116,7 +116,7 @@ class MainController extends Controller
     public function remap(string $method, array $parameters): mixed
     {
         if (!$this->theme) {
-            throw FlashException::error(lang('igniter::main.not_found.active_theme'));
+            throw new FlashException(lang('igniter::main.not_found.active_theme'));
         }
 
         $this->fireSystemEvent('main.controller.beforeRemap');
@@ -154,7 +154,7 @@ class MainController extends Controller
         if (!$page->layout) {
             $layout = LayoutTemplate::initFallback($this->theme->getName());
         } elseif (($layout = LayoutTemplate::loadCached($this->theme->getName(), $page->layout)) === null) {
-            throw FlashException::error(sprintf(
+            throw new FlashException(sprintf(
                 Lang::get('igniter::main.not_found.layout_name'), $page->layout
             ));
         }
@@ -285,7 +285,7 @@ class MainController extends Controller
 
             // Process Components handler
             if (!$result = $this->runHandler($handler)) {
-                throw FlashException::error(sprintf(Lang::get('igniter::main.not_found.ajax_handler'), $handler));
+                throw new FlashException(sprintf(Lang::get('igniter::main.not_found.ajax_handler'), $handler));
             }
 
             foreach ($partials as $partial) {
@@ -504,7 +504,7 @@ class MainController extends Controller
             $content = $event;
         } // Load content from theme
         elseif (($content = Content::loadCached($this->theme->getName(), $name)) === null) {
-            throw FlashException::error(sprintf(
+            throw new FlashException(sprintf(
                 Lang::get('igniter::main.not_found.content'), $name
             ));
         }
@@ -776,7 +776,7 @@ class MainController extends Controller
     protected function handleException(string $message, bool $throwException)
     {
         if ($throwException) {
-            throw FlashException::error($message);
+            throw new FlashException($message);
         }
 
         flash()->danger($message);

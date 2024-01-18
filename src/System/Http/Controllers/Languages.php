@@ -165,7 +165,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
     {
         $items = post('items') ?? [];
         if (!count($items)) {
-            throw FlashException::error(lang('igniter::system.updates.alert_no_items'));
+            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
         }
 
         $this->validateItems();

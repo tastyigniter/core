@@ -68,16 +68,16 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setPreviousUrl('settings');
 
         throw_if(!strlen($vendor) || !strlen($extension),
-            FlashException::error(lang('igniter::system.extensions.alert_setting_missing_id'))
+            new FlashException(lang('igniter::system.extensions.alert_setting_missing_id'))
         );
 
         $extensionCode = $vendor.'.'.$extension.'.'.$context;
         throw_if(!$settingItem = Settings::make()->getSettingItem($extensionCode),
-            FlashException::error(lang('igniter::system.extensions.alert_setting_not_found'))
+            new FlashException(lang('igniter::system.extensions.alert_setting_not_found'))
         );
 
         throw_if($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions),
-            FlashException::error(lang('igniter::admin.alert_user_restricted'))
+            new FlashException(lang('igniter::admin.alert_user_restricted'))
         );
 
         $pageTitle = lang($settingItem->label ?: 'text_edit_title');
@@ -126,7 +126,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     public function index_onLoadReadme(?string $context = null)
     {
         if (!$recordId = trim(post('recordId'))) {
-            throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
+            throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
         return $this->makePartial('extensions/extension_readme', [
@@ -137,13 +137,13 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     public function index_onInstall(?string $context = null)
     {
         if (!$extensionCode = trim(post('code'))) {
-            throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
+            throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
         $manager = resolve(ExtensionManager::class);
         $extension = $manager->findExtension($extensionCode);
         if ($feedback = $this->checkDependencies($extension)) {
-            throw FlashException::error($feedback);
+            throw new FlashException($feedback);
         }
 
         if ($manager->installExtension($extensionCode)) {
@@ -159,7 +159,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     public function index_onUninstall(?string $context = null)
     {
         if (!$extensionCode = trim(post('code'))) {
-            throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
+            throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
         $manager = resolve(ExtensionManager::class);
@@ -178,16 +178,16 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     public function edit_onSave(string $action, ?string $vendor = null, ?string $extension = null, ?string $context = null)
     {
         throw_if(!strlen($vendor) || !strlen($extension),
-            FlashException::error(lang('igniter::system.extensions.alert_setting_missing_id'))
+            new FlashException(lang('igniter::system.extensions.alert_setting_missing_id'))
         );
 
         $extensionCode = $vendor.'.'.$extension.'.'.$context;
         throw_unless($settingItem = Settings::make()->getSettingItem($extensionCode),
-            FlashException::error(lang('igniter::system.extensions.alert_setting_not_found'))
+            new FlashException(lang('igniter::system.extensions.alert_setting_not_found'))
         );
 
         throw_if($settingItem->permissions && !$this->getUser()->hasPermission($settingItem->permissions),
-            FlashException::error(lang('igniter::admin.alert_user_restricted'))
+            new FlashException(lang('igniter::admin.alert_user_restricted'))
         );
 
         $model = $this->formFindModelObject($settingItem);
@@ -217,7 +217,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     {
         $manager = resolve(ExtensionManager::class);
         if (!$extension = $manager->findExtension($extensionCode)) {
-            throw FlashException::error(lang('igniter::admin.alert_error_try_again'));
+            throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
         $purgeData = post('delete_data') == 1;
@@ -271,11 +271,11 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
     protected function createModel(string $class): Model
     {
         throw_unless(strlen($class),
-            FlashException::error(lang('igniter::system.extensions.alert_setting_model_missing'))
+            new FlashException(lang('igniter::system.extensions.alert_setting_model_missing'))
         );
 
         throw_unless(class_exists($class),
-            FlashException::error(sprintf(lang('igniter::system.extensions.alert_setting_model_not_found'), $class))
+            new FlashException(sprintf(lang('igniter::system.extensions.alert_setting_model_not_found'), $class))
         );
 
         return new $class;

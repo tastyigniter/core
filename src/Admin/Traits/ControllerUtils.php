@@ -44,7 +44,7 @@ trait ControllerUtils
         }
 
         throw_if(in_array(strtolower($action), array_map('strtolower', $this->hiddenActions)),
-            FlashException::error(sprintf('Method [%s] is not allowed in the controller [%s]', $action, get_class($this)))
+            new FlashException(sprintf('Method [%s] is not allowed in the controller [%s]', $action, get_class($this)))
         );
 
         if (method_exists($this, $action)) {
@@ -64,7 +64,7 @@ trait ControllerUtils
             $this->initialize();
         }
 
-        throw_unless($this->checkAction($method), FlashException::error(
+        throw_unless($this->checkAction($method), new FlashException(
             sprintf('Method [%s] is not found in the controller [%s]', $method, get_class($this))
         ));
 

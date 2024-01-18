@@ -266,7 +266,7 @@ class Theme extends Model
         }
 
         if (count($notFound)) {
-            throw FlashException::error(sprintf('The following required extensions must be installed before activating this theme, %s', implode(', ', $notFound)));
+            throw new FlashException(sprintf('The following required extensions must be installed before activating this theme, %s', implode(', ', $notFound)));
         }
 
         $theme->makeDefault();

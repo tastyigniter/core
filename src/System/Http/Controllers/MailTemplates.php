@@ -83,11 +83,11 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
     public function onTestTemplate(?string $context = null, ?string $recordId = null)
     {
         if (!strlen($recordId)) {
-            throw FlashException::error(lang('igniter::system.mail_templates.alert_template_id_not_found'));
+            throw new FlashException(lang('igniter::system.mail_templates.alert_template_id_not_found'));
         }
 
         if (!$model = $this->formFindModelObject($recordId)) {
-            throw FlashException::error(lang('igniter::system.mail_templates.alert_template_not_found'));
+            throw new FlashException(lang('igniter::system.mail_templates.alert_template_not_found'));
         }
 
         $adminUser = $this->getUser();

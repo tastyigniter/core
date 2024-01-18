@@ -247,7 +247,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
     public function formFindModelObject(string $recordId): Theme
     {
         throw_unless(strlen($recordId),
-            FlashException::error(lang('igniter::admin.form.missing_id'))
+            new FlashException(lang('igniter::admin.form.missing_id'))
         );
 
         $model = $this->formCreateModelObject();
@@ -258,7 +258,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $result = $query->where('code', $recordId)->first();
 
         throw_unless($result,
-            FlashException::error(sprintf(lang('igniter::admin.form.not_found'), $recordId))
+            new FlashException(sprintf(lang('igniter::admin.form.not_found'), $recordId))
         );
 
         return $result;

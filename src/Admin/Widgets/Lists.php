@@ -806,7 +806,7 @@ class Lists extends BaseWidget
         $value = make_carbon($value);
 
         if (!$value instanceof Carbon) {
-            throw FlashException::error(sprintf(
+            throw new FlashException(sprintf(
                 lang('igniter::admin.list.invalid_column_datetime'), $column->columnName
             ));
         }
@@ -1070,18 +1070,18 @@ class Lists extends BaseWidget
     public function onBulkAction(): array
     {
         if (!strlen($code = request()->input('code', ''))) {
-            throw FlashException::error(lang('igniter::admin.list.missing_action_code'));
+            throw new FlashException(lang('igniter::admin.list.missing_action_code'));
         }
 
         $parts = explode('.', $code);
         $actionCode = array_shift($parts);
         if (!$bulkAction = array_get($this->getAvailableBulkActions(), $actionCode)) {
-            throw FlashException::error(sprintf(lang('igniter::admin.list.action_not_found'), $actionCode));
+            throw new FlashException(sprintf(lang('igniter::admin.list.action_not_found'), $actionCode));
         }
 
         $checkedIds = request()->input('checked');
         if (!$checkedIds || !is_array($checkedIds) || !count($checkedIds)) {
-            throw FlashException::error(lang('igniter::admin.list.delete_empty'));
+            throw new FlashException(lang('igniter::admin.list.delete_empty'));
         }
 
         $alias = request()->input('alias') ?: $this->primaryAlias;

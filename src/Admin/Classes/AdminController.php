@@ -141,7 +141,7 @@ class AdminController extends Controller
             return $event;
         }
 
-        throw_if($action === '404', FlashException::error(
+        throw_if($action === '404', new FlashException(
             sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this))
         ));
 
@@ -163,7 +163,7 @@ class AdminController extends Controller
 
     protected function execPageAction(string $action, array $params): mixed
     {
-        throw_unless($this->checkAction($action), FlashException::error(
+        throw_unless($this->checkAction($action), new FlashException(
             sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this))
         ));
 
@@ -209,13 +209,13 @@ class AdminController extends Controller
             $this->execPageAction($this->action, $this->params);
 
             if (!isset($this->widgets[$widgetName])) {
-                throw FlashException::error(sprintf(lang('igniter::admin.alert_widget_not_bound_to_controller'), $widgetName));
+                throw new FlashException(sprintf(lang('igniter::admin.alert_widget_not_bound_to_controller'), $widgetName));
             }
 
             $widget = $this->widgets[$widgetName];
 
             if (!$widget->methodExists($handlerName)) {
-                throw FlashException::error(sprintf(lang('igniter::admin.alert_ajax_handler_not_found'), $handler));
+                throw new FlashException(sprintf(lang('igniter::admin.alert_ajax_handler_not_found'), $handler));
             }
 
             $result = call_user_func_array([$widget, $handlerName], array_values($params));
@@ -288,7 +288,7 @@ class AdminController extends Controller
 
             throw new AjaxException($response);
         } catch (MassAssignmentException $ex) {
-            throw FlashException::error(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]));
+            throw new FlashException(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]));
         }
     }
 
