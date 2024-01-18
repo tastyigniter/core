@@ -4,7 +4,7 @@ namespace Igniter\Flame\Pagic\Extension;
 
 abstract class AbstractExtension
 {
-    public function getDirectives()
+    public function getDirectives(): array
     {
         return [];
     }

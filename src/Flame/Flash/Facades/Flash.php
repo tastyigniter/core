@@ -9,7 +9,7 @@ class Flash extends IlluminateFacade
     /**
      * Get the registered name of the component.
      *
-     * @see \System\Libraries\Template
+     * @see \Igniter\Flame\Flash\FlashBag
      * @return string
      */
     protected static function getFacadeAccessor()

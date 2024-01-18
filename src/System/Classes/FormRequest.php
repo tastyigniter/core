@@ -2,13 +2,13 @@
 
 namespace Igniter\System\Classes;
 
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Traits\EventEmitter;
 use Igniter\System\Helpers\ValidationHelper;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 
 class FormRequest extends BaseFormRequest
 {

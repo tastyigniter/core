@@ -21,75 +21,51 @@ class Ellipsoid
      *
      * @var string
      */
-    const AIRY = 'AIRY';
+    public const AIRY = 'AIRY';
 
-    const AUSTRALIAN_NATIONAL = 'AUSTRALIAN_NATIONAL';
+    public const AUSTRALIAN_NATIONAL = 'AUSTRALIAN_NATIONAL';
 
-    const BESSEL_1841 = 'BESSEL_1841';
+    public const BESSEL_1841 = 'BESSEL_1841';
 
-    const BESSEL_1841_NAMBIA = 'BESSEL_1841_NAMBIA';
+    public const BESSEL_1841_NAMBIA = 'BESSEL_1841_NAMBIA';
 
-    const CLARKE_1866 = 'CLARKE_1866';
+    public const CLARKE_1866 = 'CLARKE_1866';
 
-    const CLARKE_1880 = 'CLARKE_1880';
+    public const CLARKE_1880 = 'CLARKE_1880';
 
-    const EVEREST = 'EVEREST';
+    public const EVEREST = 'EVEREST';
 
-    const FISCHER_1960_MERCURY = 'FISCHER_1960_MERCURY';
+    public const FISCHER_1960_MERCURY = 'FISCHER_1960_MERCURY';
 
-    const FISCHER_1968 = 'FISCHER_1968';
+    public const FISCHER_1968 = 'FISCHER_1968';
 
-    const GRS_1967 = 'GRS_1967';
+    public const GRS_1967 = 'GRS_1967';
 
-    const GRS_1980 = 'GRS_1980';
+    public const GRS_1980 = 'GRS_1980';
 
-    const HELMERT_1906 = 'HELMERT_1906';
+    public const HELMERT_1906 = 'HELMERT_1906';
 
-    const HOUGH = 'HOUGH';
+    public const HOUGH = 'HOUGH';
 
-    const INTERNATIONAL = 'INTERNATIONAL';
+    public const INTERNATIONAL = 'INTERNATIONAL';
 
-    const KRASSOVSKY = 'KRASSOVSKY';
+    public const KRASSOVSKY = 'KRASSOVSKY';
 
-    const MODIFIED_AIRY = 'MODIFIED_AIRY';
+    public const MODIFIED_AIRY = 'MODIFIED_AIRY';
 
-    const MODIFIED_EVEREST = 'MODIFIED_EVEREST';
+    public const MODIFIED_EVEREST = 'MODIFIED_EVEREST';
 
-    const MODIFIED_FISCHER_1960 = 'MODIFIED_FISCHER_1960';
+    public const MODIFIED_FISCHER_1960 = 'MODIFIED_FISCHER_1960';
 
-    const SOUTH_AMERICAN_1969 = 'SOUTH_AMERICAN_1969';
+    public const SOUTH_AMERICAN_1969 = 'SOUTH_AMERICAN_1969';
 
-    const WGS60 = 'WGS60';
+    public const WGS60 = 'WGS60';
 
-    const WGS66 = 'WGS66';
+    public const WGS66 = 'WGS66';
 
-    const WGS72 = 'WGS72';
+    public const WGS72 = 'WGS72';
 
-    const WGS84 = 'WGS84';
-
-    /**
-     * The name of the Ellipsoid.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * The semi-major axis (equatorial radius) in meters.
-     * @see http://en.wikipedia.org/wiki/Earth_radius
-     * @see http://home.online.no/~sigurdhu/WGS84_Eng.html
-     *
-     * @var float
-     */
-    protected $a;
-
-    /**
-     * The inverse flattening.
-     * @see http://home.online.no/~sigurdhu/WGS84_Eng.html
-     *
-     * @var float
-     */
-    protected $invF;
+    public const WGS84 = 'WGS84';
 
     /**
      * Selected reference ellipsoids.
@@ -97,10 +73,8 @@ class Ellipsoid
      * DMA Technical Report: Supplement to Department of Defense World Geodetic System 1984 Technical Report.
      * @see http://en.wikipedia.org/wiki/Geodetic_datum
      * @see http://www.colorado.edu/geography/gcraft/notes/datum/gif/refellip.gif
-     *
-     * @var array
      */
-    protected static $referenceEllipsoids = [
+    protected static array $referenceEllipsoids = [
         self::AIRY => [
             'name' => 'Airy',
             'a' => 6377563.396,
@@ -223,29 +197,21 @@ class Ellipsoid
      *
      * @param string $name The name of the ellipsoid to create.
      * @param float $a The semi-major axis (equatorial radius) in meters.
-     * @param float $invF The inverse flattening.
+     * @param ?float $invF The inverse flattening.
      *
      * @throws InvalidArgumentException
      */
-    public function __construct($name, $a, $invF)
+    public function __construct(protected string $name, protected float $a, protected ?float $invF)
     {
         if ((float)$invF <= 0.0) {
             throw new InvalidArgumentException('The inverse flattening cannot be negative or equal to zero !');
         }
-
-        $this->name = $name;
-        $this->a = $a;
-        $this->invF = $invF;
     }
 
     /**
      * Create the ellipsoid chosen by its name.
-     *
-     * @param string $name The name of the ellipsoid to create (optional).
-     *
-     * @return Ellipsoid
      */
-    public static function createFromName($name = self::WGS84)
+    public static function createFromName(string $name = self::WGS84): self
     {
         $name = trim($name);
 
@@ -264,12 +230,8 @@ class Ellipsoid
 
     /**
      * Create an ellipsoid from an array.
-     *
-     * @param array $newEllipsoid The ellipsoid's parameters to create.
-     *
-     * @return Ellipsoid
      */
-    public static function createFromArray(array $newEllipsoid)
+    public static function createFromArray(array $newEllipsoid): self
     {
         if (!isset($newEllipsoid['name'], $newEllipsoid['a'], $newEllipsoid['invF']) || count($newEllipsoid) !== 3) {
             throw new InvalidArgumentException('Ellipsoid arrays should contain `name`, `a` and `invF` keys !');
@@ -280,11 +242,6 @@ class Ellipsoid
 
     /**
      * Check if coordinates have the same ellipsoid.
-     *
-     * @param \Igniter\Flame\Geolite\Contracts\CoordinatesInterface $a A coordinate.
-     * @param \Igniter\Flame\Geolite\Contracts\CoordinatesInterface $b A coordinate.
-     *
-     * @throws \Igniter\Flame\Geolite\Exception\GeoliteException
      */
     public static function checkCoordinatesEllipsoid(CoordinatesInterface $a, CoordinatesInterface $b)
     {
@@ -295,41 +252,33 @@ class Ellipsoid
 
     /**
      * Returns the ellipsoid's name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * Returns the semi-major axis (equatorial radius) in meters.
-     *
-     * @return float
      */
-    public function getA()
+    public function getA(): float
     {
-        return (float)$this->a;
+        return $this->a;
     }
 
     /**
      * Computes and returns the semi-minor axis (polar distance) in meters.
      * @see http://home.online.no/~sigurdhu/WGS84_Eng.html
-     *
-     * @return float
      */
-    public function getB()
+    public function getB(): float
     {
-        return (float)$this->a * (1 - 1 / $this->invF);
+        return $this->a * (1 - 1 / $this->invF);
     }
 
     /**
      * Returns the inverse flattening.
-     *
-     * @return float
      */
-    public function getInvF()
+    public function getInvF(): float
     {
         return (float)$this->invF;
     }
@@ -337,20 +286,16 @@ class Ellipsoid
     /**
      * Computes and returns the arithmetic mean radius in meters.
      * @see http://home.online.no/~sigurdhu/WGS84_Eng.html
-     *
-     * @return float
      */
-    public function getArithmeticMeanRadius()
+    public function getArithmeticMeanRadius(): float
     {
-        return (float)$this->a * (1 - 1 / $this->invF / 3);
+        return $this->a * (1 - 1 / $this->invF / 3);
     }
 
     /**
      * Returns the list of available ellipsoids sorted by alphabetical order.
-     *
-     * @return string The list of available ellipsoids comma separated.
      */
-    public static function getAvailableEllipsoidNames()
+    public static function getAvailableEllipsoidNames(): string
     {
         ksort(self::$referenceEllipsoids);
 

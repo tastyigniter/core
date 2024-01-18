@@ -8,7 +8,7 @@ namespace Igniter\Flame\Mail;
  */
 class MailParser
 {
-    const SECTION_SEPARATOR = '==';
+    public const SECTION_SEPARATOR = '==';
 
     /**
      * Parses Mail template content.
@@ -32,9 +32,7 @@ class MailParser
     {
         $sections = preg_split('/^={2,}\s*/m', $content, -1);
         $count = count($sections);
-        foreach ($sections as &$section) {
-            $section = trim($section);
-        }
+        $sections = array_map('trim', $sections);
 
         $result = [
             'settings' => [],

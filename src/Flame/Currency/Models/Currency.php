@@ -6,7 +6,7 @@ use Igniter\Flame\Currency\Contracts\CurrencyInterface;
 use Igniter\Flame\Database\Model;
 
 /**
- * @deprecated
+ * @deprecated remove before v5
  */
 abstract class Currency extends Model implements CurrencyInterface
 {

@@ -6,60 +6,33 @@ use Illuminate\Support\Arr;
 
 abstract class SettingStore
 {
-    /**
-     * The settings items.
-     * @var array
-     */
-    protected $items = [];
+    /** The settings items. */
+    protected array $items = [];
 
-    /**
-     * Whether the store has changed since it was last loaded.
-     * @var bool
-     */
-    protected $unsaved = false;
+    /** Whether the store has changed since it was last loaded. */
+    protected bool $unsaved = false;
 
-    /**
-     * Whether the settings data are loaded.
-     * @var bool
-     */
-    protected $loaded = false;
+    /** Whether the settings data are loaded. */
+    protected bool $loaded = false;
 
-    /**
-     * Get a specific key from the settings data.
-     *
-     * @param  string|array $key
-     * @param  mixed $default Optional default value.
-     *
-     * @return mixed
-     */
-    public function get($key, $default = null)
+    /** Get a specific key from the settings data. */
+    public function get(array|string $key, mixed $default = null): mixed
     {
         $this->load();
 
         return Arr::get($this->items, $key, $default);
     }
 
-    /**
-     * Determine if a key exists in the settings data.
-     *
-     * @param  string $key
-     *
-     * @return bool
-     */
-    public function has($key)
+    /** Determine if a key exists in the settings data. */
+    public function has(string $key): bool
     {
         $this->load();
 
         return Arr::has($this->items, $key);
     }
 
-    /**
-     * Set a specific key to a value in the settings data.
-     *
-     * @param string|array $key Key string or associative array of key => value
-     * @param mixed $value Optional only if the first argument is an array
-     */
-    public function set($key, $value = null)
+    /** Set a specific key to a value in the settings data. */
+    public function set(array|string $key, mixed $value = null): self
     {
         $this->load();
         $this->unsaved = true;
@@ -75,12 +48,8 @@ abstract class SettingStore
         return $this;
     }
 
-    /**
-     * Unset a key in the settings data.
-     *
-     * @param  string $key
-     */
-    public function forget($key)
+    /** Unset a key in the settings data. */
+    public function forget(string $key)
     {
         $this->unsaved = true;
 
@@ -89,31 +58,22 @@ abstract class SettingStore
         }
     }
 
-    /**
-     * Unset all keys in the settings data.
-     * @return void
-     */
+    /** Unset all keys in the settings data. */
     public function forgetAll()
     {
         $this->unsaved = true;
         $this->items = [];
     }
 
-    /**
-     * Get all settings data.
-     * @return array
-     */
-    public function all()
+    /** Get all settings data. */
+    public function all(): array
     {
         $this->load();
 
         return $this->items;
     }
 
-    /**
-     * Save any changes done to the settings data.
-     * @return void
-     */
+    /** Save any changes done to the settings data. */
     public function save()
     {
         if (!$this->unsaved) {
@@ -126,12 +86,8 @@ abstract class SettingStore
         $this->unsaved = false;
     }
 
-    /**
-     * Make sure data is loaded.
-     *
-     * @param bool $force Force a reload of data. Default false.
-     */
-    public function load($force = false)
+    /** Make sure data is loaded. */
+    public function load(bool $force = false)
     {
         if (!$this->loaded || $force) {
             $this->items = $this->read();
@@ -139,16 +95,11 @@ abstract class SettingStore
         }
     }
 
-    /**
-     * Read the data from the store.
-     * @return array
-     */
-    abstract protected function read();
+    /** Read the data from the store. */
+    abstract protected function read(): array;
 
     /**
      * Write the data into the store.
-     *
-     * @return void
      */
     abstract protected function write(array $data);
 }

@@ -9,12 +9,8 @@ class Processor
 {
     /**
      * Process the results of a singular "select" query.
-     *
-     * @param array $result
-     *
-     * @return array
      */
-    public function processSelect(Finder $finder, $result)
+    public function processSelect(Finder $finder, ?array $result): ?array
     {
         if ($result === null) {
             return null;
@@ -27,12 +23,8 @@ class Processor
 
     /**
      * Process the results of a "select" query.
-     *
-     * @param array $results
-     *
-     * @return array
      */
-    public function processSelectAll(Finder $finder, $results)
+    public function processSelectAll(Finder $finder, array $results): ?array
     {
         if (!count($results)) {
             return [];
@@ -50,10 +42,8 @@ class Processor
 
     /**
      * Helper to break down template content in to a useful array.
-     *
-     * @return array
      */
-    protected function parseTemplateContent($result, $fileName, Finder $finder)
+    protected function parseTemplateContent(array $result, string $fileName, Finder $finder): array
     {
         $content = array_get($result, 'content');
 
@@ -71,24 +61,16 @@ class Processor
 
     /**
      * Process the data in to an insert action.
-     *
-     * @param array $data
-     *
-     * @return string
      */
-    public function processInsert(Finder $finder, $data)
+    public function processInsert(Finder $finder, array $data): string
     {
         return SectionParser::render($data);
     }
 
     /**
      * Process the data in to an update action.
-     *
-     * @param array $data
-     *
-     * @return string
      */
-    public function processUpdate(Finder $finder, $data)
+    public function processUpdate(Finder $finder, array $data): string
     {
         $existingData = $finder->getModel()->attributesToArray();
 

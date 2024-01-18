@@ -5,53 +5,43 @@ namespace Igniter\Flame\Setting;
 use Exception;
 use Illuminate\Cache\Repository;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class DatabaseSettingStore extends SettingStore
 {
-    /**
-     * The database connection instance.
-     * @var \Illuminate\Database\DatabaseManager
-     */
-    protected $db;
+    /** The database connection instance. */
+    protected DatabaseManager $db;
 
-    /**
-     * The cache instance.
-     * @var \Illuminate\Cache\Repository
-     */
-    protected $cache;
+    /** The cache instance. */
+    protected Repository $cache;
 
-    protected $cacheKey;
+    protected ?string $cacheKey = null;
 
     /**
      * The table to query from.
      * @var string
      */
-    protected $table = 'settings';
+    protected string $table = 'settings';
 
     /**
      * The key column name to query from.
      * @var string
      */
-    protected $keyColumn = 'item';
+    protected string $keyColumn = 'item';
 
     /**
      * The value column name to query from.
      * @var string
      */
-    protected $valueColumn = 'value';
+    protected string $valueColumn = 'value';
 
-    /**
-     * Any query constraints that should be applied.
-     * @var \Closure|null
-     */
-    protected $queryConstraint;
+    /** Any query constraints that should be applied. */
+    protected ?\Closure $queryConstraint = null;
 
-    /**
-     * Any extra columns that should be added to the rows.
-     * @var array
-     */
-    protected $extraColumns = [];
+    /** Any extra columns that should be added to the rows. */
+    protected array $extraColumns = [];
 
     public function __construct(DatabaseManager $db, Repository $cache)
     {
@@ -61,10 +51,8 @@ class DatabaseSettingStore extends SettingStore
 
     /**
      * Set the table to query from.
-     *
-     * @param string $table
      */
-    public function setTable($table)
+    public function setTable(string $table)
     {
         $this->table = $table;
     }
@@ -72,7 +60,7 @@ class DatabaseSettingStore extends SettingStore
     /**
      * Set the key column name to query from.
      */
-    public function setKeyColumn($keyColumn)
+    public function setKeyColumn(string $keyColumn)
     {
         $this->keyColumn = $keyColumn;
     }
@@ -80,7 +68,7 @@ class DatabaseSettingStore extends SettingStore
     /**
      * Set the value column name to query from.
      */
-    public function setValueColumn($valueColumn)
+    public function setValueColumn(string $valueColumn)
     {
         $this->valueColumn = $valueColumn;
     }
@@ -103,10 +91,7 @@ class DatabaseSettingStore extends SettingStore
         $this->extraColumns = $columns;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function forget($key)
+    public function forget(string $key)
     {
         parent::forget($key);
 
@@ -129,9 +114,6 @@ class DatabaseSettingStore extends SettingStore
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function write(array $data)
     {
         if (!$this->hasDatabase()) {
@@ -205,10 +187,7 @@ class DatabaseSettingStore extends SettingStore
         return $dbData;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function read()
+    protected function read(): array
     {
         if (!$this->hasDatabase()) {
             return [];
@@ -223,12 +202,8 @@ class DatabaseSettingStore extends SettingStore
 
     /**
      * Parse data coming from the database.
-     *
-     * @param \Illuminate\Support\Collection $data
-     *
-     * @return array
      */
-    protected function parseReadData($data)
+    protected function parseReadData(Collection $data): array
     {
         $results = [];
 
@@ -251,12 +226,8 @@ class DatabaseSettingStore extends SettingStore
 
     /**
      * Create a new query builder instance.
-     *
-     * @param  $insert  boolean  Whether the query is an insert or not.
-     *
-     * @return \Illuminate\Database\Query\Builder
      */
-    protected function newQuery($insert = false)
+    protected function newQuery(bool $insert = false): Builder
     {
         $query = $this->db->table($this->table);
 
@@ -274,17 +245,17 @@ class DatabaseSettingStore extends SettingStore
         return $query;
     }
 
-    protected function parseKeyValue($value)
+    protected function parseKeyValue(mixed $value): mixed
     {
         $_value = @unserialize($value);
-        if ($_value === false && $_value !== 'b:0;') {
+        if ($_value === false) {
             return $value;
         }
 
         return $_value;
     }
 
-    protected function parseInsertKeyValue($value)
+    protected function parseInsertKeyValue(mixed $value): mixed
     {
         return is_scalar($value) ? $value : null;
     }
@@ -293,31 +264,25 @@ class DatabaseSettingStore extends SettingStore
     // Cache
     //
 
-    /**
-     * @return mixed
-     */
-    public function getCacheKey()
+    public function getCacheKey(): ?string
     {
         return $this->cacheKey;
     }
 
-    /**
-     * @param mixed $cacheKey
-     */
-    public function setCacheKey($cacheKey)
+    public function setCacheKey(string $cacheKey)
     {
         $this->cacheKey = $cacheKey;
     }
 
     public function flushCache()
     {
-        if ($cacheKey = $this->getCacheKey()) {
+        if ($this->getCacheKey()) {
             $this->cache->forget($this->getCacheKey());
             $this->loaded = false;
         }
     }
 
-    protected function cacheCallback(\Closure $callback)
+    protected function cacheCallback(\Closure $callback): Collection
     {
         if ($cacheKey = $this->getCacheKey()) {
             return $this->cache->rememberForever($cacheKey, $callback);
@@ -326,11 +291,11 @@ class DatabaseSettingStore extends SettingStore
         return $callback();
     }
 
-    protected function hasDatabase()
+    protected function hasDatabase(): bool
     {
         try {
             return $this->db->getSchemaBuilder()->hasTable($this->table);
-        } catch (Exception $ex) {
+        } catch (Exception) {
             return false;
         }
     }

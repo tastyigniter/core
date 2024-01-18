@@ -8,14 +8,7 @@ use InvalidArgumentException;
 
 class AdminLevelCollection extends Collection
 {
-    const MAX_LEVEL_DEPTH = 5;
-
-    /**
-     * The items contained in the collection.
-     *
-     * @var \Igniter\Flame\Geolite\Model\AdminLevel[]
-     */
-    protected $items = [];
+    public const MAX_LEVEL_DEPTH = 5;
 
     /**
      * @param \Igniter\Flame\Geolite\Model\AdminLevel[] $items
@@ -25,9 +18,6 @@ class AdminLevelCollection extends Collection
         $this->items = $this->validateAdminLevels($items);
     }
 
-    /**
-     * @throws \OutOfBoundsException
-     */
     protected function checkLevel(int $level)
     {
         if ($level <= 0 || $level > self::MAX_LEVEL_DEPTH) {
@@ -38,7 +28,7 @@ class AdminLevelCollection extends Collection
         }
     }
 
-    protected function validateAdminLevels(array $items)
+    protected function validateAdminLevels(array $items): array
     {
         $levels = [];
         foreach ($items as $adminLevel) {

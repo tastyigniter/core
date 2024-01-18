@@ -4,6 +4,7 @@ namespace Igniter\Flame\Mixins;
 
 use Illuminate\Support\Str;
 
+/** @mixin \Illuminate\Support\Str */
 class StringMixin
 {
     /**
@@ -18,16 +19,12 @@ class StringMixin
                 return $number.'th';
             }
 
-            switch ($number % 10) {
-                case 1:
-                    return $number.'st';
-                case 2:
-                    return $number.'nd';
-                case 3:
-                    return $number.'rd';
-                default:
-                    return $number.'th';
-            }
+            return match ($number % 10) {
+                1 => $number.'st',
+                2 => $number.'nd',
+                3 => $number.'rd',
+                default => $number.'th',
+            };
         };
     }
 
@@ -50,15 +47,13 @@ class StringMixin
             if (is_object($name)) {
                 $name = get_class($name);
             }
-            $name = '\\'.ltrim($name, '\\');
 
-            return $name;
+            return '\\'.ltrim($name, '\\');
         };
     }
 
     /**
      * Generates a class ID from either an object or a string of the class name.
-     * @param $name
      */
     public function getClassId()
     {
@@ -75,7 +70,6 @@ class StringMixin
 
     /**
      * Returns a class namespace
-     * @param $name
      */
     public function getClassNamespace()
     {
@@ -89,9 +83,6 @@ class StringMixin
     /**
      * If $string begins with any number of consecutive symbols,
      * returns the number, otherwise returns 0
-     *
-     * @param string $string
-     * @param string $symbol
      */
     public function getPrecedingSymbols()
     {

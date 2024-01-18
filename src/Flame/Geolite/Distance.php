@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Geolite;
 
+use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Exception\GeoliteException;
 use Igniter\Flame\Geolite\Model\Ellipsoid;
 
@@ -9,94 +10,63 @@ class Distance implements Contracts\DistanceInterface
 {
     /**
      * The origin coordinate.
-     *
-     * @var Contracts\CoordinatesInterface
      */
-    protected $from;
+    protected ?CoordinatesInterface $from;
 
     /**
      * The destination coordinate.
-     *
-     * @var Contracts\CoordinatesInterface
      */
-    protected $to;
+    protected ?CoordinatesInterface $to;
 
     /**
      * The user unit.
-     *
-     * @var string
      */
-    protected $unit;
+    protected string $unit;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setFrom(Contracts\CoordinatesInterface $from)
+    public function setFrom(Contracts\CoordinatesInterface $from): self
     {
         $this->from = $from;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFrom()
+    public function getFrom(): CoordinatesInterface
     {
         return $this->from;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setTo(Contracts\CoordinatesInterface $to)
+    public function setTo(Contracts\CoordinatesInterface $to): self
     {
         $this->to = $to;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTo()
+    public function getTo(): CoordinatesInterface
     {
         return $this->to;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function in($unit)
+    public function in(string $unit): self
     {
         $this->unit = $unit;
 
         return $this;
     }
 
-    public function getUnit()
+    public function getUnit(): string
     {
         return $this->unit;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return self
-     */
-    public function withData(string $name, $value)
+    public function withData(string $name, mixed $value): self
     {
         $this->data[$name] = $value;
 
         return $this;
     }
 
-    /**
-     * @param mixed|null $default
-     *
-     * @return mixed
-     */
-    public function getData(string $name, $default = null)
+    public function getData(string $name, mixed $default = null): mixed
     {
         if (!array_key_exists($name, $this->data)) {
             return $default;
@@ -110,10 +80,8 @@ class Distance implements Contracts\DistanceInterface
      * using Pythagoras’ theorem which is not very accurate.
      * @see http://en.wikipedia.org/wiki/Pythagorean_theorem
      * @see http://en.wikipedia.org/wiki/Equirectangular_projection
-     *
-     * @return float The distance in meters
      */
-    public function flat()
+    public function flat(): int|float
     {
         Ellipsoid::checkCoordinatesEllipsoid($this->from, $this->to);
 
@@ -135,10 +103,8 @@ class Distance implements Contracts\DistanceInterface
      * using the spherical trigonometry called Great Circle Distance.
      * @see http://www.ga.gov.au/earth-monitoring/geodesy/geodetic-techniques/distance-calculation-algorithms.html#circle
      * @see http://en.wikipedia.org/wiki/Cosine_law
-     *
-     * @return float The distance in meters
      */
-    public function greatCircle()
+    public function greatCircle(): int|float
     {
         Ellipsoid::checkCoordinatesEllipsoid($this->from, $this->to);
 
@@ -161,10 +127,8 @@ class Distance implements Contracts\DistanceInterface
      * Returns the approximate sea level great circle (Earth) distance between
      * two coordinates using the Haversine formula which is accurate to around 0.3%.
      * @see http://www.movable-type.co.uk/scripts/latlong.html
-     *
-     * @return float The distance in meters
      */
-    public function haversine()
+    public function haversine(): int|float
     {
         Ellipsoid::checkCoordinatesEllipsoid($this->from, $this->to);
 
@@ -186,10 +150,8 @@ class Distance implements Contracts\DistanceInterface
      * Returns geodetic distance between between two coordinates using Vincenty inverse
      * formula for ellipsoids which is accurate to within 0.5mm.
      * @see http://www.movable-type.co.uk/scripts/latlong-vincenty.html
-     *
-     * @return float The distance in meters
      */
-    public function vincenty()
+    public function vincenty(): int|float
     {
         Ellipsoid::checkCoordinatesEllipsoid($this->from, $this->to);
 
@@ -251,22 +213,14 @@ class Distance implements Contracts\DistanceInterface
     /**
      * Converts results in meters to user's unit (if any).
      * The default returned value is in meters.
-     *
-     * @param float $meters
-     *
-     * @return float
      */
-    public function convertToUserUnit($meters)
+    public function convertToUserUnit(int|float $meters): int|float
     {
-        switch ($this->unit) {
-            case Geolite::KILOMETER_UNIT:
-                return $meters / 1000;
-            case Geolite::MILE_UNIT:
-                return $meters / Geolite::METERS_PER_MILE;
-            case Geolite::FOOT_UNIT:
-                return $meters / Geolite::FEET_PER_METER;
-            default:
-                return $meters;
-        }
+        return match ($this->unit) {
+            Geolite::KILOMETER_UNIT => $meters / 1000,
+            Geolite::MILE_UNIT => $meters / Geolite::METERS_PER_MILE,
+            Geolite::FOOT_UNIT => $meters / Geolite::FEET_PER_METER,
+            default => $meters,
+        };
     }
 }

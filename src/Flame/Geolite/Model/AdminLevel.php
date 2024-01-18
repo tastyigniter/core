@@ -2,28 +2,14 @@
 
 namespace Igniter\Flame\Geolite\Model;
 
-class AdminLevel
+readonly class AdminLevel
 {
-    /**
-     * @var int
-     */
-    private $level;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string|null
-     */
-    private $code;
-
-    public function __construct(int $level, string $name, ?string $code = null)
+    public function __construct(
+        private int $level,
+        private string $name,
+        private ?string $code = null
+    )
     {
-        $this->level = $level;
-        $this->name = $name;
-        $this->code = $code;
     }
 
     /**

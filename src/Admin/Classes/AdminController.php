@@ -8,13 +8,13 @@ use Igniter\Admin\Widgets\Menu;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\FlashException;
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
 use Igniter\Main\Widgets\MediaManager;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
@@ -135,7 +135,7 @@ class AdminController extends Controller
         // Check that user has permission to access this page
         $requiredPermissions = $this->getRequiredPermissionsForAction($action);
         throw_if($requiredPermissions && !$this->authorize($requiredPermissions),
-            FlashException::error(lang('igniter::admin.alert_user_restricted')));
+            new FlashException(lang('igniter::admin.alert_user_restricted')));
 
         if ($event = $this->fireSystemEvent('admin.controller.beforeResponse', [$action, $params])) {
             return $event;
@@ -283,7 +283,7 @@ class AdminController extends Controller
 
             return $response;
         } catch (ValidationException $ex) {
-            $response['X_IGNITER_ERROR_FIELDS'] = $ex->getFields();
+            $response['X_IGNITER_ERROR_FIELDS'] = $ex->errors();
             $response['X_IGNITER_ERROR_MESSAGE'] = lang('igniter::admin.alert_form_error_message');
 
             throw new AjaxException($response);

@@ -3,7 +3,6 @@
 namespace Igniter\System\Helpers;
 
 use Igniter\Flame\Exception\SystemException;
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
@@ -163,7 +162,7 @@ class SystemHelper
 
     public static function extensionValidateConfig(array $config): array
     {
-        $validator = Validator::make($config, [
+        Validator::make($config, [
             'code' => [
                 'required',
                 'regex:/^[A-Za-z_-]+(\.?)+[A-Za-z_-]+$/',
@@ -179,9 +178,7 @@ class SystemHelper
             'icon.backgroundColor' => ['sometimes', 'string', 'max:30'],
             'homepage' => ['sometimes', 'url', 'max:255'],
             'require' => ['sometimes', 'array'],
-        ]);
-
-        throw_if($validator->fails(), ValidationException::class, $validator);
+        ])->validate();
 
         return $config;
     }

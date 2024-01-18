@@ -4,9 +4,6 @@ namespace Igniter\Flame\Filesystem;
 
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Class FilesystemServiceProvider
- */
 class FilesystemServiceProvider extends ServiceProvider
 {
     public function register()

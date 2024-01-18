@@ -14,7 +14,7 @@ class MemorySettingStore extends SettingStore
     /**
      * {@inheritdoc}
      */
-    protected function read()
+    protected function read(): array
     {
         return $this->items;
     }

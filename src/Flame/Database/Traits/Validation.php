@@ -2,13 +2,13 @@
 
 namespace Igniter\Flame\Database\Traits;
 
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\System\Helpers\ValidationHelper;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use LogicException;
 
 /**
@@ -179,7 +179,7 @@ trait Validation
     {
         $validator = $this->makeValidator($this->getRules());
 
-        throw new ValidationException($validator, $this);
+        throw new ValidationException($validator);
     }
 
     /**

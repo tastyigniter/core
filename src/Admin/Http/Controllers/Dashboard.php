@@ -11,6 +11,8 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
 {
     public array $containerConfig = [];
 
+    protected null|string|array $requiredPermissions = 'Admin.Dashboard';
+
     public function __construct()
     {
         parent::__construct();

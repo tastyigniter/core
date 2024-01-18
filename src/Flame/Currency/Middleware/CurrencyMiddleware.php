@@ -9,12 +9,8 @@ class CurrencyMiddleware
 {
     /**
      * Handle an incoming request.
-     *
-     * @param Request $request
-     *
-     * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         // Don't redirect the console
         if (app()->runningInConsole()) {
@@ -36,10 +32,8 @@ class CurrencyMiddleware
 
     /**
      * Get the user selected currency.
-     *
-     * @return string|null
      */
-    protected function getUserCurrency(Request $request)
+    protected function getUserCurrency(Request $request): ?string
     {
         // Check request for currency
         $currency = $request->get('currency');
@@ -58,30 +52,21 @@ class CurrencyMiddleware
 
     /**
      * Get the application default currency.
-     *
-     * @return string
      */
-    protected function getDefaultCurrency()
+    protected function getDefaultCurrency(): string
     {
         return currency()->config('default');
     }
 
     /**
      * Set the user currency.
-     *
-     * @param string $currency
-     * @param Request $request
-     *
-     * @return string
      */
-    private function setUserCurrency($currency, $request)
+    private function setUserCurrency(string $currency, Request $request)
     {
         // Set user selection globally
         currency()->setUserCurrency($currency = strtoupper($currency));
 
         // Save it for later too!
         $request->getSession()->put(['igniter.currency' => $currency]);
-
-        return $currency;
     }
 }

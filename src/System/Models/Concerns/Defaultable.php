@@ -2,8 +2,8 @@
 
 namespace Igniter\System\Models\Concerns;
 
-use Igniter\Flame\Exception\ValidationException;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Validation\ValidationException;
 
 trait Defaultable
 {
@@ -57,7 +57,7 @@ trait Defaultable
     {
         if ($this->defaultableUsesSwitchable()) {
             if (!$this->{$this->switchableGetColumn()}) {
-                throw new ValidationException([$this->switchableGetColumn() => sprintf(
+                throw ValidationException::withMessages([$this->switchableGetColumn() => sprintf(
                     lang('igniter::admin.alert_error_set_default'), $this->defaultableName()
                 )]);
             }

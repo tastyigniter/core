@@ -2,107 +2,74 @@
 
 namespace Igniter\Flame\Geolite;
 
-use InvalidArgumentException;
+use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
+use Igniter\Flame\Geolite\Model\Bounds;
 
 class Circle implements Contracts\CircleInterface
 {
     const TYPE = 'CIRCLE';
 
-    /**
-     * @var Contracts\CoordinatesInterface
-     */
-    protected $coordinate;
+    protected CoordinatesInterface $coordinate;
 
-    /**
-     * @var int
-     */
-    protected $radius;
+    protected int $radius;
 
-    /**
-     * The user unit.
-     *
-     * @var string
-     */
-    protected $unit;
+    protected ?string $unit = null;
 
-    /**
-     * @var int
-     */
-    protected $precision = 8;
+    protected int $precision = 8;
 
-    /**
-     * @param null|array|Model\Coordinates $coordinate
-     */
-    public function __construct($coordinate, int $radius)
+    public function __construct(array|CoordinatesInterface $coordinate, int $radius)
     {
         if ($coordinate instanceof Contracts\CoordinatesInterface) {
             $this->coordinate = $coordinate;
-        } elseif (is_array($coordinate)) {
+        } else {
             [$latitude, $longitude] = $coordinate;
             $this->coordinate = new Model\Coordinates($latitude, $longitude);
-        } else {
-            throw new InvalidArgumentException();
         }
 
         $this->radius = $radius;
     }
 
-    public function getRadius()
+    public function getRadius(): int
     {
         return $this->radius;
     }
 
     /**
      * Returns the geometry type.
-     *
-     * @return string
      */
-    public function getGeometryType()
+    public function getGeometryType(): string
     {
         return static::TYPE;
     }
 
     /**
      * Returns the precision of the geometry.
-     *
-     * @return int
      */
-    public function getPrecision()
+    public function getPrecision(): int
     {
         return $this->precision;
     }
 
-    /**
-     * @param  int $precision
-     * @return $this
-     */
-    public function setPrecision($precision)
+    public function setPrecision(int $precision): Circle
     {
         $this->precision = $precision;
 
         return $this;
     }
 
-    public function getCoordinate()
+    public function getCoordinate(): ?CoordinatesInterface
     {
         return $this->coordinate;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCoordinates()
+    public function getCoordinates(): Model\CoordinatesCollection
     {
-        return $this->getCoordinate();
+        return new Model\CoordinatesCollection([$this->getCoordinate()]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setCoordinates(Model\CoordinatesCollection $coordinates)
+    public function setCoordinate(CoordinatesInterface $coordinate)
     {
-        $this->coordinates = $coordinates;
-        $this->bounds->setPolygon($this);
+        $this->coordinate = $coordinate;
 
         return $this;
     }
@@ -113,27 +80,22 @@ class Circle implements Contracts\CircleInterface
 
     /**
      * Returns true if the geometry is empty.
-     *
-     * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return !$this->getCoordinate()->getLatitude()
             || !$this->getCoordinate()->getLongitude()
             || !$this->getRadius();
     }
 
-    public function distanceUnit($unit)
+    public function distanceUnit($unit): Contracts\CircleInterface
     {
         $this->unit = $unit;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function pointInRadius(Contracts\CoordinatesInterface $coordinate)
+    public function pointInRadius(Contracts\CoordinatesInterface $coordinate): bool
     {
         $distance = new Distance();
         $distance->in($this->unit)
@@ -147,10 +109,8 @@ class Circle implements Contracts\CircleInterface
 
     /**
      * Returns the bounding box of the Geometry
-     *
-     * @return \Igniter\Flame\Geolite\Model\Bounds
      */
-    public function getBounds()
+    public function getBounds(): ?Bounds
     {
         return null;
     }

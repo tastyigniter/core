@@ -34,12 +34,6 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
 
     private array $values;
 
-    /**
-     * Constructor.
-     * @param array $assets Assets for the current collection
-     * @param FilterCollection $filters Filters for the current collection
-     * @param string $sourceRoot The root directory
-     */
     public function __construct(
         private array $assets,
         array $filters,
@@ -173,10 +167,12 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
 
     public function getSourcePath(): ?string
     {
+        return null;
     }
 
     public function getSourceDirectory(): ?string
     {
+        return null;
     }
 
     public function getTargetPath(): ?string

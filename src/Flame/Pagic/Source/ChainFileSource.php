@@ -8,16 +8,10 @@ use Igniter\Flame\Pagic\Processors\Processor;
 class ChainFileSource extends AbstractSource implements SourceInterface
 {
     /**
-     * @var array The available source instances
-     */
-    protected $sources = [];
-
-    /**
      * Create a new source instance.
      */
-    public function __construct(array $sources)
+    public function __construct(protected array $sources)
     {
-        $this->sources = $sources;
         $this->processor = new Processor;
     }
 
@@ -26,21 +20,15 @@ class ChainFileSource extends AbstractSource implements SourceInterface
      *
      * @return SourceInterface
      */
-    protected function getActiveSource()
+    protected function getActiveSource(): SourceInterface
     {
         return array_first($this->sources);
     }
 
     /**
      * Returns a single source.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     *
-     * @return mixed
      */
-    public function select($dirName, $fileName, $extension)
+    public function select(string $dirName, string $fileName, string $extension): ?array
     {
         foreach ($this->sources as $source) {
             if ($filePath = $source->select($dirName, $fileName, $extension)) {
@@ -53,12 +41,8 @@ class ChainFileSource extends AbstractSource implements SourceInterface
 
     /**
      * Returns all sources.
-     *
-     * @param string $dirName
-     *
-     * @return array
      */
-    public function selectAll($dirName, array $options = [])
+    public function selectAll(string $dirName, array $options = []): array
     {
         $sourceResults = array_map(function (SourceInterface $source) use ($dirName, $options) {
             return $source->selectAll($dirName, $options);
@@ -72,46 +56,31 @@ class ChainFileSource extends AbstractSource implements SourceInterface
 
     /**
      * Creates a new source.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     * @param string $content
-     *
-     * @return bool
      */
-    public function insert($dirName, $fileName, $extension, $content)
+    public function insert(string $dirName, string $fileName, string $extension, string $content): bool
     {
         return $this->getActiveSource()->insert($dirName, $fileName, $extension, $content);
     }
 
     /**
      * Updates an existing source.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     * @param string $content
-     * @param string $oldFileName
-     * @param string $oldExtension
-     *
-     * @return int
      */
-    public function update($dirName, $fileName, $extension, $content, $oldFileName = null, $oldExtension = null)
+    public function update(
+        string $dirName,
+        string $fileName,
+        string $extension,
+        string $content,
+        ?string $oldFileName = null,
+        ?string $oldExtension = null
+    ): int
     {
         return $this->getActiveSource()->update($dirName, $fileName, $extension, $content, $oldFileName, $oldExtension);
     }
 
     /**
      * Run a delete statement against the source.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     *
-     * @return int
      */
-    public function delete($dirName, $fileName, $extension)
+    public function delete(string $dirName, string $fileName, string $extension): int
     {
         // Delete from only the active source
         return $this->getActiveSource()->delete($dirName, $fileName, $extension);
@@ -119,20 +88,16 @@ class ChainFileSource extends AbstractSource implements SourceInterface
 
     /**
      * Return the last modified date of an object
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     *
-     * @return int
      */
-    public function lastModified($dirName, $fileName, $extension)
+    public function lastModified(string $dirName, string $fileName, string $extension): ?int
     {
         foreach ($this->sources as $source) {
             if ($lastModified = $source->lastModified($dirName, $fileName, $extension)) {
                 return $lastModified;
             }
         }
+
+        return null;
     }
 
     public function path(string $path): ?string
@@ -150,12 +115,8 @@ class ChainFileSource extends AbstractSource implements SourceInterface
 
     /**
      * Generate a cache key unique to this source.
-     *
-     * @param string $name
-     *
-     * @return string
      */
-    public function makeCacheKey($name = '')
+    public function makeCacheKey(string $name = ''): int
     {
         $key = '';
         foreach ($this->sources as $source) {

@@ -10,25 +10,20 @@ use Illuminate\Support\Collection;
 
 trait ManagesSource
 {
-    /**
-     * The source resolver instance.
-     * @var \Igniter\Flame\Pagic\Source\SourceResolverInterface
-     */
-    protected static $resolver;
+    /** The source resolver instance. */
+    protected static ?SourceResolverInterface $resolver;
 
     protected ?string $source = null;
 
-    /**
-     * @var string The directory name associated with the model, eg: _pages.
-     */
-    protected $dirName;
+    /** The directory name associated with the model, eg: _pages. */
+    protected ?string $dirName;
 
     /**
-     * @var int The maximum allowed path nesting level. The default value is 2,
+     * The maximum allowed path nesting level. The default value is 2,
      * meaning that files can only exist in the root directory, or in a
      * subdirectory. Set to null if any level is allowed.
      */
-    protected $maxNesting = 2;
+    protected int $maxNesting = 2;
 
     public static function on(string $source): static
     {

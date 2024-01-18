@@ -3,97 +3,72 @@
 namespace Igniter\Flame\Geolite\Contracts;
 
 use Igniter\Flame\Geolite\Model\AdminLevelCollection;
+use Igniter\Flame\Geolite\Model\Bounds;
+use Igniter\Flame\Geolite\Model\Coordinates;
 
 interface LocationInterface
 {
     /**
      * The name of the provider that created this Location.
-     *
-     * @return string
      */
-    public function getProvidedBy();
+    public function getProvidedBy(): string;
 
     /**
      * Will always return the coordinates value object.
-     *
-     * @return \Igniter\Flame\Geolite\Model\Coordinates|null
      */
-    public function getCoordinates();
+    public function getCoordinates(): ?Coordinates;
 
     /**
      * Returns the bounds value object.
-     *
-     * @return \Igniter\Flame\Geolite\Model\Bounds|null
      */
-    public function getBounds();
+    public function getBounds(): ?Bounds;
 
     /**
      * Returns the street number value.
-     *
-     * @return string|int|null
      */
-    public function getStreetNumber();
+    public function getStreetNumber(): int|string|null;
 
     /**
      * Returns the street name value.
-     *
-     * @return string|null
      */
-    public function getStreetName();
+    public function getStreetName(): ?string;
 
     /**
      * Returns the city or locality value.
-     *
-     * @return string|null
      */
-    public function getLocality();
+    public function getLocality(): ?string;
 
     /**
      * Returns the postal code or zipcode value.
-     *
-     * @return string|null
      */
-    public function getPostalCode();
+    public function getPostalCode(): null|int|string;
 
     /**
-     * Returns the locality district, or
-     * sublocality, or neighborhood.
-     *
-     * @return string|null
+     * Returns the locality district, or sublocality, or neighborhood.
      */
-    public function getSubLocality();
+    public function getSubLocality(): ?string;
 
     /**
      * Returns the administrative levels.
-     *
-     * This method MUST NOT return null.
-     *
-     * @return \Igniter\Flame\Geolite\Model\AdminLevelCollection|null
      */
     public function getAdminLevels(): AdminLevelCollection;
 
     /**
      * Returns the country name.
-     *
-     * @return string|null
      */
-    public function getCountryName();
+    public function getCountryName(): ?string;
 
     /**
      * Returns the country code.
-     *
-     * @return string|null
      */
-    public function getCountryCode();
+    public function getCountryCode(): ?string;
 
     /**
      * Returns the timezone for the Location. The timezone MUST be in the list of supported timezones.
      *
      * {@link http://php.net/manual/en/timezones.php}
-     *
-     * @return string|null
      */
-    public function getTimezone();
+    public function getTimezone(): ?string;
 
     /**
      * Returns an array with data indexed by name.

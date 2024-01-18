@@ -2,61 +2,30 @@
 
 namespace Igniter\Flame\Geolite\Contracts;
 
+use Igniter\Flame\Geolite\Model\Bounds;
+use Igniter\Flame\Geolite\Model\Coordinates;
+
 interface GeoQueryInterface
 {
-    /**
-     * @return GeoQueryInterface
-     */
-    public function withLocale(string $locale);
+    public function withLocale(string $locale): self;
 
-    /**
-     * @return GeoQueryInterface
-     */
-    public function withLimit(int $limit);
+    public function withLimit(int $limit): self;
 
-    /**
-     * @param mixed $value
-     *
-     * @return GeoQueryInterface
-     */
-    public function withData(string $name, $value);
+    public function withData(string $name, mixed $value): self;
 
-    public function getText();
+    public function getText(): string;
 
-    /**
-     * @return \Igniter\Flame\Geolite\Model\Bounds|null
-     */
-    public function getBounds();
+    public function getBounds(): ?BoundsInterface;
 
-    /**
-     * @return string|null
-     */
-    public function getLocale();
+    public function getLocale(): ?string;
 
-    /**
-     * @return int
-     */
-    public function getLimit();
+    public function getLimit(): int;
 
-    /**
-     * @param mixed|null $default
-     *
-     * @return mixed
-     */
-    public function getData(string $name, $default = null);
+    public function getData(string $name, mixed $default = null): mixed;
 
-    /**
-     * @return array
-     */
-    public function getAllData();
+    public function getAllData(): array;
 
-    /**
-     * @return \Igniter\Flame\Geolite\Model\Coordinates
-     */
-    public function getCoordinates();
+    public function getCoordinates(): CoordinatesInterface;
 
-    /**
-     * @return string
-     */
-    public function __toString();
+    public function __toString(): string;
 }

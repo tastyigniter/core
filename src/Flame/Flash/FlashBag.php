@@ -2,39 +2,26 @@
 
 namespace Igniter\Flame\Flash;
 
+use Illuminate\Support\Collection;
+
 class FlashBag
 {
-    protected $sessionKey = '_ti_flash';
+    protected string $sessionKey = '_ti_flash';
 
-    /**
-     * The session store.
-     * @var FlashStore
-     */
-    protected $store;
+    public ?Collection $messages = null;
 
-    /**
-     * The messages collection.
-     *
-     * @var \Illuminate\Support\Collection
-     */
-    public $messages;
-
-    /**
-     * Create a new FlashNotifier instance.
-     */
-    public function __construct(FlashStore $store)
+    public function __construct(protected FlashStore $store)
     {
-        $this->store = $store;
     }
 
-    public function setSessionKey($key)
+    public function setSessionKey(string $key): self
     {
         $this->sessionKey = $key;
 
         return $this;
     }
 
-    public function messages()
+    public function messages(): Collection
     {
         if ($this->messages) {
             return $this->messages;
@@ -45,10 +32,8 @@ class FlashBag
 
     /**
      * Gets all the flash messages
-     *
-     * @return array
      */
-    public function all()
+    public function all(): Collection
     {
         $messages = $this->messages();
 
@@ -57,92 +42,63 @@ class FlashBag
         return $messages;
     }
 
-    public function set($level = null, $message = null)
+    public function set(?string $level = null, ?string $message = null)
     {
         return $this->message($message, $level);
     }
 
     /**
      * Flash a generic message.
-     *
-     * @param string|null $message
-     *
-     * @return $this
      */
-    public function alert($message)
+    public function alert(string $message): self
     {
         return $this->message($message);
     }
 
     /**
      * Flash an information message.
-     *
-     * @param string|null $message
-     *
-     * @return $this
      */
-    public function info($message = null)
+    public function info(string $message): self
     {
         return $this->message($message, 'info');
     }
 
     /**
      * Flash a success message.
-     *
-     * @param string|null $message
-     *
-     * @return $this
      */
-    public function success($message = null)
+    public function success(string $message): self
     {
         return $this->message($message, 'success');
     }
 
     /**
      * Flash an error message.
-     *
-     * @param string|null $message
-     *
-     * @return $this
      */
-    public function error($message = null)
+    public function error(string $message): self
     {
         return $this->message($message, 'danger');
     }
 
     /**
      * Flash an error message.
-     *
-     * @param string|null $message
-     *
-     * @return $this
      */
-    public function danger($message = null)
+    public function danger(string $message): self
     {
         return $this->error($message);
     }
 
     /**
      * Flash a warning message.
-     *
-     * @param string|null $message
-     *
-     * @return $this
      */
-    public function warning($message = null)
+    public function warning(string $message): self
     {
         return $this->message($message, 'warning');
     }
 
     /**
      * Flash a general message.
-     *
-     * @param string|null $message
-     * @param string|null $level
-     *
-     * @return $this
      */
-    public function message($message = null, $level = null)
+    public function message(null|string|Message $message = null, ?string $level = null): self
     {
         // If no message was provided, we should update
         // the most recently added message.
@@ -161,12 +117,8 @@ class FlashBag
 
     /**
      * Modify the most recently added message.
-     *
-     * @param array $overrides
-     *
-     * @return $this
      */
-    protected function updateLastMessage($overrides = [])
+    protected function updateLastMessage(array $overrides = []): self
     {
         $this->messages()->last()->update($overrides);
 
@@ -175,13 +127,8 @@ class FlashBag
 
     /**
      * Flash an overlay modal.
-     *
-     * @param string|null $message
-     * @param string $title
-     *
-     * @return $this
      */
-    public function overlay($message = null, $title = '')
+    public function overlay(?string $message = null, string $title = ''): FlashBag
     {
         if (!$message) {
             return $this->updateLastMessage(['title' => $title, 'overlay' => true, 'important' => true]);
@@ -194,27 +141,24 @@ class FlashBag
 
     /**
      * Add a "now" flash to the store.
-     * @return $this
      */
-    public function now()
+    public function now(): self
     {
         return $this->updateLastMessage(['now' => true]);
     }
 
     /**
      * Add an "important" flash to the store.
-     * @return $this
      */
-    public function important()
+    public function important(): self
     {
         return $this->updateLastMessage(['important' => true]);
     }
 
     /**
      * Clear all registered messages.
-     * @return $this
      */
-    public function clear()
+    public function clear(): self
     {
         $this->store->forget($this->sessionKey);
 
@@ -226,7 +170,7 @@ class FlashBag
     /**
      * Flash all messages to the store.
      */
-    protected function flash()
+    protected function flash(): self
     {
         $this->store->flash($this->sessionKey, $this->messages());
 

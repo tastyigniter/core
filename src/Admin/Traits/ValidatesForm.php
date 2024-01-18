@@ -6,12 +6,12 @@ use Closure;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\SystemException;
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Igniter;
 use Igniter\System\Helpers\ValidationHelper;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 
 trait ValidatesForm
 {

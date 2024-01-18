@@ -7,5 +7,5 @@ namespace Igniter\Flame\Pagic\Source;
  */
 class MemorySource
 {
-    public static $cache = [];
+    public static array $cache = [];
 }

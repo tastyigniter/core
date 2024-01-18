@@ -10,10 +10,9 @@ use Igniter\Flame\Pagic\Model;
  */
 class FileParser
 {
-    /**
-     * @var \Igniter\Flame\Pagic\Model
-     */
-    protected $object;
+    protected ?Model $object = null;
+
+    protected FileSystem $fileCache;
 
     public function __construct()
     {
@@ -29,30 +28,24 @@ class FileParser
 
     /**
      * Runs the object's PHP file and returns the corresponding object.
-     *
-     * @param \Igniter\Main\Template\Page $page The page.
-     * @param \Igniter\Main\Template\Layout $layout The layout.
-     * @param \Igniter\Main\Classes\MainController $controller The controller.
-     *
-     * @return mixed
      */
-    public function source()
+    public function source(): mixed
     {
         $data = $this->process();
         $className = $data['className'];
 
-        if (!class_exists($className)) {
+        if (!$className || !class_exists($className)) {
             $this->fileCache->load($data['filePath']);
         }
 
-        if (!class_exists($className) && $data = $this->handleCorruptCache($data)) {
+        if ((!$className || !class_exists($className)) && ($data = $this->handleCorruptCache($data))) {
             $className = $data['className'];
         }
 
         return new $className(...func_get_args());
     }
 
-    protected function process()
+    protected function process(): array
     {
         $filePath = $this->object->getFilePath();
         $path = $this->fileCache->getCacheKey($filePath);
@@ -91,10 +84,8 @@ class FileParser
 
     /**
      * Compile a page or layout file content as object.
-     *
-     * @return string
      */
-    protected function compile($path)
+    protected function compile(string $path): string
     {
         $code = trim($this->object->code);
         $parentClass = trim($this->object->getCodeClassParent());
@@ -111,7 +102,7 @@ class FileParser
         preg_match_all($pattern, $code, $imports);
         $code = preg_replace($pattern, '', $code);
 
-        if ($parentClass !== null) {
+        if ($parentClass) {
             $parentClass = ' extends '.$parentClass;
         }
 
@@ -134,7 +125,7 @@ class FileParser
         return $className;
     }
 
-    protected function handleCorruptCache($data)
+    protected function handleCorruptCache(array $data): array
     {
         $path = array_get($data, 'filePath', $this->fileCache->getCacheKey($data['className']));
         if (is_file($path)) {
@@ -152,10 +143,8 @@ class FileParser
 
     /**
      * Extracts the class name from a cache file
-     *
-     * @return string
      */
-    protected function extractClassFromFile($path)
+    protected function extractClassFromFile(string $path): ?string
     {
         $fileContent = file_get_contents($path);
         $matches = [];

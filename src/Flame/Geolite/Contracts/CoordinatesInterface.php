@@ -2,66 +2,51 @@
 
 namespace Igniter\Flame\Geolite\Contracts;
 
+use Igniter\Flame\Geolite\Model\Ellipsoid;
+
 interface CoordinatesInterface
 {
     /**
      * Normalizes a latitude to the (-90, 90) range.
      * Latitudes below -90.0 or above 90.0 degrees are capped, not wrapped.
-     *
-     * @param float $latitude The latitude to normalize
-     *
-     * @return float
      */
-    public function normalizeLatitude($latitude);
+    public function normalizeLatitude(int|float $latitude): int|float;
 
     /**
      * Normalizes a longitude to the (-180, 180) range.
      * Longitudes below -180.0 or abode 180.0 degrees are wrapped.
-     *
-     * @param float $longitude The longitude to normalize
-     *
-     * @return float
      */
-    public function normalizeLongitude($longitude);
+    public function normalizeLongitude(int|float $longitude): int|float;
 
     /**
      * Set the latitude.
-     *
-     * @param float $latitude
      */
-    public function setLatitude($latitude);
+    public function setLatitude(float $latitude): self;
 
     /**
      * Get the latitude.
-     *
-     * @return float
      */
-    public function getLatitude();
+    public function getLatitude(): int|float;
 
     /**
      * Set the longitude.
-     *
-     * @param float $longitude
      */
-    public function setLongitude($longitude);
+    public function setLongitude(float $longitude): self;
 
     /**
      * Get the longitude.
-     *
-     * @return float
      */
-    public function getLongitude();
+    public function getLongitude(): int|float;
 
     /**
      * Get the Ellipsoid.
-     *
-     * @return \Igniter\Flame\Geolite\Model\Ellipsoid
      */
-    public function getEllipsoid();
+    public function getEllipsoid(): Ellipsoid;
 
     /**
      * Returns a boolean determining coordinates equality
-     * @return bool
      */
-    public function isEqual(CoordinatesInterface $coordinate);
+    public function isEqual(CoordinatesInterface $coordinate): bool;
+
+    public function toArray(): array;
 }

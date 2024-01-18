@@ -2,67 +2,47 @@
 
 namespace Igniter\Flame\Geolite\Contracts;
 
+use Igniter\Flame\Geolite\Model\CoordinatesCollection;
+
 interface PolygonInterface
 {
     /**
      * Returns the geometry type.
-     *
-     * @return string
      */
-    public function getGeometryType();
+    public function getGeometryType(): string;
 
     /**
      * Returns the precision of the geometry.
-     *
-     * @return int
      */
-    public function getPrecision();
+    public function getPrecision(): ?int;
 
     /**
      *  Returns a vertex of this <code>Geometry</code> (usually, but not necessarily, the first one).
      *  The returned coordinate should not be assumed to be an actual Coordinate object used in
      *  the internal representation.
-     *
-     * @return \Igniter\Flame\Geolite\Contracts\CoordinatesInterface if there's a coordinate in the collection
-     * @return null if this Geometry is empty
      */
-    public function getCoordinate();
+    public function getCoordinate(): ?CoordinatesInterface;
 
     /**
      *  Returns a collection containing the values of all the vertices for this geometry.
      *  If the geometry is a composite, the array will contain all the vertices
      *  for the components, in the order in which the components occur in the geometry.
-     *
-     * @return \Igniter\Flame\Geolite\Model\CoordinatesCollection the vertices of this <code>Geometry</code>
      */
-    public function getCoordinates();
+    public function getCoordinates(): CoordinatesCollection;
 
     /**
      * Returns true if the geometry is empty.
-     *
-     * @return bool
      */
-    public function isEmpty();
+    public function isEmpty(): bool;
 
     /**
      * Returns the bounding box of the Geometry
-     *
-     * @return \Igniter\Flame\Geolite\Model\Bounds
      */
-    public function getBounds();
+    public function getBounds(): BoundsInterface;
 
-    /**
-     * @return bool
-     */
-    public function pointInPolygon(CoordinatesInterface $coordinate);
+    public function pointInPolygon(CoordinatesInterface $coordinate): bool;
 
-    /**
-     * @return bool
-     */
-    public function pointOnBoundary(CoordinatesInterface $coordinate);
+    public function pointOnBoundary(CoordinatesInterface $coordinate): bool;
 
-    /**
-     * @return bool
-     */
-    public function pointOnVertex(CoordinatesInterface $coordinate);
+    public function pointOnVertex(CoordinatesInterface $coordinate): bool;
 }

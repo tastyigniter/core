@@ -24,10 +24,7 @@ class Filesystem extends AbstractDriver
         $this->filesystem = app('filesystem')->disk($this->config('disk'));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function create()
+    public function create(array $params): bool
     {
         // Get blacklist path
         $path = $this->config('path');
@@ -37,7 +34,7 @@ class Filesystem extends AbstractDriver
 
         // Verify the currency doesn't exists
         if (isset($currencies[$params['code']]) === true) {
-            return 'exists';
+            return true;
         }
 
         // Created at stamp
@@ -57,9 +54,6 @@ class Filesystem extends AbstractDriver
         return $this->filesystem->put($path, json_encode($currencies, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function all(): array
     {
         // Get blacklist path
@@ -73,10 +67,7 @@ class Filesystem extends AbstractDriver
         return json_decode($contents, true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function find(string $code, int $active = 1): mixed
+    public function find(string $code, ?int $active = 1): mixed
     {
         $currency = Arr::get($this->all(), $code);
 
@@ -88,10 +79,7 @@ class Filesystem extends AbstractDriver
         return Arr::get($currency, 'currency_status', 1) ? $currency : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function update($code, array $attributes, ?DateTime $timestamp = null)
+    public function update(string $code, array $attributes, ?DateTime $timestamp = null): int
     {
         // Get blacklist path
         $path = $this->config('path');
@@ -101,7 +89,7 @@ class Filesystem extends AbstractDriver
 
         // Verify the currency exists
         if (isset($currencies[$code]) === false) {
-            return 'doesn\'t exists';
+            return 0;
         }
 
         // Create timestamp
@@ -112,13 +100,10 @@ class Filesystem extends AbstractDriver
         // Merge values
         $currencies[$code] = array_merge($currencies[$code], $attributes);
 
-        return $this->filesystem->put($path, json_encode($currencies, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        return (int)$this->filesystem->put($path, json_encode($currencies, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function delete($code)
+    public function delete(string $code): int
     {
         // Get blacklist path
         $path = $this->config('path');
@@ -128,11 +113,11 @@ class Filesystem extends AbstractDriver
 
         // Verify the currency exists
         if (isset($currencies[$code]) === false) {
-            return false;
+            return 0;
         }
 
         unset($currencies[$code]);
 
-        return $this->filesystem->put($path, json_encode($currencies, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        return (int)$this->filesystem->put($path, json_encode($currencies, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 }

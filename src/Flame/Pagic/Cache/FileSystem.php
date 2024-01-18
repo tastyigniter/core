@@ -9,21 +9,16 @@ use RuntimeException;
 
 class FileSystem
 {
-    protected $path;
+    protected array $options = [];
 
-    protected $options;
+    protected string $dataCacheKey = 'php-file-data';
 
-    protected $dataCacheKey = 'php-file-data';
-
-    /**
-     * @param $path string The cache file path
-     */
-    public function __construct($path = null)
+    public function __construct(protected ?string $path = null)
     {
         $this->path = $path ?? storage_path('/igniter/cache/');
     }
 
-    public function getCacheKey($name, $hashName = false)
+    public function getCacheKey(?string $name, bool $hashName = false): string
     {
         $hash = md5($name);
         $result = str_finish($this->path, '/');
@@ -37,14 +32,14 @@ class FileSystem
         return $result.basename($name);
     }
 
-    public function load($key)
+    public function load(string $key)
     {
         if (File::exists($key)) {
             include_once $key;
         }
     }
 
-    public function write($path, $content)
+    public function write(string $path, string $content)
     {
         $dir = dirname($path);
         if (!File::isDirectory($dir) && !File::makeDirectory($dir, 0777, true)) {
@@ -72,7 +67,7 @@ class FileSystem
         }
     }
 
-    public function getTimestamp($key)
+    public function getTimestamp(string $key): int
     {
         if (!File::exists($key)) {
             return 0;
@@ -81,7 +76,7 @@ class FileSystem
         return (int)filemtime($key);
     }
 
-    public function getCached($filePath = null)
+    public function getCached(?string $filePath = null): ?array
     {
         $cached = Cache::get($this->dataCacheKey, false);
 
@@ -103,10 +98,8 @@ class FileSystem
 
     /**
      * Stores result data inside cache.
-     *
-     * @return void
      */
-    public function storeCached($filePath, $cacheItem)
+    public function storeCached(string $filePath, array $cacheItem)
     {
         $cached = $this->getCached() ?: [];
         $cached[$filePath] = $cacheItem;

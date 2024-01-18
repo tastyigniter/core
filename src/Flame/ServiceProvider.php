@@ -27,7 +27,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         \Igniter\Flame\Mail\MailServiceProvider::class,
         \Igniter\Flame\Providers\MacroServiceProvider::class,
         \Igniter\Flame\Pagic\PagicServiceProvider::class,
-        \Igniter\Flame\Router\RoutingServiceProvider::class,
         \Igniter\Flame\Scaffold\ScaffoldServiceProvider::class,
         \Igniter\Flame\Setting\SettingServiceProvider::class,
         \Igniter\Flame\Translation\TranslationServiceProvider::class,
@@ -120,17 +119,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-            'Flash' => \Igniter\Flame\Flash\Facades\Flash::class,
-            'Form' => \Igniter\Flame\Html\FormFacade::class,
-            'Html' => \Igniter\Flame\Html\HtmlFacade::class,
-            'Model' => \Igniter\Flame\Database\Model::class,
-            'Parameter' => \Igniter\Flame\Setting\Facades\Parameter::class,
-            'Setting' => \Igniter\Flame\Setting\Facades\Setting::class,
-            'SystemException' => \Igniter\Flame\Exception\SystemException::class,
-            'ApplicationException' => \Igniter\Flame\Exception\ApplicationException::class,
-            'AjaxException' => \Igniter\Flame\Exception\AjaxException::class,
-            'ValidationException' => \Igniter\Flame\Exception\ValidationException::class,
-        ] as $alias => $class) {
+                     'Flash' => \Igniter\Flame\Flash\Facades\Flash::class,
+                     'Form' => \Igniter\Flame\Html\FormFacade::class,
+                     'Html' => \Igniter\Flame\Html\HtmlFacade::class,
+                     'Model' => \Igniter\Flame\Database\Model::class,
+                     'Parameter' => \Igniter\Flame\Setting\Facades\Parameter::class,
+                     'Setting' => \Igniter\Flame\Setting\Facades\Setting::class,
+                     'SystemException' => \Igniter\Flame\Exception\SystemException::class,
+                     'ApplicationException' => \Igniter\Flame\Exception\ApplicationException::class,
+                     'AjaxException' => \Igniter\Flame\Exception\AjaxException::class,
+                 ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
     }

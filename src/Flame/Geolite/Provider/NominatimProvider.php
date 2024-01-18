@@ -14,11 +14,6 @@ use Throwable;
 
 class NominatimProvider extends AbstractProvider
 {
-    /**
-     * @var array
-     */
-    protected $config = [];
-
     public function __construct(HttpClient $client, array $config)
     {
         $this->httpClient = $client;
@@ -113,8 +108,8 @@ class NominatimProvider extends AbstractProvider
                 $response = $this->requestDistanceUrl($url, $distance);
 
                 return new Model\Distance(
-                    array_get($response, 'routes.0.distance', 0),
-                    array_get($response, 'routes.0.duration', 0)
+                    array_get($response->routes, '0.distance', 0),
+                    array_get($response->routes, '0.duration', 0)
                 );
             });
         } catch (Throwable $e) {
@@ -124,7 +119,7 @@ class NominatimProvider extends AbstractProvider
         }
     }
 
-    protected function requestUrl($url, GeoQueryInterface $query)
+    protected function requestUrl(string $url, GeoQueryInterface $query): \stdClass
     {
         if ($locale = $query->getLocale()) {
             $url = sprintf('%s&accept-language=%s', $url, $locale);
@@ -147,10 +142,10 @@ class NominatimProvider extends AbstractProvider
         return $this->parseResponse($response);
     }
 
-    protected function hydrateResponse($response)
+    protected function hydrateResponse(\stdClass $response): array
     {
         $result = [];
-        foreach ($response as $location) {
+        foreach ($response->results as $location) {
             $address = new Model\Location($this->getName());
 
             $this->parseCoordinates($address, $location);
@@ -176,7 +171,7 @@ class NominatimProvider extends AbstractProvider
     //
     //
 
-    protected function parseResponse(ResponseInterface $response)
+    protected function parseResponse(ResponseInterface $response): \stdClass
     {
         $json = json_decode($response->getBody()->getContents(), false);
 
@@ -206,10 +201,10 @@ class NominatimProvider extends AbstractProvider
             ));
         }
 
-        return is_array($json) ? $json : [$json];
+        return $json;
     }
 
-    protected function parseCoordinates(Model\Location $address, $location)
+    protected function parseCoordinates(Model\Location $address, \stdClass $location)
     {
         $address->setCoordinates($location->lat, $location->lon);
 
@@ -219,7 +214,7 @@ class NominatimProvider extends AbstractProvider
         }
     }
 
-    protected function parseAddress(Model\Location $address, $location)
+    protected function parseAddress(Model\Location $address, \stdClass $location)
     {
         foreach (['state', 'county'] as $level => $field) {
             if (isset($location->address->{$field})) {
@@ -247,7 +242,7 @@ class NominatimProvider extends AbstractProvider
         $address->setCountryCode($countryCode ? strtoupper($countryCode) : null);
     }
 
-    protected function requestDistanceUrl($url, DistanceInterface $distance)
+    protected function requestDistanceUrl(string $url, DistanceInterface $distance): \stdClass
     {
         if ($apiKey = array_get($this->config, 'apiKey')) {
             $url = sprintf('%s&key=%s', $url, $apiKey);

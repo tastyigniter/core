@@ -49,7 +49,7 @@ class TemplateMailable extends Mailable
         ]);
     }
 
-    protected function buildSubject($message)
+    protected function buildSubject($message): self
     {
         if ($subject = $this->getMailTemplate()->subject) {
             $subject = $this->getMailManager()->renderView($subject, $this->buildViewData());
@@ -62,7 +62,7 @@ class TemplateMailable extends Mailable
         return parent::buildSubject($message);
     }
 
-    public function buildViewData()
+    public function buildViewData(): array
     {
         $data = parent::buildViewData();
 
@@ -79,7 +79,7 @@ class TemplateMailable extends Mailable
         $class = new ReflectionClass(static::class);
 
         return collect($class->getProperties(ReflectionProperty::IS_PUBLIC))
-            ->filter(fn ($property) => $property->getDeclaringClass()->getName() !== self::class)
+            ->filter(fn($property) => $property->getDeclaringClass()->getName() !== self::class)
             ->map->getName()
             ->values()
             ->all();

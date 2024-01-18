@@ -4,26 +4,15 @@ namespace Igniter\Flame\Geolite\Provider;
 
 use Igniter\Flame\Geolite\Contracts;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
+use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Model\Distance;
 use Illuminate\Support\Collection;
 
 class ChainProvider extends Contracts\AbstractProvider
 {
-    /**
-     * @var \Igniter\Flame\Geolite\Contracts\GeocoderInterface
-     */
-    protected $geocoder;
-
-    /**
-     * @var array
-     */
-    protected $providers = [];
-
-    public function __construct($geocoder, array $providers)
+    public function __construct(protected GeocoderInterface $geocoder, protected array $providers = [])
     {
-        $this->geocoder = $geocoder;
-        $this->providers = $providers;
     }
 
     public function getName(): string
@@ -57,7 +46,7 @@ class ChainProvider extends Contracts\AbstractProvider
         return new Collection;
     }
 
-    public function distance(DistanceInterface $distance): Distance
+    public function distance(DistanceInterface $distance): ?Distance
     {
         foreach ($this->providers as $name => $config) {
             $result = $this->geocoder->makeProvider($name)->distance($distance);
@@ -66,17 +55,17 @@ class ChainProvider extends Contracts\AbstractProvider
             }
         }
 
-        return 0;
+        return null;
     }
 
-    public function addProvider($name, array $config = [])
+    public function addProvider(string $name, array $config = []): self
     {
         $this->providers[$name] = $config;
 
         return $this;
     }
 
-    public function getLogs()
+    public function getLogs(): array
     {
         $logs = [];
         foreach ($this->providers as $name => $config) {

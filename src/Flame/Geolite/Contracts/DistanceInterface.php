@@ -6,65 +6,37 @@ interface DistanceInterface
 {
     /**
      * Set the origin coordinate
-     *
-     * @param CoordinatesInterface $from The origin coordinate
-     *
-     * @return DistanceInterface
      */
-    public function setFrom(CoordinatesInterface $from);
+    public function setFrom(CoordinatesInterface $from): self;
 
     /**
      * Get the origin coordinate
-     *
-     * @return CoordinatesInterface
      */
-    public function getFrom();
+    public function getFrom(): CoordinatesInterface;
 
     /**
      * Set the destination coordinate
-     *
-     * @param CoordinatesInterface $to The destination coordinate
-     *
-     * @return DistanceInterface
      */
-    public function setTo(CoordinatesInterface $to);
+    public function setTo(CoordinatesInterface $to): self;
 
     /**
      * Get the destination coordinate
-     *
-     * @return CoordinatesInterface
      */
-    public function getTo();
+    public function getTo(): CoordinatesInterface;
 
     /**
      * Set the user unit
-     *
-     * @param string $unit Set the unit
-     *
-     * @return DistanceInterface
      */
-    public function in($unit);
+    public function in(string $unit): self;
 
     /**
      * Get the user unit
-     *
-     * @return string
      */
-    public function getUnit();
+    public function getUnit(): string;
 
-    /**
-     * @param mixed $value
-     *
-     * @return DistanceInterface
-     */
-    public function withData(string $name, $value);
+    public function withData(string $name, mixed $value): self;
 
-    /**
-     * @param mixed|null $default
-     *
-     * @return mixed
-     */
-    public function getData(string $name, $default = null);
+    public function getData(string $name, mixed $default = null): mixed;
 
-    public function haversine();
+    public function haversine(): int|float;
 }

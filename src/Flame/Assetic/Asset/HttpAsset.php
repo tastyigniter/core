@@ -76,5 +76,7 @@ class HttpAsset extends BaseAsset
                 }
             }
         }
+
+        return null;
     }
 }

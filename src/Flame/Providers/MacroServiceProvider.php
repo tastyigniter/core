@@ -3,12 +3,14 @@
 namespace Igniter\Flame\Providers;
 
 use Igniter\Flame\Mixins\BlueprintMixin;
+use Igniter\Flame\Mixins\RouterMixin;
 use Igniter\Flame\Mixins\StringMixin;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -17,6 +19,8 @@ class MacroServiceProvider extends ServiceProvider implements DeferrableProvider
     public function boot()
     {
         Str::mixin(new StringMixin);
+
+        Route::mixin(new RouterMixin);
 
         Blueprint::mixin(new BlueprintMixin);
 

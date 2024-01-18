@@ -11,14 +11,12 @@ class CreateDirectoryException extends RuntimeException
      *
      * @var string
      */
-    protected $invalidPath;
+    protected string $invalidPath;
 
     /**
      * Set the affected directory path.
-     *
-     * @return $this
      */
-    public function setInvalidPath($path)
+    public function setInvalidPath(string $path): self
     {
         $this->invalidPath = $path;
 
@@ -29,10 +27,8 @@ class CreateDirectoryException extends RuntimeException
 
     /**
      * Get the affected directory path.
-     *
-     * @return string
      */
-    public function getInvalidPath()
+    public function getInvalidPath(): string
     {
         return $this->invalidPath;
     }

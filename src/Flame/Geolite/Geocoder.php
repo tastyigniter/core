@@ -5,44 +5,31 @@ namespace Igniter\Flame\Geolite;
 use GuzzleHttp\Client;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
 
 class Geocoder extends Manager implements Contracts\GeocoderInterface
 {
-    /**
-     * @var int
-     */
-    protected $limit;
+    protected int $limit = 0;
 
-    /**
-     * @var string
-     */
-    protected $locale;
+    protected ?string $locale = null;
 
-    /**
-     * @param mixed $limit
-     * @return Geocoder
-     */
-    public function limit($limit)
+    public function limit(int $limit): self
     {
         $this->limit = $limit;
 
         return $this;
     }
 
-    /**
-     * @param string $locale
-     * @return Geocoder
-     */
-    public function locale($locale)
+    public function locale(string $locale): self
     {
         $this->locale = $locale;
 
         return $this;
     }
 
-    public function geocode($address)
+    public function geocode(string $address): Collection
     {
         $query = GeoQuery::create($address);
 
@@ -57,7 +44,7 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
         return $this->geocodeQuery($query);
     }
 
-    public function reverse(float $latitude, float $longitude)
+    public function reverse(int|float $latitude, int|float $longitude): Collection
     {
         $query = GeoQuery::fromCoordinates($latitude, $longitude);
 
@@ -72,7 +59,7 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
         return $this->reverseQuery($query);
     }
 
-    public function geocodeQuery(GeoQueryInterface $query)
+    public function geocodeQuery(GeoQueryInterface $query): Collection
     {
         $limit = $query->getLimit();
         if (!$limit && $this->limit) {
@@ -87,7 +74,7 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
         return $this->driver()->geocodeQuery($query);
     }
 
-    public function reverseQuery(GeoQueryInterface $query)
+    public function reverseQuery(GeoQueryInterface $query): Collection
     {
         $limit = $query->getLimit();
         if (!$limit && $this->limit) {
@@ -102,10 +89,7 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
         return $this->driver()->reverseQuery($query);
     }
 
-    /**
-     * @return \Igniter\Flame\Geolite\Contracts\AbstractProvider
-     */
-    public function using($name)
+    public function using(string $name): AbstractProvider
     {
         return $this->driver($name);
     }
@@ -114,34 +98,29 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
      * Get a driver instance.
      *
      * @param string $driver
-     * @return mixed
+     * @return AbstractProvider
      */
-    public function driver($driver = null)
+    public function driver($driver = null): AbstractProvider
     {
         $driver = $driver ?: $this->getDefaultDriver();
 
         return $this->makeProvider($driver);
     }
 
-    public function makeProvider($name): AbstractProvider
+    public function makeProvider(string $name): AbstractProvider
     {
-        if (isset($this->drivers[$name])) {
-            return $this->drivers[$name];
-        }
-
-        return $this->drivers[$name] = $this->createProvider($name);
+        return $this->drivers[$name] ?? ($this->drivers[$name] = $this->createProvider($name));
     }
 
     /**
      * Get the default driver name.
-     * @return string
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
-        return $this->container['config']['geocoder.default'] ?? 'nominatim';
+        return $this->container['config']['igniter-geocoder.default'] ?? 'nominatim';
     }
 
-    protected function createProvider($name)
+    protected function createProvider(string $name): AbstractProvider
     {
         if (isset($this->customCreators[$name])) {
             return $this->callCustomCreator($name);
@@ -155,23 +134,23 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
         throw new InvalidArgumentException("Provider [$name] not supported.");
     }
 
-    protected function createChainProvider()
+    protected function createChainProvider(): AbstractProvider
     {
-        $providers = $this->container['config']['geocoder.providers'];
+        $providers = $this->container['config']['igniter-geocoder.providers'];
 
         return new Provider\ChainProvider($this, $providers);
     }
 
-    protected function createNominatimProvider()
+    protected function createNominatimProvider(): AbstractProvider
     {
-        $config = $this->container['config']['geocoder.providers.nominatim'];
+        $config = $this->container['config']['igniter-geocoder.providers.nominatim'];
 
         return new Provider\NominatimProvider(new Client, $config);
     }
 
-    protected function createGoogleProvider()
+    protected function createGoogleProvider(): AbstractProvider
     {
-        $config = $this->container['config']['geocoder.providers.google'];
+        $config = $this->container['config']['igniter-geocoder.providers.google'];
 
         return new Provider\GoogleProvider(new Client, $config);
     }

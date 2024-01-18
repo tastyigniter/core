@@ -9,10 +9,8 @@ class PHPIntl implements FormatterInterface
 {
     /**
      * Number formatter instance.
-     *
-     * @var NumberFormatter
      */
-    protected $formatter;
+    protected NumberFormatter $formatter;
 
     /**
      * Create a new instance.
@@ -22,9 +20,6 @@ class PHPIntl implements FormatterInterface
         $this->formatter = new NumberFormatter(config('app.locale'), NumberFormatter::CURRENCY);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function format(float $value, string $code = null): string
     {
         return $this->formatter->formatCurrency($value, $code);

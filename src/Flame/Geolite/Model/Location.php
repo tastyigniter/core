@@ -8,72 +8,33 @@ use InvalidArgumentException;
 
 class Location implements Contracts\LocationInterface
 {
-    /**
-     * @var Coordinates|null
-     */
-    protected $coordinates;
+    protected ?Coordinates $coordinates = null;
 
-    /**
-     * @var Bounds|null
-     */
-    protected $bounds;
+    protected ?Bounds $bounds = null;
 
-    /**
-     * @var string|int|null
-     */
-    protected $streetNumber;
+    protected string|int|null $streetNumber = null;
 
-    /**
-     * @var string|null
-     */
-    protected $streetName;
+    protected ?string $streetName = null;
 
-    /**
-     * @var string|null
-     */
-    protected $subLocality;
+    protected ?string $subLocality = null;
 
-    /**
-     * @var string|null
-     */
-    protected $locality;
+    protected ?string $locality = null;
 
-    /**
-     * @var string|null
-     */
-    protected $postalCode;
+    protected ?string $postalCode = null;
 
-    /**
-     * @var AdminLevelCollection
-     */
-    protected $adminLevels;
+    protected ?AdminLevelCollection $adminLevels = null;
 
-    /**
-     * @var string|null
-     */
-    protected $countryName;
+    protected ?string $countryName = null;
 
-    /**
-     * @var string|null
-     */
-    protected $countryCode;
+    protected ?string $countryCode = null;
 
-    /**
-     * @var string|null
-     */
-    protected $formattedAddress;
+    protected ?string $formattedAddress = null;
 
-    /**
-     * @var string|null
-     */
-    protected $timezone;
+    protected ?string $timezone = null;
 
-    /**
-     * @var string
-     */
-    protected $providedBy;
+    protected string $providedBy;
 
-    protected $data;
+    protected array $data;
 
     public function __construct(string $providedBy, array $data = [])
     {
@@ -83,36 +44,28 @@ class Location implements Contracts\LocationInterface
 
     /**
      * Create an Address with an array.
-     *
-     * @return static
      */
-    public static function createFromArray(array $data)
+    public static function createFromArray(array $data): static
     {
         return new static(array_get($data, 'providedBy', 'n/a'), $data);
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
         return $this->hasCoordinates();
     }
 
-    public function format(string $mapping = '%n %S %L %z')
+    public function format(string $mapping = '%n %S %L %z'): string
     {
         return (new StringFormatter)->format($this, $mapping);
     }
 
-    /**
-     * @return null|string
-     */
-    public function getFormattedAddress()
+    public function getFormattedAddress(): ?string
     {
         return $this->formattedAddress;
     }
 
-    /**
-     * @return self
-     */
-    public function withFormattedAddress(?string $formattedAddress = null)
+    public function withFormattedAddress(?string $formattedAddress = null): self
     {
         $new = clone $this;
         $new->formattedAddress = $formattedAddress;
@@ -120,15 +73,7 @@ class Location implements Contracts\LocationInterface
         return $new;
     }
 
-    /**
-     * @param float $south
-     * @param float $west
-     * @param float $north
-     * @param float $east
-     *
-     * @return self
-     */
-    public function setBounds($south, $west, $north, $east)
+    public function setBounds(?float $south, ?float $west, ?float $north, ?float $east): self
     {
         try {
             $this->bounds = new Bounds($south, $west, $north, $east);
@@ -139,13 +84,7 @@ class Location implements Contracts\LocationInterface
         return $this;
     }
 
-    /**
-     * @param float $latitude
-     * @param float $longitude
-     *
-     * @return self
-     */
-    public function setCoordinates($latitude, $longitude)
+    public function setCoordinates(float $latitude, float $longitude): self
     {
         try {
             $this->coordinates = new Coordinates($latitude, $longitude);
@@ -156,142 +95,84 @@ class Location implements Contracts\LocationInterface
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function addAdminLevel(int $level, string $name, ?string $code = null)
+    public function addAdminLevel(int $level, string $name, ?string $code = null): self
     {
         $this->adminLevels->put($level, new AdminLevel($level, $name, $code));
 
         return $this;
     }
 
-    /**
-     * @param null|string $streetNumber
-     *
-     * @return self
-     */
-    public function setStreetNumber($streetNumber)
+    public function setStreetNumber(?string $streetNumber): self
     {
         $this->streetNumber = $streetNumber;
 
         return $this;
     }
 
-    /**
-     * @param null|string $streetName
-     *
-     * @return self
-     */
-    public function setStreetName($streetName)
+    public function setStreetName(?string $streetName): self
     {
         $this->streetName = $streetName;
 
         return $this;
     }
 
-    /**
-     * @param null|string $locality
-     *
-     * @return self
-     */
-    public function setLocality($locality)
+    public function setLocality(?string $locality): self
     {
         $this->locality = $locality;
 
         return $this;
     }
 
-    /**
-     * @param null|string $postalCode
-     *
-     * @return self
-     */
-    public function setPostalCode($postalCode)
+    public function setPostalCode(?string $postalCode): self
     {
         $this->postalCode = $postalCode;
 
         return $this;
     }
 
-    /**
-     * @param null|string $subLocality
-     *
-     * @return self
-     */
-    public function setSubLocality($subLocality)
+    public function setSubLocality(?string $subLocality): self
     {
         $this->subLocality = $subLocality;
 
         return $this;
     }
 
-    /**
-     * @param array $adminLevels
-     *
-     * @return self
-     */
-    public function setAdminLevels($adminLevels)
+    public function setAdminLevels(?AdminLevelCollection $adminLevels): self
     {
         $this->adminLevels = $adminLevels;
 
         return $this;
     }
 
-    /**
-     * @param null|string $countryName
-     *
-     * @return self
-     */
-    public function setCountryName($countryName)
+    public function setCountryName(?string $countryName): self
     {
         $this->countryName = $countryName;
 
         return $this;
     }
 
-    /**
-     * @param null|string $countryCode
-     *
-     * @return self
-     */
-    public function setCountryCode($countryCode)
+    public function setCountryCode(?string $countryCode): self
     {
         $this->countryCode = $countryCode;
 
         return $this;
     }
 
-    /**
-     * @param null|string $timezone
-     *
-     * @return self
-     */
-    public function setTimezone($timezone)
+    public function setTimezone(?string $timezone): self
     {
         $this->timezone = $timezone;
 
         return $this;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return self
-     */
-    public function setValue(string $name, $value)
+    public function setValue(string $name, mixed $value): self
     {
         $this->data[$name] = $value;
 
         return $this;
     }
 
-    /**
-     * @param mixed|null $default
-     *
-     * @return mixed
-     */
-    public function getValue(string $name, $default = null)
+    public function getValue(string $name, mixed $default = null): mixed
     {
         if ($this->hasValue($name)) {
             return $this->data[$name];
@@ -310,95 +191,62 @@ class Location implements Contracts\LocationInterface
         return $this->providedBy;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCoordinates()
+    public function getCoordinates(): ?Coordinates
     {
         return $this->coordinates;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBounds()
+    public function getBounds(): ?Bounds
     {
         return $this->bounds;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getStreetNumber()
+    public function getStreetNumber(): int|string|null
     {
         return $this->streetNumber;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getStreetName()
+    public function getStreetName(): ?string
     {
         return $this->streetName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getLocality()
+    public function getLocality(): ?string
     {
         return $this->locality;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPostalCode()
+    public function getPostalCode(): ?string
     {
         return $this->postalCode;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubLocality()
+    public function getSubLocality(): ?string
     {
         return $this->subLocality;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAdminLevels(): AdminLevelCollection
     {
         return $this->adminLevels;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCountryName()
+    public function getCountryName(): ?string
     {
         return $this->countryName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCountryCode()
+    public function getCountryCode(): ?string
     {
         return $this->countryCode;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTimezone()
+    public function getTimezone(): ?string
     {
         return $this->timezone;
     }
 
-    public function hasCoordinates()
+    public function hasCoordinates(): bool
     {
         if (!$coordinates = $this->getCoordinates()) {
             return false;
@@ -409,9 +257,6 @@ class Location implements Contracts\LocationInterface
         return !empty($latitude) && !empty($longitude);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toArray(): array
     {
         $adminLevels = [];
@@ -466,10 +311,7 @@ class Location implements Contracts\LocationInterface
         $this->formattedAddress = $data['formattedAddress'];
     }
 
-    /**
-     * @return Coordinates|null
-     */
-    protected function createCoordinates($data)
+    protected function createCoordinates(array $data): ?Coordinates
     {
         if (
             !($latitude = array_get($data, 'latitude'))
@@ -481,10 +323,7 @@ class Location implements Contracts\LocationInterface
         return new Coordinates($latitude, $longitude);
     }
 
-    /**
-     * @return Bounds|null
-     */
-    protected function createBounds($data)
+    protected function createBounds(array $data): ?Bounds
     {
         if (!($south = array_get($data, 'bounds.south'))
             || !($west = array_get($data, 'bounds.west'))
@@ -523,7 +362,7 @@ class Location implements Contracts\LocationInterface
         return array_merge($defaults, $data);
     }
 
-    protected function makeAdminLevels(array $data)
+    protected function makeAdminLevels(array $data): AdminLevelCollection
     {
         $adminLevels = [];
         foreach ($data['adminLevels'] as $adminLevel) {

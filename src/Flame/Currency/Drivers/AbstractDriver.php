@@ -8,29 +8,16 @@ use Illuminate\Support\Arr;
 abstract class AbstractDriver implements DriverInterface
 {
     /**
-     * Driver config
-     *
-     * @var array
-     */
-    protected $config;
-
-    /**
      * Create a new driver instance.
      */
-    public function __construct(array $config = [])
+    public function __construct(protected array $config = [])
     {
-        $this->config = $config;
     }
 
     /**
      * Get configuration value.
-     *
-     * @param string $key
-     * @param mixed $default
-     *
-     * @return mixed
      */
-    protected function config($key, $default = null)
+    protected function config(string $key, mixed $default = null): mixed
     {
         return Arr::get($this->config, $key, $default);
     }

@@ -2,7 +2,7 @@
 
 namespace Tests\Admin\Classes;
 
-use Tests\Fixtures\Controllers\TestController;
+use Admin\Fixtures\Controllers\TestController;
 
 it('has defined paths to locate layouts', function () {
     $controller = resolve(TestController::class);

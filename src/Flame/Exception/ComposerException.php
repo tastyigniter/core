@@ -18,7 +18,7 @@ class ComposerException extends Exception
         $this->output = $io->getOutput();
     }
 
-    public function getOutput()
+    public function getOutput(): string
     {
         return $this->output;
     }

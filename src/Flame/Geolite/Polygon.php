@@ -2,32 +2,21 @@
 
 namespace Igniter\Flame\Geolite;
 
+use Igniter\Flame\Geolite\Contracts\BoundsInterface;
 use Igniter\Flame\Geolite\Contracts\PolygonInterface;
 use Traversable;
 
 class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable, PolygonInterface
 {
-    const TYPE = 'POLYGON';
+    public const TYPE = 'POLYGON';
 
-    /**
-     * @var Model\CoordinatesCollection
-     */
-    protected $coordinates;
+    protected Model\CoordinatesCollection $coordinates;
 
-    /**
-     * @var Model\Bounds
-     */
-    protected $bounds;
+    protected BoundsInterface $bounds;
 
-    /**
-     * @var bool
-     */
-    protected $hasCoordinate = false;
+    protected bool $hasCoordinate = false;
 
-    /**
-     * @var int
-     */
-    protected $precision = 8;
+    protected ?int $precision = 8;
 
     /**
      * @param null|array|Model\CoordinatesCollection $coordinates
@@ -52,30 +41,21 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
     /**
      * @return string
      */
-    public function getGeometryType()
+    public function getGeometryType(): string
     {
         return self::TYPE;
     }
 
-    /**
-     * @return Contracts\CoordinatesInterface
-     */
-    public function getCoordinate()
+    public function getCoordinate(): ?Contracts\CoordinatesInterface
     {
         return $this->coordinates->offsetGet(0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCoordinates()
+    public function getCoordinates(): Model\CoordinatesCollection
     {
         return $this->coordinates;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setCoordinates(Model\CoordinatesCollection $coordinates)
     {
         $this->coordinates = $coordinates;
@@ -84,19 +64,12 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPrecision()
+    public function getPrecision(): ?int
     {
         return $this->precision;
     }
 
-    /**
-     * @param int $precision
-     * @return $this
-     */
-    public function setPrecision($precision)
+    public function setPrecision(int $precision): self
     {
         $this->bounds->setPrecision($precision);
         $this->precision = $precision;
@@ -104,18 +77,12 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return $this;
     }
 
-    /**
-     * @return Model\Bounds
-     */
-    public function getBounds()
+    public function getBounds(): BoundsInterface
     {
         return $this->bounds;
     }
 
-    /**
-     * @return $this
-     */
-    public function setBounds(Model\Bounds $bounds)
+    public function setBounds(BoundsInterface $bounds): self
     {
         $this->bounds = $bounds;
 
@@ -126,12 +93,12 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
     //
     //
 
-    public function get($key)
+    public function get(int $key): ?Contracts\CoordinatesInterface
     {
         return $this->coordinates->get($key);
     }
 
-    public function put($key, ?Contracts\CoordinatesInterface $coordinate = null)
+    public function put(int|array $key, ?Contracts\CoordinatesInterface $coordinate = null)
     {
         if (is_array($key)) {
             $values = $key;
@@ -171,10 +138,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return $coordinates;
     }
 
-    /**
-     * @return bool
-     */
-    public function pointInPolygon(Contracts\CoordinatesInterface $coordinate)
+    public function pointInPolygon(Contracts\CoordinatesInterface $coordinate): bool
     {
         if ($this->isEmpty()) {
             return false;
@@ -195,10 +159,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return $this->pointOnIntersections($coordinate);
     }
 
-    /**
-     * @return bool
-     */
-    public function pointOnBoundary(Contracts\CoordinatesInterface $coordinate)
+    public function pointOnBoundary(Contracts\CoordinatesInterface $coordinate): bool
     {
         $total = $this->count();
         for ($i = 1; $i <= $total; $i++) {
@@ -211,13 +172,13 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
 
             // Check if coordinate is on a horizontal boundary
             if (bccomp(
-                $currentVertex->getLatitude(),
-                $nextVertex->getLatitude(),
-                $this->getPrecision()
-            ) === 0
+                    (string)$currentVertex->getLatitude(),
+                    (string)$nextVertex->getLatitude(),
+                    $this->getPrecision()
+                ) === 0
                 && bccomp(
-                    $currentVertex->getLatitude(),
-                    $coordinate->getLatitude(),
+                    (string)$currentVertex->getLatitude(),
+                    (string)$coordinate->getLatitude(),
                     $this->getPrecision()
                 ) === 0
                 && bccomp(
@@ -236,10 +197,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
 
             // Check if coordinate is on a boundary
             if (bccomp(
-                $coordinate->getLatitude(),
-                min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
-                $this->getPrecision()
-            ) === 1
+                    $coordinate->getLatitude(),
+                    min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
+                    $this->getPrecision()
+                ) === 1
                 && bccomp(
                     $coordinate->getLatitude(),
                     max($currentVertex->getLatitude(), $nextVertex->getLatitude()),
@@ -262,10 +223,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
                     + $currentVertex->getLongitude();
 
                 if (bccomp(
-                    $xinters,
-                    $coordinate->getLongitude(),
-                    $this->getPrecision()
-                ) === 0
+                        $xinters,
+                        $coordinate->getLongitude(),
+                        $this->getPrecision()
+                    ) === 0
                 ) {
                     return true;
                 }
@@ -275,17 +236,14 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function pointOnVertex(Contracts\CoordinatesInterface $coordinate)
+    public function pointOnVertex(Contracts\CoordinatesInterface $coordinate): bool
     {
         foreach ($this->coordinates as $vertexCoordinate) {
             if (bccomp(
-                $vertexCoordinate->getLatitude(),
-                $coordinate->getLatitude(),
-                $this->getPrecision()
-            ) === 0 &&
+                    $vertexCoordinate->getLatitude(),
+                    $coordinate->getLatitude(),
+                    $this->getPrecision()
+                ) === 0 &&
                 bccomp(
                     $vertexCoordinate->getLongitude(),
                     $coordinate->getLongitude(),
@@ -308,10 +266,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
             $nextVertex = $this->get($i);
 
             if (bccomp(
-                $coordinate->getLatitude(),
-                min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
-                $this->getPrecision()
-            ) === 1
+                    $coordinate->getLatitude(),
+                    min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
+                    $this->getPrecision()
+                ) === 1
                 && bccomp(
                     $coordinate->getLatitude(),
                     max($currentVertex->getLatitude(), $nextVertex->getLatitude()),
@@ -334,10 +292,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
                     + $currentVertex->getLongitude();
 
                 if (bccomp(
-                    $coordinate->getLongitude(),
-                    $xinters,
-                    $this->getPrecision()
-                ) <= 0
+                        $coordinate->getLongitude(),
+                        $xinters,
+                        $this->getPrecision()
+                    ) <= 0
                     || bccomp(
                         $currentVertex->getLongitude(),
                         $nextVertex->getLongitude(),
@@ -359,7 +317,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->count() < 1;
     }

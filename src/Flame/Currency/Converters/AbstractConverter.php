@@ -15,36 +15,29 @@ abstract class AbstractConverter
      *      'name'        => 'Open Exchange Rates',
      *      'description' => 'Conversion services provided by Open Exchange Rates.'
      * ]
-     *
-     * @return array
      */
-    abstract public function converterDetails();
+    abstract public function converterDetails(): array;
 
     /**
      * Returns list of exchange rates for currencies specified.
-     *
-     * @return array
      */
-    abstract public function getExchangeRates($base, array $currencies);
+    abstract public function getExchangeRates(string $base, array $currencies): array;
 
     //
     //
     //
 
-    public function getName()
+    public function getName(): string
     {
         return array_get($this->converterDetails(), 'name', 'Undefined name');
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return array_get($this->converterDetails(), 'description', 'Undefined description');
     }
 
-    /**
-     * @return \GuzzleHttp\Client
-     */
-    protected function getHttpClient()
+    protected function getHttpClient(): Client
     {
         return new Client();
     }
@@ -55,10 +48,8 @@ abstract class AbstractConverter
 
     /**
      * Forget the repository cache.
-     *
-     * @return $this
      */
-    public function forgetCache()
+    public function forgetCache(): self
     {
         if ($this->getCacheLifetime()) {
             // Flush cache keys, then forget actual cache
@@ -68,28 +59,25 @@ abstract class AbstractConverter
         return $this;
     }
 
-    public function getCacheKey()
+    public function getCacheKey(): string
     {
         return sprintf('igniter.currency.rates.%s', str_slug($this->getName()));
     }
 
     /**
      * Get the cache lifetime.
-     *
-     * @return float|int
      */
-    public function getCacheLifetime()
+    public function getCacheLifetime(): int
     {
         return config('currency.ratesCacheDuration', 0);
     }
 
-    protected function cacheCallback($cacheKey, \Closure $closure)
+    protected function cacheCallback(string $cacheKey, \Closure $closure): mixed
     {
         if (!$lifetime = $this->getCacheLifetime()) {
             return $closure();
         }
 
-        $lifetime = $this->getCacheLifetime();
         $cacheKey = $this->getCacheKey().'@'.md5($cacheKey);
 
         return $this->getCacheDriver()->remember($cacheKey, $lifetime, $closure);

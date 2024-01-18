@@ -6,12 +6,11 @@ use Igniter\Flame\Geolite\Contracts\LocationInterface;
 
 class AddressMatch
 {
-    public function __construct(array $components)
+    public function __construct(protected array $components)
     {
-        $this->components = $components;
     }
 
-    public function matches(LocationInterface $position)
+    public function matches(LocationInterface $position): bool
     {
         $matched = collect($this->components)->filter(function ($component) use ($position) {
             foreach ($component as $item) {
@@ -29,7 +28,7 @@ class AddressMatch
         return $matched->isNotEmpty();
     }
 
-    protected function matchComponentValue(LocationInterface $position, $type, $value)
+    protected function matchComponentValue(LocationInterface $position, string $type, mixed $value): int|bool
     {
         if (!is_string($value) && !is_numeric($value)) {
             return false;
@@ -60,12 +59,14 @@ class AddressMatch
                     $value, $position->getPostalCode()
                 );
         }
+
+        return false;
     }
 
-    protected function evalComponentValue($left, $right)
+    protected function evalComponentValue(?string $left, ?string $right): int|bool
     {
         if (empty($right)) {
-            return $right;
+            return false;
         }
 
         if (@preg_match($left, '') !== false) {

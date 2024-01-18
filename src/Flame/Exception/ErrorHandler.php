@@ -4,6 +4,7 @@ namespace Igniter\Flame\Exception;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
@@ -19,7 +20,7 @@ class ErrorHandler
      *
      * @var array
      */
-    protected $dontReport = [
+    protected array $dontReport = [
         AjaxException::class,
         ApplicationException::class,
         ModelNotFoundException::class,
@@ -32,7 +33,7 @@ class ErrorHandler
      *
      * @var array
      */
-    protected $handlers = [];
+    protected array $handlers = [];
 
     public function __construct(ExceptionHandler $handler)
     {
@@ -59,15 +60,11 @@ class ErrorHandler
 
     /**
      * Report or log an exception.
-     *
-     * @return false|void
-     *
-     * @throws \Throwable
      */
-    public function report(Throwable $e)
+    public function report(Throwable $e): ?false
     {
         if (!class_exists('Event')) {
-            return;
+            return null;
         }
 
         /**
@@ -83,7 +80,7 @@ class ErrorHandler
          *     });
          */
         if (Event::dispatch('exception.beforeReport', [$e], true) === false) {
-            return;
+            return null;
         }
 
         if ($this->shouldntReport($e)) {
@@ -101,18 +98,17 @@ class ErrorHandler
          *     });
          */
         Event::dispatch('exception.report', [$e]);
+
+        return null;
     }
 
     /**
      * Render an exception into an HTTP response.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response|void
      */
-    public function render($request, Throwable $e)
+    public function render(Request $request, Throwable $e): mixed
     {
         if (!class_exists('Event')) {
-            return;
+            return null;
         }
 
         $statusCode = $this->getStatusCode($e);
@@ -120,25 +116,23 @@ class ErrorHandler
         if ($event = Event::dispatch('exception.beforeRender', [$e, $statusCode, $request], true)) {
             return Response::make($event, $statusCode);
         }
+
+        return null;
     }
 
     /**
      * Determine if the exception is in the "do not report" list.
-     *
-     * @return bool
      */
-    protected function shouldntReport(Throwable $e)
+    protected function shouldntReport(Throwable $e): bool
     {
-        return !is_null(Arr::first($this->dontReport, fn ($type) => $e instanceof $type));
+        return !is_null(Arr::first($this->dontReport, fn($type) => $e instanceof $type));
     }
 
     /**
      * Checks if the exception implements the HttpExceptionInterface, or returns
      * as generic 500 error code for a server side error.
-     * @param \Throwable $exception
-     * @return int
      */
-    protected function getStatusCode($exception)
+    protected function getStatusCode(\Throwable $exception): int
     {
         if ($exception instanceof HttpExceptionInterface) {
             $code = $exception->getStatusCode();

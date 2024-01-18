@@ -14,10 +14,7 @@ use Throwable;
 
 class GoogleProvider extends AbstractProvider
 {
-    /**
-     * @var array
-     */
-    protected $config = [];
+    protected array $config = [];
 
     public function __construct(HttpClient $client, array $config)
     {
@@ -75,7 +72,7 @@ class GoogleProvider extends AbstractProvider
                     $query->getLimit()
                 );
             });
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             $coordinates = $query->getCoordinates();
             $this->log(sprintf(
                 'Provider "%s" could not reverse coordinates: "%F %F".',
@@ -101,18 +98,18 @@ class GoogleProvider extends AbstractProvider
                 $response = $this->requestDistanceUrl($url, $distance);
 
                 return new Model\Distance(
-                    array_get($response, 'rows.0.elements.0.distance', 0),
-                    array_get($response, 'rows.0.elements.0.duration', 0)
+                    array_get($response->rows, '0.elements.0.distance', 0),
+                    array_get($response->rows, '0.elements.0.duration', 0)
                 );
             });
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             $this->log(sprintf('Provider "%s" could not calculate distance.', $this->getName()));
 
             return null;
         }
     }
 
-    protected function hydrateResponse($response, int $limit)
+    protected function hydrateResponse(\stdClass $response, int $limit): array
     {
         $result = [];
         foreach ($response->results as $place) {
@@ -144,7 +141,7 @@ class GoogleProvider extends AbstractProvider
         return $result;
     }
 
-    protected function requestGeocodingUrl($url, GeoQueryInterface $query)
+    protected function requestGeocodingUrl($url, GeoQueryInterface $query): \stdClass
     {
         if ($locale = $query->getLocale()) {
             $url = sprintf('%s&language=%s', $url, $locale);
@@ -165,7 +162,7 @@ class GoogleProvider extends AbstractProvider
         return $this->parseResponse($response);
     }
 
-    protected function requestDistanceUrl($url, DistanceInterface $query)
+    protected function requestDistanceUrl($url, DistanceInterface $query): \stdClass
     {
         if ($apiKey = array_get($this->config, 'apiKey')) {
             $url = sprintf('%s&key=%s', $url, $apiKey);
@@ -184,12 +181,8 @@ class GoogleProvider extends AbstractProvider
 
     /**
      * Decode the response content and validate it to make sure it does not have any errors.
-     *
-     * @return mixed result from json_decode()
-     *
-     * @throws \Igniter\Flame\Geolite\Exception\GeoliteException
      */
-    protected function parseResponse(ResponseInterface $response)
+    protected function parseResponse(ResponseInterface $response): \stdClass
     {
         $json = json_decode($response->getBody()->getContents(), false);
 
@@ -223,7 +216,7 @@ class GoogleProvider extends AbstractProvider
         return $json;
     }
 
-    protected function prependGeocodeQuery(GeoQueryInterface $query, $url): string
+    protected function prependGeocodeQuery(GeoQueryInterface $query, string $url): string
     {
         if ($bounds = $query->getBounds()) {
             $url .= sprintf('&bounds=%s,%s|%s,%s',
@@ -241,7 +234,7 @@ class GoogleProvider extends AbstractProvider
         return $url;
     }
 
-    protected function prependReverseQuery(GeoQueryInterface $query, $url): string
+    protected function prependReverseQuery(GeoQueryInterface $query, string $url): string
     {
         if ($locationType = $query->getData('location_type')) {
             $url .= '&location_type='.urlencode($locationType);
@@ -287,7 +280,7 @@ class GoogleProvider extends AbstractProvider
         return $url;
     }
 
-    protected function parseCoordinates(Model\Location $address, $geometry)
+    protected function parseCoordinates(Model\Location $address, \stdClass $geometry)
     {
         $coordinates = $geometry->location;
         $address->setCoordinates($coordinates->lat, $coordinates->lng);
@@ -317,7 +310,7 @@ class GoogleProvider extends AbstractProvider
         }
     }
 
-    protected function parseAddressComponents(Model\Location $address, $components)
+    protected function parseAddressComponents(Model\Location $address, array $components)
     {
         foreach ($components as $component) {
             foreach ($component->types as $type) {
@@ -326,7 +319,7 @@ class GoogleProvider extends AbstractProvider
         }
     }
 
-    protected function parseAddressComponent(Model\Location $address, $type, $component)
+    protected function parseAddressComponent(Model\Location $address, string $type, \stdClass $component): Model\Location
     {
         switch ($type) {
             case 'postal_code':
@@ -383,9 +376,11 @@ class GoogleProvider extends AbstractProvider
                 return $address->setValue($type, $component->long_name);
             default:
         }
+
+        return $address;
     }
 
-    protected function serializeComponents($components)
+    protected function serializeComponents(string|array $components): string
     {
         if (is_string($components)) {
             return $components;

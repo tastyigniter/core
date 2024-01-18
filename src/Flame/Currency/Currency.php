@@ -4,80 +4,43 @@ namespace Igniter\Flame\Currency;
 
 use Carbon\Carbon;
 use Igniter\Flame\Currency\Contracts\CurrencyInterface;
+use Igniter\Flame\Currency\Contracts\FormatterInterface;
 use Illuminate\Contracts\Cache\Factory as FactoryContract;
+use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class Currency
 {
-    /**
-     * Currency configuration.
-     *
-     * @var array
-     */
-    protected $config = [];
+    protected Repository $cache;
 
-    /**
-     * Application cache
-     *
-     * @var \Illuminate\Contracts\Cache\Factory
-     */
-    protected $cache;
+    protected ?Contracts\CurrencyInterface $model = null;
 
-    /**
-     * Currency model instance.
-     *
-     * @var Contracts\CurrencyInterface
-     */
-    protected $model;
+    protected ?Contracts\FormatterInterface $formatter = null;
 
-    /**
-     * Formatter instance.
-     *
-     * @var Contracts\FormatterInterface
-     */
-    protected $formatter;
+    protected ?string $userCurrency = null;
 
-    /**
-     * User's currency
-     *
-     * @var string
-     */
-    protected $userCurrency;
+    protected ?array $currenciesCache = null;
 
-    /**
-     * Cached currencies
-     *
-     * @var \Illuminate\Support\Collection
-     */
-    protected $currenciesCache;
-
-    /**
-     * Loaded currencies
-     *
-     * @var \Illuminate\Support\Collection
-     */
-    protected $loadedCurrencies;
+    protected ?Collection $loadedCurrencies = null;
 
     /**
      * Create a new instance.
      */
-    public function __construct(array $config, FactoryContract $cache)
+    public function __construct(protected array $config, FactoryContract $cache)
     {
-        $this->config = $config;
         $this->cache = $cache->store($this->config('cache_driver'));
     }
 
     /**
      * Format given number.
-     *
-     * @param float $amount
-     * @param string $from
-     * @param string $to
-     * @param bool $format
-     *
-     * @return string
      */
-    public function convert($amount, $from = null, $to = null, $format = true)
+    public function convert(
+        string|int|float $amount,
+        ?string $from = null,
+        ?string $to = null,
+        bool $format = true
+    ): null|float|string|int
     {
         // Get currencies involved
         $from = $from ?: $this->config('default');
@@ -109,14 +72,8 @@ class Currency
 
     /**
      * Format the value into the desired currency.
-     *
-     * @param float $value
-     * @param string $code
-     * @param bool $includeSymbol
-     *
-     * @return string
      */
-    public function format($value, $code = null, $includeSymbol = true)
+    public function format(string|float $value, ?string $code = null, bool $includeSymbol = true): string
     {
         // Get default currency if one is not set
         $code = $code ?: $this->config('default');
@@ -142,11 +99,11 @@ class Currency
         // Match decimal and thousand separators
         preg_match_all('/[\s\',.!]/', $format, $separators);
 
-        if (($thousand = array_get($separators, '0.0', null)) && $thousand == '!') {
+        if (($thousand = array_get($separators, '0.0')) && $thousand == '!') {
             $thousand = '';
         }
 
-        $decimal = array_get($separators, '0.1', null);
+        $decimal = array_get($separators, '0.1');
 
         // Match format for decimals count
         preg_match($valRegex, $format, $valFormat);
@@ -175,13 +132,8 @@ class Currency
 
     /**
      * Format the value into a json array
-     *
-     * @param float $value
-     * @param string $code
-     *
-     * @return string
      */
-    public function formatToJson($value, $code = null)
+    public function formatToJson(float $value, ?string $code = null): array
     {
         // Get default currency if one is not set
         $code = $code ?: $this->config('default');
@@ -198,20 +150,16 @@ class Currency
 
     /**
      * Set user's currency.
-     *
-     * @param string $code
      */
-    public function setUserCurrency($code)
+    public function setUserCurrency(string $code)
     {
         $this->userCurrency = strtoupper($code);
     }
 
     /**
      * Return the user's currency code.
-     *
-     * @return string
      */
-    public function getUserCurrency()
+    public function getUserCurrency(): string
     {
         $code = $this->userCurrency ?: $this->config('default');
 
@@ -220,37 +168,24 @@ class Currency
 
     /**
      * Determine if the provided currency is valid.
-     *
-     * @param string $code
-     *
-     * @return bool
      */
-    public function hasCurrency($code)
+    public function hasCurrency(string $code): bool
     {
         return (bool)$this->getCurrency(strtoupper($code));
     }
 
     /**
      * Determine if the provided currency is active.
-     *
-     * @param string $code
-     *
-     * @return bool
      */
-    public function isActive($code)
+    public function isActive(string $code): bool
     {
-        return $code && (bool)optional($this->getCurrency($code))->isEnabled();
+        return $code && optional($this->getCurrency($code))->isEnabled();
     }
 
     /**
-     * Return the current currency if the
-     * one supplied is not valid.
-     *
-     * @param string $code
-     *
-     * @return \Igniter\Flame\Currency\Contracts\CurrencyInterface
+     * Return the current currency if the one supplied is not valid.
      */
-    public function getCurrency($code = null)
+    public function getCurrency(?string $code = null): CurrencyInterface
     {
         if (isset($this->currenciesCache[$code])) {
             return $this->currenciesCache[$code];
@@ -267,10 +202,8 @@ class Currency
 
     /**
      * Return all currencies.
-     *
-     * @return \Illuminate\Support\Collection
      */
-    public function getCurrencies()
+    public function getCurrencies(): Collection
     {
         if ($this->loadedCurrencies === null) {
             $this->loadCurrencies();
@@ -281,15 +214,10 @@ class Currency
 
     /**
      * Get currency model.
-     *
-     * @return \Igniter\Flame\Currency\Contracts\CurrencyInterface|\Illuminate\Database\Eloquent\Model
      */
-    public function getModel()
+    public function getModel(): CurrencyInterface
     {
-        if ($this->model === null) {
-            // Get model class
-            $model = $this->config('model', Models\Currency::class);
-
+        if ($this->model === null && ($model = $this->config('model'))) {
             // Create model instance
             $this->model = new $model();
         }
@@ -299,10 +227,8 @@ class Currency
 
     /**
      * Get formatter driver.
-     *
-     * @return \Igniter\Flame\Currency\Contracts\FormatterInterface
      */
-    public function getFormatter()
+    public function getFormatter(): ?FormatterInterface
     {
         if ($this->formatter === null && $this->config('formatter') !== null) {
             // Get formatter configuration
@@ -328,13 +254,8 @@ class Currency
 
     /**
      * Get configuration value.
-     *
-     * @param string $key
-     * @param mixed $default
-     *
-     * @return mixed
      */
-    public function config($key = null, $default = null)
+    public function config(string $key = null, mixed $default = null): mixed
     {
         if ($key === null) {
             return $this->config;
@@ -356,7 +277,7 @@ class Currency
     //
     //
 
-    public function updateRates($skipCache = false)
+    public function updateRates(bool $skipCache = false)
     {
         $base = $this->config('default');
 
@@ -369,7 +290,7 @@ class Currency
         });
     }
 
-    protected function getRates($base, $skipCache = false)
+    protected function getRates(string $base, bool $skipCache = false): array
     {
         $duration = Carbon::now()->addHours($this->config('ratesCacheDuration', 0));
 
@@ -386,25 +307,16 @@ class Currency
 
     /**
      * Get a given value from the current currency.
-     *
-     * @param string $key
-     *
-     * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key): mixed
     {
         return $this->getCurrency()->$$key;
     }
 
     /**
      * Dynamically call the default driver instance.
-     *
-     * @param string $method
-     * @param array $parameters
-     *
-     * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters): mixed
     {
         return call_user_func_array([$this->getModel(), $method], $parameters);
     }

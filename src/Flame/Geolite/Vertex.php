@@ -2,44 +2,32 @@
 
 namespace Igniter\Flame\Geolite;
 
+use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
+use Igniter\Flame\Geolite\Contracts\VertexInterface;
+
 class Vertex implements Contracts\VertexInterface
 {
     /**
      * The origin coordinate.
-     *
-     * @var Contracts\CoordinatesInterface
      */
-    protected $from;
+    protected CoordinatesInterface $from;
 
     /**
      * The destination coordinate.
-     *
-     * @var Contracts\CoordinatesInterface
      */
-    protected $to;
+    protected CoordinatesInterface $to;
 
-    /**
-     * @var float
-     */
-    protected $gradient;
+    protected ?float $gradient = null;
 
-    /**
-     * @var float
-     */
-    protected $ordinateIntercept;
+    protected ?float $ordinateIntercept = null;
 
-    /**
-     * @var int
-     */
-    protected $precision = 8;
+    protected int $precision = 8;
 
     /**
      * The cardinal points / directions (the four cardinal directions,
      * the four ordinal directions, plus eight further divisions).
-     *
-     * @var array
      */
-    public static $cardinalPoints = [
+    public static array $cardinalPoints = [
         'N', 'NNE', 'NE', 'ENE',
         'E', 'ESE', 'SE', 'SSE',
         'S', 'SSW', 'SW', 'WSW',
@@ -47,10 +35,7 @@ class Vertex implements Contracts\VertexInterface
         'N',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setFrom(Contracts\CoordinatesInterface $from)
+    public function setFrom(Contracts\CoordinatesInterface $from): VertexInterface
     {
         $this->from = $from;
 
@@ -69,18 +54,12 @@ class Vertex implements Contracts\VertexInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFrom()
+    public function getFrom(): CoordinatesInterface
     {
         return $this->from;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setTo(Contracts\CoordinatesInterface $to)
+    public function setTo(Contracts\CoordinatesInterface $to): self
     {
         $this->to = $to;
 
@@ -99,43 +78,27 @@ class Vertex implements Contracts\VertexInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTo()
+    public function getTo(): CoordinatesInterface
     {
         return $this->to;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getGradient()
+    public function getGradient(): ?float
     {
         return $this->gradient;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrdinateIntercept()
+    public function getOrdinateIntercept(): ?float
     {
         return $this->ordinateIntercept;
     }
 
-    /**
-     * @return int
-     */
-    public function getPrecision()
+    public function getPrecision(): int
     {
         return $this->precision;
     }
 
-    /**
-     * @param int $precision
-     * @return $this
-     */
-    public function setPrecision($precision)
+    public function setPrecision(int $precision): self
     {
         $this->precision = $precision;
 
@@ -145,10 +108,8 @@ class Vertex implements Contracts\VertexInterface
     /**
      * Returns the initial bearing from the origin coordinate
      * to the destination coordinate in degrees.
-     *
-     * @return float The initial bearing in degrees
      */
-    public function initialBearing()
+    public function initialBearing(): int|float
     {
         $latA = deg2rad($this->from->getLatitude());
         $latB = deg2rad($this->to->getLatitude());
@@ -157,16 +118,14 @@ class Vertex implements Contracts\VertexInterface
         $y = sin($dLng) * cos($latB);
         $x = cos($latA) * sin($latB) - sin($latA) * cos($latB) * cos($dLng);
 
-        return (float)(rad2deg(atan2($y, $x)) + 360) % 360;
+        return (rad2deg(atan2($y, $x)) + 360) % 360;
     }
 
     /**
      * Returns the final bearing from the origin coordinate
      * to the destination coordinate in degrees.
-     *
-     * @return float The final bearing in degrees
      */
-    public function finalBearing()
+    public function finalBearing(): int|float
     {
         $latA = deg2rad($this->to->getLatitude());
         $latB = deg2rad($this->from->getLatitude());
@@ -182,10 +141,8 @@ class Vertex implements Contracts\VertexInterface
      * Returns the initial cardinal point / direction from the origin coordinate to
      * the destination coordinate.
      * @see http://en.wikipedia.org/wiki/Cardinal_direction
-     *
-     * @return string The initial cardinal point / direction
      */
-    public function initialCardinal()
+    public function initialCardinal(): string
     {
         return static::$cardinalPoints[(int)round($this->initialBearing() / 22.5)];
     }
@@ -194,10 +151,8 @@ class Vertex implements Contracts\VertexInterface
      * Returns the final cardinal point / direction from the origin coordinate to
      * the destination coordinate.
      * @see http://en.wikipedia.org/wiki/Cardinal_direction
-     *
-     * @return string The final cardinal point / direction
      */
-    public function finalCardinal()
+    public function finalCardinal(): string
     {
         return static::$cardinalPoints[(int)round($this->finalBearing() / 22.5)];
     }
@@ -205,10 +160,8 @@ class Vertex implements Contracts\VertexInterface
     /**
      * Returns the half-way point / coordinate along a great circle
      * path between the origin and the destination coordinates.
-     *
-     * @return \Igniter\Flame\Geolite\Model\Coordinates
      */
-    public function middle()
+    public function middle(): CoordinatesInterface
     {
         $latA = deg2rad($this->from->getLatitude());
         $lngA = deg2rad($this->from->getLongitude());
@@ -227,13 +180,8 @@ class Vertex implements Contracts\VertexInterface
     /**
      * Returns the destination point with a given bearing in degrees travelling along a
      * (shortest distance) great circle arc and a distance in meters.
-     *
-     * @param int $bearing The bearing of the origin in degrees.
-     * @param int $distance The distance from the origin in meters.
-     *
-     * @return \Igniter\Flame\Geolite\Model\Coordinates
      */
-    public function destination($bearing, $distance)
+    public function destination(int $bearing, int $distance): Model\Coordinates
     {
         $lat = deg2rad($this->from->getLatitude());
         $lng = deg2rad($this->from->getLongitude());
@@ -243,18 +191,15 @@ class Vertex implements Contracts\VertexInterface
         $endLat = asin(sin($lat) * cos($distance / $this->from->getEllipsoid()->getA()) + cos($lat) *
             sin($distance / $this->from->getEllipsoid()->getA()) * cos($bearing));
         $endLon = $lng + atan2(sin($bearing) * sin($distance / $this->from->getEllipsoid()->getA()) * cos($lat),
-            cos($distance / $this->from->getEllipsoid()->getA()) - sin($lat) * sin($endLat));
+                cos($distance / $this->from->getEllipsoid()->getA()) - sin($lat) * sin($endLat));
 
         return new Model\Coordinates(rad2deg($endLat), rad2deg($endLon));
     }
 
     /**
      * Returns true if the vertex passed on argument is on the same line as this object
-     *
-     * @param Vertex $vertex The vertex to compare
-     * @return bool
      */
-    public function isOnSameLine(Vertex $vertex)
+    public function isOnSameLine(Vertex $vertex): bool
     {
         if (is_null($this->getGradient()) && is_null($vertex->getGradient()) && $this->from->getLongitude() == $vertex->getFrom()->getLongitude()) {
             return true;
@@ -272,9 +217,8 @@ class Vertex implements Contracts\VertexInterface
 
     /**
      * Returns the other coordinate who is not the coordinate passed on argument
-     * @return null|Contracts\CoordinatesInterface
      */
-    public function getOtherCoordinate(Contracts\CoordinatesInterface $coordinate)
+    public function getOtherCoordinate(Contracts\CoordinatesInterface $coordinate): ?CoordinatesInterface
     {
         if ($coordinate->isEqual($this->from)) {
             return $this->to;
@@ -289,10 +233,8 @@ class Vertex implements Contracts\VertexInterface
 
     /**
      * Returns the determinant value between $this (vertex) and another vertex.
-     *
-     * @return string
      */
-    public function getDeterminant(Vertex $vertex)
+    public function getDeterminant(Vertex $vertex): string
     {
         $abscissaVertexOne = $this->to->getLatitude() - $this->from->getLatitude();
         $ordinateVertexOne = $this->to->getLongitude() - $this->from->getLongitude();

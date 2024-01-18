@@ -4,33 +4,23 @@ namespace Igniter\Flame\Geolite\Contracts;
 
 interface BoundsInterface
 {
-    /**
-     * @return float
-     */
-    public function getNorth();
+    public function getNorth(): int|float;
 
-    /**
-     * @return float
-     */
-    public function getEast();
+    public function getEast(): int|float;
 
-    /**
-     * @return float
-     */
-    public function getSouth();
+    public function getSouth(): int|float;
 
-    /**
-     * @return float
-     */
-    public function getWest();
+    public function getWest(): int|float;
 
-    /**
-     * @return \Igniter\Flame\Geolite\Contracts\PolygonInterface
-     */
-    public function getAsPolygon();
+    public function setPrecision(int $precision): self;
 
-    /**
-     * @return BoundsInterface
-     */
-    public function merge(BoundsInterface $bounds);
+    public function getAsPolygon(): PolygonInterface;
+
+    public function setPolygon(PolygonInterface $polygon);
+
+    public function pointInBounds(CoordinatesInterface $coordinate): bool;
+
+    public function merge(BoundsInterface $bounds): BoundsInterface;
+
+    public function toArray(): array;
 }

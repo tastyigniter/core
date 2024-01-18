@@ -7,7 +7,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class SectionParser
 {
-    const SOURCE_SEPARATOR = '---';
+    public const SOURCE_SEPARATOR = '---';
 
     /**
      * Parses a page or layout file content.
@@ -30,7 +30,7 @@ class SectionParser
      * parsed Data as array. If the content string does not contain a section, the corresponding
      * result element has null value.
      */
-    public static function parse($content)
+    public static function parse(?string $content): array
     {
         $separator = static::SOURCE_SEPARATOR;
 
@@ -70,10 +70,8 @@ class SectionParser
 
     /**
      * Renders a page or layout object as file content.
-     *
-     * @return string
      */
-    public static function render($data)
+    public static function render(array $data): string
     {
         $code = trim(array_get($data, 'code'));
         $markup = trim(array_get($data, 'markup'));
@@ -99,7 +97,7 @@ class SectionParser
         return trim(implode(PHP_EOL.self::SOURCE_SEPARATOR.PHP_EOL, $content));
     }
 
-    protected static function parseSettings(string $frontMatter)
+    protected static function parseSettings(string $frontMatter): array
     {
         $settings = Yaml::parse($frontMatter);
 
@@ -116,7 +114,7 @@ class SectionParser
         return $settings;
     }
 
-    protected static function renderSettings(array $settings)
+    protected static function renderSettings(array $settings): string
     {
         foreach ($settings['components'] ?? [] as $name => $component) {
             $settings[Str::of($name)->start('[')->finish(']')->toString()] = $component;

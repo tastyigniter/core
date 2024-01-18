@@ -2,6 +2,11 @@
 
 namespace Igniter\Flame\Geolite;
 
+use Igniter\Flame\Geolite\Contracts\CircleInterface;
+use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
+use Igniter\Flame\Geolite\Contracts\DistanceInterface;
+use Igniter\Flame\Geolite\Contracts\PolygonInterface;
+use Igniter\Flame\Geolite\Contracts\VertexInterface;
 use Igniter\Flame\Geolite\Model\Coordinates;
 
 class Geolite
@@ -11,66 +16,66 @@ class Geolite
      *
      * @var float
      */
-    const METERS_PER_MILE = 1609.344;
+    public const METERS_PER_MILE = 1609.344;
 
     /**
      * The ratio feet per meter.
      *
      * @var float
      */
-    const FEET_PER_METER = 0.3048;
+    public const FEET_PER_METER = 0.3048;
 
     /**
      * The kilometer unit.
      *
      * @var string
      */
-    const KILOMETER_UNIT = 'km';
+    public const KILOMETER_UNIT = 'km';
 
     /**
      * The mile unit.
      *
      * @var string
      */
-    const MILE_UNIT = 'mi';
+    public const MILE_UNIT = 'mi';
 
     /**
      * The feet unit.
      *
      * @var string
      */
-    const FOOT_UNIT = 'ft';
+    public const FOOT_UNIT = 'ft';
 
-    public function distance()
+    public function distance(): DistanceInterface
     {
         return new Distance();
     }
 
-    public function circle($coordinate, $radius)
+    public function circle(array|CoordinatesInterface $coordinate, int $radius): CircleInterface
     {
         return (new Circle($coordinate, $radius))
-            ->setPrecision(config('geocoder.precision'));
+            ->setPrecision(config('igniter-geocoder.precision', 8));
     }
 
-    public function polygon($coordinates)
+    public function polygon(array|CoordinatesInterface $coordinates): PolygonInterface
     {
         return (new Polygon($coordinates))
-            ->setPrecision(config('geocoder.precision'));
+            ->setPrecision(config('igniter-geocoder.precision', 8));
     }
 
-    public function vertex()
+    public function vertex(): VertexInterface
     {
         return (new Vertex)
-            ->setPrecision(config('geocoder.precision'));
+            ->setPrecision(config('igniter-geocoder.precision', 8));
     }
 
-    public function coordinates($latitude, $longitude)
+    public function coordinates(null|int|float $latitude, null|int|float $longitude): CoordinatesInterface
     {
         return (new Coordinates($latitude, $longitude))
-            ->setPrecision(config('geocoder.precision'));
+            ->setPrecision(config('igniter-geocoder.precision', 8));
     }
 
-    public function addressMatch($components)
+    public function addressMatch($components): AddressMatch
     {
         return new AddressMatch($components);
     }

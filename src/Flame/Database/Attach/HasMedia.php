@@ -11,10 +11,7 @@ use Illuminate\Support\Collection as BaseCollection;
 
 trait HasMedia
 {
-    /**
-     * @var array
-     */
-    protected $unAttachedMediaItems = [];
+    protected array $unAttachedMediaItems = [];
 
     public static function bootHasMedia()
     {
@@ -25,8 +22,6 @@ trait HasMedia
 
     /**
      * Set the polymorphic relation.
-     *
-     * @return mixed
      */
     public function media()
     {
@@ -38,7 +33,7 @@ trait HasMedia
      * @param string|string[] $tags
      * @return void
      */
-    public function scopeWhereHasMedia(Builder $query, $tags)
+    public function scopeWhereHasMedia(Builder $query, string|array $tags)
     {
         if (!is_array($tags)) {
             $tags = [$tags];
@@ -49,7 +44,7 @@ trait HasMedia
         });
     }
 
-    public function newMediaInstance()
+    public function newMediaInstance(): Media
     {
         $newMedia = new Media;
         $newMedia->setRelation('attachment', $this);
@@ -57,7 +52,7 @@ trait HasMedia
         return $newMedia;
     }
 
-    public function getAttribute($key)
+    public function getAttribute($key): mixed
     {
         if (
             !array_key_exists($key, $mediable = $this->mediable())
@@ -96,25 +91,16 @@ trait HasMedia
 
     /**
      * Get the thumbnail of the first media item of a default tag.
-     *
-     * @param array $options
-     * @param string $tag
-     * @return string
      */
-    public function getThumb($options = [], $tag = null)
+    public function getThumb(array $options = [], ?string $tag = null): ?string
     {
-        return $this->getFirstMedia($tag)->getThumb($options);
+        return $this->getFirstMedia($tag)?->getThumb($options);
     }
 
     /**
      * Get a collection of media attachments by its tag.
-     *
-     * @param string $tag
-     * @param array|callable $filters
-     *
-     * @return \Illuminate\Support\Collection
      */
-    public function getMedia($tag = null, $filters = [])
+    public function getMedia(?string $tag = null, callable|array $filters = []): BaseCollection
     {
         $collection = $this->loadMedia($tag ?? $this->getDefaultTagName());
 
@@ -127,17 +113,13 @@ trait HasMedia
 
     /**
      * Get the first media item of a media tag.
-     *
-     * @param string $tag
-     *
-     * @return Media|null
      */
-    public function getFirstMedia($tag = null, array $filters = [])
+    public function getFirstMedia(?string $tag = null, array $filters = []): ?Media
     {
         return $this->getMedia($tag, $filters)->first();
     }
 
-    public function findMedia($mediaId)
+    public function findMedia(int|string $mediaId): Media
     {
         if (!$media = $this->media->find($mediaId)) {
             throw new \RuntimeException(sprintf(
@@ -151,10 +133,8 @@ trait HasMedia
 
     /**
      * Lazy eager load attached media relationships.
-     *
-     * @return \Illuminate\Support\Collection
      */
-    public function loadMedia($tag)
+    public function loadMedia(?string $tag = null): BaseCollection
     {
         $collection = $this->exists
             ? $this->media
@@ -169,23 +149,16 @@ trait HasMedia
 
     /**
      * Determine if the specified tag contains media.
-     * @param string $tag
-     * @return bool
      */
-    public function hasMedia($tag = null)
+    public function hasMedia(?string $tag = null): bool
     {
         return count($this->getMedia($tag)) > 0;
     }
 
     /**
      * Replace the existing media collection for the specified tag(s).
-     *
-     * @param mixed $media
-     * @param string $tag
-     *
-     * @return \Illuminate\Support\Collection
      */
-    public function syncMedia($media, $tag = null)
+    public function syncMedia(mixed $media, ?string $tag = null): BaseCollection
     {
         $this->deleteMediaExcept($media, $tag);
 
@@ -209,10 +182,8 @@ trait HasMedia
 
     /**
      * Detach a media item from the model.
-     * @param mixed $mediaId
-     * @return void
      */
-    public function deleteMedia($mediaId)
+    public function deleteMedia(int|string|Media $mediaId)
     {
         if ($mediaId instanceof Media) {
             $mediaId = $mediaId->id;
@@ -225,11 +196,8 @@ trait HasMedia
 
     /**
      * Delete all media with the given tag except some.
-     *
-     * @param mixed $media
-     * @param string $tag
      */
-    protected function deleteMediaExcept($media, $tag = null)
+    protected function deleteMediaExcept(mixed $media, ?string $tag = null)
     {
         $newMediaIds = $this->parseIds($media);
         $this->getMedia($tag)
@@ -241,11 +209,8 @@ trait HasMedia
 
     /**
      * Remove all media with the given tag.
-     *
-     * @param string $tag
-     * @return void
      */
-    public function clearMediaTag($tag = null)
+    public function clearMediaTag(?string $tag = null)
     {
         $this->getMedia($tag)->each->delete();
 
@@ -270,7 +235,7 @@ trait HasMedia
         $this->unAttachedMediaItems = [];
     }
 
-    public function mediable()
+    public function mediable(): array
     {
         $result = [];
         $mediable = $this->mediable ?? [];
@@ -286,7 +251,7 @@ trait HasMedia
         return $result;
     }
 
-    protected function mediaWasLoaded()
+    protected function mediaWasLoaded(): bool
     {
         return $this->relationLoaded('media');
     }
@@ -307,9 +272,8 @@ trait HasMedia
 
     /**
      * Convert the given array to a filter closure.
-     * @return \Closure
      */
-    protected function buildMediaPropertiesFilter(array $filters)
+    protected function buildMediaPropertiesFilter(array $filters): \Closure
     {
         return function (Media $media) use ($filters) {
             foreach ($filters as $property => $value) {
@@ -328,11 +292,8 @@ trait HasMedia
 
     /**
      * Get all of the IDs from the given mixed value.
-     *
-     * @param mixed $value
-     * @return array
      */
-    protected function parseIds($value)
+    protected function parseIds(mixed $value): array
     {
         if ($value instanceof \Illuminate\Database\Eloquent\Model) {
             return [$value->{$this->relatedKey}];

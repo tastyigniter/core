@@ -8,9 +8,9 @@ use Closure;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Traits\EventEmitter;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use JsonSerializable;
@@ -32,7 +32,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
 
     public const DEFAULT_EXTENSION = 'blade.php';
 
-    public static Dispatcher $dispatcher;
+    public static ?Dispatcher $dispatcher;
 
     /**
      * The array of booted models.

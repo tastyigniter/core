@@ -64,8 +64,6 @@ abstract class GeneratorCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return bool|null
      */
     public function handle()
     {

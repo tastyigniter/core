@@ -2,32 +2,25 @@
 
 namespace Igniter\Flame\Pagic\Source;
 
+use Igniter\Flame\Pagic\Processors\Processor;
+
 abstract class AbstractSource
 {
-    /**
-     * The query post processor implementation.
-     *
-     * @var \Igniter\Flame\Pagic\Processors\Processor
-     */
-    protected $processor;
+    /** The query post processor implementation. */
+    protected Processor $processor;
 
     /**
      * Get the query post processor used by the connection.
-     * @return \Igniter\Flame\Pagic\Processors\Processor
      */
-    public function getProcessor()
+    public function getProcessor(): Processor
     {
         return $this->processor;
     }
 
     /**
      * Generate a cache key unique to this source.
-     *
-     * @param string $name
-     *
-     * @return int|string
      */
-    public function makeCacheKey($name = '')
+    public function makeCacheKey(string $name = ''): int
     {
         return crc32($name);
     }

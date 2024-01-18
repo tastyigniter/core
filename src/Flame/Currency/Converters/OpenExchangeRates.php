@@ -16,10 +16,7 @@ class OpenExchangeRates extends AbstractConverter
         $this->appId = $config['apiKey'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function converterDetails()
+    public function converterDetails(): array
     {
         return [
             'name' => 'Open Exchange Rates',
@@ -27,11 +24,10 @@ class OpenExchangeRates extends AbstractConverter
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExchangeRates($base, array $currencies)
+    public function getExchangeRates(string $base, array $currencies): array
     {
+        $result = [];
+
         try {
             $response = $this->getHttpClient()->get(
                 sprintf(self::API_URL, $this->appId, $base, implode(',', $currencies))
@@ -43,9 +39,10 @@ class OpenExchangeRates extends AbstractConverter
                 throw new \RuntimeException($result['description']);
             }
 
-            return $result['rates'] ?? [];
         } catch (Exception $ex) {
             Log::info($ex->getMessage());
         }
+
+        return $result['rates'] ?? [];
     }
 }

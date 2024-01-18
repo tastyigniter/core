@@ -6,47 +6,32 @@ interface VertexInterface
 {
     /**
      * Set the origin coordinate.
-     *
-     * @param \Igniter\Flame\Geolite\Contracts\CoordinatesInterface $from The origin coordinate.
-     *
-     * @return VertexInterface
      */
-    public function setFrom(CoordinatesInterface $from);
+    public function setFrom(CoordinatesInterface $from): VertexInterface;
 
     /**
      * Get the origin coordinate.
-     *
-     * @return \Igniter\Flame\Geolite\Contracts\CoordinatesInterface
      */
-    public function getFrom();
+    public function getFrom(): CoordinatesInterface;
 
     /**
      * Set the destination coordinate.
-     *
-     * @param \Igniter\Flame\Geolite\Contracts\CoordinatesInterface $to The destination coordinate.
-     *
-     * @return VertexInterface
      */
-    public function setTo(CoordinatesInterface $to);
+    public function setTo(CoordinatesInterface $to): VertexInterface;
 
     /**
      * Get the destination coordinate.
-     *
-     * @return \Igniter\Flame\Geolite\Contracts\CoordinatesInterface
      */
-    public function getTo();
+    public function getTo(): CoordinatesInterface;
 
     /**
      * Get the gradient (slope) of the vertex.
-     *
-     * @return int
      */
-    public function getGradient();
+    public function getGradient(): ?float;
 
     /**
-     * Get the ordinate (longitude) of the point where vertex intersects with the ordinate-axis (Prime-Meridian) of the coordinate system.
-     *
-     * @return int
+     * Get the ordinate (longitude) of the point where vertex intersects with the ordinate-axis
+     * (Prime-Meridian) of the coordinate system.
      */
-    public function getOrdinateIntercept();
+    public function getOrdinateIntercept(): ?float;
 }

@@ -7,32 +7,26 @@ use Igniter\Flame\Geolite\Geolite;
 
 class Distance
 {
-    protected $distance;
-
-    protected $duration;
-
-    public function __construct(float $distance, float $duration)
+    public function __construct(protected float $distance, protected int $duration)
     {
-        $this->distance = $distance;
-        $this->duration = $duration;
     }
 
-    public function getDistance()
+    public function getDistance(): float
     {
         return $this->distance;
     }
 
-    public function getDuration()
+    public function getDuration(): int
     {
         return $this->duration;
     }
 
-    public function formatDistance($unit = Geolite::MILE_UNIT)
+    public function formatDistance(string $unit = Geolite::MILE_UNIT): float
     {
         return (new GeoliteDistance())->in($unit)->convertToUserUnit($this->distance);
     }
 
-    public function formatDuration($unit = Geolite::MILE_UNIT)
+    public function formatDuration(string $unit = Geolite::MILE_UNIT): string
     {
         return now()->diffForHumans(now()->addSeconds($this->duration));
     }

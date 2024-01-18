@@ -29,9 +29,6 @@ class ValidationException extends Exception
 
     /**
      * Create a new validation exception instance.
-     *
-     * @param \Illuminate\Contracts\Validation\Validator $validator
-     * @return void
      */
     public function __construct($validation, ?Model $model = null)
     {
@@ -101,5 +98,10 @@ class ValidationException extends Exception
     public function getFields()
     {
         return $this->fields;
+    }
+
+    public function errors()
+    {
+        return $this->getErrors();
     }
 }

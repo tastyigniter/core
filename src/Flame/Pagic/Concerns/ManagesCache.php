@@ -2,43 +2,34 @@
 
 namespace Igniter\Flame\Pagic\Concerns;
 
+use Illuminate\Cache\CacheManager;
+
 trait ManagesCache
 {
-    /**
-     * The cache manager instance.
-     * @var \Illuminate\Cache\CacheManager
-     */
-    protected static $cache;
+    /** The cache manager instance. */
+    protected static ?CacheManager $cache;
 
-    /**
-     * @var bool Indicated whether the object was loaded from the cache.
-     */
-    protected $loadedFromCache = false;
+    /** Indicated whether the object was loaded from the cache. */
+    protected bool $loadedFromCache = false;
 
     /**
      * Get the cache manager instance.
-     * @return \Illuminate\Cache\CacheManager
      */
-    public static function getCacheManager()
+    public static function getCacheManager(): CacheManager
     {
         return static::$cache;
     }
 
     /**
      * Set the cache manager instance.
-     *
-     * @param \Illuminate\Cache\CacheManager $cache
-     *
-     * @return void
      */
-    public static function setCacheManager($cache)
+    public static function setCacheManager(CacheManager $cache)
     {
         static::$cache = $cache;
     }
 
     /**
      * Unset the cache manager for models.
-     * @return void
      */
     public static function unsetCacheManager()
     {
@@ -55,20 +46,17 @@ trait ManagesCache
 
     /**
      * Returns true if the object was loaded from the cache.
-     * @return bool
      */
-    public function isLoadedFromCache()
+    public function isLoadedFromCache(): bool
     {
         return $this->loadedFromCache;
     }
 
     /**
      * Returns true if the object was loaded from the cache.
-     *
-     * @return void
      */
-    public function setLoadedFromCache($value)
+    public function setLoadedFromCache(bool $value)
     {
-        $this->loadedFromCache = (bool)$value;
+        $this->loadedFromCache = $value;
     }
 }

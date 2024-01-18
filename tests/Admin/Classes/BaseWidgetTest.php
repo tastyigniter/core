@@ -2,8 +2,8 @@
 
 namespace Tests\Admin\Classes;
 
-use Tests\Fixtures\Controllers\TestController;
-use Tests\Fixtures\Widgets\TestWidget;
+use Admin\Fixtures\Controllers\TestController;
+use Admin\Fixtures\Widgets\TestWidget;
 
 it('has defined paths to locate widget partials', function () {
     $controller = resolve(TestController::class);

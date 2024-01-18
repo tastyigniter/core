@@ -9,12 +9,8 @@ use Throwable;
 
 class Template
 {
-    /**
-     * A stack of the last compiled templates.
-     *
-     * @var array
-     */
-    private $lastCompiled = [];
+    /** A stack of the last compiled templates */
+    private array $lastCompiled = [];
 
     protected $page;
 
@@ -33,7 +29,7 @@ class Template
      * directly (use Environment::load() instead).
      * @internal
      */
-    public function __construct(private Environment $env, protected string $path)
+    public function __construct(private readonly Environment $env, protected string $path)
     {
     }
 

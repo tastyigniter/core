@@ -16,10 +16,7 @@ class FixerIO extends AbstractConverter
         $this->accessKey = $config['apiKey'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function converterDetails()
+    public function converterDetails(): array
     {
         return [
             'name' => 'Fixer.io',
@@ -27,13 +24,12 @@ class FixerIO extends AbstractConverter
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExchangeRates($base, array $currencies)
+    public function getExchangeRates($base, array $currencies): array
     {
+        $result = [];
+
         if (!strlen($this->accessKey)) {
-            return [];
+            return $result;
         }
 
         try {
@@ -46,10 +42,10 @@ class FixerIO extends AbstractConverter
             if (isset($result['success']) && !$result['success']) {
                 throw new \RuntimeException('An error occurred when requesting currency exchange rates from fixer.io, check your api key.');
             }
-
-            return $result['rates'] ?? [];
         } catch (Exception $ex) {
             Log::info($ex->getMessage());
         }
+
+        return $result['rates'] ?? [];
     }
 }

@@ -13,42 +13,40 @@ trait HasAttributes
      *
      * @var array
      */
-    public $attributes = [];
+    public array $attributes = [];
 
     /**
      * The model attribute's original state.
      *
      * @var array
      */
-    protected $original = [];
+    protected array $original = [];
 
     /**
      * The changed model attributes.
      *
      * @var array
      */
-    protected $changes = [];
+    protected array $changes = [];
 
     /**
      * Indicates whether attributes are snake cased on arrays.
      *
      * @var bool
      */
-    public static $snakeAttributes = true;
+    public static bool $snakeAttributes = true;
 
     /**
      * The cache of the mutated attributes for each class.
      *
      * @var array
      */
-    protected static $mutatorCache = [];
+    protected static array $mutatorCache = [];
 
     /**
      * Convert the model's attributes to an array.
-     *
-     * @return array
      */
-    public function attributesToArray()
+    public function attributesToArray(): array
     {
         $attributes = $this->getArrayableAttributes();
 
@@ -68,10 +66,8 @@ trait HasAttributes
 
     /**
      * Add the mutated attributes to the attributes array.
-     *
-     * @return array
      */
-    protected function addMutatedAttributesToArray(array $attributes, array $mutatedAttributes)
+    protected function addMutatedAttributesToArray(array $attributes, array $mutatedAttributes): array
     {
         foreach ($mutatedAttributes as $key) {
             // We want to spin through all the mutated attributes for this model and call
@@ -94,20 +90,16 @@ trait HasAttributes
 
     /**
      * Get an attribute array of all arrayable attributes.
-     *
-     * @return array
      */
-    protected function getArrayableAttributes()
+    protected function getArrayableAttributes(): array
     {
         return $this->getArrayableItems($this->attributes);
     }
 
     /**
      * Get all of the appendable values that are arrayable.
-     *
-     * @return array
      */
-    protected function getArrayableAppends()
+    protected function getArrayableAppends(): array
     {
         $defaults = [];
 
@@ -120,10 +112,8 @@ trait HasAttributes
 
     /**
      * Get an attribute array of all arrayable values.
-     *
-     * @return array
      */
-    protected function getArrayableItems(array $values)
+    protected function getArrayableItems(array $values): array
     {
         if (count($this->getVisible()) > 0) {
             $values = array_intersect_key($values, array_flip($this->getVisible()));
@@ -138,12 +128,8 @@ trait HasAttributes
 
     /**
      * Get an attribute from the model.
-     *
-     * @param string $key
-     *
-     * @return mixed
      */
-    public function getAttribute($key)
+    public function getAttribute(string $key): mixed
     {
         // Before Event
         if (($attr = $this->fireEvent('model.beforeGetAttribute', [$key], true)) !== null) {
@@ -151,7 +137,7 @@ trait HasAttributes
         }
 
         if (!$key) {
-            return;
+            return null;
         }
 
         $value = null;
@@ -177,12 +163,8 @@ trait HasAttributes
 
     /**
      * Get a plain attribute (not a relationship).
-     *
-     * @param string $key
-     *
-     * @return mixed
      */
-    public function getAttributeValue($key)
+    public function getAttributeValue(string $key): mixed
     {
         $value = $this->getAttributeFromArray($key);
 
@@ -198,52 +180,32 @@ trait HasAttributes
 
     /**
      * Get an attribute from the $attributes array.
-     *
-     * @param string $key
-     *
-     * @return mixed
      */
-    protected function getAttributeFromArray($key)
+    protected function getAttributeFromArray(string $key): mixed
     {
-        if (isset($this->attributes[$key])) {
-            return $this->attributes[$key];
-        }
+        return $this->attributes[$key] ?? null;
     }
 
     /**
      * Determine if a get mutator exists for an attribute.
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    public function hasGetMutator($key)
+    public function hasGetMutator(string $key): bool
     {
         return method_exists($this, 'get'.Str::studly($key).'Attribute');
     }
 
     /**
      * Get the value of an attribute using its mutator.
-     *
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return mixed
      */
-    protected function mutateAttribute($key, $value)
+    protected function mutateAttribute(string $key, mixed $value): mixed
     {
         return $this->{'get'.Str::studly($key).'Attribute'}($value);
     }
 
     /**
      * Get the value of an attribute using its mutator for array conversion.
-     *
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return mixed
      */
-    protected function mutateAttributeForArray($key, $value)
+    protected function mutateAttributeForArray(string $key, mixed $value): mixed
     {
         $value = $this->mutateAttribute($key, $value);
 
@@ -252,13 +214,8 @@ trait HasAttributes
 
     /**
      * Set a given attribute on the model.
-     *
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return $this
      */
-    public function setAttribute($key, $value)
+    public function setAttribute(string $key, mixed $value): self
     {
         // First we will check for the presence of a mutator for the set operation
         // which simply lets the developers tweak the attribute as it is set on
@@ -280,34 +237,24 @@ trait HasAttributes
 
     /**
      * Determine if a set mutator exists for an attribute.
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    public function hasSetMutator($key)
+    public function hasSetMutator(string $key): bool
     {
         return method_exists($this, 'set'.Str::studly($key).'Attribute');
     }
 
     /**
      * Get all of the current attributes on the model.
-     *
-     * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
 
     /**
      * Set the array of model attributes. No checking is done.
-     *
-     * @param bool $sync
-     *
-     * @return $this
      */
-    public function setRawAttributes(array $attributes, $sync = false)
+    public function setRawAttributes(array $attributes, bool $sync = false): self
     {
         $this->attributes = $attributes;
 
@@ -326,19 +273,15 @@ trait HasAttributes
      *
      * @return mixed|array
      */
-    public function getOriginal($key = null, $default = null)
+    public function getOriginal(?string $key = null, mixed $default = null): mixed
     {
         return Arr::get($this->original, $key, $default);
     }
 
     /**
      * Get a subset of the model's attributes.
-     *
-     * @param array|mixed $attributes
-     *
-     * @return array
      */
-    public function only($attributes)
+    public function only(mixed $attributes): array
     {
         $results = [];
 
@@ -351,10 +294,8 @@ trait HasAttributes
 
     /**
      * Sync the original attributes with the current.
-     *
-     * @return $this
      */
-    public function syncOriginal()
+    public function syncOriginal(): self
     {
         $this->original = $this->attributes;
 
@@ -363,12 +304,8 @@ trait HasAttributes
 
     /**
      * Sync a single original attribute with its current value.
-     *
-     * @param string $attribute
-     *
-     * @return $this
      */
-    public function syncOriginalAttribute($attribute)
+    public function syncOriginalAttribute(string $attribute): self
     {
         $this->original[$attribute] = $this->attributes[$attribute];
 
@@ -377,10 +314,8 @@ trait HasAttributes
 
     /**
      * Sync the changed attributes.
-     *
-     * @return $this
      */
-    public function syncChanges()
+    public function syncChanges(): self
     {
         $this->changes = $this->getDirty();
 
@@ -389,12 +324,8 @@ trait HasAttributes
 
     /**
      * Determine if the model or given attribute(s) have been modified.
-     *
-     * @param array|string|null $attributes
-     *
-     * @return bool
      */
-    public function isDirty($attributes = null)
+    public function isDirty(array|string|null $attributes = null): bool
     {
         return $this->hasChanges(
             $this->getDirty(), is_array($attributes) ? $attributes : func_get_args()
@@ -403,24 +334,16 @@ trait HasAttributes
 
     /**
      * Determine if the model or given attribute(s) have remained the same.
-     *
-     * @param array|string|null $attributes
-     *
-     * @return bool
      */
-    public function isClean($attributes = null)
+    public function isClean(array|string|null $attributes = null): bool
     {
         return !$this->isDirty(...func_get_args());
     }
 
     /**
      * Determine if the model or given attribute(s) have been modified.
-     *
-     * @param array|string|null $attributes
-     *
-     * @return bool
      */
-    public function wasChanged($attributes = null)
+    public function wasChanged(array|string|null $attributes = null): bool
     {
         return $this->hasChanges(
             $this->getChanges(), is_array($attributes) ? $attributes : func_get_args()
@@ -429,13 +352,8 @@ trait HasAttributes
 
     /**
      * Determine if the given attributes were changed.
-     *
-     * @param array $changes
-     * @param array|string|null $attributes
-     *
-     * @return bool
      */
-    protected function hasChanges($changes, $attributes = null)
+    protected function hasChanges(array $changes, array|string|null $attributes = null): bool
     {
         // If no specific attributes were provided, we will just see if the dirty array
         // already contains any attributes. If it does we will just return that this
@@ -458,10 +376,8 @@ trait HasAttributes
 
     /**
      * Get the attributes that have been changed since last sync.
-     *
-     * @return array
      */
-    public function getDirty()
+    public function getDirty(): array
     {
         $dirty = [];
 
@@ -476,23 +392,16 @@ trait HasAttributes
 
     /**
      * Get the attributes that was changed.
-     *
-     * @return array
      */
-    public function getChanges()
+    public function getChanges(): array
     {
         return $this->changes;
     }
 
     /**
      * Determine if the new and old values for a given key are equivalent.
-     *
-     * @param string $key
-     * @param mixed $current
-     *
-     * @return bool
      */
-    protected function originalIsEquivalent($key, $current)
+    protected function originalIsEquivalent(string $key, mixed $current): bool
     {
         if (!array_key_exists($key, $this->original)) {
             return false;
@@ -502,7 +411,9 @@ trait HasAttributes
 
         if ($current === $original) {
             return true;
-        } elseif (is_null($current)) {
+        }
+
+        if (is_null($current)) {
             return false;
         }
 
@@ -510,7 +421,7 @@ trait HasAttributes
             && strcmp((string)$current, (string)$original) === 0;
     }
 
-    public function isSettingsAttribute($attribute)
+    public function isSettingsAttribute(string $attribute): bool
     {
         return !in_array($attribute, [
             'fileName',
@@ -526,10 +437,8 @@ trait HasAttributes
 
     /**
      * Get the mutated attributes for a given instance.
-     *
-     * @return array
      */
-    public function getMutatedAttributes()
+    public function getMutatedAttributes(): array
     {
         $class = static::class;
 
@@ -542,12 +451,8 @@ trait HasAttributes
 
     /**
      * Extract and cache all the mutated attributes of a class.
-     *
-     * @param string $class
-     *
-     * @return void
      */
-    public static function cacheMutatedAttributes($class)
+    public static function cacheMutatedAttributes(string $class)
     {
         static::$mutatorCache[$class] = collect(static::getMutatorMethods($class))->map(function ($match) {
             return lcfirst(static::$snakeAttributes ? Str::snake($match) : $match);
@@ -556,12 +461,8 @@ trait HasAttributes
 
     /**
      * Get all of the attribute mutator methods.
-     *
-     * @param mixed $class
-     *
-     * @return array
      */
-    protected static function getMutatorMethods($class)
+    protected static function getMutatorMethods(object|string $class): array
     {
         preg_match_all('/(?<=^|;)get([^;]+?)Attribute(;|$)/', implode(';', get_class_methods($class)), $matches);
 

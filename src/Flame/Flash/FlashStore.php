@@ -3,39 +3,31 @@
 namespace Igniter\Flame\Flash;
 
 use Illuminate\Session\Store;
+use Illuminate\Support\Collection;
 
 class FlashStore
 {
     /**
-     * @var Store
-     */
-    protected $session;
-
-    /**
      * Create a new session store instance.
      */
-    public function __construct(Store $session)
+    public function __construct(protected Store $session)
     {
-        $this->session = $session;
     }
 
     /**
      * Flash a message to the session.
-     *
-     * @param string $name
-     * @param array $data
      */
-    public function flash($name, $data)
+    public function flash(string $name, Collection $data)
     {
         $this->session->flash($name, $data);
     }
 
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         return $this->session->get($key, $default);
     }
 
-    public function forget($key)
+    public function forget(string $key)
     {
         $this->session->forget($key);
     }

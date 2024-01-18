@@ -3,55 +3,33 @@
 namespace Igniter\Flame\Geolite\Model;
 
 use Igniter\Flame\Geolite\Contracts;
+use Igniter\Flame\Geolite\Contracts\PolygonInterface;
 use Igniter\Flame\Geolite\Polygon;
 
 class Bounds implements Contracts\BoundsInterface
 {
-    /**
-     * @var float
-     */
-    protected $south;
+    protected int $precision = 8;
 
     /**
-     * @var float
+     * @param ?float $south South bound, also min latitude
+     * @param ?float $west West bound, also min longitude
+     * @param ?float $north North bound, also max latitude
+     * @param ?float $east East bound, also max longitude
      */
-    protected $west;
-
-    /**
-     * @var float
-     */
-    protected $north;
-
-    /**
-     * @var float
-     */
-    protected $east;
-
-    /**
-     * @var int
-     */
-    protected $precision = 8;
-
-    /**
-     * @param float $south South bound, also min latitude
-     * @param float $west West bound, also min longitude
-     * @param float $north North bound, also max latitude
-     * @param float $east East bound, also max longitude
-     */
-    public function __construct($south, $west, $north, $east)
+    public function __construct(
+        protected null|int|float $south,
+        protected null|int|float $west,
+        protected null|int|float $north,
+        protected null|int|float $east
+    )
     {
-        $south = (float)$south;
-        $north = (float)$north;
-        $west = (float)$west;
-        $east = (float)$east;
-
-        $this->south = $south;
-        $this->west = $west;
-        $this->north = $north;
-        $this->east = $east;
+        $this->south = (float)$south;
+        $this->west = (float)$west;
+        $this->north = (float)$north;
+        $this->east = (float)$east;
     }
 
-    public static function fromPolygon(Contracts\PolygonInterface $polygon)
+    public static function fromPolygon(Contracts\PolygonInterface $polygon): self
     {
         $bounds = new static(null, null, null, null);
         $bounds->setPolygon($polygon);
@@ -59,44 +37,28 @@ class Bounds implements Contracts\BoundsInterface
         return $bounds;
     }
 
-    /**
-     * @param  float $north
-     * @return $this
-     */
-    public function setNorth($north)
+    public function setNorth(int|float $north): self
     {
         $this->north = $north;
 
         return $this;
     }
 
-    /**
-     * @param  float $east
-     * @return $this
-     */
-    public function setEast($east)
+    public function setEast(int|float $east): self
     {
         $this->east = $east;
 
         return $this;
     }
 
-    /**
-     * @param  float $south
-     * @return $this
-     */
-    public function setSouth($south)
+    public function setSouth(int|float $south): self
     {
         $this->south = $south;
 
         return $this;
     }
 
-    /**
-     * @param  float $west
-     * @return $this
-     */
-    public function setWest($west)
+    public function setWest(int|float $west): self
     {
         $this->west = $west;
 
@@ -106,7 +68,7 @@ class Bounds implements Contracts\BoundsInterface
     /**
      * Returns the south bound.
      */
-    public function getSouth(): float
+    public function getSouth(): int|float
     {
         return $this->south;
     }
@@ -114,7 +76,7 @@ class Bounds implements Contracts\BoundsInterface
     /**
      * Returns the west bound.
      */
-    public function getWest(): float
+    public function getWest(): int|float
     {
         return $this->west;
     }
@@ -122,7 +84,7 @@ class Bounds implements Contracts\BoundsInterface
     /**
      * Returns the north bound.
      */
-    public function getNorth(): float
+    public function getNorth(): int|float
     {
         return $this->north;
     }
@@ -130,34 +92,24 @@ class Bounds implements Contracts\BoundsInterface
     /**
      * Returns the east bound.
      */
-    public function getEast(): float
+    public function getEast(): int|float
     {
         return $this->east;
     }
 
-    /**
-     * @return int
-     */
-    public function getPrecision()
+    public function getPrecision(): int
     {
         return $this->precision;
     }
 
-    /**
-     * @param  int $precision
-     * @return $this
-     */
-    public function setPrecision($precision)
+    public function setPrecision(int $precision): self
     {
         $this->precision = $precision;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function pointInBounds(Contracts\CoordinatesInterface $coordinate)
+    public function pointInBounds(Contracts\CoordinatesInterface $coordinate): bool
     {
         return !(bccomp($coordinate->getLatitude(), $this->getSouth(), $this->getPrecision()) === -1
             || bccomp($coordinate->getLatitude(), $this->getNorth(), $this->getPrecision()) === 1
@@ -165,10 +117,7 @@ class Bounds implements Contracts\BoundsInterface
             || bccomp($coordinate->getLongitude(), $this->getWest(), $this->getPrecision()) === -1);
     }
 
-    /**
-     * @return Contracts\PolygonInterface
-     */
-    public function getAsPolygon()
+    public function getAsPolygon(): PolygonInterface
     {
         $northWest = new Coordinates($this->north, $this->west);
 
@@ -190,10 +139,7 @@ class Bounds implements Contracts\BoundsInterface
         }
     }
 
-    /**
-     * @return Contracts\BoundsInterface
-     */
-    public function merge(Contracts\BoundsInterface $bounds)
+    public function merge(Contracts\BoundsInterface $bounds): self
     {
         $cBounds = clone $this;
 

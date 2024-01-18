@@ -6,17 +6,13 @@ class SourceResolver implements SourceResolverInterface
 {
     /**
      * All of the registered sources.
-     *
-     * @var array
      */
-    protected $sources = [];
+    protected array $sources = [];
 
     /**
      * The default source name.
-     *
-     * @var string
      */
-    protected $default;
+    protected ?string $default = null;
 
     /**
      * Create a new source resolver instance.
@@ -30,12 +26,8 @@ class SourceResolver implements SourceResolverInterface
 
     /**
      * Get a source instance.
-     *
-     * @param  string $name
-     *
-     * @return \Igniter\Flame\Pagic\Source\SourceInterface
      */
-    public function source($name = null)
+    public function source(string $name = null): SourceInterface
     {
         if (is_null($name)) {
             $name = $this->getDefaultSourceName();
@@ -46,45 +38,32 @@ class SourceResolver implements SourceResolverInterface
 
     /**
      * Add a source to the resolver.
-     *
-     * @param  string $name
-     *
-     * @return void
      */
-    public function addSource($name, SourceInterface $source)
+    public function addSource(string $name, SourceInterface $source)
     {
         $this->sources[$name] = $source;
     }
 
     /**
      * Check if a source has been registered.
-     *
-     * @param  string $name
-     *
-     * @return bool
      */
-    public function hasSource($name)
+    public function hasSource(string $name): bool
     {
         return isset($this->sources[$name]);
     }
 
     /**
      * Get the default source name.
-     * @return string
      */
-    public function getDefaultSourceName()
+    public function getDefaultSourceName(): string
     {
         return $this->default;
     }
 
     /**
      * Set the default source name.
-     *
-     * @param  string $name
-     *
-     * @return void
      */
-    public function setDefaultSourceName($name)
+    public function setDefaultSourceName(string $name)
     {
         $this->default = $name;
     }

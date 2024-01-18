@@ -6,28 +6,12 @@ use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 
 class Coordinates implements CoordinatesInterface
 {
-    /**
-     * @var float
-     */
-    private $latitude;
-
-    /**
-     * @var float
-     */
-    private $longitude;
-
-    /**
-     * The selected ellipsoid.
-     *
-     * @var Ellipsoid
-     */
-    protected $ellipsoid;
-
-    /**
-     * @param float $latitude
-     * @param float $longitude
-     */
-    public function __construct($latitude, $longitude, ?Ellipsoid $ellipsoid = null)
+    public function __construct(
+        private null|int|float $latitude,
+        private null|int|float $longitude,
+        private ?Ellipsoid $ellipsoid = null,
+        private int $precision = 0
+    )
     {
         $this->latitude = $this->normalizeLatitude($latitude);
         $this->longitude = $this->normalizeLongitude($longitude);
@@ -36,29 +20,25 @@ class Coordinates implements CoordinatesInterface
 
     /**
      * Set the latitude.
-     *
-     * @param float $latitude
      */
-    public function setLatitude($latitude)
+    public function setLatitude(int|float $latitude): self
     {
         $this->latitude = $latitude;
+
+        return $this;
     }
 
     /**
      * Set the longitude.
-     *
-     * @param float $longitude
      */
-    public function setLongitude($longitude)
+    public function setLongitude(int|float $longitude): self
     {
         $this->longitude = $longitude;
+
+        return $this;
     }
 
-    /**
-     * @param  int $precision
-     * @return $this
-     */
-    public function setPrecision($precision)
+    public function setPrecision(int $precision): self
     {
         $this->precision = $precision;
 
@@ -67,45 +47,34 @@ class Coordinates implements CoordinatesInterface
 
     /**
      * Returns the latitude.
-     *
-     * @return float
      */
-    public function getLatitude()
+    public function getLatitude(): int|float
     {
         return $this->latitude;
     }
 
     /**
      * Returns the longitude.
-     *
-     * @return float
      */
-    public function getLongitude()
+    public function getLongitude(): int|float
     {
         return $this->longitude;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getEllipsoid()
+    public function getEllipsoid(): Ellipsoid
     {
         return $this->ellipsoid;
     }
 
-    /**
-     * @return int
-     */
-    public function getPrecision()
+    public function getPrecision(): int
     {
         return $this->precision;
     }
 
     /**
      * Returns a boolean determining coordinates equality
-     * @return bool
      */
-    public function isEqual(CoordinatesInterface $coordinate)
+    public function isEqual(CoordinatesInterface $coordinate): bool
     {
         return bccomp($this->latitude, $coordinate->getLatitude(), $this->getPrecision()) === 0
             && bccomp($this->longitude, $coordinate->getLongitude(), $this->getPrecision()) === 0;
@@ -114,12 +83,8 @@ class Coordinates implements CoordinatesInterface
     /**
      * Normalizes a latitude to the (-90, 90) range.
      * Latitudes below -90.0 or above 90.0 degrees are capped, not wrapped.
-     *
-     * @param float $latitude The latitude to normalize
-     *
-     * @return float
      */
-    public function normalizeLatitude($latitude)
+    public function normalizeLatitude(int|float $latitude): int|float
     {
         return (float)max(-90, min(90, $latitude));
     }
@@ -127,12 +92,8 @@ class Coordinates implements CoordinatesInterface
     /**
      * Normalizes a longitude to the (-180, 180) range.
      * Longitudes below -180.0 or abode 180.0 degrees are wrapped.
-     *
-     * @param float $longitude The longitude to normalize
-     *
-     * @return float
      */
-    public function normalizeLongitude($longitude)
+    public function normalizeLongitude(int|float $longitude): int|float
     {
         if ($longitude % 360 === 180) {
             return 180.0;
@@ -147,15 +108,13 @@ class Coordinates implements CoordinatesInterface
 
     /**
      * Returns the coordinates as a tuple
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [$this->getLongitude(), $this->getLatitude()];
     }
 
-    protected function typeToString($value): string
+    protected function typeToString(mixed $value): string
     {
         return is_object($value) ? get_class($value) : gettype($value);
     }

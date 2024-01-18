@@ -4,59 +4,33 @@ namespace Igniter\Flame\Flash;
 
 class Message implements \ArrayAccess
 {
-    /**
-     * The title of the message.
-     *
-     * @var string
-     */
-    public $title;
+    /** The title of the message. */
+    public string $title;
 
-    /**
-     * The body of the message.
-     *
-     * @var string
-     */
-    public $message;
+    /** The body of the message. */
+    public string $message;
 
-    /**
-     * The message level.
-     *
-     * @var string
-     */
-    public $level = 'info';
+    /** The message level. */
+    public string $level = 'info';
 
-    /**
-     * Whether the message should auto-hide.
-     *
-     * @var bool
-     */
-    public $important = false;
+    /** Whether the message should auto-hide. */
+    public bool $important = false;
 
-    /**
-     * Whether the message is an overlay.
-     *
-     * @var bool
-     */
-    public $overlay = false;
+    /** Whether the message is an overlay. */
+    public bool $overlay = false;
 
     /**
      * Create a new message instance.
-     *
-     * @param array $attributes
      */
-    public function __construct($attributes = [])
+    public function __construct(array $attributes = [])
     {
         $this->update($attributes);
     }
 
     /**
      * Update the attributes.
-     *
-     * @param  array $attributes
-     *
-     * @return $this
      */
-    public function update($attributes = [])
+    public function update(array $attributes = []): self
     {
         $attributes = array_filter($attributes);
 

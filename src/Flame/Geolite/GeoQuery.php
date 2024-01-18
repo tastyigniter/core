@@ -2,45 +2,28 @@
 
 namespace Igniter\Flame\Geolite;
 
+use Igniter\Flame\Geolite\Contracts\BoundsInterface;
+use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
+use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
 use InvalidArgumentException;
 
 class GeoQuery implements Contracts\GeoQueryInterface
 {
     /**
      * The address or text that should be geocoded.
-     *
-     * @var string
      */
-    protected $text;
+    protected ?string $text = null;
 
-    /**
-     * @var \Igniter\Flame\Geolite\Model\Coordinates
-     */
-    protected $coordinates;
+    protected ?CoordinatesInterface $coordinates = null;
 
-    /**
-     * @var \Igniter\Flame\Geolite\Model\Bounds|null
-     */
-    protected $bounds;
+    protected ?BoundsInterface $bounds = null;
 
-    /**
-     * @var string|null
-     */
-    protected $locale;
+    protected ?string $locale = null;
 
-    /**
-     * @var int
-     */
-    protected $limit = Geocoder::DEFAULT_RESULT_LIMIT;
+    protected int $limit = GeocoderInterface::DEFAULT_RESULT_LIMIT;
 
-    /**
-     * @var array
-     */
-    protected $data = [];
+    protected array $data = [];
 
-    /**
-     * @param string $text
-     */
     public function __construct($text)
     {
         if ($text instanceof Model\Coordinates) {
@@ -52,104 +35,67 @@ class GeoQuery implements Contracts\GeoQueryInterface
         }
     }
 
-    /**
-     * @return self
-     */
-    public static function create(string $text)
+    public static function create(string $text): self
     {
         return new self($text);
     }
 
-    /**
-     * @return self
-     */
-    public function withText(string $text)
+    public function withText(string $text): self
     {
         $this->text = $text;
 
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function withBounds(Model\Bounds $bounds)
+    public function withBounds(Model\Bounds $bounds): self
     {
         $this->bounds = $bounds;
 
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function withLocale(string $locale)
+    public function withLocale(string $locale): self
     {
         $this->locale = $locale;
 
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function withLimit(int $limit)
+    public function withLimit(int $limit): self
     {
         $this->limit = $limit;
 
         return $this;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return self
-     */
-    public function withData(string $name, $value)
+    public function withData(string $name, $value): Contracts\GeoQueryInterface
     {
         $this->data[$name] = $value;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }
 
-    /**
-     * @return \Igniter\Flame\Geolite\Model\Bounds|null
-     */
-    public function getBounds()
+    public function getBounds(): ?BoundsInterface
     {
         return $this->bounds;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
 
-    /**
-     * @return int
-     */
-    public function getLimit()
+    public function getLimit(): int
     {
         return $this->limit;
     }
 
-    /**
-     * @param mixed|null $default
-     *
-     * @return mixed
-     */
-    public function getData(string $name, $default = null)
+    public function getData(string $name, mixed $default = null): mixed
     {
         if (!array_key_exists($name, $this->data)) {
             return $default;
@@ -158,10 +104,7 @@ class GeoQuery implements Contracts\GeoQueryInterface
         return $this->data[$name];
     }
 
-    /**
-     * @return array
-     */
-    public function getAllData()
+    public function getAllData(): array
     {
         return $this->data;
     }
@@ -170,41 +113,27 @@ class GeoQuery implements Contracts\GeoQueryInterface
     //
     //
 
-    /**
-     * @param float $latitude
-     * @param float $longitude
-     *
-     * @return \Igniter\Flame\Geolite\Contracts\GeoQueryInterface
-     */
-    public static function fromCoordinates($latitude, $longitude)
+    public static function fromCoordinates(int|float $latitude, int|float $longitude): self
     {
         return new self(new Model\Coordinates($latitude, $longitude));
     }
 
-    /**
-     * @return \Igniter\Flame\Geolite\Contracts\GeoQueryInterface
-     */
-    public function withCoordinates(Model\Coordinates $coordinates)
+    public function withCoordinates(Model\Coordinates $coordinates): self
     {
         $this->coordinates = $coordinates;
 
         return $this;
     }
 
-    /**
-     * @return \Igniter\Flame\Geolite\Model\Coordinates
-     */
-    public function getCoordinates()
+    public function getCoordinates(): CoordinatesInterface
     {
         return $this->coordinates;
     }
 
     /**
      * String for logging. This is also a unique key for the query
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('GeoQuery: %s', json_encode([
             'text' => $this->getText(),

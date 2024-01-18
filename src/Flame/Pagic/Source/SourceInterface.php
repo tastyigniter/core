@@ -6,80 +6,45 @@ interface SourceInterface
 {
     /**
      * Returns a single source.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     *
-     * @return mixed
      */
-    public function select($dirName, $fileName, $extension);
+    public function select(string $dirName, string $fileName, string $extension): ?array;
 
     /**
      * Returns all sources.
-     *
-     * @param string $dirName
-     *
-     * @return array
      */
-    public function selectAll($dirName, array $options = []);
+    public function selectAll(string $dirName, array $options = []): array;
 
     /**
      * Creates a new source.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     * @param string $content
-     *
-     * @return bool
      */
-    public function insert($dirName, $fileName, $extension, $content);
+    public function insert(string $dirName, string $fileName, string $extension, string $content): bool;
 
     /**
      * Updates an existing source.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     * @param string $content
-     * @param string $oldFileName
-     * @param string $oldExtension
-     *
-     * @return int
      */
-    public function update($dirName, $fileName, $extension, $content, $oldFileName = null, $oldExtension = null);
+    public function update(
+        string $dirName,
+        string $fileName,
+        string $extension,
+        string $content,
+        ?string $oldFileName = null,
+        ?string $oldExtension = null
+    ): int;
 
     /**
      * Run a delete statement against the datasource.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     *
-     * @return int
      */
-    public function delete($dirName, $fileName, $extension);
+    public function delete(string $dirName, string $fileName, string $extension): int;
 
     public function path(string $path): ?string;
 
     /**
      * Return the last modified date of an object
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     *
-     * @return int
      */
-    public function lastModified($dirName, $fileName, $extension);
+    public function lastModified(string $dirName, string $fileName, string $extension): ?int;
 
     /**
      * Generate a cache key unique to this source.
-     *
-     * @param string $name
-     *
-     * @return string
      */
-    public function makeCacheKey($name = '');
+    public function makeCacheKey(string $name = ''): int;
 }

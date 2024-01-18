@@ -6,25 +6,16 @@ interface SourceResolverInterface
 {
     /**
      * Get a source instance.
-     *
-     * @param  string $name
-     *
-     * @return \Igniter\Flame\Pagic\Source\SourceInterface
      */
-    public function source($name = null);
+    public function source(?string $name = null): SourceInterface;
 
     /**
      * Get the default source name.
-     * @return string
      */
-    public function getDefaultSourceName();
+    public function getDefaultSourceName(): string;
 
     /**
      * Set the default source name.
-     *
-     * @param  string $name
-     *
-     * @return void
      */
-    public function setDefaultSourceName($name);
+    public function setDefaultSourceName(string $name);
 }

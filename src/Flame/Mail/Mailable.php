@@ -15,22 +15,12 @@ class Mailable extends MailableBase
     use \Illuminate\Bus\Queueable;
     use \Illuminate\Queue\SerializesModels;
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
+    public function build(): self
     {
         return $this;
     }
 
-    /**
-     * Build the view data for the message.
-     *
-     * @return array
-     */
-    public function buildViewData()
+    public function buildViewData(): array
     {
         $data = parent::buildViewData();
 
@@ -43,11 +33,8 @@ class Mailable extends MailableBase
 
     /**
      * Set serialized view data for the message.
-     *
-     * @param array $data
-     * @return $this
      */
-    public function withSerializedData($data)
+    public function withSerializedData(array $data): self
     {
         // Ensure that the current locale is stored with the rest of the data for proper translation of queued messages
         $defaultData = [
@@ -69,7 +56,7 @@ class Mailable extends MailableBase
      * @param \Illuminate\Mail\Message $message
      * @return $this
      */
-    protected function buildSubject($message)
+    protected function buildSubject($message): self
     {
         // If a custom subject was set, then set it as the message subject
         // Otherwise attempt to set the subject if the message doesn't already have one set

@@ -6,7 +6,6 @@ use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Admin\Traits\ControllerUtils;
 use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\FlashException;
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\Flame\Flash\Facades\Flash;
 use Igniter\Flame\Pagic\Parsers\FileParser;
 use Igniter\Flame\Pagic\Router;
@@ -36,6 +35,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -309,7 +309,7 @@ class MainController extends Controller
 
             return Response::make($response, $this->statusCode);
         } catch (ValidationException $ex) {
-            $response['X_IGNITER_ERROR_FIELDS'] = $ex->getFields();
+            $response['X_IGNITER_ERROR_FIELDS'] = $ex->errors();
             $response['X_IGNITER_ERROR_MESSAGE'] = lang('igniter::admin.alert_form_error_message');
 
             throw new AjaxException($response);

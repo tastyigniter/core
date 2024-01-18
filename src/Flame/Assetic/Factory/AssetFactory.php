@@ -414,5 +414,7 @@ class AssetFactory
                 return $root;
             }
         }
+
+        return null;
     }
 }

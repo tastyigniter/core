@@ -4,26 +4,20 @@ namespace Igniter\Flame\Geolite\Contracts;
 
 use GuzzleHttp\Client;
 use Igniter\Flame\Geolite\Model\Distance;
+use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Psr\Http\Client\ClientInterface;
 
 abstract class AbstractProvider
 {
-    /**
-     * The cache lifetime.
-     *
-     * @var \GuzzleHttp\Client
-     */
-    protected $httpClient;
+    protected ?ClientInterface $httpClient = null;
 
-    /**
-     * The cache lifetime.
-     *
-     * @var float|int
-     */
-    protected $cacheLifetime;
+    protected ?int $cacheLifetime = null;
 
-    protected $logs = [];
+    protected array $logs = [];
+
+    protected array $config = [];
 
     /**
      * Returns the provider name.
@@ -42,10 +36,7 @@ abstract class AbstractProvider
 
     abstract public function distance(DistanceInterface $distance): ?Distance;
 
-    /**
-     * @return \GuzzleHttp\Client
-     */
-    protected function getHttpClient()
+    protected function getHttpClient(): ClientInterface
     {
         return $this->httpClient ?? new Client();
     }
@@ -56,10 +47,8 @@ abstract class AbstractProvider
 
     /**
      * Forget the repository cache.
-     *
-     * @return $this
      */
-    public function forgetCache()
+    public function forgetCache(): self
     {
         if ($this->getCacheLifetime()) {
             // Flush cache keys, then forget actual cache
@@ -69,19 +58,15 @@ abstract class AbstractProvider
         return $this;
     }
 
-    public function getCacheKey()
+    public function getCacheKey(): string
     {
         return sprintf('geocode.%s', str_slug($this->getName()));
     }
 
     /**
      * Set the repository cache lifetime.
-     *
-     * @param float|int $cacheLifetime
-     *
-     * @return $this
      */
-    public function setCacheLifetime($cacheLifetime)
+    public function setCacheLifetime(?int $cacheLifetime): self
     {
         $this->cacheLifetime = $cacheLifetime;
 
@@ -90,55 +75,49 @@ abstract class AbstractProvider
 
     /**
      * Get the repository cache lifetime.
-     *
-     * @return float|int
      */
-    public function getCacheLifetime()
+    public function getCacheLifetime(): ?int
     {
-        $lifetime = config('geocoder.cache.duration');
+        $lifetime = config('igniter-geocoder.cache.duration');
 
         return !is_null($this->cacheLifetime) ? $this->cacheLifetime : $lifetime;
     }
 
-    protected function cacheCallback($cacheKey, \Closure $closure)
+    protected function cacheCallback(string $cacheKey, \Closure $closure): mixed
     {
         if (!$lifetime = $this->getCacheLifetime()) {
             return $closure();
         }
 
-        $lifetime = $this->getCacheLifetime();
         $cacheKey = $this->getCacheKey().'@'.md5($cacheKey);
 
         return $this->getCacheDriver()->remember($cacheKey, $lifetime, $closure);
     }
 
-    protected function getCacheDriver(): \Illuminate\Contracts\Cache\Repository
+    protected function getCacheDriver(): Repository
     {
-        return Cache::store(config('geocoder.cache.store'));
+        return Cache::store(config('igniter-geocoder.cache.store'));
     }
 
     //
     //
     //
 
-    public function log($message)
+    public function log(string $message): self
     {
         $this->logs[] = $message;
 
         return $this;
     }
 
-    /**
-     * @return \Igniter\Flame\Geolite\Contracts\AbstractProvider $this
-     */
-    public function resetLogs()
+    public function resetLogs(): self
     {
         $this->logs = [];
 
         return $this;
     }
 
-    public function getLogs()
+    public function getLogs(): array
     {
         return $this->logs;
     }

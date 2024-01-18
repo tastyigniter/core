@@ -47,13 +47,8 @@ class FileSource extends AbstractSource implements SourceInterface
 
     /**
      * Returns a single template.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     *
-     * @return mixed
      */
-    public function select($dirName, $fileName, $extension)
+    public function select(string $dirName, string $fileName, string $extension): ?array
     {
         try {
             $path = $this->makeFilePath($dirName, $fileName, $extension);
@@ -70,17 +65,12 @@ class FileSource extends AbstractSource implements SourceInterface
 
     /**
      * Returns all templates.
-     *
-     * @param string $dirName
-     *
-     * @return array
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function selectAll($dirName, array $options = [])
+    public function selectAll($dirName, array $options = []): array
     {
-        $columns = array_get($options, 'columns', null);  // Only return specific columns (fileName, mTime, content)
-        $extensions = array_get($options, 'extensions', null);  // Match specified extensions
-        $fileMatch = array_get($options, 'fileMatch', null);  // Match the file name using fnmatch()
+        $columns = array_get($options, 'columns');  // Only return specific columns (fileName, mTime, content)
+        $extensions = array_get($options, 'extensions');  // Match specified extensions
+        $fileMatch = array_get($options, 'fileMatch');  // Match the file name using fnmatch()
 
         $result = [];
         $dirPath = $this->basePath.'/'.$dirName;
@@ -139,14 +129,8 @@ class FileSource extends AbstractSource implements SourceInterface
 
     /**
      * Creates a new template.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $content
-     *
-     * @return bool
      */
-    public function insert($dirName, $fileName, $extension, $content)
+    public function insert(string $dirName, string $fileName, string $extension, string $content): bool
     {
         $this->validateDirectoryForSave($dirName, $fileName, $extension);
 
@@ -158,24 +142,15 @@ class FileSource extends AbstractSource implements SourceInterface
 
         try {
             return $this->files->put($path, $content);
-        } catch (Exception $ex) {
+        } catch (Exception) {
             throw (new CreateFileException)->setInvalidPath($path);
         }
     }
 
     /**
      * Updates an existing template.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     * @param string $content
-     * @param string $oldFileName
-     * @param string $oldExtension
-     *
-     * @return int
      */
-    public function update($dirName, $fileName, $extension, $content, $oldFileName = null, $oldExtension = null)
+    public function update(string $dirName, string $fileName, string $extension, string $content, string $oldFileName = null, string $oldExtension = null): int
     {
         $this->validateDirectoryForSave($dirName, $fileName, $extension);
 
@@ -204,7 +179,7 @@ class FileSource extends AbstractSource implements SourceInterface
 
         try {
             return $this->files->put($path, $content);
-        } catch (Exception $ex) {
+        } catch (Exception) {
             throw (new CreateFileException)->setInvalidPath($path);
         }
     }
@@ -218,13 +193,13 @@ class FileSource extends AbstractSource implements SourceInterface
      *
      * @return int
      */
-    public function delete($dirName, $fileName, $extension)
+    public function delete(string $dirName, string $fileName, string $extension): int
     {
         $path = $this->makeFilePath($dirName, $fileName, $extension);
 
         try {
             return $this->files->delete($path);
-        } catch (Exception $ex) {
+        } catch (Exception) {
             throw (new DeleteFileException)->setInvalidPath($path);
         }
     }
@@ -236,20 +211,14 @@ class FileSource extends AbstractSource implements SourceInterface
 
     /**
      * Run a delete statement against the source.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     *
-     * @return int
      */
-    public function lastModified($dirName, $fileName, $extension)
+    public function lastModified(string $dirName, string $fileName, string $extension): ?int
     {
         try {
             $path = $this->makeFilePath($dirName, $fileName, $extension);
 
             return $this->files->lastModified($path);
-        } catch (Exception $ex) {
+        } catch (Exception) {
             return null;
         }
     }
@@ -277,7 +246,7 @@ class FileSource extends AbstractSource implements SourceInterface
         }
 
         // Create base file directory
-        if (strpos($fileName, '/') !== false) {
+        if (str_contains($fileName, '/')) {
             $fileDirPath = dirname($path);
 
             if (
@@ -301,12 +270,8 @@ class FileSource extends AbstractSource implements SourceInterface
 
     /**
      * Generate a cache key unique to this source.
-     *
-     * @param string $name
-     *
-     * @return string
      */
-    public function makeCacheKey($name = '')
+    public function makeCacheKey(string $name = ''): int
     {
         return crc32($this->basePath.$name);
     }

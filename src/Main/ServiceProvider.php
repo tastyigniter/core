@@ -2,6 +2,7 @@
 
 namespace Igniter\Main;
 
+use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\Main\Classes\MediaLibrary;
@@ -41,6 +42,12 @@ class ServiceProvider extends AppServiceProvider
         $this->registerSingletons();
         $this->registerComponents();
         $this->registerBladeDirectives();
+
+        Igniter::loadControllersFrom(igniter_path('src/Main/Http/Controllers'), 'Igniter\\Main\\Http\\Controllers');
+
+        foreach (config('igniter-routes.middleware', []) as $middleware) {
+            Route::pushMiddlewareToGroup('igniter', $middleware);
+        }
 
         $this->app->register(Providers\AssetsServiceProvider::class);
         $this->app->register(Providers\FormServiceProvider::class);

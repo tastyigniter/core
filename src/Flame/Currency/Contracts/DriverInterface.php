@@ -8,25 +8,16 @@ interface DriverInterface
 {
     /**
      * Create a new currency.
-     *
-     * @return bool
      */
-    public function create(): bool;
+    public function create(array $params): bool;
 
     /**
      * Get all currencies.
-     *
-     * @return array
      */
     public function all(): array;
 
     /**
      * Get given currency from storage.
-     *
-     * @param string $code
-     * @param int $active
-     *
-     * @return mixed
      */
     public function find(string $code, int $active = 1): mixed;
 
@@ -38,5 +29,5 @@ interface DriverInterface
     /**
      * Remove given currency from storage.
      */
-    public function delete($code): int;
+    public function delete(string $code): int;
 }

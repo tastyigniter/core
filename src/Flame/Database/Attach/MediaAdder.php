@@ -5,99 +5,62 @@ namespace Igniter\Flame\Database\Attach;
 use Igniter\Flame\Database\Attach\Events\MediaAdded as MediaAddedEvent;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaAdder
 {
-    /**
-     * @var \Igniter\Flame\Filesystem\Filesystem
-     */
-    protected $files;
+    protected ?Media $media = null;
 
-    /**
-     * @var \Igniter\Flame\Database\Attach\Media
-     */
-    protected $media;
+    protected ?Model $performedOn = null;
 
-    /**
-     * @var Model
-     */
-    protected $performedOn;
+    protected string $tag = 'default';
 
-    /**
-     * @var string
-     */
-    protected $tag = 'default';
+    protected ?string $diskName = null;
 
-    /**
-     * @var string
-     */
-    protected $diskName;
+    protected ?Collection $properties = null;
 
-    /**
-     * @var \Illuminate\Support\Collection
-     */
-    protected $properties;
+    protected array $customProperties = [];
 
-    /**
-     * @var array
-     */
-    protected $customProperties = [];
+    protected array $manipulations = [];
 
-    /** @var array */
-    protected $manipulations = [];
+    protected ?string $pathToFile = null;
 
-    /** @var string */
-    protected $pathToFile;
-
-    public function __construct(Filesystem $files)
+    public function __construct(protected Filesystem $files)
     {
-        $this->files = $files;
     }
 
-    public function on(Media $media)
+    public function on(Media $media): self
     {
         $this->media = $media;
 
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function performedOn(Model $model)
+    public function performedOn(Model $model): self
     {
         $this->performedOn = $model;
 
         return $this;
     }
 
-    /**
-     * @param string $disk
-     *
-     * @return $this
-     */
-    public function useDisk($disk)
+    public function useDisk(string $disk): self
     {
         $this->diskName = $disk;
 
         return $this;
     }
 
-    /**
-     * @param string $tag
-     * @return \Igniter\Flame\Database\Attach\MediaAdder
-     */
-    public function useMediaTag($tag = 'default')
+    public function useMediaTag(string $tag = 'default'): self
     {
         $this->tag = $tag;
 
         return $this;
     }
 
-    public function fromFile($file)
+    public function fromFile(UploadedFile|SymfonyFile $file): Media
     {
         $media = $this->media;
 
@@ -114,16 +77,14 @@ class MediaAdder
         return $media;
     }
 
-    protected function setFile(Media $media, $file)
+    protected function setFile(Media $media, UploadedFile|SymfonyFile $file): ?string
     {
         if ($file instanceof UploadedFile) {
             $media->file_name = $file->getClientOriginalName();
             $media->mime_type = $file->getMimeType();
             $media->size = $file->getSize();
             $this->pathToFile = $file->getPath().DIRECTORY_SEPARATOR.$file->getFilename();
-        }
-
-        if ($file instanceof SymfonyFile) {
+        } else {
             $media->file_name = $file->getFilename();
             $media->mime_type = $file->getMimeType();
             $media->size = $file->getSize();
@@ -141,7 +102,7 @@ class MediaAdder
 
         $this->performedOn->prepareUnattachedMedia($media, $this);
 
-        $class = get_class($this->performedOn);
+        $class = $this->performedOn::class;
         $class::created(function (Model $model) {
             $model->processUnattachedMedia(function (Media $media, MediaAdder $mediaAdder) {
                 $this->processMediaItem($media, $mediaAdder);
@@ -149,9 +110,6 @@ class MediaAdder
         });
     }
 
-    /**
-     * @return bool
-     */
     protected function processMediaItem(Media $media, self $mediaAdder)
     {
         $mediaAdder->performedOn->media()->save($media);

@@ -1076,26 +1076,6 @@ parameters:
 			path: src/Admin/Widgets/Toolbar.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollection\\:\\:getLastModified\\(\\) should return int\\|null but empty return statement found\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Asset/AssetCollection.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollection\\:\\:getSourceDirectory\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Asset/AssetCollection.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollection\\:\\:getSourcePath\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Asset/AssetCollection.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\HttpAsset\\:\\:getLastModified\\(\\) should return int\\|null but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Asset/HttpAsset.php
-
-		-
 			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:getChildren\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionFilterIterator.php
@@ -1112,11 +1092,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Factory\\\\AssetFactory\\:\\:createAsset\\(\\) should return Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollection but returns Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollectionInterface\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Factory/AssetFactory.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Factory\\\\AssetFactory\\:\\:findRootDir\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Assetic/Factory/AssetFactory.php
 
@@ -1181,52 +1156,12 @@ parameters:
 			path: src/Flame/Currency/Converter.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Converters\\\\FixerIO\\:\\:getExchangeRates\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Currency/Converters/FixerIO.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Converters\\\\OpenExchangeRates\\:\\:getExchangeRates\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Currency/Converters/OpenExchangeRates.php
-
-		-
 			message: "#^Binary operation \"\\*\\=\" between string and \\-1 results in an error\\.$#"
 			count: 1
 			path: src/Flame/Currency/Currency.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Currency\\\\Contracts\\\\CurrencyInterface\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:get\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Cache\\\\Factory\\:\\:forget\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Cache\\\\Factory\\:\\:remember\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Cache\\\\Factory\\:\\:rememberForever\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:convert\\(\\) should return string but returns float\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:convert\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:formatToJson\\(\\) should return string but returns array\\<string, mixed\\>\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Currency\\\\Contracts\\\\CurrencyInterface\\:\\:get\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Currency/Currency.php
 
@@ -1234,51 +1169,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$value of method Igniter\\\\Flame\\\\Currency\\\\Contracts\\\\FormatterInterface\\:\\:format\\(\\) expects float, string\\|null given\\.$#"
 			count: 1
 			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, float given\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Currency\\\\Currency\\:\\:\\$cache \\(Illuminate\\\\Contracts\\\\Cache\\\\Factory\\) does not accept Illuminate\\\\Contracts\\\\Cache\\\\Repository\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Database\\:\\:create\\(\\) should return bool but returns string\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Database.php
-
-		-
-			message: "#^Parameter \\#2 \\$active of method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Database\\:\\:find\\(\\) expects int, null given\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Database.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:create\\(\\) should return bool but returns string\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:delete\\(\\) should return int but returns bool\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:delete\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:update\\(\\) should return int but returns bool\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Currency\\\\Drivers\\\\Filesystem\\:\\:update\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: src/Flame/Currency/Drivers/Filesystem.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:put\\(\\)\\.$#"
@@ -1301,22 +1191,12 @@ parameters:
 			path: src/Flame/Database/Attach/Events/MediaTagCleared.php
 
 		-
-			message: "#^Call to an undefined method League\\\\Flysystem\\\\FilesystemOperator\\:\\:getDriver\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:getDriver\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Manipulator.php
 
 		-
-			message: "#^Call to an undefined method League\\\\Flysystem\\\\FilesystemOperator\\:\\:path\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Manipulator.php
-
-		-
-			message: "#^Call to an undefined method League\\\\Flysystem\\\\FilesystemOperator\\:\\:put\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Manipulator.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Manipulator\\:\\:\\$source \\(League\\\\Flysystem\\\\FilesystemOperator\\) does not accept Illuminate\\\\Filesystem\\\\FilesystemAdapter\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:path\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Manipulator.php
 
@@ -1502,21 +1382,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:processUnattachedMedia\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\MediaAdder\\:\\:processMediaItem\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Database\\\\Attach\\\\MediaAdder\\:\\:\\$diskName \\(string\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Database\\\\Attach\\\\MediaAdder\\:\\:\\$tag \\(string\\) on left side of \\?\\? is not nullable\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/MediaAdder.php
 
@@ -2821,94 +2686,9 @@ parameters:
 			path: src/Flame/Exception/FlashException.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$validator$#"
-			count: 1
-			path: src/Flame/Exception/ValidationException.php
-
-		-
 			message: "#^Call to an undefined method League\\\\Flysystem\\\\FilesystemOperator\\:\\:getAdapter\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:getFilePermissions\\(\\) should return string but returns float\\|int\\|null\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:getFolderPermissions\\(\\) should return string but returns float\\|int\\|null\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:isDirectoryEmpty\\(\\) should return bool but returns null\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Parameter \\#2 \\$mask of method Igniter\\\\Flame\\\\Filesystem\\\\Filesystem\\:\\:chmod\\(\\) expects int\\|null, string given\\.$#"
-			count: 1
-			path: src/Flame/Filesystem/Filesystem.php
-
-		-
-			message: "#^Parameter \\#1 \\$message of method Igniter\\\\Flame\\\\Flash\\\\FlashBag\\:\\:message\\(\\) expects string\\|null, Igniter\\\\Flame\\\\Flash\\\\OverlayMessage given\\.$#"
-			count: 1
-			path: src/Flame/Flash/FlashBag.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Geolite\\\\AddressMatch\\:\\:\\$components\\.$#"
-			count: 2
-			path: src/Flame/Geolite/AddressMatch.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Geolite\\\\Circle\\:\\:\\$bounds\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Geolite\\\\Circle\\:\\:\\$coordinates\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Cannot call method getLatitude\\(\\) on null\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Cannot call method getLongitude\\(\\) on null\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Circle\\:\\:getBounds\\(\\) should return Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Bounds but returns null\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Circle\\:\\:getCoordinate\\(\\) should return null but returns Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Circle\\:\\:getCoordinates\\(\\) should return Igniter\\\\Flame\\\\Geolite\\\\Model\\\\CoordinatesCollection but returns null\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Parameter \\#1 \\$to of method Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\DistanceInterface\\:\\:setTo\\(\\) expects Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface, null given\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Circle.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\AbstractProvider\\:\\:\\$httpClient \\(GuzzleHttp\\\\Client\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Contracts/AbstractProvider.php
-
-		-
-			message: "#^PHPDoc tag @return with type Igniter\\\\Flame\\\\Geolite\\\\Model\\\\AdminLevelCollection\\|null is not subtype of native type Igniter\\\\Flame\\\\Geolite\\\\Model\\\\AdminLevelCollection\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Contracts/LocationInterface.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Geolite\\\\Distance\\:\\:\\$data\\.$#"
@@ -2916,17 +2696,12 @@ parameters:
 			path: src/Flame/Geolite/Distance.php
 
 		-
-			message: "#^Parameter \\#1 \\$text of class Igniter\\\\Flame\\\\Geolite\\\\GeoQuery constructor expects string, Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Coordinates given\\.$#"
-			count: 1
-			path: src/Flame/Geolite/GeoQuery.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float given\\.$#"
+			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float\\|int given\\.$#"
 			count: 8
 			path: src/Flame/Geolite/Model/Bounds.php
 
 		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float given\\.$#"
+			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float\\|int given\\.$#"
 			count: 8
 			path: src/Flame/Geolite/Model/Bounds.php
 
@@ -2936,29 +2711,14 @@ parameters:
 			path: src/Flame/Geolite/Model/Bounds.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Coordinates\\:\\:\\$precision\\.$#"
+			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float\\|int\\|null given\\.$#"
 			count: 2
 			path: src/Flame/Geolite/Model/Coordinates.php
 
 		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float given\\.$#"
+			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float\\|int given\\.$#"
 			count: 2
 			path: src/Flame/Geolite/Model/Coordinates.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Model/Coordinates.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\DistanceInterface\\:\\:convertToUserUnit\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Model/Distance.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Location\\:\\:\\$adminLevels \\(Igniter\\\\Flame\\\\Geolite\\\\Model\\\\AdminLevelCollection\\) does not accept array\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Model/Location.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
@@ -2966,73 +2726,53 @@ parameters:
 			path: src/Flame/Geolite/Model/Location.php
 
 		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float given\\.$#"
-			count: 10
+			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float\\|int given\\.$#"
+			count: 13
 			path: src/Flame/Geolite/Polygon.php
+
+		-
+			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float\\|int given\\.$#"
+			count: 15
+			path: src/Flame/Geolite/Polygon.php
+
+		-
+			message: "#^Call to an undefined method Psr\\\\Http\\\\Client\\\\ClientInterface\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Geolite/Provider/GoogleProvider.php
+
+		-
+			message: "#^Call to an undefined method Psr\\\\Http\\\\Client\\\\ClientInterface\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Geolite/Provider/NominatimProvider.php
+
+		-
+			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float given\\.$#"
+			count: 1
+			path: src/Flame/Geolite/Vertex.php
+
+		-
+			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float\\|null given\\.$#"
+			count: 1
+			path: src/Flame/Geolite/Vertex.php
+
+		-
+			message: "#^Parameter \\#1 \\$num1 of function bcmul expects string, float\\|int given\\.$#"
+			count: 2
+			path: src/Flame/Geolite/Vertex.php
 
 		-
 			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float given\\.$#"
-			count: 5
-			path: src/Flame/Geolite/Polygon.php
-
-		-
-			message: "#^Return type \\(Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface\\) of method Igniter\\\\Flame\\\\Geolite\\\\Polygon\\:\\:getCoordinate\\(\\) should be compatible with return type \\(null\\) of method Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\PolygonInterface\\:\\:getCoordinate\\(\\)$#"
-			count: 1
-			path: src/Flame/Geolite/Polygon.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Provider\\\\ChainProvider\\:\\:distance\\(\\) should return Igniter\\\\Flame\\\\Geolite\\\\Model\\\\Distance but returns int\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Provider/ChainProvider.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:getGradient\\(\\) should return int but returns float\\.$#"
 			count: 1
 			path: src/Flame/Geolite/Vertex.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:getOrdinateIntercept\\(\\) should return int but returns float\\.$#"
+			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float\\|null given\\.$#"
 			count: 1
 			path: src/Flame/Geolite/Vertex.php
 
 		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, int given\\.$#"
+			message: "#^Parameter \\#2 \\$num2 of function bcmul expects string, float\\|int given\\.$#"
 			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bcmul expects string, float given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, int given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bcmul expects string, float given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$from \\(Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$gradient \\(float\\) does not accept null\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$ordinateIntercept \\(float\\) does not accept null\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Property Igniter\\\\Flame\\\\Geolite\\\\Vertex\\:\\:\\$to \\(Igniter\\\\Flame\\\\Geolite\\\\Contracts\\\\CoordinatesInterface\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
 			path: src/Flame/Geolite/Vertex.php
 
 		-
@@ -3116,37 +2856,7 @@ parameters:
 			path: src/Flame/Mail/Markdown.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Mixins\\\\BlueprintMixin\\:\\:\\$prefix\\.$#"
-			count: 5
-			path: src/Flame/Mixins/BlueprintMixin.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Mixins\\\\BlueprintMixin\\:\\:\\$table\\.$#"
-			count: 4
-			path: src/Flame/Mixins/BlueprintMixin.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Mixins\\\\BlueprintMixin\\:\\:dropForeign\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Mixins/BlueprintMixin.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Mixins\\\\BlueprintMixin\\:\\:dropIndex\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Mixins/BlueprintMixin.php
-
-		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:normalizeClassName\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Mixins/StringMixin.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$string$#"
-			count: 1
-			path: src/Flame/Mixins/StringMixin.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$symbol$#"
 			count: 1
 			path: src/Flame/Mixins/StringMixin.php
 
@@ -3194,21 +2904,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateLoader and null will always evaluate to false\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Environment.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:errors\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Exception/ModelException.php
-
-		-
-			message: "#^PHPDoc type Igniter\\\\Flame\\\\Pagic\\\\Model of property Igniter\\\\Flame\\\\Pagic\\\\Exception\\\\ModelException\\:\\:\\$model is not covariant with PHPDoc type Illuminate\\\\Database\\\\Eloquent\\\\Model of overridden property Igniter\\\\Flame\\\\Exception\\\\ValidationException\\:\\:\\$model\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Exception/ModelException.php
-
-		-
-			message: "#^Return type \\(Igniter\\\\Flame\\\\Pagic\\\\Model\\) of method Igniter\\\\Flame\\\\Pagic\\\\Exception\\\\ModelException\\:\\:getModel\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\) of method Igniter\\\\Flame\\\\Exception\\\\ValidationException\\:\\:getModel\\(\\)$#"
-			count: 1
-			path: src/Flame/Pagic/Exception/ModelException.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$fileName\\.$#"
@@ -3361,31 +3056,6 @@ parameters:
 			path: src/Flame/Pagic/Model.php
 
 		-
-			message: "#^Method Illuminate\\\\Events\\\\Dispatcher\\:\\:listen\\(\\) invoked with 3 parameters, 1\\-2 required\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^Static property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$cache \\(Illuminate\\\\Cache\\\\CacheManager\\) does not accept null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^Static property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$dispatcher \\(Illuminate\\\\Events\\\\Dispatcher\\) does not accept Illuminate\\\\Contracts\\\\Events\\\\Dispatcher\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^Static property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$dispatcher \\(Illuminate\\\\Events\\\\Dispatcher\\) does not accept null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^Static property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$resolver \\(Igniter\\\\Flame\\\\Pagic\\\\Source\\\\SourceResolverInterface\\) does not accept null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 9
 			path: src/Flame/Pagic/Model.php
@@ -3401,32 +3071,7 @@ parameters:
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Parsers\\\\FileParser\\:\\:\\$fileCache\\.$#"
-			count: 8
-			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:getCodeClassParent\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Parsers\\\\FileParser\\:\\:extractClassFromFile\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$controller$#"
-			count: 1
-			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$layout$#"
-			count: 1
-			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$page$#"
 			count: 1
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
@@ -3441,37 +3086,12 @@ parameters:
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Processors\\\\Processor\\:\\:processSelect\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Processors/Processor.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\ChainFileSource\\:\\:lastModified\\(\\) should return int but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/ChainFileSource.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\ChainFileSource\\:\\:makeCacheKey\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/ChainFileSource.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:delete\\(\\) should return int but returns bool\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Source/FileSource.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:insert\\(\\) should return bool but returns int\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/FileSource.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:lastModified\\(\\) should return int but returns null\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/FileSource.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:makeCacheKey\\(\\) should return string but returns int\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Source/FileSource.php
 
@@ -3509,16 +3129,6 @@ parameters:
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:toSql\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Providers/MacroServiceProvider.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Scaffold\\\\GeneratorCommand\\:\\:handle\\(\\) should return bool\\|null but empty return statement found\\.$#"
-			count: 1
-			path: src/Flame/Scaffold/GeneratorCommand.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Scaffold\\\\GeneratorCommand\\:\\:handle\\(\\) should return bool\\|null but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Scaffold/GeneratorCommand.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Scaffold\\\\GeneratorCommand\\:\\:makeDirectory\\(\\) should return string but return statement is missing\\.$#"

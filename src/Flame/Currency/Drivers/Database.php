@@ -8,12 +8,7 @@ use Illuminate\Support\Collection;
 
 class Database extends AbstractDriver
 {
-    /**
-     * Database manager instance.
-     *
-     * @var DatabaseManager
-     */
-    protected $database;
+    protected DatabaseManager $database;
 
     /**
      * Create a new driver instance.
@@ -25,14 +20,11 @@ class Database extends AbstractDriver
         $this->database = app('db')->connection($this->config('connection'));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function create()
+    public function create(array $params): bool
     {
         // Ensure the currency doesn't already exist
-        if ($this->find($params['code'], null) !== null) {
-            return 'exists';
+        if ($this->find($params['code'], 0) !== null) {
+            return true;
         }
 
         // Created at stamp
@@ -52,9 +44,6 @@ class Database extends AbstractDriver
         return $this->database->table($this->config('table'))->insert($params);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function all(): array
     {
         $collection = new Collection($this->database->table($this->config('table'))->get());
@@ -80,10 +69,7 @@ class Database extends AbstractDriver
             ->all();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function find(string $code, int $active = 1): mixed
+    public function find(string $code, ?int $active = 1): mixed
     {
         $query = $this->database->table($this->config('table'))
             ->where('currency_code', strtoupper($code));
@@ -96,10 +82,7 @@ class Database extends AbstractDriver
         return $query->first();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function update($code, array $attributes, ?DateTime $timestamp = null)
+    public function update(string $code, array $attributes, ?DateTime $timestamp = null): int
     {
         $table = $this->config('table');
 
@@ -113,10 +96,7 @@ class Database extends AbstractDriver
             ->update($attributes);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function delete($code)
+    public function delete(string $code): int
     {
         $table = $this->config('table');
 

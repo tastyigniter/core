@@ -5,6 +5,7 @@ namespace Igniter\Flame\Filesystem;
 use DirectoryIterator;
 use FilesystemIterator;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use League\Flysystem\Local\LocalFilesystemAdapter;
@@ -17,42 +18,28 @@ use ReflectionClass;
  */
 class Filesystem extends IlluminateFilesystem
 {
-    /**
-     * Hint path delimiter value.
-     *
-     * @var string
-     */
-    const HINT_PATH_DELIMITER = '::';
+    /** Hint path delimiter value. */
+    public const HINT_PATH_DELIMITER = '::';
 
-    /**
-     * @var string Default file permission mask as a string ("777").
-     */
-    public $filePermissions = null;
+    /** Default file permission mask as a string ("777"). */
+    public ?string $filePermissions = null;
 
-    /**
-     * @var string Default folder permission mask as a string ("777").
-     */
-    public $folderPermissions = null;
+    /** Default folder permission mask as a string ("777"). */
+    public ?string $folderPermissions = null;
 
-    /**
-     * @var array Known path symbols and their prefixes.
-     */
-    public $pathSymbols = [];
+    /** Known path symbols and their prefixes. */
+    public array $pathSymbols = [];
 
-    /**
-     * @var array|null Symlinks within base folder
-     */
-    protected $symlinks = null;
+    /** Symlinks within base folder */
+    protected ?array $symlinks = null;
 
     /**
      * Determine if the given path contains no files.
-     * @param string $directory
-     * @return bool
      */
-    public function isDirectoryEmpty($directory)
+    public function isDirectoryEmpty(string $directory): bool
     {
         if (!is_readable($directory)) {
-            return null;
+            return true;
         }
 
         $handle = opendir($directory);
@@ -71,10 +58,8 @@ class Filesystem extends IlluminateFilesystem
 
     /**
      * Converts a file size in bytes to human readable format.
-     * @param int $bytes
-     * @return string
      */
-    public function sizeToString($bytes)
+    public function sizeToString(int $bytes): string
     {
         if ($bytes >= 1073741824) {
             return number_format($bytes / 1073741824, 2).' GB';
@@ -102,15 +87,13 @@ class Filesystem extends IlluminateFilesystem
     /**
      * Returns a public file path from an absolute one
      * eg: /home/mysite/public_html/welcome -> /welcome
-     * @param string $path Absolute path
-     * @return string
      */
-    public function localToPublic($path)
+    public function localToPublic(string $path): ?string
     {
         $result = null;
         $publicPath = public_path();
 
-        if (strpos($path, $publicPath) === 0) {
+        if (str_starts_with($path, $publicPath)) {
             $result = str_replace('\\', '/', substr($path, strlen($publicPath)));
         } else {
             /**
@@ -123,7 +106,7 @@ class Filesystem extends IlluminateFilesystem
                 $this->findSymlinks();
             } elseif (count($this->symlinks) > 0) {
                 foreach ($this->symlinks as $source => $target) {
-                    if (strpos($path, $target) === 0) {
+                    if (str_starts_with($path, $target)) {
                         $relativePath = substr($path, strlen($target));
                         $result = str_replace('\\', '/', substr($source, strlen($publicPath)).$relativePath);
                         break;
@@ -141,7 +124,7 @@ class Filesystem extends IlluminateFilesystem
      * @param bool $realpath Default true, uses realpath() to resolve the provided path before checking location. Set to false if you need to check if a potentially non-existent path would be within the application path
      * @return bool
      */
-    public function isLocalPath($path, $realpath = true)
+    public function isLocalPath(string $path, bool $realpath = true): bool
     {
         $base = base_path();
 
@@ -154,21 +137,16 @@ class Filesystem extends IlluminateFilesystem
 
     /**
      * Returns true if the provided disk is using the "local" driver
-     *
-     * @param \Illuminate\Filesystem\FilesystemAdapter $disk
-     * @return bool
      */
-    public function isLocalDisk($disk)
+    public function isLocalDisk(FilesystemAdapter $disk): bool
     {
         return $disk->getDriver()->getAdapter() instanceof LocalFilesystemAdapter;
     }
 
     /**
      * Finds the path to a class
-     * @param mixed $className Class name or object
-     * @return string The file path
      */
-    public function fromClass($className)
+    public function fromClass(string|object $className): string
     {
         $reflector = new ReflectionClass($className);
 
@@ -178,10 +156,8 @@ class Filesystem extends IlluminateFilesystem
     /**
      * Determine if a file exists with case insensitivity
      * supported for the file only.
-     * @param string $path
-     * @return mixed  Sensitive path or false
      */
-    public function existsInsensitive($path)
+    public function existsInsensitive(string $path): string|false
     {
         if ($this->exists($path)) {
             return $path;
@@ -342,31 +318,26 @@ class Filesystem extends IlluminateFilesystem
 
     /**
      * Modify file/folder permissions
-     * @param string $path
-     * @param int|null $mask
-     * @return mixed
      */
-    public function chmod($path, $mask = null)
+    public function chmod($path, mixed $mode = null): bool
     {
-        if (!$mask) {
-            $mask = $this->isDirectory($path)
+        if (!$mode) {
+            $mode = $this->isDirectory($path)
                 ? $this->getFolderPermissions()
                 : $this->getFilePermissions();
         }
 
-        if (!$mask) {
-            return;
+        if (!$mode) {
+            return false;
         }
 
-        return @chmod($path, $mask);
+        return @chmod($path, $mode);
     }
 
     /**
      * Modify file/folder permissions recursively
-     * @param string $path
-     * @return mixed
      */
-    public function chmodRecursive($path, $fileMask = null, $directoryMask = null)
+    public function chmodRecursive(string $path, ?string $fileMask = null, null|int|float $directoryMask = null)
     {
         if (!$fileMask) {
             $fileMask = $this->getFilePermissions();
@@ -381,7 +352,8 @@ class Filesystem extends IlluminateFilesystem
         }
 
         if (!$this->isDirectory($path)) {
-            return $this->chmod($path, $fileMask);
+            $this->chmod($path, $fileMask);
+            return;
         }
 
         $items = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
@@ -398,9 +370,8 @@ class Filesystem extends IlluminateFilesystem
 
     /**
      * Returns the default file permission mask to use.
-     * @return string Permission mask as octal (0777) or null
      */
-    public function getFilePermissions()
+    public function getFilePermissions(): null|float|int
     {
         return $this->filePermissions
             ? octdec($this->filePermissions)
@@ -409,9 +380,8 @@ class Filesystem extends IlluminateFilesystem
 
     /**
      * Returns the default folder permission mask to use.
-     * @return string Permission mask as octal (0777) or null
      */
-    public function getFolderPermissions()
+    public function getFolderPermissions(): null|float|int
     {
         return $this->folderPermissions
             ? octdec($this->folderPermissions)
@@ -420,11 +390,8 @@ class Filesystem extends IlluminateFilesystem
 
     /**
      * Match filename against a pattern.
-     * @param string|array $fileName
-     * @param string $pattern
-     * @return bool
      */
-    public function fileNameMatch($fileName, $pattern)
+    public function fileNameMatch(string $fileName, string $pattern): bool
     {
         if ($pattern === $fileName) {
             return true;

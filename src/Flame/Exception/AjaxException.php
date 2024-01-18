@@ -5,17 +5,11 @@ namespace Igniter\Flame\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class AjaxException extends BaseException
+class AjaxException extends \Exception
 {
-    /**
-     * @var array Collection response contents.
-     */
-    protected $contents;
+    protected array $contents;
 
-    /**
-     * Constructor.
-     */
-    public function __construct($contents, $code = 406)
+    public function __construct(string|array $contents, int $code = 406)
     {
         if (is_string($contents)) {
             $contents = ['result' => $contents];
@@ -29,7 +23,7 @@ class AjaxException extends BaseException
     /**
      * Returns invalid fields.
      */
-    public function getContents()
+    public function getContents(): array
     {
         return $this->contents;
     }

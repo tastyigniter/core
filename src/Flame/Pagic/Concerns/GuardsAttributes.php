@@ -8,27 +8,21 @@ trait GuardsAttributes
 {
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array
      */
-    protected $fillable = [];
+    protected array $fillable = [];
 
     /**
      * Get the fillable attributes for the model.
-     *
-     * @return array
      */
-    public function getFillable()
+    public function getFillable(): array
     {
         return $this->fillable;
     }
 
     /**
      * Set the fillable attributes for the model.
-     *
-     * @return $this
      */
-    public function fillable(array $fillable)
+    public function fillable(array $fillable): self
     {
         $this->fillable = $fillable;
 
@@ -37,10 +31,8 @@ trait GuardsAttributes
 
     /**
      * Get the fillable attributes of a given array.
-     *
-     * @return array
      */
-    protected function fillableFromArray(array $attributes)
+    protected function fillableFromArray(array $attributes): array
     {
         if (count($this->getFillable()) > 0) {
             return array_intersect_key($attributes, array_flip(
@@ -53,12 +45,8 @@ trait GuardsAttributes
 
     /**
      * Determine if the given attribute may be mass assigned.
-     *
-     * @param  string $key
-     *
-     * @return bool
      */
-    public function isFillable($key)
+    public function isFillable(string $key): bool
     {
         // File name is always treated as a fillable attribute.
         if ($key === 'fileName') {

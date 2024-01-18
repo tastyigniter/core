@@ -8,9 +8,12 @@ class MediaAdded
 {
     use \Igniter\Flame\Traits\EventDispatchable;
 
-    protected static $dispatchNamespacedEvent = 'attach.mediaAdded';
-
     public function __construct(public Media $media)
     {
+    }
+
+    public static function eventName(): string
+    {
+        return 'attach.mediaAdded';
     }
 }
