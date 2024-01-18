@@ -57,7 +57,7 @@ readonly class AssetCache implements AssetInterface
         $this->cache->set($cacheKey, $this->asset->getContent());
     }
 
-    public function dump(FilterInterface $additionalFilter = null): string
+    public function dump(?FilterInterface $additionalFilter = null): string
     {
         $cacheKey = self::getCacheKey($this->asset, $additionalFilter, 'dump');
         if ($this->cache->has($cacheKey)) {
