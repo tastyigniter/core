@@ -119,16 +119,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-                     'Flash' => \Igniter\Flame\Flash\Facades\Flash::class,
-                     'Form' => \Igniter\Flame\Html\FormFacade::class,
-                     'Html' => \Igniter\Flame\Html\HtmlFacade::class,
-                     'Model' => \Igniter\Flame\Database\Model::class,
-                     'Parameter' => \Igniter\Flame\Setting\Facades\Parameter::class,
-                     'Setting' => \Igniter\Flame\Setting\Facades\Setting::class,
-                     'SystemException' => \Igniter\Flame\Exception\SystemException::class,
-                     'ApplicationException' => \Igniter\Flame\Exception\ApplicationException::class,
-                     'AjaxException' => \Igniter\Flame\Exception\AjaxException::class,
-                 ] as $alias => $class) {
+            'Flash' => \Igniter\Flame\Flash\Facades\Flash::class,
+            'Form' => \Igniter\Flame\Html\FormFacade::class,
+            'Html' => \Igniter\Flame\Html\HtmlFacade::class,
+            'Model' => \Igniter\Flame\Database\Model::class,
+            'Parameter' => \Igniter\Flame\Setting\Facades\Parameter::class,
+            'Setting' => \Igniter\Flame\Setting\Facades\Setting::class,
+            'SystemException' => \Igniter\Flame\Exception\SystemException::class,
+            'ApplicationException' => \Igniter\Flame\Exception\ApplicationException::class,
+            'AjaxException' => \Igniter\Flame\Exception\AjaxException::class,
+        ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
     }

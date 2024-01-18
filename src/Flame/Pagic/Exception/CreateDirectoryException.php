@@ -8,8 +8,6 @@ class CreateDirectoryException extends RuntimeException
 {
     /**
      * Name of the affected directory path.
-     *
-     * @var string
      */
     protected string $invalidPath;
 

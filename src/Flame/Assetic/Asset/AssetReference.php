@@ -65,7 +65,7 @@ class AssetReference implements AssetInterface
         return $this->callAsset(__FUNCTION__, [$additionalFilter]);
     }
 
-    public function dump(FilterInterface $additionalFilter = null): string
+    public function dump(?FilterInterface $additionalFilter = null): string
     {
         $this->flushFilters();
 

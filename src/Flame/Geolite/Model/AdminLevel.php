@@ -8,8 +8,7 @@ readonly class AdminLevel
         private int $level,
         private string $name,
         private ?string $code = null
-    )
-    {
+    ) {
     }
 
     /**

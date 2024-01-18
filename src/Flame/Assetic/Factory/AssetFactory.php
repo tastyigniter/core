@@ -368,8 +368,6 @@ class AssetFactory
      * collection itself.
      *
      * @param AssetCollectionInterface $asset An asset collection
-     *
-     * @return AssetCollectionInterface
      */
     private function applyWorkers(AssetCollectionInterface $asset): AssetCollectionInterface
     {

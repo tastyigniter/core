@@ -8,15 +8,12 @@ class InvalidFileNameException extends RuntimeException
 {
     /**
      * Name of the affected file name.
-     *
-     * @var string
      */
     protected string $invalidFileName;
 
     /**
      * Set the affected file name.
      *
-     * @param string $invalidFileName
      * @return $this
      */
     public function setInvalidFileName(string $invalidFileName): self
@@ -30,8 +27,6 @@ class InvalidFileNameException extends RuntimeException
 
     /**
      * Get the affected file name.
-     *
-     * @return string
      */
     public function getInvalidFileName(): string
     {

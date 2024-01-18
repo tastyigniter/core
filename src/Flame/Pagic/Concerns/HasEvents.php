@@ -148,11 +148,6 @@ trait HasEvents
 
     /**
      * Fire the given event for the model.
-     *
-     * @param string $event
-     * @param bool $halt
-     *
-     * @return mixed
      */
     protected function fireModelEvent(string $event, bool $halt = true): mixed
     {

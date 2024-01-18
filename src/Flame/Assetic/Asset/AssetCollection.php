@@ -39,8 +39,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         array $filters,
         private readonly ?string $sourceRoot = null,
         private readonly array $vars = [],
-    )
-    {
+    ) {
         foreach ($assets as $asset) {
             $this->add($asset);
         }
@@ -139,7 +138,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         $this->content = implode("\n", $parts);
     }
 
-    public function dump(FilterInterface $additionalFilter = null): string
+    public function dump(?FilterInterface $additionalFilter = null): string
     {
         // loop through leaves and dump each asset
         $parts = [];

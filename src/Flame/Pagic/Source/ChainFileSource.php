@@ -17,8 +17,6 @@ class ChainFileSource extends AbstractSource implements SourceInterface
 
     /**
      * Get the source for use with CRUD operations
-     *
-     * @return SourceInterface
      */
     protected function getActiveSource(): SourceInterface
     {
@@ -72,8 +70,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
         string $content,
         ?string $oldFileName = null,
         ?string $oldExtension = null
-    ): int
-    {
+    ): int {
         return $this->getActiveSource()->update($dirName, $fileName, $extension, $content, $oldFileName, $oldExtension);
     }
 

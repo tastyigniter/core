@@ -21,19 +21,16 @@ class DatabaseSettingStore extends SettingStore
 
     /**
      * The table to query from.
-     * @var string
      */
     protected string $table = 'settings';
 
     /**
      * The key column name to query from.
-     * @var string
      */
     protected string $keyColumn = 'item';
 
     /**
      * The value column name to query from.
-     * @var string
      */
     protected string $valueColumn = 'value';
 

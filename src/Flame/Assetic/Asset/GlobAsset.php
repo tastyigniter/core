@@ -57,7 +57,7 @@ class GlobAsset extends AssetCollection
         parent::load($additionalFilter);
     }
 
-    public function dump(FilterInterface $additionalFilter = null): string
+    public function dump(?FilterInterface $additionalFilter = null): string
     {
         if (!$this->initialized) {
             $this->initialize();

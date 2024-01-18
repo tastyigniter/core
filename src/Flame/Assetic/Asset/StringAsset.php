@@ -35,8 +35,7 @@ class StringAsset extends BaseAsset
         array $filters = [],
         ?string $sourceRoot = null,
         ?string $sourcePath = null
-    )
-    {
+    ) {
         parent::__construct($filters, $sourceRoot, $sourcePath);
     }
 

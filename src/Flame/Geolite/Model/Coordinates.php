@@ -11,8 +11,7 @@ class Coordinates implements CoordinatesInterface
         private null|int|float $longitude,
         private ?Ellipsoid $ellipsoid = null,
         private int $precision = 0
-    )
-    {
+    ) {
         $this->latitude = $this->normalizeLatitude($latitude);
         $this->longitude = $this->normalizeLongitude($longitude);
         $this->ellipsoid = $ellipsoid ?: Ellipsoid::createFromName(Ellipsoid::WGS84);

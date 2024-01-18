@@ -2,9 +2,6 @@
 
 namespace Igniter\Flame\Geolite\Contracts;
 
-use Igniter\Flame\Geolite\Model\Bounds;
-use Igniter\Flame\Geolite\Model\Coordinates;
-
 interface GeoQueryInterface
 {
     public function withLocale(string $locale): self;

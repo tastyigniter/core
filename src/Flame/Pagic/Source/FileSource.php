@@ -150,7 +150,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Updates an existing template.
      */
-    public function update(string $dirName, string $fileName, string $extension, string $content, string $oldFileName = null, string $oldExtension = null): int
+    public function update(string $dirName, string $fileName, string $extension, string $content, ?string $oldFileName = null, ?string $oldExtension = null): int
     {
         $this->validateDirectoryForSave($dirName, $fileName, $extension);
 
@@ -186,12 +186,6 @@ class FileSource extends AbstractSource implements SourceInterface
 
     /**
      * Run a delete statement against the source.
-     *
-     * @param string $dirName
-     * @param string $fileName
-     * @param string $extension
-     *
-     * @return int
      */
     public function delete(string $dirName, string $fileName, string $extension): int
     {

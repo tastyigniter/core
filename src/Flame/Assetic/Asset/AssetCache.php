@@ -25,8 +25,7 @@ readonly class AssetCache implements AssetInterface
     public function __construct(
         private AssetInterface $asset,
         private CacheInterface $cache
-    )
-    {
+    ) {
     }
 
     public function ensureFilter(FilterInterface $filter)

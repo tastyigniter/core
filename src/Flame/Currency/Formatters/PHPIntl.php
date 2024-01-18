@@ -20,7 +20,7 @@ class PHPIntl implements FormatterInterface
         $this->formatter = new NumberFormatter(config('app.locale'), NumberFormatter::CURRENCY);
     }
 
-    public function format(float $value, string $code = null): string
+    public function format(float $value, ?string $code = null): string
     {
         return $this->formatter->formatCurrency($value, $code);
     }

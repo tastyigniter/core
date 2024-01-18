@@ -41,8 +41,7 @@ abstract class BaseAsset implements AssetInterface
         private readonly ?string $sourceRoot = null,
         private readonly ?string $sourcePath = null,
         private readonly array $vars = []
-    )
-    {
+    ) {
         $this->filters = new FilterCollection($filters);
         if ($sourcePath && $sourceRoot) {
             $this->sourceDir = dirname("$sourceRoot/$sourcePath");
@@ -94,7 +93,7 @@ abstract class BaseAsset implements AssetInterface
         $this->loaded = true;
     }
 
-    public function dump(FilterInterface $additionalFilter = null): string
+    public function dump(?FilterInterface $additionalFilter = null): string
     {
         if (!$this->loaded) {
             $this->load();

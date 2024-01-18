@@ -122,7 +122,6 @@ class Filesystem extends IlluminateFilesystem
      * Returns true if the specified path is within the path of the application
      * @param string $path The path to
      * @param bool $realpath Default true, uses realpath() to resolve the provided path before checking location. Set to false if you need to check if a potentially non-existent path would be within the application path
-     * @return bool
      */
     public function isLocalPath(string $path, bool $realpath = true): bool
     {
@@ -353,6 +352,7 @@ class Filesystem extends IlluminateFilesystem
 
         if (!$this->isDirectory($path)) {
             $this->chmod($path, $fileMask);
+
             return;
         }
 

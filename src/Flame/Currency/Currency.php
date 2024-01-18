@@ -40,8 +40,7 @@ class Currency
         ?string $from = null,
         ?string $to = null,
         bool $format = true
-    ): null|float|string|int
-    {
+    ): null|float|string|int {
         // Get currencies involved
         $from = $from ?: $this->config('default');
         $to = $to ?: $this->getUserCurrency();
@@ -255,7 +254,7 @@ class Currency
     /**
      * Get configuration value.
      */
-    public function config(string $key = null, mixed $default = null): mixed
+    public function config(?string $key = null, mixed $default = null): mixed
     {
         if ($key === null) {
             return $this->config;

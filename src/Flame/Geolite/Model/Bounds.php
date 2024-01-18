@@ -21,8 +21,7 @@ class Bounds implements Contracts\BoundsInterface
         protected null|int|float $west,
         protected null|int|float $north,
         protected null|int|float $east
-    )
-    {
+    ) {
         $this->south = (float)$south;
         $this->west = (float)$west;
         $this->north = (float)$north;

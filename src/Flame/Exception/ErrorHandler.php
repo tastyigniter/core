@@ -17,8 +17,6 @@ class ErrorHandler
 {
     /**
      * A list of the exception types that should not be reported.
-     *
-     * @var array
      */
     protected array $dontReport = [
         AjaxException::class,
@@ -30,8 +28,6 @@ class ErrorHandler
 
     /**
      * All of the register exception handlers.
-     *
-     * @var array
      */
     protected array $handlers = [];
 
@@ -125,7 +121,7 @@ class ErrorHandler
      */
     protected function shouldntReport(Throwable $e): bool
     {
-        return !is_null(Arr::first($this->dontReport, fn($type) => $e instanceof $type));
+        return !is_null(Arr::first($this->dontReport, fn ($type) => $e instanceof $type));
     }
 
     /**

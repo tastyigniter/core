@@ -62,7 +62,7 @@ interface AssetInterface
      *
      * @return string The filtered content of the current asset
      */
-    public function dump(FilterInterface $additionalFilter = null): string;
+    public function dump(?FilterInterface $additionalFilter = null): string;
 
     /**
      * Returns the loaded content of the current asset.
@@ -145,8 +145,6 @@ interface AssetInterface
 
     /**
      * Returns an array of variable names for this asset.
-     *
-     * @return array
      */
     public function getVars(): array;
 

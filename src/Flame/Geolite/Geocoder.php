@@ -98,7 +98,6 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
      * Get a driver instance.
      *
      * @param string $driver
-     * @return AbstractProvider
      */
     public function driver($driver = null): AbstractProvider
     {

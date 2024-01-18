@@ -63,7 +63,7 @@ trait HidesAttributes
     /**
      * Add visible attributes for the model.
      */
-    public function addVisible(array|string $attributes = null)
+    public function addVisible(array|string|null $attributes = null)
     {
         $this->visible = array_merge(
             $this->visible, is_array($attributes) ? $attributes : func_get_args()

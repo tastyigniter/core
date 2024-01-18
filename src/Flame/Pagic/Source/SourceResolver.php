@@ -27,7 +27,7 @@ class SourceResolver implements SourceResolverInterface
     /**
      * Get a source instance.
      */
-    public function source(string $name = null): SourceInterface
+    public function source(?string $name = null): SourceInterface
     {
         if (is_null($name)) {
             $name = $this->getDefaultSourceName();

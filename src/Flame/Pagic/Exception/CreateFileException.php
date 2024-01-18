@@ -8,8 +8,6 @@ class CreateFileException extends RuntimeException
 {
     /**
      * Name of the affected file path.
-     *
-     * @var string
      */
     protected string $invalidPath;
 

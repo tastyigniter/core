@@ -132,7 +132,7 @@ class FlashException extends Exception implements HttpExceptionInterface
         return $this->shouldReport ?: null;
     }
 
-    public function render(Request $request):mixed
+    public function render(Request $request): mixed
     {
         if (!is_null($this->redirectUrl)) {
             $this->toFlashBag();

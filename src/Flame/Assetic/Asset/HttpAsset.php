@@ -30,8 +30,6 @@ class HttpAsset extends BaseAsset
      *
      * @param string $sourceUrl The source URL
      * @param array $filters An array of filters
-     * @param bool $ignoreErrors
-     * @param array $vars
      *
      * @throws \InvalidArgumentException If the first argument is not an URL
      */

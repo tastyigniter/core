@@ -82,9 +82,9 @@ class ServiceProvider extends AppServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-                     'AdminMenu' => \Igniter\Admin\Facades\AdminMenu::class,
-                     'Template' => \Igniter\Admin\Facades\Template::class,
-                 ] as $alias => $class) {
+            'AdminMenu' => \Igniter\Admin\Facades\AdminMenu::class,
+            'Template' => \Igniter\Admin\Facades\Template::class,
+        ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
     }

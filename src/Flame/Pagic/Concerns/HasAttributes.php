@@ -10,36 +10,26 @@ trait HasAttributes
 {
     /**
      * The model's attributes.
-     *
-     * @var array
      */
     public array $attributes = [];
 
     /**
      * The model attribute's original state.
-     *
-     * @var array
      */
     protected array $original = [];
 
     /**
      * The changed model attributes.
-     *
-     * @var array
      */
     protected array $changes = [];
 
     /**
      * Indicates whether attributes are snake cased on arrays.
-     *
-     * @var bool
      */
     public static bool $snakeAttributes = true;
 
     /**
      * The cache of the mutated attributes for each class.
-     *
-     * @var array
      */
     protected static array $mutatorCache = [];
 
@@ -267,9 +257,6 @@ trait HasAttributes
 
     /**
      * Get the model's original attribute values.
-     *
-     * @param string|null $key
-     * @param mixed $default
      *
      * @return mixed|array
      */
