@@ -32,8 +32,8 @@ class ControllerAction
         $this->controller = $controller;
 
         // Add paths from the extension / module context
-        $this->configPath = $this->controller->configPath;
-        $this->partialPath = $this->controller->partialPath;
+        $this->configPath = $this->controller->configPath ?? [];
+        $this->partialPath = $this->controller->partialPath ?? [];
 
         foreach ($this->requiredProperties as $property) {
             if (!isset($controller->{$property})) {
