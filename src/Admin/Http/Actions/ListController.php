@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Http\Actions;
 
-use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\ListExtendable;
@@ -54,7 +53,7 @@ class ListController extends ControllerAction
     /** Required controller configuration array keys */
     protected array $requiredConfig = ['model', 'configFile'];
 
-    public function __construct(AdminController $controller)
+    public function __construct($controller)
     {
         parent::__construct($controller);
 

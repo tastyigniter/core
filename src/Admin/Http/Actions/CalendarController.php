@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Http\Actions;
 
-use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Widgets\Calendar;
 use Igniter\Admin\Widgets\Toolbar;
@@ -43,7 +42,7 @@ class CalendarController extends ControllerAction
      */
     protected array $requiredConfig = ['configFile'];
 
-    public function __construct(AdminController $controller)
+    public function __construct($controller)
     {
         parent::__construct($controller);
 

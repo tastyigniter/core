@@ -18,15 +18,19 @@ class ControllerAction
     use ViewMaker;
     use WidgetMaker;
 
+    protected $controller;
+
     /** List of controller configuration */
     protected ?array $config = null;
 
     /** Properties that must exist in the controller using this action. */
     protected array $requiredProperties = [];
 
-    /** @param AdminController $controller */
-    public function __construct(protected mixed $controller)
+    public function __construct($controller = null)
     {
+        /** @var AdminController $controller */
+        $this->controller = $controller;
+
         // Add paths from the extension / module context
         $this->configPath = $this->controller->configPath;
         $this->partialPath = $this->controller->partialPath;

@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Http\Actions;
 
-use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
@@ -59,7 +58,7 @@ class FormController extends ControllerAction
     /** List of prepared models that require saving. */
     protected array $modelsToSave = [];
 
-    public function __construct(protected ?AdminController $controller = null)
+    public function __construct($controller = null)
     {
         parent::__construct($controller);
 
@@ -424,9 +423,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);
