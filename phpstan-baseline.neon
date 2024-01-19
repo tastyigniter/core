@@ -481,21 +481,6 @@ parameters:
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$calendarConfig\\.$#"
-			count: 3
-			path: src/Admin/Http/Actions/CalendarController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:calendarGenerateEvents\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/CalendarController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:calendarUpdateEvent\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/CalendarController.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setHeading\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/CalendarController.php
@@ -504,16 +489,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setTitle\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/CalendarController.php
-
-		-
-			message: "#^Property Igniter\\\\Admin\\\\Http\\\\Actions\\\\CalendarController\\:\\:\\$toolbarWidget \\(Igniter\\\\Admin\\\\Widgets\\\\Toolbar\\|null\\) does not accept Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/CalendarController.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$formConfig\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/FormController.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$formWidget\\.$#"
@@ -531,67 +506,12 @@ parameters:
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formAfterCreate\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formAfterDelete\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formAfterSave\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formAfterUpdate\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formBeforeCreate\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formBeforeSave\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formBeforeUpdate\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formCreateModelObject\\(\\)\\.$#"
-			count: 3
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendConfig\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendFields\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendFieldsBefore\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendModel\\(\\)\\.$#"
-			count: 3
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendQuery\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
@@ -607,16 +527,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendRefreshResults\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formFindModelObject\\(\\)\\.$#"
-			count: 4
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formValidate\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
@@ -654,71 +564,6 @@ parameters:
 			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:prepareVars\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$listConfig\\.$#"
-			count: 3
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:getListConfig\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendColumns\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendModel\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendQueryBefore\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listExtendRecords\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listFilterExtendQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listFilterExtendScopes\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listFilterExtendScopesBefore\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listOverrideColumnValue\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:listOverrideHeaderValue\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/ListController.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:refreshList\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Http/Actions/ListController.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getSearchWidget\\(\\)\\.$#"

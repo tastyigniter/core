@@ -15,35 +15,35 @@ it('has defined paths to locate layouts', function () {
 it('has defined paths to locate views', function () {
     $controller = resolve(TestController::class);
 
-    expect('igniter.admin::')->toBeIn($controller->viewPath);
-    expect('tests.admin::testcontroller')->toBeIn($controller->viewPath);
-    expect('tests.admin::')->toBeIn($controller->viewPath);
+    expect('igniter.admin::')->toBeIn($controller->viewPath)
+        ->and('tests.admin::testcontroller')->toBeIn($controller->viewPath)
+        ->and('tests.admin::')->toBeIn($controller->viewPath);
 });
 
 it('has defined paths to locate partials', function () {
     $controller = resolve(TestController::class);
 
-    expect('igniter.admin::_partials')->toBeIn($controller->partialPath);
-    expect('tests.admin::_partials')->toBeIn($controller->partialPath);
-    expect('tests.admin::')->not()->toBeIn($controller->partialPath);
+    expect('igniter.admin::_partials')->toBeIn($controller->partialPath)
+        ->and('tests.admin::_partials')->toBeIn($controller->partialPath)
+        ->and('tests.admin::')->not()->toBeIn($controller->partialPath);
 });
 
 it('has defined paths to locate model config files', function () {
     $controller = resolve(TestController::class);
 
-    expect('igniter::models/admin')->toBeIn($controller->configPath);
-    expect('igniter::models/system')->toBeIn($controller->configPath);
-    expect('igniter::models/main')->toBeIn($controller->configPath);
-    expect('tests.admin::models')->toBeIn($controller->configPath);
+    expect('igniter::models/admin')->toBeIn($controller->configPath)
+        ->and('igniter::models/system')->toBeIn($controller->configPath)
+        ->and('igniter::models/main')->toBeIn($controller->configPath)
+        ->and('tests.admin::models')->toBeIn($controller->configPath);
 });
 
 it('has defined paths to locate asset files', function () {
     $controller = resolve(TestController::class);
 
-    expect('tests.admin::')->toBeIn($controller->assetPath);
-    expect('igniter::')->toBeIn($controller->assetPath);
-    expect('igniter::js')->toBeIn($controller->assetPath);
-    expect('igniter::css')->toBeIn($controller->assetPath);
+    expect('tests.admin::')->toBeIn($controller->assetPath)
+        ->and('igniter::')->toBeIn($controller->assetPath)
+        ->and('igniter::js')->toBeIn($controller->assetPath)
+        ->and('igniter::css')->toBeIn($controller->assetPath);
 });
 
 it('can find (default) layout', function () {
