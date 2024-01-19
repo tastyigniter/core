@@ -3,9 +3,9 @@
 namespace Igniter\Admin\Traits;
 
 use Igniter\Admin\Widgets\Form;
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 trait FormExtendable

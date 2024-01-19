@@ -5,7 +5,7 @@ namespace Igniter\Admin\FormWidgets;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Widgets\Form;
-use Illuminate\Database\Eloquent\Model;
+use Igniter\Flame\Database\Model;
 use Illuminate\Support\Collection;
 
 /**

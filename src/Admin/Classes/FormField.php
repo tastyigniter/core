@@ -2,8 +2,8 @@
 
 namespace Igniter\Admin\Classes;
 
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Html\HtmlFacade as Html;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Form Field definition

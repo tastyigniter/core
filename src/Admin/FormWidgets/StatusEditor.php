@@ -9,11 +9,11 @@ use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Cart\Models\Order;
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 

@@ -8,13 +8,13 @@ use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Classes\Widgets;
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Html\HtmlFacade as Html;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 

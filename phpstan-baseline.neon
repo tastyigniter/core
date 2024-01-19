@@ -226,11 +226,6 @@ parameters:
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/FormField.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/FormField.php
@@ -311,11 +306,6 @@ parameters:
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKeyName\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php
@@ -326,7 +316,7 @@ parameters:
 			path: src/Admin/FormWidgets/DataTable.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getDataTableOptions\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getDataTableOptions\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DataTable.php
 
@@ -338,11 +328,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:methodExists\\(\\)\\.$#"
-			count: 3
 			path: src/Admin/FormWidgets/DataTable.php
 
 		-
@@ -391,6 +376,11 @@ parameters:
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
+			message: "#^Parameter \\#1 \\$model of method Igniter\\\\Admin\\\\FormWidgets\\\\RecordEditor\\:\\:makeRecordFormWidget\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Model, Illuminate\\\\Database\\\\Eloquent\\\\Model given\\.$#"
+			count: 3
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
 			message: "#^Using nullsafe method call on non\\-nullable type Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\. Use \\-\\> instead\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/RecordEditor.php
@@ -412,26 +402,36 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/FormWidgets/Repeater.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeRelation\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Repeater.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$assignee_group_id\\.$#"
+			message: "#^Cannot access property \\$exists on string\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Repeater.php
+
+		-
+			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Repeater\\:\\:getRelationModel\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Model but returns string\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Repeater.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignee_group_id\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$assignee_id\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignee_id\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:addStatusHistory\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:addStatusHistory\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:updateAssignTo\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
@@ -442,11 +442,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:updateAssignTo\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
@@ -527,16 +522,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendRefreshResults\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/FormController.php
 
@@ -861,27 +846,17 @@ parameters:
 			path: src/Admin/Widgets/Lists.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeRelation\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/Widgets/Lists.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Lists.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Cannot call method getTable\\(\\) on string\\.$#"
 			count: 2
 			path: src/Admin/Widgets/Lists.php
 
@@ -3651,8 +3626,13 @@ parameters:
 			path: src/Main/Events/ThemeGetActiveEvent.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$code\\.$#"
 			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getTheme\\(\\)\\.$#"
+			count: 2
 			path: src/Main/FormWidgets/Components.php
 
 		-
@@ -3661,8 +3641,8 @@ parameters:
 			path: src/Main/FormWidgets/Components.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getTheme\\(\\)\\.$#"
-			count: 2
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getComponentOptions\\(\\)\\.$#"
+			count: 1
 			path: src/Main/FormWidgets/Components.php
 
 		-
@@ -3706,27 +3686,22 @@ parameters:
 			path: src/Main/FormWidgets/Components.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getComponentOptions\\(\\)\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/Components.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:deleteMedia\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:deleteMedia\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:findMedia\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:findMedia\\(\\)\\.$#"
 			count: 2
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:mediable\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:mediable\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:newMediaInstance\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:newMediaInstance\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
 
@@ -3741,6 +3716,11 @@ parameters:
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$code\\.$#"
+			count: 9
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateInterface\\:\\:\\$settings\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
@@ -3751,22 +3731,17 @@ parameters:
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
-			count: 9
-			path: src/Main/FormWidgets/TemplateEditor.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getSaveData\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getTheme\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getTheme\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 

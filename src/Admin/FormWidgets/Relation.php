@@ -4,10 +4,10 @@ namespace Igniter\Admin\FormWidgets;
 
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation as RelationBase;
 use Illuminate\Support\Facades\DB;
 

@@ -2,7 +2,7 @@
 
 namespace Igniter\Admin\Classes;
 
-use Illuminate\Database\Eloquent\Model;
+use Igniter\Flame\Database\Model;
 
 /**
  * Form Widget base class
