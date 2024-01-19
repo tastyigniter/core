@@ -24,7 +24,8 @@ class ControllerAction
     /** Properties that must exist in the controller using this action. */
     protected array $requiredProperties = [];
 
-    public function __construct(protected ?AdminController $controller = null)
+    /** @param AdminController $controller */
+    public function __construct(protected mixed $controller)
     {
         // Add paths from the extension / module context
         $this->configPath = $this->controller->configPath;

@@ -84,7 +84,7 @@ class Charts extends BaseDashboardWidget
     protected function getDatasets(\DateTimeInterface $start, \DateTimeInterface $end): array
     {
         $result = [];
-        foreach ($this->listContext() as $context => $config) {
+        foreach ($this->listContext() as $config) {
             $result[] = $this->makeDataset($config, $start, $end);
         }
 

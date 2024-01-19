@@ -178,9 +178,6 @@ class Navigation
             }
 
             $items = $extension->registerNavigation();
-            if (!is_array($items)) {
-                continue;
-            }
 
             $this->registerNavItems($items);
         }
