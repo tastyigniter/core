@@ -149,8 +149,6 @@ trait FormExtendable
      * Extend supplied model used by create and edit actions, the model can
      * be altered by overriding it in the controller.
      *
-     * @param \Igniter\Flame\Database\Model $model
-     *
      * @return\Igniter\Flame\Database\Model
      */
     public function formExtendModel(Model $model)
