@@ -4,5 +4,4 @@ namespace Tests\Admin\Models;
 
 class StatusHistoryTest
 {
-
 }
