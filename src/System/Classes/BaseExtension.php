@@ -6,6 +6,7 @@ use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\EventServiceProvider;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Helpers\SystemHelper;
+use Illuminate\Console\Scheduling\Schedule;
 use ReflectionClass;
 
 /**
@@ -139,7 +140,7 @@ abstract class BaseExtension extends EventServiceProvider
     /**
      * Registers scheduled tasks that are executed on a regular basis.
      */
-    public function registerSchedule(string $schedule)
+    public function registerSchedule(Schedule $schedule)
     {
     }
 
