@@ -9,8 +9,8 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -20,7 +20,7 @@ class MacroServiceProvider extends ServiceProvider implements DeferrableProvider
     {
         Str::mixin(new StringMixin);
 
-        Route::mixin(new RouterMixin);
+        Router::mixin(new RouterMixin);
 
         Blueprint::mixin(new BlueprintMixin);
 
@@ -34,7 +34,7 @@ class MacroServiceProvider extends ServiceProvider implements DeferrableProvider
             return $this->getQuery()->toRawSql();
         });
 
-        Event::macro('fire', function ($event, $payload = [], $halt = false) {
+        Dispatcher::macro('fire', function ($event, $payload = [], $halt = false) {
             return $this->dispatch($event, $payload, $halt);
         });
     }
