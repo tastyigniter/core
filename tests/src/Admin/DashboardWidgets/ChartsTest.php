@@ -20,14 +20,14 @@ it('fires admin.charts.extendDatasets event', function () {
 
 it('fetches chart data', function () {
     $user = User::factory()->create([
-        'super_user' => true
+        'super_user' => true,
     ]);
 
     $this->actingAs($user, 'igniter-admin')
         ->post('/admin/dashboard', [
             '_handler' => 'charts::onFetchDatasets',
             'start' => '2021-01-01',
-            'end' => '2021-01-31'
+            'end' => '2021-01-31',
         ])
         ->assertJsonFragment(['label' => 'Customers'])
         ->assertJsonFragment(['label' => 'Orders']);

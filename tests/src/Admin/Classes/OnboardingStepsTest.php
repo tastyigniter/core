@@ -15,12 +15,12 @@ it('registers an onboarding step', function () {
             'url' => 'test',
             'priority' => 100,
             'complete' => function () {
-                return TRUE;
+                return true;
             },
             'completed' => function () {
-                return TRUE;
+                return true;
             },
-        ]
+        ],
     ]);
 
     $steps = $onboardingSteps->listSteps();

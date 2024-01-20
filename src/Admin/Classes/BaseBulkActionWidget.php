@@ -50,7 +50,6 @@ class BaseBulkActionWidget extends BaseWidget
 
     /**
      * Defines validation rules for the custom fields.
-     * @return array
      */
     public function defineValidationRules(): array
     {

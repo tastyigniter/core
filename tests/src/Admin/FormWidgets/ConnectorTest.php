@@ -14,8 +14,8 @@ it('renders form widget without errors', function () {
     ]);
 
     $widget = new Connector($controller, $formField, [
-//        'model' => Status::factory()->create(),
-//        'mode' => 'php',
+        //        'model' => Status::factory()->create(),
+        //        'mode' => 'php',
     ]);
 
     $widget->render();

@@ -14,7 +14,7 @@ it('registers a navigation item', function () {
             'href' => 'http://localhost/admin/test',
             'priority' => 0,
             'permission' => ['Admin.Test'],
-        ]
+        ],
     ]);
 
     $items = AdminMenu::getNavItems();

@@ -18,7 +18,7 @@ it('updates record status column in bulk', function () {
     $widget->code = $actionButton->name;
 
     $records = StatusHistory::factory()->count(10)->create([
-        $statusColumn => false
+        $statusColumn => false,
     ]);
 
     expect(StatusHistory::where($statusColumn, false)->count())->toBe(10);
