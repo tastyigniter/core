@@ -142,7 +142,7 @@ class Router
      */
     public function getParameters(): array
     {
-        return request()->route()->parameters();
+        return request()->route()?->parameters() ?? [];
     }
 
     /**

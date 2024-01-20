@@ -13,6 +13,14 @@ trait HasChartDatasets
 {
     use LocationAwareWidget;
 
+    protected array $datasetOptions = [
+        'label' => null,
+        'data' => [],
+        'fill' => true,
+        'backgroundColor' => null,
+        'borderColor' => null,
+    ];
+
     public function loadAssets()
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');

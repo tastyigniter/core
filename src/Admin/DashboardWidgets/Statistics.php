@@ -17,9 +17,7 @@ class Statistics extends BaseDashboardWidget
 {
     use LocationAwareWidget;
 
-    /**
-     * @var string A unique alias to identify this widget.
-     */
+    /** A unique alias to identify this widget. */
     protected string $defaultAlias = 'statistics';
 
     /**

@@ -11,7 +11,7 @@ class FormServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        if (Igniter::runningInAdmin()) {
+        if (Igniter::runningInAdmin() || app()->runningUnitTests()) {
             $this->registerDashboardWidgets();
             $this->registerBulkActionWidgets();
             $this->registerFormWidgets();

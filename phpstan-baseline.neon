@@ -716,6 +716,11 @@ parameters:
 			path: src/Admin/Models/StatusHistory.php
 
 		-
+			message: "#^Method Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/Admin/Models/StatusHistory.php
+
+		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/StatusHistory.php

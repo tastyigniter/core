@@ -15,7 +15,7 @@ class Navigation
 
     protected array $navItems = [];
 
-    protected ?array $mainItems = null;
+    protected array $mainItems = [];
 
     protected bool $navItemsLoaded = false;
 
@@ -26,6 +26,17 @@ class Navigation
     protected array $callbacks = [];
 
     protected ?string $previousPageUrl = null;
+
+    protected static array $navItemDefaults = [
+        'code' => null,
+        'class' => null,
+        'href' => null,
+        'icon' => null,
+        'title' => null,
+        'child' => null,
+        'priority' => 500,
+        'permission' => null,
+    ];
 
     public function __construct(?string $path = null)
     {
@@ -105,22 +116,12 @@ class Navigation
 
     public function addNavItem(string $itemCode, array $options = [], ?string $parentCode = null)
     {
-        $navItemDefaults = [
-            'code' => $itemCode,
-            'class' => null,
-            'href' => null,
-            'icon' => null,
-            'title' => null,
-            'child' => null,
-            'priority' => 500,
-            'permission' => null,
-        ];
-
-        $navItem = array_merge($navItemDefaults, $options);
+        $navItem = array_merge(self::$navItemDefaults, $options);
+        $navItem['code'] = $itemCode;
 
         if ($parentCode) {
             if (!isset($this->navItems[$parentCode])) {
-                $this->navItems[$parentCode] = array_merge($navItemDefaults, [
+                $this->navItems[$parentCode] = array_merge(self::$navItemDefaults, [
                     'code' => $parentCode,
                     'class' => $parentCode,
                 ]);
@@ -248,19 +249,7 @@ class Navigation
 
     public function registerNavItem(string $code, array $item, ?string $parent = null)
     {
-        $defaultDefinitions = [
-            'code' => $code,
-            'class' => null,
-            'title' => null,
-            'icon' => null,
-            'href' => null,
-            'priority' => null,
-            'child' => null,
-            'permission' => null,
-            'target' => '_self',
-        ];
-
-        $item = array_filter(array_merge($defaultDefinitions, $item));
+        $item = array_filter(array_merge(self::$navItemDefaults, $item));
 
         if (!is_null($parent)) {
             $this->navItems[$parent]['child'][$code] = $item;

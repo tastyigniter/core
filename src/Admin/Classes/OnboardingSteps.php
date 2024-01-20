@@ -16,7 +16,7 @@ class OnboardingSteps
     /** List of registered onboarding steps. */
     private ?array $steps = null;
 
-    public function getStep(string $code): ?string
+    public function getStep(string $code): ?\stdClass
     {
         if (!$this->steps) {
             $this->loadSteps();
@@ -107,9 +107,7 @@ class OnboardingSteps
             $this->registerSteps($onboardingSteps);
         }
 
-        usort($this->steps, function ($a, $b) {
-            return $a->priority - $b->priority;
-        });
+        $this->steps = collect($this->steps)->sortBy('priority')->all();
     }
 
     /**

@@ -12,7 +12,7 @@ class MenuItemServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        if (Igniter::runningInAdmin()) {
+        if (Igniter::runningInAdmin() || app()->runningUnitTests()) {
             $this->registerMainMenuItems();
             $this->registerNavMenuItems();
         }

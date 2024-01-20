@@ -4,6 +4,7 @@ namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
 use Igniter\Cart\Models\Order;
+use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 
 /**
@@ -11,6 +12,8 @@ use Igniter\Flame\Database\Model;
  */
 class StatusHistory extends Model
 {
+    use HasFactory;
+
     /**
      * @var string The database table name
      */

@@ -20,14 +20,6 @@ class Charts extends BaseDashboardWidget
      */
     protected string $defaultAlias = 'charts';
 
-    protected array $datasetOptions = [
-        'label' => null,
-        'data' => [],
-        'fill' => true,
-        'backgroundColor' => null,
-        'borderColor' => null,
-    ];
-
     public array $contextDefinitions = [];
 
     public function initialize()

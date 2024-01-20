@@ -10,26 +10,23 @@ use Illuminate\Support\Collection;
  */
 class BaseBulkActionWidget extends BaseWidget
 {
-    public $code;
+    public ?string $code = null;
 
-    public $label;
+    public ?string $label = null;
 
-    public $type;
+    public ?string $type = null;
 
-    public $popupTitle;
+    public ?string $popupTitle = null;
 
     //
     // Object properties
     //
 
-    protected $defaultConfig = [];
+    protected array $defaultConfig = [];
 
-    /**
-     * @var \Igniter\Admin\Widgets\Lists
-     */
-    protected $actionButton;
+    protected ToolbarButton $actionButton;
 
-    public function __construct($controller, $actionButton, $config = [])
+    public function __construct(AdminController $controller, ToolbarButton $actionButton, array $config = [])
     {
         $this->actionButton = $actionButton;
 
@@ -46,7 +43,7 @@ class BaseBulkActionWidget extends BaseWidget
     /**
      * Extra field configuration for the action.
      */
-    public function defineFormFields()
+    public function defineFormFields(): array
     {
         return [];
     }
@@ -55,12 +52,12 @@ class BaseBulkActionWidget extends BaseWidget
      * Defines validation rules for the custom fields.
      * @return array
      */
-    public function defineValidationRules()
+    public function defineValidationRules(): array
     {
         return [];
     }
 
-    public function getActionButton()
+    public function getActionButton(): ToolbarButton
     {
         return $this->actionButton;
     }

@@ -23,3 +23,24 @@ it('has defined paths to locate widget asset files', function () {
 
     expect('igniter::css/fixtures/widgets')->toBeIn($widget->assetPath);
 });
+
+it('loads a widget', function () {
+    $controller = resolve(TestController::class);
+
+    $config = ['property' => 'Test Widget'];
+    $widget = $controller->makeWidget(TestWidget::class, $config);
+    $widget->bindToController();
+
+    expect($widget->alias)
+        ->toBe('testwidget')
+        ->and($widget->getId())
+        ->toBe('testwidget')
+        ->and($widget->getId('suffix'))
+        ->toBe('testwidget-suffix')
+        ->and($widget->property)
+        ->toBe('Test Widget')
+        ->and($controller->widgets['testwidget'])
+        ->toBe($widget)
+        ->and($widget->getEventHandler('onAjaxTest'))
+        ->toBe('testwidget::onAjaxTest');
+});
