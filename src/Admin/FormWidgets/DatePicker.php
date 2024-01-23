@@ -19,7 +19,7 @@ class DatePicker extends BaseFormWidget
     /** Display mode: datetime, date, time. */
     public string $mode = 'date';
 
-    /** The minimum/earliest date that can be selected. eg: 2000-01-01 */
+    /** The minimum/the earliest date that can be selected. eg: 2000-01-01 */
     public null|int|string|\DateTimeInterface $startDate = null;
 
     /** The maximum/latest date that can be selected. eg: 2020-12-31 */
