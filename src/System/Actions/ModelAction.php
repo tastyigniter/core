@@ -20,7 +20,7 @@ class ModelAction
     /** Properties that must exist in the controller using this action. */
     protected array $requiredProperties = [];
 
-    public function __construct(Model $model)
+    public function __construct(?Model $model = null)
     {
         $this->model = $model;
 
@@ -28,7 +28,7 @@ class ModelAction
             if (!isset($model->{$property})) {
                 throw new \LogicException(sprintf(
                     'Class %s must define property %s used by %s',
-                    get_class($model), $property, get_called_class()
+                    $model::class, $property, get_called_class()
                 ));
             }
         }
