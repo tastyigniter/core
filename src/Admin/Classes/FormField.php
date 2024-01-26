@@ -172,12 +172,12 @@ class FormField
      * - checkboxlist - creates a checkbox list.
      * - radiolist - creates a radio list.
      *
-     * @param string $type Specifies a render mode as described above
+     * @param ?string $type Specifies a render mode as described above
      * @param array $config A list of render mode specific config.
      *
      * @return $this
      */
-    public function displayAs(string $type, array $config = []): self
+    public function displayAs(?string $type, array $config = []): self
     {
         $this->type = strtolower($type) ?: $this->type;
         $this->config = $this->evalConfig($config);

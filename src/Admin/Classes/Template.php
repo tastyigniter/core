@@ -3,6 +3,7 @@
 namespace Igniter\Admin\Classes;
 
 use Igniter\Flame\Html\HtmlFacade as Html;
+use Illuminate\Support\HtmlString;
 
 /**
  * Template Class
@@ -19,15 +20,17 @@ class Template
 
     public array $blocks = [];
 
+    public array $renderHooks = [];
+
     /**
      * Returns the layout block contents but does not deletes the block from memory.
      *
      * @param string $name Specifies the block name.
-     * @param string $default Specifies a default block value to use if the block requested is not exists.
+     * @param ?string $default Specifies a default block value to use if the block requested is not exists.
      */
-    public function getBlock(string $name, ?string $default = null): string
+    public function getBlock(string $name, ?string $default = null): HtmlString
     {
-        return $this->blocks[$name] ?? $default;
+        return new HtmlString($this->blocks[$name] ?? $default);
     }
 
     /**
@@ -94,5 +97,19 @@ class Template
     public function setButton(string $name, array $attributes = [])
     {
         $this->pageButtons[] = '<a'.Html::attributes($attributes).'>'.$name.'</a>';
+    }
+
+    public function renderHook(string $name): HtmlString
+    {
+        $hooks = array_map(fn (callable $hook) => (string)app()->call($hook),
+            $this->renderHooks[$name] ?? [],
+        );
+
+        return new HtmlString(implode('', $hooks));
+    }
+
+    public function registerHook(string $name, \Closure $callback)
+    {
+        $this->renderHooks[$name][] = $callback;
     }
 }
