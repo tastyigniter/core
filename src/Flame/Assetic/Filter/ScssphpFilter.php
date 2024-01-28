@@ -111,14 +111,14 @@ class ScssphpFilter implements DependencyExtractorInterface
         }
 
         if ($this->formatter) {
-            $sc->setFormatter($this->formatter);
+            $sc->setOutputStyle($this->formatter);
         }
 
         if (!empty($this->variables)) {
-            $sc->setVariables($this->variables);
+            $sc->replaceVariables($this->variables);
         }
 
-        $asset->setContent($sc->compile($asset->getContent()));
+        $asset->setContent($sc->compileString($asset->getContent())->getCss());
     }
 
     public function filterDump(AssetInterface $asset)
