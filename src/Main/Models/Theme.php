@@ -198,7 +198,7 @@ class Theme extends Model
 
     public function getFieldValues()
     {
-        return array_dot($this->data ?: []);
+        return $this->data ?: [];
     }
 
     public function getThemeData()
@@ -233,8 +233,6 @@ class Theme extends Model
             $theme->version = $manifest->getVersion($theme->code) ?? $theme->version;
             $theme->description = $themeObj->description ?? '';
             $theme->save();
-
-            $themeManager->updateInstalledThemes($name, $theme->isEnabled());
         }
 
         // Disable themes not found in file system

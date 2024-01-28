@@ -190,7 +190,7 @@ class Filesystem extends IlluminateFilesystem
      * Converts a path using path symbol. Returns the original path if
      * no symbol is used and no default is specified.
      */
-    public function symbolizePath(string $path, ?bool $default = false): string|bool|null
+    public function symbolizePath(string $path, ?bool $default = false, bool $findExists = true): string|bool|null
     {
         if (!$symbol = $this->isPathSymbol($path)) {
             return $default === false ? $path : $default;
@@ -199,6 +199,10 @@ class Filesystem extends IlluminateFilesystem
         $_path = (string)Str::of(Str::after($path, $symbol))->after(static::HINT_PATH_DELIMITER);
         if ($_path && !Str::startsWith($_path, '/')) {
             $_path = '/'.$_path;
+        }
+
+        if (!$findExists) {
+            return current($this->pathSymbols[$symbol]).$_path;
         }
 
         foreach ($this->pathSymbols[$symbol] as $pathSymbol) {

@@ -13,7 +13,7 @@ class BlankComponent extends BaseComponent
     /** Error message that is shown with this error component. */
     protected ?string $errorMessage;
 
-    public function __construct(?TemplateCode $page, array $properties, ?string $errorMessage)
+    public function __construct(?TemplateCode $page, array $properties, ?string $errorMessage = null)
     {
         $this->errorMessage = $errorMessage;
 

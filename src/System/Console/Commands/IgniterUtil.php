@@ -8,6 +8,7 @@ use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
+use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\CacheHelper;
 use Igniter\System\Models\Extension;
 use Illuminate\Console\Command;
@@ -104,7 +105,7 @@ class IgniterUtil extends Command
 
         $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
 
-        $notes = $activeTheme->buildAssetsBundle();
+        $notes = $activeTheme ? Assets::buildBundles() : [];
 
         if (!$notes) {
             $this->comment('Nothing to compile!');

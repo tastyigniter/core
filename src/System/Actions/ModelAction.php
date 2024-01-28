@@ -15,7 +15,7 @@ class ModelAction
     use ExtensionTrait;
 
     /** Reference to the controller associated to this action */
-    protected Model $model;
+    protected ?Model $model;
 
     /** Properties that must exist in the controller using this action. */
     protected array $requiredProperties = [];

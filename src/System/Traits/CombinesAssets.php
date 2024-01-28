@@ -12,9 +12,11 @@ use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Main\Classes\Theme;
 use Igniter\System\Events\AssetsBeforePrepareCombinerEvent;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -95,21 +97,6 @@ trait CombinesAssets
         return $this->assetsCombinerUri.'/'.$cacheData['uri'];
     }
 
-    public function combineBundles(string $type = 'scss', $appContext = 'main'): array
-    {
-        $notes = [];
-        foreach ($this->getBundles($type, $appContext) ?? [] as $destination => $assets) {
-            $destination = File::symbolizePath($destination);
-            $publicDestination = File::localToPublic(realpath(dirname($destination))).'/'.basename($destination);
-
-            $this->combineToFile($assets, $destination);
-            $notes[] = implode(', ', array_map('basename', $assets));
-            $notes[] = sprintf(' -> %s', $publicDestination);
-        }
-
-        return $notes;
-    }
-
     /**
      * Combines a collection of assets files to a destination file
      *
@@ -136,9 +123,9 @@ trait CombinesAssets
         $targetPath = File::localToPublic(dirname($destination));
         $combiner = $this->prepareCombiner($assets, $targetPath);
 
-        $contents = $combiner->dump();
+        File::makeDirectory(dirname($destination), 0777, true, true);
 
-        File::put($destination, $contents);
+        File::put($destination, $combiner->dump());
     }
 
     public function combineGetContents(string $cacheKey): \Illuminate\Http\Response
@@ -169,6 +156,40 @@ trait CombinesAssets
         }
 
         return $response;
+    }
+
+    public function buildBundles(Theme $theme): array
+    {
+        $this->addAssetsFromThemeManifest($theme);
+
+        $assetVars = $theme->getAssetVariables();
+        foreach (array_flatten($this->getFilters()) as $filter) {
+            if (method_exists($filter, 'setVariables')) {
+                $filter->setVariables($assetVars);
+            }
+        }
+
+        $notes = rescue(fn () => $this->combineBundles(),
+            fn ($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
+
+        Event::dispatch('assets.combiner.afterBuildBundles', [$this, $theme]);
+
+        return $notes;
+    }
+
+    protected function combineBundles(string $type = 'scss', $appContext = 'main'): array
+    {
+        $notes = [];
+        foreach ($this->getBundles($type, $appContext) ?? [] as $destination => $assets) {
+            $destination = File::symbolizePath($destination, false, false);
+            $publicDestination = File::localToPublic(realpath(dirname($destination))).'/'.basename($destination);
+
+            $this->combineToFile($assets, $destination);
+            $notes[] = implode(', ', array_map('basename', $assets));
+            $notes[] = sprintf(' -> %s', $publicDestination);
+        }
+
+        return $notes;
     }
 
     protected function prepareAssets(array $assets): array

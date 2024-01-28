@@ -25,11 +25,7 @@ class ThemeRequest extends FormRequest
             return [];
         }
 
-        return collect($this->fields())->mapWithKeys(function ($config, $field) {
-            $dottedName = implode('.', name_to_array($field));
-
-            return [$dottedName => array_get($config, 'rules')];
-        })->filter()->all();
+        return $this->prepareRules($this->fields());
     }
 
     /**
@@ -48,5 +44,22 @@ class ThemeRequest extends FormRequest
     protected function fields(): array
     {
         return $this->route()->getController()->getFormModel()->getFieldsConfig();
+    }
+
+    protected function prepareRules($rules, ?string $parentKey = null): array
+    {
+        return collect($rules)->mapWithKeys(function ($config, $field) use ($parentKey) {
+            if (array_has($config, 'form.fields')) {
+                return $this->prepareRules(array_get($config, 'form.fields'), $field);
+            }
+
+            if ($parentKey) {
+                $field = $parentKey.'.*.'.$field;
+            }
+
+            $dottedName = implode('.', name_to_array($field));
+
+            return [$dottedName => array_get($config, 'rules')];
+        })->filter()->all();
     }
 }

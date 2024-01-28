@@ -4,6 +4,7 @@ namespace Igniter\System\Libraries;
 
 use Igniter\Flame\Html\HtmlFacade as Html;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Main\Classes\Theme;
 use Igniter\System\Traits\CombinesAssets;
 use JsonSerializable;
 use stdClass;
@@ -72,6 +73,19 @@ class Assets
         }
 
         $this->addTags(array_except($content, 'bundles'));
+    }
+
+    public function addAssetsFromThemeManifest(Theme $theme)
+    {
+        collect([$theme])
+            ->merge($theme->hasParent() ? [$theme->getParent()] : [])
+            ->first(function (Theme $theme) {
+                if ($exists = File::exists($assetConfigFile = $theme->getAssetsFilePath())) {
+                    $this->addFromManifest($assetConfigFile);
+                }
+
+                return $exists;
+            });
     }
 
     public function addTags(array $tags = [])

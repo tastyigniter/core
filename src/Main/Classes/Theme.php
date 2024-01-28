@@ -18,8 +18,6 @@ use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial as PartialTemplate;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\SystemHelper;
-use Igniter\System\Libraries\Assets as AssetsManager;
-use Illuminate\Support\Facades\Event;
 
 class Theme
 {
@@ -114,6 +112,11 @@ class Theme
         }
 
         return $this->path.$this->metaPath;
+    }
+
+    public function getAssetsFilePath()
+    {
+        return $this->getMetaPath().'/assets.json';
     }
 
     public function getAssetPath(): string
@@ -353,40 +356,6 @@ class Theme
         }
 
         return $result;
-    }
-
-    public function buildAssetsBundle(): array
-    {
-        $paths = collect([$this])
-            ->merge($this->hasParent() ? [$this->getParent()] : [])
-            ->map(function (Theme $theme) {
-                if (File::exists($path = $theme->getMetaPath().'/assets.json')) {
-                    Assets::addFromManifest($path);
-
-                    return $path;
-                }
-            })
-            ->filter();
-
-        if ($paths->isEmpty()) {
-            return [];
-        }
-
-        Event::listen('assets.combiner.beforePrepare', function (AssetsManager $combiner, $assets) {
-            $assetVars = $this->getAssetVariables();
-            foreach (array_flatten($combiner->getFilters()) as $filter) {
-                if (method_exists($filter, 'setVariables')) {
-                    $filter->setVariables($assetVars);
-                }
-            }
-        });
-
-        $notes = rescue(fn () => Assets::combineBundles(),
-            fn ($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
-
-        Event::dispatch('main.theme.assetsBundled', [$this]);
-
-        return $notes;
     }
 
     public function fillFromConfig()

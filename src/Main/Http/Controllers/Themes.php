@@ -7,6 +7,7 @@ use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
+use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\CacheHelper;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Http\RedirectResponse;
@@ -271,7 +272,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
                 return;
             }
 
-            $model->getTheme()->buildAssetsBundle();
+            Assets::buildBundles($model->getTheme());
         }
     }
 }

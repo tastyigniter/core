@@ -21,7 +21,9 @@ class AssetsServiceProvider extends ServiceProvider
         Assets::registerCallback(function (Assets $manager) {
             $manager->registerSourcePath(Igniter::themesPath());
 
-            resolve(ThemeManager::class)->addAssetsFromActiveThemeManifest($manager);
+            if ($activeTheme = resolve(ThemeManager::class)->getActiveTheme()) {
+                $manager->addAssetsFromThemeManifest($activeTheme);
+            }
         });
     }
 }

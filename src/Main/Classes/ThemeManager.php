@@ -12,7 +12,6 @@ use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
-use Igniter\System\Libraries\Assets;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,8 +20,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class ThemeManager
 {
-    protected string $themeModel = ThemeModel::class;
-
     /**
      * @var array of disabled themes.
      */
@@ -55,21 +52,6 @@ class ThemeManager
     public static function addDirectory(string $directory)
     {
         self::$directories[] = $directory;
-    }
-
-    public function addAssetsFromActiveThemeManifest(Assets $manager)
-    {
-        if (!$theme = $this->getActiveTheme()) {
-            return;
-        }
-
-        collect([$theme])
-            ->merge($theme->hasParent() ? [$theme->getParent()] : [])
-            ->each(function (Theme $theme) use ($manager) {
-                if (File::exists($assetConfigFile = $theme->getMetaPath().'/assets.json')) {
-                    $manager->addFromManifest($assetConfigFile);
-                }
-            });
     }
 
     //
@@ -173,6 +155,7 @@ class ThemeManager
         collect([$theme->getPath().'/resources', $theme->getPath().'/assets', $theme->getPath()])
             ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath().'/assets', $theme->getParent()->getPath()] : [])
             ->filter(fn ($path) => File::isDirectory($path))
+            ->reverse()
             ->each(function ($path) use ($theme) {
                 Igniter::loadResourcesFrom($path, $theme->getName());
             });
@@ -279,9 +262,7 @@ class ThemeManager
      */
     public function isDisabled(string $themeCode): bool
     {
-        traceLog('Deprecated. Use $instance::isActive($themeCode) instead');
-
-        return !$this->checkName($themeCode) || !array_get($this->disabledThemes, $themeCode, false);
+        throw new \LogicException('Deprecated. Use $instance::isActive($themeCode) instead');
     }
 
     /**
@@ -495,13 +476,11 @@ class ThemeManager
 
             resolve(UpdateManager::class)->purgeExtension($themeCode);
         }
-
-        $this->updateInstalledThemes($themeCode, null);
     }
 
     public function installTheme(string $code, ?string $version = null): bool
     {
-        $model = $this->themeModel::firstOrNew(['code' => $code]);
+        $model = ThemeModel::firstOrNew(['code' => $code]);
 
         if (!$themeObj = $this->findTheme($model->code)) {
             return false;
@@ -512,8 +491,6 @@ class ThemeManager
         $model->version = $version ?? resolve(PackageManifest::class)->getVersion($code) ?? $model->version;
         $model->description = $themeObj->description ?? '';
         $model->save();
-
-        $this->updateInstalledThemes($model->code);
 
         return true;
     }
@@ -532,33 +509,36 @@ class ThemeManager
         resolve(PackageManifest::class)->writeDisabled($this->disabledThemes);
     }
 
-    public function createChildTheme(ThemeModel $model): ThemeModel
+    public function createChildTheme(ThemeModel $parentThemeModel, ?string $childThemeCode = null): ThemeModel
     {
-        $parentTheme = $this->findTheme($model->code);
-        if ($parentTheme->hasParent()) {
-            throw new SystemException('Can not create a child theme from another child theme');
-        }
+        $parentTheme = $this->findTheme($parentThemeModel->code);
+        throw_if(!$parentTheme || $parentTheme->hasParent(), new SystemException(
+            'Can not create a child theme from another child theme'
+        ));
 
-        $childThemeCode = $this->themeModel::generateUniqueCode($model->code);
+        $childThemeCode = ThemeModel::generateUniqueCode($childThemeCode ?? $parentThemeModel->code);
         $childThemePath = Igniter::themesPath().'/'.$childThemeCode;
 
-        $themeConfig = [
-            'code' => $childThemeCode,
-            'name' => $parentTheme->label.' [child]',
-            'description' => $parentTheme->description,
-        ];
+        throw_if(File::isDirectory($childThemePath), new SystemException(
+            'Child theme path already exists.'
+        ));
 
-        $this->writeChildThemeMetaFile($childThemePath, $parentTheme, $themeConfig);
+        File::makeDirectory($childThemePath, 0777, true, true);
 
-        $themeConfig['data'] = $model->data ?? [];
+        $themeConfig = $this->writeChildThemeJsonFile($childThemeCode, $childThemePath, $parentTheme);
 
-        $theme = $this->themeModel::create($themeConfig);
+        $this->copyChildThemeAssetsJsonFile($parentTheme, $childThemePath);
+
+        $themeConfig['data'] = $parentTheme->data ?? [];
+        $childThemeModel = ThemeModel::create(array_only($themeConfig, [
+            'code', 'name', 'description', 'data',
+        ]));
 
         $this->booted = false;
         $this->themes = [];
         $this->bootThemes();
 
-        return $theme;
+        return $childThemeModel;
     }
 
     /**
@@ -615,20 +595,38 @@ class ThemeManager
         return $config;
     }
 
-    protected function writeChildThemeMetaFile(string $path, Theme $parentTheme, array $themeConfig)
+    protected function writeChildThemeJsonFile(string $themeCode, string $path, Theme $parentTheme)
     {
-        $themeConfig['parent'] = $parentTheme->name;
-        $themeConfig['version'] = array_get($parentTheme->config, 'version');
-        $themeConfig['author'] = array_get($parentTheme->config, 'author', '');
-        $themeConfig['homepage'] = array_get($parentTheme->config, 'homepage', '');
-        $themeConfig['require'] = $parentTheme->requires;
+        $themeConfig = [
+            'code' => $themeCode,
+            'name' => $parentTheme->label.' [child]',
+            'description' => $parentTheme->description,
+            'parent' => $parentTheme->name,
+            'version' => array_get($parentTheme->config, 'version'),
+            'author' => array_get($parentTheme->config, 'author', ''),
+            'homepage' => array_get($parentTheme->config, 'homepage', ''),
+            'require' => $parentTheme->requires,
+        ];
 
-        if (File::isDirectory($path)) {
-            throw new SystemException('Child theme path already exists.');
+        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return $themeConfig;
+    }
+
+    protected function copyChildThemeAssetsJsonFile(Theme $parentTheme, string $childThemePath)
+    {
+        $assetsJsonPath = $parentTheme->getAssetsFilePath();
+        if (!File::exists($assetsJsonPath)) {
+            return;
         }
+
+        $assetsContents = File::get($assetsJsonPath);
+        $assetsContents = str_replace($parentTheme->getName().'::', basename($childThemePath).'::', $assetsContents);
+
+        $path = $childThemePath.'/'.basename($parentTheme->getMetaPath());
 
         File::makeDirectory($path, 0777, true, true);
 
-        File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::put($path.'/assets.json', $assetsContents);
     }
 }

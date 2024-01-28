@@ -301,7 +301,7 @@ class TemplateEditor extends BaseFormWidget
 
     public function getTemplateFile(): string
     {
-        return $this->getTemplateValue('file');
+        return $this->getTemplateValue('file') ?? '';
     }
 
     protected function getFilename(): string
