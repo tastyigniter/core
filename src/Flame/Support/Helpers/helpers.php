@@ -307,7 +307,8 @@ if (!function_exists('currency')) {
         ?string $from = null,
         ?string $to = null,
         bool $format = true
-    ): Currency|string {
+    ): Currency|string
+    {
         if (is_null($amount)) {
             return resolve(Currency::class);
         }
@@ -324,7 +325,8 @@ if (!function_exists('currency_format')) {
         float|string|null $amount = null,
         ?string $currency = null,
         bool $include_symbol = true
-    ): string {
+    ): string
+    {
         return resolve('currency')->format($amount, $currency, $include_symbol);
     }
 }
@@ -805,7 +807,7 @@ if (!function_exists('name_to_array')) {
         }
 
         return array_filter($result, function ($val) {
-            return strlen($val);
+            return (bool)strlen($val);
         });
     }
 }
