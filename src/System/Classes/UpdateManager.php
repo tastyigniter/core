@@ -402,7 +402,7 @@ class UpdateManager
 
         $packages = collect($requirements)->mapWithKeys(function ($package) {
             $packageInfo = $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
-            $packageName = $packageInfo->isCore() ? 'tastyigniter/core' : $packageInfo->package;
+            $packageName = $packageInfo->isCore() ? PackageInfo::CORE : $packageInfo->package;
 
             $this->log(sprintf(lang('igniter::system.updates.progress_install_version'),
                 $packageInfo->name, $packageInfo->installedVersion, $packageInfo->version

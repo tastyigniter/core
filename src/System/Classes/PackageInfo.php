@@ -7,6 +7,8 @@ use Illuminate\Support\HtmlString;
 
 class PackageInfo
 {
+    public const CORE = 'tastyigniter/core';
+
     protected ?array $iconCache = null;
 
     public function __construct(
