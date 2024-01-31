@@ -14,7 +14,7 @@
         >
             <option>@lang($this->prompt)</option>
             @foreach($components as $code => $name)
-                <option value="{{ $code }}">{{ lang($name[0]).' - '.$name[1] }}</option>
+                <option value="{{ $code }}">{{ lang($name[0]).(!empty($name[1]) ? ' - '.$name[1] : '') }}</option>
             @endforeach
         </select>
     </div>

@@ -31,7 +31,7 @@ mix.js(`${src}/js/app.js`, `${dist}/js`);
 
 mix.combine([
     'node_modules/animate.css/animate.compat.css',
-    'node_modules/@selectize/selectize/dist/css/selectize.bootstrap5.css',
+    'node_modules/choices.js/public/assets/styles/choices.min.css',
     'node_modules/bootstrap-table/dist/bootstrap-table.min.css',
     'node_modules/codemirror/lib/codemirror.css',
     'node_modules/codemirror/theme/material.css',
@@ -45,9 +45,8 @@ mix.combine([
 ], `${dist}/css/vendor.css`)
 
 mix.combine([
-    'node_modules/@selectize/selectize/dist/js/selectize.min.js',
     'node_modules/bootstrap-table/dist/bootstrap-table.min.js',
-    'node_modules/dropzone/dist/dropzone-min.js',
+    'node_modules/choices.js/public/assets/scripts/choices.min.js',
     'node_modules/inputmask/dist/jquery.inputmask.min.js',
     'node_modules/mustache/mustache.min.js',
     `${src}/js/vendor/selectonic/selectonic.min.js`,

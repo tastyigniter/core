@@ -52,7 +52,7 @@
             $fieldMap = this.getDependants()
 
         $.each($fieldMap, function (fieldName, toRefresh) {
-            $(document).on('change.ti.formWidget', '[data-field-name="'+fieldName+'"]',
+            $(document).on('change.ti.formWidget', '[data-field-name="' + fieldName + '"]',
                 $.proxy(self.onRefreshDependants, self, fieldName, toRefresh))
         })
     }
@@ -61,7 +61,7 @@
         var $fieldMap = this.getDependants()
 
         $.each($fieldMap, function (fieldName) {
-            $(document).off('change.ti.formWidget', '[data-field-name="'+fieldName+'"]')
+            $(document).off('change.ti.formWidget', '[data-field-name="' + fieldName + '"]')
         })
     }
 
@@ -111,13 +111,13 @@
                 data: refreshData
             }).done(function () {
                 $.each(toRefresh.fields, function (key, field) {
-                    $('[data-field-name="'+field+'"]').trigger('change').progressIndicator('hide')
+                    $('[data-field-name="' + field + '"]').trigger('change').progressIndicator('hide')
                 })
             })
         }, this.dependantUpdateInterval)
 
         $.each(toRefresh.fields, function (index, field) {
-            $fieldElements.filter('[data-field-name="'+field+'"]:visible')
+            $fieldElements.filter('[data-field-name="' + field + '"]:visible')
                 .addClass('progress-indicator-container size-form-field')
                 .progressIndicator()
         })
@@ -167,9 +167,9 @@
         if (typeof value == 'object') return value
 
         try {
-            return JSON.parse(JSON.stringify(eval("({"+value+"})")))
+            return JSON.parse(JSON.stringify(eval("({" + value + "})")))
         } catch (e) {
-            throw new Error('Error parsing the '+name+' attribute value. '+e)
+            throw new Error('Error parsing the ' + name + ' attribute value. ' + e)
         }
     }
 

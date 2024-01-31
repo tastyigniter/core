@@ -14,10 +14,10 @@
         id="{{ $field->getId() }}"
         name="{!! $field->getName().($multiOption ? '[]' : '') !!}"
         data-control="selectlist"
-        data-placeholder="@lang($field->placeholder ?: 'igniter::admin.text_please_select')"
         {!! $multiOption ? 'multiple="multiple"' : '' !!}
         {!! $field->getAttributes() !!}
     >
+        <option value="">@lang($field->placeholder ?: 'igniter::admin.text_please_select')</option>
         @foreach($fieldOptions as $value => $option)
             @php
                 if (!is_array($option)) $option = [$option];

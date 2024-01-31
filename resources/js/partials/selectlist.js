@@ -7,6 +7,7 @@
     var SelectList = function (element, options) {
         this.$el = $(element)
         this.$container = null
+        this.choices = null
 
         this.options = options
 
@@ -16,25 +17,22 @@
     SelectList.prototype.constructor = SelectList
 
     SelectList.prototype.init = function () {
-        this.options.onInitialize = $.proxy(this.onInitialize, this)
-        this.$el.selectize(this.options)
-    }
-
-    SelectList.prototype.onInitialize = function () {
-        if (this.options.staticDropdown) {
-            this.$el.data('selectize').$dropdown.addClass('position-static d-block')
-            this.$el.data('selectize').open()
+        if (this.$el.find('option').length < 8) {
+            this.options.searchEnabled = false
         }
+
+        this.choices = new Choices(this.$el[0], this.options)
     }
 
-    // MEDIA MANAGER PLUGIN DEFINITION
+    SelectList.prototype.setChoices = function (choices) {
+        this.choices.setChoices(choices, 'value', 'label', true)
+    }
+
+    // SELECT LIST PLUGIN DEFINITION
     // ============================
 
     SelectList.DEFAULTS = {
-        plugins: ['remove_button'],
-        staticDropdown: false,
-        allowEmptyOption: true,
-        showEmptyOptionInDropdown: false,
+        removeItemButton: true,
     }
 
     var old = $.fn.selectList

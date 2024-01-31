@@ -84,7 +84,7 @@ $table-hover-bg: $gray-200 !default;
 //
 // Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
 $input-spacer: 6px !default;
-$input-font-size: 0.9375rem !default;
+$input-font-size: $font-size-base !default;
 //
 // Buttons
 //
@@ -119,6 +119,7 @@ $custom-control-indicator-disabled-bg: $gray-300 !default;
 // Navs
 //
 $nav-tabs-border-radius: .625rem !default;
+$nav-link-font-size: $input-font-size !default;
 $nav-link-color: lighten($body-color, 15%) !default;
 $nav-link-hover-color: $body-color !default;
 // Dropdowns

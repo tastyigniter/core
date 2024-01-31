@@ -333,7 +333,6 @@
             dropzoneOptions.headers['X-IGNITER-FILEUPLOAD'] = this.options.uniqueId
         }
 
-        Dropzone.autoDiscover = false
         this.dropzone = new Dropzone($uploader.get(0), dropzoneOptions);
         this.dropzone.on('addedfile', $.proxy(this.uploadFileAdded, this))
         this.dropzone.on('error', $.proxy(this.uploadError, this))
@@ -793,8 +792,6 @@
 
     // MEDIA MANAGER DATA-API
     // ===============
-
-    Dropzone.autoDiscover = false;
 
     $(document).render(function () {
         $('div[data-control=media-manager]').mediaManager()

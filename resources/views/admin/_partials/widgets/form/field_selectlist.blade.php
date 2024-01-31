@@ -9,12 +9,11 @@
         data-control="selectlist"
         id="{{ $field->getId() }}"
         name="{!! $field->getName().($selectMultiple ? '[]' : '') !!}"
-        data-placeholder="@lang($placeholder)"
         {!! $this->previewMode ? 'disabled="disabled"' : '' !!}
         {!! $selectMultiple ? 'multiple="multiple"' : '' !!}
         {!! $field->getAttributes() !!}
     >
-
+        <option value="">@lang($placeholder)</option>
         @foreach($fieldOptions as $value => $option)
             @continue($field->disabled && !in_array($value, $checkedValues))
             @php

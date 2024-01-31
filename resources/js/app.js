@@ -10,6 +10,7 @@ window.moment = require('moment');
 window.Swal = require('sweetalert2/dist/sweetalert2.js');
 require('js-cookie');
 require('metismenu');
+require("dropzone");
 
 require('./partials/request');
 require('./partials/loader.bar');
