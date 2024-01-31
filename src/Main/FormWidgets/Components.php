@@ -183,7 +183,7 @@ class Components extends BaseFormWidget
         }
 
         foreach ($loadValue as $codeAlias => $properties) {
-            [$code, $alias] = $this->getCodeAlias($codeAlias);
+            [$code,] = $this->getCodeAlias($codeAlias);
 
             $definition = array_merge([
                 'alias' => $codeAlias,
@@ -193,7 +193,7 @@ class Components extends BaseFormWidget
             ], $this->manager->findComponent($code) ?? []);
 
             try {
-                $this->manager->makeComponent($code, $alias, $properties);
+                $this->manager->makeComponent($code, null, $properties);
                 $definition['alias'] = $codeAlias;
             } catch (Exception $ex) {
                 $definition['fatalError'] = $ex->getMessage();
@@ -209,9 +209,9 @@ class Components extends BaseFormWidget
     {
         $componentObj = null;
         if (strlen($codeAlias)) {
-            [$code, $alias] = $this->getCodeAlias($codeAlias);
+            [$code,] = $this->getCodeAlias($codeAlias);
             $propertyValues = array_get((array)$this->getLoadValue(), $codeAlias, []);
-            $componentObj = $this->manager->makeComponent($code, $alias, $propertyValues);
+            $componentObj = $this->manager->makeComponent($code, null, $propertyValues);
             $componentObj->alias = $codeAlias;
         }
 

@@ -156,7 +156,7 @@ class ComponentManager
     /**
      * Returns component details based on its name.
      */
-    public function findComponent($name): ?BaseComponent
+    public function findComponent($name): ?array
     {
         if (!$this->hasComponent($name)) {
             return null;

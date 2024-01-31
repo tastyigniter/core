@@ -21,7 +21,7 @@ class MenuItemServiceProvider extends ServiceProvider
         });
 
         Event::listen('pages.menuitem.getTypeInfo', function ($type) {
-            return Page::getMenuTypeInfo($type);
+            return Page::getMenuTypeInfo((string)$type);
         });
 
         Event::listen('pages.menuitem.resolveItem', function ($item, $url, $theme) {
