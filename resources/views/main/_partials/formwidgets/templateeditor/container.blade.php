@@ -8,8 +8,8 @@
             id="{{ $this->getId($templateSecondaryTabs->section.'-tabs') }}"
             class="{{ $templateSecondaryTabs->section }}-tabs mt-5 {{ $templateSecondaryTabs->cssClass }}"
             data-control="form-tabs"
-            data-store-name="{{ $templateWidget->getCookieKey() }}"
         >
+            @php($activeTab = $templateWidget->getActiveTab())
             <div class="row">
                 <div class="col-md-3">
                     <div
@@ -23,7 +23,6 @@
                         id="{{ $this->getId($templateSecondaryTabs->section.'-tabs') }}"
                         class="{{ $templateSecondaryTabs->section }}-tabs {{ $templateSecondaryTabs->cssClass }} border rounded"
                         data-control="form-tabs"
-                        data-store-name="{{ $templateWidget->getCookieKey() }}"
                     >
                         <div class="tab-heading">
                             <ul class="form-nav nav nav-tabs">
@@ -32,7 +31,7 @@
                                         <a
                                             @class([
                                                 'nav-link',
-                                                'active' => (('#'.$templateSecondaryTabs->section.'tab-'.$loop->iteration) == $templateWidget->getActiveTab())
+                                                'active' => (('#'.$templateSecondaryTabs->section.'tab-'.$loop->iteration) == $activeTab)
                                             ])
                                             href="{{ '#'.$templateSecondaryTabs->section.'tab-'.$loop->iteration }}"
                                             data-bs-toggle="tab"
@@ -44,7 +43,10 @@
                         <div class="tab-content p-3">
                             @foreach($templateSecondaryTabs as $name => $fields)
                                 <div
-                                    class="tab-pane {{ (('#'.$templateSecondaryTabs->section.'tab-'.$loop->iteration) == $templateWidget->getActiveTab()) ? 'active' : '' }}"
+                                    @class([
+                                        'tab-pane',
+                                        'active' => (('#'.$templateSecondaryTabs->section.'tab-'.$loop->iteration) == $activeTab)
+                                    ])
                                     id="{{ $templateSecondaryTabs->section.'tab-'.$loop->iteration }}">
                                     <div class="form-fields">
                                         {!! $templateWidget->makePartial('form/form_fields', ['fields' => $fields]) !!}

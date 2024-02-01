@@ -1,6 +1,5 @@
 <div
     class="list-filter {{ $cssClasses }}"
-    data-store-name="{{ $cookieStoreName }}"
 >
     <div id="{{ $filterId }}" class="dropdown">
         <button

@@ -1,7 +1,7 @@
 @php
     $saveActions = array_get($button->config, 'saveActions', ['continue', 'close', 'new']);
-    $selectedAction = @json_decode($d = array_get($_COOKIE, 'ti_activeFormSaveAction'), true);
-    $selectedAction = ($selectedAction && in_array($selectedAction, $saveActions)) ? $selectedAction : 'continue';
+    $selectedAction = $this->getActiveSaveAction();
+    $eventHandler = $this->getEventHandler('onChooseSaveButtonAction');
 @endphp
 <div
     class="btn-group"
@@ -33,6 +33,7 @@
                         class="form-check-input"
                         name="toolbar_save_action"
                         value="{{$action}}"
+                        data-handler="{{ $eventHandler }}"
                         {!! $selectedAction === $action ? 'checked="checked"' : ''; !!}
                     />
                     <label

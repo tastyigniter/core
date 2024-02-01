@@ -16,6 +16,7 @@
             <div
                 class="form-fields"
                 data-control="formwidget"
+                data-alias="{{$this->alias}}"
                 data-refresh-handler="{{$this->getEventHandler('onRefresh')}}"
             >
                 @foreach($formWidget->getFields() as $field)

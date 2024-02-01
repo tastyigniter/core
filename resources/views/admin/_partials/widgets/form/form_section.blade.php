@@ -13,8 +13,7 @@
     <div
         id="{{ $this->getId($tabs->section.'-tabs') }}"
         class="{{ $tabs->section }}-tabs {{ $tabs->cssClass }}"
-        data-control="form-tabs"
-        data-store-name="{{ $cookieKey }}">
+        data-control="form-tabs">
         {!! $this->makePartial('form/form_tabs', ['tabs' => $tabs]) !!}
     </div>
 

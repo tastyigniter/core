@@ -3,23 +3,17 @@
 $(function () {
     $(document).on('click', '[data-toggle="list-filter"]', function () {
         var $button = $(this),
-            $listFilterTarget = $button.closest('form').parent().prev('.list-filter'),
-            listFilterStoreName = $listFilterTarget.data('storeName'),
-            $dropdownButton = $listFilterTarget.find('[data-bs-toggle="dropdown"]')
-
-        if (!listFilterStoreName || !listFilterStoreName.length)
-            return
+            $dropdownButton = $($button.data('target'))
 
         $button.toggleClass('active')
-        $dropdownButton.attr('data-bs-offset', "-50,"+Math.abs($button.closest('thead').offset().top-$('#toolbar').height()-$('.navbar-top').height()))
+        $dropdownButton.attr('data-bs-offset', "-50," + Math.abs($button.closest('thead').offset().top - $('#toolbar').height() - $('.navbar-top').height() - 20))
         $dropdownButton.click()
-        Cookies.set(listFilterStoreName, $listFilterTarget.is(':visible') ? 1 : 0)
     })
 });
 
 $(function ($) {
     // List setup form sortables
-    $('#lists-setup-modal-content').on('ajaxUpdate', function() {
+    $('#lists-setup-modal-content').on('ajaxUpdate', function () {
         Sortable.create($('#lists-setup-sortable').get(0), {
             handle: '.form-check-handle',
         })
@@ -45,7 +39,7 @@ $(function ($) {
         onChangeListCheckboxes($(this))
     })
 
-    $selectAllRecordsButton.on('click', function(event) {
+    $selectAllRecordsButton.on('click', function (event) {
         var $el = $(event.currentTarget)
         $el.toggleClass('active')
         $('[data-action-select-all]').prop('disabled', !$el.hasClass('active'))

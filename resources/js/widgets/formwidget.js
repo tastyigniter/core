@@ -6,6 +6,7 @@
 
     var FormWidget = function (element, options) {
         this.$el = $(element)
+        this.$formTabs = this.$el.find('[data-control="form-tabs"]')
         this.options = options || {}
         this.fieldElementCache = null
 
@@ -19,10 +20,17 @@
 
         this.$form = this.$el.closest('form')
 
+        this.registerHandlers()
         this.bindDependants()
+
+        this.$el.find('[data-control="inputmask"]').inputmask();
 
         this.$el.one('dispose-control', $.proxy(this.dispose, this))
     }
+
+    FormWidget.prototype.registerHandlers = function () {
+        this.$formTabs.on('show.bs.tab', 'a[data-bs-toggle="tab"]', $.proxy(this.onTabShown, this))
+    };
 
     FormWidget.prototype.dispose = function () {
         this.unbindDependants()
@@ -92,6 +100,14 @@
     // EVENT HANDLERS
     // ============================
 
+    FormWidget.prototype.onTabShown = function (event) {
+        var selectedTab = $(event.target).attr('href')
+
+        this.$form.request(this.options.alias + '::onActiveTab', {
+            data: {tab: selectedTab}
+        })
+    }
+
     FormWidget.prototype.onRefreshDependants = function (fieldName, toRefresh) {
         var self = this,
             $formEl = this.$form,
@@ -107,7 +123,7 @@
                 paramToObj('data-refresh-data', self.options.refreshData)
             )
 
-            $formEl.request(self.options.refreshHandler, {
+            $formEl.request(self.options.alias + '::onRefresh', {
                 data: refreshData
             }).done(function () {
                 $.each(toRefresh.fields, function (key, field) {
@@ -124,7 +140,7 @@
     }
 
     FormWidget.DEFAULTS = {
-        refreshHandler: null,
+        alias: null,
         refreshData: {}
     }
 

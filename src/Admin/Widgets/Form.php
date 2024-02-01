@@ -219,7 +219,6 @@ class Form extends BaseWidget
     {
         $this->defineFormFields();
         $this->applyFiltersFromModel();
-        $this->vars['cookieKey'] = $this->getCookieKey();
         $this->vars['activeTab'] = $this->getActiveTab();
         $this->vars['outsideTabs'] = $this->allTabs['outside'];
         $this->vars['primaryTabs'] = $this->allTabs['primary'];
@@ -293,6 +292,18 @@ class Form extends BaseWidget
         }
 
         return $result;
+    }
+
+    /**
+     * Event handler for storing the active tab.
+     */
+    public function onActiveTab()
+    {
+        $data = validator(post(), [
+            'tab' => ['required', 'string'],
+        ])->validate();
+
+        $this->putSession('activeTab', $data['tab']);
     }
 
     /**
@@ -654,19 +665,16 @@ class Form extends BaseWidget
 
     public function getActiveTab(): ?string
     {
-        $activeTabs = @json_decode(array_get($_COOKIE, 'ti_activeFormTabs', ''), true);
-
-        $cookieKey = $this->getCookieKey();
-
-        $activeTab = $activeTabs[$cookieKey] ?? null;
-
         $tabs = $this->allTabs['primary'];
         $type = $tabs->section;
-        $activeTabIndex = (int)str_after($activeTab, '#'.$type.'tab-');
+
+        $defaultTab = '#'.$type.'tab-1';
+        $activeTab = $this->getSession('activeTab') ?? $defaultTab;
+        $activeTabIndex = (int)str_after($activeTab, $defaultTab);
 
         // In cases where a tab has been removed, the first tab becomes the active tab
         $activeTab = ($activeTabIndex <= count($tabs->fields))
-            ? $activeTab : '#'.$type.'tab-1';
+            ? $activeTab : $defaultTab;
 
         return $this->activeTab = $activeTab;
     }

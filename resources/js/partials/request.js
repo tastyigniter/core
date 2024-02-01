@@ -389,7 +389,7 @@ if (window.jQuery.request !== undefined)
         return false
     })
 
-    $(document).on('change', 'select[data-request]', function () {
+    $(document).on('change', 'select[data-request], input[type=radio][data-request], input[type=checkbox][data-request]', function () {
         $(this).request()
         return false
     })

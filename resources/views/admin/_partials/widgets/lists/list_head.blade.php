@@ -47,8 +47,8 @@
                 <button
                     type="button"
                     class="btn btn-light btn-sm border-none shadow-none"
-                    title="@lang('igniter::admin.button_filter')"
                     data-toggle="list-filter"
+                    data-target="#filter-list-filter-button"
                 ><i class="fa fa-filter"></i></button>
             </th>
         @endif

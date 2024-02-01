@@ -82,7 +82,6 @@ class Filter extends BaseWidget
         $this->defineFilterScopes();
         $this->vars['filterAlias'] = $this->alias;
         $this->vars['filterId'] = $this->getId();
-        $this->vars['cookieStoreName'] = $this->getCookieKey();
         $this->vars['onSubmitHandler'] = $this->getEventHandler('onSubmit');
         $this->vars['onClearHandler'] = $this->getEventHandler('onClear');
         $this->vars['cssClasses'] = implode(' ', $this->cssClasses);
@@ -527,18 +526,6 @@ class Filter extends BaseWidget
     public function getContext(): string
     {
         return $this->context;
-    }
-
-    public function isActiveState(): bool
-    {
-        $cookieKey = $this->getCookieKey();
-
-        return (bool)@json_decode(array_get($_COOKIE, $cookieKey, ''));
-    }
-
-    public function getCookieKey(): string
-    {
-        return 'ti_displayListFilter';
     }
 
     protected function getScopeModel($scope): mixed

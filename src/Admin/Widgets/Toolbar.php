@@ -141,6 +141,20 @@ class Toolbar extends BaseWidget
         return $buttons;
     }
 
+    public function getActiveSaveAction()
+    {
+        return session()->get('widget.toolbar_save_action', 'continue');
+    }
+    
+    public function onChooseSaveButtonAction()
+    {
+        $data = validator(post(), [
+            'toolbar_save_action' => ['required', 'string'],
+        ])->validate();
+
+        session()->put('widget.toolbar_save_action', $data['toolbar_save_action']);
+    }
+
     protected function makeButtons($buttons): array
     {
         $result = [];
