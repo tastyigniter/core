@@ -57,14 +57,11 @@ return [
     */
 
     'middleware' => [
-        'web',
-        \Igniter\System\Http\Middleware\CheckRequirements::class,
-        \Igniter\Admin\Http\Middleware\PoweredBy::class,
-        \Igniter\Main\Http\Middleware\CheckMaintenance::class,
+        'web', 'igniter',
     ],
 
     'adminMiddleware' => [
-        'igniter',
+        'web', 'igniter', 'igniter:admin',
     ],
 
     'coreNamespaces' => [

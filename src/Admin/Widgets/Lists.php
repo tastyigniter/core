@@ -232,7 +232,7 @@ class Lists extends BaseWidget
                 } // Primary
                 else {
                     $columnName = isset($column->sqlSelect)
-                        ? DB::raw($this->parseTableName($column->sqlSelect, $primaryTable))
+                        ? DB::raw($this->parseTableName($column->sqlSelect, $primaryTable))->getValue(DB::connection()->getSchemaGrammar())
                         : DB::getTablePrefix().$primaryTable.'.'.$column->columnName;
 
                     $primarySearchable[] = $columnName;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Admin\Http\Middleware;
+namespace Igniter\System\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -30,6 +31,9 @@ class ServiceProvider extends AppServiceProvider
         $this->registerFacadeAliases();
 
         Igniter::loadControllersFrom(igniter_path('src/System/Http/Controllers'), 'Igniter\\System\\Http\\Controllers');
+
+        Route::pushMiddlewareToGroup('igniter', Http\Middleware\CheckRequirements::class);
+        Route::pushMiddlewareToGroup('igniter', Http\Middleware\PoweredBy::class);
 
         $this->app->register(Providers\ConsoleServiceProvider::class);
         $this->app->register(Providers\ExtensionServiceProvider::class);
@@ -57,7 +61,7 @@ class ServiceProvider extends AppServiceProvider
         $this->defineEloquentMorphMaps();
         $this->resolveFlashSessionKey();
 
-        $this->app->booted(fn () => $this->updateTimezone());
+        $this->app->booted(fn() => $this->updateTimezone());
 
         $this->loadLocalizationConfiguration();
         $this->loadGeocoderConfiguration();
@@ -109,9 +113,9 @@ class ServiceProvider extends AppServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-            'Assets' => \Igniter\System\Facades\Assets::class,
-            'Country' => \Igniter\System\Facades\Country::class,
-        ] as $alias => $class) {
+                     'Assets' => \Igniter\System\Facades\Assets::class,
+                     'Country' => \Igniter\System\Facades\Country::class,
+                 ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
     }

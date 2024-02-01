@@ -31,6 +31,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter::system.languages.text_empty',
             'defaultSort' => ['language_id', 'DESC'],
             'configFile' => 'language',
+            'back' => 'settings',
         ],
     ];
 

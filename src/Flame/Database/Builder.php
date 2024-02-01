@@ -148,7 +148,7 @@ class Builder extends BuilderBase
     protected function likeInternal($column, $value, $side = null, $boolean = 'and')
     {
         $column = $this->toBase()->raw(sprintf('lower(%s)', $column));
-        $value = trim(mb_strtolower($value));
+        $value = mb_strtolower(trim($value));
 
         if ($side === 'none') {
             $value = $value;

@@ -28,7 +28,7 @@ class RouteRegistrar
     {
         $this->router
             ->namespace('Igniter\System\Http\Controllers')
-            ->middleware('igniter')
+            ->middleware(config('igniter-routes.middleware', []))
             ->domain(config('igniter-routes.domain'))
             ->name('igniter.main.assets')
             ->prefix(Igniter::uri())
@@ -40,7 +40,7 @@ class RouteRegistrar
     public function forThemePages()
     {
         $this->router
-            ->middleware('igniter')
+            ->middleware(config('igniter-routes.middleware', []))
             ->domain(config('igniter-routes.domain'))
             ->name('igniter.theme.')
             ->prefix(Igniter::uri())

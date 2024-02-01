@@ -42,10 +42,6 @@ class ServiceProvider extends AppServiceProvider
 
         Igniter::loadControllersFrom(igniter_path('src/Admin/Http/Controllers'), 'Igniter\\Admin\\Http\\Controllers');
 
-        foreach (config('igniter-routes.adminMiddleware', []) as $middleware) {
-            Route::pushMiddlewareToGroup('igniter:admin', $middleware);
-        }
-
         $this->app->register(Providers\EventServiceProvider::class);
         $this->app->register(Providers\FormServiceProvider::class);
         $this->app->register(Providers\MenuItemServiceProvider::class);
@@ -82,9 +78,9 @@ class ServiceProvider extends AppServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-            'AdminMenu' => \Igniter\Admin\Facades\AdminMenu::class,
-            'Template' => \Igniter\Admin\Facades\Template::class,
-        ] as $alias => $class) {
+                     'AdminMenu' => \Igniter\Admin\Facades\AdminMenu::class,
+                     'Template' => \Igniter\Admin\Facades\Template::class,
+                 ] as $alias => $class) {
             $loader->alias($alias, $class);
         }
     }

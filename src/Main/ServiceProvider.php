@@ -8,6 +8,7 @@ use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\Main\Classes\MediaLibrary;
 use Igniter\Main\Classes\RouteRegistrar;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\Http\Middleware\CheckMaintenance;
 use Igniter\Main\Template\Extension\BladeExtension;
 use Igniter\System\Classes\ComponentManager;
 use Illuminate\Support\Facades\Route;
@@ -45,9 +46,7 @@ class ServiceProvider extends AppServiceProvider
 
         Igniter::loadControllersFrom(igniter_path('src/Main/Http/Controllers'), 'Igniter\\Main\\Http\\Controllers');
 
-        foreach (config('igniter-routes.middleware', []) as $middleware) {
-            Route::pushMiddlewareToGroup('igniter', $middleware);
-        }
+        Route::pushMiddlewareToGroup('igniter', CheckMaintenance::class);
 
         $this->app->register(Providers\AssetsServiceProvider::class);
         $this->app->register(Providers\FormServiceProvider::class);

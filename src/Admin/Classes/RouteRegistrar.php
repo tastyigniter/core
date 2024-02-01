@@ -28,7 +28,7 @@ class RouteRegistrar
     {
         $this->router
             ->namespace('Igniter\System\Http\Controllers')
-            ->middleware('igniter')
+            ->middleware(config('igniter-routes.middleware', []))
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
             ->name('igniter.admin.assets')
@@ -40,7 +40,7 @@ class RouteRegistrar
     public function forAdminPages()
     {
         $this->router
-            ->middleware('igniter:admin')
+            ->middleware(config('igniter-routes.adminMiddleware', []))
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
             ->group(function (Router $router) {
@@ -64,7 +64,7 @@ class RouteRegistrar
 
                 return $result;
             })
-            ->filter(fn ($class) => $this->isAdminPage($class));
+            ->filter(fn($class) => $this->isAdminPage($class));
     }
 
     protected function isAdminPage(string $class): bool
