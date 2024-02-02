@@ -4,8 +4,8 @@ namespace Igniter\Admin\Traits;
 
 use Exception;
 use Igniter\Admin\Classes\FormField;
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -39,6 +39,7 @@ trait FormModelWidget
         // Prepare query and find model record
         $query = $model->newQuery();
 
+        /** @var Model $result */
         throw_unless($result = $query->find($recordId),
             new FlashException(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model)))
         );

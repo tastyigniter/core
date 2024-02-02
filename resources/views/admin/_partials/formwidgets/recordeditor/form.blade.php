@@ -25,6 +25,13 @@
             </div>
         </div>
         <div class="modal-footer text-right">
+            @if(!empty($showDeleteButton))
+                <button
+                    type="button"
+                    class="btn btn-link text-danger fw-bold text-decoration-none me-auto"
+                    data-request="{{ $this->getEventHandler('onDeleteRecord') }}"
+                >@lang('igniter::admin.button_delete')</button>
+            @endif
             <button
                 type="button"
                 class="btn btn-link text-danger fw-bold text-decoration-none"
