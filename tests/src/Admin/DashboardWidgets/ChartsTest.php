@@ -12,7 +12,7 @@ it('fires admin.charts.extendDatasets event', function () {
     $controller = resolve(TestController::class);
     $widget = new Charts($controller, [
         'startDate' => now()->subDay(30),
-        'endDate' => now()
+        'endDate' => now(),
     ]);
 
     $widget->render();
