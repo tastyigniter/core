@@ -7,7 +7,7 @@ use Tests\Admin\Fixtures\Controllers\TestController;
 
 it('renders widget with no errors', function () {
     $controller = resolve(TestController::class);
-    $widget = new Statistics($controller, ['context' => 'sale']);
+    $widget = new Statistics($controller, ['card' => 'sale']);
 
     $widget->render();
 

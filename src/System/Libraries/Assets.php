@@ -274,8 +274,13 @@ class Assets
             return File::symbolizePath($name);
         }
 
+        // Resolve temporarily open_basedir issue https://github.com/tastyigniter/TastyIgniter/pull/1061
+        if (File::isFile('.'.$name)) {
+            return '.'.$name;
+        }
+
         foreach (static::$registeredPaths as $path) {
-            if (File::exists($file = str_replace('//', '/', $path.'/'.$name))) {
+            if (File::isFile($file = str_replace('//', '/', $path.'/'.$name))) {
                 return $file;
             }
         }

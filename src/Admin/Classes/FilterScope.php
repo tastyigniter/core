@@ -20,7 +20,7 @@ class FilterScope
     public ?string $descriptionFrom = null;
 
     /** Filter scope value. */
-    public ?string $value = null;
+    public null|string|array $value = null;
 
     /** Filter mode. */
     public string $type = 'select';

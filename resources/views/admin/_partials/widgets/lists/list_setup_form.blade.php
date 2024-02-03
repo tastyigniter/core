@@ -17,8 +17,14 @@
                         @if ($column->type == 'button')
                             <input
                                 type="hidden"
-                                id="list-setup-{{ $column->columnName }}"
+                                id="list-setup-visible-{{ $column->columnName }}"
                                 name="visible_columns[]"
+                                value="{{ $column->columnName }}"
+                            />
+                            <input
+                                type="hidden"
+                                id="list-setup-order-{{ $column->columnName }}"
+                                name="column_order[]"
                                 value="{{ $column->columnName }}"
                             />
                         @else

@@ -36,6 +36,36 @@ parameters:
 			path: database/migrations/admin/2023_05_22_000400_add_invited_at_activated_at_orders_table.php
 
 		-
+			message: "#^Class Admin\\\\DashboardWidgets\\\\Charts not found\\.$#"
+			count: 1
+			path: database/migrations/admin/2023_06_06_000400_update_dashboard_widget_properties_on_user_preferences_table.php
+
+		-
+			message: "#^Class Admin\\\\DashboardWidgets\\\\Onboarding not found\\.$#"
+			count: 1
+			path: database/migrations/admin/2023_06_06_000400_update_dashboard_widget_properties_on_user_preferences_table.php
+
+		-
+			message: "#^Class Admin\\\\DashboardWidgets\\\\Statistics not found\\.$#"
+			count: 1
+			path: database/migrations/admin/2023_06_06_000400_update_dashboard_widget_properties_on_user_preferences_table.php
+
+		-
+			message: "#^Class System\\\\DashboardWidgets\\\\Activities not found\\.$#"
+			count: 1
+			path: database/migrations/admin/2023_06_06_000400_update_dashboard_widget_properties_on_user_preferences_table.php
+
+		-
+			message: "#^Class System\\\\DashboardWidgets\\\\Cache not found\\.$#"
+			count: 1
+			path: database/migrations/admin/2023_06_06_000400_update_dashboard_widget_properties_on_user_preferences_table.php
+
+		-
+			message: "#^Class System\\\\DashboardWidgets\\\\News not found\\.$#"
+			count: 1
+			path: database/migrations/admin/2023_06_06_000400_update_dashboard_widget_properties_on_user_preferences_table.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Cart\\\\Models\\\\Category\\:\\:pluck\\(\\)\\.$#"
 			count: 1
 			path: database/migrations/system/2018_10_19_000300_create_media_attachments_table.php
@@ -291,22 +321,17 @@ parameters:
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:find\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:find\\(\\)\\.$#"
 			count: 4
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Connector.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKeyName\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Connector.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php
 
@@ -321,17 +346,12 @@ parameters:
 			path: src/Admin/FormWidgets/DataTable.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/DataTable.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:newQuery\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/DataTable.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DataTable.php
 
@@ -346,28 +366,13 @@ parameters:
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:attachRecordTo\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:attachRecordTo\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRecordEditorOptions\\(\\)\\.$#"
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getRecordEditorOptions\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:methodExists\\(\\)\\.$#"
-			count: 4
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
@@ -376,12 +381,12 @@ parameters:
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Parameter \\#1 \\$model of method Igniter\\\\Admin\\\\FormWidgets\\\\RecordEditor\\:\\:makeRecordFormWidget\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Model, Illuminate\\\\Database\\\\Eloquent\\\\Model given\\.$#"
-			count: 3
+			message: "#^Using nullsafe method call on non\\-nullable type Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\. Use \\-\\> instead\\.$#"
+			count: 1
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Using nullsafe method call on non\\-nullable type Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\. Use \\-\\> instead\\.$#"
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/RecordEditor.php
 
@@ -396,22 +401,17 @@ parameters:
 			path: src/Admin/FormWidgets/Repeater.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Repeater.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/Repeater.php
-
-		-
 			message: "#^Cannot access property \\$exists on string\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Repeater.php
 
 		-
 			message: "#^Method Igniter\\\\Admin\\\\FormWidgets\\\\Repeater\\:\\:getRelationModel\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Model but returns string\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Repeater.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Repeater.php
 
@@ -436,18 +436,13 @@ parameters:
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:find\\(\\)\\.$#"
 			count: 2
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Facades\\\\Location\\:\\:currentOrAssigned\\(\\)\\.$#"
+			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
@@ -472,6 +467,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\UserGroup\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
@@ -791,16 +791,6 @@ parameters:
 			path: src/Admin/Widgets/Form.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Form.php
@@ -817,6 +807,11 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @return with type mixed is not subtype of native type Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\|null\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Form.php
 
@@ -3736,12 +3731,7 @@ parameters:
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
-			count: 1
-			path: src/Main/FormWidgets/TemplateEditor.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 
@@ -4792,7 +4782,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
-			count: 3
+			count: 2
 			path: src/System/Libraries/Assets.php
 
 		-
@@ -4807,6 +4797,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
+			count: 2
+			path: src/System/Libraries/Assets.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isFile\\(\\)\\.$#"
 			count: 2
 			path: src/System/Libraries/Assets.php
 

@@ -21,6 +21,15 @@ trait HasChartDatasets
         'borderColor' => null,
     ];
 
+    protected ?array $datasetsConfig = null;
+
+    protected static $registeredDatasets = [];
+
+    public static function registerDatasets($callback)
+    {
+        static::$registeredDatasets[] = $callback;
+    }
+
     public function loadAssets()
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
@@ -30,56 +39,71 @@ trait HasChartDatasets
         $this->addJs('dashboardwidgets/charts.js', 'charts-js');
     }
 
-    public function onFetchDatasets(): array
-    {
-        $start = post('start');
-        $end = post('end');
-
-        $start = Carbon::parse($start);
-        $end = Carbon::parse($end);
-
-        if ($start->eq($end)) {
-            $start = $start->startOfDay();
-            $end = $end->endOfDay();
-        }
-
-        return $this->getDatasets($start, $end);
-    }
-
-    protected function getDatasets(\DateTimeInterface $start, \DateTimeInterface $end): array
-    {
-        return [
-            $this->makeDataset([], $start, $end),
-        ];
-    }
-
     protected function makeDataset(array $config, \DateTimeInterface $start, \DateTimeInterface $end): array
     {
-        [$r, $g, $b] = sscanf($config['color'], '#%02x%02x%02x');
-        $backgroundColor = sprintf('rgba(%s, %s, %s, 0.5)', $r, $g, $b);
-        $borderColor = sprintf('rgb(%s, %s, %s)', $r, $g, $b);
+        $config['label'] = lang(array_pull($config, 'label', ''));
+
+        if ($color = array_pull($config, 'color')) {
+            [$r, $g, $b] = sscanf($color, '#%02x%02x%02x');
+        } else {
+            [$r, $g, $b] = [random_int(0, 255), random_int(0, 255), random_int(0, 255)];
+        }
+
+        $config['data'] = $this->getDatasets($config, $start, $end);
 
         return array_merge($this->datasetOptions, [
-            'label' => lang($config['label']),
-            'data' => $this->queryDatasets($config, $start, $end),
-            'backgroundColor' => $backgroundColor,
-            'borderColor' => $borderColor,
-        ]);
+            'backgroundColor' => sprintf('rgba(%s, %s, %s, 0.5)', $r, $g, $b),
+            'borderColor' => sprintf('rgb(%s, %s, %s)', $r, $g, $b),
+        ], array_except($config, ['model', 'column', 'datasetFrom']));
     }
 
-    protected function queryDatasets(array $config, \DateTimeInterface $start, \DateTimeInterface $end): array
+    protected function listSets()
     {
-        $modelClass = $config['model'];
+        if (!is_null($this->datasetsConfig)) {
+            return $this->datasetsConfig;
+        }
+
+        $result = $this->getDefaultSets();
+
+        foreach (static::$registeredDatasets as $callback) {
+            foreach ($callback() as $code => $config) {
+                $result[$code] = $config;
+            }
+        }
+
+        $this->datasetsConfig = $result;
+
+        $this->fireSystemEvent('admin.charts.extendDatasets');
+
+        return $result;
+    }
+
+    protected function getDataDefinition($key, $default = null)
+    {
+        return array_get($this->listSets(), $this->getActiveDataset().'.'.$key, $default);
+    }
+
+    protected function getDatasets(array $config, \DateTimeInterface $start, \DateTimeInterface $end): array
+    {
+        $dataPoints = $this->queryDatasets($config, $start, $end);
+
+        return collect($this->getDatePeriod($start, $end))->map(function ($date) use ($dataPoints) {
+            return ['x' => $x = $date->format('Y-m-d'), 'y' => $dataPoints->get($x) ?? 0];
+        })->all();
+    }
+
+    protected function queryDatasets(array $config, \DateTimeInterface $start, \DateTimeInterface $end): Collection
+    {
         $dateColumnName = $config['column'];
 
-        $dateColumn = DB::raw('DATE_FORMAT('.$dateColumnName.', "%Y-%m-%d") as x');
-        $query = $modelClass::select($dateColumn, DB::raw('count(*) as y'));
-        $query->whereBetween($dateColumnName, [$start, $end])->groupBy('x');
+        $query = $config['model']::query()->select(
+            DB::raw('DATE_FORMAT('.$dateColumnName.', "%Y-%m-%d") as x'),
+            DB::raw('count(*) as y')
+        )->whereBetween($dateColumnName, [$start, $end])->groupBy('x');
 
-        $dateRanges = $this->getDatePeriod($start, $end);
         $this->locationApplyScope($query);
 
-        return $this->getPointsArray($dateRanges, $query->get());
+        return $query->get()->pluck('y', 'x');
     }
 
     protected function getDatePeriod(\DateTimeInterface $start, \DateTimeInterface $end): DatePeriod
@@ -89,20 +113,5 @@ trait HasChartDatasets
             new DateInterval('P1D'),
             Carbon::parse($end)->endOfDay()
         );
-    }
-
-    protected function getPointsArray(DatePeriod $dateRanges, Collection $result): array
-    {
-        $points = [];
-        $keyedResult = $result->pluck('y', 'x');
-        foreach ($dateRanges as $date) {
-            $x = $date->format('Y-m-d');
-            $points[] = [
-                'x' => $x,
-                'y' => $keyedResult->get($x) ?? 0,
-            ];
-        }
-
-        return $points;
     }
 }

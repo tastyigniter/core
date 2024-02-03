@@ -20,16 +20,6 @@ class Onboarding extends BaseDashboardWidget
         $this->setProperty('cssClass', 'widget-item-onboarding');
     }
 
-    public function defineProperties(): array
-    {
-        return [
-            'title' => [
-                'label' => 'igniter::admin.dashboard.label_widget_title',
-                'default' => 'igniter::admin.dashboard.onboarding.title',
-            ],
-        ];
-    }
-
     /**
      * Renders the widget.
      */

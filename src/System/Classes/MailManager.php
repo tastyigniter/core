@@ -49,9 +49,6 @@ class MailManager
         $config->set('mail.from.address', $settings->get('sender_email'));
 
         switch ($settings->get('protocol')) {
-            case 'sendmail':
-                $config->set('mail.mailers.sendmail.path', $settings->get('sendmail_path'));
-                break;
             case 'smtp':
                 $config->set('mail.mailers.smtp.host', $settings->get('smtp_host'));
                 $config->set('mail.mailers.smtp.port', $settings->get('smtp_port'));

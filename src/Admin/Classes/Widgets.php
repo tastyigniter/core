@@ -11,45 +11,32 @@ use Igniter\System\Classes\ExtensionManager;
  */
 class Widgets
 {
-    /**
-     * @var array An array of list action widgets.
-     */
+    /** An array of list action widgets. */
     protected ?array $bulkActionWidgets = null;
 
-    /**
-     * @var array Cache of list action widget registration callbacks.
-     */
+    /** Cache of list action widget registration callbacks. */
     protected array $bulkActionWidgetCallbacks = [];
 
-    /**
-     * @var array An array of list action widgets hints.
-     */
+    /** An array of list action widgets hints. */
     protected array $bulkActionWidgetHints = [];
 
-    /**
-     * @var array An array of form widgets.
-     */
+    /** An array of form widgets. */
     protected ?array $formWidgets = null;
 
-    /**
-     * @var array Cache of form widget registration callbacks.
-     */
+    /** Cache of form widget registration callbacks. */
     protected array $formWidgetCallbacks = [];
 
-    /**
-     * @var array An array of form widgets hints.
-     */
+    /** An array of form widgets hints. */
     protected array $formWidgetHints = [];
 
-    /**
-     * @var array An array of dashboard widgets.
-     */
+    /** An array of dashboard widgets. */
     protected ?array $dashboardWidgets = null;
 
-    /**
-     * @var array Cache of dashboard widget registration callbacks.
-     */
+    /** Cache of dashboard widget registration callbacks. */
     protected array $dashboardWidgetCallbacks = [];
+
+    /** An array of dashboard widgets hints. */
+    protected array $dashboardWidgetHints = [];
 
     /**
      * Initialize this singleton.
@@ -168,7 +155,7 @@ class Widgets
      * Registers a single form form widget.
      *
      * @param string $className Widget class name.
-     * @param array $widgetInfo Registration information, can contain an 'code' key.
+     * @param ?array $widgetInfo Registration information, can contain an 'code' key.
      *
      * @return void
      */
@@ -269,7 +256,14 @@ class Widgets
      */
     public function registerDashboardWidget(string $className, array $widgetInfo)
     {
+        $widgetCode = $widgetInfo['code'] ?? null;
+
+        if (!$widgetCode) {
+            $widgetInfo['code'] = $widgetCode = get_class_id($className);
+        }
+
         $this->dashboardWidgets[$className] = $widgetInfo;
+        $this->dashboardWidgetHints[$widgetCode] = $className;
     }
 
     /**
@@ -287,5 +281,25 @@ class Widgets
     public function registerDashboardWidgets(callable $definitions)
     {
         $this->dashboardWidgetCallbacks[] = $definitions;
+    }
+
+    public function resolveDashboardWidget(string $name): string
+    {
+        if ($this->dashboardWidgets === null) {
+            $this->listDashboardWidgets();
+        }
+
+        $hints = $this->dashboardWidgetHints;
+
+        if (isset($hints[$name])) {
+            return $hints[$name];
+        }
+
+        $_name = normalize_class_name($name);
+        if (isset($this->dashboardWidgets[$_name])) {
+            return $_name;
+        }
+
+        return $name;
     }
 }

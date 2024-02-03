@@ -11,6 +11,17 @@ use Igniter\Flame\Pagic\TemplateCode;
  */
 class ComponentManager
 {
+    public const ALLOWED_PROPERTY_TYPES = [
+        'text',
+        'textarea',
+        'number',
+        'checkbox',
+        'radio',
+        'select',
+        'selectlist',
+        'switch',
+    ];
+
     /** Cache of registration callbacks. */
     public array $registry = [];
 
@@ -317,14 +328,6 @@ class ComponentManager
 
     protected function checkComponentPropertyType(string $type): bool
     {
-        return in_array($type, [
-            'text',
-            'number',
-            'checkbox',
-            'radio',
-            'select',
-            'selectlist',
-            'switch',
-        ]);
+        return in_array($type, self::ALLOWED_PROPERTY_TYPES);
     }
 }

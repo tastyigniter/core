@@ -24,7 +24,7 @@ return [
     |
     */
 
-    'uri' => null,
+    'uri' => env('IGNITER_URI', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ return [
     |
     */
 
-    'adminUri' => '/admin',
+    'adminUri' => env('IGNITER_ADMIN_URI', '/admin'),
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'assetsCombinerUri' => '/_assets',
+    'assetsCombinerUri' => env('IGNITER_ASSETS_COMBINER_URI', '/_assets'),
 
     /*
     |--------------------------------------------------------------------------

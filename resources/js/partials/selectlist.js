@@ -33,6 +33,7 @@
 
     SelectList.DEFAULTS = {
         removeItemButton: true,
+        renderChoiceLimit: 7,
     }
 
     var old = $.fn.selectList

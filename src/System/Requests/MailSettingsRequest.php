@@ -14,7 +14,6 @@ class MailSettingsRequest extends FormRequest
             'protocol' => lang('igniter::system.settings.label_protocol'),
 
             'mail_logo' => lang('igniter::system.settings.label_mail_logo'),
-            'sendmail_path' => lang('igniter::system.settings.label_sendmail_path'),
 
             'smtp_host' => lang('igniter::system.settings.label_smtp_host'),
             'smtp_port' => lang('igniter::system.settings.label_smtp_port'),
@@ -41,7 +40,6 @@ class MailSettingsRequest extends FormRequest
             'protocol' => ['required', 'string'],
 
             'mail_logo' => ['nullable', 'string'],
-            'sendmail_path' => ['required_if:protocol,sendmail', 'string'],
 
             'smtp_host' => ['string'],
             'smtp_port' => ['string'],

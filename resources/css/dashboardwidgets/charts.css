@@ -1,8 +1,9 @@
 .chart-toolbar {
-  position: relative;
+    position: relative;
 }
-.chart-canvas {
-  position: relative;
-  margin: auto;
-  height: 40vh;
+
+.chart-canvas.chart-line {
+    position: relative;
+    margin: auto;
+    height: 40vh;
 }

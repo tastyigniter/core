@@ -244,10 +244,11 @@ class MediaFinder extends BaseFormWidget
             ));
         }
 
-        $items = post('items');
-        if (!is_array($items)) {
-            throw new FlashException(lang('igniter::main.media_manager.alert_select_item_to_attach'));
-        }
+        $data = $this->validate(request()->input(), [
+            'items' => ['required', 'array'],
+            'items.*.name' => ['required', 'string'],
+            'items.*.path' => ['required', 'string'],
+        ]);
 
         $model = $this->model;
         if (!$model->exists) {
@@ -255,7 +256,9 @@ class MediaFinder extends BaseFormWidget
         }
 
         $manager = resolve(MediaLibrary::class);
-        foreach ($items as &$item) {
+        foreach ($data['items'] as &$item) {
+            $item['path'] = strip_tags($item['path']);
+
             $media = $model->newMediaInstance();
             $media->addFromRaw(
                 $manager->get(array_get($item, 'path'), true),
@@ -267,7 +270,7 @@ class MediaFinder extends BaseFormWidget
             $item['identifier'] = $media->getKey();
         }
 
-        return $items;
+        return $data['items'];
     }
 
     public function getLoadValue(): mixed

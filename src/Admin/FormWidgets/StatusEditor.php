@@ -11,6 +11,7 @@ use Igniter\Admin\Widgets\Form;
 use Igniter\Cart\Models\Order;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\Local\Facades\Location as LocationFacade;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
@@ -195,7 +196,7 @@ class StatusEditor extends BaseFormWidget
         $formField = $form->getField($this->assigneeKeyFrom);
 
         return [
-            '#'.$formField->getId() => $form->renderField($formField, [
+            '#'.$formField->getId('group') => $form->renderField($formField, [
                 'useContainer' => false,
             ]),
         ];
@@ -225,9 +226,15 @@ class StatusEditor extends BaseFormWidget
             return [];
         }
 
-        return User::whereHas('groups', function ($query) use ($groupId) {
+        $query = User::whereHas('groups', function ($query) use ($groupId) {
             $query->where('admin_user_groups.user_group_id', $groupId);
-        })->whereIsEnabled()->dropdown('name');
+        })->whereIsEnabled();
+
+        if ($ids = LocationFacade::currentOrAssigned()) {
+            $query->whereHasLocation($ids);
+        }
+
+        return $query->dropdown('name');
     }
 
     public static function getAssigneeGroupOptions()

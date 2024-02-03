@@ -5,6 +5,7 @@ namespace Igniter\System\DashboardWidgets;
 use Exception;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\System\Helpers\CacheHelper;
+use Illuminate\Support\Number;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -21,7 +22,7 @@ class Cache extends BaseDashboardWidget
             'color' => '#2980b9',
         ],
         [
-            'path' => 'system/cache',
+            'path' => 'igniter/cache',
             'color' => '#16a085',
         ],
         [
@@ -29,7 +30,7 @@ class Cache extends BaseDashboardWidget
             'color' => '#8e44ad',
         ],
         [
-            'path' => 'system/combiner',
+            'path' => 'igniter/combiner',
             'color' => '#c0392b',
         ],
     ];
@@ -63,7 +64,7 @@ class Cache extends BaseDashboardWidget
                 'label' => $cacheInfo['path'],
                 'color' => $cacheInfo['color'],
                 'size' => $size,
-                'formattedSize' => $this->formatSize($size),
+                'formattedSize' => Number::fileSize($size),
             ];
 
             $totalCacheSize += $size;
@@ -71,7 +72,7 @@ class Cache extends BaseDashboardWidget
 
         $this->vars['cacheSizes'] = $cacheSizes;
         $this->vars['totalCacheSize'] = $totalCacheSize;
-        $this->vars['formattedTotalCacheSize'] = $this->formatSize($totalCacheSize);
+        $this->vars['formattedTotalCacheSize'] = Number::fileSize($totalCacheSize);
     }
 
     public function onClearCache(): array
@@ -87,11 +88,6 @@ class Cache extends BaseDashboardWidget
         return [
             '#'.$this->getId() => $this->makePartial('cache/cache'),
         ];
-    }
-
-    protected function formatSize(int $size): string
-    {
-        return round($size / 1024).' KB';
     }
 
     protected function folderSize(string $directory): int

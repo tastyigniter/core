@@ -6,11 +6,15 @@ use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\Widgets;
+use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\System\Classes\ComponentManager;
 use Igniter\User\Models\UserPreference;
 
 class DashboardContainer extends BaseWidget
 {
+    use ValidatesForm;
+
     //
     // Configurable properties
     //
@@ -27,6 +31,12 @@ class DashboardContainer extends BaseWidget
 
     /** Determines whether widgets could be set as default. */
     public bool $canSetDefault = false;
+
+    public string $dateRangeFormat = 'MMMM D, YYYY hh:mm A';
+
+    public ?\DateTimeInterface $startDate = null;
+
+    public ?\DateTimeInterface $endDate = null;
 
     /**
      * A list of default widgets to load.
@@ -82,11 +92,18 @@ class DashboardContainer extends BaseWidget
      */
     public function render()
     {
+        $this->vars['startDate'] = $this->startDate = $this->getStartDate();
+        $this->vars['endDate'] = $this->endDate = $this->getEndDate();
+        $this->vars['dateRangeFormat'] = $this->dateRangeFormat;
+
         return $this->makePartial('dashboardcontainer/dashboardcontainer');
     }
 
     public function loadAssets()
     {
+        $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
+        $this->addCss('formwidgets/datepicker.css', 'datepicker-css');
+
         $this->addCss('dashboardcontainer.css');
         $this->addJs('dashboardcontainer.js');
     }
@@ -128,29 +145,30 @@ class DashboardContainer extends BaseWidget
 
     public function onAddWidget(): array
     {
-        $className = trim(post('className'));
-        $size = trim(post('size'));
+        $validated = $this->validate(request()->post(), [
+            'widget' => ['required', 'alpha_dash'],
+            'size' => ['nullable', 'integer'],
+        ]);
 
-        if (!$className) {
-            throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_add'));
-        }
+        throw_unless(
+            $widgetClass = resolve(Widgets::class)->resolveDashboardWidget($widgetCode = array_get($validated, 'widget')),
+            new FlashException(lang('igniter::admin.dashboard.alert_widget_class_not_found'))
+        );
 
-        if (!class_exists($className)) {
-            throw new FlashException(lang('igniter::admin.dashboard.alert_widget_class_not_found'));
-        }
+        /** @var BaseDashboardWidget $widget */
+        $widget = $this->makeWidget($widgetClass, ['widget' => $widgetCode]);
+        throw_unless(
+            $widget instanceof \Igniter\Admin\Classes\BaseDashboardWidget,
+            new FlashException(lang('igniter::admin.dashboard.alert_invalid_widget'))
+        );
 
-        $widget = new $className($this->controller);
-        if (!($widget instanceof \Igniter\Admin\Classes\BaseDashboardWidget)) {
-            throw new FlashException(lang('igniter::admin.dashboard.alert_invalid_widget'));
-        }
-
-        $widgetInfo = $this->addWidget($widget, $size);
+        $widgetAlias = $widgetCode.'_'.str_random(5);
+        $this->addWidget($widgetAlias, $widget, array_get($validated, 'size'));
 
         return [
             '@#'.$this->getId('container-list') => $this->makePartial('widget_item', [
                 'widget' => $widget,
-                'widgetAlias' => $widgetInfo['alias'],
-                'priority' => $widgetInfo['priority'],
+                'widgetAlias' => $widgetAlias,
             ]),
         ];
     }
@@ -162,6 +180,8 @@ class DashboardContainer extends BaseWidget
         }
 
         $this->resetWidgets();
+
+        $this->resetSession();
 
         $this->vars['widgets'] = $this->dashboardWidgets;
 
@@ -193,9 +213,15 @@ class DashboardContainer extends BaseWidget
 
         $widget = $this->findWidgetByAlias($alias);
 
-        $widget->setProperties(post($alias.'_fields'));
+        [$rules, $attributes] = $widget->getPropertyRules();
 
-        $this->saveWidgetProperties($alias, $widget->getProperties());
+        $validated = $this->validate(request()->post($alias.'_fields'), array_merge([
+            'width' => ['numeric'],
+        ], $rules), $attributes);
+
+        $widget->mergeProperties($validated);
+
+        $this->saveWidgetProperties($alias, $widget->getPropertiesToSave());
 
         $widget->initialize();
 
@@ -211,7 +237,7 @@ class DashboardContainer extends BaseWidget
         $this->removeWidget($alias);
     }
 
-    protected function addWidget(BaseDashboardWidget $widget, mixed $size): array
+    protected function addWidget(string $widgetAlias, BaseDashboardWidget $widget, mixed $size)
     {
         if (!$this->canManage) {
             throw new FlashException(lang('igniter::admin.alert_access_denied'));
@@ -219,66 +245,75 @@ class DashboardContainer extends BaseWidget
 
         $widgets = $this->getWidgetsFromUserPreferences();
 
-        $priority = 0;
-        foreach ($widgets as $widgetInfo) {
-            $priority = max($priority, $widgetInfo['priority']);
-        }
-
-        $priority++;
+        $nextPriority = collect($widgets)->max('priority') + 1;
 
         $widget->setProperty('width', $size);
+        $widget->setProperty('priority', $nextPriority);
 
-        $alias = $this->getUniqueAlias($widgets);
-
-        $widgets[$alias] = [
-            'class' => get_class($widget),
-            'config' => $widget->getProperties(),
-            'priority' => $priority,
-        ];
+        $widgets[$widgetAlias] = $widget->getPropertiesToSave();
 
         $this->setWidgetsToUserPreferences($widgets);
-
-        return [
-            'alias' => $alias,
-            'priority' => $widgets[$alias]['priority'],
-        ];
     }
 
     public function onSetWidgetPriorities()
     {
-        $aliases = trim(post('aliases'));
-        $priorities = trim(post('priorities'));
+        $validated = $this->validate(request()->post(), [
+            'aliases' => ['required', 'array'],
+            'aliases.*' => ['alpha_dash'],
+        ]);
 
-        if (!$aliases) {
-            throw new FlashException(lang('igniter::admin.dashboard.alert_invalid_aliases'));
-        }
+        $aliases = array_get($validated, 'aliases');
 
-        if (!$priorities) {
-            throw new FlashException(lang('igniter::admin.dashboard.alert_invalid_priorities'));
-        }
+        $this->setWidgetsToUserPreferences(
+            collect($this->getWidgetsFromUserPreferences())
+                ->mapWithKeys(function ($widget, $alias) use ($aliases) {
+                    $widget['priority'] = (int)array_search($alias, $aliases);
 
-        $aliases = explode(',', $aliases);
-        $priorities = explode(',', $priorities);
-
-        if (count($aliases) != count($priorities)) {
-            throw new FlashException(lang('igniter::admin.dashboard.alert_invalid_data_posted'));
-        }
-
-        $widgets = $this->getWidgetsFromUserPreferences();
-        foreach ($aliases as $index => $alias) {
-            if (isset($widgets[$alias])) {
-                $widgets[$alias]['priority'] = (int)$index;
-            }
-        }
-
-        $this->setWidgetsToUserPreferences($widgets);
+                    return [$alias => $widget];
+                })->all()
+        );
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Dashboard widgets updated'))->now();
+    }
+
+    public function onSetDateRange()
+    {
+        $validated = $this->validate(request()->post(), [
+            'start' => ['nullable', 'date'],
+            'end' => ['nullable', 'date'],
+        ]);
+
+        $start = make_carbon(array_get($validated, 'start'));
+        $end = make_carbon(array_get($validated, 'end'));
+        if ($start->isSameDay($end)) {
+            $start = $start->startOfDay();
+            $end = $end->endOfDay();
+        }
+
+        $this->vars['startDate'] = $this->startDate = $start;
+        $this->vars['endDate'] = $this->endDate = $end;
+
+        $this->putSession('startDate', $start);
+        $this->putSession('endDate', $end);
+
+        $this->widgetsDefined = false;
+
+        return $this->onRenderWidgets();
     }
 
     //
     // Helpers
     //
+
+    public function getStartDate(): \DateTimeInterface
+    {
+        return $this->getSession('startDate', now()->startOfDay()->subDays(29));
+    }
+
+    public function getEndDate(): \DateTimeInterface
+    {
+        return $this->getSession('endDate', now()->startOfDay());
+    }
 
     /**
      * Registers the dashboard widgets that will be included in this container.
@@ -290,37 +325,40 @@ class DashboardContainer extends BaseWidget
             return;
         }
 
-        $result = [];
-        $widgets = $this->getWidgetsFromUserPreferences();
-        foreach ($widgets as $alias => $widgetInfo) {
-            if ($widget = $this->makeDashboardWidget($alias, $widgetInfo)) {
-                $result[$alias] = ['widget' => $widget, 'priority' => $widgetInfo['priority']];
-            }
-        }
+        $start = $this->getStartDate();
+        $end = $this->getEndDate();
 
-        uasort($result, function ($a, $b) {
-            return $a['priority'] - $b['priority'];
-        });
+        $widgets = collect($this->getWidgetsFromUserPreferences())
+            ->sortBy('priority')
+            ->mapWithKeys(function ($widgetInfo, $alias) use ($start, $end) {
+                if ($widget = $this->makeDashboardWidget($alias, $widgetInfo)) {
+                    $widget->setProperty('startDate', $start);
+                    $widget->setProperty('endDate', $end);
 
-        $this->dashboardWidgets = $result;
+                    return [$alias => $widget];
+                }
+
+                return [];
+            })->filter()->all();
+
+        $this->dashboardWidgets = $widgets;
 
         $this->widgetsDefined = true;
     }
 
-    protected function makeDashboardWidget(string $alias, array $widgetInfo)
+    protected function makeDashboardWidget(string $alias, array $widgetConfig)
     {
-        $config = $widgetInfo['config'];
-        $config['alias'] = $alias;
+        $widgetConfig['alias'] = $alias;
 
-        $className = $widgetInfo['class'];
-        if (!class_exists($className)) {
-            return;
-        }
+        $widgetConfig['widget'] = $widgetCode = $widgetConfig['widget'] ?? $widgetConfig['class'] ?? $alias;
+        $widgetClass = resolve(Widgets::class)->resolveDashboardWidget($widgetCode);
 
-        $widget = $this->makeWidget($className, $config);
-        $widget->bindToController();
+        return rescue(function () use ($widgetClass, $widgetConfig) {
+            $widget = $this->makeWidget($widgetClass, $widgetConfig);
+            $widget->bindToController();
 
-        return $widget;
+            return $widget;
+        });
     }
 
     protected function resetWidgets()
@@ -373,7 +411,7 @@ class DashboardContainer extends BaseWidget
             throw new FlashException(lang('igniter::admin.dashboard.alert_widget_not_found'));
         }
 
-        return $widgets[$alias]['widget'];
+        return $widgets[$alias];
     }
 
     protected function getWidgetClassName(BaseDashboardWidget $widget): string
@@ -455,13 +493,7 @@ class DashboardContainer extends BaseWidget
 
     protected function checkWidgetPropertyType($type): bool
     {
-        return in_array($type, [
-            'text',
-            'number',
-            'select',
-            'selectlist',
-            'switch',
-        ]);
+        return in_array($type, ComponentManager::ALLOWED_PROPERTY_TYPES);
     }
 
     //
@@ -497,7 +529,7 @@ class DashboardContainer extends BaseWidget
         $widgets = $this->getWidgetsFromUserPreferences();
 
         if (isset($widgets[$alias])) {
-            $widgets[$alias]['config'] = $properties;
+            $widgets[$alias] = $properties;
 
             $this->setWidgetsToUserPreferences($widgets);
         }

@@ -26,28 +26,28 @@ class FormServiceProvider extends ServiceProvider
     {
         resolve(Widgets::class)->registerDashboardWidgets(function (Widgets $manager) {
             $manager->registerDashboardWidget(\Igniter\System\DashboardWidgets\Cache::class, [
+                'code' => 'cache',
                 'label' => 'Cache Usage',
-                'context' => 'dashboard',
             ]);
 
             $manager->registerDashboardWidget(\Igniter\System\DashboardWidgets\News::class, [
+                'code' => 'news',
                 'label' => 'Latest News',
-                'context' => 'dashboard',
             ]);
 
             $manager->registerDashboardWidget(\Igniter\Admin\DashboardWidgets\Statistics::class, [
+                'code' => 'stats',
                 'label' => 'Statistics widget',
-                'context' => 'dashboard',
             ]);
 
             $manager->registerDashboardWidget(\Igniter\Admin\DashboardWidgets\Onboarding::class, [
+                'code' => 'onboarding',
                 'label' => 'Onboarding widget',
-                'context' => 'dashboard',
             ]);
 
             $manager->registerDashboardWidget(\Igniter\Admin\DashboardWidgets\Charts::class, [
+                'code' => 'charts',
                 'label' => 'Charts widget',
-                'context' => 'dashboard',
             ]);
         });
     }

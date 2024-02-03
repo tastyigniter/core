@@ -145,7 +145,7 @@ class Toolbar extends BaseWidget
     {
         return session()->get('widget.toolbar_save_action', 'continue');
     }
-    
+
     public function onChooseSaveButtonAction()
     {
         $data = validator(post(), [

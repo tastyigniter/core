@@ -9,7 +9,7 @@
                 role="progressbar"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                title="{{ $cacheInfo->label }}"
+                title="{{ $cacheInfo->label }} - {{ $cacheInfo->formattedSize }}"
                 aria-valuenow="{{ $cacheInfo->size }}"
                 aria-valuemin="0"
                 aria-valuemax="{{ $totalCacheSize }}"

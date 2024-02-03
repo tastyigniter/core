@@ -38,18 +38,6 @@ return [
                 ],
             ],
 
-            'sendmail_path' => [
-                'label' => 'igniter::system.settings.label_sendmail_path',
-                'comment' => 'igniter::system.settings.help_sendmail_path',
-                'type' => 'text',
-                'default' => '/usr/sbin/sendmail -bs',
-                'trigger' => [
-                    'action' => 'show',
-                    'field' => 'protocol',
-                    'condition' => 'value[sendmail]',
-                ],
-            ],
-
             'smtp_host' => [
                 'label' => 'igniter::system.settings.label_smtp_host',
                 'type' => 'text',

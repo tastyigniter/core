@@ -286,6 +286,8 @@ return [
         'text_month' => 'Last 30 Days',
         'text_year' => 'This Year',
         'text_context' => 'Context',
+        'text_stats_card' => 'Card',
+        'text_charts_dataset' => 'Datasets',
         'text_cache_usage' => 'Cache Usage',
         'text_total_cache' => 'Total cache size:',
         'text_news' => 'TastyIgniter News',
@@ -340,13 +342,13 @@ return [
 
         'button_add_widget' => 'Add Widget',
         'button_reset_widgets' => 'Reset Widgets',
-        'button_set_default' => 'Set As Default',
+        'button_set_default' => 'Set as default for all users',
 
         'help_widget_columns' => 'The widget width, a number between 1 and 12.',
 
         'error_rss' => 'The URL address is incorrect or',
 
-        'alert_set_default_confirm' => 'Are you sure you want to set the current layout as default?',
+        'alert_set_default_confirm' => 'Are you sure you want to set the current widgets as default for all users?',
         'alert_reset_layout_success' => 'Layout reset successfully',
     ],
 

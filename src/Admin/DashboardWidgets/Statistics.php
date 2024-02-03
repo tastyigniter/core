@@ -2,13 +2,12 @@
 
 namespace Igniter\Admin\DashboardWidgets;
 
-use Carbon\Carbon;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Cart\Models\Order;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\Reservation\Models\Reservation;
 use Igniter\User\Models\Customer;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Statistic dashboard widget.
@@ -19,6 +18,15 @@ class Statistics extends BaseDashboardWidget
 
     /** A unique alias to identify this widget. */
     protected string $defaultAlias = 'statistics';
+
+    protected ?array $cardDefinition = null;
+
+    protected static array $registeredCards = [];
+
+    public static function registerCards(\Closure $callback)
+    {
+        static::$registeredCards[] = $callback;
+    }
 
     /**
      * Renders the widget.
@@ -33,27 +41,57 @@ class Statistics extends BaseDashboardWidget
     public function defineProperties(): array
     {
         return [
-            'context' => [
-                'label' => 'igniter::admin.dashboard.text_context',
+            'card' => [
+                'label' => 'igniter::admin.dashboard.text_stats_card',
                 'default' => 'sale',
                 'type' => 'select',
-                'options' => $this->getContextOptions(),
-            ],
-            'range' => [
-                'label' => 'igniter::admin.dashboard.text_range',
-                'default' => 'week',
-                'type' => 'select',
-                'options' => [
-                    'day' => 'lang:igniter::admin.dashboard.text_today',
-                    'week' => 'lang:igniter::admin.dashboard.text_week',
-                    'month' => 'lang:igniter::admin.dashboard.text_month',
-                    'year' => 'lang:igniter::admin.dashboard.text_year',
-                ],
+                'placeholder' => 'igniter::admin.dashboard.text_please_select',
+                'options' => $this->getCardOptions(),
+                'validationRule' => 'required|alpha_dash',
             ],
         ];
     }
 
-    public function listContext(): array
+    public function getActiveCard()
+    {
+        return $this->property('card', 'sale');
+    }
+
+    public function loadAssets()
+    {
+        $this->addCss('statistics.css', 'statistics-css');
+    }
+
+    protected function getCardOptions()
+    {
+        return array_map(function ($context) {
+            return array_get($context, 'label');
+        }, $this->listCards());
+    }
+
+    protected function prepareVars()
+    {
+        $this->vars['statsContext'] = $context = $this->getActiveCard();
+        $this->vars['statsLabel'] = $this->getCardDefinition('label', '--');
+        $this->vars['statsColor'] = $this->getCardDefinition('color', 'success');
+        $this->vars['statsIcon'] = $this->getCardDefinition('icon', 'fa fa-bar-chart-o');
+        $this->vars['statsCount'] = $this->getValue($context);
+    }
+
+    protected function listCards()
+    {
+        $result = $this->getDefaultCards();
+
+        foreach (static::$registeredCards as $callback) {
+            foreach ($callback() as $code => $config) {
+                $result[$code] = $config;
+            }
+        }
+
+        return $result;
+    }
+
+    protected function getDefaultCards(): array
     {
         return [
             'sale' => [
@@ -107,83 +145,54 @@ class Statistics extends BaseDashboardWidget
         ];
     }
 
-    public function getContextOptions(): array
+    protected function getCardDefinition($key, $default = null)
     {
-        return array_map(function ($context) {
-            return array_get($context, 'label');
-        }, $this->listContext());
-    }
-
-    public function getContextLabel($context): string
-    {
-        return array_get(array_get($this->listContext(), $context, []), 'label', '--');
-    }
-
-    public function getContextColor($context): string
-    {
-        return array_get(array_get($this->listContext(), $context, []), 'color', 'success');
-    }
-
-    public function getContextIcon($context): string
-    {
-        return array_get(array_get($this->listContext(), $context, []), 'icon', 'fa fa-4x fa-bar-chart-o');
-    }
-
-    public function loadAssets()
-    {
-        $this->addCss('statistics.css', 'statistics-css');
-    }
-
-    protected function prepareVars()
-    {
-        $this->vars['statsContext'] = $context = $this->property('context');
-        $this->vars['statsLabel'] = $this->getContextLabel($context);
-        $this->vars['statsIcon'] = $this->getContextIcon($context);
-        $this->vars['statsCount'] = $this->callContextCountMethod($context);
-    }
-
-    protected function callContextCountMethod(string $context): int|string
-    {
-        $count = 0;
-        $contextMethod = 'getTotal'.studly_case($context).'Sum';
-        if (method_exists($this, $contextMethod)) {
-            $count = $this->$contextMethod($this->property('range'), function ($range, $query) {
-                $this->applyRangeQuery($query, $range);
-                $this->locationApplyScope($query);
-            });
+        if (is_null($this->cardDefinition)) {
+            $this->cardDefinition = array_get($this->listCards(), $this->getActiveCard());
         }
+
+        return array_get($this->cardDefinition, $key, $default);
+    }
+
+    protected function getValue(string $cardCode): string
+    {
+        $start = $this->property('startDate', now()->subMonth());
+        $end = $this->property('endDate', now());
+
+        if ($dataFromCallable = $this->getCardDefinition('valueFrom')) {
+            return $dataFromCallable($cardCode, $start, $end);
+        }
+
+        return $this->getValueForDefaultCard($cardCode, $start, $end);
+    }
+
+    protected function getValueForDefaultCard(string $cardCode, $start, $end)
+    {
+        $contextMethod = 'getTotal'.studly_case($cardCode).'Sum';
+
+        throw_unless($this->methodExists($contextMethod), new SystemException(sprintf(
+            'The card [%s] does must have a defined method in [%s]',
+            $cardCode, get_class($this).'::'.$contextMethod
+        )));
+
+        $count = $this->$contextMethod(function ($query) use ($start, $end) {
+            $this->locationApplyScope($query);
+            $query->whereBetween('created_at', [$start, $end]);
+        });
 
         return empty($count) ? 0 : $count;
-    }
-
-    protected function applyRangeQuery(Builder $query, string $range)
-    {
-        if ($range === 'week') {
-            $start = Carbon::now()->subWeek();
-        } elseif ($range === 'month') {
-            $start = Carbon::now()->subMonth();
-        } elseif ($range === 'year') {
-            $start = Carbon::now()->startOfYear();
-        } else {
-            $start = Carbon::now()->today();
-        }
-
-        $query->whereBetween('created_at', [
-            $start,
-            Carbon::now(),
-        ]);
     }
 
     /**
      * Return the total amount of order sales
      */
-    protected function getTotalSaleSum(string $range, \Closure $callback): string
+    protected function getTotalSaleSum(callable $callback): string
     {
         $query = Order::query();
         $query->where('status_id', '>', '0')
             ->where('status_id', '!=', setting('canceled_order_status'));
 
-        $callback($range, $query);
+        $callback($query);
 
         return currency_format($query->sum('order_total') ?? 0);
     }
@@ -191,7 +200,7 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total amount of lost order sales
      */
-    protected function getTotalLostSaleSum(string $range, \Closure $callback): string
+    protected function getTotalLostSaleSum(callable $callback): string
     {
         $query = Order::query();
         $query->where(function ($query) {
@@ -199,7 +208,7 @@ class Statistics extends BaseDashboardWidget
             $query->orWhere('status_id', setting('canceled_order_status'));
         });
 
-        $callback($range, $query);
+        $callback($query);
 
         return currency_format($query->sum('order_total') ?? 0);
     }
@@ -207,7 +216,7 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total amount of cash payment order sales
      */
-    protected function getTotalCashPaymentSum(string $range, \Closure $callback): string
+    protected function getTotalCashPaymentSum(callable $callback): string
     {
         $query = Order::query();
         $query->where(function ($query) {
@@ -215,7 +224,7 @@ class Statistics extends BaseDashboardWidget
             $query->where('status_id', '!=', setting('canceled_order_status'));
         })->where('payment', 'cod');
 
-        $callback($range, $query);
+        $callback($query);
 
         return currency_format($query->sum('order_total') ?? 0);
     }
@@ -223,10 +232,11 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total number of customers
      */
-    protected function getTotalCustomerSum(string $range, \Closure $callback): int
+    protected function getTotalCustomerSum(callable $callback): int
     {
         $query = Customer::query();
-        $this->applyRangeQuery($query, $range);
+
+        $callback($query);
 
         return $query->count();
     }
@@ -234,11 +244,11 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total number of orders placed
      */
-    protected function getTotalOrderSum(string $range, \Closure $callback): int
+    protected function getTotalOrderSum(callable $callback): int
     {
         $query = Order::query();
 
-        $callback($range, $query);
+        $callback($query);
 
         return $query->count();
     }
@@ -246,12 +256,12 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total number of completed orders
      */
-    protected function getTotalCompletedOrderSum(string $range, \Closure $callback): int
+    protected function getTotalCompletedOrderSum(callable $callback): int
     {
         $query = Order::query();
         $query->whereIn('status_id', setting('completed_order_status') ?? []);
 
-        $callback($range, $query);
+        $callback($query);
 
         return $query->count();
     }
@@ -259,7 +269,7 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total number of delivery orders
      */
-    protected function getTotalDeliveryOrderSum(string $range, \Closure $callback): string
+    protected function getTotalDeliveryOrderSum(callable $callback): string
     {
         $query = Order::query();
         $query->where(function ($query) {
@@ -267,7 +277,7 @@ class Statistics extends BaseDashboardWidget
             $query->orWhere('order_type', 'delivery');
         });
 
-        $callback($range, $query);
+        $callback($query);
 
         return currency_format($query->sum('order_total') ?? 0);
     }
@@ -275,7 +285,7 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total number of collection orders
      */
-    protected function getTotalCollectionOrderSum(string $range, \Closure $callback): string
+    protected function getTotalCollectionOrderSum(callable $callback): string
     {
         $query = Order::query();
         $query->where(function ($query) {
@@ -283,7 +293,7 @@ class Statistics extends BaseDashboardWidget
             $query->orWhere('order_type', 'collection');
         });
 
-        $callback($range, $query);
+        $callback($query);
 
         return currency_format($query->sum('order_total') ?? 0);
     }
@@ -291,12 +301,12 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total number of reserved tables
      */
-    protected function getTotalReservedTableSum(string $range, \Closure $callback): int
+    protected function getTotalReservedTableSum(callable $callback): int
     {
         $query = Reservation::with('tables');
         $query->where('status_id', setting('confirmed_reservation_status'));
 
-        $callback($range, $query);
+        $callback($query);
 
         $result = $query->get();
 
@@ -308,12 +318,12 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total number of reserved table guests
      */
-    protected function getTotalReservedGuestSum(string $range, \Closure $callback): int
+    protected function getTotalReservedGuestSum(callable $callback): int
     {
         $query = Reservation::query();
         $query->where('status_id', setting('confirmed_reservation_status'));
 
-        $callback($range, $query);
+        $callback($query);
 
         return $query->sum('guest_num') ?? 0;
     }
@@ -321,12 +331,12 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total number of reservations
      */
-    protected function getTotalReservationSum(string $range, \Closure $callback): int
+    protected function getTotalReservationSum(callable $callback): int
     {
         $query = Reservation::query();
         $query->where('status_id', '!=', setting('canceled_reservation_status'));
 
-        $callback($range, $query);
+        $callback($query);
 
         return $query->count();
     }
@@ -334,12 +344,12 @@ class Statistics extends BaseDashboardWidget
     /**
      * Return the total number of completed reservations
      */
-    protected function getTotalCompletedReservationSum(string $range, \Closure $callback): int
+    protected function getTotalCompletedReservationSum(callable $callback): int
     {
         $query = Reservation::query();
         $query->where('status_id', setting('confirmed_reservation_status'));
 
-        $callback($range, $query);
+        $callback($query);
 
         return $query->count();
     }

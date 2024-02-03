@@ -48,6 +48,14 @@ trait PropertyContainer
     }
 
     /**
+     * Merge multiple properties.
+     */
+    public function mergeProperties(array $properties)
+    {
+        $this->properties = array_merge($this->properties, $this->validateProperties($properties));
+    }
+
+    /**
      * Sets a property value
      */
     public function setProperty(string $name, mixed $value)
@@ -65,11 +73,6 @@ trait PropertyContainer
 
     /**
      * Returns a defined property value or default if one is not set.
-     *
-     * @param string $name The property name to look for.
-     * @param string $default A default value to return if no name is found.
-     *
-     * @return mixed The property value or the default specified.
      */
     public function property(string $name, mixed $default = null): mixed
     {
