@@ -306,6 +306,16 @@ parameters:
 			path: src/Admin/Classes/Template.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/Template.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/Template.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/ToolbarButton.php
@@ -749,6 +759,11 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:registerCallback\\(\\)\\.$#"
 			count: 2
 			path: src/Admin/Providers/MenuItemServiceProvider.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/ServiceProvider.php
 
 		-
 			message: "#^Method Igniter\\\\System\\\\Libraries\\\\Assets\\:\\:addFromManifest\\(\\) invoked with 2 parameters, 1 required\\.$#"

@@ -32,8 +32,8 @@ trait HasChartDatasets
 
     public function loadAssets()
     {
-        $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
-        $this->addJs('js/vendor.chart.js', 'vendor-chart-js');
+        $this->addJs('build/js/vendor.datetime.js', 'vendor-datetime-js');
+        $this->addJs('build/js/vendor.chart.js', 'vendor-chart-js');
 
         $this->addCss('dashboardwidgets/charts.css', 'charts-css');
         $this->addJs('dashboardwidgets/charts.js', 'charts-js');

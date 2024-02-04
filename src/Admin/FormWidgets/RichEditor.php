@@ -50,7 +50,7 @@ class RichEditor extends BaseFormWidget
 
     public function loadAssets()
     {
-        $this->addJs('js/vendor.editor.js', 'vendor-editor-js');
+        $this->addJs('build/js/vendor.editor.js', 'vendor-editor-js');
         $this->addCss('richeditor.css', 'richeditor-css');
         $this->addJs('richeditor.js', 'richeditor-js');
     }

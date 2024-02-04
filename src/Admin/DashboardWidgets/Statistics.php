@@ -45,7 +45,7 @@ class Statistics extends BaseDashboardWidget
                 'label' => 'igniter::admin.dashboard.text_stats_card',
                 'default' => 'sale',
                 'type' => 'select',
-                'placeholder' => 'igniter::admin.dashboard.text_please_select',
+                'placeholder' => 'igniter::admin.text_please_select',
                 'options' => $this->getCardOptions(),
                 'validationRule' => 'required|alpha_dash',
             ],

@@ -5,6 +5,7 @@ namespace Igniter\Admin;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
+use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Libraries\Assets;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\AliasLoader;
@@ -89,6 +90,7 @@ class ServiceProvider extends AppServiceProvider
     {
         Assets::registerCallback(function (Assets $manager) {
             $manager->registerSourcePath(public_path('vendor/igniter'));
+            $manager->registerSourcePath(File::symbolizePath('igniter::/'));
 
             $manager->addFromManifest($this->root.'/resources/views/admin/_meta/assets.json', 'admin');
         });

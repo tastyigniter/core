@@ -20,21 +20,21 @@
   ],
   "style": [
     {
-      "path": "igniter::build/css/vendor.css",
+      "path": "build/css/vendor.css",
       "name": "vendor-css"
     },
     {
-      "path": "igniter::build/css/app.css",
+      "path": "build/css/app.css",
       "name": "app-css"
     }
   ],
   "script": [
     {
-      "path": "igniter::build/js/app.js",
+      "path": "build/js/app.js",
       "name": "app-js"
     },
     {
-      "path": "igniter::build/js/vendor.js",
+      "path": "build/js/vendor.js",
       "name": "vendor-js"
     }
   ]

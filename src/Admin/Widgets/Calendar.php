@@ -36,14 +36,10 @@ class Calendar extends BaseWidget
 
     public function loadAssets()
     {
-        $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
+        $this->addJs('build/js/vendor.datetime.js', 'vendor-datetime-js');
         $this->addCss('formwidgets/datepicker.css', 'datepicker-css');
 
-        $this->addJs('vendor/mustache.min.js', 'mustache-js');
-
-        $this->addJs('vendor/fullcalendar/main.min.js', 'fullcalendar-js');
-        $this->addJs('js/locales/fullcalendar/locales-all.min.js', 'fullcalendar-locales-js');
-        $this->addCss('vendor/fullcalendar/main.min.css', 'fullcalendar-css');
+        $this->addJs('build/js/locales/fullcalendar/locales-all.min.js', 'fullcalendar-locales-js');
 
         $this->addJs('calendar.js', 'calendar-js');
         $this->addCss('calendar.css', 'calendar-css');

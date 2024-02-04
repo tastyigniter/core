@@ -83,7 +83,7 @@ class Charts extends BaseDashboardWidget
         }
 
         $datasets = [];
-        $definitions = $this->getDataDefinition('sets') ?? [$this->dataDefinition];
+        $definitions = $this->getDataDefinition('sets') ?? [];
         foreach (array_filter($definitions) as $config) {
             $datasets[] = $this->makeDataset($config, $start, $end);
         }

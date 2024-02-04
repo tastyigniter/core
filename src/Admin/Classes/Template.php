@@ -3,6 +3,7 @@
 namespace Igniter\Admin\Classes;
 
 use Igniter\Flame\Html\HtmlFacade as Html;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\HtmlString;
 
 /**
@@ -111,5 +112,15 @@ class Template
     public function registerHook(string $name, \Closure $callback)
     {
         $this->renderHooks[$name][] = $callback;
+    }
+
+    public function renderStaticCss(): string
+    {
+        $file = 'igniter::build/css/static.css';
+        if (!File::exists($file)) {
+            return '';
+        }
+
+        return File::get($file);
     }
 }
