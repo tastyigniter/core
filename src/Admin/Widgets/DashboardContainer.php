@@ -101,7 +101,7 @@ class DashboardContainer extends BaseWidget
 
     public function loadAssets()
     {
-        $this->addJs('build/js/vendor.datetime.js', 'vendor-datetime-js');
+        $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
         $this->addCss('formwidgets/datepicker.css', 'datepicker-css');
 
         $this->addCss('dashboardcontainer.css');

@@ -1,9 +1,8 @@
 const mix = require('laravel-mix');
 const src = 'resources';
-const dist = 'resources/build';
-const publicDir = 'public';
+const dist = 'public';
 
-mix.setPublicPath('./resources/build');
+mix.setPublicPath('./public');
 
 /*
  |--------------------------------------------------------------------------
@@ -88,10 +87,10 @@ if (!mix.inProduction()) return
 //
 mix.copyDirectory(
     'node_modules/@fortawesome/fontawesome-free/webfonts',
-    `${publicDir}/fonts/FontAwesome`
+    `${dist}/fonts/FontAwesome`
 ).copyDirectory(
     'node_modules/summernote/dist/font',
-    `${publicDir}/fonts/summernote`
+    `${dist}/fonts/summernote`
 ).copyDirectory(
     'node_modules/summernote/dist/lang',
     `${dist}/js/locales/summernote`

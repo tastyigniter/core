@@ -22,7 +22,7 @@ trait Switchable
 
     public function isDisabled(): bool
     {
-        return (bool)$this->{$this->switchableGetColumn()};
+        return !$this->{$this->switchableGetColumn()};
     }
 
     public function scopeIsEnabled(Builder $query): Builder

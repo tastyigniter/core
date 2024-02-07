@@ -20,21 +20,21 @@
   ],
   "style": [
     {
-      "path": "build/css/vendor.css",
+      "path": "css/vendor.css",
       "name": "vendor-css"
     },
     {
-      "path": "build/css/app.css",
+      "path": "css/app.css",
       "name": "app-css"
     }
   ],
   "script": [
     {
-      "path": "build/js/app.js",
+      "path": "js/app.js",
       "name": "app-js"
     },
     {
-      "path": "build/js/vendor.js",
+      "path": "js/vendor.js",
       "name": "vendor-js"
     }
   ]

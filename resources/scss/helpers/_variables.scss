@@ -40,7 +40,7 @@ $theme-colors: map-merge((
 //
 $enable-shadows: true !default;
 $enable-negative-margins: true !default;
-$icon-font-path: '../../vendor/igniter/fonts/';
+$icon-font-path: '../fonts/';
 $fa-font-path: $icon-font-path+'FontAwesome';
 // Body
 //

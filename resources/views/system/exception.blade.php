@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Exception</title>
     <link rel="shortcut icon" href="{{ asset('vendor/igniter/images/favicon.svg') }}" type="image/ico">
-    <style>{{Template::renderStaticCss()}}</style>
+    <style>{{ asset('vendor/igniter/css/static.css') }}</style>
 </head>
 <body>
 <article>

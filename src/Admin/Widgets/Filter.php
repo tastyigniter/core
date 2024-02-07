@@ -48,7 +48,7 @@ class Filter extends BaseWidget
 
     public function loadAssets()
     {
-        $this->addJs('build/js/vendor.datetime.js', 'vendor-datetime-js');
+        $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
         $this->addJs('widgets/daterangepicker.js', 'daterangepicker-js');
         $this->addCss('formwidgets/datepicker.css', 'datepicker-css');
     }

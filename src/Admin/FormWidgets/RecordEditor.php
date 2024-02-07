@@ -39,9 +39,7 @@ class RecordEditor extends BaseFormWidget
 
     public bool $hideCreateButton = false;
 
-    public bool $showAttachButton = true;
-
-    public string $attachToField = 'field_name';
+    public ?string $attachToField = null;
 
     public string $addLabel = 'New';
 
@@ -66,7 +64,6 @@ class RecordEditor extends BaseFormWidget
             'hideCreateButton',
             'hideEditButton',
             'hideDeleteButton',
-            'showAttachButton',
             'attachToField',
             'addLabel',
             'editLabel',
@@ -106,7 +103,7 @@ class RecordEditor extends BaseFormWidget
         $this->vars['showEditButton'] = !$this->hideEditButton;
         $this->vars['showDeleteButton'] = !$this->hideDeleteButton;
         $this->vars['showCreateButton'] = !$this->hideCreateButton;
-        $this->vars['showAttachButton'] = $this->showAttachButton;
+        $this->vars['showAttachButton'] = !empty($this->attachToField);
     }
 
     public function onLoadRecord(): mixed

@@ -53,7 +53,7 @@ class CodeEditor extends BaseFormWidget
 
     public function loadAssets()
     {
-        $this->addJs('build/js/vendor.editor.js', 'vendor-editor-js');
+        $this->addJs('js/vendor.editor.js', 'vendor-editor-js');
         $this->addCss('codeeditor.css', 'codeeditor-css');
         $this->addJs('codeeditor.js', 'codeeditor-js');
     }

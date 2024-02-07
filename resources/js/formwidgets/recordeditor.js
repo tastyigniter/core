@@ -16,10 +16,10 @@
     RecordEditor.prototype.constructor = RecordEditor
 
     RecordEditor.prototype.init = function () {
-        // this.$createRecordEl.on('click', $.proxy(this.onClickFormButton, this))
-        // this.$editRecordEl.on('click', $.proxy(this.onClickFormButton, this))
-        // this.$deleteRecordEl.on('click', $.proxy(this.onClickDeleteButton, this))
-        // this.$assignRecordEl.on('click', $.proxy(this.onClickAssignButton, this))
+        this.$createRecordEl.on('click', $.proxy(this.onClickFormButton, this))
+        this.$editRecordEl.on('click', $.proxy(this.onClickFormButton, this))
+        this.$deleteRecordEl.on('click', $.proxy(this.onClickDeleteButton, this))
+        this.$assignRecordEl.on('click', $.proxy(this.onClickAssignButton, this))
     }
 
     // EVENT HANDLERS
