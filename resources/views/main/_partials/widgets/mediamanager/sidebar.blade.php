@@ -144,8 +144,8 @@
 </script>
 
 <script type="text/template" data-media-video-selection-template>
-    <div class="embed-responsive embed-responsive-1by1">
-        <video src="{src}" controls class="embed-responsive-item">
+    <div class="ratio ratio-1x1">
+        <video src="{src}" controls>
             <div class="p-3">Your browser doesn't support HTML5 video.</div>
         </video>
     </div>

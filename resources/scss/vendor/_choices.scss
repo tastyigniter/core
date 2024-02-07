@@ -47,6 +47,11 @@
   border-radius: $input-border-radius;
 }
 
+.choices__list--dropdown,
+.choices__list[aria-expanded] {
+  z-index: 5;
+}
+
 .choices__list--dropdown .choices__item,
 .choices__list[aria-expanded] .choices__item {
   padding: 8px 10px;
