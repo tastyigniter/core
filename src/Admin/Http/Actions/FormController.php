@@ -423,9 +423,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);
@@ -439,20 +439,20 @@ class FormController extends ControllerAction
 
     protected function validateSaveData(Model $model, mixed $saveData): bool|array
     {
-        $validated = null;
-
         if (!is_null($requestClass = $this->getConfig('request'))) {
-            $validated = $this->validateFormRequest($requestClass, function (FormRequest $request) use ($saveData) {
+            return $this->validateFormRequest($requestClass, function (FormRequest $request) use ($saveData) {
                 $request->merge($saveData);
             });
         }
 
-        $saveData = $validated ?: $saveData;
-
-        if (($validated = $this->controller->formValidate($model, $this->formWidget)) !== false) {
-            $saveData = $validated ?? $saveData;
+        if (($validated = $this->controller->formValidate($model, $this->formWidget)) === false) {
+            return false;
         }
 
-        return $saveData;
+        if (is_null($validated)) {
+            return $saveData;
+        }
+ 
+        return $validated;
     }
 }
