@@ -294,7 +294,7 @@ class Lists extends BaseWidget
                 }
 
                 $relationObj = $this->model->{$column->relation}();
-                $table = $relationObj->getTable();
+                $table = $relationObj->getModel()->getTable();
                 $sqlSelect = $this->parseTableName($column->sqlSelect, $table);
 
                 // Manipulate a count query for the sub query
