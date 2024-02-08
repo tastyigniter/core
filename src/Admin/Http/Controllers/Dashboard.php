@@ -79,15 +79,6 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
                 'priority' => 30,
                 'width' => '12',
             ],
-            'recent-activities' => [
-                'widget' => 'recent-activities',
-                'priority' => 40,
-                'width' => '6',
-            ],
-            'cache' => [
-                'priority' => 90,
-                'width' => '6',
-            ],
         ];
     }
 
@@ -96,7 +87,7 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
         return $this->getUser()->hasPermission('Admin.Dashboard');
     }
 
-    public function extendDashboard(callable $callback)
+    public function extendDashboardContainer(callable $callback)
     {
         $this->callbacks[] = $callback;
     }

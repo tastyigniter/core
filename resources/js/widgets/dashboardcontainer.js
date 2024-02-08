@@ -63,7 +63,7 @@
                 return false;
 
             $.ti.loadingIndicator.show()
-            self.$form.request(self.options.alias + '::onRemoveWidget', {
+            $btn.request(self.options.alias + '::onRemoveWidget', {
                 data: {
                     'alias': $('[data-widget-alias]', $btn.closest('div.widget-item')).val()
                 }

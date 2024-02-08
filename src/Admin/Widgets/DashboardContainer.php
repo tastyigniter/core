@@ -156,11 +156,18 @@ class DashboardContainer extends BaseWidget
         );
 
         /** @var BaseDashboardWidget $widget */
-        $widget = $this->makeWidget($widgetClass, ['widget' => $widgetCode]);
+        $widget = $this->makeWidget($widgetClass, [
+            'widget' => $widgetCode,
+            'startDate' => $this->getStartDate(),
+            'endDate' => $this->getEndDate(),
+        ]);
+
         throw_unless(
             $widget instanceof \Igniter\Admin\Classes\BaseDashboardWidget,
             new FlashException(lang('igniter::admin.dashboard.alert_invalid_widget'))
         );
+
+        $widget->bindToController();
 
         $widgetAlias = $widgetCode.'_'.str_random(5);
         $this->addWidget($widgetAlias, $widget, array_get($validated, 'size'));
