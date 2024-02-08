@@ -7,9 +7,9 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
-use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Html\HtmlFacade as Html;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -162,7 +162,7 @@ class RecordEditor extends BaseFormWidget
 
         $model = $this->findFormModel($recordId);
 
-        if ($model->methodExists('attachRecordTo')) {
+        if ($this->modelMethodExists($model, 'attachRecordTo')) {
             $model->attachRecordTo($this->model);
 
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->formName).' attached'))->now();
@@ -224,11 +224,11 @@ class RecordEditor extends BaseFormWidget
         $methodName = 'get'.studly_case($this->fieldName).'RecordEditorOptions';
 
         throw_if(
-            !$model->methodExists($methodName) && !$model->methodExists('getRecordEditorOptions'),
+            !$this->modelMethodExists($model, $methodName) && !$this->modelMethodExists($model, 'getRecordEditorOptions'),
             new FlashException(sprintf(lang('igniter::admin.alert_missing_method'), 'getRecordEditorOptions', get_class($model)))
         );
 
-        if ($model->methodExists($methodName)) {
+        if ($this->modelMethodExists($model, $methodName)) {
             $result = $model->$methodName();
         } else {
             $result = $model->getRecordEditorOptions($this->fieldName);
@@ -265,5 +265,14 @@ class RecordEditor extends BaseFormWidget
         });
 
         return $this->clonedFormField = $field;
+    }
+
+    protected function modelMethodExists(Model $model, string $methodName): bool
+    {
+        if (method_exists($model, 'methodExists')) {
+            return $model->methodExists($methodName);
+        }
+
+        return method_exists($model, $methodName);
     }
 }

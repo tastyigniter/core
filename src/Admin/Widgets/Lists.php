@@ -8,13 +8,13 @@ use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Classes\Widgets;
-use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Html\HtmlFacade as Html;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -223,7 +223,7 @@ class Lists extends BaseWidget
             foreach ($searchableColumns as $column) {
                 // Relation
                 if ($this->isColumnRelated($column)) {
-                    $table = DB::getTablePrefix().$this->model->makeRelation($column->relation)->getTable();
+                    $table = DB::getTablePrefix().$this->model->{$column->relation}()->getTable();
                     $columnName = isset($column->sqlSelect)
                         ? DB::raw($this->parseTableName($column->sqlSelect, $table))->getValue(DB::connection()->getSchemaGrammar())
                         : $table.'.'.$column->valueFrom;
@@ -288,16 +288,16 @@ class Lists extends BaseWidget
 
             // Relation column
             if (isset($column->relation)) {
-                $relationType = $this->model->getRelationType($column->relation);
+                $relationType = $this->getRelationType($column->relation);
                 if ($relationType == 'morphTo') {
                     throw new SystemException(sprintf(lang('igniter::admin.list.alert_relationship_not_supported'), 'morphTo'));
                 }
 
-                $table = $this->model->makeRelation($column->relation)->getTable();
+                $relationObj = $this->model->{$column->relation}();
+                $table = $relationObj->getTable();
                 $sqlSelect = $this->parseTableName($column->sqlSelect, $table);
 
                 // Manipulate a count query for the sub query
-                $relationObj = $this->model->{$column->relation}();
                 $countQuery = $relationObj->getRelationExistenceCountQuery($relationObj->getRelated()->newQueryWithoutScopes(), $query);
 
                 $joinSql = $this->isColumnRelated($column, true)
@@ -1212,7 +1212,7 @@ class Lists extends BaseWidget
             return true;
         }
 
-        $relationType = $this->model->getRelationType($column->relation);
+        $relationType = $this->getRelationType($column->relation);
 
         return in_array($relationType, [
             'hasMany',
@@ -1231,5 +1231,10 @@ class Lists extends BaseWidget
     protected function isColumnPivot(ListColumn $column): bool
     {
         return isset($column->relation) && $column->relation == 'pivot';
+    }
+
+    protected function getRelationType(string $relation): ?string
+    {
+        return $this->model->getRelationType($relation);
     }
 }

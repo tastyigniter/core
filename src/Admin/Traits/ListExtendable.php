@@ -6,8 +6,8 @@ use Igniter\Admin\Classes\FilterScope;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Widgets\Filter;
 use Igniter\Admin\Widgets\Lists;
-use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 trait ListExtendable

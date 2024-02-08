@@ -4,14 +4,14 @@ namespace Igniter\Admin\Traits;
 
 use Exception;
 use Igniter\Admin\Classes\FormField;
-use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Form Model Widget Trait
  *
- * Special logic for for form widgets that use a database stored model.
+ * Special logic for form widgets that use a database stored model.
  */
 trait FormModelWidget
 {
@@ -68,20 +68,20 @@ trait FormModelWidget
     {
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
-        if (!$model || !$model->hasRelation($attribute)) {
+        if (!$model || !$this->hasModelRelation($model, $attribute)) {
             throw new FlashException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
                 $this->model::class, $this->valueFrom
             ));
         }
 
-        return $model->makeRelation($attribute);
+        return $this->makeModelRelation($model, $attribute);
     }
 
     protected function getRelationObject(): Relation
     {
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
-        if (!$model || !$model->hasRelation($attribute)) {
+        if (!$model || !$this->hasModelRelation($model, $attribute)) {
             throw new FlashException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
                 $this->model::class, $this->valueFrom
             ));
@@ -94,7 +94,7 @@ trait FormModelWidget
     {
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 
-        return $model->getRelationType($attribute);
+        return $this->getModelRelationType($model, $attribute);
     }
 
     protected function prepareModelsToSave(?Model $model, mixed $saveData): array
@@ -117,9 +117,9 @@ trait FormModelWidget
         $singularTypes = ['belongsTo', 'hasOne', 'morphTo', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $this->hasModelRelation($model, $attribute) &&
+                    in_array($this->getModelRelationType($model, $attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value)) {
                 $this->setModelAttributes($model->{$attribute}, $value);
@@ -129,5 +129,32 @@ trait FormModelWidget
                 }
             }
         }
+    }
+
+    protected function hasModelRelation(Model $model, string $attribute): bool
+    {
+        if (method_exists($model, 'hasRelation')) {
+            return $model->hasRelation($attribute);
+        }
+
+        return method_exists($model, $attribute);
+    }
+
+    protected function makeModelRelation(Model $model, string $attribute): mixed
+    {
+        if (method_exists($model, 'makeRelation')) {
+            return $model->makeRelation($attribute);
+        }
+
+        return $model->{$attribute}()->getModel();
+    }
+
+    protected function getModelRelationType(Model $model, int|string $attribute)
+    {
+        if (method_exists($model, 'getRelationType')) {
+            return $model->getRelationType($attribute);
+        }
+
+        throw new \LogicException('Model does not implement getRelationType method');
     }
 }
