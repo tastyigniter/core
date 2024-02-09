@@ -5,7 +5,7 @@
 +function ($) {
     "use strict"
 
-    var FlashMessage = function (options, el) {
+    var FlashMessage = async function (options, el) {
         options = $.extend({}, FlashMessage.DEFAULTS, options)
 
         if (options.interval > 0) {
@@ -19,12 +19,12 @@
         }
 
         if (options.overlay) {
-            return FlashMessage.overlay(options)
+            return await FlashMessage.overlay(options)
         }
 
         options = $.extend(FlashMessage.TOAST_DEFAULTS, options, FlashMessage.getIcon(options))
 
-        return Swal.fire(FlashMessage.parseOptions(options))
+        return await Swal.fire(FlashMessage.parseOptions(options))
     }
 
     FlashMessage.overlay = function (options) {
@@ -72,15 +72,15 @@
 
     FlashMessage.TOAST_DEFAULTS = {
         toast: true,
-        position: 'top-end',
+        position: 'bottom-start',
         showConfirmButton: false,
         timer: 0,
         timerProgressBar: true,
         showClass: {
-            popup: 'animated fadeInRight'
+            popup: 'animated fadeInLeft'
         },
         hideClass: {
-            popup: 'animated fadeOutRight'
+            popup: 'animated fadeOutLeft'
         },
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -130,7 +130,7 @@
         },
         success: {
             icon: 'success',
-            iconHtml: '<i class="fa fa-fw fa-xs fa-check"></i>',
+            iconHtml: '<i class="fa fa-fw fa-xs fa-circle-check"></i>',
         },
         info: {
             icon: 'info',

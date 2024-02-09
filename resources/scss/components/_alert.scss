@@ -1,46 +1,12 @@
 #notification {
-  position: fixed;
-  top: 40px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: 35%;
-  z-index: 1090;
-
-  .alert {
-    &:not(.show) {
-      display: none;
-    }
-
-    .show {
-      display: block;
-    }
-  }
+  display: none;
 }
-
-.alert {
-  color: $white;
-  font-weight: $font-weight-bold;
-  box-shadow: $box-shadow;
-  text-align: center;
-
-  p {
-    margin-bottom: 0;
-  }
-}
-
-.alert-collapse {
-  .alert {
-    padding: .3rem 1.25rem;
-    margin-bottom: 0;
-  }
-}
-
 body.swal2-toast-shown {
   .swal2-container {
-    &.swal2-top-end {
-      top: 65px !important;
-      right: 15px !important;
+    &.swal2-bottom-start {
+      width: 35em;
+      padding-bottom: 38px;
+      padding-left: 50px;
     }
   }
 }
