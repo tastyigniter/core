@@ -154,7 +154,7 @@ class ThemeManager
 
         collect([$theme->getPath().'/resources', $theme->getPath().'/assets', $theme->getPath()])
             ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath().'/assets', $theme->getParent()->getPath()] : [])
-            ->filter(fn ($path) => File::isDirectory($path))
+            ->filter(fn($path) => File::isDirectory($path))
             ->reverse()
             ->each(function ($path) use ($theme) {
                 Igniter::loadResourcesFrom($path, $theme->getName());
@@ -509,14 +509,14 @@ class ThemeManager
         resolve(PackageManifest::class)->writeDisabled($this->disabledThemes);
     }
 
-    public function createChildTheme(ThemeModel $parentThemeModel, ?string $childThemeCode = null): ThemeModel
+    public function createChildTheme(string $parentThemeCode, ?string $childThemeCode = null): ThemeModel
     {
-        $parentTheme = $this->findTheme($parentThemeModel->code);
+        $parentTheme = $this->findTheme($parentThemeCode);
         throw_if(!$parentTheme || $parentTheme->hasParent(), new SystemException(
             'Can not create a child theme from another child theme'
         ));
 
-        $childThemeCode = ThemeModel::generateUniqueCode($childThemeCode ?? $parentThemeModel->code);
+        $childThemeCode = ThemeModel::generateUniqueCode($childThemeCode ?? $parentThemeCode);
         $childThemePath = Igniter::themesPath().'/'.$childThemeCode;
 
         throw_if(File::isDirectory($childThemePath), new SystemException(

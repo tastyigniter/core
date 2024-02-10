@@ -191,7 +191,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
         $model = $this->formFindModelObject($themeCode);
 
-        $childTheme = $manager->createChildTheme($model);
+        $childTheme = $manager->createChildTheme($model->code);
 
         Theme::syncAll();
         Theme::activateTheme($childTheme->code);
