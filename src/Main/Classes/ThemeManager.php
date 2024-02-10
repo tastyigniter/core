@@ -527,8 +527,6 @@ class ThemeManager
 
         $themeConfig = $this->writeChildThemeJsonFile($childThemeCode, $childThemePath, $parentTheme);
 
-        $this->copyChildThemeAssetsJsonFile($parentTheme, $childThemePath);
-
         $themeConfig['data'] = $parentTheme->data ?? [];
         $childThemeModel = ThemeModel::create(array_only($themeConfig, [
             'code', 'name', 'description', 'data',
@@ -611,22 +609,5 @@ class ThemeManager
         File::put($path.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         return $themeConfig;
-    }
-
-    protected function copyChildThemeAssetsJsonFile(Theme $parentTheme, string $childThemePath)
-    {
-        $assetsJsonPath = $parentTheme->getAssetsFilePath();
-        if (!File::exists($assetsJsonPath)) {
-            return;
-        }
-
-        $assetsContents = File::get($assetsJsonPath);
-        $assetsContents = str_replace($parentTheme->getName().'::', basename($childThemePath).'::', $assetsContents);
-
-        $path = $childThemePath.'/'.basename($parentTheme->getMetaPath());
-
-        File::makeDirectory($path, 0777, true, true);
-
-        File::put($path.'/assets.json', $assetsContents);
     }
 }

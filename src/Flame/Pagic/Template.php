@@ -2,7 +2,6 @@
 
 namespace Igniter\Flame\Pagic;
 
-use ErrorException;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\View;
 use Throwable;
@@ -110,8 +109,6 @@ class Template
 
     protected function handleException(Throwable $ex, $level): void
     {
-        $ex = new ErrorException($this->getMessage($ex), 0, 1, $ex->getFile(), $ex->getLine(), $ex);
-
         while (ob_get_level() > $level) {
             ob_end_clean();
         }

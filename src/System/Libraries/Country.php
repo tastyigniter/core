@@ -3,6 +3,7 @@
 namespace Igniter\System\Libraries;
 
 use Igniter\System\Models\Country as CountryModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
@@ -27,9 +28,13 @@ class Country
 
     protected ?Collection $countriesCollection = null;
 
-    public function addressFormat(array $address, bool $useLineBreaks = true): string
+    public function addressFormat(array|Model $address, bool $useLineBreaks = true): string
     {
         $format = $this->getDefaultFormat();
+
+        if ($address instanceof Model) {
+            $address = $address->toArray();
+        }
 
         $address = $this->evalAddress($address);
 

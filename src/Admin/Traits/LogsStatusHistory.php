@@ -35,7 +35,7 @@ trait LogsStatusHistory
         return $this->status ? $this->status->status_color : null;
     }
 
-    public function getLatestStatusHistory(): ?self
+    public function getLatestStatusHistory(): ?StatusHistory
     {
         return $this->status_history->first();
     }
