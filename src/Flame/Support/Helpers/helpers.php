@@ -174,26 +174,18 @@ if (!function_exists('temp_path')) {
 if (!function_exists('setting')) {
     function setting(?string $key = null, mixed $default = null): mixed
     {
-        $settingConfig = resolve('system.setting');
-
         if (is_null($key)) {
-            return $settingConfig;
+            return \Igniter\System\Models\Settings::make();
         }
 
-        return $settingConfig->get($key, $default);
+        return \Igniter\System\Models\Settings::get($key, $default);
     }
 }
 
 if (!function_exists('params')) {
-    function params(?string $key = null, mixed $default = null): mixed
+    function params(string $key = null, mixed $default = null): mixed
     {
-        $settingParam = resolve('system.parameter');
-
-        if (is_null($key)) {
-            return $settingParam;
-        }
-
-        return $settingParam->get($key, $default);
+        return \Igniter\System\Models\Settings::get($key, $default, 'prefs');
     }
 }
 

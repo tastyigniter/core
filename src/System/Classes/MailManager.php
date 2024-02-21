@@ -43,36 +43,35 @@ class MailManager
     public function applyMailerConfigValues()
     {
         $config = App::make('config');
-        $settings = App::make('system.setting');
-        $config->set('mail.default', $settings->get('protocol'));
-        $config->set('mail.from.name', $settings->get('sender_name'));
-        $config->set('mail.from.address', $settings->get('sender_email'));
+        $config->set('mail.default', setting('protocol'));
+        $config->set('mail.from.name', setting('sender_name'));
+        $config->set('mail.from.address', setting('sender_email'));
 
-        switch ($settings->get('protocol')) {
+        switch (setting('protocol')) {
             case 'smtp':
-                $config->set('mail.mailers.smtp.host', $settings->get('smtp_host'));
-                $config->set('mail.mailers.smtp.port', $settings->get('smtp_port'));
-                $config->set('mail.mailers.smtp.encryption', strlen($settings->get('smtp_encryption'))
-                    ? $settings->get('smtp_encryption') : null
+                $config->set('mail.mailers.smtp.host', setting('smtp_host'));
+                $config->set('mail.mailers.smtp.port', setting('smtp_port'));
+                $config->set('mail.mailers.smtp.encryption', strlen(setting('smtp_encryption'))
+                    ? setting('smtp_encryption') : null
                 );
-                $config->set('mail.mailers.smtp.username', strlen($settings->get('smtp_user'))
-                    ? $settings->get('smtp_user') : null
+                $config->set('mail.mailers.smtp.username', strlen(setting('smtp_user'))
+                    ? setting('smtp_user') : null
                 );
-                $config->set('mail.mailers.smtp.password', strlen($settings->get('smtp_pass'))
-                    ? $settings->get('smtp_pass') : null
+                $config->set('mail.mailers.smtp.password', strlen(setting('smtp_pass'))
+                    ? setting('smtp_pass') : null
                 );
                 break;
             case 'mailgun':
-                $config->set('services.mailgun.domain', $settings->get('mailgun_domain'));
-                $config->set('services.mailgun.secret', $settings->get('mailgun_secret'));
+                $config->set('services.mailgun.domain', setting('mailgun_domain'));
+                $config->set('services.mailgun.secret', setting('mailgun_secret'));
                 break;
             case 'postmark':
-                $config->set('services.postmark.token', $settings->get('postmark_token'));
+                $config->set('services.postmark.token', setting('postmark_token'));
                 break;
             case 'ses':
-                $config->set('services.ses.key', $settings->get('ses_key'));
-                $config->set('services.ses.secret', $settings->get('ses_secret'));
-                $config->set('services.ses.region', $settings->get('ses_region'));
+                $config->set('services.ses.key', setting('ses_key'));
+                $config->set('services.ses.secret', setting('ses_secret'));
+                $config->set('services.ses.region', setting('ses_region'));
                 break;
         }
     }

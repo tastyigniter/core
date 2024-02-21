@@ -9,6 +9,7 @@ use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Language;
+use Igniter\System\Models\Settings;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
@@ -206,23 +207,14 @@ class IgniterInstall extends Command
 
     protected function addSystemValues()
     {
-        params()->flushCache();
+        Settings::set('ti_setup', 'installed', 'prefs');
 
-        params()->set([
-            'ti_setup' => 'installed',
+        Settings::set([
+            'site_name' => DatabaseSeeder::$siteName,
+            'site_email' => DatabaseSeeder::$siteEmail,
+            'sender_name' => DatabaseSeeder::$siteName,
+            'sender_email' => DatabaseSeeder::$siteEmail,
         ]);
-
-        params()->save();
-
-        setting()->flushCache();
-        setting()->set('site_name', DatabaseSeeder::$siteName);
-        setting()->set('site_email', DatabaseSeeder::$siteEmail);
-        setting()->set('sender_name', DatabaseSeeder::$siteName);
-        setting()->set('sender_email', DatabaseSeeder::$siteEmail);
-        setting()->save();
-
-        // These parameters are no longer in use
-        params()->forget('main_address');
     }
 
     protected function generateEncryptionKey()

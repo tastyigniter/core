@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 use Igniter\Flame\Database\Model;
+use Igniter\Flame\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ExtensionManager;
@@ -29,7 +30,7 @@ class Settings extends Model
 
     protected $settingsFields = 'Settings';
 
-    protected $fieldValues;
+    protected array $fieldValues = [];
 
     protected $allItems;
 
@@ -122,23 +123,50 @@ class Settings extends Model
             : $this->attributes['value'];
     }
 
+    public static function get(?string $key = null, mixed $default = null, string $group = 'config'): mixed
+    {
+        return array_get(self::make()->getFieldValues($group), $key, $default);
+    }
+
+    public static function set(string|array $key, mixed $value = null, string $group = 'config'): bool
+    {
+        $data = collect(is_array($key) ? $key : [$key => $value])->map(function ($value, $key) use ($group) {
+            return [
+                'sort' => $group,
+                'item' => $key,
+                'value' => is_array($value) ? serialize($value) : $value,
+            ];
+        })->values()->all();
+
+        return static::upsert($data, ['sort', 'item'], ['value']);
+    }
+
+    public static function make($attributes = [])
+    {
+        return resolve(static::class)->fill($attributes);
+    }
+
     //
     // Registration
     //
 
-    public function getFieldValues()
+    public function getFieldValues(string $group = 'config')
     {
-        if (is_array($this->fieldValues)) {
-            return $this->fieldValues;
+        if (!Igniter::hasDatabase()) {
+            return [];
+        }
+
+        if (is_array($fieldValues = array_get($this->fieldValues, $group))) {
+            return $fieldValues;
         }
 
         $values = [];
-        $records = $this->newQuery()->where('sort', 'config')->get();
+        $records = $this->newQuery()->where('sort', $group)->get();
         foreach ($records as $record) {
             $values[$record->item] = $record->value;
         }
 
-        return $this->fieldValues = $values;
+        return $this->fieldValues[$group] = $values;
     }
 
     public function getSettingDefinitions($code)

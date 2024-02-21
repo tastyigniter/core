@@ -7,6 +7,7 @@ use Igniter\Cart\Models\Order;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\Reservation\Models\Reservation;
+use Igniter\System\Models\Settings;
 use Igniter\User\Models\Customer;
 
 /**
@@ -190,7 +191,7 @@ class Statistics extends BaseDashboardWidget
     {
         $query = Order::query();
         $query->where('status_id', '>', '0')
-            ->where('status_id', '!=', setting('canceled_order_status'));
+            ->where('status_id', '!=', Settings::get('canceled_order_status'));
 
         $callback($query);
 
@@ -205,7 +206,7 @@ class Statistics extends BaseDashboardWidget
         $query = Order::query();
         $query->where(function ($query) {
             $query->where('status_id', '<=', '0');
-            $query->orWhere('status_id', setting('canceled_order_status'));
+            $query->orWhere('status_id', Settings::get('canceled_order_status'));
         });
 
         $callback($query);
@@ -221,7 +222,7 @@ class Statistics extends BaseDashboardWidget
         $query = Order::query();
         $query->where(function ($query) {
             $query->where('status_id', '>', '0');
-            $query->where('status_id', '!=', setting('canceled_order_status'));
+            $query->where('status_id', '!=', Settings::get('canceled_order_status'));
         })->where('payment', 'cod');
 
         $callback($query);
@@ -259,7 +260,7 @@ class Statistics extends BaseDashboardWidget
     protected function getTotalCompletedOrderSum(callable $callback): int
     {
         $query = Order::query();
-        $query->whereIn('status_id', setting('completed_order_status') ?? []);
+        $query->whereIn('status_id', Settings::get('completed_order_status') ?? []);
 
         $callback($query);
 
@@ -304,7 +305,7 @@ class Statistics extends BaseDashboardWidget
     protected function getTotalReservedTableSum(callable $callback): int
     {
         $query = Reservation::with('tables');
-        $query->where('status_id', setting('confirmed_reservation_status'));
+        $query->where('status_id', Settings::get('confirmed_reservation_status'));
 
         $callback($query);
 
@@ -321,7 +322,7 @@ class Statistics extends BaseDashboardWidget
     protected function getTotalReservedGuestSum(callable $callback): int
     {
         $query = Reservation::query();
-        $query->where('status_id', setting('confirmed_reservation_status'));
+        $query->where('status_id', Settings::get('confirmed_reservation_status'));
 
         $callback($query);
 
@@ -334,7 +335,7 @@ class Statistics extends BaseDashboardWidget
     protected function getTotalReservationSum(callable $callback): int
     {
         $query = Reservation::query();
-        $query->where('status_id', '!=', setting('canceled_reservation_status'));
+        $query->where('status_id', '!=', Settings::get('canceled_reservation_status'));
 
         $callback($query);
 
@@ -347,7 +348,7 @@ class Statistics extends BaseDashboardWidget
     protected function getTotalCompletedReservationSum(callable $callback): int
     {
         $query = Reservation::query();
-        $query->where('status_id', setting('confirmed_reservation_status'));
+        $query->where('status_id', Settings::get('confirmed_reservation_status'));
 
         $callback($query);
 

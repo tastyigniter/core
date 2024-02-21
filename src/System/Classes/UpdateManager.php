@@ -13,6 +13,7 @@ use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Extension;
+use Igniter\System\Models\Settings;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
@@ -340,7 +341,7 @@ class UpdateManager
 
         array_set($ignoredUpdates, $code, !$remove);
 
-        setting()->set('ignored_updates', array_filter($ignoredUpdates));
+        Settings::set('ignored_updates', array_filter($ignoredUpdates));
     }
 
     public function getIgnoredUpdates(): array

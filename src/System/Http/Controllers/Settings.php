@@ -113,12 +113,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             return request()->ajax() ? ['#notification' => $this->makePartial('flash')] : false;
         }
 
-        $this->formBeforeSave($model);
-
-        setting()->set($saveData);
-        setting()->save();
-
-        $this->formAfterSave($model);
+        SettingsModel::set($saveData);
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($definition->label).' settings updated '));
 
@@ -148,7 +143,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             return request()->ajax() ? ['#notification' => $this->makePartial('flash')] : false;
         }
 
-        setting()->set($saveData);
+        SettingsModel::set($saveData);
 
         $name = AdminAuth::getStaffName();
         $email = AdminAuth::getStaffEmail();

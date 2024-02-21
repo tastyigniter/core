@@ -5,10 +5,10 @@ namespace Igniter\System;
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
-use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\RequestLog;
+use Igniter\System\Models\Settings;
 use Igniter\User\Models\Notification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -61,7 +61,7 @@ class ServiceProvider extends AppServiceProvider
         $this->defineEloquentMorphMaps();
         $this->resolveFlashSessionKey();
 
-        $this->app->booted(fn () => $this->updateTimezone());
+        $this->app->booted(fn() => $this->updateTimezone());
 
         $this->loadLocalizationConfiguration();
         $this->loadGeocoderConfiguration();
@@ -81,7 +81,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function updateTimezone()
     {
-        date_default_timezone_set(Setting::get('timezone', Config::get('app.timezone', 'UTC')));
+        date_default_timezone_set(Settings::get('timezone', Config::get('app.timezone', 'UTC')));
     }
 
     /**
@@ -98,6 +98,8 @@ class ServiceProvider extends AppServiceProvider
         });
 
         $this->app->instance('path.uploads', base_path(Config::get('igniter-system.assets.media.path', 'assets/media/uploads')));
+
+        $this->app->singleton(Settings::class);
 
         $this->app->singleton(Classes\ComponentManager::class);
         $this->tapSingleton(Classes\ComposerManager::class);
@@ -147,7 +149,7 @@ class ServiceProvider extends AppServiceProvider
     protected function loadGeocoderConfiguration()
     {
         $this->app->resolving('geocoder', function ($geocoder, $app) {
-            $app['config']->set('igniter-geocoder.default', setting('default_geocoder'));
+            $app['config']->set('igniter-geocoder.default', setting('default_geocoder', 'nominatim'));
 
             $region = $app['country']->getCountryCodeById(Country::getDefaultKey());
             $app['config']->set('igniter-geocoder.providers.google.region', $region);

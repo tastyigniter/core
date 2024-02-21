@@ -4,13 +4,13 @@ namespace Igniter\Main;
 
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
-use Igniter\Flame\Setting\Facades\Setting;
 use Igniter\Main\Classes\MediaLibrary;
 use Igniter\Main\Classes\RouteRegistrar;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Http\Middleware\CheckMaintenance;
 use Igniter\Main\Template\Extension\BladeExtension;
 use Igniter\System\Classes\ComponentManager;
+use Igniter\System\Models\Settings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
@@ -26,8 +26,8 @@ class ServiceProvider extends AppServiceProvider
         $this->loadViewsFrom($this->root.'/resources/views/main', 'igniter.main');
 
         $this->app->booted(function () {
-            View::share('site_name', Setting::get('site_name'));
-            View::share('site_logo', Setting::get('site_logo'));
+            View::share('site_name', Settings::get('site_name'));
+            View::share('site_logo', Settings::get('site_logo'));
 
             $this->defineRoutes();
         });
