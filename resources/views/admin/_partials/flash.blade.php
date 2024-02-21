@@ -3,7 +3,7 @@
         <div
           data-control="flash-overlay"
           data-title="{{ array_get($message, 'title') }}"
-          data-text="{!! array_get($message, 'message') !!}"
+          data-text='{!! array_get($message, 'message') !!}'
           data-level="{{ $message['level'] }}"
           data-close-on-click-outside="{{ $message['important'] ? 'false' : 'true' }}"
           data-close-on-esc="{{ $message['important'] ? 'false' : 'true' }}"
@@ -13,21 +13,19 @@
           @class(['alert alert-'.$message['level'], 'alert-important' => $message['important']])
           data-control="flash-message"
           data-level="{{ $message['level'] }}"
-          data-text="{!! array_get($message, 'message') !!}"
+          data-text='{!! array_get($message, 'message') !!}'
           data-allow-dismiss="{{ $message['important'] ? 'false' : 'true' }}"
           role="alert"
-        >{!! $message['message'] !!}</div>
+        ></div>
     @endif
 @endforeach
 @if($messages = session()->pull('admin_errors'))
     <div
-      class="alert alert-danger"
-      data-control="flash-message"
-      data-allow-dismiss="false"
+        class="alert alert-danger"
+        data-control="flash-message"
+        data-level="danger"
+        data-text='{!! implode('<br>', array_collapse($messages)) !!}'
+        data-allow-dismiss="false"
         role="alert"
-    >
-        @foreach($messages->all() as $message)
-            <p>{!! $message !!}</p>
-        @endforeach
-    </div>
+    ></div>
 @endif

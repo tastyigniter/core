@@ -34,7 +34,7 @@ name = "Default layout"
                             <!-- Body content -->
                             <tr>
                                 <td class="content-cell">
-                                    {{ $body }}
+                                    {!! $body !!}
                                 </td>
                             </tr>
                         </table>

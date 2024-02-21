@@ -101,13 +101,7 @@ trait ValidatesForm
 
     protected function flashValidationErrors(array $errors)
     {
-        $sessionKey = 'errors';
-
-        if (Igniter::runningInAdmin()) {
-            $sessionKey = 'admin_errors';
-        }
-
-        Session::flash($sessionKey, $errors);
+        Session::flash(Igniter::runningInAdmin() ? 'admin_errors' : 'errors', $errors);
     }
 
     protected function validateFormWidget(Form $form, mixed $saveData): mixed

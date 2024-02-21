@@ -5,7 +5,7 @@
 +function ($) {
     "use strict"
 
-    var FlashMessage = async function (options, el) {
+    var FlashMessage = function (options, el) {
         options = $.extend({}, FlashMessage.DEFAULTS, options)
 
         if (options.interval > 0) {
@@ -19,12 +19,12 @@
         }
 
         if (options.overlay) {
-            return await FlashMessage.overlay(options)
+            return FlashMessage.overlay(options)
         }
 
         options = $.extend(FlashMessage.TOAST_DEFAULTS, options, FlashMessage.getIcon(options))
 
-        return await Swal.fire(FlashMessage.parseOptions(options))
+        return Swal.fire(FlashMessage.parseOptions(options))
     }
 
     FlashMessage.overlay = function (options) {

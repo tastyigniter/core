@@ -426,7 +426,7 @@ if (!function_exists('restaurant_url')) {
      */
     function restaurant_url(?string $uri = null, array $params = []): string
     {
-        return controller()->pageUrl($uri, $params);
+        return \Igniter\Main\Helpers\MainHelper::pageUrl($uri, $params);
     }
 }
 

@@ -71,7 +71,7 @@ $config['list']['columns'] = [
         'attributes' => [
             'class' => 'btn btn-light text-warning',
             'data-request' => 'onSetDefault',
-            'data-request-data' => 'default:{language_id}',
+            'data-request-data' => "default:'{code}'",
         ],
     ],
     'name' => [

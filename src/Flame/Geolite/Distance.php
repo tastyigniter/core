@@ -23,6 +23,8 @@ class Distance implements Contracts\DistanceInterface
      */
     protected string $unit;
 
+    protected array $data = [];
+
     public function setFrom(Contracts\CoordinatesInterface $from): self
     {
         $this->from = $from;

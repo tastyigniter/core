@@ -7,7 +7,6 @@ use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Validation\ValidationException;
 
 /**
  * Language Model Class
@@ -63,18 +62,6 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         }
 
         return self::$localesCache[$code] ?? (self::$localesCache[$code] = self::whereCode($code)->first());
-    }
-
-    public function makeDefault()
-    {
-        if (!$this->status) {
-            throw ValidationException::withMessages(['status' => sprintf(
-                lang('igniter::admin.alert_error_set_default'), $this->name
-            )]);
-        }
-
-        setting('default_language', $this->code);
-        setting()->save();
     }
 
     public function defaultableKeyName(): string

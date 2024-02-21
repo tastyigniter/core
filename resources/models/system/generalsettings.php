@@ -41,7 +41,7 @@ return [
                     'tab' => 'igniter::system.settings.text_tab_general',
                     'type' => 'radiotoggle',
                     'span' => 'left',
-                    'default' => 'chain',
+                    'default' => 'nominatim',
                     'comment' => 'igniter::system.settings.help_default_geocoder',
                     'options' => [
                         'nominatim' => 'igniter::system.settings.text_nominatim',

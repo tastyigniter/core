@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Mail;
 
-use Igniter\Flame\Mixins\MailMixin as MailMixin;
+use Igniter\Flame\Mixins\MailMixin;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 

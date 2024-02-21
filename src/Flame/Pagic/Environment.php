@@ -190,6 +190,10 @@ class Environment
 
         if (!$isFresh || !File::isFile($path)) {
             $markup = $this->getLoader()->getMarkup($name);
+
+            $this->getCompiler()->setPath(
+                $this->getLoader()->getFilename($name)
+            );
             $compiled = $this->getCompiler()->compileString($markup);
 
             $fileCache->write($path, $compiled);

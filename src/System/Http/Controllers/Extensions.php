@@ -308,7 +308,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         );
     }
 
-    protected function checkDependencies(BaseExtension $extension): string
+    protected function checkDependencies(BaseExtension $extension): ?string
     {
         $feedback = null;
         $extensionManager = resolve(ExtensionManager::class);

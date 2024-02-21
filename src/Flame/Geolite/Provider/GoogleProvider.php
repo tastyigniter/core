@@ -50,7 +50,7 @@ class GoogleProvider extends AbstractProvider
             ));
         }
 
-        return new Collection($result);
+        return collect($result);
     }
 
     public function reverseQuery(GeoQueryInterface $query): Collection
@@ -80,7 +80,7 @@ class GoogleProvider extends AbstractProvider
             ));
         }
 
-        return new Collection($result);
+        return collect($result);
     }
 
     public function distance(DistanceInterface $distance): ?Model\Distance
@@ -109,10 +109,10 @@ class GoogleProvider extends AbstractProvider
         }
     }
 
-    protected function hydrateResponse(\stdClass $response, int $limit): array
+    protected function hydrateResponse(array $response, int $limit): array
     {
         $result = [];
-        foreach ($response->results as $place) {
+        foreach ($response as $place) {
             $address = new Model\Location($this->getName());
 
             // set official Google place id
@@ -141,7 +141,7 @@ class GoogleProvider extends AbstractProvider
         return $result;
     }
 
-    protected function requestGeocodingUrl($url, GeoQueryInterface $query): \stdClass
+    protected function requestGeocodingUrl($url, GeoQueryInterface $query): array
     {
         if ($locale = $query->getLocale()) {
             $url = sprintf('%s&language=%s', $url, $locale);
@@ -162,7 +162,7 @@ class GoogleProvider extends AbstractProvider
         return $this->parseResponse($response);
     }
 
-    protected function requestDistanceUrl($url, DistanceInterface $query): \stdClass
+    protected function requestDistanceUrl($url, DistanceInterface $query): array
     {
         if ($apiKey = array_get($this->config, 'apiKey')) {
             $url = sprintf('%s&key=%s', $url, $apiKey);
@@ -182,7 +182,7 @@ class GoogleProvider extends AbstractProvider
     /**
      * Decode the response content and validate it to make sure it does not have any errors.
      */
-    protected function parseResponse(ResponseInterface $response): \stdClass
+    protected function parseResponse(ResponseInterface $response): array
     {
         $json = json_decode($response->getBody()->getContents(), false);
 
@@ -213,7 +213,7 @@ class GoogleProvider extends AbstractProvider
             throw new GeoliteException($json->error_message ?? 'empty error message');
         }
 
-        return $json;
+        return $json->results;
     }
 
     protected function prependGeocodeQuery(GeoQueryInterface $query, string $url): string

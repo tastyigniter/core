@@ -22,7 +22,7 @@
   },
   {
     "option_name": "Sides",
-    "display_type": "checkbox",
+    "display_type": "select",
     "option_values":   [
       {
         "name": "Meat",
@@ -59,7 +59,7 @@
   },
   {
     "option_name": "Drinks",
-    "display_type": "checkbox",
+    "display_type": "quantity",
     "option_values":   [
       {
         "name": "Coke",

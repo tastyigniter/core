@@ -19,6 +19,12 @@ trait Defaultable
             }
         });
 
+        static::created(function (self $model) {
+            if ($model->isDefault()) {
+                $model->makeDefault();
+            }
+        });
+
         static::saved(function (self $model) {
             if ($model->wasChanged($model->defaultableGetColumn()) && $model->isDefault()) {
                 $model->makeDefault();

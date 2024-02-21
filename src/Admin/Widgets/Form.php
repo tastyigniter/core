@@ -630,10 +630,10 @@ class Form extends BaseWidget
 
             // Handle HTML array, eg: item[key][another]
             $parts = name_to_array($field->fieldName);
-            $value = $this->dataArrayGet($data, $parts);
+            $value = $this->dataArrayGet($data, $parts, false);
             if (is_null($value) && in_array($field->type, ['checkboxtoggle', 'radiotoggle'])) {
                 $this->dataArraySet($result, $parts, $value);
-            } elseif ($value !== null) {
+            } elseif ($value !== false) {
                 // Number fields should be converted to integers
                 if ($field->type === 'number') {
                     $value = strlen(trim($value)) ? (int)$value : null;

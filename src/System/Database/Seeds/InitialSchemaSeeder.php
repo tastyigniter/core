@@ -102,6 +102,7 @@ class InitialSchemaSeeder extends Seeder
             'name' => 'English',
             'idiom' => 'english',
             'status' => true,
+            'is_default' => true,
             'can_delete' => false,
         ]);
 

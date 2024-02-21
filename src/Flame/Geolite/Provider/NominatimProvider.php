@@ -54,7 +54,7 @@ class NominatimProvider extends AbstractProvider
             ));
         }
 
-        return new Collection($result);
+        return collect($result);
     }
 
     /**
@@ -82,12 +82,12 @@ class NominatimProvider extends AbstractProvider
         } catch (Throwable $e) {
             $coordinates = $query->getCoordinates();
             $this->log(sprintf(
-                'Provider "%s" could not reverse coordinates: "%f %f".',
-                $this->getName(), $coordinates->getLatitude(), $coordinates->getLongitude()
+                'Provider "%s" could not reverse coordinates: "%f %f": Message: %s.',
+                $this->getName(), $coordinates->getLatitude(), $coordinates->getLongitude(), $e->getMessage()
             ));
         }
 
-        return new Collection($result);
+        return collect($result);
     }
 
     public function distance(DistanceInterface $distance): ?Model\Distance
@@ -106,11 +106,9 @@ class NominatimProvider extends AbstractProvider
 
             return $this->cacheCallback($url, function () use ($distance, $url) {
                 $response = $this->requestDistanceUrl($url, $distance);
+                $route = current($response);
 
-                return new Model\Distance(
-                    array_get($response->routes, '0.distance', 0),
-                    array_get($response->routes, '0.duration', 0)
-                );
+                return new Model\Distance($route->distance ?? 0, $route->duration ?? 0);
             });
         } catch (Throwable $e) {
             $this->log(sprintf('Provider "%s" could not calculate distance.', $this->getName()));
@@ -119,7 +117,7 @@ class NominatimProvider extends AbstractProvider
         }
     }
 
-    protected function requestUrl(string $url, GeoQueryInterface $query): \stdClass
+    protected function requestUrl(string $url, GeoQueryInterface $query): array
     {
         if ($locale = $query->getLocale()) {
             $url = sprintf('%s&accept-language=%s', $url, $locale);
@@ -142,10 +140,10 @@ class NominatimProvider extends AbstractProvider
         return $this->parseResponse($response);
     }
 
-    protected function hydrateResponse(\stdClass $response): array
+    protected function hydrateResponse(array $response): array
     {
         $result = [];
-        foreach ($response->results as $location) {
+        foreach ($response as $location) {
             $address = new Model\Location($this->getName());
 
             $this->parseCoordinates($address, $location);
@@ -171,7 +169,7 @@ class NominatimProvider extends AbstractProvider
     //
     //
 
-    protected function parseResponse(ResponseInterface $response): \stdClass
+    protected function parseResponse(ResponseInterface $response, ?string $returnKey = null): array
     {
         $json = json_decode($response->getBody()->getContents(), false);
 
@@ -201,7 +199,7 @@ class NominatimProvider extends AbstractProvider
             ));
         }
 
-        return $json;
+        return $returnKey ? $json->$returnKey : $json;
     }
 
     protected function parseCoordinates(Model\Location $address, \stdClass $location)
@@ -242,7 +240,7 @@ class NominatimProvider extends AbstractProvider
         $address->setCountryCode($countryCode ? strtoupper($countryCode) : null);
     }
 
-    protected function requestDistanceUrl(string $url, DistanceInterface $distance): \stdClass
+    protected function requestDistanceUrl(string $url, DistanceInterface $distance): array
     {
         if ($apiKey = array_get($this->config, 'apiKey')) {
             $url = sprintf('%s&key=%s', $url, $apiKey);
@@ -258,6 +256,6 @@ class NominatimProvider extends AbstractProvider
 
         $response = $this->getHttpClient()->get($url, $options);
 
-        return $this->parseResponse($response);
+        return $this->parseResponse($response, 'routes');
     }
 }
