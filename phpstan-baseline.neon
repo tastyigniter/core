@@ -2531,11 +2531,6 @@ parameters:
 			path: src/Flame/Filesystem/Filesystem.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Geolite\\\\Distance\\:\\:\\$data\\.$#"
-			count: 3
-			path: src/Flame/Geolite/Distance.php
-
-		-
 			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float\\|int given\\.$#"
 			count: 8
 			path: src/Flame/Geolite/Model/Bounds.php
@@ -2577,6 +2572,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Psr\\\\Http\\\\Client\\\\ClientInterface\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Geolite/Provider/GoogleProvider.php
+
+		-
+			message: "#^Cannot access property \\$rows on array\\.$#"
 			count: 2
 			path: src/Flame/Geolite/Provider/GoogleProvider.php
 
@@ -2732,6 +2732,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\View\\\\Compilers\\\\CompilerInterface\\:\\:compileString\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Environment.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\View\\\\Compilers\\\\CompilerInterface\\:\\:setPath\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Environment.php
 
@@ -3536,11 +3541,6 @@ parameters:
 			path: src/Main/Classes/Theme.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
-			count: 2
-			path: src/Main/Classes/ThemeManager.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:find\\(\\)\\.$#"
 			count: 4
 			path: src/Main/Classes/ThemeManager.php
@@ -3781,6 +3781,11 @@ parameters:
 			path: src/Main/Http/Controllers/Themes.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
+			count: 1
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$data\\.$#"
 			count: 1
 			path: src/Main/Http/Controllers/Themes.php
@@ -3924,11 +3929,6 @@ parameters:
 			message: "#^Cannot call method getController\\(\\) on object\\|string\\.$#"
 			count: 2
 			path: src/Main/Requests/ThemeRequest.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Setting\\\\Facades\\\\Setting\\:\\:get\\(\\)\\.$#"
-			count: 2
-			path: src/Main/ServiceProvider.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:basename\\(\\)\\.$#"
@@ -5087,16 +5087,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$code\\.$#"
-			count: 3
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$name\\.$#"
 			count: 2
 			path: src/System/Models/Language.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$status\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$name\\.$#"
 			count: 1
 			path: src/System/Models/Language.php
 
@@ -5421,6 +5416,16 @@ parameters:
 			path: src/System/Models/Settings.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getFieldValues\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Settings.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Settings\\)\\:\\:upsert\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Settings.php
+
+		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Settings.php
@@ -5444,8 +5449,3 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 1
 			path: src/System/Providers/MailServiceProvider.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Setting\\\\Facades\\\\Setting\\:\\:get\\(\\)\\.$#"
-			count: 1
-			path: src/System/ServiceProvider.php
