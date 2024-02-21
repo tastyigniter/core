@@ -183,7 +183,7 @@ if (!function_exists('setting')) {
 }
 
 if (!function_exists('params')) {
-    function params(string $key = null, mixed $default = null): mixed
+    function params(?string $key = null, mixed $default = null): mixed
     {
         return \Igniter\System\Models\Settings::get($key, $default, 'prefs');
     }
