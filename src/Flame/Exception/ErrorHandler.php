@@ -57,7 +57,7 @@ class ErrorHandler
     /**
      * Report or log an exception.
      */
-    public function report(Throwable $e): ?false
+    public function report(Throwable $e): ?bool
     {
         if (!class_exists('Event')) {
             return null;
