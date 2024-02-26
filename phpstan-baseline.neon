@@ -3096,11 +3096,6 @@ parameters:
 			path: src/Flame/Support/Helpers/form.php
 
 		-
-			message: "#^Function form_error\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/Flame/Support/Helpers/form.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(array    Additional attributes\\)\\: Unexpected token \"Additional\", expected variable at offset 202$#"
 			count: 1
 			path: src/Flame/Support/Helpers/form.php
@@ -3186,16 +3181,6 @@ parameters:
 			path: src/Flame/Support/Helpers/form.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 156$#"
-			count: 1
-			path: src/Flame/Support/Helpers/form.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 177$#"
-			count: 1
-			path: src/Flame/Support/Helpers/form.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 220$#"
 			count: 1
 			path: src/Flame/Support/Helpers/form.php
@@ -3242,11 +3227,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 75$#"
-			count: 1
-			path: src/Flame/Support/Helpers/form.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\*\", expected variable at offset 198$#"
 			count: 1
 			path: src/Flame/Support/Helpers/form.php
 

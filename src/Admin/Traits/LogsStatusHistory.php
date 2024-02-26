@@ -40,13 +40,13 @@ trait LogsStatusHistory
         return $this->status_history->first();
     }
 
-    public function addStatusHistory(?Status $status, array $statusData = []): StatusHistory|false
+    public function addStatusHistory(null|string|Status $status, array $statusData = []): StatusHistory|false
     {
         if (!$this->exists || !$status) {
             return false;
         }
 
-        $this->status()->associate($status);
+        $status = $this->status()->associate($status);
 
         if (!$history = StatusHistory::createHistory($status, $this, $statusData)) {
             return false;
