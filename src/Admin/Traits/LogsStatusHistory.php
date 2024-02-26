@@ -64,7 +64,7 @@ trait LogsStatusHistory
         if (is_null($statusId)) {
             return $this->status_history->isNotEmpty();
         }
-        
+
         return $this->status_history()->whereIn('status_id', (array)$statusId)->exists();
     }
 

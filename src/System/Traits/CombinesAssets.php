@@ -169,10 +169,15 @@ trait CombinesAssets
             }
         }
 
-        $notes = rescue(fn () => $this->combineBundles(),
-            fn ($ex) => flash()->error('Building assets bundle error: '.$ex->getMessage())->important());
+        $notes = [];
 
-        Event::dispatch('assets.combiner.afterBuildBundles', [$this, $theme]);
+        try {
+            $notes = $this->combineBundles();
+
+            Event::dispatch('assets.combiner.afterBuildBundles', [$this, $theme]);
+        } catch (\Exception $ex) {
+            flash()->error('Building assets bundle error: '.$ex->getMessage())->important();
+        }
 
         return $notes;
     }

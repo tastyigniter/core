@@ -515,18 +515,14 @@ if (!function_exists('form_error')) {
      * Form Error
      * Returns the error for a specific form field. This is a helper for the
      * form validation class.
-     *
-     * @param string
-     * @param string
-     * @param string
-     *
-     * @return    string
      */
-    function form_error($field = null, $prefix = '', $suffix = '')
+    function form_error($field = null, $prefix = '', $suffix = '', $bag = 'default')
     {
         $errors = (Config::get('session.driver') && Session::has('errors'))
             ? Session::get('errors')
-            : new \Illuminate\Support\ViewErrorBag;
+            : array_get(app('view')->getShared(), 'errors', new \Illuminate\Support\ViewErrorBag);
+
+        $errors = $errors->getBag($bag);
 
         if (is_null($field)) {
             return $errors;
@@ -550,11 +546,13 @@ if (!function_exists('has_form_error')) {
      *
      * @return    string
      */
-    function has_form_error($field = null)
+    function has_form_error($field = null, $bag = 'default')
     {
         $errors = (Config::get('session.driver') && Session::has('errors'))
             ? Session::get('errors')
-            : new \Illuminate\Support\ViewErrorBag;
+            : array_get(app('view')->getShared(), 'errors', new \Illuminate\Support\ViewErrorBag);
+
+        $errors = $errors->getBag($bag);
 
         if (is_null($field)) {
             return $errors;
