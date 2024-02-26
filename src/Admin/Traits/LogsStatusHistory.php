@@ -59,13 +59,13 @@ trait LogsStatusHistory
         return $history;
     }
 
-    public function hasStatus(null|string|int $statusId = null): bool
+    public function hasStatus(mixed $statusId = null): bool
     {
         if (is_null($statusId)) {
             return $this->status_history->isNotEmpty();
         }
-
-        return $this->status_history()->where('status_id', $statusId)->exists();
+        
+        return $this->status_history()->whereIn('status_id', (array)$statusId)->exists();
     }
 
     public function scopeWhereStatus($query, null|string|array $statusId): Builder
