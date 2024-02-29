@@ -3341,7 +3341,7 @@ parameters:
 			path: src/Flame/Translation/Models/Translation.php
 
 		-
-			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$fillable is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$fillable\\.$#"
+			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$fillable is not covariant with PHPDoc type array\\<int, string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$fillable\\.$#"
 			count: 1
 			path: src/Flame/Translation/Models/Translation.php
 

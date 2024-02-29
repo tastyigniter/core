@@ -21,7 +21,7 @@ class ValidationHelper
         foreach ($rules as $value) {
             $name = $value[0] ?? '';
             if (isset($value[2])) {
-                $result['rules'][$name] = explode('|', $value[2]);
+                $result['rules'][$name] = is_string($value[2]) ? explode('|', $value[2]) : $value[2];
             }
 
             if (isset($value[1])) {

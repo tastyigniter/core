@@ -141,6 +141,11 @@ class Settings extends Model
         return static::upsert($data, ['sort', 'item'], ['value']);
     }
 
+    public static function setPref(string|array $key, mixed $value = null): bool
+    {
+        return self::set($key, $value, 'prefs');
+    }
+
     public static function make($attributes = [])
     {
         return resolve(static::class)->fill($attributes);

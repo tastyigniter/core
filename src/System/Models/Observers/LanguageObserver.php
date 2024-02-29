@@ -6,7 +6,7 @@ use Igniter\System\Models\Language;
 
 class LanguageObserver
 {
-    protected function saved(Language $language)
+    public function saved(Language $language)
     {
         Language::applySupportedLanguages();
 

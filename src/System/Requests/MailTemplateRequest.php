@@ -22,7 +22,7 @@ class MailTemplateRequest extends FormRequest
         return [
             'layout_id' => ['integer'],
             'code' => ['sometimes', 'required', 'min:2', 'max:255',
-                Rule::unique('mail_templates')->ignore($this->getRecordId(), 'template_id'),
+                Rule::unique('mail_templates', 'code')->ignore($this->getRecordId(), 'template_id'),
                 'regex:/^[a-z-_\.\:]+$/i',
             ],
             'label' => ['required', 'string'],

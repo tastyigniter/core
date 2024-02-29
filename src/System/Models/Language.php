@@ -43,7 +43,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public static function applySupportedLanguages()
     {
-        setting()->set('supported_languages', self::getDropdownOptions()->keys()->toArray());
+        setting()->setPref('supported_languages', self::getDropdownOptions()->keys()->toArray());
     }
 
     public static function getDropdownOptions()

@@ -46,7 +46,7 @@ it('has sometimes rule for code input', function () {
 });
 
 it('has unique rule for code input', function () {
-    expect((string)(Rule::unique('mail_templates')->ignore(null, 'template_id')))
+    expect((string)(Rule::unique('mail_templates', 'code')->ignore(null, 'template_id')))
         ->toBeIn(
             collect(array_get((new MailTemplateRequest)->rules(), 'code'))->map(function ($rule) {
                 return (string)$rule;

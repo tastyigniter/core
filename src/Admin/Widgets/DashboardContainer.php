@@ -205,7 +205,7 @@ class DashboardContainer extends BaseWidget
 
         $widgets = $this->getWidgetsFromUserPreferences();
 
-        params()->set($this->getSystemParametersKey(), $widgets);
+        setting()->setPref($this->getSystemParametersKey(), $widgets);
 
         flash()->success(lang('igniter::admin.dashboard.make_default_success'));
     }
@@ -509,7 +509,7 @@ class DashboardContainer extends BaseWidget
 
     protected function getWidgetsFromUserPreferences(): array
     {
-        $defaultWidgets = params()->get($this->getSystemParametersKey(), $this->defaultWidgets);
+        $defaultWidgets = params($this->getSystemParametersKey(), $this->defaultWidgets);
 
         $widgets = UserPreference::onUser()
             ->get($this->getUserPreferencesKey(), $defaultWidgets);

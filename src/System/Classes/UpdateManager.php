@@ -263,8 +263,7 @@ class UpdateManager
             $info = $result['data'];
         }
 
-        params()->set('carte_info', $info);
-        params()->save();
+        setting()->setPref('carte_info', $info);
 
         return $info;
     }
