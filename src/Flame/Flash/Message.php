@@ -5,10 +5,10 @@ namespace Igniter\Flame\Flash;
 class Message implements \ArrayAccess
 {
     /** The title of the message. */
-    public string $title;
+    public ?string $title = null;
 
     /** The body of the message. */
-    public string $message;
+    public ?string $message = null;
 
     /** The message level. */
     public string $level = 'info';
@@ -71,5 +71,16 @@ class Message implements \ArrayAccess
     public function offsetUnset(mixed $offset): void
     {
         //
+    }
+
+    public function toArray()
+    {
+        return [
+            'title' => $this->title,
+            'message' => $this->message,
+            'level' => $this->level,
+            'important' => $this->important,
+            'overlay' => $this->overlay,
+        ];
     }
 }

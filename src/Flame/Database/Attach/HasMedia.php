@@ -89,6 +89,11 @@ trait HasMedia
     // Media handling
     //
 
+    public function getThumbOrBlank(array $options = [], ?string $tag = null)
+    {
+        return $this->getThumb($options, $tag) ?? Manipulator::encodedBlankImageUrl();
+    }
+
     /**
      * Get the thumbnail of the first media item of a default tag.
      */

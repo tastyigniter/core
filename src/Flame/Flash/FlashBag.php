@@ -21,6 +21,11 @@ class FlashBag
         return $this;
     }
 
+    public function getSessionKey(): string
+    {
+        return $this->sessionKey;
+    }
+
     public function messages(): Collection
     {
         if ($this->messages) {

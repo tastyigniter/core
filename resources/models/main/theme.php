@@ -86,6 +86,7 @@ $config['form']['toolbar'] = [
             'class' => 'btn btn-secondary',
             'context' => 'edit',
             'data-request' => 'onReset',
+            'data-request-confirm' => 'lang:igniter::admin.alert_warning_confirm',
             'data-progress-indicator' => 'igniter::admin.text_saving',
         ],
     ],

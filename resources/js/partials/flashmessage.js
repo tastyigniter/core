@@ -46,6 +46,7 @@
             text: message,
             showCancelButton: true,
             allowOutsideClick: false,
+            allowEscapeKey: false,
         }, FlashMessage.DEFAULTS, FlashMessage.SWAL_DEFAULTS)
 
         return Swal.fire(FlashMessage.parseOptions(options)).then((result) => {
