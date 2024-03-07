@@ -35,11 +35,6 @@
     }
 
     Calendar.prototype.initFullCalendar = function () {
-        this.options.customButtons.datePicker = {
-            text: 'Go To Date',
-            click: $.proxy(this.onTogglePicker, this)
-        }
-
         this.options.locale = this.options.locale.replace('_', '-').split('-').shift();
         this.options.events = $.proxy(this.generateEvents, this);
         this.calendar = new FullCalendar.Calendar(this.$calendar[0], this.options);
@@ -98,17 +93,6 @@
         })
     }
 
-    Calendar.prototype.onTogglePicker = function (event) {
-        var $button = $(event.currentTarget)
-
-        if (!this.picker) {
-            this.picker = $button.flatpickr()
-            this.picker.config.onChange.push($.proxy(this.onPickerDateChanged, this))
-        }
-
-        this.picker.open()
-    }
-
     Calendar.prototype.onPickerDateChanged = function (selectedDates, dateStr, instance) {
         this.calendar.gotoDate(dateStr)
     }
@@ -141,12 +125,9 @@
         editable: false,
         initialDate: null,
         headerToolbar: {
-            left: 'today prev,datePicker,next',
+            left: 'prev,today,next',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
-        },
-        customButtons: {
-            datePicker: {}
         },
         themeSystem: 'bootstrap4',
         dayMaxEventRows: 5,

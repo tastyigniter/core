@@ -2,7 +2,7 @@
  * Datepicker plugin
  *
  * Data attributes:
- * - data-control="datepicker" - enables the plugin on an element
+ * - data-control="daterangepicker" - enables the plugin on an element
  */
 +function ($) {
     "use strict"

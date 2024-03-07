@@ -63,21 +63,8 @@ class DatePicker extends BaseFormWidget
 
     public function loadAssets()
     {
-        $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
-
         $mode = $this->getConfig('mode', 'date');
-        if ($mode == 'time') {
-            $this->addCss('clockpicker.css', 'clockpicker-css');
-        }
-
-        if ($mode == 'date') {
-            if (($locale = app()->getLocale()) != 'en') {
-                $this->addJs('js/locales/datepicker/bootstrap-datepicker.'.strtolower(str_replace('_', '-', $locale)).'.min.js', 'bootstrap-datepicker-js');
-            }
-            $this->addCss('datepicker.css', 'datepicker-css');
-        }
-
-        if ($mode == 'datetime') {
+        if ($mode == 'date' || $mode == 'datetime') {
             $this->addCss('datepicker.css', 'datepicker-css');
         }
     }

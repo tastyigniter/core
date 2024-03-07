@@ -42,9 +42,7 @@ class Localization
             return false;
         }
 
-        $remember = $this->getLocale() != $locale;
-
-        $this->setLocale($locale, $remember);
+        $this->setLocale($locale);
 
         return true;
     }
@@ -56,9 +54,7 @@ class Localization
             return false;
         }
 
-        $remember = $this->getLocale() != $locale;
-
-        $this->setLocale($locale, $remember);
+        $this->setLocale($locale);
 
         return true;
     }
@@ -70,14 +66,12 @@ class Localization
             return false;
         }
 
-        $remember = $this->getLocale() != $locale;
-
-        $this->setLocale($locale, $remember);
+        $this->setLocale($locale);
 
         return true;
     }
 
-    public function setLocale($locale, $remember = true)
+    public function setLocale($locale)
     {
         if (!$this->isValid($locale)) {
             return false;
@@ -85,10 +79,6 @@ class Localization
 
         app()->setLocale($locale);
         Carbon::setLocale($locale);
-
-        if ($remember) {
-            $this->setSessionLocale($locale);
-        }
     }
 
     public function getLocale()

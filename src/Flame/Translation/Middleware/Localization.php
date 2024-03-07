@@ -30,12 +30,9 @@ class Localization
     {
         $localization = app('translator.localization');
 
-        $sessionLocale = $localization->getSessionLocale();
         $userLocale = $this->getUserLocale() ?? $localization->getDefaultLocale();
 
-        $storeSession = $sessionLocale !== $userLocale;
-
-        $localization->setLocale($userLocale, $storeSession);
+        $localization->setLocale($userLocale);
     }
 
     protected function loadLocale()
