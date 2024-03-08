@@ -63,7 +63,7 @@ class ServiceProvider extends AppServiceProvider
         $this->defineEloquentMorphMaps();
         $this->resolveFlashSessionKey();
 
-        $this->app->booted(fn() => $this->updateTimezone());
+        $this->app->booted(fn () => $this->updateTimezone());
 
         $this->loadCurrencyConfiguration();
         $this->loadLocalizationConfiguration();
