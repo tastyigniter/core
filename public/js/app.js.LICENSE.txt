@@ -37,15 +37,6 @@
  * Date: 2022-08-26T17:52Z
  */
 
-/*!
-* metismenu - v2.7.7
-* A jQuery menu plugin
-* https://github.com/onokumus/metismenu#readme
-*
-* Made by Osman Nuri Okumus <onokumus@gmail.com> (https://github.com/onokumus)
-* Under MIT License
-*/
-
 //! moment.js
 
 //! moment.js locale configuration
