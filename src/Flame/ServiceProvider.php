@@ -5,6 +5,7 @@ namespace Igniter\Flame;
 use Igniter\Flame\Exception\ErrorHandler;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Support\ClassLoader;
+use Igniter\Flame\Translation\Middleware\Localization;
 use Igniter\System\Classes\PackageManifest;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\AliasLoader;
@@ -46,8 +47,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->bindPathsInContainer();
 
-        $this->app->make(Router::class)->middlewareGroup('web', [
-            \Igniter\Flame\Translation\Middleware\Localization::class,
+        $this->app->make(Router::class)->middlewareGroup('igniter', [
+            Localization::class,
         ]);
 
         $this->registerSingletons();

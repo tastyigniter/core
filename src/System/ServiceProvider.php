@@ -6,6 +6,7 @@ use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\System\Models\Country;
+use Igniter\System\Models\Currency;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\RequestLog;
 use Igniter\System\Models\Settings;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -61,8 +63,9 @@ class ServiceProvider extends AppServiceProvider
         $this->defineEloquentMorphMaps();
         $this->resolveFlashSessionKey();
 
-        $this->app->booted(fn () => $this->updateTimezone());
+        $this->app->booted(fn() => $this->updateTimezone());
 
+        $this->loadCurrencyConfiguration();
         $this->loadLocalizationConfiguration();
         $this->loadGeocoderConfiguration();
 
@@ -137,11 +140,23 @@ class ServiceProvider extends AppServiceProvider
         ]);
     }
 
+    protected function loadCurrencyConfiguration()
+    {
+        Event::listen('currency.beforeRegister', function () {
+            app('config')->set('igniter-currency.default', Currency::getDefault()?->currency_code ?? 'GBP');
+            app('config')->set('igniter-currency.converter', setting('currency_converter.api', 'openexchangerates'));
+            app('config')->set('igniter-currency.converters.openexchangerates.apiKey', setting('currency_converter.oer.apiKey'));
+            app('config')->set('igniter-currency.converters.fixerio.apiKey', setting('currency_converter.fixerio.apiKey'));
+            app('config')->set('igniter-currency.ratesCacheDuration', setting('currency_converter.refreshInterval'));
+            app('config')->set('igniter-currency.model', Currency::class);
+        });
+    }
+
     protected function loadLocalizationConfiguration()
     {
         $this->app->resolving('translator.localization', function ($localization, $app) {
             $app['config']->set('localization.locale', Language::getDefault()?->code ?? $app['config']['app.locale']);
-            $app['config']->set('localization.supportedLocales', setting('supported_languages', []) ?: ['en']);
+            $app['config']->set('localization.supportedLocales', params('supported_languages', []) ?: ['en']);
             $app['config']->set('localization.detectBrowserLocale', (bool)setting('detect_language', false));
         });
     }
