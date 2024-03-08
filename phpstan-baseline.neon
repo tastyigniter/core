@@ -651,7 +651,7 @@ parameters:
 			path: src/Admin/Models/Staff.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\Staff\\)\\:\\:whereIsEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Staff.php
 
@@ -666,12 +666,12 @@ parameters:
 			path: src/Admin/Models/Status.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\Status\\)\\:\\:isForOrder\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:isForOrder\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Status.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\Admin\\\\Models\\\\Status\\)\\:\\:isForReservation\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:isForReservation\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/Status.php
 
@@ -1336,7 +1336,7 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\Flame\\\\Database\\\\Model\\)\\:\\:find\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:find\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
@@ -3866,6 +3866,11 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:firstWhere\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:where\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/Theme.php
@@ -3882,11 +3887,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:whereNotIn\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Models/Theme.php
-
-		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\:\\:firstWhere\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/Theme.php
 
@@ -4896,17 +4896,17 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:create\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:create\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:firstWhere\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:firstWhere\\(\\)\\.$#"
 			count: 2
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:whereIsEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
@@ -5016,17 +5016,17 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\:\\:firstWhere\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:firstWhere\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\:\\:select\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:select\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\:\\:updateOrCreate\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:updateOrCreate\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
@@ -5111,6 +5111,11 @@ parameters:
 			path: src/System/Models/Language.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:firstWhere\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereCode\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Language.php
@@ -5118,11 +5123,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 2
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\:\\:firstWhere\\(\\)\\.$#"
-			count: 1
 			path: src/System/Models/Language.php
 
 		-
@@ -5371,7 +5371,7 @@ parameters:
 			path: src/System/Models/Page.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Page\\)\\:\\:whereIsEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Page\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Page.php
 
@@ -5401,7 +5401,7 @@ parameters:
 			path: src/System/Models/Settings.php
 
 		-
-			message: "#^Call to an undefined static method static\\(Igniter\\\\System\\\\Models\\\\Settings\\)\\:\\:upsert\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Settings\\:\\:upsert\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Settings.php
 
