@@ -60,11 +60,6 @@ class Template
         $this->blocks[$name] = $contents;
     }
 
-    public function getTheme(): string
-    {
-        return $this->themeCode;
-    }
-
     public function getTitle(): ?string
     {
         return $this->pageTitle;

@@ -39,7 +39,7 @@ class DatePicker extends BaseFormWidget
     public function initialize()
     {
         $this->fillFromConfig([
-            'format',
+            'dateFormat',
             'mode',
             'startDate',
             'endDate',

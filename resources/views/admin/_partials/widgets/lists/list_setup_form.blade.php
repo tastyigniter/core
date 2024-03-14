@@ -2,7 +2,7 @@
     {!! form_open([]) !!}
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">{{ sprintf(lang('igniter::admin.list.setup_title'), lang($this->getConfig('title')))}}</h4>
+            <h4 class="modal-title">{{ sprintf(lang('igniter::admin.list.setup_title'), lang($this->getConfig('title') ?? ''))}}</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
         </div>
         <div class="modal-body">

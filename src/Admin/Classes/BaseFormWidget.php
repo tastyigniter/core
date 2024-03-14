@@ -35,7 +35,7 @@ class BaseFormWidget extends BaseWidget
 
     protected string $fieldName;
 
-    protected string $valueFrom;
+    protected ?string $valueFrom = null;
 
     /**
      * Constructor

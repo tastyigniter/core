@@ -27,6 +27,7 @@
                         class="nav-item"
                     >
                         <x-igniter.admin::nav.item-link
+                            :hasChildTarget="!empty($item['child']) ? '#'.$code.'-'.$loop->index : ''"
                             class="nav-link mb-1 {{ !empty($item['child']) ? 'has-arrow' : '' }} {{ $item['class'] ?? '' }}"
                             href="{{ $item['href'] ?? '#' }}"
                             target="{{ $item['target'] ?? '_self' }}"
@@ -37,8 +38,10 @@
                         @if($children = array_get($item, 'child', []))
                             @php($isActive = (bool)AdminMenu::isActiveNavItem($code))
                             <x-igniter.admin::nav
+                                id="{{ $code }}-{{ $loop->index }}"
                                 class="nav collapse {{ $isActive ? ' show' : '' }}"
                                 aria-expanded="{{ $isActive ? 'true' : 'false' }}"
+                                data-bs-parent="#side-nav-menu"
                             >
                                 @foreach($children as $childCode => $childItem)
                                     @if(isset($childItem['child']) && empty($childItem['child']))

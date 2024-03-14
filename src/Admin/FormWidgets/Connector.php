@@ -162,7 +162,7 @@ class Connector extends BaseFormWidget
         return $widget->onRefresh();
     }
 
-    public function onLoadRecord(): mixed
+    public function onLoadRecord(): string
     {
         $model = $this->getRelationModel();
         $formTitle = lang($this->newRecordTitle);
@@ -179,12 +179,14 @@ class Connector extends BaseFormWidget
         ]);
     }
 
-    public function onSaveRecord(): mixed
+    public function onSaveRecord(): array
     {
         $model = $this->getRelationModel();
 
         if (strlen($recordId = post('recordId', ''))) {
-            $model = $model->find($recordId);
+            throw_unless($model = $model->find($recordId),
+                new FlashException(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model)))
+            );
         }
 
         $form = $this->makeItemFormWidget($model);
@@ -208,7 +210,7 @@ class Connector extends BaseFormWidget
         return $this->reload();
     }
 
-    public function onDeleteRecord(): mixed
+    public function onDeleteRecord(): false|array
     {
         if (!strlen($recordId = post('recordId', ''))) {
             return false;

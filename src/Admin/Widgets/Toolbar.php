@@ -143,7 +143,7 @@ class Toolbar extends BaseWidget
 
     public function getActiveSaveAction()
     {
-        return session()->get('widget.toolbar_save_action', 'continue');
+        return $this->getSession('toolbar_save_action', 'continue');
     }
 
     public function onChooseSaveButtonAction()
@@ -152,7 +152,7 @@ class Toolbar extends BaseWidget
             'toolbar_save_action' => ['required', 'string'],
         ])->validate();
 
-        session()->put('widget.toolbar_save_action', $data['toolbar_save_action']);
+        $this->putSession('toolbar_save_action', $data['toolbar_save_action']);
     }
 
     protected function makeButtons($buttons): array

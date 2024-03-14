@@ -83,6 +83,10 @@ class FilterScope
      */
     protected function evalConfig(array $config): array
     {
+        if (isset($config['idPrefix'])) {
+            $this->idPrefix = $config['idPrefix'];
+        }
+
         if (isset($config['options'])) {
             $this->options = $config['options'];
         }

@@ -4,8 +4,6 @@ namespace Igniter\Admin\Traits;
 
 use Closure;
 use Igniter\Admin\Widgets\Form;
-use Igniter\Flame\Exception\FlashException;
-use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\System\Helpers\ValidationHelper;
 use Illuminate\Contracts\Validation\Validator;
@@ -118,10 +116,6 @@ trait ValidatesForm
 
         // if we dont have in config then fallback to a FormRequest class
         if ($requestClass = array_get($this->config, 'request')) {
-            if (!class_exists($requestClass)) {
-                throw new SystemException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
-            }
-
             $validated = array_merge($validated,
                 $this->resolveFormRequest($requestClass, function ($request) use ($saveData) {
                     $request->merge($saveData);
@@ -134,11 +128,7 @@ trait ValidatesForm
 
     protected function validateFormRequest(?string $requestClass, callable $callback)
     {
-        if (!$requestClass || !class_exists($requestClass)) {
-            throw new FlashException(sprintf(lang('igniter::admin.form.request_class_not_found'), $requestClass));
-        }
-
-        return $this->resolveFormRequest($requestClass, $callback)->validated();
+        return $this->resolveFormRequest($requestClass, $callback)->validated() ?? [];
     }
 
     protected function resolveFormRequest(string $requestClass, callable $callback)

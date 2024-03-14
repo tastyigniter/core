@@ -43,7 +43,7 @@ class Charts extends BaseDashboardWidget
                 'default' => 'reports',
                 'type' => 'select',
                 'placeholder' => 'lang:admin::lang.text_please_select',
-                'options' => $this->getDatasetOptions(),
+                'options' => [$this, 'getDatasetOptions'],
                 'validationRule' => 'required|alpha_dash',
             ],
         ];
@@ -91,7 +91,7 @@ class Charts extends BaseDashboardWidget
         return ['datasets' => $datasets];
     }
 
-    protected function getDatasetOptions()
+    public function getDatasetOptions()
     {
         return array_map(function ($context) {
             return array_get($context, 'label');
@@ -102,7 +102,7 @@ class Charts extends BaseDashboardWidget
     {
         return [
             'reports' => [
-                'label' => 'admin::lang.dashboard.text_reports_chart',
+                'label' => 'igniter::admin.dashboard.text_reports_chart',
                 'sets' => [
                     [
                         'label' => 'lang:igniter::admin.dashboard.charts.text_customers',

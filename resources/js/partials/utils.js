@@ -1,11 +1,6 @@
 +function ($) {
     "use strict";
 
-    $("#side-nav-menu").metisMenu({
-        toggle: true,
-        collapseInClass: 'show'
-    })
-
     $("#navSidebar").on('show.bs.collapse', function () {
         $('.sidebar').addClass('show')
     }).on('hide.bs.collapse', function () {

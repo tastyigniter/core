@@ -189,7 +189,7 @@ class FormController extends ControllerAction
 
     public function create_onSave(?string $context = null): ?RedirectResponse
     {
-        $this->context = $context ?: $this->getConfig('create[context]', self::CONTEXT_CREATE);
+        $context = $this->context = $context ?: $this->getConfig('create[context]', self::CONTEXT_CREATE);
         $model = $this->controller->formCreateModelObject();
         $model = $this->controller->formExtendModel($model) ?: $model;
         $this->initForm($model, $context);
@@ -220,7 +220,7 @@ class FormController extends ControllerAction
 
     public function edit(?string $context = null, mixed $recordId = null)
     {
-        $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
+        $context = $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
 
         $this->setFormTitle('lang:igniter::admin.form.edit_title');
 
@@ -231,7 +231,7 @@ class FormController extends ControllerAction
 
     public function edit_onSave(?string $context = null, mixed $recordId = null): ?RedirectResponse
     {
-        $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
+        $context = $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
 
         $model = $this->controller->formFindModelObject($recordId);
         $this->initForm($model, $context);
@@ -262,7 +262,7 @@ class FormController extends ControllerAction
 
     public function edit_onDelete(?string $context = null, mixed $recordId = null): ?RedirectResponse
     {
-        $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
+        $context = $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
 
         $model = $this->controller->formFindModelObject($recordId);
         $this->initForm($model, $context);
@@ -281,7 +281,7 @@ class FormController extends ControllerAction
 
     public function preview(?string $context = null, mixed $recordId = null)
     {
-        $this->context = $context ?: $this->getConfig('preview[context]', self::CONTEXT_PREVIEW);
+        $context = $this->context = $context ?: $this->getConfig('preview[context]', self::CONTEXT_PREVIEW);
 
         $this->setFormTitle('lang:igniter::admin.form.preview_title');
 

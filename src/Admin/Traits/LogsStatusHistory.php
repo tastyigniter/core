@@ -46,7 +46,7 @@ trait LogsStatusHistory
             return false;
         }
 
-        $status = $this->status()->associate($status);
+        $this->status()->associate($status);
 
         if (!$history = StatusHistory::createHistory($status, $this, $statusData)) {
             return false;

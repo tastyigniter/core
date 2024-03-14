@@ -6,6 +6,7 @@ use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\TableDataSource;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Html\HtmlFacade;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator as LengthAwarePaginatorContract;
 use Illuminate\Support\Facades\Request;
 
 class Table extends BaseWidget
@@ -155,6 +156,10 @@ class Table extends BaseWidget
         $limit = Request::post('limit', $this->getConfig('pageLimit', $this->pageLimit));
 
         $eventResults = $this->fireEvent('table.getRecords', [$offset, $limit, $search], true);
+
+        throw_unless($eventResults instanceof LengthAwarePaginatorContract, new SystemException(
+            'table.getRecords event must return a '.LengthAwarePaginatorContract::class.' instance.'
+        ));
 
         $records = $eventResults->getCollection()->toArray();
 

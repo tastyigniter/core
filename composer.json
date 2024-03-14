@@ -36,6 +36,7 @@
     "kalnoy/nestedset": "~6.0",
     "scssphp/scssphp": "~1.0",
     "symfony/yaml": "~6.0",
+    "tastyigniter/ti-ext-broadcast": "v4.x-dev as 4.0",
     "tastyigniter/ti-ext-cart": "v4.x-dev as 4.0",
     "tastyigniter/ti-ext-local": "v4.x-dev as 4.0",
     "tastyigniter/ti-ext-reservation": "v4.x-dev as 4.0",
@@ -46,12 +47,11 @@
     "fakerphp/faker": "~1.14",
     "laravel/pint": "^1.2",
     "mockery/mockery": "^1.5.1",
-    "nunomaduro/collision": "^6.3",
+    "nunomaduro/collision": "^7.10",
     "larastan/larastan": "^2.4.0",
     "orchestra/testbench": "^8.0",
-    "pestphp/pest": "^1.21",
-    "pestphp/pest-plugin-laravel": "^1.2",
-    "pestphp/pest-plugin-parallel": "^1.2"
+    "pestphp/pest": "^2.34",
+    "pestphp/pest-plugin-laravel": "^2.3"
   },
   "replace": {
     "kriswallsmith/assetic": "*",

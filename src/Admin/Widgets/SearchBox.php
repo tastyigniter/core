@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 class SearchBox extends BaseWidget
 {
     /** Search placeholder text. */
-    public ?string $prompt = null;
+    public string $prompt = '';
 
     /** Defines the search mode. Commonly passed to the search() query. */
     public ?string $mode = null;

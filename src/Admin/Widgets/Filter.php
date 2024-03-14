@@ -22,15 +22,15 @@ class Filter extends BaseWidget
     /** string Search widget configuration or partial name, optional. */
     public ?array $search = null;
 
-    /** Reference to the search widget object. */
-    protected ?SearchBox $searchWidget = null;
-
     /** Scope definition configuration. */
     public ?array $scopes = null;
 
     /** The context of this filter, scopes that do not belong * to this context will not be shown.
      */
     public ?string $context = null;
+
+    /** Reference to the search widget object. */
+    protected ?SearchBox $searchWidget = null;
 
     protected string $defaultAlias = 'filter';
 
@@ -156,7 +156,7 @@ class Filter extends BaseWidget
         if ($result && is_array($result)) {
             [$redirect] = $result;
 
-            return ($redirect instanceof RedirectResponse) ? $redirect : array_collapse($result);
+            return ($redirect instanceof RedirectResponse) ? $redirect : $result;
         }
     }
 
