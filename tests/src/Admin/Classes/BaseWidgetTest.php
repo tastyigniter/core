@@ -2,45 +2,40 @@
 
 namespace Tests\Admin\Classes;
 
+use Igniter\Admin\Classes\BaseWidget;
 use Tests\Admin\Fixtures\Controllers\TestController;
 use Tests\Admin\Fixtures\Widgets\TestWidget;
 
-it('has defined paths to locate widget partials', function () {
-    $controller = resolve(TestController::class);
-
-    $widget = $controller->makeWidget(TestWidget::class);
-
-    expect('tests.admin::_partials.fixtures/widgets/testwidget')
-        ->toBeIn($widget->partialPath)
-        ->and('tests.admin::_partials.fixtures/widgets')
-        ->toBeIn($widget->partialPath);
+beforeEach(function () {
+    $this->controller = new TestController();
+    $this->widget = new BaseWidget($this->controller, [
+        'alias' => 'test-alias',
+        'property' => 'Test Widget',
+    ]);
 });
 
-it('has defined paths to locate widget asset files', function () {
+it('has defined paths', function () {
     $controller = resolve(TestController::class);
-
     $widget = $controller->makeWidget(TestWidget::class);
 
-    expect('igniter::css/fixtures/widgets')->toBeIn($widget->assetPath);
+    expect('tests.admin::_partials.fixtures/widgets/testwidget')->toBeIn($widget->partialPath)
+        ->and('tests.admin::_partials.fixtures/widgets')->toBeIn($widget->partialPath)
+        ->and('igniter::css/fixtures/widgets')->toBeIn($widget->assetPath);
 });
 
 it('loads a widget', function () {
-    $controller = resolve(TestController::class);
+    $this->widget->bindToController();
 
-    $config = ['property' => 'Test Widget'];
-    $widget = $controller->makeWidget(TestWidget::class, $config);
-    $widget->bindToController();
+    expect($this->widget->alias)->toBe('test-alias')
+        ->and($this->widget->getId())->toBe('basewidget-test-alias')
+        ->and($this->widget->getId('suffix'))->toBe('basewidget-test-alias-suffix')
+        ->and($this->controller->widgets['test-alias'])->toBe($this->widget)
+        ->and($this->widget->getEventHandler('onTest'))->toBe('test-alias::onTest')
+        ->and($this->widget->getController())->toBe($this->controller)
+        ->and($this->widget->reload())->toBeArray();
+});
 
-    expect($widget->alias)
-        ->toBe('testwidget')
-        ->and($widget->getId())
-        ->toBe('testwidget')
-        ->and($widget->getId('suffix'))
-        ->toBe('testwidget-suffix')
-        ->and($widget->property)
-        ->toBe('Test Widget')
-        ->and($controller->widgets['testwidget'])
-        ->toBe($widget)
-        ->and($widget->getEventHandler('onAjaxTest'))
-        ->toBe('testwidget::onAjaxTest');
+it('can set and get config', function () {
+    $this->widget->setConfig(['test' => 'value']);
+    expect($this->widget->getConfig('test'))->toBe('value');
 });

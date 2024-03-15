@@ -1,5 +1,5 @@
 <?php
 
-namespace Tests\Admin\Http\Middleware;
+namespace Tests\System\Http\Middleware;
 
 it('adds powered by text to response header')->skip();

@@ -4,32 +4,62 @@ namespace Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\OnboardingSteps;
 
-it('registers an onboarding step', function () {
-    $onboardingSteps = resolve(OnboardingSteps::class);
-
-    $onboardingSteps->registerSteps([
-        'test' => [
-            'label' => 'Test',
-            'description' => 'Test description',
-            'icon' => 'fa fa-test',
-            'url' => 'test',
-            'priority' => 100,
+dataset('onboardingSteps', [
+    fn () => [
+        'testStep1' => [
+            'label' => 'Test Step 1',
+            'description' => 'This is test step 1',
+            'icon' => 'fa fa-angle-double-right',
+            'url' => 'http://localhost/admin/testStep1',
+            'priority' => 500,
+            'complete' => function () {
+                return false;
+            },
+        ],
+        'testStep2' => [
+            'label' => 'Test Step 2',
+            'description' => 'This is test step 2',
+            'icon' => 'fa fa-angle-double-left',
+            'url' => 'http://localhost/admin/testStep2',
+            'priority' => 1000,
             'complete' => function () {
                 return true;
             },
-            'completed' => function () {
-                return true;
-            },
+        ],
+    ],
+]);
+
+beforeEach(function () {
+    $this->onboardingSteps = new OnboardingSteps();
+});
+
+it('adds, gets and removes onboarding steps correctly', function () {
+    $this->onboardingSteps->registerSteps([
+        'testStep' => [
+            'label' => 'Test Step',
+            'description' => 'This is a test step',
+            'icon' => 'fa fa-angle-double-right',
+            'url' => 'http://localhost/admin/testStep',
+            'priority' => 500,
+            'complete' => fn () => true,
+            'completed' => fn () => true,
         ],
     ]);
 
-    $steps = $onboardingSteps->listSteps();
+    $step = $this->onboardingSteps->getStep('testStep');
 
-    expect($steps['test'])->toHaveProperties([
-        'code', 'label', 'description', 'icon', 'url', 'priority', 'complete', 'completed',
-    ])
-        ->and($steps['test']->complete)->toBeCallable()
-        ->and($steps['test']->completed)->toBeCallable();
+    expect($step->label)->toBe('Test Step')
+        ->and($step->description)->toBe('This is a test step')
+        ->and($step->icon)->toBe('fa fa-angle-double-right')
+        ->and($step->url)->toBe('http://localhost/admin/testStep')
+        ->and($step->priority)->toBe(500)
+        ->and($step->complete)->toBeCallable();
+
+    $this->onboardingSteps->removeStep('testStep');
+
+    $step = $this->onboardingSteps->getStep('testStep');
+
+    expect($step)->toBeNull();
 });
 
 it('loads registered admin onboarding steps', function () {
@@ -44,3 +74,44 @@ it('loads registered admin onboarding steps', function () {
         ->and($onboardingSteps->getStep('admin::settings')->complete)->toBeCallable()
         ->and($onboardingSteps->getStep('admin::settings')->completed)->toBeCallable();
 });
+
+it('lists onboarding steps correctly', function ($steps) {
+    $this->onboardingSteps->registerSteps($steps);
+
+    $steps = $this->onboardingSteps->listSteps();
+
+    expect($steps)->toHaveKey('testStep1')
+        ->and($steps)->toHaveKey('testStep2');
+})->with('onboardingSteps');
+
+it('checks if onboarding is completed correctly', function ($steps) {
+    $this->onboardingSteps->registerSteps($steps);
+
+    expect($this->onboardingSteps->completed())->toBeFalse();
+
+    $steps['testStep1']['complete'] = fn () => true;
+    $steps['testStep2']['complete'] = fn () => true;
+    $this->onboardingSteps->registerSteps($steps);
+
+    expect($this->onboardingSteps->completed())->toBeTrue();
+})->with('onboardingSteps');
+
+it('checks if onboarding is in progress correctly', function ($steps) {
+    $this->onboardingSteps->registerSteps($steps);
+
+    expect($this->onboardingSteps->inProgress())->toBeTrue();
+
+    $steps['testStep1']['complete'] = fn () => true;
+    $steps['testStep2']['complete'] = fn () => true;
+    $this->onboardingSteps->registerSteps($steps);
+
+    expect($this->onboardingSteps->inProgress())->toBeFalse();
+})->with('onboardingSteps');
+
+it('gets the next incomplete onboarding step correctly', function ($steps) {
+    $this->onboardingSteps->registerSteps($steps);
+
+    $step = $this->onboardingSteps->nextIncompleteStep();
+
+    expect($step->label)->toBe('Test Step 1');
+})->with('onboardingSteps');

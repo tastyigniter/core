@@ -6,6 +6,7 @@ use Igniter\Flame\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\PackageManifest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\View;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -26,6 +27,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('view.paths', $viewPaths);
 
         Igniter::loadControllersFrom(__DIR__.'/Admin/Fixtures/Controllers', 'Tests\\Admin\\Fixtures\\Controllers');
+        View::addNamespace('tests.admin', __DIR__.'/../resources/views');
 
         ThemeManager::addDirectory(__DIR__.'/../resources/themes');
         $app['config']->set('igniter-system.defaultTheme', 'tests-theme');
