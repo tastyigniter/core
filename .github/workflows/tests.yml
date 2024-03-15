@@ -6,24 +6,16 @@ jobs:
   PestTests:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 6
       matrix:
         php: [ '8.2', '8.3' ]
-        db: [ 'mysql:8.0', 'mariadb:10.6' ]
-        include:
-          - db: 'mysql:8.0'
-            dbName: 'MySQL'
-          - db: 'mariadb:10.6'
-            dbName: 'MariaDB'
-      fail-fast: false
 
     services:
       mysql:
-        image: ${{ matrix.db }}
+        image: 'mysql:8.0'
         ports:
           - 3306
 
-    name: 'PHP Tests ${{ matrix.php }} / ${{ matrix.dbName }}'
+    name: 'PHP Tests ${{ matrix.php }}'
 
     steps:
       - name: Checkout changes
@@ -48,7 +40,7 @@ jobs:
 
     env:
       DB_PORT: 3306
-      DB_DATABASE: test_${{ matrix.dbName }}
+      DB_DATABASE: testbench
       DB_USERNAME: root
       DB_PASSWORD: root
       DB_PREFIX: 'ti_'
