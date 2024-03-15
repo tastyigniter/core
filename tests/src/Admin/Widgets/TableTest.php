@@ -88,7 +88,7 @@ it('handles onGetRecords action correctly', function () {
     request()->request->add([
         'search' => 'search',
         'offset' => 'offset',
-        'limit' => 'limit'
+        'limit' => 'limit',
     ]);
 
     $this->tableWidget->bindEvent('table.getRecords', function () {
