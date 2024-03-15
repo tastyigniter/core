@@ -44,11 +44,11 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
 
       - name: Run Pest Test Suite
-        run: composer test --parallel
+        run: composer test
 
     env:
       DB_PORT: 3306
-      DB_DATABASE: test
+      DB_DATABASE: test_${{ matrix.dbName }}
       DB_USERNAME: root
       DB_PASSWORD: root
       DB_PREFIX: 'ti_'
