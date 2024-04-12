@@ -612,6 +612,25 @@ class MainController extends Controller
         return true;
     }
 
+    public function hasPartial(string $name): bool
+    {
+        // Alias @ symbol for ::
+        if (starts_with($name, '@')) {
+            $name = '::'.substr($name, 1);
+        }
+
+        if (str_contains($name, '::')) {
+            if (($partial = $this->loadComponentPartial($name, false)) === false) {
+                return false;
+            }
+        } // Process theme partial
+        elseif (($partial = $this->loadPartial($name, false)) === false) {
+            return false;
+        }
+
+        return $partial instanceof Partial || $partial instanceof ComponentPartial;
+    }
+
     /**
      * Searches the layout components by an alias
      */

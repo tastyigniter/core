@@ -536,7 +536,7 @@ return [
         'button_yes_copy' => 'Yes, copy',
         'button_return_to_list' => 'No, return to list',
 
-        'help_components' => 'Render the component on a layout or page by adding <code>@componentPartial(&#x27;componentAlias&#x27;)</code> to the markup. Learn more <a href="https://tastyigniter.com/docs/master/customize/components">here</a>.',
+        'help_components' => 'Render the component on a layout or page by adding <code>@themeComponent(&#x27;componentAlias&#x27;)</code> to the markup. Learn more <a href="https://tastyigniter.com/docs/master/customize/components">here</a>.',
         'help_component_alias' => 'DO NOT CHANGE. Except you know what you are doing.',
         'help_override_partial' => 'The selected component partial file will be copied to the active theme partial directory under <code>%s</code>.',
 

@@ -2,6 +2,7 @@
 
 namespace Igniter\Main\Template\Extension;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\View\ViewFinderInterface;
@@ -19,12 +20,18 @@ class BladeExtension
         Blade::directive('partialUnless', [$this, 'compilesPartialUnless']);
         Blade::directive('partialFirst', [$this, 'compilesPartialFirst']);
 
-        Blade::directive('componentPartial', [$this, 'compilesComponentPartial']);
-        Blade::directive('componentPartialIf', [$this, 'compilesComponentPartialIf']);
+        Blade::directive('themeComponent', [$this, 'compilesThemeComponent']);
+        Blade::directive('themeComponentIf', [$this, 'compilesThemeComponentIf']);
+        Blade::directive('themeComponentWhen', [$this, 'compilesThemeComponentWhen']);
+        Blade::directive('themeComponentUnless', [$this, 'compilesThemeComponentUnless']);
+        Blade::directive('themeComponentFirst', [$this, 'compilesThemeComponentFirst']);
         Blade::directive('themePage', [$this, 'compilesPage']);
         Blade::directive('themeContent', [$this, 'compilesThemeContent']);
         Blade::directive('themePartial', [$this, 'compilesThemePartial']);
         Blade::directive('themePartialIf', [$this, 'compilesThemePartialIf']);
+        Blade::directive('themePartialWhen', [$this, 'compilesPartialWhen']);
+        Blade::directive('themePartialUnless', [$this, 'compilesPartialUnless']);
+        Blade::directive('themePartialFirst', [$this, 'compilesPartialFirst']);
     }
 
     //
@@ -108,14 +115,33 @@ class BladeExtension
         return "<?php echo controller()->renderContent({$expression}); ?>";
     }
 
-    public function compilesComponentPartial(string $expression): string
+    public function compilesThemeComponent(string $expression): string
     {
         return "<?php echo controller()->renderComponent({$expression}); ?>";
     }
 
-    public function compilesComponentPartialIf(string $expression): string
+    public function compilesThemeComponentIf(string $expression): string
     {
         return "<?php if (controller()->hasComponent({$expression})) echo controller()->renderComponent({$expression}); ?>";
+    }
+
+    public function compilesThemeComponentWhen($condition, string $expression): string
+    {
+        return !$condition ? "" : "<?php echo controller()->renderComponent({$expression}); ?>";
+    }
+
+    public function compilesThemeComponentUnless($condition, string $expression): string
+    {
+        return $condition ? "" : "<?php echo controller()->renderComponent({$expression}); ?>";
+    }
+
+    public function compilesThemeComponentFirst($components, string $expression): string
+    {
+        $component = Arr::first($components, function ($component) {
+            return controller()->hasComponent($component);
+        });
+
+        return "<?php echo controller()->renderComponent($component); ?>";
     }
 
     public function compilesPage(string $expression): string
@@ -130,7 +156,26 @@ class BladeExtension
 
     public function compilesThemePartialIf(string $expression): string
     {
-        return "<?php if (controller()->hasComponent({$expression})) echo controller()->renderPartial({$expression}); ?>";
+        return "<?php if (controller()->hasPartial({$expression})) echo controller()->renderPartial({$expression}); ?>";
+    }
+
+    public function compilesThemePartialWhen($condition, string $expression): string
+    {
+        return !$condition ? "" : "<?php echo controller()->renderPartial({$expression}); ?>";
+    }
+
+    public function compilesThemePartialUnless($condition, string $expression): string
+    {
+        return $condition ? "" : "<?php echo controller()->renderPartial({$expression}); ?>";
+    }
+
+    public function compilesThemePartialFirst($partials, string $expression): string
+    {
+        $partial = Arr::first($partials, function ($partial) {
+            return controller()->hasPartial($partial);
+        });
+
+        return "<?php echo controller()->renderPartial($partial); ?>";
     }
 
     //
