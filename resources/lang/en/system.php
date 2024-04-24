@@ -315,7 +315,7 @@ return [
     ],
 
     'permissions' => [
-        'name' => 'System',
+        'name' => 'Advanced',
         'countries' => 'Create, edit and delete countries',
         'currencies' => 'Create, edit and delete currencies',
         'system_logs' => 'View system and requests logs',
