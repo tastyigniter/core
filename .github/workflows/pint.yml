@@ -3,7 +3,7 @@ name: PHP Linting (Pint)
 on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
-  phplint:
+  php-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

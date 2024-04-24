@@ -3,7 +3,7 @@ name: "Static Analysis"
 on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
-  types:
+  static-analysis:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
