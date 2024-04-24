@@ -11,104 +11,49 @@ class BladeExtension
 {
     public function register()
     {
-        Blade::directive('styles', [$this, 'compilesStyles']);
-        Blade::directive('scripts', [$this, 'compilesScripts']);
+        Blade::directive('themeStyles', [$this, 'compilesThemeStyles']);
+        Blade::directive('themeScripts', [$this, 'compilesThemeScripts']);
 
-        Blade::directive('partial', [$this, 'compilesPartial']);
-        Blade::directive('partialIf', [$this, 'compilesPartialIf']);
-        Blade::directive('partialWhen', [$this, 'compilesPartialWhen']);
-        Blade::directive('partialUnless', [$this, 'compilesPartialUnless']);
-        Blade::directive('partialFirst', [$this, 'compilesPartialFirst']);
+        Blade::directive('themePage', [$this, 'compilesThemePage']);
+        Blade::directive('themeContent', [$this, 'compilesThemeContent']);
 
         Blade::directive('themeComponent', [$this, 'compilesThemeComponent']);
         Blade::directive('themeComponentIf', [$this, 'compilesThemeComponentIf']);
         Blade::directive('themeComponentWhen', [$this, 'compilesThemeComponentWhen']);
         Blade::directive('themeComponentUnless', [$this, 'compilesThemeComponentUnless']);
         Blade::directive('themeComponentFirst', [$this, 'compilesThemeComponentFirst']);
-        Blade::directive('themePage', [$this, 'compilesPage']);
-        Blade::directive('themeContent', [$this, 'compilesThemeContent']);
+
         Blade::directive('themePartial', [$this, 'compilesThemePartial']);
         Blade::directive('themePartialIf', [$this, 'compilesThemePartialIf']);
-        Blade::directive('themePartialWhen', [$this, 'compilesPartialWhen']);
-        Blade::directive('themePartialUnless', [$this, 'compilesPartialUnless']);
-        Blade::directive('themePartialFirst', [$this, 'compilesPartialFirst']);
+        Blade::directive('themePartialWhen', [$this, 'compilesThemePartialWhen']);
+        Blade::directive('themePartialUnless', [$this, 'compilesThemePartialUnless']);
+        Blade::directive('themePartialFirst', [$this, 'compilesThemePartialFirst']);
     }
 
     //
     //
     //
 
-    public function compilesStyles(string $expression): string
+    public function compilesThemeStyles(string $expression): string
     {
         return "<?php echo \Igniter\System\Facades\Assets::getCss(); ?>\n".
             "<?php echo \$__env->yieldPushContent('styles'); ?>";
     }
 
-    public function compilesScripts(string $expression): string
+    public function compilesThemeScripts(string $expression): string
     {
         return "<?php echo \Igniter\System\Facades\Assets::getJs(); ?>\n".
             "<?php echo \$__env->yieldPushContent('scripts'); ?>";
     }
 
-    public function compilesPartial(string $expression): string
-    {
-        $expression = $this->stripParentheses($expression);
-        [$partial, $data] = str_contains($expression, ',')
-            ? array_map('trim', explode(',', trim($expression, '()'), 2)) + ['', '[]']
-            : [trim($expression, '()'), '[]'];
-
-        $partial = $this->stripQuotes($partial);
-
-        $partial = $this->guessViewName($partial, '_partials.');
-
-        $expression = sprintf('%s, %s', '"'.$partial.'"', $data);
-
-        return "<?php echo \$__env->make({$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
-    }
-
-    public function compilesPartialIf(string $expression): string
-    {
-        $expression = $this->stripParentheses($expression);
-        [$partial, $data] = str_contains($expression, ',')
-            ? array_map('trim', explode(',', trim($expression, '()'), 2)) + ['', '[]']
-            : [trim($expression, '()'), '[]'];
-
-        $partial = $this->stripQuotes($partial);
-
-        $partial = $this->guessViewName($partial, '_partials.');
-
-        $expression = sprintf('%s, %s', '"'.$partial.'"', $data);
-
-        return "<?php if (\$__env->exists({$expression})) echo \$__env->make({$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
-    }
-
-    public function compilesPartialWhen(string $expression): string
-    {
-        $expression = $this->stripParentheses($expression);
-        $expression = $this->appendPartialPath($expression);
-
-        return "<?php echo \$__env->renderWhen($expression, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path'])); ?>";
-    }
-
-    public function compilesPartialUnless(string $expression): string
-    {
-        $expression = $this->stripParentheses($expression);
-        $expression = $this->appendPartialPath($expression);
-
-        return "<?php echo \$__env->renderWhen(! $expression, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path'])); ?>";
-    }
-
-    public function compilesPartialFirst(string $expression): string
-    {
-        $expression = $this->stripParentheses($expression);
-        $expression = $this->appendPartialPath($expression);
-
-        return "<?php echo \$__env->first({$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
-    }
-
     //
     //
     //
+
+    public function compilesThemePage(string $expression): string
+    {
+        return '<?php echo controller()->renderPage(); ?>';
+    }
 
     public function compilesThemeContent(string $expression): string
     {
@@ -142,11 +87,6 @@ class BladeExtension
         });
 
         return "<?php echo controller()->renderComponent($component); ?>";
-    }
-
-    public function compilesPage(string $expression): string
-    {
-        return '<?php echo controller()->renderPage(); ?>';
     }
 
     public function compilesThemePartial(string $expression): string
