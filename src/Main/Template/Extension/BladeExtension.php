@@ -72,12 +72,12 @@ class BladeExtension
 
     public function compilesThemeComponentWhen($condition, string $expression): string
     {
-        return !$condition ? "" : "<?php echo controller()->renderComponent({$expression}); ?>";
+        return !$condition ? '' : "<?php echo controller()->renderComponent({$expression}); ?>";
     }
 
     public function compilesThemeComponentUnless($condition, string $expression): string
     {
-        return $condition ? "" : "<?php echo controller()->renderComponent({$expression}); ?>";
+        return $condition ? '' : "<?php echo controller()->renderComponent({$expression}); ?>";
     }
 
     public function compilesThemeComponentFirst($components, string $expression): string
@@ -101,12 +101,12 @@ class BladeExtension
 
     public function compilesThemePartialWhen($condition, string $expression): string
     {
-        return !$condition ? "" : "<?php echo controller()->renderPartial({$expression}); ?>";
+        return !$condition ? '' : "<?php echo controller()->renderPartial({$expression}); ?>";
     }
 
     public function compilesThemePartialUnless($condition, string $expression): string
     {
-        return $condition ? "" : "<?php echo controller()->renderPartial({$expression}); ?>";
+        return $condition ? '' : "<?php echo controller()->renderPartial({$expression}); ?>";
     }
 
     public function compilesThemePartialFirst($partials, string $expression): string

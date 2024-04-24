@@ -32,7 +32,7 @@ class HtmlBuilder
     /**
      * Create a new HTML builder instance.
      */
-    public function __construct(?UrlGenerator $url = null, Factory $view)
+    public function __construct(?UrlGenerator $url, Factory $view)
     {
         $this->url = $url;
         $this->view = $view;
@@ -113,7 +113,7 @@ class HtmlBuilder
         $attributes['alt'] = $alt;
 
         return $this->toHtmlString('<img src="'.$this->url->asset($url,
-            $secure).'"'.$this->attributes($attributes).'>');
+                $secure).'"'.$this->attributes($attributes).'>');
     }
 
     /**
