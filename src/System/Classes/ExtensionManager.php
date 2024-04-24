@@ -233,7 +233,9 @@ class ExtensionManager
         $this->extensions = [];
 
         foreach ($this->folders() as $path) {
-            $this->loadExtension($path);
+            rescue(function () use ($path) {
+                $this->loadExtension($path);
+            });
         }
 
         $this->packageManifest->manifest = null;
@@ -257,8 +259,11 @@ class ExtensionManager
     public function loadExtension(string $path): BaseExtension
     {
         $config = SystemHelper::extensionConfigFromFile($path);
-        $namespace = array_get($config, 'namespace');
-        $class = $namespace.'Extension';
+
+        throw_unless($namespace = array_get($config, 'namespace'),
+            new SystemException('Extension namespace not found in '.$path)
+        );
+
         $identifier = array_get($config, 'code', $this->getIdentifier($namespace));
 
         throw_unless(
@@ -274,6 +279,7 @@ class ExtensionManager
             $loader->setPsr4($namespace, $path.'/src');
         }
 
+        $class = $namespace.'Extension';
         $extension = $this->resolveExtension($identifier, $path, $class);
 
         // Check for disabled extensions
