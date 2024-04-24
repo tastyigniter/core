@@ -30,9 +30,6 @@ trait ViewMaker
     /** Layout to use for the view. */
     public ?string $layout = null;
 
-    /** Prevents the use of a layout. */
-    public bool $suppressLayout = false;
-
     public function getViewPath(string $view, array|string|null $paths = [], ?string $prefix = null): string
     {
         if (!is_array($paths)) {
@@ -145,7 +142,7 @@ trait ViewMaker
         $view = $this->getViewName(strtolower($view), $this->viewPath);
         $contents = $this->makeViewContent($view, $data);
 
-        if ($this->suppressLayout || $this->layout === '') {
+        if ($this->layout === '') {
             return $contents;
         }
 
