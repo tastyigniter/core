@@ -53,7 +53,7 @@ class Extension extends BaseExtension
         return [
 //            '{{title_author}}.{{studly_name}}.SomePermission' => [
 //                'description' => 'Some permission',
-//                'group' => 'admin',
+//                'group' => 'igniter::admin.permissions.name',
 //            ],
         ];
     }

@@ -396,6 +396,16 @@ class MainController extends Controller
         return $this->page;
     }
 
+    /**
+     * Returns the template layout object being processed by the controller.
+     * The object is not available on the early stages of the controller
+     * initialization.
+     */
+    public function getLayout(): ?Layout
+    {
+        return $this->layout;
+    }
+
     //
     // Initialization
     //
