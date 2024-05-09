@@ -14,11 +14,11 @@ class PermissionServiceProvider extends ServiceProvider
                 $manager->registerPermissions('Admin', [
                     'Admin.Dashboard' => [
                         'label' => 'igniter::admin.permissions.dashboard',
-                        'group' => 'admin',
+                        'group' => 'igniter::admin.permissions.name',
                     ],
                     'Admin.Statuses' => [
                         'label' => 'igniter::admin.permissions.statuses',
-                        'group' => 'admin',
+                        'group' => 'igniter::admin.permissions.name',
                     ],
                 ]);
             });

@@ -14,11 +14,11 @@ class PermissionServiceProvider extends ServiceProvider
                 $manager->registerPermissions('System', [
                     'Admin.MediaManager' => [
                         'label' => 'igniter::main.permissions.media_manager',
-                        'group' => 'admin',
+                        'group' => 'igniter::admin.permissions.name',
                     ],
                     'Site.Themes' => [
                         'label' => 'igniter::main.permissions.themes',
-                        'group' => 'advanced',
+                        'group' => 'igniter::system.permissions.name',
                     ],
                 ]);
             });
