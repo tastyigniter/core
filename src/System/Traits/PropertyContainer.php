@@ -2,6 +2,8 @@
 
 namespace Igniter\System\Traits;
 
+use Illuminate\Support\Collection;
+
 trait PropertyContainer
 {
     /** Holds the component layout settings array. */
@@ -17,17 +19,14 @@ trait PropertyContainer
      */
     public function validateProperties(array $properties): array
     {
-        $definedProperties = $this->defineProperties();
-
-        // Determine and implement default values
-        $defaultProperties = [];
-        foreach ($definedProperties as $name => $information) {
+        $definedProperties = [];
+        foreach ($this->defineProperties() as $name => $information) {
             if (array_key_exists('default', $information)) {
-                $defaultProperties[$name] = $information['default'];
+                $definedProperties[$name] = $information['default'];
             }
         }
 
-        return array_merge($defaultProperties, $properties);
+        return array_merge($definedProperties, $properties);
     }
 
     /**
@@ -88,7 +87,7 @@ trait PropertyContainer
      *
      * @return array Return an array of option values and descriptions
      */
-    public function getPropertyOptions(string $property): array
+    public static function getPropertyOptions($form, $field): array|Collection
     {
         return [];
     }

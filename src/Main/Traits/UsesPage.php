@@ -40,6 +40,6 @@ trait UsesPage
             return self::$staticPageOptionsCache;
         }
 
-        return self::$staticPageOptionsCache = PageModel::getDropdownOptions();
+        return self::$staticPageOptionsCache = PageModel::getDropdownOptions()->all();
     }
 }

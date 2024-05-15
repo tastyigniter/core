@@ -843,7 +843,7 @@ class Form extends BaseWidget
     /**
      * Looks at the model for defined options.
      */
-    protected function getOptionsFromModel(FormField $field, null|string|array $fieldOptions): mixed
+    protected function getOptionsFromModel(FormField $field, null|string|array|\Closure $fieldOptions): mixed
     {
         // Advanced usage, supplied options are callable
         if (is_array($fieldOptions) && is_callable($fieldOptions)) {

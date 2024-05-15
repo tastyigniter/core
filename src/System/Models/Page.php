@@ -8,6 +8,8 @@ use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Page Class
+ *
+ * @internal
  */
 class Page extends Model
 {
@@ -47,6 +49,6 @@ class Page extends Model
 
     public static function getDropdownOptions()
     {
-        return static::whereIsEnabled()->dropdown('title');
+        return static::whereIsEnabled()->dropdown('title', 'permalink_slug');
     }
 }

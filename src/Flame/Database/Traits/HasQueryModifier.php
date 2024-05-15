@@ -72,6 +72,11 @@ trait HasQueryModifier
         return $this;
     }
 
+    public function queryModifierGetSorts(): array
+    {
+        return $this->queryModifierSorts;
+    }
+
     protected function queryModifierAddFilters(array $filters): static
     {
         $this->queryModifierFilters = array_merge($this->queryModifierFilters, $filters);

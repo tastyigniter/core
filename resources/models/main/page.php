@@ -4,9 +4,8 @@ return [
     'form' => [
         'fields' => [
             'settings[components]' => [
-                'label' => 'lang:igniter::system.themes.text_tab_components',
                 'type' => 'components',
-                'prompt' => 'igniter::system.themes.button_choose',
+                'label' => 'igniter::system.themes.button_choose',
                 'comment' => 'igniter::system.themes.help_components',
                 'form' => [
                     'fields' => [
