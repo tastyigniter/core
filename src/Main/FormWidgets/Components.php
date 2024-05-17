@@ -16,6 +16,8 @@ use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\BaseComponent;
 use Igniter\System\Classes\ComponentManager;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\Component as BladeComponent;
+use Livewire\Component as LivewireComponent;
 
 /**
  * Components
@@ -33,7 +35,7 @@ class Components extends BaseFormWidget
 
     public null|string|array $form = null;
 
-    public ?string $prompt = null;
+    public ?string $prompt = 'igniter::admin.text_please_select';
 
     public string $addTitle = 'igniter::main.components.button_new';
 
@@ -79,7 +81,7 @@ class Components extends BaseFormWidget
     public function getSaveValue(mixed $value): int
     {
         if (is_array($value)) {
-            $this->data->fileSource->sortComponents(array_flip($value));
+            $this->data->fileSource->sortComponents($value);
         }
 
         return FormField::NO_SAVE_DATA;
@@ -95,6 +97,13 @@ class Components extends BaseFormWidget
         $codeAlias = array_get($data, 'alias');
         $componentObj = $this->makeComponentBy($codeAlias);
         $context = array_get($data, 'context');
+
+        throw_if($componentObj && $componentObj->isHidden(), new FlashException('Selected component is hidden'));
+
+        // No override partial for Livewire components
+        if ($this->manager->isConfigurableComponent($codeAlias)) {
+            $context = 'edit';
+        }
 
         $formTitle = $context == 'partial' ? $this->copyPartialTitle : $this->editTitle;
 
@@ -119,8 +128,19 @@ class Components extends BaseFormWidget
         ]);
 
         $codeAlias = array_get($data, 'recordId');
+        [$code,] = $this->manager->getCodeAlias($codeAlias);
+
+        $isConfigurable = $this->manager->isConfigurableComponent($code);
         if ($isCreateContext = (request()->method() === 'POST')) {
+            if (!array_has($this->getComponents(), $codeAlias)) {
+                throw new FlashException('Invalid component selected');
+            }
+
             $codeAlias = $this->getUniqueAlias($codeAlias);
+        } else {
+            if (!array_has($this->loadTemplateComponents(), $codeAlias)) {
+                throw new FlashException('Invalid component selected');
+            }
         }
 
         if (!$template = $this->data->fileSource) {
@@ -128,7 +148,7 @@ class Components extends BaseFormWidget
         }
 
         $partialToOverride = array_get($data, name_to_dot_string($this->formField->arrayName.'[componentData][partial]'));
-        if (strlen($partialToOverride)) {
+        if (!$isConfigurable && strlen($partialToOverride)) {
             $this->overrideComponentPartial($codeAlias, $partialToOverride);
 
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Component partial copied'))->now();
@@ -143,6 +163,8 @@ class Components extends BaseFormWidget
         ))->now();
 
         $this->formField->value = array_get($template->settings, 'components');
+
+        $this->fireEvent('updated', [$codeAlias]);
 
         return $this->reload();
     }
@@ -167,6 +189,10 @@ class Components extends BaseFormWidget
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Component removed'))->now();
 
+        $this->formField->value = array_get($template->settings, 'components');
+
+        $this->fireEvent('updated', [$codeAlias]);
+
         return $this->reload();
     }
 
@@ -183,18 +209,23 @@ class Components extends BaseFormWidget
         }
 
         foreach ($loadValue as $codeAlias => $properties) {
-            [$code,] = $this->getCodeAlias($codeAlias);
-
-            $definition = array_merge([
+            $definition = [
                 'alias' => $codeAlias,
                 'name' => $codeAlias,
                 'description' => null,
                 'fatalError' => null,
-            ], $this->manager->findComponent($code) ?? []);
+                'isConfigurable' => null,
+            ];
 
             try {
-                $this->manager->makeComponent($code, null, $properties);
-                $definition['alias'] = $codeAlias;
+                [$code,] = $this->manager->getCodeAlias($codeAlias);
+                $componentObj = $this->manager->makeComponent($code, null, $properties);
+
+                if ($componentObj->isHidden()) {
+                    continue;
+                }
+
+                $definition = array_merge($definition, $this->manager->findComponent($code) ?? []);
             } catch (Exception $ex) {
                 $definition['fatalError'] = $ex->getMessage();
             }
@@ -205,20 +236,22 @@ class Components extends BaseFormWidget
         return $components;
     }
 
-    protected function makeComponentBy(string $codeAlias): ?BaseComponent
+    protected function makeComponentBy(string $codeAlias): null|BaseComponent|LivewireComponent|BladeComponent
     {
         $componentObj = null;
         if (strlen($codeAlias)) {
-            [$code,] = $this->getCodeAlias($codeAlias);
+            [$code,] = $this->manager->getCodeAlias($codeAlias);
             $propertyValues = array_get((array)$this->getLoadValue(), $codeAlias, []);
-            $componentObj = $this->manager->makeComponent($code, null, $propertyValues);
-            $componentObj->alias = $codeAlias;
+            $componentObj = $this->manager->makeComponent([$code, $codeAlias], null, $propertyValues);
         }
 
         return $componentObj;
     }
 
-    protected function makeComponentFormWidget(string $context, ?BaseComponent $componentObj = null): Form
+    protected function makeComponentFormWidget(
+        string $context,
+        null|BaseComponent|LivewireComponent|BladeComponent $componentObj = null
+    ): Form
     {
         $propertyConfig = $propertyValues = [];
         if ($componentObj) {
@@ -237,13 +270,15 @@ class Components extends BaseFormWidget
         /** @var Form $widget */
         $widget = $this->makeWidget(Form::class, $formConfig);
 
-        $widget->bindEvent('form.extendFields', function ($allFields) use ($widget, $componentObj) {
-            if (!$formField = $widget->getField('partial')) {
-                return;
-            }
+        if ($componentObj instanceof BaseComponent) {
+            $widget->bindEvent('form.extendFields', function($allFields) use ($widget, $componentObj) {
+                if (!$formField = $widget->getField('partial')) {
+                    return;
+                }
 
-            $this->extendPartialField($formField, $componentObj);
-        });
+                $this->extendPartialField($formField, $componentObj);
+            });
+        }
 
         $widget->bindToController();
 
@@ -280,14 +315,11 @@ class Components extends BaseFormWidget
         return $alias;
     }
 
-    protected function getCodeAlias(string $name): array
-    {
-        return strpos($name, ' ') ? explode(' ', $name) : [$name, $name];
-    }
-
     protected function updateComponent(string $codeAlias, bool $isCreateContext, TemplateInterface $template)
     {
         throw_unless($componentObj = $this->makeComponentBy($codeAlias), new FlashException('Invalid component selected'));
+
+        throw_if($componentObj->isHidden(), new FlashException('Selected component is hidden'));
 
         $form = $this->makeComponentFormWidget('edit', $componentObj);
 
@@ -307,7 +339,7 @@ class Components extends BaseFormWidget
 
     protected function convertComponentPropertyValues(array $properties): array
     {
-        return array_map(function ($propertyValue) {
+        return array_map(function($propertyValue) {
             if (is_numeric($propertyValue)) {
                 $propertyValue += 0;
             } // Convert to int or float
@@ -328,9 +360,9 @@ class Components extends BaseFormWidget
 
         $formField->comment = sprintf(lang('igniter::system.themes.help_override_partial'), $themePartialPath);
 
-        $formField->options(function () use ($componentPath) {
+        $formField->options(function() use ($componentPath) {
             return collect(File::glob($componentPath.'/*.blade.php'))
-                ->mapWithKeys(function ($path) {
+                ->mapWithKeys(function($path) {
                     $name = str_before(File::basename($path), '.'.Model::DEFAULT_EXTENSION);
 
                     return [$name => $name];
@@ -341,6 +373,8 @@ class Components extends BaseFormWidget
     protected function overrideComponentPartial(string $codeAlias, string $fileName)
     {
         $componentObj = $this->makeComponentBy($codeAlias);
+
+        throw_if($componentObj && $componentObj->isHidden(), new FlashException('Selected component is hidden'));
 
         $activeTheme = $this->model->getTheme();
         $themePartialPath = sprintf('%s/%s/%s/%s.%s', $activeTheme->path, '_partials', $componentObj->alias, $fileName, Model::DEFAULT_EXTENSION);

@@ -4,6 +4,11 @@ namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Pagic\TemplateCode;
+use Igniter\Main\Traits\ConfigurableComponent;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\View\Component as BladeComponent;
+use Livewire\Component as LivewireComponent;
+use Livewire\Livewire;
 
 /**
  * Components class for TastyIgniter.
@@ -22,9 +27,6 @@ class ComponentManager
         'switch',
     ];
 
-    /** Cache of registration callbacks. */
-    public array $registry = [];
-
     /** Cache of registration components callbacks. */
     protected array $componentsCallbacks = [];
 
@@ -34,34 +36,52 @@ class ComponentManager
     /** An array where keys are class paths and values are codes. */
     protected array $classMap = [];
 
-    /** An array containing references to a corresponding extension for each component class. */
-    protected array $extensionMap = [];
-
     /** A cached array of components component_meta. */
     protected ?array $components = null;
+
+    protected ?array $componentObjects = null;
+
+    public function bootComponents()
+    {
+        if ($this->components === null) {
+            $this->loadComponents();
+        }
+    }
+
+    public function listComponentObjects()
+    {
+        if ($this->componentObjects) {
+            return $this->componentObjects;
+        }
+
+        foreach ($this->listComponents() as $code => $definition) {
+            $definition['component'] = $this->makeComponent($code);
+
+            $this->componentObjects[$code] = (object)$definition;
+        }
+
+        return $this->componentObjects;
+    }
 
     /**
      * Scans each extension and loads it components.
      */
     protected function loadComponents()
     {
+        $this->components = [];
+
         // Load manually registered components
         foreach ($this->componentsCallbacks as $callback) {
             $callback($this);
         }
 
         // Load extensions components
-        $extensions = resolve(ExtensionManager::class)->getExtensions();
-        foreach ($extensions as $extension) {
-            $components = $extension->registerComponents();
-            if (!is_array($components)) {
-                continue;
-            }
-
-            foreach ($components as $class_path => $component) {
-                $this->registerComponent($class_path, $component, $extension);
-            }
+        $extensions = resolve(ExtensionManager::class)->getRegistrationMethodValues('registerComponents');
+        foreach ($extensions as $components) {
+            $this->registerComponents($components);
         }
+
+        return $this->components;
     }
 
     /**
@@ -77,15 +97,29 @@ class ComponentManager
      *   });
      * </pre>
      */
-    public function registerComponents(callable $definitions)
+    public function registerCallback(callable $definitions)
     {
         $this->componentsCallbacks[] = $definitions;
+    }
+
+    public function registerComponents(array $components)
+    {
+        foreach ($components as $className => $definition) {
+            if (!is_string($className)) {
+                $className = $definition;
+                $definition = method_exists($className, 'componentMeta')
+                    ? $className::componentMeta()
+                    : [];
+            }
+
+            $this->registerComponent($className, $definition);
+        }
     }
 
     /**
      * Registers a single component.
      */
-    public function registerComponent(string $classPath, null|string|array $component = null, ?BaseExtension $extension = null)
+    public function registerComponent(string $className, null|string|array $definition = null)
     {
         if (!$this->classMap) {
             $this->classMap = [];
@@ -95,27 +129,28 @@ class ComponentManager
             $this->codeMap = [];
         }
 
-        if (is_string($component)) {
-            $component = ['code' => $component];
+        if (is_string($definition)) {
+            $definition = ['code' => $definition];
         }
 
-        $component = array_merge([
-            'code' => null,
+        $code = $definition['code'] ?? strtolower(basename($className));
+
+        $definition = array_merge([
+            'code' => $code,
             'name' => 'Component',
             'description' => null,
-        ], $component);
+            'path' => $className,
+            'isConfigurable' => in_array(ConfigurableComponent::class, class_uses_recursive($className)),
+        ], $definition ?? []);
 
-        $code = $component['code'] ?? strtolower(basename($classPath));
+        $this->codeMap[$code] = $className;
+        $this->classMap[$className] = $code;
+        $this->components[$code] = $definition;
 
-        $this->codeMap[$code] = $classPath;
-        $this->classMap[$classPath] = $code;
-        $this->components[$code] = array_merge($component, [
-            'code' => $code,
-            'path' => $classPath,
-        ]);
-
-        if ($extension !== null) {
-            $this->extensionMap[$classPath] = $extension;
+        if (is_subclass_of($className, LivewireComponent::class)) {
+            Livewire::component($code, $className);
+        } elseif (is_subclass_of($className, BladeComponent::class)) {
+            Blade::component($code, $className);
         }
     }
 
@@ -139,16 +174,7 @@ class ComponentManager
     {
         $this->listComponents();
 
-        if (isset($this->codeMap[$name])) {
-            return $this->codeMap[$name];
-        }
-
-        $name = $this->convertCodeToPath($name);
-        if (isset($this->classMap[$name])) {
-            return $name;
-        }
-
-        return null;
+        return $this->codeMap[$name] ?? null;
     }
 
     /**
@@ -167,7 +193,7 @@ class ComponentManager
     /**
      * Returns component details based on its name.
      */
-    public function findComponent($name): ?array
+    public function findComponent(string $name): ?array
     {
         if (!$this->hasComponent($name)) {
             return null;
@@ -176,11 +202,26 @@ class ComponentManager
         return $this->components[$name];
     }
 
+    public function findComponentCodeByClass(string $className)
+    {
+        return $this->classMap[$className] ?? null;
+    }
+
     /**
      * Makes a component/gateway object with properties set.
      */
-    public function makeComponent(string $name, ?TemplateCode $page = null, array $params = []): BaseComponent
-    {
+    public function makeComponent(
+        string|array $name,
+        ?TemplateCode $page = null,
+        array $params = []
+    ): BaseComponent|LivewireComponent|BladeComponent {
+        if (is_array($name)) {
+            $alias = $name[1];
+            $name = $name[0];
+        } else {
+            $alias = $name;
+        }
+
         $className = $this->resolve($name);
         if (!$className) {
             throw new SystemException(sprintf('Component "%s" is not registered.', $name));
@@ -190,48 +231,50 @@ class ComponentManager
             throw new SystemException(sprintf('Component class "%s" not found.', $className));
         }
 
-        // Create and register the new controller.
-        $component = new $className($page, $params);
-        $component->name = $name;
-
-        return $component;
-    }
-
-    /**
-     * Returns a parent extension for a specific component.
-     */
-    public function findComponentExtension(string $component): ?BaseExtension
-    {
-        $classPath = $this->resolve($component);
-
-        return $this->extensionMap[$classPath] ?? null;
-    }
-
-    /**
-     * Convert class alias to class path
-     */
-    public function convertCodeToPath(string $alias): string
-    {
-        if (!str_contains($alias, '/')) {
-            return $alias;
+        if (in_array(ConfigurableComponent::class, class_uses_recursive($className))) {
+            $component = $className::resolve($params);
+        } elseif (is_subclass_of($className, BaseComponent::class)) {
+            $component = $className::resolve($name, $page, $params);
+        } else {
+            throw new SystemException(sprintf('Component class "%s" is not a valid component.', $className));
         }
 
-        return $alias.'/components/'.ucfirst($alias);
+        $component->setAlias($alias);
+
+        return $component;
     }
 
     //
     // Helpers
     //
 
+    public function isConfigurableComponent(string $name): bool
+    {
+        $className = $this->resolve($name);
+
+        return in_array(ConfigurableComponent::class, class_uses_recursive($className));
+    }
+
+    public function getCodeAlias(string $name): array
+    {
+        if (strpos($name, ' ')) {
+            return explode(' ', $name);
+        }
+
+        return [$name, $name];
+    }
+
     /**
      * Returns a component property configuration as a JSON string or array.
      */
-    public function getComponentPropertyConfig(BaseComponent $component, bool $addAliasProperty = true): array
-    {
+    public function getComponentPropertyConfig(
+        BaseComponent|LivewireComponent|BladeComponent $component,
+        bool $addAliasProperty = true
+    ): array {
         $result = [];
 
         if ($addAliasProperty) {
-            $property = [
+            $result['alias'] = [
                 'property' => 'alias',
                 'label' => '',
                 'type' => 'text',
@@ -241,7 +284,6 @@ class ComponentManager
                 'required' => true,
                 'showExternalParam' => false,
             ];
-            $result['alias'] = $property;
         }
 
         $properties = $component->defineProperties();
@@ -259,8 +301,9 @@ class ComponentManager
                 'showExternalParam' => array_get($params, 'showExternalParam', false),
             ];
 
-            if (!in_array($propertyType, ['text', 'number']) && !array_key_exists('options', $params)) {
+            if (in_array($property['type'], ['checkbox', 'radio', 'select', 'selectlist']) && !array_key_exists('options', $params)) {
                 $methodName = 'get'.studly_case($name).'Options';
+                $methodName = method_exists($component, $methodName) ? $methodName : 'getPropertyOptions';
                 $property['options'] = [get_class($component), $methodName];
             }
 
@@ -297,11 +340,11 @@ class ComponentManager
     /**
      * Returns a component property values.
      */
-    public function getComponentPropertyValues(BaseComponent $component): array
+    public function getComponentPropertyValues(BaseComponent|LivewireComponent|BladeComponent $component): array
     {
         $result = [];
 
-        $result['alias'] = $component->alias;
+        $result['alias'] = $component->getAlias();
 
         $properties = $component->defineProperties();
         foreach ($properties as $name => $params) {
@@ -311,7 +354,7 @@ class ComponentManager
         return $result;
     }
 
-    public function getComponentPropertyRules(BaseComponent $component): array
+    public function getComponentPropertyRules(BaseComponent|LivewireComponent|BladeComponent $component): array
     {
         $properties = $component->defineProperties();
 

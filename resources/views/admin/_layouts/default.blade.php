@@ -18,7 +18,7 @@
 
     {{Template::renderHook('startStyles')}}
 
-    @styles
+    @themeStyles
 
     {{Template::renderHook('endStyles')}}
 
@@ -60,7 +60,7 @@
 
 {{Template::renderHook('startScripts')}}
 
-@scripts
+@themeScripts
 
 {{Template::renderHook('endScripts')}}
 

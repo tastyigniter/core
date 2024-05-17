@@ -82,7 +82,7 @@ $config['form']['toolbar'] = [
             'data-progress-indicator' => 'igniter::admin.text_saving',
         ],
         'reset' => [
-            'label' => 'lang:igniter::main.button_reset_to_default',
+            'label' => 'lang:igniter::system.themes.button_reset_to_default',
             'class' => 'btn btn-secondary',
             'context' => 'edit',
             'data-request' => 'onReset',

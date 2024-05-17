@@ -21,6 +21,7 @@
                 class="handle btn btn-light btn-sm mr-1"
                 role="button"
             ><i class="fa fa-arrows-up-down"></i></a>
+            @unless($component->isConfigurable)
             <a
                 role="button"
                 class="partial btn btn-light btn-sm mr-1"
@@ -28,6 +29,7 @@
                 data-component-context="partial"
                 title="@lang('igniter::main.components.button_copy_partial')"
             ><i class="fa fa-file-alt"></i></a>
+            @endunless
             <a
                 data-component-control="remove"
                 class="remove btn btn-light btn-sm"

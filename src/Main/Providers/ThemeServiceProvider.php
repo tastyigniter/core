@@ -7,29 +7,36 @@ use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Router;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\MainController;
+use Igniter\Main\Classes\SupportConfigurableComponent;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;
+use Igniter\System\Classes\ComponentManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class ThemeServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->callAfterResolving(Router::class, function ($router) {
+        $this->callAfterResolving(Router::class, function($router) {
             $router::$templateClass = Page::class;
             $router->setTheme(Theme::getActiveCode());
         });
 
-        Model::extend(function (Model $model) {
+        Model::extend(function(Model $model) {
             $model->setSource(Theme::getActiveCode());
         });
+
+        Livewire::componentHook(SupportConfigurableComponent::class);
     }
 
     public function boot()
     {
-        $this->app->booted(function () {
+        $this->app->booted(function() {
+            resolve(ComponentManager::class)->bootComponents();
+
             if (!Igniter::hasDatabase(true)) {
                 return;
             }
@@ -37,7 +44,7 @@ class ThemeServiceProvider extends ServiceProvider
             ($manager = resolve(ThemeManager::class))->bootThemes();
             $this->registerThemesViewNamespace($manager->listThemes());
 
-            Event::listen('main.controller.beforeRemap', function (MainController $controller) {
+            Event::listen('main.controller.beforeRemap', function(MainController $controller) {
                 $controller->getTheme()?->loadThemeFile();
             });
         });

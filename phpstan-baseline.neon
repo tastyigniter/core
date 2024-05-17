@@ -191,6 +191,11 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$property$#"
+			count: 1
+			path: src/Admin/Classes/BaseDashboardWidget.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$sessionKey\\.$#"
 			count: 1
 			path: src/Admin/Classes/BaseWidget.php
@@ -3351,11 +3356,6 @@ parameters:
 			path: src/Flame/Translation/Translator.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:\\$settings\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$components\\.$#"
 			count: 2
 			path: src/Main/Classes/MainController.php
@@ -3911,6 +3911,11 @@ parameters:
 			path: src/Main/Providers/ThemeServiceProvider.php
 
 		-
+			message: "#^Call to an undefined static method Livewire\\\\Livewire\\:\\:componentHook\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Providers/ThemeServiceProvider.php
+
+		-
 			message: "#^Cannot call method getController\\(\\) on object\\|string\\.$#"
 			count: 2
 			path: src/Main/Requests/ThemeRequest.php
@@ -4112,6 +4117,16 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:flush\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/BaseComponent.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$property$#"
+			count: 1
+			path: src/System/Classes/BaseComponent.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/BaseComponent.php
 

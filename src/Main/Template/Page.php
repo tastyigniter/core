@@ -87,7 +87,7 @@ class Page extends Model
 
         throw_unless($page, (new ModelNotFoundException)->setModel(__CLASS__));
 
-        throw_if(!AdminAuth::check() && $page->isHidden(), (new ModelNotFoundException)->setModel(__CLASS__));
+        throw_if(!AdminAuth::check() && $page->isHidden, (new ModelNotFoundException)->setModel(__CLASS__));
 
         return $page;
     }

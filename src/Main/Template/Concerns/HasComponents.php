@@ -8,6 +8,8 @@ trait HasComponents
 {
     public array $loadedComponents = [];
 
+    public array $loadedConfigurableComponents = [];
+
     /**
      * Returns a component by its name.
      * This method is used only in the admin and for internal system needs when
@@ -42,6 +44,8 @@ trait HasComponents
             $alias = $newAlias;
         }
 
+        unset($properties['alias']);
+
         $attributes['settings']['components'][$alias] = $properties;
         $this->attributes = $attributes;
 
@@ -50,6 +54,7 @@ trait HasComponents
 
     public function sortComponents(array $priorities)
     {
+        $priorities = array_flip($priorities);
         $components = array_sort(array_get($this->settings, 'components', []),
             function ($value, $key) use ($priorities) {
                 return $priorities[$key] ?? 0;

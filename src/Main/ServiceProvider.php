@@ -61,7 +61,7 @@ class ServiceProvider extends AppServiceProvider
      */
     protected function registerComponents()
     {
-        resolve(ComponentManager::class)->registerComponents(function (ComponentManager $manager) {
+        resolve(ComponentManager::class)->registerCallback(function (ComponentManager $manager) {
             $manager->registerComponent(\Igniter\Main\Components\BlankComponent::class, [
                 'code' => 'blankComponent',
                 'name' => 'Blank Component',

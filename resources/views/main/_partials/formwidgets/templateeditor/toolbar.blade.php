@@ -42,6 +42,13 @@
                     @endforeach
                 </select>
             </div>
+            @if(!empty($selectedTemplateFile) && $selectedTemplateType == '_pages')
+                <a
+                    href="{{ page_url($selectedTemplateFile) }}"
+                    class="btn btn-light"
+                    target="_blank"
+                ><i class="fa fa-eye"></i></a>
+            @endif
             <button
                 type="button"
                 class="btn btn-light"

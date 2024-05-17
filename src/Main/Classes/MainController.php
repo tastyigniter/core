@@ -11,7 +11,6 @@ use Igniter\Flame\Pagic\Parsers\FileParser;
 use Igniter\Flame\Pagic\Router;
 use Igniter\Flame\Traits\EventEmitter;
 use Igniter\Flame\Traits\ExtendableTrait;
-use Igniter\Main\Components\BlankComponent;
 use Igniter\Main\Helpers\MainHelper;
 use Igniter\Main\Template\Code\LayoutCode;
 use Igniter\Main\Template\Code\PageCode;
@@ -22,8 +21,6 @@ use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page;
 use Igniter\Main\Template\Partial;
 use Igniter\Main\Traits\ComponentMaker;
-use Igniter\System\Classes\BaseComponent;
-use Igniter\System\Classes\ComponentManager;
 use Igniter\System\Helpers\ViewHelper;
 use Igniter\System\Traits\AssetMaker;
 use Illuminate\Http\RedirectResponse;
@@ -74,12 +71,6 @@ class MainController extends Controller
 
     /** A list of variables to pass to the page. */
     public array $vars = [];
-
-    /** A list of BaseComponent objects used on this page */
-    public array $components = [];
-
-    /** Object of the active component, used internally. */
-    protected ?BaseComponent $componentContext = null;
 
     /** Body class property used for customising the layout on a controller basis. */
     public ?string $bodyClass = null;
@@ -270,6 +261,12 @@ class MainController extends Controller
     //
     //
 
+    protected function initTemplateObjects()
+    {
+        $this->layoutObj = FileParser::on($this->layout)->source($this->page, $this->layout, $this);
+        $this->pageObj = FileParser::on($this->page)->source($this->page, $this->layout, $this);
+    }
+
     protected function processHandlers(): mixed
     {
         if (!$handler = AdminHelper::getAjaxHandler()) {
@@ -371,6 +368,14 @@ class MainController extends Controller
     }
 
     /**
+     * Returns the Page object being processed by the controller.
+     */
+    public function getPageObj(): ?PageCode
+    {
+        return $this->pageObj;
+    }
+
+    /**
      * Returns the current theme.
      */
     public function getTheme(): ?Theme
@@ -404,38 +409,6 @@ class MainController extends Controller
     public function getLayout(): ?Layout
     {
         return $this->layout;
-    }
-
-    //
-    // Initialization
-    //
-
-    public function initTemplateObjects()
-    {
-        $this->layoutObj = FileParser::on($this->layout)->source($this->page, $this->layout, $this);
-        $this->pageObj = FileParser::on($this->page)->source($this->page, $this->layout, $this);
-    }
-
-    protected function initializeComponents()
-    {
-        foreach ($this->layout->getComponents() as $component => $properties) {
-            [$name, $alias] = strpos($component, ' ')
-                ? explode(' ', $component)
-                : [$component, $component];
-
-            $this->addComponent($name, $alias, $properties, true);
-        }
-
-        foreach ($this->page->getComponents() as $component => $properties) {
-            [$name, $alias] = strpos($component, ' ')
-                ? explode(' ', $component)
-                : [$component, $component];
-
-            $this->addComponent($name, $alias, $properties);
-        }
-
-        // Extensibility
-        $this->fireSystemEvent('main.layout.initializeComponents', [$this->layoutObj]);
     }
 
     //
@@ -540,88 +513,6 @@ class MainController extends Controller
         return $fileContent;
     }
 
-    /**
-     * Renders a requested component default partial.
-     * @param string $name The component to load.
-     * @param array $params Parameter variables to pass to the view.
-     * @param bool $throwException Throw an exception if the partial is not found.
-     *
-     * @return string|false Partial contents or false if not throwing an exception.
-     * @throws \Igniter\Flame\Exception\FlashException
-     * @internal  This method is used internally.
-     */
-    public function renderComponent($name, array $params = [], $throwException = true): string|false
-    {
-        $alias = str_before($name, '::');
-
-        $previousContext = $this->componentContext;
-        if (!$componentObj = $this->findComponentByAlias($alias)) {
-            $this->handleException(sprintf(lang('igniter::main.not_found.component'), $alias), $throwException);
-
-            return false;
-        }
-
-        $componentObj->id = uniqid($alias);
-        $this->componentContext = $componentObj;
-        $componentObj->setProperties(array_merge($componentObj->getProperties(), $params));
-        if ($result = $componentObj->onRender()) {
-            return $result;
-        }
-
-        if (!str_contains($name, '::')) {
-            $name .= '::'.$componentObj->defaultPartial;
-        }
-
-        $result = $this->renderPartial($name, [], false);
-        $this->componentContext = $previousContext;
-
-        return $result;
-    }
-
-    //
-    // Component helpers
-    //
-
-    /**
-     * Adds a component to the layout object
-     *
-     * @param mixed $name Component class name or short name
-     * @param string $alias Alias to give the component
-     * @param array $properties Component properties
-     *
-     * @return \Igniter\System\Classes\BaseComponent Component object
-     * @throws \Exception
-     */
-    public function addComponent(string $name, string $alias, array $properties = [], bool $addToLayout = false): BaseComponent
-    {
-        $codeObj = $addToLayout ? $this->layoutObj : $this->pageObj;
-        $templateObj = $addToLayout ? $this->layout : $this->page;
-
-        $manager = resolve(ComponentManager::class);
-        $componentObj = $manager->makeComponent($name, $codeObj, $properties);
-
-        $componentObj->alias = $alias;
-        $this->vars[$alias] = $componentObj;
-        $templateObj->loadedComponents[$alias] = $componentObj;
-
-        $componentObj->initialize();
-
-        return $componentObj;
-    }
-
-    public function hasComponent(string $alias): bool
-    {
-        if (!$componentObj = $this->findComponentByAlias($alias)) {
-            return false;
-        }
-
-        if ($componentObj instanceof BlankComponent) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function hasPartial(string $name): bool
     {
         // Alias @ symbol for ::
@@ -639,94 +530,6 @@ class MainController extends Controller
         }
 
         return $partial instanceof Partial || $partial instanceof ComponentPartial;
-    }
-
-    /**
-     * Searches the layout components by an alias
-     */
-    public function findComponentByAlias(string $alias): ?BaseComponent
-    {
-        return $this->page->loadedComponents[$alias] ?? $this->layout->loadedComponents[$alias] ?? null;
-    }
-
-    /**
-     * Searches the layout components by an AJAX handler
-     */
-    public function findComponentByHandler(string $handler): ?BaseComponent
-    {
-        foreach ($this->layout->components as $component) {
-            if ($component->methodExists($handler)) {
-                return $component;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Searches the layout and page components by a partial file
-     */
-    public function findComponentByPartial(string $partial): ?BaseComponent
-    {
-        foreach ($this->page->components as $component) {
-            if (ComponentPartial::check($component, $partial)) {
-                return $component;
-            }
-        }
-
-        foreach ($this->layout->components as $component) {
-            if (ComponentPartial::check($component, $partial)) {
-                return $component;
-            }
-        }
-
-        return null;
-    }
-
-    public function setComponentContext(?BaseComponent $component)
-    {
-        $this->componentContext = $component;
-    }
-
-    protected function loadComponentPartial(string $name, bool $throwException = true): ComponentPartial|false
-    {
-        [$componentAlias, $partialName] = explode('::', $name);
-
-        // Component alias not supplied
-        if (!strlen($componentAlias)) {
-            if (!is_null($this->componentContext)) {
-                $componentObj = $this->componentContext;
-            } elseif (($componentObj = $this->findComponentByPartial($partialName)) === null) {
-                $this->handleException(sprintf(lang('igniter::main.not_found.partial'), $partialName), $throwException);
-
-                return false;
-            }
-        } elseif (($componentObj = $this->findComponentByAlias($componentAlias)) === null) {
-            $this->handleException(sprintf(lang('igniter::main.not_found.component'), $componentAlias), $throwException);
-
-            return false;
-        }
-
-        $partial = null;
-        $this->componentContext = $componentObj;
-
-        // Check if the theme has an override
-        if (!str_contains($partialName, '/')) {
-            $partial = ComponentPartial::loadOverrideCached($this->theme, $componentObj->alias, $partialName);
-        }
-
-        // Check the component partial
-        if ($partial === null) {
-            $partial = ComponentPartial::loadCached($componentObj->getPath(), $partialName);
-        }
-
-        if ($partial === null) {
-            $this->handleException(sprintf(lang('igniter::main.not_found.partial'), $name), $throwException);
-
-            return false;
-        }
-
-        return $partial;
     }
 
     protected function loadPartial($name, $throwException = true): Partial|false

@@ -2,7 +2,6 @@
 
 namespace Igniter\Main\Models;
 
-use Exception;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Flame\Exception\FlashException;
@@ -91,17 +90,12 @@ class Theme extends Model
     {
         $components = [];
         $manager = resolve(ComponentManager::class);
-        foreach ($manager->listComponents() as $code => $definition) {
-            try {
-                $componentObj = $manager->makeComponent($code, null, $definition);
-
-                if ($componentObj->isHidden) {
-                    continue;
-                }
-
-                $components[$code] = [$definition['name'], lang($definition['description'] ?? '')];
-            } catch (Exception) {
+        foreach ($manager->listComponentObjects() as $code => $componentData) {
+            if ($componentData->component->isHidden()) {
+                continue;
             }
+
+            $components[$code] = [$componentData->name, lang($componentData->description ?? '')];
         }
 
         return $components;

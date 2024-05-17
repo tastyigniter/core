@@ -54,7 +54,7 @@ abstract class BaseComponent extends Extendable
             $this->controller = $page->controller;
         }
 
-        $this->properties = $this->validateProperties($properties);
+        $this->setProperties($properties);
 
         $this->dirName = strtolower(str_replace('\\', '/', get_called_class()));
         $namespace = implode('.', array_slice(explode('/', $this->dirName), 0, 2));
@@ -124,6 +124,38 @@ abstract class BaseComponent extends Extendable
     public function getEventHandler(string $handler): string
     {
         return $this->alias.'::'.$handler;
+    }
+
+    public function isHidden()
+    {
+        return $this->isHidden;
+    }
+
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function setAlias(string $alias): self
+    {
+        $this->alias = $alias;
+
+        return $this;
+    }
+
+    public static function resolve($name, ?TemplateCode $page = null, array $properties = []): self
+    {
+        $component = new static($page, $properties);
+        $component->setName($name);
+
+        return $component;
     }
 
     //

@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'site_title' => '%s - %s',
     'site_copyright' => '&copy; %s %s',
 
     'text_free' => 'Free',
@@ -10,29 +9,9 @@ return [
     'text_minus' => '-',
     'text_minutes' => 'minutes',
     'text_min' => 'min',
-    'text_my_account' => 'My Account',
-    'text_information' => 'Information',
     'text_follow_us' => 'Follow us on',
 
     'text_maintenance_enabled' => 'Maintenance Enabled',
-
-    'button_reset_to_default' => 'Reset to Defaults',
-
-    'menu_home' => 'Home',
-    'menu_menu' => 'View Menu',
-    'menu_reservation' => 'Reservation',
-    'menu_login' => 'Login',
-    'menu_logout' => 'Logout',
-    'menu_register' => 'Register',
-    'menu_my_account' => 'My Account',
-    'menu_account' => 'Main',
-    'menu_detail' => 'Edit Details',
-    'menu_address' => 'Address Book',
-    'menu_recent_order' => 'Recent Orders',
-    'menu_recent_reservation' => 'Recent Reservations',
-    'menu_locations' => 'Our Locations',
-    'menu_contact' => 'Contact Us',
-    'menu_admin' => 'Administrator',
 
     'alert_success' => '%s successfully.',
     'alert_error' => 'An error occurred, %s.',
@@ -139,121 +118,10 @@ return [
         'alert_missing_mediable' => 'You must define a media tag %s within $mediable property in %s to attach a media.', get_called_class(),
     ],
 
-    'home' => [
-        'title' => 'Online Order!',
-        'text_step_one' => 'Search',
-        'text_step_two' => 'Choose',
-        'text_step_three' => 'Pay by cash or card',
-        'text_step_four' => 'Enjoy',
-        'text_step_search' => 'Find and select restaurant that deliver to you by entering your postcode or address.',
-        'text_step_choose' => 'Browse hundreds of menus to find the food you like.',
-        'text_step_pay' => 'It\'s quick, easy and secure. Pay by Cash on Delivery or PayPal.',
-        'text_step_enjoy' => 'Food is prepared & delivered to your door step or ready for pick-up at the restaurant.',
-    ],
-
-    'local' => [
-        'text_tab_menu' => 'Menu',
-        'text_tab_review' => 'Reviews',
-        'text_tab_info' => 'Info',
-        'text_tab_gallery' => 'Gallery',
-
-        'menus' => [
-            'title' => 'Menu',
-        ],
-        'info' => [
-            'title' => 'Info',
-        ],
-        'gallery' => [
-            'title' => 'Gallery',
-        ],
-        'reviews' => [
-            'title' => 'Reviews',
-        ],
-    ],
-
-    'checkout' => [
-        'title' => 'Checkout',
-        'success' => [
-            'title' => 'Checkout Confirmation',
-        ],
-    ],
-
-    'reservation' => [
-        'title' => 'Reservation',
-        'success' => [
-            'title' => 'Reservation Confirmation',
-        ],
-    ],
-
-    'cart' => [
-        'title' => 'Cart',
-    ],
-
-    'locations' => [
-        'title' => 'Locations',
-    ],
-
-    'contact' => [
-        'title' => 'Contact',
-    ],
-
-    'pages' => [
-        'title' => 'Pages',
-        'text_theme_page' => 'Theme Page',
-    ],
-
     'permissions' => [
         'name' => 'Frontend',
         'media_manager' => 'Upload and manage media contents',
         'themes' => 'Activate, deactivate, configure and modify front-end themes',
-    ],
-
-    'account' => [
-        'title' => 'Account',
-
-        'login' => [
-            'title' => 'Login',
-            'text_login' => 'Log In',
-            'text_register' => 'Register <small>It\'s easy and always will be.</small>',
-            'text_forgot' => 'Forgot password?',
-            'text_login_register' => 'Already registered? <a href="%s">Login</a>',
-
-            'button_login' => 'Login',
-            'button_register' => 'Register',
-        ],
-
-        'register' => [
-            'title' => 'Register',
-        ],
-
-        'address' => [
-            'title' => 'Account',
-        ],
-
-        'settings' => [
-            'title' => 'Settings',
-        ],
-
-        'orders' => [
-            'title' => 'Orders',
-        ],
-
-        'reservations' => [
-            'title' => 'Reservations',
-        ],
-
-        'reviews' => [
-            'title' => 'Reviews',
-        ],
-
-        'inbox' => [
-            'title' => 'Inbox',
-        ],
-
-        'reset' => [
-            'title' => 'Account Password Reset',
-            'text_heading' => 'Account Password Reset',
-        ],
     ],
 
     'not_found' => [

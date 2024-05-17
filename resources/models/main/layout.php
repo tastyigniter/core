@@ -56,13 +56,13 @@ return [
         'rules' => [
             'markup' => ['sometimes'],
             'codeSection' => ['sometimes'],
-            'settings.components.*.alias' => ['sometimes', 'required', 'regex:/^[a-zA-Z\s]+$/'],
+            'settings.components.*' => ['required', 'regex:/^[a-zA-Z\s\-\:\.]+$/'],
             'settings.description' => ['sometimes', 'max:255'],
         ],
         'validationAttributes' => [
             'markup' => lang('igniter::system.themes.text_tab_markup'),
             'codeSection' => lang('igniter::system.themes.text_tab_php_section'),
-            'settings.components.*.alias' => lang('igniter::system.themes.label_component_alias'),
+            'settings.components.*' => lang('igniter::system.themes.label_component_alias'),
             'settings.description' => lang('igniter::admin.label_description'),
         ],
     ],

@@ -29,6 +29,7 @@
     "laravel/sanctum": "^3.2",
     "laravel/tinker": "^2.8",
     "laravel/helpers": "^v1.6",
+    "livewire/livewire": "^v3.0.0",
     "doctrine/instantiator": "~1.0",
     "doctrine/dbal": "~3.6",
     "spatie/laravel-ignition": "^2.0",
