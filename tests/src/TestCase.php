@@ -7,6 +7,7 @@ use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\PackageManifest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\View;
+use Livewire\LivewireServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -15,6 +16,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
+            LivewireServiceProvider::class,
             \Igniter\Flame\ServiceProvider::class,
         ];
     }
@@ -42,14 +44,14 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::resolveApplicationConfiguration($app);
 
-        $app->afterResolving(PackageManifest::class, function ($instance) {
+        $app->afterResolving(PackageManifest::class, function($instance) {
             $instance->vendorPath = __DIR__.'/../../vendor';
         });
 
         $configs = ['currency', 'geocoder', 'system'];
 
         foreach ($configs as $config) {
-            $app['config']->set("igniter.$config", require (__DIR__."/../../config/{$config}.php"));
+            $app['config']->set("igniter.$config", require(__DIR__."/../../config/{$config}.php"));
         }
     }
 }
