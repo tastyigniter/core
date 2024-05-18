@@ -251,8 +251,7 @@ class Components extends BaseFormWidget
     protected function makeComponentFormWidget(
         string $context,
         null|BaseComponent|LivewireComponent|BladeComponent $componentObj = null
-    ): Form
-    {
+    ): Form {
         $propertyConfig = $propertyValues = [];
         if ($componentObj) {
             $propertyConfig = $context === 'edit' ? $this->manager->getComponentPropertyConfig($componentObj) : [];
@@ -271,7 +270,7 @@ class Components extends BaseFormWidget
         $widget = $this->makeWidget(Form::class, $formConfig);
 
         if ($componentObj instanceof BaseComponent) {
-            $widget->bindEvent('form.extendFields', function($allFields) use ($widget, $componentObj) {
+            $widget->bindEvent('form.extendFields', function ($allFields) use ($widget, $componentObj) {
                 if (!$formField = $widget->getField('partial')) {
                     return;
                 }
@@ -339,7 +338,7 @@ class Components extends BaseFormWidget
 
     protected function convertComponentPropertyValues(array $properties): array
     {
-        return array_map(function($propertyValue) {
+        return array_map(function ($propertyValue) {
             if (is_numeric($propertyValue)) {
                 $propertyValue += 0;
             } // Convert to int or float
@@ -360,9 +359,9 @@ class Components extends BaseFormWidget
 
         $formField->comment = sprintf(lang('igniter::system.themes.help_override_partial'), $themePartialPath);
 
-        $formField->options(function() use ($componentPath) {
+        $formField->options(function () use ($componentPath) {
             return collect(File::glob($componentPath.'/*.blade.php'))
-                ->mapWithKeys(function($path) {
+                ->mapWithKeys(function ($path) {
                     $name = str_before(File::basename($path), '.'.Model::DEFAULT_EXTENSION);
 
                     return [$name => $name];

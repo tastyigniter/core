@@ -174,7 +174,7 @@ class TemplateEditor extends BaseFormWidget
 
         $data = post('Theme.source');
 
-        $this->validateAfter(function(Validator $validator) {
+        $this->validateAfter(function (Validator $validator) {
             if ($this->wasTemplateModified()) {
                 $validator->errors()->add('markup', lang('igniter::system.themes.alert_changes_confirm'));
             }
@@ -220,12 +220,12 @@ class TemplateEditor extends BaseFormWidget
         $widget->bindToController();
 
         if ($componentsWidget = $widget->getFormWidget('settings[components]')) {
-            $componentsWidget->bindEvent('partialCopied', function($partialName) {
+            $componentsWidget->bindEvent('partialCopied', function ($partialName) {
                 $this->setTemplateValue('type', '_partials');
                 $this->setTemplateValue('file', $partialName);
             });
 
-            $componentsWidget->bindEvent('updated', function($partialName) {
+            $componentsWidget->bindEvent('updated', function ($partialName) {
                 $this->setTemplateValue('mTime', $this->getTemplateModifiedTime());
             });
         }
