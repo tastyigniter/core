@@ -109,7 +109,11 @@ class Languages extends \Igniter\Admin\Classes\AdminController
 
     public function index_onSetDefault(?string $context = null)
     {
-        if (Language::updateDefault(post('default'))) {
+        $data = $this->validate(post(), [
+            'default' => 'required|integer|exists:'.Language::class.',language_id',
+        ]);
+
+        if (Language::updateDefault($data['default'])) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::system.languages.alert_set_default')));
         }
 
@@ -304,7 +308,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $manager = resolve(LanguageManager::class);
 
         $result = [];
-        $files->each(function ($file) use ($manager, $model, &$result, $stringFilter) {
+        $files->each(function($file) use ($manager, $model, &$result, $stringFilter) {
             $sourceLines = $model->getLines('en', $file['group'], $file['namespace']);
             $translationLines = $model->getTranslations($file['group'], $file['namespace']);
 

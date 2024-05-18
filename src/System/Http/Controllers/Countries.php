@@ -64,7 +64,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
 
     public function index()
     {
-        rescue(function () {
+        rescue(function() {
             if (!Country::count()) {
                 Country::upsertFromHub();
             }
@@ -75,7 +75,11 @@ class Countries extends \Igniter\Admin\Classes\AdminController
 
     public function index_onSetDefault(?string $context)
     {
-        if (Country::updateDefault(post('default'))) {
+        $data = $this->validate(post(), [
+            'default' => 'required|integer|exists:'.Country::class.',country_id',
+        ]);
+
+        if (Country::updateDefault($data['default'])) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::system.countries.alert_set_default')));
         }
 

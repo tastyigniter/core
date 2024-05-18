@@ -61,7 +61,7 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
 
     public function index()
     {
-        rescue(function () {
+        rescue(function() {
             if (!Currency::count()) {
                 Currency::upsertFromHub();
             }
@@ -72,7 +72,11 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
 
     public function index_onSetDefault(?string $context)
     {
-        if (Currency::updateDefault(post('default'))) {
+        $data = $this->validate(post(), [
+            'default' => 'required|integer|exists:'.Currency::class.',currency_id',
+        ]);
+
+        if (Currency::updateDefault($data['default'])) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::system.currencies.alert_set_default')));
         }
 

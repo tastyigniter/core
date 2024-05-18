@@ -145,8 +145,11 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function index_onSetDefault(): RedirectResponse
     {
-        $themeName = post('code');
-        if ($theme = Theme::activateTheme($themeName)) {
+        $data = $this->validate(post(), [
+            'code' => 'required|alpha_dash|exists:'.Theme::class.',code',
+        ]);
+
+        if ($theme = Theme::activateTheme($data['code'])) {
             CacheHelper::clearView();
 
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme ['.$theme->name.'] set as default '));
