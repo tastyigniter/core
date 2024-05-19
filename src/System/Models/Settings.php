@@ -171,7 +171,7 @@ class Settings extends Model
             $values[$record->item] = $record->value;
         }
 
-        return $this->fieldValues[$group] = $values;
+        return $this->fieldValues[$group] = array_undot($values);
     }
 
     public function getSettingDefinitions($code)

@@ -308,7 +308,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $manager = resolve(LanguageManager::class);
 
         $result = [];
-        $files->each(function($file) use ($manager, $model, &$result, $stringFilter) {
+        $files->each(function ($file) use ($manager, $model, &$result, $stringFilter) {
             $sourceLines = $model->getLines('en', $file['group'], $file['namespace']);
             $translationLines = $model->getTranslations($file['group'], $file['namespace']);
 

@@ -84,7 +84,7 @@
         this.$appendTo.find('.repeater-item-placeholder').remove()
 
         this.$appendTo.append($newTemplate[0].innerHTML.replace(find, replace).replace(secFind, replace))
-        $template.data('replace', parseInt(replace) + 1)
+        $template.data('replace', parseInt(replace)+1)
 
         $(document).trigger('render')
 

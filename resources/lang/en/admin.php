@@ -142,7 +142,7 @@ return [
         'updates' => 'Updates',
         'storefront' => 'Storefront',
         'page' => 'Static Pages',
-        'system_logs' => 'System Logs',
+        'system_logs' => 'Logs',
         'setting' => 'Settings',
         'dashboard' => 'Dashboard',
         'sale' => 'Sales',
@@ -157,7 +157,7 @@ return [
         'mail_template' => 'Mail Templates',
         'tool' => 'Tools',
         'media_manager' => 'Media Manager',
-        'system' => 'System',
+        'system' => 'Manage',
 
         'alert_no_definition' => 'No definition for item %s.',
         'alert_invalid_menu' => 'Invalid item specified.',

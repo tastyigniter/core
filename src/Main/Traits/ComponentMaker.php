@@ -18,21 +18,21 @@ trait ComponentMaker
     {
         $manager = resolve(ComponentManager::class);
 
-        foreach ($this->layout->getComponents() as $component => $properties) {
-            [$name, $alias] = $manager->getCodeAlias($component);
+        foreach ($this->layout->getComponents() as $componentName => $properties) {
+            [$name, $alias] = $manager->getCodeAlias($componentName);
 
             if ($manager->isConfigurableComponent($name)) {
-                $this->layout->loadedConfigurableComponents[$component] = $properties;
+                $this->layout->loadedConfigurableComponents[$componentName] = $properties;
             } else {
                 $this->addComponent($name, $alias, $properties, true, $manager);
             }
         }
 
-        foreach ($this->page->getComponents() as $component => $properties) {
-            [$name, $alias] = $manager->getCodeAlias($component);
+        foreach ($this->page->getComponents() as $componentName => $properties) {
+            [$name, $alias] = $manager->getCodeAlias($componentName);
 
             if ($manager->isConfigurableComponent($name)) {
-                $this->page->loadedConfigurableComponents[$component] = $properties;
+                $this->page->loadedConfigurableComponents[$componentName] = $properties;
             } else {
                 $this->addComponent($name, $alias, $properties, false, $manager);
             }

@@ -634,10 +634,13 @@ class Form extends BaseWidget
             if (is_null($value) && in_array($field->type, ['checkboxtoggle', 'radiotoggle'])) {
                 $this->dataArraySet($result, $parts, $value);
             } elseif ($value !== false) {
-                // Number fields should be converted to integers
-                if ($field->type === 'number') {
-                    $value = strlen(trim($value)) ? (int)$value : null;
-                }
+                $value = match ($field->type) {
+                    // Number fields should be converted to integers
+                    'number' => strlen(trim($value)) ? (int)$value : null,
+                    // Switches should be converted to booleans
+                    'switch' => (bool)$value,
+                    default => $value,
+                };
 
                 $this->dataArraySet($result, $parts, $value);
             }

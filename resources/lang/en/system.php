@@ -476,7 +476,7 @@ return [
     ],
 
     'system_logs' => [
-        'text_title' => 'System Logs',
+        'text_title' => 'Logs',
 
         'button_empty' => '<i class="fa fa-eraser"></i>&nbsp;&nbsp;Empty Logs',
         'button_request_logs' => '<i class="fa fa-globe"></i>&nbsp;&nbsp;Request Logs',

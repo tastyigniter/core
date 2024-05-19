@@ -3,7 +3,8 @@
     data-control="repeater"
     data-append-to="#{{ $this->getId('append-to') }}"
     data-sortable-container="#{{ $this->getId('append-to') }}"
-    data-sortable-handle=".{{ $this->getId('items') }}-handle">
+    data-sortable-handle=".{{ $this->getId('items') }}-handle"
+>
 
     <div id="{{ $this->getId('items') }}" class="repeater-items">
         <div class="table-responsive">

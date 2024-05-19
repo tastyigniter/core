@@ -250,7 +250,9 @@ class ComponentManager
 
     public function isConfigurableComponent(string $name): bool
     {
-        $className = $this->resolve($name);
+        if (!$className = $this->resolve($name)) {
+            return false;
+        }
 
         return in_array(ConfigurableComponent::class, class_uses_recursive($className));
     }

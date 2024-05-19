@@ -199,8 +199,16 @@ class Navigation
         })->toArray();
     }
 
-    public function setPreviousUrl(string $url): static
+    public function setPreviousUrl(string $pathOrUrl): static
     {
+        $url = starts_with($pathOrUrl, ['http://', 'https://'])
+            ? $pathOrUrl : admin_url($pathOrUrl);
+
+        $previousUrl = url()->previous();
+        if (str_contains($previousUrl, '?') && rtrim(preg_replace('/\?.*/', '', $previousUrl), '/') === rtrim($url, '/')) {
+            $url = $previousUrl;
+        }
+
         $this->previousPageUrl = $url;
 
         return $this;

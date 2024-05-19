@@ -4,7 +4,7 @@
             @if($previousUrl = AdminMenu::getPreviousUrl())
                 <a
                     class="btn shadow-none border-none pe-0"
-                    href="{{admin_url($previousUrl)}}"
+                    href="{{$previousUrl}}"
                 ><i class="fa fa-angle-left fs-4 align-bottom"></i></a>
             @endif
             <h4 class="page-title px-2 mb-0">

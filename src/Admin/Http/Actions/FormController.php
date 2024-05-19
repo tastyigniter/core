@@ -110,14 +110,7 @@ class FormController extends ControllerAction
 
         // Each page can supply a unique form config, if desired
         $configFile = $this->config['configFile'];
-
-        if ($context == self::CONTEXT_CREATE) {
-            $configFile = $this->getConfig('create[configFile]', $configFile);
-        } elseif ($context == self::CONTEXT_EDIT) {
-            $configFile = $this->getConfig('edit[configFile]', $configFile);
-        } elseif ($context == self::CONTEXT_PREVIEW) {
-            $configFile = $this->getConfig('preview[configFile]', $configFile);
-        }
+        $configFile = $this->getConfig($context.'[configFile]', $configFile);
 
         // Prep the list widget config
         $requiredConfig = ['form'];
@@ -439,7 +432,7 @@ class FormController extends ControllerAction
 
     protected function validateSaveData(Model $model, mixed $saveData): bool|array
     {
-        if (!is_null($requestClass = $this->getConfig('request'))) {
+        if (!is_null($requestClass = $this->getConfig($this->context.'[request]', $this->getConfig('request')))) {
             return $this->validateFormRequest($requestClass, function (FormRequest $request) use ($saveData) {
                 $request->merge($saveData);
             });
