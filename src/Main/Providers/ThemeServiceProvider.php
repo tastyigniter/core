@@ -23,12 +23,12 @@ class ThemeServiceProvider extends ServiceProvider
     {
         $this->app->register(LivewireServiceProvider::class);
 
-        $this->callAfterResolving(Router::class, function($router) {
+        $this->callAfterResolving(Router::class, function ($router) {
             $router::$templateClass = Page::class;
             $router->setTheme(Theme::getActiveCode());
         });
 
-        Model::extend(function(Model $model) {
+        Model::extend(function (Model $model) {
             $model->setSource(Theme::getActiveCode());
         });
 
@@ -37,7 +37,7 @@ class ThemeServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->app->booted(function() {
+        $this->app->booted(function () {
             resolve(ComponentManager::class)->bootComponents();
 
             if (!Igniter::hasDatabase(true)) {
@@ -47,7 +47,7 @@ class ThemeServiceProvider extends ServiceProvider
             ($manager = resolve(ThemeManager::class))->bootThemes();
             $this->registerThemesViewNamespace($manager->listThemes());
 
-            Event::listen('main.controller.beforeRemap', function(MainController $controller) {
+            Event::listen('main.controller.beforeRemap', function (MainController $controller) {
                 $controller->getTheme()?->loadThemeFile();
             });
         });
