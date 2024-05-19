@@ -27,7 +27,7 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
     public array $formConfig = [
         'name' => 'lang:igniter::system.currencies.text_form_name',
         'model' => \Igniter\System\Models\Currency::class,
-        'request' => \Igniter\System\Requests\CurrencyRequest::class,
+        'request' => \Igniter\System\Http\Requests\CurrencyRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'currencies/edit/{currency_id}',

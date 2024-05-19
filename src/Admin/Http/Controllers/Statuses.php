@@ -24,7 +24,7 @@ class Statuses extends \Igniter\Admin\Classes\AdminController
     public array $formConfig = [
         'name' => 'lang:igniter::admin.statuses.text_form_name',
         'model' => \Igniter\Admin\Models\Status::class,
-        'request' => \Igniter\Admin\Requests\StatusRequest::class,
+        'request' => \Igniter\Admin\Http\Requests\StatusRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'statuses/edit/{status_id}',

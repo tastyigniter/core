@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\System\Requests;
+namespace Tests\System\Http\Requests;
 
-use Igniter\System\Requests\CountryRequest;
+use Igniter\System\Http\Requests\CountryRequest;
 
 it('has required rule for inputs', function() {
     $rules = (new CountryRequest)->rules();

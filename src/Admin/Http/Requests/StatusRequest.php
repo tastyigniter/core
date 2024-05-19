@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Admin\Requests;
+namespace Igniter\Admin\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
 

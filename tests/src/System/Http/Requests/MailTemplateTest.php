@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\System\Requests;
+namespace Tests\System\Http\Requests;
 
-use Igniter\System\Requests\MailTemplateRequest;
+use Igniter\System\Http\Requests\MailTemplateRequest;
 use Illuminate\Validation\Rule;
 
 it('has required rule for inputs: label, subject and code', function() {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Admin\Requests;
+namespace Tests\Admin\Http\Requests;
 
-use Igniter\Admin\Requests\StatusRequest;
+use Igniter\Admin\Http\Requests\StatusRequest;
 
 it('has required rule for inputs', function() {
     expect('required')->toBeIn(array_get((new StatusRequest)->rules(), 'status_name'))

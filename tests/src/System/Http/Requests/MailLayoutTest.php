@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\System\Requests;
+namespace Tests\System\Http\Requests;
 
-use Igniter\System\Requests\MailLayoutRequest;
+use Igniter\System\Http\Requests\MailLayoutRequest;
 use Illuminate\Validation\Rule;
 
 it('has required rule for inputs: name and code', function() {

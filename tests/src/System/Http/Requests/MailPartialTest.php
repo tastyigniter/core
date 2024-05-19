@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\System\Requests;
+namespace Tests\System\Http\Requests;
 
-use Igniter\System\Requests\MailPartialRequest;
+use Igniter\System\Http\Requests\MailPartialRequest;
 use Illuminate\Validation\Rule;
 
 it('has required rule for inputs: name, code and html', function() {

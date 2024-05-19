@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\System\Requests;
+namespace Tests\System\Http\Requests;
 
-use Igniter\System\Requests\CurrencyRequest;
+use Igniter\System\Http\Requests\CurrencyRequest;
 
 it('has required rule for inputs', function() {
     $rules = (new CurrencyRequest)->rules();

@@ -27,7 +27,7 @@ class MailPartials extends \Igniter\Admin\Classes\AdminController
     public array $formConfig = [
         'name' => 'lang:igniter::system.mail_templates.text_partial_form_name',
         'model' => \Igniter\System\Models\MailPartial::class,
-        'request' => \Igniter\System\Requests\MailPartialRequest::class,
+        'request' => \Igniter\System\Http\Requests\MailPartialRequest::class,
         'create' => [
             'title' => 'lang:igniter::system.mail_templates.text_new_partial_title',
             'redirect' => 'mail_partials/edit/{partial_id}',

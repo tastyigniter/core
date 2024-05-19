@@ -38,7 +38,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
     public array $formConfig = [
         'name' => 'lang:igniter::system.languages.text_form_name',
         'model' => \Igniter\System\Models\Language::class,
-        'request' => \Igniter\System\Requests\LanguageRequest::class,
+        'request' => \Igniter\System\Http\Requests\LanguageRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'languages/edit/{language_id}',
