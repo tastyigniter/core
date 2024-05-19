@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mail_partials', function (Blueprint $table) {
+        Schema::create('mail_partials', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('partial_id');
             $table->string('name')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::table('mail_templates', function (Blueprint $table) {
+        Schema::table('mail_templates', function(Blueprint $table) {
             $table->boolean('is_locked')->default(0);
         });
     }

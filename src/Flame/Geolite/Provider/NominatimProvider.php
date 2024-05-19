@@ -42,7 +42,7 @@ class NominatimProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function () use ($query, $url) {
+            $result = $this->cacheCallback($url, function() use ($query, $url) {
                 return $this->hydrateResponse(
                     $this->requestUrl($url, $query)
                 );
@@ -74,7 +74,7 @@ class NominatimProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function () use ($query, $url) {
+            $result = $this->cacheCallback($url, function() use ($query, $url) {
                 return $this->hydrateResponse(
                     $this->requestUrl($url, $query)
                 );
@@ -104,7 +104,7 @@ class NominatimProvider extends AbstractProvider
         try {
             $url .= '?overview=false';
 
-            return $this->cacheCallback($url, function () use ($distance, $url) {
+            return $this->cacheCallback($url, function() use ($distance, $url) {
                 $response = $this->requestDistanceUrl($url, $distance);
                 $route = current($response);
 

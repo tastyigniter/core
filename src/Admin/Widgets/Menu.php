@@ -154,7 +154,7 @@ class Menu extends BaseWidget
         $optionModelTypes = ['dropdown', 'partial'];
         if (in_array($item->type, $optionModelTypes, false)) {
             // Defer the execution of option data collection
-            $item->options(function () use ($item, $config) {
+            $item->options(function() use ($item, $config) {
                 $itemOptions = $config['options'] ?? null;
 
                 return $this->getOptionsFromModel($item, $itemOptions);

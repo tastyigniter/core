@@ -10,7 +10,7 @@ use Igniter\Admin\Widgets\Form;
 use Igniter\System\Facades\Assets;
 use Illuminate\View\Factory;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = new class extends AdminController
     {
     };
@@ -31,7 +31,7 @@ beforeEach(function () {
     $this->formWidget->bindToController();
 });
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('form.js', 'form-js');
     Assets::shouldReceive('addJs')->once()->with('formwidget.js', 'formwidget-js');
 
@@ -40,7 +40,7 @@ it('loads assets correctly', function () {
     $this->formWidget->loadAssets();
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('form/form'));
@@ -56,19 +56,19 @@ it('renders correctly', function () {
         ->toHaveKey('scopes');
 })->throws(\Exception::class);
 
-it('renders field correctly', function () {
+it('renders field correctly', function() {
     $renderedField = $this->formWidget->renderField('status_name');
 
     expect($renderedField)->toBeString();
 });
 
-it('renders field element correctly', function () {
+it('renders field element correctly', function() {
     $field = new FormField('testField', 'Test Field');
 
     expect($this->formWidget->renderFieldElement($field))->toBeString();
 });
 
-it('sets active tab', function () {
+it('sets active tab', function() {
     request()->request->add(['tab' => 'testTab']);
 
     $this->formWidget->onActiveTab();
@@ -76,14 +76,14 @@ it('sets active tab', function () {
     expect($this->formWidget->getSession('activeTab'))->toBe('testTab');
 });
 
-it('adds field correctly', function () {
+it('adds field correctly', function() {
     $fields = ['testField' => ['label' => 'Test Field']];
     $this->formWidget->addFields($fields);
 
     expect($this->formWidget->getField('testField'))->toBeInstanceOf(FormField::class);
 });
 
-it('adds tab fields correctly', function () {
+it('adds tab fields correctly', function() {
     $fields = ['testField' => ['label' => 'Test Field', 'tab' => 'Test Tab']];
     $this->formWidget->addTabFields($fields);
 
@@ -92,7 +92,7 @@ it('adds tab fields correctly', function () {
         ->and($formField->tab)->toBe('Test Tab');
 });
 
-it('removes field', function () {
+it('removes field', function() {
     expect($this->formWidget->getField('status_name'))->toBeInstanceOf(FormField::class);
 
     $this->formWidget->removeField('status_name');
@@ -100,7 +100,7 @@ it('removes field', function () {
     expect($this->formWidget->getField('status_name'))->toBeNull();
 });
 
-it('removes tab', function () {
+it('removes tab', function() {
     $fields = ['testField' => ['label' => 'Test Field', 'tab' => 'Test Tab']];
     $this->formWidget->addTabFields($fields);
 
@@ -110,7 +110,7 @@ it('removes tab', function () {
     expect($this->formWidget->getField('testField'))->toBeNull();
 });
 
-it('makes form field', function () {
+it('makes form field', function() {
     $field = $this->formWidget->makeFormField('testField', ['label' => 'Test Field']);
 
     expect($field)->toBeInstanceOf(FormField::class)
@@ -120,7 +120,7 @@ it('makes form field', function () {
         ->and($field->idPrefix)->toBe($this->formWidget->getId());
 });
 
-it('make form field widget', function () {
+it('make form field widget', function() {
     $field = new FormField('testField', 'Test Field');
     $field->displayAs('widget', ['widget' => 'colorpicker']);
 
@@ -129,7 +129,7 @@ it('make form field widget', function () {
     expect($widget)->toBeInstanceOf(BaseFormWidget::class);
 });
 
-it('gets field name', function ($name, $context) {
+it('gets field name', function($name, $context) {
     [$fieldName, $fieldContext] = $this->formWidget->getFieldName($context ? $name.'@'.$context : $name);
 
     expect($fieldName)->toBe($name)
@@ -139,7 +139,7 @@ it('gets field name', function ($name, $context) {
     ['testField', 'context'],
 ]);
 
-it('gets field value', function () {
+it('gets field value', function() {
     request()->request->add(['status_name' => 'Test Value']);
 
     $value = $this->formWidget->getFieldValue('status_name');
@@ -147,7 +147,7 @@ it('gets field value', function () {
     expect($value)->toBe('Test Value');
 });
 
-it('gets field depends', function () {
+it('gets field depends', function() {
     $field = new FormField('testField', 'Test Field');
     $field->dependsOn = ['otherField'];
 
@@ -156,7 +156,7 @@ it('gets field depends', function () {
     expect($depends)->toBeArray()->toContain('otherField');
 });
 
-it('shows field labels', function () {
+it('shows field labels', function() {
     $showLabels = $this->formWidget->showFieldLabels(
         $this->formWidget->getField('status_name')
     );
@@ -164,7 +164,7 @@ it('shows field labels', function () {
     expect($showLabels)->toBeTrue();
 });
 
-it('gets save data', function () {
+it('gets save data', function() {
     request()->request->add(['status_name' => 'Test Value']);
 
     $saveData = $this->formWidget->getSaveData();

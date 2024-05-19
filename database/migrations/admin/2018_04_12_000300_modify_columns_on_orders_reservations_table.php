@@ -13,11 +13,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('orders', function(Blueprint $table) {
             $table->boolean('processed')->nullable();
         });
 
-        Schema::table('reservations', function (Blueprint $table) {
+        Schema::table('reservations', function(Blueprint $table) {
             $table->boolean('processed')->nullable();
             $table->renameColumn('status', 'status_id');
         });

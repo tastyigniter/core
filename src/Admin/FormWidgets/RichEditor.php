@@ -77,7 +77,7 @@ class RichEditor extends BaseFormWidget
         $buttons = $this->toolbarButtons;
 
         if (is_string($buttons)) {
-            $buttons = array_map(function ($button) {
+            $buttons = array_map(function($button) {
                 return $button ?: '|';
             }, explode('|', $buttons));
         }

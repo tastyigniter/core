@@ -11,7 +11,7 @@ dataset('ids', [
     ['testScope', 'suffix', 'prefix', 'prefix-scope-testScope-suffix'],
 ]);
 
-it('can get id with optional prefix and suffix', function ($scopeName, $suffix, $prefix, $expectedId) {
+it('can get id with optional prefix and suffix', function($scopeName, $suffix, $prefix, $expectedId) {
     $filterScope = new FilterScope($scopeName, 'Test Scope');
     $filterScope->displayAs('text', ['idPrefix' => $prefix]);
 

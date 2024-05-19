@@ -18,7 +18,7 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
             ->table($this->table)
             ->whereNotNull('group')
             ->get()
-            ->each(function ($row) {
+            ->each(function($row) {
                 if ($group = array_get(['System' => 'igniter.system', 'Admin' => 'igniter.admin'], $row->group, $row->group)) {
                     $group .= '::';
                 }

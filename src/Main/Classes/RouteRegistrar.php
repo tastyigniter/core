@@ -32,7 +32,7 @@ class RouteRegistrar
             ->domain(config('igniter-routes.domain'))
             ->name('igniter.main.assets')
             ->prefix(Igniter::uri())
-            ->group(function (IlluminateRouter $router) {
+            ->group(function(IlluminateRouter $router) {
                 $router->get(config('igniter-routes.assetsCombinerUri', '_assets').'/{asset}', 'AssetController');
             });
     }
@@ -44,7 +44,7 @@ class RouteRegistrar
             ->domain(config('igniter-routes.domain'))
             ->name('igniter.theme.')
             ->prefix(Igniter::uri())
-            ->group(function (IlluminateRouter $router) {
+            ->group(function(IlluminateRouter $router) {
                 foreach ($this->getThemePageRoutes() as $parts) {
                     $route = $router->pagic($parts['uri'], $parts['route'])
                         ->defaults('_file_', $parts['file']);

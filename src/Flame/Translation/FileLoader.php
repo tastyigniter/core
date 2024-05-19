@@ -31,9 +31,9 @@ class FileLoader extends FileLoaderBase
      */
     public function loadFromDrivers($locale, $group, $namespace = null)
     {
-        return collect($this->drivers)->map(function ($className) {
+        return collect($this->drivers)->map(function($className) {
             return app($className);
-        })->mapWithKeys(function (Contracts\Driver $driver) use ($locale, $group, $namespace) {
+        })->mapWithKeys(function(Contracts\Driver $driver) use ($locale, $group, $namespace) {
             return $driver->load($locale, $group, $namespace);
         })->toArray();
     }
@@ -56,7 +56,7 @@ class FileLoader extends FileLoaderBase
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
     {
         return collect($this->paths)
-            ->reduce(function ($output, $path) use ($lines, $locale, $group, $namespace) {
+            ->reduce(function($output, $path) use ($lines, $locale, $group, $namespace) {
                 if (!$this->files->exists($path)) {
                     return $lines;
                 }

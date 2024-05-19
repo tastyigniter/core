@@ -42,7 +42,7 @@ return new class extends Migration
             'admin_users' => 'user_id',
         ] as $table => $key) {
             if (Schema::hasColumn($table, $key)) {
-                Schema::table($table, function (Blueprint $table) use ($key) {
+                Schema::table($table, function(Blueprint $table) use ($key) {
                     $table->unsignedBigInteger($key, true)->change();
                 });
             }

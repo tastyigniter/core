@@ -99,7 +99,7 @@ trait ListExtendable
     public static function extendListColumns(callable $callback)
     {
         $calledClass = self::getCalledExtensionClass();
-        Event::listen('admin.list.extendColumns', function ($widget) use ($calledClass, $callback) {
+        Event::listen('admin.list.extendColumns', function($widget) use ($calledClass, $callback) {
             if (!is_a($widget->getController(), $calledClass)) {
                 return;
             }

@@ -26,14 +26,14 @@ class PackageManifest extends BasePackageManifest
 
     public function extensionConfig(string $key): array
     {
-        return collect($this->extensions())->flatMap(function ($configuration) use ($key) {
+        return collect($this->extensions())->flatMap(function($configuration) use ($key) {
             return (array)($configuration[$key] ?? []);
         })->filter()->all();
     }
 
     public function themeConfig(string $key): array
     {
-        return collect($this->themes())->flatMap(function ($configuration) use ($key) {
+        return collect($this->themes())->flatMap(function($configuration) use ($key) {
             return (array)($configuration[$key] ?? []);
         })->filter()->all();
     }
@@ -58,7 +58,7 @@ class PackageManifest extends BasePackageManifest
         }
 
         return collect($packages)
-            ->filter(function ($package) {
+            ->filter(function($package) {
                 return array_get($package, 'name') === 'tastyigniter/flame';
             })
             ->value('version');
@@ -76,11 +76,11 @@ class PackageManifest extends BasePackageManifest
         $this->manifest = null;
 
         $this->write(collect($packages)
-            ->filter(function ($package) {
+            ->filter(function($package) {
                 return array_has($package, 'extra.tastyigniter-extension') ||
                     array_has($package, 'extra.tastyigniter-theme');
             })
-            ->mapWithKeys(function ($package) {
+            ->mapWithKeys(function($package) {
                 if (array_get($package, 'extra.tastyigniter-extension', [])) {
                     return $this->formatExtension($package);
                 }

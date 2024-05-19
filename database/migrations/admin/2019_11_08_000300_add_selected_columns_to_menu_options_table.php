@@ -8,11 +8,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('menus', function (Blueprint $table) {
+        Schema::table('menus', function(Blueprint $table) {
             $table->boolean('order_restriction')->default(0);
         });
 
-        Schema::table('menu_options', function (Blueprint $table) {
+        Schema::table('menu_options', function(Blueprint $table) {
             $table->integer('min_selected')->default(0);
             $table->integer('max_selected')->default(0);
         });

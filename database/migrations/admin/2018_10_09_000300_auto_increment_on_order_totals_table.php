@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('order_totals', function (Blueprint $table) {
+        Schema::table('order_totals', function(Blueprint $table) {
             $table->increments('order_total_id')->change();
         });
     }

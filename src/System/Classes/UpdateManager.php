@@ -274,9 +274,9 @@ class UpdateManager
 
         $result = $this->fetchItemsToUpdate($installedItems, $force);
 
-        [$ignoredItems, $items] = $result['items']->filter(function (PackageInfo $packageInfo) {
+        [$ignoredItems, $items] = $result['items']->filter(function(PackageInfo $packageInfo) {
             return !($packageInfo->isCore() && $this->disableCoreUpdates);
-        })->partition(function (PackageInfo $packageInfo) {
+        })->partition(function(PackageInfo $packageInfo) {
             return $this->isMarkedAsIgnored($packageInfo->code);
         });
 
@@ -325,7 +325,7 @@ class UpdateManager
     {
         return $this->getHubManager()
             ->applyItems($names)
-            ->filter(function (PackageInfo $packageInfo) {
+            ->filter(function(PackageInfo $packageInfo) {
                 if ($packageInfo->isCore() && $this->disableCoreUpdates) {
                     return false;
                 }
@@ -400,7 +400,7 @@ class UpdateManager
     {
         $io = new BufferIO();
 
-        $packages = collect($requirements)->mapWithKeys(function ($package) {
+        $packages = collect($requirements)->mapWithKeys(function($package) {
             $packageInfo = $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
             $packageName = $packageInfo->isCore() ? PackageInfo::CORE : $packageInfo->package;
 
@@ -418,17 +418,17 @@ class UpdateManager
 
     public function completeInstall(array $requirements)
     {
-        collect($requirements)->map(function ($package) {
+        collect($requirements)->map(function($package) {
             return $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
-        })->each(function (PackageInfo $packageInfo) {
+        })->each(function(PackageInfo $packageInfo) {
             match ($packageInfo->type) {
-                'core' => function () {
+                'core' => function() {
                     $this->migrate();
                 },
-                'extension' => function () use ($packageInfo) {
+                'extension' => function() use ($packageInfo) {
                     $this->extensionManager->installExtension($packageInfo->code, $packageInfo->version);
                 },
-                'theme' => function () use ($packageInfo) {
+                'theme' => function() use ($packageInfo) {
                     $this->themeManager->installTheme($packageInfo->code, $packageInfo->version);
                 },
                 default => null,

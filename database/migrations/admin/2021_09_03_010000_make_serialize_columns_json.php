@@ -24,7 +24,7 @@ return new class extends Migration
     {
         DB::table('locations')
             ->get(['location_id', 'options'])
-            ->each(function ($location) {
+            ->each(function($location) {
                 DB::table('locations')
                     ->where('location_id', $location->location_id)
                     ->update([
@@ -32,7 +32,7 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('locations', function (Blueprint $table) {
+        Schema::table('locations', function(Blueprint $table) {
             $table->json('options')->change();
         });
     }
@@ -41,7 +41,7 @@ return new class extends Migration
     {
         DB::table('location_areas')
             ->get(['area_id', 'boundaries', 'conditions'])
-            ->each(function ($area) {
+            ->each(function($area) {
                 DB::table('location_areas')
                     ->where('area_id', $area->area_id)
                     ->update([
@@ -50,7 +50,7 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('location_areas', function (Blueprint $table) {
+        Schema::table('location_areas', function(Blueprint $table) {
             $table->json('boundaries')->change();
             $table->json('conditions')->change();
         });
@@ -60,7 +60,7 @@ return new class extends Migration
     {
         DB::table('payments')
             ->get(['payment_id', 'data'])
-            ->each(function ($payment) {
+            ->each(function($payment) {
                 DB::table('payments')
                     ->where('payment_id', $payment->payment_id)
                     ->update([
@@ -68,7 +68,7 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('payments', function (Blueprint $table) {
+        Schema::table('payments', function(Blueprint $table) {
             $table->json('data')->change();
         });
     }
@@ -77,7 +77,7 @@ return new class extends Migration
     {
         DB::table('extension_settings')
             ->get(['id', 'data'])
-            ->each(function ($record) {
+            ->each(function($record) {
                 DB::table('extension_settings')
                     ->where('id', $record->id)
                     ->update([
@@ -85,7 +85,7 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('extension_settings', function (Blueprint $table) {
+        Schema::table('extension_settings', function(Blueprint $table) {
             $table->json('data')->change();
         });
     }
@@ -94,7 +94,7 @@ return new class extends Migration
     {
         DB::table('themes')
             ->get(['theme_id', 'data'])
-            ->each(function ($record) {
+            ->each(function($record) {
                 DB::table('themes')
                     ->where('theme_id', $record->theme_id)
                     ->update([
@@ -102,7 +102,7 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('themes', function (Blueprint $table) {
+        Schema::table('themes', function(Blueprint $table) {
             $table->json('data')->change();
         });
     }

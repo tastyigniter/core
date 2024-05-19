@@ -20,7 +20,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('activities', function (Blueprint $table) {
+        Schema::table('activities', function(Blueprint $table) {
             $table->string('log_name')->nullable();
             $table->text('properties')->nullable();
             $table->integer('subject_id')->nullable();
@@ -30,63 +30,63 @@ return new class extends Migration
             $table->dateTime('date_updated');
         });
 
-        Schema::table('countries', function (Blueprint $table) {
+        Schema::table('countries', function(Blueprint $table) {
             $table->integer('priority')->default(999);
         });
 
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('categories', function(Blueprint $table) {
             $table->string('name')->change();
             $table->integer('nest_left')->nullable();
             $table->integer('nest_right')->nullable();
             $table->string('permalink_slug')->nullable();
         });
 
-        Schema::table('layout_modules', function (Blueprint $table) {
+        Schema::table('layout_modules', function(Blueprint $table) {
             $table->string('alias')->nullable();
         });
 
-        Schema::table('languages', function (Blueprint $table) {
+        Schema::table('languages', function(Blueprint $table) {
             $table->integer('original_id')->nullable();
         });
 
-        Schema::table('locations', function (Blueprint $table) {
+        Schema::table('locations', function(Blueprint $table) {
             $table->string('permalink_slug')->nullable();
         });
 
-        Schema::table('mail_templates_data', function (Blueprint $table) {
+        Schema::table('mail_templates_data', function(Blueprint $table) {
             $table->string('label')->nullable();
         });
 
-        Schema::table('menu_options', function (Blueprint $table) {
+        Schema::table('menu_options', function(Blueprint $table) {
             $table->integer('priority')->default(0);
         });
 
-        Schema::table('menu_option_values', function (Blueprint $table) {
+        Schema::table('menu_option_values', function(Blueprint $table) {
             $table->integer('priority')->default(0);
             $table->boolean('is_default')->nullable();
         });
 
-        Schema::table('mail_templates', function (Blueprint $table) {
+        Schema::table('mail_templates', function(Blueprint $table) {
             $table->string('code');
             $table->text('layout')->nullable();
             $table->text('plain_layout')->nullable();
             $table->text('layout_css')->nullable();
         });
 
-        Schema::table('mail_templates_data', function (Blueprint $table) {
+        Schema::table('mail_templates_data', function(Blueprint $table) {
             $table->boolean('is_custom')->nullable();
             $table->text('plain_body')->nullable();
         });
 
-        Schema::table('pages', function (Blueprint $table) {
+        Schema::table('pages', function(Blueprint $table) {
             $table->string('permalink_slug')->nullable();
         });
 
-        Schema::table('permissions', function (Blueprint $table) {
+        Schema::table('permissions', function(Blueprint $table) {
             $table->boolean('is_custom')->default(1);
         });
 
-        Schema::table('status_history', function (Blueprint $table) {
+        Schema::table('status_history', function(Blueprint $table) {
             $table->string('object_type')->after('object_id');
         });
     }

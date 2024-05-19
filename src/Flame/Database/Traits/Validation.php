@@ -56,12 +56,12 @@ trait Validation
             ));
         }
 
-        static::extend(function ($model) {
-            $model->bindEvent('model.beforeSave', function () use ($model) {
+        static::extend(function($model) {
+            $model->bindEvent('model.beforeSave', function() use ($model) {
                 return $model->performValidation('saving');
             });
 
-            $model->bindEvent('model.restoring', function () use ($model) {
+            $model->bindEvent('model.restoring', function() use ($model) {
                 return $model->performValidation('restoring');
             });
         });

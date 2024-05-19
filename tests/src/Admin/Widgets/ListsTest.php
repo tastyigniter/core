@@ -9,7 +9,7 @@ use Igniter\Admin\Widgets\Lists;
 use Igniter\System\Facades\Assets;
 use Illuminate\View\Factory;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = new class extends AdminController
     {
         public function refreshList($alias)
@@ -59,7 +59,7 @@ beforeEach(function () {
     ]);
 });
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('lists.js', 'lists-js');
 
     $this->listsWidget->assetPath = [];
@@ -67,7 +67,7 @@ it('loads assets correctly', function () {
     $this->listsWidget->loadAssets();
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('lists/list'));
@@ -75,7 +75,7 @@ it('renders correctly', function () {
     expect($this->listsWidget->render())->toBeString();
 })->throws(\Exception::class);
 
-it('prepares var correctly', function () {
+it('prepares var correctly', function() {
     $this->listsWidget->prepareVars();
 
     expect($this->listsWidget->vars)->toBeArray()
@@ -96,11 +96,11 @@ it('prepares var correctly', function () {
         ->toHaveKey('sortDirection');
 });
 
-it('gets columns', function () {
+it('gets columns', function() {
     expect($this->listsWidget->getColumns())->toBeArray();
 });
 
-it('gets column', function () {
+it('gets column', function() {
     $this->listsWidget->prepareVars();
 
     $column = $this->listsWidget->getColumn('status_name');
@@ -108,13 +108,13 @@ it('gets column', function () {
     expect($column)->toBeInstanceOf(ListColumn::class);
 });
 
-it('gets visible column', function () {
+it('gets visible column', function() {
     $visibleColumns = $this->listsWidget->getVisibleColumns();
 
     expect($visibleColumns)->toBeArray()->not->toHaveKey('created_at');
 });
 
-it('adds column', function () {
+it('adds column', function() {
     $columns = ['testColumn' => ['label' => 'Test Column']];
 
     $this->listsWidget->addColumns($columns);
@@ -122,7 +122,7 @@ it('adds column', function () {
     expect($this->listsWidget->getColumns())->toHaveKey('testColumn');
 });
 
-it('removes column', function () {
+it('removes column', function() {
     $columns = ['testColumn' => ['label' => 'Test Column']];
 
     $this->listsWidget->addColumns($columns);
@@ -134,7 +134,7 @@ it('removes column', function () {
     expect($this->listsWidget->getColumns())->not->toHaveKey('testColumn');
 });
 
-it('gets button attributes', function () {
+it('gets button attributes', function() {
     $listColumn = new ListColumn('testColumn', 'Test Column');
     $listColumn->displayAs('text', ['attributes' => ['class' => 'btn btn-primary', 'href' => 'model/edit']]);
 
@@ -146,7 +146,7 @@ it('gets button attributes', function () {
         ->toBe(' class="btn btn-primary" href="http://localhost/admin/model/edit"');
 });
 
-it('gets text column value', function ($columnName, $type, $value, $expected, $config) {
+it('gets text column value', function($columnName, $type, $value, $expected, $config) {
     $listColumn = new ListColumn($columnName, 'Test Column');
     $listColumn->displayAs($type, $config);
 
@@ -168,10 +168,10 @@ it('gets text column value', function ($columnName, $type, $value, $expected, $c
     ['status_name', 'currency', 100, '£100.00', []],
 ]);
 
-it('adds filter', function () {
+it('adds filter', function() {
     $calledFilter = false;
 
-    $this->listsWidget->addFilter(function ($query) use (&$calledFilter) {
+    $this->listsWidget->addFilter(function($query) use (&$calledFilter) {
         $calledFilter = true;
     });
 
@@ -180,7 +180,7 @@ it('adds filter', function () {
     expect($calledFilter)->toBeTrue();
 });
 
-it('handles onSort action', function () {
+it('handles onSort action', function() {
     request()->query->add(['sort_by' => 'status_id']);
 
     $this->listsWidget->prepareVars();
@@ -196,7 +196,7 @@ it('handles onSort action', function () {
     expect($this->listsWidget->vars['sortDirection'])->toBe('desc');
 });
 
-it('handles onLoadSetup action', function () {
+it('handles onLoadSetup action', function() {
     $loadSetupResult = $this->listsWidget->onLoadSetup();
 
     expect($loadSetupResult)
@@ -204,7 +204,7 @@ it('handles onLoadSetup action', function () {
         ->toHaveKey('#'.$this->listsWidget->getId().'-setup-modal-content');
 });
 
-it('handles onApplySetup action', closure: function () {
+it('handles onApplySetup action', closure: function() {
     request()->request->add([
         'visible_columns' => $visibleColumns = ['status_id', 'status_name'],
         'page_limit' => $pageLimit = 20,
@@ -224,7 +224,7 @@ it('handles onApplySetup action', closure: function () {
         ->and($this->listsWidget->getSession('page_limit'))->toBe($pageLimit);
 });
 
-it('handles onResetSetup action', function () {
+it('handles onResetSetup action', function() {
     $this->listsWidget->putSession('visible', ['status_id', 'status_name']);
     $this->listsWidget->putSession('order', ['status_id', 'status_name']);
     $this->listsWidget->putSession('page_limit', 20);
@@ -237,7 +237,7 @@ it('handles onResetSetup action', function () {
 
 });
 
-it('handles onBulkAction action', function () {
+it('handles onBulkAction action', function() {
     request()->query->add(['code' => 'delete']);
     request()->query->add(['checked' => [
         $status1 = Status::factory()->create()->getKey(),

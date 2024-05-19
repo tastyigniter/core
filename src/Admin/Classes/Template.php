@@ -97,7 +97,7 @@ class Template
 
     public function renderHook(string $name): HtmlString
     {
-        $hooks = array_map(fn (callable $hook) => (string)app()->call($hook),
+        $hooks = array_map(fn(callable $hook) => (string)app()->call($hook),
             $this->renderHooks[$name] ?? [],
         );
 

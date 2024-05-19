@@ -4,23 +4,23 @@ namespace Tests\System\Classes;
 
 use Igniter\System\Classes\UpdateManager;
 
-it('requests latest updates', function () {
+it('requests latest updates', function() {
     $result = resolve(UpdateManager::class)->requestUpdateList();
 
     expect($result)->toBeArray();
 });
 
-it('runs core database migrations', function () {
+it('runs core database migrations', function() {
 })->skip();
 
-it('runs extension database migrations', function () {
+it('runs extension database migrations', function() {
 })->skip();
 
-it('runs core database seeders', function () {
+it('runs core database seeders', function() {
 })->skip();
 
-it('purges extension database migrations', function () {
+it('purges extension database migrations', function() {
 })->skip();
 
-it('rollbacks extension database migrations', function () {
+it('rollbacks extension database migrations', function() {
 })->skip();

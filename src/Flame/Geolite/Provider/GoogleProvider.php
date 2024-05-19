@@ -37,7 +37,7 @@ class GoogleProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function () use ($query, $url) {
+            $result = $this->cacheCallback($url, function() use ($query, $url) {
                 return $this->hydrateResponse(
                     $this->requestGeocodingUrl($url, $query),
                     $query->getLimit()
@@ -66,7 +66,7 @@ class GoogleProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function () use ($query, $url) {
+            $result = $this->cacheCallback($url, function() use ($query, $url) {
                 return $this->hydrateResponse(
                     $this->requestGeocodingUrl($url, $query),
                     $query->getLimit()
@@ -94,7 +94,7 @@ class GoogleProvider extends AbstractProvider
         ));
 
         try {
-            return $this->cacheCallback($url, function () use ($distance, $url) {
+            return $this->cacheCallback($url, function() use ($distance, $url) {
                 $response = $this->requestDistanceUrl($url, $distance);
 
                 return new Model\Distance(
@@ -386,7 +386,7 @@ class GoogleProvider extends AbstractProvider
             return $components;
         }
 
-        return implode('|', array_map(function ($name, $value) {
+        return implode('|', array_map(function($name, $value) {
             return sprintf('%s:%s', $name, $value);
         }, array_keys($components), $components));
     }

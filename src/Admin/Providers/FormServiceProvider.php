@@ -24,7 +24,7 @@ class FormServiceProvider extends ServiceProvider
      */
     protected function registerDashboardWidgets()
     {
-        resolve(Widgets::class)->registerDashboardWidgets(function (Widgets $manager) {
+        resolve(Widgets::class)->registerDashboardWidgets(function(Widgets $manager) {
             $manager->registerDashboardWidget(\Igniter\System\DashboardWidgets\Cache::class, [
                 'code' => 'cache',
                 'label' => 'Cache Usage',
@@ -54,7 +54,7 @@ class FormServiceProvider extends ServiceProvider
 
     protected function registerBulkActionWidgets()
     {
-        resolve(Widgets::class)->registerBulkActionWidgets(function (Widgets $manager) {
+        resolve(Widgets::class)->registerBulkActionWidgets(function(Widgets $manager) {
             $manager->registerBulkActionWidget(\Igniter\Admin\BulkActionWidgets\Status::class, [
                 'code' => 'status',
             ]);
@@ -70,7 +70,7 @@ class FormServiceProvider extends ServiceProvider
      */
     protected function registerFormWidgets()
     {
-        resolve(Widgets::class)->registerFormWidgets(function (Widgets $manager) {
+        resolve(Widgets::class)->registerFormWidgets(function(Widgets $manager) {
             $manager->registerFormWidget(\Igniter\Admin\FormWidgets\CodeEditor::class, [
                 'label' => 'Code editor',
                 'code' => 'codeeditor',
@@ -130,7 +130,7 @@ class FormServiceProvider extends ServiceProvider
 
     protected function registerOnboardingSteps()
     {
-        OnboardingSteps::registerCallback(function (OnboardingSteps $manager) {
+        OnboardingSteps::registerCallback(function(OnboardingSteps $manager) {
             $manager->registerSteps([
                 'admin::settings' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_settings',

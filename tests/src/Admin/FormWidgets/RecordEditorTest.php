@@ -12,7 +12,7 @@ use Illuminate\View\Factory;
 use Tests\Admin\Fixtures\Controllers\TestController;
 
 dataset('recordData', [
-    fn () => [
+    fn() => [
         'object_id' => 1,
         'object_type' => 'order',
         'user_id' => 1,
@@ -22,7 +22,7 @@ dataset('recordData', [
     ],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('test_field', 'Record editor');
     $this->formField->arrayName = 'status';
@@ -42,7 +42,7 @@ beforeEach(function () {
     ]);
 });
 
-it('prepares vars correctly', function () {
+it('prepares vars correctly', function() {
     $this->recordEditorWidget->prepareVars();
 
     expect($this->recordEditorWidget->vars)
@@ -59,7 +59,7 @@ it('prepares vars correctly', function () {
         ->toHaveKey('showAttachButton');
 });
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('formwidgets/repeater.js', 'repeater-js');
     Assets::shouldReceive('addCss')->once()->with('formwidgets/recordeditor.css', 'recordeditor-css');
     Assets::shouldReceive('addJs')->once()->with('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
@@ -70,7 +70,7 @@ it('loads assets correctly', function () {
     $this->recordEditorWidget->loadAssets();
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('recordeditor/recordeditor'));
@@ -78,11 +78,11 @@ it('renders correctly', function () {
     expect($this->recordEditorWidget->render())->toBeString();
 })->throws(\Exception::class);
 
-it('loads record correctly', function () {
+it('loads record correctly', function() {
     expect($this->recordEditorWidget->onLoadRecord())->toBeString();
 });
 
-it('creates record correctly', function ($recordData) {
+it('creates record correctly', function($recordData) {
     $mockRequest = $this->mock(Request::class);
     $mockRequest->shouldReceive('post')->andReturn([
         'status' => ['recordData' => $recordData],
@@ -96,10 +96,10 @@ it('creates record correctly', function ($recordData) {
     $this->assertDatabaseHas('status_history', $recordData);
 })->with('recordData')->skip('This test is failing with error: Missing method [getRecordEditorOptions] in Igniter\Admin\Models\StatusHistory.');
 
-it('updates record correctly', function () {
+it('updates record correctly', function() {
     expect($this->recordEditorWidget->onSaveRecord())->toBeArray();
 })->skip('This test is failing with error: Missing method [getRecordEditorOptions] in Igniter\Admin\Models\StatusHistory.');
 
-it('deletes record correctly', function () {
+it('deletes record correctly', function() {
     expect($this->recordEditorWidget->onDeleteRecord())->toBeArray();
 })->skip('This test is failing with error: Missing method [getRecordEditorOptions] in Igniter\Admin\Models\StatusHistory.');

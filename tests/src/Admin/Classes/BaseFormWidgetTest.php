@@ -7,7 +7,7 @@ use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Tests\Admin\Fixtures\Models\TestModel;
 
-it('can get save value', function () {
+it('can get save value', function() {
     $formField = new FormField('testField', 'Test Field');
     $formField->displayAs('text');
     $widget = new BaseFormWidget(new AdminController(), $formField, [
@@ -18,7 +18,7 @@ it('can get save value', function () {
     expect($widget->getSaveValue('test-value'))->toBe('test-value');
 });
 
-it('can get load value', function () {
+it('can get load value', function() {
     $formField = new FormField('testField', 'Test Field');
     $formField->displayAs('text');
     $widget = new BaseFormWidget(new AdminController(), $formField, [

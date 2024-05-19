@@ -14,7 +14,7 @@ class FormServiceProvider extends ServiceProvider
             return;
         }
 
-        resolve(Widgets::class)->registerFormWidgets(function (Widgets $manager) {
+        resolve(Widgets::class)->registerFormWidgets(function(Widgets $manager) {
             $manager->registerFormWidget(\Igniter\Main\FormWidgets\Components::class, [
                 'label' => 'Components',
                 'code' => 'components',

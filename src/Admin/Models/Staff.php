@@ -100,14 +100,14 @@ class Staff extends Model
 
     public function scopeWhereNotSuperUser($query)
     {
-        $query->whereHas('user', function ($q) {
+        $query->whereHas('user', function($q) {
             $q->where('super_user', '!=', 1);
         });
     }
 
     public function scopeWhereIsSuperUser($query)
     {
-        $query->whereHas('user', function ($q) {
+        $query->whereHas('user', function($q) {
             $q->where('super_user', 1);
         });
     }

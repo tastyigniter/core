@@ -16,7 +16,7 @@ class ExtensionServiceProvider extends ServiceProvider
         }
 
         // Allow extensions to use the scheduler
-        Event::listen('console.schedule', function ($schedule) {
+        Event::listen('console.schedule', function($schedule) {
             $extensions = resolve(ExtensionManager::class)->getExtensions();
             foreach ($extensions as $extension) {
                 if (method_exists($extension, 'registerSchedule')) {

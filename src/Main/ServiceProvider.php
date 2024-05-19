@@ -25,7 +25,7 @@ class ServiceProvider extends AppServiceProvider
     {
         $this->loadViewsFrom($this->root.'/resources/views/main', 'igniter.main');
 
-        $this->app->booted(function () {
+        $this->app->booted(function() {
             View::share('site_name', Settings::get('site_name'));
             View::share('site_logo', Settings::get('site_logo'));
 
@@ -61,7 +61,7 @@ class ServiceProvider extends AppServiceProvider
      */
     protected function registerComponents()
     {
-        resolve(ComponentManager::class)->registerCallback(function (ComponentManager $manager) {
+        resolve(ComponentManager::class)->registerCallback(function(ComponentManager $manager) {
             $manager->registerComponent(\Igniter\Main\Components\BlankComponent::class, [
                 'code' => 'blankComponent',
                 'name' => 'Blank Component',
@@ -87,14 +87,14 @@ class ServiceProvider extends AppServiceProvider
             return;
         }
 
-        Route::group([], function ($router) {
+        Route::group([], function($router) {
             (new RouteRegistrar($router))->all();
         });
     }
 
     protected function registerBladeDirectives()
     {
-        $this->callAfterResolving('blade.compiler', function ($compiler, $app) {
+        $this->callAfterResolving('blade.compiler', function($compiler, $app) {
             (new BladeExtension)->register();
         });
     }

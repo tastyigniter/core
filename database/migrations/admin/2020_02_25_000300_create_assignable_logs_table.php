@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('assignable_logs', function (Blueprint $table) {
+        Schema::create('assignable_logs', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->morphs('assignable');
@@ -18,19 +18,19 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('orders', function(Blueprint $table) {
             $table->dateTime('status_updated_at')->nullable();
             $table->dateTime('assignee_updated_at')->nullable();
             $table->integer('assignee_group_id')->after('assignee_id')->unsigned()->nullable();
         });
 
-        Schema::table('reservations', function (Blueprint $table) {
+        Schema::table('reservations', function(Blueprint $table) {
             $table->dateTime('status_updated_at')->nullable();
             $table->dateTime('assignee_updated_at')->nullable();
             $table->integer('assignee_group_id')->after('assignee_id')->unsigned()->nullable();
         });
 
-        Schema::table('status_history', function (Blueprint $table) {
+        Schema::table('status_history', function(Blueprint $table) {
             $table->dropColumn('assignee_id');
             $table->dropColumn('status_for');
         });

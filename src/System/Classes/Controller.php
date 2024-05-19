@@ -256,7 +256,7 @@ class Controller extends IlluminateController
         $path = implode('/', $pathParts);
         if ($result = $this->locateController($path)) {
             // Collect controller middleware and insert middleware into pipeline
-            collect($result['controller']->getMiddleware())->each(function ($data) {
+            collect($result['controller']->getMiddleware())->each(function($data) {
                 $this->middleware($data['middleware'], $data['options']);
             });
         }

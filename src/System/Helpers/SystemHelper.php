@@ -48,7 +48,7 @@ class SystemHelper
         $testBytes = $oldBytes === -1 ? 1024 * 1024 * 442 : $oldBytes + 1024 * 1024;
 
         $testValue = sprintf('%sM', ceil($testBytes / (1024 * 1024)));
-        set_error_handler(function () {
+        set_error_handler(function() {
         });
         $result = ini_set('memory_limit', $testValue);
         $newValue = ini_get('memory_limit');
@@ -136,7 +136,7 @@ class SystemHelper
         $extensions = collect(resolve(PackageManifest::class)->extensions())->keyBy('package_name');
 
         return collect($requires)
-            ->mapWithKeys(function ($version, $code) use ($extensions) {
+            ->mapWithKeys(function($version, $code) use ($extensions) {
                 if (str_contains($code, '/')) {
                     $code = array_get($extensions->get($code, []), 'code');
                 }

@@ -8,33 +8,33 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('menus', function (Blueprint $table) {
+        Schema::table('menus', function(Blueprint $table) {
             $table->dropColumn('menu_photo');
         });
 
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('categories', function(Blueprint $table) {
             $table->dropColumn('image');
         });
 
-        Schema::table('currencies', function (Blueprint $table) {
+        Schema::table('currencies', function(Blueprint $table) {
             $table->dropColumn('flag');
         });
 
-        Schema::table('locations', function (Blueprint $table) {
+        Schema::table('locations', function(Blueprint $table) {
             $table->dropColumn('location_image');
         });
 
-        Schema::table('staffs', function (Blueprint $table) {
+        Schema::table('staffs', function(Blueprint $table) {
             $table->dropColumn('staff_location_id');
             $table->dropColumn('timezone');
         });
 
-        Schema::table('staff_groups', function (Blueprint $table) {
+        Schema::table('staff_groups', function(Blueprint $table) {
             $table->dropColumn('permissions');
         });
 
         if (Schema::hasColumn('admin_users', 'salt')) {
-            Schema::table('admin_users', function (Blueprint $table) {
+            Schema::table('admin_users', function(Blueprint $table) {
                 $table->dropColumn('salt');
             });
         }

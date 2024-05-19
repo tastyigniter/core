@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('allergens', function (Blueprint $table) {
+        Schema::create('allergens', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('allergen_id');
             $table->string('name');
@@ -16,7 +16,7 @@ return new class extends Migration
             $table->boolean('status')->default(1);
         });
 
-        Schema::create('allergenables', function (Blueprint $table) {
+        Schema::create('allergenables', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('allergen_id')->unsigned()->index();
             $table->morphs('allergenable', 'allergenable_index');

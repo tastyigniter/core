@@ -12,7 +12,7 @@ class Delete extends BaseBulkActionWidget
     {
         // Delete records
         if ($count = $records->count()) {
-            DB::transaction(function () use ($records) {
+            DB::transaction(function() use ($records) {
                 foreach ($records as $record) {
                     $record->delete();
                 }

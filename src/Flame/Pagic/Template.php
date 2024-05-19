@@ -79,7 +79,7 @@ class Template
     {
         $data = array_merge(View::getShared(), $data);
 
-        return array_map(function ($value) {
+        return array_map(function($value) {
             if ($value instanceof Renderable) {
                 return $value->render();
             }

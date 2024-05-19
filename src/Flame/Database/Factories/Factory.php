@@ -11,7 +11,7 @@ abstract class Factory extends \Illuminate\Database\Eloquent\Factories\Factory
      */
     public static function resolveFactoryName(string $modelName)
     {
-        $resolver = static::$factoryNameResolver ?: function (string $modelName) {
+        $resolver = static::$factoryNameResolver ?: function(string $modelName) {
             $modelName = str_replace('\\Models\\', '\\Database\\Factories\\', $modelName);
 
             return $modelName.'Factory';

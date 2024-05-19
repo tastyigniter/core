@@ -303,7 +303,7 @@ class BelongsToMany extends BelongsToManyBase
             $this->parent->setRelation($this->relationName, $relationModel->newCollection());
 
             // Perform sync when the model is saved
-            $this->parent->bindEventOnce('model.afterSave', function () {
+            $this->parent->bindEventOnce('model.afterSave', function() {
                 $this->detach();
             });
 
@@ -341,7 +341,7 @@ class BelongsToMany extends BelongsToManyBase
         $this->parent->setRelation($this->relationName, $relationCollection);
 
         // Perform sync when the model is saved
-        $this->parent->bindEventOnce('model.afterSave', function () use ($value) {
+        $this->parent->bindEventOnce('model.afterSave', function() use ($value) {
             $this->sync($value);
         });
     }

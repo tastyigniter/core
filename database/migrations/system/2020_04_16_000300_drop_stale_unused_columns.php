@@ -13,11 +13,11 @@ return new class extends Migration
         Schema::rename('mail_templates', 'mail_layouts');
         Schema::rename('mail_templates_data', 'mail_templates');
 
-        Schema::table('mail_layouts', function (Blueprint $table) {
+        Schema::table('mail_layouts', function(Blueprint $table) {
             $table->renameColumn('template_id', 'layout_id');
         });
 
-        Schema::table('mail_templates', function (Blueprint $table) {
+        Schema::table('mail_templates', function(Blueprint $table) {
             $table->renameColumn('template_id', 'layout_id');
             $table->renameColumn('template_data_id', 'template_id');
         });
@@ -28,7 +28,7 @@ return new class extends Migration
 
         DB::table('extensions')->where('type', '!=', 'module')->delete();
 
-        Schema::table('extensions', function (Blueprint $table) {
+        Schema::table('extensions', function(Blueprint $table) {
             $table->dropUnique('type');
             $table->unique('name');
             $table->dropColumn(['type', 'data', 'serialized', 'status', 'title']);
@@ -47,7 +47,7 @@ return new class extends Migration
             return;
         }
 
-        DB::table('extensions')->where('type', 'theme')->get()->each(function ($model) {
+        DB::table('extensions')->where('type', 'theme')->get()->each(function($model) {
             DB::table('themes')->insert([
                 'name' => $model->title,
                 'code' => $model->name,
@@ -65,7 +65,7 @@ return new class extends Migration
             return;
         }
 
-        DB::table('extensions')->where('type', 'payment')->get()->each(function ($model) {
+        DB::table('extensions')->where('type', 'payment')->get()->each(function($model) {
             $code = str_replace(['-', '_'], '', $model->name);
             DB::table('payments')->insert([
                 'name' => $model->title,

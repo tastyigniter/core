@@ -192,7 +192,7 @@ class Currency
 
         $code = $code ?: $this->getUserCurrency();
 
-        $currency = $this->getCurrencies()->first(function (CurrencyInterface $currency) use ($code) {
+        $currency = $this->getCurrencies()->first(function(CurrencyInterface $currency) use ($code) {
             return ($currency->isEnabled() && $code == $currency->getId()) || ($code === $currency->getCode());
         });
 
@@ -265,7 +265,7 @@ class Currency
 
     protected function loadCurrencies()
     {
-        $currencies = $this->cache->rememberForever('igniter.currency', function () {
+        $currencies = $this->cache->rememberForever('igniter.currency', function() {
             return $this->getModel()->get();
         });
 
@@ -282,7 +282,7 @@ class Currency
 
         $rates = $this->getRates($base, $skipCache);
 
-        $this->getCurrencies()->each(function (CurrencyInterface $currency) use ($rates) {
+        $this->getCurrencies()->each(function(CurrencyInterface $currency) use ($rates) {
             if ($rate = array_get($rates, $currency->getCode())) {
                 $currency->updateRate($rate);
             }
@@ -299,7 +299,7 @@ class Currency
             return app('currency.converter')->getExchangeRates($base, $currencies);
         }
 
-        return $this->cache->remember('igniter.currency.rates', $duration, function () use ($base, $currencies) {
+        return $this->cache->remember('igniter.currency.rates', $duration, function() use ($base, $currencies) {
             return app('currency.converter')->getExchangeRates($base, $currencies);
         });
     }

@@ -59,7 +59,7 @@ class Country extends Model
     {
         $response = resolve(HubManager::class)->getDataset('countries');
 
-        collect(array_get($response, 'data', []))->each(function ($item) {
+        collect(array_get($response, 'data', []))->each(function($item) {
             if (!$country = static::firstWhere('iso_code_3', $item['iso_code_3'])) {
                 $item['format'] = '{address_1}\n{address_2}\n{city} {postcode} {state}\n{country}';
                 $item['status'] = true;

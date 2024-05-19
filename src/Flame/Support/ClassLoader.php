@@ -239,7 +239,7 @@ class ClassLoader
         } else {
             $directories = (array)$directories;
 
-            $this->directories = array_filter($this->directories, function ($directory) use ($directories) {
+            $this->directories = array_filter($this->directories, function($directory) use ($directories) {
                 return !in_array($directory, $directories);
             });
         }
@@ -358,7 +358,7 @@ class ClassLoader
             $class = substr($class, 1);
         }
 
-        return implode('\\', array_map(function ($part) {
+        return implode('\\', array_map(function($part) {
             return $part;
         }, explode('\\', $class)));
     }

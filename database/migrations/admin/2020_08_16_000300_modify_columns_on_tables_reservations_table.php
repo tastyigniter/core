@@ -11,7 +11,7 @@ return new class extends Migration
     {
         $this->moveLocationTablesRecordsToLocationablesTable();
 
-        Schema::table('tables', function (Blueprint $table) {
+        Schema::table('tables', function(Blueprint $table) {
             $table->integer('extra_capacity')->default(0);
             $table->boolean('is_joinable')->default(1);
             $table->integer('priority')->default(0);
@@ -26,7 +26,7 @@ return new class extends Migration
 
     protected function moveLocationTablesRecordsToLocationablesTable()
     {
-        DB::table('location_tables')->get()->each(function ($model) {
+        DB::table('location_tables')->get()->each(function($model) {
             DB::table('locationables')->insert([
                 'location_id' => $model->location_id,
                 'locationable_type' => 'tables',

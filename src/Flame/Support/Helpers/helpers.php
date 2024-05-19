@@ -796,7 +796,7 @@ if (!function_exists('name_to_array')) {
             array_unshift($result, $matches[1]);
         }
 
-        return array_filter($result, function ($val) {
+        return array_filter($result, function($val) {
             return (bool)strlen($val);
         });
     }

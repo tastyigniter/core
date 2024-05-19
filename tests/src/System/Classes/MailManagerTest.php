@@ -4,7 +4,7 @@ namespace Tests\System\Classes;
 
 use Igniter\System\Classes\MailManager;
 
-it('renders mail templates', function () {
+it('renders mail templates', function() {
     $manager = resolve(MailManager::class);
     $template = $manager->getTemplate('_mail.test_template');
 

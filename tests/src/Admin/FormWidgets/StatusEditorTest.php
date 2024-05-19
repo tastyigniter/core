@@ -35,7 +35,7 @@ dataset('initialization', [
     ['assigneeReservationPermission', 'Admin.AssignReservations'],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controllerMock = $this->createMock(AdminController::class);
     $this->formField = new FormField('test_field', 'RichEditor');
     $this->statusEditorWidget = new StatusEditor($this->controllerMock, $this->formField, [
@@ -50,11 +50,11 @@ beforeEach(function () {
     ]);
 });
 
-it('initializes correctly', function ($property, $expected) {
+it('initializes correctly', function($property, $expected) {
     expect($this->statusEditorWidget->$property)->toBe($expected);
 })->with('initialization');
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
     Assets::shouldReceive('addJs')->once()->with('statuseditor.js', 'statuseditor-js');
 
@@ -63,7 +63,7 @@ it('loads assets correctly', function () {
     $this->statusEditorWidget->loadAssets();
 });
 
-it('prepares variables correctly', function () {
+it('prepares variables correctly', function() {
     $this->statusEditorWidget->prepareVars();
 
     expect($this->statusEditorWidget->vars)
@@ -73,7 +73,7 @@ it('prepares variables correctly', function () {
         ->toHaveKey('assignee');
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('repeater/repeater'));
@@ -81,11 +81,11 @@ it('renders correctly', function () {
     $this->repeaterWidget->render();
 })->throws(\Exception::class);
 
-it('gets save value correctly', function () {
+it('gets save value correctly', function() {
     expect($this->statusEditorWidget->getSaveValue(null))->toBe(FormField::NO_SAVE_DATA);
 });
 
-it('loads status without errors', function () {
+it('loads status without errors', function() {
     $mockRequest = $this->mock(Request::class);
     $mockRequest->shouldReceive('post')->andReturn([
         'recordId' => 'load-status',
@@ -102,7 +102,7 @@ it('loads status without errors', function () {
     expect($result)->toBeString();
 });
 
-it('updates status without errors', function () {
+it('updates status without errors', function() {
     Event::fake();
 
     $user = User::factory()->create();
@@ -135,7 +135,7 @@ it('updates status without errors', function () {
     ]);
 });
 
-it('loads assignee without errors', function () {
+it('loads assignee without errors', function() {
     $mockRequest = $this->mock(Request::class);
     $mockRequest->shouldReceive('post')->andReturn([
         'recordId' => 'load-assignee',
@@ -152,7 +152,7 @@ it('loads assignee without errors', function () {
     expect($result)->toBeString();
 });
 
-it('updates assignee without errors', function () {
+it('updates assignee without errors', function() {
     Event::fake();
 
     $user = User::factory()->create(['super_user' => 1]);
@@ -179,7 +179,7 @@ it('updates assignee without errors', function () {
     ]);
 });
 
-it('loads selected status without errors', function () {
+it('loads selected status without errors', function() {
     $status = Status::factory()->create();
     $mockRequest = $this->mock(Request::class);
     $mockRequest->shouldReceive('post')->andReturn([
@@ -195,7 +195,7 @@ it('loads selected status without errors', function () {
         ->and($result['status_id'])->toBe($status->getKey());
 });
 
-it('loads assignee list without errors', function () {
+it('loads assignee list without errors', function() {
     $assigneeGroup = UserGroup::factory()->create();
     $mockRequest = $this->mock(Request::class);
     $mockRequest->shouldReceive('post')->andReturn([

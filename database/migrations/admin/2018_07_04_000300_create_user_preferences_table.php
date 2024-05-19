@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('user_preferences', function (Blueprint $table) {
+        Schema::create('user_preferences', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('id', true);
             $table->integer('user_id');

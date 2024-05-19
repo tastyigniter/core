@@ -22,7 +22,7 @@ class MediaObserver
 
     public function deleted(Media $media)
     {
-        rescue(function () use ($media) {
+        rescue(function() use ($media) {
             $media->deleteThumbs();
             $media->deleteFile();
         });

@@ -146,7 +146,7 @@ abstract class Model extends EloquentModel
 
     public static function implement(string|array $class): void
     {
-        self::extendableExtendCallback(function ($instance) use ($class) {
+        self::extendableExtendCallback(function($instance) use ($class) {
             $instance->implement = array_unique(array_merge($instance->implement, (array)$class));
         });
     }
@@ -173,7 +173,7 @@ abstract class Model extends EloquentModel
                     $method .= 'e';
                 }
 
-                self::$eventMethod(function (Model $model) use ($method) {
+                self::$eventMethod(function(Model $model) use ($method) {
                     $model->fireEvent('model.'.$method);
 
                     if ($model->methodExists($method)) {
@@ -184,7 +184,7 @@ abstract class Model extends EloquentModel
         }
 
         // Hook to boot events
-        static::registerModelEvent('booted', function (Model $model) {
+        static::registerModelEvent('booted', function(Model $model) {
             $model->fireEvent('model.afterBoot');
             if ($model->methodExists('afterBoot')) {
                 return $model->afterBoot();
@@ -563,7 +563,7 @@ abstract class Model extends EloquentModel
                 if ($relation instanceof EloquentModel) {
                     $relation->forceDelete();
                 } elseif ($relation instanceof EloquentCollection) {
-                    $relation->each(function ($model) {
+                    $relation->each(function($model) {
                         $model->forceDelete();
                     });
                 }

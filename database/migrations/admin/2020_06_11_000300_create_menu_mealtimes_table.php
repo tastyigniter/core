@@ -9,14 +9,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('menu_mealtimes', function (Blueprint $table) {
+        Schema::create('menu_mealtimes', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('menu_id')->unsigned()->index();
             $table->integer('mealtime_id')->unsigned()->index();
             $table->unique(['menu_id', 'mealtime_id']);
         });
 
-        DB::table('menus')->select('menu_id', 'mealtime_id')->get()->each(function ($menu) {
+        DB::table('menus')->select('menu_id', 'mealtime_id')->get()->each(function($menu) {
             if (is_null($menu->mealtime_id)) {
                 return true;
             }
@@ -27,7 +27,7 @@ return new class extends Migration
             ]);
         });
 
-        Schema::table('menus', function (Blueprint $table) {
+        Schema::table('menus', function(Blueprint $table) {
             $table->dropColumn('mealtime_id');
         });
     }

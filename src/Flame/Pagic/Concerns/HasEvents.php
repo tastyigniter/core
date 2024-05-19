@@ -123,7 +123,7 @@ trait HasEvents
                     $method .= 'e';
                 }
 
-                self::$eventMethod(function ($model) use ($method) {
+                self::$eventMethod(function($model) use ($method) {
                     $model->fireEvent('model.'.$method);
 
                     if ($model->methodExists($method)) {
@@ -136,7 +136,7 @@ trait HasEvents
         /*
          * Hook to boot events
          */
-        static::registerModelEvent('booted', function ($model) {
+        static::registerModelEvent('booted', function($model) {
             $model->fireEvent('model.afterBoot');
             if ($model->methodExists('afterBoot')) {
                 return $model->afterBoot();
@@ -191,7 +191,7 @@ trait HasEvents
     protected function filterModelEventResults(mixed $result): mixed
     {
         if (is_array($result)) {
-            $result = array_filter($result, function ($response) {
+            $result = array_filter($result, function($response) {
                 return !is_null($response);
             });
         }

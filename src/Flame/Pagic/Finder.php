@@ -334,7 +334,7 @@ class Finder
 
         // Flag the models as loaded from cache, then reset the internal property.
         if ($this->loadedFromCache) {
-            $models->each(function (Model $model) {
+            $models->each(function(Model $model) {
                 $model->setLoadedFromCache($this->loadedFromCache);
             });
 
@@ -569,7 +569,7 @@ class Finder
 
     protected function getCacheCallback(array $columns): callable
     {
-        return function () use ($columns) {
+        return function() use ($columns) {
             return $this->processInitCacheData($this->getFresh($columns));
         };
     }

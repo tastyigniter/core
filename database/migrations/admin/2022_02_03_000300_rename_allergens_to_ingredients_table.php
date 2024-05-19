@@ -12,12 +12,12 @@ return new class extends Migration
         Schema::rename('allergens', 'ingredients');
         Schema::rename('allergenables', 'ingredientables');
 
-        Schema::table('ingredients', function (Blueprint $table) {
+        Schema::table('ingredients', function(Blueprint $table) {
             $table->renameColumn('allergen_id', 'ingredient_id');
             $table->boolean('is_allergen')->default(0);
         });
 
-        Schema::table('ingredientables', function (Blueprint $table) {
+        Schema::table('ingredientables', function(Blueprint $table) {
             $table->dropUnique('allergenable_unique');
 
             $table->renameColumn('allergen_id', 'ingredient_id');

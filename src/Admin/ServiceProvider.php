@@ -58,15 +58,15 @@ class ServiceProvider extends AppServiceProvider
      */
     protected function registerSingletons()
     {
-        $this->app->singleton('admin.helper', function () {
+        $this->app->singleton('admin.helper', function() {
             return new AdminHelper;
         });
 
-        $this->app->singleton('admin.menu', function ($app) {
+        $this->app->singleton('admin.menu', function($app) {
             return new Classes\Navigation('igniter.admin::_partials');
         });
 
-        $this->app->singleton('admin.template', function ($app) {
+        $this->app->singleton('admin.template', function($app) {
             return new Classes\Template;
         });
 
@@ -88,7 +88,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function registerAssets()
     {
-        Assets::registerCallback(function (Assets $manager) {
+        Assets::registerCallback(function(Assets $manager) {
             $manager->registerSourcePath(public_path('vendor/igniter'));
             $manager->registerSourcePath(File::symbolizePath('igniter::/'));
 
@@ -110,7 +110,7 @@ class ServiceProvider extends AppServiceProvider
             return;
         }
 
-        Route::group([], function ($router) {
+        Route::group([], function($router) {
             (new Classes\RouteRegistrar($router))->all();
         });
     }

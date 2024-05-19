@@ -35,7 +35,7 @@ trait Sortable
      */
     public static function bootSortable()
     {
-        static::creating(function ($model) {
+        static::creating(function($model) {
             $sortOrderColumn = $model->getSortOrderColumn();
 
             // only automatically calculate next position with max+1 when a position has not been set already

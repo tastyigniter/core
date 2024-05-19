@@ -428,7 +428,7 @@ class Filter extends BaseWidget
                     }
 
                     if (is_array($value)) {
-                        $filtered = implode(',', array_map(function ($key) {
+                        $filtered = implode(',', array_map(function($key) {
                             return DB::getPdo()->quote($key);
                         }, $value));
                     } else {

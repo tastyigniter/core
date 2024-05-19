@@ -173,7 +173,7 @@ class IgniterUtil extends Command
         $manifest->build();
 
         collect($manifest->packages())
-            ->each(function ($update) {
+            ->each(function($update) {
                 if ($update['type'] === 'tastyigniter-extension') {
                     Extension::where('name', $update['code'])->update(['version' => $update['version']]);
                 }

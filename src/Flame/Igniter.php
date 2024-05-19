@@ -222,7 +222,7 @@ class Igniter
 
     public static function loadResourcesFrom(string $path, ?string $namespace = null)
     {
-        $callback = function (Filesystem $files) use ($path, $namespace) {
+        $callback = function(Filesystem $files) use ($path, $namespace) {
             $files->addPathSymbol($namespace, $path);
         };
 
@@ -240,7 +240,7 @@ class Igniter
 
     public static function loadViewsFrom(string|array $path, string $namespace)
     {
-        $callback = function (Factory $view) use ($path, $namespace) {
+        $callback = function(Factory $view) use ($path, $namespace) {
             $view->addNamespace($namespace, $path);
         };
 

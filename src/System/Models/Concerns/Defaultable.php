@@ -11,7 +11,7 @@ trait Defaultable
 
     public static function bootDefaultable()
     {
-        static::extend(function (self $model) {
+        static::extend(function(self $model) {
             $model->mergeCasts([$model->defaultableGetColumn() => 'boolean']);
 
             if ($model->getGuarded() || $model->getFillable()) {
@@ -19,13 +19,13 @@ trait Defaultable
             }
         });
 
-        static::created(function (self $model) {
+        static::created(function(self $model) {
             if ($model->isDefault()) {
                 $model->makeDefault();
             }
         });
 
-        static::saved(function (self $model) {
+        static::saved(function(self $model) {
             if ($model->wasChanged($model->defaultableGetColumn()) && $model->isDefault()) {
                 $model->makeDefault();
             }
@@ -69,7 +69,7 @@ trait Defaultable
             }
         }
 
-        static::withoutTimestamps(function () {
+        static::withoutTimestamps(function() {
             $this->defaultable()
                 ->where($this->defaultableGetColumn(), '!=', 0)
                 ->update([$this->defaultableGetColumn() => 0]);

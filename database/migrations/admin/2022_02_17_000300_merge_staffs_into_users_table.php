@@ -13,14 +13,14 @@ return new class extends Migration
             Schema::rename('users', 'admin_users');
         }
 
-        Schema::table('admin_users', function (Blueprint $table) {
-            $table->after('staff_id', function ($table) {
+        Schema::table('admin_users', function(Blueprint $table) {
+            $table->after('staff_id', function($table) {
                 $table->unsignedBigInteger('user_role_id')->nullable();
                 $table->unsignedBigInteger('language_id')->nullable();
                 $table->boolean('status')->default(0);
                 $table->tinyInteger('sale_permission')->default(0);
             });
-            $table->after('staff_id', function ($table) {
+            $table->after('staff_id', function($table) {
                 $table->string('name');
                 $table->string('email')->nullable();
             });
@@ -28,13 +28,13 @@ return new class extends Migration
 
         $this->copyValuesFromStaffsToUsers();
 
-        Schema::table('admin_users', function (Blueprint $table) {
+        Schema::table('admin_users', function(Blueprint $table) {
             $table->string('email')->unique()->change();
         });
 
         $this->updateStaffIdValueToUserIdOnStaffsGroups();
 
-        Schema::table('staffs_groups', function (Blueprint $table) {
+        Schema::table('staffs_groups', function(Blueprint $table) {
             $table->dropForeignKeyIfExists('staff_id');
             $table->dropForeignKeyIfExists('staff_group_id');
 
@@ -42,12 +42,12 @@ return new class extends Migration
             $table->renameColumn('staff_group_id', 'user_group_id');
         });
 
-        Schema::table('staff_groups', function (Blueprint $table) {
+        Schema::table('staff_groups', function(Blueprint $table) {
             $table->renameColumn('staff_group_id', 'user_group_id');
             $table->renameColumn('staff_group_name', 'user_group_name');
         });
 
-        Schema::table('staff_roles', function (Blueprint $table) {
+        Schema::table('staff_roles', function(Blueprint $table) {
             $table->renameColumn('staff_role_id', 'user_role_id');
         });
 
@@ -57,7 +57,7 @@ return new class extends Migration
 
         $this->replaceLocationableTypeStaffsWithUsers();
 
-        Schema::table('assignable_logs', function (Blueprint $table) {
+        Schema::table('assignable_logs', function(Blueprint $table) {
             $table->dropForeignKeyIfExists('assignee_id');
         });
 
@@ -65,36 +65,36 @@ return new class extends Migration
 
         $this->updateAssigneeIdValueToUserIdOnOrders();
 
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('orders', function(Blueprint $table) {
             $table->dropForeignKeyIfExists('assignee_id');
         });
 
         $this->updateAssigneeIdValueToUserIdOnReservations();
 
-        Schema::table('reservations', function (Blueprint $table) {
+        Schema::table('reservations', function(Blueprint $table) {
             $table->dropForeignKeyIfExists('assignee_id');
         });
 
         $this->updateStaffIdValueToUserIdOnStatusHistory();
 
-        Schema::table('status_history', function (Blueprint $table) {
+        Schema::table('status_history', function(Blueprint $table) {
             $table->dropForeignKeyIfExists('staff_id');
             $table->renameColumn('staff_id', 'user_id');
         });
 
         $this->updateStaffIdValueToUserIdOnStockHistory();
 
-        Schema::table('stock_history', function (Blueprint $table) {
+        Schema::table('stock_history', function(Blueprint $table) {
             $table->renameColumn('staff_id', 'user_id');
         });
 
         Schema::dropIfExists('staffs');
 
-        Schema::table('admin_users', function (Blueprint $table) {
+        Schema::table('admin_users', function(Blueprint $table) {
             $table->dropForeignKeyIfExists('users_staff_id_foreign');
         });
 
-        Schema::table('admin_users', function (Blueprint $table) {
+        Schema::table('admin_users', function(Blueprint $table) {
             $table->dropColumn('staff_id');
         });
     }
@@ -116,7 +116,7 @@ return new class extends Migration
         DB::table('locationables')
             ->where('locationable_type', 'staffs')
             ->get()
-            ->each(function ($model) {
+            ->each(function($model) {
                 if (!$user = DB::table('admin_users')->where('staff_id', $model->locationable_id)->first()) {
                     return true;
                 }
@@ -136,7 +136,7 @@ return new class extends Migration
         DB::table('assignable_logs')
             ->whereNotNull('assignee_id')
             ->get()
-            ->each(function ($model) {
+            ->each(function($model) {
                 if (!$user = DB::table('admin_users')->where('staff_id', $model->assignee_id)->first()) {
                     return true;
                 }
@@ -154,7 +154,7 @@ return new class extends Migration
         DB::table('orders')
             ->whereNotNull('assignee_id')
             ->get()
-            ->each(function ($model) {
+            ->each(function($model) {
                 if (!$user = DB::table('admin_users')->where('staff_id', $model->assignee_id)->first()) {
                     return true;
                 }
@@ -172,7 +172,7 @@ return new class extends Migration
         DB::table('reservations')
             ->whereNotNull('assignee_id')
             ->get()
-            ->each(function ($model) {
+            ->each(function($model) {
                 if (!$user = DB::table('admin_users')->where('staff_id', $model->assignee_id)->first()) {
                     return true;
                 }
@@ -190,7 +190,7 @@ return new class extends Migration
         DB::table('status_history')
             ->whereNotNull('staff_id')
             ->get()
-            ->each(function ($model) {
+            ->each(function($model) {
                 if (!$user = DB::table('admin_users')->where('staff_id', $model->staff_id)->first()) {
                     return true;
                 }
@@ -208,7 +208,7 @@ return new class extends Migration
         DB::table('stock_history')
             ->whereNotNull('staff_id')
             ->get()
-            ->each(function ($model) {
+            ->each(function($model) {
                 if (!$user = DB::table('admin_users')->where('staff_id', $model->staff_id)->first()) {
                     return true;
                 }
@@ -226,7 +226,7 @@ return new class extends Migration
         DB::table('staffs_groups')
             ->whereNotNull('staff_id')
             ->get()
-            ->each(function ($model) {
+            ->each(function($model) {
                 if (!$user = DB::table('admin_users')->where('staff_id', $model->staff_id)->first()) {
                     return true;
                 }
@@ -242,7 +242,7 @@ return new class extends Migration
 
     protected function copyValuesFromStaffsToUsers(): void
     {
-        DB::table('admin_users')->get()->each(function ($model) {
+        DB::table('admin_users')->get()->each(function($model) {
             if (!$staff = DB::table('staffs')->where('staff_id', $model->staff_id)->first()) {
                 return true;
             }

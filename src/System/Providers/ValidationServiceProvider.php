@@ -15,14 +15,14 @@ class ValidationServiceProvider extends ServiceProvider
 
     protected function registerValidator()
     {
-        $this->app->resolving('validator', function ($validator) {
-            $validator->extend('extensions', function ($attribute, $value, $parameters) {
+        $this->app->resolving('validator', function($validator) {
+            $validator->extend('extensions', function($attribute, $value, $parameters) {
                 $extension = strtolower($value->getClientOriginalExtension());
 
                 return in_array($extension, $parameters);
             });
 
-            $validator->replacer('extensions', function ($message, $attribute, $rule, $parameters) {
+            $validator->replacer('extensions', function($message, $attribute, $rule, $parameters) {
                 return strtr($message, [':values' => implode(', ', $parameters)]);
             });
 

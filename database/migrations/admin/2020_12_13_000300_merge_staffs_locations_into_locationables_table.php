@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        DB::table('staffs_locations')->get()->each(function ($model) {
+        DB::table('staffs_locations')->get()->each(function($model) {
             DB::table('locationables')->insert([
                 'location_id' => $model->location_id,
                 'locationable_type' => 'staffs',

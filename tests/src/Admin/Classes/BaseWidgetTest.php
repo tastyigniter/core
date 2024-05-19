@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\BaseWidget;
 use Tests\Admin\Fixtures\Controllers\TestController;
 use Tests\Admin\Fixtures\Widgets\TestWidget;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = new TestController();
     $this->widget = new BaseWidget($this->controller, [
         'alias' => 'test-alias',
@@ -14,7 +14,7 @@ beforeEach(function () {
     ]);
 });
 
-it('has defined paths', function () {
+it('has defined paths', function() {
     $controller = resolve(TestController::class);
     $widget = $controller->makeWidget(TestWidget::class);
 
@@ -23,7 +23,7 @@ it('has defined paths', function () {
         ->and('igniter::css/fixtures/widgets')->toBeIn($widget->assetPath);
 });
 
-it('loads a widget', function () {
+it('loads a widget', function() {
     $this->widget->bindToController();
 
     expect($this->widget->alias)->toBe('test-alias')
@@ -35,7 +35,7 @@ it('loads a widget', function () {
         ->and($this->widget->reload())->toBeArray();
 });
 
-it('can set and get config', function () {
+it('can set and get config', function() {
     $this->widget->setConfig(['test' => 'value']);
     expect($this->widget->getConfig('test'))->toBe('value');
 });

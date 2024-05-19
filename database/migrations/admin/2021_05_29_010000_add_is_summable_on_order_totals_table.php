@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('order_totals', function (Blueprint $table) {
+        Schema::table('order_totals', function(Blueprint $table) {
             $table->boolean('is_summable')->default(0);
         });
 

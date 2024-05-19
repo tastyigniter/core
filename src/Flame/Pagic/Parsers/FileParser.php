@@ -21,7 +21,7 @@ class FileParser
 
     public static function on(Model $object): static
     {
-        return tap(new static, function ($parser) use ($object) {
+        return tap(new static, function($parser) use ($object) {
             $parser->object = $object;
         });
     }

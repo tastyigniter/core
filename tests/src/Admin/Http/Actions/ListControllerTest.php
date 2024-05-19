@@ -8,7 +8,7 @@ use Igniter\Admin\Models\Status;
 use Igniter\Admin\Widgets\Lists;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = new class extends AdminController
     {
         public array $implement = [
@@ -47,7 +47,7 @@ beforeEach(function () {
     $this->listController = new ListController($this->controller);
 });
 
-it('runs index action', function () {
+it('runs index action', function() {
     $this->listController->index();
     $this->listController->renderList();
 
@@ -57,7 +57,7 @@ it('runs index action', function () {
         ->and($listWidget->vars['records'])->toBeInstanceOf(LengthAwarePaginator::class);
 });
 
-it('can delete', function () {
+it('can delete', function() {
     $checkedIds = [
         Status::factory()->create()->getKey(),
         Status::factory()->create()->getKey(),
@@ -73,7 +73,7 @@ it('can delete', function () {
     expect(Status::whereIn('status_id', $checkedIds)->count())->toBe(0);
 });
 
-it('can refresh list', function () {
+it('can refresh list', function() {
     $this->listController->index();
     $response = $this->listController->refreshList();
     $listWidget = $this->listController->getListWidget();

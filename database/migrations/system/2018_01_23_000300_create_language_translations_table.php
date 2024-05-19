@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('language_translations', function (Blueprint $table) {
+        Schema::create('language_translations', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('translation_id');
             $table->string('locale', 10);

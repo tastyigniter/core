@@ -91,7 +91,7 @@ class FileSource extends AbstractSource implements SourceInterface
             ->ignoreDotFiles(true)
             ->depth('<= 1');  // Support only a single level of subdirectories
 
-        $iterator->filter(function (\SplFileInfo $file) use ($extensions, $fileMatch) {
+        $iterator->filter(function(\SplFileInfo $file) use ($extensions, $fileMatch) {
             // Filter by extension
             $fileExt = $file->getExtension();
             if (!is_null($extensions) && !in_array($fileExt, $extensions)) {
@@ -303,7 +303,7 @@ class FileSource extends AbstractSource implements SourceInterface
         $iterator->exclude('node_modules');
         $iterator->in($this->basePath);
 
-        return collect($iterator)->map(function (\SplFileInfo $fileInfo) {
+        return collect($iterator)->map(function(\SplFileInfo $fileInfo) {
             return $fileInfo->getRelativePathName();
         })->values()->all();
     }

@@ -65,7 +65,7 @@ class Statistics extends BaseDashboardWidget
 
     protected function getCardOptions()
     {
-        return array_map(function ($context) {
+        return array_map(function($context) {
             return array_get($context, 'label');
         }, $this->listCards());
     }
@@ -176,7 +176,7 @@ class Statistics extends BaseDashboardWidget
             $cardCode, get_class($this).'::'.$contextMethod
         )));
 
-        $count = $this->$contextMethod(function ($query) use ($start, $end) {
+        $count = $this->$contextMethod(function($query) use ($start, $end) {
             $this->locationApplyScope($query);
             $query->whereBetween('created_at', [$start, $end]);
         });
@@ -204,7 +204,7 @@ class Statistics extends BaseDashboardWidget
     protected function getTotalLostSaleSum(callable $callback): string
     {
         $query = Order::query();
-        $query->where(function ($query) {
+        $query->where(function($query) {
             $query->where('status_id', '<=', '0');
             $query->orWhere('status_id', Settings::get('canceled_order_status'));
         });
@@ -220,7 +220,7 @@ class Statistics extends BaseDashboardWidget
     protected function getTotalCashPaymentSum(callable $callback): string
     {
         $query = Order::query();
-        $query->where(function ($query) {
+        $query->where(function($query) {
             $query->where('status_id', '>', '0');
             $query->where('status_id', '!=', Settings::get('canceled_order_status'));
         })->where('payment', 'cod');
@@ -273,7 +273,7 @@ class Statistics extends BaseDashboardWidget
     protected function getTotalDeliveryOrderSum(callable $callback): string
     {
         $query = Order::query();
-        $query->where(function ($query) {
+        $query->where(function($query) {
             $query->where('order_type', '1');
             $query->orWhere('order_type', 'delivery');
         });
@@ -289,7 +289,7 @@ class Statistics extends BaseDashboardWidget
     protected function getTotalCollectionOrderSum(callable $callback): string
     {
         $query = Order::query();
-        $query->where(function ($query) {
+        $query->where(function($query) {
             $query->where('order_type', '2');
             $query->orWhere('order_type', 'collection');
         });

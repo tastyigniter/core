@@ -119,7 +119,7 @@ class PermalinkMaker
             return call_user_func($from, $this);
         }
 
-        $sourceStrings = array_map(function ($fieldName) {
+        $sourceStrings = array_map(function($fieldName) {
             $value = data_get($this->model, $fieldName);
 
             return (is_bool($value)) ? (int)$value : $value;
@@ -281,7 +281,7 @@ class PermalinkMaker
             return end($suffix);
         }
 
-        $list->transform(function ($value, $key) use ($len) {
+        $list->transform(function($value, $key) use ($len) {
             return (int)substr($value, $len);
         });
 

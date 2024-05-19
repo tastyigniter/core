@@ -14,7 +14,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('customers', function (Blueprint $table) {
+        Schema::table('customers', function(Blueprint $table) {
             $table->string('salt', 9)->nullable()->change();
             $table->string('password')->change();
             $table->string('reset_code')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->dateTime('last_login')->nullable();
         });
 
-        Schema::table('admin_users', function (Blueprint $table) {
+        Schema::table('admin_users', function(Blueprint $table) {
             $table->string('salt', 9)->nullable()->change();
             $table->string('password')->change();
             $table->boolean('super_user')->nullable();

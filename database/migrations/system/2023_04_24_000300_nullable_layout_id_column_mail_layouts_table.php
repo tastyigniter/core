@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('mail_templates', function (Blueprint $table) {
+        Schema::table('mail_templates', function(Blueprint $table) {
             $table->unsignedBigInteger('layout_id')->nullable()->change();
         });
     }

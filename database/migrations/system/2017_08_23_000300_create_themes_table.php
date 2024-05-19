@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('themes', function (Blueprint $table) {
+        Schema::create('themes', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('theme_id', true);
             $table->string('name');

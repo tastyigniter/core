@@ -8,7 +8,7 @@ use Igniter\Admin\Models\Status;
 use Igniter\System\Classes\FormRequest;
 use Illuminate\Http\RedirectResponse;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = new class extends AdminController
     {
         public array $implement = [
@@ -59,7 +59,7 @@ beforeEach(function () {
     app()->instance('TestRequest', $this->formRequestMock);
 });
 
-it('initializes form with model and context', function () {
+it('initializes form with model and context', function() {
     $model = Status::factory()->create();
     $context = 'create';
 
@@ -69,14 +69,14 @@ it('initializes form with model and context', function () {
         ->and($this->formController->getFormContext())->toBe($context);
 });
 
-it('runs the create action', function () {
+it('runs the create action', function() {
     $this->formController->create();
 
     expect($this->formController->getFormModel())->toBeInstanceOf(Status::class)
         ->and($this->formController->getFormContext())->toBe('create');
 });
 
-it('creates a new record', function () {
+it('creates a new record', function() {
     request()->request->add([
         'Status' => [
             'status_name' => 'New status',
@@ -102,7 +102,7 @@ it('creates a new record', function () {
     ]);
 });
 
-it('runs the edit action', function () {
+it('runs the edit action', function() {
     $record = Status::factory()->create();
     $recordId = $record->getKey();
 
@@ -113,7 +113,7 @@ it('runs the edit action', function () {
         ->and($this->formController->getFormContext())->toBe('edit', $recordId);
 });
 
-it('edits an existing record', function () {
+it('edits an existing record', function() {
     $record = Status::factory()->create();
     $recordId = $record->getKey();
     $context = 'edit';
@@ -143,7 +143,7 @@ it('edits an existing record', function () {
     ]);
 });
 
-it('deletes an existing record', function () {
+it('deletes an existing record', function() {
     $record = Status::factory()->create();
     $recordId = $record->getKey();
     $context = 'edit';
@@ -155,7 +155,7 @@ it('deletes an existing record', function () {
     $this->assertDatabaseMissing('statuses', ['status_id' => $recordId]);
 });
 
-it('previews an existing record', function () {
+it('previews an existing record', function() {
     $record = Status::factory()->create();
     $recordId = $record->getKey();
     $context = 'preview';

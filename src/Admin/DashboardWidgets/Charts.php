@@ -93,7 +93,7 @@ class Charts extends BaseDashboardWidget
 
     public function getDatasetOptions()
     {
-        return array_map(function ($context) {
+        return array_map(function($context) {
             return array_get($context, 'label');
         }, $this->listSets());
     }

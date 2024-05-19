@@ -426,7 +426,7 @@ class Form extends BaseWidget
         // Get field options from model
         if (in_array($field->type, $this->optionModelTypes)) {
             // Defer the execution of option data collection
-            $field->options(function () use ($field, $config) {
+            $field->options(function() use ($field, $config) {
                 $fieldOptions = $config['options'] ?? null;
 
                 return $this->getOptionsFromModel($field, $fieldOptions);
@@ -466,7 +466,7 @@ class Form extends BaseWidget
 
         // If options config is defined, request options from the model.
         if (isset($field->config['options'])) {
-            $field->options(function () use ($field) {
+            $field->options(function() use ($field) {
                 $fieldOptions = $field->config['options'];
                 if ($fieldOptions === true) {
                     $fieldOptions = null;

@@ -14,7 +14,7 @@ return new class extends Migration
             return;
         }
 
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('orders', function(Blueprint $table) {
             $table->text('delivery_comment')->nullable();
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
             return;
         }
 
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('orders', function(Blueprint $table) {
             $table->dropColumn('delivery_comment');
         });
     }

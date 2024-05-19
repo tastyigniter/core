@@ -11,22 +11,22 @@ return new class extends Migration
     {
         $this->mergeValuesIntoOptionsColumn();
 
-        Schema::table('customers', function (Blueprint $table) {
+        Schema::table('customers', function(Blueprint $table) {
             $table->dropColumn('cart');
             $table->dropColumn('security_question_id');
             $table->dropColumn('security_answer');
             $table->dropColumn('salt');
         });
 
-        Schema::table('countries', function (Blueprint $table) {
+        Schema::table('countries', function(Blueprint $table) {
             $table->dropColumn('flag');
         });
 
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('orders', function(Blueprint $table) {
             $table->dropColumn('notify');
         });
 
-        Schema::table('locations', function (Blueprint $table) {
+        Schema::table('locations', function(Blueprint $table) {
             $table->dropColumn('offer_delivery');
             $table->dropColumn('offer_collection');
             $table->dropColumn('delivery_time');
@@ -47,7 +47,7 @@ return new class extends Migration
             return;
         }
 
-        DB::table('locations')->get()->each(function ($model) {
+        DB::table('locations')->get()->each(function($model) {
             $options = @unserialize($model->options) ?: [];
 
             $options = array_merge([

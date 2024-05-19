@@ -40,8 +40,8 @@ trait Purgeable
         /*
          * Remove any purge attributes from the data set
          */
-        static::extend(function ($model) {
-            $model->bindEvent('model.saveInternal', function () use ($model) {
+        static::extend(function($model) {
+            $model->bindEvent('model.saveInternal', function() use ($model) {
                 $model->purgeAttributes();
             });
         });

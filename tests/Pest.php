@@ -14,7 +14,7 @@ function createRequest($uri, $routeName)
 {
     $request = new Request([], [], [], [], [], ['REQUEST_URI' => $uri]);
 
-    $request->setRouteResolver(function () use ($uri, $routeName, $request) {
+    $request->setRouteResolver(function() use ($uri, $routeName, $request) {
         return (new Route('GET', $uri, ['as' => $routeName]))->bind($request);
     });
 

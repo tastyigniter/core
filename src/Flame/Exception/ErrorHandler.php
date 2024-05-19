@@ -34,7 +34,7 @@ class ErrorHandler
     public function __construct(ExceptionHandler $handler)
     {
         if (method_exists($handler, 'map')) {
-            $handler->map(TokenMismatchException::class, function (TokenMismatchException $e) {
+            $handler->map(TokenMismatchException::class, function(TokenMismatchException $e) {
                 return (new FlashException(
                     lang('igniter::admin.alert_invalid_csrf_token'), 'danger', 419, $e
                 ))->important()->overlay()->actionUrl(url()->current());
@@ -42,13 +42,13 @@ class ErrorHandler
         }
 
         if (method_exists($handler, 'reportable')) {
-            $handler->reportable(function (Throwable $ex) {
+            $handler->reportable(function(Throwable $ex) {
                 return $this->report($ex);
             });
         }
 
         if (method_exists($handler, 'renderable')) {
-            $handler->renderable(function (Throwable $ex) {
+            $handler->renderable(function(Throwable $ex) {
                 return $this->render(request(), $ex);
             });
         }
@@ -121,7 +121,7 @@ class ErrorHandler
      */
     protected function shouldntReport(Throwable $e): bool
     {
-        return !is_null(Arr::first($this->dontReport, fn ($type) => $e instanceof $type));
+        return !is_null(Arr::first($this->dontReport, fn($type) => $e instanceof $type));
     }
 
     /**

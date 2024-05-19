@@ -32,7 +32,7 @@ class RouteRegistrar
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
             ->name('igniter.admin.assets')
-            ->group(function (Router $router) {
+            ->group(function(Router $router) {
                 $router->get(config('igniter-routes.assetsCombinerUri', '_assets').'/{asset}', 'AssetController');
             });
     }
@@ -43,7 +43,7 @@ class RouteRegistrar
             ->middleware(config('igniter-routes.adminMiddleware', []))
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
-            ->group(function (Router $router) {
+            ->group(function(Router $router) {
                 foreach ($this->getAdminPages() as $class) {
                     [$name, $uri] = $this->guessRouteUri($class);
                     $router->name($name)->any('/'.$uri.'/{slug?}', [$class, 'remap'])->where('slug', '(.*)?');
@@ -54,7 +54,7 @@ class RouteRegistrar
     protected function getAdminPages(): Collection
     {
         return collect(Igniter::controllerPath())
-            ->flatMap(function ($path, $namespace) {
+            ->flatMap(function($path, $namespace) {
                 $result = [];
                 foreach (File::allFiles($path) as $file) {
                     $result[] = (string)Str::of($namespace)
@@ -64,7 +64,7 @@ class RouteRegistrar
 
                 return $result;
             })
-            ->filter(fn ($class) => $this->isAdminPage($class));
+            ->filter(fn($class) => $this->isAdminPage($class));
     }
 
     protected function isAdminPage(string $class): bool

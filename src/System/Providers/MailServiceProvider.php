@@ -11,7 +11,7 @@ class MailServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        resolve(MailManager::class)->registerCallback(function (MailManager $manager) {
+        resolve(MailManager::class)->registerCallback(function(MailManager $manager) {
             $manager->registerMailLayouts([
                 'default' => 'igniter.system::_mail.layouts.default',
             ]);
@@ -34,7 +34,7 @@ class MailServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        Event::listen('mailer.beforeRegister', function () {
+        Event::listen('mailer.beforeRegister', function() {
             resolve(MailManager::class)->applyMailerConfigValues();
         });
     }

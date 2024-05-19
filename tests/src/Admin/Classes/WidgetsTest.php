@@ -6,13 +6,13 @@ use Igniter\Admin\Classes\Widgets;
 use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->testExtension = $this->createMock(BaseExtension::class);
     $this->extensionManager = $this->createMock(ExtensionManager::class);
     $this->widgets = new Widgets($this->extensionManager);
 });
 
-it('tests listBulkActionWidgets', function () {
+it('tests listBulkActionWidgets', function() {
     $this->extensionManager->method('getRegistrationMethodValues')
         ->willReturn([
             'TestExtension' => [
@@ -25,7 +25,7 @@ it('tests listBulkActionWidgets', function () {
     expect($widgets)->toBeArray()->toHaveKey('TestWidget');
 });
 
-it('tests registerBulkActionWidget', function () {
+it('tests registerBulkActionWidget', function() {
     $this->widgets->registerBulkActionWidget('TestWidget', ['code' => 'testwidget']);
 
     $widgets = $this->widgets->listBulkActionWidgets();
@@ -33,7 +33,7 @@ it('tests registerBulkActionWidget', function () {
     expect($widgets)->toBeArray()->toHaveKey('TestWidget');
 });
 
-it('tests resolveBulkActionWidget', function () {
+it('tests resolveBulkActionWidget', function() {
     $this->widgets->registerBulkActionWidget('TestWidget', ['code' => 'testwidget']);
 
     $widget = $this->widgets->resolveBulkActionWidget('testwidget');
@@ -41,7 +41,7 @@ it('tests resolveBulkActionWidget', function () {
     expect($widget)->toBe('TestWidget');
 });
 
-it('tests listFormWidgets', function () {
+it('tests listFormWidgets', function() {
     $this->testExtension->method('registerFormWidgets')
         ->willReturn([
             'TestWidget' => ['code' => 'testwidget'],
@@ -57,7 +57,7 @@ it('tests listFormWidgets', function () {
     expect($widgets)->toBeArray()->toHaveKey('TestWidget');
 });
 
-it('tests registerFormWidget', function () {
+it('tests registerFormWidget', function() {
     $this->widgets->registerFormWidget('TestWidget', ['code' => 'testwidget']);
 
     $widgets = $this->widgets->listFormWidgets();
@@ -65,7 +65,7 @@ it('tests registerFormWidget', function () {
     expect($widgets)->toBeArray()->toHaveKey('TestWidget');
 });
 
-it('tests resolveFormWidget', function () {
+it('tests resolveFormWidget', function() {
     $this->widgets->registerFormWidget('TestWidget', ['code' => 'testwidget']);
 
     $widget = $this->widgets->resolveFormWidget('testwidget');
@@ -73,7 +73,7 @@ it('tests resolveFormWidget', function () {
     expect($widget)->toBe('TestWidget');
 });
 
-it('tests listDashboardWidgets', function () {
+it('tests listDashboardWidgets', function() {
     $this->testExtension->method('registerDashboardWidgets')
         ->willReturn([
             'TestWidget' => ['code' => 'testdashboardwidget'],
@@ -89,7 +89,7 @@ it('tests listDashboardWidgets', function () {
     expect($widgets)->toBeArray()->toHaveKey('TestWidget');
 });
 
-it('tests registerDashboardWidget', function () {
+it('tests registerDashboardWidget', function() {
     $this->widgets->registerDashboardWidget('TestWidget', ['code' => 'testwidget']);
 
     $widgets = $this->widgets->listDashboardWidgets();
@@ -97,7 +97,7 @@ it('tests registerDashboardWidget', function () {
     expect($widgets)->toBeArray()->toHaveKey('TestWidget');
 });
 
-it('tests resolveDashboardWidget', function () {
+it('tests resolveDashboardWidget', function() {
     $this->widgets->registerDashboardWidget('TestWidget', ['code' => 'testwidget']);
 
     $widget = $this->widgets->resolveDashboardWidget('testwidget');

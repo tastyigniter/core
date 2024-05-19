@@ -48,7 +48,7 @@ return new class extends Migration
 
     protected function _create_activities()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('activity_id', true);
             $table->string('domain', 10);
@@ -64,7 +64,7 @@ return new class extends Migration
 
     protected function _create_addresses()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('address_id');
             $table->integer('customer_id');
@@ -79,7 +79,7 @@ return new class extends Migration
 
     protected function _create_banners()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('banner_id');
             $table->string('name');
@@ -95,7 +95,7 @@ return new class extends Migration
 
     protected function _create_categories()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('category_id');
             $table->string('name', 32);
@@ -109,7 +109,7 @@ return new class extends Migration
 
     protected function _create_countries()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('country_id');
             $table->string('country_name', 128);
@@ -123,7 +123,7 @@ return new class extends Migration
 
     protected function _create_currencies()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('currency_id');
             $table->integer('country_id');
@@ -146,7 +146,7 @@ return new class extends Migration
 
     protected function _create_customer_groups()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('customer_group_id');
             $table->string('group_name', 32);
@@ -157,7 +157,7 @@ return new class extends Migration
 
     protected function _create_customers()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('customer_id');
             $table->string('first_name', 32);
@@ -180,7 +180,7 @@ return new class extends Migration
 
     protected function _create_extensions()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('extension_id');
             $table->string('type', 32);
@@ -196,7 +196,7 @@ return new class extends Migration
 
     protected function _create_languages()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('language_id', true);
             $table->string('code', 7);
@@ -210,7 +210,7 @@ return new class extends Migration
 
     protected function _create_layout_routes()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('layout_route_id');
             $table->integer('layout_id');
@@ -220,7 +220,7 @@ return new class extends Migration
 
     protected function _create_layout_modules()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('layout_module_id', true);
             $table->integer('layout_id');
@@ -234,7 +234,7 @@ return new class extends Migration
 
     protected function _create_layouts()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('layout_id');
             $table->string('name', 45);
@@ -243,7 +243,7 @@ return new class extends Migration
 
     protected function _create_location_tables()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('location_id');
             $table->integer('table_id');
@@ -253,7 +253,7 @@ return new class extends Migration
 
     protected function _create_locations()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('location_id');
             $table->string('location_name', 32);
@@ -284,7 +284,7 @@ return new class extends Migration
 
     protected function _create_mail_templates()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('template_id', true);
             $table->string('name', 32);
@@ -297,7 +297,7 @@ return new class extends Migration
 
     protected function _create_mail_templates_data()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('template_data_id', true);
             $table->integer('template_id');
@@ -312,7 +312,7 @@ return new class extends Migration
 
     protected function _create_mealtimes()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('mealtime_id', true);
             $table->string('mealtime_name', 128);
@@ -324,7 +324,7 @@ return new class extends Migration
 
     protected function _create_menus()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->integer('menu_id', true);
             $table->string('menu_name');
             $table->text('menu_description');
@@ -342,7 +342,7 @@ return new class extends Migration
 
     public function _create_options()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('option_id', true);
             $table->string('option_name', 32);
@@ -353,7 +353,7 @@ return new class extends Migration
 
     public function _create_option_values()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('option_value_id', true);
             $table->integer('option_id');
@@ -365,7 +365,7 @@ return new class extends Migration
 
     protected function _create_menu_options()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('menu_option_id', true);
             $table->integer('option_id');
@@ -378,7 +378,7 @@ return new class extends Migration
 
     public function _create_menu_option_values()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('menu_option_value_id', true);
             $table->integer('menu_option_id');
@@ -393,7 +393,7 @@ return new class extends Migration
 
     protected function _create_menus_specials()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('special_id', true);
             $table->integer('menu_id')->default(0);
@@ -407,7 +407,7 @@ return new class extends Migration
 
     protected function _create_orders()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('order_id', true);
             $table->integer('customer_id');
@@ -440,7 +440,7 @@ return new class extends Migration
 
     protected function _create_order_menus()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('order_menu_id', true);
             $table->integer('order_id');
@@ -456,7 +456,7 @@ return new class extends Migration
 
     protected function _create_order_options()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('order_option_id', true);
             $table->integer('order_id');
@@ -471,7 +471,7 @@ return new class extends Migration
 
     protected function _create_order_totals()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('order_total_id', true);
             $table->integer('order_id');
@@ -485,7 +485,7 @@ return new class extends Migration
 
     protected function _create_pages()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('page_id', true);
             $table->integer('language_id');
@@ -505,7 +505,7 @@ return new class extends Migration
 
     protected function _create_permalinks()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('permalink_id', true);
             $table->string('slug');
@@ -517,7 +517,7 @@ return new class extends Migration
 
     protected function _create_pp_payments()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->string('transaction_id', 19)->primary();
             $table->integer('order_id');
@@ -528,7 +528,7 @@ return new class extends Migration
 
     protected function _create_permissions()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('permission_id', true);
             $table->string('name', 128);
@@ -540,7 +540,7 @@ return new class extends Migration
 
     protected function _create_reservations()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('reservation_id', true);
             $table->integer('location_id');
@@ -568,7 +568,7 @@ return new class extends Migration
 
     protected function _create_security_questions()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('question_id', true);
             $table->text('text');
@@ -578,7 +578,7 @@ return new class extends Migration
 
     protected function _create_settings()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('setting_id', true);
             $table->string('sort', 45);
@@ -591,7 +591,7 @@ return new class extends Migration
 
     protected function _create_staff_groups()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('staff_group_id', true);
             $table->string('staff_group_name', 32);
@@ -603,7 +603,7 @@ return new class extends Migration
 
     protected function _create_staffs()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('staff_id', true);
             $table->string('staff_name', 32);
@@ -619,7 +619,7 @@ return new class extends Migration
 
     protected function _create_status_history()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('status_history_id', true);
             $table->integer('object_id');
@@ -635,7 +635,7 @@ return new class extends Migration
 
     protected function _create_statuses()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('status_id', true);
             $table->string('status_name', 45);
@@ -648,7 +648,7 @@ return new class extends Migration
 
     protected function _create_tables()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('table_id', true);
             $table->string('table_name', 32);
@@ -660,7 +660,7 @@ return new class extends Migration
 
     protected function _create_uri_routes()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('uri_route_id', true);
             $table->string('uri_route');
@@ -672,7 +672,7 @@ return new class extends Migration
 
     protected function _create_admin_users()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('user_id', true);
             $table->integer('staff_id')->unique();
@@ -684,7 +684,7 @@ return new class extends Migration
 
     protected function _create_working_hours()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('location_id');
             $table->integer('weekday');

@@ -143,7 +143,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public function updateTranslations(string $group, ?string $namespace = null, array $lines = []): array
     {
-        return collect($lines)->map(function ($text, $key) use ($group, $namespace) {
+        return collect($lines)->map(function($text, $key) use ($group, $namespace) {
             $this->updateTranslation($group, $namespace, $key, $text);
 
             return $text;

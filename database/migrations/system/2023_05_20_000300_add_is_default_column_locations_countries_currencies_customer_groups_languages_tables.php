@@ -14,7 +14,7 @@ return new class extends Migration
     {
         foreach (self::TABLES as $table) {
             if (!Schema::hasColumn($table, 'is_default')) {
-                Schema::table($table, function (Blueprint $table) {
+                Schema::table($table, function(Blueprint $table) {
                     $table->boolean('is_default')->default(0);
                 });
             }

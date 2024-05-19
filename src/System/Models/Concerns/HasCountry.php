@@ -9,7 +9,7 @@ trait HasCountry
 {
     public static function bootHasCountry()
     {
-        static::saving(function (self $model) {
+        static::saving(function(self $model) {
             if ($model->countryIsSingleRelationType()) {
                 $model->country()->associate($model);
             } else {
@@ -26,7 +26,7 @@ trait HasCountry
             return $query->where($qualifiedColumnName, $countryId);
         }
 
-        return $query->whereHas($this->getCountryRelationName(), function (Builder $query) use ($qualifiedColumnName, $countryId) {
+        return $query->whereHas($this->getCountryRelationName(), function(Builder $query) use ($qualifiedColumnName, $countryId) {
             return $query->where($qualifiedColumnName, $countryId);
         });
     }

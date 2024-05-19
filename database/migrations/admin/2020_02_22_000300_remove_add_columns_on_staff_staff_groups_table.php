@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('staff_groups', function (Blueprint $table) {
+        Schema::table('staff_groups', function(Blueprint $table) {
             $table->dropColumn('customer_account_access');
             $table->dropColumn('location_access');
             $table->text('description');
@@ -18,11 +18,11 @@ return new class extends Migration
             $table->boolean('auto_assign_availability')->default(1)->nullable();
         });
 
-        Schema::table('admin_users', function (Blueprint $table) {
+        Schema::table('admin_users', function(Blueprint $table) {
             $table->dateTime('last_seen')->nullable();
         });
 
-        Schema::table('customers', function (Blueprint $table) {
+        Schema::table('customers', function(Blueprint $table) {
             $table->dateTime('last_seen')->nullable();
         });
     }

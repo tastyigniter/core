@@ -359,7 +359,7 @@ class Media extends Model
 
         $directory = $this->getStoragePath();
         $allFiles = $this->getStorageDisk()->files($directory);
-        $paths = array_filter($allFiles, function ($file) use ($pattern) {
+        $paths = array_filter($allFiles, function($file) use ($pattern) {
             return starts_with(basename($file), $pattern);
         });
 

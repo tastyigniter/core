@@ -16,7 +16,7 @@ dataset('initialization', [
     ['toolbarButtons', null],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('test_field', 'RichEditor');
     $this->richEditorWidget = new RichEditor($this->controller, $this->formField, [
@@ -24,11 +24,11 @@ beforeEach(function () {
     ]);
 });
 
-it('initializes correctly', function ($property, $expected) {
+it('initializes correctly', function($property, $expected) {
     expect($this->richEditorWidget->$property)->toBe($expected);
 })->with('initialization');
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('js/vendor.editor.js', 'vendor-editor-js');
     Assets::shouldReceive('addCss')->once()->with('richeditor.css', 'richeditor-css');
     Assets::shouldReceive('addJs')->once()->with('richeditor.js', 'richeditor-js');
@@ -38,7 +38,7 @@ it('loads assets correctly', function () {
     $this->richEditorWidget->loadAssets();
 });
 
-it('prepares variables correctly', function () {
+it('prepares variables correctly', function() {
     $this->richEditorWidget->prepareVars();
 
     expect($this->richEditorWidget->vars)
@@ -52,7 +52,7 @@ it('prepares variables correctly', function () {
         ->toHaveKey('toolbarButtons');
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('richeditor/richeditor'));

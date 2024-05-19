@@ -5,19 +5,19 @@ namespace Tests\Admin\Classes;
 use Igniter\Admin\Classes\FormField;
 use Tests\Admin\Fixtures\Models\TestModel;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->formField = new FormField('testField', 'Test Field');
 });
 
-it('can get name', function () {
+it('can get name', function() {
     expect($this->formField->getName())->toBe('testField');
 });
 
-it('can get id', function () {
+it('can get id', function() {
     expect($this->formField->getId())->toBe('field-testfield');
 });
 
-it('evaluates config correctly', function () {
+it('evaluates config correctly', function() {
     $this->formField->displayAs('text', [
         'commentHtml' => true,
         'placeholder' => 'Enter text',
@@ -61,23 +61,23 @@ it('evaluates config correctly', function () {
         ->and($this->formField->getAttributes())->toContain('class="test-class"');
 });
 
-it('can get value from data', function () {
+it('can get value from data', function() {
     $data = ['testField' => 'test-value'];
     expect($this->formField->getValueFromData($data))->toBe('test-value');
 });
 
-it('can get default from data', function () {
+it('can get default from data', function() {
     $data = ['defaultField' => 'default-value'];
     $this->formField->displayAs('text', ['defaultFrom' => 'defaultField']);
     expect($this->formField->getDefaultFromData($data))->toBe('default-value');
 });
 
-it('can get attributes', function () {
+it('can get attributes', function() {
     $this->formField->displayAs('text', ['attributes' => ['class' => 'test-class']]);
     expect($this->formField->getAttributes())->toBe(' class="test-class"');
 });
 
-it('can get attributes with trigger', function () {
+it('can get attributes with trigger', function() {
     $this->formField->displayAs('text', [
         'trigger' => [
             'action' => 'hide',
@@ -95,7 +95,7 @@ it('can get attributes with trigger', function () {
         ->and($attributes['data-trigger-closest-parent'])->toBe('form');
 });
 
-it('can get attributes with preset', function () {
+it('can get attributes with preset', function() {
     $this->formField->displayAs('text', [
         'preset' => [
             'field' => 'otherField',
@@ -112,7 +112,7 @@ it('can get attributes with preset', function () {
         ->and($attributes['class'])->toBe('test-class');
 });
 
-it('can resolve model attribute', function () {
+it('can resolve model attribute', function() {
     $model = new TestModel;
     $model->testField = 'test-value';
     [$resolvedModel, $attribute] = $this->formField->resolveModelAttribute($model);

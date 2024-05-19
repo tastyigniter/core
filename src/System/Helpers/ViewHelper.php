@@ -21,7 +21,7 @@ class ViewHelper
             return static::$globalVarCache;
         }
 
-        $vars = array_filter(View::getShared(), function ($var) {
+        $vars = array_filter(View::getShared(), function($var) {
             return is_scalar($var) || is_array($var);
         });
 

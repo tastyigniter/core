@@ -7,7 +7,7 @@ use Igniter\Admin\DashboardWidgets\Charts;
 use Igniter\System\Facades\Assets;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = $this->createMock(AdminController::class);
     $this->charts = new Charts($this->controller, [
         'startDate' => now()->subDays(30),
@@ -15,17 +15,17 @@ beforeEach(function () {
     ]);
 });
 
-it('tests initialize', function () {
+it('tests initialize', function() {
     expect($this->charts->property('rangeFormat'))->toBe('MMMM D, YYYY');
 });
 
-it('tests defineProperties', function () {
+it('tests defineProperties', function() {
     $properties = $this->charts->defineProperties();
 
     expect($properties)->toBeArray()->toHaveKey('dataset');
 });
 
-it('tests loadAssets', function () {
+it('tests loadAssets', function() {
     Assets::shouldReceive('addCss')->once()->with('dashboardwidgets/charts.css', 'charts-css');
     Assets::shouldReceive('addJs')->once()->with('js/vendor.datetime.js', 'vendor-datetime-js');
     Assets::shouldReceive('addJs')->once()->with('js/vendor.chart.js', 'vendor-chart-js');
@@ -35,7 +35,7 @@ it('tests loadAssets', function () {
     $this->charts->loadAssets();
 });
 
-it('tests prepareVars', function () {
+it('tests prepareVars', function() {
     $this->charts->render();
 
     expect($this->charts->vars['chartContext'])->toBe('reports')
@@ -45,19 +45,19 @@ it('tests prepareVars', function () {
         ->and($this->charts->vars['chartData'])->toBeArray()->toHaveKey('datasets');
 });
 
-it('tests getActiveDataset', function () {
+it('tests getActiveDataset', function() {
     $dataset = $this->charts->getActiveDataset();
 
     expect($dataset)->toBe('reports');
 });
 
-it('tests getData', function () {
+it('tests getData', function() {
     $data = $this->charts->getData();
 
     expect($data)->toBeArray()->toHaveKey('datasets');
 });
 
-it('tests getDatasetOptions', function () {
+it('tests getDatasetOptions', function() {
     Event::fake();
 
     $options = $this->charts->getDatasetOptions();

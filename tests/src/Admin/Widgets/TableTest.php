@@ -10,7 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\Factory;
 use Tests\Admin\Fixtures\Controllers\TestController;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->tableWidget = new Table($this->controller, [
         'dataSource' => 'TestDataSource',
@@ -27,7 +27,7 @@ beforeEach(function () {
     ]);
 });
 
-it('initialize method throws exception when dataSource is not specified', function () {
+it('initialize method throws exception when dataSource is not specified', function() {
     $this->tableWidget->setConfig(['dataSource' => null]);
 
     $this->expectException(SystemException::class);
@@ -35,20 +35,20 @@ it('initialize method throws exception when dataSource is not specified', functi
     $this->tableWidget->initialize();
 });
 
-it('getDataSource method returns TableDataSource instance', function () {
+it('getDataSource method returns TableDataSource instance', function() {
     $dataSource = $this->tableWidget->getDataSource();
 
     expect($dataSource)->toBeInstanceOf(TableDataSource::class);
 });
 
-it('renders without errors', function () {
+it('renders without errors', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
     $viewMock->method('exists')->with($this->stringContains('table/table'));
 
     expect($this->tableWidget->render())->toBeString();
 })->throws(\Exception::class);
 
-it('prepares variables correctly', function () {
+it('prepares variables correctly', function() {
     $this->tableWidget->prepareVars();
 
     expect($this->tableWidget->vars)
@@ -67,7 +67,7 @@ it('prepares variables correctly', function () {
         ->toHaveKey('data');
 });
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addCss')->once()->with('table.css', 'table-css');
     Assets::shouldReceive('addJs')->once()->with('table.js', 'table-js');
 
@@ -76,22 +76,22 @@ it('loads assets correctly', function () {
     $this->tableWidget->loadAssets();
 });
 
-it('prepares columns array correctly', function () {
+it('prepares columns array correctly', function() {
     expect($this->tableWidget->prepareColumnsArray())->toBeArray();
 });
 
-it('getAttributes method returns string', function () {
+it('getAttributes method returns string', function() {
     expect($this->tableWidget->getAttributes())->toBeString();
 });
 
-it('handles onGetRecords action correctly', function () {
+it('handles onGetRecords action correctly', function() {
     request()->request->add([
         'search' => 'search',
         'offset' => 'offset',
         'limit' => 'limit',
     ]);
 
-    $this->tableWidget->bindEvent('table.getRecords', function () {
+    $this->tableWidget->bindEvent('table.getRecords', function() {
         return new LengthAwarePaginator([], 0, 10, 1);
     });
 
@@ -101,7 +101,7 @@ it('handles onGetRecords action correctly', function () {
         ->toHaveKey('total');
 });
 
-it('handles onGetDropdownOptions action correctly', function () {
+it('handles onGetDropdownOptions action correctly', function() {
     request()->request->add([
         'column' => 'column1',
         'rowData' => [],
@@ -109,7 +109,7 @@ it('handles onGetDropdownOptions action correctly', function () {
 
     $eventFired = false;
 
-    $this->tableWidget->bindEvent('table.getDropdownOptions', function () use (&$eventFired) {
+    $this->tableWidget->bindEvent('table.getDropdownOptions', function() use (&$eventFired) {
         $eventFired = true;
     });
 

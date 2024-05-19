@@ -15,7 +15,7 @@ dataset('initialization', [
     ['disabled', false],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->defaultValue = '#1abc9c';
     $this->controller = $this->createMock(AdminController::class);
     $this->formField = new FormField('test', 'Color picker');
@@ -24,11 +24,11 @@ beforeEach(function () {
     ]);
 });
 
-it('initializes correctly', function ($property, $expected) {
+it('initializes correctly', function($property, $expected) {
     expect($this->colorPickerWidget->$property)->toBe($expected);
 })->with('initialization');
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('colorpicker.js', 'colorpicker-js');
 
     $this->colorPickerWidget->assetPath = [];
@@ -36,7 +36,7 @@ it('loads assets correctly', function () {
     $this->colorPickerWidget->loadAssets();
 });
 
-it('prepares variables correctly', function () {
+it('prepares variables correctly', function() {
     $this->formField->value = $this->defaultValue;
 
     $this->colorPickerWidget->prepareVars();
@@ -50,7 +50,7 @@ it('prepares variables correctly', function () {
         ->toHaveKey('disabled');
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->expects($this->atLeastOnce())
@@ -60,19 +60,19 @@ it('renders correctly', function () {
     $this->colorPickerWidget->render();
 })->throws(\Exception::class);
 
-it('gets save value correctly', function () {
+it('gets save value correctly', function() {
     $value = $this->colorPickerWidget->getSaveValue($this->defaultValue);
 
     expect($value)->toBe($this->defaultValue);
 });
 
-it('gets save value correctly when value is empty', function () {
+it('gets save value correctly when value is empty', function() {
     $value = $this->colorPickerWidget->getSaveValue('');
 
     expect($value)->toBeNull();
 });
 
-it('gets available colors correctly', function () {
+it('gets available colors correctly', function() {
     $this->colorPickerWidget->prepareVars();
 
     expect($this->colorPickerWidget->vars['availableColors'])->toBeArray()

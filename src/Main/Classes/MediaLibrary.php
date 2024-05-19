@@ -165,7 +165,7 @@ class MediaLibrary
 
     public function deleteFiles(string|array $paths): bool
     {
-        return $this->getStorageDisk()->delete(array_map(function ($path) {
+        return $this->getStorageDisk()->delete(array_map(function($path) {
             return $this->getMediaPath($path);
         }, (array)$paths));
     }
@@ -359,7 +359,7 @@ class MediaLibrary
     protected function sortFiles(array &$files, array $sortBy)
     {
         [$by, $direction] = $sortBy;
-        usort($files, function ($a, $b) use ($by) {
+        usort($files, function($a, $b) use ($by) {
             switch ($by) {
                 case 'name':
                     return strcasecmp($a->path, $b->path);

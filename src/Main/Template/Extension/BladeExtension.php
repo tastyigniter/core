@@ -82,7 +82,7 @@ class BladeExtension
 
     public function compilesThemeComponentFirst($components, string $expression): string
     {
-        $component = Arr::first($components, function ($component) {
+        $component = Arr::first($components, function($component) {
             return controller()->hasComponent($component);
         });
 
@@ -111,7 +111,7 @@ class BladeExtension
 
     public function compilesThemePartialFirst($partials, string $expression): string
     {
-        $partial = Arr::first($partials, function ($partial) {
+        $partial = Arr::first($partials, function($partial) {
             return controller()->hasPartial($partial);
         });
 

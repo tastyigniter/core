@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('payment_profiles', function (Blueprint $table) {
+        Schema::create('payment_profiles', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('payment_profile_id');
             $table->integer('customer_id')->unsigned()->nullable()->index();

@@ -231,7 +231,7 @@ class Builder extends IlluminateQueryBuilder
      */
     protected function getCacheCallback($columns)
     {
-        return function () use ($columns) {
+        return function() use ($columns) {
             return parent::get($columns)->all();
         };
     }
@@ -339,7 +339,7 @@ class Builder extends IlluminateQueryBuilder
 
         $bindings = $this->cleanBindings(array_merge(
             Arr::flatten($values, 1),
-            collect($update)->reject(function ($value, $key) {
+            collect($update)->reject(function($value, $key) {
                 return is_int($key);
             })->all()
         ));

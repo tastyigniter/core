@@ -64,7 +64,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
 
     public function index()
     {
-        rescue(function () {
+        rescue(function() {
             if (!Country::count()) {
                 Country::upsertFromHub();
             }

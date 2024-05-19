@@ -4,7 +4,7 @@ namespace Tests;
 
 use Igniter\Flame\Igniter;
 
-it('checks for admin routes', function () {
+it('checks for admin routes', function() {
     $adminUri = Igniter::adminUri();
 
     $this->get('/'.$adminUri);

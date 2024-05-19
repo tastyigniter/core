@@ -24,7 +24,7 @@ return new class extends Migration
             'settings' => 'setting_id',
             'themes' => 'theme_id',
         ] as $table => $key) {
-            Schema::table($table, function (Blueprint $table) use ($key) {
+            Schema::table($table, function(Blueprint $table) use ($key) {
                 $table->unsignedBigInteger($key, true)->change();
             });
         }

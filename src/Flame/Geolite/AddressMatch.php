@@ -12,7 +12,7 @@ class AddressMatch
 
     public function matches(LocationInterface $position): bool
     {
-        $matched = collect($this->components)->filter(function ($component) use ($position) {
+        $matched = collect($this->components)->filter(function($component) use ($position) {
             foreach ($component as $item) {
                 $type = array_get($item, 'type');
                 $value = array_get($item, 'value');

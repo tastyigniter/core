@@ -15,11 +15,11 @@ class PaginationServiceProvider extends ServiceProvider
         Paginator::defaultView('igniter.system::_partials/pagination/default');
         Paginator::defaultSimpleView('igniter.system::_partials/pagination/simple_default');
 
-        Paginator::currentPathResolver(function () {
+        Paginator::currentPathResolver(function() {
             return url()->current();
         });
 
-        Paginator::currentPageResolver(function ($pageName = 'page') {
+        Paginator::currentPageResolver(function($pageName = 'page') {
             $page = Request::get($pageName);
             if (filter_var($page, FILTER_VALIDATE_INT) !== false && (int)$page >= 1) {
                 return $page;

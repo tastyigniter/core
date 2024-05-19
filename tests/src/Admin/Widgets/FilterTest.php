@@ -9,7 +9,7 @@ use Igniter\System\Facades\Assets;
 use Illuminate\View\Factory;
 use Tests\Admin\Fixtures\Controllers\TestController;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->filterWidget = new Filter($this->controller, [
         'context' => 'test-context',
@@ -31,7 +31,7 @@ beforeEach(function () {
     ]);
 });
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('js/vendor.datetime.js', 'vendor-datetime-js');
     Assets::shouldReceive('addJs')->once()->with('widgets/daterangepicker.js', 'daterangepicker-js');
     Assets::shouldReceive('addCss')->once()->with('formwidgets/datepicker.css', 'datepicker-css');
@@ -41,7 +41,7 @@ it('loads assets correctly', function () {
     $this->filterWidget->loadAssets();
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->willReturnMap([
@@ -52,7 +52,7 @@ it('renders correctly', function () {
     expect($this->filterWidget->render())->toBeString();
 })->throws(\Exception::class);
 
-it('prepares variables correctly', function () {
+it('prepares variables correctly', function() {
     $this->filterWidget->prepareVars();
 
     expect($this->filterWidget->vars)
@@ -66,7 +66,7 @@ it('prepares variables correctly', function () {
         ->toHaveKey('scopes');
 });
 
-it('gets search widget', function () {
+it('gets search widget', function() {
     $this->filterWidget->prepareVars();
 
     $result = $this->filterWidget->getSearchWidget();
@@ -74,19 +74,19 @@ it('gets search widget', function () {
     expect($result)->toBeInstanceOf(SearchBox::class);
 });
 
-it('renders scope element correctly', function () {
+it('renders scope element correctly', function() {
     $scope = new FilterScope('status', 'Test');
     $this->filterWidget->prepareVars();
 
     expect($this->filterWidget->renderScopeElement($scope))->toBeString();
 });
 
-it('submits correctly', function () {
+it('submits correctly', function() {
     request()->request->add(['filter' => [
         'status' => 'value',
     ]]);
 
-    $this->filterWidget->bindEvent('filter.submit', function ($params) {
+    $this->filterWidget->bindEvent('filter.submit', function($params) {
         return 'triggered';
     });
 
@@ -96,7 +96,7 @@ it('submits correctly', function () {
         ->and($this->filterWidget->getScopeValue('status'))->toEqual('value');
 });
 
-it('clears correctly', function () {
+it('clears correctly', function() {
     request()->request->add(['filter' => [
         'status' => 'value',
     ]]);
@@ -110,7 +110,7 @@ it('clears correctly', function () {
     expect($this->filterWidget->getScopeValue('status'))->toBeNull();
 });
 
-it('gets select options', function () {
+it('gets select options', function() {
     $result = $this->filterWidget->getSelectOptions('status');
 
     expect($result)->toBeArray()
@@ -118,21 +118,21 @@ it('gets select options', function () {
         ->toHaveKey('active');
 });
 
-it('gets scope name', function () {
+it('gets scope name', function() {
     $scope = new FilterScope('test', 'Test');
     $result = $this->filterWidget->getScopeName($scope);
 
     expect($result)->toEqual('filter[test]');
 });
 
-it('sets scope value', function () {
+it('sets scope value', function() {
     $scope = new FilterScope('test', 'Test');
     $this->filterWidget->setScopeValue($scope, 'value');
 
     expect($this->filterWidget->getSession('scope-test'))->toEqual('value');
 });
 
-it('gets scope', function () {
+it('gets scope', function() {
     $this->filterWidget->prepareVars();
 
     $result = $this->filterWidget->getScope('status');
@@ -141,6 +141,6 @@ it('gets scope', function () {
         ->and($result->scopeName)->toEqual('status');
 });
 
-it('gets context', function () {
+it('gets context', function() {
     expect($this->filterWidget->getContext())->toEqual('test-context');
 });

@@ -17,7 +17,7 @@ dataset('initialization', [
     ['endDate', null],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     AdminAuth::shouldReceive('getUser')->andReturn(User::factory()->create());
 
     $this->controller = resolve(TestController::class);
@@ -31,11 +31,11 @@ beforeEach(function () {
     ]);
 });
 
-it('initializes correctly', function ($property, $expected) {
+it('initializes correctly', function($property, $expected) {
     expect($this->dashboardContainerWidget->{$property})->toEqual($expected);
 })->with('initialization');
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('js/vendor.datetime.js', 'vendor-datetime-js');
     Assets::shouldReceive('addCss')->once()->with('formwidgets/datepicker.css', 'datepicker-css');
     Assets::shouldReceive('addCss')->once()->with('dashboardcontainer.css', null);
@@ -46,7 +46,7 @@ it('loads assets correctly', function () {
     $this->dashboardContainerWidget->loadAssets();
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('dashboardcontainer/dashboardcontainer'));
@@ -58,14 +58,14 @@ it('renders correctly', function () {
         ->toHaveKey('dateRangeFormat');
 })->throws(\Exception::class);
 
-it('renders widgets without errors', function () {
+it('renders widgets without errors', function() {
     expect($this->dashboardContainerWidget->onRenderWidgets())
         ->toHaveKey('#'.$this->dashboardContainerWidget->getId('container'))
         ->and($this->dashboardContainerWidget->vars)
         ->toHaveKey('widgets');
 });
 
-it('loads add popup', function () {
+it('loads add popup', function() {
     expect($this->dashboardContainerWidget->onLoadAddPopup())
         ->toHaveKey('#'.$this->dashboardContainerWidget->getId('new-widget-modal-content'))
         ->and($this->dashboardContainerWidget->vars)
@@ -73,7 +73,7 @@ it('loads add popup', function () {
         ->toHaveKey('widgets');
 });
 
-it('loads update popup', function () {
+it('loads update popup', function() {
     $widgetAlias = 'onboarding';
     request()->request->add(['widgetAlias' => $widgetAlias]);
 
@@ -84,19 +84,19 @@ it('loads update popup', function () {
         ->toHaveKey('widgetAlias');
 });
 
-it('resets widgets', function () {
+it('resets widgets', function() {
     expect($this->dashboardContainerWidget->onResetWidgets())
         ->toBeArray()
         ->toHaveKey('#'.$this->dashboardContainerWidget->getId('container-list'));
 });
 
-it('sets as default', function () {
+it('sets as default', function() {
     $this->dashboardContainerWidget->canSetDefault = true;
 
     expect($this->dashboardContainerWidget->onSetAsDefault())->toBeNull();
 });
 
-it('adds widget', function () {
+it('adds widget', function() {
     request()->request->add([
         'widget' => 'onboarding',
         'size' => 6,
@@ -107,7 +107,7 @@ it('adds widget', function () {
         ->toHaveKey('@#'.$this->dashboardContainerWidget->getId('container-list'));
 });
 
-it('updates widget', function () {
+it('updates widget', function() {
     $widgetAlias = 'onboarding';
     request()->request->add(['alias' => $widgetAlias]);
 
@@ -119,13 +119,13 @@ it('updates widget', function () {
         ->toHaveKey('widgets');
 });
 
-it('removes widget', function () {
+it('removes widget', function() {
     request()->request->add(['alias' => 'onboarding']);
 
     expect($this->dashboardContainerWidget->onRemoveWidget())->toBeNull();
 });
 
-it('sets widget priorities', function () {
+it('sets widget priorities', function() {
     request()->request->add([
         'aliases' => ['onboarding', 'news'],
     ]);
@@ -133,7 +133,7 @@ it('sets widget priorities', function () {
     expect($this->dashboardContainerWidget->onSetWidgetPriorities())->toBeNull();
 });
 
-it('sets date range', function () {
+it('sets date range', function() {
     expect($this->dashboardContainerWidget->onSetDateRange())
         ->toHaveKey('#'.$this->dashboardContainerWidget->getId('container'))
         ->and($this->dashboardContainerWidget->vars)

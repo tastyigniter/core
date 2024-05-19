@@ -14,7 +14,7 @@ class StringMixin
      */
     public function ordinal()
     {
-        return function ($number) {
+        return function($number) {
             if (in_array($number % 100, range(11, 13))) {
                 return $number.'th';
             }
@@ -33,7 +33,7 @@ class StringMixin
      */
     public function normalizeEol()
     {
-        return function ($string) {
+        return function($string) {
             return preg_replace('~\R~u', "\r\n", $string);
         };
     }
@@ -43,7 +43,7 @@ class StringMixin
      */
     public function normalizeClassName()
     {
-        return function ($name) {
+        return function($name) {
             if (is_object($name)) {
                 $name = get_class($name);
             }
@@ -57,7 +57,7 @@ class StringMixin
      */
     public function getClassId()
     {
-        return function ($name) {
+        return function($name) {
             if (is_object($name)) {
                 $name = get_class($name);
             }
@@ -73,7 +73,7 @@ class StringMixin
      */
     public function getClassNamespace()
     {
-        return function ($name) {
+        return function($name) {
             $name = Str::normalizeClassName($name);
 
             return substr($name, 0, strrpos($name, '\\'));
@@ -86,7 +86,7 @@ class StringMixin
      */
     public function getPrecedingSymbols()
     {
-        return function ($string, $symbol) {
+        return function($string, $symbol) {
             return strlen($string) - strlen(ltrim($string, $symbol));
         };
     }

@@ -21,7 +21,7 @@ class EventServiceProvider extends FlameEventServiceProvider
 
     protected function handleCacheCleared()
     {
-        Event::listen('cache:cleared', function () {
+        Event::listen('cache:cleared', function() {
             \Igniter\System\Helpers\CacheHelper::clearInternal();
         });
     }

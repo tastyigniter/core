@@ -44,7 +44,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::resolveApplicationConfiguration($app);
 
-        $app->afterResolving(PackageManifest::class, function ($instance) {
+        $app->afterResolving(PackageManifest::class, function($instance) {
             $instance->vendorPath = __DIR__.'/../../vendor';
         });
 

@@ -30,7 +30,7 @@ trait HasPermalink
             ));
         }
 
-        static::saving(function (Model $model) {
+        static::saving(function(Model $model) {
             $model->generatePermalinkOnSave();
         });
     }

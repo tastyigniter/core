@@ -81,7 +81,7 @@ class IgniterUpdate extends Command
 
             $updatesCollection = $updatesCollection->except('core')->flatten(1);
             if ($addons = (array)$this->option('addons')) {
-                $updatesCollection = $updatesCollection->filter(function ($item) use ($addons) {
+                $updatesCollection = $updatesCollection->filter(function($item) use ($addons) {
                     return in_array($item->code, $addons);
                 });
             }
@@ -105,7 +105,7 @@ class IgniterUpdate extends Command
 
     protected function notifyOnUpdatesFound()
     {
-        Event::listen('igniter.system.updatesFound', function ($result) {
+        Event::listen('igniter.system.updatesFound', function($result) {
             UpdateFoundNotification::make(array_only($result, ['count']))->broadcast();
         });
     }

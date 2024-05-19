@@ -295,7 +295,7 @@ class AdminController extends Controller
     protected function getRequiredPermissionsForAction(string $actionToCheck): array
     {
         return collect((array)$this->requiredPermissions)
-            ->map(function ($permission, $action) use ($actionToCheck) {
+            ->map(function($permission, $action) use ($actionToCheck) {
                 return (!is_string($action) || $action === '*' || $action === $actionToCheck)
                     ? (array)$permission : null;
             })

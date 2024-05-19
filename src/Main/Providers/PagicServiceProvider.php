@@ -10,7 +10,7 @@ class PagicServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Route::bind('_file_', function ($value) {
+        Route::bind('_file_', function($value) {
             return Page::resolveRouteBinding($value);
         });
     }

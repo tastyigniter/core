@@ -56,7 +56,7 @@ trait HasComponents
     {
         $priorities = array_flip($priorities);
         $components = array_sort(array_get($this->settings, 'components', []),
-            function ($value, $key) use ($priorities) {
+            function($value, $key) use ($priorities) {
                 return $priorities[$key] ?? 0;
             }
         );

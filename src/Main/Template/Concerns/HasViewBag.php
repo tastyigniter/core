@@ -20,7 +20,7 @@ trait HasViewBag
      */
     public static function bootHasViewBag()
     {
-        static::retrieved(function (self $model) {
+        static::retrieved(function(self $model) {
             $model->fillViewBagArray();
         });
     }

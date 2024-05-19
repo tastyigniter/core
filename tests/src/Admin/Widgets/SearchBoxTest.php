@@ -6,19 +6,19 @@ use Igniter\Admin\Widgets\SearchBox;
 use Illuminate\View\Factory;
 use Tests\Admin\Fixtures\Controllers\TestController;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->searchBoxWidget = new SearchBox($this->controller);
 });
 
-it('renders without errors', function () {
+it('renders without errors', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
     $viewMock->method('exists')->with($this->stringContains('searchbox/searchbox'));
 
     expect($this->searchBoxWidget->render())->toBeString();
 })->throws(\Exception::class);
 
-it('prepares vars without errors', function () {
+it('prepares vars without errors', function() {
     $this->searchBoxWidget->prepareVars();
 
     expect($this->searchBoxWidget->vars)
@@ -29,11 +29,11 @@ it('prepares vars without errors', function () {
         ->toHaveKey('value');
 });
 
-it('submits without errors', function () {
+it('submits without errors', function() {
     request()->request->add(['search' => 'test']);
 
     $eventFired = false;
-    $this->searchBoxWidget->bindEvent('search.submit', function () use (&$eventFired) {
+    $this->searchBoxWidget->bindEvent('search.submit', function() use (&$eventFired) {
         $eventFired = true;
     });
 
@@ -43,7 +43,7 @@ it('submits without errors', function () {
         ->and($result)->toBeNull();
 });
 
-it('gets active term without errors', function () {
+it('gets active term without errors', function() {
     expect($this->searchBoxWidget->getActiveTerm())->toBe('');
 
     $this->searchBoxWidget->setActiveTerm('test');
@@ -55,12 +55,12 @@ it('gets active term without errors', function () {
     expect($this->searchBoxWidget->getActiveTerm())->toBe('test2');
 });
 
-it('sets active term without errors', function () {
+it('sets active term without errors', function() {
     $this->searchBoxWidget->setActiveTerm('test');
 
     expect($this->searchBoxWidget->getActiveTerm())->toBe('test');
 });
 
-it('gets name without errors', function () {
+it('gets name without errors', function() {
     expect($this->searchBoxWidget->getName())->toBe($this->searchBoxWidget->alias);
 });

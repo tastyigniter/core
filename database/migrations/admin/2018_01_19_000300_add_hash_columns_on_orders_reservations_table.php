@@ -11,11 +11,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('orders', function(Blueprint $table) {
             $table->string('hash', 40)->nullable()->index();
         });
 
-        Schema::table('reservations', function (Blueprint $table) {
+        Schema::table('reservations', function(Blueprint $table) {
             $table->string('hash', 40)->nullable()->index();
             $table->integer('duration')->nullable();
         });

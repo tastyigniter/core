@@ -4,16 +4,16 @@ namespace Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\ListColumn;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->listColumn = new ListColumn('testColumn', 'Test Column');
 });
 
-it('constructs correctly', function () {
+it('constructs correctly', function() {
     expect($this->listColumn->columnName)->toBe('testColumn')
         ->and($this->listColumn->label)->toBe('Test Column');
 });
 
-it('evaluates config correctly', function () {
+it('evaluates config correctly', function() {
     $this->listColumn->displayAs('text', [
         'width' => '10%',
         'cssClass' => 'test-class',
@@ -28,7 +28,7 @@ it('evaluates config correctly', function () {
         'attributes' => ['class' => 'test-attribute'],
         'format' => 'testFormat',
         'path' => '/path/to/partial',
-        'formatter' => fn () => 'testFormatter',
+        'formatter' => fn() => 'testFormatter',
         'iconCssClass' => 'test-icon-class',
     ]);
 
@@ -50,11 +50,11 @@ it('evaluates config correctly', function () {
         ->and($this->listColumn->iconCssClass)->toBe('test-icon-class');
 });
 
-it('gets name correctly', function () {
+it('gets name correctly', function() {
     expect($this->listColumn->getName())->toBe('testColumn');
 });
 
-it('gets id correctly', function () {
+it('gets id correctly', function() {
     expect($this->listColumn->getId())->toBe('column-testColumn')
         ->and($this->listColumn->getId('suffix'))->toBe('column-testColumn-suffix');
 });

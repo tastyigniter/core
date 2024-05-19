@@ -24,17 +24,17 @@ class MacroServiceProvider extends ServiceProvider implements DeferrableProvider
 
         Blueprint::mixin(new BlueprintMixin);
 
-        QueryBuilder::macro('toRawSql', function () {
-            return array_reduce($this->getBindings(), function ($sql, $binding) {
+        QueryBuilder::macro('toRawSql', function() {
+            return array_reduce($this->getBindings(), function($sql, $binding) {
                 return preg_replace('/\?/', is_numeric($binding) ? $binding : "'".$binding."'", $sql, 1);
             }, $this->toSql());
         });
 
-        EloquentBuilder::macro('toRawSql', function () {
+        EloquentBuilder::macro('toRawSql', function() {
             return $this->getQuery()->toRawSql();
         });
 
-        Dispatcher::macro('fire', function ($event, $payload = [], $halt = false) {
+        Dispatcher::macro('fire', function($event, $payload = [], $halt = false) {
             return $this->dispatch($event, $payload, $halt);
         });
     }

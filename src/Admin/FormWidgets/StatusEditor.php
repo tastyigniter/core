@@ -152,7 +152,7 @@ class StatusEditor extends BaseFormWidget
             'user_id' => $this->getController()->getUser()->getKey(),
         ]));
 
-        DB::transaction(function () use ($saveData, $keyFrom) {
+        DB::transaction(function() use ($saveData, $keyFrom) {
             if ($this->saveRecord($saveData, $keyFrom)) {
                 flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->getModeConfig('formName')).' '.'updated'))->now();
             } else {
@@ -226,7 +226,7 @@ class StatusEditor extends BaseFormWidget
             return [];
         }
 
-        $query = User::whereHas('groups', function ($query) use ($groupId) {
+        $query = User::whereHas('groups', function($query) use ($groupId) {
             $query->where('admin_user_groups.user_group_id', $groupId);
         })->whereIsEnabled();
 
@@ -257,11 +257,11 @@ class StatusEditor extends BaseFormWidget
         $widgetConfig['arrayName'] = $this->getModeConfig('arrayName');
         $widget = $this->makeWidget(Form::class, $widgetConfig);
 
-        $widget->bindEvent('form.extendFieldsBefore', function () use ($widget) {
+        $widget->bindEvent('form.extendFieldsBefore', function() use ($widget) {
             $this->formExtendFieldsBefore($widget);
         });
 
-        $widget->bindEvent('form.extendFields', function ($fields) use ($widget) {
+        $widget->bindEvent('form.extendFields', function($fields) use ($widget) {
             $this->formExtendFields($widget, $fields);
         });
 

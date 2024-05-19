@@ -80,7 +80,7 @@ trait ManagesSource
         }
 
         return collect(static::listInTheme($source, $skipCache))
-            ->mapWithKeys(function (Model $model) {
+            ->mapWithKeys(function(Model $model) {
                 $fileName = $model->getKey();
                 $description = (string)($model->description ?: $model->title);
                 $description = str_limit(strlen($description) ? lang($description) : $fileName, 40);

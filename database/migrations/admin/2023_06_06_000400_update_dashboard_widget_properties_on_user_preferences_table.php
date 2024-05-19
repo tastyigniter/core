@@ -20,7 +20,7 @@ return new class extends Migration
             ->where('item', 'admin_dashboardwidgets_dashboard')
             ->value('value');
 
-        $widgets = collect(json_decode($widgets, true))->mapWithKeys(function ($properties, $alias) {
+        $widgets = collect(json_decode($widgets, true))->mapWithKeys(function($properties, $alias) {
             if ($options = array_get($this->widgetsMap, array_pull($properties, 'class', ''))) {
                 $properties['widget'] = $options[0];
 

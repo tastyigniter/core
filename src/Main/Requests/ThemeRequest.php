@@ -12,7 +12,7 @@ class ThemeRequest extends FormRequest
             return [];
         }
 
-        return collect($this->fields())->mapWithKeys(function ($config, $field) {
+        return collect($this->fields())->mapWithKeys(function($config, $field) {
             $dottedName = implode('.', name_to_array($field));
 
             return [$dottedName => array_get($config, 'label')];
@@ -48,7 +48,7 @@ class ThemeRequest extends FormRequest
 
     protected function prepareRules($rules, ?string $parentKey = null): array
     {
-        return collect($rules)->mapWithKeys(function ($config, $field) use ($parentKey) {
+        return collect($rules)->mapWithKeys(function($config, $field) use ($parentKey) {
             if (array_has($config, 'form.fields')) {
                 return $this->prepareRules(array_get($config, 'form.fields'), $field);
             }

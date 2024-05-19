@@ -12,7 +12,7 @@ return new class extends Migration
                 ->where('code', 'like', 'admin::%')
                 ->orWhere('code', 'like', 'main::%')
                 ->orWhere('code', 'like', 'system::%')
-                ->get()->each(function ($record) use ($table) {
+                ->get()->each(function($record) use ($table) {
                     $key = str_singular($table).'_id';
                     DB::table('mail_'.$table)
                         ->where($key, $record->$key)
@@ -24,7 +24,7 @@ return new class extends Migration
             DB::table('language_translations')
                 ->where('namespace', $module)
                 ->get()
-                ->each(function ($record) use ($module) {
+                ->each(function($record) use ($module) {
                     DB::table('language_translations')
                         ->where('translation_id', $record->translation_id)
                         ->update([

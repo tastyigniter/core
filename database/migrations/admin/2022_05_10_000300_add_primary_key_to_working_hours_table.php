@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('working_hours', function (Blueprint $table) {
+        Schema::table('working_hours', function(Blueprint $table) {
             $table->bigIncrements('id');
         });
     }

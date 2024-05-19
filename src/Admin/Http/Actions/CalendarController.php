@@ -99,11 +99,11 @@ class CalendarController extends ControllerAction
         /** @var Calendar $widget */
         $widget = $this->makeWidget(Calendar::class, $calendarConfig);
 
-        $widget->bindEvent('calendar.generateEvents', function ($startAt, $endAt) {
+        $widget->bindEvent('calendar.generateEvents', function($startAt, $endAt) {
             return $this->controller->calendarGenerateEvents($startAt, $endAt);
         });
 
-        $widget->bindEvent('calendar.updateEvent', function ($eventId, $startAt, $endAt) {
+        $widget->bindEvent('calendar.updateEvent', function($eventId, $startAt, $endAt) {
             return $this->controller->calendarUpdateEvent($eventId, $startAt, $endAt);
         });
 

@@ -274,7 +274,7 @@ class MediaManager extends BaseWidget
 
         $validated = $this->validate(post(), [
             'path' => ['string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
-            'file' => ['filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)', 'ends_with:'.implode(',', array_map(fn ($value) => '.'.$value, $mediaLibrary->getAllowedExtensions()))],
+            'file' => ['filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)', 'ends_with:'.implode(',', array_map(fn($value) => '.'.$value, $mediaLibrary->getAllowedExtensions()))],
             'name' => ['filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)'],
         ], [
             'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),
@@ -365,7 +365,7 @@ class MediaManager extends BaseWidget
         ]);
 
         $path = trim(array_get($validated, 'path'));
-        $files = array_map(function ($value) use ($path) {
+        $files = array_map(function($value) use ($path) {
             return $path.'/'.$value['path'];
         }, array_get($validated, 'files'));
 
@@ -499,7 +499,7 @@ class MediaManager extends BaseWidget
 
         $mediaLibrary = $this->getMediaLibrary();
 
-        $folderTree = function ($path) use (&$folderTree, $mediaLibrary) {
+        $folderTree = function($path) use (&$folderTree, $mediaLibrary) {
             $result = [];
             if (!($folders = $mediaLibrary->listFolders($path))) {
                 return null;
@@ -636,7 +636,7 @@ class MediaManager extends BaseWidget
 
     protected function validateFileExists(): \Closure
     {
-        return function (string $attribute, mixed $value, \Closure $fail) {
+        return function(string $attribute, mixed $value, \Closure $fail) {
             if ($value === 'foo') {
                 $fail("The $attribute file/folder does not exists.");
             }

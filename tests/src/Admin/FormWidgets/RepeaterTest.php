@@ -22,7 +22,7 @@ dataset('initialization', [
 ]);
 
 dataset('repeaterData', [
-    fn () => [
+    fn() => [
         'object_id' => 1,
         'object_type' => 'order',
         'user_id' => 1,
@@ -32,7 +32,7 @@ dataset('repeaterData', [
     ],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('status_history', 'Repeater');
     $this->formField->arrayName = 'status';
@@ -51,11 +51,11 @@ beforeEach(function () {
     ]);
 });
 
-it('initializes correctly', function ($property, $expected) {
+it('initializes correctly', function($property, $expected) {
     expect($this->repeaterWidget->$property)->toBe($expected);
 })->with('initialization');
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('repeater.js', 'repeater-js');
 
     $this->repeaterWidget->assetPath = [];
@@ -63,7 +63,7 @@ it('loads assets correctly', function () {
     $this->repeaterWidget->loadAssets();
 });
 
-it('prepares variables correctly', function () {
+it('prepares variables correctly', function() {
     $this->repeaterWidget->prepareVars();
 
     expect($this->repeaterWidget->vars)
@@ -80,7 +80,7 @@ it('prepares variables correctly', function () {
         ->toHaveKey('indexSearch');
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('repeater/repeater'));
@@ -88,7 +88,7 @@ it('renders correctly', function () {
     $this->repeaterWidget->render();
 })->throws(\Exception::class);
 
-it('gets value from model correctly', function () {
+it('gets value from model correctly', function() {
     StatusHistory::factory()->times(3)->create([
         'status_id' => $this->repeaterWidget->model->getKey(),
     ]);
@@ -100,7 +100,7 @@ it('gets value from model correctly', function () {
     expect($value)->toBeCollection()->toHaveCount(3);
 });
 
-it('gets value from request correctly', function ($repeaterData) {
+it('gets value from request correctly', function($repeaterData) {
     $mockRequest = $this->mock(Request::class);
     $mockRequest->shouldReceive('post')->andReturn([
         'status' => ['status_history' => [$repeaterData, $repeaterData, $repeaterData]],
@@ -114,7 +114,7 @@ it('gets value from request correctly', function ($repeaterData) {
     expect($value)->toBeArray()->toHaveCount(3);
 })->with('repeaterData');
 
-it('gets save value correctly', function ($repeaterData) {
+it('gets save value correctly', function($repeaterData) {
     $mockRequest = $this->mock(Request::class);
     $mockRequest->shouldReceive('post')->andReturn([
         Repeater::SORT_PREFIX.$this->formField->getId() => array_flip(range(1, 3)),
@@ -134,7 +134,7 @@ it('gets save value correctly', function ($repeaterData) {
         ->and($result[0])->toHaveKey($this->repeaterWidget->sortColumnName);
 })->with('repeaterData');
 
-it('gets visible columns correctly', function ($repeaterData) {
+it('gets visible columns correctly', function($repeaterData) {
     $columns = $this->repeaterWidget->getVisibleColumns();
 
     expect($columns)
@@ -142,7 +142,7 @@ it('gets visible columns correctly', function ($repeaterData) {
         ->toHaveKeys(array_keys($repeaterData));
 })->with('repeaterData');
 
-it('gets form widget template correctly', function () {
+it('gets form widget template correctly', function() {
     $template = $this->repeaterWidget->getFormWidgetTemplate();
 
     expect($template)->toBeInstanceOf(Form::class);

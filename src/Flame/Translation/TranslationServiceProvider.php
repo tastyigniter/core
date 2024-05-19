@@ -10,7 +10,7 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
     {
         $this->registerLoader();
 
-        $this->app->singleton('translator', function ($app) {
+        $this->app->singleton('translator', function($app) {
             $loader = $app['translation.loader'];
 
             // When registering the translator component, we'll need to set the default
@@ -27,14 +27,14 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
             return $trans;
         });
 
-        $this->app->singleton('translator.localization', function ($app) {
+        $this->app->singleton('translator.localization', function($app) {
             return new Localization($app['request'], $app['config']);
         });
     }
 
     public function registerLoader()
     {
-        $this->app->singleton('translation.loader', function ($app) {
+        $this->app->singleton('translation.loader', function($app) {
             return new FileLoader($app['files'], $app['path.lang']);
         });
     }

@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('location_areas', function (Blueprint $table) {
+        Schema::create('location_areas', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('area_id');
             $table->integer('location_id');

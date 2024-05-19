@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('location_options', function (Blueprint $table) {
+        Schema::create('location_options', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('location_id');
@@ -29,7 +29,7 @@ return new class extends Migration
 
     protected function copyOptionsToLocationOptionsTable()
     {
-        DB::table('locations')->get()->each(function ($location) {
+        DB::table('locations')->get()->each(function($location) {
             if (empty($location->options)) {
                 return true;
             }

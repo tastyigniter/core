@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('locationables', function (Blueprint $table) {
+        Schema::create('locationables', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('location_id');
             $table->integer('locationable_id');

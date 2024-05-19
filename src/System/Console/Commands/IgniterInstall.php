@@ -167,21 +167,21 @@ class IgniterInstall extends Command
     protected function createSuperUser()
     {
         DatabaseSeeder::$staffName = $this->ask('Admin Name', DatabaseSeeder::$staffName);
-        DatabaseSeeder::$siteEmail = $this->output->ask('Admin Email', DatabaseSeeder::$siteEmail, function ($answer) {
+        DatabaseSeeder::$siteEmail = $this->output->ask('Admin Email', DatabaseSeeder::$siteEmail, function($answer) {
             if (User::whereEmail($answer)->first()) {
                 throw new \RuntimeException('An administrator with that email already exists, please choose a different email.');
             }
 
             return $answer;
         });
-        DatabaseSeeder::$password = $this->output->ask('Admin Password', '123456', function ($answer) {
+        DatabaseSeeder::$password = $this->output->ask('Admin Password', '123456', function($answer) {
             if (!is_string($answer) || strlen($answer) < 6 || strlen($answer) > 32) {
                 throw new \RuntimeException('Please specify the administrator password, at least 6 characters');
             }
 
             return $answer;
         });
-        DatabaseSeeder::$username = $this->output->ask('Admin Username', 'admin', function ($answer) {
+        DatabaseSeeder::$username = $this->output->ask('Admin Username', 'admin', function($answer) {
             if (User::whereUsername($answer)->first()) {
                 throw new \RuntimeException('An administrator with that username already exists, please choose a different username.');
             }

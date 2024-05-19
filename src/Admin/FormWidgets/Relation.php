@@ -114,7 +114,7 @@ class Relation extends BaseFormWidget
      */
     protected function makeFormField(): FormField
     {
-        return $this->clonedFormField = RelationBase::noConstraints(function () {
+        return $this->clonedFormField = RelationBase::noConstraints(function() {
             $field = clone $this->formField;
             $relationObject = $this->getRelationObject();
             $query = $relationObject->newQuery();

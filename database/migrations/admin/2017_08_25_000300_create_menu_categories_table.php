@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('menu_categories', function (Blueprint $table) {
+        Schema::create('menu_categories', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('menu_id')->unsigned()->index();
             $table->integer('category_id')->unsigned()->index();

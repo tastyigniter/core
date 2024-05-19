@@ -9,8 +9,8 @@ class BlueprintMixin
 {
     public function dropForeignKeyIfExists()
     {
-        return function ($key) {
-            $foreignKeys = array_map(function ($key) {
+        return function($key) {
+            $foreignKeys = array_map(function($key) {
                 return $key->getName();
             }, Schema::getConnection()
                 ->getDoctrineSchemaManager()
@@ -37,8 +37,8 @@ class BlueprintMixin
 
     public function dropIndexIfExists()
     {
-        return function ($key) {
-            $indexes = array_map(function ($key) {
+        return function($key) {
+            $indexes = array_map(function($key) {
                 return $key->getName();
             }, Schema::getConnection()
                 ->getDoctrineSchemaManager()

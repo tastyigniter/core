@@ -71,28 +71,28 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function mergeConfigFiles()
     {
-        collect($this->configFiles)->each(function ($config) {
+        collect($this->configFiles)->each(function($config) {
             $this->mergeConfigFrom($this->root.'/config/'.$config.'.php', 'igniter-'.$config);
         });
     }
 
     protected function publishConfigFiles()
     {
-        collect($this->configFiles)->each(function ($config) {
+        collect($this->configFiles)->each(function($config) {
             $this->publishes([$this->root.'/config/'.$config.'.php' => config_path('igniter-'.$config.'.php')], 'igniter-config');
         });
     }
 
     protected function registerProviders()
     {
-        collect($this->providers)->each(function ($provider) {
+        collect($this->providers)->each(function($provider) {
             $this->app->register($provider);
         });
     }
 
     protected function registerSingletons()
     {
-        $this->app->singleton(PackageManifest::class, function () {
+        $this->app->singleton(PackageManifest::class, function() {
             return new PackageManifest(
                 new Filesystem,
                 $this->app->basePath(),
@@ -109,7 +109,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $loader->register();
         $loader->addDirectories(['extensions']);
 
-        $this->app['events']->listen(RouteMatched::class, function () use ($loader) {
+        $this->app['events']->listen(RouteMatched::class, function() use ($loader) {
             $loader->build();
         });
     }
@@ -136,14 +136,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function registerErrorHandler()
     {
-        $this->callAfterResolving(ExceptionHandler::class, function ($handler) {
+        $this->callAfterResolving(ExceptionHandler::class, function($handler) {
             new ErrorHandler($handler);
         });
     }
 
     protected function registerErrorViewPaths()
     {
-        Event::listen('exception.beforeRender', function ($exception, $httpCode, $request) {
+        Event::listen('exception.beforeRender', function($exception, $httpCode, $request) {
             $themeViewPaths = array_get(view()->getFinder()->getHints(), 'igniter.system', []);
             config()->set('view.paths', array_merge($themeViewPaths, config('view.paths')));
         });

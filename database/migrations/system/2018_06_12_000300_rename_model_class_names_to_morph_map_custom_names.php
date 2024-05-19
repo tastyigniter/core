@@ -30,12 +30,12 @@ return new class extends Migration
 
     protected function updateMorphClassName($definitions)
     {
-        collect($definitions)->each(function ($columns, $tableName) {
+        collect($definitions)->each(function($columns, $tableName) {
             if (!Schema::hasTable($tableName)) {
                 return;
             }
 
-            DB::table($tableName)->get()->each(function ($model) use ($tableName, $columns) {
+            DB::table($tableName)->get()->each(function($model) use ($tableName, $columns) {
                 $columnsToUpdate = [];
                 foreach ($columns as $column) {
                     $columnValue = $model->{$column};

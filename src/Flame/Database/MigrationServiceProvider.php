@@ -15,7 +15,7 @@ class MigrationServiceProvider extends BaseServiceProvider
      */
     protected function registerRepository()
     {
-        $this->app->singleton('migration.repository', function ($app) {
+        $this->app->singleton('migration.repository', function($app) {
             $table = $app['config']['database.migrations'];
 
             return new DatabaseMigrationRepository($app['db'], $table);
@@ -29,7 +29,7 @@ class MigrationServiceProvider extends BaseServiceProvider
      */
     protected function registerMigrator()
     {
-        $this->app->singleton('migrator', function ($app) {
+        $this->app->singleton('migrator', function($app) {
             $repository = $app['migration.repository'];
 
             return new Migrator($repository, $app['db'], $app['files'], $app['events']);

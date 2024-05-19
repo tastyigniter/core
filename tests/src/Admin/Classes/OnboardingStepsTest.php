@@ -5,14 +5,14 @@ namespace Tests\Admin\Classes;
 use Igniter\Admin\Classes\OnboardingSteps;
 
 dataset('onboardingSteps', [
-    fn () => [
+    fn() => [
         'testStep1' => [
             'label' => 'Test Step 1',
             'description' => 'This is test step 1',
             'icon' => 'fa fa-angle-double-right',
             'url' => 'http://localhost/admin/testStep1',
             'priority' => 500,
-            'complete' => function () {
+            'complete' => function() {
                 return false;
             },
         ],
@@ -22,18 +22,18 @@ dataset('onboardingSteps', [
             'icon' => 'fa fa-angle-double-left',
             'url' => 'http://localhost/admin/testStep2',
             'priority' => 1000,
-            'complete' => function () {
+            'complete' => function() {
                 return true;
             },
         ],
     ],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->onboardingSteps = new OnboardingSteps();
 });
 
-it('adds, gets and removes onboarding steps correctly', function () {
+it('adds, gets and removes onboarding steps correctly', function() {
     $this->onboardingSteps->registerSteps([
         'testStep' => [
             'label' => 'Test Step',
@@ -41,8 +41,8 @@ it('adds, gets and removes onboarding steps correctly', function () {
             'icon' => 'fa fa-angle-double-right',
             'url' => 'http://localhost/admin/testStep',
             'priority' => 500,
-            'complete' => fn () => true,
-            'completed' => fn () => true,
+            'complete' => fn() => true,
+            'completed' => fn() => true,
         ],
     ]);
 
@@ -62,7 +62,7 @@ it('adds, gets and removes onboarding steps correctly', function () {
     expect($step)->toBeNull();
 });
 
-it('loads registered admin onboarding steps', function () {
+it('loads registered admin onboarding steps', function() {
     $onboardingSteps = resolve(OnboardingSteps::class);
 
     expect($onboardingSteps->getStep('admin::themes'))->toBeObject()
@@ -75,7 +75,7 @@ it('loads registered admin onboarding steps', function () {
         ->and($onboardingSteps->getStep('admin::settings')->completed)->toBeCallable();
 });
 
-it('lists onboarding steps correctly', function ($steps) {
+it('lists onboarding steps correctly', function($steps) {
     $this->onboardingSteps->registerSteps($steps);
 
     $steps = $this->onboardingSteps->listSteps();
@@ -84,31 +84,31 @@ it('lists onboarding steps correctly', function ($steps) {
         ->and($steps)->toHaveKey('testStep2');
 })->with('onboardingSteps');
 
-it('checks if onboarding is completed correctly', function ($steps) {
+it('checks if onboarding is completed correctly', function($steps) {
     $this->onboardingSteps->registerSteps($steps);
 
     expect($this->onboardingSteps->completed())->toBeFalse();
 
-    $steps['testStep1']['complete'] = fn () => true;
-    $steps['testStep2']['complete'] = fn () => true;
+    $steps['testStep1']['complete'] = fn() => true;
+    $steps['testStep2']['complete'] = fn() => true;
     $this->onboardingSteps->registerSteps($steps);
 
     expect($this->onboardingSteps->completed())->toBeTrue();
 })->with('onboardingSteps');
 
-it('checks if onboarding is in progress correctly', function ($steps) {
+it('checks if onboarding is in progress correctly', function($steps) {
     $this->onboardingSteps->registerSteps($steps);
 
     expect($this->onboardingSteps->inProgress())->toBeTrue();
 
-    $steps['testStep1']['complete'] = fn () => true;
-    $steps['testStep2']['complete'] = fn () => true;
+    $steps['testStep1']['complete'] = fn() => true;
+    $steps['testStep2']['complete'] = fn() => true;
     $this->onboardingSteps->registerSteps($steps);
 
     expect($this->onboardingSteps->inProgress())->toBeFalse();
 })->with('onboardingSteps');
 
-it('gets the next incomplete onboarding step correctly', function ($steps) {
+it('gets the next incomplete onboarding step correctly', function($steps) {
     $this->onboardingSteps->registerSteps($steps);
 
     $step = $this->onboardingSteps->nextIncompleteStep();

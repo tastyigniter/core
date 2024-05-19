@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('payments', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('payment_id', true);
             $table->string('name');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->dateTime('date_updated')->nullable();
         });
 
-        Schema::create('payment_logs', function (Blueprint $table) {
+        Schema::create('payment_logs', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('payment_log_id', true);
             $table->integer('order_id');

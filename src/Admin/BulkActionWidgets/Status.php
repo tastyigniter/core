@@ -24,7 +24,7 @@ class Status extends BaseBulkActionWidget
         $statusColumn = $this->statusColumn;
 
         if ($count = $records->count()) {
-            DB::transaction(function () use ($records, $statusColumn, $statusCode) {
+            DB::transaction(function() use ($records, $statusColumn, $statusCode) {
                 foreach ($records as $record) {
                     $record->$statusColumn = ($statusCode === 'enable');
                     $record->save();

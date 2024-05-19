@@ -5,17 +5,17 @@ namespace Tests\Admin\Classes;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Classes\FormTabs;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->formField = new FormField('testField', 'Test Field');
 });
 
-it('constructs correctly', function () {
+it('constructs correctly', function() {
     $formTabs = new FormTabs();
 
     expect($formTabs->suppressTabs)->toBeTrue();
 });
 
-it('evaluates config correctly', function () {
+it('evaluates config correctly', function() {
     $config = [
         'defaultTab' => 'Default Tab',
         'stretch' => true,
@@ -31,7 +31,7 @@ it('evaluates config correctly', function () {
         ->and($formTabs->cssClass)->toBe('test-class');
 });
 
-it('adds and removes field correctly', function () {
+it('adds and removes field correctly', function() {
     $formTabs = new FormTabs();
 
     $formTabs->addField('testField', $this->formField, 'Test Tab');
@@ -42,7 +42,7 @@ it('adds and removes field correctly', function () {
     expect($formTabs->hasFields())->toBeFalse();
 });
 
-it('gets all fields correctly', function () {
+it('gets all fields correctly', function() {
     $formTabs = new FormTabs();
 
     $formTabs->addField('testField', $this->formField, 'Test Tab');

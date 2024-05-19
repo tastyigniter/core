@@ -125,26 +125,26 @@ class FormController extends ControllerAction
         /** @var Form $this ->formWidget */
         $this->formWidget = $this->makeWidget(Form::class, $formConfig);
 
-        $this->formWidget->bindEvent('form.extendFieldsBefore', function () {
+        $this->formWidget->bindEvent('form.extendFieldsBefore', function() {
             $this->controller->formExtendFieldsBefore($this->formWidget);
         });
 
-        $this->formWidget->bindEvent('form.extendFields', function ($fields) {
+        $this->formWidget->bindEvent('form.extendFields', function($fields) {
             $this->controller->formExtendFields($this->formWidget, $fields);
         });
 
-        $this->formWidget->bindEvent('form.beforeRefresh', function ($holder) {
+        $this->formWidget->bindEvent('form.beforeRefresh', function($holder) {
             $result = $this->controller->formExtendRefreshData($this->formWidget, $holder->data);
             if (is_array($result)) {
                 $holder->data = $result;
             }
         });
 
-        $this->formWidget->bindEvent('form.refreshFields', function ($fields) {
+        $this->formWidget->bindEvent('form.refreshFields', function($fields) {
             return $this->controller->formExtendRefreshFields($this->formWidget, $fields);
         });
 
-        $this->formWidget->bindEvent('form.refresh', function ($result) {
+        $this->formWidget->bindEvent('form.refresh', function($result) {
             return $this->controller->formExtendRefreshResults($this->formWidget, $result);
         });
 
@@ -196,7 +196,7 @@ class FormController extends ControllerAction
 
         $modelsToSave = $this->prepareModelsToSave($model, $saveData);
 
-        DB::transaction(function () use ($modelsToSave) {
+        DB::transaction(function() use ($modelsToSave) {
             foreach ($modelsToSave as $modelToSave) {
                 $modelToSave->save();
             }
@@ -238,7 +238,7 @@ class FormController extends ControllerAction
 
         $modelsToSave = $this->prepareModelsToSave($model, $saveData);
 
-        DB::transaction(function () use ($modelsToSave) {
+        DB::transaction(function() use ($modelsToSave) {
             foreach ($modelsToSave as $modelToSave) {
                 $modelToSave->save();
             }
@@ -433,7 +433,7 @@ class FormController extends ControllerAction
     protected function validateSaveData(Model $model, mixed $saveData): bool|array
     {
         if (!is_null($requestClass = $this->getConfig($this->context.'[request]', $this->getConfig('request')))) {
-            return $this->validateFormRequest($requestClass, function (FormRequest $request) use ($saveData) {
+            return $this->validateFormRequest($requestClass, function(FormRequest $request) use ($saveData) {
                 $request->merge($saveData);
             });
         }

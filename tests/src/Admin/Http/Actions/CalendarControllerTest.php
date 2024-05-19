@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Http\Actions\CalendarController;
 use Igniter\Admin\Widgets\Calendar;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = new class extends AdminController
     {
         public $calendarConfig = [
@@ -25,7 +25,7 @@ beforeEach(function () {
     $this->calendarController = new CalendarController($this->controller);
 });
 
-it('runs calendar action method without errors', function () {
+it('runs calendar action method without errors', function() {
     $this->calendarController->calendar();
 
     $widget = $this->calendarController->getCalendarWidget();
@@ -33,13 +33,13 @@ it('runs calendar action method without errors', function () {
     expect($widget)->toBeInstanceOf(Calendar::class);
 });
 
-it('renders calendar without errors', function () {
+it('renders calendar without errors', function() {
     $this->calendarController->calendar();
 
     expect($this->calendarController->renderCalendar())->toBeString();
 });
 
-it('renders calendar toolbar without errors', function () {
+it('renders calendar toolbar without errors', function() {
     $this->calendarController->calendar();
 
     expect($this->calendarController->renderCalendarToolbar())->toBeNull();

@@ -29,7 +29,7 @@ return new class extends Migration
 
     protected function _optimize_activities()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('domain', 10)->nullable()->change();
             $table->string('context', 128)->nullable()->change();
             $table->string('user', 10)->nullable()->change();
@@ -41,7 +41,7 @@ return new class extends Migration
 
     protected function _optimize_addresses()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('address_1')->change();
             $table->string('address_2')->nullable()->change();
             $table->string('city')->nullable()->change();
@@ -52,7 +52,7 @@ return new class extends Migration
 
     protected function _optimize_banners()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('click_url')->nullable()->change();
             $table->string('alt_text')->nullable()->change();
             $table->text('image_code')->nullable()->change();
@@ -62,7 +62,7 @@ return new class extends Migration
 
     protected function _optimize_categories()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('name')->change();
             $table->text('description')->nullable()->change();
             $table->integer('parent_id')->nullable()->change();
@@ -73,7 +73,7 @@ return new class extends Migration
 
     protected function _optimize_countries()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('country_name')->change();
             $table->string('iso_code_2', 2)->nullable()->change();
             $table->string('iso_code_3', 3)->nullable()->change();
@@ -84,7 +84,7 @@ return new class extends Migration
 
     protected function _optimize_currencies()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('currency_name')->change();
             $table->boolean('symbol_position')->nullable()->change();
             $table->string('iso_alpha2', 2)->nullable()->change();
@@ -98,7 +98,7 @@ return new class extends Migration
 
     protected function _optimize_customers()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('first_name')->change();
             $table->string('last_name')->change();
             $table->string('telephone', 32)->nullable()->change();
@@ -113,14 +113,14 @@ return new class extends Migration
 
     protected function _optimize_customer_groups()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->text('description')->nullable()->change();
         };
     }
 
     protected function _optimize_extensions()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->text('data')->nullable()->change();
             $table->boolean('serialized')->default(1)->change();
             $table->boolean('status')->default(0)->change();
@@ -129,7 +129,7 @@ return new class extends Migration
 
     protected function _optimize_languages()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('code', 32)->change();
             $table->string('name')->change();
             $table->string('image')->nullable()->change();
@@ -139,14 +139,14 @@ return new class extends Migration
 
     protected function _optimize_layouts()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('name')->change();
         };
     }
 
     protected function _optimize_layout_modules()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('module_code')->change();
             $table->string('partial')->nullable()->change();
             $table->integer('priority')->default(0)->change();
@@ -156,7 +156,7 @@ return new class extends Migration
 
     protected function _optimize_locations()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('location_name')->change();
             $table->text('description')->nullable()->change();
             $table->text('location_telephone')->nullable()->change();
@@ -185,14 +185,14 @@ return new class extends Migration
 
     protected function _optimize_mail_templates()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('name')->change();
         };
     }
 
     protected function _optimize_mail_templates_data()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('code', 128)->change();
             $table->string('subject')->change();
         };
@@ -200,14 +200,14 @@ return new class extends Migration
 
     protected function _optimize_mealtimes()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('mealtime_name')->change();
         };
     }
 
     protected function _optimize_menus()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('menu_photo')->nullable()->change();
             $table->integer('stock_qty')->default(0)->change();
             $table->integer('minimum_qty')->default(0)->change();
@@ -219,7 +219,7 @@ return new class extends Migration
 
     protected function _optimize_options()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('option_name')->change();
             $table->string('display_type')->change();
             $table->integer('priority')->default(0)->change();
@@ -228,7 +228,7 @@ return new class extends Migration
 
     protected function _optimize_option_values()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('value')->change();
             $table->integer('priority')->default(0)->change();
         };
@@ -236,7 +236,7 @@ return new class extends Migration
 
     protected function _optimize_menu_option_values()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->integer('quantity')->default(0)->change();
             $table->boolean('subtract_stock')->nullable()->change();
         };
@@ -244,7 +244,7 @@ return new class extends Migration
 
     protected function _optimize_menus_specials()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->date('start_date')->nullable()->change();
             $table->date('end_date')->nullable()->change();
         };
@@ -252,7 +252,7 @@ return new class extends Migration
 
     protected function _optimize_orders()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->integer('customer_id')->nullable()->change();
             $table->string('first_name')->change();
             $table->string('last_name')->change();
@@ -272,7 +272,7 @@ return new class extends Migration
 
     protected function _optimize_order_menus()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->text('option_values')->nullable()->change();
             $table->text('comment')->nullable()->change();
         };
@@ -280,14 +280,14 @@ return new class extends Migration
 
     protected function _optimize_order_options()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('order_option_name')->change();
         };
     }
 
     protected function _optimize_order_totals()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('code')->change();
             $table->decimal('value', 15, 4)->change();
             $table->boolean('priority')->default(0)->change();
@@ -296,7 +296,7 @@ return new class extends Migration
 
     protected function _optimize_pages()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('name')->change();
             $table->string('heading')->nullable()->change();
             $table->string('meta_description')->nullable()->change();
@@ -308,14 +308,14 @@ return new class extends Migration
 
     protected function _optimize_permissions()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('name')->change();
         };
     }
 
     protected function _optimize_reservations()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->integer('occasion_id')->nullable()->change();
             $table->integer('customer_id')->nullable()->change();
             $table->string('first_name')->change();
@@ -329,7 +329,7 @@ return new class extends Migration
 
     protected function _optimize_settings()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->text('value')->nullable()->change();
             $table->boolean('serialized')->nullable()->change();
         };
@@ -337,7 +337,7 @@ return new class extends Migration
 
     protected function _optimize_staffs()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('staff_name')->change();
             $table->string('timezone')->nullable()->change();
             $table->integer('language_id')->nullable()->change();
@@ -346,7 +346,7 @@ return new class extends Migration
 
     protected function _optimize_status_history()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('status_for')->change();
             $table->integer('staff_id')->nullable()->change();
             $table->integer('assignee_id')->nullable()->change();
@@ -357,7 +357,7 @@ return new class extends Migration
 
     protected function _optimize_statuses()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('status_name')->change();
             $table->text('status_comment')->nullable()->change();
             $table->boolean('notify_customer')->nullable()->change();
@@ -368,7 +368,7 @@ return new class extends Migration
 
     protected function _optimize_tables()
     {
-        return function (Blueprint $table) {
+        return function(Blueprint $table) {
             $table->string('table_name')->change();
         };
     }

@@ -9,7 +9,7 @@ class FormServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        Settings::registerCallback(function (Settings $manager) {
+        Settings::registerCallback(function(Settings $manager) {
             $manager->registerSettingItems('core', [
                 'general' => [
                     'label' => 'igniter::system.settings.text_tab_general',

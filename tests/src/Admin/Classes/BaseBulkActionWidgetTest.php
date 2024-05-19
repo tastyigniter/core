@@ -7,7 +7,7 @@ use Igniter\Admin\Classes\ToolbarButton;
 use Illuminate\Support\Collection;
 use Tests\Admin\Fixtures\Controllers\TestController;
 
-it('constructs correctly', function () {
+it('constructs correctly', function() {
     $controller = new TestController();
     $actionButton = new ToolbarButton('test-toolbar-button');
     $config = [];
@@ -17,7 +17,7 @@ it('constructs correctly', function () {
     expect($widget)->toBeInstanceOf(BaseBulkActionWidget::class);
 });
 
-it('returns the action button', function () {
+it('returns the action button', function() {
     $controller = new TestController();
     $actionButton = new ToolbarButton('test-toolbar-button');
     $config = [];
@@ -29,7 +29,7 @@ it('returns the action button', function () {
     expect($returnedActionButton)->toBeInstanceOf(ToolbarButton::class);
 });
 
-it('handles action correctly', function () {
+it('handles action correctly', function() {
     $controller = new TestController();
     $actionButton = new ToolbarButton('test-toolbar-button');
     $config = [];

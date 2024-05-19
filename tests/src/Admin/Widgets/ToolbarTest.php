@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\View\Factory;
 use Tests\Admin\Fixtures\Controllers\TestController;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->toolbarWidget = new Toolbar($this->controller, [
         'context' => 'save',
@@ -27,7 +27,7 @@ beforeEach(function () {
     ]);
 });
 
-it('re-initializes without errors', function () {
+it('re-initializes without errors', function() {
     $this->toolbarWidget->reInitialize([
         'container' => 'toolbar/test-container',
         'buttons' => [
@@ -43,14 +43,14 @@ it('re-initializes without errors', function () {
         ->and($this->toolbarWidget->container)->toEqual('toolbar/test-container');
 });
 
-it('renders without errors', function () {
+it('renders without errors', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
     $viewMock->method('exists')->with($this->stringContains('toolbar/toolbar'));
 
     expect($this->toolbarWidget->render())->toBeString();
 })->throws(\Exception::class);
 
-it('prepares variables without errors', function () {
+it('prepares variables without errors', function() {
     Event::fake();
 
     $this->toolbarWidget->prepareVars();
@@ -65,7 +65,7 @@ it('prepares variables without errors', function () {
         ->toHaveKey('availableButtons');
 });
 
-it('renders button markup without errors', function () {
+it('renders button markup without errors', function() {
     $buttonObj = new ToolbarButton('test');
     $buttonObj->displayAs('button', []);
 
@@ -78,11 +78,11 @@ it('renders button markup without errors', function () {
     $this->toolbarWidget->renderButtonMarkup($buttonObj);
 });
 
-it('gets context without errors', function () {
+it('gets context without errors', function() {
     expect($this->toolbarWidget->getContext())->toEqual('save');
 });
 
-it('adds buttons without errors', function () {
+it('adds buttons without errors', function() {
     $this->toolbarWidget->prepareVars();
 
     $this->toolbarWidget->addButtons([
@@ -95,7 +95,7 @@ it('adds buttons without errors', function () {
     expect($this->toolbarWidget->allButtons)->toHaveCount(3)->toHaveKey('test');
 });
 
-it('adds button without errors', function () {
+it('adds button without errors', function() {
     $this->toolbarWidget->addButton('test', [
         'label' => 'Test',
         'class' => 'btn btn-default',
@@ -104,7 +104,7 @@ it('adds button without errors', function () {
     expect($this->toolbarWidget->allButtons)->toHaveCount(1)->toHaveKey('test');
 });
 
-it('removes button without errors', function () {
+it('removes button without errors', function() {
     $this->toolbarWidget->prepareVars();
 
     $this->toolbarWidget->removeButton('save');
@@ -112,7 +112,7 @@ it('removes button without errors', function () {
     expect($this->toolbarWidget->allButtons)->not->toHaveKey('save');
 });
 
-it('merges attributes without errors', function () {
+it('merges attributes without errors', function() {
     $this->toolbarWidget->mergeAttributes('save', [
         'class' => 'btn btn-danger',
     ]);
@@ -120,7 +120,7 @@ it('merges attributes without errors', function () {
     expect($this->toolbarWidget->buttons['save']['class'])->toEqual('btn btn-danger');
 });
 
-it('gets button list without errors', function () {
+it('gets button list without errors', function() {
     $this->toolbarWidget->prepareVars();
 
     $buttons = $this->toolbarWidget->getButtonList();
@@ -128,11 +128,11 @@ it('gets button list without errors', function () {
     expect($buttons)->toHaveCount(2)->toHaveKey('save')->toHaveKey('saveClose');
 });
 
-it('gets active save action without errors', function () {
+it('gets active save action without errors', function() {
     expect($this->toolbarWidget->getActiveSaveAction())->toEqual('continue');
 });
 
-it('chooses save button action without errors', function () {
+it('chooses save button action without errors', function() {
     request()->request->add(['toolbar_save_action' => 'save-close']);
 
     $this->toolbarWidget->onChooseSaveButtonAction();

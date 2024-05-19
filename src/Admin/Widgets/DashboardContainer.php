@@ -273,7 +273,7 @@ class DashboardContainer extends BaseWidget
 
         $this->setWidgetsToUserPreferences(
             collect($this->getWidgetsFromUserPreferences())
-                ->mapWithKeys(function ($widget, $alias) use ($aliases) {
+                ->mapWithKeys(function($widget, $alias) use ($aliases) {
                     $widget['priority'] = (int)array_search($alias, $aliases);
 
                     return [$alias => $widget];
@@ -337,7 +337,7 @@ class DashboardContainer extends BaseWidget
 
         $widgets = collect($this->getWidgetsFromUserPreferences())
             ->sortBy('priority')
-            ->mapWithKeys(function ($widgetInfo, $alias) use ($start, $end) {
+            ->mapWithKeys(function($widgetInfo, $alias) use ($start, $end) {
                 if ($widget = $this->makeDashboardWidget($alias, $widgetInfo)) {
                     $widget->setProperty('startDate', $start);
                     $widget->setProperty('endDate', $end);
@@ -360,7 +360,7 @@ class DashboardContainer extends BaseWidget
         $widgetConfig['widget'] = $widgetCode = $widgetConfig['widget'] ?? $widgetConfig['class'] ?? $alias;
         $widgetClass = resolve(Widgets::class)->resolveDashboardWidget($widgetCode);
 
-        return rescue(function () use ($widgetClass, $widgetConfig) {
+        return rescue(function() use ($widgetClass, $widgetConfig) {
             $widget = $this->makeWidget($widgetClass, $widgetConfig);
             $widget->bindToController();
 

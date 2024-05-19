@@ -257,7 +257,7 @@ class Lists extends BaseWidget
         }
 
         // Apply search term
-        $query->where(function ($innerQuery) use ($primarySearchable, $relationSearchable, $joins) {
+        $query->where(function($innerQuery) use ($primarySearchable, $relationSearchable, $joins) {
             // Search primary columns
             if (count($primarySearchable) > 0) {
                 $this->applySearchToQuery($innerQuery, $primarySearchable, 'or');
@@ -270,7 +270,7 @@ class Lists extends BaseWidget
                     // constrain the query only if there is something to search for
                     $columnsToSearch = array_get($relationSearchable, $join, []);
                     if (count($columnsToSearch) > 0) {
-                        $innerQuery->orWhereHas($join, function ($_query) use ($columnsToSearch) {
+                        $innerQuery->orWhereHas($join, function($_query) use ($columnsToSearch) {
                             $this->applySearchToQuery($_query, $columnsToSearch);
                         });
                     }
@@ -878,7 +878,7 @@ class Lists extends BaseWidget
 
         if ($scopeMethod = $this->searchScope) {
             $searchMethod = $boolean == 'and' ? 'where' : 'orWhere';
-            $query->$searchMethod(function ($q) use ($term, $scopeMethod) {
+            $query->$searchMethod(function($q) use ($term, $scopeMethod) {
                 $q->$scopeMethod($term);
             });
         } else {
@@ -950,7 +950,7 @@ class Lists extends BaseWidget
         // First available column
         if ($this->sortColumn === null || !$this->isSortable($this->sortColumn)) {
             $columns = $this->visibleColumns ?: $this->getVisibleColumns();
-            $columns = array_filter($columns, function ($column) {
+            $columns = array_filter($columns, function($column) {
                 return $column->sortable && $column->type != 'button';
             });
             $this->sortColumn = key($columns);
@@ -982,7 +982,7 @@ class Lists extends BaseWidget
         }
 
         $columns = $this->getColumns();
-        $sortable = array_filter($columns, function ($column) {
+        $sortable = array_filter($columns, function($column) {
             return $column->sortable;
         });
 

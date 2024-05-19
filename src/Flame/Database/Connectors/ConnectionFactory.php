@@ -22,7 +22,7 @@ class ConnectionFactory extends BaseConnectionFactory
      */
     protected function createPdoResolverWithHosts(array $config)
     {
-        return function () use ($config) {
+        return function() use ($config) {
             foreach (Arr::shuffle($hosts = $this->parseHosts($config)) as $key => $host) {
                 $config['host'] = $host;
 

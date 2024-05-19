@@ -325,7 +325,7 @@ class ComponentManager
                 }
 
                 if (is_array($propertyValue)) {
-                    array_walk($property[$propertyName], function (&$_propertyValue) {
+                    array_walk($property[$propertyName], function(&$_propertyValue) {
                         $_propertyValue = lang($_propertyValue);
                     });
                 } else {

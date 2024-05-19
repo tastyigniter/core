@@ -105,7 +105,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
         $saveData = $this->formWidget->getSaveData();
 
-        $this->validateFormRequest($definition->request, function (Request $request) use ($saveData) {
+        $this->validateFormRequest($definition->request, function(Request $request) use ($saveData) {
             $request->merge($saveData);
         });
 
@@ -135,7 +135,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
         $saveData = $this->formWidget->getSaveData();
 
-        $this->validateFormRequest($definition->request, function (Request $request) use ($saveData) {
+        $this->validateFormRequest($definition->request, function(Request $request) use ($saveData) {
             $request->merge($saveData);
         });
 
@@ -149,7 +149,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         $email = AdminAuth::getStaffEmail();
 
         try {
-            Mail::raw(lang('igniter::system.settings.text_test_email_message'), function (Message $message) use ($name, $email) {
+            Mail::raw(lang('igniter::system.settings.text_test_email_message'), function(Message $message) use ($name, $email) {
                 $message->to($email, $name)->subject('This a test email');
             });
 

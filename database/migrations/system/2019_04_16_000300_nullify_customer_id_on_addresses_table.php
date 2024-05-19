@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('addresses', function (Blueprint $table) {
+        Schema::table('addresses', function(Blueprint $table) {
             $table->integer('customer_id')->nullable()->change();
         });
     }

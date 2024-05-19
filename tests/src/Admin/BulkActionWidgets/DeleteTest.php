@@ -7,7 +7,7 @@ use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Models\StatusHistory;
 use Tests\Admin\Fixtures\Controllers\TestController;
 
-it('deletes records in bulk', function () {
+it('deletes records in bulk', function() {
     $actionButton = new ToolbarButton('delete');
     $actionButton->displayAs('link', []);
 

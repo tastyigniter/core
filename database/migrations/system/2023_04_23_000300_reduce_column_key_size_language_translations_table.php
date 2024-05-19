@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('language_translations', function (Blueprint $table) {
+        Schema::table('language_translations', function(Blueprint $table) {
             $table->string('locale', 10)->change();
             $table->string('namespace', 64)->default('*')->change();
             $table->string('group', 64)->change();

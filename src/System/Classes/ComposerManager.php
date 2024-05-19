@@ -186,7 +186,7 @@ class ComposerManager
 
         return $this->installedPackages = collect($installedPackages)
             ->whereIn('type', ['tastyigniter-package', 'tastyigniter-extension', 'tastyigniter-theme'])
-            ->mapWithKeys(function ($package) {
+            ->mapWithKeys(function($package) {
                 $code = array_get($package, 'extra.tastyigniter-package.code',
                     array_get($package, 'extra.tastyigniter-extension.code',
                         array_get($package, 'extra.tastyigniter-theme.code',
@@ -415,7 +415,7 @@ class ComposerManager
     protected function runComposer(Installer $installer): int
     {
         // Run the installer
-        $this->prevErrorHandler = set_error_handler(function (int $code, string $message, string $file, int $line) {
+        $this->prevErrorHandler = set_error_handler(function(int $code, string $message, string $file, int $line) {
             // Ignore deprecated errors
             if ($code === E_USER_DEPRECATED) {
                 return true;

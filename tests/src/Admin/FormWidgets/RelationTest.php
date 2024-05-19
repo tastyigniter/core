@@ -17,7 +17,7 @@ dataset('initialization', [
     ['order', null],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('status_history', 'Relation');
     $this->formField->valueFrom = 'status_history';
@@ -26,11 +26,11 @@ beforeEach(function () {
     ]);
 });
 
-it('initialize correctly', function ($property, $expected) {
+it('initialize correctly', function($property, $expected) {
     expect($this->relationWidget->$property)->toBe($expected);
 })->with('initialization');
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('relation/relation'));
@@ -38,13 +38,13 @@ it('renders correctly', function () {
     $this->relationWidget->render();
 })->throws(\Exception::class);
 
-it('prepares vars correctly', function () {
+it('prepares vars correctly', function() {
     $this->relationWidget->prepareVars();
 
     expect($this->relationWidget->vars)->toHaveKey('field');
 });
 
-it('getSaveValue method works correctly', function ($value, $expected) {
+it('getSaveValue method works correctly', function($value, $expected) {
     $result = $this->relationWidget->getSaveValue($value);
 
     expect($expected)->toBe($result);
@@ -56,13 +56,13 @@ it('getSaveValue method works correctly', function ($value, $expected) {
     [[1, 2, 3], [1, 2, 3]],
 ]);
 
-it('getSaveValue method returns NO_SAVE_DATA when field is disabled or hidden', function () {
+it('getSaveValue method returns NO_SAVE_DATA when field is disabled or hidden', function() {
     $this->formField->disabled = true;
     $this->formField->hidden = true;
     expect($this->relationWidget->getSaveValue(null))->toBe(FormField::NO_SAVE_DATA);
 });
 
-it('resolveModelAttribute method works correctly', function ($attribute, $expected) {
+it('resolveModelAttribute method works correctly', function($attribute, $expected) {
     [$model, $attribute] = $this->relationWidget->resolveModelAttribute($attribute);
 
     expect($model)->toBeInstanceOf(Status::class)

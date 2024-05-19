@@ -22,7 +22,7 @@ abstract class BaseExtension extends EventServiceProvider
     public function __construct($app)
     {
         $this->app = $app;
-        $this->booting(function () {
+        $this->booting(function() {
             $this->bootingExtension();
         });
     }
@@ -52,7 +52,7 @@ abstract class BaseExtension extends EventServiceProvider
         }
 
         if ($this->disabled) {
-            $this->app->bindMethod(static::class.'@boot', function () {
+            $this->app->bindMethod(static::class.'@boot', function() {
                 return null;
             });
 

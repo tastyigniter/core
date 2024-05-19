@@ -23,7 +23,7 @@ class MenuItemServiceProvider extends ServiceProvider
      */
     protected function registerMainMenuItems()
     {
-        AdminMenu::registerCallback(function (Navigation $manager) {
+        AdminMenu::registerCallback(function(Navigation $manager) {
             $manager->registerMainItems([
                 MainMenuItem::link('preview')
                     ->icon('fa-store')
@@ -60,7 +60,7 @@ class MenuItemServiceProvider extends ServiceProvider
      */
     protected function registerNavMenuItems()
     {
-        AdminMenu::registerCallback(function (Navigation $manager) {
+        AdminMenu::registerCallback(function(Navigation $manager) {
             $manager->registerNavItems([
                 'dashboard' => [
                     'priority' => 0,

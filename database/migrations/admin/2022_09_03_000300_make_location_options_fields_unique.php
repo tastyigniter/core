@@ -17,7 +17,7 @@ return new class extends Migration
 
         DB::table('location_options')->whereNotIn('id', $idsToKeep)->delete();
 
-        Schema::table('location_options', function (Blueprint $table) {
+        Schema::table('location_options', function(Blueprint $table) {
             $table->unique(['location_id', 'item']);
         });
     }

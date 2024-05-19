@@ -52,7 +52,7 @@ class Extendable
 
     public static function implement(string|array $class): void
     {
-        self::extendableExtendCallback(function ($instance) use ($class) {
+        self::extendableExtendCallback(function($instance) use ($class) {
             $instance->implement = array_unique(array_merge($instance->implement, (array)$class));
         });
     }

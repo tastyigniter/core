@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('staff_roles', function (Blueprint $table) {
+        Schema::create('staff_roles', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('staff_role_id');
             $table->string('name');
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::table('staff_groups')->get()->each(function ($model) {
+        DB::table('staff_groups')->get()->each(function($model) {
             if (!empty($model->permissions)) {
                 DB::table('staff_roles')->insert([
                     'name' => $model->staff_group_name,
@@ -31,7 +31,7 @@ return new class extends Migration
             }
         });
 
-        Schema::table('staffs', function (Blueprint $table) {
+        Schema::table('staffs', function(Blueprint $table) {
             $table->tinyInteger('sale_permission')->default(1)->nullable();
             $table->renameColumn('staff_group_id', 'staff_role_id');
         });

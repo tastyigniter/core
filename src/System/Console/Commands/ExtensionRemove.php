@@ -86,7 +86,7 @@ class ExtensionRemove extends Command
      */
     protected function getDefaultConfirmCallback()
     {
-        return function () {
+        return function() {
             return true;
         };
     }

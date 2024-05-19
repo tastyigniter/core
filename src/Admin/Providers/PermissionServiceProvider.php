@@ -9,8 +9,8 @@ class PermissionServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->callAfterResolving(PermissionManager::class, function ($manager) {
-            $manager->registerCallback(function ($manager) {
+        $this->callAfterResolving(PermissionManager::class, function($manager) {
+            $manager->registerCallback(function($manager) {
                 $manager->registerPermissions('Admin', [
                     'Admin.Dashboard' => [
                         'label' => 'igniter::admin.permissions.dashboard',

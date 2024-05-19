@@ -8,11 +8,11 @@ use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Mockery;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->navigation = new Navigation;
 });
 
-it('registers a navigation item', function () {
+it('registers a navigation item', function() {
     $this->navigation->registerNavItems([
         'test' => [
             'code' => 'test',
@@ -37,7 +37,7 @@ it('registers a navigation item', function () {
         ->and($items['test']['child'])->toBeNull();
 });
 
-it('loads registered admin navigation items', function () {
+it('loads registered admin navigation items', function() {
     $items = AdminMenu::getNavItems();
 
     expect($items)
@@ -61,7 +61,7 @@ it('loads registered admin navigation items', function () {
         ->and($items['dashboard']['child'])->toBeNull();
 });
 
-it('loads registered admin main menu items', function () {
+it('loads registered admin main menu items', function() {
     $items = AdminMenu::getMainItems();
 
     expect($items)
@@ -71,7 +71,7 @@ it('loads registered admin main menu items', function () {
         ]);
 });
 
-it('adds and gets navigation items correctly', function () {
+it('adds and gets navigation items correctly', function() {
     $this->navigation->addNavItem('testItem', [
         'code' => 'testItem',
         'class' => 'testClass',
@@ -93,7 +93,7 @@ it('adds and gets navigation items correctly', function () {
         ->and($items['testItem']['permission'])->toBe(['Admin.TestItem']);
 });
 
-it('removes navigation items correctly', function () {
+it('removes navigation items correctly', function() {
     $this->navigation->addNavItem('testItem', [
         'code' => 'testItem',
         'class' => 'testClass',
@@ -111,7 +111,7 @@ it('removes navigation items correctly', function () {
     expect($items)->not->toHaveKey('testItem');
 });
 
-it('merges navigation items correctly', function () {
+it('merges navigation items correctly', function() {
     $this->navigation->addNavItem('testItem', [
         'code' => 'testItem',
         'class' => 'testClass',
@@ -141,7 +141,7 @@ it('merges navigation items correctly', function () {
         ->and($items['testItem']['permission'])->toBe(['Admin.NewTestItem']);
 });
 
-it('filters permitted navigation items correctly', function () {
+it('filters permitted navigation items correctly', function() {
     $this->navigation->addNavItem('testItem', [
         'code' => 'testItem',
         'class' => 'testClass',
@@ -164,7 +164,7 @@ it('filters permitted navigation items correctly', function () {
 
     // Mock the AdminAuth facade to return a mock user object with the 'hasPermission' method
     $mockUser = Mockery::mock(User::class);
-    $mockUser->shouldReceive('hasPermission')->andReturnUsing(function ($permission) {
+    $mockUser->shouldReceive('hasPermission')->andReturnUsing(function($permission) {
         return in_array('Admin.TestItem', $permission);
     });
 

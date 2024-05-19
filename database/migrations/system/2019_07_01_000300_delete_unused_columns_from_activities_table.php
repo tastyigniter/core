@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('activities', function (Blueprint $table) {
+        Schema::table('activities', function(Blueprint $table) {
             $table->dropColumn('domain');
             $table->dropColumn('context');
             $table->dropColumn('user');

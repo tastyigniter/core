@@ -18,9 +18,9 @@ abstract class EventServiceProvider extends IlluminateEventServiceProvider
     {
         parent::register();
 
-        $this->booting(function () {
+        $this->booting(function() {
             foreach ($this->scopes as $model => $scopes) {
-                $model::extend(function ($model) use ($scopes) {
+                $model::extend(function($model) use ($scopes) {
                     foreach ((array)$scopes as $scope) {
                         $model::addGlobalScope($scope, new $scope);
                     }

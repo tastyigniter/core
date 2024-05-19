@@ -10,7 +10,7 @@ use Igniter\User\Models\User;
 use Illuminate\Support\Facades\Notification;
 use Mockery;
 
-test('it handles status added', function () {
+test('it handles status added', function() {
     $user = new User();
     $orderMock = Mockery::mock(Order::class);
     $orderMock->shouldReceive('reloadRelations')->once();

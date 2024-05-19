@@ -7,7 +7,7 @@ use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Models\StatusHistory;
 use Tests\Admin\Fixtures\Controllers\TestController;
 
-it('updates record status column in bulk', function () {
+it('updates record status column in bulk', function() {
     $statusColumn = 'notify';
 
     $actionButton = new ToolbarButton('status');

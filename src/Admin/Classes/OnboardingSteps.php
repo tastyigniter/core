@@ -49,7 +49,7 @@ class OnboardingSteps
      */
     public function completed(): bool
     {
-        return collect($this->steps)->filter(function ($step) {
+        return collect($this->steps)->filter(function($step) {
             return !$this->stepIsCompleted($step->complete);
         })->isEmpty();
     }
@@ -67,7 +67,7 @@ class OnboardingSteps
      */
     public function nextIncompleteStep(): ?\stdClass
     {
-        return collect($this->steps)->first(function ($step) {
+        return collect($this->steps)->first(function($step) {
             return !$this->stepIsCompleted($step->complete);
         });
     }
@@ -129,7 +129,7 @@ class OnboardingSteps
         foreach ($definitions as $code => $definition) {
             $definition['code'] = $code;
             $item = (object)array_merge($defaultDefinitions, $definition);
-            $item->completed = function () use ($item) {
+            $item->completed = function() use ($item) {
                 $callable = $item->complete ?? null;
 
                 return $this->stepIsCompleted($callable);

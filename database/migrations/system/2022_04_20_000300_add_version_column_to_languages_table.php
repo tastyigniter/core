@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('languages', function (Blueprint $table) {
+        Schema::table('languages', function(Blueprint $table) {
             $table->string('version')->nullable();
         });
     }

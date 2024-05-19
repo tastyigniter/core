@@ -49,7 +49,7 @@ class Database extends AbstractDriver
         $collection = new Collection($this->database->table($this->config('table'))->get());
 
         return $collection->keyBy('currency_code')
-            ->map(function ($item) {
+            ->map(function($item) {
                 $format = $item->thousand_sign.'0'.$item->decimal_sign.str_repeat('0', $item->decimal_position);
 
                 return [

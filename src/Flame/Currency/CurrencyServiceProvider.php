@@ -38,7 +38,7 @@ class CurrencyServiceProvider extends ServiceProvider
     {
         $this->app->bind(Currency::class, 'currency');
 
-        $this->app->singleton('currency', function ($app) {
+        $this->app->singleton('currency', function($app) {
             $this->app['events']->dispatch('currency.beforeRegister', [$this]);
 
             return new Currency(
@@ -63,7 +63,7 @@ class CurrencyServiceProvider extends ServiceProvider
 
     protected function registerConverter()
     {
-        $this->app->singleton('currency.converter', function ($app) {
+        $this->app->singleton('currency.converter', function($app) {
             return new Converter($app);
         });
     }

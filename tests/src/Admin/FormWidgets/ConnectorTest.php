@@ -17,7 +17,7 @@ dataset('initialization', [
 ]);
 
 dataset('connectorData', [
-    fn () => [
+    fn() => [
         'object_id' => 1,
         'object_type' => 'order',
         'user_id' => 1,
@@ -27,7 +27,7 @@ dataset('connectorData', [
     ],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('status_history', 'Connector');
     $this->formField->displayAs('connector');
@@ -47,11 +47,11 @@ beforeEach(function () {
     ]);
 });
 
-it('initializes correctly', function ($property, $expected) {
+it('initializes correctly', function($property, $expected) {
     expect($this->connectorWidget->$property)->toBe($expected);
 })->with('initialization');
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('formwidgets/repeater.js', 'repeater-js');
     Assets::shouldReceive('addJs')->once()->with('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
     Assets::shouldReceive('addJs')->once()->with('formwidgets/recordeditor.js', 'recordeditor-js');
@@ -62,7 +62,7 @@ it('loads assets correctly', function () {
     $this->connectorWidget->loadAssets();
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('connector/connector'));
@@ -70,7 +70,7 @@ it('renders correctly', function () {
     $this->connectorWidget->render();
 })->throws(\Exception::class);
 
-it('prepares vars correctly', function () {
+it('prepares vars correctly', function() {
     $this->connectorWidget->prepareVars();
 
     expect($this->connectorWidget->vars)
@@ -87,11 +87,11 @@ it('prepares vars correctly', function () {
         ->toHaveKey('confirmMessage');
 });
 
-it('loads a record correctly', function () {
+it('loads a record correctly', function() {
     expect($this->connectorWidget->onLoadRecord())->toBeString();
 });
 
-it('creates a record correctly', function ($connectorData) {
+it('creates a record correctly', function($connectorData) {
     $mockRequest = $this->mock(Request::class);
     $mockRequest->shouldReceive('post')->andReturn([
         'status' => ['connectorData' => $connectorData],
@@ -106,7 +106,7 @@ it('creates a record correctly', function ($connectorData) {
     $this->assertDatabaseHas('status_history', $connectorData);
 })->with('connectorData');
 
-it('updates a record correctly', function ($connectorData) {
+it('updates a record correctly', function($connectorData) {
     $connectorData['status_id'] = $this->connectorWidget->model->getKey();
     $statusHistory = StatusHistory::factory()->create();
     $mockRequest = $this->mock(Request::class);
@@ -124,7 +124,7 @@ it('updates a record correctly', function ($connectorData) {
     $this->assertDatabaseHas('status_history', $connectorData);
 })->with('connectorData');
 
-it('deletes a record correctly', function ($connectorData) {
+it('deletes a record correctly', function($connectorData) {
     $statusHistory = StatusHistory::factory()->create();
     $mockRequest = $this->mock(Request::class);
     $mockRequest->shouldReceive('post')->andReturn([

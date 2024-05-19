@@ -63,18 +63,18 @@ class ServiceProvider extends AppServiceProvider
         $this->defineEloquentMorphMaps();
         $this->resolveFlashSessionKey();
 
-        $this->app->booted(fn () => $this->updateTimezone());
+        $this->app->booted(fn() => $this->updateTimezone());
 
         $this->loadCurrencyConfiguration();
         $this->loadLocalizationConfiguration();
         $this->loadGeocoderConfiguration();
 
-        $this->app['events']->listen(MigrationsStarted::class, function () {
+        $this->app['events']->listen(MigrationsStarted::class, function() {
             Schema::disableForeignKeyConstraints();
         });
 
         if (!Igniter::runningInAdmin()) {
-            $this->app['events']->listen('exception.beforeRender', function ($exception, $httpCode, $request) {
+            $this->app['events']->listen('exception.beforeRender', function($exception, $httpCode, $request) {
                 if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
                     RequestLog::createLog();
                 }
@@ -92,11 +92,11 @@ class ServiceProvider extends AppServiceProvider
      */
     protected function registerSingletons()
     {
-        $this->app->singleton('assets', function () {
+        $this->app->singleton('assets', function() {
             return new Libraries\Assets();
         });
 
-        $this->app->singleton('country', function ($app) {
+        $this->app->singleton('country', function($app) {
             return new Libraries\Country;
         });
 
@@ -142,7 +142,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function loadCurrencyConfiguration()
     {
-        Event::listen('currency.beforeRegister', function () {
+        Event::listen('currency.beforeRegister', function() {
             app('config')->set('igniter-currency.default', Currency::getDefault()?->currency_code ?? 'GBP');
             app('config')->set('igniter-currency.converter', setting('currency_converter.api', 'openexchangerates'));
             app('config')->set('igniter-currency.converters.openexchangerates.apiKey', setting('currency_converter.oer.apiKey'));
@@ -154,7 +154,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function loadLocalizationConfiguration()
     {
-        $this->app->resolving('translator.localization', function ($localization, $app) {
+        $this->app->resolving('translator.localization', function($localization, $app) {
             $app['config']->set('localization.locale', Language::getDefault()?->code ?? $app['config']['app.locale']);
             $app['config']->set('localization.supportedLocales', params('supported_languages', []) ?: ['en']);
             $app['config']->set('localization.detectBrowserLocale', (bool)setting('detect_language', false));
@@ -163,7 +163,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function loadGeocoderConfiguration()
     {
-        $this->app->resolving('geocoder', function ($geocoder, $app) {
+        $this->app->resolving('geocoder', function($geocoder, $app) {
             $app['config']->set('igniter-geocoder.default', setting('default_geocoder', 'nominatim'));
 
             $region = $app['country']->getCountryCodeById(Country::getDefaultKey());
@@ -177,7 +177,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function resolveFlashSessionKey()
     {
-        $this->app->resolving('flash', function (FlashBag $flash) {
+        $this->app->resolving('flash', function(FlashBag $flash) {
             $flash->setSessionKey(Igniter::runningInAdmin() ? 'flash_data_admin' : 'flash_data_main');
         });
     }

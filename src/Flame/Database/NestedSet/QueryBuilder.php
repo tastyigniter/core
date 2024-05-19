@@ -85,7 +85,7 @@ class QueryBuilder extends QueryBuilderBase
         }
 
         if ($mode === 'exact') {
-            $this->where(function ($query) use ($columns, $term) {
+            $this->where(function($query) use ($columns, $term) {
                 foreach ($columns as $field) {
                     if (!strlen($term)) {
                         continue;
@@ -97,9 +97,9 @@ class QueryBuilder extends QueryBuilderBase
             $words = explode(' ', $term);
             $wordBoolean = $mode === 'any' ? 'or' : 'and';
 
-            $this->where(function ($query) use ($columns, $words, $wordBoolean) {
+            $this->where(function($query) use ($columns, $words, $wordBoolean) {
                 foreach ($columns as $field) {
-                    $query->orWhere(function ($query) use ($field, $words, $wordBoolean) {
+                    $query->orWhere(function($query) use ($field, $words, $wordBoolean) {
                         foreach ($words as $word) {
                             if (!strlen($word)) {
                                 continue;

@@ -13,7 +13,7 @@ class UrlServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->booted(function () {
+        $this->app->booted(function() {
             $this->forceUrlGeneratorPolicy();
         });
     }

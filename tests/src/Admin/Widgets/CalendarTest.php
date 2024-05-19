@@ -16,16 +16,16 @@ dataset('initialization', [
     ['popoverPartial', null],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->calendarWidget = new Calendar($this->controller);
 });
 
-it('initializes correctly', function ($property, $expected) {
+it('initializes correctly', function($property, $expected) {
     expect($this->calendarWidget->{$property})->toEqual($expected);
 })->with('initialization');
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('js/vendor.datetime.js', 'vendor-datetime-js');
     Assets::shouldReceive('addCss')->once()->with('formwidgets/datepicker.css', 'datepicker-css');
     Assets::shouldReceive('addJs')->once()->with('js/locales/fullcalendar/locales-all.min.js', 'fullcalendar-locales-js');
@@ -37,7 +37,7 @@ it('loads assets correctly', function () {
     $this->calendarWidget->loadAssets();
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('calendar/calendar'));
@@ -45,7 +45,7 @@ it('renders correctly', function () {
     expect($this->calendarWidget->render())->toBeString();
 })->throws(\Exception::class);
 
-it('prepares variables correctly', function () {
+it('prepares variables correctly', function() {
     $this->calendarWidget->prepareVars();
 
     expect($this->calendarWidget->vars)
@@ -55,7 +55,7 @@ it('prepares variables correctly', function () {
         ->toHaveKey('eventLimit');
 });
 
-it('generates events correctly', function () {
+it('generates events correctly', function() {
     $result = $this->calendarWidget->onGenerateEvents();
 
     expect($result)
@@ -63,9 +63,9 @@ it('generates events correctly', function () {
         ->toHaveKey('generatedEvents');
 });
 
-it('updates events correctly', function () {
+it('updates events correctly', function() {
     $eventTriggered = false;
-    $this->calendarWidget->bindEvent('calendar.updateEvent', function () use (&$eventTriggered) {
+    $this->calendarWidget->bindEvent('calendar.updateEvent', function() use (&$eventTriggered) {
         $eventTriggered = true;
     });
 
@@ -74,6 +74,6 @@ it('updates events correctly', function () {
     expect($eventTriggered)->toBeTrue();
 });
 
-it('renders popover partial correctly', function () {
+it('renders popover partial correctly', function() {
     expect($this->calendarWidget->renderPopoverPartial())->toBeString();
 })->throws(SystemException::class);

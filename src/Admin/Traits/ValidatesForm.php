@@ -117,7 +117,7 @@ trait ValidatesForm
         // if we dont have in config then fallback to a FormRequest class
         if ($requestClass = array_get($this->config, 'request')) {
             $validated = array_merge($validated,
-                $this->resolveFormRequest($requestClass, function ($request) use ($saveData) {
+                $this->resolveFormRequest($requestClass, function($request) use ($saveData) {
                     $request->merge($saveData);
                 })->validated()
             );

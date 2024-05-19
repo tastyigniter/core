@@ -16,7 +16,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('media_attachments', function (Blueprint $table) {
+        Schema::create('media_attachments', function(Blueprint $table) {
             $table->increments('id');
             $table->string('disk');
             $table->string('name');
@@ -44,19 +44,19 @@ return new class extends Migration
 
     protected function seedAttachmentsFromExistingModels()
     {
-        Menu::select('menu_photo', 'menu_id')->get()->each(function ($model) {
+        Menu::select('menu_photo', 'menu_id')->get()->each(function($model) {
             if (!empty($model->menu_photo)) {
                 $this->createMediaAttachment($model->menu_photo, $model, 'thumb');
             }
         });
 
-        Category::pluck('image', 'category_id')->each(function ($model) {
+        Category::pluck('image', 'category_id')->each(function($model) {
             if (!empty($model->image)) {
                 $this->createMediaAttachment($model->image, $model, 'thumb');
             }
         });
 
-        Location::select('location_image', 'options', 'location_id')->get()->each(function ($model) {
+        Location::select('location_image', 'options', 'location_id')->get()->each(function($model) {
             if (!empty($model->location_image)) {
                 $this->createMediaAttachment($model->location_image, $model, 'thumb');
             }

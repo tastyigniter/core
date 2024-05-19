@@ -9,7 +9,7 @@ class RouterMixin
 {
     public function pagic()
     {
-        return function ($uri, $name = null) {
+        return function($uri, $name = null) {
             $route = $this->any($uri, [MainController::class, 'remap']);
 
             if (!is_null($name)) {

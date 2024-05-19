@@ -22,7 +22,7 @@ class AnonymousTemplateMailable extends TemplateMailable
     public function with($key, $value = null): static
     {
         if (is_array($key)) {
-            $key = array_filter($key, function ($v) {
+            $key = array_filter($key, function($v) {
                 return !$v instanceof Model;
             });
         }

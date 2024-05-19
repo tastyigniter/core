@@ -9,13 +9,13 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('payment_logs', function (Blueprint $table) {
+        Schema::table('payment_logs', function(Blueprint $table) {
             $table->string('payment_code');
             $table->boolean('is_refundable')->default(false);
             $table->dateTime('refunded_at')->nullable();
         });
 
-        DB::table('payment_logs')->get()->each(function ($log) {
+        DB::table('payment_logs')->get()->each(function($log) {
             $payment = DB::table('payments')->where('name', $log->payment_name)->first();
             if (!$payment) {
                 return true;

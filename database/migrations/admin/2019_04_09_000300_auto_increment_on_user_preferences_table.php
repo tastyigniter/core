@@ -11,11 +11,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('user_preferences', function (Blueprint $table) {
+        Schema::table('user_preferences', function(Blueprint $table) {
             $table->dropColumn('id');
         });
 
-        Schema::table('user_preferences', function (Blueprint $table) {
+        Schema::table('user_preferences', function(Blueprint $table) {
             $table->increments('id')->first();
         });
     }

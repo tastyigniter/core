@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('order_options', function (Blueprint $table) {
+        Schema::table('order_options', function(Blueprint $table) {
             $table->integer('quantity')->default(1)->nullable();
         });
     }

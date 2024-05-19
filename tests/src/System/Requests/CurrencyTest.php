@@ -4,7 +4,7 @@ namespace Tests\System\Requests;
 
 use Igniter\System\Requests\CurrencyRequest;
 
-it('has required rule for inputs', function () {
+it('has required rule for inputs', function() {
     $rules = (new CurrencyRequest)->rules();
 
     expect('required')->toBeIn(array_get($rules, 'currency_name'))
@@ -13,7 +13,7 @@ it('has required rule for inputs', function () {
         ->and('required')->toBeIn(array_get($rules, 'currency_status'));
 });
 
-it('has max characters rule for inputs', function () {
+it('has max characters rule for inputs', function() {
     $rules = (new CurrencyRequest)->rules();
 
     expect('between:2,32')->toBeIn(array_get($rules, 'currency_name'))

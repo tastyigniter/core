@@ -118,7 +118,7 @@ class ListController extends ControllerAction
 
         // Delete records
         if ($count = $records->count()) {
-            DB::transaction(function () use ($records) {
+            DB::transaction(function() use ($records) {
                 foreach ($records as $record) {
                     $record->delete();
                 }
@@ -176,27 +176,27 @@ class ListController extends ControllerAction
         /** @var Lists $widget */
         $widget = $this->makeWidget(Lists::class, array_merge($columnConfig, $listConfig));
 
-        $widget->bindEvent('list.extendColumns', function () use ($widget) {
+        $widget->bindEvent('list.extendColumns', function() use ($widget) {
             $this->controller->listExtendColumns($widget);
         });
 
-        $widget->bindEvent('list.extendQueryBefore', function ($query) use ($alias) {
+        $widget->bindEvent('list.extendQueryBefore', function($query) use ($alias) {
             $this->controller->listExtendQueryBefore($query, $alias);
         });
 
-        $widget->bindEvent('list.extendQuery', function ($query) use ($alias) {
+        $widget->bindEvent('list.extendQuery', function($query) use ($alias) {
             $this->controller->listExtendQuery($query, $alias);
         });
 
-        $widget->bindEvent('list.extendRecords', function ($records) use ($alias) {
+        $widget->bindEvent('list.extendRecords', function($records) use ($alias) {
             return $this->controller->listExtendRecords($records, $alias);
         });
 
-        $widget->bindEvent('list.overrideColumnValue', function ($record, $column, $value) use ($alias) {
+        $widget->bindEvent('list.overrideColumnValue', function($record, $column, $value) use ($alias) {
             return $this->controller->listOverrideColumnValue($record, $column, $alias);
         });
 
-        $widget->bindEvent('list.overrideHeaderValue', function ($column, $value) use ($alias) {
+        $widget->bindEvent('list.overrideHeaderValue', function($column, $value) use ($alias) {
             return $this->controller->listOverrideHeaderValue($column, $alias);
         });
 
@@ -219,7 +219,7 @@ class ListController extends ControllerAction
             $filterWidget->bindToController();
 
             if ($searchWidget = $filterWidget->getSearchWidget()) {
-                $searchWidget->bindEvent('search.submit', function () use ($widget, $searchWidget) {
+                $searchWidget->bindEvent('search.submit', function() use ($widget, $searchWidget) {
                     $widget->setSearchTerm($searchWidget->getActiveTerm());
 
                     return $widget->onRefresh();
@@ -234,19 +234,19 @@ class ListController extends ControllerAction
                 $widget->setSearchTerm($searchWidget->getActiveTerm());
             }
 
-            $filterWidget->bindEvent('filter.submit', function () use ($widget) {
+            $filterWidget->bindEvent('filter.submit', function() use ($widget) {
                 return $widget->onRefresh();
             });
 
-            $filterWidget->bindEvent('filter.extendScopesBefore', function () use ($filterWidget) {
+            $filterWidget->bindEvent('filter.extendScopesBefore', function() use ($filterWidget) {
                 $this->controller->listFilterExtendScopesBefore($filterWidget);
             });
 
-            $filterWidget->bindEvent('filter.extendScopes', function ($scopes) use ($filterWidget) {
+            $filterWidget->bindEvent('filter.extendScopes', function($scopes) use ($filterWidget) {
                 $this->controller->listFilterExtendScopes($filterWidget, $scopes);
             });
 
-            $filterWidget->bindEvent('filter.extendQuery', function ($query, $scope) {
+            $filterWidget->bindEvent('filter.extendQuery', function($query, $scope) {
                 $this->controller->listFilterExtendQuery($query, $scope);
             });
 

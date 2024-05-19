@@ -137,7 +137,7 @@ class ThemeManager
             $this->loadThemes();
         }
 
-        collect($this->themes)->each(function (Theme $theme) {
+        collect($this->themes)->each(function(Theme $theme) {
             $this->bootTheme($theme);
         });
 
@@ -154,9 +154,9 @@ class ThemeManager
 
         collect([$theme->getPath().'/resources', $theme->getPath().'/assets', $theme->getPath()])
             ->merge($theme->hasParent() ? [$theme->getParent()->getPath().'/resources', $theme->getParent()->getPath().'/assets', $theme->getParent()->getPath()] : [])
-            ->filter(fn ($path) => File::isDirectory($path))
+            ->filter(fn($path) => File::isDirectory($path))
             ->reverse()
-            ->each(function ($path) use ($theme) {
+            ->each(function($path) use ($theme) {
                 Igniter::loadResourcesFrom($path, $theme->getName());
             });
 

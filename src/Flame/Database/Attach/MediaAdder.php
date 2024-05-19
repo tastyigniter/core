@@ -103,8 +103,8 @@ class MediaAdder
         $this->performedOn->prepareUnattachedMedia($media, $this);
 
         $class = $this->performedOn::class;
-        $class::created(function (Model $model) {
-            $model->processUnattachedMedia(function (Media $media, MediaAdder $mediaAdder) {
+        $class::created(function(Model $model) {
+            $model->processUnattachedMedia(function(Media $media, MediaAdder $mediaAdder) {
                 $this->processMediaItem($media, $mediaAdder);
             });
         });

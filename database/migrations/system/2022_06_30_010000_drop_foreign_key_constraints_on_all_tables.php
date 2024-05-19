@@ -28,7 +28,7 @@ return new class extends Migration
     protected function dropForeignKey($tableName, $options)
     {
         try {
-            Schema::table($tableName, function (Blueprint $table) use ($options, $tableName) {
+            Schema::table($tableName, function(Blueprint $table) use ($options, $tableName) {
                 $keys = (array)$options[1];
                 $foreignKey = $keys[0];
 

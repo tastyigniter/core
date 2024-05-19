@@ -17,7 +17,7 @@ dataset('initialization', [
     ['readOnly', false],
 ]);
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('test', 'Code editor');
     $this->codeEditorWidget = new CodeEditor($this->controller, $this->formField, [
@@ -25,11 +25,11 @@ beforeEach(function () {
     ]);
 });
 
-it('initializes correctly', function ($property, $expected) {
+it('initializes correctly', function($property, $expected) {
     expect($this->codeEditorWidget->$property)->toBe($expected);
 })->with('initialization');
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addCss')->once()->with('codeeditor.css', 'codeeditor-css');
     Assets::shouldReceive('addJs')->once()->with('js/vendor.editor.js', 'vendor-editor-js');
     Assets::shouldReceive('addJs')->once()->with('codeeditor.js', 'codeeditor-js');
@@ -39,7 +39,7 @@ it('loads assets correctly', function () {
     $this->codeEditorWidget->loadAssets();
 });
 
-it('prepares variables correctly', function () {
+it('prepares variables correctly', function() {
     $this->codeEditorWidget->prepareVars();
 
     expect($this->codeEditorWidget->vars)
@@ -55,7 +55,7 @@ it('prepares variables correctly', function () {
         ->toHaveKey('value');
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->expects($this->atLeastOnce())

@@ -29,13 +29,13 @@ trait DeferOneOrMany
             $this->orphanMode = true;
         }
 
-        $newQuery->where(function ($query) use ($sessionKey) {
+        $newQuery->where(function($query) use ($sessionKey) {
             if ($this->parent->exists) {
                 if ($this instanceof MorphToMany) {
                     /*
                      * Custom query for MorphToMany since a "join" cannot be used
                      */
-                    $query->whereExists(function ($query) {
+                    $query->whereExists(function($query) {
                         $query
                             ->select($this->parent->getConnection()->raw(1))
                             ->from($this->table)
@@ -47,7 +47,7 @@ trait DeferOneOrMany
                     /*
                      * Custom query for BelongsToManyBase since a "join" cannot be used
                      */
-                    $query->whereExists(function ($query) {
+                    $query->whereExists(function($query) {
                         $query
                             ->select($this->parent->getConnection()->raw(1))
                             ->from($this->table)
@@ -68,7 +68,7 @@ trait DeferOneOrMany
             /*
              * Bind (Add)
              */
-            $query = $query->orWhereIn($this->getWithDeferredQualifiedKeyName(), function ($query) use ($sessionKey) {
+            $query = $query->orWhereIn($this->getWithDeferredQualifiedKeyName(), function($query) use ($sessionKey) {
                 $query
                     ->select('slave_id')
                     ->from('deferred_bindings')
@@ -82,7 +82,7 @@ trait DeferOneOrMany
         /*
          * Unbind (Remove)
          */
-        $newQuery->whereNotIn($this->getWithDeferredQualifiedKeyName(), function ($query) use ($sessionKey) {
+        $newQuery->whereNotIn($this->getWithDeferredQualifiedKeyName(), function($query) use ($sessionKey) {
             $query
                 ->select('slave_id')
                 ->from('deferred_bindings')

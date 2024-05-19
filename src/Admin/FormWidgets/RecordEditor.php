@@ -131,7 +131,7 @@ class RecordEditor extends BaseFormWidget
 
         $modelsToSave = $this->prepareModelsToSave($model, $saveData);
 
-        DB::transaction(function () use ($modelsToSave) {
+        DB::transaction(function() use ($modelsToSave) {
             foreach ($modelsToSave as $modelToSave) {
                 $modelToSave->saveOrFail();
             }
@@ -260,7 +260,7 @@ class RecordEditor extends BaseFormWidget
     {
         $field = clone $this->formField;
 
-        $field->options(function () {
+        $field->options(function() {
             return $this->getRecordEditorOptions();
         });
 

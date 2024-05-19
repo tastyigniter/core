@@ -45,7 +45,7 @@ class MorphTo extends MorphToBase
              * Non existent model, use a single serve event to associate it again when ready
              */
             if (!$value->exists) {
-                $value->bindEventOnce('model.afterSave', function () use ($value) {
+                $value->bindEventOnce('model.afterSave', function() use ($value) {
                     $this->associate($value);
                 });
             }

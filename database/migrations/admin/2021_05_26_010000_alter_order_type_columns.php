@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('menus', function (Blueprint $table) {
+        Schema::table('menus', function(Blueprint $table) {
             $table->text('order_restriction')->nullable()->change();
         });
 
@@ -22,7 +22,7 @@ return new class extends Migration
 
     protected function updateOrderRestrictionColumn()
     {
-        DB::table('menus')->get()->each(function ($model) {
+        DB::table('menus')->get()->each(function($model) {
             $restriction = null;
             if ($model->order_restriction) {
                 $restriction[] = array_get([

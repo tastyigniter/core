@@ -38,7 +38,7 @@ trait ViewMaker
 
         $guess = collect($paths)
             ->prepend($prefix, $view)
-            ->reduce(function ($carry, $directory, $prefix) use ($view) {
+            ->reduce(function($carry, $directory, $prefix) use ($view) {
                 if (!is_null($carry)) {
                     return $carry;
                 }
@@ -69,7 +69,7 @@ trait ViewMaker
 
         $guess = collect($paths)
             ->prepend($prefix, $view)
-            ->reduce(function ($carry, $directory, $prefix) use ($view) {
+            ->reduce(function($carry, $directory, $prefix) use ($view) {
                 if (!is_null($carry)) {
                     return $carry;
                 }
@@ -264,7 +264,7 @@ trait ViewMaker
     {
         $data = array_merge(View::getShared(), $data);
 
-        return array_map(function ($value) {
+        return array_map(function($value) {
             if ($value instanceof Renderable) {
                 return $value->render();
             }

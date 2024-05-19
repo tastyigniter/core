@@ -46,28 +46,28 @@ class ScaffoldServiceProvider extends ServiceProvider
 
     protected function registerMakeExtensionCommand($command)
     {
-        $this->app->singleton($command, function ($app) {
+        $this->app->singleton($command, function($app) {
             return new Console\MakeExtension($app['files']);
         });
     }
 
     protected function registerMakeComponentCommand($command)
     {
-        $this->app->singleton($command, function ($app) {
+        $this->app->singleton($command, function($app) {
             return new Console\MakeComponent($app['files']);
         });
     }
 
     protected function registerMakeControllerCommand($command)
     {
-        $this->app->singleton($command, function ($app) {
+        $this->app->singleton($command, function($app) {
             return new Console\MakeController($app['files']);
         });
     }
 
     protected function registerMakeModelCommand($command)
     {
-        $this->app->singleton($command, function ($app) {
+        $this->app->singleton($command, function($app) {
             return new Console\MakeModel($app['files']);
         });
     }

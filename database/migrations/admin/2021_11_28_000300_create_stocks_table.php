@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('stocks', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('location_id');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('stock_history', function (Blueprint $table) {
+        Schema::create('stock_history', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('stock_id');
@@ -42,12 +42,12 @@ return new class extends Migration
 
         $this->copyStockQtyFromMenuOptions();
 
-        Schema::table('menus', function (Blueprint $table) {
+        Schema::table('menus', function(Blueprint $table) {
             $table->dropColumn('stock_qty');
             $table->dropColumn('subtract_stock');
         });
 
-        Schema::table('menu_item_option_values', function (Blueprint $table) {
+        Schema::table('menu_item_option_values', function(Blueprint $table) {
             $table->dropColumn('quantity');
             $table->dropColumn('subtract_stock');
         });
@@ -61,7 +61,7 @@ return new class extends Migration
 
     protected function copyStockQtyFromMenus()
     {
-        DB::table('menus')->get()->each(function ($menuItem) {
+        DB::table('menus')->get()->each(function($menuItem) {
             if ($menuItem->stock_qty == 0) {
                 return true;
             }
@@ -95,7 +95,7 @@ return new class extends Migration
 
     protected function copyStockQtyFromMenuOptions()
     {
-        DB::table('menu_item_option_values')->get()->each(function ($optionValue) {
+        DB::table('menu_item_option_values')->get()->each(function($optionValue) {
             if ($optionValue->quantity == 0) {
                 return true;
             }

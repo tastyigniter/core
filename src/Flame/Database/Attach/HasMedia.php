@@ -15,7 +15,7 @@ trait HasMedia
 
     public static function bootHasMedia()
     {
-        static::deleting(function (Model $model) {
+        static::deleting(function(Model $model) {
             $model->handleHasMediaDeletion();
         });
     }
@@ -39,7 +39,7 @@ trait HasMedia
             $tags = [$tags];
         }
 
-        $query->whereHas('media', function (Builder $q) use ($tags) {
+        $query->whereHas('media', function(Builder $q) use ($tags) {
             $q->whereIn('tag', (array)$tags);
         });
     }
@@ -146,7 +146,7 @@ trait HasMedia
             : collect($this->unAttachedMediaItems)->pluck('media');
 
         return collect($collection)
-            ->filter(function (Media $mediaItem) use ($tag) {
+            ->filter(function(Media $mediaItem) use ($tag) {
                 return $tag === '*' || $mediaItem->tag === $tag;
             })
             ->sortBy('priority')->values();
@@ -171,7 +171,7 @@ trait HasMedia
         $newMediaIds = $this->parseIds($media);
 
         return collect($newMediaIds)
-            ->map(function (array $newMedia) use ($tag) {
+            ->map(function(array $newMedia) use ($tag) {
                 $foundMedia = Media::findOrFail($newMedia['id']);
 
                 if ($tag !== '*' && $foundMedia->tag !== $tag) {
@@ -206,7 +206,7 @@ trait HasMedia
     {
         $newMediaIds = $this->parseIds($media);
         $this->getMedia($tag)
-            ->reject(function (Media $tagMedia) use ($newMediaIds) {
+            ->reject(function(Media $tagMedia) use ($newMediaIds) {
                 return in_array($tagMedia->getKey(), array_column($newMediaIds, 'id'));
             })
             ->each->delete();
@@ -280,7 +280,7 @@ trait HasMedia
      */
     protected function buildMediaPropertiesFilter(array $filters): \Closure
     {
-        return function (Media $media) use ($filters) {
+        return function(Media $media) use ($filters) {
             foreach ($filters as $property => $value) {
                 if (!array_has($media->custom_properties, $property)) {
                     return false;

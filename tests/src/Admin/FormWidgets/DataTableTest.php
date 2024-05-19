@@ -10,7 +10,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\View\Factory;
 use Tests\Admin\Fixtures\Controllers\TestController;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('status_history', 'Connector');
     $this->colorPickerWidget = new DataTable($this->controller, $this->formField, [
@@ -18,7 +18,7 @@ beforeEach(function () {
     ]);
 });
 
-it('initializes correctly', function () {
+it('initializes correctly', function() {
     expect($this->colorPickerWidget->size)->toBe('large')
         ->and($this->colorPickerWidget->defaultSort)->toBeNull()
         ->and($this->colorPickerWidget->searchableFields)->toBeArray()
@@ -26,7 +26,7 @@ it('initializes correctly', function () {
         ->and($this->colorPickerWidget->useAjax)->toBeFalse();
 });
 
-it('prepares vars correctly', function () {
+it('prepares vars correctly', function() {
     $this->colorPickerWidget->prepareVars();
 
     expect($this->colorPickerWidget->vars)
@@ -35,7 +35,7 @@ it('prepares vars correctly', function () {
         ->toHaveKey('size');
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('datatable/datatable'));
@@ -43,15 +43,15 @@ it('renders correctly', function () {
     $this->colorPickerWidget->render();
 })->throws(\Exception::class);
 
-it('gets load value correctly', function () {
+it('gets load value correctly', function() {
     expect($this->colorPickerWidget->getLoadValue())->toBeArray();
 });
 
-it('gets table correctly', function () {
+it('gets table correctly', function() {
     expect($this->colorPickerWidget->getTable())->toBeInstanceOf(Table::class);
 });
 
-it('gets data table records correctly', function () {
+it('gets data table records correctly', function() {
     expect($this->colorPickerWidget->getDataTableRecords(0, 10, ''))
         ->toBeInstanceOf(LengthAwarePaginator::class);
 });

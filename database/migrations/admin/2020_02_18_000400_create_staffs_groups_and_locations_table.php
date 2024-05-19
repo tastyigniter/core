@@ -9,21 +9,21 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('staffs_groups', function (Blueprint $table) {
+        Schema::create('staffs_groups', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('staff_id')->unsigned();
             $table->integer('staff_group_id')->unsigned();
             $table->primary(['staff_id', 'staff_group_id'], 'staff_group');
         });
 
-        Schema::create('staffs_locations', function (Blueprint $table) {
+        Schema::create('staffs_locations', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('staff_id')->unsigned();
             $table->integer('location_id')->unsigned();
             $table->primary(['staff_id', 'location_id'], 'staff_location');
         });
 
-        DB::table('staffs')->get()->each(function ($model) {
+        DB::table('staffs')->get()->each(function($model) {
             if (!empty($model->staff_group_id)) {
                 DB::table('staffs_groups')->insert([
                     'staff_id' => $model->staff_id,

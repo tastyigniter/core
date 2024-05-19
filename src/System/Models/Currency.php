@@ -92,7 +92,7 @@ class Currency extends Model implements CurrencyInterface
         $countries = Country::pluck('country_id', 'iso_code_3');
 
         collect(array_get($response, 'data', []))
-            ->each(function ($item) use ($countries) {
+            ->each(function($item) use ($countries) {
                 $countryId = $countries->get($item['iso_alpha3']);
                 if (!strlen($item['iso_alpha3']) || !$countryId) {
                     return;

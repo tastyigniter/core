@@ -83,7 +83,7 @@ class Router
 
     public function getRouteMap(): Collection
     {
-        return collect($this->getUrlMap())->map(function ($page) {
+        return collect($this->getUrlMap())->map(function($page) {
             return RouterHelper::convertToRouteProperties($page);
         });
     }
@@ -110,7 +110,7 @@ class Router
     {
         $cacheable = app()->routesAreCached() ? -1 : 0;
 
-        $this->urlMap = Cache::remember($this->getUrlMapCacheKey(), $cacheable, function () {
+        $this->urlMap = Cache::remember($this->getUrlMapCacheKey(), $cacheable, function() {
             $map = [];
             $pages = static::$templateClass::listInTheme($this->theme, true);
             foreach ($pages as $page) {
@@ -280,7 +280,7 @@ class Router
 
     public function findRouteRule($name)
     {
-        return collect($this->getUrlMap())->first(function ($page) use ($name) {
+        return collect($this->getUrlMap())->first(function($page) use ($name) {
             return $page['route'] === $name || $page['file'] === $name;
         });
     }

@@ -21,11 +21,11 @@ class GeoliteServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('geocoder', function ($app) {
+        $this->app->singleton('geocoder', function($app) {
             return new Geocoder($app);
         });
 
-        $this->app->singleton('geolite', function () {
+        $this->app->singleton('geolite', function() {
             return new Geolite;
         });
 

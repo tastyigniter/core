@@ -200,7 +200,7 @@ class ExtensionManager
 
             foreach ($checklist as $code => $extension) {
                 $depends = $this->getDependencies($extension) ?: [];
-                $depends = array_filter($depends, function ($dependCode) use ($extensions) {
+                $depends = array_filter($depends, function($dependCode) use ($extensions) {
                     return isset($extensions[$dependCode]);
                 });
 
@@ -233,7 +233,7 @@ class ExtensionManager
         $this->extensions = [];
 
         foreach ($this->folders() as $path) {
-            rescue(function () use ($path) {
+            rescue(function() use ($path) {
                 $this->loadExtension($path);
             });
         }

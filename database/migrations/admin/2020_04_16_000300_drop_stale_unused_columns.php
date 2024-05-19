@@ -8,11 +8,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('orders', function(Blueprint $table) {
             $table->dropColumn('invoice_no');
         });
 
-        Schema::table('menus', function (Blueprint $table) {
+        Schema::table('menus', function(Blueprint $table) {
             $table->dropColumn('menu_category_id');
         });
 
@@ -22,7 +22,7 @@ return new class extends Migration
         Schema::rename('option_values', 'menu_option_values');
         Schema::rename('order_options', 'order_menu_options');
 
-        Schema::table('payment_logs', function (Blueprint $table) {
+        Schema::table('payment_logs', function(Blueprint $table) {
             $table->renameColumn('status', 'is_success');
         });
     }

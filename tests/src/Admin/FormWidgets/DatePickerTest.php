@@ -9,7 +9,7 @@ use Illuminate\View\Factory;
 use Tests\Admin\Fixtures\Controllers\TestController;
 use Tests\Admin\Fixtures\Models\TestModel;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('test_field', 'Date picker');
     $this->datePickerWidget = new DatePicker($this->controller, $this->formField, [
@@ -17,7 +17,7 @@ beforeEach(function () {
     ]);
 });
 
-it('initializes correctly', function () {
+it('initializes correctly', function() {
     expect($this->datePickerWidget->mode)->toBe('date')
         ->and($this->datePickerWidget->startDate)->toBeNull()
         ->and($this->datePickerWidget->endDate)->toBeNull()
@@ -26,7 +26,7 @@ it('initializes correctly', function () {
         ->and($this->datePickerWidget->datesDisabled)->toBeArray();
 });
 
-it('loads assets correctly', function () {
+it('loads assets correctly', function() {
     Assets::shouldReceive('addCss')->once()->with('datepicker.css', 'datepicker-css');
 
     $this->datePickerWidget->assetPath = [];
@@ -34,7 +34,7 @@ it('loads assets correctly', function () {
     $this->datePickerWidget->loadAssets();
 });
 
-it('renders correctly', function () {
+it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
     $viewMock->method('exists')->with($this->stringContains('datepicker/datepicker'));
@@ -42,7 +42,7 @@ it('renders correctly', function () {
     expect($this->datePickerWidget->render())->toBeString();
 })->throws(\Exception::class);
 
-it('prepares vars correctly', function () {
+it('prepares vars correctly', function() {
     $this->datePickerWidget->prepareVars();
 
     expect($this->datePickerWidget->vars)
@@ -59,7 +59,7 @@ it('prepares vars correctly', function () {
         ->toHaveKey('datesDisabled');
 });
 
-it('gets save value correctly', function () {
+it('gets save value correctly', function() {
     $value = '2022-12-31';
     $result = $this->datePickerWidget->getSaveValue($value);
 

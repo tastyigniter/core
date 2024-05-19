@@ -4,7 +4,7 @@ namespace Tests\System\Requests;
 
 use Igniter\System\Requests\CountryRequest;
 
-it('has required rule for inputs', function () {
+it('has required rule for inputs', function() {
     $rules = (new CountryRequest)->rules();
 
     expect('required')->toBeIn(array_get($rules, 'country_name'))
@@ -14,7 +14,7 @@ it('has required rule for inputs', function () {
         ->and('required')->toBeIn(array_get($rules, 'status'));
 });
 
-it('has max characters rule for inputs', function () {
+it('has max characters rule for inputs', function() {
     $rules = (new CountryRequest)->rules();
 
     expect('between:2,255')->toBeIn(array_get($rules, 'country_name'))

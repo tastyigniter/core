@@ -62,7 +62,7 @@ class Navigation
     {
         $navItems = $this->getNavItems();
 
-        uasort($navItems, function ($a, $b) {
+        uasort($navItems, function($a, $b) {
             return $a['priority'] - $b['priority'];
         });
 
@@ -73,7 +73,7 @@ class Navigation
                 continue;
             }
 
-            uasort($navItem['child'], function ($a, $b) {
+            uasort($navItem['child'], function($a, $b) {
                 return $a['priority'] - $b['priority'];
             });
 
@@ -190,7 +190,7 @@ class Navigation
 
     public function filterPermittedNavItems(array $items): array
     {
-        return collect($items)->filter(function ($item) {
+        return collect($items)->filter(function($item) {
             if (!$permission = array_get($item, 'permission')) {
                 return true;
             }

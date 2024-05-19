@@ -37,11 +37,11 @@ class Translation extends Model
     {
         parent::boot();
 
-        static::saved(function (Translation $model) {
+        static::saved(function(Translation $model) {
             $model->flushCache();
         });
 
-        static::deleted(function (Translation $model) {
+        static::deleted(function(Translation $model) {
             $model->flushCache();
         });
     }
@@ -118,9 +118,9 @@ class Translation extends Model
     public static function getCached($locale, $group, $namespace = null)
     {
         return Cache::rememberForever(static::getCacheKey($locale, $group, $namespace),
-            function () use ($locale, $group, $namespace) {
+            function() use ($locale, $group, $namespace) {
                 $result = static::getFresh($locale, $group, $namespace)->reduce(
-                    function ($lines, Translation $model) {
+                    function($lines, Translation $model) {
                         array_set($lines, $model->item, $model->text);
 
                         return $lines;

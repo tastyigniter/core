@@ -199,7 +199,7 @@ trait CombinesAssets
 
     protected function prepareAssets(array $assets): array
     {
-        $assets = array_map(function ($path) {
+        $assets = array_map(function($path) {
             return $this->getAssetPath($path);
         }, $assets);
 

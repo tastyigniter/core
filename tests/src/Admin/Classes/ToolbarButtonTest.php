@@ -4,11 +4,11 @@ namespace Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\ToolbarButton;
 
-beforeEach(function () {
+beforeEach(function() {
     $this->toolbarButton = new ToolbarButton('test');
 });
 
-it('tests displayAs', function () {
+it('tests displayAs', function() {
     $this->toolbarButton->displayAs('text', ['context' => 'test', 'permission' => 'test', 'label' => 'Test Label', 'class' => 'test-class']);
 
     expect($this->toolbarButton->type)->toBe('text')
@@ -18,7 +18,7 @@ it('tests displayAs', function () {
         ->and($this->toolbarButton->cssClass)->toBe('test-class');
 });
 
-it('tests getAttributes', function () {
+it('tests getAttributes', function() {
     $this->toolbarButton->displayAs('text', ['context' => 'test', 'permission' => 'test', 'label' => 'Test Label', 'class' => 'test-class', 'href' => 'test']);
 
     $attributes = $this->toolbarButton->getAttributes();
@@ -27,7 +27,7 @@ it('tests getAttributes', function () {
         ->and($attributes)->toContain('class="test-class"');
 });
 
-it('tests menuItems', function () {
+it('tests menuItems', function() {
     $this->toolbarButton->menuItems(['item1', 'item2']);
 
     $menuItems = $this->toolbarButton->menuItems();
