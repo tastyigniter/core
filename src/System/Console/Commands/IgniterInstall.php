@@ -17,7 +17,6 @@ use Igniter\User\Models\UserRole;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -33,6 +32,8 @@ class IgniterInstall extends Command
     protected const CONFIRM_CREATE_STORAGE_LINK = 'Create a symbolic link of <options=bold>storage/app/public</> at <options=bold>public/storage</> to make uploaded files publicly available?';
 
     protected const LOGIN_TO_ADMIN_DASHBOARD = 'You can now login to the TastyIgniter Admin at %s with credentials provided during installation.';
+
+    protected const CONFIRM_SHOW_LOVE = 'Do you want to show some love by starring the TastyIgniter repository on GitHub?';
 
     /**
      * The console command name.
@@ -87,7 +88,7 @@ class IgniterInstall extends Command
 
         $this->alert('INSTALLATION COMPLETE');
 
-        if ($this->confirm('Do you want to show some love by starring the TastyIgniter repository on GitHub?', false)) {
+        if ($this->confirm(self::CONFIRM_SHOW_LOVE)) {
             $this->openBrowser('https://github.com/tastyigniter/TastyIgniter');
         }
 
@@ -142,11 +143,6 @@ class IgniterInstall extends Command
 
         $this->line('Migrating application and extensions...');
 
-        resolve('migrator')->getRepository()->prepareMigrationTable();
-
-        $this->renameConflictingFoundationTables();
-
-        $this->call('migrate', ['--force' => true]);
         $this->call('igniter:up');
 
         $this->line('Done. Migrating application and extensions...');
@@ -265,31 +261,6 @@ class IgniterInstall extends Command
             exec('start '.$url);
         } else {
             exec('xdg-open '.$url);
-        }
-    }
-
-    protected function renameConflictingFoundationTables()
-    {
-        if (Schema::hasColumn('users', 'staff_id')) {
-            $this->components->info('Renaming tastyigniter admin users table to admin_users');
-            Schema::rename('users', 'admin_users');
-        }
-
-        if (Schema::hasColumn('admin_users', 'reset_code')) {
-            return;
-        }
-
-        foreach ([
-            'cache' => 'cache_bck',
-            'failed_jobs' => 'failed_jobs_bck',
-            'jobs' => 'jobs_bck',
-            'job_batches' => 'job_batches_bck',
-            'sessions' => 'sessions_bck',
-        ] as $from => $to) {
-            if (Schema::hasTable($from) && !Schema::hasTable($to)) {
-                $this->components->info(sprintf('Renaming table %s to %s', $from, $to));
-                Schema::rename($from, $to);
-            }
         }
     }
 }

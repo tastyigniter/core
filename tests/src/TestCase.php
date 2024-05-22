@@ -51,7 +51,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $configs = ['currency', 'geocoder', 'system'];
 
         foreach ($configs as $config) {
-            $app['config']->set("igniter.$config", require (__DIR__."/../../config/{$config}.php"));
+            $app['config']->set("igniter.$config", require(__DIR__."/../../config/{$config}.php"));
         }
     }
 }

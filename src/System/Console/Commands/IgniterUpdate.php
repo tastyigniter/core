@@ -3,6 +3,7 @@
 namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Exception\ComposerException;
+use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Notifications\UpdateFoundNotification;
 use Illuminate\Console\Command;
@@ -36,6 +37,8 @@ class IgniterUpdate extends Command
     public function handle()
     {
         $forceUpdate = (bool)$this->option('force');
+
+        resolve(ComposerManager::class)->assertSchema();
 
         if ($this->option('check')) {
             $this->notifyOnUpdatesFound();
