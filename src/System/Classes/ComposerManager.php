@@ -219,10 +219,9 @@ class ComposerManager
 
         try {
             $composer = $this->createComposer($io, $jsonPath);
+            $composer->getEventDispatcher()->setRunScripts(false);
 
-            $installer = Installer::create($io, $composer)
-                ->setPreferDist()
-                ->setRunScripts(false);
+            $installer = Installer::create($io, $composer)->setPreferDist();
 
             if ($requirements) {
                 $installer

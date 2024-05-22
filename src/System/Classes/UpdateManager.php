@@ -14,10 +14,10 @@ use Igniter\Main\Models\Theme;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
-use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * TastyIgniter Updates Manager Class
@@ -26,7 +26,7 @@ class UpdateManager
 {
     protected array $logs = [];
 
-    protected ?OutputStyle $logsOutput = null;
+    protected ?OutputInterface $logsOutput = null;
 
     protected array $installedItems = [];
 
@@ -62,7 +62,7 @@ class UpdateManager
     /**
      * Set the output implementation that should be used by the console.
      */
-    public function setLogsOutput(OutputStyle $output): static
+    public function setLogsOutput(OutputInterface $output): static
     {
         $this->logsOutput = $output;
         $this->migrator->setOutput($output);

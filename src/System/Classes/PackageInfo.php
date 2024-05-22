@@ -26,7 +26,8 @@ class PackageInfo
         public string $hash = '',
         public string $updatedAt = '',
         public string $homepage = '',
-    ) {
+    )
+    {
     }
 
     public static function fromArray(array $array): static
@@ -43,7 +44,7 @@ class PackageInfo
             $array['installedVersion'] ?? '',
             $array['published_at'] ?? $array['publishedAt'] ?? '',
             $array['tags'] ?? [],
-            $array['hash'] ?? $array['hash'] ?? '',
+            $array['hash'] ?? '',
             $array['updated_at'] ?? $array['updatedAt'] ?? '',
             $array['homepage'] ?? '',
         );
