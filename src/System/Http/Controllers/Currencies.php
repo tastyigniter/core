@@ -59,17 +59,6 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('settings', 'system');
     }
 
-    public function index()
-    {
-        rescue(function() {
-            if (!Currency::count()) {
-                Currency::upsertFromHub();
-            }
-        });
-
-        $this->asExtension('ListController')->index();
-    }
-
     public function index_onSetDefault(?string $context)
     {
         $data = $this->validate(post(), [

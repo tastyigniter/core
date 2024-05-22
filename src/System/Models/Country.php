@@ -5,7 +5,6 @@ namespace Igniter\System\Models;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Sortable;
-use Igniter\System\Classes\HubManager;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
 
@@ -53,20 +52,5 @@ class Country extends Model
     public function defaultableName()
     {
         return $this->country_name;
-    }
-
-    public static function upsertFromHub()
-    {
-        $response = resolve(HubManager::class)->getDataset('countries');
-
-        collect(array_get($response, 'data', []))->each(function($item) {
-            if (!$country = static::firstWhere('iso_code_3', $item['iso_code_3'])) {
-                $item['format'] = '{address_1}\n{address_2}\n{city} {postcode} {state}\n{country}';
-                $item['status'] = true;
-                $country = static::create($item);
-            }
-
-            $country->update($item);
-        });
     }
 }

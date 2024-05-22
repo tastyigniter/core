@@ -47,11 +47,6 @@ class HubManager
         });
     }
 
-    public function getDataset(string $type): array
-    {
-        return array_get($this->requestRemoteData("dataset/$type"), 'data', []);
-    }
-
     protected function requestRemoteData(string $uri, array $params = []): array
     {
         $client = Http::baseUrl(Config::get('igniter.system.hubEndpoint', static::ENDPOINT));

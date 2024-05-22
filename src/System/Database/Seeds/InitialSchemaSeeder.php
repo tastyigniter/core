@@ -3,7 +3,6 @@
 namespace Igniter\System\Database\Seeds;
 
 use Igniter\Flame\Igniter;
-use Igniter\System\Classes\HubManager;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -48,14 +47,14 @@ class InitialSchemaSeeder extends Seeder
             return;
         }
 
-        DB::table('countries')->insert(resolve(HubManager::class)->getDataset('countries'));
+        DB::table('countries')->insert(collect(Igniter::getSeedRecords('countries'))->map(function($country) {
+            return array_merge($country, [
+                'status' => 1,
+                'format' => '{address_1}\n{address_2}\n{city} {postcode} {state}\n{country}',
+            ]);
+        })->all());
 
         DB::table('countries')->update(['updated_at' => now(), 'created_at' => now()]);
-
-        DB::table('countries')->update([
-            'format' => '{address_1}\n{address_2}\n{city} {postcode} {state}\n{country}',
-            'status' => 1,
-        ]);
     }
 
     protected function seedCurrencies()
@@ -64,7 +63,7 @@ class InitialSchemaSeeder extends Seeder
             return;
         }
 
-        $currencies = resolve(HubManager::class)->getDataset('currencies');
+        $currencies = Igniter::getSeedRecords('currencies');
         $countries = DB::table('countries')->pluck('country_id', 'iso_code_3');
 
         foreach ($currencies as $currency) {

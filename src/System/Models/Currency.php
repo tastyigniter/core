@@ -5,7 +5,6 @@ namespace Igniter\System\Models;
 use Igniter\Flame\Currency\Contracts\CurrencyInterface;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
-use Igniter\System\Classes\HubManager;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\HasCountry;
 use Igniter\System\Models\Concerns\Switchable;
@@ -83,27 +82,6 @@ class Currency extends Model implements CurrencyInterface
     {
         $this->currency_rate = $rate;
         $this->save();
-    }
-
-    public static function upsertFromHub()
-    {
-        $response = resolve(HubManager::class)->getDataset('currencies');
-
-        $countries = Country::pluck('country_id', 'iso_code_3');
-
-        collect(array_get($response, 'data', []))
-            ->each(function($item) use ($countries) {
-                $countryId = $countries->get($item['iso_alpha3']);
-                if (!strlen($item['iso_alpha3']) || !$countryId) {
-                    return;
-                }
-
-                static::updateOrCreate([
-                    'iso_alpha3' => $item['iso_alpha3'],
-                ], array_merge($item, [
-                    'country_id' => $countryId,
-                ]));
-            });
     }
 
     //

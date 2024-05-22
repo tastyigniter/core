@@ -62,17 +62,6 @@ class Countries extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('settings', 'system');
     }
 
-    public function index()
-    {
-        rescue(function() {
-            if (!Country::count()) {
-                Country::upsertFromHub();
-            }
-        });
-
-        $this->asExtension('ListController')->index();
-    }
-
     public function index_onSetDefault(?string $context)
     {
         $data = $this->validate(post(), [
