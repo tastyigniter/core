@@ -22,14 +22,9 @@ trait SendsMailTemplate
         return [];
     }
 
-    public function mailSend(string $view, ?string $recipientType = null)
+    public function mailSend(string $view, ?string $recipientType = null, array $vars = [])
     {
-        $vars = $this->mailGetData();
-
-        $result = $this->fireEvent('model.mailGetData', [$view, $recipientType]);
-        if ($result && is_array($result)) {
-            $vars = array_merge(...$result) + $vars;
-        }
+        $vars += $this->mailGetData();
 
         if ($recipients = $this->mailBuildMessageTo($recipientType)) {
             Mail::queueTemplate($view, $vars, $recipients);

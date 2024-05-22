@@ -3821,6 +3821,11 @@ parameters:
 			path: src/Main/Http/Middleware/CheckMaintenance.php
 
 		-
+			message: "#^Cannot call method getController\\(\\) on object\\|string\\.$#"
+			count: 2
+			path: src/Main/Http/Requests/ThemeRequest.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
 			count: 1
 			path: src/Main/Models/Theme.php
@@ -3914,11 +3919,6 @@ parameters:
 			message: "#^Call to an undefined static method Livewire\\\\Livewire\\:\\:componentHook\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Providers/ThemeServiceProvider.php
-
-		-
-			message: "#^Cannot call method getController\\(\\) on object\\|string\\.$#"
-			count: 2
-			path: src/Main/Requests/ThemeRequest.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:basename\\(\\)\\.$#"
