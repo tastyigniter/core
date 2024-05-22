@@ -44,6 +44,7 @@ class ConsoleSubscriber
         match ($event->command) {
             'package:discover' => Artisan::call('igniter:package-discover', [], $event->output),
             'clear-compiled' => CacheHelper::clearCompiled(),
+            'migrate' => Artisan::call('igniter:up', [], $event->output),
             default => null,
         };
     }
