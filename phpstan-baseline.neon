@@ -4506,22 +4506,12 @@ parameters:
 			path: src/System/Http/Controllers/Countries.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:count\\(\\)\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Countries.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Currencies\\:\\:refreshList\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Currencies.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Currencies.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:count\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Currencies.php
 
@@ -4916,13 +4906,8 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:create\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Country.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:firstWhere\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/System/Models/Country.php
 
 		-
@@ -5031,22 +5016,12 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:pluck\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:firstWhere\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:select\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Currency\\:\\:updateOrCreate\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
