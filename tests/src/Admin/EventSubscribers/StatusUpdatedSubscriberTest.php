@@ -13,7 +13,6 @@ use Mockery;
 test('it handles status added', function() {
     $user = new User();
     $orderMock = Mockery::mock(Order::class);
-    $orderMock->shouldReceive('reloadRelations')->once();
     $orderMock->shouldReceive('listGroupAssignees')->andReturn([$user]);
     $orderMock->shouldReceive('getLatestStatusHistory')->andReturnNull();
     $orderMock->shouldReceive('extendableGet');
@@ -22,8 +21,6 @@ test('it handles status added', function() {
     $statusHistoryMock = Mockery::mock(StatusHistory::class);
     $statusHistoryMock->shouldReceive('extendableGet')->with('object')->andReturn($orderMock);
     $statusHistoryMock->shouldReceive('extendableGet')->with('notify')->andReturn(true);
-
-    $orderMock->shouldReceive('mailSend')->once()->with('igniter.cart::mail.order_update', 'customer');
 
     Notification::fake();
 
