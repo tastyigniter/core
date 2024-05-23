@@ -23,7 +23,7 @@ test('it handles status added', function() {
     $statusHistoryMock->shouldReceive('extendableGet')->with('object')->andReturn($orderMock);
     $statusHistoryMock->shouldReceive('extendableGet')->with('notify')->andReturn(true);
 
-    $orderMock->shouldReceive('mailSend')->once()->with('igniter.admin::_mail.order_update', 'customer');
+    $orderMock->shouldReceive('mailSend')->once()->with('igniter.cart::mail.order_update', 'customer');
 
     Notification::fake();
 

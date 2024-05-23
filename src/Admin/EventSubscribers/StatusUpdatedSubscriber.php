@@ -19,15 +19,6 @@ class StatusUpdatedSubscriber
 
     public function handleStatusAdded(Order|Reservation $record, StatusHistory $history): void
     {
-        $record->reloadRelations();
-
-        if ($history->notify) {
-            $mailView = ($record instanceof Reservation)
-                ? 'igniter.admin::_mail.reservation_update' : 'igniter.admin::_mail.order_update';
-
-            $record->mailSend($mailView, 'customer');
-        }
-
         StatusUpdatedNotification::make()->subject($history)->broadcast();
     }
 }

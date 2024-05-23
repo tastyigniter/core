@@ -326,11 +326,6 @@ parameters:
 			path: src/Admin/Classes/ToolbarButton.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$notify\\.$#"
-			count: 1
-			path: src/Admin/EventSubscribers/StatusUpdatedSubscriber.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\FormWidgets\\\\Connector\\:\\:\\$modelClass\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php

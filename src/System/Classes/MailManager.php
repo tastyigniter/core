@@ -43,9 +43,9 @@ class MailManager
     public function applyMailerConfigValues()
     {
         $config = App::make('config');
-        $config->set('mail.default', setting('protocol'));
-        $config->set('mail.from.name', setting('sender_name'));
-        $config->set('mail.from.address', setting('sender_email'));
+        $config->set('mail.default', setting('protocol', $config['default']));
+        $config->set('mail.from.name', setting('sender_name', $config['from.name']));
+        $config->set('mail.from.address', setting('sender_email', $config['from.address']));
 
         switch (setting('protocol')) {
             case 'smtp':
