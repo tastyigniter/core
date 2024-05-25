@@ -2,7 +2,7 @@
 
 namespace Igniter\System\Traits;
 
-use Illuminate\Support\Facades\Mail;
+use Igniter\System\Helpers\MailHelper;
 use Symfony\Component\Mime\Address;
 
 trait SendsMailTemplate
@@ -27,7 +27,7 @@ trait SendsMailTemplate
         $vars += $this->mailGetData();
 
         if ($recipients = $this->mailBuildMessageTo($recipientType)) {
-            Mail::queueTemplate($view, $vars, $recipients);
+            MailHelper::queueTemplate($view, $vars, $recipients);
         }
     }
 

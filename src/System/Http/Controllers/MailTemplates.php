@@ -5,8 +5,8 @@ namespace Igniter\System\Http\Controllers;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\System\Helpers\MailHelper;
 use Igniter\System\Models\MailTemplate;
-use Illuminate\Support\Facades\Mail;
 
 class MailTemplates extends \Igniter\Admin\Classes\AdminController
 {
@@ -94,7 +94,7 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
 
         $errorLevel = error_reporting(0);
 
-        Mail::sendTemplate($model->code, [], [$adminUser->email, $adminUser->name]);
+        MailHelper::sendTemplate($model->code, [], [$adminUser->email, $adminUser->name]);
 
         error_reporting($errorLevel);
 
