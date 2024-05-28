@@ -80,10 +80,9 @@ class NominatimProvider extends AbstractProvider
                 );
             });
         } catch (Throwable $e) {
-            $coordinates = $query->getCoordinates();
             $this->log(sprintf(
-                'Provider "%s" could not reverse coordinates: "%f %f": Message: %s.',
-                $this->getName(), $coordinates->getLatitude(), $coordinates->getLongitude(), $e->getMessage()
+                'Provider "%s" could not geocode address, "%s".',
+                $this->getName(), $e->getMessage()
             ));
         }
 
@@ -197,6 +196,10 @@ class NominatimProvider extends AbstractProvider
                 'The geocoder server returned [%s] an invalid response for query. Message: %s.',
                 $statusCode, $json->error_message ?? 'empty error message'
             ));
+        }
+
+        if (isset($json->lat)) {
+            $json = [$json];
         }
 
         return $returnKey ? $json->$returnKey : $json;

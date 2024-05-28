@@ -72,11 +72,10 @@ class GoogleProvider extends AbstractProvider
                     $query->getLimit()
                 );
             });
-        } catch (Throwable) {
-            $coordinates = $query->getCoordinates();
+        } catch (Throwable $ex) {
             $this->log(sprintf(
-                'Provider "%s" could not reverse coordinates: "%F %F".',
-                $this->getName(), $coordinates->getLatitude(), $coordinates->getLongitude()
+                'Provider "%s" could not geocode address, "%s".',
+                $this->getName(), $ex->getMessage()
             ));
         }
 
