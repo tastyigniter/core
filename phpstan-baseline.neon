@@ -4646,11 +4646,6 @@ parameters:
 			path: src/System/Http/Controllers/MailTemplates.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:sendTemplate\\(\\)\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/MailTemplates.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\RequestLogs\\:\\:refreshList\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/RequestLogs.php
