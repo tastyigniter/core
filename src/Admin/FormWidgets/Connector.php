@@ -247,10 +247,13 @@ class Connector extends BaseFormWidget
             return $items;
         }
 
-        $sortedIndexes = (array)post($this->sortableInputName);
-        $sortedIndexes = array_flip($sortedIndexes);
-
         $results = [];
+
+        $sortedIndexes = array_flip((array)post($this->sortableInputName));
+        if (empty($sortedIndexes)) {
+            return $results;
+        }
+
         foreach ($items as $index => $item) {
             $results[$index] = [
                 $item->getKeyName() => $item->getKey(),
