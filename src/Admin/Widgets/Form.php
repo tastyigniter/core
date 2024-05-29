@@ -635,10 +635,8 @@ class Form extends BaseWidget
                 $this->dataArraySet($result, $parts, $value);
             } elseif ($value !== false) {
                 $value = match ($field->type) {
-                    // Number fields should be converted to integers
-                    'number' => strlen(trim($value)) ? (int)$value : null,
-                    // Switches should be converted to booleans
-                    'switch' => (bool)$value,
+                    // Number and switch fields should be converted to integers
+                    'number', 'switch' => strlen(trim($value)) ? (int)$value : null,
                     default => $value,
                 };
 
