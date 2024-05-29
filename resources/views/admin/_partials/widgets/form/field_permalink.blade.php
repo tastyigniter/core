@@ -10,6 +10,8 @@
                 id="input-slug"
                 class="form-control"
                 value="{{ $field->value }}"
+                {!! $field->hasAttribute('maxlength') ? '' : 'maxlength="255"' !!}
+                {!! $field->getAttributes() !!}
             />
         </div>
     </div>

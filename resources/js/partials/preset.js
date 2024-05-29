@@ -21,6 +21,9 @@
  *
  * JavaScript API:
  * $('#filename').inputPreset({inputPreset: '#name', inputPresetType: 'file'})
+ *
+ * Adapted from OctoberCMS
+ *
  */
 +function ($) {
     "use strict";
@@ -250,7 +253,7 @@
     InputPreset.prototype.formatNamespace = function () {
         var value = this.toCamel(this.$src.val())
 
-        return value.substr(0, 1).toUpperCase()+value.substr(1)
+        return value.substring(0, 1).toUpperCase()+value.substring(1)
     }
 
     InputPreset.prototype.formatValue = function () {
@@ -260,10 +263,12 @@
             return this.formatNamespace()
         }
 
+        var value;
+
         if (this.options.inputPresetType == 'camel') {
-            var value = this.toCamel(this.$src.val())
+            value = this.toCamel(this.$src.val())
         } else {
-            var value = this.slugify(this.$src.val())
+            value = this.slugify(this.$src.val());
         }
 
         if (this.options.inputPresetType == 'url') {
@@ -288,7 +293,7 @@
         slug = slug.replace(/[^-\w\s]/g, '')
         slug = slug.replace(/^\s+|\s+$/g, '')
         slug = slug.replace(/[-\s]+/g, '')
-        slug = slug.substr(0, 1).toLowerCase()+slug.substr(1);
+        slug = slug.substring(0, 1).toLowerCase()+slug.substring(1);
         return slug.substring(0, numChars)
     }
 
@@ -335,7 +340,7 @@
             var data = $this.data('ti.inputPreset')
             var options = $.extend({}, InputPreset.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-            if (!data) $this.data('ti.inputPreset', (data = new InputPreset(this, options)))
+            if (!data) $this.data('ti.inputPreset', (new InputPreset(this, options)))
         })
     }
 
