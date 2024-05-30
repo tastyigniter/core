@@ -58,6 +58,8 @@
     </div>
 </div>
 
+{!! Assets::getJsVars() !!}
+
 {{Template::renderHook('startScripts')}}
 
 @themeScripts

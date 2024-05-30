@@ -736,8 +736,13 @@ parameters:
 			path: src/Admin/Models/StatusHistory.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignable\\.$#"
+			count: 1
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$object\\.$#"
-			count: 2
+			count: 4
 			path: src/Admin/Notifications/StatusUpdatedNotification.php
 
 		-
@@ -746,7 +751,7 @@ parameters:
 			path: src/Admin/Notifications/StatusUpdatedNotification.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$full_name\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$user\\.$#"
 			count: 1
 			path: src/Admin/Notifications/StatusUpdatedNotification.php
 

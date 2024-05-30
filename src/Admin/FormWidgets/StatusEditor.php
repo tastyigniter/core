@@ -148,9 +148,9 @@ class StatusEditor extends BaseFormWidget
             new FlashException(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context))
         );
 
-        $saveData = $this->validateFormWidget($form, array_merge($form->getSaveData(), [
-            'user_id' => $this->getController()->getUser()->getKey(),
-        ]));
+        $saveData = $this->validateFormWidget($form, $form->getSaveData());
+        
+        $saveData['user_id'] = $this->getController()->getUser()->getKey();
 
         DB::transaction(function() use ($saveData, $keyFrom) {
             if ($this->saveRecord($saveData, $keyFrom)) {
@@ -330,7 +330,7 @@ class StatusEditor extends BaseFormWidget
         if (!$this->isStatusMode) {
             $group = UserGroup::find(array_get($saveData, $this->assigneeGroupKeyFrom));
             $user = User::find(array_get($saveData, $keyFrom));
-            $record = $this->model->updateAssignTo($group, $user);
+            $record = $this->model->updateAssignTo($group, $user, $this->controller->getUser());
         } else {
             $status = Status::find(array_get($saveData, $keyFrom));
             $record = $this->model->addStatusHistory($status, $saveData);
