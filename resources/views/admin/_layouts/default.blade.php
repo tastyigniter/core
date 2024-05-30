@@ -51,7 +51,7 @@
         <div id="notification">
             {{Template::renderHook('startFlash')}}
 
-            @partial('igniter.admin::flash')
+            {{$this->makePartial('igniter.admin::flash')}}
 
             {{Template::renderHook('endFlash')}}
         </div>
