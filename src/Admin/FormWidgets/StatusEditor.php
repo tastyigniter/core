@@ -149,7 +149,7 @@ class StatusEditor extends BaseFormWidget
         );
 
         $saveData = $this->validateFormWidget($form, $form->getSaveData());
-        
+
         $saveData['user_id'] = $this->getController()->getUser()->getKey();
 
         DB::transaction(function() use ($saveData, $keyFrom) {
