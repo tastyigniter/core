@@ -41,4 +41,9 @@ class UpdateFoundNotification extends Notification implements CriticalNotificati
     {
         return 'success';
     }
+
+    public function getAlias(): string
+    {
+        return 'update_found';
+    }
 }

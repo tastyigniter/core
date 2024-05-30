@@ -53,7 +53,7 @@ return [
     'text_delivery' => 'Delivery',
     'text_collection' => 'Pick-up',
     'text_system' => 'System',
-    'text_you' => 'You',
+    'text_you' => 'you',
 
     'label_code' => 'Code',
     'label_name' => 'Name',

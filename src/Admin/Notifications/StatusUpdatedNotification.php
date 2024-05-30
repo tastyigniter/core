@@ -29,28 +29,27 @@ class StatusUpdatedNotification extends Notification
 
     public function getTitle(): string
     {
-        $context = $this->subject instanceof Order ? 'orders' : 'reservations';
-
-        return lang('igniter::admin.'.$context.'.notify_status_updated_title');
+        return $this->subject->object instanceof Order
+            ? lang('igniter.cart::default.orders.notify_status_updated_title')
+            : lang('igniter.reservation::default.notify_status_updated_title');
     }
 
     public function getUrl(): string
     {
-        $url = $this->subject instanceof Order ? 'orders' : 'reservations';
-        if ($this->subject) {
-            $url .= '/edit/'.$this->subject->getKey();
-        }
+        $url = $this->subject->object instanceof Order ? 'orders' : 'reservations';
+        $url .= '/edit/'.$this->subject->object->getKey();
 
         return admin_url($url);
     }
 
     public function getMessage(): string
     {
-        $context = $this->subject instanceof Order ? 'orders' : 'reservations';
-        $lang = lang('igniter::admin.'.$context.'.notify_status_updated');
+        $lang = $this->subject->assignable instanceof Order
+            ? lang('igniter.cart::default.orders.notify_status_updated')
+            : lang('igniter.reservation::default.notify_status_updated');
 
-        $causerName = ($user = auth()->user())
-            ? $user->full_name
+        $causerName = $this->subject->user
+            ? $this->subject->user->full_name
             : lang('igniter::admin.text_system');
 
         return sprintf($lang,
@@ -63,5 +62,10 @@ class StatusUpdatedNotification extends Notification
     public function getIcon(): ?string
     {
         return 'fa-clipboard-check';
+    }
+
+    public function getAlias(): string
+    {
+        return 'status-updated';
     }
 }
