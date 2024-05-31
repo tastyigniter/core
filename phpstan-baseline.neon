@@ -5391,6 +5391,11 @@ parameters:
 			path: src/System/Models/Settings.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:resetFieldValues\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Settings.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Settings\\:\\:upsert\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Settings.php

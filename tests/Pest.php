@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
-uses(Tests\TestCase::class)->in(__DIR__.'/src');
+uses(Igniter\Tests\TestCase::class)->in(__DIR__.'/src');
 
 function testThemePath()
 {

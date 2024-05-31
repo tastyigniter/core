@@ -7,8 +7,8 @@ use Igniter\Admin\FormWidgets\MarkdownEditor;
 use Igniter\System\Facades\Assets;
 use Illuminate\Http\Request;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
-use Tests\Admin\Fixtures\Models\TestModel;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Models\TestModel;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

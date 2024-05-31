@@ -41,6 +41,8 @@ class Settings extends Model
      */
     protected static $callbacks = [];
 
+    protected static $instance;
+
     public static function listMenuSettingItems($menu, $item, $user)
     {
         $options = [];
@@ -138,6 +140,8 @@ class Settings extends Model
             ];
         })->values()->all();
 
+        static::make()->resetFieldValues();
+
         return static::upsert($data, ['sort', 'item'], ['value']);
     }
 
@@ -148,7 +152,7 @@ class Settings extends Model
 
     public static function make($attributes = [])
     {
-        return resolve(static::class)->fill($attributes);
+        return resolve(static::class);
     }
 
     //
@@ -172,6 +176,13 @@ class Settings extends Model
         }
 
         return $this->fieldValues[$group] = array_undot($values);
+    }
+
+    public function resetFieldValues()
+    {
+        $this->fieldValues = [];
+
+        return $this;
     }
 
     public function getSettingDefinitions($code)

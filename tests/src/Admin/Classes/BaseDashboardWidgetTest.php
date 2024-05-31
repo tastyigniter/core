@@ -3,7 +3,7 @@
 namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\BaseDashboardWidget;
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 it('can get width', function() {
     $widget = new BaseDashboardWidget(new TestController(), ['width' => 300]);

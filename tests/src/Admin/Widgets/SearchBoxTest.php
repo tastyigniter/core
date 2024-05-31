@@ -4,7 +4,7 @@ namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Widgets\SearchBox;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

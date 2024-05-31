@@ -6,8 +6,8 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\DatePicker;
 use Igniter\System\Facades\Assets;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
-use Tests\Admin\Fixtures\Models\TestModel;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Models\TestModel;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

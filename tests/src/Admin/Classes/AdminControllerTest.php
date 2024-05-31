@@ -2,7 +2,7 @@
 
 namespace Igniter\Tests\Admin\Classes;
 
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 it('has defined paths to locate layouts', function() {
     $controller = resolve(TestController::class);

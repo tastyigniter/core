@@ -3,7 +3,7 @@
 namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\FormField;
-use Tests\Admin\Fixtures\Models\TestModel;
+use Igniter\Tests\Admin\Fixtures\Models\TestModel;
 
 beforeEach(function() {
     $this->formField = new FormField('testField', 'Test Field');

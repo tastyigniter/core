@@ -3,8 +3,8 @@
 namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\BaseWidget;
-use Tests\Admin\Fixtures\Controllers\TestController;
-use Tests\Admin\Fixtures\Widgets\TestWidget;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Widgets\TestWidget;
 
 beforeEach(function() {
     $this->controller = new TestController();

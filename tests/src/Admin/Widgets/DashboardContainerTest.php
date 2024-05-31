@@ -7,7 +7,7 @@ use Igniter\System\Facades\Assets;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 dataset('initialization', [
     ['canManage', true],

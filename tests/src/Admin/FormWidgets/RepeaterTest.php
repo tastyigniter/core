@@ -10,7 +10,7 @@ use Igniter\Admin\Widgets\Form;
 use Igniter\System\Facades\Assets;
 use Illuminate\Http\Request;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 dataset('initialization', [
     ['sortable', false],

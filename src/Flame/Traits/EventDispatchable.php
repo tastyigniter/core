@@ -52,7 +52,7 @@ trait EventDispatchable
                 return $response;
             }
 
-            $result = array_merge($result, $response);
+            $result = array_merge($result ?? [], $response);
         }
 
         return $halt ? null : $result;

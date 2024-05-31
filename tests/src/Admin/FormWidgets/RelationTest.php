@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\Relation;
 use Igniter\Admin\Models\Status;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 dataset('initialization', [
     ['relationFrom', null],

@@ -8,7 +8,7 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Facades\Assets;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

@@ -6,8 +6,8 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\CodeEditor;
 use Igniter\System\Facades\Assets;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
-use Tests\Admin\Fixtures\Models\TestModel;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Models\TestModel;
 
 dataset('initialization', [
     ['fullPage', false],

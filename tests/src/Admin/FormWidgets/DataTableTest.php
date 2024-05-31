@@ -8,7 +8,7 @@ use Igniter\Admin\Models\Status;
 use Igniter\Admin\Widgets\Table;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

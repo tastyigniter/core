@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Widgets\Toolbar;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

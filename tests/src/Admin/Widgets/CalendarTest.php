@@ -6,7 +6,7 @@ use Igniter\Admin\Widgets\Calendar;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Facades\Assets;
 use Illuminate\View\Factory;
-use Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 dataset('initialization', [
     ['aspectRatio', 2],
