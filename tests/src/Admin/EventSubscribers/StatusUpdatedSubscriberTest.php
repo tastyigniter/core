@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\EventSubscribers;
+namespace Igniter\Tests\Admin\EventSubscribers;
 
 use Igniter\Admin\EventSubscribers\StatusUpdatedSubscriber;
 use Igniter\Admin\Models\StatusHistory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\System\Classes;
+namespace Igniter\Tests\System\Classes;
 
 it('registers an extension', function() {
 })->skip();

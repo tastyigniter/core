@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\System\Http\Requests;
+namespace Igniter\Tests\System\Http\Requests;
 
 use Igniter\System\Http\Requests\MailTemplateRequest;
 use Illuminate\Validation\Rule;

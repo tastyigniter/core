@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Main\Classes;
+namespace Igniter\Tests\Main\Classes;
 
 use Igniter\Main\Classes\ThemeManager;
 

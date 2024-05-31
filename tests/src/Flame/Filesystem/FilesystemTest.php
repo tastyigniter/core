@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Igniter\Tests\Flame\Filesystem;
 
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Igniter;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Fixtures\Controllers;
+namespace Igniter\Tests\Admin\Fixtures\Controllers;
 
 class TestController extends \Igniter\Admin\Classes\AdminController
 {

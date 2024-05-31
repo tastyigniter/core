@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Http\Actions;
+namespace Igniter\Tests\Admin\Http\Actions;
 
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Http\Actions\ListController;

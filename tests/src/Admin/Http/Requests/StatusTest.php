@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Http\Requests;
+namespace Igniter\Tests\Admin\Http\Requests;
 
 use Igniter\Admin\Http\Requests\StatusRequest;
 

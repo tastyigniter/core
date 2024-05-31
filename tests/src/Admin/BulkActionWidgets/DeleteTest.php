@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\BulkActionWidgets;
+namespace Igniter\Tests\Admin\BulkActionWidgets;
 
 use Igniter\Admin\BulkActionWidgets\Delete;
 use Igniter\Admin\Classes\ToolbarButton;

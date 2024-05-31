@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\System\Classes;
+namespace Igniter\Tests\System\Classes;
 
 it('adds repository to composer.json repositories config', function() {
 })->skip();

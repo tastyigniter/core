@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\System\Models;
+namespace Igniter\Tests\System\Models;
 
 use Igniter\System\Models\MailTheme;
 

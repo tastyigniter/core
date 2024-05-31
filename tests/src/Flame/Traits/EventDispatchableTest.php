@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Flame\Traits;
+namespace Igniter\Tests\Flame\Traits;
 
 it('dispatches namespaced event')->skip();
 

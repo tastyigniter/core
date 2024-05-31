@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\FormWidgets;
+namespace Igniter\Tests\Admin\FormWidgets;
 
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\CodeEditor;

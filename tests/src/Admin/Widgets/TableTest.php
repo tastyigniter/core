@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Widgets;
+namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Classes\TableDataSource;
 use Igniter\Admin\Widgets\Table;

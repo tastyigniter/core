@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\DashboardWidgets;
+namespace Igniter\Tests\Admin\DashboardWidgets;
 
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\DashboardWidgets\Statistics;

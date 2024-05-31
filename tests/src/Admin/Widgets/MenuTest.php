@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Widgets;
+namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Admin\Widgets\Menu;

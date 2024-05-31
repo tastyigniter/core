@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Widgets;
+namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Widgets\Calendar;
 use Igniter\Flame\Exception\SystemException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Igniter\Main\Template;
+namespace Igniter\Tests\Igniter\Main\Template;
 
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;

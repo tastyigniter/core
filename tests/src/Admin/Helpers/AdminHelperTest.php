@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Helpers;
+namespace Igniter\Tests\Admin\Helpers;
 
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Exception\SystemException;

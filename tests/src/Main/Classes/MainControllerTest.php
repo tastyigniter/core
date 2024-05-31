@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Main\Classes;
+namespace Igniter\Tests\Main\Classes;
 
 it('finds assets file in active theme directory', function() {
 })->skip();

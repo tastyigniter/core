@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\System\Classes;
+namespace Igniter\Tests\System\Classes;
 
 use Igniter\System\Classes\UpdateManager;
 

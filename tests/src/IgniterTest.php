@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Igniter\Tests;
 
 use Igniter\Flame\Igniter;
 

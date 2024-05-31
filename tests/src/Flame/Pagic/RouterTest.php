@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Flame\Router;
+namespace Igniter\Tests\Flame\Pagic\Router;
 
 use Igniter\Flame\Pagic\Router;
 

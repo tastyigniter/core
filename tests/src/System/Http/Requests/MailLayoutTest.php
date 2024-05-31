@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\System\Http\Requests;
+namespace Igniter\Tests\System\Http\Requests;
 
 use Igniter\System\Http\Requests\MailLayoutRequest;
 use Illuminate\Validation\Rule;

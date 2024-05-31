@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Classes;
+namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Tests\Admin\Fixtures\Controllers\TestController;
