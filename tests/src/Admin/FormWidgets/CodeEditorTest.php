@@ -5,9 +5,9 @@ namespace Igniter\Tests\Admin\FormWidgets;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\CodeEditor;
 use Igniter\System\Facades\Assets;
-use Illuminate\View\Factory;
 use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 use Igniter\Tests\Admin\Fixtures\Models\TestModel;
+use Illuminate\View\Factory;
 
 dataset('initialization', [
     ['fullPage', false],

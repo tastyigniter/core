@@ -3,8 +3,8 @@
 namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Widgets\SearchBox;
-use Illuminate\View\Factory;
 use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Illuminate\View\Factory;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

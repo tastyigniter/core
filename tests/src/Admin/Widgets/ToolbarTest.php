@@ -4,9 +4,9 @@ namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Widgets\Toolbar;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\Factory;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

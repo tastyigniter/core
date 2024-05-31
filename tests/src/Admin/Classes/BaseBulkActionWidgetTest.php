@@ -4,8 +4,8 @@ namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\BaseBulkActionWidget;
 use Igniter\Admin\Classes\ToolbarButton;
-use Illuminate\Support\Collection;
 use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Illuminate\Support\Collection;
 
 it('constructs correctly', function() {
     $controller = new TestController();

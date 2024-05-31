@@ -5,8 +5,8 @@ namespace Igniter\Tests\Admin\FormWidgets;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\Relation;
 use Igniter\Admin\Models\Status;
-use Illuminate\View\Factory;
 use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Illuminate\View\Factory;
 
 dataset('initialization', [
     ['relationFrom', null],

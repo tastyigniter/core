@@ -5,10 +5,10 @@ namespace Igniter\Tests\Admin\Widgets;
 use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Admin\Widgets\Menu;
 use Igniter\System\Facades\Assets;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Illuminate\View\Factory;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

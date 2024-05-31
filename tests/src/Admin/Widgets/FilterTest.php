@@ -6,8 +6,8 @@ use Igniter\Admin\Classes\FilterScope;
 use Igniter\Admin\Widgets\Filter;
 use Igniter\Admin\Widgets\SearchBox;
 use Igniter\System\Facades\Assets;
-use Illuminate\View\Factory;
 use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Illuminate\View\Factory;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

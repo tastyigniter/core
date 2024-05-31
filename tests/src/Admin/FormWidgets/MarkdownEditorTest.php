@@ -5,10 +5,10 @@ namespace Igniter\Tests\Admin\FormWidgets;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\MarkdownEditor;
 use Igniter\System\Facades\Assets;
-use Illuminate\Http\Request;
-use Illuminate\View\Factory;
 use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 use Igniter\Tests\Admin\Fixtures\Models\TestModel;
+use Illuminate\Http\Request;
+use Illuminate\View\Factory;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);

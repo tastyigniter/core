@@ -6,9 +6,9 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\DataTable;
 use Igniter\Admin\Models\Status;
 use Igniter\Admin\Widgets\Table;
+use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\View\Factory;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
