@@ -721,6 +721,11 @@ parameters:
 			path: src/Admin/Models/StatusHistory.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/StatusHistory.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:where\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Models/StatusHistory.php

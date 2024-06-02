@@ -79,6 +79,10 @@ class StatusHistory extends Model
      */
     public static function createHistory($status, $object, $options = [])
     {
+        if (!$status instanceof Status) {
+            $status = Status::find($status);
+        }
+
         $statusId = $status->getKey();
         $previousStatus = $object->getOriginal('status_id');
 
