@@ -35,7 +35,9 @@ trait SendsMailTemplate
     {
         $recipients = [];
         foreach ($this->mailGetRecipients($recipientType) as $recipient) {
-            $recipients[] = new Address(...$recipient);
+            if (array_filter($recipient)) {
+                $recipients[] = new Address(...$recipient);
+            }
         }
 
         return $recipients;
