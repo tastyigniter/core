@@ -10,7 +10,8 @@ use Igniter\System\Facades\Assets;
 use Illuminate\View\Factory;
 
 beforeEach(function() {
-    $this->controller = new class extends AdminController {
+    $this->controller = new class extends AdminController
+    {
         public function refreshList($alias)
         {
             return [$alias => 'refreshed'];

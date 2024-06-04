@@ -7,7 +7,8 @@ use Igniter\Admin\Http\Actions\CalendarController;
 use Igniter\Admin\Widgets\Calendar;
 
 beforeEach(function() {
-    $this->controller = new class extends AdminController {
+    $this->controller = new class extends AdminController
+    {
         public $calendarConfig = [
             'calendar' => [
                 'title' => 'Calendar Title',
