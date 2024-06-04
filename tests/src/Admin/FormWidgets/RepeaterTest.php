@@ -8,7 +8,7 @@ use Igniter\Admin\Models\Status;
 use Igniter\Admin\Models\StatusHistory;
 use Igniter\Admin\Widgets\Form;
 use Igniter\System\Facades\Assets;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\View\Factory;
 

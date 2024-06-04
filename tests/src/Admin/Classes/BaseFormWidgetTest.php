@@ -5,7 +5,7 @@ namespace Igniter\Tests\Admin\Classes;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
-use Igniter\Tests\Admin\Fixtures\Models\TestModel;
+use Igniter\Tests\Fixtures\Models\TestModel;
 
 it('can get save value', function() {
     $formField = new FormField('testField', 'Test Field');

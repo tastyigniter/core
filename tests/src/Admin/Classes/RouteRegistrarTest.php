@@ -15,7 +15,7 @@ it('registers all routes correctly', function() {
     $this->routeRegistrar->all();
 
     expect(Route::has('igniter.admin.assets'))->toBeTrue()
-        ->and(Route::has('tests.admin.test_controller'))->toBeTrue();
+        ->and(Route::has('igniter.tests.test_controller'))->toBeTrue();
 });
 
 it('registers assets routes correctly', function() {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Tests\Admin\Fixtures\Models;
+namespace Igniter\Tests\Fixtures\Models;
 
 use Igniter\Flame\Database\Model;
 

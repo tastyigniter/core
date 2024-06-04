@@ -4,7 +4,7 @@ namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\BaseBulkActionWidget;
 use Igniter\Admin\Classes\ToolbarButton;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Controllers\TestController;
 use Illuminate\Support\Collection;
 
 it('constructs correctly', function() {

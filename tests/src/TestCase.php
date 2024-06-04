@@ -28,7 +28,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $app['config']->set('view.paths', $viewPaths);
 
-        Igniter::loadControllersFrom(__DIR__.'/Admin/Fixtures/Controllers', 'Tests\\Admin\\Fixtures\\Controllers');
+        Igniter::loadControllersFrom(__DIR__.'/Fixtures/Controllers', 'Igniter\\Tests\\Fixtures\\Controllers');
         View::addNamespace('tests.admin', __DIR__.'/../resources/views');
 
         ThemeManager::addDirectory(__DIR__.'/../resources/themes');

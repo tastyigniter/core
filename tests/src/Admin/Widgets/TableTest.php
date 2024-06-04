@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\TableDataSource;
 use Igniter\Admin\Widgets\Table;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Facades\Assets;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Controllers\TestController;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\Factory;
 

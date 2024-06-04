@@ -5,8 +5,8 @@ namespace Igniter\Tests\Admin\FormWidgets;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\MarkdownEditor;
 use Igniter\System\Facades\Assets;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
-use Igniter\Tests\Admin\Fixtures\Models\TestModel;
+use Igniter\Tests\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Models\TestModel;
 use Illuminate\Http\Request;
 use Illuminate\View\Factory;
 

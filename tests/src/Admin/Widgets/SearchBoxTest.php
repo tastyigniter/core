@@ -3,7 +3,7 @@
 namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Widgets\SearchBox;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Controllers\TestController;
 use Illuminate\View\Factory;
 
 beforeEach(function() {

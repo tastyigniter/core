@@ -45,8 +45,8 @@ class BaseWidget extends Extendable
         $this->partialPath = $controller->partialPath;
 
         // Add paths from the extension / module context
-        $this->partialPath[] = 'igniter.admin::_partials/'.$path;
-        $this->partialPath[] = 'igniter.admin::_partials/'.dirname($path);
+        $this->partialPath[] = 'igniter.admin::_partials.'.$path;
+        $this->partialPath[] = 'igniter.admin::_partials.'.dirname($path);
         $this->partialPath[] = $namespace.'::_partials.'.$path;
         $this->partialPath[] = $namespace.'::_partials.'.dirname($path);
         $this->partialPath[] = $namespace.'::_partials';

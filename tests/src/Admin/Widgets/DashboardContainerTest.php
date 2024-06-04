@@ -4,7 +4,7 @@ namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Widgets\DashboardContainer;
 use Igniter\System\Facades\Assets;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Controllers\TestController;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Illuminate\View\Factory;

@@ -5,7 +5,7 @@ namespace Igniter\Tests\Admin\Widgets;
 use Igniter\Admin\Widgets\Calendar;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Facades\Assets;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Controllers\TestController;
 use Illuminate\View\Factory;
 
 dataset('initialization', [

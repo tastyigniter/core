@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\Tests\Admin\Fixtures\Widgets;
+namespace Igniter\Tests\Fixtures\Widgets;
 
 use Igniter\Admin\Classes\BaseWidget;
 

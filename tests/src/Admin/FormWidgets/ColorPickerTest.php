@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\ColorPicker;
 use Igniter\System\Facades\Assets;
-use Igniter\Tests\Admin\Fixtures\Models\TestModel;
+use Igniter\Tests\Fixtures\Models\TestModel;
 use Illuminate\View\Factory;
 
 dataset('initialization', [

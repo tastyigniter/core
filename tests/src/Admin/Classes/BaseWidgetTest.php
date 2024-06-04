@@ -3,8 +3,8 @@
 namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\BaseWidget;
-use Igniter\Tests\Admin\Fixtures\Controllers\TestController;
-use Igniter\Tests\Admin\Fixtures\Widgets\TestWidget;
+use Igniter\Tests\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Widgets\TestWidget;
 
 beforeEach(function() {
     $this->controller = new TestController();
@@ -18,9 +18,10 @@ it('has defined paths', function() {
     $controller = resolve(TestController::class);
     $widget = $controller->makeWidget(TestWidget::class);
 
-    expect('tests.admin::_partials.fixtures/widgets/testwidget')->toBeIn($widget->partialPath)
-        ->and('tests.admin::_partials.fixtures/widgets')->toBeIn($widget->partialPath)
-        ->and('igniter::css/fixtures/widgets')->toBeIn($widget->assetPath);
+    expect('igniter.tests::_partials.fixtures/widgets/testwidget')->toBeIn($widget->partialPath)
+        ->and('igniter.tests::_partials.fixtures/widgets')->toBeIn($widget->partialPath)
+        ->and('igniter::css/fixtures/widgets')->toBeIn($widget->assetPath)
+        ->and('igniter::js/fixtures/widgets')->toBeIn($widget->assetPath);
 });
 
 it('loads a widget', function() {
