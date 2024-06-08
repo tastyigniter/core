@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Schema;
  * Fix nullable and other constraints on columns
  * VARCHAR(32/128) => VARCHAR(255)
  */
-return new class extends Migration
-{
+return new class extends Migration {
     public function up()
     {
         foreach (get_class_methods(__CLASS__) as $method) {
@@ -179,7 +178,6 @@ return new class extends Migration
             $table->boolean('location_status')->nullable()->change();
             $table->integer('collection_time')->nullable()->change();
             $table->text('options')->nullable()->change();
-            $table->string('location_image')->nullable()->change();
         };
     }
 

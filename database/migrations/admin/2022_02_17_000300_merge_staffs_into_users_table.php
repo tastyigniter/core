@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up()
     {
         if (Schema::hasColumn('users', 'reset_code')) {
@@ -94,9 +93,15 @@ return new class extends Migration
             $table->dropForeignKeyIfExists('users_staff_id_foreign');
         });
 
-        Schema::table('admin_users', function(Blueprint $table) {
-            $table->dropColumn('staff_id');
-        });
+        if (Schema::hasColumn('admin_users', 'staff_id')) {
+            Schema::table('admin_users', function(Blueprint $table) {
+                $table->bigInteger('staff_id')->unique(false)->change();
+            });
+
+            Schema::table('admin_users', function(Blueprint $table) {
+                $table->dropColumn('staff_id');
+            });
+        }
     }
 
     public function down()
