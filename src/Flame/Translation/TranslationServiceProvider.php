@@ -3,11 +3,14 @@
 namespace Igniter\Flame\Translation;
 
 use Igniter\Flame\Translation\Drivers\Database;
+use Illuminate\Translation\TranslationServiceProvider as BaseServiceProvider;
 
-class TranslationServiceProvider extends \Illuminate\Translation\TranslationServiceProvider
+class TranslationServiceProvider extends BaseServiceProvider
 {
     public function register()
     {
+        $this->app->register(BaseServiceProvider::class);
+
         $this->registerLoader();
 
         $this->app->singleton('translator', function($app) {

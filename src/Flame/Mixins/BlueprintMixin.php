@@ -11,11 +11,8 @@ class BlueprintMixin
     {
         return function($key) {
             $foreignKeys = array_map(function($key) {
-                return $key->getName();
-            }, Schema::getConnection()
-                ->getDoctrineSchemaManager()
-                ->listTableForeignKeys($this->getPrefix().$this->getTable())
-            );
+                return array_get($key, 'name');
+            }, Schema::getForeignKeys($this->getTable()));
 
             if (ends_with($key, '_foreign')) {
                 $key = $key;
@@ -39,11 +36,8 @@ class BlueprintMixin
     {
         return function($key) {
             $indexes = array_map(function($key) {
-                return $key->getName();
-            }, Schema::getConnection()
-                ->getDoctrineSchemaManager()
-                ->listTableIndexes($this->getTable())
-            );
+                return array_get($key, 'name');
+            }, Schema::getIndexes($this->getTable()));
 
             if (!starts_with($key, $this->getPrefix())) {
                 $key = sprintf('%s%s_%s_foreign', $this->getPrefix(), $this->getTable(), $key);

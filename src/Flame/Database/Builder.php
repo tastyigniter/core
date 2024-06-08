@@ -206,7 +206,7 @@ class Builder extends BuilderBase
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      * @throws \InvalidArgumentException
      */
-    public function paginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page')
+    public function paginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page', $total = null)
     {
         if (is_array($page)) {
             $_columns = $columns;

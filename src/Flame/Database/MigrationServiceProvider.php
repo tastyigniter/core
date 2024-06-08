@@ -8,6 +8,13 @@ use Illuminate\Database\MigrationServiceProvider as BaseServiceProvider;
 
 class MigrationServiceProvider extends BaseServiceProvider
 {
+    public function register()
+    {
+        $this->app->register(BaseServiceProvider::class);
+
+        parent::register();
+    }
+
     /**
      * Override the Laravel repository service.
      *
@@ -16,7 +23,8 @@ class MigrationServiceProvider extends BaseServiceProvider
     protected function registerRepository()
     {
         $this->app->singleton('migration.repository', function($app) {
-            $table = $app['config']['database.migrations'];
+            $migrations = $app['config']['database.migrations'];
+            $table = is_array($migrations) ? ($migrations['table'] ?? null) : $migrations;
 
             return new DatabaseMigrationRepository($app['db'], $table);
         });

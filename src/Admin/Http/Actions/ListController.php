@@ -58,10 +58,10 @@ class ListController extends ControllerAction
         parent::__construct($controller);
 
         $this->listConfig = $controller->listConfig;
-        $this->primaryAlias = key($controller->listConfig);
+        $this->primaryAlias = key($controller->listConfig) ?? $this->primaryAlias;
 
         // Build configuration
-        $this->setConfig($controller->listConfig[$this->primaryAlias], $this->requiredConfig);
+        $this->setConfig($controller->listConfig[$this->primaryAlias] ?? [], $this->requiredConfig);
 
         $this->hideAction([
             'index_onDelete',

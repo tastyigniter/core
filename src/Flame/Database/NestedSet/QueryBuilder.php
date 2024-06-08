@@ -144,7 +144,7 @@ class QueryBuilder extends QueryBuilderBase
      *
      * @throws \InvalidArgumentException
      */
-    public function paginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page')
+    public function paginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page', $total = null)
     {
         if (is_array($page)) {
             $columns = $page;
