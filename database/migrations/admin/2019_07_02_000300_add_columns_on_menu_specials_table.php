@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::table('menus_specials', function(Blueprint $table) {
             $table->string('type');
             $table->string('validity');
-            $table->dateTime('start_date')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
-            $table->dateTime('end_date')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
+            $table->dateTime('start_date')->default(DB::raw('CURRENT_TIMESTAMP'))->nullable()->change();
+            $table->dateTime('end_date')->default(DB::raw('CURRENT_TIMESTAMP'))->nullable()->change();
             $table->text('recurring_every')->nullable();
             $table->time('recurring_from')->nullable();
             $table->time('recurring_to')->nullable();
