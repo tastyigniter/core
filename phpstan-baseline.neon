@@ -66,6 +66,16 @@ parameters:
 			path: database/migrations/admin/2023_06_06_000400_update_dashboard_widget_properties_on_user_preferences_table.php
 
 		-
+			message: "#^Method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:float\\(\\) invoked with 3 parameters, 1\\-2 required\\.$#"
+			count: 2
+			path: database/migrations/system/2015_03_25_000001_create_tables.php
+
+		-
+			message: "#^Method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:float\\(\\) invoked with 3 parameters, 1\\-2 required\\.$#"
+			count: 2
+			path: database/migrations/system/2016_11_29_000300_optimize_tables_columns.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Cart\\\\Models\\\\Category\\:\\:pluck\\(\\)\\.$#"
 			count: 1
 			path: database/migrations/system/2018_10_19_000300_create_media_attachments_table.php
@@ -1042,11 +1052,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:getDriver\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Manipulator.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:path\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Manipulator.php
 
@@ -2966,22 +2971,7 @@ parameters:
 			path: src/Flame/Providers/EventServiceProvider.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:dispatch\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Providers/MacroServiceProvider.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:getBindings\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Providers/MacroServiceProvider.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:getQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Providers/MacroServiceProvider.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Providers\\\\MacroServiceProvider\\:\\:toSql\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:getQuery\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Providers/MacroServiceProvider.php
 
@@ -3464,11 +3454,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:sizeToString\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/MediaItem.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:path\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MediaLibrary.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:url\\(\\)\\.$#"
