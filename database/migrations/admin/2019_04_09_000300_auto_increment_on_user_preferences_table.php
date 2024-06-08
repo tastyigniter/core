@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Set PRIMARY key on user_preferences table
  */
-return new class extends Migration {
+return new class extends Migration
+{
     public function up()
     {
         if (Schema::hasColumn('user_preferences', 'id')) {
