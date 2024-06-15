@@ -16,7 +16,7 @@ it('formats address correctly', function($address, $expectedWithLineBreaks, $exp
             'city' => 'City',
             'postcode' => '12345',
             'state' => 'State',
-            'country' => 'Country'
+            'country' => 'Country',
         ],
         '123 Street<br />Apt 4B<br />City 12345<br />State<br />Country',
         '123 Street, Apt 4B, City 12345, State, Country',
@@ -27,16 +27,16 @@ it('formats address correctly', function($address, $expectedWithLineBreaks, $exp
             'city' => 'City',
             'postcode' => '12345',
             'state' => 'State',
-            'country' => 'Country'
+            'country' => 'Country',
         ],
         '123 Street<br />City 12345<br />State<br />Country',
         '123 Street, City 12345, State, Country',
-    ]
+    ],
 ]);
 
 it('gets country name by id correctly', function() {
     $country = CountryModel::factory()->create([
-        'country_name' => 'Test Country'
+        'country_name' => 'Test Country',
     ]);
 
     expect((new Country())->getCountryNameById($country->getKey()))->toBe('Test Country');
@@ -45,7 +45,7 @@ it('gets country name by id correctly', function() {
 it('gets country code by id correctly', function() {
     $country = CountryModel::factory()->create([
         'iso_code_2' => 'TQ',
-        'iso_code_3' => 'TQT'
+        'iso_code_3' => 'TQT',
     ]);
 
     expect((new Country())->getCountryCodeById($country->getKey(), Country::ISO_CODE_2))->toBe('TQ')
@@ -56,7 +56,7 @@ it('gets country name by code correctly', function() {
     CountryModel::factory()->create([
         'country_name' => 'Test Country',
         'iso_code_2' => 'TQ',
-        'iso_code_3' => 'TQT'
+        'iso_code_3' => 'TQT',
     ]);
 
     expect((new Country())->getCountryNameByCode('TQ'))->toBe('Test Country');
