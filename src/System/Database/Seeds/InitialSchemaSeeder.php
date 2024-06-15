@@ -48,10 +48,7 @@ class InitialSchemaSeeder extends Seeder
         }
 
         DB::table('countries')->insert(collect(Igniter::getSeedRecords('countries'))->map(function($country) {
-            return array_merge($country, [
-                'status' => 1,
-                'format' => '{address_1}\n{address_2}\n{city} {postcode} {state}\n{country}',
-            ]);
+            return array_merge($country, ['status' => 1]);
         })->all());
 
         DB::table('countries')->update(['updated_at' => now(), 'created_at' => now()]);

@@ -43,19 +43,17 @@ class Country
             $format = $address['format'];
         }
 
-        $formattedAddress = str_replace(['\r\n', '\r', '\n'], '<br />',
-            preg_replace(['/\s\s+/', '/\r\r+/', '/\n\n+/'], '<br />',
-                trim(str_replace([
-                    '{address_1}', '{address_2}', '{city}', '{postcode}', '{state}', '{country}',
-                ], array_except($address, 'format'), $format))
-            )
+        $formattedAddress = str_replace(["\r\n", "\r", "\n"], '<br />',
+            preg_replace(["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />', trim(str_replace([
+                '{address_1}', '{address_2}', '{city}', '{postcode}', '{state}', '{country}',
+            ], array_except($address, 'format'), $format)))
         );
 
         if (!$useLineBreaks) {
             $formattedAddress = str_replace('<br />', ', ', $formattedAddress);
         }
 
-        return strip_tags($formattedAddress);
+        return strip_tags($formattedAddress, '<br>');
     }
 
     public function getCountryNameById(null|int|string $id = null): ?string
@@ -94,11 +92,7 @@ class Country
 
     public function getDefaultFormat(): string
     {
-        if ($defaultCountry = CountryModel::getDefault()) {
-            return $defaultCountry->format;
-        }
-
-        return $this->defaultFormat;
+        return CountryModel::getDefault()?->format ?: $this->defaultFormat;
     }
 
     public function listAll(?string $column = null, string $key = 'country_id'): Collection
@@ -142,6 +136,8 @@ class Country
                 $result['country'] = $countryModel->country_name;
                 $result['format'] = $countryModel->format;
             }
+        } elseif (is_string($country)) {
+            $result['country'] = $country;
         }
     }
 

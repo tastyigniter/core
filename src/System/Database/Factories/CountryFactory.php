@@ -14,9 +14,8 @@ class CountryFactory extends Factory
             'country_name' => $this->faker->sentence(2),
             'iso_code_2' => $this->faker->lexify('??'),
             'iso_code_3' => $this->faker->countryISOAlpha3(),
-            'format' => "{address_1}\n{address_2}\n{city} {postcode}\n{country}",
             'priority' => $this->faker->randomDigit(),
-            'status' => $this->faker->boolean(),
+            'status' => true,
         ];
     }
 }
