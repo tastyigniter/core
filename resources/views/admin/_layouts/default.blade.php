@@ -3,12 +3,12 @@
 <head>
     {{Template::renderHook('startHead')}}
 
-    {!! get_metas() !!}
+    {{html(get_metas())}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @if ($site_logo !== 'no_photo.png')
         <link href="{{ media_thumb($site_logo, ['width' => 64, 'height' => 64]) }}" rel="shortcut icon" type="image/ico">
     @else
-        {!! get_favicon() !!}
+        {{html(get_favicon())}}
     @endif
     @empty($pageTitle = Template::getTitle())
         <title>{{$site_name}}</title>
@@ -39,19 +39,19 @@
 
         @if(AdminAuth::isLogged())
             <x-igniter.admin::header>
-                {!! $this->widgets['mainmenu']->render() !!}
+                {{html($this->widgets['mainmenu']->render())}}
             </x-igniter.admin::header>
         @endif
 
         {{Template::renderHook('endHeader')}}
 
         <div class="page-content pt-4">
-            {!! Template::getBlock('body') !!}
+            {{Template::getBlock('body')}}
         </div>
         <div id="notification">
             {{Template::renderHook('startFlash')}}
 
-            {{$this->makePartial('igniter.admin::flash')}}
+            {{html($this->makePartial('igniter.admin::flash'))}}
 
             {{Template::renderHook('endFlash')}}
         </div>

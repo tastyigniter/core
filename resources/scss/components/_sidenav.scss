@@ -45,7 +45,7 @@
       }
 
       .fa {
-        color: $sidenav-icon-color;
+        color: $nav-link-color;
       }
     }
 
@@ -55,6 +55,7 @@
       background-color: $sidenav-hover-bg;
       font-weight: $font-weight-bold;
       border-radius: $input-border-radius;
+      color: var(--bs-nav-link-hover-color);
     }
 
     .nav {

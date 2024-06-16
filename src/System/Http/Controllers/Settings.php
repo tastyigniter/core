@@ -82,11 +82,6 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setPreviousUrl('settings');
 
         $this->initWidgets($model, $definition);
-
-        $this->validateSettingItems();
-        if ($errors = array_get($this->settingItemErrors, $settingCode)) {
-            Session::flash('errors', $errors);
-        }
     }
 
     public function edit_onSave(string $context, ?string $settingCode = null)
@@ -234,11 +229,18 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             foreach ($settingItems as $settingItem) {
                 $settingItemForm = $this->getFieldConfig($settingItem->code, $this->createModel());
 
-                if (!isset($settingItemForm['rules'])) {
+                if ($settingItem->request) {
+                    $request = new $settingItem->request;
+                    $rules = $request->rules();
+                    $attributes = $request->attributes();
+                } elseif (isset($settingItemForm['rules'])) {
+                    $rules = $settingItemForm['rules'];
+                    $attributes = [];
+                } else {
                     continue;
                 }
 
-                $validator = $this->makeValidator($settingValues, $settingItemForm['rules']);
+                $validator = $this->makeValidator($settingValues, $rules, [], $attributes);
                 $errors = $validator->fails() ? $validator->errors() : [];
 
                 $settingItemErrors[$settingItem->code] = $errors;

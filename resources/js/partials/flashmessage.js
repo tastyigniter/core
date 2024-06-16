@@ -158,13 +158,13 @@
         $('[data-control="flash-message"]:not(.loaded)').each(function (index, element) {
             setTimeout(function () {
                 $.ti.flashMessage($(element).data(), element)
-            }, (index + 1) * 500)
+            }, (index+1) * 500)
             $(element).addClass('loaded')
         })
 
         $('[data-control="flash-overlay"]:not(.loaded)').each(function (index, element) {
             $.ti.flashMessage.overlay($.extend({}, $(element).data(), $(element).data('closeOnEsc') === true ? {
-                timer: (index + 1) * 3000
+                timer: (index+1) * 3000
             } : {}))
             $(element).addClass('loaded')
         })
@@ -177,7 +177,7 @@
             $field
 
         $.each(fields, function (fieldName, fieldMessages) {
-            $field = $('[data-validate-for="' + fieldName + '"]', $this)
+            $field = $('[data-validate-for="'+fieldName+'"]', $this)
             messages = $.merge(messages, fieldMessages)
             if (!!$field.length) {
                 if (!$field.text().length || $field.data('emptyMode') == true) {

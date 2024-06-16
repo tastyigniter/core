@@ -1,21 +1,21 @@
 @foreach(Flash::all() as $message)
     @if($message['overlay'])
         <div
-          data-control="flash-overlay"
-          data-title="{{ array_get($message, 'title') }}"
-          data-text='{!! array_get($message, 'message') !!}'
-          data-level="{{ $message['level'] }}"
-          data-close-on-click-outside="{{ $message['important'] ? 'false' : 'true' }}"
-          data-close-on-esc="{{ $message['important'] ? 'false' : 'true' }}"
+            data-control="flash-overlay"
+            data-title="{{ array_get($message, 'title') }}"
+            data-text="{!! htmlentities(array_get($message, 'message')) !!}"
+            data-level="{{ $message['level'] }}"
+            data-close-on-click-outside="{{ $message['important'] ? 'false' : 'true' }}"
+            data-close-on-esc="{{ $message['important'] ? 'false' : 'true' }}"
         ></div>
     @else
         <div
-          @class(['alert alert-'.$message['level'], 'alert-important' => $message['important']])
-          data-control="flash-message"
-          data-level="{{ $message['level'] }}"
-          data-text='{!! array_get($message, 'message') !!}'
-          data-allow-dismiss="{{ $message['important'] ? 'false' : 'true' }}"
-          role="alert"
+            @class(['alert alert-'.$message['level'], 'alert-important' => $message['important']])
+            data-control="flash-message"
+            data-level="{{ $message['level'] }}"
+            data-text="{!! htmlentities(array_get($message, 'message')) !!}"
+            data-allow-dismiss="{{ $message['important'] ? 'false' : 'true' }}"
+            role="alert"
         ></div>
     @endif
 @endforeach
@@ -24,7 +24,7 @@
         class="alert alert-danger"
         data-control="flash-message"
         data-level="danger"
-        data-text='{!! implode('<br>', array_collapse($messages)) !!}'
+        data-text='{!! htmlentities(implode('<br>', array_collapse($messages))) !!}'
         data-allow-dismiss="false"
         role="alert"
     ></div>

@@ -8,16 +8,17 @@
 
             <div class="row g-3">
                 @foreach($categories as $key => $category)
+                    @php($hasErrors = count(array_get($settingItemErrors, $category->code, [])))
                     <div class="col-lg-4">
                         <a
                             class="text-reset d-block h-100"
                             href="{{ $category->url }}"
                             role="button"
                         >
-                            <div class="card shadow-sm card-hover h-100">
+                            <div @class(['card shadow-sm card-hover h-100', 'border-danger' => $hasErrors])>
                                 <div class="card-body d-flex align-items-center">
                                     <div class="pr-3">
-                                        @if ($item == 'core' && count(array_get($settingItemErrors, $category->code, [])))
+                                        @if ($item == 'core' && $hasErrors)
                                             <i
                                                 class="text-danger fa fa-exclamation-triangle fa-fw"
                                                 title="@lang('igniter::system.settings.alert_settings_errors')"

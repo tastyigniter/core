@@ -95,3 +95,10 @@ if (!function_exists('get_title')) {
         return controller()->getPage()->title;
     }
 }
+
+if (!function_exists('html')) {
+    function html(string $html)
+    {
+        return new \Illuminate\Support\HtmlString($html);
+    }
+}

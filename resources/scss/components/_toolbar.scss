@@ -61,34 +61,18 @@
     float: right;
   }
 
-  //
-  //.btn-primary {
-  //  color: #FFFFFF;
-  //
-  //  &:hover {
-  //    color: #FFFFFF;
-  //  }
-  //}
-  //
-  //.btn-outline-primary {
-  //  color: $primary;
-  //
-  //  &:hover {
-  //    color: #FFFFFF;
-  //  }
-  //}
-  //
   @each $color, $value in $theme-colors {
-    @if not ($color == "primary") {
+    @if not ($color == "primary" or $color == "default" or $color == "light") {
       .btn-#{$color} {
-        @include button-variant($secondary, $secondary, $white, darken($value, 10%), darken($value, 10%), color-contrast(darken($value, 12.5%)));
+        @include button-variant($white, $gray-300, $body-color, darken($value, 10%), darken($value, 10%), color-contrast(darken($value, 12.5%)));
+        color: $body-color;
       }
     }
   }
   @each $color, $value in $theme-colors {
-    @if not ($color == "primary") {
+    @if not ($color == "primary" or $color == "default" or $color == "light") {
       .btn-outline-#{$color} {
-        @include button-outline-variant($secondary, color-contrast(darken($value, 12.5%)), $value, $value);
+        @include button-outline-variant($body-color, color-contrast(darken($value, 12.5%)), $value, $value);
       }
     }
   }

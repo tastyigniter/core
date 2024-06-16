@@ -3346,11 +3346,6 @@ parameters:
 			path: src/Flame/Translation/Models/Translation.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Translation\\\\Translator\\:\\:getValidationKey\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Translation/Translator.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$components\\.$#"
 			count: 2
 			path: src/Main/Classes/MainController.php
@@ -4391,7 +4386,7 @@ parameters:
 			path: src/System/Console/Commands/IgniterInstall.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:register\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getProvider\\(\\)\\.$#"
 			count: 1
 			path: src/System/Console/Commands/IgniterInstall.php
 

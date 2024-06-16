@@ -14,13 +14,13 @@
   padding: $btn-action-padding;
 }
 
-.btn-light {
+.btn-light, .btn-default {
   background-color: $white;
   border-color: $gray-300;
 
   &:hover {
-    background-color: $light;
-    border-color: $gray-300;
+    background-color: $white;
+    border-color: $gray-400;
   }
 }
 
@@ -32,9 +32,7 @@
 }
 
 .btn-primary,
-.btn-success,
-.btn-secondary,
-.btn-default {
+.btn-success {
   color: $white;
 
   &:hover,
