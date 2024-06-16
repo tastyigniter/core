@@ -40,6 +40,7 @@ class TranslationServiceProvider extends BaseServiceProvider
         $this->app->singleton('translation.loader', function($app) {
             $reflection = new \ReflectionClass(BaseServiceProvider::class);
             $dir = dirname($reflection->getFileName());
+
             return new FileLoader($app['files'], [$dir.'/lang', $app['path.lang']]);
         });
     }
