@@ -97,8 +97,8 @@ if (!function_exists('get_title')) {
 }
 
 if (!function_exists('html')) {
-    function html(string $html)
+    function html(?string $html): \Illuminate\Support\HtmlString
     {
-        return new \Illuminate\Support\HtmlString($html);
+        return new \Illuminate\Support\HtmlString($html ?: '');
     }
 }

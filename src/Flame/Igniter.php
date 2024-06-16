@@ -9,7 +9,7 @@ use Illuminate\View\Factory;
 
 class Igniter
 {
-    const VERSION = 'v4.0.0';
+    const VERSION = 'v4.0.0-beta';
 
     /**
      * The base path for extensions.
