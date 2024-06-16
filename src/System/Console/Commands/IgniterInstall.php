@@ -191,7 +191,7 @@ class IgniterInstall extends Command
             return $answer;
         });
 
-        $user = AdminAuth::register([
+        $user = AdminAuth::getProvider()->register([
             'email' => DatabaseSeeder::$siteEmail,
             'name' => DatabaseSeeder::$staffName,
             'language_id' => Language::first()->language_id,
