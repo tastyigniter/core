@@ -8,16 +8,9 @@ use Illuminate\Translation\Translator as BaseTranslator;
 class Translator extends BaseTranslator
 {
     protected $replaceNamespaces = [
-        [
-            'admin::lang.',
-            'main::lang.',
-            'system::lang.',
-        ],
-        [
-            'igniter::admin.',
-            'igniter::main.',
-            'igniter::system.',
-        ],
+        'admin::lang.' => 'igniter::admin.',
+        'main::lang.' => 'igniter::main.',
+        'system::lang.' => 'igniter::system.',
     ];
 
     public function get($key, array $replace = [], $locale = null, $fallback = true)
@@ -26,37 +19,10 @@ class Translator extends BaseTranslator
             $key = substr($key, 5);
         }
 
-        if (Str::startsWith($key, $this->replaceNamespaces[0])) {
-            $key = Str::replace($this->replaceNamespaces[0], $this->replaceNamespaces[1], $key);
-        }
-
-        if ($line = $this->getValidationKey($key, $replace, $locale)) {
-            return $line;
+        if (Str::startsWith($key, array_keys($this->replaceNamespaces))) {
+            $key = Str::replace(array_keys($this->replaceNamespaces), array_values($this->replaceNamespaces), $key);
         }
 
         return parent::get($key, $replace, $locale, $fallback);
-    }
-
-    /**
-     * Get the validation translation.
-     *
-     * @param  string $key
-     * @param  array $replace
-     * @param  string $locale
-     * @return string
-     */
-    protected function getValidationKey($key, $replace, $locale)
-    {
-        if (
-            starts_with($key, 'validation.')
-            && !starts_with($key, 'validation.custom.')
-            && !starts_with($key, 'validation.attributes.')
-        ) {
-            $systemKey = 'system::'.$key;
-            $line = $this->get($systemKey, $replace, $locale);
-            if ($line !== $systemKey) {
-                return $line;
-            }
-        }
     }
 }
