@@ -7,9 +7,7 @@ use Igniter\Flame\Geolite\Geolite;
 
 class Distance
 {
-    public function __construct(protected float $distance, protected int $duration)
-    {
-    }
+    public function __construct(protected float $distance, protected int $duration) {}
 
     public function getDistance(): float
     {

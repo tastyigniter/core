@@ -10,9 +10,7 @@ class FlashStore
     /**
      * Create a new session store instance.
      */
-    public function __construct(protected Store $session)
-    {
-    }
+    public function __construct(protected Store $session) {}
 
     /**
      * Flash a message to the session.

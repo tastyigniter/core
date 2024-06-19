@@ -28,8 +28,7 @@ it('fails when theme file does not exist', function() {
         ->toBeFalse();
 });
 
-it('writes a theme file', function() {
-})->skip();
+it('writes a theme file', function() {})->skip();
 
 it('renames a theme file', function() {
     $manager = resolve(ThemeManager::class);
@@ -42,20 +41,14 @@ it('renames a theme file', function() {
     $manager->renameFile($newFile, $oldFile, 'tests-theme');
 });
 
-it('deletes a theme file', function() {
-})->skip();
+it('deletes a theme file', function() {})->skip();
 
-it('extracts a theme archive', function() {
-})->skip();
+it('extracts a theme archive', function() {})->skip();
 
-it('deletes a theme directory', function() {
-})->skip();
+it('deletes a theme directory', function() {})->skip();
 
-it('installs a theme', function() {
-})->skip();
+it('installs a theme', function() {})->skip();
 
-it('creates a child theme', function() {
-})->skip();
+it('creates a child theme', function() {})->skip();
 
-it('validates a theme configuration', function() {
-})->skip();
+it('validates a theme configuration', function() {})->skip();

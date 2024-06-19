@@ -6,9 +6,7 @@ use Igniter\Flame\Geolite\Contracts\LocationInterface;
 
 class AddressMatch
 {
-    public function __construct(protected array $components)
-    {
-    }
+    public function __construct(protected array $components) {}
 
     public function matches(LocationInterface $position): bool
     {

@@ -35,9 +35,7 @@ class ConsoleSubscriber
         ])->name('Prunable Models Checker')->daily();
     }
 
-    public function handleCommandStarting(CommandStarting $event)
-    {
-    }
+    public function handleCommandStarting(CommandStarting $event) {}
 
     public function handleCommandFinished(CommandFinished $event)
     {

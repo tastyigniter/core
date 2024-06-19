@@ -76,7 +76,7 @@ class PackageManifest extends BasePackageManifest
                             .'composer'
                             .DIRECTORY_SEPARATOR
                             .array_get($package, 'install-path'),
-                    ]
+                    ],
                 ];
             })
             ->filter()

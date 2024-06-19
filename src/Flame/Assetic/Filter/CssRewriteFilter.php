@@ -20,9 +20,7 @@ use Igniter\Flame\Assetic\Asset\AssetInterface;
  */
 class CssRewriteFilter extends BaseCssFilter
 {
-    public function filterLoad(AssetInterface $asset)
-    {
-    }
+    public function filterLoad(AssetInterface $asset) {}
 
     public function filterDump(AssetInterface $asset)
     {

@@ -8,9 +8,7 @@ class MediaAdded
 {
     use \Igniter\Flame\Traits\EventDispatchable;
 
-    public function __construct(public Media $media)
-    {
-    }
+    public function __construct(public Media $media) {}
 
     public static function eventName(): string
     {

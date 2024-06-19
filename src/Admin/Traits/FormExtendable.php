@@ -13,58 +13,42 @@ trait FormExtendable
     /**
      * Called to validate create or edit form.
      */
-    public function formValidate(Model $model, $form)
-    {
-    }
+    public function formValidate(Model $model, $form) {}
 
     /**
      * Called before the creation or updating form is saved.
      */
-    public function formBeforeSave(Model $model)
-    {
-    }
+    public function formBeforeSave(Model $model) {}
 
     /**
      * Called after the creation or updating form is saved.
      */
-    public function formAfterSave(Model $model)
-    {
-    }
+    public function formAfterSave(Model $model) {}
 
     /**
      * Called before the creation form is saved.
      */
-    public function formBeforeCreate(Model $model)
-    {
-    }
+    public function formBeforeCreate(Model $model) {}
 
     /**
      * Called after the creation form is saved.
      */
-    public function formAfterCreate(Model $model)
-    {
-    }
+    public function formAfterCreate(Model $model) {}
 
     /**
      * Called before the updating form is saved.
      */
-    public function formBeforeUpdate(Model $model)
-    {
-    }
+    public function formBeforeUpdate(Model $model) {}
 
     /**
      * Called after the updating form is saved.
      */
-    public function formAfterUpdate(Model $model)
-    {
-    }
+    public function formAfterUpdate(Model $model) {}
 
     /**
      * Called after the form model is deleted.
      */
-    public function formAfterDelete(Model $model)
-    {
-    }
+    public function formAfterDelete(Model $model) {}
 
     /**
      * Finds a Model record by its primary identifier, used by edit actions. This logic
@@ -109,9 +93,7 @@ trait FormExtendable
      *
      * @return void
      */
-    public function formExtendFieldsBefore(Form $host)
-    {
-    }
+    public function formExtendFieldsBefore(Form $host) {}
 
     /**
      * Called after the form fields are defined.
@@ -120,30 +102,22 @@ trait FormExtendable
      *
      * @return void
      */
-    public function formExtendFields(Form $host, $fields)
-    {
-    }
+    public function formExtendFields(Form $host, $fields) {}
 
     /**
      * Called before the form is refreshed, should return an array of additional save data.
      */
-    public function formExtendRefreshData(Form $host, array $saveData)
-    {
-    }
+    public function formExtendRefreshData(Form $host, array $saveData) {}
 
     /**
      * Called when the form is refreshed, giving the opportunity to modify the form fields.
      */
-    public function formExtendRefreshFields(Form $host, array $fields)
-    {
-    }
+    public function formExtendRefreshFields(Form $host, array $fields) {}
 
     /**
      * Called after the form is refreshed, should return an array of additional result parameters.
      */
-    public function formExtendRefreshResults(Form $host, array $result)
-    {
-    }
+    public function formExtendRefreshResults(Form $host, array $result) {}
 
     /**
      * Extend supplied model used by create and edit actions, the model can
@@ -151,21 +125,15 @@ trait FormExtendable
      *
      * @return\Igniter\Flame\Database\Model
      */
-    public function formExtendModel(Model $model)
-    {
-    }
+    public function formExtendModel(Model $model) {}
 
     /**
      * Extend the query used for finding the form model. Extra conditions
      * can be applied to the query, for example, $query->withTrashed();
      */
-    public function formExtendQuery(Builder $query)
-    {
-    }
+    public function formExtendQuery(Builder $query) {}
 
-    public function formExtendConfig(array $formConfig)
-    {
-    }
+    public function formExtendConfig(array $formConfig) {}
 
     /** Static helper for extending form fields. */
     public static function extendFormFields(callable $callback)

@@ -10,9 +10,7 @@ abstract class Scope implements IlluminateScope
 {
     protected array $extensions = [];
 
-    public function apply(Builder $builder, Model $model)
-    {
-    }
+    public function apply(Builder $builder, Model $model) {}
 
     public function extend(Builder $builder)
     {

@@ -19,25 +19,19 @@ class TemplateCode extends Extendable implements ArrayAccess
      * This event is triggered when all components are initialized and before AJAX is handled.
      * The layout's onInit method triggers before the page's onInit method.
      */
-    public function onInit()
-    {
-    }
+    public function onInit() {}
 
     /**
      * This event is triggered in the beginning of the execution cycle.
      * The layout's onStart method triggers before the page's onStart method.
      */
-    public function onStart()
-    {
-    }
+    public function onStart() {}
 
     /**
      * This event is triggered in the end of the execution cycle, but before the page is displayed.
      * The layout's onEnd method triggers after the page's onEnd method.
      */
-    public function onEnd()
-    {
-    }
+    public function onEnd() {}
 
     public function offsetSet(mixed $offset, mixed $value): void
     {

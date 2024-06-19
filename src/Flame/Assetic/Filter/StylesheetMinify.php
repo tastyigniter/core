@@ -12,9 +12,7 @@ use Igniter\Flame\Assetic\Asset\AssetInterface;
  */
 class StylesheetMinify implements FilterInterface
 {
-    public function filterLoad(AssetInterface $asset)
-    {
-    }
+    public function filterLoad(AssetInterface $asset) {}
 
     public function filterDump(AssetInterface $asset)
     {

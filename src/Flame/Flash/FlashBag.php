@@ -10,9 +10,7 @@ class FlashBag
 
     public ?Collection $messages = null;
 
-    public function __construct(protected FlashStore $store)
-    {
-    }
+    public function __construct(protected FlashStore $store) {}
 
     public function setSessionKey(string $key): self
     {

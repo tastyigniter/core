@@ -11,9 +11,7 @@ use Illuminate\Support\Collection;
 
 class ChainProvider extends Contracts\AbstractProvider
 {
-    public function __construct(protected GeocoderInterface $geocoder, protected array $providers = [])
-    {
-    }
+    public function __construct(protected GeocoderInterface $geocoder, protected array $providers = []) {}
 
     public function getName(): string
     {

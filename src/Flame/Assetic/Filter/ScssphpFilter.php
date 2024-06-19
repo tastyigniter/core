@@ -121,9 +121,7 @@ class ScssphpFilter implements DependencyExtractorInterface
         $asset->setContent($sc->compileString($asset->getContent())->getCss());
     }
 
-    public function filterDump(AssetInterface $asset)
-    {
-    }
+    public function filterDump(AssetInterface $asset) {}
 
     public function getChildren(AssetFactory $factory, $content, $loadPath = null)
     {

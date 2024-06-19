@@ -11,9 +11,7 @@ use Igniter\System\Facades\Assets;
 use Illuminate\View\Factory;
 
 beforeEach(function() {
-    $this->controller = new class extends AdminController
-    {
-    };
+    $this->controller = new class extends AdminController {};
     $this->formWidget = new Form($this->controller, [
         'toolbar' => [
             'prompt' => 'Search text',

@@ -78,23 +78,17 @@ abstract class BaseComponent extends Extendable
     /**
      * Executed when this component is first initialized, before AJAX requests.
      */
-    public function initialize()
-    {
-    }
+    public function initialize() {}
 
     /**
      * Executed when this component is bound to a layout.
      */
-    public function onRun()
-    {
-    }
+    public function onRun() {}
 
     /**
      * Executed when this component is rendered on a layout.
      */
-    public function onRender()
-    {
-    }
+    public function onRender() {}
 
     /**
      * Renders a requested partial in context of this component,

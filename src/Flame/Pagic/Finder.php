@@ -84,8 +84,7 @@ class Finder
     public function __construct(
         protected SourceInterface $source,
         protected Processor $processor
-    ) {
-    }
+    ) {}
 
     /**
      * Switches mode to select a single template by its name.

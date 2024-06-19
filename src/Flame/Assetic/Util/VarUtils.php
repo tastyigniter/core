@@ -78,7 +78,5 @@ abstract class VarUtils
         return $combinations;
     }
 
-    final private function __construct()
-    {
-    }
+    final private function __construct() {}
 }

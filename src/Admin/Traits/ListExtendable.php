@@ -15,9 +15,7 @@ trait ListExtendable
     /**
      * Called after the list columns are defined.
      */
-    public function listExtendColumns(Lists $host)
-    {
-    }
+    public function listExtendColumns(Lists $host) {}
 
     /**
      * Controller override: Extend supplied model
@@ -31,9 +29,7 @@ trait ListExtendable
      * Controller override: Extend the query used for populating the list
      * before the default query is processed.
      */
-    public function listExtendQueryBefore(Builder $query, ?string $alias = null)
-    {
-    }
+    public function listExtendQueryBefore(Builder $query, ?string $alias = null) {}
 
     /**
      * Controller override: Extend the query used for populating the list
@@ -41,18 +37,14 @@ trait ListExtendable
      *
      * @param \Igniter\Flame\Database\Builder $query
      */
-    public function listExtendQuery(Builder $query, ?string $alias = null)
-    {
-    }
+    public function listExtendQuery(Builder $query, ?string $alias = null) {}
 
     /**
      * listExtendRecords controller override: Extend the records used for populating the list
      * after the query is processed.
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection $records
      */
-    public function listExtendRecords(mixed $records, ?string $alias = null)
-    {
-    }
+    public function listExtendRecords(mixed $records, ?string $alias = null) {}
 
     /**
      * Controller override: Extend the query used for populating the filter
@@ -61,35 +53,25 @@ trait ListExtendable
      * @param \Igniter\Flame\Database\Builder $query
      * @param array $scope
      */
-    public function listFilterExtendQuery(Builder $query, FilterScope $scope)
-    {
-    }
+    public function listFilterExtendQuery(Builder $query, FilterScope $scope) {}
 
     /** Called before the filter scopes are defined. */
-    public function listFilterExtendScopesBefore(Filter $host)
-    {
-    }
+    public function listFilterExtendScopesBefore(Filter $host) {}
 
     /**
      * Called after the filter scopes are defined.
      */
-    public function listFilterExtendScopes(Filter $host, array $scopes)
-    {
-    }
+    public function listFilterExtendScopes(Filter $host, array $scopes) {}
 
     /**
      * Replace a table column value (<td>...</td>)
      */
-    public function listOverrideColumnValue(Model $record, ListColumn $column, ?string $alias = null)
-    {
-    }
+    public function listOverrideColumnValue(Model $record, ListColumn $column, ?string $alias = null) {}
 
     /**
      * Replace the entire table header contents (<th>...</th>) with custom HTML
      */
-    public function listOverrideHeaderValue(ListColumn $column, ?string $alias = null)
-    {
-    }
+    public function listOverrideHeaderValue(ListColumn $column, ?string $alias = null) {}
 
     /**
      * Static helper for extending list columns.

@@ -65,9 +65,7 @@ class ListColumn
     /** Raw field configuration. */
     public array $config = [];
 
-    public function __construct(public string $columnName, public ?string $label = null)
-    {
-    }
+    public function __construct(public string $columnName, public ?string $label = null) {}
 
     /**
      * Specifies a list column rendering mode. Supported modes are:

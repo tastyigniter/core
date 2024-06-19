@@ -9,9 +9,7 @@ use Illuminate\Support\Collection;
 
 class RouteRegistrar
 {
-    public function __construct(protected IlluminateRouter $router)
-    {
-    }
+    public function __construct(protected IlluminateRouter $router) {}
 
     /**
      * Register routes for admin and frontend.

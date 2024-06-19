@@ -28,9 +28,7 @@ class Template
      * directly (use Environment::load() instead).
      * @internal
      */
-    public function __construct(private readonly Environment $env, protected string $path)
-    {
-    }
+    public function __construct(private readonly Environment $env, protected string $path) {}
 
     /**
      * Renders the template.

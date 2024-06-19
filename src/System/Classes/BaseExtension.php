@@ -141,9 +141,7 @@ abstract class BaseExtension extends EventServiceProvider
     /**
      * Registers scheduled tasks that are executed on a regular basis.
      */
-    public function registerSchedule(Schedule $schedule)
-    {
-    }
+    public function registerSchedule(Schedule $schedule) {}
 
     /**
      * Registers any dashboard widgets provided by this extension.

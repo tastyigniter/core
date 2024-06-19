@@ -27,9 +27,7 @@ class AssetReference implements AssetInterface
 
     private ?AssetInterface $asset = null;
 
-    public function __construct(private readonly AssetManager $am, private readonly string $name)
-    {
-    }
+    public function __construct(private readonly AssetManager $am, private readonly string $name) {}
 
     public function __clone()
     {

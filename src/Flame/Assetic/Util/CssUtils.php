@@ -136,7 +136,5 @@ abstract class CssUtils
         return array_unique(array_filter($imports));
     }
 
-    final private function __construct()
-    {
-    }
+    final private function __construct() {}
 }

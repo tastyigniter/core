@@ -165,7 +165,5 @@ class CalendarController extends ControllerAction
         return [];
     }
 
-    public function calendarUpdateEvent(string $eventId, ?string $startAt, ?string $endAt)
-    {
-    }
+    public function calendarUpdateEvent(string $eventId, ?string $startAt, ?string $endAt) {}
 }

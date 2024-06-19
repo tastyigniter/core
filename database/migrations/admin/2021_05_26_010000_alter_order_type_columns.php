@@ -16,9 +16,7 @@ return new class extends Migration
         $this->updateOrderRestrictionColumn();
     }
 
-    public function down()
-    {
-    }
+    public function down() {}
 
     protected function updateOrderRestrictionColumn()
     {

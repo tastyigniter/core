@@ -2,6 +2,4 @@
 
 namespace Igniter\Flame\Pagic\Extension;
 
-class CoreExtension extends AbstractExtension
-{
-}
+class CoreExtension extends AbstractExtension {}

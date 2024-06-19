@@ -8,9 +8,7 @@ use Igniter\User\Models\User;
 
 class UpdateFoundNotification extends Notification implements CriticalNotification
 {
-    public function __construct(protected int $count = 0)
-    {
-    }
+    public function __construct(protected int $count = 0) {}
 
     public function getRecipients(): array
     {

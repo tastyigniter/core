@@ -309,9 +309,7 @@ class StatusEditor extends BaseFormWidget
         $form->fields['assignee_id']['options'] = [$this, 'getAssigneeOptions'];
     }
 
-    protected function formExtendFields($form, $fields)
-    {
-    }
+    protected function formExtendFields($form, $fields) {}
 
     protected function checkAssigneePermission()
     {

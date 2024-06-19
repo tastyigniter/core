@@ -16,9 +16,7 @@ return new class extends Migration
         $this->updateThemes();
     }
 
-    public function down()
-    {
-    }
+    public function down() {}
 
     private function updateLocations()
     {

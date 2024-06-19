@@ -431,9 +431,7 @@ class Theme
         return LayoutTemplate::listInTheme($this->getName());
     }
 
-    public function getPagesOptions()
-    {
-    }
+    public function getPagesOptions() {}
 
     public function listRequires()
     {

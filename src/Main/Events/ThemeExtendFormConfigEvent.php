@@ -8,9 +8,7 @@ class ThemeExtendFormConfigEvent
 {
     use EventDispatchable;
 
-    public function __construct(public string $themeName, public array $config)
-    {
-    }
+    public function __construct(public string $themeName, public array $config) {}
 
     public function getConfig(): array
     {

@@ -47,9 +47,7 @@ class Router
 
     protected array $urlMap = [];
 
-    public function __construct(protected string $theme = 'default')
-    {
-    }
+    public function __construct(protected string $theme = 'default') {}
 
     public function setTheme(string $theme): static
     {

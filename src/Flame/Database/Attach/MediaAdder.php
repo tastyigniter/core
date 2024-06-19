@@ -28,9 +28,7 @@ class MediaAdder
 
     protected ?string $pathToFile = null;
 
-    public function __construct(protected Filesystem $files)
-    {
-    }
+    public function __construct(protected Filesystem $files) {}
 
     public function on(Media $media): self
     {

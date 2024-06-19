@@ -473,9 +473,7 @@ class Media extends Model
         return $this->getPublicPath().$this->getPartitionDirectory().$thumbFile;
     }
 
-    public function outputThumb($options = [])
-    {
-    }
+    public function outputThumb($options = []) {}
 
     public function getDefaultThumbPath($thumbPath, $default = null)
     {

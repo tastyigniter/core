@@ -56,9 +56,7 @@ class FilterScope
     /** Raw scope configuration. */
     public array $config = [];
 
-    public function __construct(public string $scopeName, public string $label)
-    {
-    }
+    public function __construct(public string $scopeName, public string $label) {}
 
     /**
      * Specifies a scope control rendering mode. Supported modes are:

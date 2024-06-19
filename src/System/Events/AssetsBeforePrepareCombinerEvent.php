@@ -9,9 +9,7 @@ class AssetsBeforePrepareCombinerEvent
 {
     use EventDispatchable;
 
-    public function __construct(public Assets $library, public array $assets)
-    {
-    }
+    public function __construct(public Assets $library, public array $assets) {}
 
     public static function eventName(): string
     {

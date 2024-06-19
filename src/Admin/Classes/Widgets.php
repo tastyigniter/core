@@ -41,9 +41,7 @@ class Widgets
     /**
      * Initialize this singleton.
      */
-    public function __construct(protected ExtensionManager $extensionManager)
-    {
-    }
+    public function __construct(protected ExtensionManager $extensionManager) {}
 
     //
     // List Action Widgets

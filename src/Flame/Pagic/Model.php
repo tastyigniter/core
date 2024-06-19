@@ -396,9 +396,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
         $this->newFinder()->delete();
     }
 
-    public static function addGlobalScope($scope, ?Closure $implementation = null)
-    {
-    }
+    public static function addGlobalScope($scope, ?Closure $implementation = null) {}
 
     /**
      * Convert the model to its string representation.

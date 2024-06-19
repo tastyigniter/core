@@ -51,9 +51,7 @@ class CssMinFilter implements FilterInterface
         $this->plugins[$name] = $value;
     }
 
-    public function filterLoad(AssetInterface $asset)
-    {
-    }
+    public function filterLoad(AssetInterface $asset) {}
 
     public function filterDump(AssetInterface $asset)
     {

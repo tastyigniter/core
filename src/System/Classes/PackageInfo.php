@@ -26,8 +26,7 @@ class PackageInfo
         public string $hash = '',
         public string $updatedAt = '',
         public string $homepage = '',
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $array): static
     {

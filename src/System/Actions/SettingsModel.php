@@ -155,9 +155,7 @@ class SettingsModel extends ModelAction
     /**
      * Default values to set for this model, override
      */
-    public function initSettingsData()
-    {
-    }
+    public function initSettingsData() {}
 
     /**
      * Populate the field values from the database record.
@@ -193,9 +191,7 @@ class SettingsModel extends ModelAction
      * After the model is saved, clear the cached query entry.
      * @return void
      */
-    public function afterModelSave()
-    {
-    }
+    public function afterModelSave() {}
 
     /**
      * Checks if a key is legitimate or should be added to

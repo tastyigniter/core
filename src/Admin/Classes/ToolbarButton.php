@@ -29,9 +29,7 @@ class ToolbarButton
     /**
      * Constructor.
      */
-    public function __construct(public string $name)
-    {
-    }
+    public function __construct(public string $name) {}
 
     /**
      * Specifies a Toolbar button rendering mode. Supported modes are:

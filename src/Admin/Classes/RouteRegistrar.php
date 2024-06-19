@@ -11,9 +11,7 @@ use ReflectionClass;
 
 class RouteRegistrar
 {
-    public function __construct(protected Router $router)
-    {
-    }
+    public function __construct(protected Router $router) {}
 
     /**
      * Register routes for admin and frontend.

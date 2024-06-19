@@ -61,7 +61,5 @@ class BaseBulkActionWidget extends BaseWidget
         return $this->actionButton;
     }
 
-    public function handleAction(array $requestData, Collection $records)
-    {
-    }
+    public function handleAction(array $requestData, Collection $records) {}
 }

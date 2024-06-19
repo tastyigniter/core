@@ -54,9 +54,7 @@ class CacheHelper
         }
     }
 
-    public static function clearTemplates()
-    {
-    }
+    public static function clearTemplates() {}
 
     public static function clearCompiled()
     {

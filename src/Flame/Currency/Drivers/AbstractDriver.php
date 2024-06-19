@@ -10,9 +10,7 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * Create a new driver instance.
      */
-    public function __construct(protected array $config = [])
-    {
-    }
+    public function __construct(protected array $config = []) {}
 
     /**
      * Get configuration value.

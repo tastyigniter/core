@@ -20,7 +20,5 @@ return new class extends Migration
             ->update(['is_summable' => 1]);
     }
 
-    public function down()
-    {
-    }
+    public function down() {}
 };

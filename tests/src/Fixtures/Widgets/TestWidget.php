@@ -17,8 +17,5 @@ class TestWidget extends BaseWidget
         ]);
     }
 
-    public function onAjaxTest()
-    {
-
-    }
+    public function onAjaxTest() {}
 }

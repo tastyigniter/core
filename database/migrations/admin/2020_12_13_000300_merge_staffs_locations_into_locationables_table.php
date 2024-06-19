@@ -19,7 +19,5 @@ return new class extends Migration
         Schema::dropIfExists('staffs_locations');
     }
 
-    public function down()
-    {
-    }
+    public function down() {}
 };

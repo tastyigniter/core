@@ -14,9 +14,7 @@ class ArrayLoader extends Loader
     /**
      * @param array $templates An array of templates (keys are the names, and values are the source code)
      */
-    public function __construct(protected array $templates = [])
-    {
-    }
+    public function __construct(protected array $templates = []) {}
 
     /**
      * Adds or overrides a template.

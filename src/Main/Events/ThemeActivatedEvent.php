@@ -9,9 +9,7 @@ class ThemeActivatedEvent
 {
     use EventDispatchable;
 
-    public function __construct(public Theme $theme)
-    {
-    }
+    public function __construct(public Theme $theme) {}
 
     public static function eventName(): string
     {

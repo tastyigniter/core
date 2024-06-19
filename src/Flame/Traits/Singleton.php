@@ -43,9 +43,7 @@ trait Singleton
     /**
      * Initialize the singleton free from constructor parameters.
      */
-    protected function initialize()
-    {
-    }
+    protected function initialize() {}
 
     public function __clone()
     {

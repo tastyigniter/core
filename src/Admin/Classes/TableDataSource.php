@@ -18,9 +18,7 @@ class TableDataSource
      *
      * @param string $keyColumn Specifies a name of the key column.
      */
-    public function __construct(protected string $keyColumn = 'id')
-    {
-    }
+    public function __construct(protected string $keyColumn = 'id') {}
 
     /**
      * Initializes records in the data source.

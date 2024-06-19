@@ -100,9 +100,7 @@ class FormField
     /** Other field names text is converted in to a URL, slug or file name value in this field. */
     public string|array $preset = [];
 
-    public function __construct(public ?string $fieldName, public ?string $label = null)
-    {
-    }
+    public function __construct(public ?string $fieldName, public ?string $label = null) {}
 
     /**
      * If this field belongs to a tab.

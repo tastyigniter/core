@@ -235,72 +235,52 @@ abstract class Model extends EloquentModel
     /**
      * Handle the "creating" model event
      */
-    protected function beforeCreate()
-    {
-    }
+    protected function beforeCreate() {}
 
     /**
      * Handle the "created" model event
      */
-    protected function afterCreate()
-    {
-    }
+    protected function afterCreate() {}
 
     /**
      * Handle the "updating" model event
      */
-    protected function beforeUpdate()
-    {
-    }
+    protected function beforeUpdate() {}
 
     /**
      * Handle the "updated" model event
      */
-    protected function afterUpdate()
-    {
-    }
+    protected function afterUpdate() {}
 
     /**
      * Handle the "saving" model event
      */
-    protected function beforeSave()
-    {
-    }
+    protected function beforeSave() {}
 
     /**
      * Handle the "saved" model event
      */
-    protected function afterSave()
-    {
-    }
+    protected function afterSave() {}
 
     /**
      * Handle the "deleting" model event
      */
-    protected function beforeDelete()
-    {
-    }
+    protected function beforeDelete() {}
 
     /**
      * Handle the "deleted" model event
      */
-    protected function afterDelete()
-    {
-    }
+    protected function afterDelete() {}
 
     /**
      * Handle the "fetching" model event
      */
-    protected function beforeFetch()
-    {
-    }
+    protected function beforeFetch() {}
 
     /**
      * Handle the "fetched" model event
      */
-    protected function afterFetch()
-    {
-    }
+    protected function afterFetch() {}
 
     /**
      * Create a new native event for handling beforeFetch().

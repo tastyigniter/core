@@ -20,9 +20,7 @@ return new class extends Migration
         Schema::dropIfExists('location_tables');
     }
 
-    public function down()
-    {
-    }
+    public function down() {}
 
     protected function moveLocationTablesRecordsToLocationablesTable()
     {

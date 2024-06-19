@@ -84,16 +84,12 @@ class BaseWidget extends Extendable
      * Initialize the widget called by the constructor.
      * @return void
      */
-    public function initialize()
-    {
-    }
+    public function initialize() {}
 
     /**
      * Renders the widgets primary contents.
      */
-    public function render()
-    {
-    }
+    public function render() {}
 
     /**
      * Reloads the widgets primary contents.
@@ -217,9 +213,7 @@ class BaseWidget extends Extendable
      * use $this->addCss or $this->addJs
      * @return void
      */
-    public function loadAssets()
-    {
-    }
+    public function loadAssets() {}
 
     /**
      * Returns a unique session identifier for this widget and controller action.

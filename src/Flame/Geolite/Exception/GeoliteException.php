@@ -2,6 +2,4 @@
 
 namespace Igniter\Flame\Geolite\Exception;
 
-class GeoliteException extends \Exception
-{
-}
+class GeoliteException extends \Exception {}
