@@ -1576,11 +1576,6 @@ parameters:
 			path: src/Flame/Database/NestedSet/Builder.php
 
 		-
-			message: "#^Parameter \\#1 \\$table of method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:from\\(\\) expects Closure\\|Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Query\\\\Builder\\|string, Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Expression given\\.$#"
-			count: 3
-			path: src/Flame/Database/NestedSet/Builder.php
-
-		-
 			message: "#^Property Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:\\$model has invalid type Igniter\\\\Flame\\\\Database\\\\Traits\\\\NestedTree\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
