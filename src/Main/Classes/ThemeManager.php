@@ -73,12 +73,7 @@ class ThemeManager
     {
         $packageManifest = resolve(PackageManifest::class);
         foreach ($packageManifest->themes() as $config) {
-            if (!File::exists($path = $packageManifest->getPackagePath(array_get($config, 'installPath')))) {
-                logger()->warning('Theme not found: '.$path);
-                continue;
-            }
-
-            $this->loadThemeFromConfig($path, $config);
+            $this->loadTheme(array_get($config, 'installPath'));
         }
 
         foreach ($this->folders() as $path) {
@@ -116,7 +111,7 @@ class ThemeManager
      */
     public function loadTheme(string $path): ?Theme
     {
-        if (!$config = $this->getMetaFromFile($path, false)) {
+        if (!$config = $this->getMetaFromFile($path)) {
             return null;
         }
 
@@ -542,17 +537,21 @@ class ThemeManager
     /**
      * Read configuration from Config/Meta file
      */
-    public function getMetaFromFile(string $path, bool $throw = true): array
+    public function getMetaFromFile(string $path): array
     {
-        if (File::exists($metaPath = $path.'/theme.json')) {
-            return json_decode(File::get($metaPath), true);
+        if (File::exists($path.'/theme.json')) {
+            $config = File::json($path.'/theme.json');
+        } elseif (File::exists($path.'/composer.json')) {
+            $config = resolve(ComposerManager::class)->getThemeManifest($path);
+        } else {
+            throw new SystemException('Theme does not have a registration file in: '.$path);
         }
 
-        if ($throw) {
-            throw new SystemException('Theme does not have a registration file in: '.$metaPath);
+        if (!array_key_exists('code', $config)) {
+            $config['code'] = basename($path);
         }
 
-        return [];
+        return $config;
     }
 
     protected function getFileNameParts(string $path): array

@@ -35,7 +35,7 @@ class ExtensionManager
 
     protected static array $directories = [];
 
-    public function __construct(protected PackageManifest $packageManifest)
+    public function __construct(protected PackageManifest $packageManifest, protected ComposerManager $composerManager)
     {
         $this->disabledExtensions = $this->packageManifest->disabledAddons();
         $this->loadExtensions();
@@ -233,19 +233,12 @@ class ExtensionManager
         $this->extensions = [];
 
         foreach ($this->folders() as $path) {
-            rescue(function() use ($path) {
-                $this->loadExtension($path);
-            });
+            $this->loadExtension($path);
         }
 
         $this->packageManifest->manifest = null;
         foreach ($this->packageManifest->extensions() as $config) {
-            if (!File::exists($path = $this->packageManifest->getPackagePath(array_get($config, 'installPath')))) {
-                logger()->warning('Extension not found: '.$path);
-                continue;
-            }
-
-            $this->loadExtensionFromPackageManifest($path, $config);
+            $this->loadExtension(array_get($config, 'installPath'));
         }
 
         return $this->extensions;
@@ -275,12 +268,15 @@ class ExtensionManager
             return $this->extensions[$identifier];
         }
 
-        if (File::isDirectory($path.'/src') && $loader = resolve(ComposerManager::class)->getLoader()) {
+        $loader = $this->composerManager->getLoader();
+        if (File::isDirectory($path.'/src') && $loader && !array_key_exists($namespace, $loader->getPrefixesPsr4() ?? [])) {
             $loader->setPsr4($namespace, $path.'/src');
         }
 
         $class = $namespace.'Extension';
         $extension = $this->resolveExtension($identifier, $path, $class);
+
+        $extension->extensionMeta($config);
 
         // Check for disabled extensions
         if ($this->isDisabled($identifier)) {

@@ -98,37 +98,14 @@ class ComposerManager
         return $this->loadInstalledPackages();
     }
 
-    public function getConfig(string $path, string $type = 'extension')
+    public function getExtensionManifest(string $path)
     {
-        $composer = File::json($path.'/composer.json') ?? [];
+        return $this->formatPackageManifest($path);
+    }
 
-        if (!$config = array_get($composer, 'extra.tastyigniter-'.$type, [])) {
-            return $config;
-        }
-
-        $config['type'] = 'tastyigniter-'.$type;
-        $config['package_name'] = array_get($composer, 'name');
-        $config['version'] = array_get($composer, 'version', '--');
-        $config['namespace'] = key(array_get($composer, 'autoload.psr-4', []));
-
-        if (!array_key_exists('code', $config)) {
-            $config['code'] = ($type === 'extension')
-                ? basename(dirname($path)).'.'.basename($path) : basename($path);
-        }
-
-        if (array_key_exists('description', $composer)) {
-            $config['description'] = $composer['description'];
-        }
-
-        if (array_key_exists('authors', $composer)) {
-            $config['author'] = $composer['authors'][0]['name'];
-        }
-
-        if (!array_key_exists('homepage', $config) && array_key_exists('homepage', $composer)) {
-            $config['homepage'] = $composer['homepage'];
-        }
-
-        return $config;
+    public function getThemeManifest(string $path)
+    {
+        return $this->formatPackageManifest($path, 'theme');
     }
 
     public function getLoader()
@@ -189,11 +166,29 @@ class ComposerManager
             ->mapWithKeys(function($package) {
                 $code = array_get($package, 'extra.tastyigniter-package.code',
                     array_get($package, 'extra.tastyigniter-extension.code',
-                        array_get($package, 'extra.tastyigniter-theme.code',
-                            array_get($package, 'name'))));
+                        array_get($package, 'extra.tastyigniter-theme.code')));
 
                 return [$code => $package];
             });
+    }
+
+    protected function formatPackageManifest(string $path, string $type = 'extension')
+    {
+        $composer = File::json($path.'/composer.json') ?? [];
+
+        if (!$manifest = array_get($composer, 'extra.tastyigniter-'.$type, [])) {
+            return $manifest;
+        }
+
+        $manifest['type'] = 'tastyigniter-'.$type;
+        $manifest['package_name'] = array_get($composer, 'name');
+        $manifest['namespace'] = key(array_get($composer, 'autoload.psr-4', []));
+        $manifest['version'] = $this->getPackageVersion($manifest['code']);
+        $manifest['description'] = array_get($composer, 'description');
+        $manifest['author'] = array_get($composer, 'authors.0.name');
+        $manifest['homepage'] = array_get($manifest, 'homepage', array_get($composer, 'homepage'));
+
+        return array_filter($manifest);
     }
 
     //

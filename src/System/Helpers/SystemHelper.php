@@ -48,8 +48,7 @@ class SystemHelper
         $testBytes = $oldBytes === -1 ? 1024 * 1024 * 442 : $oldBytes + 1024 * 1024;
 
         $testValue = sprintf('%sM', ceil($testBytes / (1024 * 1024)));
-        set_error_handler(function() {
-        });
+        set_error_handler(function() {});
         $result = ini_set('memory_limit', $testValue);
         $newValue = ini_get('memory_limit');
         ini_set('memory_limit', $oldValue);
@@ -108,10 +107,10 @@ class SystemHelper
         switch ($unit) {
             case 'g':
                 $value *= 1024;
-                // no break
+            // no break
             case 'm':
                 $value *= 1024;
-                // no break
+            // no break
             case 'k':
                 $value *= 1024;
         }
@@ -147,17 +146,16 @@ class SystemHelper
 
     public static function extensionConfigFromFile(string $path): array
     {
-        $extensionPath = str_before($path, '/src');
-        if (File::exists($extensionPath.'/composer.json')) {
-            return resolve(ComposerManager::class)->getConfig($extensionPath);
-        }
-
         throw_if(
-            File::exists($manifestFile = $extensionPath.'/extension.json'),
+            File::exists($manifestFile = $path.'/extension.json'),
             new SystemException("extension.json files are no longer supported, please convert to composer.json: $manifestFile")
         );
 
-        throw new SystemException("Required extension configuration file not found: $extensionPath/composer.json");
+        throw_unless(File::exists($path.'/composer.json'), new SystemException(
+            "Required extension configuration file not found: $path/composer.json"
+        ));
+
+        return resolve(ComposerManager::class)->getExtensionManifest($path);
     }
 
     public static function extensionValidateConfig(array $config): array
