@@ -39,6 +39,15 @@ trait HasChartDatasets
         $this->addJs('dashboardwidgets/charts.js', 'charts-js');
     }
 
+    public function addDataset(string $code, array $config = [], bool $merge = true)
+    {
+        $this->datasetsConfig[$code] = $merge
+            ? array_merge_recursive($this->datasetsConfig[$code] ?? [], $config)
+            : $config;
+
+        return $this;
+    }
+
     protected function makeDataset(array $config, \DateTimeInterface $start, \DateTimeInterface $end): array
     {
         $config['label'] = lang(array_pull($config, 'label', ''));
@@ -54,7 +63,7 @@ trait HasChartDatasets
         return array_merge($this->datasetOptions, [
             'backgroundColor' => sprintf('rgba(%s, %s, %s, 0.5)', $r, $g, $b),
             'borderColor' => sprintf('rgb(%s, %s, %s)', $r, $g, $b),
-        ], array_except($config, ['model', 'column', 'datasetFrom']));
+        ], array_except($config, ['model', 'column', 'priority', 'datasetFrom']));
     }
 
     protected function listSets()
@@ -75,7 +84,17 @@ trait HasChartDatasets
 
         $this->fireSystemEvent('admin.charts.extendDatasets');
 
-        return $result;
+        $this->datasetsConfig = collect($this->datasetsConfig)
+            ->mapWithKeys(function($config, $code) {
+                if (array_key_exists('sets', $config)) {
+                    $config['sets'] = sort_array($config['sets']);
+                }
+
+                return [$code => $config];
+            })
+            ->all();
+
+        return $this->datasetsConfig;
     }
 
     protected function getDataDefinition($key, $default = null)

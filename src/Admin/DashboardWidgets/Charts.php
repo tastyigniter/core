@@ -4,9 +4,6 @@ namespace Igniter\Admin\DashboardWidgets;
 
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Admin\Traits\HasChartDatasets;
-use Igniter\Cart\Models\Order;
-use Igniter\Reservation\Models\Reservation;
-use Igniter\User\Models\Customer;
 
 /**
  * Charts dashboard widget.
@@ -103,26 +100,7 @@ class Charts extends BaseDashboardWidget
         return [
             'reports' => [
                 'label' => 'igniter::admin.dashboard.text_reports_chart',
-                'sets' => [
-                    [
-                        'label' => 'lang:igniter::admin.dashboard.charts.text_customers',
-                        'color' => '#4DB6AC',
-                        'model' => Customer::class,
-                        'column' => 'created_at',
-                    ],
-                    [
-                        'label' => 'lang:igniter::admin.dashboard.charts.text_orders',
-                        'color' => '#64B5F6',
-                        'model' => Order::class,
-                        'column' => 'order_date',
-                    ],
-                    [
-                        'label' => 'lang:igniter::admin.dashboard.charts.text_reservations',
-                        'color' => '#BA68C8',
-                        'model' => Reservation::class,
-                        'column' => 'reserve_date',
-                    ],
-                ],
+                'sets' => [],
             ],
         ];
     }

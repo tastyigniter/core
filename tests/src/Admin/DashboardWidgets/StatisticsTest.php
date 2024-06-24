@@ -7,6 +7,17 @@ use Igniter\Admin\DashboardWidgets\Statistics;
 use Igniter\System\Facades\Assets;
 
 beforeEach(function() {
+    Statistics::registerCards(function() {
+        return [
+            'sale' => [
+                'label' => 'lang:igniter::admin.dashboard.text_total_sale',
+                'icon' => ' text-success fa fa-4x fa-line-chart',
+                'valueFrom' => function() {
+                    return '£0.00';
+                }
+            ],
+        ];
+    });
     $this->controller = $this->createMock(AdminController::class);
     $this->statistics = new Statistics($this->controller, ['card' => 'sale']);
 });
