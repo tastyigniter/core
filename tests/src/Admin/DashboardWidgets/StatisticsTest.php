@@ -14,7 +14,7 @@ beforeEach(function() {
                 'icon' => ' text-success fa fa-4x fa-line-chart',
                 'valueFrom' => function() {
                     return '£0.00';
-                }
+                },
             ],
         ];
     });

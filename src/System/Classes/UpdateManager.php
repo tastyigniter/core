@@ -377,6 +377,7 @@ class UpdateManager
     {
         if (SystemHelper::assertIniSet()) {
             $this->log(lang('igniter::system.updates.progress_preinstall_ok'));
+
             return;
         }
 
