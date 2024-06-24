@@ -4,7 +4,6 @@ namespace Igniter\Main\Models;
 
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
-use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\Theme as ThemeData;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Events\ThemeActivatedEvent;
@@ -250,15 +249,10 @@ class Theme extends Model
 
         $extensionManager = resolve(ExtensionManager::class);
 
-        $notFound = [];
-        foreach ($theme->getTheme()->listRequires() as $require => $version) {
-            if (!$extensionManager->hasExtension($require)) {
-                $notFound[] = $require;
+        foreach ($theme->getTheme()->listRequires() as $extensionCode => $version) {
+            if ($extensionManager->hasExtension($extensionCode)) {
+                $extensionManager->installExtension($extensionCode);
             }
-        }
-
-        if (count($notFound)) {
-            throw new FlashException(sprintf('The following required extensions must be installed before activating this theme, %s', implode(', ', $notFound)));
         }
 
         $theme->makeDefault();

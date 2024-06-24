@@ -5,7 +5,6 @@ namespace Igniter\System\Helpers;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\ComposerManager;
-use Igniter\System\Classes\PackageManifest;
 use Illuminate\Support\Facades\Validator;
 
 class SystemHelper
@@ -107,10 +106,10 @@ class SystemHelper
         switch ($unit) {
             case 'g':
                 $value *= 1024;
-                // no break
+            // no break
             case 'm':
                 $value *= 1024;
-                // no break
+            // no break
             case 'k':
                 $value *= 1024;
         }
@@ -128,20 +127,6 @@ class SystemHelper
         );
 
         putenv($replace);
-    }
-
-    public static function parsePackageCodes($requires)
-    {
-        $extensions = collect(resolve(PackageManifest::class)->extensions())->keyBy('package_name');
-
-        return collect($requires)
-            ->mapWithKeys(function($version, $code) use ($extensions) {
-                if (str_contains($code, '/')) {
-                    $code = array_get($extensions->get($code, []), 'code');
-                }
-
-                return $code ? [$code => $version] : [];
-            })->filter()->all();
     }
 
     public static function extensionConfigFromFile(string $path): array

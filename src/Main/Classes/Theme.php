@@ -16,8 +16,6 @@ use Igniter\Main\Template\Content as ContentTemplate;
 use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial as PartialTemplate;
-use Igniter\System\Facades\Assets;
-use Igniter\System\Helpers\SystemHelper;
 
 class Theme
 {
@@ -435,7 +433,7 @@ class Theme
 
     public function listRequires()
     {
-        return SystemHelper::parsePackageCodes($this->requires);
+        return array_merge($this->hasParent() ? $this->getParent()->listRequires() : [], $this->requires);
     }
 
     //
