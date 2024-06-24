@@ -12,7 +12,6 @@ use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Actions\SettingsModel;
-use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
@@ -142,9 +141,6 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
         $manager = resolve(ExtensionManager::class);
         $extension = $manager->findExtension($extensionCode);
-        if ($feedback = $this->checkDependencies($extension)) {
-            throw new FlashException($feedback);
-        }
 
         if ($manager->installExtension($extensionCode)) {
             $title = array_get($extension->extensionMeta(), 'name');
@@ -164,6 +160,10 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
         $manager = resolve(ExtensionManager::class);
         $extension = $manager->findExtension($extensionCode);
+
+        throw_if($manager->isRequired($extensionCode), new FlashException(
+            lang('igniter::system.extensions.alert_is_required')
+        ));
 
         if ($manager->uninstallExtension($extensionCode)) {
             $title = $extension ? array_get($extension->extensionMeta(), 'name') : $extensionCode;
@@ -237,7 +237,10 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
             return null;
         }
 
-        if (($column->columnName == 'delete' && $record->status) || ($column->columnName != 'delete' && !$record->class)) {
+        if (($column->columnName == 'delete' && $record->status)
+            || ($column->columnName == 'uninstall' && $record->required)
+            || ($column->columnName != 'delete' && !$record->class)
+        ) {
             $attributes = $column->attributes;
             $attributes['class'] .= ' disabled';
 
@@ -306,25 +309,6 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
             array_get($form->config, 'validationMessages', []),
             array_get($form->config, 'validationAttributes', [])
         );
-    }
-
-    protected function checkDependencies(BaseExtension $extension): ?string
-    {
-        $feedback = null;
-        $extensionManager = resolve(ExtensionManager::class);
-        $required = $extensionManager->getDependencies($extension) ?: [];
-        foreach ($required as $require) {
-            $requireExtension = $extensionManager->findExtension($require);
-            if (!$requireExtension) {
-                $feedback .= "Required extension [$require] was not found.\n";
-            }
-
-            if ($extensionManager->isDisabled($require)) {
-                $feedback .= "Required extension [$require] must be enabled to proceed.\n";
-            }
-        }
-
-        return $feedback;
     }
 
     protected function extensionHasMigrations(string $extensionCode): bool

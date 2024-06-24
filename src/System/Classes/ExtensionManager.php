@@ -39,10 +39,6 @@ class ExtensionManager
     {
         $this->disabledExtensions = $this->packageManifest->disabledAddons();
         $this->loadExtensions();
-
-        if (!Igniter::autoloadExtensions()) {
-            $this->disableWithMissingDependencies();
-        }
     }
 
     public static function addDirectory(string $directory)
@@ -112,109 +108,6 @@ class ExtensionManager
     public function listExtensions(): array
     {
         return array_keys($this->paths());
-    }
-
-    /**
-     * Scans extensions to locate any dependencies that are not currently
-     * installed. Returns an array of extension codes that are needed.
-     */
-    public function findMissingDependencies(): array
-    {
-        $result = $missing = [];
-        foreach ($this->extensions as $code => $extension) {
-            if (!$required = $this->getDependencies($extension)) {
-                continue;
-            }
-
-            foreach ($required as $require) {
-                if ($this->hasExtension($require)) {
-                    continue;
-                }
-
-                if (!in_array($require, $missing)) {
-                    $missing[] = $require;
-                    $result[$code][] = $require;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Checks all extensions and their dependencies, if not met extensions
-     * are disabled.
-     */
-    protected function disableWithMissingDependencies()
-    {
-        foreach ($this->extensions as $code => $extension) {
-            if (!$required = $this->getDependencies($extension)) {
-                continue;
-            }
-
-            $disable = false;
-            foreach ($required as $require) {
-                $extensionObj = $this->findExtension($require);
-                if (!$extensionObj || $extensionObj->disabled) {
-                    $disable = true;
-                }
-            }
-
-            // Only disable extension with missing dependencies.
-            if ($disable && !$extension->disabled) {
-                $this->updateInstalledExtensions($code, false);
-            }
-        }
-    }
-
-    /**
-     * Returns the extension codes that are required by the supplied extension.
-     */
-    public function getDependencies(string|BaseExtension $extension): array|false
-    {
-        if (is_string($extension) && (!$extension = $this->findExtension($extension))) {
-            return false;
-        }
-
-        return array_keys($extension->listRequires());
-    }
-
-    /**
-     * Sorts extensions, in the order that they should be actioned,
-     * according to their given dependencies. Least required come first.
-     */
-    public function listByDependencies(?array $extensions = null): array
-    {
-        if (!is_array($extensions)) {
-            $extensions = $this->getExtensions();
-        }
-
-        $result = [];
-        $checklist = $extensions;
-
-        $loopCount = 0;
-        while (count($checklist) > 0) {
-            if (++$loopCount > 999) {
-                throw new ApplicationException('Too much recursion');
-            }
-
-            foreach ($checklist as $code => $extension) {
-                $depends = $this->getDependencies($extension) ?: [];
-                $depends = array_filter($depends, function($dependCode) use ($extensions) {
-                    return isset($extensions[$dependCode]);
-                });
-
-                $depends = array_diff($depends, $result);
-                if (count($depends) > 0) {
-                    continue;
-                }
-
-                $result[] = $code;
-                unset($checklist[$code]);
-            }
-        }
-
-        return $result;
     }
 
     /**
@@ -424,6 +317,11 @@ class ExtensionManager
     public function isDisabled(string $code): bool
     {
         return !$this->checkName($code) || array_get($this->disabledExtensions, $code, !Igniter::autoloadExtensions());
+    }
+
+    public function isRequired(string $code): bool
+    {
+        return in_array($code, config('igniter-system.requiredExtensions', []));
     }
 
     /**

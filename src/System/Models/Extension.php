@@ -88,6 +88,11 @@ class Extension extends Model
         return $this->class && !$this->class->disabled;
     }
 
+    public function getRequiredAttribute()
+    {
+        return resolve(ExtensionManager::class)->isRequired($this->name);
+    }
+
     public function getIconAttribute()
     {
         $icon = array_get($this->meta, 'icon', []);

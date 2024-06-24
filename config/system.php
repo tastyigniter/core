@@ -166,4 +166,21 @@ return [
     */
 
     'enableCsrfProtection' => env('ENABLE_CSRF', true),
+
+    /*
+    | --------------------------------------------------------------------------
+    | Required Extensions
+    | --------------------------------------------------------------------------
+    |
+    | Specifies the extensions required by the application. These extensions
+    | can not be disabled or uninstalled.
+    |
+    */
+
+    'requiredExtensions' => [
+        'igniter.cart',
+        'igniter.local',
+        'igniter.reservation',
+        'igniter.user',
+    ],
 ];

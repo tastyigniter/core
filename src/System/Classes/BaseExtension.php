@@ -197,9 +197,4 @@ abstract class BaseExtension extends EventServiceProvider
     {
         return [];
     }
-
-    public function listRequires()
-    {
-        return SystemHelper::parsePackageCodes(array_get($this->extensionMeta(), 'require', []));
-    }
 }
