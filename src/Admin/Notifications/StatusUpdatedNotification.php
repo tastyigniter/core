@@ -36,7 +36,7 @@ class StatusUpdatedNotification extends Notification
 
     public function getUrl(): string
     {
-        $url = $this->subject->object instanceof Order ? 'orders' : 'reservations';
+        $url = $this->subject->object->getMorphClass();
         $url .= '/edit/'.$this->subject->object->getKey();
 
         return admin_url($url);

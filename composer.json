@@ -23,7 +23,6 @@
     "ext-json": "*",
     "ext-zip": "*",
     "composer/composer": "^2.4",
-    "composer/installers": "~2.2",
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^11.0",
     "laravel/sanctum": "4.0 as 3.2",
@@ -42,6 +41,7 @@
     "tastyigniter/ti-ext-payregister": "v4.x-dev as 4.0",
     "tastyigniter/ti-ext-reservation": "v4.x-dev as 4.0",
     "tastyigniter/ti-ext-user": "v4.x-dev as 4.0",
+    "tastyigniter/ti-theme-orange": "v4.x-dev as 4.0",
     "league/glide": "~2.2"
   },
   "require-dev": {

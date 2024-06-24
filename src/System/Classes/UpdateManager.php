@@ -255,15 +255,17 @@ class UpdateManager
 
     public function applySiteDetail(string $key): array
     {
+        $manager = $this->getHubManager();
+        $manager->setCarte($key);
         SystemHelper::replaceInEnv('IGNITER_CARTE_KEY=', 'IGNITER_CARTE_KEY='.$key);
 
         $info = [];
-        $result = $this->getHubManager()->getDetail('site');
+        $result = $manager->getDetail('site');
         if (isset($result['data']) && is_array($result['data'])) {
             $info = $result['data'];
         }
 
-        setting()->setPref('carte_info', $info);
+        $manager->setCarte($key, $info);
 
         return $info;
     }
@@ -362,8 +364,6 @@ class UpdateManager
             $response['last_checked_at'] = Carbon::now()->toDateTimeString();
 
             Cache::put($cacheKey, $response, now()->addHours(3));
-
-            event('igniter.system.updatesFound', [$response]);
         }
 
         return $response;
@@ -376,17 +376,18 @@ class UpdateManager
     public function preInstall()
     {
         if (SystemHelper::assertIniSet()) {
+            $this->log(lang('igniter::system.updates.progress_preinstall_ok'));
             return;
         }
 
-        $hasErrors = false;
+        $hasErrors = SystemHelper::assertIniSet();
         $errorMessage = "Please fix the following in your php.ini file before proceeding:\n\n";
         if (SystemHelper::assertIniMaxExecutionTime(120)) {
             $errorMessage .= "max_execution_time should be at least 120.\n";
             $hasErrors = true;
         }
 
-        if (!SystemHelper::assertIniMemoryLimit(1024 * 1024 * 256)) {
+        if (SystemHelper::assertIniMemoryLimit(1024 * 1024 * 256)) {
             $errorMessage .= "memory_limit should be at least 256M.\n";
             $hasErrors = true;
         }

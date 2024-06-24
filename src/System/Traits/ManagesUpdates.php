@@ -58,11 +58,14 @@ trait ManagesUpdates
 
         $response = resolve(UpdateManager::class)->requestApplyItems($items);
         $response = collect(array_get($response, 'data', []))
-            ->whereIn('code', collect($items)->pluck('name')->all())
-            ->all();
+            ->whereIn('code', collect($items)->pluck('name')->all());
+
+        if ($response->isEmpty()) {
+            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
+        }
 
         return [
-            'steps' => $this->buildProcessSteps($response),
+            'steps' => $this->buildProcessSteps($response->all()),
         ];
     }
 
@@ -71,26 +74,13 @@ trait ManagesUpdates
         $updates = resolve(UpdateManager::class)->requestUpdateList();
         $itemsToUpdate = array_get($updates, 'items', []);
 
-        if (!count($itemsToUpdate)) {
-            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
+        if ($itemsToUpdate->isEmpty()) {
+            throw new FlashException(lang('igniter::system.updates.alert_item_to_update'));
         }
 
         return [
-            'steps' => $this->buildProcessSteps($itemsToUpdate),
+            'steps' => $this->buildProcessSteps($itemsToUpdate->all()),
         ];
-    }
-
-    public function onLoadRecommended(): string
-    {
-        $itemType = post('itemType');
-        $items = (in_array($itemType, ['theme', 'extension']))
-            ? resolve(UpdateManager::class)->listItems($itemType)
-            : [];
-
-        return $this->makePartial('updates/list_recommended', [
-            'items' => $items,
-            'itemType' => $itemType,
-        ]);
     }
 
     public function onCheckUpdates(): RedirectResponse
@@ -101,7 +91,7 @@ trait ManagesUpdates
         return $this->redirect($this->checkUrl);
     }
 
-    public function onIgnoreUpdate(): array
+    public function onIgnoreUpdate(): RedirectResponse
     {
         $itemCode = post('code', '');
         if (!strlen($itemCode)) {
@@ -112,23 +102,19 @@ trait ManagesUpdates
 
         $updateManager->markedAsIgnored($itemCode, (bool)post('remove'));
 
-        return [
-            '#updates' => $this->makePartial('updates/list', ['updates' => $updateManager->requestUpdateList()]),
-        ];
+        return $this->redirectBack();
     }
 
-    public function onApplyCarte(): array
+    public function onApplyCarte(): RedirectResponse
     {
         $carteKey = post('carte_key');
         if (!strlen($carteKey)) {
             throw new FlashException(lang('igniter::system.updates.alert_no_carte_key'));
         }
 
-        $response = resolve(UpdateManager::class)->applySiteDetail($carteKey);
+        resolve(UpdateManager::class)->applySiteDetail($carteKey);
 
-        return [
-            '#carte-details' => $this->makePartial('updates/carte_info', ['carteInfo' => $response]),
-        ];
+        return $this->redirectBack();
     }
 
     public function onProcessItems(): array
@@ -199,16 +185,11 @@ trait ManagesUpdates
                     default => false,
                 };
             } catch (ComposerException $e) {
-                report($e);
-                logger()->info($e->getMessage());
+                $errorMessage = nl2br($e->getMessage());
+                $errorMessage .= "\n\n".'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'."\n\n";
+                $errorMessage .= $e->getMessage();
 
-                $errorMessage = str_contains($e->getOutput(), 'Your requirements could not be resolved to an installable set of packages.')
-                    ? "Composer was unable to install the updates due to a dependency conflict.\n"
-                    : "Composer was unable to install the updates.\n";
-
-                $errorMessage .= '<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>';
-
-                throw_if(true, new ApplicationException($errorMessage));
+                throw new ApplicationException($errorMessage);
             }
 
             $json['message'] = implode(PHP_EOL, $updateManager->getLogs());
@@ -244,16 +225,22 @@ trait ManagesUpdates
             'process' => ['required', 'in:check,install,complete'],
             'meta' => ['required', 'array'],
             'meta.*.code' => ['required'],
+            'meta.*.name' => ['required'],
+            'meta.*.package' => ['required'],
+            'meta.*.author' => ['required'],
             'meta.*.type' => ['required', 'in:core,extension,theme,language'],
-            'meta.*.version' => ['sometimes', 'required'],
-            'meta.*.hash' => ['sometimes', 'required'],
+            'meta.*.version' => ['required'],
+            'meta.*.hash' => ['required'],
             'meta.*.description' => ['sometimes'],
         ];
 
         $attributes = [
             'process' => lang('igniter::system.updates.label_meta_step'),
             'meta.*.code' => lang('igniter::system.updates.label_meta_code'),
+            'meta.*.name' => lang('igniter::system.updates.label_meta_name'),
+            'meta.*.package' => lang('igniter::system.updates.label_meta_package'),
             'meta.*.type' => lang('igniter::system.updates.label_meta_type'),
+            'meta.*.author' => lang('igniter::system.updates.label_meta_author'),
             'meta.*.version' => lang('igniter::system.updates.label_meta_version'),
             'meta.*.hash' => lang('igniter::system.updates.label_meta_hash'),
             'meta.*.description' => lang('igniter::system.updates.label_meta_description'),

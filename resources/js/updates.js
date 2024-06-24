@@ -52,34 +52,33 @@
         this.showProgressBar()
 
         $.each(steps, function (index, step) {
-                var timeout = 500
+            var timeout = 500
 
-                requestChain.push(function () {
-                    var deferred = $.Deferred()
+            requestChain.push(function () {
+                var deferred = $.Deferred()
 
-                    $.request('onProcessItems', {
-                        data: step,
-                        beforeSend: self.setProgressBar(step.progress),
-                        success: function (json) {
-                            if (json.success) {
-                                setTimeout(function () {
-                                    self.setProgressBar(json.message)
-                                    deferred.resolve()
-                                }, timeout)
-                            }
-                            else {
-                                setTimeout(function () {
-                                    success = false
-                                    failMessages.push(json.message)
-                                    deferred.reject(json.message)
-                                }, timeout)
-                            }
-                        },
-                    })
-
-                    return deferred
+                $.request('onProcessItems', {
+                    data: step,
+                    beforeSend: self.setProgressBar(step.progress),
+                    success: function (json) {
+                        if (json.success) {
+                            setTimeout(function () {
+                                self.setProgressBar(json.message)
+                                deferred.resolve()
+                            }, timeout)
+                        } else {
+                            setTimeout(function () {
+                                success = false
+                                failMessages.push(json.message)
+                                deferred.reject(json.message)
+                            }, timeout)
+                        }
+                    },
                 })
+
+                return deferred
             })
+        })
 
         $.waterfall.apply(this, requestChain).done(function () {
             if (success) {
@@ -390,7 +389,7 @@
             '<h4 class="modal-title"></h4>',
             '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>',
             '</div><div class="modal-body wrap-none">',
-            '<div class="item-details bg-light"></div>',
+            '<div class="item-details"></div>',
             '</div><div class="modal-footer">',
             '</div></div></div></div></div>',
         ].join(''),
@@ -428,7 +427,7 @@
 
         modalFooter: [
             '<div class="text-right">',
-            '<button type="button" class="btn btn-link" data-bs-dismiss="modal" aria-hidden="true">Close</button>',
+            '<button type="button" class="btn btn-link text-decoration-none fw-bold" data-bs-dismiss="modal" aria-hidden="true">Close</button>',
             '&nbsp;&nbsp;&nbsp;&nbsp;',
             '{{#installed}}',
             '<button class="btn btn-primary" disabled><i class="fa fa-cloud-download"></i>&nbsp;&nbsp;{{submit}}</button>',
@@ -443,7 +442,7 @@
             '<div id="progressBar" class="card p-3"><div class="card-body text-center">',
             '<div class="spinner spinner-grow" role="status"><span class="visually-hidden">Loading...</span></div>',
             '<i class="icon"></i>',
-            '<pre class="message bg-black rounded text-start text-white p-3 mt-4 mb-0"><code>Starting...<br></code></pre></div></div></div>',
+            '<pre class="message bg-black rounded text-start text-white p-3 mt-4 mb-0 text-wrap"><code>Starting...<br></code></pre></div></div></div>',
         ].join(''),
     }
 

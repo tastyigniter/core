@@ -6,43 +6,41 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body wrap-none">
-                <div class="card">
-                    <div id="carte-details">
-                        {!! $this->makePartial('updates/carte_info', ['carteInfo' => $carteInfo]) !!}
+                <div id="carte-details">
+                    {!! $this->makePartial('updates/carte_info', ['carteInfo' => $carteInfo]) !!}
+                </div>
+                <div
+                    class="p-3 carte-body border-top"
+                    style="display: {{ $carteInfo ? 'none' : 'block' }};"
+                >
+                    {!! form_open(current_url(), [
+                        'id' => 'carte-form',
+                        'role' => 'form',
+                        'method' => 'POST',
+                    ]) !!}
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="carte_key"
+                            placeholder="Enter your carte key..."
+                            autocomplete="off"
+                        />
+                        <a
+                            class="btn btn-light btn-carte-help"
+                            onclick="$('#carte-help').slideToggle()"
+                        ><i class="fa fa-question-circle"></i></a>
                     </div>
+                    <button
+                        id="update-carte"
+                        class="btn btn-primary w-100 mt-3"
+                        type="button"
+                    >@lang('igniter::system.updates.button_attach_carte')</button>
+                    {!! form_close() !!}
                     <div
-                        class="card-body carte-body"
-                        style="display: {{ $carteInfo ? 'none' : 'block' }};"
-                    >
-                        {!! form_open(current_url(), [
-                            'id' => 'carte-form',
-                            'role' => 'form',
-                            'method' => 'POST',
-                        ]) !!}
-                        <div class="input-group">
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="carte_key"
-                                placeholder="Enter your carte key..."
-                                autocomplete="off"
-                            />
-                            <a
-                                class="btn btn-light btn-carte-help"
-                                onclick="$('#carte-help').slideToggle()"
-                            ><i class="fa fa-question-circle"></i></a>
-                            <button
-                                id="update-carte"
-                                class="btn btn-primary"
-                                type="button"
-                            ><i class="fa fa-arrow-right"></i></button>
-                        </div>
-                        {!! form_close() !!}
-                        <div
-                            id="carte-help"
-                            class="wrap-horizontal"
-                        >{!! sprintf(lang('igniter::system.updates.help_carte_key'), 'https://tastyigniter.com/signin', 'https://tastyigniter.com/support/articles/carte-key') !!}
-                        </div>
+                        id="carte-help"
+                        class="wrap-horizontal"
+                    >{!! sprintf(lang('igniter::system.updates.help_carte_key'), 'https://tastyigniter.com/signin', 'https://tastyigniter.com/support/articles/carte-key') !!}
                     </div>
                 </div>
             </div>

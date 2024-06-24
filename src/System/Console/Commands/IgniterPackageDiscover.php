@@ -35,6 +35,7 @@ class IgniterPackageDiscover extends Command
         $manifest->build();
 
         collect($manifest->packages())
+            ->keyBy('code')
             ->keys()
             ->each(fn($description) => $this->components->task($description))
             ->whenNotEmpty(fn() => $this->newLine());

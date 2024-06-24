@@ -5,7 +5,6 @@ namespace Igniter\System\Classes;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -47,9 +46,20 @@ class HubManager
         });
     }
 
+    public function setCarte(string $key, ?array $info = null): void
+    {
+        $params['carte_key'] = $key;
+
+        if (!is_null($info)) {
+            $params['carte_info'] = $info;
+        }
+
+        setting()->setPref($params);
+    }
+
     protected function requestRemoteData(string $uri, array $params = []): array
     {
-        $client = Http::baseUrl(Config::get('igniter.system.hubEndpoint', static::ENDPOINT));
+        $client = Http::baseUrl(config('igniter-system.hubEndpoint', static::ENDPOINT));
 
         $response = $client->acceptJson()
             ->withHeaders($this->prepareHeaders($params))
@@ -73,9 +83,10 @@ class HubManager
             'php' => PHP_VERSION,
             'url' => url()->to('/'),
             'version' => Igniter::version(),
+            'host' => gethostname() ?: 'unknown',
         ]));
 
-        if (Config::get('igniter-system.edgeUpdates', false)) {
+        if (config('igniter-system.edgeUpdates', false)) {
             $params['edge'] = 1;
         }
 
@@ -85,12 +96,13 @@ class HubManager
     protected function prepareHeaders(array $params): array
     {
         $headers = [];
-        if ($siteKey = config('igniter-system.carteKey', params('carte_key', ''))) {
-            $headers['TI-Rest-Key'] = 'Bearer '.$siteKey;
+        $siteKey = config('igniter-system.carteKey') ?: params('carte_key', '');
+        if ($siteKey) {
+            $headers['Authorization'] = 'Bearer '.$siteKey;
         }
 
         if (!app()->runningInConsole()) {
-            $headers['X-Igniter-Host'] = request()->host();
+            $headers['X-Igniter-Host'] = gethostname() ?: 'unknown';
             $headers['X-Igniter-User-Ip'] = request()->ip();
         }
 

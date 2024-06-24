@@ -139,6 +139,7 @@ return [
         'alert_delete_warning' => 'You are about to delete the %s of extension <b>%s</b>',
         'alert_delete_confirm' => 'Are you sure you wish to delete the associated %s? This cannot be undone!',
         'alert_is_installed' => '. You must uninstall an extension before deleting.',
+        'alert_is_required' => 'This extension cannot be uninstalled as it is required by the system. You may run composer remove command to remove the extension files.',
         'alert_setting_missing_id' => 'Extension setting code has not been specified.',
         'alert_setting_not_found' => 'Extension settings was not found.',
         'alert_setting_model_missing' => 'Missing settings model.',
@@ -577,6 +578,8 @@ return [
         'text_core_update' => '<i class="fa fa-exclamation-triangle fa-fw"></i>&nbsp;&nbsp;After the core update has been installed, all extension updates will be installed.',
 
         'label_meta_code' => 'Meta Code',
+        'label_meta_name' => 'Meta Name',
+        'label_meta_package' => 'Meta Package',
         'label_meta_type' => 'Meta Type',
         'label_meta_version' => 'Meta Version',
         'label_meta_hash' => 'Meta Hash',
@@ -586,6 +589,7 @@ return [
         'label_meta_items' => 'Meta Items',
 
         'progress_check' => 'Performing pre installation checks...',
+        'progress_preinstall_ok' => 'Pre installation checks completed.<i class="fa fa-check fa-fw"></i>',
         'progress_install' => 'Updating composer requirements...',
         'progress_install_ok' => 'Updated composer requirements.<i class="fa fa-check fa-fw"></i>',
         'progress_install_version' => '    %s (%s => %s)',
@@ -599,7 +603,8 @@ return [
         'progress_disable_maintenance' => 'Restoring/Disabling Maintenance mode&#8230;',
 
         'button_browse' => '<i class="fa fa-globe"></i>&nbsp;&nbsp;Browse %s',
-        'button_carte' => '<i class="fa fa-key"></i>&nbsp;&nbsp;Attach Carté Key',
+        'button_carte' => '<i class="fa fa-key"></i>&nbsp;&nbsp;Your Carté Key',
+        'button_attach_carte' => '<i class="fa fa-key"></i>&nbsp;&nbsp;Attach Carté Key',
         'button_check' => '<i class="fa fa-refresh"></i>&nbsp;&nbsp;Check Updates',
         'button_updates' => '<i class="fa fa-refresh"></i>&nbsp;&nbsp;Updates',
         'button_update' => '<i class="fa fa-check"></i>&nbsp;&nbsp;Update',
@@ -609,10 +614,12 @@ return [
 
         'help_carte_key' => 'A Carte key is required to add and update item from the TastyIgniter Marketplace. <br>Get one by creating a site from your <a href="%s" target="_blank">TastyIgniter Account</a>, if you haven\'t already. For more information, see the <a href="%s" target="_blank">Carté Key Guide</a>',
         'alert_item_to_ignore' => 'Select item(s) to ignore.',
+        'alert_item_to_update' => 'Select item(s) to update.',
         'alert_no_carte_key' => 'No carte key specified.',
         'alert_no_items' => 'No item(s) specified.',
 
         'notify_new_update_found_title' => 'Updates available.',
-        'notify_new_update_found' => '<b>%s</b> newer updates available.',
+        'notify_new_update_found' => 'An update is available.',
+        'notify_new_updates_found' => '<b>%s</b> updates available.',
     ],
 ];

@@ -2,7 +2,6 @@
 
 namespace Igniter\System\Classes;
 
-use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
@@ -167,36 +166,6 @@ class ExtensionManager
         }
 
         $class = $namespace.'Extension';
-        $extension = $this->resolveExtension($identifier, $path, $class);
-
-        $extension->extensionMeta($config);
-
-        // Check for disabled extensions
-        if ($this->isDisabled($identifier)) {
-            $extension->disabled = true;
-        }
-
-        $this->extensions[$identifier] = $extension;
-        $this->paths[$identifier] = $path;
-
-        return $extension;
-    }
-
-    protected function loadExtensionFromPackageManifest(string $path, array $config): BaseExtension
-    {
-        $code = array_get($config, 'code');
-        $identifier = $this->getIdentifier($code);
-
-        throw_unless(
-            $this->checkName($identifier),
-            new SystemException('Extension code can only contain alphabets: '.$identifier),
-        );
-
-        if (isset($this->extensions[$identifier])) {
-            return $this->extensions[$identifier];
-        }
-
-        $class = array_get($config, 'namespace').'Extension';
         $extension = $this->resolveExtension($identifier, $path, $class);
 
         $extension->extensionMeta($config);

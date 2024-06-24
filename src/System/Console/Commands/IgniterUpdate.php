@@ -7,8 +7,8 @@ use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Notifications\UpdateFoundNotification;
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Event;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -19,6 +19,8 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class IgniterUpdate extends Command
 {
+    use ConfirmableTrait;
+
     /**
      * The console command name.
      */
@@ -40,16 +42,24 @@ class IgniterUpdate extends Command
 
         resolve(ComposerManager::class)->assertSchema();
 
-        if ($this->option('check')) {
-            $this->notifyOnUpdatesFound();
-        }
-
         $this->updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
         $this->output->writeln('<info>Checking for updates...</info>');
 
-        if (!$itemsToUpdate = $this->getItemsToUpdate($forceUpdate)) {
+        $updates = $this->updateManager->requestUpdateList($forceUpdate);
+        if (!$itemsToUpdate = array_get($updates, 'items')) {
             $this->output->writeln('<info>No new updates found</info>');
 
+            return;
+        }
+
+        if ($this->option('check')) {
+            UpdateFoundNotification::make(array_only($itemsToUpdate, ['count']))->broadcast();
+
+            return;
+        }
+
+        $this->output->writeln(sprintf('<info>%s updates found</info>', array_get($updates, 'count')));
+        if (!$this->confirmToProceed()) {
             return;
         }
 
@@ -68,18 +78,21 @@ class IgniterUpdate extends Command
             ['force', null, InputOption::VALUE_NONE, 'Force updates.'],
             ['check', null, InputOption::VALUE_NONE, 'Run update checks only.'],
             ['core', null, InputOption::VALUE_NONE, 'Update core application files only.'],
-            ['addon', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Update specified extensions & themes files only.'],
+            ['addons', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Update specified extensions & themes files only.'],
         ];
     }
 
-    protected function updateItems(array $itemsToUpdate): void
+    protected function updateItems(Collection $itemsToUpdate): void
     {
         try {
-            $updatesCollection = collect($itemsToUpdate)->groupBy('type');
+            $updatesCollection = $itemsToUpdate->groupBy('type');
 
             if (!$this->option('addons')) {
-                $this->output->writeln('<info>Updating TastyIgniter...</info>');
                 $this->updateCore($updatesCollection);
+            }
+
+            if ($this->option('core')) {
+                return;
             }
 
             $updatesCollection = $updatesCollection->except('core')->flatten(1);
@@ -90,33 +103,20 @@ class IgniterUpdate extends Command
             }
 
             if ($updatesCollection->count()) {
-                $this->output->writeln('<info>Updating TastyIgniter extensions/themes...</info>');
+                $this->output->writeln('<info>Updating extensions/themes...</info>');
                 $this->updateManager->install($updatesCollection->all());
             }
         } catch (ComposerException $e) {
             $this->output->writeln($e->getMessage());
+            exit(1);
         }
     }
 
     protected function updateCore(Collection $updatesCollection): void
     {
         if ($coreUpdate = optional($updatesCollection->pull('core'))->first()) {
-            $this->output->writeln('<info>Updating core...</info>');
+            $this->output->writeln('<info>Updating TastyIgniter...</info>');
             $this->updateManager->install($coreUpdate);
         }
-    }
-
-    protected function notifyOnUpdatesFound()
-    {
-        Event::listen('igniter.system.updatesFound', function($result) {
-            UpdateFoundNotification::make(array_only($result, ['count']))->broadcast();
-        });
-    }
-
-    protected function getItemsToUpdate(bool $forceUpdate): array
-    {
-        $updates = $this->updateManager->requestUpdateList($forceUpdate);
-
-        return array_get($updates, 'items');
     }
 }

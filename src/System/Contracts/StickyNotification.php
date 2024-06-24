@@ -2,4 +2,6 @@
 
 namespace Igniter\System\Contracts;
 
-interface CriticalNotification {}
+interface StickyNotification
+{
+}

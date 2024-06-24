@@ -38,6 +38,6 @@
   &:hover,
   &:focus,
   &:active {
-    color: $white;
+    color: $white !important;
   }
 }

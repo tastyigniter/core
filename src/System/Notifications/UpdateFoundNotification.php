@@ -2,11 +2,11 @@
 
 namespace Igniter\System\Notifications;
 
-use Igniter\System\Contracts\CriticalNotification;
+use Igniter\System\Contracts\StickyNotification;
 use Igniter\User\Classes\Notification;
 use Igniter\User\Models\User;
 
-class UpdateFoundNotification extends Notification implements CriticalNotification
+class UpdateFoundNotification extends Notification implements StickyNotification
 {
     public function __construct(protected int $count = 0) {}
 
@@ -27,7 +27,9 @@ class UpdateFoundNotification extends Notification implements CriticalNotificati
 
     public function getMessage(): string
     {
-        return sprintf(lang('igniter::system.updates.notify_new_update_found'), $this->count);
+        return $this->count > 1
+            ? sprintf(lang('igniter::system.updates.notify_new_updates_found'), $this->count)
+            : lang('igniter::system.updates.notify_new_update_found');
     }
 
     public function getIcon(): ?string
@@ -42,6 +44,6 @@ class UpdateFoundNotification extends Notification implements CriticalNotificati
 
     public function getAlias(): string
     {
-        return 'update_found';
+        return 'update-found';
     }
 }
