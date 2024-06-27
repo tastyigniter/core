@@ -226,6 +226,7 @@ class LanguageManager
         $items = collect($this->updateManager->getInstalledItems())
             ->map(function($item) use ($builds) {
                 $item['build'] = array_get($builds, $item['name']);
+
                 return $item;
             })
             ->all();

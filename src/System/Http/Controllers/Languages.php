@@ -216,7 +216,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         Template::setButton(lang($hasNewStrings ? 'igniter::system.languages.button_apply_update' : 'igniter::system.languages.button_check'), [
             'class' => 'btn btn-success pull-right',
             'data-toggle' => 'record-editor',
-            'data-handler' => $hasNewStrings ? 'onApplyUpdates' : 'onCheckUpdates'
+            'data-handler' => $hasNewStrings ? 'onApplyUpdates' : 'onCheckUpdates',
         ]);
     }
 
