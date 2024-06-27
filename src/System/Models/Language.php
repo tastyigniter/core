@@ -22,6 +22,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     protected $casts = [
         'original_id' => 'integer',
+        'version' => 'array',
     ];
 
     public $relation = [
@@ -31,6 +32,10 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     ];
 
     public $timestamps = true;
+
+    protected $attributes = [
+        'can_delete' => 0,
+    ];
 
     /** Object cache of self, by code. */
     protected static array $localesCache = [];
@@ -165,5 +170,14 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         ]);
 
         $translation->updateAndLock($text);
+    }
+
+    public function updateVersions(array $meta)
+    {
+        $version = (array)($this->version ?? []);
+        $version = array_set($version, $meta['code'], $meta['version']);
+        $this->version = $version;
+
+        return $this->save();
     }
 }

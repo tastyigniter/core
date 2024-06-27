@@ -51,6 +51,7 @@
 
         this.showProgressBar()
 
+        console.log(steps)
         $.each(steps, function (index, step) {
             var timeout = 500
 
@@ -396,11 +397,11 @@
 
         modalBody: [
             '<div class="text-center py-4 px-3"><a>',
-            '{{#thumb}}',
-            '<img src="{{thumb}}" class="img-rounded" alt="No Image" style="width: 68px; height: 68px;">',
-            '{{/thumb}}{{^thumb}}',
+            '{{#icon.url}}',
+            '<img src="{{icon.url}}" class="img-rounded" alt="No Image" style="width: 68px; height: 68px;">',
+            '{{/icon.url}}{{^icon.url}}',
             '<span class="extension-icon icon-lg rounded" style="{{icon.styles}};"><i class="{{icon.class}}"></i></span>',
-            '{{/thumb}}',
+            '{{/icon.url}}',
             '</a><div class="pt-4">',
             '<p>{{{description}}}</p><span class="text-muted">Version:</span> <strong>{{version}}</strong>, ',
             '<span class="text-muted">Author:</span> <strong>{{author}}</strong>',

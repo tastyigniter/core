@@ -61,16 +61,20 @@ class FileLoader extends FileLoaderBase
                     return $lines;
                 }
 
-                $namespace = str_replace('.', '/', $namespace);
+                $slashNamespace = str_replace('.', '/', $namespace);
+                $hyphenNamespace = str_replace('.', '-', $namespace);
 
-                $file = "{$path}/{$locale}/{$namespace}/{$group}.php";
-                if ($this->files->exists($file)) {
-                    return array_replace_recursive($lines, $this->files->getRequire($file));
-                }
-
-                $file = "{$path}/bundles/{$locale}/{$namespace}/{$group}.php";
-                if ($this->files->exists($file)) {
-                    return array_replace_recursive($lines, $this->files->getRequire($file));
+                foreach ([
+                    "$path/vendor/$slashNamespace/$locale/$group.php",
+                    "$path/vendor/$hyphenNamespace/$locale/$group.php",
+                    "$path/$locale/$slashNamespace/$group.php",
+                    "$path/$locale/$hyphenNamespace/$group.php",
+                    "$path/bundles/$locale/$slashNamespace/$group.php",
+                    "$path/bundles/$locale/$hyphenNamespace/$group.php",
+                ] as $file) {
+                    if ($this->files->exists($file)) {
+                        return array_replace_recursive($lines, $this->files->getRequire($file));
+                    }
                 }
 
                 return $lines;

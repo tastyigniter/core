@@ -57,7 +57,7 @@ class HubManager
         setting()->setPref($params);
     }
 
-    protected function requestRemoteData(string $uri, array $params = []): array
+    protected function requestRemoteData(string $uri, array $params = [], ?string $eTag = null): array
     {
         $client = Http::baseUrl(config('igniter-system.hubEndpoint', static::ENDPOINT));
 
@@ -72,6 +72,11 @@ class HubManager
 
             throw new SystemException($response->json('message'));
         }
+
+        throw_if(
+            $eTag && $response->header('TI-ETag') !== $eTag,
+            new SystemException('ETag mismatch, please try again.')
+        );
 
         return $response->json();
     }
@@ -122,16 +127,16 @@ class HubManager
         return $this->requestRemoteData('languages', $filter);
     }
 
-    public function applyLanguagePack(string $locale, ?string $build = null): array
+    public function applyLanguagePack(string $locale, ?array $items = null): array
     {
         return $this->requestRemoteData('language/apply', [
             'locale' => $locale,
-            'build' => $build,
+            'items' => $items,
         ]);
     }
 
-    public function downloadLanguagePack(string $filePath, string $fileHash, array $params = []): array
+    public function downloadLanguagePack(string $eTag, array $params = []): array
     {
-        return $this->requestRemoteData('language/download', $params, $filePath, $fileHash);
+        return $this->requestRemoteData('language/download', $params, $eTag);
     }
 }

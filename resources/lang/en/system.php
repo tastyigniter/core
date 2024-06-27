@@ -153,16 +153,15 @@ return [
         'text_tab_files' => 'Translations',
         'text_tab_edit_file' => 'Edit Translations',
         'text_filter_search' => 'Search by name.',
-        'text_filter_file' => 'View all translations',
+        'text_filter_file' => 'View all groups',
         'text_filter_translations' => 'Filter translations.',
         'text_empty' => 'There are no languages available.',
         'text_empty_translations' => 'There are no translations available.',
         'text_files' => 'files',
         'text_locale_strings' => 'Locale Strings (%s%% translated, %s strings)',
         'text_current_build' => 'Current build: %s',
-        'text_title_update_available' => 'Updates available',
-        'text_title_no_update_available' => 'No updates available',
-        'text_update_available' => 'New updates are available for (%s). Only unchanged translation strings will be updated.',
+        'text_title_update_available' => 'New translation strings are available for (%s).',
+        'text_update_available' => 'Only the translation strings that haven’t been modified will be updated.',
         'text_no_update_available' => '(%s) is up to date',
 
         'column_code' => 'Code',
@@ -179,9 +178,13 @@ return [
         'button_apply_update' => 'Apply updates',
 
         'help_language' => 'Use a full locale code (e.g. “fr_FR”) instead of just a generic language code (e.g. “fr”), must be same as the locale directory.',
+        'help_locale_strings' => 'Make sure NOT to translate placeholders like <b>%s</b> or <b>:name</b>. Leave them as is.',
 
         'alert_set_default' => 'Language set as default',
         'alert_save_changes' => 'Your changes will be lost if you don\'t save them before editing another language file.',
+        'alert_update_complete' => '%s: Translation strings for (%s) have been updated.',
+        'alert_update_failed' => '%s: Failed to update translation strings for (%s).',
+        'alert_update_progress' => '%s: Pulling translation strings for (%s)...',
 
         'translations' => [
 

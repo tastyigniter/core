@@ -363,7 +363,7 @@ class UpdateManager
             $response['items'] = $this->hubManager->applyItems($params, ['include' => 'tags']);
             $response['last_checked_at'] = Carbon::now()->toDateTimeString();
 
-            Cache::put($cacheKey, $response, now()->addHours(3));
+            Cache::put($cacheKey, $response, now()->addHours(6));
         }
 
         return $response;

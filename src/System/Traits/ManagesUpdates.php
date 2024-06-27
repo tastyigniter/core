@@ -228,7 +228,7 @@ trait ManagesUpdates
             'meta.*.name' => ['required'],
             'meta.*.package' => ['required'],
             'meta.*.author' => ['required'],
-            'meta.*.type' => ['required', 'in:core,extension,theme,language'],
+            'meta.*.type' => ['required', 'in:core,extension,theme'],
             'meta.*.version' => ['required'],
             'meta.*.hash' => ['required'],
             'meta.*.description' => ['sometimes'],

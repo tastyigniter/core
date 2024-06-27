@@ -21,12 +21,6 @@ $config['list']['toolbar'] = [
             'class' => 'btn btn-primary',
             'href' => 'languages/create',
         ],
-        'browse' => [
-            'label' => 'lang:igniter::system.languages.button_browse',
-            'class' => 'btn btn-default',
-            'href' => 'https://tastyigniter.com/translate',
-            'target' => '_blank',
-        ],
     ],
 ];
 
@@ -152,6 +146,7 @@ $config['form']['fields'] = [
         'comment' => 'lang:igniter::system.languages.help_language',
     ],
 ];
+
 $config['form']['tabs'] = [
     'defaultTab' => 'lang:igniter::system.languages.text_tab_general',
     'fields' => [

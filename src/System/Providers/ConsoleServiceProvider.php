@@ -26,5 +26,6 @@ class ConsoleServiceProvider extends BaseConsoleServiceProvider
         'theme.install' => Console\Commands\ThemeInstall::class,
         'theme.remove' => Console\Commands\ThemeRemove::class,
         'theme.vendor-publish' => Console\Commands\ThemeVendorPublish::class,
+        'language.install' => Console\Commands\LanguageInstall::class,
     ];
 }

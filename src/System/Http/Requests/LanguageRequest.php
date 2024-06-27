@@ -27,7 +27,7 @@ class LanguageRequest extends FormRequest
             ],
             'status' => ['required', 'boolean'],
             'translations.*.source' => ['string', 'max:2500'],
-            'translations.*.translation' => ['string', 'max:2500'],
+            'translations.*.translation' => ['nullable', 'string', 'max:2500'],
         ];
     }
 }

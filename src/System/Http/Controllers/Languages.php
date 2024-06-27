@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Widgets\Form;
-use Igniter\Flame\Exception\FlashException;
+use Igniter\Flame\Database\Model;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Language;
@@ -102,15 +102,13 @@ class Languages extends \Igniter\Admin\Classes\AdminController
 
         $this->prepareAssets();
 
-        Template::setButton(lang('igniter::system.languages.button_check'), ['class' => 'btn btn-success pull-right', 'data-toggle' => 'record-editor', 'data-handler' => 'onCheckUpdates']);
-
         $this->asExtension('FormController')->edit($context, $recordId);
     }
 
     public function index_onSetDefault(?string $context = null)
     {
         $data = $this->validate(post(), [
-            'default' => 'required|integer|exists:'.Language::class.',language_id',
+            'default' => 'required|string|exists:'.Language::class.',code',
         ]);
 
         if (Language::updateDefault($data['default'])) {
@@ -149,83 +147,77 @@ class Languages extends \Igniter\Admin\Classes\AdminController
     {
         $model = $this->formFindModelObject($recordId);
 
-        $response = resolve(LanguageManager::class)->applyLanguagePack($model->code, $model->version);
-
-        $title = $response
-            ? lang('igniter::system.languages.text_title_update_available')
-            : lang('igniter::system.languages.text_title_no_update_available');
-
-        $message = $response
-            ? lang('igniter::system.languages.text_update_available')
-            : lang('igniter::system.languages.text_no_update_available');
+        $response = resolve(LanguageManager::class)->applyLanguagePack($model->code, (array)$model->version);
 
         return $this->makePartial('updates', [
-            'language' => (object)$response,
-            'title' => $title,
-            'message' => sprintf($message, $model->name),
+            'locale' => $model->code,
+            'updates' => $response,
         ]);
     }
 
-    public function onApplyItems()
-    {
-        $items = post('items') ?? [];
-        if (!count($items)) {
-            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
-        }
-
-        $this->validateItems();
-
-        $response = resolve(LanguageManager::class)->applyLanguagePack($items[0]['name']);
-
-        return [
-            'steps' => $this->buildProcessSteps([$response]),
-        ];
-    }
-
-    public function edit_onApplyUpdate(?string $context = null, ?string $recordId = null)
+    public function onApplyUpdate(?string $context = null, ?string $recordId = null)
     {
         $model = $this->formFindModelObject($recordId);
 
-        $response = resolve(LanguageManager::class)->applyLanguagePack($model->code);
+        $response = resolve(LanguageManager::class)->applyLanguagePack($model->code, (array)$model->version);
 
         return [
-            'steps' => $this->buildProcessSteps([$response]),
+            'steps' => $this->buildProcessSteps($response),
         ];
     }
 
-    public function onProcessItems()
+    public function onProcessItems(?string $context = null, ?string $recordId = null)
     {
-        $json = [];
+        $model = $this->formFindModelObject($recordId);
 
-        $this->validateProcess();
+        $data = $this->validate(post(), [
+            'process' => ['required', 'string'],
+            'meta' => ['required', 'array'],
+            'meta.code' => ['required', 'string'],
+            'meta.name' => ['required', 'string'],
+            'meta.author' => ['required', 'string'],
+            'meta.type' => ['required', 'in:core,extension,theme'],
+            'meta.version' => ['required', 'string'],
+            'meta.hash' => ['required', 'string'],
+            'meta.description' => ['sometimes', 'string'],
+        ], [], [
+            'process' => lang('igniter::system.updates.label_meta_step'),
+            'meta.code' => lang('igniter::system.updates.label_meta_code'),
+            'meta.name' => lang('igniter::system.updates.label_meta_name'),
+            'meta.type' => lang('igniter::system.updates.label_meta_type'),
+            'meta.author' => lang('igniter::system.updates.label_meta_author'),
+            'meta.version' => lang('igniter::system.updates.label_meta_version'),
+            'meta.hash' => lang('igniter::system.updates.label_meta_hash'),
+            'meta.description' => lang('igniter::system.updates.label_meta_description'),
+        ]);
 
-        $meta = post('meta');
+        resolve(LanguageManager::class)->installLanguagePack($model->code, [
+            'name' => $data['meta']['code'],
+            'type' => $data['meta']['type'],
+            'ver' => str_before($data['meta']['version'], '+'),
+            'build' => str_after($data['meta']['version'], '+'),
+            'hash' => $data['meta']['hash'],
+        ]);
 
-        $languageManager = resolve(LanguageManager::class);
+        $model->updateVersions($data['meta']);
 
-        $processMeta = $meta['process'];
-        switch ($processMeta) {
-            case 'downloadLanguage':
-                $result = $languageManager->downloadPack($meta);
-                if ($result) {
-                    $json['result'] = 'success';
-                }
-                break;
-            case 'extractLanguage':
-                $response = $languageManager->extractPack($meta);
-                if ($response) {
-                    $json['result'] = 'success';
-                }
-                break;
-            case 'complete':
-                $response = $languageManager->installPack($meta['items'][0] ?? []);
-                if ($response) {
-                    $json['result'] = 'success';
-                }
-                break;
-        }
+        return [
+            'success' => true,
+            'message' => sprintf(lang('igniter::system.languages.alert_update_complete'),
+                $model->code, $data['meta']['name']
+            ),
+        ];
+    }
 
-        return $json;
+    public function formExtendModel(Model $model)
+    {
+        $hasNewStrings = resolve(LanguageManager::class)->hasNewStrings($model->code);
+
+        Template::setButton(lang($hasNewStrings ? 'igniter::system.languages.button_apply_update' : 'igniter::system.languages.button_check'), [
+            'class' => 'btn btn-success pull-right',
+            'data-toggle' => 'record-editor',
+            'data-handler' => $hasNewStrings ? 'onApplyUpdates' : 'onCheckUpdates'
+        ]);
     }
 
     public function formExtendFields(Form $form, array $fields)
@@ -267,9 +259,13 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return $this->getSession('translation_'.$key, $default);
     }
 
-    protected function setFilterValue(string $key, string $value)
+    protected function setFilterValue(string $key, ?string $value = null)
     {
-        $this->putSession('translation_'.$key, trim($value));
+        if (is_null($value)) {
+            $this->forgetSession('translation_'.$key);
+        } else {
+            $this->putSession('translation_'.$key, trim($value));
+        }
     }
 
     protected function prepareNamespaces(): array
@@ -327,5 +323,20 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $result = $manager->searchTranslations($result, $term);
 
         return $manager->paginateTranslations($result);
+    }
+
+    protected function buildProcessSteps(array $itemsToUpdate): array
+    {
+        $processSteps = [];
+        foreach ($itemsToUpdate as $item) {
+            $step = 'update-'.$item['code'];
+            $processSteps[$step] = [
+                'meta' => $item,
+                'process' => $step,
+                'progress' => sprintf(lang('igniter::system.languages.alert_update_progress'), $item['locale'], $item['name']),
+            ];
+        }
+
+        return $processSteps;
     }
 }

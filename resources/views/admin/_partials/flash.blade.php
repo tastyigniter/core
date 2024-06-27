@@ -3,7 +3,7 @@
         <div
             data-control="flash-overlay"
             data-title="{{ array_get($message, 'title') }}"
-            data-text="{!! htmlentities(array_get($message, 'message')) !!}"
+            data-text="{{html(array_get($message, 'message'))}}"
             data-level="{{ $message['level'] }}"
             data-close-on-click-outside="{{ $message['important'] ? 'false' : 'true' }}"
             data-close-on-esc="{{ $message['important'] ? 'false' : 'true' }}"
@@ -13,7 +13,7 @@
             @class(['alert alert-'.$message['level'], 'alert-important' => $message['important']])
             data-control="flash-message"
             data-level="{{ $message['level'] }}"
-            data-text="{!! htmlentities(array_get($message, 'message')) !!}"
+            data-text="{{html(array_get($message, 'message'))}}"
             data-allow-dismiss="{{ $message['important'] ? 'false' : 'true' }}"
             role="alert"
         ></div>

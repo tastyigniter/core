@@ -4,18 +4,20 @@
     data-control="translationseditor"
     data-alias="{{ $this->alias }}"
 >
-    <label
-        for="{{ $this->getId('items') }}"
-    >{{ sprintf(lang('igniter::system.languages.text_locale_strings'), $translatedProgress, $totalStrings) }}</label>
+    <h5
+        class="fw-600"
+    >{{ sprintf(lang('igniter::system.languages.text_locale_strings'), $translatedProgress, $totalStrings) }}</h5>
+    <span class="help-block">@lang('igniter::system.languages.help_locale_strings')</span>
     <div
         id="{{ $this->getId('items') }}"
-        class="table-responsive"
+        class="table-responsive mt-3"
     >
-        <table class="table mb-0 border-bottom">
+        <table class="table mb-0">
             <thead>
             <tr>
-                <th width="45%">@lang('igniter::system.languages.column_variable')</th>
+                <th width="1"></th>
                 <th>{{ sprintf(lang('igniter::system.languages.column_language'), $this->model->name) }}</th>
+                <th width="45%">@lang('igniter::system.languages.column_variable')</th>
             </tr>
             </thead>
             <tbody>
@@ -23,26 +25,35 @@
                 @foreach($field->options as $key => $value)
                     <tr>
                         <td>
-                            <p>{{ $value['source'] }}</p>
-                            <span class="text-muted">{{ $key }}</span>
+                            <a
+                                role="button"
+                                class="btn btn-link"
+                                data-control="edit-translation"
+                                data-input-name="{{ $field->getName() }}[{{ $key }}]"
+                                data-source="{{ $value['source'] }}"
+                                data-translation='{!! $value['translation'] !!}'
+                            ><i class="fa fa-pencil"></i></a>
+                        </td>
+                        <td
+                            data-control="edit-translation"
+                            data-input-name="{{ $field->getName() }}[{{ $key }}]"
+                            data-source="{{ $value['source'] }}"
+                            data-translation="{{$value['translation']}}"
+                        >
+                            <div data-toggle="translation-preview">
+                                <p class="mb-1">{{ $value['translation'] ?: '--' }}</p>
+                            </div>
+                            <div data-toggle="translation-input"></div>
                         </td>
                         <td>
-                            <input
-                                type="hidden"
-                                name="{{ $field->getName() }}[{{ $key }}][source]"
-                                value="{{ $value['source'] }}"
-                            />
-                            <textarea
-                                class="form-control"
-                                rows="3"
-                                name="{{ $field->getName() }}[{{ $key }}][translation]"
-                            >{!! $value['translation'] !!}</textarea>
+                            <p class="mb-1">{{ $value['source'] }}</p>
+                            <span class="text-muted small">{{ $key }}</span>
                         </td>
                     </tr>
                 @endforeach
-                <tr class="border-top">
-                    <td colspan="999">
-                        <div class="d-flex justify-content-end">
+                <tr>
+                    <td class="border-bottom-0" colspan="999">
+                        <div class="d-flex justify-content-end pt-3">
                             {!! $field->options->render() !!}
                         </div>
                     </td>
