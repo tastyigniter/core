@@ -5,7 +5,6 @@ namespace Igniter\Main\Providers;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Router;
-use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\SupportConfigurableComponent;
 use Igniter\Main\Classes\Theme;
@@ -44,25 +43,11 @@ class ThemeServiceProvider extends ServiceProvider
                 return;
             }
 
-            ($manager = resolve(ThemeManager::class))->bootThemes();
-            $this->registerThemesViewNamespace($manager->listThemes());
+            resolve(ThemeManager::class)->bootThemes();
 
             Event::listen('main.controller.beforeRemap', function(MainController $controller) {
                 $controller->getTheme()?->loadThemeFile();
             });
         });
-    }
-
-    protected function registerThemesViewNamespace(array $themes)
-    {
-        foreach ($themes as $theme) {
-            if (File::isDirectory($theme->getSourcePath())) {
-                $this->loadViewsFrom($theme->getSourcePath(), $theme->getName());
-
-                if ($theme->hasParent()) {
-                    $this->loadViewsFrom($theme->getSourcePath(), $theme->getParent()->getName());
-                }
-            }
-        }
     }
 }

@@ -13,6 +13,7 @@ use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -164,6 +165,14 @@ class ThemeManager
                 ServiceProvider::$publishGroups[$group] = array_merge(
                     ServiceProvider::$publishGroups[$group], $pathsToPublish
                 );
+            }
+        }
+
+        if (File::isDirectory($theme->getSourcePath())) {
+            View::addNamespace($theme->getName(), $theme->getSourcePath());
+
+            if ($theme->hasParent()) {
+                View::addNamespace($theme->getParent()->getName(), $theme->getSourcePath());
             }
         }
     }

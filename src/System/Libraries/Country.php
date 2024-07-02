@@ -15,7 +15,7 @@ class Country
 
     public const ISO_CODE_3 = 3;
 
-    protected string $defaultFormat = "{address_1}\n{address_2}\n{city} {postcode}\n{state}\n{country}";
+    protected string $defaultFormat = "{address_1}\r\n{address_2}\r\n{city} {postcode}\r\n{state}\r\n{country}";
 
     protected array $requiredAddressKeys = [
         'address_1',
@@ -43,14 +43,14 @@ class Country
             $format = $address['format'];
         }
 
-        $formattedAddress = str_replace(["\r\n", "\r", "\n"], '<br />',
+        $formattedAddress = str_replace(["\r\n", "\r", "\n", '\n'], '<br />',
             preg_replace(["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />', trim(str_replace([
                 '{address_1}', '{address_2}', '{city}', '{postcode}', '{state}', '{country}',
             ], array_except($address, 'format'), $format)))
         );
 
         if (!$useLineBreaks) {
-            $formattedAddress = str_replace('<br />', ', ', $formattedAddress);
+            $formattedAddress = str_replace(['<br />', '<br>', '<br/>'], ', ', $formattedAddress);
         }
 
         return strip_tags($formattedAddress, '<br>');

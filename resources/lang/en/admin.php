@@ -129,7 +129,7 @@ return [
     'text_staff_group' => 'User Group',
     'text_location' => 'Location',
     'text_set_status' => 'Set Status',
-    'text_edit_details' => 'Edit Details',
+    'text_edit_details' => 'My Account',
     'text_network_admin' => 'Network Admin',
     'text_administration' => 'Administration',
     'text_logout' => 'Logout',
