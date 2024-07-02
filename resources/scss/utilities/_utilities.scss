@@ -194,3 +194,7 @@ a[data-request] {
   border: 1px solid $gray-800;
   margin: 10px auto;
 }
+
+.rounded-hover:hover, .rounded-hover:focus {
+  border-radius: var(--bs-border-radius) !important;
+}

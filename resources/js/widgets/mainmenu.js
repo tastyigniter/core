@@ -21,12 +21,15 @@
     }
 
     MainMenu.prototype.requestOptions = function ($itemMenu) {
-        var itemName = $itemMenu.data('mainmenu-item')
+        var itemName = $itemMenu.data('mainmenu-item'),
+            requestHandler = $itemMenu.data('mainmenu-item-handler')
+                ? $itemMenu.data('mainmenu-item-handler')
+                : this.options.alias+'::onGetDropdownOptions'
 
         if ($itemMenu.hasClass('is-loaded'))
             return
 
-        $.request(this.options.alias + '::onGetDropdownOptions', {
+        $.request(requestHandler, {
             type: 'GET',
             data: {item: itemName}
         }).done(function () {
