@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Http;
  */
 class HubManager
 {
-    const ENDPOINT = 'https://api.tastyigniter.com/v2';
-
     public function listItems(array $filter = []): array
     {
         return $this->requestRemoteData('items', array_merge(['include' => 'require'], $filter));
@@ -59,7 +57,11 @@ class HubManager
 
     protected function requestRemoteData(string $uri, array $params = [], ?string $eTag = null): array
     {
-        $client = Http::baseUrl(config('igniter-system.hubEndpoint', static::ENDPOINT));
+        throw_unless($endpoint = config('igniter-system.updatesEndpoint'), new SystemException(
+            'Updates endpoint not configured'
+        ));
+
+        $client = Http::baseUrl($endpoint);
 
         $response = $client->acceptJson()
             ->withHeaders($this->prepareHeaders($params))
@@ -127,6 +129,11 @@ class HubManager
         return $this->requestRemoteData('languages', $filter);
     }
 
+    public function getLanguage(string $locale): array
+    {
+        return $this->requestRemoteData('language/'.$locale);
+    }
+
     public function applyLanguagePack(string $locale, ?array $items = null): array
     {
         return $this->requestRemoteData('language/apply', [
@@ -138,5 +145,13 @@ class HubManager
     public function downloadLanguagePack(string $eTag, array $params = []): array
     {
         return $this->requestRemoteData('language/download', $params, $eTag);
+    }
+
+    public function publishTranslations(string $locale, array $packs = []): array
+    {
+        return $this->requestRemoteData('language/upload', [
+            'locale' => $locale,
+            'packs' => $packs,
+        ]);
     }
 }

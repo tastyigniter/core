@@ -108,7 +108,6 @@ class Connector extends BaseFormWidget
         $this->addJs('formwidgets/repeater.js', 'repeater-js');
 
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
-        $this->addJs('formwidgets/recordeditor.js', 'recordeditor-js');
 
         $this->addJs('connector.js', 'connector-js');
     }

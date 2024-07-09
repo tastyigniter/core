@@ -1,5 +1,5 @@
 <div
-    class="filter-scope date form-group"
+    class="filter-scope date form-group mb-0"
 >
     <div class="input-group">
         <span class="input-group-text"><i class="fa fa-calendar"></i></span>

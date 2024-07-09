@@ -150,11 +150,11 @@ $config['form']['fields'] = [
 $config['form']['tabs'] = [
     'defaultTab' => 'lang:igniter::system.languages.text_tab_general',
     'fields' => [
-        '_file' => [
+        '_group' => [
             'tab' => 'lang:igniter::system.languages.text_tab_files',
             'type' => 'select',
             'context' => 'edit',
-            'options' => [],
+            'options' => 'getGroupOptions',
             'span' => 'none',
             'placeholder' => 'igniter::system.languages.text_filter_file',
             'cssClass' => 'col-md-4',
@@ -174,17 +174,17 @@ $config['form']['tabs'] = [
                 'data-request' => 'onSubmitFilter',
             ],
         ],
-        '_string_filter' => [
+        '_filter' => [
             'tab' => 'lang:igniter::system.languages.text_tab_files',
             'type' => 'radiotoggle',
             'context' => 'edit',
             'span' => 'none',
             'cssClass' => 'col-md-4',
-            'default' => 'all',
+            'default' => 'changed',
             'options' => [
                 'all' => 'All',
-                'unchanged' => 'Unchanged',
-                'changed' => 'Changed',
+                'changed' => 'Translated',
+                'unchanged' => 'Untranslated',
             ],
             'attributes' => [
                 'data-control' => 'string-filter',

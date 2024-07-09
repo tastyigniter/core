@@ -87,7 +87,7 @@ it('submits correctly', function() {
     ]]);
 
     $this->filterWidget->bindEvent('filter.submit', function($params) {
-        return 'triggered';
+        return ['triggered'];
     });
 
     $result = $this->filterWidget->onSubmit();

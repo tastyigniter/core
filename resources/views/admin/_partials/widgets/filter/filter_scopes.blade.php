@@ -1,5 +1,5 @@
 @foreach($scopes as $scope)
-    <div class="col">
+    <div class="mb-3">
         {!! $this->renderScopeElement($scope) !!}
     </div>
 @endforeach

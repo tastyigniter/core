@@ -119,6 +119,7 @@ class FormController extends ControllerAction
         $formConfig['model'] = $model;
         $formConfig['arrayName'] = str_singular(strip_class_basename($model, '_model'));
         $formConfig['context'] = $context;
+        $formConfig['previewMode'] = $context === static::CONTEXT_PREVIEW;
 
         $this->controller->formExtendConfig($formConfig);
 
@@ -416,9 +417,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);

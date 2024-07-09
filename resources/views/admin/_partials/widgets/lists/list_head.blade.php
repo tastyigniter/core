@@ -16,52 +16,47 @@
         </th>
     @endif
 
-        @foreach($columns as $key => $column)
-            @if ($column->type == 'button')
-                <th class="list-action {{ $column->cssClass }} text-nowrap"></th>
-            @elseif ($showSorting && $column->sortable)
-                <th
-                    class="list-cell-name-{{ $column->getName() }} list-cell-type-{{ $column->type }} {{ $column->cssClass }} text-nowrap"
-                    @if ($column->width) style="width: {{ $column->width }}" @endif>
-                    <a
-                        class="sort-col"
-                        data-request="{{ $this->getEventHandler('onSort') }}"
-                        data-request-form="#lists-list-form"
-                        data-request-data="sort_by: '{{ $column->columnName }}'">
-                        <i class="fa fa-sort-{{ ($sortColumn == $column->columnName) ? strtoupper($sortDirection).' active' : 'ASC' }}"></i>&nbsp;
-                        {{ $this->getHeaderValue($column) }}
-                    </a>
-                </th>
-            @else
-                <th
-                    class="list-cell-name-{{ $column->getName() }} list-cell-type-{{ $column->type }} text-nowrap"
-                    @if ($column->width) style="width: {{ $column->width }}" @endif
-                >
-                    <span>{{ $this->getHeaderValue($column) }}</span>
-                </th>
-            @endif
-        @endforeach
+    @foreach($columns as $key => $column)
+        @if ($column->type == 'button')
+            <th class="list-action {{ $column->cssClass }} text-nowrap"></th>
+        @elseif ($showSorting && $column->sortable)
+            <th
+                @class([
+                    'list-cell-name-'.$column->getName(),
+                    'list-cell-type-'.$column->type,
+                    $column->cssClass,
+                    'text-nowrap',
+                ])
+                @if ($column->width) style="width: {{ $column->width }}" @endif>
+                <a
+                    @class(['sort-col', 'active' => $sortColumn == $column->columnName])
+                    data-request="{{ $this->getEventHandler('onSort') }}"
+                    data-request-form="#lists-list-form"
+                    data-request-data="sort_by: '{{ $column->columnName }}'">
+                    <i class="fa fa-sort-{{ ($sortColumn == $column->columnName) ? strtoupper($sortDirection) : 'ASC' }}"></i>&nbsp;
+                    {{ $this->getHeaderValue($column) }}
+                </a>
+            </th>
+        @else
+            <th
+                class="list-cell-name-{{ $column->getName() }} list-cell-type-{{ $column->type }} text-nowrap"
+                @if ($column->width) style="width: {{ $column->width }}" @endif
+            >
+                <span>{{ $this->getHeaderValue($column) }}</span>
+            </th>
+        @endif
+    @endforeach
 
-        @if ($showFilter)
-            <th class="list-setup">
-                <button
-                    type="button"
-                    class="btn btn-light btn-sm border-none shadow-none"
-                    data-toggle="list-filter"
-                    data-target="#filter-list-filter-button"
-                ><i class="fa fa-filter"></i></button>
-            </th>
-        @endif
-        @if ($showSetup)
-            <th class="list-setup">
-                <button
-                    type="button"
-                    class="btn btn-light btn-sm border-none shadow-none"
-                    title="@lang('igniter::admin.list.text_setup')"
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{ $listId }}-setup-modal"
-                    data-request="{{ $this->getEventHandler('onLoadSetup') }}"
-                ><i class="fa fa-sliders"></i></button>
-            </th>
-        @endif
+    @if ($showSetup)
+        <th class="list-setup">
+            <button
+                type="button"
+                class="btn btn-light btn-sm border-none shadow-none"
+                title="@lang('igniter::admin.list.text_setup')"
+                data-bs-toggle="modal"
+                data-bs-target="#{{ $listId }}-setup-modal"
+                data-request="{{ $this->getEventHandler('onLoadSetup') }}"
+            ><i class="fa fa-sliders"></i></button>
+        </th>
+    @endif
 </tr>

@@ -44,7 +44,7 @@ $icon-font-path: '../fonts/';
 $fa-font-path: $icon-font-path+'FontAwesome';
 // Body
 //
-$body-bg: $gray-200 !default;
+$body-bg: $white !default;
 $body-color: $gray-800 !default;
 
 $link-hover-decoration: none !default;
@@ -84,6 +84,7 @@ $table-hover-bg: $gray-200 !default;
 // Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
 $input-spacer: 6px !default;
 $input-font-size: $font-size-base !default;
+$input-line-height: 1.8 !default;
 //
 // Buttons
 //
@@ -109,7 +110,8 @@ $input-height-border: 3px !default;
 $form-check-input-width: 1.25em;
 $form-fields-padding: 1.25rem .725rem !default;
 $form-fields-padding-x: 20px !default;
-$form-nav-link-padding-y: .75rem !default;
+$form-nav-padding: 0.25rem !default;
+$form-nav-link-padding-y: .375rem !default;
 $form-nav-link-padding-x: 1rem !default;
 $form-label-font-size: 0.825rem !default;
 $custom-control-indicator-border-color: $gray-200 !default;
@@ -121,10 +123,6 @@ $nav-tabs-border-radius: .625rem !default;
 $nav-link-font-size: $input-font-size !default;
 $nav-link-color: lighten($dark, 35%) !default;
 $nav-link-hover-color: $body-color !default;
-// Dropdowns
-//
-// Dropdown menu container and contents.
-$dropdown-padding-x: .5rem !default;
 
 // Cards
 $card-border-color: $gray-300 !default;
@@ -137,14 +135,17 @@ $accordion-button-active-bg: transparent !default;
 $accordion-button-active-color: inherit !default;
 
 // Dropdowns
+$dropdown-padding-x: .5rem !default;
 $dropdown-border-color: rgba($black, .15) !default;
 $dropdown-divider-bg: $gray-200 !default;
 
 $dropdown-link-color: $gray-900 !default;
-$dropdown-link-hover-bg: $gray-200 !default;
+$dropdown-link-hover-bg: $gray-100 !default;
 
 $dropdown-link-disabled-color: $gray-600 !default;
 
+$dropdown-link-active-color: $primary !default;
+$dropdown-link-active-bg: transparent !default;
 $dropdown-header-color: $gray-600 !default;
 
 // Alert
@@ -171,8 +172,8 @@ $badge-color: inherit !default;
 //
 // Page
 //
-$page-padding-x: 20px !default;
-$page-padding-y: 30px !default;
+$page-padding-x: 15px !default;
+$page-padding-y: 25px !default;
 $page-top: 0 !default;
 $page-bottom: 0 !default;
 $page-margin-left: 230px !default;
@@ -189,8 +190,8 @@ $mainmenu-padding-y: 1rem !default;
 // Side nav
 //
 $sidenav-bg: lighten($body-bg, 6%) !default;
-$sidenav-hover-bg: lighten($body-bg, 4%) !default;
-$sidenav-icon-color: lighten($dark, 30%) !default;
+$sidenav-hover-bg: $dropdown-link-hover-bg !default;
+$sidenav-icon-color: lighten($dark, 50%) !default;
 $sidenav-font-size: 15px !default;
 $sidenav-submenu-font-size: $font-size-base !default;
 $sidenav-line-height: 42px !default;

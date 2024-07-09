@@ -26,7 +26,7 @@ $config['list']['toolbar'] = [
 $config['list']['columns'] = [
     'install' => [
         'type' => 'button',
-        'iconCssClass' => 'fas fa-check',
+        'iconCssClass' => 'fas fa-fw fa-check',
         'attributes' => [
             'class' => 'btn btn-light text-success mr-3 shadow-none',
             'data-request' => 'onInstall',
@@ -35,7 +35,7 @@ $config['list']['columns'] = [
     ],
     'uninstall' => [
         'type' => 'button',
-        'iconCssClass' => 'fas fa-xmark',
+        'iconCssClass' => 'fas fa-fw fa-xmark',
         'attributes' => [
             'class' => 'btn btn-light text-danger mr-3 shadow-none',
             'data-request' => 'onUninstall',

@@ -8,11 +8,8 @@
         <div class="modal-body">
             <div class="form-group">
                 <label class="form-label">@lang('igniter::admin.list.label_visible_columns')</label>
-                <div class="help-block">@lang('igniter::admin.list.help_visible_columns')</div>
-                <div
-                    id="lists-setup-sortable"
-                    class="list-group"
-                >
+                <div class="help-block mb-2">@lang('igniter::admin.list.help_visible_columns')</div>
+                <div>
                     @foreach($columns as $column)
                         @if ($column->type == 'button')
                             <input
@@ -27,34 +24,39 @@
                                 name="column_order[]"
                                 value="{{ $column->columnName }}"
                             />
-                        @else
-                            <div class="list-group-item bg-transparent px-2">
-                                <div class="btn btn-handle shadow-none form-check-handle mr-2">
-                                    <i class="fa fa-arrows-alt-v text-muted"></i>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input
-                                        type="checkbox"
-                                        id="list-setup-{{ $column->columnName }}"
-                                        class="form-check-input"
-                                        name="visible_columns[]"
-                                        value="{{ $column->columnName }}"
-                                        {!! $column->invisible ? '' : 'checked="checked"' !!}
-                                    />
-                                    <label
-                                        class="form-check-label"
-                                        for="list-setup-{{ $column->columnName }}"
-                                    ><b>@lang($column->label)</b></label>
-                                </div>
-                            </div>
                         @endif
                     @endforeach
+                    <div class="list-group" id="lists-setup-sortable">
+                        @foreach($columns as $column)
+                            @if ($column->type !== 'button')
+                                <div class="list-group-item bg-transparent px-2">
+                                    <div class="btn btn-handle border-0 shadow-none form-check-handle mr-2">
+                                        <i class="fa fa-arrows-alt-v text-muted"></i>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            type="checkbox"
+                                            id="list-setup-{{ $column->columnName }}"
+                                            class="form-check-input"
+                                            name="visible_columns[]"
+                                            value="{{ $column->columnName }}"
+                                            {!! $column->invisible ? '' : 'checked="checked"' !!}
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="list-setup-{{ $column->columnName }}"
+                                        ><b>@lang($column->label)</b></label>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
             @if ($this->showPagination)
                 <div class="form-group">
                     <label class="form-label">@lang('igniter::admin.list.label_page_limit')</label>
-                    <div class="help-block">@lang('igniter::admin.list.help_page_limit')</div>
+                    <div class="help-block mb-2">@lang('igniter::admin.list.help_page_limit')</div>
                     <div class="btn-group btn-group-toggle">
                         @foreach($perPageOptions as $optionValue)
                             <input

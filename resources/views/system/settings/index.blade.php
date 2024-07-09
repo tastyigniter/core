@@ -15,7 +15,7 @@
                             href="{{ $category->url }}"
                             role="button"
                         >
-                            <div @class(['card shadow-sm card-hover h-100', 'border-danger' => $hasErrors])>
+                            <div @class(['card card-hover h-100', 'border-danger' => $hasErrors])>
                                 <div class="card-body d-flex align-items-center">
                                     <div class="pr-3">
                                         @if ($item == 'core' && $hasErrors)

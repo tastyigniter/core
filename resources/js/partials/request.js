@@ -106,8 +106,8 @@ if (window.jQuery.request !== undefined)
                 success: function (data, textStatus, jqXHR) {
                     // Stop beforeUpdate() OR data-request-before-update returns false
                     if (self.options.beforeUpdate.apply(self, [data, textStatus, jqXHR]) === false) return
-                    if (options.fireBeforeUpdate && eval('(function($el, context, data, textStatus, jqXHR) {' +
-                        options.fireBeforeUpdate + '}.call($el.get(0), $el, context, data, textStatus, jqXHR))') === false) return
+                    if (options.fireBeforeUpdate && eval('(function($el, context, data, textStatus, jqXHR) {'+
+                        options.fireBeforeUpdate+'}.call($el.get(0), $el, context, data, textStatus, jqXHR))') === false) return
 
                     // Trigger 'ajaxBeforeUpdate' on the form, stop if event.preventDefault() is called
                     var _event = jQuery.Event('ajaxBeforeUpdate')
@@ -125,7 +125,7 @@ if (window.jQuery.request !== undefined)
 
                     updatePromise.done(function () {
                         $triggerEl.trigger('ajaxSuccess', [context, data, textStatus, jqXHR])
-                        options.fireSuccess && eval('(function($el, context, data, textStatus, jqXHR) {' + options.fireSuccess + '}.call($el.get(0), $el, context, data, textStatus, jqXHR))')
+                        options.fireSuccess && eval('(function($el, context, data, textStatus, jqXHR) {'+options.fireSuccess+'}.call($el.get(0), $el, context, data, textStatus, jqXHR))')
                     })
 
                     return updatePromise
@@ -158,7 +158,7 @@ if (window.jQuery.request !== undefined)
                         if (_event.isDefaultPrevented()) return
 
                         // Stop here if the data-request-error attribute returns false
-                        if (options.fireError && eval('(function($el, context, textStatus, jqXHR) {' + options.fireError + '}.call($el.get(0), $el, context, textStatus, jqXHR))') === false)
+                        if (options.fireError && eval('(function($el, context, textStatus, jqXHR) {'+options.fireError+'}.call($el.get(0), $el, context, textStatus, jqXHR))') === false)
                             return
 
                         requestOptions.handleErrorMessage(errorMsg)
@@ -169,7 +169,7 @@ if (window.jQuery.request !== undefined)
                 },
                 complete: function (data, textStatus, jqXHR) {
                     $triggerEl.trigger('ajaxComplete', [context, data, textStatus, jqXHR])
-                    options.fireComplete && eval('(function($el, context, data, textStatus, jqXHR) {' + options.fireComplete + '}.call($el.get(0), $el, context, data, textStatus, jqXHR))')
+                    options.fireComplete && eval('(function($el, context, data, textStatus, jqXHR) {'+options.fireComplete+'}.call($el.get(0), $el, context, data, textStatus, jqXHR))')
                 },
 
                 // Custom function, requests confirmation from the user
@@ -211,7 +211,7 @@ if (window.jQuery.request !== undefined)
                     $.each(fields, function focusErrorField(fieldName, fieldMessages) {
                         fieldName = fieldName.replace(/\.(\w+)/g, '[$1]')
 
-                        var fieldElement = $form.find('[name="' + fieldName + '"], [name="' + fieldName + '[]"], [name$="[' + fieldName + ']"], [name$="[' + fieldName + '][]"]').filter(':enabled').first()
+                        var fieldElement = $form.find('[name="'+fieldName+'"], [name="'+fieldName+'[]"], [name$="['+fieldName+']"], [name$="['+fieldName+'][]"]').filter(':enabled').first()
                         if (fieldElement.length > 0) {
 
                             var _event = jQuery.Event('ajaxInvalidField')
@@ -237,6 +237,7 @@ if (window.jQuery.request !== undefined)
                         try {
                             dataArray = jQuery.type(data) === 'object' ? data : jQuery.parseJSON(data)
                         } catch (e) {
+                            console.error('JSON parse error', e)
                         }
 
                         for (var partial in dataArray) {
@@ -406,9 +407,9 @@ if (window.jQuery.request !== undefined)
         if (typeof value == 'object') return value
 
         try {
-            return JSON.parse(JSON.stringify(eval("({" + value + "})")))
+            return JSON.parse(JSON.stringify(eval("({"+value+"})")))
         } catch (e) {
-            throw new Error('Error parsing the ' + name + ' attribute value. ' + e)
+            throw new Error('Error parsing the '+name+' attribute value. '+e)
         }
     }
 
@@ -428,7 +429,7 @@ if (window.jQuery.request !== undefined)
         for (let errorKey in errorBag) {
             const errors = errorBag[errorKey]
             for (let error in errors) {
-                formattedErrorMessage += errors[error] + '<br>'
+                formattedErrorMessage += errors[error]+'<br>'
             }
         }
         return formattedErrorMessage.slice(0, -4)

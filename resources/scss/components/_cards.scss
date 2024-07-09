@@ -1,6 +1,10 @@
 .card-hover {
+  &.shadow-sm {
+    box-shadow: none !important;
+  }
+
   &:hover,
   &:focus {
-    background-color: lighten($gray-200, 2.5%);
+    border: 1px solid $primary;
   }
 }

@@ -4,7 +4,7 @@
     $eventHandler = $this->getEventHandler('onChooseSaveButtonAction');
 @endphp
 <div
-    class="btn-group"
+    class="btn-group me-2"
     data-control="form-save-actions"
 >
     <button

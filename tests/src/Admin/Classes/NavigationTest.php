@@ -44,8 +44,6 @@ it('loads registered admin navigation items', function() {
         ->toHaveKeys([
             'dashboard',
             'restaurant',
-            'sales.child.statuses',
-            'sales',
             'marketing',
             'design.child.themes',
             'tools.child.media_manager',

@@ -2,7 +2,6 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Exception\ApplicationException;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Language;
 use Illuminate\Console\Command;
@@ -19,7 +18,9 @@ class LanguageInstall extends Command
     {
         $locale = $this->argument('locale');
 
-        throw_unless($language = Language::findByCode($locale), new ApplicationException('Language not found'));
+        if (!$language = Language::findByCode($locale)) {
+            $language = Language::make(['code' => $locale]);
+        }
 
         $languageManager = resolve(LanguageManager::class);
         if (!$response = $languageManager->applyLanguagePack($language->code, (array)$language->version)) {
@@ -34,6 +35,12 @@ class LanguageInstall extends Command
 
         $this->output->writeln(sprintf('<info>%s translated strings found</info>', count($response)));
 
+        if (!$language->exists) {
+            $language->name = $response[0]['name'];
+            $language->status = true;
+            $language->save();
+        }
+
         foreach ($response as $languageBuild) {
             $this->output->writeln(sprintf('<info>Installing %s translated strings for %s</info>', $language->code, $languageBuild['name']));
             $languageManager->installLanguagePack($language->code, [
@@ -43,6 +50,8 @@ class LanguageInstall extends Command
                 'build' => str_after($languageBuild['version'], '+'),
                 'hash' => $languageBuild['hash'],
             ]);
+
+            $language->updateVersions($languageBuild);
         }
     }
 

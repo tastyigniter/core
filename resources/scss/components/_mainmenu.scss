@@ -1,5 +1,5 @@
 .navbar-top {
-  background-color: $body-bg;
+  background-color: $sidenav-bg;
   padding: 0;
 
   &.navbar-expand {
@@ -15,7 +15,7 @@
 
         &:hover,
         &:focus {
-          background-color: $gray-300;
+          background-color: $sidenav-hover-bg;
           border-radius: $input-border-radius;
         }
 
@@ -102,7 +102,7 @@
 
     .dropdown-item {
       .fa {
-        margin-right: 14px;
+        margin-right: 5px;
       }
     }
 
@@ -203,22 +203,7 @@
     &.navbar-expand {
       margin-left: 0;
 
-      .navbar {
-        border-bottom: $border-width solid $gray-800;
-        background-color: $gray-900;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1030;
-        padding: 0;
-      }
-
       .navbar-nav {
-        .nav-link,
-        > li.nav-item.show > a .fa {
-          color: $white;
-        }
 
         > li.dropdown.show > a::after {
           bottom: -1px;
@@ -255,8 +240,3 @@
   }
 }
 
-@include media-breakpoint-down(sm) {
-  .page-title {
-    display: none;
-  }
-}

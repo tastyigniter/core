@@ -1,4 +1,4 @@
-<div class="filter-scope switch form-group">
+<div class="filter-scope switch form-group mb-0">
     <select
         name="{!! $this->getScopeName($scope) !!}"
         class="form-select"

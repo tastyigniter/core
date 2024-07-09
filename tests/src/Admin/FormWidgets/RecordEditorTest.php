@@ -63,7 +63,6 @@ it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('formwidgets/repeater.js', 'repeater-js');
     Assets::shouldReceive('addCss')->once()->with('formwidgets/recordeditor.css', 'recordeditor-css');
     Assets::shouldReceive('addJs')->once()->with('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
-    Assets::shouldReceive('addJs')->once()->with('formwidgets/recordeditor.js', 'recordeditor-js');
 
     $this->recordEditorWidget->assetPath = [];
 

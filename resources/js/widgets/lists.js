@@ -1,15 +1,9 @@
-// List Filter State Toggle
-// Uses user cookie value to show/hide list filter bar
+// Submit list filter form on select change
 $(function () {
-    $(document).on('click', '[data-toggle="list-filter"]', function () {
-        var $button = $(this),
-            $dropdownButton = $($button.data('target'))
-
-        $button.toggleClass('active')
-        $dropdownButton.attr('data-bs-offset', "-50," + Math.abs($button.closest('thead').offset().top - $('#toolbar').height() - $('.navbar-top').height() - 20))
-        $dropdownButton.click()
+    $(document).on('change', '.filter-scope select, .filter-scope input[type="checkbox"]', function (event) {
+        $(event.currentTarget).closest('form').submit()
     })
-});
+})
 
 $(function ($) {
     // List setup form sortables

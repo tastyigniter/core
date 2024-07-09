@@ -25,7 +25,7 @@
                     @else
                         <div class="media-icon">
                             <i class="fa fa-{{ $item->fileType }} fa-3x text-muted mb-2"></i>
-                            <span class="d-inline-block text-truncate mw-100">{{ $item->name }}</span>
+                            <span class="d-inline-block text-truncate w-100">{{ $item->name }}</span>
                         </div>
                     @endif
                 </a>

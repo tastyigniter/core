@@ -297,15 +297,17 @@ class ThemeManager
         return false;
     }
 
-    public function isLockedPath(string $path): bool
+    public function isLockedPath(string $path, Theme $theme): bool
     {
-        if (starts_with($path, Igniter::themesPath().'/')) {
-            $path = substr($path, strlen(Igniter::themesPath().'/'));
+        if ($theme->hasParent() && str_starts_with($path, $theme->getParent()->getPath())) {
+            return $theme->getParent()->locked;
         }
 
-        $themeCode = str_before($path, '/');
+        if (!str_starts_with($path, $theme->getPath())) {
+            return true;
+        }
 
-        return $this->isLocked($themeCode);
+        return $theme->locked;
     }
 
     //
@@ -414,7 +416,7 @@ class ThemeManager
             throw new SystemException("Theme template file not found: $filePath");
         }
 
-        if ($this->isLockedPath($template->getFilePath())) {
+        if ($this->isLockedPath($template->getFilePath(), $theme)) {
             throw new SystemException(lang('igniter::system.themes.alert_theme_path_locked'));
         }
 
@@ -441,7 +443,7 @@ class ThemeManager
             throw new SystemException("Theme template file not found: $filePath");
         }
 
-        if ($this->isLockedPath($template->getFilePath())) {
+        if ($this->isLockedPath($template->getFilePath(), $theme)) {
             throw new SystemException(lang('igniter::system.themes.alert_theme_path_locked'));
         }
 

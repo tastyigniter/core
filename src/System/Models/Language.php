@@ -4,6 +4,7 @@ namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Traits\Purgeable;
+use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Facades\Lang;
@@ -105,9 +106,12 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     // Translations
     //
 
-    public function listAllFiles()
+    public function getGroupOptions(?string $locale = null)
     {
-        traceLog('Method Language::listAllFiles() has been deprecated. Use Translator loader instead.');
+        return collect(resolve(LanguageManager::class)->listLocalePackages($locale))
+            ->mapWithKeys(function($localePackage) {
+                return [$localePackage->code => $localePackage->name];
+            });
     }
 
     public function getLines(string $locale, string $group, ?string $namespace = null): array
@@ -140,7 +144,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
             [, $namespace, $group, $item] = $matches;
 
-            $this->updateTranslation($group, $namespace, $item, $translation['translation']);
+            $this->updateTranslation($group, $namespace, $item, (string)$translation['translation']);
         }
 
         return true;

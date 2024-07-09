@@ -120,7 +120,7 @@ class Settings extends Model
 
     public function getValueAttribute()
     {
-        return ($value = @unserialize($this->attributes['value']))
+        return ($value = @unserialize($this->attributes['value'] ?? ''))
             ? $value
             : $this->attributes['value'];
     }
@@ -165,17 +165,16 @@ class Settings extends Model
             return [];
         }
 
-        if (is_array($fieldValues = array_get($this->fieldValues, $group))) {
-            return $fieldValues;
+        if (is_array($this->fieldValues[$group] ?? '')) {
+            return $this->fieldValues[$group];
         }
 
-        $values = [];
-        $records = $this->newQuery()->where('sort', $group)->get();
-        foreach ($records as $record) {
-            $values[$record->item] = $record->value;
-        }
-
-        return $this->fieldValues[$group] = array_undot($values);
+        return $this->fieldValues[$group] = $this
+            ->newQuery()
+            ->where('sort', $group)
+            ->pluck('value', 'item')
+            ->undot()
+            ->all();
     }
 
     public function resetFieldValues()

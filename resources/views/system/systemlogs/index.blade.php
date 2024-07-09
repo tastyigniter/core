@@ -1,15 +1,28 @@
+<div class="d-flex px-3 py-3">
+    @if($previousUrl = AdminMenu::getPreviousUrl())
+        <a
+            class="btn shadow-none border-none ps-0"
+            href="{{$previousUrl}}"
+        ><i class="fa fa-angle-left fs-4 align-bottom"></i></a>
+    @endif
+    <h4 class="page-title mb-0 lh-base">
+        <span>{!! Template::getHeading() !!}</span>
+    </h4>
+</div>
 <div class="row-fluid">
-    {!! form_open(current_url(),
-        [
-            'id'     => 'list-form',
-            'role'   => 'form',
-            'method' => 'POST',
-        ]
-    ) !!}
-
-    {!! $this->widgets['toolbar']->render() !!}
-
     <div class="card shadow-sm mx-3">
+        {!! form_open(current_url(),
+            [
+                'id'     => 'list-form',
+                'role'   => 'form',
+                'method' => 'POST',
+            ]
+        ) !!}
+
+        <div class="border-bottom">
+            {!! $this->widgets['toolbar']->render() !!}
+        </div>
+
         <div class="list-table table-responsive">
             <table class="table table-hover border-bottom">
                 <thead>
@@ -42,7 +55,7 @@
                             {{ $log['text'] }}
 
                             @isset($log['summary'])
-                                <br /> {{ $log['summary'] }}
+                                <br/> {{ $log['summary'] }}
                             @endisset
 
                             @if ($log['stack'])
@@ -56,7 +69,7 @@
                 </tbody>
             </table>
         </div>
-    </div>
 
-    {!! form_close() !!}
+        {!! form_close() !!}
+    </div>
 </div>

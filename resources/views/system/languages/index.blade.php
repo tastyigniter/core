@@ -12,15 +12,19 @@
 <div class="row-fluid">
     <div class="card shadow-sm mx-3">
         <div class="border-bottom">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-lg-9 pe-0">
-                    {!! $this->renderListToolbar() !!}
+                    {!! $this->widgets['toolbar']->render() !!}
                 </div>
                 <div class="col-lg-3">
-                    {!! $this->renderListFilter() !!}
+                    {!! $this->widgets['list_filter']->render() !!}
                 </div>
             </div>
         </div>
-        {!! $this->renderList(null, true) !!}
+        <div class="border-bottom py-2">
+            {!! $this->makePartial('updates/search', ['itemType' => 'language']) !!}
+        </div>
+
+        {!! $this->widgets['list']->render() !!}
     </div>
 </div>

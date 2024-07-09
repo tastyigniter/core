@@ -73,13 +73,13 @@ class Themes extends \Igniter\Admin\Classes\AdminController
     {
         if (resolve(ThemeManager::class)->isLocked($themeCode)) {
             Template::setButton(lang('igniter::system.themes.button_child'), [
-                'class' => 'btn btn-default pull-right',
+                'class' => 'btn btn-default pull-right ms-2',
                 'data-request' => 'onCreateChild',
             ]);
         }
 
         Template::setButton(lang('igniter::system.themes.button_source'), [
-            'class' => 'btn btn-default pull-right mr-3',
+            'class' => 'btn btn-default pull-right',
             'href' => admin_url('themes/source/'.$themeCode),
         ]);
 
@@ -91,7 +91,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->defaultView = 'edit';
         if (resolve(ThemeManager::class)->isLocked($themeCode)) {
             Template::setButton(lang('igniter::system.themes.button_child'), [
-                'class' => 'btn btn-default pull-right',
+                'class' => 'btn btn-default pull-right ms-2',
                 'data-request' => 'onCreateChild',
             ]);
         }
@@ -99,7 +99,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $theme = resolve(ThemeManager::class)->findTheme($themeCode);
         if ($theme && $theme->hasCustomData()) {
             Template::setButton(lang('igniter::system.themes.button_customize'), [
-                'class' => 'btn btn-default pull-right mr-3',
+                'class' => 'btn btn-default pull-right',
                 'href' => admin_url('themes/edit/'.$themeCode),
             ]);
         }
@@ -206,11 +206,8 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function delete_onDelete(string $context, string $themeCode): RedirectResponse
     {
-        if (resolve(ThemeManager::class)->deleteTheme($themeCode, post('delete_data', 1) == 1)) {
-            flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
-        } else {
-            flash()->danger(lang('igniter::admin.alert_error_try_again'));
-        }
+        resolve(ThemeManager::class)->deleteTheme($themeCode, post('delete_data', 1) == 1);
+        flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
 
         return $this->redirect('themes');
     }

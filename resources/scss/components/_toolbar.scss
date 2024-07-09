@@ -2,7 +2,6 @@
   .toolbar-action {
     clear: both;
     width: 100%;
-    padding: 0 $page-padding-x $page-padding-x;
   }
 
   @include media-breakpoint-down(sm) {
@@ -15,12 +14,8 @@
 }
 
 .toolbar-action {
-  > .btn {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-
-  .btn {
+  .btn + .btn {
+    margin-left: .5rem;
     outline: 0 none;
 
     &:first-child {

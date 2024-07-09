@@ -24,13 +24,6 @@
   }
 }
 
-.btn-light:not(:disabled):not(.disabled):active,
-.btn-light:not(:disabled):not(.disabled).active,
-.show > .btn-light.dropdown-toggle {
-  background-color: $gray-400;
-  border-color: $gray-400;
-}
-
 .btn-primary,
 .btn-success,
 .btn-danger {
@@ -41,4 +34,11 @@
   &:active {
     color: $white !important;
   }
+}
+
+.btn-light:not(:disabled):not(.disabled):active,
+.btn-light:not(:disabled):not(.disabled).active,
+.show > .btn-light.dropdown-toggle {
+  background-color: $gray-400;
+  border-color: $gray-400;
 }

@@ -154,15 +154,16 @@ return [
         'text_tab_edit_file' => 'Edit Translations',
         'text_filter_search' => 'Search by name.',
         'text_filter_file' => 'View all groups',
-        'text_filter_translations' => 'Filter translations.',
+        'text_filter_translations' => 'Search translations by key or text',
         'text_empty' => 'There are no languages available.',
         'text_empty_translations' => 'There are no translations available.',
         'text_files' => 'files',
-        'text_locale_strings' => 'Locale Strings (%s%% translated, %s strings)',
+        'text_locale_strings' => 'Total: %s, translated: %s (%s%%), untranslated %s',
         'text_current_build' => 'Current build: %s',
         'text_title_update_available' => 'New translation strings are available for (%s).',
         'text_update_available' => 'Only the translation strings that haven’t been modified will be updated.',
         'text_no_update_available' => '(%s) is up to date',
+        'text_publish_translations' => 'Publish translations',
 
         'column_code' => 'Code',
         'column_status' => 'Status',
@@ -174,17 +175,20 @@ return [
         'label_check_updates' => 'Check for updates',
 
         'button_browse' => '<i class="fa fa-globe"></i>&nbsp;&nbsp;Browse more languages&nbsp;&nbsp;<i class="fa fa-external-link-alt"></i>',
-        'button_check' => '<i class="fa fa-refresh"></i>&nbsp;&nbsp;Check for updates',
-        'button_apply_update' => 'Apply updates',
+        'button_apply_update' => '<i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Download new translated strings',
+        'button_import_translations' => 'Import translations',
+        'button_publish_translations' => 'Publish translations',
 
         'help_language' => 'Use a full locale code (e.g. “fr_FR”) instead of just a generic language code (e.g. “fr”), must be same as the locale directory.',
         'help_locale_strings' => 'Make sure NOT to translate placeholders like <b>%s</b> or <b>:name</b>. Leave them as is.',
+        'help_publish_translations' => 'If you want your translations included in the core or extension release, please upload them to the <a href="%s" target="_blank">Crowdin project.</a> They will be reviewed by the Core Team or the Extension Author.',
 
         'alert_set_default' => 'Language set as default',
-        'alert_save_changes' => 'Your changes will be lost if you don\'t save them before editing another language file.',
         'alert_update_complete' => '%s: Translation strings for (%s) have been updated.',
         'alert_update_failed' => '%s: Failed to update translation strings for (%s).',
         'alert_update_progress' => '%s: Pulling translation strings for (%s)...',
+        'alert_language_not_found' => 'Language not found',
+        'alert_publish_success' => 'Translations published successfully',
 
         'translations' => [
 
@@ -361,6 +365,7 @@ return [
         'text_tab_desc_general' => 'Configure your restaurant name, email, logo and geolocation settings',
         'text_tab_desc_site' => 'Configure your site default country, language, currency and timezone settings.',
         'text_tab_desc_mail' => 'Settings for sending out emails',
+        'text_tab_desc_status' => 'Manage your order and reservation statuses.',
         'text_tab_desc_server' => 'Manage advanced system settings such as enabling/disabling maintenance.',
         'text_tab_desc_language' => 'Manage languages available on your site.',
         'text_tab_desc_currency' => 'Manage currencies available on your site.',

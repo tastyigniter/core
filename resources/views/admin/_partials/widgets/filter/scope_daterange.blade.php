@@ -1,5 +1,5 @@
 <div
-    class="filter-scope daterange form-group"
+    class="filter-scope daterange form-group mb-0"
     data-control="daterangepicker"
     data-single-date-picker="false"
     data-opens="{{ array_get($scope->config, 'pickerPosition', 'left') }}"

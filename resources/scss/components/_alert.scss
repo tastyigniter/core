@@ -1,6 +1,7 @@
 #notification {
   display: none;
 }
+
 body.swal2-toast-shown {
   .swal2-container {
     &.swal2-bottom-start {
@@ -23,6 +24,23 @@ body:not(.swal2-toast-shown) {
 
   &.swal2-toast {
     padding: 0.6em 1em;
+    border-bottom: 2px solid transparent;
+
+    &.swal2-icon-error, &.swal2-icon-danger {
+      border-bottom-color: var(--bs-danger);
+    }
+
+    &.swal2-icon-success {
+      border-bottom-color: var(--bs-success);
+    }
+
+    &.swal2-icon-info {
+      border-bottom-color: var(--bs-info);
+    }
+
+    &.swal2-icon-warning {
+      border-bottom-color: var(--bs-warning);
+    }
 
     .swal2-icon {
       width: 1.5em;

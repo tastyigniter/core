@@ -4,17 +4,9 @@
         data-control="bulk-actions"
         data-action-total-records="{{ $records->total() }}"
     >
-        <td class="bulk-action pb-0 ">
-            <div class="form-check active">
-                <input
-                    type="checkbox" id="{{ 'checkboxAll-bulk-'.$listId }}"
-                    class="form-check-input" onclick="$('input[name*=\'checked\']').prop('checked', this.checked)"/>
-                <label class="form-check-label" for="{{ 'checkboxAll-bulk-'.$listId }}">&nbsp;</label>
-            </div>
-        </td>
-        <td class="w-100 pb-0 pt-1" colspan="999">
+        <th class="bg-warning-subtle" colspan="999">
             <div>
-                <div class="btn-counter btn py-1 text-nowrap shadow-none pe-none">
+                <div class="btn-counter btn fw-normal py-1 text-nowrap shadow-none pe-none">
                     <span data-action-counter>0</span> record(s) selected
                 </div>
                 <a
@@ -29,6 +21,6 @@
                 @endforeach
             </div>
             <div id="{{$this->getId('bulk-action-modal-container')}}"></div>
-        </td>
+        </th>
     </tr>
 @endif

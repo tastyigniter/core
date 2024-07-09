@@ -1,24 +1,30 @@
 @if(AdminAuth::isLogged())
-    <nav {{ $attributes->merge(['class' => 'navbar navbar-top navbar-expand'])}}>
+    <header {{ $attributes->merge(['class' => 'navbar navbar-top navbar-expand border-bottom'])}}>
         <div class="container-fluid">
-            @if($previousUrl = AdminMenu::getPreviousUrl())
-                <a
-                    class="btn shadow-none border-none pe-0"
-                    href="{{$previousUrl}}"
-                ><i class="fa fa-angle-left fs-4 align-bottom"></i></a>
-            @endif
-            <h4 class="page-title px-2 mb-0">
-                <span>{!! Template::getHeading() !!}</span>
-            </h4>
-            <div class="navbar navbar-right py-2 pe-lg-0">
+            <div class="navbar-brand d-flex">
                 <button
-                    type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navSidebar"
-                    aria-controls="navSidebar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="fa fa-bars"></span>
+                    class="nav-link px-3 ms-n2 d-lg-none"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#sidebarMenu"
+                    aria-controls="sidebarMenu"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <i class="fa fa-bars"></i>
                 </button>
+                <a class="logo" href="{{ admin_url('dashboard') }}">
+                    <img
+                        class="logo-svg"
+                        src="{{$site_logo !== 'no_photo.png' ? media_url($site_logo) : asset('vendor/igniter/images/favicon.svg')}}"
+                        alt="{{$site_name}}"
+                    />
+                </a>
+            </div>
 
+            <div class="navbar navbar-right py-2 pe-lg-0">
                 {{ $slot }}
             </div>
         </div>
-    </nav>
+    </header>
 @endif

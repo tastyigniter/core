@@ -1,21 +1,24 @@
-<div class="btn-group">
-    <button
-        type="button"
-        tabindex="0"
-        {!! $button->getAttributes() !!}
-    >{!! $button->label ?: $button->name !!}</button>
-    @if($buttonMenuItems = $button->menuItems())
+@if($buttonMenuItems = $button->menuItems())
+    @php($selectedContext = $button->config['context'] ?? '')
+    <div class="btn-group">
         <button
             type="button"
-            class="{{ $button->cssClass }} dropdown-toggle dropdown-toggle-split"
+            class="{{ $button->cssClass }} dropdown-toggle"
             data-bs-toggle="dropdown"
+            data-bs-display="static"
             aria-haspopup="true"
             aria-expanded="false"
-        ><span class="sr-only">Toggle Dropdown</span></button>
+            tabindex="0"
+            {!! $button->getAttributes() !!}
+        >{!! $button->label ?: $button->name !!}</button>
         <div class="dropdown-menu">
-            @foreach($buttonMenuItems as $buttonObj)
+            @isset($button->config['header'])
+                <li><h6 class="dropdown-header px-2">@lang($button->config['header'])</h6></li>
+            @endisset
+            @foreach($buttonMenuItems as $name => $buttonObj)
+                @php($selectedContext === $name ? $buttonObj->config['class'] = ($buttonObj->config['class'] ?? '').' active px-2' : 'px-2')
                 {!! $this->renderButtonMarkup($buttonObj) !!}
             @endforeach
         </div>
-    @endif
-</div>
+    </div>
+@endif

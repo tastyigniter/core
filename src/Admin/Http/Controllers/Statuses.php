@@ -18,6 +18,7 @@ class Statuses extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter::admin.statuses.text_empty',
             'defaultSort' => ['status_id', 'DESC'],
             'configFile' => 'status',
+            'back' => 'settings',
         ],
     ];
 

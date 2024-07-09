@@ -34,18 +34,11 @@
                 @continue($column->type == 'button')
                 <td
                     class="list-col-index-{{ $loop->index }} list-col-name-{{ $column->getName() }} list-col-type-{{ $column->type }} {{ $column->cssClass }}"
+                    @if($loop->last)colspan="4"@endif
                 >
                     {!! $this->getColumnValue($record, $column) !!}
                 </td>
             @endforeach
-
-            @if ($showFilter)
-                <td class="list-setup">&nbsp;</td>
-            @endif
-
-            @if ($showSetup)
-                <td class="list-setup">&nbsp;</td>
-            @endif
         </tr>
     @endforeach
 @else

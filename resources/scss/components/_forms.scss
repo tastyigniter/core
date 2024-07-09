@@ -95,20 +95,22 @@
 //
 .form-nav {
   &.nav-tabs {
+    padding: $form-nav-padding;
+
     .nav-link {
       border: 0 none;
-      font-weight: $font-weight-semibold;
-      padding: $form-nav-link-padding-y $form-nav-link-padding-x;
-    }
-
-    .nav-link.active {
-      background-color: transparent;
-      color: $primary;
       font-weight: $font-weight-bold;
+      padding: $form-nav-link-padding-y $form-nav-link-padding-x;
     }
 
     .nav-link:hover,
     .nav-link:focus {
+      background-color: $dropdown-link-hover-bg;
+      border-radius: $input-border-radius;
+    }
+
+    .nav-link.active {
+      background-color: transparent;
       color: $primary;
     }
   }

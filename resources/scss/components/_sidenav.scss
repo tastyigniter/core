@@ -1,39 +1,14 @@
 .sidebar {
   background-color: $sidenav-bg;
-  position: fixed;
-  top: $page-top;
-  bottom: 0;
-  width: $page-margin-left;
 }
 
 .nav-sidebar {
-  overflow-x: hidden;
-  overflow-y: scroll;
-  table-layout: fixed;
-  position: relative;
-  display: block;
-  height: 100%;
-  bottom: 0;
-  left: 0;
-  right: 0;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
-  > .nav {
-    @include flex-direction(column);
-    width: $page-margin-left;
-    padding-bottom: 35px;
-    padding-right: 13px;
-    padding-left: 5px;
-  }
-
   .nav {
-    .nav-item {
-      width: 100%;
-    }
-
     > li > a {
       display: block;
       font-weight: $font-weight-semibold;
@@ -45,17 +20,20 @@
       }
 
       .fa {
-        color: $nav-link-color;
+        color: $sidenav-icon-color;
       }
     }
 
     li.active > a,
     .nav li.active > a,
     .nav li > a.active {
-      background-color: $sidenav-hover-bg;
       font-weight: $font-weight-bold;
       border-radius: $input-border-radius;
       color: var(--bs-nav-link-hover-color);
+
+      .fa {
+        color: var(--bs-nav-link-hover-color);
+      }
     }
 
     .nav {
@@ -64,7 +42,7 @@
       }
 
       a {
-        padding-left: 48px;
+        padding-left: 42px;
         text-transform: none;
         font-weight: $font-weight-semibold;
       }
@@ -91,7 +69,7 @@
       border-width: 1px 0 0 1px;
       border-style: solid;
       border-color: initial;
-      right: 0.5em;
+      right: 1em;
       -webkit-transform: rotate(-45deg) translate(0, -50%);
       transform: rotate(-45deg) translate(0, -50%);
       -webkit-transform-origin: top;
@@ -101,30 +79,12 @@
     }
   }
 
-  .active > .has-arrow::after,
+  .active > .has-arrow[aria-expanded="true"]::after,
   .has-arrow[aria-expanded="true"]::after {
     -webkit-transform: rotate(-135deg) translate(0, -50%);
     transform: rotate(-135deg) translate(0, -50%);
   }
 }
 
-@include media-breakpoint-down(sm) {
-  .navbar-brand {
-    display: none;
-  }
-  .sidebar {
-    width: 100%;
-
-    &:not(.show) {
-      height: 0;
-    }
-  }
-  .nav-sidebar {
-    display: none;
-    position: relative;
-
-    &.show {
-      display: block;
-    }
-  }
+@include media-breakpoint-up(md) {
 }

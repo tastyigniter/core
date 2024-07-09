@@ -38,7 +38,7 @@ return [
     |
     */
 
-    'defaultTheme' => 'tastyigniter-orange',
+    'defaultTheme' => 'igniter-orange',
 
     /*
     |--------------------------------------------------------------------------
@@ -183,4 +183,14 @@ return [
         'igniter.reservation',
         'igniter.user',
     ],
+
+    /*
+    | --------------------------------------------------------------------------
+    | Updates Endpoint
+    | --------------------------------------------------------------------------
+    |
+    | Specifies the URL to the TastyIgniter updates API endpoint.
+    |
+    */
+    'updatesEndpoint' => 'https://api.tastyigniter.com/v2',
 ];

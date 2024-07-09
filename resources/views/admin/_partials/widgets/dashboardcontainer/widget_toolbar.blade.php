@@ -20,7 +20,7 @@
     </div>
 </div>
 @if($this->canManage || $this->canSetDefault)
-    <div class="toolbar-action pt-0">
+    <div class="toolbar-action d-flex justify-content-between p-3">
         @if($this->canManage)
             <div class="btn-group">
                 <button
@@ -71,7 +71,7 @@
             data-end-date="{{ $endDate }}"
         >
             <i class="fa fa-calendar"></i>&nbsp;&nbsp;
-            <span>{{$startDate->isoFormat($dateRangeFormat).' - '.$endDate->isoFormat($dateRangeFormat)}}</span>&nbsp;&nbsp;
+            <span class="d-none d-md-inline">{{$startDate->isoFormat($dateRangeFormat).' - '.$endDate->isoFormat($dateRangeFormat)}}</span>&nbsp;&nbsp;
             <i class="fa fa-caret-down"></i>
         </button>
     </div>

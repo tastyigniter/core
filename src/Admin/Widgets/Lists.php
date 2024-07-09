@@ -167,10 +167,8 @@ class Lists extends BaseWidget
      */
     public function onRefresh(): array
     {
-        $this->prepareVars();
-
         return [
-            '~#'.$this->getId('list') => $this->makePartial('lists/list'),
+            '~#'.$this->getId('list') => $this->render(),
         ];
     }
 
@@ -223,7 +221,7 @@ class Lists extends BaseWidget
             foreach ($searchableColumns as $column) {
                 // Relation
                 if ($this->isColumnRelated($column)) {
-                    $table = DB::getTablePrefix().$this->model->{$column->relation}()->getTable();
+                    $table = DB::getTablePrefix().$this->model->{$column->relation}()->getModel()->getTable();
                     $columnName = isset($column->sqlSelect)
                         ? DB::raw($this->parseTableName($column->sqlSelect, $table))->getValue(DB::connection()->getSchemaGrammar())
                         : $table.'.'.$column->valueFrom;
@@ -619,7 +617,7 @@ class Lists extends BaseWidget
             unset($result['url']);
         }
 
-        $data = $record->getOriginal();
+        $data = $record->toArray();
         $data += [$record->getKeyName() => $record->getKey()];
 
         return parse_values($data, Html::attributes($result));

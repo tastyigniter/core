@@ -88,7 +88,6 @@ it('prepares var correctly', function() {
         ->toHaveKey('showCheckboxes')
         ->toHaveKey('showDragHandle')
         ->toHaveKey('showSetup')
-        ->toHaveKey('showFilter')
         ->toHaveKey('showPagination')
         ->toHaveKey('showPageNumbers')
         ->toHaveKey('showSorting')

@@ -209,7 +209,7 @@ trait ManagesUpdates
         return $this->validate(post(), [
             'items.*.name' => ['required'],
             'items.*.type' => ['required', 'in:core,extension,theme,language'],
-            'items.*.ver' => ['required'],
+            'items.*.ver' => ['sometimes', 'required'],
             'items.*.action' => ['required', 'in:install,update'],
         ], [], [
             'items.*.name' => lang('igniter::system.updates.label_meta_code'),

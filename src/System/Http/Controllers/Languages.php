@@ -7,12 +7,11 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Database\Model;
-use Igniter\System\Classes\ExtensionManager;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Language;
 use Igniter\System\Traits\ManagesUpdates;
 use Igniter\System\Traits\SessionMaker;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class Languages extends \Igniter\Admin\Classes\AdminController
 {
@@ -131,14 +130,14 @@ class Languages extends \Igniter\Admin\Classes\AdminController
 
         $this->asExtension('FormController')->initForm($model, $context);
 
-        $file = post('Language._file');
-        $this->setFilterValue('file', (!strlen($file) || strpos($file, '::') == false) ? null : $file);
+        $group = post('Language._group');
+        $this->setFilterValue('group', !strlen($group) ? null : $group);
 
         $term = post('Language._search');
-        $this->setFilterValue('search', (!strlen($term) || !is_string($term)) ? null : $term);
+        $this->setFilterValue('search', (!is_string($term) || !strlen($term)) ? null : $term);
 
-        $stringFilter = post('Language._string_filter');
-        $this->setFilterValue('string_filter', (!strlen($stringFilter) || !is_string($stringFilter)) ? null : $stringFilter);
+        $filter = post('Language._filter');
+        $this->setFilterValue('filter', (!strlen($filter) || !is_string($filter)) ? null : $filter);
 
         return $this->asExtension('FormController')->makeRedirect('edit', $model);
     }
@@ -153,6 +152,47 @@ class Languages extends \Igniter\Admin\Classes\AdminController
             'locale' => $model->code,
             'updates' => $response,
         ]);
+    }
+
+    public function edit_onPublishTranslations(?string $context = null, ?string $recordId = null)
+    {
+        $model = $this->formFindModelObject($recordId);
+
+        resolve(LanguageManager::class)->publishTranslations($model);
+
+        flash()->success(lang('igniter::system.languages.alert_publish_success'));
+
+        return $this->asExtension('FormController')->makeRedirect('edit', $model);
+    }
+
+    public function onApplyItems()
+    {
+        $items = post('items') ?? [];
+        if (!count($items)) {
+            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
+        }
+
+        $this->validateItems();
+
+        $itemMeta = $items[0];
+
+        throw_unless(
+            $response = resolve(LanguageManager::class)->findLanguage($itemMeta['name']),
+            new FlashException(lang('igniter::system.languages.alert_language_not_found'))
+        );
+
+        if (!Language::findByCode($itemMeta['name'])) {
+            $language = Language::make(['code' => $itemMeta['name']]);
+            $language->name = $response['name'];
+            $language->status = true;
+            $language->save();
+        }
+
+        $response = resolve(LanguageManager::class)->applyLanguagePack($itemMeta['name']);
+
+        return [
+            'steps' => $response ? $this->buildProcessSteps([$response]) : [],
+        ];
     }
 
     public function onApplyUpdate(?string $context = null, ?string $recordId = null)
@@ -211,12 +251,14 @@ class Languages extends \Igniter\Admin\Classes\AdminController
 
     public function formExtendModel(Model $model)
     {
-        $hasNewStrings = resolve(LanguageManager::class)->hasNewStrings($model->code);
+        if (!$model->exists) {
+            return;
+        }
 
-        Template::setButton(lang($hasNewStrings ? 'igniter::system.languages.button_apply_update' : 'igniter::system.languages.button_check'), [
-            'class' => 'btn btn-success pull-right',
+        Template::setButton(lang('igniter::system.languages.button_import_translations'), [
+            'class' => 'btn btn-light pull-right',
             'data-toggle' => 'record-editor',
-            'data-handler' => $hasNewStrings ? 'onApplyUpdates' : 'onCheckUpdates',
+            'data-handler' => 'onCheckUpdates',
         ]);
     }
 
@@ -226,32 +268,19 @@ class Languages extends \Igniter\Admin\Classes\AdminController
             return;
         }
 
-        $fileField = $form->getField('_file');
+        $groupField = $form->getField('_group');
         $searchField = $form->getField('_search');
-        $stringFilterField = $form->getField('_string_filter');
+        $filterField = $form->getField('_filter');
         $field = $form->getField('translations');
 
-        $fileField->value = $this->getFilterValue('file');
+        $groupField->value = $this->getFilterValue('group');
         $searchField->value = $this->getFilterValue('search');
-        $stringFilterField->value = $this->getFilterValue('string_filter', 'all');
+        $filterField->value = $this->getFilterValue('filter', 'changed');
         $field->value = $this->getFilterValue('search');
 
-        if (is_null($this->localeFiles)) {
-            $this->localeFiles = resolve(LanguageManager::class)->listLocaleFiles('en');
-        }
-
-        $fileField->options = $this->prepareNamespaces();
-        $field->options = post($field->getName()) ?: $this->prepareTranslations($form->model);
-
-        if ($form->model->version) {
-            Template::setButton(sprintf(lang('igniter::system.languages.text_current_build'), $form->model->version), [
-                'class' => 'btn disabled text-muted pull-right', 'role' => 'button',
-            ]);
-        }
-
-        $this->vars['totalStrings'] = $this->totalStrings;
-        $this->vars['totalTranslated'] = $this->totalTranslated;
-        $this->vars['translatedProgress'] = $this->totalStrings ? round(($this->totalTranslated * 100) / $this->totalStrings, 2) : 0;
+        $field->options = resolve(LanguageManager::class)->listTranslations(
+            $form->model, $groupField->value, $filterField->value, $searchField->value
+        );
     }
 
     protected function getFilterValue(string $key, ?string $default = null)
@@ -266,63 +295,6 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         } else {
             $this->putSession('translation_'.$key, trim($value));
         }
-    }
-
-    protected function prepareNamespaces(): array
-    {
-        $result = [];
-
-        $extensionManager = resolve(ExtensionManager::class);
-
-        foreach ($this->localeFiles as $file) {
-            $name = sprintf('%s::%s', $file['namespace'], $file['group']);
-
-            if (!array_get($file, 'system', false)
-                && ($extension = $extensionManager->findExtension($file['namespace']))) {
-                $result[$name] = array_get($extension->extensionMeta(), 'name').' - '.$name;
-            } else {
-                $result[$name] = ucfirst($file['namespace']).' - '.$name;
-            }
-        }
-
-        return $result;
-    }
-
-    protected function prepareTranslations(Language $model): LengthAwarePaginator
-    {
-        $this->totalStrings = 0;
-        $this->totalTranslated = 0;
-        $stringFilter = $this->getFilterValue('string_filter');
-        $files = collect($this->localeFiles);
-
-        $file = $this->getFilterValue('file');
-        if (strlen($file) && strpos($file, '::')) {
-            [$namespace, $group] = explode('::', $file);
-            $files = $files->where('group', $group)->where('namespace', $namespace);
-        }
-
-        $manager = resolve(LanguageManager::class);
-
-        $result = [];
-        $files->each(function($file) use ($manager, $model, &$result, $stringFilter) {
-            $sourceLines = $model->getLines('en', $file['group'], $file['namespace']);
-            $translationLines = $model->getTranslations($file['group'], $file['namespace']);
-
-            $this->totalStrings += count($sourceLines);
-            $this->totalTranslated += count($translationLines);
-
-            $translations = $manager->listTranslations($sourceLines, $translationLines, [
-                'file' => $file,
-                'stringFilter' => $stringFilter,
-            ]);
-
-            $result = array_merge($result, $translations);
-        });
-
-        $term = $this->getFilterValue('search');
-        $result = $manager->searchTranslations($result, $term);
-
-        return $manager->paginateTranslations($result);
     }
 
     protected function buildProcessSteps(array $itemsToUpdate): array

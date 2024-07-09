@@ -54,7 +54,6 @@ it('initializes correctly', function($property, $expected) {
 it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('formwidgets/repeater.js', 'repeater-js');
     Assets::shouldReceive('addJs')->once()->with('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
-    Assets::shouldReceive('addJs')->once()->with('formwidgets/recordeditor.js', 'recordeditor-js');
     Assets::shouldReceive('addJs')->once()->with('connector.js', 'connector-js');
 
     $this->connectorWidget->assetPath = [];

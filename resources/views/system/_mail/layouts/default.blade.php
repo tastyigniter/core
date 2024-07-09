@@ -23,7 +23,7 @@ name = "Default layout"
                 @php $site_logo = setting('mail_logo') ?: $site_logo; @endphp
                 @isset($site_logo)
                     <img
-                        src="{{ \Igniter\Main\Helpers\ImageHelper::resize($site_logo, ['height' => 90]) }}"
+                        src="{{ media_thumb($site_logo, ['height' => 90]) }}"
                         alt="{{ $site_name }}"
                     >
                 @endisset

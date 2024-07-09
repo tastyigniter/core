@@ -198,3 +198,15 @@ a[data-request] {
 .rounded-hover:hover, .rounded-hover:focus {
   border-radius: var(--bs-border-radius) !important;
 }
+
+.modal-header, .modal-footer {
+  background-color: $light-bg-subtle;
+}
+
+.modal-header {
+  border-bottom: 1px solid $light;
+}
+
+.modal-footer {
+  border-top: 1px solid $light;
+}

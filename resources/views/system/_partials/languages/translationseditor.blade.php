@@ -1,3 +1,4 @@
+@php($translation = $field->options)
 <div
     id="{{ $this->getId() }}"
     class="field-translationseditor"
@@ -6,7 +7,7 @@
 >
     <h5
         class="fw-600"
-    >{{ sprintf(lang('igniter::system.languages.text_locale_strings'), $translatedProgress, $totalStrings) }}</h5>
+    >{{ sprintf(lang('igniter::system.languages.text_locale_strings'), $translation->total, $translation->translated, $translation->progress, $translation->untranslated) }}</h5>
     <span class="help-block">@lang('igniter::system.languages.help_locale_strings')</span>
     <div
         id="{{ $this->getId('items') }}"
@@ -21,8 +22,8 @@
             </tr>
             </thead>
             <tbody>
-            @if ($field->options && $field->options->count())
-                @foreach($field->options as $key => $value)
+            @if ($translation->strings->count())
+                @foreach($translation->strings as $key => $value)
                     <tr>
                         <td>
                             <a
@@ -54,7 +55,7 @@
                 <tr>
                     <td class="border-bottom-0" colspan="999">
                         <div class="d-flex justify-content-end pt-3">
-                            {!! $field->options->render() !!}
+                            {!! $translation->strings->render() !!}
                         </div>
                     </td>
                 </tr>
@@ -66,5 +67,16 @@
             @endif
             </tbody>
         </table>
+    </div>
+    <div class="card p-3">
+        <h4>@lang('igniter::system.languages.text_publish_translations')</h4>
+        <p>{{html(sprintf(lang('igniter::system.languages.help_publish_translations'), 'https://translate.tastyigniter.com'))}}</p>
+        <div>
+            <button
+                type="button"
+                class="btn btn-light"
+                data-request="onPublishTranslations"
+            >@lang('igniter::system.languages.button_publish_translations')</button>
+        </div>
     </div>
 </div>

@@ -84,6 +84,7 @@ class Form extends BaseWidget
             'data',
             'arrayName',
             'context',
+            'previewMode'
         ]);
 
         $this->optionModelTypes = [
@@ -908,7 +909,7 @@ class Form extends BaseWidget
         if (count($parts) === 1) {
             $key = array_shift($parts);
 
-            return $array[$key] ?? $default;
+            return array_key_exists($key, $array) ? $array[$key] : $default;
         }
 
         foreach ($parts as $segment) {

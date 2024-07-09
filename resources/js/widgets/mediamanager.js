@@ -69,18 +69,8 @@
         if (!this.$el)
             return;
 
-        var windowHeight = window.innerHeight,
-            listTopOffset = this.$el.find('[data-control="media-list"]').get(0).offsetTop,
-            statusbarHeight = this.$el.find('[data-control="media-statusbar"]').outerHeight() || 0,
-            modalHeaderHeight = this.$el.closest('.modal').find('.modal-header').outerHeight() || 0
-
-        var listHeight = Math.max(0, windowHeight-listTopOffset-parseInt(modalHeaderHeight)-parseInt(statusbarHeight))
-
-        if (listHeight < 1)
-            return
-
         $('.media-list-container', this.$mediaListElement)
-            .css('height', listHeight)
+            .css('height', '67vh')
             .css('overflow-y', 'scroll')
     }
 

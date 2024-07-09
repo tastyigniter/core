@@ -71,9 +71,9 @@ class Toolbar extends BaseWidget
 
         $this->fireSystemEvent('admin.toolbar.extendButtonsBefore');
 
-        $this->prepareButtons();
-
         $this->addButtons($this->buttons);
+
+        $this->prepareButtons();
 
         $this->fireSystemEvent('admin.toolbar.extendButtons', [$this->allButtons]);
 

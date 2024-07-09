@@ -24,7 +24,7 @@ class SystemLogs extends \Igniter\Admin\Classes\AdminController
             'href' => 'system_logs',
         ]);
         Template::setButton(lang('igniter::system.system_logs.button_empty'), [
-            'class' => 'btn btn-danger',
+            'class' => 'btn btn-link pull-right text-danger text-decoration-none',
             'data-request-form' => '#lists-list-form',
             'data-request' => 'onEmptyLog',
             'data-request-confirm' => lang('igniter::admin.alert_warning_confirm'),

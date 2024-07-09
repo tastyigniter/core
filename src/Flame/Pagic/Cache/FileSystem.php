@@ -18,7 +18,7 @@ class FileSystem
         $this->path = $path ?? storage_path('/igniter/cache/');
     }
 
-    public function getCacheKey(?string $name, bool $hashName = false): string
+    public function getCacheKey(string $name, bool $hashName = false): string
     {
         $hash = md5($name);
         $result = str_finish($this->path, '/');

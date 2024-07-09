@@ -87,7 +87,6 @@ class RecordEditor extends BaseFormWidget
         $this->addCss('formwidgets/recordeditor.css', 'recordeditor-css');
 
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
-        $this->addJs('formwidgets/recordeditor.js', 'recordeditor-js');
     }
 
     public function prepareVars()

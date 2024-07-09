@@ -9,20 +9,13 @@
   text-align: left;
   font-size: 16px;
   z-index: $zindex-fixed;
-
-  //> span {
-  //  position: absolute;
-  //  top: 50%;
-  //  margin-top: -20px;
-  //  left: 0;
-  //  display: block;
-  //}
 }
 
 .progress-indicator-container {
-  position: relative;
-  min-height: 42px;
-
+  &.in-progress {
+    position: relative;
+  }
+  
   .progress-indicator {
     background: transparent;
     border-radius: $border-radius;
@@ -152,6 +145,7 @@ html.cssanimations {
     display: none;
   }
 }
+
 .ti-loading {
   &.spinner-border {
     opacity: .5;

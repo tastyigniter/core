@@ -1,5 +1,7 @@
 <div class="row-fluid">
-    {!! $this->widgets['toolbar']->render() !!}
+    <div class="py-3">
+        {!! $this->widgets['toolbar']->render() !!}
+    </div>
 
     {!! $this->makePartial('igniter.system::updates/search', ['itemType' => 'theme']) !!}
 

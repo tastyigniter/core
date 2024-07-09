@@ -39,11 +39,16 @@ trait HasChartDatasets
         $this->addJs('dashboardwidgets/charts.js', 'charts-js');
     }
 
-    public function addDataset(string $code, array $config = [], bool $merge = true)
+    public function addDataset(string $code, array $config = [])
     {
-        $this->datasetsConfig[$code] = $merge
-            ? array_merge_recursive($this->datasetsConfig[$code] ?? [], $config)
-            : $config;
+        $this->datasetsConfig[$code] = $config;
+
+        return $this;
+    }
+
+    public function mergeDataset(string $code, string $key, mixed $value)
+    {
+        $this->datasetsConfig[$code][$key] = array_merge($this->datasetsConfig[$code][$key] ?? [], $value);
 
         return $this;
     }

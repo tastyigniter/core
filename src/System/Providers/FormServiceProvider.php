@@ -31,6 +31,15 @@ class FormServiceProvider extends ServiceProvider
                     'form' => 'mailsettings',
                     'request' => \Igniter\System\Http\Requests\MailSettingsRequest::class,
                 ],
+                'statuses' => [
+                    'label' => 'lang:igniter::admin.side_menu.status',
+                    'description' => 'lang:igniter::system.settings.text_tab_desc_status',
+                    'icon' => 'fa fa-diagram-project',
+                    'priority' => 45,
+                    'class' => 'statuses',
+                    'permission' => ['Admin.Statuses'],
+                    'url' => admin_url('statuses'),
+                ],
                 'languages' => [
                     'label' => 'lang:igniter::system.settings.text_tab_language',
                     'description' => 'lang:igniter::system.settings.text_tab_desc_language',

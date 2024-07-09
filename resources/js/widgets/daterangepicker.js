@@ -57,27 +57,40 @@
     }
 
     DateRangePickerControl.prototype.onDateSelected = function (start, end, label, initialize) {
-        var format = this.options.timePicker ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD'
+        var format = this.options.timePicker ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD',
+            inputChanged
 
         if (!this.options.singleDatePicker) {
-            this.$el.find('[data-datepicker-range-start]').val(start.isValid() ? start.format(format) : '');
-            this.$el.find('[data-datepicker-range-end]').val(end.isValid() ? end.format(format) : '');
+            var $startInput = this.$el.find('[data-datepicker-range-start]'),
+                $endInput = this.$el.find('[data-datepicker-range-end]'),
+                startValue = $startInput.val(),
+                endValue = $endInput.val()
+
+            $startInput.val(start.isValid() ? start.format(format) : '');
+            $endInput.val(end.isValid() ? end.format(format) : '');
+
+            inputChanged = startValue != $startInput.val() || endValue != $endInput.val()
         } else {
-            this.$el.find('[data-datepicker-input]').val(start.format(format));
+            var $dateInput = this.$el.find('[data-datepicker-input]'),
+                dateValue = $dateInput.val()
+
+            $dateInput.val(start.format(format));
+
+            inputChanged = dateValue != $dateInput.val();
         }
 
-        if (!initialize) this.$el.closest('form').submit();
+        if (!initialize && inputChanged) this.$el.closest('form').submit();
     }
 
     DateRangePickerControl.prototype.onShowCalendar = function (event, daterangepicker) {
         var valueChanged = false;
 
-        if (! daterangepicker.startDate.isValid()) {
+        if (!daterangepicker.startDate.isValid()) {
             daterangepicker.setStartDate(moment().startOf('day'));
             valueChanged = true;
         }
 
-        if (! daterangepicker.endDate.isValid()) {
+        if (!daterangepicker.endDate.isValid()) {
             daterangepicker.setEndDate(moment().endOf('day'));
             valueChanged = true;
         }
