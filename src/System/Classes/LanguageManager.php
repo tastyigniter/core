@@ -89,7 +89,7 @@ class LanguageManager
         foreach ($namespaces as $namespace => $folder) {
             if ($namespace === 'igniter') {
                 $name = 'Application';
-            } else if ($extension = $extensionManager->findExtension($namespace)) {
+            } elseif ($extension = $extensionManager->findExtension($namespace)) {
                 $name = array_get($extension->extensionMeta(), 'name');
             } else {
                 continue;
@@ -157,7 +157,7 @@ class LanguageManager
         $translations = $model->translations()
             ->get()
             ->groupBy(function(Translation $translation) {
-                return sprintf("%s::%s", $translation->namespace, $translation->group);
+                return sprintf('%s::%s', $translation->namespace, $translation->group);
             })
             ->map(function(Collection $translations, string $group) {
                 return [
@@ -169,7 +169,7 @@ class LanguageManager
                                 'value' => $translation->text,
                             ];
                         })
-                        ->all()
+                        ->all(),
                 ];
             })
             ->all();

@@ -84,7 +84,7 @@ class Form extends BaseWidget
             'data',
             'arrayName',
             'context',
-            'previewMode'
+            'previewMode',
         ]);
 
         $this->optionModelTypes = [
