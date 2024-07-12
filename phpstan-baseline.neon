@@ -111,7 +111,7 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\:\\:getFinder\\(\\)\\.$#"
 			count: 4
 			path: src/Admin/Classes/AdminController.php
 
@@ -211,7 +211,7 @@ parameters:
 			path: src/Admin/Classes/BaseWidget.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\:\\:getFinder\\(\\)\\.$#"
 			count: 4
 			path: src/Admin/Classes/BaseWidget.php
 
@@ -286,7 +286,7 @@ parameters:
 			path: src/Admin/Classes/MainMenuItem.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\:\\:getFinder\\(\\)\\.$#"
 			count: 4
 			path: src/Admin/Classes/Navigation.php
 
@@ -366,7 +366,7 @@ parameters:
 			path: src/Admin/FormWidgets/DataTable.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:newQuery\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:search\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DataTable.php
 
@@ -411,7 +411,12 @@ parameters:
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:newQuery\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:getQuery\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/FormWidgets/Relation.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:sorted\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Relation.php
 
@@ -771,7 +776,17 @@ parameters:
 			path: src/Admin/Notifications/StatusUpdatedNotification.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:getKey\\(\\)\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Support\\\\Optional\\:\\:\\$status_name\\.$#"
+			count: 1
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Factory\\:\\:user\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getKey\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Notifications/StatusUpdatedNotification.php
 
@@ -1016,12 +1031,37 @@ parameters:
 			path: src/Flame/Currency/Converter.php
 
 		-
+			message: "#^Access to an undefined property Illuminate\\\\Support\\\\Optional\\:\\:\\$currency_code\\.$#"
+			count: 1
+			path: src/Flame/Currency/Currency.php
+
+		-
 			message: "#^Binary operation \"\\*\\=\" between string and \\-1 results in an error\\.$#"
 			count: 1
 			path: src/Flame/Currency/Currency.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Currency\\\\Contracts\\\\CurrencyInterface\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Currency/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getCode\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Currency/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getFormat\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Currency/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getRate\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Currency/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:isEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Currency/Currency.php
 
@@ -1251,32 +1291,32 @@ parameters:
 			path: src/Flame/Database/Builder.php
 
 		-
-			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
+			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
 
 		-
-			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
+			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
 
 		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
 
 		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
 
 		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
 
 		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
 
@@ -1316,7 +1356,7 @@ parameters:
 			path: src/Flame/Database/Migrations/Migrator.php
 
 		-
-			message: "#^Parameter \\#2 \\$migration of method Illuminate\\\\Database\\\\Migrations\\\\Migrator\\:\\:runDown\\(\\) expects object, \\(int\\|string\\) given\\.$#"
+			message: "#^Parameter \\#2 \\$migration of method Illuminate\\\\Database\\\\Migrations\\\\Migrator\\:\\:runDown\\(\\) expects object, string given\\.$#"
 			count: 1
 			path: src/Flame/Database/Migrations/Migrator.php
 
@@ -1371,6 +1411,16 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:belongsTo\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<TRelatedModel of Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Model\\)\\> but returns Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:belongsToMany\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<TRelatedModel of Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Model\\)\\> but returns Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getRelationDefinition\\(\\) should return array but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
@@ -1396,6 +1446,16 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
+			message: "#^Parameter \\#1 \\$query of class Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo constructor expects Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>, Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\Flame\\\\Database\\\\Model\\)\\> given\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:setKeysForSaveQuery\\(\\) expects Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Igniter\\\\Flame\\\\Database\\\\Model\\>, Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\Flame\\\\Database\\\\Model\\)\\> given\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
 			message: "#^Parameter \\#8 \\$inverse \\(bool\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) should be compatible with parameter \\$relation \\(string\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphToMany\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Model.php
@@ -1416,12 +1476,17 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
-			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphToMany\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphToMany\\(\\)$#"
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOneThrough\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:hasOneThrough\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOneThrough\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasOneThrough\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
 		-
-			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphedByMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphToMany\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphedByMany\\(\\)$#"
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphToMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphedByMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphedByMany\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
@@ -1536,12 +1601,12 @@ parameters:
 			path: src/Flame/Database/NestedSet/Builder.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:ancestorsAndSelf\\(\\) should return Kalnoy\\\\Nestedset\\\\Collection but returns array\\<static\\(Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\)\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\.$#"
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:ancestorsAndSelf\\(\\) should return Kalnoy\\\\Nestedset\\\\Collection but returns Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:ancestorsOf\\(\\) should return Kalnoy\\\\Nestedset\\\\Collection but returns array\\<static\\(Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\)\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\.$#"
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:ancestorsOf\\(\\) should return Kalnoy\\\\Nestedset\\\\Collection but returns Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
 
@@ -1551,12 +1616,17 @@ parameters:
 			path: src/Flame/Database/NestedSet/Builder.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:descendantsOf\\(\\) should return Kalnoy\\\\Nestedset\\\\Collection but returns array\\<static\\(Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\)\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\.$#"
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:descendantsOf\\(\\) should return Kalnoy\\\\Nestedset\\\\Collection but returns Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:getMissingParentQuery\\(\\) should return \\$this\\(Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\) but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/Builder.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:root\\(\\) should return Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
 
@@ -1571,7 +1641,7 @@ parameters:
 			path: src/Flame/Database/NestedSet/Builder.php
 
 		-
-			message: "#^PHPDoc type Igniter\\\\Flame\\\\Database\\\\Traits\\\\NestedTree\\|Illuminate\\\\Database\\\\Eloquent\\\\Model of property Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:\\$model is not covariant with PHPDoc type Illuminate\\\\Database\\\\Eloquent\\\\Model of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:\\$model\\.$#"
+			message: "#^PHPDoc type Igniter\\\\Flame\\\\Database\\\\Traits\\\\NestedTree\\|Illuminate\\\\Database\\\\Eloquent\\\\Model of property Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\Builder\\:\\:\\$model is not covariant with PHPDoc type Illuminate\\\\Database\\\\Eloquent\\\\Model of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:\\$model\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/Builder.php
 
@@ -1596,32 +1666,32 @@ parameters:
 			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
+			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
+			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$columns \\(array\\|string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
 		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
 		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
 		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\)$#"
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
 		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:simplePaginate\\(\\)$#"
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
@@ -1641,7 +1711,7 @@ parameters:
 			path: src/Flame/Database/PermalinkMaker.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:findSimilarSlugs\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Igniter\\\\Flame\\\\Database\\\\Model\\>\\:\\:findSimilarSlugs\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/PermalinkMaker.php
 
@@ -1736,11 +1806,6 @@ parameters:
 			path: src/Flame/Database/Relations/BelongsTo.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsTo.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsTo.php
@@ -1766,7 +1831,7 @@ parameters:
 			path: src/Flame/Database/Relations/BelongsTo.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsTo.php
 
@@ -1851,11 +1916,6 @@ parameters:
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
@@ -1901,7 +1961,7 @@ parameters:
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
@@ -1911,32 +1971,32 @@ parameters:
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Parameter \\#2 \\$columns of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\) expects array\\|string, int\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\$columns of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\) expects array\\|string, int\\|null given\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Parameter \\#2 \\$currentPage \\(int\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\)$#"
+			message: "#^Parameter \\#2 \\$currentPage \\(int\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\)$#"
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Parameter \\#3 \\$pageName of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:paginate\\(\\) expects string, array given\\.$#"
+			message: "#^Parameter \\#3 \\$pageName of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\) expects string, array given\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\)$#"
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\) should be compatible with return type \\(array\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\)$#"
+			message: "#^Return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\) should be compatible with return type \\(array\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:shouldSelect\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
@@ -1947,16 +2007,6 @@ parameters:
 
 		-
 			message: "#^Binary operation \"\\.\" between non\\-falsy\\-string and Illuminate\\\\Database\\\\Query\\\\Expression results in an error\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasMany.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:update\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasMany.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:whereNotIn\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasMany.php
 
@@ -2001,11 +2051,6 @@ parameters:
 			path: src/Flame/Database/Relations/HasMany.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasMany.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasMany.php
@@ -2031,7 +2076,7 @@ parameters:
 			path: src/Flame/Database/Relations/HasMany.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasMany.php
 
@@ -2053,11 +2098,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
 			count: 3
-			path: src/Flame/Database/Relations/HasManyThrough.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
 			path: src/Flame/Database/Relations/HasManyThrough.php
 
 		-
@@ -2091,11 +2131,6 @@ parameters:
 			path: src/Flame/Database/Relations/HasOne.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:update\\(\\)\\.$#"
-			count: 2
-			path: src/Flame/Database/Relations/HasOne.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Connection\\:\\:cast\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasOne.php
@@ -2131,11 +2166,6 @@ parameters:
 			path: src/Flame/Database/Relations/HasOne.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/HasOne.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasOne.php
@@ -2161,7 +2191,7 @@ parameters:
 			path: src/Flame/Database/Relations/HasOne.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasOne.php
 
@@ -2183,11 +2213,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
 			count: 3
-			path: src/Flame/Database/Relations/HasOneThrough.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
 			path: src/Flame/Database/Relations/HasOneThrough.php
 
 		-
@@ -2217,16 +2242,6 @@ parameters:
 
 		-
 			message: "#^Binary operation \"\\.\" between non\\-falsy\\-string and Illuminate\\\\Database\\\\Query\\\\Expression results in an error\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphMany.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:update\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphMany.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:whereNotIn\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphMany.php
 
@@ -2271,11 +2286,6 @@ parameters:
 			path: src/Flame/Database/Relations/MorphMany.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphMany.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphMany.php
@@ -2301,7 +2311,7 @@ parameters:
 			path: src/Flame/Database/Relations/MorphMany.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphMany.php
 
@@ -2318,11 +2328,6 @@ parameters:
 		-
 			message: "#^Binary operation \"\\.\" between non\\-falsy\\-string and Illuminate\\\\Database\\\\Query\\\\Expression results in an error\\.$#"
 			count: 1
-			path: src/Flame/Database/Relations/MorphOne.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:update\\(\\)\\.$#"
-			count: 2
 			path: src/Flame/Database/Relations/MorphOne.php
 
 		-
@@ -2361,11 +2366,6 @@ parameters:
 			path: src/Flame/Database/Relations/MorphOne.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/MorphOne.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphOne.php
@@ -2391,7 +2391,7 @@ parameters:
 			path: src/Flame/Database/Relations/MorphOne.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\.$#"
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:withDeferred\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphOne.php
 
@@ -2423,11 +2423,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
 			count: 3
-			path: src/Flame/Database/Relations/MorphTo.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
 			path: src/Flame/Database/Relations/MorphTo.php
 
 		-
@@ -2463,11 +2458,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
 			count: 3
-			path: src/Flame/Database/Relations/MorphToMany.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:select\\(\\)\\.$#"
-			count: 1
 			path: src/Flame/Database/Relations/MorphToMany.php
 
 		-
@@ -2627,6 +2617,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:\\$payload\\.$#"
+			count: 1
+			path: src/Flame/Html/FormBuilder.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Http\\\\Kernel\\:\\:hasMiddleware\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Html/FormBuilder.php
 
@@ -2941,6 +2936,21 @@ parameters:
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
+			message: "#^Access to an undefined property Illuminate\\\\Support\\\\Optional\\:\\:\\$permalink\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Router.php
+
+		-
+			message: "#^Cannot call method parameter\\(\\) on object\\|string\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Router.php
+
+		-
+			message: "#^Cannot call method parameters\\(\\) on object\\|string\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Router.php
+
+		-
 			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:delete\\(\\) should return int but returns bool\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Source/FileSource.php
@@ -2976,7 +2986,7 @@ parameters:
 			path: src/Flame/Scaffold/GeneratorCommand.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\:\\:getFinder\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/ServiceProvider.php
 
@@ -3088,6 +3098,11 @@ parameters:
 		-
 			message: "#^Call to static method has\\(\\) on an unknown class Session\\.$#"
 			count: 2
+			path: src/Flame/Support/Helpers/form.php
+
+		-
+			message: "#^Function form_prep\\(\\) never returns array\\<string\\> so it can be removed from the return type\\.$#"
+			count: 1
 			path: src/Flame/Support/Helpers/form.php
 
 		-
@@ -3238,6 +3253,11 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$default of function set_value expects string, false given\\.$#"
 			count: 3
+			path: src/Flame/Support/Helpers/form.php
+
+		-
+			message: "#^Parameter \\#3 \\$selected of method Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:select\\(\\) expects string\\|null, array given\\.$#"
+			count: 1
 			path: src/Flame/Support/Helpers/form.php
 
 		-
@@ -3476,6 +3496,11 @@ parameters:
 			path: src/Main/Classes/Theme.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getPath\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/Theme.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:exists\\(\\)\\.$#"
 			count: 4
 			path: src/Main/Classes/Theme.php
@@ -3504,6 +3529,11 @@ parameters:
 			message: "#^Variable \\$apiResult in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Main/Classes/Theme.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Support\\\\Optional\\:\\:\\$locked\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:find\\(\\)\\.$#"
@@ -3706,6 +3736,11 @@ parameters:
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
+			message: "#^Access to an undefined property Illuminate\\\\Support\\\\Optional\\:\\:\\$fileSource\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getSaveData\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
@@ -3713,6 +3748,11 @@ parameters:
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getTheme\\(\\)\\.$#"
 			count: 1
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getTab\\(\\)\\.$#"
+			count: 2
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
@@ -3747,11 +3787,16 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
-			count: 1
+			count: 3
 			path: src/Main/Http/Controllers/Themes.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$data\\.$#"
+			count: 1
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$name\\.$#"
 			count: 1
 			path: src/Main/Http/Controllers/Themes.php
 
@@ -3841,7 +3886,12 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\>\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/Theme.php
 
@@ -4201,7 +4251,7 @@ parameters:
 			path: src/System/Classes/Controller.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getFinder\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\:\\:getFinder\\(\\)\\.$#"
 			count: 4
 			path: src/System/Classes/ControllerAction.php
 
@@ -4287,11 +4337,36 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$code\\.$#"
-			count: 1
+			count: 2
 			path: src/System/Classes/LanguageManager.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$version\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$group\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$item\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$namespace\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$text\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Models\\\\Language\\:\\:translations\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/LanguageManager.php
 
@@ -4406,6 +4481,11 @@ parameters:
 			path: src/System/Console/Commands/IgniterPasswd.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:first\\(\\)\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterUpdate.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:where\\(\\)\\.$#"
 			count: 1
 			path: src/System/Console/Commands/IgniterUtil.php
@@ -4421,12 +4501,27 @@ parameters:
 			path: src/System/Console/Commands/IgniterUtil.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$code\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
 			count: 3
 			path: src/System/Console/Commands/LanguageInstall.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$version\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/System/Console/Commands/LanguageInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/System/Console/Commands/LanguageInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$version\\.$#"
+			count: 1
+			path: src/System/Console/Commands/LanguageInstall.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:updateVersions\\(\\)\\.$#"
 			count: 1
 			path: src/System/Console/Commands/LanguageInstall.php
 
@@ -4576,9 +4671,9 @@ parameters:
 			path: src/System/Http/Controllers/Extensions.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$code\\.$#"
+			message: "#^Result of method Igniter\\\\System\\\\Classes\\\\ExtensionManager\\:\\:deleteExtension\\(\\) \\(void\\) is used\\.$#"
 			count: 1
-			path: src/System/Http/Controllers/Languages.php
+			path: src/System/Http/Controllers/Extensions.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:\\$checkUrl\\.$#"
@@ -4591,8 +4686,18 @@ parameters:
 			path: src/System/Http/Controllers/Languages.php
 
 		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:formFindModelObject\\(\\)\\.$#"
-			count: 4
+			count: 5
 			path: src/System/Http/Controllers/Languages.php
 
 		-
@@ -4607,7 +4712,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setButton\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/System/Http/Controllers/Languages.php
 
 		-
@@ -4891,7 +4996,12 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\>\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
@@ -4996,7 +5106,12 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\>\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
@@ -5091,7 +5206,12 @@ parameters:
 			path: src/System/Models/Language.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\>\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Language.php
 
@@ -5113,11 +5233,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 2
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
-			count: 1
 			path: src/System/Models/Language.php
 
 		-
@@ -5384,16 +5499,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\RequestLog\\:\\:firstOrNew\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/RequestLog.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$item\\.$#"
-			count: 1
-			path: src/System/Models/Settings.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$value\\.$#"
-			count: 1
-			path: src/System/Models/Settings.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getFieldValues\\(\\)\\.$#"
