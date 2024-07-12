@@ -221,12 +221,10 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         }
 
         $purgeData = post('delete_data') == 1;
-        if ($manager->deleteExtension($extensionCode, $purgeData)) {
-            $title = array_get($extension->extensionMeta(), 'name');
-            flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension $title deleted "));
-        } else {
-            flash()->danger(lang('igniter::admin.alert_error_try_again'));
-        }
+        $manager->deleteExtension($extensionCode, $purgeData);
+
+        $title = array_get($extension->extensionMeta(), 'name');
+        flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension $title deleted "));
 
         return $this->redirect('extensions');
     }

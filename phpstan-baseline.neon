@@ -4671,11 +4671,6 @@ parameters:
 			path: src/System/Http/Controllers/Extensions.php
 
 		-
-			message: "#^Result of method Igniter\\\\System\\\\Classes\\\\ExtensionManager\\:\\:deleteExtension\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:\\$checkUrl\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Languages.php
