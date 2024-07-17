@@ -4,6 +4,6 @@
     @endif
 
     @if($field->comment)
-        <p class="help-block">@lang($field->comment)</p>
+        <p class="help-block mt-2">@lang($field->comment)</p>
     @endif
 </div>

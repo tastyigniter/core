@@ -73,15 +73,15 @@
 
     FlashMessage.TOAST_DEFAULTS = {
         toast: true,
-        position: 'bottom-start',
+        position: 'top-end',
         showConfirmButton: false,
         timer: 0,
         timerProgressBar: true,
         showClass: {
-            popup: 'animated fadeInLeft'
+            popup: 'animated fadeInRight'
         },
         hideClass: {
-            popup: 'animated fadeOutLeft'
+            popup: 'animated fadeOutRight'
         },
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)

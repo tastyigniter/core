@@ -4,13 +4,11 @@
     <div class="widget-item card {{ $widget->getCssClass() }} bg-white p-3 shadow-sm">
         <div class="widget-item-action">
             <a class="btn shadow-none handle pull-left"><i class="fa fa-arrows-alt"></i></a>
-            @if($this->canManage)
-                <a
-                    class="btn shadow-none pull-right"
-                    data-control="remove-widget"
-                    aria-hidden="true"
-                ><i class="fa fa-trash-alt text-danger"></i></a>
-            @endif
+            <a
+                class="btn shadow-none pull-right"
+                data-control="remove-widget"
+                aria-hidden="true"
+            ><i class="fa fa-trash-alt text-danger"></i></a>
             <a
                 class="btn shadow-none pull-right"
                 data-control="edit-widget"

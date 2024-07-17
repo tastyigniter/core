@@ -33,7 +33,7 @@
             @foreach($columns as $key => $column)
                 @continue($column->type == 'button')
                 <td
-                    class="list-col-index-{{ $loop->index }} list-col-name-{{ $column->getName() }} list-col-type-{{ $column->type }} {{ $column->cssClass }}"
+                    class="list-col-index-{{ $loop->index }} list-col-name-{{ $column->getName() }} list-col-type-{{ $column->type }} {{ $column->cssClass }} text-nowrap"
                     @if($loop->last)colspan="4"@endif
                 >
                     {!! $this->getColumnValue($record, $column) !!}

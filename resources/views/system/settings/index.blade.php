@@ -3,7 +3,7 @@
         @foreach($settings as $item => $categories)
             @continue(!count($categories))
             @unless($item == 'core')
-                <h4 class="py-2 my-4 border-bottom">{{ ucwords($item) }}</h4>
+                <h4 class="py-2 my-4 border-bottom"></h4>
             @endunless
 
             <div class="row g-3">

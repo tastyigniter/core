@@ -182,10 +182,6 @@ class DashboardContainer extends BaseWidget
 
     public function onResetWidgets(): array
     {
-        if (!$this->canManage) {
-            throw new FlashException(lang('igniter::admin.alert_access_denied'));
-        }
-
         $this->resetWidgets();
 
         $this->resetSession();
@@ -212,10 +208,6 @@ class DashboardContainer extends BaseWidget
 
     public function onUpdateWidget(): array
     {
-        if (!$this->canManage) {
-            throw new FlashException(lang('igniter::admin.alert_access_denied'));
-        }
-
         $alias = post('alias');
 
         $widget = $this->findWidgetByAlias($alias);
@@ -246,10 +238,6 @@ class DashboardContainer extends BaseWidget
 
     protected function addWidget(string $widgetAlias, BaseDashboardWidget $widget, mixed $size)
     {
-        if (!$this->canManage) {
-            throw new FlashException(lang('igniter::admin.alert_access_denied'));
-        }
-
         $widgets = $this->getWidgetsFromUserPreferences();
 
         $nextPriority = collect($widgets)->max('priority') + 1;
@@ -379,10 +367,6 @@ class DashboardContainer extends BaseWidget
 
     protected function removeWidget(string $alias)
     {
-        if (!$this->canManage) {
-            throw new FlashException(lang('igniter::admin.alert_access_denied'));
-        }
-
         $widgets = $this->getWidgetsFromUserPreferences();
 
         if (isset($widgets[$alias])) {

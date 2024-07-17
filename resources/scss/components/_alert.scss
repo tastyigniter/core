@@ -24,22 +24,26 @@ body:not(.swal2-toast-shown) {
 
   &.swal2-toast {
     padding: 0.6em 1em;
-    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
 
     &.swal2-icon-error, &.swal2-icon-danger {
-      border-bottom-color: var(--bs-danger);
+      background-color: var(--bs-danger);
+      color: $white;
     }
 
     &.swal2-icon-success {
-      border-bottom-color: var(--bs-success);
+      background-color: var(--bs-success);
+      color: $white;
     }
 
     &.swal2-icon-info {
-      border-bottom-color: var(--bs-info);
+      background-color: var(--bs-info);
+      color: $white;
     }
 
     &.swal2-icon-warning {
-      border-bottom-color: var(--bs-warning);
+      background-color: var(--bs-warning);
+      color: $white;
     }
 
     .swal2-icon {
@@ -48,6 +52,11 @@ body:not(.swal2-toast-shown) {
       height: 1.5em;
       margin: 0;
       border-width: 0;
+      color: $white;
+    }
+
+    .swal2-html-container {
+      font-size: $font-size-base;
     }
   }
 
@@ -77,5 +86,23 @@ body:not(.swal2-toast-shown) {
 
   .swal2-select {
     width: auto !important;
+  }
+}
+
+div:where(.swal2-icon) {
+  &.swal2-success {
+    color: var(--bs-success);
+  }
+
+  &.swal2-error, &.swal2-danger {
+    color: var(--bs-danger);
+  }
+
+  &.swal2-info {
+    color: var(--bs-info);
+  }
+
+  &.swal2-warning {
+    color: var(--bs-warning);
   }
 }

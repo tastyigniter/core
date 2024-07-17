@@ -75,6 +75,7 @@ return [
                 'language' => [
                     'label' => 'lang:igniter::system.settings.text_tab_title_language',
                     'tab' => 'lang:igniter::system.settings.text_tab_site',
+                    'comment' => 'lang:igniter::system.settings.help_language',
                     'type' => 'section',
                 ],
                 'detect_language' => [
@@ -88,6 +89,7 @@ return [
                     'label' => 'lang:igniter::system.settings.text_tab_title_currency',
                     'tab' => 'lang:igniter::system.settings.text_tab_site',
                     'type' => 'section',
+                    'comment' => 'lang:igniter::system.settings.help_site_currency',
                 ],
                 'currency_converter[api]' => [
                     'label' => 'lang:igniter::system.settings.label_currency_converter',

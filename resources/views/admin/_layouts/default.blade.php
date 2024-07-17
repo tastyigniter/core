@@ -36,7 +36,7 @@
     <div class="d-flex page-container h-100">
         @if(AdminAuth::isLogged())
             <div class="sidebar border-right overflow-y-auto">
-                <div id="sidebarMenu" class="offcanvas-lg offcanvas-end px-2 py-3">
+                <div id="sidebarMenu" class="offcanvas-lg offcanvas-start px-2 py-3">
                     <div class="offcanvas-header">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
                     </div>
