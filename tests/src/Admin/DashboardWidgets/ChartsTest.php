@@ -40,7 +40,7 @@ it('tests prepareVars', function() {
 
     expect($this->charts->vars['chartContext'])->toBe('reports')
         ->and($this->charts->vars['chartType'])->toBe('line')
-        ->and($this->charts->vars['chartLabel'])->toBe('--')
+        ->and($this->charts->vars['chartLabel'])->toBe('igniter::admin.dashboard.text_reports_chart')
         ->and($this->charts->vars['chartIcon'])->toBe('fa fa-bar-chart-o')
         ->and($this->charts->vars['chartData'])->toBeArray()->toHaveKey('datasets');
 });

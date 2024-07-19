@@ -1,8 +1,8 @@
 <div class="toolbar-search d-flex align-items-center px-3">
-    <div id="marketplace-search" class="form-group search-group has-feedback flex-grow-1 rounded shadow-sm">
+    <div id="marketplace-search" class="form-group search-group has-feedback flex-grow-1">
         <input
             type="text"
-            class="form-control search input-lg"
+            class="form-control shadow-sm search input-lg"
             placeholder="{{ sprintf(lang('igniter::system.updates.text_search'), str_plural($itemType)) }}"
             data-search-type="{{ $itemType }}"
             data-search-action="{{ admin_url(str_plural($itemType).'/search') }}"
