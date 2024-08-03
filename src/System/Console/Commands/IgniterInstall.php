@@ -86,6 +86,8 @@ class IgniterInstall extends Command
             $this->call('storage:link');
         }
 
+        $this->call('vendor:publish --tag=igniter-asset --force');
+
         $this->alert('INSTALLATION COMPLETE');
 
         if ($this->confirm(self::CONFIRM_SHOW_LOVE)) {
@@ -143,7 +145,7 @@ class IgniterInstall extends Command
 
         $this->line('Migrating application and extensions...');
 
-        $this->call('igniter:up');
+        $this->call('igniter:up --force');
 
         $this->line('Done. Migrating application and extensions...');
     }

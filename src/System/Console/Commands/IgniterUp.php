@@ -44,7 +44,7 @@ class IgniterUp extends Command
 
         $this->renameConflictingFoundationTables();
 
-        $this->call('migrate', ['--force' => true]);
+        $this->call('migrate', ['--force' => $this->option('force') ?? true]);
 
         resolve(UpdateManager::class)
             ->setLogsOutput($this->output)
