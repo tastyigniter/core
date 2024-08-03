@@ -97,7 +97,7 @@ class Circle implements Contracts\CircleInterface
 
     public function pointInRadius(Contracts\CoordinatesInterface $coordinate): bool
     {
-        $distance = new Distance();
+        $distance = new Distance;
         $distance->in($this->unit)
             ->setFrom($coordinate)
             ->setTo($this->getCoordinate());

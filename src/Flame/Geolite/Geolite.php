@@ -48,7 +48,7 @@ class Geolite
 
     public function distance(): DistanceInterface
     {
-        return new Distance();
+        return new Distance;
     }
 
     public function circle(array|CoordinatesInterface $coordinate, int $radius): CircleInterface

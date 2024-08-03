@@ -13,11 +13,11 @@ it('has required rule for inputs: name and code', function() {
 });
 
 it('has regex rule for code input', function() {
-    expect('regex:/^[a-z-_\.\:]+$/i')->toBeIn(array_get((new MailLayoutRequest())->rules(), 'code'));
+    expect('regex:/^[a-z-_\.\:]+$/i')->toBeIn(array_get((new MailLayoutRequest)->rules(), 'code'));
 });
 
 it('has sometimes rule for code input', function() {
-    expect('sometimes')->toBeIn(array_get((new MailLayoutRequest())->rules(), 'code'));
+    expect('sometimes')->toBeIn(array_get((new MailLayoutRequest)->rules(), 'code'));
 });
 
 it('has characters length between 2 and 32 characters rule for code input', function() {

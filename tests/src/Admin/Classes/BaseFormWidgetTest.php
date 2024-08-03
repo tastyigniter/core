@@ -10,7 +10,7 @@ use Igniter\Tests\Fixtures\Models\TestModel;
 it('can get save value', function() {
     $formField = new FormField('testField', 'Test Field');
     $formField->displayAs('text');
-    $widget = new BaseFormWidget(new AdminController(), $formField, [
+    $widget = new BaseFormWidget(new AdminController, $formField, [
         'alias' => 'test-alias',
         'model' => new TestModel,
     ]);
@@ -21,7 +21,7 @@ it('can get save value', function() {
 it('can get load value', function() {
     $formField = new FormField('testField', 'Test Field');
     $formField->displayAs('text');
-    $widget = new BaseFormWidget(new AdminController(), $formField, [
+    $widget = new BaseFormWidget(new AdminController, $formField, [
         'alias' => 'test-alias',
         'model' => new TestModel,
         'data' => ['testField' => 'test-value'],

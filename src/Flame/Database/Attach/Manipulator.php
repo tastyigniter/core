@@ -20,7 +20,7 @@ class Manipulator
 
     public function __construct(protected string $file)
     {
-        $this->manipulations = new Collection();
+        $this->manipulations = new Collection;
     }
 
     public static function make(string $file): self

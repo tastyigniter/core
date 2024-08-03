@@ -218,7 +218,7 @@ class Currency
     {
         if ($this->model === null && ($model = $this->config('model'))) {
             // Create model instance
-            $this->model = new $model();
+            $this->model = new $model;
         }
 
         return $this->model;

@@ -39,7 +39,7 @@ abstract class AbstractConverter
 
     protected function getHttpClient(): Client
     {
-        return new Client();
+        return new Client;
     }
 
     //

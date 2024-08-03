@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Notification;
 use Mockery;
 
 test('it handles status added', function() {
-    $user = new User();
+    $user = new User;
     $orderMock = Mockery::mock(Order::class);
     $orderMock->shouldReceive('listGroupAssignees')->andReturn([$user]);
     $orderMock->shouldReceive('getLatestStatusHistory')->andReturnNull();
@@ -24,7 +24,7 @@ test('it handles status added', function() {
 
     Notification::fake();
 
-    $subscriber = new StatusUpdatedSubscriber();
+    $subscriber = new StatusUpdatedSubscriber;
     $subscriber->handleStatusAdded($orderMock, $statusHistoryMock);
 
     Notification::assertSentTo([$user], StatusUpdatedNotification::class);

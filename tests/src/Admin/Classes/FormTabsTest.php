@@ -10,7 +10,7 @@ beforeEach(function() {
 });
 
 it('constructs correctly', function() {
-    $formTabs = new FormTabs();
+    $formTabs = new FormTabs;
 
     expect($formTabs->suppressTabs)->toBeTrue();
 });
@@ -32,7 +32,7 @@ it('evaluates config correctly', function() {
 });
 
 it('adds and removes field correctly', function() {
-    $formTabs = new FormTabs();
+    $formTabs = new FormTabs;
 
     $formTabs->addField('testField', $this->formField, 'Test Tab');
     expect($formTabs->hasFields())->toBeTrue()
@@ -43,7 +43,7 @@ it('adds and removes field correctly', function() {
 });
 
 it('gets all fields correctly', function() {
-    $formTabs = new FormTabs();
+    $formTabs = new FormTabs;
 
     $formTabs->addField('testField', $this->formField, 'Test Tab');
     expect($formTabs->getAllFields())->toHaveKey('testField');

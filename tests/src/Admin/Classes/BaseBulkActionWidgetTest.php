@@ -8,7 +8,7 @@ use Igniter\Tests\Fixtures\Controllers\TestController;
 use Illuminate\Support\Collection;
 
 it('constructs correctly', function() {
-    $controller = new TestController();
+    $controller = new TestController;
     $actionButton = new ToolbarButton('test-toolbar-button');
     $config = [];
 
@@ -18,7 +18,7 @@ it('constructs correctly', function() {
 });
 
 it('returns the action button', function() {
-    $controller = new TestController();
+    $controller = new TestController;
     $actionButton = new ToolbarButton('test-toolbar-button');
     $config = [];
 
@@ -30,11 +30,11 @@ it('returns the action button', function() {
 });
 
 it('handles action correctly', function() {
-    $controller = new TestController();
+    $controller = new TestController;
     $actionButton = new ToolbarButton('test-toolbar-button');
     $config = [];
     $requestData = [];
-    $records = new Collection();
+    $records = new Collection;
 
     $widget = new BaseBulkActionWidget($controller, $actionButton, $config);
 

@@ -93,7 +93,7 @@ class ServiceProvider extends AppServiceProvider
     protected function registerSingletons()
     {
         $this->app->singleton('assets', function() {
-            return new Libraries\Assets();
+            return new Libraries\Assets;
         });
 
         $this->app->singleton('country', function($app) {

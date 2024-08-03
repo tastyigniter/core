@@ -21,7 +21,7 @@ class Distance
 
     public function formatDistance(string $unit = Geolite::MILE_UNIT): float
     {
-        return (new GeoliteDistance())->in($unit)->convertToUserUnit($this->distance);
+        return (new GeoliteDistance)->in($unit)->convertToUserUnit($this->distance);
     }
 
     public function formatDuration(string $unit = Geolite::MILE_UNIT): string

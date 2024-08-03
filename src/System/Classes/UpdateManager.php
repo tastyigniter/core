@@ -400,7 +400,7 @@ class UpdateManager
 
     public function install(array $requirements)
     {
-        $io = new BufferIO();
+        $io = new BufferIO;
 
         $packages = collect($requirements)->mapWithKeys(function($package) {
             $packageInfo = $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);

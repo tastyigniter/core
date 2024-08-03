@@ -199,7 +199,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             throw new FlashException(lang('igniter::system.settings.alert_settings_missing_model'));
         }
 
-        return new $this->modelClass();
+        return new $this->modelClass;
     }
 
     protected function formAfterSave(SettingsModel $model)

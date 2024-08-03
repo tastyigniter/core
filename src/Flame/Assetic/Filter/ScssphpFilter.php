@@ -92,7 +92,7 @@ class ScssphpFilter implements DependencyExtractorInterface
 
     public function filterLoad(AssetInterface $asset)
     {
-        $sc = new Compiler();
+        $sc = new Compiler;
 
         if ($this->compass) {
             new \scss_compass($sc);
@@ -125,7 +125,7 @@ class ScssphpFilter implements DependencyExtractorInterface
 
     public function getChildren(AssetFactory $factory, $content, $loadPath = null)
     {
-        $sc = new Compiler();
+        $sc = new Compiler;
         if ($loadPath !== null) {
             $sc->addImportPath($loadPath);
         }

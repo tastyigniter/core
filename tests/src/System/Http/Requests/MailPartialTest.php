@@ -14,11 +14,11 @@ it('has required rule for inputs: name, code and html', function() {
 });
 
 it('has regex rule for code input', function() {
-    expect('regex:/^[a-z-_\.\:]+$/i')->toBeIn(array_get((new MailPartialRequest())->rules(), 'code'));
+    expect('regex:/^[a-z-_\.\:]+$/i')->toBeIn(array_get((new MailPartialRequest)->rules(), 'code'));
 });
 
 it('has sometimes rule for code input', function() {
-    expect('sometimes')->toBeIn(array_get((new MailPartialRequest())->rules(), 'code'));
+    expect('sometimes')->toBeIn(array_get((new MailPartialRequest)->rules(), 'code'));
 });
 
 it('has unique rule for code input', function() {

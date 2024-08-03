@@ -22,7 +22,7 @@ class FormRequest extends BaseFormRequest
         $registeredRules = $this->container->call([$this, 'rules']);
         $parsedRules = ValidationHelper::prepareRules($registeredRules);
 
-        $dataHolder = new \stdClass();
+        $dataHolder = new \stdClass;
         $dataHolder->data = $this->validationData();
         $dataHolder->rules = Arr::get($parsedRules, 'rules', $registeredRules);
         $dataHolder->messages = Arr::get($parsedRules, 'messages', $this->messages());

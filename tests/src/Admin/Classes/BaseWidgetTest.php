@@ -7,7 +7,7 @@ use Igniter\Tests\Fixtures\Controllers\TestController;
 use Igniter\Tests\Fixtures\Widgets\TestWidget;
 
 beforeEach(function() {
-    $this->controller = new TestController();
+    $this->controller = new TestController;
     $this->widget = new BaseWidget($this->controller, [
         'alias' => 'test-alias',
         'property' => 'Test Widget',

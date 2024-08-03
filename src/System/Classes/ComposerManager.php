@@ -200,7 +200,7 @@ class ComposerManager
         $this->assertPhpIniSet();
         $this->assertHomeEnvSet();
 
-        $io ??= new NullIO();
+        $io ??= new NullIO;
 
         $jsonPath = $this->getJsonPath();
 
@@ -249,7 +249,7 @@ class ComposerManager
         $this->assertPhpIniSet();
         $this->assertHomeEnvSet();
 
-        $io ??= new NullIO();
+        $io ??= new NullIO;
         $packages = array_map('strtolower', $requirements);
 
         $jsonPath = $this->getJsonPath();
@@ -388,7 +388,7 @@ class ComposerManager
         $this->assertRepository($config);
 
         try {
-            $jsonParser = new JsonParser();
+            $jsonParser = new JsonParser;
             $jsonParser->parse(file_get_contents($jsonPath), JsonParser::DETECT_KEY_CONFLICTS);
         } catch (DuplicateKeyException $e) {
             $details = $e->getDetails();
@@ -396,7 +396,7 @@ class ComposerManager
         }
 
         // Bypass Factory::create()'s insistence on setting $disablePlugins to 'local'
-        $composer = (new Factory())->createComposer($io, $config);
+        $composer = (new Factory)->createComposer($io, $config);
 
         $lockFile = $this->getLockPath($jsonPath);
         $im = $composer->getInstallationManager();

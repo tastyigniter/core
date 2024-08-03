@@ -163,7 +163,7 @@ trait HasRelationships
 
         $relationClass = $relation[0];
 
-        return new $relationClass();
+        return new $relationClass;
     }
 
     /**

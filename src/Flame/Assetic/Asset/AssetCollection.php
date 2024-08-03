@@ -45,14 +45,14 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         }
 
         $this->filters = new FilterCollection($filters);
-        $this->clones = new \SplObjectStorage();
+        $this->clones = new \SplObjectStorage;
         $this->values = [];
     }
 
     public function __clone()
     {
         $this->filters = clone $this->filters;
-        $this->clones = new \SplObjectStorage();
+        $this->clones = new \SplObjectStorage;
     }
 
     public function all(): array
@@ -123,7 +123,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
     public function clearFilters()
     {
         $this->filters->clear();
-        $this->clones = new \SplObjectStorage();
+        $this->clones = new \SplObjectStorage;
     }
 
     public function load(?FilterInterface $additionalFilter = null)

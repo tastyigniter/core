@@ -6,7 +6,7 @@ use Igniter\Admin\Classes\Template;
 use Illuminate\Support\HtmlString;
 
 beforeEach(function() {
-    $this->template = new Template();
+    $this->template = new Template;
 });
 
 it('tests getBlock', function() {

@@ -30,7 +30,7 @@ dataset('onboardingSteps', [
 ]);
 
 beforeEach(function() {
-    $this->onboardingSteps = new OnboardingSteps();
+    $this->onboardingSteps = new OnboardingSteps;
 });
 
 it('adds, gets and removes onboarding steps correctly', function() {

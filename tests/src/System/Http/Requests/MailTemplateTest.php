@@ -22,15 +22,15 @@ it('has string rule for input rules: label, subject and plain_body', function() 
 });
 
 it('has nullable for plain_body input', function() {
-    expect('nullable')->toBeIn(array_get((new MailTemplateRequest())->rules(), 'plain_body'));
+    expect('nullable')->toBeIn(array_get((new MailTemplateRequest)->rules(), 'plain_body'));
 });
 
 it('has layout_id for integer input', function() {
-    expect('integer')->toBeIn(array_get((new MailTemplateRequest())->rules(), 'layout_id'));
+    expect('integer')->toBeIn(array_get((new MailTemplateRequest)->rules(), 'layout_id'));
 });
 
 it('has regex rule for code input', function() {
-    expect('regex:/^[a-z-_\.\:]+$/i')->toBeIn(array_get((new MailTemplateRequest())->rules(), 'code'));
+    expect('regex:/^[a-z-_\.\:]+$/i')->toBeIn(array_get((new MailTemplateRequest)->rules(), 'code'));
 });
 
 it('has max of 255 characters rule for code input', function() {

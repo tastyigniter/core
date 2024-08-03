@@ -5,7 +5,7 @@ namespace Igniter\Tests\Admin\Classes;
 use Igniter\Admin\Classes\TableDataSource;
 
 beforeEach(function() {
-    $this->tableDataSource = new TableDataSource();
+    $this->tableDataSource = new TableDataSource;
     $this->tableDataSource->initRecords(['record1', 'record2', 'record3']);
 });
 

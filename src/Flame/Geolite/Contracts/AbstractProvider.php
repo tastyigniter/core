@@ -38,7 +38,7 @@ abstract class AbstractProvider
 
     protected function getHttpClient(): ClientInterface
     {
-        return $this->httpClient ?? new Client();
+        return $this->httpClient ?? new Client;
     }
 
     //
