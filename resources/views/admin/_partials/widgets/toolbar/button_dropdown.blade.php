@@ -16,7 +16,9 @@
                 <li><h6 class="dropdown-header px-2">@lang($button->config['header'])</h6></li>
             @endisset
             @foreach($buttonMenuItems as $name => $buttonObj)
-                @php($selectedContext === $name ? $buttonObj->config['class'] = ($buttonObj->config['class'] ?? '').' active px-2' : 'px-2')
+                @if($selectedContext === $name)
+                    @php($buttonObj->config['class'] = ($buttonObj->config['class'] ?? '').' active')
+                @endif
                 {!! $this->renderButtonMarkup($buttonObj) !!}
             @endforeach
         </div>
