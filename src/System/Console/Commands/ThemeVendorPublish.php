@@ -47,12 +47,16 @@ class ThemeVendorPublish extends VendorPublishCommand
 
     protected function determineWhatShouldBePublished()
     {
-        if ($this->option('all')) {
-            $this->themes = resolve(ThemeManager::class)->listThemes();
+        $themeManager = resolve(ThemeManager::class);
+
+        $themeManager->loadThemes();
+
+        if (!$this->option('theme')) {
+            $this->themes = $themeManager->listThemes();
         }
 
         foreach ((array)$this->option('theme') as $theme) {
-            $this->themes[$theme] = resolve(ThemeManager::class)->findTheme($theme);
+            $this->themes[$theme] = $themeManager->findTheme($theme);
         }
     }
 

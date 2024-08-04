@@ -241,7 +241,7 @@ class Theme extends Model
      *
      * @return bool|mixed
      */
-    public static function activateTheme($code)
+    public static function activateTheme($code, $skipRequires = false)
     {
         if (empty($code) || !$theme = self::whereCode($code)->first()) {
             return false;
@@ -249,7 +249,7 @@ class Theme extends Model
 
         $extensionManager = resolve(ExtensionManager::class);
 
-        foreach ($theme->getTheme()->listRequires() as $extensionCode => $version) {
+        foreach ($skipRequires ? [] : $theme->getTheme()->listRequires() as $extensionCode => $version) {
             if ($extensionManager->hasExtension($extensionCode)) {
                 $extensionManager->installExtension($extensionCode);
             }

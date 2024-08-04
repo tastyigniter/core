@@ -5,6 +5,7 @@ namespace Igniter\System\Console\Commands;
 use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\ConfigRewrite;
 use Igniter\Local\Models\Location;
+use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Helpers\SystemHelper;
@@ -86,7 +87,7 @@ class IgniterInstall extends Command
             $this->call('storage:link');
         }
 
-        $this->call('vendor:publish --tag=igniter-asset --force');
+        $this->activateAndPublishDefaultTheme();
 
         $this->alert('INSTALLATION COMPLETE');
 
@@ -112,8 +113,6 @@ class IgniterInstall extends Command
         if (!file_exists(base_path().'/.env')) {
             $this->moveExampleFile('env', null, 'backup');
             $this->copyExampleFile('env', 'example', null);
-        } elseif (!$this->confirm('Rewrite environment file?')) {
-            return;
         }
 
         if (!$this->laravel['config']['app.key']) {
@@ -132,11 +131,6 @@ class IgniterInstall extends Command
             }
             SystemHelper::replaceInEnv('DB_'.strtoupper($key).'=', 'DB_'.strtoupper($key).'='.$value);
         }
-
-        if (!file_exists(base_path().'/.htaccess')) {
-            $this->moveExampleFile('htaccess', null, 'backup');
-            $this->moveExampleFile('htaccess', 'example', null);
-        }
     }
 
     protected function migrateDatabase()
@@ -145,7 +139,7 @@ class IgniterInstall extends Command
 
         $this->line('Migrating application and extensions...');
 
-        $this->call('igniter:up --force');
+        $this->call('igniter:up', ['--force' => true]);
 
         $this->line('Done. Migrating application and extensions...');
     }
@@ -264,5 +258,13 @@ class IgniterInstall extends Command
         } else {
             exec('xdg-open '.$url);
         }
+    }
+
+    protected function activateAndPublishDefaultTheme(): void
+    {
+        $this->call('igniter:theme-vendor-publish');
+
+        Theme::syncAll();
+        Theme::activateTheme(config('igniter-system.defaultTheme'), true);
     }
 }
