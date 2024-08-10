@@ -2726,11 +2726,6 @@ parameters:
 			path: src/Flame/Pagic/Cache/FileSystem.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function base64_decode expects string, true given\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Cache/FileSystem.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateLoader\\:\\:setSource\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Environment.php
@@ -2897,11 +2892,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\SourceResolverInterface\\:\\:hasSource\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Model.php
-
-		-
-			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Model.php
 
@@ -3477,11 +3467,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:lastModified\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MediaLibrary.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function base64_decode expects string, true given\\.$#"
 			count: 1
 			path: src/Main/Classes/MediaLibrary.php
 
