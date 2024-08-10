@@ -33,15 +33,15 @@
     "kalnoy/nestedset": "~6.0",
     "scssphp/scssphp": "~1.0",
     "symfony/yaml": "~7.0",
-    "tastyigniter/ti-ext-api": "v4.x-dev as 4.0",
-    "tastyigniter/ti-ext-automation": "v4.x-dev as 4.0",
-    "tastyigniter/ti-ext-broadcast": "v4.x-dev as 4.0",
-    "tastyigniter/ti-ext-cart": "v4.x-dev as 4.0",
-    "tastyigniter/ti-ext-local": "v4.x-dev as 4.0",
-    "tastyigniter/ti-ext-payregister": "v4.x-dev as 4.0",
-    "tastyigniter/ti-ext-reservation": "v4.x-dev as 4.0",
-    "tastyigniter/ti-ext-user": "v4.x-dev as 4.0",
-    "tastyigniter/ti-theme-orange": "v4.x-dev as 4.0",
+    "tastyigniter/ti-ext-api": "^4.0@beta",
+    "tastyigniter/ti-ext-automation": "^4.0@beta",
+    "tastyigniter/ti-ext-broadcast": "^4.0@beta",
+    "tastyigniter/ti-ext-cart": "^4.0@beta",
+    "tastyigniter/ti-ext-local": "^4.0@beta",
+    "tastyigniter/ti-ext-payregister": "^4.0@beta",
+    "tastyigniter/ti-ext-reservation": "^4.0@beta",
+    "tastyigniter/ti-ext-user": "^4.0@beta",
+    "tastyigniter/ti-theme-orange": "^4.0@beta",
     "league/glide": "~2.2"
   },
   "require-dev": {
@@ -83,7 +83,7 @@
       "Igniter\\Tests\\": "tests/src/"
     }
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "beta",
   "prefer-stable": true,
   "config": {
     "optimize-autoloader": true,
