@@ -63,6 +63,9 @@
       "providers": [
         "Igniter\\Flame\\ServiceProvider"
       ]
+    },
+    "branch-alias": {
+      "dev-master": "4.0.x-dev"
     }
   },
   "autoload": {
@@ -83,7 +86,7 @@
       "Igniter\\Tests\\": "tests/src/"
     }
   },
-  "minimum-stability": "beta",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
     "optimize-autoloader": true,
