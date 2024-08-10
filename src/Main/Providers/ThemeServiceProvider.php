@@ -39,11 +39,11 @@ class ThemeServiceProvider extends ServiceProvider
         $this->app->booted(function() {
             resolve(ComponentManager::class)->bootComponents();
 
+            resolve(ThemeManager::class)->bootThemes();
+
             if (!Igniter::hasDatabase(true)) {
                 return;
             }
-
-            resolve(ThemeManager::class)->bootThemes();
 
             Event::listen('main.controller.beforeRemap', function(MainController $controller) {
                 $controller->getTheme()?->loadThemeFile();
