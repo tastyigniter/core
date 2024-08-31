@@ -16,6 +16,7 @@ use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
 use Igniter\System\Traits\ManagesUpdates;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Request;
 
 class Extensions extends \Igniter\Admin\Classes\AdminController
@@ -194,13 +195,20 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
         $this->initFormWidget($model, $action);
 
+        $saveData = $this->formWidget->getSaveData();
+
+        if ($settingItem->request) {
+            $this->validateFormRequest($settingItem->request, function(HttpRequest $request) use ($saveData) {
+                $request->merge($saveData);
+            });
+        }
+
         if ($this->formValidate($model, $this->formWidget) === false) {
             return Request::ajax() ? ['#notification' => $this->makePartial('flash')] : false;
         }
 
         /** @var SettingsModel $model */
-        $saved = $model->set($this->formWidget->getSaveData());
-        if ($saved) {
+        if ($model->set($saveData)) {
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($settingItem->label).' settings updated '));
         } else {
             flash()->warning(sprintf(lang('igniter::admin.alert_error_nothing'), 'updated'));

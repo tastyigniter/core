@@ -20,7 +20,7 @@ class Loader implements TemplateLoader
 
     protected array $cache = [];
 
-    protected ?TemplateInterface $source;
+    protected ?TemplateInterface $source = null;
 
     /**
      * Sets a object to load the template from.
@@ -32,7 +32,7 @@ class Loader implements TemplateLoader
         return $this;
     }
 
-    public function getSource(): TemplateInterface
+    public function getSource(): ?TemplateInterface
     {
         return $this->source;
     }

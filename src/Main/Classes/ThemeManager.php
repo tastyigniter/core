@@ -171,8 +171,8 @@ class ThemeManager
         if (File::isDirectory($theme->getSourcePath())) {
             View::addNamespace($theme->getName(), $theme->getSourcePath());
 
-            if ($theme->hasParent()) {
-                View::addNamespace($theme->getParent()->getName(), $theme->getSourcePath());
+            if ($theme->hasParent() && $theme->isActive()) {
+                View::prependNamespace($theme->getParent()->getName(), $theme->getSourcePath());
             }
         }
     }
