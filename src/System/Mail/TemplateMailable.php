@@ -80,7 +80,7 @@ class TemplateMailable extends Mailable
 
         return collect($class->getProperties(ReflectionProperty::IS_PUBLIC))
             ->filter(fn($property) => $property->getDeclaringClass()->getName() !== self::class)
-            ->map->getName()
+            ->map(fn($property) => $property->getName())
             ->values()
             ->all();
     }

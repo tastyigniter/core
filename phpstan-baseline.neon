@@ -1026,11 +1026,6 @@ parameters:
 			path: src/Flame/Assetic/Filter/StylesheetMinify.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Support\\\\HigherOrderCollectionProxy\\:\\:getCode\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Currency/Converter.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Support\\\\Optional\\:\\:\\$currency_code\\.$#"
 			count: 1
 			path: src/Flame/Currency/Currency.php
@@ -4942,11 +4937,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$subject\\.$#"
-			count: 1
-			path: src/System/Mail/TemplateMailable.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Support\\\\HigherOrderCollectionProxy\\:\\:getName\\(\\)\\.$#"
 			count: 1
 			path: src/System/Mail/TemplateMailable.php
 
