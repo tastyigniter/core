@@ -5,7 +5,6 @@ namespace Igniter\Flame\Database\Concerns;
 use BadMethodCallException;
 use Carbon\Carbon;
 use DateTimeInterface;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 trait HasAttributes
@@ -116,15 +115,17 @@ trait HasAttributes
         }
 
         if ($this->hasSetMutator($key)) {
-            $method = 'set'.Str::studly($key).'Attribute';
+            return $this->setMutatedAttributeValue($key, $value);
+        }
 
-            return $this->{$method}($value);
+        if ($this->hasAttributeSetMutator($key)) {
+            return $this->setAttributeMarkedMutatedAttributeValue($key, $value);
         }
 
         // If an attribute is listed as a "date", we'll convert it from a DateTime
         // instance into a form proper for storage on the database tables using
         // the connection grammar's date format. We will auto set the values.
-        elseif ($value && (in_array($key, $this->getDates()) || $this->isDateCastable($key))) {
+        if ($value && $this->isDateAttribute($key)) {
             $value = $this->fromDateTime($value);
         }
 
@@ -134,6 +135,12 @@ trait HasAttributes
 
         if (($_value = $this->fireEvent('model.beforeSetAttribute', [$key, $value], true)) !== null) {
             $value = $_value;
+        }
+
+        if ($this->isEnumCastable($key)) {
+            $this->setEnumCastableAttribute($key, $value);
+
+            return $this;
         }
 
         if (!is_null($value) && $this->isSerializedCastable($key)) {
@@ -146,19 +153,23 @@ trait HasAttributes
             return $this;
         }
 
-        if ($this->isJsonCastable($key) && !is_null($value)) {
-            $value = $this->asJson($value);
+        if (!is_null($value) && $this->isJsonCastable($key)) {
+            $value = $this->castAttributeAsJson($key, $value);
         }
 
         // If this attribute contains a JSON ->, we'll set the proper value in the
         // attribute's underlying array. This takes care of properly nesting an
         // attribute in the array's value in the case of deeply nested items.
-        if (Str::contains($key, '->')) {
+        if (str_contains($key, '->')) {
             return $this->fillJsonAttribute($key, $value);
         }
 
         if (!is_null($value) && $this->isEncryptedCastable($key)) {
             $value = $this->castAttributeAsEncryptedString($key, $value);
+        }
+
+        if (!is_null($value) && $this->hasCast($key, 'hashed')) {
+            $value = $this->castAttributeAsHashedString($key, $value);
         }
 
         $this->attributes[$key] = $value;
