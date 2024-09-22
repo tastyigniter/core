@@ -85,4 +85,32 @@ trait HasComponents
             }
         }
     }
+
+    public function setConfigurableComponentProperties(string|array $componentName, array $properties = [])
+    {
+        if (is_array($componentName)) {
+            foreach ($componentName as $name => $componentProperties) {
+                $this->setConfigurableComponentProperties($name, $componentProperties);
+            }
+
+            return;
+        }
+
+        $this->loadedConfigurableComponents[$componentName] = $properties;
+    }
+
+    public function mergeConfigurableComponentProperties(string|array $componentName, array $properties = [])
+    {
+        if (is_array($componentName)) {
+            foreach ($componentName as $name => $componentProperties) {
+                $this->setConfigurableComponentProperties($name, $componentProperties);
+            }
+
+            return;
+        }
+
+        $this->loadedConfigurableComponents[$componentName] = array_merge(
+            $this->loadedConfigurableComponents[$componentName] ?? [], $properties
+        );
+    }
 }

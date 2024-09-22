@@ -22,7 +22,7 @@ trait ComponentMaker
             [$name, $alias] = $manager->getCodeAlias($componentName);
 
             if ($manager->isConfigurableComponent($name)) {
-                $this->layout->loadedConfigurableComponents[$componentName] = $properties;
+                $this->layout->setConfigurableComponentProperties($componentName, $properties);
             } else {
                 $this->addComponent($name, $alias, $properties, true, $manager);
             }
@@ -32,7 +32,7 @@ trait ComponentMaker
             [$name, $alias] = $manager->getCodeAlias($componentName);
 
             if ($manager->isConfigurableComponent($name)) {
-                $this->page->loadedConfigurableComponents[$componentName] = $properties;
+                $this->page->setConfigurableComponentProperties($componentName, $properties);
             } else {
                 $this->addComponent($name, $alias, $properties, false, $manager);
             }

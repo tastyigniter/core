@@ -85,6 +85,7 @@ trait ConfigurableComponent
 
     public static function resolve($data)
     {
+        // When loading a Livewire component from the template editor
         if (is_subclass_of(static::class, LivewireComponent::class)) {
             $component = Livewire::new(static::class);
             $component->fill($component->validateProperties($data));
