@@ -535,6 +535,7 @@ return [
         'button_source' => '<i class="fa fa-file"></i>&nbsp;&nbsp;Edit template files',
         'button_customize' => '<i class="fa fa-paint-brush"></i>&nbsp;&nbsp;Customize',
         'button_child' => '<i class="fa fa-child"></i>&nbsp;&nbsp;Create child theme',
+        'button_publish' => 'Publish theme files',
         'button_choose' => 'Choose a component to attach',
         'button_new_source' => 'New %s',
         'button_rename_source' => 'Rename %s',
@@ -559,6 +560,8 @@ return [
         'alert_changes_confirm' => 'Conflicting versions, template file has changed. Reload the page to continue.',
         'alert_customize_not_active' => 'You can only customize an active theme.',
         'alert_component_partial_not_found' => 'The selected component partial does not exist in the component directory',
+        'alert_no_publish_custom' => 'Publishing custom theme files required a child theme located within the themes directory',
+        'alert_publish_confirm' => 'Are you sure you wish to publish the theme files? This will overwrite the existing theme files.',
     ],
 
     'updates' => [

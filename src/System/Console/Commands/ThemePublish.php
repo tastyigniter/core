@@ -1,0 +1,72 @@
+<?php
+
+namespace Igniter\System\Console\Commands;
+
+use Igniter\Flame\Exception\SystemException;
+use Igniter\Flame\Igniter;
+use Igniter\Main\Classes\Theme;
+use Igniter\Main\Classes\ThemeManager;
+use Illuminate\Foundation\Console\VendorPublishCommand;
+use Symfony\Component\Console\Input\InputOption;
+
+class ThemePublish extends VendorPublishCommand
+{
+    use \Illuminate\Console\ConfirmableTrait;
+
+    protected $name = 'igniter:theme-publish';
+
+    protected $description = 'Publish any publishable theme files from extensions';
+
+    protected $signature;
+
+    protected ?Theme $activeTheme;
+
+    /**
+     * Execute the console command.
+     * @return void
+     */
+    public function handle()
+    {
+        $this->determineWhatShouldBePublished();
+
+        $published = false;
+
+        $activeThemePath = $this->activeTheme->getPath();
+        foreach (Igniter::publishableThemeFiles() as $path => $publishTo) {
+            $this->publishItem($path, $activeThemePath.'/'.$publishTo);
+            $published = true;
+        }
+
+        if ($published === false) {
+            $this->comment('No publishable custom files for theme ['.$this->activeTheme->getName().'].');
+        }
+
+        $this->info('Publishing complete.');
+    }
+
+    protected function determineWhatShouldBePublished()
+    {
+        throw_unless(
+            $this->activeTheme = resolve(ThemeManager::class)->getActiveTheme(),
+            new SystemException(lang('igniter::admin.alert_error_nothing'))
+        );
+
+        throw_if(
+            $this->activeTheme->locked,
+            new SystemException(lang('igniter::system.themes.alert_theme_locked'))
+        );
+
+        throw_if(
+            !str_starts_with($this->activeTheme->getPath(), theme_path()),
+            new SystemException(lang('igniter::system.themes.alert_no_publish_custom'))
+        );
+    }
+
+    protected function getOptions()
+    {
+        return [
+            ['existing', null, InputOption::VALUE_NONE, 'Publish and overwrite only the files that have already been published'],
+            ['force', null, InputOption::VALUE_NONE, 'Force publish.'],
+        ];
+    }
+}

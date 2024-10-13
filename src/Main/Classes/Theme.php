@@ -16,6 +16,7 @@ use Igniter\Main\Template\Content as ContentTemplate;
 use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial as PartialTemplate;
+use Illuminate\Support\Collection;
 
 class Theme
 {
@@ -124,14 +125,14 @@ class Theme
 
     public function getPathsToPublish(): array
     {
-        $publishPath = $this->config['publish-paths'] ?? null;
+        $publishPath = $this->config['publish-paths'] ?? [];
 
         if (!$publishPath && File::exists($this->getAssetPath())) {
             return [$this->getAssetPath() => public_path('vendor/'.$this->name)];
         }
 
         $result = [];
-        foreach ($this->config['publish-paths'] ?? [] as $path) {
+        foreach ($publishPath as $path) {
             if (File::isDirectory($this->path.$path)) {
                 $result[$this->path.$path] = public_path('vendor/'.$this->name);
             }
@@ -414,24 +415,22 @@ class Theme
     //
     //
 
-    public function listPages()
+    public function listPages(): Collection
     {
         return PageTemplate::listInTheme($this->getName());
     }
 
-    public function listPartials()
+    public function listPartials(): Collection
     {
         return PartialTemplate::listInTheme($this->getName());
     }
 
-    public function listLayouts()
+    public function listLayouts(): Collection
     {
         return LayoutTemplate::listInTheme($this->getName());
     }
 
-    public function getPagesOptions() {}
-
-    public function listRequires()
+    public function listRequires(): array
     {
         return array_merge($this->hasParent() ? $this->getParent()->listRequires() : [], $this->requires);
     }
@@ -458,7 +457,7 @@ class Theme
         return $this->fileSource = $source;
     }
 
-    public function onTemplate($dirName): Model
+    public function onTemplate(string $dirName): Model
     {
         $modelClass = $this->getTemplateClass($dirName);
 

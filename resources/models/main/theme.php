@@ -13,6 +13,12 @@ $config['list']['toolbar'] = [
             'class' => 'btn btn-success',
             'href' => 'updates',
         ],
+        'publish' => [
+            'label' => 'lang:igniter::system.themes.button_publish',
+            'class' => 'btn btn-default pull-right',
+            'data-request' => 'onPublish',
+            'data-request-confirm' => 'lang:igniter::system.themes.alert_publish_confirm',
+        ],
     ],
 ];
 

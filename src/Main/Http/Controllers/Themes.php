@@ -11,6 +11,7 @@ use Igniter\System\Facades\Assets;
 use Igniter\System\Helpers\CacheHelper;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Artisan;
 
 class Themes extends \Igniter\Admin\Classes\AdminController
 {
@@ -154,6 +155,17 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme ['.$theme->name.'] set as default '));
         }
+
+        return $this->redirectBack();
+    }
+
+    public function index_onPublish(): RedirectResponse
+    {
+        Artisan::call('igniter:theme-publish', ['--force' => true]);
+
+        logger()->info($output = Artisan::output());
+
+        flash()->success(nl2br($output));
 
         return $this->redirectBack();
     }

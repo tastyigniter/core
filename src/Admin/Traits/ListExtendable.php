@@ -89,4 +89,16 @@ trait ListExtendable
             $callback($widget, $widget->model);
         });
     }
+
+    public static function extendListQuery(callable $callback)
+    {
+        $calledClass = self::getCalledExtensionClass();
+        Event::listen('admin.list.extendQuery', function($widget, $query) use ($calledClass, $callback) {
+            if (!is_a($widget->getController(), $calledClass)) {
+                return;
+            }
+
+            $callback($widget, $query);
+        });
+    }
 }

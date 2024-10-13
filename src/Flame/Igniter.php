@@ -58,6 +58,8 @@ class Igniter
 
     protected static bool $autoloadExtensions = true;
 
+    protected static array $publishesThemeFiles = [];
+
     /**
      * Set the extensions path for the application.
      *
@@ -169,7 +171,7 @@ class Igniter
         static::$migrationPaths[$namespace] = $path;
     }
 
-    public function ignoreMigrations(string $namespace = '*')
+    public static function ignoreMigrations(string $namespace = '*')
     {
         static::$ignoreMigrations[] = $namespace;
 
@@ -316,5 +318,26 @@ class Igniter
         }
 
         static::$autoloadExtensions = $value;
+    }
+
+    public static function publishesThemeFiles(string|array $paths): void
+    {
+        foreach ((array)$paths as $path => $publishTo) {
+            if (is_numeric($path)) {
+                $path = $publishTo;
+                $publishTo = null;
+            }
+
+            if (is_null($publishTo)) {
+                $publishTo = $path;
+            }
+
+            static::$publishesThemeFiles[$path] = $publishTo;
+        }
+    }
+
+    public static function publishableThemeFiles(): array
+    {
+        return static::$publishesThemeFiles;
     }
 }

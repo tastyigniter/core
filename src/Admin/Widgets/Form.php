@@ -531,7 +531,6 @@ class Form extends BaseWidget
     public function getTab($tab): ?FormTabs
     {
         return $this->allTabs[$tab] ?? null;
-
     }
 
     /**

@@ -411,11 +411,6 @@ parameters:
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:getQuery\\(\\)\\.$#"
-			count: 2
-			path: src/Admin/FormWidgets/Relation.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:sorted\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Relation.php
@@ -2961,11 +2956,6 @@ parameters:
 			path: src/Flame/Providers/EventServiceProvider.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:getQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Flame/Providers/MacroServiceProvider.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Scaffold\\\\GeneratorCommand\\:\\:makeDirectory\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Scaffold/GeneratorCommand.php
@@ -3256,11 +3246,6 @@ parameters:
 			path: src/Flame/Support/Helpers/helpers.php
 
 		-
-			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
-			count: 7
-			path: src/Flame/Support/Helpers/helpers.php
-
-		-
 			message: "#^Parameter \\#2 \\$time of function mdate expects string\\|null, \\(int\\|false\\) given\\.$#"
 			count: 2
 			path: src/Flame/Support/Helpers/helpers.php
@@ -3427,11 +3412,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
 
@@ -4298,11 +4278,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Extension\\:\\:where\\(\\)\\.$#"
 			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Function traceLog invoked with 1 parameter, 0 required\\.$#"
-			count: 2
 			path: src/System/Classes/ExtensionManager.php
 
 		-
