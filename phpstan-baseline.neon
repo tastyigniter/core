@@ -336,11 +336,6 @@ parameters:
 			path: src/Admin/Classes/ToolbarButton.php
 
 		-
-			message: "#^Trying to invoke true but it's not a callable\\.$#"
-			count: 1
-			path: src/Admin/DashboardWidgets/Statistics.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\FormWidgets\\\\Connector\\:\\:\\$modelClass\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php
@@ -356,7 +351,7 @@ parameters:
 			path: src/Admin/FormWidgets/Connector.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Connector.php
 
@@ -376,7 +371,7 @@ parameters:
 			path: src/Admin/FormWidgets/DataTable.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/DataTable.php
 
@@ -406,17 +401,12 @@ parameters:
 			path: src/Admin/FormWidgets/RecordEditor.php
 
 		-
-			message: "#^Parameter \\#1 \\$recordId of method Igniter\\\\Admin\\\\FormWidgets\\\\RecordEditor\\:\\:findFormModel\\(\\) expects string, true given\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/RecordEditor.php
-
-		-
 			message: "#^Using nullsafe method call on non\\-nullable type Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\. Use \\-\\> instead\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/RecordEditor.php
 
@@ -441,7 +431,7 @@ parameters:
 			path: src/Admin/FormWidgets/Repeater.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/Repeater.php
 
@@ -467,7 +457,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:find\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
@@ -501,8 +491,8 @@ parameters:
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 3
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
+			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
@@ -578,11 +568,6 @@ parameters:
 		-
 			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:prepareVars\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
@@ -821,11 +806,6 @@ parameters:
 			path: src/Admin/Widgets/DashboardContainer.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/Admin/Widgets/DashboardContainer.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\SearchBox\\:\\:\\$searchWidget\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Filter.php
@@ -876,7 +856,7 @@ parameters:
 			path: src/Admin/Widgets/Form.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Form.php
 
@@ -1334,11 +1314,6 @@ parameters:
 			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
-
-		-
-			message: "#^Property Illuminate\\\\Database\\\\Connection\\:\\:\\$events \\(Illuminate\\\\Contracts\\\\Events\\\\Dispatcher\\) in isset\\(\\) is not nullable\\.$#"
-			count: 2
-			path: src/Flame/Database/Connections/Connection.php
 
 		-
 			message: "#^Return type \\(void\\) of method Igniter\\\\Flame\\\\Database\\\\Connections\\\\Connection\\:\\:fireConnectionEvent\\(\\) should be compatible with return type \\(array\\|null\\) of method Illuminate\\\\Database\\\\Connection\\:\\:fireConnectionEvent\\(\\)$#"
@@ -3436,11 +3411,6 @@ parameters:
 			path: src/Main/Classes/MainController.php
 
 		-
-			message: "#^Parameter \\#1 \\$page of method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:runPage\\(\\) expects Igniter\\\\Main\\\\Template\\\\Page, true given\\.$#"
-			count: 1
-			path: src/Main/Classes/MainController.php
-
-		-
 			message: "#^Result of \\|\\| is always true\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
@@ -3621,6 +3591,11 @@ parameters:
 			path: src/Main/FormWidgets/Components.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateInterface\\:\\:updateComponent\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getComponentOptions\\(\\)\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/Components.php
@@ -3663,11 +3638,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:symbolizePath\\(\\)\\.$#"
 			count: 2
-			path: src/Main/FormWidgets/Components.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
 			path: src/Main/FormWidgets/Components.php
 
 		-
@@ -3736,7 +3706,7 @@ parameters:
 			path: src/Main/FormWidgets/TemplateEditor.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Main/FormWidgets/TemplateEditor.php
 
@@ -3786,6 +3756,11 @@ parameters:
 			path: src/Main/Http/Controllers/Themes.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Main\\\\Http\\\\Controllers\\\\Themes\\:\\:formCreateModelObject\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Http/Controllers/Themes.php
@@ -3812,11 +3787,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:buildBundles\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Http/Controllers/Themes.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/Main/Http/Controllers/Themes.php
 
@@ -4007,11 +3977,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:check\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Template/Page.php
-
-		-
-			message: "#^Cannot access property \\$isHidden on true\\.$#"
 			count: 1
 			path: src/Main/Template/Page.php
 
@@ -4292,7 +4257,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\File\\:\\:isDirectory\\(\\)\\.$#"
-			count: 4
+			count: 5
 			path: src/System/Classes/ExtensionManager.php
 
 		-
@@ -4306,24 +4271,9 @@ parameters:
 			path: src/System/Classes/ExtensionManager.php
 
 		-
-			message: "#^Parameter \\#1 \\$namespace of method Igniter\\\\System\\\\Classes\\\\ExtensionManager\\:\\:getIdentifier\\(\\) expects string, true given\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
 			message: "#^Property Illuminate\\\\Foundation\\\\PackageManifest\\:\\:\\$manifest \\(array\\) does not accept null\\.$#"
 			count: 1
 			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/System/Classes/ExtensionManager.php
-
-		-
-			message: "#^Parameter \\#1 \\$url of static method Illuminate\\\\Support\\\\Facades\\\\Http\\:\\:baseUrl\\(\\) expects string, true given\\.$#"
-			count: 1
-			path: src/System/Classes/HubManager.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$can_update\\.$#"
@@ -4333,6 +4283,11 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$code\\.$#"
 			count: 2
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$version\\.$#"
+			count: 1
 			path: src/System/Classes/LanguageManager.php
 
 		-
@@ -4387,11 +4342,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 1
-			path: src/System/Classes/LanguageManager.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/System/Classes/LanguageManager.php
 
@@ -4524,11 +4474,6 @@ parameters:
 			message: "#^Result of method Illuminate\\\\Console\\\\OutputStyle\\:\\:writeln\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/System/Console/Commands/ThemeInstall.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/System/Console/Commands/ThemePublish.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
@@ -4666,27 +4611,7 @@ parameters:
 			path: src/System/Http/Controllers/Extensions.php
 
 		-
-			message: "#^Cannot access property \\$label on true\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
-			message: "#^Cannot access property \\$permissions on true\\.$#"
-			count: 2
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
-			message: "#^Cannot access property \\$request on true\\.$#"
-			count: 2
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
 			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Extensions.php
 
@@ -4697,6 +4622,16 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:\\$sessionKey\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$status\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Languages.php
 
@@ -4717,11 +4652,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setButton\\(\\)\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Languages.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Languages.php
 
@@ -4786,6 +4716,11 @@ parameters:
 			path: src/System/Http/Controllers/Settings.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:\\$controller\\.$#"
+			count: 5
+			path: src/System/Http/Controllers/Settings.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Settings.php
@@ -4831,33 +4766,8 @@ parameters:
 			path: src/System/Http/Controllers/Settings.php
 
 		-
-			message: "#^Cannot access property \\$label on true\\.$#"
-			count: 2
-			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Cannot access property \\$permission on true\\.$#"
-			count: 4
-			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Cannot access property \\$request on true\\.$#"
-			count: 2
-			path: src/System/Http/Controllers/Settings.php
-
-		-
 			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
 			count: 1
-			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Parameter \\#2 \\$definition of method Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:initWidgets\\(\\) expects stdClass, true given\\.$#"
-			count: 3
-			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
 			path: src/System/Http/Controllers/Settings.php
 
 		-
