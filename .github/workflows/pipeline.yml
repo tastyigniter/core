@@ -4,7 +4,11 @@ on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
   build-assets:
+    permissions:
+      contents: write
     uses: tastyigniter/workflows/.github/workflows/build-assets.yml@main
+    secrets:
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
   php-lint:
     needs: build-assets
     if: ${{ always() && needs.build-assets.result == 'success' }}
