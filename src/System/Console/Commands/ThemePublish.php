@@ -33,7 +33,7 @@ class ThemePublish extends VendorPublishCommand
 
         $activeThemePath = $this->activeTheme->getPath();
         foreach (Igniter::publishableThemeFiles() as $path => $publishTo) {
-            $this->publishItem($path, $activeThemePath.'/'.$publishTo);
+            $this->publishItem($path, $activeThemePath.$publishTo);
             $published = true;
         }
 
