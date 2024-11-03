@@ -145,6 +145,10 @@ class AdminController extends Controller
             sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this))
         ));
 
+        throw_unless($this->checkAction($action), new FlashException(
+            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this))
+        ));
+
         // Execute post handler and AJAX event
         if (($handlerResponse = $this->processHandlers()) && $handlerResponse !== true) {
             return $handlerResponse;
@@ -163,10 +167,6 @@ class AdminController extends Controller
 
     protected function execPageAction(string $action, array $params): mixed
     {
-        throw_unless($this->checkAction($action), new FlashException(
-            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this))
-        ));
-
         array_unshift($params, $action);
 
         // Execute the action
