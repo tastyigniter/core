@@ -86,7 +86,6 @@
       "Igniter\\Tests\\": "tests/src/"
     }
   },
-  "minimum-stability": "dev",
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
