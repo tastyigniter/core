@@ -74,7 +74,7 @@ class ThemeManager
     {
         $packageManifest = resolve(PackageManifest::class);
         foreach ($packageManifest->themes() as $config) {
-            $this->loadTheme(array_get($config, 'installPath'));
+            $this->loadTheme($packageManifest->getPackagePath(array_get($config, 'installPath')));
         }
 
         foreach ($this->folders() as $path) {
@@ -163,7 +163,7 @@ class ThemeManager
                 }
 
                 ServiceProvider::$publishGroups[$group] = array_merge(
-                    ServiceProvider::$publishGroups[$group], $pathsToPublish
+                    ServiceProvider::$publishGroups[$group], $pathsToPublish,
                 );
             }
         }
@@ -519,14 +519,14 @@ class ThemeManager
     {
         $parentTheme = $this->findTheme($parentThemeCode);
         throw_if(!$parentTheme || $parentTheme->hasParent(), new SystemException(
-            'Can not create a child theme from another child theme'
+            'Can not create a child theme from another child theme',
         ));
 
         $childThemeCode = ThemeModel::generateUniqueCode($childThemeCode ?? $parentThemeCode);
         $childThemePath = Igniter::themesPath().'/'.$childThemeCode;
 
         throw_if(File::isDirectory($childThemePath), new SystemException(
-            'Child theme path already exists.'
+            'Child theme path already exists.',
         ));
 
         File::makeDirectory($childThemePath, 0777, true, true);
@@ -588,14 +588,14 @@ class ThemeManager
             if (!array_key_exists($item, $config)) {
                 throw new SystemException(sprintf(
                     Lang::get('igniter::system.missing.config_key'),
-                    $item, $code
+                    $item, $code,
                 ));
             }
 
             if ($item == 'code' && $code !== $config[$item]) {
                 throw new SystemException(sprintf(
                     Lang::get('igniter::system.missing.config_code_mismatch'),
-                    $config[$item], $code
+                    $config[$item], $code,
                 ));
             }
         }

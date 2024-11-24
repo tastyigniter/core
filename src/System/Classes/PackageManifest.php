@@ -25,7 +25,9 @@ class PackageManifest extends BasePackageManifest
 
     public function getPackagePath(string $path)
     {
-        return $this->vendorPath.'/composer/'.$path;
+        return str_starts_with($path, '../')
+            ? $this->vendorPath.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.$path
+            : $path;
     }
 
     public function getVersion(string $code)
@@ -73,11 +75,7 @@ class PackageManifest extends BasePackageManifest
                         'type' => array_has($package, 'extra.tastyigniter-theme')
                             ? 'tastyigniter-theme'
                             : 'tastyigniter-extension',
-                        'installPath' => $this->vendorPath
-                            .DIRECTORY_SEPARATOR
-                            .'composer'
-                            .DIRECTORY_SEPARATOR
-                            .array_get($package, 'install-path'),
+                        'installPath' => array_get($package, 'install-path'),
                     ],
                 ];
             })

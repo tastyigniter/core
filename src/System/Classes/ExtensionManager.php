@@ -130,7 +130,7 @@ class ExtensionManager
 
         $this->packageManifest->manifest = null;
         foreach ($this->packageManifest->extensions() as $config) {
-            $this->loadExtension(array_get($config, 'installPath'));
+            $this->loadExtension($this->packageManifest->getPackagePath(array_get($config, 'installPath')));
         }
 
         return $this->extensions;
@@ -146,7 +146,7 @@ class ExtensionManager
         $config = SystemHelper::extensionConfigFromFile($path);
 
         throw_unless($namespace = array_get($config, 'namespace'),
-            new SystemException('Extension namespace not found in '.$path)
+            new SystemException('Extension namespace not found in '.$path),
         );
 
         $identifier = array_get($config, 'code', $this->getIdentifier($namespace));
@@ -185,7 +185,7 @@ class ExtensionManager
     {
         throw_if(
             !$path || !File::isDirectory($path) || $path === base_path(),
-            SystemException::class, 'Extension directory not found: '.$path
+            SystemException::class, 'Extension directory not found: '.$path,
         );
 
         if (!$class || !class_exists($class)) {
@@ -380,7 +380,7 @@ class ExtensionManager
 
             throw_if(
                 File::exists($configFile = $extensionDir.'extension.json'),
-                new SystemException("extension.json files are no longer supported, please convert to composer.json: $configFile")
+                new SystemException("extension.json files are no longer supported, please convert to composer.json: $configFile"),
             );
 
             $meta = @json_decode($zip->getFromName($extensionDir.'composer.json'));
