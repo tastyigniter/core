@@ -74,11 +74,11 @@ trait HasAttributes
         $attributes = $this->addDateAttributesToArray($attributes);
 
         $attributes = $this->addMutatedAttributesToArray(
-            $attributes, $mutatedAttributes = $this->getMutatedAttributes()
+            $attributes, $mutatedAttributes = $this->getMutatedAttributes(),
         );
 
         $attributes = $this->addCastAttributesToArray(
-            $attributes, $mutatedAttributes
+            $attributes, $mutatedAttributes,
         );
 
         foreach ($attributes as $key => $value) {
@@ -219,7 +219,7 @@ trait HasAttributes
         // when checking the field. We will just return the DateTime right away.
         if ($value instanceof DateTimeInterface) {
             return new Carbon(
-                $value->format('H:i:s.u'), $value->getTimezone()
+                $value->format('H:i:s.u'), $value->getTimezone(),
             );
         }
 
@@ -276,7 +276,7 @@ trait HasAttributes
      * Get the format for database stored times.
      * @return string
      */
-    protected function getTimeFormat()
+    public function getTimeFormat()
     {
         return $this->timeFormat ?: 'H:i:s';
     }
