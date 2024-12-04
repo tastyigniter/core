@@ -39,13 +39,13 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     ];
 
     /** Object cache of self, by code. */
-    protected static array $localesCache = [];
+    public static array $localesCache = [];
 
     /** A cache of supported locales. */
-    protected static ?array $supportedLocalesCache = null;
+    public static ?array $supportedLocalesCache = null;
 
     /** Active language cache. */
-    protected static ?self $activeLanguage = null;
+    public static ?self $activeLanguage = null;
 
     public static function applySupportedLanguages()
     {
