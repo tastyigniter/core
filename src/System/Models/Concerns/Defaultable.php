@@ -7,7 +7,7 @@ use Illuminate\Validation\ValidationException;
 
 trait Defaultable
 {
-    protected static array $defaultModels = [];
+    public static array $defaultModels = [];
 
     public static function bootDefaultable()
     {
@@ -64,7 +64,7 @@ trait Defaultable
         if ($this->defaultableUsesSwitchable()) {
             if (!$this->{$this->switchableGetColumn()}) {
                 throw ValidationException::withMessages([$this->switchableGetColumn() => sprintf(
-                    lang('igniter::admin.alert_error_set_default'), $this->defaultableName()
+                    lang('igniter::admin.alert_error_set_default'), $this->defaultableName(),
                 )]);
             }
         }

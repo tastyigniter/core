@@ -150,6 +150,11 @@ class Settings extends Model
         return self::set($key, $value, 'prefs');
     }
 
+    public static function getPref(string|array $key, mixed $value = null): bool
+    {
+        return self::get($key, $value, 'prefs');
+    }
+
     public static function make($attributes = [])
     {
         return resolve(static::class);
@@ -292,7 +297,7 @@ class Settings extends Model
             if (!isset($item['url'])) {
                 $item['url'] = admin_url($owner == 'core'
                     ? 'settings/edit/'.$code
-                    : 'extensions/edit/'.str_replace('.', '/', $owner).'/'.$code
+                    : 'extensions/edit/'.str_replace('.', '/', $owner).'/'.$code,
                 );
             }
 
