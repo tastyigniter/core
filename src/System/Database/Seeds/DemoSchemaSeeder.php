@@ -42,7 +42,7 @@ class DemoSchemaSeeder extends Seeder
         }
 
         foreach (Igniter::getSeedRecords('menu_options') as $menuOption) {
-            $optionId = DB::table('menu_options')->insertGetId(array_except($menuOption, 'option_values'));
+            $optionId = DB::table('menu_options')->insertGetId(array_except($menuOption, 'option_values'), 'option_id');
 
             foreach (array_get($menuOption, 'option_values') as $optionValue) {
                 DB::table('menu_option_values')->insert(array_merge($optionValue, [
@@ -61,7 +61,7 @@ class DemoSchemaSeeder extends Seeder
         }
 
         foreach (Igniter::getSeedRecords('menus') as $menu) {
-            $menuId = DB::table('menus')->insertGetId(array_except($menu, 'menu_options'));
+            $menuId = DB::table('menus')->insertGetId(array_except($menu, 'menu_options'), 'menu_id');
 
             foreach (array_get($menu, 'menu_options', []) as $name) {
                 $option = DB::table('menu_options')->where('option_name', $name)->first();
@@ -69,7 +69,7 @@ class DemoSchemaSeeder extends Seeder
                 $menuOptionId = DB::table('menu_item_options')->insertGetId([
                     'option_id' => $option->option_id,
                     'menu_id' => $menuId,
-                ]);
+                ], 'menu_option_id');
 
                 $optionValues = DB::table('menu_option_values')->where('option_id', $option->option_id)->get();
 
@@ -79,7 +79,7 @@ class DemoSchemaSeeder extends Seeder
                         'option_value_id' => $optionValue->option_value_id,
                         'override_price' => $optionValue->price,
                         'priority' => $optionValue->priority,
-                    ]);
+                    ], 'menu_option_value_id');
                 }
             }
         }

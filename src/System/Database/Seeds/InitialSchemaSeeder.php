@@ -114,7 +114,7 @@ class InitialSchemaSeeder extends Seeder
 
         $location = Igniter::getSeedRecords('location');
         $location['location_email'] = DatabaseSeeder::$siteEmail;
-        $locationId = DB::table('locations')->insertGetId($location);
+        $locationId = DB::table('locations')->insertGetId($location, 'location_id');
         DB::table('locations')->update(['updated_at' => now(), 'created_at' => now()]);
 
         $this->seedLocationTables($locationId);
@@ -132,7 +132,7 @@ class InitialSchemaSeeder extends Seeder
                 'min_capacity' => random_int(2, 5),
                 'max_capacity' => random_int(6, 12),
                 'table_status' => 1,
-            ]);
+            ], 'table_id');
 
             DB::table('locationables')->insert([
                 'location_id' => $locationId,
