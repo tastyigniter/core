@@ -61,21 +61,6 @@ parameters:
 			path: database/migrations/system/2016_11_29_000300_optimize_tables_columns.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Cart\\\\Models\\\\Category\\:\\:pluck\\(\\)\\.$#"
-			count: 1
-			path: database/migrations/system/2018_10_19_000300_create_media_attachments_table.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Cart\\\\Models\\\\Menu\\:\\:select\\(\\)\\.$#"
-			count: 1
-			path: database/migrations/system/2018_10_19_000300_create_media_attachments_table.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Models\\\\Location\\:\\:select\\(\\)\\.$#"
-			count: 1
-			path: database/migrations/system/2018_10_19_000300_create_media_attachments_table.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:dropForeignKeyIfExists\\(\\)\\.$#"
 			count: 1
 			path: database/migrations/system/2022_06_30_010000_drop_foreign_key_constraints_on_all_tables.php
