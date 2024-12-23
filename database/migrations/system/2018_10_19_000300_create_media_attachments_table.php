@@ -6,6 +6,7 @@ use Igniter\Local\Models\Location;
 use Igniter\Main\Classes\MediaLibrary;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
@@ -44,39 +45,40 @@ return new class extends Migration
 
     protected function seedAttachmentsFromExistingModels()
     {
-        Menu::select('menu_photo', 'menu_id')->get()->each(function($model) {
+        DB::table('menus')->select('menu_photo', 'menu_id')->get()->each(function($model) {
             if (!empty($model->menu_photo)) {
-                $this->createMediaAttachment($model->menu_photo, $model, 'thumb');
+                $this->createMediaAttachment($model->menu_photo, 'thumb', Menu::class);
             }
         });
 
-        Category::pluck('image', 'category_id')->each(function($model) {
+        DB::table('categories')->select('image', 'category_id')->get()->each(function($model) {
             if (!empty($model->image)) {
-                $this->createMediaAttachment($model->image, $model, 'thumb');
+                $this->createMediaAttachment($model->image, 'thumb', Category::class);
             }
         });
 
-        Location::select('location_image', 'options', 'location_id')->get()->each(function($model) {
+        DB::table('locations')->select('location_image', 'options', 'location_id')->get()->each(function($model) {
             if (!empty($model->location_image)) {
-                $this->createMediaAttachment($model->location_image, $model, 'thumb');
+                $this->createMediaAttachment($model->location_image, 'thumb', Location::class);
             }
 
             if (!empty($images = array_get($model->options, 'gallery.images'))) {
                 foreach ($images as $image) {
-                    $this->createMediaAttachment($image, $model, 'gallery');
+                    $this->createMediaAttachment($image, 'gallery', Location::class);
                 }
             }
         });
     }
 
-    protected function createMediaAttachment($path, $model, $tagName)
+    protected function createMediaAttachment($path, $tagName, $modelClass)
     {
         try {
             $mediaLibrary = resolve(MediaLibrary::class);
             $path = $mediaLibrary->getMediaRelativePath($path);
 
+            $model = new $modelClass;
             $media = $model->newMediaInstance();
-            $media->addFromFile(assets_path($mediaLibrary->getMediaPath($path)), $tagName);
+            $media->addFromFile(url($mediaLibrary->getMediaPath($path)), $tagName);
 
             $media->save();
             $model->media()->save($media);

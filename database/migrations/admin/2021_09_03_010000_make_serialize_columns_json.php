@@ -30,9 +30,13 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('locations', function(Blueprint $table) {
-            $table->json('options')->change();
-        });
+        if (Schema::getConnection()->getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE locations ALTER COLUMN options TYPE json USING options::json');
+        } else {
+            Schema::table('locations', function(Blueprint $table) {
+                $table->json('options')->change();
+            });
+        }
     }
 
     private function updateLocationAreas()
@@ -48,10 +52,16 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('location_areas', function(Blueprint $table) {
-            $table->json('boundaries')->change();
-            $table->json('conditions')->change();
-        });
+
+        if (Schema::getConnection()->getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE location_areas ALTER COLUMN boundaries TYPE json USING boundaries::json');
+            DB::statement('ALTER TABLE location_areas ALTER COLUMN conditions TYPE json USING conditions::json');
+        } else {
+            Schema::table('location_areas', function(Blueprint $table) {
+                $table->json('boundaries')->change();
+                $table->json('conditions')->change();
+            });
+        }
     }
 
     private function updatePayments()
@@ -66,9 +76,13 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('payments', function(Blueprint $table) {
-            $table->json('data')->change();
-        });
+        if (Schema::getConnection()->getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE payments ALTER COLUMN data TYPE json USING data::json');
+        } else {
+            Schema::table('payments', function(Blueprint $table) {
+                $table->json('data')->change();
+            });
+        }
     }
 
     protected function updateExtensionSettings()
@@ -83,9 +97,13 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('extension_settings', function(Blueprint $table) {
-            $table->json('data')->change();
-        });
+        if (Schema::getConnection()->getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE extension_settings ALTER COLUMN data TYPE json USING data::json');
+        } else {
+            Schema::table('extension_settings', function(Blueprint $table) {
+                $table->json('data')->change();
+            });
+        }
     }
 
     protected function updateThemes()
@@ -100,8 +118,12 @@ return new class extends Migration
                     ]);
             });
 
-        Schema::table('themes', function(Blueprint $table) {
-            $table->json('data')->change();
-        });
+        if (Schema::getConnection()->getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE themes ALTER COLUMN data TYPE json USING data::json');
+        } else {
+            Schema::table('themes', function(Blueprint $table) {
+                $table->json('data')->change();
+            });
+        }
     }
 };

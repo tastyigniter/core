@@ -14,7 +14,13 @@ return new class extends Migration
 
         Schema::table('currencies', function(Blueprint $table) {
             $table->timestamp('date_modified')->change();
+        });
+
+        Schema::table('currencies', function(Blueprint $table) {
             $table->renameColumn('date_modified', 'updated_at');
+        });
+
+        Schema::table('currencies', function(Blueprint $table) {
             $table->timestamp('created_at');
         });
 
@@ -25,6 +31,9 @@ return new class extends Migration
         Schema::table('mail_layouts', function(Blueprint $table) {
             $table->timestamp('date_added')->change();
             $table->timestamp('date_updated')->change();
+        });
+
+        Schema::table('mail_layouts', function(Blueprint $table) {
             $table->renameColumn('date_added', 'created_at');
             $table->renameColumn('date_updated', 'updated_at');
         });
@@ -32,6 +41,9 @@ return new class extends Migration
         Schema::table('mail_templates', function(Blueprint $table) {
             $table->timestamp('date_added')->change();
             $table->timestamp('date_updated')->change();
+        });
+
+        Schema::table('mail_templates', function(Blueprint $table) {
             $table->renameColumn('date_added', 'created_at');
             $table->renameColumn('date_updated', 'updated_at');
         });
