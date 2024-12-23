@@ -15,8 +15,8 @@ return new class extends Migration
             $table->unsignedBigInteger('location_id');
             $table->string('type', 32);
             $table->integer('weekday');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->time('opening_time');
+            $table->time('closing_time');
             $table->boolean('status')->default(0);
             $table->timestamps();
         });
