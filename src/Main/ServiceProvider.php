@@ -2,8 +2,8 @@
 
 namespace Igniter\Main;
 
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\MediaLibrary;
 use Igniter\Main\Classes\RouteRegistrar;
 use Igniter\Main\Classes\ThemeManager;

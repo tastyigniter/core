@@ -2,7 +2,7 @@
 
 namespace Igniter\System\Database\Seeds;
 
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

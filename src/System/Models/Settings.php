@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ExtensionManager;

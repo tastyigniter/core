@@ -2,7 +2,7 @@
 
 namespace Igniter\Main\Providers;
 
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Libraries\Assets;
 use Illuminate\Support\ServiceProvider;

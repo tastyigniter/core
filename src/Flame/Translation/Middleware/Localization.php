@@ -3,7 +3,7 @@
 namespace Igniter\Flame\Translation\Middleware;
 
 use Closure;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Http\Request;
 
 class Localization

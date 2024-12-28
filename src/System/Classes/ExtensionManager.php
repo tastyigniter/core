@@ -3,8 +3,8 @@
 namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\SystemException;
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Extension;
 use ZipArchive;

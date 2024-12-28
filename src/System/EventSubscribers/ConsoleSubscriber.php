@@ -2,7 +2,7 @@
 
 namespace Igniter\System\EventSubscribers;
 
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Helpers\CacheHelper;
 use Illuminate\Console\Events\CommandFinished;
 use Illuminate\Console\Events\CommandStarting;

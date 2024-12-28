@@ -3,7 +3,7 @@
 namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Support\Facades\Request;

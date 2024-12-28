@@ -3,7 +3,7 @@
 namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Exception\SystemException;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Foundation\Console\VendorPublishCommand;
@@ -48,17 +48,17 @@ class ThemePublish extends VendorPublishCommand
     {
         throw_unless(
             $this->activeTheme = resolve(ThemeManager::class)->getActiveTheme(),
-            new SystemException(lang('igniter::admin.alert_error_nothing'))
+            new SystemException(lang('igniter::admin.alert_error_nothing')),
         );
 
         throw_if(
             $this->activeTheme->locked,
-            new SystemException(lang('igniter::system.themes.alert_theme_locked'))
+            new SystemException(lang('igniter::system.themes.alert_theme_locked')),
         );
 
         throw_if(
             !str_starts_with($this->activeTheme->getPath(), theme_path()),
-            new SystemException(lang('igniter::system.themes.alert_no_publish_custom'))
+            new SystemException(lang('igniter::system.themes.alert_no_publish_custom')),
         );
     }
 

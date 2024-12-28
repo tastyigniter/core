@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Translation\Drivers;
 
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Translation\Contracts\Driver;
 use Igniter\Flame\Translation\Models\Translation;
 

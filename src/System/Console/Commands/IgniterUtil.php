@@ -2,8 +2,8 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Model;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\PackageManifest;

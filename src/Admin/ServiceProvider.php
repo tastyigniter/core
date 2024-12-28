@@ -3,9 +3,9 @@
 namespace Igniter\Admin;
 
 use Igniter\Admin\Helpers\AdminHelper;
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Libraries\Assets;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\AliasLoader;

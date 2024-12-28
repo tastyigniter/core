@@ -325,7 +325,7 @@ class FormController extends ControllerAction
 
     protected function setFormTitle(?string $default = null)
     {
-        $title = lang($this->getConfig('name'));
+        $title = lang($this->getConfig('name', 'igniter::admin.form.name'));
         $lang = lang($this->getConfig($this->context.'[title]', $default));
 
         $pageTitle = str_contains($lang, ':name')
@@ -417,9 +417,9 @@ class FormController extends ControllerAction
         $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
         foreach ($saveData as $attribute => $value) {
             $isNested = ($attribute == 'pivot' || (
-                $model->hasRelation($attribute) &&
-                in_array($model->getRelationType($attribute), $singularTypes)
-            ));
+                    $model->hasRelation($attribute) &&
+                    in_array($model->getRelationType($attribute), $singularTypes)
+                ));
 
             if ($isNested && is_array($value) && $model->{$attribute}) {
                 $this->setModelAttributes($model->{$attribute}, $value);

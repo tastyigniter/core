@@ -2,8 +2,8 @@
 
 namespace Igniter\Admin\Classes;
 
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;

@@ -4,7 +4,7 @@ namespace Igniter\Admin\Providers;
 
 use Igniter\Admin\Classes\OnboardingSteps;
 use Igniter\Admin\Classes\Widgets;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Support\ServiceProvider;
 
 class FormServiceProvider extends ServiceProvider

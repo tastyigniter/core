@@ -3,7 +3,7 @@
 namespace Igniter\System\Classes;
 
 use Closure;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Support\RouterHelper;
 use Igniter\Flame\Traits\ExtendableTrait;
 use Igniter\System\Facades\Assets;

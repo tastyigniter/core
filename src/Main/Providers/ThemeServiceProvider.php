@@ -2,9 +2,9 @@
 
 namespace Igniter\Main\Providers;
 
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Router;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\SupportConfigurableComponent;
 use Igniter\Main\Classes\Theme;

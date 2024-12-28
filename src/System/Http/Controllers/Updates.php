@@ -5,7 +5,7 @@ namespace Igniter\System\Http\Controllers;
 use Exception;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Models\Extension;

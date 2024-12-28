@@ -2,8 +2,8 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Support\ConfigRewrite;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Local\Models\Location;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\ComposerManager;

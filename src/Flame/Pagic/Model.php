@@ -193,6 +193,16 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     }
 
     /**
+     * Get the primary key for the model.
+     *
+     * @return string
+     */
+    public function getKeyName()
+    {
+        return null;
+    }
+
+    /**
      * Get a new file finder for the object
      */
     public function newFinder(): Finder

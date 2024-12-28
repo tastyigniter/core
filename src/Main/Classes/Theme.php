@@ -3,12 +3,12 @@
 namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Exception\FlashException;
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Pagic\Source\FileSource;
 use Igniter\Flame\Pagic\Source\SourceInterface;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Events\ThemeExtendFormConfigEvent;
 use Igniter\Main\Events\ThemeGetActiveEvent;
 use Igniter\Main\Models\Theme as ThemeModel;

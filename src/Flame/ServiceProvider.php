@@ -5,6 +5,7 @@ namespace Igniter\Flame;
 use Igniter\Flame\Exception\ErrorHandler;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Support\ClassLoader;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Translation\Middleware\Localization;
 use Igniter\System\Classes\PackageManifest;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -41,6 +42,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
+        $this->app->singleton(Igniter::class);
+
         $this->mergeConfigFiles();
 
         $this->loadTranslationsFrom($this->root.'/resources/lang/', 'igniter');
@@ -96,14 +99,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new PackageManifest(
                 new Filesystem,
                 $this->app->basePath(),
-                Igniter::getCachedAddonsPath()
+                Igniter::getCachedAddonsPath(),
             );
         });
 
         $this->app->instance(ClassLoader::class, $loader = new ClassLoader(
             new Filesystem,
             $this->app->basePath(),
-            Igniter::getCachedClassesPath()
+            Igniter::getCachedClassesPath(),
         ));
 
         $loader->register();

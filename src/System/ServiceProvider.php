@@ -3,8 +3,8 @@
 namespace Igniter\System;
 
 use Igniter\Flame\Flash\FlashBag;
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Providers\AppServiceProvider;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Currency;
 use Igniter\System\Models\Language;

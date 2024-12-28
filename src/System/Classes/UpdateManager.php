@@ -8,7 +8,7 @@ use Igniter\Flame\Database\Migrations\DatabaseMigrationRepository;
 use Igniter\Flame\Database\Migrations\Migrator;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Helpers\SystemHelper;
@@ -407,7 +407,7 @@ class UpdateManager
             $packageName = $packageInfo->isCore() ? PackageInfo::CORE : $packageInfo->package;
 
             $this->log(sprintf(lang('igniter::system.updates.progress_install_version'),
-                $packageInfo->name, $packageInfo->installedVersion, $packageInfo->version
+                $packageInfo->name, $packageInfo->installedVersion, $packageInfo->version,
             ));
 
             return [$packageName => $packageInfo->version];

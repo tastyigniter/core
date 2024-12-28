@@ -3,7 +3,7 @@
 namespace Igniter\System\Actions;
 
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 
 /**
  * Settings model extension

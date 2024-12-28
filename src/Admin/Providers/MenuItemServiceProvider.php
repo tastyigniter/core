@@ -5,7 +5,7 @@ namespace Igniter\Admin\Providers;
 use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\Facades\AdminMenu;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Support\ServiceProvider;
 
 class MenuItemServiceProvider extends ServiceProvider

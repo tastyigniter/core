@@ -2,7 +2,7 @@
 
 namespace Igniter\Tests;
 
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 
 it('checks for admin routes', function() {
     $adminUri = Igniter::adminUri();

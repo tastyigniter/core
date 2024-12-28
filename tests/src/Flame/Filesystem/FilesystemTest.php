@@ -3,7 +3,7 @@
 namespace Igniter\Tests\Flame\Filesystem;
 
 use Igniter\Flame\Filesystem\Filesystem;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 
 it('symbolizes path', function() {
     Igniter::loadResourcesFrom(__DIR__.'/../../../resources/themes/tests-theme', 'tests.fixtures');

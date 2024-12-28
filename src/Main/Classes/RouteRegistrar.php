@@ -2,8 +2,8 @@
 
 namespace Igniter\Main\Classes;
 
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Router;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Routing\Router as IlluminateRouter;
 use Illuminate\Support\Collection;
 

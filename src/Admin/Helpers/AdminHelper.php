@@ -3,7 +3,7 @@
 namespace Igniter\Admin\Helpers;
 
 use Igniter\Flame\Exception\SystemException;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Support\RouterHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;

@@ -10,11 +10,11 @@ trait HasCountry
     public static function bootHasCountry()
     {
         static::saving(function(self $model) {
-            if ($model->countryIsSingleRelationType()) {
-                $model->country()->associate($model);
-            } else {
-                $model->country()->sync($model);
-            }
+//            if ($model->countryIsSingleRelationType()) {
+//                $model->country()->associate($model);
+//            } else {
+//                $model->country()->sync($model);
+//            }
         });
     }
 

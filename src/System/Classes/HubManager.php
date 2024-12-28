@@ -3,7 +3,7 @@
 namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\SystemException;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -58,7 +58,7 @@ class HubManager
     protected function requestRemoteData(string $uri, array $params = [], ?string $eTag = null): array
     {
         throw_unless($endpoint = config('igniter-system.updatesEndpoint'), new SystemException(
-            'Updates endpoint not configured'
+            'Updates endpoint not configured',
         ));
 
         $client = Http::baseUrl($endpoint);
@@ -77,7 +77,7 @@ class HubManager
 
         throw_if(
             $eTag && $response->header('TI-ETag') !== $eTag,
-            new SystemException('ETag mismatch, please try again.')
+            new SystemException('ETag mismatch, please try again.'),
         );
 
         return $response->json();
@@ -114,7 +114,7 @@ class HubManager
         }
 
         $headers['X-Igniter-Platform'] = sprintf('php:%s;version:%s;url:%s',
-            PHP_VERSION, Igniter::version(), url()->current()
+            PHP_VERSION, Igniter::version(), url()->current(),
         );
 
         return $headers;

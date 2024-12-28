@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Scaffold;
 
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Support\StringParser;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;

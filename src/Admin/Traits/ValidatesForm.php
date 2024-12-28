@@ -4,7 +4,7 @@ namespace Igniter\Admin\Traits;
 
 use Closure;
 use Igniter\Admin\Widgets\Form;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Helpers\ValidationHelper;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Arr;
@@ -54,7 +54,7 @@ trait ValidatesForm
         $customAttributes = Arr::get($parsed, 'attributes', $customAttributes);
 
         $validator = validator()->make(
-            $request ?? [], $rules, $messages, $customAttributes
+            $request ?? [], $rules, $messages, $customAttributes,
         );
 
         if ($this->validateAfterCallback instanceof Closure) {
@@ -110,7 +110,7 @@ trait ValidatesForm
         if ($rules = array_get($form->config, 'rules')) {
             $validated = $this->validate($saveData, $rules,
                 array_get($form->config, 'validationMessages', []),
-                array_get($form->config, 'validationAttributes', [])
+                array_get($form->config, 'validationAttributes', []),
             );
         }
 
@@ -119,7 +119,7 @@ trait ValidatesForm
             $validated = array_merge($validated,
                 $this->resolveFormRequest($requestClass, function($request) use ($saveData) {
                     $request->merge($saveData);
-                })->validated()
+                })->validated(),
             );
         }
 

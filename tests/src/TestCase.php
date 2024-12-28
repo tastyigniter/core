@@ -2,7 +2,7 @@
 
 namespace Igniter\Tests;
 
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\PackageManifest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

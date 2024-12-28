@@ -3,10 +3,10 @@
 namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Exception\SystemException;
-use Igniter\Flame\Igniter;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Models\Theme as ThemeModel;
 use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ComposerManager;
