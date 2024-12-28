@@ -59,6 +59,8 @@ class Igniter
     public function useExtensionsPath(string $path): static
     {
         $this->extensionsPath = $path;
+
+        return $this;
     }
 
     /**
