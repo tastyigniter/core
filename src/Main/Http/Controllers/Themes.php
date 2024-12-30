@@ -49,7 +49,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         'delete' => [
             'redirect' => 'themes',
         ],
-        'configFile' => 'theme',
+        'configFile' => 'igniter::/models/main/theme',
     ];
 
     protected null|string|array $requiredPermissions = 'Site.Themes';
@@ -122,7 +122,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         if ($model && $model->isDefault()) {
             flash()->warning(sprintf(
                 lang('igniter::admin.alert_error_nothing'),
-                lang('igniter::admin.text_deleted').lang('igniter::system.themes.text_theme_is_active')
+                lang('igniter::admin.text_deleted').lang('igniter::system.themes.text_theme_is_active'),
             ));
 
             return $this->redirectBack();
@@ -194,7 +194,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->widgets['formTemplate']->onSaveSource();
 
         flash()->success(
-            sprintf(lang('igniter::admin.form.edit_success'), lang('lang:igniter::system.themes.text_form_name'))
+            sprintf(lang('igniter::admin.form.edit_success'), lang('lang:igniter::system.themes.text_form_name')),
         );
 
         return $formController->makeRedirect($context, $model) ?: null;
@@ -260,7 +260,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
     public function formFindModelObject(string $recordId): Theme
     {
         throw_unless(strlen($recordId),
-            new FlashException(lang('igniter::admin.form.missing_id'))
+            new FlashException(lang('igniter::admin.form.missing_id')),
         );
 
         $model = $this->formCreateModelObject();
@@ -271,7 +271,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $result = $query->where('code', $recordId)->first();
 
         throw_unless($result,
-            new FlashException(sprintf(lang('igniter::admin.form.not_found'), $recordId))
+            new FlashException(sprintf(lang('igniter::admin.form.not_found'), $recordId)),
         );
 
         return $result;

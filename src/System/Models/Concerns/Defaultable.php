@@ -59,6 +59,16 @@ trait Defaultable
         return static::$defaultModels[static::class] = $defaultModel;
     }
 
+    public static function clearDefaultModel(): void
+    {
+        unset(static::$defaultModels[static::class]);
+    }
+
+    public static function clearDefaultModels(?string $className = null)
+    {
+        static::$defaultModels = [];
+    }
+
     public function makeDefault(): bool
     {
         if ($this->defaultableUsesSwitchable()) {
