@@ -68,7 +68,7 @@ class FileParser
 
             if (!$hasCache && filemtime($path) >= $this->object->mTime) {
                 if ($className = $this->extractClassFromFile($path)) {
-                    $cacheItem['className'] = $className;
+                    $result['className'] = $cacheItem['className'] = $className;
                     $this->fileCache->storeCached($filePath, $cacheItem);
 
                     return $result;
