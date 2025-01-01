@@ -15,8 +15,6 @@ class FlashServiceProvider extends ServiceProvider
     {
         $this->app->bind(FlashStore::class);
 
-        $this->app->singleton('flash', function() {
-            return $this->app->make(FlashBag::class);
-        });
+        $this->app->singleton('flash', FlashBag::class);
     }
 }

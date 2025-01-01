@@ -5,7 +5,7 @@ namespace Igniter\Flame\Html;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Collective\Html\FormBuilder
+ * @see FormBuilder
  */
 class FormFacade extends Facade
 {
