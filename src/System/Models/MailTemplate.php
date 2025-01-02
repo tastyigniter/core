@@ -10,6 +10,42 @@ use Illuminate\Support\Facades\View;
 
 /**
  * MailTemplate Model Class
+ *
+ * @property int $template_id
+ * @property int|null $layout_id
+ * @property string|null $code
+ * @property string $subject
+ * @property string $body
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property string|null $label
+ * @property bool|null $is_custom
+ * @property string|null $plain_body
+ * @property-read mixed $title
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate applyFilters(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate applySorts(array $sorts = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate dropdown(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate like(string $column, string $value, string $side = 'both', string $boolean = 'and')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate listFrontEnd(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate lists(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate newModelQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate newQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate orLike(string $column, string $value, string $side = 'both')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate orSearch(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate query()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate search(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereBody($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereCode($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereCreatedAt($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereIsCustom($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereLabel($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereLayoutId($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate wherePlainBody($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereSubject($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereTemplateId($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereUpdatedAt($value)
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailTemplate extends Model
 {
@@ -94,7 +130,7 @@ class MailTemplate extends Model
 
         $templates = (array)resolve(MailManager::class)->listRegisteredTemplates();
         $dbTemplates = self::lists('is_custom', 'code')->all();
-        $newTemplates = array_diff_key($templates, $dbTemplates);
+        $newTemplates = array_diff_key($templates, (array)$dbTemplates);
 
         // Clean up non-customized templates
         foreach ($dbTemplates as $code => $is_custom) {

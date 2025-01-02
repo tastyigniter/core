@@ -116,6 +116,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
         $themeManager = resolve(ThemeManager::class);
         $theme = $themeManager->findTheme($themeCode);
+        /** @var Theme $model */
         $model = Theme::whereCode($themeCode)->first();
 
         // Theme must be disabled before it can be deleted

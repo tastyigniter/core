@@ -11,6 +11,62 @@ use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Currency Model Class
+ *
+ * @property int $currency_id
+ * @property int $country_id
+ * @property string $currency_name
+ * @property string $currency_code
+ * @property string $currency_symbol
+ * @property float $currency_rate
+ * @property int|null $symbol_position
+ * @property string $thousand_sign
+ * @property string $decimal_sign
+ * @property int $decimal_position
+ * @property string|null $iso_alpha2
+ * @property string|null $iso_alpha3
+ * @property int|null $iso_numeric
+ * @property int|null $currency_status
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property bool $is_default
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency applyDefaultable(bool $default = true)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency applyFilters(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency applySorts(array $sorts = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency applySwitchable(bool $switch = true)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency dropdown(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency isEnabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency like(string $column, string $value, string $side = 'both', string $boolean = 'and')
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency listFrontEnd(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency lists(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency newModelQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency newQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency orLike(string $column, string $value, string $side = 'both')
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency orSearch(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency query()
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency search(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereCountry($countryId)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereCountryId($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereCreatedAt($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereCurrencyCode($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereCurrencyId($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereCurrencyName($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereCurrencyRate($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereCurrencyStatus($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereCurrencySymbol($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereDecimalPosition($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereDecimalSign($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereIsDefault($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereIsDisabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereIsEnabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereIsoAlpha2($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereIsoAlpha3($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereIsoNumeric($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereNotDefault()
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereSymbolPosition($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereThousandSign($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereUpdatedAt($value)
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Currency extends Model implements CurrencyInterface
 {
@@ -38,7 +94,7 @@ class Currency extends Model implements CurrencyInterface
     protected $casts = [
         'country_id' => 'integer',
         'currency_rate' => 'float',
-        'symbol_position' => 'boolean',
+        'symbol_position' => 'integer',
     ];
 
     public $relation = [
@@ -108,7 +164,7 @@ class Currency extends Model implements CurrencyInterface
         return $this->currency_symbol;
     }
 
-    public function getSymbolPosition(): ?string
+    public function getSymbolPosition(): ?int
     {
         return $this->symbol_position;
     }
@@ -123,7 +179,7 @@ class Currency extends Model implements CurrencyInterface
             : $this->getSymbol().'1'.$format;
     }
 
-    public function getRate(): ?string
+    public function getRate(): ?float
     {
         return $this->currency_rate;
     }

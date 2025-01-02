@@ -10,6 +10,7 @@ use Igniter\User\Classes\UserState;
 
 /**
  * Staff Model Class
+ *
  * @deprecated use Igniter\Admin\Models\User instead. Remove before v5
  */
 class Staff extends Model

@@ -13,6 +13,47 @@ use Illuminate\Support\Facades\View;
 
 /**
  * MailLayout Model Class
+ *
+ * @property int $layout_id
+ * @property string $name
+ * @property int $language_id
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property bool $status
+ * @property string $code
+ * @property string|null $layout
+ * @property string|null $plain_layout
+ * @property string|null $layout_css
+ * @property bool $is_locked
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout applyFilters(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout applySorts(array $sorts = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout applySwitchable(bool $switch = true)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout dropdown(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout isEnabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout like(string $column, string $value, string $side = 'both', string $boolean = 'and')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout listFrontEnd(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout lists(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout newModelQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout newQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout orLike(string $column, string $value, string $side = 'both')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout orSearch(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout query()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout search(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereCode($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereCreatedAt($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereIsDisabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereIsEnabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereIsLocked($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereLanguageId($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereLayout($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereLayoutCss($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereLayoutId($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereName($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout wherePlainLayout($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereStatus($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailLayout whereUpdatedAt($value)
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailLayout extends Model
 {
@@ -122,7 +163,7 @@ class MailLayout extends Model
 
         $definitions = resolve(MailManager::class)->listRegisteredLayouts();
         foreach ($definitions as $code => $path) {
-            if (array_key_exists($code, $dbLayouts)) {
+            if (array_key_exists($code, (array)$dbLayouts)) {
                 continue;
             }
 
@@ -130,7 +171,7 @@ class MailLayout extends Model
 
             $layout = new static;
             $layout->code = $code;
-            $layout->is_locked = 0;
+            $layout->is_locked = false;
             $layout->name = array_get($sections, 'settings.name', '???');
             $layout->save();
         }

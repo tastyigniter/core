@@ -12,11 +12,11 @@ interface CurrencyInterface
 
     public function getSymbol(): ?string;
 
-    public function getSymbolPosition(): ?string;
+    public function getSymbolPosition(): ?int;
 
     public function getFormat(): string;
 
-    public function getRate(): ?string;
+    public function getRate(): ?float;
 
     public function isEnabled(): bool;
 

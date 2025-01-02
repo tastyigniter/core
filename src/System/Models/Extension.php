@@ -11,6 +11,35 @@ use Igniter\System\Classes\PackageManifest;
 
 /**
  * Extension Model Class
+ *
+ * @property int $extension_id
+ * @property string|null $name
+ * @property string|null $version
+ * @property-read mixed $class
+ * @property-read mixed $description
+ * @property-read mixed $icon
+ * @property-read mixed $meta
+ * @property-read mixed $readme
+ * @property-read mixed $required
+ * @property-read mixed $status
+ * @property-read mixed $title
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension applyFilters(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension applySorts(array $sorts = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension dropdown(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension like(string $column, string $value, string $side = 'both', string $boolean = 'and')
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension listFrontEnd(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension lists(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension newModelQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension newQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension orLike(string $column, string $value, string $side = 'both')
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension orSearch(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension query()
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension search(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension whereExtensionId($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension whereName($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Extension whereVersion($value)
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Extension extends Model
 {

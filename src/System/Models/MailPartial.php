@@ -12,6 +12,37 @@ use Illuminate\Support\Facades\View;
 
 /**
  * MailPartial Model Class
+ *
+ * @property int $partial_id
+ * @property string|null $name
+ * @property string|null $code
+ * @property string|null $html
+ * @property string|null $text
+ * @property bool $is_custom
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial applyFilters(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial applySorts(array $sorts = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial dropdown(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial like(string $column, string $value, string $side = 'both', string $boolean = 'and')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial listFrontEnd(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial lists(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial newModelQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial newQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial orLike(string $column, string $value, string $side = 'both')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial orSearch(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial query()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial search(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial whereCode($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial whereCreatedAt($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial whereHtml($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial whereIsCustom($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial whereName($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial wherePartialId($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial whereText($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial whereUpdatedAt($value)
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailPartial extends Model
 {
@@ -101,7 +132,7 @@ class MailPartial extends Model
         $dbPartials = self::lists('code', 'code')->all();
         $definitions = resolve(MailManager::class)->listRegisteredPartials();
         foreach ($definitions as $code => $path) {
-            if (array_key_exists($code, $dbPartials)) {
+            if (array_key_exists($code, (array)$dbPartials)) {
                 continue;
             }
 
@@ -109,7 +140,7 @@ class MailPartial extends Model
 
             $partial = new static;
             $partial->code = $code;
-            $partial->is_custom = 0;
+            $partial->is_custom = false;
             $partial->name = array_get($sections, 'settings.name', '???');
             $partial->save();
         }

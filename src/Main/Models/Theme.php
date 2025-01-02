@@ -16,6 +16,50 @@ use Igniter\System\Models\Concerns\Switchable;
 
 /**
  * Theme Model Class
+ *
+ * @property int $theme_id
+ * @property string $name
+ * @property string|null $code
+ * @property string|null $description
+ * @property string|null $version
+ * @property array|null $data
+ * @property bool $status
+ * @property bool $is_default
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $author
+ * @property-read mixed $locked
+ * @property-read mixed $screenshot
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme applyDefaultable(bool $default = true)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme applyFilters(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme applySorts(array $sorts = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme applySwitchable(bool $switch = true)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme dropdown(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme isEnabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme like(string $column, string $value, string $side = 'both', string $boolean = 'and')
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme listFrontEnd(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme lists(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme newModelQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme newQuery()
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme orLike(string $column, string $value, string $side = 'both')
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme orSearch(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme query()
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme search(string $term, string $columns = [], string $mode = 'all')
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereCode($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereCreatedAt($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereData($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereDescription($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereIsDefault($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereIsDisabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereIsEnabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereName($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereNotDefault()
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereStatus($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereThemeId($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereUpdatedAt($value)
+ * @method static \Igniter\Flame\Database\Builder<static>|Theme whereVersion($value)
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Theme extends Model
 {
@@ -249,6 +293,7 @@ class Theme extends Model
 
         $extensionManager = resolve(ExtensionManager::class);
 
+        /** @var Theme $theme */
         foreach ($skipRequires ? [] : $theme->getTheme()->listRequires() as $extensionCode => $version) {
             if ($extensionManager->hasExtension($extensionCode)) {
                 $extensionManager->installExtension($extensionCode);
