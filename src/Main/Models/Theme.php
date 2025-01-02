@@ -269,6 +269,7 @@ class Theme extends Model
             $theme->code = $name;
             $theme->version = $manifest->getVersion($theme->code) ?? $theme->version;
             $theme->description = $themeObj->description ?? '';
+            $theme->data = [];
             $theme->save();
         }
 
