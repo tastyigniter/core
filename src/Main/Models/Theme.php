@@ -293,7 +293,6 @@ class Theme extends Model
 
         $extensionManager = resolve(ExtensionManager::class);
 
-        /** @var Theme $theme */
         foreach ($skipRequires ? [] : $theme->getTheme()->listRequires() as $extensionCode => $version) {
             if ($extensionManager->hasExtension($extensionCode)) {
                 $extensionManager->installExtension($extensionCode);

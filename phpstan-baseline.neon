@@ -86,11 +86,6 @@ parameters:
 			path: src/Admin/Classes/AdminController.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Classes/AdminController.php
-
-		-
 			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__callStatic\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Classes/AdminController.php
@@ -146,13 +141,13 @@ parameters:
 			path: src/Admin/Classes/MainMenuItem.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\:\\:getFinder\\(\\)\\.$#"
-			count: 4
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
+			count: 1
 			path: src/Admin/Classes/Navigation.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
-			count: 1
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\:\\:getFinder\\(\\)\\.$#"
+			count: 4
 			path: src/Admin/Classes/Navigation.php
 
 		-
@@ -281,6 +276,11 @@ parameters:
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$groups\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:addStatusHistory\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
@@ -293,21 +293,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:find\\(\\)\\.$#"
 			count: 2
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Facades\\\\Location\\:\\:currentOrAssigned\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isSuperUser\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
-			count: 1
 			path: src/Admin/FormWidgets/StatusEditor.php
 
 		-
@@ -391,11 +376,6 @@ parameters:
 			path: src/Admin/Http/Actions/ListController.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isSuperUser\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Http/Controllers/Dashboard.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:\\$sale_permission\\.$#"
 			count: 3
 			path: src/Admin/Models/Staff.php
@@ -446,62 +426,12 @@ parameters:
 			path: src/Admin/Models/Staff.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Status\\:\\:\\$status_for\\.$#"
-			count: 1
-			path: src/Admin/Models/Status.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:isForOrder\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Models/Status.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:isForReservation\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Models/Status.php
-
-		-
 			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
 			path: src/Admin/Models/Status.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$comment\\.$#"
-			count: 1
-			path: src/Admin/Models/StatusHistory.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$created_at\\.$#"
-			count: 1
-			path: src/Admin/Models/StatusHistory.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$notify\\.$#"
-			count: 2
-			path: src/Admin/Models/StatusHistory.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$object_id\\.$#"
-			count: 1
-			path: src/Admin/Models/StatusHistory.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$object_type\\.$#"
-			count: 2
-			path: src/Admin/Models/StatusHistory.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$status\\.$#"
-			count: 1
-			path: src/Admin/Models/StatusHistory.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$status_id\\.$#"
-			count: 1
-			path: src/Admin/Models/StatusHistory.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:\\$user_id\\.$#"
 			count: 1
 			path: src/Admin/Models/StatusHistory.php
 
@@ -581,7 +511,7 @@ parameters:
 			path: src/Admin/Widgets/Filter.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Filter.php
 
@@ -601,7 +531,7 @@ parameters:
 			path: src/Admin/Widgets/Form.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Form.php
 
@@ -656,6 +586,11 @@ parameters:
 			path: src/Admin/Widgets/Lists.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Widgets/Lists.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Lists.php
@@ -668,11 +603,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Html\\\\HtmlFacade\\:\\:attributes\\(\\)\\.$#"
 			count: 1
-			path: src/Admin/Widgets/Lists.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
-			count: 2
 			path: src/Admin/Widgets/Lists.php
 
 		-
@@ -701,7 +631,7 @@ parameters:
 			path: src/Admin/Widgets/Table.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Toolbar.php
 
@@ -851,52 +781,7 @@ parameters:
 			path: src/Flame/Database/Attach/Manipulator.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$attachment\\.$#"
-			count: 2
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$custom_properties\\.$#"
-			count: 7
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$disk\\.$#"
-			count: 3
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$file_name\\.$#"
-			count: 2
-			path: src/Flame/Database/Attach/Media.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$file_size\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$id\\.$#"
-			count: 2
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$is_public\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$mime_type\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$name\\.$#"
-			count: 6
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$size\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Media.php
 
@@ -939,41 +824,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$prefix of function uniqid expects string, null given\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$custom_properties\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$disk\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$file_name\\.$#"
-			count: 2
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$mime_type\\.$#"
-			count: 2
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$name\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$size\\.$#"
-			count: 2
-			path: src/Flame/Database/Attach/MediaAdder.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$tag\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/MediaAdder.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getDefaultTagName\\(\\)\\.$#"
@@ -2871,41 +2721,6 @@ parameters:
 			path: src/Flame/Translation/Localization.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$group\\.$#"
-			count: 3
-			path: src/Flame/Translation/Models/Translation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$item\\.$#"
-			count: 3
-			path: src/Flame/Translation/Models/Translation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$locale\\.$#"
-			count: 1
-			path: src/Flame/Translation/Models/Translation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$locked\\.$#"
-			count: 2
-			path: src/Flame/Translation/Models/Translation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$namespace\\.$#"
-			count: 2
-			path: src/Flame/Translation/Models/Translation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$text\\.$#"
-			count: 1
-			path: src/Flame/Translation/Models/Translation.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$unstable\\.$#"
-			count: 2
-			path: src/Flame/Translation/Models/Translation.php
-
-		-
 			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$fillable is not covariant with PHPDoc type array\\<int, string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$fillable\\.$#"
 			count: 1
 			path: src/Flame/Translation/Models/Translation.php
@@ -2969,11 +2784,6 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Router\\:\\:pagic\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Classes/RouteRegistrar.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
-			count: 1
-			path: src/Main/Classes/Theme.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getPath\\(\\)\\.$#"
@@ -3136,21 +2946,6 @@ parameters:
 			path: src/Main/Http/Controllers/Themes.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
-			count: 3
-			path: src/Main/Http/Controllers/Themes.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$data\\.$#"
-			count: 1
-			path: src/Main/Http/Controllers/Themes.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$name\\.$#"
-			count: 1
-			path: src/Main/Http/Controllers/Themes.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:onSaveSource\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Http/Controllers/Themes.php
@@ -3161,34 +2956,9 @@ parameters:
 			path: src/Main/Http/Controllers/Themes.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:whereCode\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Http/Controllers/Themes.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isLogged\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Http/Middleware/CheckMaintenance.php
-
-		-
 			message: "#^Cannot call method getController\\(\\) on object\\|string\\.$#"
 			count: 2
 			path: src/Main/Http/Requests/ThemeRequest.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$code\\.$#"
-			count: 1
-			path: src/Main/Models/Theme.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$data\\.$#"
-			count: 4
-			path: src/Main/Models/Theme.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\Main\\\\Models\\\\Theme\\:\\:\\$name\\.$#"
-			count: 1
-			path: src/Main/Models/Theme.php
 
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
@@ -3198,6 +2968,11 @@ parameters:
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
 			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
+			count: 2
 			path: src/Main/Models/Theme.php
 
 		-
@@ -3211,7 +2986,7 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\>\\:\\:whereIsEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getTheme\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/Theme.php
 
@@ -3241,11 +3016,6 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:whereCode\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Models/Theme.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:whereIn\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/Theme.php
@@ -3263,6 +3033,11 @@ parameters:
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 3
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
+			count: 1
 			path: src/Main/Models/Theme.php
 
 		-
@@ -3312,11 +3087,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Template\\\\Page\\:\\:find\\(\\)\\.$#"
-			count: 1
-			path: src/Main/Template/Page.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:check\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Template/Page.php
 
@@ -3441,57 +3211,12 @@ parameters:
 			path: src/System/Classes/LanguageManager.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$code\\.$#"
-			count: 2
-			path: src/System/Classes/LanguageManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$version\\.$#"
-			count: 1
-			path: src/System/Classes/LanguageManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$group\\.$#"
-			count: 1
-			path: src/System/Classes/LanguageManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$item\\.$#"
-			count: 1
-			path: src/System/Classes/LanguageManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$namespace\\.$#"
-			count: 1
-			path: src/System/Classes/LanguageManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$text\\.$#"
-			count: 1
-			path: src/System/Classes/LanguageManager.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Models\\\\Language\\:\\:translations\\(\\)\\.$#"
 			count: 1
 			path: src/System/Classes/LanguageManager.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 1
-			path: src/System/Classes/LanguageManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$body\\.$#"
-			count: 2
-			path: src/System/Classes/MailManager.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$layout\\.$#"
-			count: 2
-			path: src/System/Classes/MailManager.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$plain_body\\.$#"
 			count: 2
 			path: src/System/Classes/MailManager.php
 
@@ -3521,17 +3246,17 @@ parameters:
 			path: src/System/Console/Commands/ExtensionInstall.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\UserProvider\\:\\:register\\(\\)\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterInstall.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\Local\\\\Models\\\\Location\\:\\:first\\(\\)\\.$#"
 			count: 1
 			path: src/System/Console/Commands/IgniterInstall.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:first\\(\\)\\.$#"
-			count: 1
-			path: src/System/Console/Commands/IgniterInstall.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getProvider\\(\\)\\.$#"
 			count: 1
 			path: src/System/Console/Commands/IgniterInstall.php
 
@@ -3646,16 +3371,6 @@ parameters:
 			path: src/System/Http/Controllers/Extensions.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Extension\\:\\:\\$required\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Extension\\:\\:\\$status\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Extensions.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getFieldConfig\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Extensions.php
@@ -3716,21 +3431,6 @@ parameters:
 			path: src/System/Http/Controllers/Languages.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$is_locked\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/MailLayouts.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$is_custom\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/MailPartials.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$is_custom\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/MailTemplates.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\MailTemplates\\:\\:formFindModelObject\\(\\)\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/MailTemplates.php
@@ -3766,16 +3466,6 @@ parameters:
 			path: src/System/Http/Controllers/Settings.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getStaffEmail\\(\\)\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getStaffName\\(\\)\\.$#"
-			count: 1
-			path: src/System/Http/Controllers/Settings.php
-
-		-
 			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Settings.php
@@ -3786,34 +3476,14 @@ parameters:
 			path: src/System/Libraries/Assets.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Country\\:\\:\\$format\\.$#"
-			count: 1
-			path: src/System/Libraries/Country.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Collection\\:\\:find\\(\\)\\.$#"
 			count: 2
-			path: src/System/Libraries/Country.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 1
 			path: src/System/Libraries/Country.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Mail/AnonymousTemplateMailable.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$subject\\.$#"
-			count: 1
-			path: src/System/Mail/TemplateMailable.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Country\\:\\:\\$country_name\\.$#"
-			count: 1
-			path: src/System/Models/Country.php
 
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
@@ -3823,6 +3493,11 @@ parameters:
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
 			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
+			count: 2
 			path: src/System/Models/Country.php
 
 		-
@@ -3836,22 +3511,7 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\>\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Country.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Country.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:firstWhere\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Country.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Country\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
 
@@ -3866,52 +3526,12 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$currency_code\\.$#"
+			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
 			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$currency_id\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$currency_name\\.$#"
-			count: 2
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$currency_rate\\.$#"
-			count: 2
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$currency_symbol\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$decimal_position\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$decimal_sign\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
+			path: src/System/Models/Country.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$name\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$symbol_position\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Currency\\:\\:\\$thousand_sign\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
@@ -3926,6 +3546,11 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
+			count: 2
+			path: src/System/Models/Currency.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\System\\\\Models\\\\Currency\\:\\:locationableRelationName\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
@@ -3937,16 +3562,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\>\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Currency.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Currency.php
 
@@ -3976,39 +3591,14 @@ parameters:
 			path: src/System/Models/Currency.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Extension\\:\\:\\$meta\\.$#"
-			count: 3
-			path: src/System/Models/Extension.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Extension\\:\\:\\$name\\.$#"
-			count: 6
-			path: src/System/Models/Extension.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Extension\\:\\:\\$version\\.$#"
-			count: 2
-			path: src/System/Models/Extension.php
+			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Extension.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$code\\.$#"
-			count: 2
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$name\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$version\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
 
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
@@ -4018,6 +3608,11 @@ parameters:
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
 			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
+			count: 2
 			path: src/System/Models/Language.php
 
 		-
@@ -4036,33 +3631,8 @@ parameters:
 			path: src/System/Models/Language.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\>\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:applySwitchable\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:firstWhere\\(\\)\\.$#"
 			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereCode\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Language.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Language\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 2
 			path: src/System/Models/Language.php
 
 		-
@@ -4076,34 +3646,9 @@ parameters:
 			path: src/System/Models/Language.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$code\\.$#"
-			count: 2
-			path: src/System/Models/MailLayout.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$is_locked\\.$#"
-			count: 2
-			path: src/System/Models/MailLayout.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$layout\\.$#"
+			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
 			count: 1
-			path: src/System/Models/MailLayout.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$layout_css\\.$#"
-			count: 1
-			path: src/System/Models/MailLayout.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$name\\.$#"
-			count: 2
-			path: src/System/Models/MailLayout.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:\\$plain_layout\\.$#"
-			count: 1
-			path: src/System/Models/MailLayout.php
+			path: src/System/Models/Language.php
 
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\MailLayout\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
@@ -4121,16 +3666,6 @@ parameters:
 			path: src/System/Models/MailLayout.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:dropdown\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/MailLayout.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:lists\\(\\)\\.$#"
-			count: 2
-			path: src/System/Models/MailLayout.php
-
-		-
 			message: "#^Method Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
 			path: src/System/Models/MailLayout.php
@@ -4141,42 +3676,7 @@ parameters:
 			path: src/System/Models/MailLayout.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$code\\.$#"
-			count: 3
-			path: src/System/Models/MailPartial.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$html\\.$#"
-			count: 1
-			path: src/System/Models/MailPartial.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$is_custom\\.$#"
-			count: 2
-			path: src/System/Models/MailPartial.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$name\\.$#"
-			count: 2
-			path: src/System/Models/MailPartial.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:\\$text\\.$#"
-			count: 1
-			path: src/System/Models/MailPartial.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getPath\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/MailPartial.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:lists\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/MailPartial.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailPartial\\:\\:whereCode\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/MailPartial.php
 
@@ -4184,36 +3684,6 @@ parameters:
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/MailPartial.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$body\\.$#"
-			count: 1
-			path: src/System/Models/MailTemplate.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$code\\.$#"
-			count: 2
-			path: src/System/Models/MailTemplate.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$is_custom\\.$#"
-			count: 1
-			path: src/System/Models/MailTemplate.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$layout_id\\.$#"
-			count: 1
-			path: src/System/Models/MailTemplate.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$plain_body\\.$#"
-			count: 1
-			path: src/System/Models/MailTemplate.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$subject\\.$#"
-			count: 1
-			path: src/System/Models/MailTemplate.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
@@ -4241,16 +3711,6 @@ parameters:
 			path: src/System/Models/MailTemplate.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:lists\\(\\)\\.$#"
-			count: 2
-			path: src/System/Models/MailTemplate.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:whereCode\\(\\)\\.$#"
-			count: 2
-			path: src/System/Models/MailTemplate.php
-
-		-
 			message: "#^Static call to instance method Igniter\\\\System\\\\Models\\\\MailTheme\\:\\:get\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/MailTheme.php
@@ -4259,16 +3719,6 @@ parameters:
 			message: "#^Static call to instance method Igniter\\\\System\\\\Models\\\\MailTheme\\:\\:instance\\(\\)\\.$#"
 			count: 2
 			path: src/System/Models/MailTheme.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$code\\.$#"
-			count: 1
-			path: src/System/Models/Observers/LanguageObserver.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Language\\:\\:\\$idiom\\.$#"
-			count: 1
-			path: src/System/Models/Observers/LanguageObserver.php
 
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Page\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
@@ -4281,24 +3731,9 @@ parameters:
 			path: src/System/Models/Page.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\System\\\\Models\\\\Page\\:\\:whereSlug\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Page.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Page.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\Page\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Page.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\RequestLog\\:\\:\\$count\\.$#"
-			count: 1
-			path: src/System/Models/RequestLog.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\System\\\\Models\\\\RequestLog\\:\\:firstOrNew\\(\\)\\.$#"
@@ -4324,11 +3759,6 @@ parameters:
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Settings.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\Translation\\:\\:\\$text\\.$#"
-			count: 1
-			path: src/System/Models/Translation.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\User\\:\\:whereIsEnabled\\(\\)\\.$#"

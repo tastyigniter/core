@@ -2,6 +2,7 @@
 
 namespace Igniter\System\Models\Concerns;
 
+use Igniter\Flame\Database\Model;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
 
@@ -34,6 +35,7 @@ trait Defaultable
 
     public static function updateDefault(mixed $id): bool
     {
+        /** @var Model $model */
         return ($model = static::firstWhere((new static)->defaultableKeyName(), $id))
             ? $model->makeDefault() : false;
     }
@@ -51,6 +53,7 @@ trait Defaultable
         }
 
         if (!$defaultModel = (new static)->defaultableFindQuery()->applyDefaultable(true)->first()) {
+            /** @var Model $defaultModel */
             if ($defaultModel = (new static)->defaultableFindQuery()->first()) {
                 $defaultModel->makeDefault();
             }
