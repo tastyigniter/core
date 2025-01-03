@@ -25,6 +25,7 @@ use Igniter\Flame\Database\Model;
  * @property-read mixed $status_name
  * @property-read \Igniter\Admin\Models\Status|null $status
  * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory applyRelated($model)
+ * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereStatusIsLatest($statusId)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class StatusHistory extends Model
