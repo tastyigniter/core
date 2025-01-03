@@ -24,6 +24,9 @@ use Igniter\System\Models\Concerns\Switchable;
  * @method static \Igniter\Flame\Database\Builder<static>|Country applyDefaultable(bool $default = true)
  * @method static \Igniter\Flame\Database\Builder<static>|Country applySwitchable(bool $switch = true)
  * @method static \Igniter\Flame\Database\Builder<static>|Country listFrontEnd(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Country query()
+ * @method static \Igniter\Flame\Database\Builder<static>|Country sorted()
+ * @method static \Igniter\Flame\Database\Builder<static>|Country whereIsEnabled()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Country extends Model

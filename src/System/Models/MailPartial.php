@@ -24,9 +24,11 @@ use Illuminate\Support\Facades\View;
  * @method static \Igniter\Flame\Database\Builder<static>|MailPartial applyFilters(array $options = [])
  * @method static \Igniter\Flame\Database\Builder<static>|MailPartial applySorts(array $sorts = [])
  * @method static \Igniter\Flame\Database\Builder<static>|MailPartial dropdown(string $column, string $key = null)
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial lists(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|MailPartial listFrontEnd(array $options = [])
  * @method static \Igniter\Flame\Database\Builder<static>|MailPartial pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|MailPartial query()
+ * @method static \Igniter\Flame\Database\Builder<static>|MailPartial whereCode($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailPartial extends Model

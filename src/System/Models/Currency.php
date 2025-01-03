@@ -32,6 +32,8 @@ use Igniter\System\Models\Concerns\Switchable;
  * @method static \Igniter\Flame\Database\Builder<static>|Currency applyDefaultable(bool $default = true)
  * @method static \Igniter\Flame\Database\Builder<static>|Currency applySwitchable(bool $switch = true)
  * @method static \Igniter\Flame\Database\Builder<static>|Currency listFrontEnd(array $options = [])
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency query()
+ * @method static \Igniter\Flame\Database\Builder<static>|Currency whereIsEnabled()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Currency extends Model implements CurrencyInterface

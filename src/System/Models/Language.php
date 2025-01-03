@@ -28,8 +28,10 @@ use Illuminate\Support\Facades\Lang;
  * @method static \Igniter\Flame\Database\Builder<static>|Language applySwitchable(bool $switch = true)
  * @method static \Igniter\Flame\Database\Builder<static>|Language dropdown(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|Language isEnabled()
+ * @method static \Igniter\Flame\Database\Builder<static>|Language lists(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|Language listFrontEnd(array $options = [])
  * @method static \Igniter\Flame\Database\Builder<static>|Language query()
+ * @method static \Igniter\Flame\Database\Builder<static>|Language whereIsEnabled()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Language extends \Igniter\Flame\Translation\Models\Language
