@@ -21,23 +21,9 @@ use Illuminate\Support\Facades\Request;
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog applyFilters(array $options = [])
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog applySorts(array $sorts = [])
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog like(string $column, string $value, string $side = 'both', string $boolean = 'and')
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog newModelQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog newQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog orLike(string $column, string $value, string $side = 'both')
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog orSearch(string $term, string $columns = [], string $mode = 'all')
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog query()
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog search(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog whereCount($value)
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog whereCreatedAt($value)
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog whereId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog whereReferrer($value)
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog whereStatusCode($value)
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog whereUpdatedAt($value)
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog whereUrl($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class RequestLog extends Model

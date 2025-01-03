@@ -23,30 +23,8 @@ use Igniter\Flame\Database\Model;
  * @property-read mixed $notified
  * @property-read mixed $staff_name
  * @property-read mixed $status_name
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory applyFilters(array $options = [])
+ * @property-read \Igniter\Admin\Models\Status|null $status
  * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory applyRelated($model)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory like(string $column, string $value, string $side = 'both', string $boolean = 'and')
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory newModelQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory newQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory orLike(string $column, string $value, string $side = 'both')
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory orSearch(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory query()
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory search(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereComment($value)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereCreatedAt($value)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereNotify($value)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereObjectId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereObjectType($value)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereStatusHistoryId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereStatusId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereStatusIsLatest($statusId)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereUpdatedAt($value)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereUserId($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class StatusHistory extends Model

@@ -18,19 +18,9 @@ use Illuminate\Support\Facades\Cache;
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme applyFilters(array $options = [])
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme applySorts(array $sorts = [])
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme like(string $column, string $value, string $side = 'both', string $boolean = 'and')
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme newModelQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme newQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme orLike(string $column, string $value, string $side = 'both')
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme orSearch(string $term, string $columns = [], string $mode = 'all')
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme query()
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme search(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme whereData($value)
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme whereId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme whereItem($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailTheme extends Model

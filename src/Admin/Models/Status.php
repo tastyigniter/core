@@ -17,29 +17,8 @@ use Igniter\Flame\Database\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $status_for_name
- * @method static \Igniter\Flame\Database\Builder<static>|Status applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Status applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Status dropdown(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|Status isForOrder()
  * @method static \Igniter\Flame\Database\Builder<static>|Status isForReservation()
- * @method static \Igniter\Flame\Database\Builder<static>|Status like(string $column, string $value, string $side = 'both', string $boolean = 'and')
- * @method static \Igniter\Flame\Database\Builder<static>|Status listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Status lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Status newModelQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Status newQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Status orLike(string $column, string $value, string $side = 'both')
- * @method static \Igniter\Flame\Database\Builder<static>|Status orSearch(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|Status pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
- * @method static \Igniter\Flame\Database\Builder<static>|Status query()
- * @method static \Igniter\Flame\Database\Builder<static>|Status search(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|Status whereCreatedAt($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Status whereNotifyCustomer($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Status whereStatusColor($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Status whereStatusComment($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Status whereStatusFor($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Status whereStatusId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Status whereStatusName($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Status whereUpdatedAt($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Status extends Model

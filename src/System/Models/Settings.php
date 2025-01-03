@@ -21,24 +21,7 @@ use Illuminate\Support\Facades\Session;
  * @property string|null $item
  * @property string|null $value
  * @property int|null $serialized
- * @method static \Igniter\Flame\Database\Builder<static>|Settings applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Settings applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Settings dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Settings like(string $column, string $value, string $side = 'both', string $boolean = 'and')
- * @method static \Igniter\Flame\Database\Builder<static>|Settings listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Settings lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Settings newModelQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Settings newQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Settings orLike(string $column, string $value, string $side = 'both')
- * @method static \Igniter\Flame\Database\Builder<static>|Settings orSearch(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|Settings pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|Settings query()
- * @method static \Igniter\Flame\Database\Builder<static>|Settings search(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|Settings whereItem($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Settings whereSerialized($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Settings whereSettingId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Settings whereSort($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Settings whereValue($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Settings extends Model
