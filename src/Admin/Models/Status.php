@@ -20,6 +20,7 @@ use Igniter\Flame\Database\Model;
  * @method static \Igniter\Flame\Database\Builder<static>|Status isForOrder()
  * @method static \Igniter\Flame\Database\Builder<static>|Status isForReservation()
  * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Status extends Model
 {

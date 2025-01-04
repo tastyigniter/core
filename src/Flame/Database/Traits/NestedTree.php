@@ -69,7 +69,7 @@ trait NestedTree
         return $instance->setRelation('children', $relation);
     }
 
-    public static function fixBrokenTreeQuietly()
+    public function fixBrokenTreeQuietly()
     {
         self::withoutEvents(function() {
             self::fixTree();

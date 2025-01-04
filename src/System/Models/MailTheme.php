@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Cache;
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme applySorts(array $sorts = [])
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme dropdown(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|MailTheme query()
  * @mixin \Illuminate\Database\Eloquent\Model
  */

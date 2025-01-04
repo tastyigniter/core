@@ -90,7 +90,7 @@ class StatusHistory extends Model
     }
 
     /**
-     * @param \Igniter\Flame\Database\Model|mixed $status
+     * @param Status|mixed $status
      * @param \Igniter\Flame\Database\Model|mixed $object
      * @param array $options
      * @return static|bool

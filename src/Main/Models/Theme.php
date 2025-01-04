@@ -43,7 +43,7 @@ use Igniter\System\Models\Concerns\Switchable;
  * @method static \Igniter\Flame\Database\Builder<static>|Theme newQuery()
  * @method static \Igniter\Flame\Database\Builder<static>|Theme orLike(string $column, string $value, string $side = 'both')
  * @method static \Igniter\Flame\Database\Builder<static>|Theme orSearch(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|Theme pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|Theme query()
  * @method static \Igniter\Flame\Database\Builder<static>|Theme search(string $term, string $columns = [], string $mode = 'all')
  * @method static \Igniter\Flame\Database\Builder<static>|Theme whereCode($value)

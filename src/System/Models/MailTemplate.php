@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\View;
  * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate dropdown(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate lists(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate query()
  * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereCode($value)
  * @mixin \Illuminate\Database\Eloquent\Model

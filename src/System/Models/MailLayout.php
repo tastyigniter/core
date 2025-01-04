@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\View;
  * @method static \Igniter\Flame\Database\Builder<static>|MailLayout isEnabled()
  * @method static \Igniter\Flame\Database\Builder<static>|MailLayout lists(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|MailLayout listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailLayout pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailLayout extends Model

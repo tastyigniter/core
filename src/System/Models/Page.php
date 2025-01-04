@@ -30,7 +30,7 @@ use Igniter\System\Models\Concerns\Switchable;
  * @method static \Igniter\Flame\Database\Builder<static>|Page findSimilarSlugs($attribute, array $config, $slug)
  * @method static \Igniter\Flame\Database\Builder<static>|Page isEnabled()
  * @method static \Igniter\Flame\Database\Builder<static>|Page listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Page pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|Page query()
  * @method static \Igniter\Flame\Database\Builder<static>|Page whereSlug(string $slug)
  * @method static \Igniter\Flame\Database\Builder<static>|Page whereIsEnabled()

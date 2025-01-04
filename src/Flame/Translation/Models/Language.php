@@ -29,7 +29,7 @@ use Igniter\Flame\Database\Model;
  * @method static \Igniter\Flame\Database\Builder<static>|Language newQuery()
  * @method static \Igniter\Flame\Database\Builder<static>|Language orLike(string $column, string $value, string $side = 'both')
  * @method static \Igniter\Flame\Database\Builder<static>|Language orSearch(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|Language pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|Language query()
  * @method static \Igniter\Flame\Database\Builder<static>|Language search(string $term, string $columns = [], string $mode = 'all')
  * @method static \Igniter\Flame\Database\Builder<static>|Language whereCanDelete($value)

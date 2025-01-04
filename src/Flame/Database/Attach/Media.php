@@ -43,7 +43,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @method static \Igniter\Flame\Database\Builder<static>|Media newQuery()
  * @method static \Igniter\Flame\Database\Builder<static>|Media orLike(string $column, string $value, string $side = 'both')
  * @method static \Igniter\Flame\Database\Builder<static>|Media orSearch(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|Media pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|Media query()
  * @method static \Igniter\Flame\Database\Builder<static>|Media search(string $term, string $columns = [], string $mode = 'all')
  * @method static \Igniter\Flame\Database\Builder<static>|Media sorted()

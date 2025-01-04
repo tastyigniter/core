@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Request;
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog applySorts(array $sorts = [])
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog dropdown(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog query()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
