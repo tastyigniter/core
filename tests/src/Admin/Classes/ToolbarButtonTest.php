@@ -19,7 +19,15 @@ it('tests displayAs', function() {
 });
 
 it('tests getAttributes', function() {
-    $this->toolbarButton->displayAs('text', ['context' => 'test', 'permission' => 'test', 'label' => 'Test Label', 'class' => 'test-class', 'href' => 'test']);
+    $this->toolbarButton->displayAs('text', [
+        'context' => 'test',
+        'permission' => 'test',
+        'label' => 'Test Label',
+        'class' => 'test-class',
+        'href' => 'test',
+        'arrayAttribute' => ['test'],
+        'disabled' => true,
+    ]);
 
     $attributes = $this->toolbarButton->getAttributes();
 

@@ -1,3 +1,1 @@
-<html>
-<body>Hello World!</body>
-</html>
+This is a test view content

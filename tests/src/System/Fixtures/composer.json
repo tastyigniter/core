@@ -1,0 +1,22 @@
+{
+  "description": "Test extension for TastyIgniter",
+  "require": {
+    "tastyigniter/core": "^v4.0@beta || ^v4.0@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Igniter\\TestExtension\\": "src/"
+    }
+  },
+  "extra": {
+    "tastyigniter-extension": {
+      "code": "igniter.testextension",
+      "name": "Test Extension",
+      "icon": {
+        "class": "fa fa-cloud",
+        "color": "#fff",
+        "backgroundColor": "#02586F"
+      }
+    }
+  }
+}

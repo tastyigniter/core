@@ -6,24 +6,19 @@ use Igniter\Admin\Widgets\Calendar;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Facades\Assets;
 use Igniter\Tests\Fixtures\Controllers\TestController;
-use Illuminate\View\Factory;
-
-dataset('initialization', [
-    ['aspectRatio', 2],
-    ['editable', true],
-    ['eventLimit', 5],
-    ['defaultDate', null],
-    ['popoverPartial', null],
-]);
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->calendarWidget = new Calendar($this->controller);
 });
 
-it('initializes correctly', function($property, $expected) {
-    expect($this->calendarWidget->{$property})->toEqual($expected);
-})->with('initialization');
+it('initializes correctly', function() {
+    expect($this->calendarWidget->aspectRatio)->toBe(2)
+        ->and($this->calendarWidget->editable)->toBeTrue()
+        ->and($this->calendarWidget->eventLimit)->toBe(5)
+        ->and($this->calendarWidget->defaultDate)->toBeNull()
+        ->and($this->calendarWidget->popoverPartial)->toBeNull();
+});
 
 it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('js/vendor.datetime.js', 'vendor-datetime-js');
@@ -38,12 +33,9 @@ it('loads assets correctly', function() {
 });
 
 it('renders correctly', function() {
-    app()->instance('view', $viewMock = $this->createMock(Factory::class));
-
-    $viewMock->method('exists')->with($this->stringContains('calendar/calendar'));
-
+    $this->calendarWidget->popoverPartial = 'test-partial';
     expect($this->calendarWidget->render())->toBeString();
-})->throws(\Exception::class);
+});
 
 it('prepares variables correctly', function() {
     $this->calendarWidget->prepareVars();
@@ -75,5 +67,12 @@ it('updates events correctly', function() {
 });
 
 it('renders popover partial correctly', function() {
+    $this->calendarWidget->popoverPartial = 'test-partial';
     expect($this->calendarWidget->renderPopoverPartial())->toBeString();
-})->throws(SystemException::class);
+});
+
+it('throws exception when missing popover partial', function() {
+    $this->calendarWidget->popoverPartial = null;
+    expect(fn() => $this->calendarWidget->renderPopoverPartial())
+        ->toThrow(SystemException::class, sprintf(lang('igniter::admin.calendar.missing_partial'), TestController::class));
+});

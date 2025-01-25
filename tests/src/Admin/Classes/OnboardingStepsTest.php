@@ -3,6 +3,7 @@
 namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\OnboardingSteps;
+use Igniter\System\Classes\ExtensionManager;
 
 dataset('onboardingSteps', [
     fn() => [
@@ -69,10 +70,9 @@ it('loads registered admin onboarding steps', function() {
         ->and($onboardingSteps->getStep('admin::extensions'))->toBeObject()
         ->and($onboardingSteps->getStep('admin::mail'))->toBeObject()
         ->and($onboardingSteps->getStep('admin::settings'))->toHaveProperties([
-            'code', 'label', 'description', 'icon', 'url', 'priority', 'complete', 'completed',
+            'code', 'label', 'description', 'icon', 'url', 'priority', 'complete',
         ])
-        ->and($onboardingSteps->getStep('admin::settings')->complete)->toBeCallable()
-        ->and($onboardingSteps->getStep('admin::settings')->completed)->toBeCallable();
+        ->and($onboardingSteps->getStep('admin::settings')->complete)->toBeCallable();
 });
 
 it('lists onboarding steps correctly', function($steps) {
@@ -84,13 +84,40 @@ it('lists onboarding steps correctly', function($steps) {
         ->and($steps)->toHaveKey('testStep2');
 })->with('onboardingSteps');
 
+it('lists empty onboarding steps when nothing is registered', function() {
+    OnboardingSteps::clearCallbacks();
+    $extensionManager = mock(ExtensionManager::class);
+    app()->instance(ExtensionManager::class, $extensionManager);
+    $extensionManager->shouldReceive('getExtensions')->andReturn([
+        'testExtension' => new class
+        {
+            public function registerOnboardingSteps()
+            {
+                return 'not-an-array';
+            }
+        },
+    ]);
+
+    $steps = $this->onboardingSteps->listSteps();
+
+    expect($steps)->toBeEmpty();
+});
+
 it('checks if onboarding is completed correctly', function($steps) {
     $this->onboardingSteps->registerSteps($steps);
 
     expect($this->onboardingSteps->completed())->toBeFalse();
 
+    $class = new class
+    {
+        public function method()
+        {
+            return true;
+        }
+    };
+
     $steps['testStep1']['complete'] = fn() => true;
-    $steps['testStep2']['complete'] = fn() => true;
+    $steps['testStep2']['complete'] = [$class, 'method'];
     $this->onboardingSteps->registerSteps($steps);
 
     expect($this->onboardingSteps->completed())->toBeTrue();

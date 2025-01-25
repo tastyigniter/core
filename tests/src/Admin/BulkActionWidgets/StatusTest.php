@@ -27,3 +27,20 @@ it('updates record status column in bulk', function() {
 
     expect(StatusHistory::where($statusColumn, true)->count())->toBe(10);
 });
+
+it('does noting when records is empty', function() {
+    $statusColumn = 'notify';
+
+    $actionButton = new ToolbarButton('status');
+    $actionButton->displayAs('link', []);
+
+    $controller = resolve(TestController::class);
+    $widget = new Status($controller, $actionButton, ['statusColumn' => $statusColumn]);
+    $widget->code = $actionButton->name;
+
+    expect(StatusHistory::count())->toBe(0);
+
+    $widget->handleAction(['code' => 'action.disable'], StatusHistory::get());
+
+    expect(StatusHistory::count())->toBe(0);
+});

@@ -20,11 +20,16 @@ it('tests getBlock', function() {
 
 it('tests appendBlock', function() {
     $this->template->setBlock('test', 'content');
+
     $this->template->appendBlock('test', '-append-content');
 
-    $block = $this->template->getBlock('test');
+    expect($this->template->getBlock('test')->toHtml())->toBe('content-append-content');
+});
 
-    expect((string)$block)->toBe('content-append-content');
+it('tests appendBlock on unset block', function() {
+    $this->template->appendBlock('test', 'append-content');
+
+    expect($this->template->getBlock('test')->toHtml())->toBe('append-content');
 });
 
 it('tests setBlock', function() {
@@ -63,6 +68,12 @@ it('tests setHeading', function() {
     $this->template->setHeading('Test Heading');
 
     expect($this->template->getHeading())->toBe('Test Heading');
+});
+
+it('tests setHeading with subheading', function() {
+    $this->template->setHeading('Test Heading:Subheading');
+
+    expect($this->template->getHeading())->toBe('Test Heading&nbsp;<small>Subheading</small>');
 });
 
 it('tests setButton', function() {

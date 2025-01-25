@@ -8,7 +8,6 @@ use Igniter\System\Facades\Assets;
 use Igniter\Tests\Fixtures\Controllers\TestController;
 use Igniter\Tests\Fixtures\Models\TestModel;
 use Illuminate\Http\Request;
-use Illuminate\View\Factory;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
@@ -22,13 +21,18 @@ it('initializes correctly', function() {
     expect($this->markdownEditorWidget->mode)->toBe('tab');
 });
 
+it('initializes correctly when field is disabled', function() {
+    $this->formField->disabled = true;
+
+    $this->markdownEditorWidget->initialize();
+
+    expect($this->markdownEditorWidget->mode)->toBe('tab')
+        ->and($this->markdownEditorWidget->previewMode)->toBeTrue();
+});
+
 it('renders correctly', function() {
-    app()->instance('view', $viewMock = $this->createMock(Factory::class));
-
-    $viewMock->method('exists')->with($this->stringContains('markdowneditor/markdowneditor'));
-
     expect($this->markdownEditorWidget->render())->toBeString();
-})->throws(\Exception::class);
+});
 
 it('prepares vars correctly', function() {
     $this->markdownEditorWidget->prepareVars();

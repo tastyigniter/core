@@ -3,36 +3,91 @@
 namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Classes\TableDataSource;
+use Igniter\Admin\Models\Status;
 use Igniter\Admin\Widgets\Table;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Facades\Assets;
 use Igniter\Tests\Fixtures\Controllers\TestController;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\Factory;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->tableWidget = new Table($this->controller, [
-        'dataSource' => 'TestDataSource',
         'columns' => [
             'column1' => [
-                'label' => 'Column 1',
+                'title' => 'Column 1',
                 'type' => 'text',
             ],
-            'column2' => [
+            'status_name' => [
                 'label' => 'Column 2',
                 'type' => 'text',
+                'partial' => 'test-partial',
             ],
         ],
     ]);
 });
 
-it('initialize method throws exception when dataSource is not specified', function() {
-    $this->tableWidget->setConfig(['dataSource' => null]);
-
+it('throws exception when intializing with invalid dataSource class', function() {
     $this->expectException(SystemException::class);
+    $this->expectExceptionMessage(sprintf(lang('igniter::admin.error_table_widget_data_class_not_found'), 'InvalidDataSourceClass'));
+
+    $tableWidget = new class($this->controller, [
+        'columns' => [
+            'column1' => [
+                'title' => 'Column 1',
+                'type' => 'text',
+            ],
+        ],
+    ]) extends Table
+    {
+        protected string $dataSourceAliases = 'InvalidDataSourceClass';
+    };
+
+
+    $tableWidget->initialize();
+});
+
+it('initializes correctly with existing request data', function() {
+    $expected = [
+        'search' => 'search',
+        'offset' => 'offset',
+        'limit' => 'limit',
+        'column1' => 'limit',
+        'status_name' => 'limit',
+    ];
+    request()->setMethod('POST');
+    request()->request->add([
+        'tableTableData' => $expected,
+    ]);
 
     $this->tableWidget->initialize();
+
+    expect($this->tableWidget->getDataSource())->toBeInstanceOf(TableDataSource::class)
+        ->and($this->tableWidget->getDataSource()->getRecords(0, 10))->toBe($expected);
+});
+
+it('initializes correctly with existing nested request data', function() {
+    $expected = [
+        'search' => 'search',
+        'offset' => 'offset',
+        'limit' => 'limit',
+        'column1' => 'limit',
+        'status_name' => 'limit',
+    ];
+    request()->setMethod('POST');
+    request()->request->add([
+        'customer' => [
+            'table' => [
+                'TableData' => $expected,
+            ],
+        ],
+    ]);
+
+    $this->tableWidget->alias = 'customer[table]';
+    $this->tableWidget->initialize();
+
+    expect($this->tableWidget->getDataSource())->toBeInstanceOf(TableDataSource::class)
+        ->and($this->tableWidget->getDataSource()->getRecords(0, 10))->toBe($expected);
 });
 
 it('getDataSource method returns TableDataSource instance', function() {
@@ -92,7 +147,7 @@ it('handles onGetRecords action correctly', function() {
     ]);
 
     $this->tableWidget->bindEvent('table.getRecords', function() {
-        return new LengthAwarePaginator([], 0, 10, 1);
+        return Status::paginate(10);
     });
 
     expect($this->tableWidget->onGetRecords())
@@ -107,13 +162,15 @@ it('handles onGetDropdownOptions action correctly', function() {
         'rowData' => [],
     ]);
 
-    $eventFired = false;
-
-    $this->tableWidget->bindEvent('table.getDropdownOptions', function() use (&$eventFired) {
-        $eventFired = true;
+    $this->tableWidget->bindEvent('table.getDropdownOptions', function() {
+        return Status::getDropdownOptionsForOrder();
     });
 
-    expect($this->tableWidget->onGetDropdownOptions())
-        ->toBeArray()->toHaveKey('options')
-        ->and($eventFired)->toBeTrue();
+    $this->tableWidget->bindEvent('table.getDropdownOptions', function() {
+        return Status::getDropdownOptionsForReservation();
+    });
+
+    $options = $this->tableWidget->onGetDropdownOptions();
+    expect($options)->toBeArray()->toHaveKey('options')
+        ->and($options['options'])->not->toBeEmpty();
 });

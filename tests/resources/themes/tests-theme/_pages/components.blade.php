@@ -1,3 +1,10 @@
+---
+title: Components
+description: ''
+permalink: /components
+layout: default
+'[testComponent]': []
+---
 <div class="container">
     <div class="row">
         @push('scripts')
@@ -16,8 +23,8 @@
         <p>This is a logged customer</p>
         @endmainauth
 
-        @partialIf('scriprts')
+        @partialIf('scripts')
 
-        @component('account')
+        @component('testComponent')
     </div>
 </div>

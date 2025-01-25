@@ -23,3 +23,18 @@ it('deletes records in bulk', function() {
 
     expect(StatusHistory::count())->toBe(0);
 });
+
+it('does noting when records is empty', function() {
+    $actionButton = new ToolbarButton('delete');
+    $actionButton->displayAs('link', []);
+
+    $controller = resolve(TestController::class);
+    $widget = new Delete($controller, $actionButton, []);
+    $widget->code = $actionButton->name;
+
+    expect(StatusHistory::count())->toBe(0);
+
+    $widget->handleAction([], StatusHistory::get());
+
+    expect(StatusHistory::count())->toBe(0);
+});

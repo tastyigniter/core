@@ -1,13 +1,14 @@
 includes:
+    - ./vendor/larastan/larastan/extension.neon
     - phpstan-baseline.neon
 
 parameters:
     level: 5
     paths:
-        - src/
-        - config/
-        - database/
-        - resources/
+        - src
+        - config
+        - database
+        - resources
     treatPhpDocTypesAsCertain: false
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'

@@ -2,11 +2,10 @@
 
 namespace Igniter\Tests\Admin\Widgets;
 
-use Igniter\Admin\Classes\ToolbarButton;
+use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Tests\Fixtures\Controllers\TestController;
 use Illuminate\Support\Facades\Event;
-use Illuminate\View\Factory;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
@@ -22,6 +21,30 @@ beforeEach(function() {
                 'label' => 'Save & Close',
                 'context' => ['save'],
                 'class' => 'btn btn-primary',
+            ],
+            'save-restricted' => [
+                'label' => 'Save',
+                'context' => ['save'],
+                'class' => 'btn btn-primary',
+                'permission' => 'test.permission',
+            ],
+            'dropdown' => [
+                'label' => 'Dropdown',
+                'context' => ['save'],
+                'class' => 'btn btn-primary',
+                'type' => 'dropdown',
+                'menuItems' => [
+                    'save' => [
+                        'label' => 'Save',
+                        'context' => ['save'],
+                        'class' => 'btn btn-primary',
+                    ],
+                    'saveClose' => [
+                        'label' => 'Save & Close',
+                        'context' => ['save'],
+                        'class' => 'btn btn-primary',
+                    ],
+                ],
             ],
         ],
     ]);
@@ -44,16 +67,27 @@ it('re-initializes without errors', function() {
 });
 
 it('renders without errors', function() {
-    app()->instance('view', $viewMock = $this->createMock(Factory::class));
-    $viewMock->method('exists')->with($this->stringContains('toolbar/toolbar'));
+    expect($this->toolbarWidget->render())->toBeString();
+});
+
+it('renders container without errors', function() {
+    $this->toolbarWidget->reInitialize([
+        'container' => 'test-partial',
+    ]);
 
     expect($this->toolbarWidget->render())->toBeString();
-})->throws(\Exception::class);
+});
 
 it('prepares variables without errors', function() {
-    Event::fake();
+    Event::fake([
+        'admin.toolbar.extendButtonsBefore',
+        'admin.toolbar.extendButtons',
+    ]);
+
+    Template::setButton('test', ['class' => 'btn btn-default']);
 
     $this->toolbarWidget->prepareVars();
+    $this->toolbarWidget->prepareVars(); // define buttons only once
 
     Event::assertDispatched('admin.toolbar.extendButtonsBefore');
     Event::assertDispatched('admin.toolbar.extendButtons');
@@ -66,16 +100,11 @@ it('prepares variables without errors', function() {
 });
 
 it('renders button markup without errors', function() {
-    $buttonObj = new ToolbarButton('test');
-    $buttonObj->displayAs('button', []);
+    $this->toolbarWidget->prepareVars();
+    $buttonObj = $this->toolbarWidget->getButtonList();
 
-    app()->instance('view', $viewMock = $this->createMock(Factory::class));
-
-    $viewMock->method('exists')->with($this->stringContains('toolbar/button_'.$buttonObj->type));
-
-    $this->expectExceptionMessageMatches('/toolbar\/button_button/');
-
-    $this->toolbarWidget->renderButtonMarkup($buttonObj);
+    expect($this->toolbarWidget->renderButtonMarkup($buttonObj['save']))->toBeString()
+        ->and($this->toolbarWidget->renderButtonMarkup('test'))->toEqual('test');
 });
 
 it('gets context without errors', function() {
@@ -92,7 +121,7 @@ it('adds buttons without errors', function() {
         ],
     ]);
 
-    expect($this->toolbarWidget->allButtons)->toHaveCount(3)->toHaveKey('test');
+    expect($this->toolbarWidget->allButtons)->toHaveCount(4)->toHaveKey('test');
 });
 
 it('adds button without errors', function() {
@@ -125,7 +154,7 @@ it('gets button list without errors', function() {
 
     $buttons = $this->toolbarWidget->getButtonList();
 
-    expect($buttons)->toHaveCount(2)->toHaveKey('save')->toHaveKey('saveClose');
+    expect($buttons)->toHaveCount(3)->toHaveKey('save')->toHaveKey('saveClose');
 });
 
 it('gets active save action without errors', function() {

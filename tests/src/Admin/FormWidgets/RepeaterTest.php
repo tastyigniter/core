@@ -9,17 +9,6 @@ use Igniter\Admin\Models\StatusHistory;
 use Igniter\Admin\Widgets\Form;
 use Igniter\System\Facades\Assets;
 use Igniter\Tests\Fixtures\Controllers\TestController;
-use Illuminate\Http\Request;
-use Illuminate\View\Factory;
-
-dataset('initialization', [
-    ['sortable', false],
-    ['prompt', null],
-    ['sortColumnName', 'priority'],
-    ['showAddButton', true],
-    ['showRemoveButton', true],
-    ['emptyMessage', 'lang:igniter::admin.text_empty'],
-]);
 
 dataset('repeaterData', [
     fn() => [
@@ -42,7 +31,9 @@ beforeEach(function() {
             'fields' => [
                 'object_id' => [],
                 'object_type' => [],
-                'user_id' => [],
+                'user_id' => [
+                    'type' => 'hidden',
+                ],
                 'status_id' => [],
                 'notify' => [],
                 'comment' => [],
@@ -51,9 +42,28 @@ beforeEach(function() {
     ]);
 });
 
-it('initializes correctly', function($property, $expected) {
-    expect($this->repeaterWidget->$property)->toBe($expected);
-})->with('initialization');
+it('initializes correctly', function() {
+    expect($this->repeaterWidget->sortable)->toBeFalse()
+        ->and($this->repeaterWidget->prompt)->toBeNull()
+        ->and($this->repeaterWidget->sortColumnName)->toBe('priority')
+        ->and($this->repeaterWidget->showAddButton)->toBeTrue()
+        ->and($this->repeaterWidget->showRemoveButton)->toBeTrue()
+        ->and($this->repeaterWidget->emptyMessage)->toBe('lang:igniter::admin.text_empty');
+});
+
+it('initializes correctly when related model does not exits', function() {
+    $this->formField = new FormField('invalid_relation', 'Repeater');
+    $this->formField->arrayName = 'status';
+
+    $repeaterWidget = new Repeater($this->controller, $this->formField, [
+        'model' => Status::factory()->create(),
+        'form' => [],
+    ]);
+
+    $repeaterWidget->prepareVars();
+
+    expect($repeaterWidget->vars['widgetTemplate'])->not->toBeNull();
+});
 
 it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('repeater.js', 'repeater-js');
@@ -81,18 +91,38 @@ it('prepares variables correctly', function() {
 });
 
 it('renders correctly', function() {
-    app()->instance('view', $viewMock = $this->createMock(Factory::class));
+    StatusHistory::factory()->times(3)->create([
+        'status_id' => $this->repeaterWidget->model->getKey(),
+    ]);
 
-    $viewMock->method('exists')->with($this->stringContains('repeater/repeater'));
+    $this->repeaterWidget->initialize();
 
-    $this->repeaterWidget->render();
-})->throws(\Exception::class);
+    expect($this->repeaterWidget->render())->toBeString();
+});
+
+it('renders correctly when existing item is a collection', function() {
+    $statusHistory = StatusHistory::factory()->times(3)->create([
+        'status_id' => $this->repeaterWidget->model->getKey(),
+    ]);
+    $this->formField->value = $statusHistory;
+    request()->request->add([
+        '___dragged_field-status-status-history' => range(0, 4),
+    ]);
+
+    $repeaterWidget = new Repeater($this->controller, $this->formField, [
+        'model' => Status::factory()->create(),
+        'form' => [],
+    ]);
+
+    expect($repeaterWidget->render())->toBeString();
+});
 
 it('gets value from model correctly', function() {
     StatusHistory::factory()->times(3)->create([
         'status_id' => $this->repeaterWidget->model->getKey(),
     ]);
 
+    $this->repeaterWidget->sortable = true;
     $this->repeaterWidget->model->reloadRelations();
 
     $value = $this->repeaterWidget->getLoadValue();
@@ -101,13 +131,12 @@ it('gets value from model correctly', function() {
 });
 
 it('gets value from request correctly', function($repeaterData) {
-    $mockRequest = $this->mock(Request::class);
-    $mockRequest->shouldReceive('post')->andReturn([
+    request()->request->add([
         'status' => ['status_history' => [$repeaterData, $repeaterData, $repeaterData]],
     ]);
-    $mockRequest->shouldReceive('path')->andReturn('admin/dashboard');
-    $mockRequest->shouldReceive('setUserResolver')->andReturnNull();
-    app()->instance('request', $mockRequest);
+
+    $this->repeaterWidget->sortable = true;
+    $this->repeaterWidget->initialize();
 
     $value = $this->repeaterWidget->getLoadValue();
 
@@ -115,12 +144,9 @@ it('gets value from request correctly', function($repeaterData) {
 })->with('repeaterData');
 
 it('gets save value correctly', function($repeaterData) {
-    $mockRequest = $this->mock(Request::class);
-    $mockRequest->shouldReceive('post')->andReturn([
+    request()->request->add([
         Repeater::SORT_PREFIX.$this->formField->getId() => array_flip(range(1, 3)),
     ]);
-    $mockRequest->shouldReceive('setUserResolver')->andReturnNull();
-    app()->instance('request', $mockRequest);
 
     $this->repeaterWidget->sortable = true;
 
@@ -131,19 +157,36 @@ it('gets save value correctly', function($repeaterData) {
     expect($result)
         ->toBeArray()
         ->toHaveCount(3)
-        ->and($result[0])->toHaveKey($this->repeaterWidget->sortColumnName);
+        ->and($result[0])->toHaveKey($this->repeaterWidget->sortColumnName)
+        ->and($this->repeaterWidget->getSaveValue('not-an-array'))->toBe(['not-an-array']);
 })->with('repeaterData');
+
+it('returns empty visible column when field definition is missing', function() {
+    $repeaterWidget = new Repeater($this->controller, $this->formField, [
+        'model' => Status::factory()->create(),
+        'form' => [],
+    ]);
+
+    $columns = $repeaterWidget->getVisibleColumns();
+
+    expect($columns)->toBeArray()->toBeEmpty();
+});
 
 it('gets visible columns correctly', function($repeaterData) {
     $columns = $this->repeaterWidget->getVisibleColumns();
 
     expect($columns)
         ->toBeArray()
-        ->toHaveKeys(array_keys($repeaterData));
+        ->toHaveKeys(array_keys(array_except($repeaterData, ['user_id'])));
 })->with('repeaterData');
 
 it('gets form widget template correctly', function() {
-    $template = $this->repeaterWidget->getFormWidgetTemplate();
+    $repeaterWidget = new Repeater($this->controller, $this->formField, [
+        'model' => Status::factory()->create(),
+        'form' => 'status',
+    ]);
+
+    $template = $repeaterWidget->getFormWidgetTemplate();
 
     expect($template)->toBeInstanceOf(Form::class);
 });

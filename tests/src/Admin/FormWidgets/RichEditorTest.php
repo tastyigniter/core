@@ -9,24 +9,21 @@ use Igniter\Tests\Fixtures\Controllers\TestController;
 use Igniter\Tests\Fixtures\Models\TestModel;
 use Illuminate\View\Factory;
 
-dataset('initialization', [
-    ['fullPage', false],
-    ['stretch', null],
-    ['size', null],
-    ['toolbarButtons', null],
-]);
-
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('test_field', 'RichEditor');
     $this->richEditorWidget = new RichEditor($this->controller, $this->formField, [
         'model' => new TestModel,
+        'toolbarButtons' => 'save|delete',
     ]);
 });
 
-it('initializes correctly', function($property, $expected) {
-    expect($this->richEditorWidget->$property)->toBe($expected);
-})->with('initialization');
+it('initializes correctly', function() {
+    expect($this->richEditorWidget->fullPage)->toBeFalse()
+        ->and($this->richEditorWidget->stretch)->toBeNull()
+        ->and($this->richEditorWidget->size)->toBeNull()
+        ->and($this->richEditorWidget->toolbarButtons)->toBe('save|delete');
+});
 
 it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('js/vendor.editor.js', 'vendor-editor-js');

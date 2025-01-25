@@ -5,6 +5,7 @@ namespace Igniter\Tests\Admin\DashboardWidgets;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\DashboardWidgets\Statistics;
 use Igniter\System\Facades\Assets;
+use Igniter\System\Models\MailTemplate;
 
 beforeEach(function() {
     Statistics::registerCards(function() {
@@ -53,11 +54,23 @@ it('tests prepareVars', function() {
 });
 
 it('tests getValue', function() {
+    Statistics::registerCards(function() {
+        return [
+            'test-sale' => [
+                'label' => 'lang:igniter::admin.dashboard.text_total_sale',
+                'icon' => ' text-success fa fa-4x fa-line-chart',
+                'valueFrom' => function($cardCode, $start, $end, $callback) {
+                    $callback(MailTemplate::query());
+                    return '£100.00';
+                },
+            ],
+        ];
+    });
+
+    $this->statistics->setProperty('card', 'test-sale');
     $this->statistics->render();
 
-    // The exact value will depend on the data in your database
-    // Here we're just checking that we get a string
-    expect($this->statistics->vars['statsCount'])->toBe('£0.00');
+    expect($this->statistics->vars['statsCount'])->toBe('£100.00');
 });
 
 it('renders widget with no errors', function() {

@@ -4,7 +4,11 @@ namespace Igniter\Tests;
 
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\System\Classes\ComponentManager;
 use Igniter\System\Classes\PackageManifest;
+use Igniter\Tests\System\Fixtures\TestComponent;
+use Igniter\Tests\System\Fixtures\TestComponentWithLifecycle;
+use Igniter\Tests\System\Fixtures\TestLivewireComponent;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
@@ -29,10 +33,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('view.paths', $viewPaths);
 
         Igniter::loadControllersFrom(__DIR__.'/Fixtures/Controllers', 'Igniter\\Tests\\Fixtures\\Controllers');
+        Igniter::loadResourcesFrom(__DIR__.'/../resources', 'igniter.tests');
         View::addNamespace('tests.admin', __DIR__.'/../resources/views');
 
         ThemeManager::addDirectory(__DIR__.'/../resources/themes');
         $app['config']->set('igniter-system.defaultTheme', 'tests-theme');
+
+        resolve(ComponentManager::class)->registerCallback(function(ComponentManager $manager) {
+            $manager->registerComponent(TestComponent::class, TestComponent::componentMeta());
+            $manager->registerComponent(TestComponentWithLifecycle::class, TestComponentWithLifecycle::componentMeta());
+            $manager->registerComponent(TestLivewireComponent::class, TestLivewireComponent::componentMeta());
+        });
     }
 
     protected function defineDatabaseMigrations()

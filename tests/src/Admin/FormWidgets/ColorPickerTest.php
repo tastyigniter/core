@@ -7,13 +7,6 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\ColorPicker;
 use Igniter\System\Facades\Assets;
 use Igniter\Tests\Fixtures\Models\TestModel;
-use Illuminate\View\Factory;
-
-dataset('initialization', [
-    ['showAlpha', false],
-    ['readOnly', false],
-    ['disabled', false],
-]);
 
 beforeEach(function() {
     $this->defaultValue = '#1abc9c';
@@ -24,9 +17,11 @@ beforeEach(function() {
     ]);
 });
 
-it('initializes correctly', function($property, $expected) {
-    expect($this->colorPickerWidget->$property)->toBe($expected);
-})->with('initialization');
+it('initializes correctly', function() {
+    expect($this->colorPickerWidget->showAlpha)->toBeFalse();
+    expect($this->colorPickerWidget->readOnly)->toBeFalse();
+    expect($this->colorPickerWidget->disabled)->toBeFalse();
+});
 
 it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('colorpicker.js', 'colorpicker-js');
@@ -51,14 +46,8 @@ it('prepares variables correctly', function() {
 });
 
 it('renders correctly', function() {
-    app()->instance('view', $viewMock = $this->createMock(Factory::class));
-
-    $viewMock->expects($this->atLeastOnce())
-        ->method('exists')
-        ->with($this->stringContains('colorpicker/colorpicker'));
-
-    $this->colorPickerWidget->render();
-})->throws(\Exception::class);
+    expect($this->colorPickerWidget->render())->toBeString();
+});
 
 it('gets save value correctly', function() {
     $value = $this->colorPickerWidget->getSaveValue($this->defaultValue);

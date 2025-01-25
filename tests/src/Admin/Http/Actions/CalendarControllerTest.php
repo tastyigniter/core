@@ -9,6 +9,10 @@ use Igniter\Admin\Widgets\Calendar;
 beforeEach(function() {
     $this->controller = new class extends AdminController
     {
+        public array $implement = [
+            \Igniter\Admin\Http\Actions\CalendarController::class,
+        ];
+
         public $calendarConfig = [
             'calendar' => [
                 'title' => 'Calendar Title',
@@ -22,6 +26,7 @@ beforeEach(function() {
             ],
         ];
     };
+    $this->controller->widgets['toolbar'] = new \Igniter\Admin\Widgets\Toolbar($this->controller);
     $this->calendarController = new CalendarController($this->controller);
 });
 
@@ -42,5 +47,21 @@ it('renders calendar without errors', function() {
 it('renders calendar toolbar without errors', function() {
     $this->calendarController->calendar();
 
-    expect($this->calendarController->renderCalendarToolbar())->toBeNull();
+    expect($this->calendarController->renderCalendarToolbar())->toBeString();
+});
+
+it('generates calender events without errors', function() {
+    $this->calendarController->calendar();
+
+    $calendarWidget = $this->calendarController->getCalendarWidget();
+
+    expect($calendarWidget->onGenerateEvents())->toBeArray();
+});
+
+it('updates calender events without errors', function() {
+    $this->calendarController->calendar();
+
+    $calendarWidget = $this->calendarController->getCalendarWidget();
+
+    expect($calendarWidget->onUpdateEvent())->toBeNull();
 });

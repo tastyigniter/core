@@ -2,38 +2,45 @@
 
 namespace Igniter\Tests\Admin\Widgets;
 
+use Igniter\Admin\Classes\Widgets;
 use Igniter\Admin\Widgets\DashboardContainer;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Facades\Assets;
 use Igniter\Tests\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Widgets\TestDashboardWidget;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
-use Illuminate\View\Factory;
-
-dataset('initialization', [
-    ['canManage', true],
-    ['canSetDefault', false],
-    ['dateRangeFormat', 'MMMM D, YYYY hh:mm A'],
-    ['startDate', null],
-    ['endDate', null],
-]);
 
 beforeEach(function() {
     AdminAuth::shouldReceive('getUser')->andReturn(User::factory()->create());
 
     $this->controller = resolve(TestController::class);
-    $this->dashboardContainerWidget = new DashboardContainer($this->controller, [
+    $this->widgetConfig = [
         'defaultWidgets' => [
+            'test-dashboard-widget' => [
+                'priority' => 20,
+                'width' => '6',
+            ],
             'onboarding' => [
                 'priority' => 10,
                 'width' => '6',
             ],
+            'invalid' => [
+                'priority' => 20,
+                'width' => '6',
+            ],
         ],
-    ]);
+    ];
+    $this->dashboardContainerWidget = new DashboardContainer($this->controller, $this->widgetConfig);
 });
 
-it('initializes correctly', function($property, $expected) {
-    expect($this->dashboardContainerWidget->{$property})->toEqual($expected);
-})->with('initialization');
+it('initializes correctly', function() {
+    expect($this->dashboardContainerWidget->canManage)->toEqual(true)
+        ->and($this->dashboardContainerWidget->canSetDefault)->toEqual(false)
+        ->and($this->dashboardContainerWidget->dateRangeFormat)->toEqual('MMMM D, YYYY hh:mm A')
+        ->and($this->dashboardContainerWidget->startDate)->toEqual(null)
+        ->and($this->dashboardContainerWidget->endDate)->toEqual(null);
+});
 
 it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('js/vendor.datetime.js', 'vendor-datetime-js');
@@ -47,16 +54,12 @@ it('loads assets correctly', function() {
 });
 
 it('renders correctly', function() {
-    app()->instance('view', $viewMock = $this->createMock(Factory::class));
-
-    $viewMock->method('exists')->with($this->stringContains('dashboardcontainer/dashboardcontainer'));
-
     expect($this->dashboardContainerWidget->render())->toBeString()
         ->and($this->dashboardContainerWidget->vars)
         ->toHaveKey('startDate')
         ->toHaveKey('endDate')
         ->toHaveKey('dateRangeFormat');
-})->throws(\Exception::class);
+});
 
 it('renders widgets without errors', function() {
     expect($this->dashboardContainerWidget->onRenderWidgets())
@@ -74,14 +77,35 @@ it('loads add popup', function() {
 });
 
 it('loads update popup', function() {
-    $widgetAlias = 'onboarding';
+    $widgetAlias = 'test-dashboard-widget';
+    resolve(Widgets::class)->registerDashboardWidget(TestDashboardWidget::class, [
+        'code' => $widgetAlias,
+        'label' => 'Test Dashboard widget',
+    ]);
     request()->request->add(['widgetAlias' => $widgetAlias]);
 
-    expect($this->dashboardContainerWidget->onLoadUpdatePopup())
+    $dashboardContainerWidget = new DashboardContainer($this->controller, $this->widgetConfig);
+
+    expect($dashboardContainerWidget->onLoadUpdatePopup())
         ->toHaveKey('#'.$widgetAlias.'-modal-content')
-        ->and($this->dashboardContainerWidget->vars)
+        ->and($dashboardContainerWidget->vars)
         ->toHaveKey('widget')
         ->toHaveKey('widgetAlias');
+});
+
+it('loads update popup throws exception when missing widget alias', function() {
+    request()->request->add([]);
+
+    expect(fn() => $this->dashboardContainerWidget->onLoadUpdatePopup())
+        ->toThrow(FlashException::class, lang('igniter::admin.dashboard.alert_select_widget_to_update'));
+});
+
+it('loads update popup throws exception when missing widget', function() {
+    $widgetAlias = 'invalid';
+    request()->request->add(['widgetAlias' => $widgetAlias]);
+
+    expect(fn() => $this->dashboardContainerWidget->onLoadUpdatePopup())
+        ->toThrow(FlashException::class, lang('igniter::admin.dashboard.alert_widget_not_found'));
 });
 
 it('resets widgets', function() {
@@ -94,6 +118,13 @@ it('sets as default', function() {
     $this->dashboardContainerWidget->canSetDefault = true;
 
     expect($this->dashboardContainerWidget->onSetAsDefault())->toBeNull();
+});
+
+it('sets as default throws exception when canSetDefault is disabled', function() {
+    $this->dashboardContainerWidget->canSetDefault = false;
+
+    expect(fn() => $this->dashboardContainerWidget->onSetAsDefault())
+        ->toThrow(FlashException::class, lang('igniter::admin.alert_access_denied'));
 });
 
 it('adds widget', function() {

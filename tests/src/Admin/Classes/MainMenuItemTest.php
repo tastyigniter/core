@@ -47,24 +47,60 @@ it('creates widget correctly', function() {
 });
 
 it('sets and gets options correctly', function() {
+    expect($this->mainMenuItem->options())->toBe([]);
     $this->mainMenuItem->options(['option1', 'option2']);
     expect($this->mainMenuItem->options())->toBe(['option1', 'option2']);
 });
 
+it('sets and gets callable options correctly', function() {
+    $this->mainMenuItem->options(function() {
+        return ['option1', 'option2'];
+    });
+    expect($this->mainMenuItem->options())->toBe(['option1', 'option2']);
+});
+
 it('displays as correctly', function() {
-    $this->mainMenuItem->displayAs('text', ['icon' => 'test-icon']);
+    $this->mainMenuItem->displayAs('text', [
+        'priority' => 99,
+        'anchor' => 'testAnchor',
+        'options' => ['option1', 'option2'],
+        'context' => ['context1', 'context2'],
+        'icon' => 'test-icon',
+        'path' => '/path/to/partial',
+        'cssClass' => 'test-class',
+        'attributes' => ['class' => 'test-class'],
+        'disabled' => true,
+    ]);
     expect($this->mainMenuItem->type)->toBe('text')
-        ->and($this->mainMenuItem->icon)->toBe('test-icon');
+        ->and($this->mainMenuItem->anchor)->toBe('testAnchor')
+        ->and($this->mainMenuItem->options)->toBe(['option1', 'option2'])
+        ->and($this->mainMenuItem->context)->toBe(['context1', 'context2'])
+        ->and($this->mainMenuItem->icon)->toBe('test-icon')
+        ->and($this->mainMenuItem->path)->toBe('/path/to/partial')
+        ->and($this->mainMenuItem->cssClass)->toBe('test-class')
+        ->and($this->mainMenuItem->attributes)->toBe(['class' => 'test-class'])
+        ->and($this->mainMenuItem->disabled)->toBeTrue();
 });
 
 it('gets attributes correctly', function() {
-    $this->mainMenuItem->attributes(['class' => 'test-class']);
-    expect($this->mainMenuItem->getAttributes(false))->toBe(['class' => 'test-class']);
+    $this->mainMenuItem->disabled = true;
+    $this->mainMenuItem->attributes([
+        'class' => 'test-class',
+        'href' => '/path/to/partial',
+    ]);
+
+    $attributes = $this->mainMenuItem->getAttributes(false);
+    expect($attributes)->toBe([
+        'class' => 'test-class',
+        'href' => admin_url('/path/to/partial'),
+        'disabled' => 'disabled',
+    ]);
 });
 
 it('gets id correctly', function() {
-    expect($this->mainMenuItem->getId())->toBe('menuitem-testItem')
-        ->and($this->mainMenuItem->getId('suffix'))->toBe('menuitem-testItem-suffix');
+    $this->mainMenuItem->idPrefix = 'prefix';
+    expect($this->mainMenuItem->getId())->toBe('prefix-menuitem-testItem')
+        ->and($this->mainMenuItem->getId('suffix'))->toBe('prefix-menuitem-testItem-suffix');
 });
 
 it('sets label correctly', function() {

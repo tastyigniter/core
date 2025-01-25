@@ -2,43 +2,25 @@
 
 namespace Igniter\Tests\Admin\FormWidgets;
 
-use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\StatusEditor;
 use Igniter\Admin\Models\Status;
 use Igniter\Admin\Models\StatusHistory;
+use Igniter\Admin\Widgets\Form;
 use Igniter\Cart\Models\Order;
+use Igniter\Flame\Exception\FlashException;
+use Igniter\Local\Facades\Location;
 use Igniter\System\Facades\Assets;
+use Igniter\Tests\Fixtures\Controllers\TestController;
+use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
-use Illuminate\View\Factory;
-
-dataset('initialization', [
-    ['formTitle', 'igniter::admin.statuses.text_editor_title'],
-    ['statusArrayName', 'statusData'],
-    ['statusFormName', 'Status'],
-    ['statusKeyFrom', 'status_id'],
-    ['statusNameFrom', 'status_name'],
-    ['statusModelClass', StatusHistory::class],
-    ['statusColorFrom', 'status_color'],
-    ['statusRelationFrom', 'status'],
-    ['assigneeFormName', 'Assignee'],
-    ['assigneeArrayName', 'assigneeData'],
-    ['assigneeKeyFrom', 'assignee_id'],
-    ['assigneeGroupKeyFrom', 'assignee_group_id'],
-    ['assigneeGroupNameFrom', 'user_group_name'],
-    ['assigneeRelationFrom', 'assignee'],
-    ['assigneeNameFrom', 'name'],
-    ['assigneeOrderPermission', 'Admin.AssignOrders'],
-    ['assigneeReservationPermission', 'Admin.AssignReservations'],
-]);
 
 beforeEach(function() {
-    $this->controllerMock = $this->createMock(AdminController::class);
+    $this->controller = resolve(TestController::class);
     $this->formField = new FormField('test_field', 'RichEditor');
-    $this->statusEditorWidget = new StatusEditor($this->controllerMock, $this->formField, [
+    $this->statusEditorWidget = new StatusEditor($this->controller, $this->formField, [
         'model' => Order::factory()->create(),
         'form' => [
             'fields' => [
@@ -50,9 +32,25 @@ beforeEach(function() {
     ]);
 });
 
-it('initializes correctly', function($property, $expected) {
-    expect($this->statusEditorWidget->$property)->toBe($expected);
-})->with('initialization');
+it('initializes correctly', function() {
+    expect($this->statusEditorWidget->formTitle)->toBe('igniter::admin.statuses.text_editor_title')
+        ->and($this->statusEditorWidget->statusArrayName)->toBe('statusData')
+        ->and($this->statusEditorWidget->statusFormName)->toBe('Status')
+        ->and($this->statusEditorWidget->statusKeyFrom)->toBe('status_id')
+        ->and($this->statusEditorWidget->statusNameFrom)->toBe('status_name')
+        ->and($this->statusEditorWidget->statusModelClass)->toBe(StatusHistory::class)
+        ->and($this->statusEditorWidget->statusColorFrom)->toBe('status_color')
+        ->and($this->statusEditorWidget->statusRelationFrom)->toBe('status')
+        ->and($this->statusEditorWidget->assigneeFormName)->toBe('Assignee')
+        ->and($this->statusEditorWidget->assigneeArrayName)->toBe('assigneeData')
+        ->and($this->statusEditorWidget->assigneeKeyFrom)->toBe('assignee_id')
+        ->and($this->statusEditorWidget->assigneeGroupKeyFrom)->toBe('assignee_group_id')
+        ->and($this->statusEditorWidget->assigneeGroupNameFrom)->toBe('user_group_name')
+        ->and($this->statusEditorWidget->assigneeRelationFrom)->toBe('assignee')
+        ->and($this->statusEditorWidget->assigneeNameFrom)->toBe('name')
+        ->and($this->statusEditorWidget->assigneeOrderPermission)->toBe('Admin.AssignOrders')
+        ->and($this->statusEditorWidget->assigneeReservationPermission)->toBe('Admin.AssignReservations');
+});
 
 it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
@@ -74,28 +72,17 @@ it('prepares variables correctly', function() {
 });
 
 it('renders correctly', function() {
-    app()->instance('view', $viewMock = $this->createMock(Factory::class));
-
-    $viewMock->method('exists')->with($this->stringContains('repeater/repeater'));
-
-    $this->repeaterWidget->render();
-})->throws(\Exception::class);
+    expect($this->statusEditorWidget->render())->toBeString();
+});
 
 it('gets save value correctly', function() {
     expect($this->statusEditorWidget->getSaveValue(null))->toBe(FormField::NO_SAVE_DATA);
 });
 
 it('loads status without errors', function() {
-    $mockRequest = $this->mock(Request::class);
-    $mockRequest->shouldReceive('post')->andReturn([
+    request()->request->add([
         'recordId' => 'load-status',
     ]);
-    $mockRequest->shouldReceive('setUserResolver')->andReturnNull();
-    $mockRequest->shouldReceive('getPathInfo')->andReturn('admin/dashboard');
-    $mockRequest->shouldReceive('root')->andReturn('localhost');
-    $mockRequest->shouldReceive('getScheme')->andReturn('https');
-    $mockRequest->shouldReceive('input')->andReturn('');
-    app()->instance('request', $mockRequest);
 
     $result = $this->statusEditorWidget->onLoadRecord();
 
@@ -106,23 +93,17 @@ it('updates status without errors', function() {
     Event::fake();
 
     $user = User::factory()->create();
+    $this->controller->setUser($user);
     $status = Status::factory()->create();
     $selectedStatus = Status::factory()->create();
     $this->statusEditorWidget->model->status_id = $status->getKey();
-
-    $mockRequest = $this->mock(Request::class);
-    $mockRequest->shouldReceive('post')->andReturn([
+    request()->request->add([
         'context' => 'status',
         'statusData' => [
             'status_id' => $selectedStatus->getKey(),
             'comment' => 'Test new comment',
         ],
     ]);
-    $mockRequest->shouldReceive('setUserResolver')->andReturnNull();
-    $mockRequest->shouldReceive('path')->andReturn('admin/dashboard');
-    app()->instance('request', $mockRequest);
-
-    $this->controllerMock->method('getUser')->willReturn($user);
 
     expect($this->statusEditorWidget->onSaveRecord())->toBeArray();
 
@@ -135,17 +116,28 @@ it('updates status without errors', function() {
     ]);
 });
 
+it('updates status fails with errors', function() {
+    Event::fake();
+
+    $user = User::factory()->create();
+    $this->controller->setUser($user);
+    $status = Status::factory()->create();
+    $this->statusEditorWidget->model->status_id = $status->getKey();
+    request()->request->add([
+        'context' => 'status',
+        'statusData' => [
+            'status_id' => 123,
+            'comment' => 'Test new comment',
+        ],
+    ]);
+
+    expect($this->statusEditorWidget->onSaveRecord())->toBeArray();
+});
+
 it('loads assignee without errors', function() {
-    $mockRequest = $this->mock(Request::class);
-    $mockRequest->shouldReceive('post')->andReturn([
+    request()->request->add([
         'recordId' => 'load-assignee',
     ]);
-    $mockRequest->shouldReceive('setUserResolver')->andReturnNull();
-    $mockRequest->shouldReceive('getPathInfo')->andReturn('admin/dashboard');
-    $mockRequest->shouldReceive('root')->andReturn('localhost');
-    $mockRequest->shouldReceive('getScheme')->andReturn('https');
-    $mockRequest->shouldReceive('input')->andReturn('');
-    app()->instance('request', $mockRequest);
 
     $result = $this->statusEditorWidget->onLoadRecord();
 
@@ -156,19 +148,14 @@ it('updates assignee without errors', function() {
     Event::fake();
 
     $user = User::factory()->create(['super_user' => 1]);
+    $this->controller->setUser($user);
     $assignee = User::factory()->create();
-    $mockRequest = $this->mock(Request::class);
-    $mockRequest->shouldReceive('post')->andReturn([
+    request()->request->add([
         'context' => 'assignee',
         'assigneeData' => [
             'assignee_id' => $assignee->getKey(),
         ],
     ]);
-    $mockRequest->shouldReceive('setUserResolver')->andReturnNull();
-    $mockRequest->shouldReceive('path')->andReturn('admin/dashboard');
-    app()->instance('request', $mockRequest);
-
-    $this->controllerMock->method('getUser')->willReturn($user);
 
     expect($this->statusEditorWidget->onSaveRecord())->toBeArray();
 
@@ -179,16 +166,24 @@ it('updates assignee without errors', function() {
     ]);
 });
 
+it('updates assignee fails when user is not permitted', function() {
+    Event::fake();
+
+    $user = User::factory()->create();
+    $this->controller->setUser($user);
+    request()->request->add([
+        'context' => 'assignee',
+    ]);
+
+    expect(fn() => $this->statusEditorWidget->onSaveRecord())
+        ->toThrow(FlashException::class, lang('igniter::admin.alert_user_restricted'));
+});
+
 it('loads selected status without errors', function() {
     $status = Status::factory()->create();
-    $mockRequest = $this->mock(Request::class);
-    $mockRequest->shouldReceive('post')->andReturn([
+    request()->request->add([
         'statusId' => $status->getKey(),
     ]);
-    $mockRequest->shouldReceive('setUserResolver')->andReturnNull();
-    $mockRequest->shouldReceive('path')->andReturn('admin/dashboard');
-    app()->instance('request', $mockRequest);
-
     $result = $this->statusEditorWidget->onLoadStatus();
 
     expect($result)->toBeArray()
@@ -197,13 +192,82 @@ it('loads selected status without errors', function() {
 
 it('loads assignee list without errors', function() {
     $assigneeGroup = UserGroup::factory()->create();
-    $mockRequest = $this->mock(Request::class);
-    $mockRequest->shouldReceive('post')->andReturn([
+    request()->request->add([
         'groupId' => $assigneeGroup->getKey(),
     ]);
-    $mockRequest->shouldReceive('setUserResolver')->andReturnNull();
-    $mockRequest->shouldReceive('path')->andReturn('admin/dashboard');
-    app()->instance('request', $mockRequest);
 
     expect($this->statusEditorWidget->onLoadAssigneeList())->toBeArray();
+});
+
+it('returns empty array when groupId is not provided', function() {
+    $form = new class extends Form
+    {
+        public function __construct() {}
+    };
+
+    $result = StatusEditor::getAssigneeOptions($form, 'field');
+
+    expect($result)->toBe([]);
+});
+
+it('returns assignee options when groupId is provided', function() {
+    $form = new class extends Form
+    {
+        public function __construct() {}
+
+        public function getField($field): ?FormField
+        {
+            $formField = new FormField('assignee_group_id', 'select');
+            $formField->value = '1';
+
+            return $formField;
+        }
+    };
+    request()->request->add(['groupId' => '1']);
+
+    Location::shouldReceive('currentOrAssigned')->andReturn([1, 2]);
+
+    $result = StatusEditor::getAssigneeOptions($form, 'field');
+
+    expect($result)->toBeCollection();
+});
+
+it('returns empty array when no locations are assigned', function() {
+    $form = new class extends Form
+    {
+        public function __construct() {}
+
+        public function getField($field): ?FormField
+        {
+            $formField = new FormField('assignee_group_id', 'select');
+            $formField->value = '1';
+
+            return $formField;
+        }
+    };
+    request()->request->add(['groupId' => '1']);
+
+    Location::shouldReceive('currentOrAssigned')->andReturn([]);
+
+    $result = StatusEditor::getAssigneeOptions($form, 'field');
+
+    expect($result)->toBeCollection();
+});
+
+it('returns all user group options for super user', function() {
+    $user = User::factory()->superUser()->create();
+    AdminAuth::setUser($user);
+
+    $result = StatusEditor::getAssigneeGroupOptions();
+
+    expect($result)->toBeCollection();
+});
+
+it('returns user group options for non-super user', function() {
+    $user = User::factory()->create();
+    AdminAuth::setUser($user);
+
+    $result = StatusEditor::getAssigneeGroupOptions();
+
+    expect($result)->toBeCollection();
 });

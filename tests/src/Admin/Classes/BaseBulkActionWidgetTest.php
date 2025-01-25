@@ -14,7 +14,32 @@ it('constructs correctly', function() {
 
     $widget = new BaseBulkActionWidget($controller, $actionButton, $config);
 
-    expect($widget)->toBeInstanceOf(BaseBulkActionWidget::class);
+    expect($widget->code)->toBeNull()
+        ->and($widget->label)->toBeNull()
+        ->and($widget->type)->toBeNull()
+        ->and($widget->popupTitle)->toBeNull();
+});
+
+it('returns empty array for form fields', function() {
+    $controller = new TestController;
+    $actionButton = new ToolbarButton('test-toolbar-button');
+    $widget = new BaseBulkActionWidget($controller, $actionButton);
+
+    $result = $widget->defineFormFields();
+
+    expect($result)->toBeArray()
+        ->and($result)->toBeEmpty();
+});
+
+it('returns empty array for validation rules', function() {
+    $controller = new TestController;
+    $actionButton = new ToolbarButton('test-toolbar-button');
+    $widget = new BaseBulkActionWidget($controller, $actionButton);
+
+    $result = $widget->defineValidationRules();
+
+    expect($result)->toBeArray()
+        ->and($result)->toBeEmpty();
 });
 
 it('returns the action button', function() {

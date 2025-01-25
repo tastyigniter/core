@@ -33,10 +33,19 @@ it('loads a widget', function() {
         ->and($this->controller->widgets['test-alias'])->toBe($this->widget)
         ->and($this->widget->getEventHandler('onTest'))->toBe('test-alias::onTest')
         ->and($this->widget->getController())->toBe($this->controller)
+        ->and($this->widget->hasSession('invalid-key'))->toBeFalse()
         ->and($this->widget->reload())->toBeArray();
 });
 
 it('can set and get config', function() {
-    $this->widget->setConfig(['test' => 'value']);
-    expect($this->widget->getConfig('test'))->toBe('value');
+    $this->widget->setConfig([
+        'test' => 'value',
+        'nested' => [
+            'key' => 'value',
+        ],
+    ]);
+    expect($this->widget->getConfig())->toBeArray()
+        ->and($this->widget->getConfig('test'))->toBe('value')
+        ->and($this->widget->getConfig('nested[key]'))->toBe('value')
+        ->and($this->widget->getConfig('invalid-nested[key]', 'default'))->toBe('default');
 });

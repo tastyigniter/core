@@ -7,15 +7,6 @@ use Igniter\Admin\FormWidgets\CodeEditor;
 use Igniter\System\Facades\Assets;
 use Igniter\Tests\Fixtures\Controllers\TestController;
 use Igniter\Tests\Fixtures\Models\TestModel;
-use Illuminate\View\Factory;
-
-dataset('initialization', [
-    ['fullPage', false],
-    ['lineSeparator', null],
-    ['mode', 'css'],
-    ['theme', 'material'],
-    ['readOnly', false],
-]);
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
@@ -25,9 +16,13 @@ beforeEach(function() {
     ]);
 });
 
-it('initializes correctly', function($property, $expected) {
-    expect($this->codeEditorWidget->$property)->toBe($expected);
-})->with('initialization');
+it('initializes correctly', function() {
+    expect($this->codeEditorWidget->fullPage)->toBeFalse()
+        ->and($this->codeEditorWidget->lineSeparator)->toBeNull()
+        ->and($this->codeEditorWidget->mode)->toBe('css')
+        ->and($this->codeEditorWidget->theme)->toBe('material')
+        ->and($this->codeEditorWidget->readOnly)->toBeFalse();
+});
 
 it('loads assets correctly', function() {
     Assets::shouldReceive('addCss')->once()->with('codeeditor.css', 'codeeditor-css');
@@ -56,11 +51,5 @@ it('prepares variables correctly', function() {
 });
 
 it('renders correctly', function() {
-    app()->instance('view', $viewMock = $this->createMock(Factory::class));
-
-    $viewMock->expects($this->atLeastOnce())
-        ->method('exists')
-        ->with($this->stringContains('codeeditor/codeeditor'));
-
-    $this->codeEditorWidget->render();
-})->throws(\Exception::class);
+    expect($this->codeEditorWidget->render())->toBeString();
+});

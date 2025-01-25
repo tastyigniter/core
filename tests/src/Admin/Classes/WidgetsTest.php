@@ -5,6 +5,7 @@ namespace Igniter\Tests\Admin\Classes;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
+use Igniter\Tests\Fixtures\Widgets\TestWidget;
 
 beforeEach(function() {
     $this->testExtension = $this->createMock(BaseExtension::class);
@@ -33,12 +34,25 @@ it('tests registerBulkActionWidget', function() {
     expect($widgets)->toBeArray()->toHaveKey('TestWidget');
 });
 
-it('tests resolveBulkActionWidget', function() {
-    $this->widgets->registerBulkActionWidget('TestWidget', ['code' => 'testwidget']);
+it('tests resolveBulkActionWidget with code', function() {
+    $this->widgets->registerBulkActionWidgets(function($manager) {
+        $manager->registerBulkActionWidget(TestWidget::class, ['code' => 'testwidget']);
+    });
 
     $widget = $this->widgets->resolveBulkActionWidget('testwidget');
 
-    expect($widget)->toBe('TestWidget');
+    expect($widget)->toBe(TestWidget::class)
+        ->and($this->widgets->resolveBulkActionWidget('invalid-widget'))->toBe('invalid-widget');
+});
+
+it('tests resolveBulkActionWidget with class name', function() {
+    $this->widgets->registerBulkActionWidgets(function($manager) {
+        $manager->registerBulkActionWidget(TestWidget::class, []);
+    });
+
+    $widget = $this->widgets->resolveBulkActionWidget(TestWidget::class);
+
+    expect($widget)->toBe(TestWidget::class);
 });
 
 it('tests listFormWidgets', function() {
@@ -65,12 +79,25 @@ it('tests registerFormWidget', function() {
     expect($widgets)->toBeArray()->toHaveKey('TestWidget');
 });
 
-it('tests resolveFormWidget', function() {
-    $this->widgets->registerFormWidget('TestWidget', ['code' => 'testwidget']);
+it('tests resolveFormWidget with code', function() {
+    $this->widgets->registerFormWidgets(function($manager) {
+        $manager->registerFormWidget(TestWidget::class, ['code' => 'testwidget']);
+    });
 
     $widget = $this->widgets->resolveFormWidget('testwidget');
 
-    expect($widget)->toBe('TestWidget');
+    expect($widget)->toBe(TestWidget::class)
+        ->and($this->widgets->resolveFormWidget('invalid-widget'))->toBe('invalid-widget');
+});
+
+it('tests resolveFormWidget with class name', function() {
+    $this->widgets->registerFormWidgets(function($manager) {
+        $manager->registerFormWidget(TestWidget::class, []);
+    });
+
+    $widget = $this->widgets->resolveFormWidget(TestWidget::class);
+
+    expect($widget)->toBe(TestWidget::class);
 });
 
 it('tests listDashboardWidgets', function() {
@@ -97,10 +124,23 @@ it('tests registerDashboardWidget', function() {
     expect($widgets)->toBeArray()->toHaveKey('TestWidget');
 });
 
-it('tests resolveDashboardWidget', function() {
-    $this->widgets->registerDashboardWidget('TestWidget', ['code' => 'testwidget']);
+it('tests resolveDashboardWidget with code', function() {
+    $this->widgets->registerDashboardWidgets(function($manager) {
+        $manager->registerDashboardWidget(TestWidget::class, ['code' => 'testwidget']);
+    });
 
     $widget = $this->widgets->resolveDashboardWidget('testwidget');
 
-    expect($widget)->toBe('TestWidget');
+    expect($widget)->toBe(TestWidget::class)
+        ->and($this->widgets->resolveDashboardWidget('invalid-widget'))->toBe('invalid-widget');
+});
+
+it('tests resolveDashboardWidget with class name', function() {
+    $this->widgets->registerDashboardWidgets(function($manager) {
+        $manager->registerDashboardWidget(TestWidget::class, []);
+    });
+
+    $widget = $this->widgets->resolveDashboardWidget(TestWidget::class);
+
+    expect($widget)->toBe(TestWidget::class);
 });
