@@ -53,6 +53,10 @@ class MailTemplate extends Model
         ],
     ];
 
+    protected $attributes = [
+        'body' => '',
+    ];
+
     protected $appends = ['title'];
 
     public $timestamps = true;

@@ -114,7 +114,7 @@ class StatusEditor extends BaseFormWidget
     {
         $context = post('recordId');
         throw_unless(in_array($context, ['load-status', 'load-assignee']),
-            new FlashException(lang('igniter::admin.statuses.alert_invalid_action'))
+            new FlashException(lang('igniter::admin.statuses.alert_invalid_action')),
         );
 
         $this->setMode(str_after($context, 'load-'));
@@ -145,7 +145,7 @@ class StatusEditor extends BaseFormWidget
 
         throw_if(
             $this->isStatusMode && $recordId == $this->model->{$keyFrom},
-            new FlashException(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context))
+            new FlashException(sprintf(lang('igniter::admin.statuses.alert_already_added'), $context, $context)),
         );
 
         $saveData = $this->validateFormWidget($form, $form->getSaveData());
@@ -171,11 +171,11 @@ class StatusEditor extends BaseFormWidget
     public function onLoadStatus(): array
     {
         throw_unless(strlen($statusId = post('statusId', '')),
-            new FlashException(lang('igniter::admin.form.missing_id'))
+            new FlashException(lang('igniter::admin.form.missing_id')),
         );
 
         throw_unless($status = Status::find($statusId),
-            new FlashException(sprintf(lang('igniter::admin.statuses.alert_status_not_found'), $statusId))
+            new FlashException(sprintf(lang('igniter::admin.statuses.alert_status_not_found'), $statusId)),
         );
 
         return $status->toArray();
@@ -184,7 +184,7 @@ class StatusEditor extends BaseFormWidget
     public function onLoadAssigneeList(): array
     {
         throw_unless(strlen(post('groupId', '')),
-            new FlashException(lang('igniter::admin.form.missing_id'))
+            new FlashException(lang('igniter::admin.form.missing_id')),
         );
 
         $this->setMode('assignee');
@@ -282,13 +282,6 @@ class StatusEditor extends BaseFormWidget
         $key = ucfirst($key);
 
         return $this->isStatusMode ? $this->{'status'.$key} : $this->{'assignee'.$key};
-    }
-
-    protected function mergeSaveData()
-    {
-        return array_merge(post($this->getModeConfig('arrayName'), []), [
-            'user_id' => $this->getController()->getUser()->getKey(),
-        ]);
     }
 
     protected function formExtendFieldsBefore($form)

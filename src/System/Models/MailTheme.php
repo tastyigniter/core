@@ -25,29 +25,29 @@ use Illuminate\Support\Facades\Cache;
  */
 class MailTheme extends Model
 {
-    const WHITE_COLOR = '#fff';
+    public const WHITE_COLOR = '#fff';
 
-    const BODY_BG = '#f5f8fa';
+    public const BODY_BG = '#f5f8fa';
 
-    const PRIMARY_BG = '#3498db';
+    public const PRIMARY_BG = '#3498db';
 
-    const POSITIVE_BG = '#31ac5f';
+    public const POSITIVE_BG = '#31ac5f';
 
-    const NEGATIVE_BG = '#ab2a1c';
+    public const NEGATIVE_BG = '#ab2a1c';
 
-    const HEADER_COLOR = '#bbbfc3';
+    public const HEADER_COLOR = '#bbbfc3';
 
-    const HEADING_COLOR = '#2f3133';
+    public const HEADING_COLOR = '#2f3133';
 
-    const TEXT_COLOR = '#74787e';
+    public const TEXT_COLOR = '#74787e';
 
-    const LINK_COLOR = '#0181b9';
+    public const LINK_COLOR = '#0181b9';
 
-    const FOOTER_COLOR = '#aeaeae';
+    public const FOOTER_COLOR = '#aeaeae';
 
-    const BORDER_COLOR = '#edeff2';
+    public const BORDER_COLOR = '#edeff2';
 
-    const PROMOTION_BORDER_COLOR = '#9ba2ab';
+    public const PROMOTION_BORDER_COLOR = '#9ba2ab';
 
     public array $implement = [\Igniter\System\Actions\SettingsModel::class];
 
@@ -94,7 +94,6 @@ class MailTheme extends Model
 
     public static function renderCss()
     {
-        self::instance()->resetCache();
         $cacheKey = self::instance()->cacheKey;
         if (Cache::has($cacheKey)) {
             return Cache::get($cacheKey);

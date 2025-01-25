@@ -43,19 +43,14 @@ class Table extends BaseWidget
         $this->fieldName = $this->getConfig('fieldName', $this->alias);
         $this->recordsKeyFrom = $this->getConfig('keyFrom', 'rows');
 
-        if (!$this->getConfig('dataSource')) {
-            throw new SystemException(lang('igniter::admin.error_table_widget_data_not_specified'));
-        }
-
         $dataSourceClass = $this->dataSourceAliases;
-
         if (!class_exists($dataSourceClass)) {
             throw new SystemException(sprintf(lang('igniter::admin.error_table_widget_data_class_not_found'), $dataSourceClass));
         }
 
         $this->dataSource = new $dataSourceClass($this->recordsKeyFrom);
 
-        if (Request::method() == 'post' && $this->isClientDataSource()) {
+        if (strtolower(request()->method()) == 'post' && $this->isClientDataSource()) {
             if (!str_contains($this->fieldName, '[')) {
                 $requestDataField = $this->fieldName.'TableData';
             } else {
@@ -65,7 +60,7 @@ class Table extends BaseWidget
             if (post($requestDataField)) {
                 // Load data into the client memory data source on POST
                 $this->dataSource->purge();
-                $this->dataSource->initRecords(input($requestDataField));
+                $this->dataSource->initRecords(post($requestDataField));
             }
         }
     }
@@ -108,7 +103,7 @@ class Table extends BaseWidget
         $isClientDataSource = $this->isClientDataSource();
         $this->vars['clientDataSourceClass'] = $isClientDataSource ? 'client' : 'server';
         $this->vars['data'] = json_encode($isClientDataSource
-            ? $this->processRecords($this->dataSource->getAllRecords()) : []
+            ? $this->processRecords($this->dataSource->getAllRecords()) : [],
         );
     }
 
@@ -158,7 +153,7 @@ class Table extends BaseWidget
         $eventResults = $this->fireEvent('table.getRecords', [$offset, $limit, $search], true);
 
         throw_unless($eventResults instanceof LengthAwarePaginatorContract, new SystemException(
-            'table.getRecords event must return a '.LengthAwarePaginatorContract::class.' instance.'
+            'table.getRecords event must return a '.LengthAwarePaginatorContract::class.' instance.',
         ));
 
         $records = $eventResults->getCollection()->toArray();
@@ -174,9 +169,8 @@ class Table extends BaseWidget
         $columnName = Request::get('column');
         $rowData = Request::get('rowData');
 
-        $eventResults = $this->fireEvent('table.getDropdownOptions', [$columnName, $rowData]);
-
         $options = [];
+        $eventResults = $this->fireEvent('table.getDropdownOptions', [$columnName, $rowData]);
         if (count($eventResults)) {
             $options = $eventResults[0];
         }

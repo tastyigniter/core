@@ -199,7 +199,7 @@ class MainMenuItem
         }
 
         if (isset($config['attributes'])) {
-            $this->attributes = $config['attributes'];
+            $this->attributes($config['attributes']);
         }
 
         if (array_key_exists('disabled', $config)) {

@@ -36,17 +36,17 @@ class Country
             $address = $address->toArray();
         }
 
-        $address = $this->evalAddress($address);
-
         // Override format if present in address array
         if (!empty($address['format'])) {
             $format = $address['format'];
         }
 
+        $address = $this->evalAddress($address);
+
         $formattedAddress = str_replace(["\r\n", "\r", "\n", '\n'], '<br />',
             preg_replace(["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />', trim(str_replace([
                 '{address_1}', '{address_2}', '{city}', '{postcode}', '{state}', '{country}',
-            ], array_except($address, 'format'), $format)))
+            ], array_except($address, 'format'), $format))),
         );
 
         if (!$useLineBreaks) {

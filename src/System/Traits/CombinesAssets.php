@@ -215,15 +215,15 @@ trait CombinesAssets
         foreach ($assets as $path) {
             $filters = $this->getFilters(File::extension($path)) ?: [];
 
-            if (file_exists($basePath = base_path($path))) {
+            if (File::exists($basePath = base_path($path))) {
                 $path = $basePath;
             }
 
-            if (!file_exists($path)) {
+            if (!File::exists($path)) {
                 $path = File::symbolizePath($path, null) ?? $path;
             }
 
-            if (!file_exists($path)) {
+            if (!File::exists($path)) {
                 continue;
             }
 
@@ -409,12 +409,6 @@ trait CombinesAssets
 
     protected function putCache(string $cacheKey, array $cacheData): bool
     {
-        if (Cache::has($this->cacheKeyPrefix.$cacheKey)) {
-            return false;
-        }
-
-        Cache::forever($this->cacheKeyPrefix.$cacheKey, base64_encode(serialize($cacheData)));
-
-        return true;
+        return Cache::forever($this->cacheKeyPrefix.$cacheKey, base64_encode(serialize($cacheData)));
     }
 }

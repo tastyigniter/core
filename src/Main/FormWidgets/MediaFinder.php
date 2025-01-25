@@ -240,7 +240,7 @@ class MediaFinder extends BaseFormWidget
 
         if (!array_key_exists($this->fieldName, $this->model->mediable())) {
             throw new FlashException(sprintf(lang('igniter::main.media_manager.alert_missing_mediable'),
-                $this->fieldName, $this->model::class
+                $this->fieldName, $this->model::class,
             ));
         }
 
@@ -263,7 +263,7 @@ class MediaFinder extends BaseFormWidget
             $media->addFromRaw(
                 $manager->get(array_get($item, 'path'), true),
                 array_get($item, 'name'),
-                $this->fieldName
+                $this->fieldName,
             );
             $media->save();
 

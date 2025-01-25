@@ -30,11 +30,6 @@ class CalendarController extends ControllerAction
 
     protected ?Toolbar $toolbarWidget = null;
 
-    /**
-     * @var \Igniter\Admin\Widgets\Filter[] Reference to the filter widget objects.
-     */
-    protected array $filterWidgets = [];
-
     public array $requiredProperties = ['calendarConfig'];
 
     /**
@@ -83,11 +78,9 @@ class CalendarController extends ControllerAction
     /**
      * Prepare the widgets used by this action
      */
-    protected function makeCalendar($alias): Calendar
+    protected function makeCalendar(?string $alias = null): Calendar
     {
-        if (!isset($this->calendarConfig[$alias])) {
-            $alias = $this->primaryAlias;
-        }
+        $alias ??= $this->primaryAlias;
 
         $calendarConfig = $this->makeConfig($this->calendarConfig[$alias], $this->requiredConfig);
         $calendarConfig['alias'] = $alias;
@@ -130,10 +123,6 @@ class CalendarController extends ControllerAction
 
         if (!$noToolbar && !is_null($this->toolbarWidget)) {
             $list[] = $this->toolbarWidget->render();
-        }
-
-        if (isset($this->filterWidgets[$alias])) {
-            $list[] = $this->filterWidgets[$alias]->render();
         }
 
         $list[] = $this->calendarWidgets[$alias]->render();

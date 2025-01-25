@@ -27,6 +27,8 @@ class ThemePublish extends VendorPublishCommand
      */
     public function handle()
     {
+        $this->comment('Publishing theme assets...');
+
         $this->determineWhatShouldBePublished();
 
         $published = false;
@@ -39,9 +41,9 @@ class ThemePublish extends VendorPublishCommand
 
         if ($published === false) {
             $this->comment('No publishable custom files for theme ['.$this->activeTheme->getName().'].');
+        } else {
+            $this->info('Publishing complete.');
         }
-
-        $this->info('Publishing complete.');
     }
 
     protected function determineWhatShouldBePublished()

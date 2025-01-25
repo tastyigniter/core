@@ -25,6 +25,7 @@ class MailLayoutRequest extends FormRequest
             'code' => ['sometimes', 'required', 'regex:/^[a-z-_\.\:]+$/i',
                 Rule::unique('mail_layouts')->ignore($this->getRecordId(), 'layout_id'),
             ],
+            'language_id' => ['integer'],
             'layout' => ['string'],
             'layout_css' => ['nullable', 'string'],
             'plain_layout' => ['nullable', 'string'],

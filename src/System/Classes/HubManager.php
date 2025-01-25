@@ -5,6 +5,7 @@ namespace Igniter\System\Classes;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -108,7 +109,7 @@ class HubManager
             $headers['Authorization'] = 'Bearer '.$siteKey;
         }
 
-        if (!app()->runningInConsole()) {
+        if (!App::runningInConsole()) {
             $headers['X-Igniter-Host'] = gethostname() ?: 'unknown';
             $headers['X-Igniter-User-Ip'] = request()->ip();
         }

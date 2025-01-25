@@ -20,7 +20,7 @@ class MailTemplateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'layout_id' => ['integer'],
+            'layout_id' => ['nullable', 'integer'],
             'code' => ['sometimes', 'required', 'min:2', 'max:255',
                 Rule::unique('mail_templates', 'code')->ignore($this->getRecordId(), 'template_id'),
                 'regex:/^[a-z-_\.\:]+$/i',

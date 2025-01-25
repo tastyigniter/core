@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\View;
  * /(any)                   `main` app directory
  * @see \Igniter\Admin\Classes\AdminController|\Igniter\Main\Classes\MainController  controller class
  * @deprecated No longer used, will be removed in v5.0.0
+ * @codeCoverageIgnore
  */
 class Controller extends IlluminateController
 {

@@ -9,7 +9,6 @@ use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 /**
  * MediaLibrary Class
@@ -46,15 +45,11 @@ class MediaLibrary
         $cached = Cache::get(self::$cacheKey, false);
         $cached = $cached ? @unserialize(@base64_decode($cached)) : [];
 
-        if (!is_array($cached)) {
-            $cached = [];
-        }
-
         $cacheSuffix = $recursive ? 'recursive' : 'single';
         $cachedKey = "$cacheSuffix.$methodName.$path";
 
-        if (array_has($cached, $cachedKey)) {
-            $folderContents = array_get($cached, $cachedKey);
+        if (array_has((array)$cached, $cachedKey)) {
+            $folderContents = array_get((array)$cached, $cachedKey);
         } else {
             $folderContents = $this->scanFolderContents($path, $methodName, $recursive);
 
@@ -62,7 +57,7 @@ class MediaLibrary
             Cache::put(
                 self::$cacheKey,
                 base64_encode(serialize($cached)),
-                $this->getConfig('ttl', 0)
+                $this->getConfig('ttl', 0),
             );
         }
 
@@ -141,26 +136,17 @@ class MediaLibrary
 
     public function copyFile(string $srcPath, string $destPath): bool
     {
-        return $this->getStorageDisk()->copy(
-            $this->getMediaPath($srcPath),
-            $this->getMediaPath($destPath)
-        );
+        return $this->getStorageDisk()->copy($this->getMediaPath($srcPath), $this->getMediaPath($destPath));
     }
 
     public function moveFile(string $path, string $newPath): bool
     {
-        return $this->getStorageDisk()->move(
-            $this->getMediaPath($path),
-            $this->getMediaPath($newPath)
-        );
+        return $this->getStorageDisk()->move($this->getMediaPath($path), $this->getMediaPath($newPath));
     }
 
     public function rename(string $path, string $newPath): bool
     {
-        return $this->getStorageDisk()->move(
-            $this->getMediaPath($path),
-            $this->getMediaPath($newPath)
-        );
+        return $this->getStorageDisk()->move($this->getMediaPath($path), $this->getMediaPath($newPath));
     }
 
     public function deleteFiles(string|array $paths): bool
@@ -190,12 +176,12 @@ class MediaLibrary
 
     public function getMediaUrl(string $path): string
     {
-        if (!starts_with($path, $this->storagePath)) {
-            $path = $this->storagePath.$path;
-        }
-
         if (starts_with($path, ['//', 'http://', 'https://'])) {
             return $path;
+        }
+
+        if (!starts_with($path, $this->storagePath)) {
+            $path = $this->storagePath.$path;
         }
 
         $path = $this->getStorageDisk()->url($path);
@@ -247,9 +233,7 @@ class MediaLibrary
             $path = $this->getDefaultThumbPath($thumbFile, array_get($options, 'default'));
         }
 
-        $manipulator = Manipulator::make($path)->useSource(
-            $this->getStorageDisk()
-        );
+        $manipulator = Manipulator::make($path)->useSource($this->getStorageDisk());
 
         if ($manipulator->isSupported()) {
             $manipulator->manipulate(array_except($options, ['extension', 'default']));
@@ -426,9 +410,7 @@ class MediaLibrary
             return $this->storageDisk;
         }
 
-        return $this->storageDisk = Storage::disk(
-            $this->getConfig('disk', 'local')
-        );
+        return $this->storageDisk = Storage::disk($this->getConfig('disk', 'local'));
     }
 
     protected function initMediaItem(string $path, string $itemType): ?MediaItem
@@ -439,35 +421,11 @@ class MediaLibrary
             return null;
         }
 
-        $lastModified = $itemType == MediaItem::TYPE_FILE
-            ? $this->getStorageDisk()->lastModified($path)
-            : null;
-
-        $size = $itemType == MediaItem::TYPE_FILE
-            ? $this->getStorageDisk()->size($path)
-            : null;
-
+        $lastModified = $this->getStorageDisk()->lastModified($path);
+        $size = $this->getStorageDisk()->size($path);
         $publicUrl = $this->getMediaUrl($path);
 
         return new MediaItem($relativePath, $size, $lastModified, $itemType, $publicUrl);
-    }
-
-    protected function pathMatchesSearch(string $path, array $words): bool
-    {
-        $path = Str::lower($path);
-
-        foreach ($words as $word) {
-            $word = trim($word);
-            if (!strlen($word)) {
-                continue;
-            }
-
-            if (!Str::contains($path, $word)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     protected function getMediaThumbFile(string $filePath, array $options): string

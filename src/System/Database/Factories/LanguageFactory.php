@@ -13,6 +13,7 @@ class LanguageFactory extends Factory
         return [
             'name' => $this->faker->lexify('??????'),
             'code' => $this->faker->languageCode(),
+            'idiom' => $this->faker->languageCode(),
             'status' => $this->faker->boolean(),
         ];
     }

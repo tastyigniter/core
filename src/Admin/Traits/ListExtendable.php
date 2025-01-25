@@ -82,11 +82,9 @@ trait ListExtendable
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.list.extendColumns', function($widget) use ($calledClass, $callback) {
-            if (!is_a($widget->getController(), $calledClass)) {
-                return;
+            if (is_a($widget->getController(), $calledClass)) {
+                $callback($widget, $widget->model);
             }
-
-            $callback($widget, $widget->model);
         });
     }
 
@@ -94,11 +92,9 @@ trait ListExtendable
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.list.extendQuery', function($widget, $query) use ($calledClass, $callback) {
-            if (!is_a($widget->getController(), $calledClass)) {
-                return;
+            if (is_a($widget->getController(), $calledClass)) {
+                $callback($widget, $query);
             }
-
-            $callback($widget, $query);
         });
     }
 }

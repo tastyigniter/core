@@ -171,6 +171,7 @@ return [
         'invalid_column_datetime' => 'Column value \'%s\' is not a DateTime object, are you missing a $dates reference in the Model?',
         'delete_empty' => 'Nothing selected to delete.',
         'missing_column' => 'List used in %s has no list columns defined.',
+        'invalid_column_override' => 'Invalid column name used: %s. Must be included in list columns definition.',
         'text_empty' => 'Nothing found.',
         'text_setup' => 'Setup',
         'text_showing' => 'Showing %s-%s of %s records',

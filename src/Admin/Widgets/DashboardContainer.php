@@ -130,7 +130,7 @@ class DashboardContainer extends BaseWidget
 
     public function onLoadUpdatePopup(): array
     {
-        $widgetAlias = trim(post('widgetAlias'));
+        $widgetAlias = trim(post('widgetAlias', ''));
 
         if (!$widgetAlias) {
             throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_update'));
@@ -152,7 +152,7 @@ class DashboardContainer extends BaseWidget
 
         throw_unless(
             $widgetClass = resolve(Widgets::class)->resolveDashboardWidget($widgetCode = array_get($validated, 'widget')),
-            new FlashException(lang('igniter::admin.dashboard.alert_widget_class_not_found'))
+            new FlashException(lang('igniter::admin.dashboard.alert_widget_class_not_found')),
         );
 
         /** @var BaseDashboardWidget $widget */
@@ -164,7 +164,7 @@ class DashboardContainer extends BaseWidget
 
         throw_unless(
             $widget instanceof \Igniter\Admin\Classes\BaseDashboardWidget,
-            new FlashException(lang('igniter::admin.dashboard.alert_invalid_widget'))
+            new FlashException(lang('igniter::admin.dashboard.alert_invalid_widget')),
         );
 
         $widget->bindToController();
@@ -265,7 +265,7 @@ class DashboardContainer extends BaseWidget
                     $widget['priority'] = (int)array_search($alias, $aliases);
 
                     return [$alias => $widget];
-                })->all()
+                })->all(),
         );
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Dashboard widgets updated'))->now();
@@ -405,18 +405,6 @@ class DashboardContainer extends BaseWidget
         return $widgets[$alias];
     }
 
-    protected function getWidgetClassName(BaseDashboardWidget $widget): string
-    {
-        return get_class($widget);
-    }
-
-    protected function getWidgetPropertyConfigTitle(BaseDashboardWidget $widget): ?string
-    {
-        $config = $this->getWidgetPropertyConfig($widget);
-
-        return array_get($config, 'title');
-    }
-
     protected function getWidgetPropertyConfig(BaseDashboardWidget $widget): array
     {
         $properties = $widget->defineProperties();
@@ -434,7 +422,7 @@ class DashboardContainer extends BaseWidget
         foreach ($properties as $name => $params) {
             $propertyType = array_get($params, 'type', 'text');
 
-            if (!$this->checkWidgetPropertyType($propertyType)) {
+            if (!in_array($propertyType, ComponentManager::ALLOWED_PROPERTY_TYPES)) {
                 continue;
             }
 
@@ -482,11 +470,6 @@ class DashboardContainer extends BaseWidget
         return $sizes;
     }
 
-    protected function checkWidgetPropertyType($type): bool
-    {
-        return in_array($type, ComponentManager::ALLOWED_PROPERTY_TYPES);
-    }
-
     //
     // User Preferences
     //
@@ -498,11 +481,7 @@ class DashboardContainer extends BaseWidget
         $widgets = UserPreference::onUser()
             ->get($this->getUserPreferencesKey(), $defaultWidgets);
 
-        if (!is_array($widgets)) {
-            return [];
-        }
-
-        return $widgets;
+        return is_array($widgets) ? $widgets : [];
     }
 
     protected function setWidgetsToUserPreferences(array $widgets)
@@ -534,16 +513,5 @@ class DashboardContainer extends BaseWidget
     protected function getSystemParametersKey(): string
     {
         return 'admin_dashboardwidgets_default_'.$this->context;
-    }
-
-    protected function getUniqueAlias($widgets): string
-    {
-        $num = count($widgets);
-        do {
-            $num++;
-            $alias = 'dashboard_container_'.$this->context.'_'.$num;
-        } while (array_key_exists($alias, $widgets));
-
-        return $alias;
     }
 }

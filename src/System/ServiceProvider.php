@@ -105,7 +105,7 @@ class ServiceProvider extends AppServiceProvider
         $this->app->singleton(Settings::class);
 
         $this->app->singleton(Classes\ComponentManager::class);
-        $this->tapSingleton(Classes\ComposerManager::class);
+        $this->tapSingleton(\Igniter\Flame\Composer\Manager::class);
         $this->app->singleton(Classes\ExtensionManager::class);
         $this->app->singleton(Classes\HubManager::class);
         $this->tapSingleton(Classes\LanguageManager::class);

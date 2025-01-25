@@ -92,7 +92,7 @@ class ServiceProvider extends AppServiceProvider
             $manager->registerSourcePath(public_path('vendor/igniter'));
             $manager->registerSourcePath(File::symbolizePath('igniter::/'));
 
-            $manager->addFromManifest($this->root.'/resources/views/admin/_meta/assets.json', 'admin');
+            $manager->addFromManifest($this->root.'/resources/views/admin/_meta/assets.json');
         });
     }
 
@@ -106,12 +106,10 @@ class ServiceProvider extends AppServiceProvider
 
     protected function defineRoutes()
     {
-        if (app()->routesAreCached()) {
-            return;
+        if (!app()->routesAreCached()) {
+            Route::group([], function($router) {
+                (new Classes\RouteRegistrar($router))->all();
+            });
         }
-
-        Route::group([], function($router) {
-            (new Classes\RouteRegistrar($router))->all();
-        });
     }
 }

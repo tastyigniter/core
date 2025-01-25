@@ -38,11 +38,9 @@ class AdminHelper
         $adminUri = self::uri();
         $baseUrl = Request::getBaseUrl();
 
-        if ($path === null) {
-            return $baseUrl.'/'.$adminUri;
+        if ($path !== null) {
+            $path = RouterHelper::normalizeUrl($path);
         }
-
-        $path = RouterHelper::normalizeUrl($path);
 
         return $baseUrl.'/'.$adminUri.$path;
     }

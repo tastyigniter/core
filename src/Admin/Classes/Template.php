@@ -43,7 +43,7 @@ class Template
     public function appendBlock(string $name, string $contents)
     {
         if (!isset($this->blocks[$name])) {
-            $this->blocks[$name] = null;
+            $this->blocks[$name] = '';
         }
 
         $this->blocks[$name] .= $contents;
@@ -112,10 +112,7 @@ class Template
     public function renderStaticCss(): string
     {
         $file = 'igniter::build/css/static.css';
-        if (!File::exists($file)) {
-            return '';
-        }
 
-        return File::get($file);
+        return File::exists($file) ? File::get($file) : '';
     }
 }

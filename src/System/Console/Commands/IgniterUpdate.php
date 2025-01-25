@@ -2,8 +2,8 @@
 
 namespace Igniter\System\Console\Commands;
 
+use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Exception\ComposerException;
-use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Notifications\UpdateFoundNotification;
 use Illuminate\Console\Command;
@@ -40,7 +40,7 @@ class IgniterUpdate extends Command
     {
         $forceUpdate = (bool)$this->option('force');
 
-        resolve(ComposerManager::class)->assertSchema();
+        resolve(Manager::class)->assertSchema();
 
         $this->updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
         $this->output->writeln('<info>Checking for updates...</info>');
@@ -53,7 +53,7 @@ class IgniterUpdate extends Command
         }
 
         if ($this->option('check')) {
-            UpdateFoundNotification::make(array_only($itemsToUpdate, ['count']))->broadcast();
+            UpdateFoundNotification::make(array_only($updates, ['count']))->broadcast();
 
             return;
         }
@@ -63,10 +63,14 @@ class IgniterUpdate extends Command
             return;
         }
 
-        $this->updateItems($itemsToUpdate);
+        try {
+            $this->updateItems($itemsToUpdate);
 
-        // Run migrations
-        $this->call('igniter:up');
+            // Run migrations
+            $this->call('igniter:up');
+        } catch (ComposerException $e) {
+            $this->output->writeln($e->getMessage());
+        }
     }
 
     /**
@@ -84,31 +88,26 @@ class IgniterUpdate extends Command
 
     protected function updateItems(Collection $itemsToUpdate): void
     {
-        try {
-            $updatesCollection = $itemsToUpdate->groupBy('type');
+        $updatesCollection = $itemsToUpdate->groupBy('type');
 
-            if (!$this->option('addons')) {
-                $this->updateCore($updatesCollection);
-            }
+        if (!$this->option('addons')) {
+            $this->updateCore($updatesCollection);
+        }
 
-            if ($this->option('core')) {
-                return;
-            }
+        if ($this->option('core')) {
+            return;
+        }
 
-            $updatesCollection = $updatesCollection->except('core')->flatten(1);
-            if ($addons = (array)$this->option('addons')) {
-                $updatesCollection = $updatesCollection->filter(function($item) use ($addons) {
-                    return in_array($item->code, $addons);
-                });
-            }
+        $updatesCollection = $updatesCollection->except('core')->flatten(1);
+        if ($addons = (array)$this->option('addons')) {
+            $updatesCollection = $updatesCollection->filter(function($item) use ($addons) {
+                return in_array($item->code, $addons);
+            });
+        }
 
-            if ($updatesCollection->count()) {
-                $this->output->writeln('<info>Updating extensions/themes...</info>');
-                $this->updateManager->install($updatesCollection->all());
-            }
-        } catch (ComposerException $e) {
-            $this->output->writeln($e->getMessage());
-            exit(1);
+        if ($updatesCollection->count()) {
+            $this->output->writeln('<info>Updating extensions/themes...</info>');
+            $this->updateManager->install($updatesCollection->all());
         }
     }
 
@@ -116,7 +115,7 @@ class IgniterUpdate extends Command
     {
         if ($coreUpdate = optional($updatesCollection->pull('core'))->first()) {
             $this->output->writeln('<info>Updating TastyIgniter...</info>');
-            $this->updateManager->install($coreUpdate);
+            $this->updateManager->install([$coreUpdate]);
         }
     }
 }

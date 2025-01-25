@@ -144,7 +144,7 @@ class RecordEditor extends BaseFormWidget
 
     public function onDeleteRecord(): array
     {
-        $model = $this->findFormModel(post('recordId'));
+        $model = $this->findFormModel(post('recordId', ''));
 
         $model->delete();
 
@@ -156,7 +156,7 @@ class RecordEditor extends BaseFormWidget
     public function onAttachRecord(): array
     {
         throw_unless($recordId = post('recordId'),
-            new FlashException('Please select a record to attach.')
+            new FlashException('Please select a record to attach.'),
         );
 
         $model = $this->findFormModel($recordId);
@@ -167,10 +167,8 @@ class RecordEditor extends BaseFormWidget
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->formName).' attached'))->now();
         }
 
-        $attachToWidget = $this->getController()->widgets['form']?->getFormWidget($this->attachToField);
-        if ($attachToWidget instanceof Connector) {
-            return $attachToWidget->reload();
-        }
+        $formWidget = $this->getController()->widgets['form'] ?? null;
+        $formWidget?->getFormWidget($this->attachToField)?->reload();
 
         return [
             '#notification' => $this->makePartial('flash'),
@@ -224,7 +222,7 @@ class RecordEditor extends BaseFormWidget
 
         throw_if(
             !$this->modelMethodExists($model, $methodName) && !$this->modelMethodExists($model, 'getRecordEditorOptions'),
-            new FlashException(sprintf(lang('igniter::admin.alert_missing_method'), 'getRecordEditorOptions', get_class($model)))
+            new FlashException(sprintf(lang('igniter::admin.alert_missing_method'), 'getRecordEditorOptions', get_class($model))),
         );
 
         if ($this->modelMethodExists($model, $methodName)) {
@@ -238,10 +236,6 @@ class RecordEditor extends BaseFormWidget
 
     protected function makeRecordFormWidgetFromRequest()
     {
-        if (post('recordId')) {
-            return;
-        }
-
         if (!strlen($requestData = request()->header('X-IGNITER-RECORD-EDITOR-REQUEST-DATA', ''))) {
             return;
         }

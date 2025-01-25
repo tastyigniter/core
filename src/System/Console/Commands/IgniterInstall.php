@@ -2,13 +2,14 @@
 
 namespace Igniter\System\Console\Commands;
 
+use Facades\Igniter\System\Helpers\SystemHelper;
+use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\ConfigRewrite;
+use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Local\Models\Location;
 use Igniter\Main\Models\Theme;
-use Igniter\System\Classes\ComposerManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
-use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Settings;
 use Igniter\User\Facades\AdminAuth;
@@ -18,6 +19,7 @@ use Igniter\User\Models\UserRole;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Process;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -46,6 +48,8 @@ class IgniterInstall extends Command
      */
     protected $description = 'Set up TastyIgniter for the first time.';
 
+    protected string $basePath = '';
+
     protected ConfigRewrite $configRewrite;
 
     protected array $dbConfig = [];
@@ -57,6 +61,7 @@ class IgniterInstall extends Command
     {
         parent::__construct();
 
+        $this->basePath = base_path();
         $this->configRewrite = new ConfigRewrite;
     }
 
@@ -65,7 +70,7 @@ class IgniterInstall extends Command
      */
     public function handle()
     {
-        resolve(ComposerManager::class)->assertSchema();
+        resolve(Manager::class)->assertSchema();
 
         if ($this->shouldSkipSetup()) {
             return false;
@@ -110,12 +115,12 @@ class IgniterInstall extends Command
 
     protected function rewriteEnvFile()
     {
-        if (!file_exists(base_path().'/.env')) {
+        if (!File::exists($this->basePath.'/.env')) {
             $this->moveExampleFile('env', null, 'backup');
             $this->copyExampleFile('env', 'example', null);
         }
 
-        if (!$this->laravel['config']['app.key']) {
+        if (!Config::get('app.key')) {
             SystemHelper::replaceInEnv('APP_KEY=', 'APP_KEY='.$this->generateEncryptionKey());
         }
 
@@ -166,23 +171,26 @@ class IgniterInstall extends Command
     {
         DatabaseSeeder::$staffName = $this->ask('Admin Name', DatabaseSeeder::$staffName);
         DatabaseSeeder::$siteEmail = $this->output->ask('Admin Email', DatabaseSeeder::$siteEmail, function($answer) {
-            if (User::whereEmail($answer)->first()) {
-                throw new \RuntimeException('An administrator with that email already exists, please choose a different email.');
-            }
+            throw_if(
+                User::whereEmail($answer)->first(),
+                new \RuntimeException('An administrator with that email already exists, please choose a different email.'),
+            );
 
             return $answer;
         });
         DatabaseSeeder::$password = $this->output->ask('Admin Password', '123456', function($answer) {
-            if (!is_string($answer) || strlen($answer) < 6 || strlen($answer) > 32) {
-                throw new \RuntimeException('Please specify the administrator password, at least 6 characters');
-            }
+            throw_if(
+                !is_string($answer) || strlen($answer) < 6 || strlen($answer) > 32,
+                new \RuntimeException('Please specify the administrator password, at least 6 characters'),
+            );
 
             return $answer;
         });
         DatabaseSeeder::$username = $this->output->ask('Admin Username', 'admin', function($answer) {
-            if (User::whereUsername($answer)->first()) {
-                throw new \RuntimeException('An administrator with that username already exists, please choose a different username.');
-            }
+            throw_if(
+                User::whereUsername($answer)->first(),
+                new \RuntimeException('An administrator with that username already exists, please choose a different username.'),
+            );
 
             return $answer;
         });
@@ -192,7 +200,6 @@ class IgniterInstall extends Command
             'name' => DatabaseSeeder::$staffName,
             'language_id' => Language::first()->language_id,
             'user_role_id' => UserRole::first()->user_role_id,
-            'status' => true,
             'username' => DatabaseSeeder::$username,
             'password' => DatabaseSeeder::$password,
             'super_user' => true,
@@ -223,20 +230,20 @@ class IgniterInstall extends Command
     protected function moveExampleFile(string $name, ?string $old, ?string $new)
     {
         // /$old.$name => /$new.$name
-        if (file_exists(base_path().'/'.$old.'.'.$name)) {
-            rename(base_path().'/'.$old.'.'.$name, base_path().'/'.$new.'.'.$name);
+        if (File::exists($this->basePath.'/'.$old.'.'.$name)) {
+            File::move($this->basePath.'/'.$old.'.'.$name, $this->basePath.'/'.$new.'.'.$name);
         }
     }
 
     protected function copyExampleFile(string $name, ?string $old, ?string $new)
     {
         // /$old.$name => /$new.$name
-        if (file_exists(base_path().'/'.$old.'.'.$name)) {
-            if (file_exists(base_path().'/'.$new.'.'.$name)) {
-                unlink(base_path().'/'.$new.'.'.$name);
+        if (File::exists($this->basePath.'/'.$old.'.'.$name)) {
+            if (File::exists($this->basePath.'/'.$new.'.'.$name)) {
+                File::delete($this->basePath.'/'.$new.'.'.$name);
             }
 
-            copy(base_path().'/'.$old.'.'.$name, base_path().'/'.$new.'.'.$name);
+            File::copy($this->basePath.'/'.$old.'.'.$name, $this->basePath.'/'.$new.'.'.$name);
         }
     }
 
@@ -251,12 +258,12 @@ class IgniterInstall extends Command
 
     protected function openBrowser(string $url)
     {
-        if (PHP_OS_FAMILY === 'Darwin') {
-            exec('open '.$url);
-        } elseif (PHP_OS_FAMILY === 'Windows') {
-            exec('start '.$url);
+        if (SystemHelper::runningOnMac()) {
+            Process::run('open '.$url);
+        } elseif (SystemHelper::runningOnWindows()) {
+            Process::run('start '.$url);
         } else {
-            exec('xdg-open '.$url);
+            Process::run('xdg-open '.$url);
         }
     }
 

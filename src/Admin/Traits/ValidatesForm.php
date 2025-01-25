@@ -7,6 +7,7 @@ use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Helpers\ValidationHelper;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
@@ -126,12 +127,12 @@ trait ValidatesForm
         return $validated ?: $saveData;
     }
 
-    protected function validateFormRequest(?string $requestClass, callable $callback)
+    protected function validateFormRequest(?string $requestClass, callable $callback): array
     {
         return $this->resolveFormRequest($requestClass, $callback)->validated() ?? [];
     }
 
-    protected function resolveFormRequest(string $requestClass, callable $callback)
+    protected function resolveFormRequest(string $requestClass, callable $callback): FormRequest
     {
         app()->resolving($requestClass, $callback);
 

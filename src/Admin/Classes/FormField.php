@@ -4,6 +4,7 @@ namespace Igniter\Admin\Classes;
 
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Html\HtmlFacade as Html;
+use Illuminate\Database\Eloquent\Model as IlluminateModel;
 
 /**
  * Form Field definition
@@ -142,17 +143,13 @@ class FormField
     public function options(mixed $value = null): mixed
     {
         if ($value === null) {
-            if (is_array($this->options)) {
-                return $this->options;
-            }
-
             if (is_callable($this->options)) {
                 $callable = $this->options;
 
                 return $callable();
             }
 
-            return [];
+            return is_array($this->options) ? $this->options : [];
         }
 
         $this->options = $value;
@@ -197,6 +194,7 @@ class FormField
             'dependsOn',
             'required',
             'disabled',
+            'readOnly',
             'cssClass',
             'stretch',
             'context',
@@ -339,12 +337,12 @@ class FormField
         $triggerCondition = array_get($this->trigger, 'condition');
 
         // Apply these to container
-        if (in_array($triggerAction, ['hide', 'show']) && $position != 'container') {
+        if (in_array($triggerAction, ['hide', 'show']) && $position === 'field') {
             return $attributes;
         }
 
         // Apply these to field/input
-        if (in_array($triggerAction, ['enable', 'disable', 'empty']) && $position != 'field') {
+        if (in_array($triggerAction, ['enable', 'disable', 'empty']) && $position === 'container') {
             return $attributes;
         }
 
@@ -482,7 +480,7 @@ class FormField
      * Returns the final model and attribute name of a nested attribute.
      * Eg: list($model, $attribute) = $this->resolveAttribute('person[phone]');
      */
-    public function resolveModelAttribute(Model $model, null|string|array $attribute = null): array
+    public function resolveModelAttribute(Model|IlluminateModel $model, null|string|array $attribute = null): array
     {
         if ($attribute === null) {
             $attribute = $this->valueFrom ?: $this->fieldName;

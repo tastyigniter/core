@@ -8,6 +8,8 @@ class PackageManifest extends BasePackageManifest
 {
     protected string $metaFile = '/disabled-addons.json';
 
+    protected ?array $coreAddonsCache = null;
+
     public function packages(): array
     {
         return $this->getManifest();
@@ -15,12 +17,12 @@ class PackageManifest extends BasePackageManifest
 
     public function extensions(): array
     {
-        return collect($this->getManifest())->where('type', 'tastyigniter-extension')->all();
+        return collect($this->getManifest())->where('type', 'tastyigniter-extension')->values()->all();
     }
 
     public function themes(): array
     {
-        return collect($this->getManifest())->where('type', 'tastyigniter-theme')->all();
+        return collect($this->getManifest())->where('type', 'tastyigniter-theme')->values()->all();
     }
 
     public function getPackagePath(string $path)
@@ -45,9 +47,7 @@ class PackageManifest extends BasePackageManifest
         }
 
         return collect($packages)
-            ->filter(function($package) {
-                return array_get($package, 'name') === 'tastyigniter/flame';
-            })
+            ->filter(fn($package) => array_get($package, 'name') === 'tastyigniter/core')
             ->value('version');
     }
 
@@ -86,6 +86,32 @@ class PackageManifest extends BasePackageManifest
     //
     //
     //
+
+    public function coreAddons(): array
+    {
+        if (!is_null($this->coreAddonsCache)) {
+            return $this->coreAddonsCache;
+        }
+
+        $corePath = __DIR__.'/../../../composer.json';
+        $installed = json_decode($this->files->get($corePath), true);
+        $addons = collect($installed['require'] ?? [])
+            ->filter(function($version, $name) {
+                return str_starts_with($name, 'tastyigniter/');
+            })
+            ->map(function($version, $name) use ($installed) {
+                return [
+                    'code' => str_replace([
+                        'tastyigniter/ti-ext-',
+                        'tastyigniter/ti-theme-',
+                    ], 'igniter.', $name),
+                    'version' => $version,
+                ];
+            })
+            ->all();
+
+        return $this->coreAddonsCache = $addons;
+    }
 
     public function disabledAddons(): array
     {

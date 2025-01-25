@@ -94,9 +94,7 @@ class Menu extends BaseWidget
             return;
         }
 
-        if (!isset($this->items) || !is_array($this->items)) {
-            $this->items = [];
-        }
+        $this->items ??= [];
 
         $this->addItems($this->items);
 
@@ -207,7 +205,7 @@ class Menu extends BaseWidget
         $widgetConfig['alias'] = $this->alias.studly_case(name_to_id($item->itemName));
 
         throw_unless(class_exists($widgetClass = $widgetConfig['widget']), new Exception(sprintf(
-            lang('igniter::admin.alert_widget_class_name'), $widgetClass
+            lang('igniter::admin.alert_widget_class_name'), $widgetClass,
         )));
 
         return $this->widgets[$item->itemName] = new $widgetClass($this->controller, $item, $widgetConfig);
@@ -247,7 +245,7 @@ class Menu extends BaseWidget
 
     protected function getOptionsFromModel(MainMenuItem $item, callable $itemOptions): mixed
     {
-        if (is_array($itemOptions) && is_callable($itemOptions)) {
+        if (is_callable($itemOptions)) {
             $user = $this->getLoggedUser();
             $itemOptions = $itemOptions($this, $item, $user);
         }

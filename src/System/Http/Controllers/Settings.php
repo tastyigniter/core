@@ -10,7 +10,6 @@ use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Exception\FlashException;
-use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Models\MailTemplate;
 use Igniter\System\Models\Settings as SettingsModel;
 use Igniter\User\Facades\AdminAuth;
@@ -51,11 +50,6 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
         $this->validateSettingItems(true);
 
-        // For security reasons, delete setup files if still exists.
-        if (File::isFile(base_path('setup.php')) || File::isDirectory(base_path('setup'))) {
-            flash()->danger(lang('igniter::system.settings.alert_delete_setup_files'))->important()->now();
-        }
-
         $pageTitle = lang('igniter::system.settings.text_title');
         Template::setTitle($pageTitle);
         Template::setHeading($pageTitle);
@@ -69,11 +63,11 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         [$model, $definition] = $this->findSettingDefinitions($settingCode);
 
         throw_unless($definition, new FlashException(
-            sprintf(lang('igniter::system.settings.alert_settings_not_found'), $settingCode)
+            sprintf(lang('igniter::system.settings.alert_settings_not_found'), $settingCode),
         ));
 
-        if ($definition->permission && !$this->getUser()->hasPermission($definition->permission)) {
-            return Response::make(View::make('admin::access_denied'), 403);
+        if ($definition->permissions && !$this->getUser()->hasPermission($definition->permissions)) {
+            return Response::make(View::make('igniter.admin::access_denied'), 403);
         }
 
         $pageTitle = sprintf(lang('igniter::system.settings.text_edit_title'), lang($definition->label));
@@ -89,10 +83,10 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         $this->settingCode = $settingCode;
         [$model, $definition] = $this->findSettingDefinitions($settingCode);
         throw_unless($definition,
-            new FlashException(lang('igniter::system.settings.alert_settings_not_found'))
+            new FlashException(lang('igniter::system.settings.alert_settings_not_found')),
         );
 
-        if ($definition->permission && !$this->getUser()->hasPermission($definition->permission)) {
+        if ($definition->permissions && !$this->getUser()->hasPermission($definition->permissions)) {
             return Response::make(View::make('igniter.admin::access_denied'), 403);
         }
 
@@ -100,15 +94,15 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
         $saveData = $this->formWidget->getSaveData();
 
-        $this->validateFormRequest($definition->request, function(Request $request) use ($saveData) {
-            $request->merge($saveData);
-        });
-
-        if ($this->formValidate($model, $this->formWidget) === false) {
-            return request()->ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+        if ($definition->request) {
+            $this->validateFormRequest($definition->request, function(Request $request) use ($saveData) {
+                $request->merge($saveData);
+            });
         }
 
         SettingsModel::set($saveData);
+
+        $this->validateSettingItems(true);
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($definition->label).' settings updated '));
 
@@ -119,23 +113,21 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         return $this->refresh();
     }
 
-    public function edit_onTestMail()
+    public function edit_onTestMail(string $context, ?string $settingCode = null)
     {
         [$model, $definition] = $this->findSettingDefinitions('mail');
-        throw_unless($definition,
-            new FlashException(lang('igniter::system.settings.alert_settings_not_found'))
+        throw_unless($settingCode === 'mail' && $definition,
+            new FlashException(lang('igniter::system.settings.alert_settings_not_found')),
         );
 
         $this->initWidgets($model, $definition);
 
         $saveData = $this->formWidget->getSaveData();
 
-        $this->validateFormRequest($definition->request, function(Request $request) use ($saveData) {
-            $request->merge($saveData);
-        });
-
-        if ($this->formValidate($model, $this->formWidget) === false) {
-            return request()->ajax() ? ['#notification' => $this->makePartial('flash')] : false;
+        if ($definition->request) {
+            $this->validateFormRequest($definition->request, function(Request $request) use ($saveData) {
+                $request->merge($saveData);
+            });
         }
 
         SettingsModel::set($saveData);
@@ -182,7 +174,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
     protected function findSettingDefinitions(string $code): array
     {
         throw_unless(strlen($code),
-            new FlashException(lang('igniter::admin.form.missing_id'))
+            new FlashException(lang('igniter::admin.form.missing_id')),
         );
 
         // Prep the list widget config
@@ -195,16 +187,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
     protected function createModel(): SettingsModel
     {
-        if (!isset($this->modelClass) || !strlen($this->modelClass)) {
-            throw new FlashException(lang('igniter::system.settings.alert_settings_missing_model'));
-        }
-
         return new $this->modelClass;
-    }
-
-    protected function formAfterSave(SettingsModel $model)
-    {
-        $this->validateSettingItems(true);
     }
 
     protected function getFieldConfig(string $code, SettingsModel $model): array
@@ -227,15 +210,10 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             $settingValues = array_undot($model->getFieldValues());
 
             foreach ($settingItems as $settingItem) {
-                $settingItemForm = $this->getFieldConfig($settingItem->code, $this->createModel());
-
                 if ($settingItem->request) {
                     $request = new $settingItem->request;
                     $rules = $request->rules();
                     $attributes = $request->attributes();
-                } elseif (isset($settingItemForm['rules'])) {
-                    $rules = $settingItemForm['rules'];
-                    $attributes = [];
                 } else {
                     continue;
                 }

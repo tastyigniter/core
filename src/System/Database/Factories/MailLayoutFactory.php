@@ -13,6 +13,7 @@ class MailLayoutFactory extends Factory
         return [
             'name' => $this->faker->sentence(2),
             'code' => $this->faker->slug(),
+            'language_id' => 1,
             'layout' => $this->faker->randomHtml(),
             'layout_css' => $this->faker->text(),
             'plain_layout' => $this->faker->text(),

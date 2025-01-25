@@ -8,10 +8,10 @@ use Igniter\Flame\Support\RouterHelper;
 trait ControllerUtils
 {
     /** Page method name being called. */
-    protected string $action;
+    protected string $action = '';
 
     /** Routed parameters. */
-    protected array $params;
+    protected array $params = [];
 
     /** Default actions which cannot be called as actions. */
     public array $hiddenActions = [
@@ -44,7 +44,7 @@ trait ControllerUtils
         }
 
         throw_if(in_array(strtolower($action), array_map('strtolower', $this->hiddenActions)),
-            new FlashException(sprintf('Method [%s] is not allowed in the controller [%s]', $action, get_class($this)))
+            new FlashException(sprintf('Method [%s] is not allowed in the controller [%s]', $action, get_class($this))),
         );
 
         if (method_exists($this, $action)) {
@@ -65,7 +65,7 @@ trait ControllerUtils
         }
 
         throw_unless($this->checkAction($method), new FlashException(
-            sprintf('Method [%s] is not found in the controller [%s]', $method, get_class($this))
+            sprintf('Method [%s] is not found in the controller [%s]', $method, get_class($this)),
         ));
 
         if (method_exists($this, 'remap')) {
@@ -105,7 +105,7 @@ trait ControllerUtils
             return $result ?: true;
         }
 
-        return false;
+        return null;
     }
 
     protected function handlerMethodExists(string $handler): bool

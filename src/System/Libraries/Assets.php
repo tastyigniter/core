@@ -67,7 +67,7 @@ class Assets
                 $this->registerBundle(
                     array_get($bundle, 'type'),
                     array_get($bundle, 'files'),
-                    array_get($bundle, 'destination')
+                    array_get($bundle, 'destination'),
                 );
             }
         }
@@ -112,6 +112,7 @@ class Assets
         return match ($type) {
             'icon', 'favicon' => $this->addFavIcon($tag),
             'meta' => $this->addMeta($tag),
+            'rss' => $this->addRss($tag),
             'css', 'style' => $this->addCss($tag, $options),
             'js', 'script' => $this->addJs($tag, $options),
             default => $this,
@@ -164,7 +165,7 @@ class Assets
         return $this->getAsset('js');
     }
 
-    public function getJsVars(): ?string
+    public function getJsVars(): string
     {
         if (!$this->assets['jsVars']) {
             return '';
@@ -226,7 +227,7 @@ class Assets
     {
         $vars = array_get($this->assets['jsVars'], $key, []);
 
-        $value = array_merge($vars, $value);
+        $value = array_merge((array)$vars, (array)$value);
 
         array_set($this->assets['jsVars'], $key, $value);
     }
@@ -249,7 +250,7 @@ class Assets
         }
 
         $assetsToCombine = $this->prepareAssets(
-            $this->filterAssetsToCombine($assets)
+            $this->filterAssetsToCombine($assets),
         );
 
         $assets[] = [
@@ -318,10 +319,6 @@ class Assets
         $pathCache = [];
         foreach ($collection as $key => $asset) {
             $path = array_get($asset, 'path');
-            if (!$path) {
-                continue;
-            }
-
             $realPath = realpath(public_path($path)) ?: $path;
             if (isset($pathCache[$realPath])) {
                 array_forget($collection, $key);
@@ -334,7 +331,7 @@ class Assets
         return $collection;
     }
 
-    protected function prepUrl(string $path, ?string $suffix = null): string
+    protected function prepUrl(string $path): string
     {
         $path = $this->getAssetPath($path);
 
@@ -342,11 +339,7 @@ class Assets
             $path = File::localToPublic($path);
         }
 
-        if (!is_null($suffix)) {
-            $suffix = !str_contains($path, '?') ? '?'.$suffix : '&'.$suffix;
-        }
-
-        return $path.$suffix;
+        return $path;
     }
 
     protected function buildAssetUrls(string $type, array $assets): string
@@ -363,29 +356,25 @@ class Assets
 
     protected function buildAssetUrl(string $type, string $file, string|array|null $attributes = null): string
     {
-        if (!is_array($attributes)) {
-            $attributes = ['name' => $attributes];
-        }
-
         if ($type == 'rss') {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'alternate',
-                'href' => $file,
-                'title' => 'RSS',
-                'type' => 'application/rss+xml',
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'alternate',
+                    'href' => $file,
+                    'title' => 'RSS',
+                    'type' => 'application/rss+xml',
+                ], $attributes)).'>'.PHP_EOL;
         } elseif ($type == 'js') {
             $html = '<script'.Html::attributes(array_merge([
-                'charset' => strtolower(setting('charset', 'UTF-8')),
-                'type' => 'text/javascript',
-                'src' => asset($file),
-            ], $attributes)).'></script>'.PHP_EOL;
+                    'charset' => strtolower(setting('charset', 'UTF-8')),
+                    'type' => 'text/javascript',
+                    'src' => asset($file),
+                ], $attributes)).'></script>'.PHP_EOL;
         } else {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => asset($file),
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'stylesheet',
+                    'type' => 'text/css',
+                    'href' => asset($file),
+                ], $attributes)).'>'.PHP_EOL;
         }
 
         return $html;
@@ -404,7 +393,7 @@ class Assets
 
         // If a toJson() method exists, the object can cast itself automatically.
         if (method_exists($value, 'toJson')) {
-            return $value;
+            return json_encode($value->toJson());
         }
 
         // Otherwise, if the object doesn't even have a __toString() method, we can't proceed.

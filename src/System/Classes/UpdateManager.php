@@ -4,6 +4,8 @@ namespace Igniter\System\Classes;
 
 use Carbon\Carbon;
 use Composer\IO\BufferIO;
+use Facades\Igniter\System\Helpers\SystemHelper;
+use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Database\Migrations\DatabaseMigrationRepository;
 use Igniter\Flame\Database\Migrations\Migrator;
 use Igniter\Flame\Exception\ApplicationException;
@@ -11,11 +13,10 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
-use Igniter\System\Helpers\SystemHelper;
+use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Models\Extension;
-use Igniter\System\Models\Settings;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -131,10 +132,9 @@ class UpdateManager
 
         $this->migrator->runGroup(Igniter::coreMigrationPath());
 
-        Artisan::call('db:seed', [
-            '--class' => \Igniter\System\Database\Seeds\DatabaseSeeder::class,
-            '--force' => true,
-        ]);
+        Model::unguarded(function() {
+            resolve(DatabaseSeeder::class)->__invoke();
+        });
 
         $this->migrator->runGroup(Igniter::migrationPath());
 
@@ -200,11 +200,7 @@ class UpdateManager
     {
         $response = $this->requestUpdateList();
 
-        if (isset($response['last_check'])) {
-            return strtotime('-7 day') < strtotime($response['last_check']);
-        }
-
-        return true;
+        return !isset($response['last_check']) || strtotime('-7 day') < strtotime($response['last_check']);
     }
 
     public function listItems(string $itemType): array
@@ -316,11 +312,13 @@ class UpdateManager
             ];
         }
 
+        $this->installedItems = array_collapse($installedItems);
+
         if (!is_null($type)) {
             return $installedItems[$type] ?? [];
         }
 
-        return $this->installedItems = array_collapse($installedItems);
+        return $this->installedItems;
     }
 
     public function requestApplyItems(array $names): Collection
@@ -342,7 +340,7 @@ class UpdateManager
 
         array_set($ignoredUpdates, $code, !$remove);
 
-        Settings::set('ignored_updates', array_filter($ignoredUpdates));
+        setting()->set('ignored_updates', array_filter($ignoredUpdates));
     }
 
     public function getIgnoredUpdates(): array
@@ -375,13 +373,13 @@ class UpdateManager
 
     public function preInstall()
     {
-        if (SystemHelper::assertIniSet()) {
+        if (!SystemHelper::assertIniSet()) {
             $this->log(lang('igniter::system.updates.progress_preinstall_ok'));
 
             return;
         }
 
-        $hasErrors = SystemHelper::assertIniSet();
+        $hasErrors = false;
         $errorMessage = "Please fix the following in your php.ini file before proceeding:\n\n";
         if (SystemHelper::assertIniMaxExecutionTime(120)) {
             $errorMessage .= "max_execution_time should be at least 120.\n";
@@ -413,7 +411,7 @@ class UpdateManager
             return [$packageName => $packageInfo->version];
         })->all();
 
-        resolve(ComposerManager::class)->install($packages, $io);
+        resolve(Manager::class)->install($packages, $io);
 
         $this->log(lang('igniter::system.updates.progress_install_ok')."\nOutput: ".$io->getOutput());
     }
@@ -424,16 +422,9 @@ class UpdateManager
             return $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
         })->each(function(PackageInfo $packageInfo) {
             match ($packageInfo->type) {
-                'core' => function() {
-                    $this->migrate();
-                },
-                'extension' => function() use ($packageInfo) {
-                    $this->extensionManager->installExtension($packageInfo->code, $packageInfo->version);
-                },
-                'theme' => function() use ($packageInfo) {
-                    $this->themeManager->installTheme($packageInfo->code, $packageInfo->version);
-                },
-                default => null,
+                'core' => $this->migrate(),
+                'extension' => $this->extensionManager->installExtension($packageInfo->code, $packageInfo->version),
+                'theme' => $this->themeManager->installTheme($packageInfo->code, $packageInfo->version),
             };
         });
 

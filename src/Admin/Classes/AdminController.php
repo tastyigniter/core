@@ -120,15 +120,17 @@ class AdminController extends Controller
         }
 
         // Top menu widget is available on all admin pages
-        $this->makeMainMenuWidget();
-
+        if ($this->currentUser) {
+            $this->makeMainMenuWidget();
+        }
+        
         return $this;
     }
 
-    public function remap(string $action, array $params): mixed
+    public function remap(string $action, array $params = []): mixed
     {
         $action = $action === 'remap' ? $this->action : $action;
-        $params = $this->params;
+        $params = $params ?: $this->params;
 
         $this->fireSystemEvent('admin.controller.beforeRemap');
 
@@ -142,11 +144,11 @@ class AdminController extends Controller
         }
 
         throw_if($action === '404', new FlashException(
-            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this))
+            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this)),
         ));
 
         throw_unless($this->checkAction($action), new FlashException(
-            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this))
+            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this)),
         ));
 
         // Execute post handler and AJAX event
@@ -182,10 +184,6 @@ class AdminController extends Controller
 
     protected function makeMainMenuWidget(): void
     {
-        if (!$this->currentUser) {
-            return;
-        }
-
         $config = [];
         $config['alias'] = 'mainmenu';
         $config['items'] = AdminMenu::getMainItems();

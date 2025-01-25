@@ -15,10 +15,6 @@ class Updates extends \Igniter\Admin\Classes\AdminController
 {
     use ManagesUpdates;
 
-    public string $checkUrl = 'updates';
-
-    public string $browseUrl = 'updates/browse';
-
     protected null|string|array $requiredPermissions = 'Site.Updates';
 
     public function __construct()

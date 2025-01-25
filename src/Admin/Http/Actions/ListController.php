@@ -152,9 +152,7 @@ class ListController extends ControllerAction
      */
     public function makeList(?string $alias = null): Lists
     {
-        if (!$alias || !isset($this->listConfig[$alias])) {
-            $alias = $this->primaryAlias;
-        }
+        $alias = $alias ?? $this->primaryAlias;
 
         $listConfig = $this->controller->getListConfig($alias);
 
@@ -293,7 +291,7 @@ class ListController extends ControllerAction
         return $this->listWidgets[$alias]->onRefresh();
     }
 
-    public function renderListToolbar(?string $alias = null)
+    public function renderListToolbar(?string $alias = null): mixed
     {
         $alias = $alias ?? $this->primaryAlias;
         if (isset($this->toolbarWidgets[$alias])) {
@@ -332,10 +330,6 @@ class ListController extends ControllerAction
             $alias = $this->primaryAlias;
         }
 
-        if (!$listConfig = array_get($this->listConfig, $alias)) {
-            $listConfig = $this->listConfig[$alias] = $this->makeConfig($this->listConfig[$alias], $this->requiredConfig);
-        }
-
-        return $listConfig;
+        return array_get($this->listConfig, $alias, []);
     }
 }

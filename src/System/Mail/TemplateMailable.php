@@ -52,11 +52,7 @@ class TemplateMailable extends Mailable
     protected function buildSubject($message): self
     {
         if ($subject = $this->getMailTemplate()->subject) {
-            $subject = $this->getMailManager()->renderView($subject, $this->buildViewData());
-
-            $message->subject($subject);
-
-            return $this;
+            $this->subject($this->getMailManager()->renderView($subject, $this->buildViewData()));
         }
 
         return parent::buildSubject($message);

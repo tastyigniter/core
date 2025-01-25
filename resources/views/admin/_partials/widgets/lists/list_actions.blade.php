@@ -2,7 +2,7 @@
     <tr
         class="bulk-actions hide"
         data-control="bulk-actions"
-        data-action-total-records="{{ $records->total() }}"
+        data-action-total-records="{{ $records->count() }}"
     >
         <th class="bg-warning-subtle" colspan="999">
             <div>
@@ -13,7 +13,7 @@
                   role="button"
                   class="py-1 pl-0 btn-select-all btn btn-link hide"
                   data-control="check-total-records"
-                >{{ sprintf(lang('igniter::admin.list.actions.text_select_all'), $records->total()) }}</a>
+                >{{ sprintf(lang('igniter::admin.list.actions.text_select_all'), $records->count()) }}</a>
                 <input type="hidden" data-action-select-all name="select_all" value="1" disabled="disabled">
                 &nbsp;
                 @foreach($bulkActions as $actionCode => $bulkAction)

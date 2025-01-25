@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\System\Classes;
+namespace Igniter\Flame\Composer;
 
 use Composer\Autoload\ClassLoader;
 use Composer\Composer;
@@ -12,20 +12,19 @@ use Composer\IO\NullIO;
 use Composer\Json\JsonFile;
 use Composer\Package\Locker;
 use Composer\Util\Platform;
-use Igniter\Flame\Composer\Factory;
+use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Exception\ComposerException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
-use Igniter\System\Helpers\SystemHelper;
 use Illuminate\Support\Collection;
 use Seld\JsonLint\DuplicateKeyException;
 use Seld\JsonLint\JsonParser;
 use Throwable;
 
 /**
- * ComposerManager Class
+ * Manager Class
  */
-class ComposerManager
+class Manager
 {
     protected const REPOSITORY_HOST = 'satis.tastyigniter.com';
 
@@ -300,7 +299,7 @@ class ComposerManager
     {
         if (defined('IGNITER_COMPOSER_PATH')) {
             throw_unless(is_file(IGNITER_COMPOSER_PATH), new SystemException(sprintf(
-                'No Composer config found at IGNITER_COMPOSER_PATH (%s).', IGNITER_COMPOSER_PATH
+                'No Composer config found at IGNITER_COMPOSER_PATH (%s).', IGNITER_COMPOSER_PATH,
             )));
 
             return IGNITER_COMPOSER_PATH;
@@ -309,7 +308,7 @@ class ComposerManager
         $jsonPath = base_path('composer.json');
 
         throw_unless(is_file($jsonPath), new SystemException(sprintf(
-            'No Composer config found at %s', $jsonPath
+            'No Composer config found at %s', $jsonPath,
         )));
 
         return $jsonPath;
@@ -319,9 +318,7 @@ class ComposerManager
     {
         $jsonPath ??= $this->getJsonPath();
 
-        return pathinfo($jsonPath, PATHINFO_EXTENSION) === 'json'
-            ? substr($jsonPath, 0, -4).'lock'
-            : $jsonPath.'.lock';
+        return pathinfo($jsonPath, PATHINFO_EXTENSION) === 'json' ? substr($jsonPath, 0, -4).'lock' : $jsonPath.'.lock';
     }
 
     protected function getAuthPath(): string

@@ -2,6 +2,7 @@
 
 namespace Igniter\System\Providers;
 
+use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Flame\Providers\EventServiceProvider as FlameEventServiceProvider;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Observers\LanguageObserver;
@@ -22,7 +23,7 @@ class EventServiceProvider extends FlameEventServiceProvider
     protected function handleCacheCleared()
     {
         Event::listen('cache:cleared', function() {
-            \Igniter\System\Helpers\CacheHelper::clearInternal();
+            CacheHelper::clearInternal();
         });
     }
 }

@@ -66,7 +66,7 @@ class SystemLogs extends \Igniter\Admin\Classes\AdminController
         $path = storage_path($this->logFile.'-'.date('Y-m-d').'.log');
 
         // single file logs
-        if (!file_exists($path)) {
+        if (!File::exists($path)) {
             $path = storage_path($this->logFile.'.log');
         }
 

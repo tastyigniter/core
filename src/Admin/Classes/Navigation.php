@@ -5,13 +5,11 @@ namespace Igniter\Admin\Classes;
 use Igniter\Flame\Traits\EventEmitter;
 use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
-use Igniter\System\Traits\ViewMaker;
 use Igniter\User\Facades\AdminAuth;
 
 class Navigation
 {
     use EventEmitter;
-    use ViewMaker;
 
     protected array $navItems = [];
 
@@ -105,15 +103,6 @@ class Navigation
         return $this->filterPermittedNavItems($this->mainItems);
     }
 
-    public function render(string $partial): string
-    {
-        $navItems = $this->getVisibleNavItems();
-
-        return $this->makePartial($partial, [
-            'navItems' => $navItems,
-        ]);
-    }
-
     public function addNavItem(string $itemCode, array $options = [], ?string $parentCode = null)
     {
         $navItem = array_merge(self::$navItemDefaults, $options);
@@ -174,13 +163,11 @@ class Navigation
         // Load extension items
         $extensions = resolve(ExtensionManager::class)->getExtensions();
         foreach ($extensions as $extension) {
-            if (!$extension instanceof BaseExtension) {
-                continue;
+            if ($extension instanceof BaseExtension) {
+                $items = $extension->registerNavigation();
+
+                $this->registerNavItems($items);
             }
-
-            $items = $extension->registerNavigation();
-
-            $this->registerNavItems($items);
         }
 
         $this->fireSystemEvent('admin.navigation.extendItems');

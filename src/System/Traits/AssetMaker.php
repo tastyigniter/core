@@ -34,11 +34,7 @@ trait AssetMaker
             $assetPath = $this->assetPath;
         }
 
-        if (!is_array($assetPath)) {
-            $assetPath = [$assetPath];
-        }
-
-        foreach ($assetPath as $path) {
+        foreach ((array)$assetPath as $path) {
             $_fileName = File::symbolizePath($path.'/'.$fileName);
             if (File::isFile($_fileName)) {
                 return $_fileName;

@@ -2,14 +2,13 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Pagic\Model;
+use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Facades\Assets;
-use Igniter\System\Helpers\CacheHelper;
 use Igniter\System\Models\Extension;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -82,21 +81,11 @@ class IgniterUtil extends Command
             return;
         }
 
-        $this->comment('*** TastyIgniter sets latest version: '.Igniter::version());
+        $this->comment('*** TastyIgniter latest version: '.Igniter::version());
 
         if ($this->option('extensions')) {
             $this->setItemsVersion();
         }
-
-        $this->comment('-');
-        sleep(1);
-        $this->comment('Ping? Pong!');
-        sleep(1);
-        $this->comment('Ping? Pong!');
-        sleep(1);
-        $this->comment('Ping? Pong!');
-        sleep(1);
-        $this->comment('-');
     }
 
     protected function utilCompileScss()
@@ -105,7 +94,7 @@ class IgniterUtil extends Command
 
         $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
 
-        $notes = $activeTheme ? Assets::buildBundles() : [];
+        $notes = $activeTheme ? Assets::buildBundles($activeTheme) : [];
 
         if (!$notes) {
             $this->comment('Nothing to compile!');
@@ -118,30 +107,11 @@ class IgniterUtil extends Command
         }
     }
 
-    protected function utilRemoveDuplicates()
-    {
-        $this->comment('Removing duplicate views...');
-
-        $directoryToScan = new \RecursiveDirectoryIterator(base_path());
-        $directoryIterator = new \RecursiveIteratorIterator($directoryToScan);
-        $files = new \RegexIterator($directoryIterator, '#(?:\.blade\.php)$#Di');
-
-        $removeCount = 0;
-        foreach ($files as $file) {
-            $pagicPath = str_replace('.'.Model::DEFAULT_EXTENSION, '.php', $file->getPathName());
-            if (file_exists($pagicPath)) {
-                unlink($pagicPath);
-                $this->comment('Removed '.$pagicPath);
-                $removeCount++;
-            }
-        }
-
-        $this->comment('Removed '.$removeCount.' duplicate views...');
-    }
-
     protected function utilSetCarte()
     {
-        $carteKey = $this->option('key');
+        $this->comment('Setting Carte Key...');
+
+        $carteKey = $this->option('carteKey');
         if (!strlen($carteKey)) {
             $this->error('No carteKey defined, use --key=<key> to set a Carte');
 
@@ -163,7 +133,7 @@ class IgniterUtil extends Command
         if ($theme = Theme::activateTheme($themeName)) {
             CacheHelper::clearView();
 
-            $this->output->writeln('Theme ['.$theme->name.'] set as default ');
+            $this->output->writeln('Theme ['.$theme->name.'] set as default');
         }
     }
 
@@ -182,7 +152,7 @@ class IgniterUtil extends Command
                     Theme::where('code', $update['code'])->update(['version' => $update['version']]);
                 }
 
-                $this->comment('*** '.$update['code'].' sets latest version: '.$update['version']);
+                $this->comment('*** '.$update['code'].' latest version: '.$update['version']);
             });
     }
 }

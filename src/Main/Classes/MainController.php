@@ -7,11 +7,12 @@ use Igniter\Admin\Traits\ControllerUtils;
 use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Flash\Facades\Flash;
+use Igniter\Flame\Flash\Message;
+use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Pagic\Parsers\FileParser;
 use Igniter\Flame\Pagic\Router;
 use Igniter\Flame\Traits\EventEmitter;
 use Igniter\Flame\Traits\ExtendableTrait;
-use Igniter\Main\Helpers\MainHelper;
 use Igniter\Main\Template\Code\LayoutCode;
 use Igniter\Main\Template\Code\PageCode;
 use Igniter\Main\Template\ComponentPartial;
@@ -21,6 +22,7 @@ use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page;
 use Igniter\Main\Template\Partial;
 use Igniter\Main\Traits\ComponentMaker;
+use Igniter\Main\Traits\ControllerHelpers;
 use Igniter\System\Helpers\ViewHelper;
 use Igniter\System\Traits\AssetMaker;
 use Illuminate\Http\RedirectResponse;
@@ -28,10 +30,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -42,6 +42,7 @@ class MainController extends Controller
 {
     use AssetMaker;
     use ComponentMaker;
+    use ControllerHelpers;
     use ControllerUtils;
     use EventEmitter;
     use ExtendableTrait;
@@ -146,7 +147,7 @@ class MainController extends Controller
             $layout = LayoutTemplate::initFallback($this->theme->getName());
         } elseif (($layout = LayoutTemplate::loadCached($this->theme->getName(), $page->layout)) === null) {
             throw new FlashException(sprintf(
-                Lang::get('igniter::main.not_found.layout_name'), $page->layout
+                Lang::get('igniter::main.not_found.layout_name'), $page->layout,
             ));
         }
 
@@ -293,7 +294,9 @@ class MainController extends Controller
                 $response['X_IGNITER_REDIRECT'] = $result->getTargetUrl();
                 $result = null;
             } elseif (Request::header('X-IGNITER-REQUEST-FLASH') && Flash::messages()->isNotEmpty()) {
-                $response['X_IGNITER_FLASH_MESSAGES'] = Flash::all();
+                $response['X_IGNITER_FLASH_MESSAGES'] = Flash::all()->map(function(Message $message) {
+                    return $message->toArray();
+                })->all();
             }
 
             if (is_array($result)) {
@@ -328,13 +331,6 @@ class MainController extends Controller
             }
         } // Process page specific handler (index_onSomething)
         else {
-            $pageHandler = $this->action.'_'.$handler;
-            if ($this->methodExists($pageHandler)) {
-                $result = call_user_func_array([$this, $pageHandler], array_values($this->params));
-
-                return $result ?: true;
-            }
-
             if (($componentObj = $this->findComponentByHandler($handler)) !== null) {
                 $this->componentContext = $componentObj;
                 $result = $componentObj->runEventHandler($handler);
@@ -421,7 +417,7 @@ class MainController extends Controller
      */
     public function renderPage(): string
     {
-        $contents = $this->pageContents;
+        $contents = $this->pageContents ?? '';
 
         // Extensibility
         if ($event = $this->fireSystemEvent('main.page.render', [$contents])) {
@@ -459,7 +455,9 @@ class MainController extends Controller
         }
 
         // Render the partial
-        $partialContent = pagic()->renderSource($partial, $this->vars);
+        $partialContent = $partial instanceof TemplateInterface
+            ? pagic()->renderSource($partial, $this->vars)
+            : $partial;
 
         // Restore variables
         $this->vars = $vars;
@@ -487,12 +485,11 @@ class MainController extends Controller
             $content = $event;
         } // Load content from theme
         elseif (($content = Content::loadCached($this->theme->getName(), $name)) === null) {
-            throw new FlashException(sprintf(
-                Lang::get('igniter::main.not_found.content'), $name
-            ));
+            throw new FlashException(sprintf(Lang::get('igniter::main.not_found.content'), $name));
         }
 
-        $fileContent = $content->getMarkup();
+        $fileContent = $content instanceof TemplateInterface
+            ? $content->getMarkup() : $content;
 
         // Inject global view variables
         $globalVars = ViewHelper::getGlobalVars();
@@ -541,68 +538,6 @@ class MainController extends Controller
         }
 
         return $partial;
-    }
-
-    //
-    // Helpers
-    //
-
-    public function url(?string $path = null, array $params = []): string
-    {
-        if (is_null($path)) {
-            return $this->currentPageUrl($params);
-        }
-
-        return URL::to($path, $params);
-    }
-
-    public function pageUrl(?string $path = null, array $params = []): string
-    {
-        if (is_null($path)) {
-            return $this->currentPageUrl($params);
-        }
-
-        return MainHelper::pageUrl($path, $params);
-    }
-
-    public function currentPageUrl(array $params = []): string
-    {
-        return $this->pageUrl($this->page->getBaseFileName(), $params);
-    }
-
-    public function themeUrl(?string $url = null)
-    {
-        traceLog('themeUrl() is deprecated, use public_url() instead.');
-    }
-
-    public function param(string $name, mixed $default = null): mixed
-    {
-        return $this->router->getParameter($name, $default);
-    }
-
-    public function refresh(): RedirectResponse
-    {
-        return Redirect::back();
-    }
-
-    public function redirect(string $path, int $status = 302, array $headers = [], ?bool $secure = null): RedirectResponse
-    {
-        return Redirect::to($path, $status, $headers, $secure);
-    }
-
-    public function redirectGuest(string $path, int $status = 302, array $headers = [], ?bool $secure = null): RedirectResponse
-    {
-        return Redirect::guest($path, $status, $headers, $secure);
-    }
-
-    public function redirectIntended(string $path, int $status = 302, array $headers = [], ?bool $secure = null): RedirectResponse
-    {
-        return Redirect::intended($path, $status, $headers, $secure);
-    }
-
-    public function redirectBack(): RedirectResponse
-    {
-        return Redirect::back();
     }
 
     protected function handleException(string $message, bool $throwException)

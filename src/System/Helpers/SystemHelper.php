@@ -2,9 +2,9 @@
 
 namespace Igniter\System\Helpers;
 
+use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
-use Igniter\System\Classes\ComposerManager;
 use Illuminate\Support\Facades\Validator;
 
 class SystemHelper
@@ -12,7 +12,7 @@ class SystemHelper
     /**
      * Returns the PHP version, without the distribution info.
      */
-    public static function phpVersion(): string
+    public function phpVersion(): string
     {
         return PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION.'.'.PHP_RELEASE_VERSION;
     }
@@ -20,17 +20,17 @@ class SystemHelper
     /**
      * Returns a PHP extension version, without the distribution info.
      */
-    public static function extensionVersion(string $name): string
+    public function extensionVersion(string $name): string
     {
         $version = phpversion($name);
 
-        return static::normalizeVersion($version);
+        return $this->normalizeVersion($version);
     }
 
     /**
      * Removes distribution info from a version
      */
-    public static function normalizeVersion(string $version): string
+    public function normalizeVersion(string $version): string
     {
         return preg_replace('/^([^\s~+-]+).*$/', '$1', $version);
     }
@@ -38,10 +38,10 @@ class SystemHelper
     /**
      * Tests whether ini_set() works.
      */
-    public static function assertIniSet()
+    public function assertIniSet()
     {
         $oldValue = ini_get('memory_limit');
-        $oldBytes = static::phpIniValueInBytes('memory_limit');
+        $oldBytes = $this->phpIniValueInBytes('memory_limit');
 
         // When the old value is not equal to '-1', add 1MB to the limit set at the moment
         $testBytes = $oldBytes === -1 ? 1024 * 1024 * 442 : $oldBytes + 1024 * 1024;
@@ -61,16 +61,16 @@ class SystemHelper
             $result !== $newValue;
     }
 
-    public static function assertIniMaxExecutionTime(int $int): bool
+    public function assertIniMaxExecutionTime(int $int): bool
     {
         $timeLimit = (int)trim(ini_get('max_execution_time'));
 
         return $timeLimit !== 0 && $timeLimit < 120;
     }
 
-    public static function assertIniMemoryLimit(int $int): bool
+    public function assertIniMemoryLimit(int $int): bool
     {
-        $memoryLimit = static::phpIniValueInBytes('memory_limit');
+        $memoryLimit = $this->phpIniValueInBytes('memory_limit');
 
         return $memoryLimit !== -1 && $memoryLimit < 1024 * 1024 * 256;
     }
@@ -78,7 +78,7 @@ class SystemHelper
     /**
      * Retrieves a bool PHP config setting and normalizes it to an actual bool.
      */
-    public static function phpIniValueAsBool(string $var): bool
+    public function phpIniValueAsBool(string $var): bool
     {
         $value = trim(ini_get($var));
 
@@ -88,67 +88,61 @@ class SystemHelper
     /**
      * Retrieves a disk size PHP config setting and normalizes it into bytes.
      */
-    public static function phpIniValueInBytes(string $var): float|int
+    public function phpIniValueInBytes(string $var): float|int
     {
         $value = trim(ini_get($var));
 
-        return static::phpSizeInBytes($value);
+        return $this->phpSizeInBytes($value);
     }
 
     /**
      * Normalizes a PHP file size into bytes.
      */
-    public static function phpSizeInBytes(string $value): float|int
+    public function phpSizeInBytes(string $value): float|int
     {
         $unit = strtolower(substr($value, -1, 1));
         $value = (int)$value;
 
-        switch ($unit) {
-            case 'g':
-                $value *= 1024;
-                // no break
-            case 'm':
-                $value *= 1024;
-                // no break
-            case 'k':
-                $value *= 1024;
-        }
-
-        return $value;
+        return match ($unit) {
+            'g' => $value * 1024 * 1024 * 1024,
+            'm' => $value * 1024 * 1024,
+            'k' => $value * 1024,
+            default => (int)$value,
+        };
     }
 
-    public static function replaceInEnv(string $search, string $replace)
+    public function replaceInEnv(string $search, string $replace)
     {
         $file = base_path().'/.env';
 
-        file_put_contents(
+        File::put(
             $file,
-            preg_replace('/^'.$search.'(.*)$/m', $replace, file_get_contents($file))
+            preg_replace('/^'.$search.'(.*)$/m', $replace, File::get($file)),
         );
 
         putenv($replace);
     }
 
-    public static function extensionConfigFromFile(string $path): array
+    public function extensionConfigFromFile(string $path): array
     {
         throw_if(
             File::exists($manifestFile = $path.'/extension.json'),
-            new SystemException("extension.json files are no longer supported, please convert to composer.json: $manifestFile")
+            new SystemException("extension.json files are no longer supported, please convert to composer.json: $manifestFile"),
         );
 
         throw_unless(File::exists($path.'/composer.json'), new SystemException(
-            "Required extension configuration file not found: $path/composer.json"
+            "Required extension configuration file not found: $path/composer.json",
         ));
 
-        return resolve(ComposerManager::class)->getExtensionManifest($path);
+        return resolve(Manager::class)->getExtensionManifest($path);
     }
 
-    public static function extensionValidateConfig(array $config): array
+    public function extensionValidateConfig(array $config): array
     {
         Validator::make($config, [
             'code' => [
                 'required',
-                'regex:/^[A-Za-z_-]+(\.?)+[A-Za-z_-]+$/',
+                'regex:/^[A-Za-z]+(\.?)+[A-Za-z]+$/',
                 'max:64',
             ],
             'name' => ['required', 'string'],
@@ -164,5 +158,56 @@ class SystemHelper
         ])->validate();
 
         return $config;
+    }
+
+    /**
+     * Read configuration from Config/Meta file
+     */
+    public function themeConfigFromFile(string $path): array
+    {
+        if (File::exists($path.'/theme.json')) {
+            $config = File::json($path.'/theme.json');
+        } elseif (File::exists($path.'/composer.json')) {
+            $config = resolve(Manager::class)->getThemeManifest($path);
+        } else {
+            throw new SystemException('Theme does not have a registration file in: '.$path);
+        }
+
+        if (!array_key_exists('code', $config)) {
+            $config['code'] = basename($path);
+        }
+
+        return $config;
+    }
+
+    public function themeValidateConfig(array $config): array
+    {
+        Validator::make($config, [
+            'code' => [
+                'required',
+                'regex:/^[A-Za-z-]+(\.?)+[A-Za-z-]+$/',
+                'max:64',
+            ],
+            'name' => ['required', 'string'],
+            'author' => ['string'],
+            'description' => ['required', 'string', 'max:255'],
+        ])->validate();
+
+        return $config;
+    }
+
+    public function runningOnWindows()
+    {
+        return PHP_OS_FAMILY === 'Windows';
+    }
+
+    public function runningOnMac()
+    {
+        return PHP_OS_FAMILY === 'Darwin';
+    }
+
+    public function runningOnLinux()
+    {
+        return PHP_OS_FAMILY === 'Linux';
     }
 }

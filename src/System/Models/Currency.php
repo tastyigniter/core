@@ -75,11 +75,18 @@ class Currency extends Model implements CurrencyInterface
         'enabled' => 'applySwitchable',
     ];
 
+    protected $attributes = [
+        'currency_rate' => 0,
+        'thousand_sign' => ',',
+        'decimal_sign' => '.',
+        'decimal_position' => 2,
+    ];
+
     protected array $queryModifierSorts = ['currency_name asc', 'currency_name desc', 'currency_code asc', 'currency_code desc'];
 
     protected array $queryModifierSearchableFields = ['currency_name', 'currency_code'];
 
-    public function getDefaultableName()
+    public function defaultableName(): string
     {
         return $this->currency_name;
     }
@@ -142,9 +149,7 @@ class Currency extends Model implements CurrencyInterface
         $format = ($this->thousand_sign ?: '!').'0'.$this->decimal_sign;
         $format .= str_repeat('0', $this->decimal_position);
 
-        return $this->getSymbolPosition()
-            ? '1'.$format.$this->getSymbol()
-            : $this->getSymbol().'1'.$format;
+        return $this->getSymbolPosition() ? '1'.$format.$this->getSymbol() : $this->getSymbol().'1'.$format;
     }
 
     public function getRate(): ?float

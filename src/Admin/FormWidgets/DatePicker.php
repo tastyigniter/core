@@ -3,6 +3,7 @@
 namespace Igniter\Admin\FormWidgets;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 
@@ -20,10 +21,10 @@ class DatePicker extends BaseFormWidget
     public string $mode = 'date';
 
     /** The minimum/the earliest date that can be selected. eg: 2000-01-01 */
-    public null|int|string|\DateTimeInterface $startDate = null;
+    public null|int|string|CarbonInterface $startDate = null;
 
     /** The maximum/latest date that can be selected. eg: 2020-12-31 */
-    public null|int|string|\DateTimeInterface $endDate = null;
+    public null|int|string|CarbonInterface $endDate = null;
 
     public string $dateFormat = 'Y-m-d';
 

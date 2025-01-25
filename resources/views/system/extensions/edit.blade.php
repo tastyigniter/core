@@ -20,7 +20,7 @@
         ) !!}
 
         <div class="border-bottom">
-            {!! $this->toolbarWidget->render() !!}
+            {!! $this->toolbarWidget?->render() !!}
         </div>
         {!! $this->formWidget->render() !!}
         {!! form_close() !!}

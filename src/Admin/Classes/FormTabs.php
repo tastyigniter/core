@@ -84,7 +84,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
     public function addField(string $name, FormField $field, ?string $tab = null)
     {
         if (!$tab) {
-            $tab = lang($this->defaultTab);
+            $tab = $this->defaultTab;
         }
 
         $this->fields[$tab][$name] = $field;
@@ -152,7 +152,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
     {
         return new ArrayIterator($this->suppressTabs
             ? $this->getAllFields()
-            : $this->getFields()
+            : $this->getFields(),
         );
     }
 

@@ -138,7 +138,7 @@ class FlashBag
         }
 
         return $this->message(
-            new OverlayMessage(compact('title', 'message'))
+            new OverlayMessage(compact('title', 'message')),
         )->important();
     }
 

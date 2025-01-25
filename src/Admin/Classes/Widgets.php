@@ -106,9 +106,8 @@ class Widgets
             return $hints[$name];
         }
 
-        $_name = normalize_class_name($name);
-        if (isset($this->bulkActionWidgets[$_name])) {
-            return $_name;
+        if (isset($this->bulkActionWidgets[$name])) {
+            return $name;
         }
 
         return $name;
@@ -136,11 +135,7 @@ class Widgets
             $extensions = $this->extensionManager->getExtensions();
 
             foreach ($extensions as $extension) {
-                if (!is_array($widgets = $extension->registerFormWidgets())) {
-                    continue;
-                }
-
-                foreach ($widgets as $className => $widgetInfo) {
+                foreach ($extension->registerFormWidgets() as $className => $widgetInfo) {
                     $this->registerFormWidget($className, $widgetInfo);
                 }
             }
@@ -153,11 +148,11 @@ class Widgets
      * Registers a single form form widget.
      *
      * @param string $className Widget class name.
-     * @param ?array $widgetInfo Registration information, can contain an 'code' key.
+     * @param array $widgetInfo Registration information, can contain an 'code' key.
      *
      * @return void
      */
-    public function registerFormWidget(string $className, ?array $widgetInfo = null)
+    public function registerFormWidget(string $className, array $widgetInfo)
     {
         $widgetCode = $widgetInfo['code'] ?? null;
 
@@ -206,9 +201,8 @@ class Widgets
             return $hints[$name];
         }
 
-        $_name = normalize_class_name($name);
-        if (isset($this->formWidgets[$_name])) {
-            return $_name;
+        if (isset($this->formWidgets[$name])) {
+            return $name;
         }
 
         return $name;
@@ -236,11 +230,7 @@ class Widgets
             $extensions = $this->extensionManager->getExtensions();
 
             foreach ($extensions as $extension) {
-                if (!is_array($widgets = $extension->registerDashboardWidgets())) {
-                    continue;
-                }
-
-                foreach ($widgets as $className => $widgetInfo) {
+                foreach ($extension->registerDashboardWidgets() as $className => $widgetInfo) {
                     $this->registerDashboardWidget($className, $widgetInfo);
                 }
             }
@@ -293,9 +283,8 @@ class Widgets
             return $hints[$name];
         }
 
-        $_name = normalize_class_name($name);
-        if (isset($this->dashboardWidgets[$_name])) {
-            return $_name;
+        if (isset($this->dashboardWidgets[$name])) {
+            return $name;
         }
 
         return $name;

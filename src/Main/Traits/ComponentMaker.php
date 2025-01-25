@@ -132,7 +132,13 @@ trait ComponentMaker
      */
     public function findComponentByHandler(string $handler): ?BaseComponent
     {
-        foreach ($this->layout->components as $component) {
+        foreach ($this->page->loadedComponents as $component) {
+            if ($component->methodExists($handler)) {
+                return $component;
+            }
+        }
+
+        foreach ($this->layout->loadedComponents as $component) {
             if ($component->methodExists($handler)) {
                 return $component;
             }
@@ -146,13 +152,13 @@ trait ComponentMaker
      */
     public function findComponentByPartial(string $partial): ?BaseComponent
     {
-        foreach ($this->page->components as $component) {
+        foreach ($this->page->loadedComponents as $component) {
             if (ComponentPartial::check($component, $partial)) {
                 return $component;
             }
         }
 
-        foreach ($this->layout->components as $component) {
+        foreach ($this->layout->loadedComponents as $component) {
             if (ComponentPartial::check($component, $partial)) {
                 return $component;
             }

@@ -83,13 +83,11 @@ class ServiceProvider extends AppServiceProvider
 
     protected function defineRoutes()
     {
-        if (app()->routesAreCached()) {
-            return;
+        if (!app()->routesAreCached()) {
+            Route::group([], function($router) {
+                (new RouteRegistrar($router))->all();
+            });
         }
-
-        Route::group([], function($router) {
-            (new RouteRegistrar($router))->all();
-        });
     }
 
     protected function registerBladeDirectives()

@@ -18,14 +18,14 @@ class Manipulator
 
     protected ?string $tempFilePath = null;
 
-    public function __construct(protected string $file)
+    public function __construct(protected string $file = '')
     {
         $this->manipulations = new Collection;
     }
 
     public static function make(string $file): self
     {
-        return new static($file);
+        return resolve(static::class)->useFile($file);
     }
 
     public function __call(string $name, array $arguments): self
@@ -35,6 +35,14 @@ class Manipulator
         }
 
         $this->manipulations()->push($name, $arguments);
+
+        return $this;
+    }
+
+    public function useFile(string $file): self
+    {
+        $this->file = $file;
+        $this->manipulations = new Collection;
 
         return $this;
     }
@@ -67,14 +75,14 @@ class Manipulator
         $this->mergeManipulations($manipulations);
 
         $glideServer = $this->createGlideServer(
-            $this->file, $this->extractWatermarkDirectory($manipulations)
+            $this->file, $this->extractWatermarkDirectory($manipulations),
         );
 
         $glideServer->setGroupCacheInFolders(false);
 
         $tempImage = $glideServer->makeImage(
             $this->convertToRelativeFilePath($this->file),
-            $this->prepareManipulations()
+            $this->prepareManipulations(),
         );
 
         $this->tempFilePath = temp_path().DIRECTORY_SEPARATOR.$tempImage;

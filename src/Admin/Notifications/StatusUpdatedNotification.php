@@ -44,7 +44,7 @@ class StatusUpdatedNotification extends Notification
 
     public function getMessage(): string
     {
-        $lang = $this->subject->assignable instanceof Order
+        $lang = $this->subject->object instanceof Order
             ? lang('igniter.cart::default.orders.notify_status_updated')
             : lang('igniter.reservation::default.notify_status_updated');
 

@@ -46,15 +46,10 @@ class News extends BaseDashboardWidget
         $this->vars['newsFeed'] = $this->loadFeedItems();
     }
 
-    public function loadFeedItems(): array
+    protected function loadFeedItems(): array
     {
-        $dom = $this->createRssDocument();
-        if (!$dom || !$dom->load($this->newsRss)) {
-            return [];
-        }
-
         $newsFeed = [];
-        foreach ($dom->getElementsByTagName('entry') as $content) {
+        foreach ($this->loadRssDocument()?->getElementsByTagName('entry') ?? [] as $content) {
             $newsFeed[] = [
                 'title' => $content->getElementsByTagName('title')->item(0)->nodeValue,
                 'description' => $content->getElementsByTagName('summary')->item(0)->nodeValue,
@@ -69,8 +64,16 @@ class News extends BaseDashboardWidget
         return array_slice($newsFeed, 0, $count);
     }
 
-    public function createRssDocument(): ?DOMDocument
+    protected function loadRssDocument(): ?DOMDocument
     {
-        return class_exists('DOMDocument', false) ? new DOMDocument : null;
+        try {
+            $dom = class_exists('DOMDocument', false) ? resolve(DOMDocument::class) : null;
+
+            $dom?->load($this->newsRss);
+
+            return $dom;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 }

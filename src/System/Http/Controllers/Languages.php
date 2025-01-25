@@ -178,7 +178,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
 
         throw_unless(
             $response = resolve(LanguageManager::class)->findLanguage($itemMeta['name']),
-            new FlashException(lang('igniter::system.languages.alert_language_not_found'))
+            new FlashException(lang('igniter::system.languages.alert_language_not_found')),
         );
 
         if (!Language::findByCode($itemMeta['name'])) {
@@ -195,7 +195,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         ];
     }
 
-    public function onApplyUpdate(?string $context = null, ?string $recordId = null)
+    public function edit_onApplyUpdate(?string $context = null, ?string $recordId = null)
     {
         $model = $this->formFindModelObject($recordId);
 
@@ -244,7 +244,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return [
             'success' => true,
             'message' => sprintf(lang('igniter::system.languages.alert_update_complete'),
-                $model->code, $data['meta']['name']
+                $model->code, $data['meta']['name'],
             ),
         ];
     }
@@ -279,7 +279,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $field->value = $this->getFilterValue('search');
 
         $field->options = resolve(LanguageManager::class)->listTranslations(
-            $form->model, $groupField->value, $filterField->value, $searchField->value
+            $form->model, $groupField->value, $filterField->value, $searchField->value,
         );
     }
 

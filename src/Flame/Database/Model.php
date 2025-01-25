@@ -79,13 +79,7 @@ abstract class Model extends EloquentModel
      */
     public function reload()
     {
-        if (!$this->exists) {
-            $this->syncOriginal();
-        } elseif ($fresh = static::find($this->getKey())) {
-            $this->setRawAttributes($fresh->getAttributes(), true);
-        }
-
-        return $this;
+        return $this->refresh();
     }
 
     /**

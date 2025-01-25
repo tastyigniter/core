@@ -237,15 +237,11 @@ class Repeater extends BaseFormWidget
      */
     protected function getLoadValueFromIndex(mixed $loadValue, mixed $index): mixed
     {
-        if (is_array($loadValue)) {
-            return array_get($loadValue, $index, []);
-        }
-
         if ($loadValue instanceof Collection) {
             return $loadValue->get($index);
         }
 
-        return null;
+        return array_get($loadValue, $index, []);
     }
 
     protected function getRelationModel(): Model

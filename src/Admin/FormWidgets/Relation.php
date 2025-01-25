@@ -61,6 +61,7 @@ class Relation extends BaseFormWidget
             'nameFrom',
             'emptyOption',
             'scope',
+            'order',
         ]);
 
         if (isset($this->config['select'])) {
@@ -192,7 +193,7 @@ class Relation extends BaseFormWidget
 
         if (!$model || !$model->hasRelation($attribute)) {
             throw new SystemException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
-                $this->model::class, $this->valueFrom
+                $this->model::class, $this->valueFrom,
             ));
         }
 

@@ -21,7 +21,7 @@
                 class="handle btn btn-light btn-sm mr-1"
                 role="button"
             ><i class="fa fa-arrows-up-down"></i></a>
-            @unless($component->isConfigurable)
+            @unless($this->isConfigurableComponent($component))
             <a
                 role="button"
                 class="partial btn btn-light btn-sm mr-1"

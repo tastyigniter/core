@@ -206,14 +206,14 @@ class Theme
         }
 
         $screenshotData = '';
-        if (file_exists($file = $this->screenshot)) {
+        if (File::exists($file = $this->screenshot)) {
             $extension = pathinfo($file, PATHINFO_EXTENSION);
             if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES)) {
                 throw new FlashException('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
             }
 
             $mimeType = ThemeModel::ICON_MIMETYPES[$extension];
-            $data = base64_encode(file_get_contents($file));
+            $data = base64_encode(File::get($file));
 
             $screenshotData = "data:$mimeType;base64,$data";
         }

@@ -18,6 +18,7 @@ use Igniter\System\Classes\ComponentManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\Component as BladeComponent;
 use Livewire\Component as LivewireComponent;
+use stdClass;
 
 /**
  * Components
@@ -100,10 +101,8 @@ class Components extends BaseFormWidget
 
         throw_if($componentObj && $componentObj->isHidden(), new FlashException('Selected component is hidden'));
 
-        // No override partial for Livewire components
-        if ($this->manager->isConfigurableComponent($codeAlias)) {
-            $context = 'edit';
-        }
+        throw_if($context === 'partial' && $this->manager->isConfigurableComponent($codeAlias),
+            new FlashException('Selected component is not configurable, hence cannot override partial.'));
 
         $formTitle = $context == 'partial' ? $this->copyPartialTitle : $this->editTitle;
 
@@ -114,12 +113,10 @@ class Components extends BaseFormWidget
         ]);
     }
 
-    public function onSaveRecord(): null|array|RedirectResponse
+    public function onSaveRecord(): array|RedirectResponse
     {
         if (resolve(ThemeManager::class)->isLocked($this->model->code)) {
-            flash()->danger(lang('igniter::system.themes.alert_theme_locked'))->important();
-
-            return null;
+            throw new FlashException(lang('igniter::system.themes.alert_theme_locked'));
         }
 
         $data = $this->validate(post(), [
@@ -131,7 +128,7 @@ class Components extends BaseFormWidget
         [$code,] = $this->manager->getCodeAlias($codeAlias);
 
         $isConfigurable = $this->manager->isConfigurableComponent($code);
-        if ($isCreateContext = (request()->method() === 'POST')) {
+        if ($isCreateContext = (strtolower(request()->method()) === 'post')) {
             if (!array_has($this->getComponents(), $codeAlias)) {
                 throw new FlashException('Invalid component selected');
             }
@@ -159,7 +156,7 @@ class Components extends BaseFormWidget
         $this->updateComponent($codeAlias, $isCreateContext, $template);
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'),
-            'Component '.($isCreateContext ? 'added' : 'updated')
+            'Component '.($isCreateContext ? 'added' : 'updated'),
         ))->now();
 
         $this->formField->value = array_get($template->settings, 'components');
@@ -194,6 +191,17 @@ class Components extends BaseFormWidget
         $this->fireEvent('updated', [$codeAlias]);
 
         return $this->reload();
+    }
+
+    public function isConfigurableComponent(stdClass|BaseComponent $componentObj): bool
+    {
+        if ($componentObj instanceof stdClass && !isset($componentObj->path)) {
+            return false;
+        }
+
+        return $this->manager->isConfigurableComponent(
+            $componentObj instanceof stdClass ? $componentObj->path : $componentObj::class,
+        );
     }
 
     protected function getComponents(): array
@@ -250,7 +258,7 @@ class Components extends BaseFormWidget
 
     protected function makeComponentFormWidget(
         string $context,
-        null|BaseComponent|LivewireComponent|BladeComponent $componentObj = null
+        null|BaseComponent|LivewireComponent|BladeComponent $componentObj = null,
     ): Form {
         $propertyConfig = $propertyValues = [];
         if ($componentObj) {
@@ -288,7 +296,7 @@ class Components extends BaseFormWidget
     {
         $fields = array_merge(
             array_get($formConfig, 'fields'),
-            array_except($propertyConfig, ['alias'])
+            array_except($propertyConfig, ['alias']),
         );
 
         if (isset($propertyConfig['alias'])) {

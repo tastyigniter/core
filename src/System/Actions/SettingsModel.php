@@ -84,6 +84,8 @@ class SettingsModel extends ModelAction
     {
         if ($record = $this->getSettingsRecord()) {
             $record->delete();
+            $this->fieldValues = [];
+            $this->model->data = [];
             unset(self::$instances[$this->recordCode]);
         }
     }
@@ -215,19 +217,11 @@ class SettingsModel extends ModelAction
     }
 
     /**
-     * Returns a cache key for this record.
-     */
-    protected function getCacheKey(): string
-    {
-        return 'extensions::settings.'.$this->recordCode;
-    }
-
-    /**
      * Clears the internal memory cache of model instances.
      * @return void
      */
     public static function clearInternalCache()
     {
-        static::$instances = [];
+        self::$instances = [];
     }
 }

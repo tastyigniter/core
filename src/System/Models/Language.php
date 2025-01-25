@@ -153,11 +153,6 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public function addTranslations(array $translations): bool
     {
-        $languageId = $this->getKey();
-        if (!is_numeric($languageId)) {
-            return false;
-        }
-
         foreach ($translations as $key => $translation) {
             preg_match('/^(.+)::(.+?)\.(.+)+$/', $key, $matches);
 
@@ -196,7 +191,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
             'item' => $key,
         ]);
 
-        $translation->updateAndLock($text);
+        return $translation->updateAndLock($text);
     }
 
     public function updateVersions(array $meta)

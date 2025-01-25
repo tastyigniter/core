@@ -15,7 +15,6 @@ use Igniter\System\Classes\PackageManifest;
  * @property int $extension_id
  * @property string|null $name
  * @property string|null $version
- * @property-read mixed $class
  * @property-read mixed $description
  * @property-read mixed $icon
  * @property-read mixed $meta
@@ -27,7 +26,7 @@ use Igniter\System\Classes\PackageManifest;
  */
 class Extension extends Model
 {
-    const ICON_MIMETYPES = [
+    public const ICON_MIMETYPES = [
         'png' => 'image/png',
         'svg' => 'image/svg+xml',
     ];
@@ -43,11 +42,6 @@ class Extension extends Model
     protected $primaryKey = 'extension_id';
 
     protected $fillable = ['name', 'version'];
-
-    /**
-     * @var array The database records
-     */
-    protected $extensions = [];
 
     /**
      * @var \Igniter\System\Classes\BaseExtension
@@ -91,11 +85,6 @@ class Extension extends Model
         return array_get($this->meta, 'name', 'Undefined extension title');
     }
 
-    public function getClassAttribute()
-    {
-        return $this->class;
-    }
-
     public function getStatusAttribute()
     {
         return $this->class && !$this->class->disabled;
@@ -114,14 +103,14 @@ class Extension extends Model
         }
 
         if (strlen($image = array_get($icon, 'image', ''))) {
-            if (file_exists($file = resolve(ExtensionManager::class)->path($this->name, $image))) {
+            if (File::exists($file = resolve(ExtensionManager::class)->path($this->name, $image))) {
                 $extension = pathinfo($file, PATHINFO_EXTENSION);
                 if (!array_key_exists($extension, self::ICON_MIMETYPES)) {
                     throw new \InvalidArgumentException('Invalid extension icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
                 }
 
                 $mimeType = self::ICON_MIMETYPES[$extension];
-                $data = base64_encode(file_get_contents($file));
+                $data = base64_encode(File::get($file));
                 $icon['backgroundImage'] = [$mimeType, $data];
                 $icon['class'] = 'fa';
             }
@@ -166,11 +155,7 @@ class Extension extends Model
     {
         $code = $this->name;
 
-        if (!$code) {
-            return false;
-        }
-
-        if (!$extensionClass = resolve(ExtensionManager::class)->findExtension($code)) {
+        if (!$code || !$extensionClass = resolve(ExtensionManager::class)->findExtension($code)) {
             return false;
         }
 

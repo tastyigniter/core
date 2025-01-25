@@ -12,24 +12,24 @@ class CacheHelper
     /**
      * Execute the console command.
      */
-    public static function clear()
+    public function clear()
     {
         Cache::flush();
-        self::clearInternal();
+        $this->clearInternal();
     }
 
-    public static function clearInternal()
+    public function clearInternal()
     {
-        self::clearCache();
-        self::clearView();
-        self::clearTemplates();
+        $this->clearCache();
+        $this->clearView();
+        $this->clearTemplates();
 
-        self::clearCombiner();
+        $this->clearCombiner();
 
-        self::clearCompiled();
+        $this->clearCompiled();
     }
 
-    public static function clearView()
+    public function clearView()
     {
         $path = config('view.compiled');
         foreach (File::glob("{$path}/*") as $view) {
@@ -37,12 +37,12 @@ class CacheHelper
         }
     }
 
-    public static function clearCombiner()
+    public function clearCombiner()
     {
-        self::clearDirectory('/igniter/combiner');
+        $this->clearDirectory('/igniter/combiner');
     }
 
-    public static function clearCache()
+    public function clearCache()
     {
         $path = config('igniter-pagic.parsedTemplateCachePath', storage_path('/igniter/cache'));
         if (!File::isDirectory($path)) {
@@ -54,16 +54,16 @@ class CacheHelper
         }
     }
 
-    public static function clearTemplates() {}
+    public function clearTemplates() {}
 
-    public static function clearCompiled()
+    public function clearCompiled()
     {
         File::delete(Igniter::getCachedAddonsPath());
         File::delete(App::getCachedPackagesPath());
         File::delete(App::getCachedServicesPath());
     }
 
-    public static function clearDirectory($path)
+    public function clearDirectory($path)
     {
         if (!File::isDirectory(storage_path().$path)) {
             return;

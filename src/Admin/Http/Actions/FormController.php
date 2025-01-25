@@ -2,10 +2,10 @@
 
 namespace Igniter\Admin\Http\Actions;
 
-use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Traits\FormExtendable;
+use Igniter\Admin\Traits\PopulatesModelAttributes;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Admin\Widgets\Toolbar;
@@ -23,6 +23,7 @@ class FormController extends ControllerAction
 {
     use FormExtendable;
     use ValidatesForm;
+    use PopulatesModelAttributes;
 
     /** Default context for "create" pages. */
     const CONTEXT_CREATE = 'create';
@@ -395,42 +396,6 @@ class FormController extends ControllerAction
         return $redirects[$context] ?? $redirects['default'];
     }
 
-    protected function prepareModelsToSave(Model $model, array $saveData): array
-    {
-        $this->modelsToSave = [];
-        $this->setModelAttributes($model, $saveData);
-
-        return $this->modelsToSave;
-    }
-
-    /**
-     * Sets a data collection to a model attributes, relations will also be set.
-     */
-    protected function setModelAttributes(Model $model, mixed $saveData)
-    {
-        if (!is_array($saveData)) {
-            return;
-        }
-
-        $this->modelsToSave[] = $model;
-
-        $singularTypes = ['belongsTo', 'hasOne', 'morphOne'];
-        foreach ($saveData as $attribute => $value) {
-            $isNested = ($attribute == 'pivot' || (
-                    $model->hasRelation($attribute) &&
-                    in_array($model->getRelationType($attribute), $singularTypes)
-                ));
-
-            if ($isNested && is_array($value) && $model->{$attribute}) {
-                $this->setModelAttributes($model->{$attribute}, $value);
-            } elseif ($value !== FormField::NO_SAVE_DATA) {
-                if (!starts_with($attribute, '_')) {
-                    $model->{$attribute} = $value;
-                }
-            }
-        }
-    }
-
     protected function validateSaveData(Model $model, mixed $saveData): bool|array
     {
         if (!is_null($requestClass = $this->getConfig($this->context.'[request]', $this->getConfig('request')))) {
@@ -443,10 +408,6 @@ class FormController extends ControllerAction
             return false;
         }
 
-        if (is_null($validated)) {
-            return $saveData;
-        }
-
-        return $validated;
+        return $validated ?? $saveData;
     }
 }

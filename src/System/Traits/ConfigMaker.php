@@ -48,7 +48,7 @@ trait ConfigMaker
 
             if (!File::isFile($configFile)) {
                 throw new SystemException(sprintf(
-                    Lang::get('igniter::system.not_found.config'), $configFile, get_called_class()
+                    Lang::get('igniter::system.not_found.config'), $configFile, get_called_class(),
                 ));
             }
 
@@ -59,7 +59,7 @@ trait ConfigMaker
         foreach ($requiredConfig as $property) {
             if (!is_array($config) || !array_key_exists($property, $config)) {
                 throw new SystemException(sprintf(
-                    Lang::get('igniter::system.required.config'), get_called_class(), $property
+                    Lang::get('igniter::system.required.config'), get_called_class(), $property,
                 ));
             }
         }
@@ -99,11 +99,7 @@ trait ConfigMaker
             return $fileName;
         }
 
-        if (!is_array($configPath)) {
-            $configPath = [$configPath];
-        }
-
-        foreach ($configPath as $path) {
+        foreach ((array)$configPath as $path) {
             $path = File::symbolizePath($path);
             $_fileName = $path.'/'.$fileName;
             if (File::isFile($_fileName)) {

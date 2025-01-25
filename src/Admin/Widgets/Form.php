@@ -177,7 +177,7 @@ class Form extends BaseWidget
             if (!isset($this->allFields[$field])) {
                 throw new SystemException(sprintf(
                     lang('igniter::admin.form.missing_definition'),
-                    $field
+                    $field,
                 ));
             }
 
@@ -208,7 +208,7 @@ class Form extends BaseWidget
             [
                 'field' => $field,
                 'formModel' => $this->model,
-            ]
+            ],
         );
     }
 
@@ -234,9 +234,7 @@ class Form extends BaseWidget
      */
     public function setFormValues(mixed $data = null): mixed
     {
-        if ($data === null) {
-            $data = $this->getSaveData();
-        }
+        $data ??= $this->getSaveData();
 
         $this->prepareModelsToSave($this->model, $data);
 
@@ -287,7 +285,6 @@ class Form extends BaseWidget
 
         // Extensibility
         $eventResults = $this->fireSystemEvent('admin.form.refresh', [$result], false);
-
         foreach (array_filter($eventResults) as $eventResult) {
             $result = $eventResult + $result;
         }
@@ -315,7 +312,7 @@ class Form extends BaseWidget
         foreach ($fields as $name => $config) {
             // Check if admin has permissions to show this field
             $permissions = array_get($config, 'permissions');
-            if (!empty($permissions) && !AdminAuth::getUser()->hasPermission($permissions, false)) {
+            if (!empty($permissions) && !AdminAuth::getUser()?->hasPermission($permissions, false)) {
                 continue;
             }
 
@@ -398,7 +395,7 @@ class Form extends BaseWidget
 
         // Simple field type
         if (is_string($config)) {
-            if ($this->isFormWidget($config) !== false) {
+            if ($this->isFormWidget($config)) {
                 $field->displayAs('widget', ['widget' => $config]);
             } else {
                 $field->displayAs($config);
@@ -408,7 +405,7 @@ class Form extends BaseWidget
             $fieldType = $config['type'] ?? null;
             if (!is_string($fieldType) && !is_null($fieldType)) {
                 throw new SystemException(sprintf(
-                    lang('igniter::admin.form.field_invalid_type'), gettype($fieldType)
+                    lang('igniter::admin.form.field_invalid_type'), gettype($fieldType),
                 ));
             }
 
@@ -468,12 +465,7 @@ class Form extends BaseWidget
         // If options config is defined, request options from the model.
         if (isset($field->config['options'])) {
             $field->options(function() use ($field) {
-                $fieldOptions = $field->config['options'];
-                if ($fieldOptions === true) {
-                    $fieldOptions = null;
-                }
-
-                return $this->getOptionsFromModel($field, $fieldOptions);
+                return $this->getOptionsFromModel($field, $field->config['options']);
             });
         }
 
@@ -563,7 +555,7 @@ class Form extends BaseWidget
             if (!isset($this->allFields[$field])) {
                 throw new SystemException(lang(
                     'igniter::admin.form.missing_definition',
-                    compact('field')
+                    compact('field'),
                 ));
             }
 
@@ -648,7 +640,7 @@ class Form extends BaseWidget
         foreach ($this->formWidgets as $field => $widget) {
             $parts = name_to_array($field);
 
-            if (isset($widget->config->disabled) && $widget->config->disabled) {
+            if (isset($widget->config['disabled']) && $widget->config['disabled']) {
                 continue;
             }
 
@@ -700,7 +692,7 @@ class Form extends BaseWidget
     {
         if (!$this->model) {
             throw new SystemException(sprintf(
-                lang('igniter::admin.form.missing_model'), get_class($this->controller)
+                lang('igniter::admin.form.missing_model'), get_class($this->controller),
             ));
         }
 
@@ -861,7 +853,7 @@ class Form extends BaseWidget
                 !$this->objectMethodExists($model, 'getDropdownOptions')
             ) {
                 throw new SystemException(sprintf(lang('igniter::admin.form.options_method_not_exists'),
-                    get_class($model), $methodName, $field->fieldName
+                    get_class($model), $methodName, $field->fieldName,
                 ));
             }
 
@@ -872,7 +864,7 @@ class Form extends BaseWidget
         elseif (is_string($fieldOptions)) {
             if (!$this->objectMethodExists($this->model, $fieldOptions)) {
                 throw new SystemException(sprintf(lang('igniter::admin.form.options_method_not_exists'),
-                    get_class($this->model), $fieldOptions, $field->fieldName
+                    get_class($this->model), $fieldOptions, $field->fieldName,
                 ));
             }
 
@@ -899,12 +891,8 @@ class Form extends BaseWidget
      *
      * @return array|string
      */
-    protected function dataArrayGet(array $array, ?array $parts, $default = null): mixed
+    protected function dataArrayGet(array $array, array $parts, $default = null): mixed
     {
-        if ($parts === null) {
-            return $array;
-        }
-
         if (count($parts) === 1) {
             $key = array_shift($parts);
 
@@ -925,12 +913,8 @@ class Form extends BaseWidget
     /**
      * Variant to array_set() but preserves dots in key names.
      */
-    protected function dataArraySet(array &$array, ?array $parts, $value): array
+    protected function dataArraySet(array &$array, array $parts, $value): array
     {
-        if ($parts === null) {
-            return $array;
-        }
-
         while (count($parts) > 1) {
             $key = array_shift($parts);
 

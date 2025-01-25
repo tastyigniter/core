@@ -38,7 +38,7 @@ class FilterScope
     public ?string $defaults = null;
 
     /** Raw SQL conditions to use when applying this scope. */
-    public ?string $conditions = null;
+    public null|string|array $conditions = null;
 
     /** Model scope method to use when applying this filter scope. */
     public ?string $scope = null;

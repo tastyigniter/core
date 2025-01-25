@@ -36,6 +36,8 @@ class ThemeVendorPublish extends VendorPublishCommand
      */
     public function handle()
     {
+        $this->comment('Publishing theme assets...');
+
         $this->determineWhatShouldBePublished();
 
         foreach ($this->themes as $theme) {
@@ -87,7 +89,7 @@ class ThemeVendorPublish extends VendorPublishCommand
         return [
             ['existing', null, InputOption::VALUE_NONE, 'Publish and overwrite only the files that have already been published'],
             ['all', null, InputOption::VALUE_NONE, 'Publish assets for all themes without prompt.'],
-            ['theme', null, InputOption::VALUE_OPTIONAL, 'One or many theme that have assets you want to publish.'],
+            ['theme', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'One or many theme that have assets you want to publish.', []],
             ['force', null, InputOption::VALUE_NONE, 'Force publish.'],
         ];
     }

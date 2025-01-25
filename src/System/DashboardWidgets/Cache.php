@@ -2,9 +2,9 @@
 
 namespace Igniter\System\DashboardWidgets;
 
-use Exception;
+use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Admin\Classes\BaseDashboardWidget;
-use Igniter\System\Helpers\CacheHelper;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Number;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -58,8 +58,11 @@ class Cache extends BaseDashboardWidget
         $totalCacheSize = 0;
         $cacheSizes = [];
         foreach (self::$caches as $cacheInfo) {
-            $size = $this->folderSize(storage_path().'/'.$cacheInfo['path']);
+            if (!File::isDirectory($directory = storage_path().'/'.$cacheInfo['path'])) {
+                continue;
+            }
 
+            $size = $this->folderSize($directory);
             $cacheSizes[] = (object)[
                 'label' => $cacheInfo['path'],
                 'color' => $cacheInfo['color'],
@@ -77,11 +80,7 @@ class Cache extends BaseDashboardWidget
 
     public function onClearCache(): array
     {
-        try {
-            CacheHelper::clear();
-        } catch (Exception $ex) {
-            // ...
-        }
+        rescue(fn() => CacheHelper::clear());
 
         $this->prepareVars();
 
@@ -92,10 +91,6 @@ class Cache extends BaseDashboardWidget
 
     protected function folderSize(string $directory): int
     {
-        if (count(scandir($directory, SCANDIR_SORT_NONE)) == 2) {
-            return 0;
-        }
-
         $size = 0;
 
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory)) as $file) {

@@ -87,12 +87,9 @@ class LanguageManager
         $namespaces = $this->loader->namespaces();
         asort($namespaces);
         foreach ($namespaces as $namespace => $folder) {
-            if ($namespace === 'igniter') {
-                $name = 'Application';
-            } elseif ($extension = $extensionManager->findExtension($namespace)) {
+            $name = $namespace === 'igniter' ? 'Application' : 'Unknown';
+            if ($extension = $extensionManager->findExtension($namespace)) {
                 $name = array_get($extension->extensionMeta(), 'name');
-            } else {
-                continue;
             }
 
             $result[] = (object)[
@@ -109,7 +106,7 @@ class LanguageManager
         Language $model,
         ?string $packageCode = null,
         ?string $filter = null,
-        ?string $searchTerm = null
+        ?string $searchTerm = null,
     ): stdClass {
         $result = (object)[
             'total' => null,
@@ -174,28 +171,21 @@ class LanguageManager
             })
             ->all();
 
-        $this->hubManager->publishTranslations($model->code, $translations);
+        return $this->hubManager->publishTranslations($model->code, $translations);
     }
 
-    protected function listTranslationStrings(array $sourceLines, array $translationLines, string $localeGroup, string $filter): array
+    protected function listTranslationStrings(array $sourceLines, array $translationLines, string $localeGroup, ?string $filter): array
     {
         $result = [];
         foreach ($sourceLines as $key => $sourceLine) {
             $translationLine = array_get($translationLines, $key, $sourceLine);
 
-            if ($filter === 'changed' && !array_has($translationLines, $key)) {
-                continue;
-            }
-
-            if ($filter === 'unchanged' && array_has($translationLines, $key)) {
-                continue;
-            }
-
-            if ((!is_null($sourceLine) && !is_string($sourceLine))) {
-                continue;
-            }
-
-            if ((!is_null($translationLine) && !is_string($translationLine))) {
+            if (
+                ($filter === 'changed' && !array_has($translationLines, $key))
+                || ($filter === 'unchanged' && array_has($translationLines, $key))
+                || ((!is_null($sourceLine) && !is_string($sourceLine)))
+                || (!is_null($translationLine) && !is_string($translationLine))
+            ) {
                 continue;
             }
 
@@ -213,13 +203,9 @@ class LanguageManager
         $result = [];
         $term = strtolower($term);
         foreach ($translations as $key => $value) {
-            if (strlen($term)) {
-                if (stripos(strtolower(array_get($value, 'source')), $term) !== false
-                    || stripos(strtolower(array_get($value, 'translation')), $term) !== false
-                    || stripos(strtolower($key), $term) !== false) {
-                    $result[$key] = $value;
-                }
-            } else {
+            if (stripos(strtolower(array_get($value, 'source')), $term) !== false
+                || stripos(strtolower(array_get($value, 'translation')), $term) !== false
+                || stripos(strtolower($key), $term) !== false) {
                 $result[$key] = $value;
             }
         }
@@ -241,13 +227,8 @@ class LanguageManager
         ];
 
         return App::makeWith(LengthAwarePaginator::class, compact(
-            'items', 'total', 'perPage', 'page', 'options'
+            'items', 'total', 'perPage', 'page', 'options',
         ));
-    }
-
-    public function canUpdate(Language $language): bool
-    {
-        return !in_array($language->code, ['en', 'en_US', 'en_GB']) && $language->can_update;
     }
 
     //

@@ -114,7 +114,7 @@ class TemplateEditor extends BaseFormWidget
 
     public function onChooseFile(): RedirectResponse
     {
-        $this->validate(post('Theme.source.template'), [
+        $data = $this->validate(post('Theme.source.template'), [
             'type' => ['required', 'in:_pages,_partials,_layouts,_content'],
             'file' => ['sometimes', 'nullable', 'string'],
         ], [], [
@@ -122,8 +122,8 @@ class TemplateEditor extends BaseFormWidget
             'file' => 'Source File',
         ]);
 
-        $this->setTemplateValue('type', post('Theme.source.template.type'));
-        $this->setTemplateValue('file', post('Theme.source.template.file'));
+        $this->setTemplateValue('type', array_get($data, 'type'));
+        $this->setTemplateValue('file', array_get($data, 'file'));
 
         return $this->controller->refresh();
     }
@@ -168,10 +168,6 @@ class TemplateEditor extends BaseFormWidget
             throw new FlashException(lang('igniter::system.themes.alert_theme_locked'));
         }
 
-        if (!$this->templateWidget) {
-            throw new FlashException('Template widget not found');
-        }
-
         $data = post('Theme.source');
 
         $this->validateAfter(function(Validator $validator) {
@@ -181,21 +177,21 @@ class TemplateEditor extends BaseFormWidget
         });
 
         $this->validate($data,
-            array_get($this->templateWidget->config ?? [], 'rules', []),
-            array_get($this->templateWidget->config ?? [], 'validationMessages', []),
-            array_get($this->templateWidget->config ?? [], 'validationAttributes', [])
+            array_get($this->templateWidget?->config ?? [], 'rules', []),
+            array_get($this->templateWidget?->config ?? [], 'validationMessages', []),
+            array_get($this->templateWidget?->config ?? [], 'validationAttributes', []),
         );
 
         $formData = $this->getTemplateAttributes();
 
-        $this->templateWidget->data->fileSource->fill($formData)->save();
+        $this->templateWidget?->data->fileSource->fill($formData)->save();
     }
 
     protected function makeTemplateFormWidget(): ?Form
     {
         try {
             $template = $this->manager->readFile($this->getFilename(), $this->model->code);
-        } catch (Exception) {
+        } catch (Exception $e) {
             return null;
         }
 
@@ -257,7 +253,7 @@ class TemplateEditor extends BaseFormWidget
 
     protected function getTemplateAttributes(): array
     {
-        $formData = $this->templateWidget->getSaveData();
+        $formData = $this->templateWidget?->getSaveData() ?? [];
 
         $code = array_get($formData, 'codeSection');
         $code = preg_replace('/^\<\?php/', '', $code);
@@ -281,11 +277,7 @@ class TemplateEditor extends BaseFormWidget
 
     protected function getTemplateModifiedTime(): ?int
     {
-        if (!$this->templateWidget) {
-            return null;
-        }
-
-        return optional($this->templateWidget->data)->fileSource->mTime;
+        return $this->templateWidget?->data?->fileSource?->mTime ?? null;
     }
 
     public function getTemplateValue(string $name, mixed $default = null): mixed

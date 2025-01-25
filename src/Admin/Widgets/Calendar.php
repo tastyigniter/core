@@ -79,7 +79,7 @@ class Calendar extends BaseWidget
 
     public function onUpdateEvent()
     {
-        $eventId = request()->input('eventId');
+        $eventId = request()->input('eventId', '');
         $startAt = request()->input('start');
         $endAt = request()->input('end');
 

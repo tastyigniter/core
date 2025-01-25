@@ -2,8 +2,8 @@
 
 namespace Igniter\System\EventSubscribers;
 
+use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Flame\Support\Facades\Igniter;
-use Igniter\System\Helpers\CacheHelper;
 use Illuminate\Console\Events\CommandFinished;
 use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Console\Scheduling\Schedule;
@@ -21,7 +21,7 @@ class ConsoleSubscriber
         ];
     }
 
-    protected function defineSchedule(Schedule $schedule)
+    public function defineSchedule(Schedule $schedule)
     {
         // Every 12 hours check for system updates
         $schedule->command('igniter:update', ['--check' => true])

@@ -96,7 +96,7 @@ class Toolbar extends BaseWidget
         $partialName = array_get(
             $buttonObj->config,
             'partial',
-            'toolbar/button_'.$buttonObj->type
+            'toolbar/button_'.$buttonObj->type,
         );
 
         return $this->makePartial($partialName, ['button' => $buttonObj]);
@@ -160,7 +160,7 @@ class Toolbar extends BaseWidget
         $result = [];
         foreach ($buttons as $name => $attributes) {
             $permission = array_get($attributes, 'permission');
-            if ($permission && !AdminAuth::user()->hasPermission($permission)) {
+            if ($permission && !AdminAuth::user()?->hasPermission($permission)) {
                 continue;
             }
 

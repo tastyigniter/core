@@ -6,12 +6,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body wrap-none">
-                <div id="carte-details">
-                    {!! $this->makePartial('updates/carte_info', ['carteInfo' => $carteInfo]) !!}
-                </div>
+                @isset($carteInfo['owner'])
+                    <div id="carte-details">
+                        {!! $this->makePartial('updates/carte_info', ['carteInfo' => $carteInfo]) !!}
+                    </div>
+                @endisset
                 <div
                     class="p-3 carte-body border-top"
-                    style="display: {{ $carteInfo ? 'none' : 'block' }};"
+                    style="display: {{ isset($carteInfo) ? 'none' : 'block' }};"
                 >
                     {!! form_open(current_url(), [
                         'id' => 'carte-form',

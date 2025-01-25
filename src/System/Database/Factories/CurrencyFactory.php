@@ -13,9 +13,9 @@ class CurrencyFactory extends Factory
         return [
             'currency_name' => $this->faker->sentence(2),
             'currency_code' => $this->faker->currencyCode(),
-            'currency_symbol' => '&pound;',
+            'currency_symbol' => '£',
             'country_id' => 1,
-            'symbol_position' => $this->faker->lexify('?'),
+            'symbol_position' => 1,
             'currency_rate' => 1,
             'thousand_sign' => $this->faker->lexify('?'),
             'decimal_sign' => '.',

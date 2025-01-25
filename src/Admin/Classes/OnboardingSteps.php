@@ -13,10 +13,13 @@ class OnboardingSteps
     /** Cache of registration callbacks. */
     private static array $callbacks = [];
 
-    /** List of registered onboarding steps. */
+    /**
+     * List of registered onboarding steps.
+     * @var null|array<string, OnboardingStep>
+     */
     private ?array $steps = null;
 
-    public function getStep(string $code): ?\stdClass
+    public function getStep(string $code): ?OnboardingStep
     {
         if (!$this->steps) {
             $this->loadSteps();
@@ -49,8 +52,8 @@ class OnboardingSteps
      */
     public function completed(): bool
     {
-        return collect($this->steps)->filter(function($step) {
-            return !$this->stepIsCompleted($step->complete);
+        return collect($this->steps)->filter(function(OnboardingStep $step) {
+            return !$step->isCompleted();
         })->isEmpty();
     }
 
@@ -65,16 +68,11 @@ class OnboardingSteps
     /**
      * Get the next incomplete onboarding step, or null if all steps are completed.
      */
-    public function nextIncompleteStep(): ?\stdClass
+    public function nextIncompleteStep(): ?OnboardingStep
     {
-        return collect($this->steps)->first(function($step) {
-            return !$this->stepIsCompleted($step->complete);
+        return collect($this->steps)->first(function(OnboardingStep $step) {
+            return !$step->isCompleted();
         });
-    }
-
-    protected function stepIsCompleted(?callable $callable): bool
-    {
-        return is_callable($callable) ? $callable() : false;
     }
 
     //
@@ -94,7 +92,7 @@ class OnboardingSteps
 
         // Load extensions payment gateways
         $extensions = resolve(ExtensionManager::class)->getExtensions();
-        foreach ($extensions as $id => $extension) {
+        foreach ($extensions as $extension) {
             if (!method_exists($extension, 'registerOnboardingSteps')) {
                 continue;
             }
@@ -128,14 +126,9 @@ class OnboardingSteps
 
         foreach ($definitions as $code => $definition) {
             $definition['code'] = $code;
-            $item = (object)array_merge($defaultDefinitions, $definition);
-            $item->completed = function() use ($item) {
-                $callable = $item->complete ?? null;
+            $definition = array_merge($defaultDefinitions, $definition);
 
-                return $this->stepIsCompleted($callable);
-            };
-
-            $this->steps[$code] = $item;
+            $this->steps[$code] = OnboardingStep::fromArray($definition);
         }
     }
 
@@ -153,5 +146,10 @@ class OnboardingSteps
     public static function registerCallback(callable $callback)
     {
         static::$callbacks[] = $callback;
+    }
+
+    public static function clearCallbacks()
+    {
+        static::$callbacks = [];
     }
 }

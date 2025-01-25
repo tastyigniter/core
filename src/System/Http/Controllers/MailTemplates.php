@@ -2,10 +2,10 @@
 
 namespace Igniter\System\Http\Controllers;
 
+use Facades\Igniter\System\Helpers\MailHelper;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
-use Igniter\System\Helpers\MailHelper;
 use Igniter\System\Models\MailTemplate;
 
 class MailTemplates extends \Igniter\Admin\Classes\AdminController
@@ -86,9 +86,7 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
             throw new FlashException(lang('igniter::system.mail_templates.alert_template_id_not_found'));
         }
 
-        if (!$model = $this->formFindModelObject($recordId)) {
-            throw new FlashException(lang('igniter::system.mail_templates.alert_template_not_found'));
-        }
+        $model = $this->formFindModelObject($recordId);
 
         $adminUser = $this->getUser();
 

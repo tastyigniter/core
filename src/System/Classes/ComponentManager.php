@@ -140,7 +140,6 @@ class ComponentManager
             'name' => 'Component',
             'description' => null,
             'path' => $className,
-            'isConfigurable' => in_array(ConfigurableComponent::class, class_uses_recursive($className)),
         ], $definition ?? []);
 
         $this->codeMap[$code] = $className;
@@ -159,11 +158,7 @@ class ComponentManager
      */
     public function listComponents(): ?array
     {
-        if ($this->components == null) {
-            $this->loadComponents();
-        }
-
-        return $this->components;
+        return $this->components ?? $this->loadComponents();
     }
 
     /**
@@ -213,7 +208,7 @@ class ComponentManager
     public function makeComponent(
         string|array $name,
         ?TemplateCode $page = null,
-        array $params = []
+        array $params = [],
     ): BaseComponent|LivewireComponent|BladeComponent {
         if (is_array($name)) {
             $alias = $name[1];
@@ -271,7 +266,7 @@ class ComponentManager
      */
     public function getComponentPropertyConfig(
         BaseComponent|LivewireComponent|BladeComponent $component,
-        bool $addAliasProperty = true
+        bool $addAliasProperty = true,
     ): array {
         $result = [];
 
@@ -289,8 +284,8 @@ class ComponentManager
         }
 
         $properties = $component->defineProperties();
-        foreach ($properties as $name => $params) {
-            $propertyType = array_get($params, 'type', 'text');
+        foreach ($properties as $name => $config) {
+            $propertyType = array_get($config, 'type', 'text');
 
             if (!$this->checkComponentPropertyType($propertyType)) {
                 continue;
@@ -298,24 +293,18 @@ class ComponentManager
 
             $property = [
                 'property' => $name,
-                'label' => array_get($params, 'label', $name),
+                'label' => array_get($config, 'label', $name),
                 'type' => $propertyType,
-                'showExternalParam' => array_get($params, 'showExternalParam', false),
+                'showExternalParam' => array_get($config, 'showExternalParam', false),
             ];
 
-            if (in_array($property['type'], ['checkbox', 'radio', 'select', 'selectlist']) && !array_key_exists('options', $params)) {
+            if (in_array($property['type'], ['checkbox', 'radio', 'select', 'selectlist']) && !array_key_exists('options', $config)) {
                 $methodName = 'get'.studly_case($name).'Options';
                 $methodName = method_exists($component, $methodName) ? $methodName : 'getPropertyOptions';
                 $property['options'] = [get_class($component), $methodName];
             }
 
-            foreach ($params as $paramName => $paramValue) {
-                if (isset($property[$paramName])) {
-                    continue;
-                }
-
-                $property[$paramName] = $paramValue;
-            }
+            $property = $property + $config;
 
             // Translate human values
             $translate = ['label', 'description', 'options', 'group', 'validationMessage'];

@@ -40,7 +40,7 @@ class MailLayout extends Model
     use HasFactory;
     use Switchable;
 
-    protected static $codeCache;
+    public static $codeCache;
 
     /**
      * @var string The database table name
@@ -67,6 +67,10 @@ class MailLayout extends Model
         'belongsTo' => [
             'language' => \Igniter\System\Models\Language::class,
         ],
+    ];
+
+    protected $attributes = [
+        'status' => true,
     ];
 
     public static function getDropdownOptions()
@@ -153,6 +157,7 @@ class MailLayout extends Model
             $layout->code = $code;
             $layout->is_locked = false;
             $layout->name = array_get($sections, 'settings.name', '???');
+            $layout->language_id = Language::getDefault()->getKey();
             $layout->save();
         }
     }

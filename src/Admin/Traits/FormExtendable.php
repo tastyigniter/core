@@ -140,11 +140,9 @@ trait FormExtendable
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.form.extendFields', function($widget) use ($calledClass, $callback) {
-            if (!is_a($widget->getController(), $calledClass)) {
-                return;
+            if (is_a($widget->getController(), $calledClass)) {
+                $callback($widget, $widget->model, $widget->getContext());
             }
-
-            $callback($widget, $widget->model, $widget->getContext());
         });
     }
 
@@ -157,11 +155,9 @@ trait FormExtendable
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.form.extendFieldsBefore', function($widget) use ($calledClass, $callback) {
-            if (!is_a($widget->getController(), $calledClass)) {
-                return;
+            if (is_a($widget->getController(), $calledClass)) {
+                $callback($widget, $widget->model, $widget->getContext());
             }
-
-            $callback($widget, $widget->model, $widget->getContext());
         });
     }
 }

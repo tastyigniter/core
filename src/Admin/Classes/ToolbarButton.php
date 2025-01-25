@@ -92,6 +92,7 @@ class ToolbarButton
     {
         $applyConfigValues = [
             'context',
+            'disabled',
             'permission',
         ];
 

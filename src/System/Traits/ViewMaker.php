@@ -44,13 +44,14 @@ trait ViewMaker
                 }
 
                 $viewName = Str::after($view, $prefix.'::');
+                $guessedViewName = $this->guessViewName($viewName, $directory);
 
-                if (view()->exists($view = $this->guessViewName($viewName, $directory))) {
-                    return view()->getFinder()->find($view);
+                if (view()->exists($guessedViewName)) {
+                    return view()->getFinder()->find($guessedViewName);
                 }
 
-                if (view()->exists($view = $this->guessViewName($viewName, $directory).'.index')) {
-                    return view()->getFinder()->find($view);
+                if (view()->exists($guessedViewName.'.index')) {
+                    return view()->getFinder()->find($guessedViewName.'.index');
                 }
             });
 
@@ -75,13 +76,14 @@ trait ViewMaker
                 }
 
                 $viewName = Str::after($view, $prefix.'::');
+                $guessedViewName = $this->guessViewName($viewName, $directory);
 
-                if (view()->exists($view = $this->guessViewName($viewName, $directory))) {
-                    return $view;
+                if (view()->exists($guessedViewName)) {
+                    return $guessedViewName;
                 }
 
-                if (view()->exists($view = $this->guessViewName($viewName, $directory).'.index')) {
-                    return $view;
+                if (view()->exists($guessedViewName.'.index')) {
+                    return $guessedViewName.'.index';
                 }
             });
 
@@ -162,9 +164,9 @@ trait ViewMaker
      */
     public function makePartial(string $partial, array $vars = [], bool $throwException = true): string
     {
-        $view = $this->getViewName(strtolower($partial), $this->partialPath, '_partials');
+        $partial = $this->getViewName(strtolower($partial), $this->partialPath, '_partials');
 
-        if (!view()->exists($view)) {
+        if (!view()->exists($partial)) {
             if ($throwException) {
                 throw new SystemException(sprintf(lang('system::lang.not_found.partial'), $partial));
             }
@@ -176,7 +178,7 @@ trait ViewMaker
             $vars = array_merge($this->controller->vars, $vars);
         }
 
-        return $this->makeViewContent($view, $vars);
+        return $this->makeViewContent($partial, $vars);
     }
 
     /**
@@ -190,10 +192,6 @@ trait ViewMaker
     {
         if (!strlen($filePath) || $filePath == 'index.php' || !File::isFile($filePath)) {
             return '';
-        }
-
-        if (!is_array($extraParams)) {
-            $extraParams = [];
         }
 
         $vars = array_merge($this->vars, $extraParams);
@@ -241,7 +239,7 @@ trait ViewMaker
 
         return $this->makeFileContent(
             view()->getFinder()->find($view->name()),
-            $view->getData()
+            $view->getData(),
         );
     }
 

@@ -77,10 +77,6 @@ class MediaItem
 
     public function getFileType(): ?string
     {
-        if (!$this->isFile()) {
-            return null;
-        }
-
         if (!self::$imageExtensions) {
             self::$imageExtensions = array_map('strtolower', Settings::imageExtensions());
         }
@@ -95,7 +91,7 @@ class MediaItem
 
         $extension = pathinfo($this->path, PATHINFO_EXTENSION);
         if (!strlen($extension)) {
-            return self::FILE_TYPE_DOCUMENT;
+            return false;
         }
 
         if (in_array($extension, self::$imageExtensions)) {

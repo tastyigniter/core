@@ -2,6 +2,7 @@
 
 namespace Igniter\System\Models;
 
+use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\HasPermalink;
 use Igniter\System\Models\Concerns\Switchable;
@@ -38,6 +39,7 @@ use Igniter\System\Models\Concerns\Switchable;
  */
 class Page extends Model
 {
+    use HasFactory;
     use HasPermalink;
     use Switchable;
 

@@ -41,8 +41,9 @@ class ExtensionInstall extends Command
             $this->output->writeln(sprintf('<info>Installing %s extension</info>', $extensionName));
             $updateManager->install($response->all());
 
-            resolve(ExtensionManager::class)->loadExtensions();
-            resolve(ExtensionManager::class)->installExtension($packageInfo->code, $packageInfo->version);
+            $extensionManager = resolve(ExtensionManager::class);
+            $extensionManager->loadExtensions();
+            $extensionManager->installExtension($packageInfo->code, $packageInfo->version);
         } catch (ComposerException $e) {
             $this->output->writeln($e->getMessage());
         }

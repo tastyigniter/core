@@ -158,9 +158,9 @@ class Settings extends Model
         return self::set($key, $value, 'prefs');
     }
 
-    public static function getPref(string|array $key, mixed $value = null): bool
+    public static function getPref(string|array $key, mixed $default = null): mixed
     {
-        return self::get($key, $value, 'prefs');
+        return self::get($key, $default, 'prefs');
     }
 
     public static function make($attributes = [])
@@ -230,12 +230,7 @@ class Settings extends Model
         $extensions = resolve(ExtensionManager::class)->getExtensions();
 
         foreach ($extensions as $code => $extension) {
-            $items = $extension->registerSettings();
-            if (!is_array($items)) {
-                continue;
-            }
-
-            $this->registerSettingItems($code, $items);
+            $this->registerSettingItems($code, $extension->registerSettings());
         }
 
         usort($this->items, function($a, $b) {
@@ -307,6 +302,11 @@ class Settings extends Model
                     ? 'settings/edit/'.$code
                     : 'extensions/edit/'.str_replace('.', '/', $owner).'/'.$code,
                 );
+            }
+
+            if (isset($item['permission'])) {
+                $item['permissions'] = $item['permission'];
+                unset($item['permission']);
             }
 
             $this->items[] = (object)$item;

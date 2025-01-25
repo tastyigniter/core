@@ -2,16 +2,15 @@
 
 namespace Igniter\Main\Http\Controllers;
 
+use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Facades\Assets;
-use Igniter\System\Helpers\CacheHelper;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Artisan;
 
 class Themes extends \Igniter\Admin\Classes\AdminController
 {
@@ -114,8 +113,6 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         Template::setTitle($pageTitle);
         Template::setHeading($pageTitle);
 
-        $themeManager = resolve(ThemeManager::class);
-        $theme = $themeManager->findTheme($themeCode);
         /** @var Theme $model */
         $model = Theme::whereCode($themeCode)->first();
 
@@ -129,8 +126,9 @@ class Themes extends \Igniter\Admin\Classes\AdminController
             return $this->redirectBack();
         }
 
-        // Theme not found in filesystem
-        // so delete from database
+        // Theme not found in filesystem so delete from database
+        $themeManager = resolve(ThemeManager::class);
+        $theme = $themeManager->findTheme($themeCode);
         if (!$theme) {
             $model->delete();
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
@@ -156,17 +154,6 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme ['.$theme->name.'] set as default '));
         }
-
-        return $this->redirectBack();
-    }
-
-    public function index_onPublish(): RedirectResponse
-    {
-        Artisan::call('igniter:theme-publish', ['--force' => true]);
-
-        logger()->info($output = Artisan::output());
-
-        flash()->success(nl2br($output));
 
         return $this->redirectBack();
     }
@@ -219,6 +206,16 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function delete_onDelete(string $context, string $themeCode): RedirectResponse
     {
+        $model = Theme::whereCode($themeCode)->first();
+        if ($model && $model->isDefault()) {
+            flash()->warning(sprintf(
+                lang('igniter::admin.alert_error_nothing'),
+                lang('igniter::admin.text_deleted').lang('igniter::system.themes.text_theme_is_active'),
+            ));
+
+            return $this->redirect('themes');
+        }
+
         resolve(ThemeManager::class)->deleteTheme($themeCode, post('delete_data', 1) == 1);
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
 
@@ -260,9 +257,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function formFindModelObject(string $recordId): Theme
     {
-        throw_unless(strlen($recordId),
-            new FlashException(lang('igniter::admin.form.missing_id')),
-        );
+        throw_unless(strlen($recordId), new FlashException(lang('igniter::admin.form.missing_id')));
 
         $model = $this->formCreateModelObject();
 
@@ -271,9 +266,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->fireEvent('admin.controller.extendFormQuery', [$query]);
         $result = $query->where('code', $recordId)->first();
 
-        throw_unless($result,
-            new FlashException(sprintf(lang('igniter::admin.form.not_found'), $recordId)),
-        );
+        throw_unless($result, new FlashException(sprintf(lang('igniter::admin.form.not_found'), $recordId)));
 
         return $result;
     }
@@ -281,11 +274,9 @@ class Themes extends \Igniter\Admin\Classes\AdminController
     public function formAfterSave(Theme $model)
     {
         if ($this->widgets['form']->context != 'source') {
-            if (!config('igniter-system.buildThemeAssetsBundle', true)) {
-                return;
+            if (config('igniter-system.buildThemeAssetsBundle', true)) {
+                Assets::buildBundles($model->getTheme());
             }
-
-            Assets::buildBundles($model->getTheme());
         }
     }
 }

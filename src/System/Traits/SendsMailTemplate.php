@@ -2,44 +2,10 @@
 
 namespace Igniter\System\Traits;
 
-use Igniter\System\Helpers\MailHelper;
-use Symfony\Component\Mime\Address;
-
+/**
+ * @deprecated use Igniter\System\Models\Concerns\SendsMailTemplate instead. Remove in v5
+ */
 trait SendsMailTemplate
 {
-    public function mailGetReplyTo(?string $type = null): array
-    {
-        return [];
-    }
-
-    public function mailGetRecipients(string $type): array
-    {
-        return [];
-    }
-
-    public function mailGetData(): array
-    {
-        return [];
-    }
-
-    public function mailSend(string $view, ?string $recipientType = null, array $vars = [])
-    {
-        $vars += $this->mailGetData();
-
-        if ($recipients = $this->mailBuildMessageTo($recipientType)) {
-            MailHelper::queueTemplate($view, $vars, $recipients);
-        }
-    }
-
-    protected function mailBuildMessageTo(?string $recipientType = null): array
-    {
-        $recipients = [];
-        foreach ($this->mailGetRecipients($recipientType) as $recipient) {
-            if (array_filter($recipient)) {
-                $recipients[] = new Address(...$recipient);
-            }
-        }
-
-        return $recipients;
-    }
+    use \Igniter\System\Models\Concerns\SendsMailTemplate;
 }

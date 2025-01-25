@@ -111,11 +111,8 @@ class Filter extends BaseWidget
     {
         $this->defineFilterScopes();
 
-        if (!$scopes = post($this->alias)) {
-            return [];
-        }
-
-        foreach ($scopes as $scope => $value) {
+        $scopes = post($this->alias);
+        foreach ($scopes ?? [] as $scope => $value) {
             $scope = $this->getScope($scope);
 
             switch ($scope->type) {
@@ -238,7 +235,7 @@ class Filter extends BaseWidget
         // Load the data
         $options = $scope->options;
 
-        if (is_scalar($options)) {
+        if (!is_numeric($options) && is_string($options)) {
             if (!$model = $this->getScopeModel($scope->scopeName)) {
                 throw new SystemException(sprintf(lang('igniter::admin.list.filter_missing_scope_model'), $scope->scopeName));
             }
@@ -247,7 +244,7 @@ class Filter extends BaseWidget
 
             if (!$model->methodExists($methodName)) {
                 throw new SystemException(sprintf(lang('igniter::admin.list.filter_missing_definitions'),
-                    get_class($model), $methodName, $scope->scopeName
+                    get_class($model), $methodName, $scope->scopeName,
                 ));
             }
 
@@ -272,9 +269,7 @@ class Filter extends BaseWidget
 
         $this->fireSystemEvent('admin.filter.extendScopesBefore');
 
-        if (!is_array($this->scopes)) {
-            $this->scopes = [];
-        }
+        $this->scopes ??= [];
 
         $this->addScopes($this->scopes);
 
@@ -293,7 +288,7 @@ class Filter extends BaseWidget
 
             // Check if admin has permissions to show this column
             $permissions = array_get($config, 'permissions');
-            if (!empty($permissions) && !AdminAuth::getUser()->hasPermission($permissions, false)) {
+            if (!empty($permissions) && !AdminAuth::getUser()?->hasPermission($permissions, false)) {
                 continue;
             }
 

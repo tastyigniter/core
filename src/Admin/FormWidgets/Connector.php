@@ -184,7 +184,7 @@ class Connector extends BaseFormWidget
 
         if (strlen($recordId = post('recordId', ''))) {
             throw_unless($model = $model->find($recordId),
-                new FlashException(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model)))
+                new FlashException(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model))),
             );
         }
 
@@ -241,16 +241,15 @@ class Connector extends BaseFormWidget
 
     protected function processSaveValue($value): array|Collection
     {
-        $items = $this->formField->value;
-        if (!$items instanceof Collection) {
-            return $items;
-        }
-
         $results = [];
-
         $sortedIndexes = array_flip((array)post($this->sortableInputName));
         if (empty($sortedIndexes)) {
             return $results;
+        }
+
+        $items = $this->formField->value;
+        if (!$items instanceof Collection) {
+            return $items;
         }
 
         foreach ($items as $index => $item) {

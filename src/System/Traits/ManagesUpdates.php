@@ -22,7 +22,7 @@ trait ManagesUpdates
             try {
                 $json = resolve(UpdateManager::class)->searchItems($itemType, $searchQuery);
             } catch (Exception $ex) {
-                $json = $ex->getMessage();
+                $json = ['error' => $ex->getMessage()];
             }
         }
 
@@ -88,7 +88,7 @@ trait ManagesUpdates
         $updateManager = resolve(UpdateManager::class);
         $updateManager->requestUpdateList(true);
 
-        return $this->redirect($this->checkUrl);
+        return $this->redirectBack();
     }
 
     public function onIgnoreUpdate(): RedirectResponse
@@ -182,12 +182,10 @@ trait ManagesUpdates
                     'check' => $updateManager->preInstall(),
                     'install' => $updateManager->install($meta),
                     'complete' => $updateManager->completeinstall($meta),
-                    default => false,
                 };
             } catch (ComposerException $e) {
                 $errorMessage = nl2br($e->getMessage());
                 $errorMessage .= "\n\n".'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'."\n\n";
-                $errorMessage .= $e->getMessage();
 
                 throw new ApplicationException($errorMessage);
             }

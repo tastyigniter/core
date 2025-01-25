@@ -2,7 +2,6 @@
 
 namespace Igniter\Admin\Widgets;
 
-use Carbon\Carbon;
 use Igniter\Admin\Classes\BaseBulkActionWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ListColumn;
@@ -16,6 +15,7 @@ use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Lists extends BaseWidget
@@ -69,7 +69,7 @@ class Lists extends BaseWidget
     protected array $visibleColumns = [];
 
     /** Model data collection. */
-    protected LengthAwarePaginator $records;
+    protected Collection|LengthAwarePaginator $records;
 
     /** Current page number. */
     protected ?int $currentPageNumber = null;
@@ -298,9 +298,7 @@ class Lists extends BaseWidget
                 // Manipulate a count query for the sub query
                 $countQuery = $relationObj->getRelationExistenceCountQuery($relationObj->getRelated()->newQueryWithoutScopes(), $query);
 
-                $joinSql = $this->isColumnRelated($column, true)
-                    ? Db::raw('group_concat('.$sqlSelect." separator ', ')")
-                    : Db::raw($sqlSelect);
+                Db::raw($joinSql = $this->isColumnRelated($column, true) ? 'group_concat('.$sqlSelect." separator ', ')" : $sqlSelect);
 
                 $joinSql = $countQuery->select($joinSql)->toRawSql();
 
@@ -340,7 +338,7 @@ class Lists extends BaseWidget
     /**
      * Returns all the records from the supplied model, after filtering.
      */
-    protected function getRecords(): LengthAwarePaginator
+    protected function getRecords(): Collection|LengthAwarePaginator
     {
         $model = $this->prepareModel();
 
@@ -391,9 +389,9 @@ class Lists extends BaseWidget
 
         if ($this->columnOverride && is_array($this->columnOverride)) {
             $invalidColumns = array_diff($this->columnOverride, array_keys($definitions));
-            if (!count($definitions)) {
+            if (count($invalidColumns)) {
                 throw new SystemException(sprintf(
-                    lang('igniter::admin.list.missing_column'), implode(',', $invalidColumns)
+                    lang('igniter::admin.list.invalid_column_override'), implode(',', $invalidColumns),
                 ));
             }
 
@@ -452,7 +450,7 @@ class Lists extends BaseWidget
     protected function applyFiltersFromModel()
     {
         if (method_exists($this->model, 'filterColumns')) {
-            $this->model->filterColumns((object)$this->allColumns);
+            $this->model->filterColumns($this->allColumns);
         }
     }
 
@@ -464,7 +462,7 @@ class Lists extends BaseWidget
         foreach ($columns as $columnName => $config) {
             // Check if admin has permissions to show this column
             $permissions = array_get($config, 'permissions');
-            if (!empty($permissions) && !AdminAuth::getUser()->hasPermission($permissions, false)) {
+            if (!empty($permissions) && !AdminAuth::getUser()?->hasPermission($permissions, false)) {
                 continue;
             }
 
@@ -490,20 +488,15 @@ class Lists extends BaseWidget
     public function makeListColumn(string $name, string|array $config): ListColumn
     {
         if (is_string($config)) {
-            $label = $config;
-        } elseif (isset($config['label'])) {
-            $label = $config['label'];
-        } else {
-            $label = studly_case($name);
+            $config = ['label' => $config];
         }
 
-        if (starts_with($name, 'pivot[') && str_contains($name, ']')) {
+        $label = $config['label'] ??= studly_case($name);
+
+        if (str_contains($name, '[') && str_contains($name, ']')) {
             $_name = name_to_array($name);
             $config['relation'] = array_shift($_name);
             $config['valueFrom'] = array_shift($_name);
-            $config['searchable'] = false;
-        } elseif (str_contains($name, '[') && str_contains($name, ']')) {
-            $config['valueFrom'] = $name;
             $config['sortable'] = false;
             $config['searchable'] = false;
         }
@@ -594,9 +587,7 @@ class Lists extends BaseWidget
             $result = $response;
         }
 
-        if (!is_array($result)) {
-            $result = '';
-        }
+        $result = $result ?: [];
 
         if (isset($result['title'])) {
             $result['title'] = e(lang($result['title']));
@@ -625,6 +616,8 @@ class Lists extends BaseWidget
 
     public function getValueFromData(mixed $record, ListColumn $column, string $columnName): mixed
     {
+        $value = null;
+
         if ($column->valueFrom && $column->relation) {
             $columnName = $column->relation;
 
@@ -634,8 +627,6 @@ class Lists extends BaseWidget
                 $value = implode(', ', $record->{$columnName}->pluck($column->valueFrom)->all());
             } elseif ($this->isColumnRelated($column) || $this->isColumnPivot($column)) {
                 $value = $record->{$columnName} ? $record->{$columnName}->{$column->valueFrom} : null;
-            } else {
-                $value = null;
             }
         } elseif ($column->valueFrom) {
             $keyParts = name_to_array($column->valueFrom);
@@ -705,7 +696,7 @@ class Lists extends BaseWidget
             return null;
         }
 
-        $dateTime = $this->validateDateTimeValue($value, $column);
+        $dateTime = make_carbon($value);
 
         $format = $column->format ?? lang('igniter::system.moment.date_time_format');
         $format = parse_date_format($format);
@@ -722,7 +713,7 @@ class Lists extends BaseWidget
             return null;
         }
 
-        $dateTime = $this->validateDateTimeValue($value, $column);
+        $dateTime = make_carbon($value);
 
         $format = $column->format ?? lang('igniter::system.moment.time_format');
         $format = parse_date_format($format);
@@ -739,7 +730,7 @@ class Lists extends BaseWidget
             return null;
         }
 
-        $dateTime = $this->validateDateTimeValue($value, $column);
+        $dateTime = make_carbon($value);
 
         $format = $column->format ?? lang('igniter::system.moment.date_format');
         $format = parse_date_format($format);
@@ -756,7 +747,7 @@ class Lists extends BaseWidget
             return null;
         }
 
-        $dateTime = $this->validateDateTimeValue($value, $column);
+        $dateTime = make_carbon($value);
 
         return $dateTime->diffForHumans();
     }
@@ -770,7 +761,7 @@ class Lists extends BaseWidget
             return null;
         }
 
-        $dateTime = $this->validateDateTimeValue($value, $column);
+        $dateTime = make_carbon($value);
 
         return day_elapsed($dateTime, false);
     }
@@ -783,7 +774,7 @@ class Lists extends BaseWidget
         if ($value === null) {
             return null;
         }
-        $dateTime = $this->validateDateTimeValue($value, $column);
+        $dateTime = make_carbon($value);
 
         return day_elapsed($dateTime);
     }
@@ -794,22 +785,6 @@ class Lists extends BaseWidget
     protected function evalCurrencyTypeValue(mixed $record, ListColumn $column, mixed $value): string
     {
         return currency_format((float)$value);
-    }
-
-    /**
-     * Validates a column type as a date
-     */
-    protected function validateDateTimeValue(mixed $value, ListColumn $column): \DateTimeInterface
-    {
-        $value = make_carbon($value);
-
-        if (!$value instanceof Carbon) {
-            throw new FlashException(sprintf(
-                lang('igniter::admin.list.invalid_column_datetime'), $column->columnName
-            ));
-        }
-
-        return $value;
     }
 
     //
@@ -1104,7 +1079,7 @@ class Lists extends BaseWidget
         $partialName = array_get(
             $buttonObj->config,
             'partial',
-            'lists/list_action_button'
+            'lists/list_action_button',
         );
 
         return $this->makePartial($partialName, ['button' => $buttonObj]);
@@ -1134,7 +1109,7 @@ class Lists extends BaseWidget
 
             // Check if admin has permissions to show this column
             $permissions = array_get($config, 'permissions');
-            if (!empty($permissions) && !AdminAuth::getUser()->hasPermission($permissions, false)) {
+            if (!empty($permissions) && !AdminAuth::getUser()?->hasPermission($permissions, false)) {
                 continue;
             }
 
@@ -1202,7 +1177,7 @@ class Lists extends BaseWidget
             return false;
         }
 
-        if (!$this->model->hasRelation($column->relation)) {
+        if (!$multi && !$this->model->hasRelation($column->relation)) {
             throw new SystemException(sprintf(lang('igniter::admin.alert_missing_model_definition'), $this->model::class, $column->relation));
         }
 

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 /**
  * Verifies CSRF token Trait
  * @deprecated
+ * @codeCoverageIgnore
  */
 trait VerifiesCsrfToken
 {
@@ -31,7 +32,7 @@ trait VerifiesCsrfToken
             $config['secure'],
             false,
             false,
-            $config['same_site'] ?? null
+            $config['same_site'] ?? null,
         );
     }
 

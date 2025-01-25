@@ -317,6 +317,11 @@ class Theme extends Model
         return $uniqueCode;
     }
 
+    public static function clearThemeInstances()
+    {
+        self::$instances = [];
+    }
+
     /**
      * Checks whether a code exists in the database or not
      *

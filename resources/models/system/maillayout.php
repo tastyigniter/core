@@ -95,6 +95,13 @@ $config['form']['fields'] = [
         'span' => 'right',
         'type' => 'text',
     ],
+    'language_id' => [
+        'label' => 'lang:igniter.system::mail_templates.label_language',
+        'type' => 'relation',
+        'span' => 'left',
+        'relationFrom' => 'language',
+        'placeholder' => 'lang:admin::lang.text_please_select',
+    ],
 ];
 
 $config['form']['tabs'] = [

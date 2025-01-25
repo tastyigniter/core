@@ -27,7 +27,7 @@ class CurrencyRequest extends FormRequest
         return [
             'currency_name' => ['required', 'string', 'between:2,32'],
             'currency_code' => ['required', 'string', 'size:3'],
-            'currency_symbol' => ['string'],
+            'currency_symbol' => ['required', 'string'],
             'country_id' => ['required', 'integer'],
             'symbol_position' => ['string', 'size:1'],
             'currency_rate' => ['numeric'],

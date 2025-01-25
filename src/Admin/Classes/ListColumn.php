@@ -115,6 +115,8 @@ class ListColumn
 
         if (isset($config['valueFrom'])) {
             $this->valueFrom = $config['valueFrom'];
+        } else {
+            $this->valueFrom = $this->columnName;
         }
 
         if (isset($config['default'])) {

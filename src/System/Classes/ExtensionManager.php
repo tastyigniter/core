@@ -2,10 +2,11 @@
 
 namespace Igniter\System\Classes;
 
+use Facades\Igniter\System\Helpers\SystemHelper;
+use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
-use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Extension;
 use ZipArchive;
 
@@ -19,6 +20,8 @@ class ExtensionManager
     protected array $extensions = [];
 
     protected array $disabledExtensions = [];
+
+    protected array $coreExtensions = [];
 
     /** Cache of registration method results. */
     protected array $registrationMethodCache = [];
@@ -34,9 +37,10 @@ class ExtensionManager
 
     protected static array $directories = [];
 
-    public function __construct(protected PackageManifest $packageManifest, protected ComposerManager $composerManager)
+    public function __construct(protected PackageManifest $packageManifest, protected Manager $composerManager)
     {
         $this->disabledExtensions = $this->packageManifest->disabledAddons();
+        $this->coreExtensions = $this->packageManifest->coreAddons();
         $this->loadExtensions();
     }
 
@@ -61,6 +65,7 @@ class ExtensionManager
 
     /**
      * Return an associative array of files within one or more extensions.
+     * @codeCoverageIgnore
      */
     public function files(?string $extensionName = null, ?string $subFolder = null): bool|array
     {
@@ -72,6 +77,7 @@ class ExtensionManager
 
     /**
      * Search a extension folder for files.
+     * @codeCoverageIgnore
      */
     public function filesPath(string $extensionName, ?string $path = null): array
     {
@@ -281,7 +287,7 @@ class ExtensionManager
     }
 
     /**
-     * Determines if an extension is disabled by looking at the installed extensions config.
+     * Determines if an extension is disabled by looking at the installed extension config.
      */
     public function isDisabled(string $code): bool
     {
@@ -290,7 +296,7 @@ class ExtensionManager
 
     public function isRequired(string $code): bool
     {
-        return in_array($code, config('igniter-system.requiredExtensions', []));
+        return in_array($code, array_column($this->coreExtensions, 'code'));
     }
 
     /**
@@ -366,7 +372,7 @@ class ExtensionManager
         $extensionCode = null;
         $extractTo = Igniter::extensionsPath();
 
-        $zip = new ZipArchive;
+        $zip = resolve(ZipArchive::class);
         if ($zip->open($zipPath) === true) {
             $extensionDir = $zip->getNameIndex(0);
 
@@ -403,11 +409,7 @@ class ExtensionManager
     public function installExtension(string $code, ?string $version = null): bool
     {
         $model = Extension::firstOrNew(['name' => $code]);
-        if (!$model->applyExtensionClass()) {
-            return false;
-        }
-
-        if (!$extension = $this->findExtension($model->name)) {
+        if (!$model->applyExtensionClass() || !$extension = $this->findExtension($model->name)) {
             return false;
         }
 
@@ -453,7 +455,7 @@ class ExtensionManager
         }
 
         // Remove extensions files from filesystem
-        $composerManager = resolve(ComposerManager::class);
+        $composerManager = resolve(Manager::class);
         if ($packageName = $composerManager->getPackageName($code)) {
             $composerManager->uninstall([$packageName => false]);
         }

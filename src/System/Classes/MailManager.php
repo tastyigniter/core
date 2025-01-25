@@ -52,13 +52,13 @@ class MailManager
                 $config->set('mail.mailers.smtp.host', setting('smtp_host'));
                 $config->set('mail.mailers.smtp.port', setting('smtp_port'));
                 $config->set('mail.mailers.smtp.encryption', strlen(setting('smtp_encryption'))
-                    ? setting('smtp_encryption') : null
+                    ? setting('smtp_encryption') : null,
                 );
                 $config->set('mail.mailers.smtp.username', strlen(setting('smtp_user'))
-                    ? setting('smtp_user') : null
+                    ? setting('smtp_user') : null,
                 );
                 $config->set('mail.mailers.smtp.password', strlen(setting('smtp_pass'))
-                    ? setting('smtp_pass') : null
+                    ? setting('smtp_pass') : null,
                 );
                 break;
             case 'mailgun':
@@ -96,10 +96,6 @@ class MailManager
      */
     public function render(string $content, array $data = []): string
     {
-        if (!$content) {
-            return '';
-        }
-
         $html = $this->renderView($content, $data);
 
         return Markdown::parse($html->toHtml());
@@ -108,12 +104,8 @@ class MailManager
     /**
      * Render the Markdown template into text.
      */
-    public function renderText(?string $content, array $data = []): string|HtmlString
+    public function renderText(string $content, array $data = []): string|HtmlString
     {
-        if (!$content) {
-            return '';
-        }
-
         $text = $this->renderView($content, $data);
 
         return new HtmlString(html_entity_decode(preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8'));
@@ -131,7 +123,7 @@ class MailManager
                     'body' => $html,
                     'layout_css' => $template->layout->layout_css,
                     'custom_css' => MailTheme::renderCss(),
-                ] + $data
+                ] + $data,
             );
         }
 
@@ -153,7 +145,7 @@ class MailManager
             $text = $this->renderView($template->layout->plain_layout,
                 [
                     'body' => $text,
-                ] + $data
+                ] + $data,
             );
         }
 
@@ -192,10 +184,6 @@ class MailManager
 
         $content = $partial->text ?: $partial->html;
         $content = $this->isRenderingHtml ? $partial->html : $content;
-
-        if (!strlen(trim($content))) {
-            return '';
-        }
 
         return $this->renderView($content, $params);
     }
