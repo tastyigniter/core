@@ -2,15 +2,18 @@
 
 namespace Igniter\Tests\Main\Models;
 
+use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Main\Classes\Theme as ThemeData;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\ExtensionManager;
+use Igniter\System\Models\Concerns\Defaultable;
+use Igniter\System\Models\Concerns\Switchable;
 
 it('creates a new theme instance for a given theme data', function() {
-    $themeData = new ThemeData(__DIR__, ['code' => 'test-theme']);
+    $themeData = new ThemeData(__DIR__, ['code' => 'tests-theme']);
     $theme = Theme::forTheme($themeData);
-    expect($theme->code)->toBe('test-theme');
+    expect($theme->code)->toBe('tests-theme');
 });
 
 it('returns false when onboarding is not complete', function() {
@@ -19,7 +22,7 @@ it('returns false when onboarding is not complete', function() {
 });
 
 it('returns true when onboarding is complete', function() {
-    $theme = Theme::create(['code' => 'test-theme', 'name' => 'Test Theme', 'data' => ['key' => 'value'], 'status' => 1]);
+    $theme = Theme::create(['code' => 'tests-theme', 'name' => 'Test Theme', 'data' => ['key' => 'value'], 'status' => 1]);
     $theme->makeDefault();
     Theme::clearDefaultModel();
 
@@ -27,11 +30,11 @@ it('returns true when onboarding is complete', function() {
 });
 
 it('returns layout options for the theme', function() {
-    $themeData = new ThemeData(testThemePath(), ['code' => 'test-theme']);
-    $theme = Theme::create(['code' => 'test-theme']);
-    resolve(ThemeManager::class)->themes['test-theme'] = $themeData;
+    $themeData = new ThemeData(testThemePath(), ['code' => 'tests-theme']);
+    $theme = Theme::create(['code' => 'tests-theme']);
+    resolve(ThemeManager::class)->themes['tests-theme'] = $themeData;
 
-    expect($theme->getLayoutOptions())->toBe([]);
+    expect($theme->getLayoutOptions())->toHaveKey('default', 'default [default]');
 });
 
 it('returns component options', function() {
@@ -43,40 +46,40 @@ it('returns component options', function() {
 });
 
 it('returns default theme name when not set', function() {
-    $theme = new Theme(['code' => 'test-theme', 'name' => 'Test Theme']);
-    expect($theme->name)->toBe('Test Theme');
+    $theme = new Theme(['code' => 'tests-theme']);
+    expect($theme->name)->toBe('Tests Theme');
 });
 
 it('returns theme description', function() {
-    $theme = new Theme(['code' => 'test-theme', 'description' => 'Test Description']);
-    expect($theme->description)->toBe('Test Description');
+    $theme = new Theme(['code' => 'tests-theme']);
+    expect($theme->description)->toBe('A Test theme for TastyIgniter front-end');
 });
 
 it('returns theme locked mode', function() {
-    $theme = new Theme(['code' => 'test-theme']);
-    $themeData = new ThemeData(testThemePath(), ['code' => 'test-theme', 'author' => 'Test Author', 'locked' => true]);
-    resolve(ThemeManager::class)->themes['test-theme'] = $themeData;
+    $theme = new Theme(['code' => 'tests-theme']);
+    $themeData = new ThemeData(testThemePath(), ['code' => 'tests-theme', 'author' => 'Test Author', 'locked' => true]);
+    resolve(ThemeManager::class)->themes['tests-theme'] = $themeData;
 
     expect($theme->locked)->toBeTrue();
 });
 
 it('returns default version when not set', function() {
-    $theme = new Theme(['code' => 'test-theme']);
+    $theme = new Theme(['code' => 'tests-theme']);
     expect($theme->version)->toBe('0.1.0');
 });
 
 it('returns theme author', function() {
-    $theme = new Theme(['code' => 'test-theme']);
-    $themeData = new ThemeData(testThemePath(), ['code' => 'test-theme', 'author' => 'Test Author']);
-    resolve(ThemeManager::class)->themes['test-theme'] = $themeData;
+    $theme = new Theme(['code' => 'tests-theme']);
+    $themeData = new ThemeData(testThemePath(), ['code' => 'tests-theme', 'author' => 'Test Author']);
+    resolve(ThemeManager::class)->themes['tests-theme'] = $themeData;
 
     expect($theme->author)->toBe('Test Author');
 });
 
 it('returns theme screenshot', function() {
-    $theme = new Theme(['code' => 'test-theme']);
-    $themeData = new ThemeData(testThemePath(), ['code' => 'test-theme', 'author' => 'Test Author']);
-    resolve(ThemeManager::class)->themes['test-theme'] = $themeData;
+    $theme = new Theme(['code' => 'tests-theme']);
+    $themeData = new ThemeData(testThemePath(), ['code' => 'tests-theme', 'author' => 'Test Author']);
+    resolve(ThemeManager::class)->themes['tests-theme'] = $themeData;
 
     expect($theme->screenshot)->toBe('');
 });
@@ -86,9 +89,9 @@ it('returns false when activating non existence theme', function() {
 });
 
 it('returns fields config from theme form config', function() {
-    $theme = new Theme(['code' => 'test-theme']);
+    $theme = new Theme(['code' => 'tests-theme']);
     $themeData = new ThemeData(testThemePath(), [
-        'code' => 'test-theme',
+        'code' => 'tests-theme',
         'form' => [
             'general' => [
                 'title' => 'General',
@@ -100,7 +103,7 @@ it('returns fields config from theme form config', function() {
             ],
         ],
     ]);
-    resolve(ThemeManager::class)->themes['test-theme'] = $themeData;
+    resolve(ThemeManager::class)->themes['tests-theme'] = $themeData;
 
     expect($theme->getFieldsConfig())->toHaveKey('field1')
         ->and($theme->getFieldsConfig())->toHaveKey('field1');
@@ -112,33 +115,81 @@ it('returns field values when data is set', function() {
 });
 
 it('saves theme customizer attributes', function() {
-    $theme = Theme::create(['code' => 'test-theme-suffix', 'name' => 'Test Theme']);
+    Theme::flushEventListeners();
+    $theme = Theme::create(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
     $theme->name = 'New Test Theme';
     $theme->background_color = '#ffffff';
     $theme->save();
     $theme = $theme->fresh();
 
     expect($theme->data)->toHaveKey('background_color', '#ffffff');
-})->skip();
+});
 
 it('activates a theme and installs required extensions', function() {
-    $theme = Theme::create(['code' => 'test-theme', 'name' => 'Test Theme', 'status' => 1]);
+    $theme = Theme::create(['code' => 'tests-theme', 'name' => 'Test Theme', 'status' => 1]);
     $themeData = mock(ThemeData::class);
     $themeData->shouldReceive('listRequires')->andReturn(['extension1' => '1.0.0']);
     $themeData->shouldReceive('hasParent')->andReturnFalse();
     $themeData->shouldReceive('getMetaPath')->andReturn('/path/to/theme/meta');
-    resolve(ThemeManager::class)->themes['test-theme'] = $themeData;
+    resolve(ThemeManager::class)->themes['tests-theme'] = $themeData;
     app()->instance(ExtensionManager::class, $extensionManager = mock(ExtensionManager::class));
     $extensionManager->shouldReceive('getExtensions')->andReturn([]);
     $extensionManager->shouldReceive('hasExtension')->with('extension1')->andReturn(true);
     $extensionManager->shouldReceive('installExtension')->with('extension1');
 
-    expect(Theme::activateTheme('test-theme')->getKey())->toBe($theme->getKey());
+    expect(Theme::activateTheme('tests-theme')->getKey())->toBe($theme->getKey());
 });
 
 it('generates unique theme code', function() {
-    Theme::create(['code' => 'test-theme-suffix', 'name' => 'Test Theme']);
+    Theme::create(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
 
-    $themeCode = Theme::generateUniqueCode('test-theme', 'suffix');
-    expect($themeCode)->toStartWith('test-theme-');
+    $themeCode = Theme::generateUniqueCode('tests-theme', 'suffix');
+    expect($themeCode)->toStartWith('tests-theme-');
+});
+
+it('skips non existence theme when syncing all', function() {
+    app()->instance(ThemeManager::class, $themeManager = mock(ThemeManager::class));
+    $themeManager->shouldReceive('paths')->andReturn([
+        'non-existence' => '/path/to/non-existence',
+        'invalid-code' => '/path/to/invalid-code',
+    ]);
+    $themeManager->shouldReceive('findTheme')->with('non-existence')->andReturnNull();
+    $themeManager->shouldReceive('findTheme')->with('invalid-code')->andReturn(new ThemeData(testThemePath(), ['code' => 'invalidd-code']));
+
+    expect(Theme::syncAll())->toBeNull();
+});
+
+it('configures theme model correctly', function() {
+    $theme = new Theme;
+
+    expect(class_uses_recursive($theme))
+        ->toContain(Defaultable::class)
+        ->toContain(Purgeable::class)
+        ->toContain(Switchable::class)
+        ->and(Theme::ICON_MIMETYPES)->toEqual([
+            'png' => 'image/png',
+            'svg' => 'image/svg+xml',
+        ])
+        ->and($theme->getTable())->toBe('themes')
+        ->and($theme->getKeyName())->toBe('theme_id')
+        ->and($theme->getFillable())->toEqual([
+            'theme_id',
+            'name',
+            'code',
+            'version',
+            'description',
+            'data',
+            'status',
+            'is_default',
+        ])
+        ->and($theme->getCasts())->toEqual([
+            'theme_id' => 'int',
+            'data' => 'array',
+            'status' => 'boolean',
+            'is_default' => 'boolean',
+        ])
+        ->and($theme->getPurgeableAttributes())->toEqual([
+            'template', 'settings', 'markup', 'codeSection',
+        ])
+        ->and($theme->timestamps)->toBeTrue();
 });

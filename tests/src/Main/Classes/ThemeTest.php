@@ -134,6 +134,7 @@ it('returns default theme code from config when no active theme', function() {
         'is_default' => 1,
     ]);
     expect(Theme::getActiveCode())->toBe('defaultThemeCode');
+    \Igniter\Main\Models\Theme::clearDefaultModel();
 });
 
 it('returns the correct form config', function() {

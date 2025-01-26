@@ -11,6 +11,7 @@ it('adds assets from manifest successfully', function() {
     Igniter::shouldReceive('runningInAdmin')->andReturnTrue();
     Igniter::shouldReceive('adminUri')->andReturn('admin');
     Igniter::shouldReceive('hasDatabase')->andReturnTrue();
+    Igniter::shouldReceive('themesPath')->andReturn(base_path('themes'));
     $path = realpath(__DIR__.'/../../../../resources/views/admin/_meta/assets.json');
 
     $assets = new Assets();

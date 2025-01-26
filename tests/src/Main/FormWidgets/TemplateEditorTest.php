@@ -41,8 +41,11 @@ it('initializes correctly', function() {
 
 it('renders correctly', function() {
     $this->themeManager->shouldReceive('findTheme')->with('tests-theme')->andReturn($theme = mock(ThemeClass::class));
+    $this->themeManager->shouldReceive('getActiveTheme')->andReturn($theme);
     $theme->shouldReceive('getTemplateClass')->andReturn(PageTemplate::class);
     $theme->shouldReceive('getName')->andReturn('tests-theme');
+    $theme->shouldReceive('getAssetPath')->andReturn('/path/to/asset');
+    $theme->shouldReceive('hasParent')->andReturn(false);
 
     expect($this->templateEditorWidget->render())->toBeString();
 
@@ -59,6 +62,7 @@ it('throws exception when rendering widget with invalid theme', function() {
 
 it('reloads widget correctly', function() {
     $this->themeManager->shouldReceive('findTheme')->with('tests-theme')->andReturn($theme = mock(ThemeClass::class));
+    $this->themeManager->shouldReceive('getActiveTheme')->andReturn($theme);
     $theme->shouldReceive('getTemplateClass')->andReturn(PageTemplate::class);
     $theme->shouldReceive('getName')->andReturn('tests-theme');
 
@@ -181,6 +185,7 @@ it('updates template file content', function() {
     $this->templateEditorWidget->vars['templateWidget']->data->fileSource = $pageTemplate = mock(PageTemplate::class);
     $pageTemplate->shouldReceive('fill')->andReturnSelf();
     $pageTemplate->shouldReceive('save')->andReturnTrue();
+    $pageTemplate->shouldReceive('hasGetMutator')->andReturnFalse();
     $pageTemplate->shouldReceive('getAttribute')->with('mTime')->andReturnNull();
     $pageTemplate->shouldReceive('getAttribute')->with('file_name')->andReturn('_pages/components');
 

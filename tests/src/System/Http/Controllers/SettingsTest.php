@@ -5,6 +5,7 @@ namespace Igniter\Tests\System\Http\Controllers;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserRole;
+use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
 
 it('loads settings page', function() {
@@ -92,7 +93,13 @@ it('updates extension settings and redirects to settings page', function() {
 });
 
 it('sends test email', function() {
-    Mail::shouldReceive('raw')->once();
+    Mail::shouldReceive('raw')->withArgs(function($content, $callback) {
+        $message = mock(Message::class);
+        $message->shouldReceive('to')->andReturnSelf();
+        $message->shouldReceive('subject')->with('This a test email')->andReturnSelf();
+        $callback($message);
+        return true;
+    })->once();
 
     actingAsSuperUser()
         ->post(route('igniter.system.settings', ['slug' => 'edit/mail']), [

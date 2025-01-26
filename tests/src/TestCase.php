@@ -6,6 +6,7 @@ use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\ComponentManager;
 use Igniter\System\Classes\PackageManifest;
+use Igniter\Tests\System\Fixtures\TestBladeComponent;
 use Igniter\Tests\System\Fixtures\TestComponent;
 use Igniter\Tests\System\Fixtures\TestComponentWithLifecycle;
 use Igniter\Tests\System\Fixtures\TestLivewireComponent;
@@ -43,6 +44,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $manager->registerComponent(TestComponent::class, TestComponent::componentMeta());
             $manager->registerComponent(TestComponentWithLifecycle::class, TestComponentWithLifecycle::componentMeta());
             $manager->registerComponent(TestLivewireComponent::class, TestLivewireComponent::componentMeta());
+            $manager->registerComponent(TestBladeComponent::class, TestBladeComponent::componentMeta());
         });
     }
 

@@ -4,6 +4,7 @@ namespace Igniter\Tests\System\DashboardWidgets;
 
 use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Admin\Http\Controllers\Dashboard;
+use Igniter\Flame\Support\Facades\File;
 use Igniter\System\DashboardWidgets\Cache;
 
 beforeEach(function() {
@@ -11,6 +12,11 @@ beforeEach(function() {
 });
 
 it('renders cache widget successfully', function() {
+    expect($this->cacheWidget->render())->toBeString();
+});
+
+it('skips caches with non existence directory', function() {
+    File::partialMock()->shouldReceive('isDirectory')->with(storage_path().'/igniter/combiner')->andReturnFalse();
     expect($this->cacheWidget->render())->toBeString();
 });
 

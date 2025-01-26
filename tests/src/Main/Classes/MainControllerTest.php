@@ -246,6 +246,26 @@ it('returns rendered partial content using page.renderPartial event in renderPar
     expect((new MainController())->renderPartial('test-partial'))->toContain('test-partial-content');
 });
 
+it('returns rendered partial content in renderPartialWhen', function() {
+    expect((new MainController())->renderPartialWhen(true, 'test-partial'))->toContain('This is a test partial content');
+});
+
+it('returns rendered partial content in renderPartialUnless', function() {
+    expect((new MainController())->renderPartialUnless(false, 'test-partial'))->toContain('This is a test partial content');
+});
+
+it('returns rendered partial content in renderPartialFirst', function() {
+    expect((new MainController())->renderPartialFirst(['invalid-partial', 'test-partial']))
+        ->toContain('This is a test partial content');
+});
+
+it('returns rendered partial content in renderPartialEach', function() {
+    expect((new MainController())->renderPartialEach('test-partial', [
+        ['name' => 'John'],
+        ['name' => 'Jane'],
+    ], 'name'))->toContain("This is a test partial content\nThis is a test partial content");
+});
+
 it('returns rendered component partial content in renderPartial', function() {
     $page = Page::resolveRouteBinding('components');
     $mainController = new MainController();

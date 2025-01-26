@@ -16,6 +16,7 @@ it('returns partial when found by code', function() {
     File::shouldReceive('get')->once()->andReturn("name = Test Partial\n===\ntext_content\n===\nhtml_content\n");
     View::shouldReceive('make->getPath')->andReturn('test_path');
 
+    MailPartial::flushEventListeners();
     MailPartial::create(['code' => '_mail.test_partial']);
     $result = MailPartial::findOrMakePartial('_mail.test_partial');
 

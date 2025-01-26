@@ -1,3 +1,11 @@
+---
+title: Nested page
+description: ''
+permalink: /nested-page
+layout: default
+'[testComponent]': []
+'[testComponent testComponentCopy]': []
+---
 <div>
-    Test page content
+    Test nested page content
 </div>

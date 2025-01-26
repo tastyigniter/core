@@ -4,6 +4,7 @@ description: ''
 permalink: /components
 layout: default
 '[testComponent]': []
+'[test::livewire-component]': []
 ---
 <div class="container">
     <div class="row">
@@ -23,8 +24,8 @@ layout: default
         <p>This is a logged customer</p>
         @endmainauth
 
-        @partialIf('scripts')
+        @themePartialIf('scripts')
 
-        @component('testComponent')
+        @themeComponent('testComponent')
     </div>
 </div>
