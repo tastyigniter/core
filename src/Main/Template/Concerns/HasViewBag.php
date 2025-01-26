@@ -37,11 +37,15 @@ trait HasViewBag
         }
 
         $componentName = 'viewBag';
-        // Ensure viewBag component has not already been defined on template
-        $viewBag = new ViewBag(null, []);
-        $viewBag->name = $componentName;
 
-        return $this->viewBagCache = $viewBag;
+        if (!isset($this->settings['components'][$componentName])) {
+            $viewBag = new ViewBag(null, []);
+            $viewBag->name = $componentName;
+
+            return $this->viewBagCache = $viewBag;
+        }
+
+        return $this->viewBagCache = $this->getComponent($componentName);
     }
 
     /**

@@ -19,18 +19,8 @@ class ComponentPartial extends Extendable implements TemplateInterface
     /** Partial content. */
     public ?string $content = null;
 
-    /** Allowable file extensions. */
-    protected array $allowedExtensions = ['blade.php', 'php'];
-
     /** Default file extension. */
     protected string $defaultExtension = 'blade.php';
-
-    /**
-     * The maximum allowed path nesting level. The default value is 2,
-     * meaning that files can only exist in the root directory, or in a
-     * subdirectory. Set to null if any level is allowed.
-     */
-    protected int $maxNesting = 2;
 
     /**
      * Creates an instance of the object and associates it with a component.
@@ -52,13 +42,9 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     public static function loadOverrideCached(Theme $theme, string $componentName, string $fileName): ?Partial
     {
-        $partial = Partial::loadCached($theme->getName(), $componentName.'/'.$fileName);
-
-        if ($partial === null) {
-            $partial = Partial::loadCached($theme->getName(), strtolower($componentName).'/'.$fileName);
-        }
-
-        return $partial;
+        return Partial::listInTheme($theme->getName())->first(function($partial) use ($componentName, $fileName) {
+            return in_array($partial->getBaseFileName(), [$componentName.'/'.$fileName, strtolower($componentName).'/'.$fileName]);
+        });
     }
 
     /**
@@ -72,13 +58,9 @@ class ComponentPartial extends Extendable implements TemplateInterface
             return null;
         }
 
-        if (($content = @File::get($filePath)) === false) {
-            return null;
-        }
-
         $this->fileName = File::basename($filePath);
         $this->mTime = File::lastModified($filePath);
-        $this->content = $content;
+        $this->content = File::get($filePath);
 
         return $this;
     }
@@ -88,13 +70,9 @@ class ComponentPartial extends Extendable implements TemplateInterface
      */
     public static function check(BaseComponent $component, string $fileName): bool
     {
-        $partial = new static($component);
-        $filePath = $partial->getFilePath($fileName);
-        if (File::extension($filePath) === '') {
-            $filePath .= '.'.$partial->getDefaultExtension();
-        }
+        $partial = new static($component->getPath());
 
-        return File::isFile($filePath);
+        return File::isFile($partial->getFilePath($fileName));
     }
 
     /**

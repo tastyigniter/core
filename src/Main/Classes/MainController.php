@@ -27,6 +27,7 @@ use Igniter\System\Helpers\ViewHelper;
 use Igniter\System\Traits\AssetMaker;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
@@ -468,6 +469,37 @@ class MainController extends Controller
         }
 
         return $partialContent;
+    }
+
+    public function renderPartialWhen(bool $condition, string $name, array $params = [], bool $throwException = true): mixed
+    {
+        return !$condition ? '' : $this->renderPartial($name, $params, $throwException);
+    }
+
+    public function renderPartialUnless(bool $condition, string $name, array $params = [], bool $throwException = true): mixed
+    {
+        return $this->renderPartialWhen(!$condition, $name, $params, $throwException);
+    }
+
+    public function renderPartialFirst(array $partials, array $params = [], bool $throwException = true): mixed
+    {
+        $partial = Arr::first($partials, function($partial) {
+            return $this->hasPartial($partial);
+        });
+
+        return $this->renderPartial($partial, $params, $throwException);
+    }
+
+    public function renderPartialEach(string $name, array $params, string $iterator, bool $throwException = true): string
+    {
+        $output = '';
+        if (count($params) > 0) {
+            foreach ($params as $key => $value) {
+                $output .= $this->renderPartial($name, ['key' => $key, $iterator => $value], $throwException);
+            }
+        }
+
+        return $output;
     }
 
     /**

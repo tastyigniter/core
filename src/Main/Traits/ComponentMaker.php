@@ -4,8 +4,10 @@ namespace Igniter\Main\Traits;
 
 use Igniter\Main\Components\BlankComponent;
 use Igniter\Main\Template\ComponentPartial;
+use Igniter\Main\Template\Partial;
 use Igniter\System\Classes\BaseComponent;
 use Igniter\System\Classes\ComponentManager;
+use Illuminate\Support\Arr;
 
 trait ComponentMaker
 {
@@ -52,7 +54,7 @@ trait ComponentMaker
      * @throws \Igniter\Flame\Exception\FlashException
      * @internal  This method is used internally.
      */
-    public function renderComponent($name, array $params = [], $throwException = true): string|false
+    public function renderComponent(string $name, array $params = [], $throwException = true): string|false
     {
         $alias = str_before($name, '::');
 
@@ -78,6 +80,29 @@ trait ComponentMaker
         $this->componentContext = $previousContext;
 
         return $result;
+    }
+
+    public function renderComponentWhen(bool $condition, $name, array $params = [], $throwException = true): string|false
+    {
+        return !$condition ? '' : $this->renderComponent($name, $params, $throwException);
+    }
+
+    public function renderComponentUnless(bool $condition, $name, array $params = [], $throwException = true): string|false
+    {
+        return $this->renderComponentWhen(!$condition, $name, $params, $throwException);
+    }
+
+    public function renderComponentFirst(array $components, array $params, $throwException = true): string|false
+    {
+        $component = Arr::first($components, function($component) {
+            return $this->hasComponent($component);
+        });
+
+        if (!$component) {
+            $this->handleException('None of the components in the given array exist.', $throwException);
+        }
+
+        return $this->renderComponent($component, $params, $throwException);
     }
 
     /**
@@ -177,7 +202,7 @@ trait ComponentMaker
         $this->componentContext = $component;
     }
 
-    protected function loadComponentPartial(string $name, bool $throwException = true): ComponentPartial|false
+    protected function loadComponentPartial(string $name, bool $throwException = true): Partial|ComponentPartial|false
     {
         [$componentAlias, $partialName] = explode('::', $name);
 

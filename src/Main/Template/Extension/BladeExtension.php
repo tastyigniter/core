@@ -2,10 +2,7 @@
 
 namespace Igniter\Main\Template\Extension;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Str;
-use Illuminate\View\ViewFinderInterface;
 
 class BladeExtension
 {
@@ -28,6 +25,7 @@ class BladeExtension
         Blade::directive('themePartialWhen', [$this, 'compilesThemePartialWhen']);
         Blade::directive('themePartialUnless', [$this, 'compilesThemePartialUnless']);
         Blade::directive('themePartialFirst', [$this, 'compilesThemePartialFirst']);
+        Blade::directive('themePartialEach', [$this, 'compilesThemePartialEach']);
     }
 
     //
@@ -70,97 +68,48 @@ class BladeExtension
         return "<?php if (controller()->hasComponent({$expression})) echo controller()->renderComponent({$expression}); ?>";
     }
 
-    public function compilesThemeComponentWhen($condition, string $expression): string
+    public function compilesThemeComponentWhen(string $expression): string
     {
-        return !$condition ? '' : "<?php echo controller()->renderComponent({$expression}); ?>";
+        return "<?php echo controller()->renderComponentWhen($expression); ?>";
     }
 
-    public function compilesThemeComponentUnless($condition, string $expression): string
+    public function compilesThemeComponentUnless(string $expression): string
     {
-        return $condition ? '' : "<?php echo controller()->renderComponent({$expression}); ?>";
+        return "<?php echo controller()->renderComponentUnless($expression); ?>";
     }
 
-    public function compilesThemeComponentFirst($components, string $expression): string
+    public function compilesThemeComponentFirst(string $expression): string
     {
-        $component = Arr::first($components, function($component) {
-            return controller()->hasComponent($component);
-        });
-
-        return "<?php echo controller()->renderComponent($component); ?>";
+        return "<?php echo controller()->renderComponentFirst($expression); ?>";
     }
 
     public function compilesThemePartial(string $expression): string
     {
-        return "<?php echo controller()->renderPartial({$expression}); ?>";
+        return "<?php echo controller()->renderPartial($expression); ?>";
     }
 
     public function compilesThemePartialIf(string $expression): string
     {
-        return "<?php if (controller()->hasPartial({$expression})) echo controller()->renderPartial({$expression}); ?>";
+        return "<?php if (controller()->hasPartial($expression)) echo controller()->renderPartial($expression); ?>";
     }
 
-    public function compilesThemePartialWhen($condition, string $expression): string
+    public function compilesThemePartialWhen(string $expression): string
     {
-        return !$condition ? '' : "<?php echo controller()->renderPartial({$expression}); ?>";
+        return "<?php echo controller()->renderPartialWhen($expression); ?>";
     }
 
-    public function compilesThemePartialUnless($condition, string $expression): string
+    public function compilesThemePartialUnless(string $expression): string
     {
-        return $condition ? '' : "<?php echo controller()->renderPartial({$expression}); ?>";
+        return "<?php echo controller()->renderPartialUnless($expression); ?>";
     }
 
-    public function compilesThemePartialFirst($partials, string $expression): string
+    public function compilesThemePartialFirst(string $expression): string
     {
-        $partial = Arr::first($partials, function($partial) {
-            return controller()->hasPartial($partial);
-        });
-
-        return "<?php echo controller()->renderPartial($partial); ?>";
+        return "<?php echo controller()->renderPartialFirst($expression); ?>";
     }
 
-    //
-    //
-    //
-
-    public function stripQuotes(string $string): string
+    public function compilesThemePartialEach(string $expression): string
     {
-        return preg_replace("/[\"\']/", '', $string);
-    }
-
-    public function stripParentheses(string $expression): string
-    {
-        if (Str::startsWith($expression, '(')) {
-            $expression = substr($expression, 1, -1);
-        }
-
-        return $expression;
-    }
-
-    public function appendPartialPath(string $expression): string
-    {
-        [$condition, $partial, $data] = str_contains($expression, ',')
-            ? array_map('trim', explode(',', trim($expression, '()'), 2)) + ['', '', '[]']
-            : [trim($expression, '()'), '', '[]'];
-
-        $partial = $this->stripQuotes($partial);
-
-        $partial = $this->guessViewName($partial, '_partials.');
-
-        return sprintf('%s, %s, %s', $condition, '"'.$partial.'"', $data);
-    }
-
-    public function guessViewName(string $name, string $prefix = 'components.'): string
-    {
-        if (!Str::endsWith($prefix, '.')) {
-            $prefix .= '.';
-        }
-
-        $delimiter = ViewFinderInterface::HINT_PATH_DELIMITER;
-
-        if (str_contains($name, $delimiter)) {
-            return Str::replaceFirst($delimiter, $delimiter.$prefix, $name);
-        }
-
-        return $prefix.$name;
+        return "<?php echo controller()->renderPartialEach($expression); ?>";
     }
 }

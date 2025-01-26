@@ -67,7 +67,7 @@ class Theme extends Model
     use Purgeable;
     use Switchable;
 
-    const ICON_MIMETYPES = [
+    public const ICON_MIMETYPES = [
         'png' => 'image/png',
         'svg' => 'image/svg+xml',
     ];

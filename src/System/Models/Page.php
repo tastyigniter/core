@@ -27,7 +27,7 @@ use Igniter\System\Models\Concerns\Switchable;
  * @method static \Igniter\Flame\Database\Builder<static>|Page applyFilters(array $options = [])
  * @method static \Igniter\Flame\Database\Builder<static>|Page applySorts(array $sorts = [])
  * @method static \Igniter\Flame\Database\Builder<static>|Page applySwitchable(bool $switch = true)
- * @method static \Igniter\Flame\Database\Builder<static>|Page dropdown(string $column, string $key = null)
+ * @method static \Illuminate\Support\Collection dropdown(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|Page findSimilarSlugs($attribute, array $config, $slug)
  * @method static \Igniter\Flame\Database\Builder<static>|Page isEnabled()
  * @method static \Igniter\Flame\Database\Builder<static>|Page listFrontEnd(array $options = [])

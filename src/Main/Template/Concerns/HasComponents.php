@@ -21,7 +21,7 @@ trait HasComponents
             return null;
         }
 
-        return array_get($this->settings['components'], $componentName);
+        return array_get($this->loadedComponents, $componentName);
     }
 
     /**
@@ -29,9 +29,7 @@ trait HasComponents
      */
     public function hasComponent(string $componentName): bool
     {
-        $components = $this->settings['components'] ?? [];
-
-        return array_has(is_array($components) ? $components : [], $componentName);
+        return array_has($this->settings['components'] ?? [], $componentName);
     }
 
     public function updateComponent(string $alias, array $properties): bool
@@ -58,7 +56,7 @@ trait HasComponents
         $components = array_sort(array_get($this->settings, 'components', []),
             function($value, $key) use ($priorities) {
                 return $priorities[$key] ?? 0;
-            }
+            },
         );
 
         $this->attributes['settings']['components'] = $components;
@@ -103,14 +101,14 @@ trait HasComponents
     {
         if (is_array($componentName)) {
             foreach ($componentName as $name => $componentProperties) {
-                $this->setConfigurableComponentProperties($name, $componentProperties);
+                $this->mergeConfigurableComponentProperties($name, $componentProperties);
             }
 
             return;
         }
 
         $this->loadedConfigurableComponents[$componentName] = array_merge(
-            $this->loadedConfigurableComponents[$componentName] ?? [], $properties
+            $this->loadedConfigurableComponents[$componentName] ?? [], $properties,
         );
     }
 }
