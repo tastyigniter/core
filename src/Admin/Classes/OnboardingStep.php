@@ -20,7 +20,7 @@ final class OnboardingStep
 
     public static function fromArray(array $attributes): self
     {
-        $instance = new static;
+        $instance = new self;
         $instance->code = $attributes['code'];
         $instance->label = $attributes['label'];
         $instance->description = $attributes['description'];

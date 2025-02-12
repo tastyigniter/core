@@ -42,7 +42,7 @@ it('returns shouldReport value', function() {
 it('renders response with redirect when redirectUrl is set', function() {
     $exception = FlashException::error('Error message')->overlay()->important();
     $exception->redirectTo('http://example.com');
-    $request = new Request();
+    $request = new Request;
     $response = $exception->render($request);
     expect($response->getTargetUrl())->toBe('http://example.com')
         ->and($exception->getContents())->toHaveKey('overlay', true)
@@ -53,7 +53,7 @@ it('renders response with custom response when response is set', function() {
     $exception = FlashException::success('Success message');
     $customResponse = new Response('Custom response', 200);
     $exception->setResponse($customResponse);
-    $request = new Request();
+    $request = new Request;
     $response = $exception->render($request);
     expect($response)->toBe($customResponse)
         ->and($exception->getContents())->toHaveKey('class', 'success');
@@ -61,7 +61,7 @@ it('renders response with custom response when response is set', function() {
 
 it('renders JSON response when request expects JSON', function() {
     $exception = new FlashException('Error message', 'danger');
-    $request = new Request();
+    $request = new Request;
     $request->headers->set('Accept', 'application/json');
     $response = $exception->render($request);
     expect($response->getStatusCode())->toBe(406)
@@ -73,7 +73,7 @@ it('renders JSON response when request expects JSON', function() {
 it('renders false when no redirectUrl or response is set and app is in debug mode', function() {
     config(['app.debug' => true]);
     $exception = new FlashException('Error message', 'danger');
-    $request = new Request();
+    $request = new Request;
     $response = $exception->render($request);
     expect($response)->toBeFalse();
     config(['app.debug' => false]);
@@ -82,12 +82,12 @@ it('renders false when no redirectUrl or response is set and app is in debug mod
 it('renders flash partial when debugging is off', function() {
     config(['app.debug' => false]);
     $exception = new FlashException('Error message', 'danger');
-    $request = new Request();
+    $request = new Request;
     $request->setRouteResolver(fn() => new class
     {
         public function getController()
         {
-            return new TestController();
+            return new TestController;
         }
     });
     $response = $exception->render($request);

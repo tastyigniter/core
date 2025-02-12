@@ -26,6 +26,6 @@ it('throws exception for invalid ellipsoid array', function() {
 it('throws exception when coordinates have different ellipsoids', function() {
     $from = new Coordinates(10, 20, Ellipsoid::createFromName());
     $to = new Coordinates(15, 25, Ellipsoid::createFromName(Ellipsoid::GRS_1980));
-    $distance = (new Distance())->setFrom($from)->setTo($to)->in('meters');
+    $distance = (new Distance)->setFrom($from)->setTo($to)->in('meters');
     expect(fn() => $distance->vincenty())->toThrow(GeoliteException::class);
 });

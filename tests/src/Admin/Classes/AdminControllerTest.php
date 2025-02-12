@@ -42,9 +42,7 @@ it('defines paths correctly', function() {
 });
 
 it('initializes toolbar, mediamanager and main menu widgets correcty', function() {
-    $controller = new class extends AdminController
-    {
-    };
+    $controller = new class extends AdminController {};
     $this->actingAs($this->user, 'igniter-admin');
 
     $controller->initialize();
@@ -67,9 +65,7 @@ it('throws exception if user does not have permission', function() {
 });
 
 it('returns event response if beforeResponse event is fired', function() {
-    $controller = new class extends AdminController
-    {
-    };
+    $controller = new class extends AdminController {};
     $controller->bindEvent('controller.beforeResponse', fn() => 'eventResponse');
 
     $response = $controller->remap('index', ['param1', 'param2']);
@@ -78,18 +74,14 @@ it('returns event response if beforeResponse event is fired', function() {
 });
 
 it('throws exception if action is 404', function() {
-    $controller = new class extends AdminController
-    {
-    };
+    $controller = new class extends AdminController {};
 
     expect(fn() => $controller->remap('404', ['param1', 'param2']))
         ->toThrow(FlashException::class, sprintf('Method [%s] is not found in the controller [%s]', '404', get_class($controller)));
 });
 
 it('throws exception if action is not found', function() {
-    $controller = new class extends AdminController
-    {
-    };
+    $controller = new class extends AdminController {};
 
     expect(fn() => $controller->remap('nonExistentAction', ['param1', 'param2']))
         ->toThrow(FlashException::class, sprintf('Method [%s] is not found in the controller [%s]', 'nonExistentAction', get_class($controller)));

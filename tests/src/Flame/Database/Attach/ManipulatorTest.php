@@ -21,7 +21,7 @@ it('throws exception when manipulating local file', function() {
     expect(fn() => $manipulator->manipulate([
         'width' => 100,
     ]))->toThrow(InvalidArgumentException::class,
-        "The provided path (".base_path('file.jpg').") must be a relative path to the file, from the source root",
+        'The provided path ('.base_path('file.jpg').') must be a relative path to the file, from the source root',
     );
 });
 

@@ -6,8 +6,6 @@ use Igniter\Flame\Database\Model;
 use Illuminate\Support\Facades\Cache;
 
 /**
- *
- *
  * @property int $translation_id
  * @property string $locale
  * @property string $namespace
@@ -157,6 +155,7 @@ class Translation extends Model
     public static function getCached($locale, $group, $namespace = null)
     {
         $cacheKey = static::getCacheKey($locale, $group, $namespace);
+
         return Cache::rememberForever($cacheKey, function() use ($locale, $group, $namespace) {
             $result = static::getFresh($locale, $group, $namespace)->reduce(
                 function($lines, Translation $model) {

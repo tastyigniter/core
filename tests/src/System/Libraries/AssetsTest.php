@@ -30,7 +30,7 @@ it('adds assets from admin manifest successfully', function() {
 it('adds assets from theme manifest successfully', function() {
     $theme = resolve(ThemeManager::class)->findTheme('igniter-orange');
 
-    $assets = new Assets();
+    $assets = new Assets;
     $assets->addAssetsFromThemeManifest($theme);
 
     expect($assets->getCss())->toContain('rel="stylesheet" type="text/css"')
@@ -38,7 +38,7 @@ it('adds assets from theme manifest successfully', function() {
 });
 
 it('returns null when adding assets from non existence manifest', function() {
-    $assets = new Assets();
+    $assets = new Assets;
     $assets->addFromManifest('/non/existence/path');
 
     expect($assets->getCss())->toBeNull()
@@ -50,7 +50,7 @@ it('returns null when adding assets from non existence manifest', function() {
 });
 
 it('adds favicon successfully', function() {
-    $assets = new Assets();
+    $assets = new Assets;
     $assets->addFavIcon(['href' => 'favicon.ico']);
     $assets->addFavIcon(['href' => public_path('favicon.ico')]);
 
@@ -58,14 +58,14 @@ it('adds favicon successfully', function() {
 });
 
 it('adds rss successfully', function() {
-    $assets = new Assets();
+    $assets = new Assets;
     $assets->addTag('rss', 'https://example.com/rss.xml');
 
     expect($assets->getRss())->toContain('https://example.com/rss.xml');
 });
 
 it('adds and retrieves js variables successfully', function() {
-    $assets = new Assets();
+    $assets = new Assets;
     $assets->putJsVars([
         'key' => 'value',
         'object' => (object)['key' => 'value'],
@@ -93,11 +93,9 @@ it('adds and retrieves js variables successfully', function() {
 });
 
 it('throws exception when invalid transforming js variable', function() {
-    $assets = new Assets();
+    $assets = new Assets;
     $assets->putJsVars([
-        'key' => new class
-        {
-        },
+        'key' => new class {},
     ]);
 
     expect(fn() => $assets->getJsVars())
@@ -133,7 +131,7 @@ it('removes duplicate assets from combined', function() {
             ],
         ]);
     });
-    $assets = new Assets();
+    $assets = new Assets;
     $assets->registerSourcePath(__DIR__.'/../../../resources');
 
     expect($assets->getCss())->toContain('rel="stylesheet" type="text/css"');

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\URL;
 
 it('returns current page URL when path is null in url method', function() {
     $page = Page::resolveRouteBinding('components');
-    $controller = new MainController();
+    $controller = new MainController;
     $controller->runPage($page);
 
     expect($controller->url())->toBe('http://localhost/components');
@@ -23,7 +23,7 @@ it('returns URL with path and params in url method', function() {
 
 it('returns current page URL when path is null in pageUrl method', function() {
     $page = Page::resolveRouteBinding('components');
-    $controller = new MainController();
+    $controller = new MainController;
     $controller->runPage($page);
 
     expect($controller->pageUrl())->toBe('http://localhost/components');
@@ -38,7 +38,7 @@ it('returns parameter value if set', function() {
     $route->bind(request());
     $route->setParameter('param', 'value');
     request()->setRouteResolver(fn() => $route);
-    
+
     expect(controller()->param('param'))->toBe('value')
         ->and(controller()->param('non-existence', 'default'))->toBe('default');
 });

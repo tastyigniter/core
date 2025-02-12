@@ -32,6 +32,7 @@ it('builds subject from mail template', function() {
         $message = mock(Message::class);
         $message->shouldReceive('subject')->once();
         $messageCallback($message);
+
         return true;
     })->once();
     $mailable->send($mailer);
@@ -68,7 +69,9 @@ it('returns variables correctly', function() {
     $mailable = new class extends TemplateMailable
     {
         protected string $templateCode = 'test_template';
+
         public $var1 = 'value1';
+
         public $var2 = 'value2';
     };
 

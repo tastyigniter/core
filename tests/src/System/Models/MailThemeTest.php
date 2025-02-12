@@ -8,7 +8,7 @@ use Igniter\System\Models\MailTheme;
 use Illuminate\Support\Facades\Cache;
 
 it('initializes settings data with default values', function() {
-    $mailTheme = new MailTheme();
+    $mailTheme = new MailTheme;
     $mailTheme->initSettingsData();
 
     expect($mailTheme->body_bg)->toBe(MailTheme::BODY_BG)
@@ -65,7 +65,7 @@ it('makes CSS variable correctly', function() {
     {
         public static function testMakeCssVars()
         {
-            return static::makeCssVars();
+            return self::makeCssVars();
         }
     };
 

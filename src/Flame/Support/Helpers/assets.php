@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Assets helper functions
  */

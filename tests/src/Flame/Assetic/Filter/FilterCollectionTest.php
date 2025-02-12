@@ -8,7 +8,7 @@ use Igniter\Flame\Assetic\Filter\FilterInterface;
 
 it('adds a single filter to the collection', function() {
     $filter = mock(FilterInterface::class);
-    $collection = new FilterCollection();
+    $collection = new FilterCollection;
     $collection->ensure($filter);
 
     expect($collection->count())->toBe(1)
@@ -18,7 +18,7 @@ it('adds a single filter to the collection', function() {
 it('adds a nested filters to the collection', function() {
     $filter = mock(FilterInterface::class);
     $mockCollection = new FilterCollection([$filter]);
-    $collection = new FilterCollection();
+    $collection = new FilterCollection;
     $collection->ensure($mockCollection);
 
     expect($collection->count())->toBe(1)

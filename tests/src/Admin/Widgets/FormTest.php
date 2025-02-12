@@ -16,9 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function() {
-    $this->controller = new class extends AdminController
-    {
-    };
+    $this->controller = new class extends AdminController {};
     $this->widgetConfig = [
         'toolbar' => [
             'prompt' => 'Search text',

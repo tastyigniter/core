@@ -49,6 +49,6 @@ it('handles composer exception during removal', function() {
     app()->instance(ExtensionManager::class, $extensionManager);
 
     $this->artisan('igniter:extension-remove igniterlab.demo')
-        ->expectsOutput("Composer error")
+        ->expectsOutput('Composer error')
         ->assertExitCode(0);
 });

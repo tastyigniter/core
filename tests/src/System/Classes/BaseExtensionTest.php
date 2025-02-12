@@ -62,7 +62,7 @@ it('defines registration methods', function() {
 
     expect($extension->registerPaymentGateways())->toBeArray()
         ->and($extension->registerNavigation())->toBeArray()
-        ->and($extension->registerSchedule(new Schedule()))->toBeNull()
+        ->and($extension->registerSchedule(new Schedule))->toBeNull()
         ->and($extension->registerDashboardWidgets())->toBeArray()
         ->and($extension->registerFormWidgets())->toBeArray()
         ->and($extension->registerValidationRules())->toBeArray()

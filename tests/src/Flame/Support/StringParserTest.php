@@ -5,7 +5,7 @@ namespace Igniter\Tests\Flame\Support;
 use Igniter\Flame\Support\StringParser;
 
 it('parses template', function($template, $data, $expected) {
-    expect((new StringParser())->parse($template, $data))->toBe($expected);
+    expect((new StringParser)->parse($template, $data))->toBe($expected);
 })->with([
     'single variable' => ['Hello, {name}!', ['name' => 'John'], 'Hello, John!'],
     'string data' => ['Hello, {name}!', 'John', 'Hello, {name}!'],

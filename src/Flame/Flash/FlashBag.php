@@ -135,6 +135,7 @@ class FlashBag
     {
         if (!$message) {
             $this->updateLastMessage(['title' => $title, 'overlay' => true, 'important' => true]);
+
             return $this->message(new OverlayMessage($this->messages()->last()->toArray()))->important();
         }
 

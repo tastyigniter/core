@@ -67,6 +67,6 @@ it('handles composer exception during installation', function() {
     $composerManager->shouldReceive('install')->andThrow(new Exception('Composer error'));
 
     $this->artisan('igniter:extension-install IgniterLab.Demo')
-        ->expectsOutput("Composer error")
+        ->expectsOutput('Composer error')
         ->assertExitCode(0);
 });

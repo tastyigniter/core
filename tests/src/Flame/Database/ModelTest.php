@@ -19,7 +19,7 @@ it('calls afterBoot method if it exists', function() {
 
         public static function afterBoot()
         {
-            static::$afterBootCalled = true;
+            self::$afterBootCalled = true;
         }
     };
 
@@ -30,10 +30,12 @@ it('returns instance if fetching event returns false', function() {
     $events = [];
     Event::listen('eloquent.fetching: '.Currency::class, function() use (&$events) {
         $events[] = 'eloquent.fetching';
+
         return false;
     });
     Event::listen('eloquent.fetched: '.Currency::class, function() use (&$events) {
         $events[] = 'eloquent.fetched';
+
         return false;
     });
 
@@ -70,7 +72,7 @@ it('creates a new pivot model instance if pivotModel is defined', function() {
 });
 
 it('returns false if saveInternal event returns false', function() {
-    $model = new Currency();
+    $model = new Currency;
     $model->fill(['currency_name' => 'United States Dollar']);
     $model->bindEvent('model.saveInternal', function() {
         return false;
@@ -80,7 +82,7 @@ it('returns false if saveInternal event returns false', function() {
 });
 
 it('returns false if saving event returns false', function() {
-    $model = new Currency();
+    $model = new Currency;
     $model->fill(['currency_name' => 'United States Dollar']);
     Event::listen('eloquent.saving: '.Currency::class, function() {
         return false;
@@ -97,7 +99,7 @@ it('fires updated and saved events if parent save returns null', function() {
 });
 
 it('returns false if save fails and always option is false', function() {
-    $model = new Currency();
+    $model = new Currency;
     $model->fill(['currency_name' => 'United States Dollar']);
     $model->bindEvent('model.saveInternal', function() {
         return false;

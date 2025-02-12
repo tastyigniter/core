@@ -5,8 +5,6 @@ namespace Igniter\Flame\Translation\Models;
 use Igniter\Flame\Database\Model;
 
 /**
- *
- *
  * @property int $language_id
  * @property string $code
  * @property string $name

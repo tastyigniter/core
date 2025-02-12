@@ -42,9 +42,9 @@ class ThemeRemove extends Command
         }
 
         if (!$forceDelete && !$this->confirmToProceed(sprintf(
-                'This will DELETE theme "%s" from the filesystem and database.',
-                $themeName,
-            ))) {
+            'This will DELETE theme "%s" from the filesystem and database.',
+            $themeName,
+        ))) {
             return;
         }
 

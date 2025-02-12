@@ -15,7 +15,7 @@ it('handles request without user defined currency', function() {
     $request->shouldReceive('getSession')->andReturn($session = mock(SessionInterface::class));
     $session->shouldReceive('get')->with('igniter.currency')->andReturnNull();
 
-    expect((new CurrencyMiddleware())->handle($request, fn($req) => 'next'))->toBe('next');
+    expect((new CurrencyMiddleware)->handle($request, fn($req) => 'next'))->toBe('next');
 });
 
 it('handles request with user defined currency in query', function() {
@@ -27,7 +27,7 @@ it('handles request with user defined currency in query', function() {
     $session->shouldReceive('get')->with('igniter.currency')->andReturnNull();
     $session->shouldReceive('put')->with(['igniter.currency' => 'ABC'])->andReturnSelf();
 
-    expect((new CurrencyMiddleware())->handle($request, fn($req) => 'next'))->toBe('next');
+    expect((new CurrencyMiddleware)->handle($request, fn($req) => 'next'))->toBe('next');
 });
 
 it('handles request with user defined currency in session', function() {
@@ -39,7 +39,7 @@ it('handles request with user defined currency in session', function() {
     $session->shouldReceive('get')->with('igniter.currency')->andReturn('ABC');
     $session->shouldReceive('put')->with(['igniter.currency' => 'ABC'])->andReturnSelf();
 
-    expect((new CurrencyMiddleware())->handle($request, fn($req) => 'next'))->toBe('next');
+    expect((new CurrencyMiddleware)->handle($request, fn($req) => 'next'))->toBe('next');
 });
 
 it('handles request with inactive currency', function() {
@@ -50,12 +50,12 @@ it('handles request with inactive currency', function() {
     $session->shouldReceive('get')->with('igniter.currency')->andReturnNull();
     $session->shouldReceive('put')->never();
 
-    expect((new CurrencyMiddleware())->handle($request, fn($req) => 'next'))->toBe('next');
+    expect((new CurrencyMiddleware)->handle($request, fn($req) => 'next'))->toBe('next');
 });
 
 it('handles request when running in console', function() {
     App::shouldReceive('runningInConsole')->andReturnTrue();
     $request = Request::create('/');
 
-    expect((new CurrencyMiddleware())->handle($request, fn($req) => 'next'))->toBe('next');
+    expect((new CurrencyMiddleware)->handle($request, fn($req) => 'next'))->toBe('next');
 });

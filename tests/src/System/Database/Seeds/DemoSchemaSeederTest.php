@@ -71,5 +71,5 @@ it('seeds records if table is empty', function() {
     $menuItemOptionBuilder->shouldReceive('update')->once();
     $menuItemOptionValueBuilder->shouldReceive('update')->once();
 
-    (new DemoSchemaSeeder())->run();
+    (new DemoSchemaSeeder)->run();
 });

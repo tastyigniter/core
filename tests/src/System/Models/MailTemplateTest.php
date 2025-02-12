@@ -36,7 +36,7 @@ it('fills template from view on fetch', function() {
 });
 
 it('fills template from content', function() {
-    $template = new MailTemplate();
+    $template = new MailTemplate;
     $template->fillFromContent("subject = Test Subject\n===\ntext_content\n===\nhtml_content\n");
 
     expect($template->subject)->toBe('Test Subject')

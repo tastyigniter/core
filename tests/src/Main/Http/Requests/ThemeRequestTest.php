@@ -7,7 +7,7 @@ use Igniter\Tests\Fixtures\Controllers\ThemeTestController;
 use Illuminate\Support\Facades\Route;
 
 beforeEach(function() {
-    $this->themeRequest = new ThemeRequest();
+    $this->themeRequest = new ThemeRequest;
     $this->themeRequest->setRouteResolver(fn() => Route::get('/users/{user}', [ThemeTestController::class, 'index']));
 });
 

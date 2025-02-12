@@ -9,7 +9,7 @@ use InvalidArgumentException;
 use RuntimeException;
 
 beforeEach(function() {
-    $filter = new CssImportFilter();
+    $filter = new CssImportFilter;
     $this->asset = new class([$filter], 'root', 'path', ['var']) extends BaseAsset
     {
         public function load(?FilterInterface $additionalFilter = null)
@@ -29,7 +29,7 @@ it('clones correctly', function() {
 });
 
 it('ensures filter is added to the collection', function() {
-    $filter = new CssImportFilter();
+    $filter = new CssImportFilter;
 
     $this->asset->ensureFilter($filter);
     expect($this->asset->getFilters())->toContain($filter);
@@ -44,7 +44,7 @@ it('dumps asset content with additional filter', function() {
     $this->asset->setContent('content');
 
     expect($this->asset->getContent())->toBe('content')
-        ->and($this->asset->dump(new CssImportFilter()))->toBe('content');
+        ->and($this->asset->dump(new CssImportFilter))->toBe('content');
 });
 
 it('returns source root of the asset', function() {

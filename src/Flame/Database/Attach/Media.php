@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- *
- *
  * @property int $id
  * @property string $disk
  * @property string $name

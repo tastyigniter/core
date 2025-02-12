@@ -27,7 +27,7 @@ it('validates model on saving', function() {
     Event::fake([
         'eloquent.validated: '.TestModelForValidation::class,
     ]);
-    $model = new TestModelForValidation();
+    $model = new TestModelForValidation;
     $model->country_name = 'Test Country';
     $model->iso_code_2 = 'qq';
     $model->format = '!1,00.0';
@@ -44,7 +44,7 @@ it('validates model on restoring', function() {
     Event::fake([
         'eloquent.validated: '.TestModelForValidation::class,
     ]);
-    $model = new TestModelForValidation();
+    $model = new TestModelForValidation;
     $model->country_name = 'Test Country';
     $model->iso_code_2 = 'qq';
     $model->format = '!1,00.0';
@@ -61,7 +61,7 @@ it('skips validation if validating is disabled', function() {
     Event::fake([
         'eloquent.validated: '.TestModelForValidation::class,
     ]);
-    $model = new TestModelForValidation();
+    $model = new TestModelForValidation;
     $model->setValidating(false);
     $model->country_name = 'Test Country';
 
@@ -73,7 +73,7 @@ it('skips validation if validating is disabled', function() {
 });
 
 it('throws validation exception on failed validation', function() {
-    $model = new TestModelForValidation();
+    $model = new TestModelForValidation;
     $model->country_name = null;
 
     expect(fn() => $model->save())->toThrow(ValidationException::class, 'The country name field is required.')
@@ -84,7 +84,7 @@ it('skips validation using model.beforeValidate event', function() {
     Event::fake([
         'eloquent.validated: '.TestModelForValidation::class,
     ]);
-    $model = new TestModelForValidation();
+    $model = new TestModelForValidation;
     $model->country_name = 'Test Country';
     $model->bindEvent('model.beforeValidate', function() {
         return false;
@@ -99,7 +99,7 @@ it('skips validation using eloquent.validating event', function() {
     Event::listen('eloquent.validating: '.TestModelForValidation::class, function() {
         return false;
     });
-    $model = new TestModelForValidation();
+    $model = new TestModelForValidation;
     $model->country_name = 'Test Country';
     $model->setInjectUniqueIdentifier(true);
 

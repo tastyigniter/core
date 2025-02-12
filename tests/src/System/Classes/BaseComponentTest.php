@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Event;
 
 function createBaseComponent($controller = null)
 {
-    $page = new Page();
-    $layout = new Layout();
+    $page = new Page;
+    $layout = new Layout;
     $pageCode = new PageCode($page, $layout, $controller ?? controller());
 
     return new TestComponent($pageCode);

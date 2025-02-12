@@ -25,11 +25,7 @@ it('returns properties excluding startDate and endDate', function() {
 
 it('returns validation rules and attributes', function() {
     $controller = new TestController;
-    $widget = new class($controller, [
-        'startDate' => '2023-01-01',
-        'endDate' => '2023-12-31',
-        'otherProperty' => 'value',
-    ]) extends BaseDashboardWidget
+    $widget = new class($controller, ['startDate' => '2023-01-01', 'endDate' => '2023-12-31', 'otherProperty' => 'value', ]) extends BaseDashboardWidget
     {
         public function defineProperties(): array
         {

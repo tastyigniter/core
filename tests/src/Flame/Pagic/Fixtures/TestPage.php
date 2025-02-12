@@ -10,7 +10,7 @@ class TestPage extends Page
     {
         return 'booted';
     }
-    
+
     public function afterSave()
     {
         return 'afterSave';

@@ -17,7 +17,7 @@ it('creates a new currency when it does not exist', function() {
     ];
     Storage::shouldReceive('disk')->with('local')->andReturn($disk = mock(LocalFilesystemAdapter::class));
     $disk->shouldReceive('exists')->with('currencies.json')->andReturnFalse();
-//    $disk->shouldReceive('get')->with('currencies.json')->andReturn(json_encode([]));
+    //    $disk->shouldReceive('get')->with('currencies.json')->andReturn(json_encode([]));
     $disk->shouldReceive('put')->withSomeOfArgs('currencies.json')->andReturnTrue();
 
     $driver = new Filesystem(['disk' => 'local', 'path' => 'currencies.json']);

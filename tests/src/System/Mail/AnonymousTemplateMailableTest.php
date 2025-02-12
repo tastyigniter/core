@@ -13,10 +13,8 @@ it('creates instance with template code', function() {
 });
 
 it('adds data without models', function() {
-    $mailable = new AnonymousTemplateMailable();
-    $data = ['key1' => 'value1', 'key2' => new class extends Model
-    {
-    }];
+    $mailable = new AnonymousTemplateMailable;
+    $data = ['key1' => 'value1', 'key2' => new class extends Model {}];
     $mailable->with($data);
 
     expect($mailable->viewData)->toHaveKey('key1')
@@ -24,7 +22,7 @@ it('adds data without models', function() {
 });
 
 it('applies callable callback', function() {
-    $mailable = new AnonymousTemplateMailable();
+    $mailable = new AnonymousTemplateMailable;
     $callback = function($message) {
         $message->subject('Test Subject');
     };
@@ -34,7 +32,7 @@ it('applies callable callback', function() {
 });
 
 it('applies array callback', function() {
-    $mailable = new AnonymousTemplateMailable();
+    $mailable = new AnonymousTemplateMailable;
     $callback = ['test@example.com'];
     $mailable->applyCallback($callback);
 
@@ -42,7 +40,7 @@ it('applies array callback', function() {
 });
 
 it('applies string callback', function() {
-    $mailable = new AnonymousTemplateMailable();
+    $mailable = new AnonymousTemplateMailable;
     $callback = 'test@example.com';
     $mailable->applyCallback($callback);
 
@@ -50,7 +48,7 @@ it('applies string callback', function() {
 });
 
 it('does not apply null callback', function() {
-    $mailable = new AnonymousTemplateMailable();
+    $mailable = new AnonymousTemplateMailable;
     $callback = null;
     $mailable->applyCallback($callback);
 

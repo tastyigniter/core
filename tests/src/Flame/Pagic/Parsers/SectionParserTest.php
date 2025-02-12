@@ -5,7 +5,7 @@ namespace Igniter\Tests\Flame\Pagic\Parsers;
 use Igniter\Flame\Pagic\Parsers\SectionParser;
 
 it('parses content with data, code, and markup sections', function() {
-    $content = <<<EOF
+    $content = <<<'EOF'
 ---
 name: test
 
@@ -21,11 +21,11 @@ EOF;
     expect($result['settings'])->toHaveKey('name', 'test')
         ->and($result['settings'])->toHaveKey('components', ['component1' => ['prop' => 'value']])
         ->and($result['code'])->toBe("<?php echo 'test'; ?>")
-        ->and($result['markup'])->toContain("<p>Test</p>");
+        ->and($result['markup'])->toContain('<p>Test</p>');
 });
 
 it('parses content with data and markup sections', function() {
-    $content = <<<EOF
+    $content = <<<'EOF'
 ---
 name: test
 ---
@@ -34,11 +34,11 @@ EOF;
     $result = SectionParser::parse($content);
     expect($result['settings'])->toBe(['name' => 'test'])
         ->and($result['code'])->toBeNull()
-        ->and($result['markup'])->toContain("<p>Test</p>");
+        ->and($result['markup'])->toContain('<p>Test</p>');
 });
 
 it('parses content with only markup section', function() {
-    $content = <<<EOF
+    $content = <<<'EOF'
 ---
 <p>Test</p>
 EOF;
@@ -46,18 +46,18 @@ EOF;
     $result = SectionParser::parse($content);
     expect($result['settings'])->toBeNull()
         ->and($result['code'])->toBe('')
-        ->and($result['markup'])->toContain("<p>Test</p>");
+        ->and($result['markup'])->toContain('<p>Test</p>');
 });
 
 it('parses content with only markup section no separator', function() {
-    $content = <<<EOF
+    $content = <<<'EOF'
 <p>Test</p>
 EOF;
 
     $result = SectionParser::parse($content);
     expect($result['settings'])->toBeNull()
         ->and($result['code'])->toBeNull()
-        ->and($result['markup'])->toContain("<p>Test</p>");
+        ->and($result['markup'])->toContain('<p>Test</p>');
 });
 
 it('renders content with data, code, and markup sections', function() {
@@ -67,9 +67,9 @@ it('renders content with data, code, and markup sections', function() {
             'components' => ['component1' => ['prop' => 'value']],
         ],
         'code' => "<?php echo 'test'; ?>",
-        'markup' => "<p>Test</p>",
+        'markup' => '<p>Test</p>',
     ];
-    $expected = <<<EOF
+    $expected = <<<'EOF'
 ---
 name: test
 '[component1]':
@@ -88,7 +88,7 @@ EOF;
 it('renders content with data and markup sections', function() {
     $data = [
         'settings' => ['name' => 'test'],
-        'markup' => "<p>Test</p>",
+        'markup' => '<p>Test</p>',
     ];
     $result = SectionParser::render($data);
     expect($result)->toBe("---\nname: test\n---\n<p>Test</p>");
@@ -96,8 +96,8 @@ it('renders content with data and markup sections', function() {
 
 it('renders content with only markup section', function() {
     $data = [
-        'markup' => "<p>Test</p>",
+        'markup' => '<p>Test</p>',
     ];
     $result = SectionParser::render($data);
-    expect($result)->toBe("<p>Test</p>");
+    expect($result)->toBe('<p>Test</p>');
 });

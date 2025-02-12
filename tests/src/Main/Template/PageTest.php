@@ -50,7 +50,7 @@ it('returns null if menu item reference is empty', function() {
 });
 
 it('returns correct code class parent', function() {
-    expect((new Page())->getCodeClassParent())->toBe(PageCode::class);
+    expect((new Page)->getCodeClassParent())->toBe(PageCode::class);
 });
 
 it('resolves route binding through events and returns page', function() {

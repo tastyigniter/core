@@ -2,7 +2,6 @@
 
 namespace Igniter\Tests\Flame\Currency\Console;
 
-
 use Igniter\Flame\Currency\Converter;
 use Igniter\Flame\Currency\Converters\FixerIO;
 use Igniter\Flame\Currency\Converters\OpenExchangeRates;

@@ -54,7 +54,7 @@ it('returns all log entries', function() {
 });
 
 it('skips log entries with missing log headings', function() {
-    $logContent = "This is an info log";
+    $logContent = 'This is an info log';
     $filePath = storage_path('logs/example.log');
     File::shouldReceive('size')->with($filePath)->andReturn(1024);
     File::shouldReceive('get')->with($filePath)->andReturn($logContent);
@@ -63,7 +63,7 @@ it('skips log entries with missing log headings', function() {
 });
 
 it('skips log entries with missing log level', function() {
-    $logContent = "[2023-10-01 12:00:00] local.INFO:";
+    $logContent = '[2023-10-01 12:00:00] local.INFO:';
     $filePath = storage_path('logs/example.log');
     File::shouldReceive('size')->with($filePath)->andReturn(1024);
     File::shouldReceive('get')->with($filePath)->andReturn($logContent);

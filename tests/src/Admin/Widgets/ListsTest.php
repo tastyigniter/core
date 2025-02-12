@@ -94,6 +94,7 @@ it('loads assets correctly', function() {
 it('renders correctly', function() {
     $this->listsWidget->columns = array_map(function($column) {
         $column['sortable'] = false;
+
         return $column;
     }, $this->listsWidget->columns);
 
@@ -395,7 +396,7 @@ it('returns list column value from model relation', function() {
 });
 
 it('returns list column value from model pivot relation', function() {
-    $this->listsWidget->model = new User();
+    $this->listsWidget->model = new User;
     $listColumn = new ListColumn('location_name', 'Test Column');
     $listColumn->displayAs('text', ['relation' => 'pivot']);
 

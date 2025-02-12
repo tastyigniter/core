@@ -187,7 +187,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Get the value of the model's primary key.
      */
-    public function getKey(): string|null
+    public function getKey(): ?string
     {
         return str_replace(DIRECTORY_SEPARATOR, '.', $this->getBaseFileName());
     }
@@ -432,6 +432,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
             return parent::__call($name, $params);
         } catch (BadMethodCallException) {
             $finder = $this->newFinder();
+
             return call_user_func_array([$finder, $name], $params);
         }
     }
@@ -493,8 +494,6 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
 
     /**
      * Convert the object into something JSON serializable.
-     *
-     * @return array
      */
     public function jsonSerialize(): array
     {

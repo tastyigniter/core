@@ -60,7 +60,7 @@ return [
     |
     */
 
-    //'extensionsPath' => base_path('extensions'),
+    // 'extensionsPath' => base_path('extensions'),
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    //'themesPath' => base_path('themes'),
+    // 'themesPath' => base_path('themes'),
 
     /*
     |--------------------------------------------------------------------------

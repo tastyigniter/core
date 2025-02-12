@@ -14,8 +14,8 @@ it('returns no database view when database is missing', function() {
     View::shouldReceive('make')->with('igniter.system::no_database')->andReturn('no_database_view');
     ResponseFacade::shouldReceive('make')->with('no_database_view')->andReturn(new Response('no_database_view'));
 
-    $middleware = new CheckRequirements();
-    $request = new Request();
+    $middleware = new CheckRequirements;
+    $request = new Request;
     $next = function($req) {
         return new Response('next_response');
     };
@@ -28,8 +28,8 @@ it('returns no database view when database is missing', function() {
 it('calls next middleware when database exists', function() {
     Igniter::shouldReceive('hasDatabase')->andReturn(true);
 
-    $middleware = new CheckRequirements();
-    $request = new Request();
+    $middleware = new CheckRequirements;
+    $request = new Request;
     $next = function($req) {
         return new Response('next_response');
     };

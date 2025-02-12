@@ -52,7 +52,6 @@ return new class extends Migration
                     ]);
             });
 
-
         if (Schema::getConnection()->getDriverName() === 'pgsql') {
             DB::statement('ALTER TABLE location_areas ALTER COLUMN boundaries TYPE json USING boundaries::json');
             DB::statement('ALTER TABLE location_areas ALTER COLUMN conditions TYPE json USING conditions::json');

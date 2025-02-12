@@ -8,9 +8,7 @@ use Igniter\Flame\Exception\FlashException;
 use Illuminate\Routing\Controller;
 
 beforeEach(function() {
-    $this->controller = new class extends AdminController
-    {
-    };
+    $this->controller = new class extends AdminController {};
 });
 
 it('returns false if action does not exist', function() {

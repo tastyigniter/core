@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 it('renders response with default message and status code', function() {
     config(['app.debug' => false]);
     $exception = new ApplicationException('Default error message');
-    $request = new Request();
+    $request = new Request;
     $response = $exception->render($request);
     expect($response)->toBeInstanceOf(Response::class)
         ->and($response->getStatusCode())->toBe(500)
@@ -19,7 +19,7 @@ it('renders response with default message and status code', function() {
 it('renders response with debug information when app debug is true', function() {
     config(['app.debug' => true]);
     $exception = new ApplicationException('Debug error message');
-    $request = new Request();
+    $request = new Request;
     $response = $exception->render($request);
     expect($response)->toBeInstanceOf(Response::class)
         ->and($response->getStatusCode())->toBe(500)

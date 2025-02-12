@@ -15,7 +15,7 @@ use Igniter\Main\Template\Page;
 beforeEach(function() {
     $theme = resolve(ThemeManager::class)->findTheme('tests-theme');
     $this->source = $theme->makeFileSource();
-    $processor = new Processor();
+    $processor = new Processor;
     $this->finder = new Finder($this->source, $processor);
 });
 
@@ -45,9 +45,7 @@ it('sets and gets the limit correctly', function() {
 });
 
 it('throws exception when validating file name fails', function($fileName, $exception) {
-    $model = new class extends Model
-    {
-    };
+    $model = new class extends Model {};
     $model->fileName = $fileName;
     $this->finder->setModel($model);
     expect(fn() => $this->finder->insert(['content' => 'this is the content']))->toThrow($exception);
@@ -61,9 +59,7 @@ it('throws exception when validating file name fails', function($fileName, $exce
 ]);
 
 it('returns null when file is not found', function() {
-    $model = new class extends Model
-    {
-    };
+    $model = new class extends Model {};
     $this->finder->setModel($model);
     $this->finder->in('templates');
     expect($this->finder->find('nonexistent-file'))->toBeNull();
@@ -107,7 +103,7 @@ it('returns cached results when cache is available', function() {
 });
 
 it('inserts a new record successfully', function() {
-    $model = new Page();
+    $model = new Page;
     $model->fileName = 'new-template';
     $this->finder->setModel($model);
     expect($this->finder->insert([]))->toBe(1)

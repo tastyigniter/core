@@ -144,6 +144,7 @@ it('throws exception when can not write compiled file', function() {
 
     File::shouldReceive('put')->withArgs(function($tmpFile, $content) {
         @unlink($tmpFile);
+
         return true;
     })->andReturn(false, true);
     expect(fn() => FileParser::on($model)->source($model, $model, controller()))
@@ -151,6 +152,7 @@ it('throws exception when can not write compiled file', function() {
 
     File::shouldReceive('move')->withArgs(function($tmpFile, $content) {
         @unlink($tmpFile);
+
         return true;
     })->andReturn(false, true);
     expect(fn() => FileParser::on($model)->source($model, $model, controller()))

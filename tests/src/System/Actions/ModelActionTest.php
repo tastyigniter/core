@@ -6,7 +6,7 @@ use Igniter\Admin\Models\Status;
 use Igniter\System\Actions\ModelAction;
 
 it('initializes with valid model', function() {
-    $model = new class(new Status()) extends ModelAction
+    $model = new class(new Status) extends ModelAction
     {
         public $requiredProperty = 'value';
     };

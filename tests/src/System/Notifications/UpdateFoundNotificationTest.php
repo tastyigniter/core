@@ -10,7 +10,7 @@ it('returns recipients who are enabled super users', function() {
     $disabledSuperUser = User::factory()->superUser()->create(['status' => false]);
     User::factory()->create(['status' => true]);
 
-    $notification = new UpdateFoundNotification();
+    $notification = new UpdateFoundNotification;
     $recipients = $notification->getRecipients();
 
     expect(collect($recipients)->pluck('user_id'))->toContain($enabledSuperUser->getKey())
@@ -18,14 +18,14 @@ it('returns recipients who are enabled super users', function() {
 });
 
 it('returns correct title', function() {
-    $notification = new UpdateFoundNotification();
+    $notification = new UpdateFoundNotification;
     $title = $notification->getTitle();
 
     expect($title)->toBe(lang('igniter::system.updates.notify_new_update_found_title'));
 });
 
 it('returns correct URL', function() {
-    $notification = new UpdateFoundNotification();
+    $notification = new UpdateFoundNotification;
     $url = $notification->getUrl();
 
     expect($url)->toBe(admin_url('updates'));
@@ -46,21 +46,21 @@ it('returns correct message for multiple updates', function() {
 });
 
 it('returns correct icon', function() {
-    $notification = new UpdateFoundNotification();
+    $notification = new UpdateFoundNotification;
     $icon = $notification->getIcon();
 
     expect($icon)->toBe('fa-cloud-arrow-down');
 });
 
 it('returns correct icon color', function() {
-    $notification = new UpdateFoundNotification();
+    $notification = new UpdateFoundNotification;
     $iconColor = $notification->getIconColor();
 
     expect($iconColor)->toBe('success');
 });
 
 it('returns correct alias', function() {
-    $notification = new UpdateFoundNotification();
+    $notification = new UpdateFoundNotification;
     $alias = $notification->getAlias();
 
     expect($alias)->toBe('update-found');

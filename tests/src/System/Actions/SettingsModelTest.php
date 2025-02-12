@@ -10,7 +10,9 @@ beforeEach(function() {
     $this->settingsModel = new class extends Model
     {
         public array $implement = [SettingsModel::class];
+
         public string $settingsCode = 'test_settings';
+
         public string $settingsFieldsConfig = 'igniter.tests::/models/test_settings';
 
         public function getMutatedKeyAttribute()

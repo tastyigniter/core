@@ -207,7 +207,7 @@ it('returns null when distance query fails', function() {
     $client = mock(HttpClient::class);
     $client->shouldReceive('get')->andThrow(new GeoliteException('Error'));
     $provider = new GoogleProvider($client, ['endpoints' => ['distance' => 'http://example.com']]);
-    $distance = new \Igniter\Flame\Geolite\Distance();
+    $distance = new \Igniter\Flame\Geolite\Distance;
     $distance->in('mi');
     $distance->setFrom(new Coordinates(1, 2));
     $distance->setTo(new Coordinates(1, 2));
@@ -240,7 +240,7 @@ it('returns distance result when query is successful', function() {
     ]));
     $client->shouldReceive('get')->andReturn($response);
     $provider = new GoogleProvider($client, ['endpoints' => ['distance' => 'http://example.com'], 'apiKey' => 'test']);
-    $distance = new \Igniter\Flame\Geolite\Distance();
+    $distance = new \Igniter\Flame\Geolite\Distance;
     $distance->in('mi');
     $distance->setFrom(new Coordinates(1, 2));
     $distance->setTo(new Coordinates(1, 2));

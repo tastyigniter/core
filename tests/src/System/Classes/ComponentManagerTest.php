@@ -20,7 +20,7 @@ it('lists component objects', function() {
     ]);
 
     expect($manager->listComponentObjects())->toBeGreaterThanOrEqual(4) // Test caching
-    ->and($manager->listComponentObjects())->toHaveKeys([
+        ->and($manager->listComponentObjects())->toHaveKeys([
         'testComponent', 'test2.component', 'test::blade-component', 'test::livewire-component',
     ]);
 });

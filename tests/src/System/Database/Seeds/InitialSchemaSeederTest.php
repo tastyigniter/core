@@ -101,5 +101,5 @@ it('seeds records if table is empty', function() {
     $statusBuilder->shouldReceive('insert')->once();
     $statusBuilder->shouldReceive('update')->once();
 
-    expect((new InitialSchemaSeeder())->run())->toBeNull();
+    expect((new InitialSchemaSeeder)->run())->toBeNull();
 });

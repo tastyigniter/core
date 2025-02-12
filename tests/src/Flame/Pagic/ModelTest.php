@@ -76,7 +76,7 @@ it('updates an existing model instance', function() {
 });
 
 it('returns false if saveInternal event returns false', function() {
-    $model = new Page();
+    $model = new Page;
     $model->fill(['content' => 'test content']);
     $model->bindEvent('model.saveInternal', function() {
         return false;
@@ -86,7 +86,7 @@ it('returns false if saveInternal event returns false', function() {
 });
 
 it('returns false if saving event returns false', function() {
-    $model = new Partial();
+    $model = new Partial;
     $model->fill(['content' => 'test content']);
     Event::listen('pagic.saving: '.Partial::class, function() {
         return false;
@@ -109,7 +109,7 @@ it('returns false if updating event returns false', function() {
 });
 
 it('throws exception when deleting a model without file name', function() {
-    $model = new Page();
+    $model = new Page;
     expect(fn() => $model->delete())->toThrow(InvalidArgumentException::class, 'No file name (fileName) defined on model.')
         ->and(fn() => $model->invalidMethod())->toThrow('Call to undefined method '.Finder::class.'::invalidMethod()');
 });
@@ -133,7 +133,7 @@ it('adds mutated attributes to array', function() {
 });
 
 it('returns model id based on file name', function() {
-    $model = new Page();
+    $model = new Page;
     $model->fileName = 'account/login.blade.php';
 
     expect($model->getId())->toBe('account-login')
@@ -188,7 +188,7 @@ it('converts model to array & JSON', function() {
 
 it('adds observables', function() {
     Page::flushEventListeners();
-    $model = new TestPage();
+    $model = new TestPage;
     $model->observe(new class
     {
         public function saved()
@@ -208,7 +208,7 @@ it('adds observables', function() {
 });
 
 it('manages visible and hidden attributes', function() {
-    $model = new TestPage();
+    $model = new TestPage;
     TestPage::unsetCacheManager();
     $model->setVisible(['settings', 'content']);
     $model->addVisible(['extra']);

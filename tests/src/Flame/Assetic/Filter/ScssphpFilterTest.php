@@ -13,7 +13,7 @@ it('compiles SCSS content', function() {
     $asset->shouldReceive('getContent')->andReturn('body { color: $color; }');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new ScssphpFilter();
+    $filter = new ScssphpFilter;
     $filter->setFormatter('compressed');
     $filter->setVariables(['color' => 'red']);
     $filter->addVariable('size', 'large');
@@ -36,7 +36,7 @@ it('extracts children assets', function() {
     $factory->shouldReceive('createAsset')->andReturn(new AssetCollection([$asset]));
     $content = '@import "main";';
 
-    $filter = new ScssphpFilter();
+    $filter = new ScssphpFilter;
     $filter->setFormatter('scss_formatter');
     $filter->addImportPath('/path/to/another-import.css');
 

@@ -33,7 +33,7 @@ it('resets logs correctly', function() {
 it('logs error if migration table not found during down', function() {
     $migrator = mock(Migrator::class);
     app()->instance('migrator', $migrator);
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
     $migrator->shouldReceive('repositoryExists')->andReturn(false);
 
     $updateManager->down();
@@ -52,7 +52,7 @@ it('rolls back extensions and core migrations during down', function() {
     Igniter::shouldReceive('coreMigrationPath')->andReturn([
         'igniter.system' => ['path/to/migrations'],
     ]);
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
     $outputMock = mock(OutputInterface::class);
     $outputMock->shouldReceive('writeln');
     $updateManager->setLogsOutput($outputMock);
@@ -74,7 +74,7 @@ it('runs core and extension migrations during migrate', function() {
 });
 
 it('logs error if unable to find migrations for extension during migrate', function() {
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
     Igniter::shouldReceive('migrationPath')->andReturn([]);
 
     $updateManager->migrateExtension('nonexistent-extension');
@@ -86,7 +86,7 @@ it('migrates extension correctly', function() {
     $migrator = mock(Migrator::class);
     app()->instance('migrator', $migrator);
     $migrator->shouldReceive('setOutput');
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
     Igniter::shouldReceive('migrationPath')->andReturn(['test.extension' => ['/path/to/migrations']]);
     $outputMock = mock(OutputInterface::class);
     $outputMock->shouldReceive('writeln');
@@ -99,7 +99,7 @@ it('migrates extension correctly', function() {
 });
 
 it('logs error if migration table not found during purge extension', function() {
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
     Igniter::shouldReceive('migrationPath')->andReturn([]);
 
     $updateManager->purgeExtension('nonexistent.extension');
@@ -108,7 +108,7 @@ it('logs error if migration table not found during purge extension', function() 
 });
 
 it('logs error if unable to find migrations for extension during rollback', function() {
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
     Igniter::shouldReceive('migrationPath')->andReturn([]);
 
     $updateManager->rollbackExtension('nonexistent-extension');
@@ -120,7 +120,7 @@ it('rolls back extension migrations correctly', function() {
     $migrator = mock(Migrator::class);
     app()->instance('migrator', $migrator);
     $migrator->shouldReceive('setOutput');
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
     $migrator->shouldReceive('rollbackAll')->once();
     Igniter::shouldReceive('migrationPath')->andReturn(['test.extension' => ['/path/to/migrations']]);
     $outputMock = mock(OutputInterface::class);
@@ -141,7 +141,7 @@ it('returns true if last check is due', function() {
 
 it('returns recommended items with installed status', function() {
     mockInstalledItems();
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
 
     $result = $updateManager->listItems('extension');
 
@@ -153,7 +153,7 @@ it('returns recommended items with installed status', function() {
 
 it('returns searched items with installed status', function() {
     mockInstalledItems();
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
 
     $result = $updateManager->searchItems('extension', 'searchQuery');
 
@@ -221,7 +221,7 @@ it('applies items correctly', function() {
         ],
     ];
     Http::fake(['https://api.tastyigniter.com/v2/core/apply' => Http::response($expectedResponse)]);
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
 
     $result = $updateManager->requestApplyItems(['package1', 'core-package']);
 
@@ -230,7 +230,7 @@ it('applies items correctly', function() {
 });
 
 it('marks update as ignored', function() {
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
 
     $updateManager->markedAsIgnored('package1');
 
@@ -394,9 +394,10 @@ function mockMigrate(): UpdateManager
     $databaseSeeder = mock(DatabaseSeeder::class)->makePartial();
     $databaseSeeder->shouldReceive('run');
     app()->instance(DatabaseSeeder::class, $databaseSeeder);
-    $updateManager = new UpdateManager();
+    $updateManager = new UpdateManager;
     $outputMock = mock(OutputInterface::class);
     $outputMock->shouldReceive('writeln');
     $updateManager->setLogsOutput($outputMock);
+
     return $updateManager;
 }

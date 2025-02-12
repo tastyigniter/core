@@ -104,7 +104,7 @@ it('flashes validation errors to session', function() {
 
     $errors = ['name' => ['The name field is required.']];
 
-//    session()->flash('errors', $errors);
+    //    session()->flash('errors', $errors);
 
     $trait->testFlashValidationErrors($errors);
 

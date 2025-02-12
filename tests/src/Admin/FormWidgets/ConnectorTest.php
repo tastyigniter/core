@@ -110,7 +110,7 @@ it('returns processed save value when sortable', function() {
 
     $result = $this->connectorWidget->getSaveValue([]);
 
-    expect($result)->toBe($statuses->map(function($status, $index) use ($result) {
+    expect($result)->toBe($statuses->map(function($status, $index) {
         return [
             'status_id' => $status->getKey(),
             'priority' => $index,

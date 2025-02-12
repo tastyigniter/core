@@ -21,7 +21,7 @@ it('combines assets and returns correct URL', function() {
         'assets/css/vendor/dropzone.css',
     ];
 
-    $combinesAssetsObject = new Assets();
+    $combinesAssetsObject = new Assets;
     $result = $combinesAssetsObject->combine('css', $assets);
 
     expect($result)->toContain('/_assets/');
@@ -29,7 +29,7 @@ it('combines assets and returns correct URL', function() {
 });
 
 it('combines assets to file', function() {
-    $combinesAssetsObject = new Assets();
+    $combinesAssetsObject = new Assets;
 
     $assets = ['igniter.tests::/scss/style.scss'];
     $destination = base_path('/style.css');
@@ -40,7 +40,7 @@ it('combines assets to file', function() {
 });
 
 it('throws exception when cache key not found', function() {
-    $combinesAssetsObject = new Assets();
+    $combinesAssetsObject = new Assets;
 
     expect(fn() => $combinesAssetsObject->combineGetContents('invalid_cache_key'))
         ->toThrow(SystemException::class, sprintf(lang('igniter::system.not_found.combiner'), 'invalid_cache_key'));
@@ -55,7 +55,7 @@ it('combines assets and returns correct contents', function() {
         'files' => ['igniter.tests::/scss/style.scss'],
     ])));
 
-    $combinesAssetsObject = new Assets();
+    $combinesAssetsObject = new Assets;
     $result = $combinesAssetsObject->combineGetContents('assets_cache');
 
     expect($result->getContent())->toContain('body {');
@@ -72,7 +72,7 @@ it('builds bundles and returns notes', function() {
     $fileMock->shouldReceive('makeDirectory')->andReturnTrue();
     $fileMock->shouldReceive('put')->andReturnTrue();
 
-    expect((new Assets())->buildBundles($theme))->toContain('app.scss', ' -> /app.css');
+    expect((new Assets)->buildBundles($theme))->toContain('app.scss', ' -> /app.css');
 
     Event::assertDispatched('assets.combiner.afterBuildBundles');
 });
@@ -84,7 +84,7 @@ it('flashes error when build bundles fails', function() {
 
     $theme = resolve(ThemeManager::class)->findTheme('igniter-orange');
 
-    $combinesAssetsObject = new Assets();
+    $combinesAssetsObject = new Assets;
     $combinesAssetsObject->buildBundles($theme);
     $combinesAssetsObject->resetFilters('css');
     $combinesAssetsObject->resetFilters();
@@ -93,7 +93,7 @@ it('flashes error when build bundles fails', function() {
 });
 
 it('registers and retrieves bundles correctly', function() {
-    $combinesAssetsObject = new Assets();
+    $combinesAssetsObject = new Assets;
 
     $combinesAssetsObject->registerBundle('js', ['igniter.tests::/js/script.js']);
     $combinesAssetsObject->registerBundle('css', ['igniter.tests::/scss/style.scss']);

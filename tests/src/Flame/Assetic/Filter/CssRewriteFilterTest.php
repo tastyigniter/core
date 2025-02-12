@@ -13,7 +13,7 @@ it('rewrites relative URLs in CSS content', function() {
     $asset->shouldReceive('getContent')->andReturn('body { background: url("../images/bg.png"); }');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssRewriteFilter();
+    $filter = new CssRewriteFilter;
     $filter->filterDump($asset);
 });
 
@@ -25,7 +25,7 @@ it('rewrites .. relative URLs in CSS content', function() {
     $asset->shouldReceive('getContent')->andReturn('body { background: url("../images/bg.png"); }');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssRewriteFilter();
+    $filter = new CssRewriteFilter;
     $filter->filterDump($asset);
 });
 
@@ -37,7 +37,7 @@ it('rewrites root-relative URLs in CSS content', function() {
     $asset->shouldReceive('getContent')->andReturn('body { background: url("/images/bg.png"); }');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssRewriteFilter();
+    $filter = new CssRewriteFilter;
     $filter->filterDump($asset);
 });
 
@@ -49,7 +49,7 @@ it('ignores absolute URLs in CSS content', function() {
     $asset->shouldReceive('getContent')->andReturn('body { background: url("http://example.com/images/bg.png"); }');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssRewriteFilter();
+    $filter = new CssRewriteFilter;
     $filter->filterDump($asset);
 });
 
@@ -61,7 +61,7 @@ it('ignores protocol-relative URLs in CSS content', function() {
     $asset->shouldReceive('getContent')->andReturn('body { background: url("//example.com/images/bg.png"); }');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssRewriteFilter();
+    $filter = new CssRewriteFilter;
     $filter->filterDump($asset);
 });
 
@@ -73,6 +73,6 @@ it('ignores data URIs in CSS content', function() {
     $asset->shouldReceive('getContent')->andReturn('body { background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA"); }');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssRewriteFilter();
+    $filter = new CssRewriteFilter;
     $filter->filterDump($asset);
 });

@@ -5,7 +5,6 @@ namespace Igniter\Flame\Database;
 use Illuminate\Database\Eloquent\Model as ModelBase;
 
 /**
- *
  * @method static \Igniter\Flame\Database\Builder<static>|Pivot applyFilters(array $options = [])
  * @method static \Igniter\Flame\Database\Builder<static>|Pivot applySorts(array $sorts = [])
  * @method static \Igniter\Flame\Database\Builder<static>|Pivot dropdown(string $column, string $key = null)

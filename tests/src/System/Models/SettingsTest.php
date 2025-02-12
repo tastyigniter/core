@@ -9,7 +9,7 @@ use Igniter\System\Models\Settings;
 use Illuminate\Support\Facades\Session;
 
 it('returns all menu settings item', function() {
-    (new Settings())->registerSettingItems('core', [
+    (new Settings)->registerSettingItems('core', [
         'settings' => [],
     ]);
 

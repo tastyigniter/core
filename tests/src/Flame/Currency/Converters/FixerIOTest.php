@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 it('returns correct converter details', function() {
-    $converter = new FixerIO();
+    $converter = new FixerIO;
 
     expect($converter->converterDetails())->toEqual([
         'name' => 'Fixer.io',

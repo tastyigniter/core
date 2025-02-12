@@ -204,7 +204,7 @@ it('traces log with info level', function() {
     Log::shouldReceive('info')->twice();
     Log::shouldReceive('error')->once();
     traceLog('Test trace message', ['key' => 'value']);
-    traceLog(new \Exception());
+    traceLog(new \Exception);
 });
 
 it('sorts array by key', function() {
@@ -470,7 +470,7 @@ it('renders pagic template with variables', function() {
 
 it('returns page template content', function() {
     $page = mock(Page::class)->makePartial();
-    $mainController = new MainController();
+    $mainController = new MainController;
     $mainController->runPage($page);
     expect(page())->toBeString();
 });

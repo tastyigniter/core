@@ -54,9 +54,7 @@ it('onboardingIsComplete returns true when all required extensions are enabled',
     $theme = new Theme('/path/to/theme', [
         'require' => ['TestExtension' => '*'],
     ]);
-    $extension = new class(app()) extends BaseExtension
-    {
-    };
+    $extension = new class(app()) extends BaseExtension {};
     $themeManager = mock(ThemeManager::class);
     app()->instance(ThemeManager::class, $themeManager);
     $themeManager->shouldReceive('getActiveTheme')->andReturn($theme);
@@ -76,7 +74,7 @@ it('returns default version when version attribute is null', function() {
 });
 
 it('returns correct title from meta attribute', function() {
-    $extension = new Extension();
+    $extension = new Extension;
     $extension->class = new class(app()) extends BaseExtension
     {
         public function extensionMeta(): array
@@ -94,7 +92,7 @@ it('returns correct title from meta attribute', function() {
 });
 
 it('returns correct status when extension is enabled', function() {
-    $extension = new Extension();
+    $extension = new Extension;
     $extension->class = new class(app()) extends BaseExtension
     {
         public bool $disabled = false;
@@ -104,7 +102,7 @@ it('returns correct status when extension is enabled', function() {
 });
 
 it('returns correct status when extension is disabled', function() {
-    $extension = new Extension();
+    $extension = new Extension;
     $extension->class = new class(app()) extends BaseExtension
     {
         public bool $disabled = true;
@@ -114,7 +112,7 @@ it('returns correct status when extension is disabled', function() {
 });
 
 it('returns correct description from meta attribute', function() {
-    $extension = new Extension();
+    $extension = new Extension;
     $extension->class = new class(app()) extends BaseExtension
     {
         public function extensionMeta(): array
@@ -137,7 +135,7 @@ it('returns correct required from extension', function() {
 });
 
 it('returns correct icon from meta attribute', function() {
-    $extension = new Extension();
+    $extension = new Extension;
     $extension->class = new class(app()) extends BaseExtension
     {
         public function extensionMeta(): array
@@ -212,7 +210,7 @@ it('throws exception when icon mime type is invalid', function() {
 });
 
 it('returns undefined description when meta description is not set', function() {
-    $extension = new Extension();
+    $extension = new Extension;
     $extension->class = new class(app()) extends BaseExtension
     {
         public function extensionMeta(): array

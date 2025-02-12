@@ -38,7 +38,7 @@ it('throws exception for invalid coordinates input', function() {
 });
 
 it('adds coordinates to the polygon', function() {
-    $polygon = new Polygon();
+    $polygon = new Polygon;
     $coordinate = new Coordinates(10, 20);
     $polygon->push($coordinate);
     $polygon->put(123, $coordinate);
@@ -69,7 +69,7 @@ it('merges polygon bounds correctly', function() {
 });
 
 it('returns false if coordinate is empty when checking point in polygon', function() {
-    $polygon = new Polygon();
+    $polygon = new Polygon;
     $point = new Coordinates(10, 20);
     expect($polygon->pointInPolygon($point))->toBeFalse();
 });

@@ -8,7 +8,7 @@ use Igniter\Flame\Assetic\Cache\CacheInterface;
 use Igniter\Flame\Assetic\Filter\CssImportFilter;
 
 it('loads asset from cache if available', function() {
-    $cssImportFilter = new CssImportFilter();
+    $cssImportFilter = new CssImportFilter;
     $asset = mock(AssetInterface::class);
     $asset->shouldReceive('getSourceRoot')->andReturn('/source/root');
     $asset->shouldReceive('getSourcePath')->andReturn('source_path.css');
@@ -31,7 +31,7 @@ it('loads asset from cache if available', function() {
 });
 
 it('loads asset and caches it if not available in cache', function() {
-    $cssImportFilter = new CssImportFilter();
+    $cssImportFilter = new CssImportFilter;
     $asset = mock(AssetInterface::class);
     $asset->shouldReceive('ensureFilter')->twice();
     $asset->shouldReceive('getSourceRoot')->andReturn('/source/root');

@@ -61,6 +61,7 @@ it('tests getValue', function() {
                 'icon' => ' text-success fa fa-4x fa-line-chart',
                 'valueFrom' => function($cardCode, $start, $end, $callback) {
                     $callback(MailTemplate::query());
+
                     return '£100.00';
                 },
             ],

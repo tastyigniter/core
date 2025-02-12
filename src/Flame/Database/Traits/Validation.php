@@ -81,7 +81,6 @@ trait Validation
     /**
      * Set whether the model should attempt validation on saving.
      *
-     * @param bool $value
      * @return void
      */
     public function setValidating(bool $value)

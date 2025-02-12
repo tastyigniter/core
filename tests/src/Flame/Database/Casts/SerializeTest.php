@@ -16,7 +16,7 @@ it('returns null when value is not set', function() {
 
 it('serializes value correctly', function() {
     $model = mock(Model::class);
-    $cast = new Serialize();
+    $cast = new Serialize;
     $value = ['foo' => 'bar'];
     $result = $cast->serialize($model, 'key', $value, []);
     expect($result)->toBe(serialize($value));

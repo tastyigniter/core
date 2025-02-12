@@ -21,7 +21,7 @@ it('parses content with two sections correctly', function() {
 });
 
 it('parses content with one section correctly', function() {
-    $content = "HTML content";
+    $content = 'HTML content';
     $result = MailParser::parse($content);
     expect($result['settings'])->toBe([])
         ->and($result['html'])->toBe('HTML content')
@@ -29,7 +29,7 @@ it('parses content with one section correctly', function() {
 });
 
 it('returns empty settings and null html and text for empty content', function() {
-    $content = "";
+    $content = '';
     $result = MailParser::parse($content);
     expect($result['settings'])->toBe([])
         ->and($result['html'])->toBe('')

@@ -9,7 +9,7 @@ use Igniter\Tests\Fixtures\Models\TestModel;
 use Illuminate\Database\Query\Builder;
 
 it('searches with all mode', function() {
-    $model = new TestModel();
+    $model = new TestModel;
     $queryBuilder = new QueryBuilder($model->newQuery()->getQuery());
     $queryBuilder->setModel($model);
 
@@ -20,7 +20,7 @@ it('searches with all mode', function() {
 });
 
 it('searches with all mode with multiple words', function() {
-    $model = new TestModel();
+    $model = new TestModel;
     $queryBuilder = new QueryBuilder($model->newQuery()->getQuery());
     $queryBuilder->setModel($model);
 
@@ -33,7 +33,7 @@ it('searches with all mode with multiple words', function() {
 });
 
 it('searches with any mode with multiple words', function() {
-    $model = new TestModel();
+    $model = new TestModel;
     $queryBuilder = new QueryBuilder($model->newQuery()->getQuery());
     $queryBuilder->setModel($model);
 
@@ -44,7 +44,7 @@ it('searches with any mode with multiple words', function() {
 });
 
 it('searches with exact mode with multiple words', function() {
-    $model = new TestModel();
+    $model = new TestModel;
     $queryBuilder = new QueryBuilder($model->newQuery()->getQuery());
     $queryBuilder->setModel($model);
 
@@ -55,7 +55,7 @@ it('searches with exact mode with multiple words', function() {
 });
 
 it('or searches with all mode', function() {
-    $model = new TestModel();
+    $model = new TestModel;
     $queryBuilder = new QueryBuilder($model->newQuery()->getQuery());
     $queryBuilder->setModel($model);
 
@@ -65,7 +65,7 @@ it('or searches with all mode', function() {
 });
 
 it('applies like clause', function() {
-    $model = new TestModel();
+    $model = new TestModel;
     $queryBuilder = new QueryBuilder($model->newQuery()->getQuery());
     $queryBuilder->setModel($model);
     $queryBuilder->like('column1', 'value1');
@@ -77,7 +77,7 @@ it('applies like clause', function() {
 });
 
 it('applies like clause with none side', function() {
-    $model = new TestModel();
+    $model = new TestModel;
     $queryBuilder = new QueryBuilder($model->newQuery()->getQuery());
     $queryBuilder->setModel($model);
 
@@ -87,7 +87,7 @@ it('applies like clause with none side', function() {
 });
 
 it('applies like clause with before side', function() {
-    $model = new TestModel();
+    $model = new TestModel;
     $queryBuilder = new QueryBuilder($model->newQuery()->getQuery());
     $queryBuilder->setModel($model);
 
@@ -97,7 +97,7 @@ it('applies like clause with before side', function() {
 });
 
 it('applies like clause with after side', function() {
-    $model = new TestModel();
+    $model = new TestModel;
     $queryBuilder = new QueryBuilder($model->newQuery()->getQuery());
     $queryBuilder->setModel($model);
 

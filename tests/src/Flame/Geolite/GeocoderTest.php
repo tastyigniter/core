@@ -58,7 +58,6 @@ it('creates a custom provider', function() {
     $geocoder->extend('custom', function() {
         return new class extends AbstractProvider
         {
-
             public function getName(): string
             {
                 return 'Custom';

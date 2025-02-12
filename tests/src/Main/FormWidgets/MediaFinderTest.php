@@ -125,7 +125,7 @@ it('returns empty array when useAttachment is false on load attachment config', 
 
 it('returns empty array when model does not use HasMedia trait on load attachment config', function() {
     $this->mediaFinderWidget->useAttachment = true;
-    $this->mediaFinderWidget->model = new Page();
+    $this->mediaFinderWidget->model = new Page;
     request()->request->add(['media_id' => 1]);
 
     expect($this->mediaFinderWidget->onLoadAttachmentConfig())->toBeArray()->toBeEmpty();
@@ -148,7 +148,7 @@ it('returns empty array when useAttachment is false on save attachment config', 
 
 it('returns empty array when model does not use HasMedia trait on save attachment config', function() {
     $this->mediaFinderWidget->useAttachment = true;
-    $this->mediaFinderWidget->model = new Page();
+    $this->mediaFinderWidget->model = new Page;
     request()->request->add(['media_id' => 1]);
 
     expect($this->mediaFinderWidget->onSaveAttachmentConfig())->toBeArray()->toBeEmpty();
@@ -168,7 +168,7 @@ it('returns empty array when useAttachment is false on remove attachment', funct
 
 it('returns empty array when model does not use HasMedia trait on remove attachment', function() {
     $this->mediaFinderWidget->useAttachment = true;
-    $this->mediaFinderWidget->model = new Page();
+    $this->mediaFinderWidget->model = new Page;
     request()->request->add(['media_id' => 1]);
 
     expect($this->mediaFinderWidget->onRemoveAttachment())->toBeNull();
@@ -188,7 +188,7 @@ it('returns empty array when useAttachment is false on add attachment', function
 
 it('returns empty array when model does not use HasMedia trait on add attachment', function() {
     $this->mediaFinderWidget->useAttachment = true;
-    $this->mediaFinderWidget->model = new Page();
+    $this->mediaFinderWidget->model = new Page;
     request()->request->add(['media_id' => 1]);
 
     expect($this->mediaFinderWidget->onAddAttachment())->toBeArray()->toBeEmpty();
@@ -232,7 +232,7 @@ it('throws exception when adding attachment on a non existing model', function()
 
 it('adds attachment correctly', function() {
     $this->mediaFinderWidget->useAttachment = true;
-    $this->mediaFinderWidget->model = new TestModelForMedia();
+    $this->mediaFinderWidget->model = new TestModelForMedia;
     $this->mediaFinderWidget->model->save();
     request()->merge([
         'media_id' => 1,

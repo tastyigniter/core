@@ -15,7 +15,7 @@ it('inlines imported stylesheets from absolute URL', function() {
     $asset->shouldReceive('setContent')->once();
     File::shouldReceive('get')->with('http://example.com/style.css')->andReturn('content');
 
-    $filter = new CssImportFilter();
+    $filter = new CssImportFilter;
     $filter->filterLoad($asset);
 
     expect($filter->getChildren(new AssetFactory('root'), 'content'))->toBe([]);
@@ -34,7 +34,7 @@ it('inlines imported stylesheets from relative URL', function() {
     File::shouldReceive('isFile')->with('/root//path/subdir/style.css')->andReturnTrue();
     File::shouldReceive('get')->with('/root//path/subdir/style.css')->andReturn('content');
 
-    $filter = new CssImportFilter();
+    $filter = new CssImportFilter;
     $filter->filterLoad($asset);
 });
 
@@ -45,7 +45,7 @@ it('ignores non-existent imported stylesheets', function() {
     $asset->shouldReceive('getContent')->andReturn('@import "nonexistent.css";');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssImportFilter();
+    $filter = new CssImportFilter;
     $filter->filterLoad($asset);
 });
 
@@ -57,7 +57,7 @@ it('inlines imported stylesheets from protocol-relative URL', function() {
     $asset->shouldReceive('setContent')->once();
     File::shouldReceive('get')->with('http://example.com/style.css')->andReturn('content');
 
-    $filter = new CssImportFilter();
+    $filter = new CssImportFilter;
     $filter->filterLoad($asset);
 });
 
@@ -68,7 +68,7 @@ it('inlines imported stylesheets from root-relative URL', function() {
     $asset->shouldReceive('getContent')->andReturn('@import "/style.css";');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssImportFilter();
+    $filter = new CssImportFilter;
     $filter->filterLoad($asset);
 });
 
@@ -79,7 +79,7 @@ it('does not import stylesheet from empty import', function() {
     $asset->shouldReceive('getContent')->andReturn('@import "";');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssImportFilter();
+    $filter = new CssImportFilter;
     $filter->filterLoad($asset);
 });
 
@@ -90,6 +90,6 @@ it('does not import stylesheet from empty import if source path is null', functi
     $asset->shouldReceive('getContent')->andReturn('@import "subdir/style.css";');
     $asset->shouldReceive('setContent')->once();
 
-    $filter = new CssImportFilter();
+    $filter = new CssImportFilter;
     $filter->filterLoad($asset);
 });

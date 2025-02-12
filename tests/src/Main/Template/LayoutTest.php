@@ -18,5 +18,5 @@ it('initializes fallback layout with default markup and filename', function() {
 
 it('returns correct code class parent', function() {
 
-    expect((new Layout())->getCodeClassParent())->toBe(LayoutCode::class);
+    expect((new Layout)->getCodeClassParent())->toBe(LayoutCode::class);
 });

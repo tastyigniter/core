@@ -122,7 +122,7 @@ it('throws exception when user agent is not set for geocode query', function() {
 
 it('returns null when distance query fails', function() {
     $this->httpClient->shouldReceive('get')->andThrow(new GeoliteException('Error'));
-    $distance = new \Igniter\Flame\Geolite\Distance();
+    $distance = new \Igniter\Flame\Geolite\Distance;
     $distance->in('mi');
     $distance->setFrom(new Coordinates(1, 2));
     $distance->setTo(new Coordinates(1, 2));
@@ -170,7 +170,7 @@ it('returns distance result when query is successful', function() {
         ],
     ]));
     $this->httpClient->shouldReceive('get')->andReturn($response);
-    $distance = new \Igniter\Flame\Geolite\Distance();
+    $distance = new \Igniter\Flame\Geolite\Distance;
     $distance->in('mi');
     $distance->setFrom(new Coordinates(1, 2));
     $distance->setTo(new Coordinates(1, 2));
@@ -186,7 +186,7 @@ it('returns distance result when query is successful', function() {
 
 it('throws exception when user agent is not set for distance query', function() {
     $this->httpClient->shouldReceive('get')->andThrow(new GeoliteException('Error'));
-    $distance = new \Igniter\Flame\Geolite\Distance();
+    $distance = new \Igniter\Flame\Geolite\Distance;
     $distance->in('mi');
     $distance->setFrom(new Coordinates(1, 2));
     $distance->setTo(new Coordinates(1, 2));

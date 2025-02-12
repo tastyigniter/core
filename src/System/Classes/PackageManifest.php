@@ -99,7 +99,7 @@ class PackageManifest extends BasePackageManifest
             ->filter(function($version, $name) {
                 return str_starts_with($name, 'tastyigniter/');
             })
-            ->map(function($version, $name) use ($installed) {
+            ->map(function($version, $name) {
                 return [
                     'code' => str_replace([
                         'tastyigniter/ti-ext-',

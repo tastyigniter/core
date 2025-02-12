@@ -46,7 +46,7 @@ it('checks translation locks state', function() {
     $translation->lockState();
     expect($translation->locked)->toBeTrue();
 
-    $translation = new Translation();
+    $translation = new Translation;
     $translation->locked = true;
     expect($translation->isLocked())->toBeTrue();
 });

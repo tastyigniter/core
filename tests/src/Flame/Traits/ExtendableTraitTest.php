@@ -43,7 +43,6 @@ it('throws exception when extending class with invalid extension', function() {
         ->and(fn() => $class->extendClassWith(TestControllerAction::class))->toThrow(LogicException::class);
 });
 
-
 it('adds dynamic method and calls it', function() {
     $class = new class
     {

@@ -123,7 +123,7 @@ class AdminController extends Controller
         if ($this->currentUser) {
             $this->makeMainMenuWidget();
         }
-        
+
         return $this;
     }
 

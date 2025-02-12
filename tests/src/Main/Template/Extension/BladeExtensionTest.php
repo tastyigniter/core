@@ -16,7 +16,7 @@ it('compiles theme scripts directive', function() {
 
 it('compiles theme page directive', function() {
     expect(Blade::compileString('@themePage'))
-        ->toBe("<?php echo controller()->renderPage(); ?>");
+        ->toBe('<?php echo controller()->renderPage(); ?>');
 });
 
 it('compiles theme content directive', function() {

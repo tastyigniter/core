@@ -32,7 +32,7 @@ it('loads content from existing file', function() {
     File::shouldReceive('get')->with($source)->andReturn('file content');
 
     $asset = new FileAsset($source, $filters, $sourceRoot);
-    $asset->load(new CssImportFilter());
+    $asset->load(new CssImportFilter);
 
     expect($asset->getContent())->toBe('file content');
 });

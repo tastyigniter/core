@@ -3,8 +3,6 @@
 namespace Igniter\System\Models;
 
 /**
- *
- *
  * @property int $translation_id
  * @property string $locale
  * @property string $namespace

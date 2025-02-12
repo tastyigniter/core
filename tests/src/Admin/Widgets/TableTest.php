@@ -31,18 +31,10 @@ it('throws exception when intializing with invalid dataSource class', function()
     $this->expectException(SystemException::class);
     $this->expectExceptionMessage(sprintf(lang('igniter::admin.error_table_widget_data_class_not_found'), 'InvalidDataSourceClass'));
 
-    $tableWidget = new class($this->controller, [
-        'columns' => [
-            'column1' => [
-                'title' => 'Column 1',
-                'type' => 'text',
-            ],
-        ],
-    ]) extends Table
+    $tableWidget = new class($this->controller, ['columns' => ['column1' => ['title' => 'Column 1', 'type' => 'text', ], ], ]) extends Table
     {
         protected string $dataSourceAliases = 'InvalidDataSourceClass';
     };
-
 
     $tableWidget->initialize();
 });

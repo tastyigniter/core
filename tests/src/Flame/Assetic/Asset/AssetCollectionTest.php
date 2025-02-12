@@ -99,7 +99,7 @@ it('dumps assets and concatenates content', function() {
     $asset2 = new FileAsset('path/to/asset2');
     $asset2->setContent('content2');
     $collection = new AssetCollection([$asset1, $asset2]);
-    $collection->ensureFilter(new CssImportFilter());
+    $collection->ensureFilter(new CssImportFilter);
     File::shouldReceive('isFile')->andReturnTrue();
     File::shouldReceive('get')->andReturn('content1', 'content2');
 

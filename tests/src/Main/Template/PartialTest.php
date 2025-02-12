@@ -10,5 +10,5 @@ it('initializes correctly', function() {
 });
 
 it('returns correct code class parent', function() {
-    expect((new Partial())->getCodeClassParent())->toBe(PartialCode::class);
+    expect((new Partial)->getCodeClassParent())->toBe(PartialCode::class);
 });

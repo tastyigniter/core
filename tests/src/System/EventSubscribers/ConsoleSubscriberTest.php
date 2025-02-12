@@ -13,7 +13,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Events\Dispatcher;
 
 it('subscribes to console events correctly', function() {
-    $subscriber = new ConsoleSubscriber();
+    $subscriber = new ConsoleSubscriber;
 
     expect($subscriber->subscribe(new Dispatcher))
         ->toHaveKey('console.schedule', 'defineSchedule')
@@ -32,13 +32,13 @@ it('defines schedule correctly', function() {
     $schedule->shouldReceive('name')->with('Prunable Models Checker')->andReturnSelf();
     $schedule->shouldReceive('daily')->andReturnSelf();
 
-    $subscriber = new ConsoleSubscriber();
+    $subscriber = new ConsoleSubscriber;
     $subscriber->defineSchedule($schedule);
 });
 
 it('handles command starting event', function() {
     $event = mock(CommandStarting::class);
-    $subscriber = new ConsoleSubscriber();
+    $subscriber = new ConsoleSubscriber;
 
     expect($subscriber->handleCommandStarting($event))->toBeNull();
 });
@@ -59,7 +59,7 @@ it('handles command finished event for package:discover', function() {
         ['code' => 'igniter.blog', 'name' => 'Blog'],
     ]);
 
-    $subscriber = new ConsoleSubscriber();
+    $subscriber = new ConsoleSubscriber;
     $subscriber->handleCommandFinished($event);
 });
 
@@ -68,7 +68,7 @@ it('handles command finished event for clear-compiled', function() {
     $event->command = 'clear-compiled';
     CacheHelper::shouldReceive('clearCompiled')->once();
 
-    $subscriber = new ConsoleSubscriber();
+    $subscriber = new ConsoleSubscriber;
     $subscriber->handleCommandFinished($event);
 });
 
@@ -76,7 +76,7 @@ it('handles command finished event for other commands', function() {
     $event = mock(CommandFinished::class);
     $event->command = 'other-command';
 
-    $subscriber = new ConsoleSubscriber();
+    $subscriber = new ConsoleSubscriber;
     expect($subscriber->handleCommandFinished($event))->toBeNull();
     // No assertions needed as the default case does nothing
 });

@@ -2,7 +2,6 @@
 
 namespace Igniter\Tests\Flame\Geolite;
 
-
 use Igniter\Flame\Geolite\AddressMatch;
 use Igniter\Flame\Geolite\Circle;
 use Igniter\Flame\Geolite\Distance;

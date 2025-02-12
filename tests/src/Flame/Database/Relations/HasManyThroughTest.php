@@ -7,9 +7,7 @@ it('checks if parent uses soft deletes', function() {
     {
         use \Illuminate\Database\Eloquent\SoftDeletes;
     };
-    $page = new class extends \Igniter\Flame\Database\Model
-    {
-    };
+    $page = new class extends \Igniter\Flame\Database\Model {};
     $relation = new \Igniter\Flame\Database\Relations\HasManyThrough(
         $status->newQuery(),
         $status,

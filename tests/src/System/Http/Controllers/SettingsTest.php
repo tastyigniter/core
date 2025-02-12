@@ -98,6 +98,7 @@ it('sends test email', function() {
         $message->shouldReceive('to')->andReturnSelf();
         $message->shouldReceive('subject')->with('This a test email')->andReturnSelf();
         $callback($message);
+
         return true;
     })->once();
 

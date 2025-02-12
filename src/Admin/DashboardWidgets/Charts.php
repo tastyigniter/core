@@ -28,7 +28,9 @@ class Charts extends BaseDashboardWidget
     ];
 
     public array $contextDefinitions = [];
+
     public string $rangeFormat = 'MMMM D, YYYY';
+
     public array $dataset = [];
 
     protected ?array $datasetsConfig = null;

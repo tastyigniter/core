@@ -16,8 +16,8 @@ use LogicException;
 use RuntimeException;
 
 it('guesses file extension correctly', function() {
-    $media1 = new Media();
-    $media2 = new Media();
+    $media1 = new Media;
+    $media2 = new Media;
     $media1->file_name = 'file.jpg';
     $media1->setCustomProperty('extension', 'jpg');
     $media1->setCustomProperty('forget', 'jpg');
@@ -32,7 +32,7 @@ it('guesses file extension correctly', function() {
 it('adds file from request', function() {
     $storageMock = Storage::fake('public');
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
-    $model = new TestModelForMedia();
+    $model = new TestModelForMedia;
     $model->save();
     $media = $model->newMediaInstance();
     $uploadedFile = UploadedFile::fake()->image('file.jpg');
@@ -44,7 +44,7 @@ it('adds file from request', function() {
 it('adds file from disk', function() {
     $storageMock = Storage::fake('public');
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
-    $model = new TestModelForMedia();
+    $model = new TestModelForMedia;
     $model->save();
     $media = $model->newMediaInstance();
     $media->addFromFile(__DIR__.'/../Fixtures/test.png');
@@ -67,7 +67,7 @@ it('adds file from disk', function() {
 it('adds file from disk and creates related model', function() {
     $storageMock = Storage::fake('public');
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
-    $model = new TestModelForMedia();
+    $model = new TestModelForMedia;
     $media = $model->newMediaInstance();
 
     app(MediaAdder::class)->useDisk('media');
@@ -83,7 +83,7 @@ it('adds file from disk and creates related model', function() {
 it('adds non image file from disk', function() {
     $storageMock = Storage::fake('public');
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
-    $model = new TestModelForMedia();
+    $model = new TestModelForMedia;
     $model->save();
     $media = $model->newMediaInstance();
     $media->addFromFile(__DIR__.'/../Fixtures/test.pdf');
@@ -98,7 +98,7 @@ it('adds non image file from disk', function() {
 it('adds file from raw data', function() {
     $storageMock = Storage::fake('public');
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
-    $model = new TestModelForMedia();
+    $model = new TestModelForMedia;
     $model->save();
     $media = $model->newMediaInstance();
 
@@ -114,7 +114,7 @@ it('throws exception when adding file from unreachable url', function() {
     Http::fake([
         'http://example.com/file.jpg' => Http::response('', 404),
     ]);
-    $media = new Media();
+    $media = new Media;
     $url = 'http://example.com/file.jpg';
     $media->addFromUrl($url, 'file.jpg');
 })->throws(RuntimeException::class, sprintf('Error opening file "%s"', 'http://example.com/file.jpg'));
@@ -125,7 +125,7 @@ it('adds file from url', function() {
     ]);
     $storageMock = Storage::fake('public');
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
-    $model = new TestModelForMedia();
+    $model = new TestModelForMedia;
     $model->save();
     $media = $model->newMediaInstance();
     $url = 'http://example.com/file.jpg';
@@ -141,7 +141,7 @@ it('adds file from url', function() {
 it('it does not delete empty directory after deleting file', function() {
     $storageMock = Storage::fake('public');
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
-    $model = new TestModelForMedia();
+    $model = new TestModelForMedia;
     $model->save();
     $media = $model->newMediaInstance();
 
@@ -166,9 +166,9 @@ it('it does not delete empty directory after deleting file', function() {
 
 it('throws exception when disk name is not configured', function() {
     config(['igniter-system.assets.attachment.disk' => 'invalid']);
-    $media = new Media();
+    $media = new Media;
     $media->disk = 'public';
-    expect($media->getDiskDriverName())->toBe(config("filesystems.disks.public.driver"));
+    expect($media->getDiskDriverName())->toBe(config('filesystems.disks.public.driver'));
 
     $media->disk = null;
     expect(fn() => $media->getDiskName())->toThrow(LogicException::class, "There is no filesystem disk named 'invalid'");

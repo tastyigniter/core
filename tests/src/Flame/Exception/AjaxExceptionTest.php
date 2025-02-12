@@ -19,7 +19,7 @@ it('returns false when report is called', function() {
 it('renders response with correct contents and status code', function() {
     $contents = ['error' => 'Invalid input'];
     $exception = new AjaxException($contents, 422);
-    $request = new Request();
+    $request = new Request;
     $response = $exception->render($request);
     expect($response)->toBeInstanceOf(Response::class)
         ->and($response->getStatusCode())->toBe(422)

@@ -16,5 +16,5 @@ it('updates records if table is empty', function() {
     $statusesBuilder->shouldReceive('exists')->andReturn(true);
     $statusesBuilder->shouldReceive('update')->with(['status_for' => 'reservation'])->once();
 
-    (new UpdateRecordsSeeder())->run();
+    (new UpdateRecordsSeeder)->run();
 });

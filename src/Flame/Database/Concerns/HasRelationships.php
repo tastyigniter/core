@@ -202,6 +202,7 @@ trait HasRelationships
                 $relation = $this->validateRelationArgs($relationName,
                     ['foreignKey', 'otherKey'],
                 );
+
                 return $this->$relationType(
                     $relation[0],
                     $relation['foreignKey'],
@@ -228,6 +229,7 @@ trait HasRelationships
                 $relation = $this->validateRelationArgs($relationName,
                     ['name', 'type', 'id'],
                 );
+
                 return $this->$relationType($relation['name'] ?: $relationName, $relation['type'], $relation['id']);
 
             case 'morphOne':
@@ -235,6 +237,7 @@ trait HasRelationships
                 $relation = $this->validateRelationArgs($relationName,
                     ['type', 'id', 'foreignKey'], ['name'],
                 );
+
                 return $this->$relationType(
                     $relation[0],
                     $relation['name'],
@@ -248,6 +251,7 @@ trait HasRelationships
                 $relation = $this->validateRelationArgs($relationName,
                     ['table', 'foreignKey', 'otherKey', 'pivot', 'timestamps'], ['name'],
                 );
+
                 return $this->$relationType(
                     $relation[0],
                     $relation['name'],
@@ -263,6 +267,7 @@ trait HasRelationships
                 $relation = $this->validateRelationArgs($relationName,
                     ['table', 'foreignKey', 'otherKey', 'parentKey', 'relatedKey', 'pivot', 'timestamps'], ['name'],
                 );
+
                 return $this->$relationType(
                     $relation[0],
                     $relation['name'],
@@ -277,6 +282,7 @@ trait HasRelationships
             case 'hasOneThrough':
             case 'hasManyThrough':
                 $relation = $this->validateRelationArgs($relationName, ['foreignKey', 'throughKey', 'otherKey', 'secondOtherKey'], ['through']);
+
                 return $this->$relationType(
                     $relation[0],
                     $relation['through'],

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('invited_at')->nullable();
             $table->dateTime('date_activated')->change()->nullable();
         });
-        
+
         Schema::table('admin_users', function(Blueprint $table) {
             $table->renameColumn('date_activated', 'activated_at');
         });

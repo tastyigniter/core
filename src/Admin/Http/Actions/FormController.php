@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\DB;
 class FormController extends ControllerAction
 {
     use FormExtendable;
-    use ValidatesForm;
     use PopulatesModelAttributes;
+    use ValidatesForm;
 
     /** Default context for "create" pages. */
     const CONTEXT_CREATE = 'create';

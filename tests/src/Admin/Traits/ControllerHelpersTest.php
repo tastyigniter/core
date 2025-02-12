@@ -5,9 +5,7 @@ namespace Igniter\Tests\Admin\Traits;
 use Igniter\Admin\Classes\AdminController;
 
 beforeEach(function() {
-    $this->controller = new class extends AdminController
-    {
-    };
+    $this->controller = new class extends AdminController {};
 });
 
 it('returns correct URL with parameters', function() {

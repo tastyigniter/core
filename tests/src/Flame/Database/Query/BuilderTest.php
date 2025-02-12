@@ -9,6 +9,7 @@ it('caches query results', function() {
     Cache::shouldReceive('remember')
         ->withArgs(function($cacheKey, $minutes, $callback) {
             $callback();
+
             return true;
         })
         ->andReturn(collect($expected = ['result1', 'result2']));

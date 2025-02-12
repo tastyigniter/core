@@ -5,7 +5,7 @@ namespace Igniter\Tests\Admin\Http\Requests;
 use Igniter\Admin\Http\Requests\StatusRequest;
 
 it('returns correct attribute labels', function() {
-    $request = new StatusRequest();
+    $request = new StatusRequest;
 
     $attributes = $request->attributes();
 
@@ -19,7 +19,7 @@ it('returns correct attribute labels', function() {
 });
 
 it('returns correct validation rules', function() {
-    $request = new StatusRequest();
+    $request = new StatusRequest;
 
     $rules = $request->rules();
 

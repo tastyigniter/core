@@ -40,7 +40,7 @@ it('fills component properties when component uses ConfigurableComponent trait',
         }
     };
 
-    $hook = new SupportConfigurableComponent();
+    $hook = new SupportConfigurableComponent;
     $hook->setComponent($component);
     $hook->mount([], 'key');
 
@@ -58,7 +58,7 @@ it('does not fill component properties when component does not use ConfigurableC
         }
     };
 
-    $hook = new SupportConfigurableComponent();
+    $hook = new SupportConfigurableComponent;
     $hook->setComponent($component);
     $hook->mount([], 'key');
 
@@ -88,7 +88,7 @@ it('fills component properties with alias when component uses ConfigurableCompon
         }
     };
 
-    $hook = new SupportConfigurableComponent();
+    $hook = new SupportConfigurableComponent;
     $hook->setComponent($component);
     $hook->mount([], 'key');
 

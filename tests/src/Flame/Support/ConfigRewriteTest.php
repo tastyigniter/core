@@ -15,12 +15,12 @@ it('writes new values to the config file', function() {
         return str_contains($arg, "'key' => 'new_value'");
     });
 
-    $configRewrite = new ConfigRewrite();
+    $configRewrite = new ConfigRewrite;
     expect($configRewrite->toFile($filePath, $newValues))->toContain("'key' => 'new_value'");
 });
 
 it('rewrites existing string value in config file', function() {
-    $configRewrite = new ConfigRewrite();
+    $configRewrite = new ConfigRewrite;
     $contents = "<?php return ['array' => ['key' => 'old_value']];";
     $newValues = ['array.key' => 'new_value'];
     expect($configRewrite->toContent($contents, $newValues))->toContain("'key' => 'new_value'");
@@ -31,7 +31,7 @@ it('rewrites existing string value in config file', function() {
 });
 
 it('rewrites existing integer value in config file', function() {
-    $configRewrite = new ConfigRewrite();
+    $configRewrite = new ConfigRewrite;
     $contents = "<?php return ['key' => 123];";
     $newValues = ['key' => 456];
     $result = $configRewrite->toContent($contents, $newValues);
@@ -39,7 +39,7 @@ it('rewrites existing integer value in config file', function() {
 });
 
 it('rewrites existing boolean value in config file', function() {
-    $configRewrite = new ConfigRewrite();
+    $configRewrite = new ConfigRewrite;
     $contents = "<?php return ['key' => true];";
     $newValues = ['key' => false];
     $result = $configRewrite->toContent($contents, $newValues);
@@ -47,7 +47,7 @@ it('rewrites existing boolean value in config file', function() {
 });
 
 it('rewrites existing null value in config file', function() {
-    $configRewrite = new ConfigRewrite();
+    $configRewrite = new ConfigRewrite;
     $contents = "<?php return ['key' => 'not_null'];";
     $newValues = ['key' => null];
     $result = $configRewrite->toContent($contents, $newValues);
@@ -55,7 +55,7 @@ it('rewrites existing null value in config file', function() {
 });
 
 it('rewrites existing array value in config file', function() {
-    $configRewrite = new ConfigRewrite();
+    $configRewrite = new ConfigRewrite;
     $contents = "<?php return ['key' => ['old_value']];";
     $newValues = ['key' => ['new_value']];
     $result = $configRewrite->toContent($contents, $newValues);
@@ -63,7 +63,7 @@ it('rewrites existing array value in config file', function() {
 });
 
 it('throws exception when key does not exist in config file', function() {
-    $configRewrite = new ConfigRewrite();
+    $configRewrite = new ConfigRewrite;
     $contents = "<?php return ['key' => 'value'];";
     $newValues = ['non_existent_key' => 'new_value'];
     expect(fn() => $configRewrite->toContent($contents, $newValues))
@@ -71,7 +71,7 @@ it('throws exception when key does not exist in config file', function() {
 });
 
 it('validates rewritten values in config file', function() {
-    $configRewrite = new ConfigRewrite();
+    $configRewrite = new ConfigRewrite;
     $contents = "<?php return ['key' => 'old_value'];";
     $newValues = ['key' => 'new_value'];
     $result = $configRewrite->toContent($contents, $newValues, true);
@@ -79,7 +79,7 @@ it('validates rewritten values in config file', function() {
 });
 
 it('does not validate rewritten values when validation is disabled', function() {
-    $configRewrite = new ConfigRewrite();
+    $configRewrite = new ConfigRewrite;
     $contents = "<?php return ['key' => 'old_value'];";
     $newValues = ['key' => 'new_value'];
     $result = $configRewrite->toContent($contents, $newValues, false);

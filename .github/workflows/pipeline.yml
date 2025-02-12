@@ -14,14 +14,60 @@ jobs:
     if: ${{ always() && needs.build-assets.result == 'success' }}
     uses: tastyigniter/workflows/.github/workflows/php-lint.yml@main
     with:
+      commit-file-pattern: '/'
       composer: update --no-interaction --no-progress
   php-tests:
+    name: 'PHP Tests ${{ matrix.target }}'
     needs: php-lint
     if: ${{ always() && needs.php-lint.result == 'success' }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         php: [ '8.2', '8.3' ]
-    uses: tastyigniter/workflows/.github/workflows/php-tests.yml@main
-    with:
-      php-version: ${{ matrix.target }}
-      composer: update --no-interaction --no-progress
+    services:
+      mysql:
+        image: 'mysql:8.0'
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    env:
+      DB_PORT: 3306
+      DB_DATABASE: 'testbench'
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    steps:
+      - name: Checkout changes
+        uses: actions/checkout@v4
+
+      - name: Create MySQL Database
+        run: |
+          sudo systemctl start mysql
+          mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' --port ${{ job.services.mysql.ports['3306'] }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.target }}
+          extensions: dom, curl, xml, mbstring, zip, pdo, sqlite, bcmath, soap, intl, gd
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        run: composer update --no-interaction --no-progress
+
+      - name: Execute static analysis
+        run: composer static
+
+      - name: Run Admin test suite
+        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=admin
+
+      - name: Run Flame test suite
+        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=flame
+
+      - name: Run Main test suite
+        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=main
+
+      - name: Run System test suite
+        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=system

@@ -5,7 +5,7 @@ namespace Igniter\Tests\Flame\Flash;
 use Igniter\Flame\Flash\Message;
 
 it('creates a message with default attributes', function() {
-    $message = new Message();
+    $message = new Message;
     expect($message->title)->toBeNull()
         ->and($message->message)->toBeNull()
         ->and($message->level)->toBe('info')
@@ -14,7 +14,7 @@ it('creates a message with default attributes', function() {
 });
 
 it('updates message attributes', function() {
-    $message = new Message();
+    $message = new Message;
     $message->update(['title' => 'New Title', 'message' => 'New Message', 'level' => 'success']);
     expect($message->title)->toBe('New Title')
         ->and($message->message)->toBe('New Message')

@@ -77,6 +77,7 @@ it('resolves model attribute correctly', function() {
         use FormModelWidget;
 
         public $formField;
+
         public $model;
     };
     $widget->formField = new FormField('text', 'Text field');
@@ -94,6 +95,7 @@ it('returns null when resolving model attribute fails', function() {
         use FormModelWidget;
 
         public $formField;
+
         public $model;
     };
     $widget->formField = new FormField('text', 'Text field');
@@ -110,7 +112,9 @@ it('returns relation model correctly', function() {
         use FormModelWidget;
 
         public $model;
+
         public $formField;
+
         public $valueFrom = 'status_history';
 
         public function testGetRelationModel()
@@ -131,13 +135,16 @@ it('throws exception when getting relation model fails', function() {
         use FormModelWidget;
 
         public $model;
+
         public $formField;
+
         public $valueFrom = 'invalid_relation';
 
         public function testGetRelationModel()
         {
             $this->formField = new FormField('text', 'Text field');
             $this->model = Status::factory()->create();
+
             return $this->getRelationModel();
         }
     };
@@ -151,13 +158,16 @@ it('returns relation model instance correctly', function() {
         use FormModelWidget;
 
         public $formField;
+
         public $model;
+
         public $valueFrom = 'status_history';
 
         public function testGetRelationObject()
         {
             $this->formField = new FormField('text', 'Text field');
             $this->model = Status::factory()->create();
+
             return $this->getRelationObject();
         }
     };
@@ -171,13 +181,16 @@ it('throws exception when getting relation model instance fails', function() {
         use FormModelWidget;
 
         public $formField;
+
         public $model;
+
         public $valueFrom = 'invalid_relation';
 
         public function testGetRelationObject()
         {
             $this->formField = new FormField('text', 'Text field');
             $this->model = Status::factory()->create();
+
             return $this->getRelationObject();
         }
     };
@@ -191,7 +204,9 @@ it('returns relation type correctly', function() {
         use FormModelWidget;
 
         public $model;
+
         public $formField;
+
         public $valueFrom = 'status_history';
 
         public function testGetRelationType()
@@ -212,6 +227,7 @@ it('makes model relation correctly', function() {
         use FormModelWidget;
 
         public $model;
+
         public $valueFrom = 'status_history';
 
         public function testMakeModelRelation()
@@ -219,13 +235,13 @@ it('makes model relation correctly', function() {
             return $this->makeModelRelation($this->model, $this->valueFrom);
         }
     };
-    $widget->model = new IlluminateModel();
+    $widget->model = new IlluminateModel;
 
     expect($widget->testMakeModelRelation())->toBeInstanceOf(StatusHistory::class);
 });
 
 it('sets model attributes with nested data', function() {
-    $model = new IlluminateModel();
+    $model = new IlluminateModel;
     $widget = new class
     {
         use FormModelWidget;
@@ -242,7 +258,7 @@ it('sets model attributes with nested data', function() {
 });
 
 it('does not set attributes starting with underscore', function() {
-    $model = new Status();
+    $model = new Status;
     $widget = new class
     {
         use FormModelWidget;
@@ -261,7 +277,7 @@ it('does not set attributes starting with underscore', function() {
 });
 
 it('skips setting attributes with NO_SAVE_DATA', function() {
-    $model = new Status();
+    $model = new Status;
     $widget = new class
     {
         use FormModelWidget;

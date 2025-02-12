@@ -21,10 +21,10 @@ it('creates asset with default options', function() {
         ->and($asset->getTargetPath())->toBe('assetic/'
             .substr(
                 sha1(serialize(['input.css']).serialize([]).serialize([
-                        'debug' => false,
-                        'output' => 'assetic/*',
-                        'root' => ['/root'],
-                    ]),
+                    'debug' => false,
+                    'output' => 'assetic/*',
+                    'root' => ['/root'],
+                ]),
                 ), 0, 7,
             )
             .'.css',

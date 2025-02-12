@@ -66,14 +66,14 @@ it('throws exception when creating a template', function() {
     $files->shouldReceive('makeDirectory')->withSomeOfArgs('base/path/dir')->andReturn(false, true);
 
     expect(fn() => $fileSource->insert('dir', 'file', 'blade.php', 'content'))
-        ->toThrow("Error creating directory [base/path/dir]. Please check write permissions.");
+        ->toThrow('Error creating directory [base/path/dir]. Please check write permissions.');
 
     $files->shouldReceive('isDirectory')->with('base/path/dir')->andReturn(false);
     $files->shouldReceive('isDirectory')->with('base/path/dir/subdir')->andReturn(false);
     $files->shouldReceive('dirname')->with('base/path/dir/subdir/file.blade.php')->andReturn('base/path/dir/subdir');
     $files->shouldReceive('makeDirectory')->withSomeOfArgs('base/path/dir/subdir')->andReturn(false);
     expect(fn() => $fileSource->insert('dir', 'subdir/file', 'blade.php', 'content'))
-        ->toThrow("Error creating directory [base/path/dir/subdir]. Please check write permissions.");
+        ->toThrow('Error creating directory [base/path/dir/subdir]. Please check write permissions.');
 
     $files->shouldReceive('isFile')->with('base/path/dir/file.blade.php')->andReturn(false, true);
     expect(fn() => $fileSource->insert('dir', 'file', 'blade.php', 'content'))

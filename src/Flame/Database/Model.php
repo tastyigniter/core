@@ -398,7 +398,7 @@ abstract class Model extends EloquentModel
             return false;
         }
 
-        //If there is nothing to update, Eloquent will not fire afterSave(),
+        // If there is nothing to update, Eloquent will not fire afterSave(),
         // events should still fire for consistency.
         if ($result === null) {
             $this->fireModelEvent('updated', false);

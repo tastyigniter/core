@@ -13,7 +13,7 @@ beforeEach(function() {
 });
 
 it('sets context with item code only', function() {
-    $navigation = new Navigation();
+    $navigation = new Navigation;
     $navigation->setContext('settings', 'system');
 
     expect($navigation->isActiveNavItem('invalid'))->toBeFalse()
@@ -21,7 +21,7 @@ it('sets context with item code only', function() {
 });
 
 it('sets context with item code and parent code', function() {
-    $navigation = new Navigation();
+    $navigation = new Navigation;
     $navigation->setContext('settings', 'system');
 
     expect($navigation->isActiveNavItem('system'))->toBeTrue();
@@ -342,7 +342,7 @@ it('filters permitted navigation items correctly', function() {
 });
 
 it('sets previous URL with full URL', function() {
-    $navigation = new Navigation();
+    $navigation = new Navigation;
     $url = 'https://example.com/page';
 
     $navigation->setPreviousUrl($url);
@@ -352,7 +352,7 @@ it('sets previous URL with full URL', function() {
 
 it('sets previous URL with query parameters', function() {
     request()->headers->set('referer', 'https://example.com/page?query=1');
-    $navigation = new Navigation();
+    $navigation = new Navigation;
 
     $navigation->setPreviousUrl('https://example.com/page');
 

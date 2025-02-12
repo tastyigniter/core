@@ -55,7 +55,7 @@ trait HasQueryModifier
             if (!str_contains($sort, ' ')) {
                 $sort = $sort.' '.$this->queryModifierSortDirection;
             }
-            
+
             if (in_array($sort, $this->queryModifierSorts)) {
                 [$sortField, $sortDirection] = explode(' ', $sort);
                 $builder->orderBy($sortField, $sortDirection);

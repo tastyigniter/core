@@ -30,7 +30,7 @@ it('loads component partial successfully', function() {
     expect($componentPartial)->not->toBeNull()
         ->and($componentPartial->getFileName())->toBe('default.blade.php')
         ->and($componentPartial->getContent())->toContain('This is a test component partial content')
-        ->and($componentPartial->getMarkup())->toContain("This is a test component partial content")
+        ->and($componentPartial->getMarkup())->toContain('This is a test component partial content')
         ->and($componentPartial->getCode())->toBe('missing-code');
 
 });
@@ -51,21 +51,21 @@ it('loads component partial from override path', function() {
 });
 
 it('checks if component partial exists', function() {
-    expect(ComponentPartial::check(new TestComponent(), 'default'))->toBeTrue();
+    expect(ComponentPartial::check(new TestComponent, 'default'))->toBeTrue();
 });
 
 it('returns false if component partial does not exist', function() {
-    expect(ComponentPartial::check(new TestComponent(), 'nonexistent.blade.php'))->toBeFalse();
+    expect(ComponentPartial::check(new TestComponent, 'nonexistent.blade.php'))->toBeFalse();
 });
 
 it('returns correct file path for component partial', function() {
-    $partial = new ComponentPartial((new TestComponent())->getPath());
+    $partial = new ComponentPartial((new TestComponent)->getPath());
 
     expect($partial->getFilePath('default.blade.php'))->toEndWith('_components/testcomponent/default.blade.php');
 });
 
 it('returns shared partial file path if not found in component path', function() {
-    $partial = new ComponentPartial((new TestComponent())->getPath());
+    $partial = new ComponentPartial((new TestComponent)->getPath());
 
     expect($partial->getFilePath('test-partial'))->toEndWith('_partials/test-partial.blade.php');
 });

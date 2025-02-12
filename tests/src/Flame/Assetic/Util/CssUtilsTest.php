@@ -49,7 +49,6 @@ it('filters URLs in CSS content with comments', function() {
     $content = '/* comment */ body { background: url("image.png"); }';
     $callback = fn($matches) => 'url("new_image.png")';
 
-
     expect(CssUtils::filterUrls($content, $callback))->toBe('/* comment */ body { background: url("new_image.png"); }');
 });
 

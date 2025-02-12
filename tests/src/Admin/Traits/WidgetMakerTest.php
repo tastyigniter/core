@@ -15,7 +15,9 @@ beforeEach(function() {
         use WidgetMaker;
 
         public $controller;
+
         public $configKey;
+
         public $vars = [];
     };
     $this->traitObject->controller = resolve(TestController::class);

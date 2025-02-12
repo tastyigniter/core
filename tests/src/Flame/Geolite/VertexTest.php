@@ -2,26 +2,25 @@
 
 namespace Igniter\Tests\Flame\Geolite;
 
-
 use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Vertex;
 
 it('sets and gets the from coordinate', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $vertex->setFrom($from);
     expect($vertex->getFrom())->toBe($from);
 });
 
 it('sets and gets the to coordinate', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $to = new Coordinates(15, 25);
     $vertex->setTo($to);
     expect($vertex->getTo())->toBe($to);
 });
 
 it('calculates the correct gradient', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $to = new Coordinates(15, 25);
     $vertex->setFrom($from)->setTo($to);
@@ -29,7 +28,7 @@ it('calculates the correct gradient', function() {
 });
 
 it('calculates the correct ordinate intercept', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $to = new Coordinates(15, 25);
     $vertex->setFrom($from)->setTo($to);
@@ -37,7 +36,7 @@ it('calculates the correct ordinate intercept', function() {
 });
 
 it('calculates the initial bearing correctly', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $to = new Coordinates(15, 25);
     $vertex->setTo($to)->setFrom($from);
@@ -45,7 +44,7 @@ it('calculates the initial bearing correctly', function() {
 });
 
 it('calculates the final bearing correctly', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $to = new Coordinates(15, 25);
     $vertex->setTo($to)->setFrom($from);
@@ -53,7 +52,7 @@ it('calculates the final bearing correctly', function() {
 });
 
 it('calculates the initial cardinal direction correctly', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $to = new Coordinates(15, 25);
     $vertex->setTo($to)->setFrom($from);
@@ -61,7 +60,7 @@ it('calculates the initial cardinal direction correctly', function() {
 });
 
 it('calculates the final cardinal direction correctly', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $to = new Coordinates(5, 15);
     $vertex->setFrom($from)->setTo($to);
@@ -69,7 +68,7 @@ it('calculates the final cardinal direction correctly', function() {
 });
 
 it('calculates the middle point correctly', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $to = new Coordinates(15, 25);
     $vertex->setTo($to)->setFrom($from);
@@ -79,7 +78,7 @@ it('calculates the middle point correctly', function() {
 });
 
 it('calculates the destination point correctly', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $vertex->setFrom($from);
     $destination = $vertex->destination(45, 1000000);
@@ -88,8 +87,8 @@ it('calculates the destination point correctly', function() {
 });
 
 it('checks if two vertices are on the same line', function() {
-    $vertex1 = new Vertex();
-    $vertex2 = new Vertex();
+    $vertex1 = new Vertex;
+    $vertex2 = new Vertex;
     $from1 = new Coordinates(10, 20);
     $to1 = new Coordinates(15, 25);
     $from2 = new Coordinates(20, 30);
@@ -100,8 +99,8 @@ it('checks if two vertices are on the same line', function() {
 });
 
 it('checks if two vertices are not on the same line', function() {
-    $vertex1 = new Vertex();
-    $vertex2 = new Vertex();
+    $vertex1 = new Vertex;
+    $vertex2 = new Vertex;
     $from1 = new Coordinates(10, 20);
     $to1 = new Coordinates(15, 25);
     $from2 = new Coordinates(20, 30);
@@ -112,8 +111,8 @@ it('checks if two vertices are not on the same line', function() {
 });
 
 it('returns true when vertices have the same longitude and null gradients', function() {
-    $vertex1 = new Vertex();
-    $vertex2 = new Vertex();
+    $vertex1 = new Vertex;
+    $vertex2 = new Vertex;
     $from1 = new Coordinates(10, 20);
     $to1 = new Coordinates(10, 20);
     $from2 = new Coordinates(25, 20);
@@ -126,7 +125,7 @@ it('returns true when vertices have the same longitude and null gradients', func
 });
 
 it('gets the other coordinate correctly', function() {
-    $vertex = new Vertex();
+    $vertex = new Vertex;
     $from = new Coordinates(10, 20);
     $to = new Coordinates(15, 25);
     $other = new Coordinates(20, 30);
@@ -137,8 +136,8 @@ it('gets the other coordinate correctly', function() {
 });
 
 it('calculates the determinant correctly', function() {
-    $vertex1 = new Vertex();
-    $vertex2 = new Vertex();
+    $vertex1 = new Vertex;
+    $vertex2 = new Vertex;
     $from1 = new Coordinates(10, 20);
     $to1 = new Coordinates(15, 25);
     $from2 = new Coordinates(20, 30);

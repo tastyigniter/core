@@ -77,6 +77,7 @@ class Manager
 
         // Structure of the installed.json manifest in different in Composer 2.0
         $installedPackages = $installed['packages'] ?? $installed;
+
         return $this->installedPackages = collect($installedPackages)
             ->whereIn('type', ['tastyigniter-package', 'tastyigniter-extension', 'tastyigniter-theme'])
             ->mapWithKeys(function($package) {

@@ -50,7 +50,7 @@ it('checks if running in admin area', function() {
 
 it('checks if database connection is present', function() {
     $connection = mock(Connection::class);
-    $connection->shouldReceive('getSchemaBuilder')->andThrow(new \Exception());
+    $connection->shouldReceive('getSchemaBuilder')->andThrow(new \Exception);
     DB::shouldReceive('connection')->andReturn($connection);
 
     expect(resolve(Igniter::class)->hasDatabase())->toBeFalse();

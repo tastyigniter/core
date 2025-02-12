@@ -7,7 +7,7 @@ use Igniter\Main\Components\ViewBag;
 it('validates properties and returns them unchanged', function() {
     $properties = ['customField' => 'customValue'];
 
-    expect((new ViewBag())->validateProperties($properties))->toBe($properties);
+    expect((new ViewBag)->validateProperties($properties))->toBe($properties);
 });
 
 it('returns property value when accessed via magic getter', function() {

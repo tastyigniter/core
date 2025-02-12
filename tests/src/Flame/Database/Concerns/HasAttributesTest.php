@@ -166,6 +166,7 @@ it('sets enum attribute value', function() {
         use HasAttributes;
 
         public $attributes = ['enum_attribute' => 'value'];
+
         protected $casts = ['enum_attribute' => TestEnum::class];
     };
     $model->setAttribute('enum_attribute', TestEnum::VALUE1);
@@ -179,6 +180,7 @@ it('sets encrypted attribute value', function() {
         use HasAttributes;
 
         public $attributes = ['enumAttribute' => 'value'];
+
         protected $casts = [
             'encrypted_attribute' => 'encrypted',
         ];
@@ -195,6 +197,7 @@ it('sets date attribute value', function() {
         use HasAttributes;
 
         protected $attributes = [];
+
         protected $casts = ['date_attribute' => 'date'];
     };
     $date = Carbon::now();
@@ -210,6 +213,7 @@ it('sets nested json attribute value', function() {
         use HasAttributes;
 
         protected $attributes = [];
+
         protected $casts = ['json_attribute' => 'json'];
     };
     $model->setAttribute('json_attribute->key', 'value');
@@ -223,6 +227,7 @@ it('sets time format', function() {
         use HasAttributes;
 
         protected $attributes = [];
+
         protected $casts = ['time_attribute' => 'time'];
     };
     $model->setTimeFormat('H:i');
@@ -239,7 +244,7 @@ it('converts datetime object to storable string', function() {
     $model->setTimeFormat($format = 'H:i');
 
     expect($model->fromTime(now()))->toBe(now()->format($format))
-        ->and($model->fromTime(new \DateTime()))->toBe((new \DateTime())->format($format))
+        ->and($model->fromTime(new \DateTime))->toBe((new \DateTime)->format($format))
         ->and($model->fromTime(time()))->toBe(now()->format($format))
         ->and($model->fromTime('23:59:59'))->toBe('23:59')
         ->and($model->fromTime('23:59'))->toBe('23:59');

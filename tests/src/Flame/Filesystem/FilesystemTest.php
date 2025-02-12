@@ -9,7 +9,7 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use ReflectionClass;
 
 beforeEach(function() {
-    $this->filesystem = new Filesystem();
+    $this->filesystem = new Filesystem;
 });
 
 it('symbolizes path', function() {

@@ -66,7 +66,7 @@ it('skips invalid translation keys', function() {
 });
 
 it('returns group options for a given locale', function() {
-    $language = new Language();
+    $language = new Language;
     $localePackage = (object)['code' => 'en', 'name' => 'English'];
     $languageManager = mock(LanguageManager::class);
     app()->instance(LanguageManager::class, $languageManager);
@@ -78,7 +78,7 @@ it('returns group options for a given locale', function() {
 });
 
 it('returns lines for a given locale, group, and namespace', function() {
-    $language = new Language();
+    $language = new Language;
     $lines = ['key' => 'value'];
     $loader = mock(FileLoader::class);
     app()->instance('translation.loader', $loader);

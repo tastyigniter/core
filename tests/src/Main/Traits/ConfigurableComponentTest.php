@@ -107,13 +107,13 @@ it('throws exception if component is not registered', function() {
 });
 
 it('resolve livewire component correctly', function() {
-    $component = new TestLivewireComponent();
+    $component = new TestLivewireComponent;
 
     expect($component::resolve([]))->toBeInstanceOf(TestLivewireComponent::class);
 });
 
 it('resolve blade component correctly', function() {
-    $component = new TestBladeComponent();
+    $component = new TestBladeComponent;
 
     expect($component::resolve([]))->toBeInstanceOf(TestBladeComponent::class);
 });

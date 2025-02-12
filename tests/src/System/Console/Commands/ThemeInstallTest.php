@@ -55,6 +55,6 @@ it('handles composer exception during installation', function() {
 
     $this->artisan('igniter:theme-install demo')
         ->expectsOutput('Installing demo theme')
-        ->expectsOutput("Composer error")
+        ->expectsOutput('Composer error')
         ->assertExitCode(0);
 });

@@ -68,7 +68,6 @@ trait EventEmitter
      * Destroys an event binding.
      *
      * @param null|string|array $event Event to destroy
-     * @return static
      */
     public function unbindEvent(null|string|array $event = null): static
     {
@@ -124,6 +123,7 @@ trait EventEmitter
                 }
                 if ($halt) {
                     unset($this->emitterSingleEvents[$event]);
+
                     return $response;
                 }
                 $result[] = $response;
