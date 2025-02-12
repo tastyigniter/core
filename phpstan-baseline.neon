@@ -2326,11 +2326,6 @@ parameters:
 			path: src/System/Classes/PackageInfo.php
 
 		-
-			message: "#^Anonymous function has an unused use \\$installed\\.$#"
-			count: 1
-			path: src/System/Classes/PackageManifest.php
-
-		-
 			message: "#^Property Illuminate\\\\Foundation\\\\PackageManifest\\:\\:\\$manifest \\(array\\) does not accept null\\.$#"
 			count: 1
 			path: src/System/Classes/PackageManifest.php
