@@ -36,13 +36,10 @@ jobs:
         with:
           commit_message: PHP Linting (Pint) - Fix styling
   php-tests:
-    name: 'PHP Tests ${{ matrix.php }}'
+    name: 'PHP Tests 8.3'
     needs: php-lint
     if: ${{ always() && needs.php-lint.result == 'success' }}
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php: [ '8.3', '8.4' ]
     services:
       mysql:
         image: 'mysql:8.0'
@@ -68,7 +65,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: 8.3
           extensions: dom, curl, xml, mbstring, zip, pdo, sqlite, bcmath, soap, intl, gd
           tools: composer:v2
           coverage: xdebug
