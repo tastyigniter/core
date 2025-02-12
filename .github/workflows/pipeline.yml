@@ -36,7 +36,7 @@ jobs:
         with:
           commit_message: PHP Linting (Pint) - Fix styling
   php-tests:
-    name: 'PHP Tests ${{ matrix.target }}'
+    name: 'PHP Tests ${{ matrix.php }}'
     needs: php-lint
     if: ${{ always() && needs.php-lint.result == 'success' }}
     runs-on: ubuntu-latest
@@ -68,7 +68,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.target }}
+          php-version: ${{ matrix.php }}
           extensions: dom, curl, xml, mbstring, zip, pdo, sqlite, bcmath, soap, intl, gd
           tools: composer:v2
           coverage: xdebug
@@ -79,14 +79,5 @@ jobs:
       - name: Execute static analysis
         run: composer static
 
-      - name: Run Admin test suite
-        run: vendor/bin/pest --coverage --exactly=100 --parallel --group=admin
-
-      - name: Run Flame test suite
-        run: vendor/bin/pest --coverage --exactly=100 --parallel --group=flame
-
-      - name: Run Main test suite
-        run: vendor/bin/pest --coverage --exactly=100 --parallel --group=main
-
-      - name: Run System test suite
-        run: vendor/bin/pest --coverage --exactly=100 --parallel --group=system
+      - name: Run test suite
+        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10
