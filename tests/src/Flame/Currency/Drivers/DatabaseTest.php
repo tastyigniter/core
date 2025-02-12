@@ -43,7 +43,7 @@ it('returns all currencies', function() {
         'currency_code' => 'ABC',
     ]);
     Currency::factory()->create([
-        'currency_code' => 'ABCD',
+        'currency_code' => 'ABD',
         'symbol_position' => 1,
     ]);
     $driver = new Database(['table' => 'currencies']);

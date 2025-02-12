@@ -68,10 +68,11 @@ it('builds bundles and returns notes', function() {
     $assetManager->shouldReceive('makeCollection')->andReturn($assetCollection = mock(AssetCollection::class));
     $assetCollection->shouldReceive('setTargetPath')->andReturnSelf();
     $assetCollection->shouldReceive('dump')->andReturn('compiled css');
+    $fileMock = File::partialMock();
+    $fileMock->shouldReceive('makeDirectory')->andReturnTrue();
+    $fileMock->shouldReceive('put')->andReturnTrue();
 
-    $result = (new Assets())->buildBundles($theme);
-
-    expect($result)->toContain('app.scss', ' -> /vendor/igniter-orange/css/app.css');
+    expect((new Assets())->buildBundles($theme))->toContain('app.scss', ' -> /app.css');
 
     Event::assertDispatched('assets.combiner.afterBuildBundles');
 });

@@ -6,6 +6,7 @@ use Igniter\Flame\Database\Attach\Manipulator;
 use Igniter\Flame\Database\Attach\Media;
 use Igniter\Flame\Database\Attach\MediaAdder;
 use Igniter\Flame\Database\Attach\Observers\MediaObserver;
+use Igniter\Flame\Database\Connections\MySqlConnection;
 use Igniter\Flame\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\DatabaseServiceProvider as BaseDatabaseServiceProvider;
@@ -27,6 +28,17 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         $this->app->singleton(Manipulator::class);
         $this->app->singleton(MediaAdder::class);
         $this->app->singleton(MemoryCache::class);
+
+        $this->app->booted(function() {
+            $connection = $this->app['db']->connection();
+            $connectionName = $connection->getName();
+            $existingValue = $this->app['config']->get('database.connections.'.$connectionName.'.strict');
+            if ($connection instanceof MySqlConnection && $existingValue) {
+                $this->app['config']->set('database.connections.'.$connectionName.'.strict', false);
+                $this->app['db']->purge($connectionName);
+                $this->app['db']->reconnect($connectionName);
+            }
+        });
     }
 
     public function boot()

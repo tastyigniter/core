@@ -11,9 +11,9 @@ use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
 
 it('creates a new theme instance for a given theme data', function() {
-    $themeData = new ThemeData(__DIR__, ['code' => 'tests-theme']);
+    $themeData = new ThemeData(__DIR__, ['code' => 'tests-new-theme', 'name' => 'New Theme']);
     $theme = Theme::forTheme($themeData);
-    expect($theme->code)->toBe('tests-theme');
+    expect($theme->code)->toBe('tests-new-theme');
 });
 
 it('returns true when onboarding is complete', function() {

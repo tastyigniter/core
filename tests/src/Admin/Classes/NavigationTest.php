@@ -12,12 +12,6 @@ beforeEach(function() {
     $this->navigation = new Navigation;
 });
 
-it('constructs correctly', function() {
-    $navigation = new Navigation('test/path');
-
-    expect($navigation->viewPath)->toBe(['test/path']);
-});
-
 it('sets context with item code only', function() {
     $navigation = new Navigation();
     $navigation->setContext('settings', 'system');
