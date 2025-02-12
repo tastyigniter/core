@@ -15,12 +15,12 @@ class CurrencyFactory extends Factory
             'currency_code' => $this->faker->currencyCode(),
             'currency_symbol' => '£',
             'country_id' => 1,
-            'symbol_position' => 1,
-            'currency_rate' => 1,
-            'thousand_sign' => $this->faker->lexify('?'),
+            'symbol_position' => 0,
+            'currency_rate' => $this->faker->randomFloat(4, 0, 10),
+            'thousand_sign' => ',',
             'decimal_sign' => '.',
-            'decimal_position' => $this->faker->numerify('#'),
-            'currency_status' => $this->faker->boolean(),
+            'decimal_position' => 2,
+            'currency_status' => true,
         ];
     }
 }

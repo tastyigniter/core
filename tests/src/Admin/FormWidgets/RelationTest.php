@@ -9,6 +9,7 @@ use Igniter\Admin\Models\StatusHistory;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Models\Currency;
 use Igniter\Tests\Fixtures\Controllers\TestController;
+use Igniter\Tests\Fixtures\Models\TestStatusModel;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
@@ -124,12 +125,3 @@ it('resolveModelAttribute method works correctly', function($attribute, $expecte
     ['attribute', 'attribute'],
     ['relation_field', 'relation_field'],
 ]);
-
-class TestStatusModel extends Status
-{
-    public $relation = [
-        'belongsTo' => [
-            'status' => [TestStatusModel::class, 'status_id'],
-        ],
-    ];
-}

@@ -10,7 +10,8 @@ use Igniter\System\Facades\Assets;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Page;
 use Igniter\Tests\Fixtures\Controllers\TestController;
-use Illuminate\Database\Eloquent\Model;
+use Igniter\Tests\Fixtures\Models\RecordEditorLanguage;
+use Igniter\Tests\Fixtures\Models\RecordEditorLanguageCustomMethod;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
@@ -173,27 +174,3 @@ it('attaches record correctly', function() {
 
     expect($this->recordEditorWidget->onAttachRecord())->toBeArray();
 });
-
-class RecordEditorLanguage extends Language
-{
-    protected $table = 'languages';
-
-    public function getRecordEditorOptions()
-    {
-        return [];
-    }
-
-    public function attachRecordTo($model) {}
-}
-
-class RecordEditorLanguageCustomMethod extends Model
-{
-    protected $table = 'languages';
-
-    public function getTestFieldRecordEditorOptions()
-    {
-        return [];
-    }
-
-    public function attachRecordTo($model) {}
-}

@@ -198,7 +198,7 @@ trait HasAttributes
     {
         try {
             $value = parent::asDateTime($value);
-        } catch (InvalidArgumentException $ex) {
+        } catch (InvalidArgumentException) {
             $value = Carbon::parse($value);
         }
 
@@ -246,30 +246,15 @@ trait HasAttributes
     /**
      * Convert a Carbon Time to a storable string.
      *
-     * @param \Carbon\Carbon|int $value
+     * @param \DateTime|\Carbon\Carbon|int $value
      *
      * @return string
      */
     public function fromTime($value)
     {
-        //        if ($value == '00:00' OR $value == '00:00:00')
-        //            return $value;
-        //
         $format = $this->getTimeFormat();
 
         return $this->asTime($value)->format($format);
-    }
-
-    /**
-     * Determine whether a value is Time castable for inbound manipulation.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    protected function isTimeCastable($key)
-    {
-        return $this->hasCast($key, ['timee']);
     }
 
     /**

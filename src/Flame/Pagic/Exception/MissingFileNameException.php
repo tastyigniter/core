@@ -22,12 +22,4 @@ class MissingFileNameException extends RuntimeException
 
         return $this;
     }
-
-    /**
-     * Get the affected Halcyon model.
-     */
-    public function getModel(): string
-    {
-        return $this->model;
-    }
 }

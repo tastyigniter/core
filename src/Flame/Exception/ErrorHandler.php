@@ -23,7 +23,6 @@ class ErrorHandler
         ApplicationException::class,
         ModelNotFoundException::class,
         HttpException::class,
-        ValidationException::class,
     ];
 
     /**
@@ -36,7 +35,7 @@ class ErrorHandler
         if (method_exists($handler, 'map')) {
             $handler->map(TokenMismatchException::class, function(TokenMismatchException $e) {
                 return (new FlashException(
-                    lang('igniter::admin.alert_invalid_csrf_token'), 'danger', 419, $e
+                    lang('igniter::admin.alert_invalid_csrf_token'), 'danger', 419, $e,
                 ))->important()->overlay()->actionUrl(url()->current());
             });
         }
@@ -59,23 +58,7 @@ class ErrorHandler
      */
     public function report(Throwable $e): ?bool
     {
-        if (!class_exists('Event')) {
-            return null;
-        }
-
-        /**
-         * @event exception.beforeReport
-         * Fires before the exception has been reported
-         *
-         * Example usage (prevents the reporting of a given exception)
-         *
-         *     Event::listen('exception.report', function (\Exception $exception) {
-         *         if ($exception instanceof \My\Custom\Exception) {
-         *             return false;
-         *         }
-         *     });
-         */
-        if (Event::dispatch('exception.beforeReport', [$e], true) === false) {
+        if (class_exists('Event') && Event::dispatch('exception.beforeReport', [$e], true) === false) {
             return null;
         }
 
@@ -83,17 +66,7 @@ class ErrorHandler
             return false;
         }
 
-        /**
-         * @event exception.report
-         * Fired after the exception has been reported
-         *
-         * Example usage (performs additional reporting on the exception)
-         *
-         *     Event::listen('exception.report', function (\Exception $exception) {
-         *         app('sentry')->captureException($exception);
-         *     });
-         */
-        Event::dispatch('exception.report', [$e]);
+        class_exists('Event') && Event::dispatch('exception.report', [$e]);
 
         return null;
     }
@@ -103,13 +76,9 @@ class ErrorHandler
      */
     public function render(Request $request, Throwable $e): mixed
     {
-        if (!class_exists('Event')) {
-            return null;
-        }
-
         $statusCode = $this->getStatusCode($e);
 
-        if ($event = Event::dispatch('exception.beforeRender', [$e, $statusCode, $request], true)) {
+        if (class_exists('Event') && $event = Event::dispatch('exception.beforeRender', [$e, $statusCode, $request], true)) {
             return Response::make($event, $statusCode);
         }
 

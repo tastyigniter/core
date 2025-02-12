@@ -2,11 +2,11 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Throwable;
 
 class ThemeInstall extends Command
 {
@@ -43,7 +43,7 @@ class ThemeInstall extends Command
 
             resolve(ThemeManager::class)->loadThemes();
             resolve(ThemeManager::class)->installTheme($packageInfo->code, $packageInfo->version);
-        } catch (ComposerException $e) {
+        } catch (Throwable $e) {
             $this->output->writeln($e->getMessage());
         }
     }

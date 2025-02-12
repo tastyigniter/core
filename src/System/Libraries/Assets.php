@@ -237,6 +237,12 @@ class Assets
         $this->assets = ['icon' => [], 'meta' => [], 'rss' => [], 'js' => [], 'css' => [], 'jsVars' => []];
     }
 
+    public function clearInternalCache()
+    {
+        static::$registeredPaths = [];
+        static::$registeredCallback = [];
+    }
+
     protected function putAsset(string $type, string $path, null|string|array $attributes)
     {
         $this->assets[$type][] = ['path' => $path, 'attributes' => $attributes];
@@ -273,11 +279,6 @@ class Assets
 
         if (File::isPathSymbol($name)) {
             return File::symbolizePath($name);
-        }
-
-        // Resolve temporarily open_basedir issue https://github.com/tastyigniter/TastyIgniter/pull/1061
-        if (File::isFile('.'.$name)) {
-            return '.'.$name;
         }
 
         foreach (static::$registeredPaths as $path) {

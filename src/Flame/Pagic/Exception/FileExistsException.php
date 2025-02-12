@@ -22,12 +22,4 @@ class FileExistsException extends RuntimeException
 
         return $this;
     }
-
-    /**
-     * Get the affected directory path.
-     */
-    public function getInvalidPath(): string
-    {
-        return $this->invalidPath;
-    }
 }

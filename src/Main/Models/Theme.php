@@ -2,6 +2,7 @@
 
 namespace Igniter\Main\Models;
 
+use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Main\Classes\Theme as ThemeData;
@@ -64,10 +65,11 @@ use Igniter\System\Models\Concerns\Switchable;
 class Theme extends Model
 {
     use Defaultable;
+    use HasFactory;
     use Purgeable;
     use Switchable;
 
-    public const ICON_MIMETYPES = [
+    public const array ICON_MIMETYPES = [
         'png' => 'image/png',
         'svg' => 'image/svg+xml',
     ];
@@ -117,11 +119,7 @@ class Theme extends Model
 
     public static function onboardingIsComplete()
     {
-        if (!$model = self::getDefault()) {
-            return false;
-        }
-
-        return !is_null($model->data);
+        return (bool)self::getDefault()?->data;
     }
 
     public function getLayoutOptions()

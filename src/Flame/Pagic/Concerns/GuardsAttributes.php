@@ -36,7 +36,7 @@ trait GuardsAttributes
     {
         if (count($this->getFillable()) > 0) {
             return array_intersect_key($attributes, array_flip(
-                array_merge(['fileName'], $this->getFillable())
+                array_merge(['fileName'], $this->getFillable()),
             ));
         }
 
@@ -60,7 +60,6 @@ trait GuardsAttributes
             return true;
         }
 
-        return empty($this->getFillable()) &&
-            !Str::startsWith($key, '_');
+        return empty($this->getFillable()) && !Str::startsWith($key, '_');
     }
 }

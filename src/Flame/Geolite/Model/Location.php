@@ -4,7 +4,6 @@ namespace Igniter\Flame\Geolite\Model;
 
 use Igniter\Flame\Geolite\Contracts;
 use Igniter\Flame\Geolite\Formatter\StringFormatter;
-use InvalidArgumentException;
 
 class Location implements Contracts\LocationInterface
 {
@@ -75,22 +74,14 @@ class Location implements Contracts\LocationInterface
 
     public function setBounds(?float $south, ?float $west, ?float $north, ?float $east): self
     {
-        try {
-            $this->bounds = new Bounds($south, $west, $north, $east);
-        } catch (InvalidArgumentException $e) {
-            $this->bounds = null;
-        }
+        $this->bounds = new Bounds($south, $west, $north, $east);
 
         return $this;
     }
 
     public function setCoordinates(float $latitude, float $longitude): self
     {
-        try {
-            $this->coordinates = new Coordinates($latitude, $longitude);
-        } catch (InvalidArgumentException $e) {
-            $this->coordinates = null;
-        }
+        $this->coordinates = new Coordinates($latitude, $longitude);
 
         return $this;
     }
@@ -278,8 +269,8 @@ class Location implements Contracts\LocationInterface
 
         return [
             'providedBy' => $this->providedBy,
-            'latitude' => $coordinates ? $coordinates->getLatitude() : null,
-            'longitude' => $coordinates ? $coordinates->getLongitude() : null,
+            'latitude' => $coordinates?->getLatitude(),
+            'longitude' => $coordinates?->getLongitude(),
             'bounds' => $this->bounds ? $this->bounds->toArray() : $noBounds,
             'streetNumber' => $this->streetNumber,
             'streetName' => $this->streetName,

@@ -27,19 +27,19 @@ class Converter extends Manager
 
     public function getDefaultDriver(): string
     {
-        return $this->container['config']['currency.converter'] ?? 'openexchangerates';
+        return $this->container['config']['igniter-currency.converter'] ?? 'openexchangerates';
     }
 
     public function createOpenExchangeRatesDriver(): AbstractConverter
     {
-        $config = $this->container['config']['currency.converters.openexchangerates'];
+        $config = $this->container['config']['igniter-currency.converters.openexchangerates'];
 
         return new $config['class']($config);
     }
 
     public function createFixerIODriver(): AbstractConverter
     {
-        $config = $this->container['config']['currency.converters.fixerio'];
+        $config = $this->container['config']['igniter-currency.converters.fixerio'];
 
         return new $config['class']($config);
     }

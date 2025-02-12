@@ -4,7 +4,6 @@ namespace Igniter\System\Traits;
 
 use Exception;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Http\RedirectResponse;
@@ -183,7 +182,7 @@ trait ManagesUpdates
                     'install' => $updateManager->install($meta),
                     'complete' => $updateManager->completeinstall($meta),
                 };
-            } catch (ComposerException $e) {
+            } catch (\Throwable $e) {
                 $errorMessage = nl2br($e->getMessage());
                 $errorMessage .= "\n\n".'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'."\n\n";
 

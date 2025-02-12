@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Currency\Converters;
 
-use Exception;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class OpenExchangeRates extends AbstractConverter
@@ -13,7 +13,7 @@ class OpenExchangeRates extends AbstractConverter
 
     public function __construct(array $config = [])
     {
-        $this->appId = $config['apiKey'];
+        $this->appId = $config['apiKey'] ?? '';
     }
 
     public function converterDetails(): array
@@ -26,23 +26,18 @@ class OpenExchangeRates extends AbstractConverter
 
     public function getExchangeRates(string $base, array $currencies): array
     {
-        $result = [];
-
-        try {
-            $response = $this->getHttpClient()->get(
-                sprintf(self::API_URL, $this->appId, $base, implode(',', $currencies))
-            );
-
-            $result = json_decode($response->getBody(), true);
-
-            if (isset($result['error']) && $result['error']) {
-                throw new \RuntimeException($result['description']);
-            }
-
-        } catch (Exception $ex) {
-            Log::info($ex->getMessage());
+        if (!strlen($this->appId)) {
+            return [];
         }
 
-        return $result['rates'] ?? [];
+        $response = $this->cacheCallback($this->getCacheKey(), function() use ($base, $currencies) {
+            return Http::get(sprintf(self::API_URL, $this->appId, $base, implode(',', $currencies)));
+        });
+
+        if ($response->json('error')) {
+            Log::info($response->json('description'));
+        }
+
+        return $response->json('rates', []);
     }
 }

@@ -5,6 +5,7 @@ namespace Igniter\System;
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\Flame\Support\LogViewer;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Currency;
 use Igniter\System\Models\Language;
@@ -103,9 +104,9 @@ class ServiceProvider extends AppServiceProvider
         $this->app->instance('path.uploads', base_path(Config::get('igniter-system.assets.media.path', 'assets/media/uploads')));
 
         $this->app->singleton(Settings::class);
+        $this->app->singleton(LogViewer::class);
 
         $this->app->singleton(Classes\ComponentManager::class);
-        $this->tapSingleton(\Igniter\Flame\Composer\Manager::class);
         $this->app->singleton(Classes\ExtensionManager::class);
         $this->app->singleton(Classes\HubManager::class);
         $this->tapSingleton(Classes\LanguageManager::class);

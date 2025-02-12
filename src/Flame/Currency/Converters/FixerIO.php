@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Currency\Converters;
 
-use Exception;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class FixerIO extends AbstractConverter
@@ -13,7 +13,7 @@ class FixerIO extends AbstractConverter
 
     public function __construct(array $config = [])
     {
-        $this->accessKey = $config['apiKey'];
+        $this->accessKey = $config['apiKey'] ?? '';
     }
 
     public function converterDetails(): array
@@ -26,26 +26,18 @@ class FixerIO extends AbstractConverter
 
     public function getExchangeRates($base, array $currencies): array
     {
-        $result = [];
-
         if (!strlen($this->accessKey)) {
-            return $result;
+            return [];
         }
 
-        try {
-            $response = $this->getHttpClient()->get(
-                sprintf(self::API_URL, $this->accessKey, $base, implode(',', $currencies))
-            );
+        $response = $this->cacheCallback($this->getCacheKey(), function() use ($base, $currencies) {
+            return Http::get(sprintf(self::API_URL, $this->accessKey, $base, implode(',', $currencies)));
+        });
 
-            $result = json_decode($response->getBody(), true);
-
-            if (isset($result['success']) && !$result['success']) {
-                throw new \RuntimeException('An error occurred when requesting currency exchange rates from fixer.io, check your api key.');
-            }
-        } catch (Exception $ex) {
-            Log::info($ex->getMessage());
+        if (!$response->json('success')) {
+            Log::debug('An error occurred when requesting currency exchange rates from fixer.io, check your api key.');
         }
 
-        return $result['rates'] ?? [];
+        return $response->json('rates', []);
     }
 }

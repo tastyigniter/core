@@ -2,9 +2,7 @@
 
 namespace Igniter\Tests\System\Console\Commands;
 
-use Composer\IO\BufferIO;
 use Exception;
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\ExtensionManager;
 
 it('removes extension successfully', function() {
@@ -47,11 +45,10 @@ it('handles composer exception during removal', function() {
     $extensionManager = mock(ExtensionManager::class);
     $extensionManager->shouldReceive('getIdentifier')->with('igniterlab.demo')->andReturn('IgniterLab.Demo');
     $extensionManager->shouldReceive('hasExtension')->with('IgniterLab.Demo')->andReturn(true);
-    $extensionManager->shouldReceive('deleteExtension')->with('IgniterLab.Demo')
-        ->andThrow(new ComposerException(new Exception('Composer error'), new BufferIO()));
+    $extensionManager->shouldReceive('deleteExtension')->with('IgniterLab.Demo')->andThrow(new Exception('Composer error'));
     app()->instance(ExtensionManager::class, $extensionManager);
 
     $this->artisan('igniter:extension-remove igniterlab.demo')
-        ->expectsOutput("Error updating composer requirements: Composer error\nOutput: ")
+        ->expectsOutput("Composer error")
         ->assertExitCode(0);
 });

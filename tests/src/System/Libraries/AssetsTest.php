@@ -2,26 +2,29 @@
 
 namespace Igniter\Tests\System\Libraries;
 
+use Igniter\Admin\ServiceProvider;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\System\Facades\Assets as AssetsFacade;
 use Igniter\System\Libraries\Assets;
 
-it('adds assets from manifest successfully', function() {
+it('adds assets from admin manifest successfully', function() {
     Igniter::shouldReceive('runningInAdmin')->andReturnTrue();
+    Igniter::shouldReceive('loadControllersFrom')->once();
     Igniter::shouldReceive('adminUri')->andReturn('admin');
     Igniter::shouldReceive('hasDatabase')->andReturnTrue();
     Igniter::shouldReceive('themesPath')->andReturn(base_path('themes'));
-    $path = realpath(__DIR__.'/../../../../resources/views/admin/_meta/assets.json');
+    $adminServiceProvider = new ServiceProvider(app());
+    $adminServiceProvider->register();
 
-    $assets = new Assets();
-    $assets->addFromManifest($path);
+    expect(AssetsFacade::getCss())->toContain('rel="stylesheet" type="text/css"')
+        ->and(AssetsFacade::getJs())->toContain('charset="utf-8" type="text/javascript"')
+        ->and(AssetsFacade::getFavIcon())->toContain('rel="shortcut icon" type="image/x-icon"')
+        ->and(AssetsFacade::getMetas())->toContain('name="Content-type" content="text/html; charset=utf-8" type="equiv"')
+        ->and(AssetsFacade::getRss())->toBeNull();
 
-    expect($assets->getCss())->toContain('rel="stylesheet" type="text/css"')
-        ->and($assets->getJs())->toContain('charset="utf-8" type="text/javascript"')
-        ->and($assets->getFavIcon())->toContain('rel="shortcut icon" type="image/x-icon"')
-        ->and($assets->getMetas())->toContain('name="Content-type" content="text/html; charset=utf-8" type="equiv"')
-        ->and($assets->getRss())->toBeNull();
+    AssetsFacade::clearInternalCache();
 });
 
 it('adds assets from theme manifest successfully', function() {

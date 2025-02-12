@@ -20,7 +20,7 @@ class MakeController extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Creates a new TastyIgniter controller.';
+    protected $description = 'Creates a new TastyIgniter admin controller.';
 
     /**
      * The type of class being generated.
@@ -48,7 +48,7 @@ class MakeController extends GeneratorCommand
         if (!$code = $this->getExtensionInput()) {
             $this->error('Invalid extension name, Example name: AuthorName.ExtensionName');
 
-            return;
+            return false;
         }
 
         [$author, $extension] = $code;

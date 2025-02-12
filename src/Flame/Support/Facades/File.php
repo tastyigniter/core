@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Facade as IlluminateFacade;
  * @method static void addPathSymbol(string $symbol, string $path)
  * @method static int put(string $path, string $contents, bool $lock = false)
  * @method static bool copy(string $path, string $target)
- * @method static bool makeDirectory(string $path, int $mode = 511, bool $recursive = false, bool $force = false)
+ * @method static bool makeDirectory(string $path, null|int $mode = 511, bool $recursive = false, bool $force = false)
  * @method static bool chmod(string $path, int|null $mode = null)
  * @method static void chmodRecursive(string $path, string|null $fileMask = null, int|float|null $directoryMask = null)
  * @method static int|float|null getFilePermissions()

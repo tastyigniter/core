@@ -52,13 +52,13 @@ trait HasQueryModifier
     public function scopeApplySorts(Builder $builder, array $sorts = []): Builder
     {
         foreach ($sorts as $sort) {
+            if (!str_contains($sort, ' ')) {
+                $sort = $sort.' '.$this->queryModifierSortDirection;
+            }
+            
             if (in_array($sort, $this->queryModifierSorts)) {
-                if (str_contains($sort, ' ')) {
-                    [$sortField, $sortDirection] = explode(' ', $sort);
-                    $builder->orderBy($sortField, $sortDirection);
-                } else {
-                    $builder->orderBy($sort, $this->queryModifierSortDirection());
-                }
+                [$sortField, $sortDirection] = explode(' ', $sort);
+                $builder->orderBy($sortField, $sortDirection);
             }
         }
 
@@ -77,17 +77,27 @@ trait HasQueryModifier
         return $this->queryModifierSorts;
     }
 
-    protected function queryModifierAddFilters(array $filters): static
+    public function queryModifierGetFilters(): array
+    {
+        return $this->queryModifierFilters;
+    }
+
+    public function queryModifierGetSearchableFields(): array
+    {
+        return $this->queryModifierSearchableFields;
+    }
+
+    public function queryModifierAddFilters(array $filters): static
     {
         $this->queryModifierFilters = array_merge($this->queryModifierFilters, $filters);
 
         return $this;
     }
 
-    protected function queryModifierAddSearchableFields(array $searchableFields): static
+    public function queryModifierAddSearchableFields(array $searchableFields): static
     {
         $this->queryModifierSearchableFields = array_unique(
-            array_merge($this->queryModifierSearchableFields, $searchableFields)
+            array_merge($this->queryModifierSearchableFields, $searchableFields),
         );
 
         return $this;

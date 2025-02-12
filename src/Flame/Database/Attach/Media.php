@@ -5,6 +5,8 @@ namespace Igniter\Flame\Database\Attach;
 use FilesystemIterator;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Support\Facades\File;
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -26,7 +28,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @property int|null $priority
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $attachment
+ * @property \Igniter\Flame\Database\Model|\Illuminate\Database\Eloquent\Model|null $attachment
  * @property-read mixed $extension
  * @property-read string $height
  * @property-read mixed $human_readable_size
@@ -118,8 +120,6 @@ class Media extends Model
 
     /**
      * Set the polymorphic relation.
-     *
-     * @return mixed
      */
     public function attachment()
     {
@@ -130,9 +130,10 @@ class Media extends Model
      * Creates a file object from a file an uploaded file.
      * @return self
      */
-    public function addFromRequest(UploadedFile $uploadedFile, $tag = null)
+    public function addFromRequest(UploadedFile $uploadedFile, ?string $tag = null, ?string $disk = null)
     {
         $this->getMediaAdder()
+            ->useDisk($disk)
             ->performedOn($this->attachment)
             ->useMediaTag($tag)
             ->fromFile($uploadedFile);
@@ -142,15 +143,11 @@ class Media extends Model
 
     /**
      * Creates a file object from a file on the disk.
-     * @return self|void
      */
-    public function addFromFile($filePath, $tag = null)
+    public function addFromFile(string $filePath, ?string $tag = null, ?string $disk = null): self
     {
-        if (is_null($filePath)) {
-            return;
-        }
-
         $this->getMediaAdder()
+            ->useDisk($disk)
             ->performedOn($this->attachment)
             ->useMediaTag($tag)
             ->fromFile(new SymfonyFile($filePath));
@@ -160,18 +157,9 @@ class Media extends Model
 
     /**
      * Creates a file object from raw data.
-     *
-     * @param $rawData string Raw data
-     * @param $filename string Filename
-     *
-     * @return $this|void
      */
-    public function addFromRaw($rawData, $filename, $tag = null)
+    public function addFromRaw(mixed $rawData, string $filename, ?string $tag = null): self
     {
-        if (is_null($rawData)) {
-            return;
-        }
-
         $tempPath = $this->getTempPath().$filename;
         if (!File::isDirectory(dirname($tempPath))) {
             File::makeDirectory(dirname($tempPath), 775, true);
@@ -194,12 +182,13 @@ class Media extends Model
      */
     public function addFromUrl($url, $filename = null, $tag = null)
     {
-        if (!$stream = @fopen($url, 'rb')) {
+        $response = Http::get($url);
+        if (!$response->successful()) {
             throw new \RuntimeException(sprintf('Error opening file "%s"', $url));
         }
 
         return $this->addFromRaw(
-            $stream,
+            $response->resource(),
             !empty($filename) ? $filename : File::basename($url),
             $tag,
         );
@@ -291,7 +280,7 @@ class Media extends Model
     public function getLastModified($fileName = null)
     {
         if (!$fileName) {
-            $fileName = $this->disk;
+            $fileName = $this->name;
         }
 
         return $this->getStorageDisk()->lastModified($this->getStoragePath().$fileName);
@@ -341,7 +330,7 @@ class Media extends Model
      */
     public function sizeToString()
     {
-        return File::sizeToString($this->file_size);
+        return File::sizeToString((int)$this->file_size);
     }
 
     public function getMimeType()
@@ -388,8 +377,8 @@ class Media extends Model
         }
 
         $diskName = config('igniter-system.assets.attachment.disk');
-        if (is_null(config("filesystems.disks.{$diskName}"))) {
-            throw new \LogicException("There is no filesystem disk named '{$diskName}''");
+        if (is_null(config("filesystems.disks.$diskName"))) {
+            throw new \LogicException("There is no filesystem disk named '$diskName'");
         }
 
         return $this->disk = $diskName;
@@ -397,7 +386,7 @@ class Media extends Model
 
     public function getDiskDriverName()
     {
-        return strtolower(config("filesystems.disks.{$this->disk}.driver"));
+        return strtolower(config("filesystems.disks.$this->disk.driver"));
     }
 
     //
@@ -424,7 +413,7 @@ class Media extends Model
      * Delete file contents from storage device.
      * @return void
      */
-    public function deleteFile($fileName = null)
+    public function deleteFile(?string $fileName = null)
     {
         if (!$fileName) {
             $fileName = $this->name;
@@ -449,21 +438,21 @@ class Media extends Model
     protected function deleteEmptyDirectory($directory = null)
     {
         if (!$this->isDirectoryEmpty($directory)) {
-            return;
+            return false;
         }
 
         $this->getStorageDisk()->deleteDirectory($directory);
 
-        $directory = dirname($directory);
+        $directory = File::dirname($directory);
         if (!$this->isDirectoryEmpty($directory)) {
-            return;
+            return false;
         }
 
         $this->getStorageDisk()->deleteDirectory($directory);
 
-        $directory = dirname($directory);
+        $directory = File::dirname($directory);
         if (!$this->isDirectoryEmpty($directory)) {
-            return;
+            return false;
         }
 
         $this->getStorageDisk()->deleteDirectory($directory);
@@ -506,12 +495,8 @@ class Media extends Model
 
     /**
      * Generates and returns a thumbnail url.
-     * @param int $width
-     * @param int $height
-     * @param array $options
-     * @return string
      */
-    public function getThumb($options = [])
+    public function getThumb(string|array $options = []): string
     {
         if (!$this->isImage()) {
             return $this->getPath();
@@ -550,12 +535,8 @@ class Media extends Model
 
     /**
      * Generates a thumbnail filename.
-     * @param int $width
-     * @param int $height
-     * @param array $options
-     * @return string
      */
-    protected function getThumbFilename($options)
+    protected function getThumbFilename(array $options): string
     {
         return 'thumb_'
             .$this->id.'_'
@@ -566,10 +547,8 @@ class Media extends Model
 
     /**
      * Returns the default thumbnail options.
-     * @param array $override
-     * @return array
      */
-    protected function getDefaultThumbOptions($override = [])
+    protected function getDefaultThumbOptions(string|array $override = []): array
     {
         $defaultOptions = [
             'fit' => 'contain',
@@ -595,9 +574,8 @@ class Media extends Model
 
     /**
      * Generate the thumbnail
-     * @param array $options
      */
-    protected function makeThumb($thumbFile, $options)
+    protected function makeThumb(string $thumbFile, array $options): void
     {
         $thumbFile = $this->getStoragePath().$thumbFile;
         $filePath = $this->getDiskPath();
@@ -726,23 +704,18 @@ class Media extends Model
 
     /**
      * Generates a partition for the file.
-     * @return mixed
      */
-    public function getPartitionDirectory()
+    public function getPartitionDirectory(): string
     {
         return implode('/', array_slice(str_split($this->name, 3), 0, 3)).'/';
     }
 
-    /**
-     * @return \Illuminate\Filesystem\FilesystemAdapter
-     * @throws \Exception
-     */
-    protected function getStorageDisk()
+    protected function getStorageDisk(): FilesystemAdapter
     {
         return Storage::disk($this->getDiskName());
     }
 
-    protected function getMediaAdder()
+    protected function getMediaAdder(): MediaAdder
     {
         return app(MediaAdder::class)->on($this);
     }

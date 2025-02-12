@@ -57,12 +57,12 @@ trait ExtensionTrait
         self::$extensionCallbacks[$class][] = $callback;
     }
 
-    protected function extensionHideField(string $name): void
+    public function extensionHideField(string $name): void
     {
         $this->extensionHidden['fields'][] = $name;
     }
 
-    protected function extensionHideMethod(string $name): void
+    public function extensionHideMethod(string $name): void
     {
         $this->extensionHidden['methods'][] = $name;
     }

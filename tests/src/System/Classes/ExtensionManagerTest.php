@@ -59,7 +59,7 @@ it('throws exception if extension namespace is missing', function() {
 
 it('returns existing extension if already loaded', function() {
     $manager = resolve(ExtensionManager::class);
-    $path = __DIR__.'/../../Fixtures/extension';
+    $path = __DIR__.'/../../Fixtures/Extension';
 
     expect($manager->loadExtension($path))->toBe($manager->loadExtension($path));
 });
@@ -74,7 +74,7 @@ it('loads extension and sets PSR-4 autoloading', function() {
         'packageManifest' => resolve(PackageManifest::class),
     ]);
 
-    $path = __DIR__.'/../../Fixtures/extension';
+    $path = __DIR__.'/../../Fixtures/Extension';
     expect($manager->loadExtension($path))->toBeInstanceOf(BaseExtension::class);
 });
 

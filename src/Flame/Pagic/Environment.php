@@ -7,7 +7,6 @@ use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Compilers\CompilerInterface;
-use LogicException;
 
 class Environment
 {
@@ -67,10 +66,6 @@ class Environment
      */
     public function getLoader(): Contracts\TemplateLoader
     {
-        if ($this->loader === null) {
-            throw new LogicException('You must set a loader first.');
-        }
-
         return $this->loader;
     }
 
@@ -192,7 +187,7 @@ class Environment
             $markup = $this->getLoader()->getMarkup($name);
 
             $this->getCompiler()->setPath(
-                $this->getLoader()->getFilename($name)
+                $this->getLoader()->getFilename($name),
             );
             $compiled = $this->getCompiler()->compileString($markup);
 

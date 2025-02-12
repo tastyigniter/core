@@ -5,7 +5,6 @@ namespace Igniter\Flame\Database\Attach;
 use Igniter\Flame\Database\Attach\Events\MediaTagCleared as MediaTagClearedEvent;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection as BaseCollection;
 
@@ -54,10 +53,7 @@ trait HasMedia
 
     public function getAttribute($key): mixed
     {
-        if (
-            !array_key_exists($key, $mediable = $this->mediable())
-            || $this->hasGetMutator($key)
-        ) {
+        if (!array_key_exists($key, $mediable = $this->mediable()) || $this->hasGetMutator($key)) {
             return parent::getAttribute($key);
         }
 
@@ -71,10 +67,7 @@ trait HasMedia
 
     public function setAttribute($key, $value)
     {
-        if (
-            !array_key_exists($key, $mediable = $this->mediable())
-            || $this->hasSetMutator($key)
-        ) {
+        if (!array_key_exists($key, $this->mediable()) || $this->hasSetMutator($key)) {
             return parent::setAttribute($key, $value);
         }
         // Do nothing
@@ -129,7 +122,7 @@ trait HasMedia
         if (!$media = $this->media->find($mediaId)) {
             throw new \RuntimeException(sprintf(
                 "Media with id '%s' cannot be deleted because it does not exist or does not belong to model %s with id %s",
-                $mediaId, get_class($this), $this->getKey()
+                $mediaId, get_class($this), $this->getKey(),
             ));
         }
 
@@ -141,9 +134,7 @@ trait HasMedia
      */
     public function loadMedia(?string $tag = null): BaseCollection
     {
-        $collection = $this->exists
-            ? $this->media
-            : collect($this->unAttachedMediaItems)->pluck('media');
+        $collection = $this->exists ? $this->media : collect($this->unAttachedMediaItems)->pluck('media');
 
         return collect($collection)
             ->filter(function(Media $mediaItem) use ($tag) {
@@ -161,55 +152,17 @@ trait HasMedia
     }
 
     /**
-     * Replace the existing media collection for the specified tag(s).
-     */
-    public function syncMedia(mixed $media, ?string $tag = null): BaseCollection
-    {
-        $this->deleteMediaExcept($media, $tag);
-
-        $tag = $tag ?? $this->getDefaultTagName();
-        $newMediaIds = $this->parseIds($media);
-
-        return collect($newMediaIds)
-            ->map(function(array $newMedia) use ($tag) {
-                $foundMedia = Media::findOrFail($newMedia['id']);
-
-                if ($tag !== '*' && $foundMedia->tag !== $tag) {
-                    throw new \InvalidArgumentException("Media id {$foundMedia->getKey()} is not part of collection '{$tag}''");
-                }
-
-                $foundMedia->fill($newMedia);
-                $foundMedia->save();
-
-                return $foundMedia;
-            });
-    }
-
-    /**
      * Detach a media item from the model.
      */
     public function deleteMedia(int|string|Media $mediaId)
     {
         if ($mediaId instanceof Media) {
-            $mediaId = $mediaId->id;
+            $mediaId = $mediaId->getKey();
         }
 
         $media = $this->findMedia($mediaId);
 
         $media->delete();
-    }
-
-    /**
-     * Delete all media with the given tag except some.
-     */
-    protected function deleteMediaExcept(mixed $media, ?string $tag = null)
-    {
-        $newMediaIds = $this->parseIds($media);
-        $this->getMedia($tag)
-            ->reject(function(Media $tagMedia) use ($newMediaIds) {
-                return in_array($tagMedia->getKey(), array_column($newMediaIds, 'id'));
-            })
-            ->each->delete();
     }
 
     /**
@@ -268,11 +221,9 @@ trait HasMedia
     protected function handleHasMediaDeletion()
     {
         // only cascade soft deletes when configured
-        if (!$this->forceDeleting && static::hasGlobalScope(SoftDeletingScope::class)) {
-            return;
+        if (!(!$this->forceDeleting && static::hasGlobalScope(SoftDeletingScope::class))) {
+            $this->media()->get()->each->delete();
         }
-
-        $this->media()->get()->each->delete();
     }
 
     /**
@@ -282,36 +233,16 @@ trait HasMedia
     {
         return function(Media $media) use ($filters) {
             foreach ($filters as $property => $value) {
-                if (!array_has($media->custom_properties, $property)) {
+                if (!$media->hasCustomProperty($property)) {
                     return false;
                 }
 
-                if (array_get($media->custom_properties, $property) !== $value) {
+                if ($media->getCustomProperty($property) !== $value) {
                     return false;
                 }
             }
 
             return true;
         };
-    }
-
-    /**
-     * Get all of the IDs from the given mixed value.
-     */
-    protected function parseIds(mixed $value): array
-    {
-        if ($value instanceof \Illuminate\Database\Eloquent\Model) {
-            return [$value->{$this->relatedKey}];
-        }
-
-        if ($value instanceof Collection) {
-            return $value->pluck($this->relatedKey)->all();
-        }
-
-        if ($value instanceof BaseCollection) {
-            return $value->toArray();
-        }
-
-        return (array)$value;
     }
 }

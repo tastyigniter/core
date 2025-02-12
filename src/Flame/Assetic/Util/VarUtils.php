@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Util;
 
 /**
@@ -33,7 +24,7 @@ abstract class VarUtils
     {
         $map = [];
         foreach ($vars as $var) {
-            if (strpos($template, '{'.$var.'}') === false) {
+            if (!str_contains($template, '{'.$var.'}')) {
                 continue;
             }
 
@@ -78,5 +69,8 @@ abstract class VarUtils
         return $combinations;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final private function __construct() {}
 }

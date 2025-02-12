@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Currency\Console;
 
-use Igniter\Flame\Currency\Currency;
+use Igniter\Flame\Currency\Facades\Currency;
 use Illuminate\Console\Command;
 
 class Cleanup extends Command
@@ -21,8 +21,6 @@ class Cleanup extends Command
      */
     protected $description = 'Cleanup currency cache';
 
-    protected ?Currency $currency = null;
-
     /**
      * Execute the console command.
      *
@@ -30,14 +28,12 @@ class Cleanup extends Command
      */
     public function handle()
     {
-        $this->currency = app('currency');
-
         // Clear cache
-        $this->currency->clearCache();
+        Currency::clearCache();
         $this->comment('Currency cache cleaned.');
 
         // Force the system to rebuild cache
-        $this->currency->getCurrencies();
+        Currency::getCurrencies();
         $this->comment('Currency cache rebuilt.');
     }
 }

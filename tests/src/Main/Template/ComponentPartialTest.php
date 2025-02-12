@@ -4,12 +4,24 @@ namespace Igniter\Tests\Main\Template;
 
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Template\ComponentPartial;
+use Igniter\Tests\Fixtures\Actions\TestControllerAction;
 use Igniter\Tests\System\Fixtures\TestComponent;
 
 it('initializes correctly', function() {
     $componentPartial = new ComponentPartial('source/path');
     expect($componentPartial->getDefaultExtension())->toBe('blade.php')
         ->and($componentPartial->getTemplateCacheKey())->toBeString();
+});
+
+it('extends widget class with action class', function() {
+    ComponentPartial::implement(TestControllerAction::class);
+    $componentPartial = new class('source/path') extends ComponentPartial
+    {
+        public array $implement = [TestControllerAction::class];
+    };
+
+    expect($componentPartial::testStaticFunction())->toBe('staticResult');
+    ComponentPartial::clearExtendedClasses();
 });
 
 it('loads component partial successfully', function() {

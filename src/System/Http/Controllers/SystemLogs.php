@@ -2,10 +2,10 @@
 
 namespace Igniter\System\Http\Controllers;
 
+use Facades\Igniter\Flame\Support\LogViewer;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Support\Facades\File;
-use Igniter\Flame\Support\LogViewer;
 
 class SystemLogs extends \Igniter\Admin\Classes\AdminController
 {
@@ -38,8 +38,7 @@ class SystemLogs extends \Igniter\Admin\Classes\AdminController
 
         $logs = [];
         if (File::exists($logFile)) {
-            LogViewer::setFile($logFile);
-            $logs = LogViewer::all() ?? [];
+            $logs = LogViewer::setFile($logFile)->all() ?? [];
         }
 
         $this->vars['logs'] = $logs;

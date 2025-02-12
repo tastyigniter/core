@@ -71,6 +71,13 @@ it('sets ascending sorting correctly', function() {
         ->and($this->mediaManagerWidget->getSession('media_folder'))->toBe('/test-folder');
 });
 
+it('fails validation when setting sorting', function() {
+    request()->request->add(['sortBy' => 'name', 'direction' => 'invalid', 'path' => '/test-folder']);
+    app()->instance(MediaLibrary::class, $mediaLibrary = mock(MediaLibrary::class)->makePartial());
+    $mediaLibrary->shouldReceive('exists')->with('/test-folder')->andReturnFalse();
+    expect(fn() => $this->mediaManagerWidget->onSetSorting())->toThrow(ValidationException::class);
+});
+
 it('sets filter correctly', function() {
     expect(fn() => $this->mediaManagerWidget->onSetFilter())->toThrow(ValidationException::class);
 

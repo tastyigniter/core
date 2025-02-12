@@ -39,7 +39,7 @@ class Currency
         string|int|float $amount,
         ?string $from = null,
         ?string $to = null,
-        bool $format = true
+        bool $format = true,
     ): null|float|string|int {
         // Get currencies involved
         $from = $from ?: $this->config('default');
@@ -184,7 +184,7 @@ class Currency
     /**
      * Return the current currency if the one supplied is not valid.
      */
-    public function getCurrency(?string $code = null): CurrencyInterface
+    public function getCurrency(?string $code = null): ?CurrencyInterface
     {
         if (isset($this->currenciesCache[$code])) {
             return $this->currenciesCache[$code];
@@ -309,7 +309,7 @@ class Currency
      */
     public function __get(string $key): mixed
     {
-        return $this->getCurrency()->$$key;
+        return $this->getCurrency()->$key;
     }
 
     /**

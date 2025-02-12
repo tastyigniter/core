@@ -2,7 +2,6 @@
 
 namespace Igniter\Flame\Currency\Converters;
 
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 
 abstract class AbstractConverter
@@ -35,11 +34,6 @@ abstract class AbstractConverter
     public function getDescription(): string
     {
         return array_get($this->converterDetails(), 'description', 'Undefined description');
-    }
-
-    protected function getHttpClient(): Client
-    {
-        return new Client;
     }
 
     //

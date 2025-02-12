@@ -156,18 +156,18 @@ class Translation extends Model
 
     public static function getCached($locale, $group, $namespace = null)
     {
-        return Cache::rememberForever(static::getCacheKey($locale, $group, $namespace),
-            function() use ($locale, $group, $namespace) {
-                $result = static::getFresh($locale, $group, $namespace)->reduce(
-                    function($lines, Translation $model) {
-                        array_set($lines, $model->item, $model->text);
+        $cacheKey = static::getCacheKey($locale, $group, $namespace);
+        return Cache::rememberForever($cacheKey, function() use ($locale, $group, $namespace) {
+            $result = static::getFresh($locale, $group, $namespace)->reduce(
+                function($lines, Translation $model) {
+                    array_set($lines, $model->item, $model->text);
 
-                        return $lines;
-                    },
-                );
+                    return $lines;
+                },
+            );
 
-                return $result ?: [];
-            },
+            return $result ?: [];
+        },
         );
     }
 }

@@ -17,11 +17,11 @@ class RouterHelper
      */
     public static function normalizeUrl($url)
     {
-        if (strpos($url, '/') !== 0) {
+        if (!str_starts_with($url, '/')) {
             $url = '/'.$url;
         }
 
-        if (substr($url, -1) == '/') {
+        if (str_ends_with($url, '/')) {
             $url = substr($url, 0, -1);
         }
 
@@ -74,7 +74,7 @@ class RouterHelper
     /**
      * Replaces :column_name with it's object value. Example: /some/link/:id/:name -> /some/link/1/Joe
      *
-     * @param \stdClass $object Object containing the data
+     * @param array|\stdClass $object Object containing the data
      * @param array $columns Expected key names to parse
      * @param string $string URL template
      * @return string Built string
@@ -109,7 +109,7 @@ class RouterHelper
      */
     public static function replaceParameters($object, $string)
     {
-        if (preg_match_all('/\:([\w]+)/', $string, $matches)) {
+        if (preg_match_all('/\:(\w+)/', $string, $matches)) {
             return self::parseValues($object, $matches[1], $string);
         }
 

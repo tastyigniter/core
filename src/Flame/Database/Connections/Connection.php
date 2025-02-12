@@ -18,7 +18,7 @@ class Connection extends ConnectionBase
         return new QueryBuilder(
             $this,
             $this->getQueryGrammar(),
-            $this->getPostProcessor()
+            $this->getPostProcessor(),
         );
     }
 
@@ -28,7 +28,7 @@ class Connection extends ConnectionBase
      */
     public static function flushDuplicateCache()
     {
-        MemoryCache::instance()->flush();
+        resolve(MemoryCache::class)->flush();
     }
 
     /**

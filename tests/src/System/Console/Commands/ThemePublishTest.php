@@ -5,6 +5,7 @@ namespace Igniter\Tests\System\Console\Commands;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\Models\Theme;
 
 it('publishes theme files successfully', function() {
     $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
@@ -33,7 +34,8 @@ it('skips publishing if no publishable files', function() {
 });
 
 it('throws exception if no active theme', function() {
-    config(['igniter-system.defaultTheme' => 'demo']);
+    config(['igniter-system.defaultTheme' => 'invalid']);
+    Theme::clearDefaultModel();
 
     Igniter::shouldReceive('hasDatabase')->andReturnTrue();
     Igniter::shouldReceive('publishableThemeFiles')->andReturn([]);

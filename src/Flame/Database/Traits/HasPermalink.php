@@ -26,7 +26,7 @@ trait HasPermalink
     {
         if (!property_exists(get_called_class(), 'permalinkable')) {
             throw new LogicException(sprintf(
-                'You must define a $permalinkable property in %s to use the HasPermalink trait.', get_called_class()
+                'You must define a $permalinkable property in %s to use the HasPermalink trait.', get_called_class(),
             ));
         }
 
@@ -57,12 +57,7 @@ trait HasPermalink
         $name = reset($config);
         $key = key($config);
 
-        // check for short configuration
-        if ($key === 0) {
-            return $name;
-        }
-
-        return $key;
+        return $key === 0 ? $name : $key;
     }
 
     /**
@@ -111,7 +106,7 @@ trait HasPermalink
     public function permalinkable()
     {
         $result = [];
-        $permalinkable = isset($this->permalinkable) ? $this->permalinkable : [];
+        $permalinkable = $this->permalinkable ?? [];
         foreach ($permalinkable as $attribute => $config) {
             if (is_numeric($attribute)) {
                 $attribute = $config;

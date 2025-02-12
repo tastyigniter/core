@@ -26,7 +26,7 @@ beforeEach(function() {
     $this->formField->displayAs('templateeditor');
     $this->formField->arrayName = 'theme';
     $this->templateEditorWidget = new TemplateEditor($this->controller, $this->formField, [
-        'model' => Theme::create(['code' => 'tests-theme']),
+        'model' => Theme::factory()->make(['code' => 'tests-theme']),
     ]);
 });
 

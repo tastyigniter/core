@@ -30,7 +30,7 @@ trait HasViewBag
      * This method is used only in the back-end and for internal system needs when
      * the standard way to access components is not an option.
      */
-    public function getViewBag(): ViewBag
+    public function getViewBag(): ?ViewBag
     {
         if ($this->viewBagCache !== null) {
             return $this->viewBagCache;
@@ -56,7 +56,7 @@ trait HasViewBag
     protected function fillViewBagArray()
     {
         $viewBag = $this->getViewBag();
-        foreach ($viewBag->getProperties() as $name => $value) {
+        foreach ($viewBag?->getProperties() ?? [] as $name => $value) {
             $this->viewBag[$name] = $value;
         }
 

@@ -71,14 +71,4 @@ class ScaffoldServiceProvider extends ServiceProvider
             return new Console\MakeModel($app['files']);
         });
     }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return array_values($this->commands);
-    }
 }

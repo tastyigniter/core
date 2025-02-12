@@ -2,9 +2,7 @@
 
 namespace Igniter\Tests\System\Console\Commands;
 
-use Composer\IO\BufferIO;
 use Exception;
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\UpdateManager;
 
@@ -53,10 +51,10 @@ it('handles composer exception during installation', function() {
     ]])->andReturn(collect([
         (object)['code' => 'demo', 'version' => '1.0.0'],
     ]));
-    $updateManager->shouldReceive('install')->andThrow(new ComposerException(new Exception('Composer error'), new BufferIO()));
+    $updateManager->shouldReceive('install')->andThrow(new Exception('Composer error'));
 
     $this->artisan('igniter:theme-install demo')
         ->expectsOutput('Installing demo theme')
-        ->expectsOutput("Error updating composer requirements: Composer error\nOutput: ")
+        ->expectsOutput("Composer error")
         ->assertExitCode(0);
 });

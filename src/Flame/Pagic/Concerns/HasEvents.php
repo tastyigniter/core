@@ -50,7 +50,7 @@ trait HasEvents
                 'updated', 'deleting', 'deleted', 'saving',
                 'saved', 'restoring', 'restored',
             ],
-            $this->observables
+            $this->observables,
         );
     }
 
@@ -74,7 +74,7 @@ trait HasEvents
     public function addObservableEvents(mixed $observables)
     {
         $this->observables = array_unique(array_merge(
-            $this->observables, is_array($observables) ? $observables : func_get_args()
+            $this->observables, is_array($observables) ? $observables : func_get_args(),
         ));
     }
 
@@ -84,7 +84,7 @@ trait HasEvents
     public function removeObservableEvents(mixed $observables)
     {
         $this->observables = array_diff(
-            $this->observables, is_array($observables) ? $observables : func_get_args()
+            $this->observables, is_array($observables) ? $observables : func_get_args(),
         );
     }
 
@@ -96,7 +96,7 @@ trait HasEvents
         if (isset(static::$dispatcher)) {
             $name = static::class;
 
-            static::$dispatcher->listen("eloquent.$event: $name", $callback);
+            static::$dispatcher->listen("pagic.$event: $name", $callback);
         }
     }
 
@@ -158,45 +158,9 @@ trait HasEvents
         // First, we will get the proper method to call on the event dispatcher, and then we
         // will attempt to fire a custom, object based event for the given event. If that
         // returns a result we can return that result, or we'll call the string events.
-        $method = $halt ? 'until' : 'fire';
+        $method = $halt ? 'until' : 'dispatch';
 
-        $result = $this->filterModelEventResults(
-            $this->fireCustomModelEvent($event, $method)
-        );
-
-        if ($result === false) {
-            return false;
-        }
-
-        return !empty($result) ? $result : static::$dispatcher->{$method}(
-            "eloquent.$event: ".static::class, $this
-        );
-    }
-
-    /**
-     * Fire a custom model event for the given event.
-     */
-    protected function fireCustomModelEvent(string $event, string $method): mixed
-    {
-        if (!isset($this->dispatchesEvents[$event])) {
-            return null;
-        }
-
-        return static::$dispatcher->$method(new $this->dispatchesEvents[$event]($this));
-    }
-
-    /**
-     * Filter the model event results.
-     */
-    protected function filterModelEventResults(mixed $result): mixed
-    {
-        if (is_array($result)) {
-            $result = array_filter($result, function($response) {
-                return !is_null($response);
-            });
-        }
-
-        return $result;
+        return static::$dispatcher->{$method}("pagic.$event: ".static::class, $this);
     }
 
     /**
@@ -280,18 +244,16 @@ trait HasEvents
     }
 
     /**
-     * Remove all of the event listeners for the model.
+     * Remove all the event listeners for the model.
      */
     public static function flushEventListeners()
     {
-        if (!isset(static::$dispatcher)) {
-            return;
-        }
-
         $instance = new static;
 
-        foreach ($instance->getObservableEvents() as $event) {
-            static::$dispatcher->forget("eloquent.$event: ".static::class);
+        if (isset(static::$dispatcher)) {
+            foreach ($instance->getObservableEvents() as $event) {
+                static::$dispatcher->forget("eloquent.$event: ".static::class);
+            }
         }
     }
 

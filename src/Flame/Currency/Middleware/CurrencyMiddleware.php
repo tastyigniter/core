@@ -4,6 +4,7 @@ namespace Igniter\Flame\Currency\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class CurrencyMiddleware
 {
@@ -13,7 +14,7 @@ class CurrencyMiddleware
     public function handle(Request $request, Closure $next): mixed
     {
         // Don't redirect the console
-        if (app()->runningInConsole()) {
+        if (App::runningInConsole()) {
             return $next($request);
         }
 

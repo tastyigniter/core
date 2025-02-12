@@ -33,7 +33,7 @@ trait Purgeable
     {
         if (!property_exists(get_called_class(), 'purgeable')) {
             throw new LogicException(sprintf(
-                'You must define a $purgeable property in %s to use the Purgeable trait.', get_called_class()
+                'You must define a $purgeable property in %s to use the Purgeable trait.', get_called_class(),
             ));
         }
 
@@ -80,11 +80,7 @@ trait Purgeable
         $cleanAttributes = array_diff_key($attributes, array_flip($purgeable));
         $originalAttributes = array_diff_key($attributes, $cleanAttributes);
 
-        if (is_array($this->originalPurgeableValues)) {
-            $this->originalPurgeableValues = array_merge($this->originalPurgeableValues, $originalAttributes);
-        } else {
-            $this->originalPurgeableValues = $originalAttributes;
-        }
+        $this->originalPurgeableValues = $originalAttributes;
 
         return $this->attributes = $cleanAttributes;
     }
@@ -110,9 +106,7 @@ trait Purgeable
      */
     public function getOriginalPurgeValue($attribute)
     {
-        return isset($this->originalPurgeableValues[$attribute])
-            ? $this->originalPurgeableValues[$attribute]
-            : null;
+        return array_get($this->getOriginalPurgeValues(), $attribute);
     }
 
     /**
@@ -120,7 +114,7 @@ trait Purgeable
      */
     public function restorePurgedValues()
     {
-        $this->setRawAttributes(array_merge($this->getAttributes(), $this->originalPurgeableValues));
+        $this->setRawAttributes(array_merge($this->getAttributes(), $this->getOriginalPurgeValues()));
 
         return $this;
     }

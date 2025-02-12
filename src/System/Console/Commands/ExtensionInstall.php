@@ -2,11 +2,11 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Throwable;
 
 class ExtensionInstall extends Command
 {
@@ -44,7 +44,7 @@ class ExtensionInstall extends Command
             $extensionManager = resolve(ExtensionManager::class);
             $extensionManager->loadExtensions();
             $extensionManager->installExtension($packageInfo->code, $packageInfo->version);
-        } catch (ComposerException $e) {
+        } catch (Throwable $e) {
             $this->output->writeln($e->getMessage());
         }
     }

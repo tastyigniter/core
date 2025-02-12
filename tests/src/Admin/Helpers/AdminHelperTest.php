@@ -2,20 +2,9 @@
 
 namespace Igniter\Tests\Admin\Helpers;
 
-use Igniter\Admin\Helpers\AdminHelper;
+use Facades\Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Exception\SystemException;
 use Illuminate\Http\RedirectResponse;
-
-beforeEach(function() {
-    //    URL::shouldReceive('to')->andReturn('mocked_url');
-    //    Request::shouldReceive('getBaseUrl')->andReturn('mocked_base_url');
-    //    Request::shouldReceive('ajax')->andReturn(false);
-    //    Request::shouldReceive('header')->andReturnNull();
-    //    Request::shouldReceive('setUserResolver')->andReturnNull();
-    //    Redirect::shouldReceive('to')->andReturn('mocked_redirect');
-    //    Redirect::shouldReceive('guest')->andReturn('mocked_guest_redirect');
-    //    Redirect::shouldReceive('intended')->andReturn('mocked_intended_redirect');
-});
 
 it('returns the admin URI segment', function() {
     expect(AdminHelper::uri())->toBeString()->toEqual('/admin');

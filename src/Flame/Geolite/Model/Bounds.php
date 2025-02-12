@@ -11,16 +11,16 @@ class Bounds implements Contracts\BoundsInterface
     protected int $precision = 8;
 
     /**
-     * @param ?float $south South bound, also min latitude
-     * @param ?float $west West bound, also min longitude
-     * @param ?float $north North bound, also max latitude
-     * @param ?float $east East bound, also max longitude
+     * @param null|int|float $south South bound, also min latitude
+     * @param null|int|float $west Westbound, also min longitude
+     * @param null|int|float $north North bound, also max latitude
+     * @param null|int|float $east Eastbound, also max longitude
      */
     public function __construct(
         protected null|int|float $south,
         protected null|int|float $west,
         protected null|int|float $north,
-        protected null|int|float $east
+        protected null|int|float $east,
     ) {
         $this->south = (float)$south;
         $this->west = (float)$west;
@@ -89,7 +89,7 @@ class Bounds implements Contracts\BoundsInterface
     }
 
     /**
-     * Returns the east bound.
+     * Returns the eastbound.
      */
     public function getEast(): int|float
     {
@@ -127,7 +127,7 @@ class Bounds implements Contracts\BoundsInterface
                 new Coordinates($this->south, $this->east),
                 new Coordinates($this->south, $this->west),
                 $northWest,
-            ])
+            ]),
         );
     }
 

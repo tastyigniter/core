@@ -9,6 +9,7 @@ namespace Igniter\Flame\Traits;
  * Usage: myObject::instance()
  *
  * @deprecated remove in v5
+ * @codeCoverageIgnore
  */
 trait Singleton
 {

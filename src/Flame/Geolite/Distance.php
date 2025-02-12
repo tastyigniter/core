@@ -21,7 +21,7 @@ class Distance implements Contracts\DistanceInterface
     /**
      * The user unit.
      */
-    protected string $unit;
+    protected ?string $unit = null;
 
     protected array $data = [];
 
@@ -119,7 +119,7 @@ class Distance implements Contracts\DistanceInterface
             * sin($latB)
             + cos($latA)
             * cos($latB)
-            * cos($lngB - $lngA)
+            * cos($lngB - $lngA),
         );
 
         return $this->convertToUserUnit($degrees * $this->from->getEllipsoid()->getA());

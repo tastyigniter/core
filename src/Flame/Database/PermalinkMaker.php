@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Database;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 class PermalinkMaker
@@ -184,7 +185,7 @@ class PermalinkMaker
         // ... we are also okay (use the current slug)
         if ($list->has($this->model->getKey())) {
             $currentSlug = $list->get($this->model->getKey());
-            if ($currentSlug === $slug || strpos($currentSlug, $slug) === 0) {
+            if ($currentSlug === $slug || str_starts_with($currentSlug, $slug)) {
                 return $currentSlug;
             }
         }
@@ -212,7 +213,7 @@ class PermalinkMaker
         }
 
         // Include trashed models if required
-        if ($includeTrashed && $this->usesSoftDeleting()) {
+        if ($includeTrashed && in_array(SoftDeletes::class, class_uses_recursive($this->model))) {
             $query->withTrashed();
         }
 
@@ -232,9 +233,6 @@ class PermalinkMaker
     {
         $separator = $config['separator'];
         $reserved = $config['reserved'];
-        if ($reserved === null) {
-            return $slug;
-        }
 
         // check for reserved names
         if ($reserved instanceof \Closure) {
@@ -249,7 +247,7 @@ class PermalinkMaker
                 } elseif (is_callable($method)) {
                     $suffix = $method($slug, $separator, collect($reserved));
                 } else {
-                    throw new \InvalidArgumentException('Sluggable "uniqueSuffix" for '.get_class($this->model).':'.$attribute.' is not null, or a closure.');
+                    throw new \InvalidArgumentException('Sluggable "uniqueSuffix" for '.$this->model::class.':'.$attribute.' is not null, or a closure.');
                 }
 
                 return $slug.$separator.$suffix;

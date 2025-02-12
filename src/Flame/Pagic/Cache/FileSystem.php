@@ -47,11 +47,11 @@ class FileSystem
         }
 
         $tmpFile = tempnam($dir, basename($path));
-        if (@file_put_contents($tmpFile, $content) === false) {
+        if (@File::put($tmpFile, $content) === false) {
             throw new RuntimeException(sprintf('Failed to write cache file "%s".', $tmpFile));
         }
 
-        if (!@rename($tmpFile, $path)) {
+        if (!@File::move($tmpFile, $path)) {
             throw new RuntimeException(sprintf('Failed to write cache file "%s".', $path));
         }
 
@@ -61,7 +61,9 @@ class FileSystem
         if (Config::get('igniter-pagic.forceBytecodeInvalidation', false)) {
             if (function_exists('opcache_invalidate')) {
                 opcache_invalidate($path, true);
-            } elseif (function_exists('apc_compile_file')) {
+            }
+
+            if (function_exists('apc_compile_file')) {
                 apc_compile_file($path);
             }
         }

@@ -1,0 +1,17 @@
+{
+  "name": "test/extension",
+  "description": "description",
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Igniter\\Tests\\Fixtures\\Extension\\": "/"
+    }
+  },
+  "extra": {
+    "tastyigniter-extension": {
+      "code": "module",
+      "name": "Test Extension"
+    }
+  }
+}

@@ -12,6 +12,7 @@ use Igniter\Main\Template\Code\LayoutCode;
 use Igniter\Main\Template\Code\PageCode;
 use Igniter\Main\Template\Layout;
 use Igniter\Main\Template\Page;
+use Igniter\Tests\System\Fixtures\TestComponentWithLifecycle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Event;
@@ -73,7 +74,8 @@ it('throws exception when page layout is not found in runPage', function() {
 it('returns rendered page content in runPage', function() {
     $page = mock(Page::class)->makePartial();
 
-    expect((new MainController())->runPage($page))->toBeString();
+    $mainController = new MainController();
+    expect($mainController->runPage($page))->toBeString();
 });
 
 it('returns rendered page content using page.init event in runPage', function() {
@@ -123,7 +125,29 @@ it('returns response from layout component lifecycle method', function() {
 it('returns response from page component lifecycle method', function() {
     $page = Page::resolveRouteBinding('page-with-lifecycle');
 
-    expect((new MainController())->runPage($page))->toBeInstanceOf(RedirectResponse::class);
+    $mainController = new MainController();
+    expect($mainController->runPage($page))->toBeInstanceOf(RedirectResponse::class);
+
+    $mainController->vars['lifeCycle'] = 'default';
+    $pageCode = $mainController->getPageObj();
+    $pageCode['custom'] = 'custom-value';
+    $pageCode['unset-custom'] = 'custom-value';
+    unset($pageCode['unset-custom']);
+    $pageCode->custom = 'custom-value';
+    $pageCode->addDynamicMethod('dynamicMethod', function() {
+        return 'dynamic-method-result';
+    });
+
+    expect($pageCode['custom'])->toBe('custom-value')
+        ->and(isset($pageCode['custom']))->toBeTrue()
+        ->and($pageCode->permalink)->toBe('/page-with-lifecycle/:lifeCycle')
+        ->and($pageCode->nonExistence)->toBeNull()
+        ->and(isset($pageCode->nonExistence))->toBeFalse()
+        ->and($pageCode->testComponentWithLifecycle)->toBeInstanceOf(TestComponentWithLifecycle::class)
+        ->and($pageCode->lifeCycle)->toBe('default')
+        ->and($pageCode->getFileName())->toBe('page-with-lifecycle.blade.php')
+        ->and($pageCode->pageUrl('page-with-lifecycle'))->toBe('http://localhost/page-with-lifecycle/default')
+        ->and($pageCode->dynamicMethod())->toBe('dynamic-method-result');
 });
 
 it('returns response with correct status code when in ajax handlers', function() {

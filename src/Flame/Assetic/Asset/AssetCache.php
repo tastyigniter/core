@@ -1,19 +1,9 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Cache\CacheInterface;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
-use Igniter\Flame\Assetic\Filter\HashableInterface;
 
 /**
  * Caches an asset to avoid the cost of loading and dumping.
@@ -24,7 +14,7 @@ readonly class AssetCache implements AssetInterface
 {
     public function __construct(
         private AssetInterface $asset,
-        private CacheInterface $cache
+        private CacheInterface $cache,
     ) {}
 
     public function ensureFilter(FilterInterface $filter)
@@ -153,11 +143,7 @@ readonly class AssetCache implements AssetInterface
         $cacheKey .= $asset->getLastModified();
 
         foreach ($asset->getFilters() as $filter) {
-            if ($filter instanceof HashableInterface) {
-                $cacheKey .= $filter->hash();
-            } else {
-                $cacheKey .= serialize($filter);
-            }
+            $cacheKey .= serialize($filter);
         }
 
         if ($values = $asset->getValues()) {

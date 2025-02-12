@@ -114,14 +114,6 @@ class Template
         throw $ex;
     }
 
-    /**
-     * Get the exception message for an exception.
-     */
-    protected function getMessage(Throwable $e): string
-    {
-        return $e->getMessage().' (View: '.realpath(last($this->lastCompiled)).')';
-    }
-
     protected function getSourceFilePath(): string
     {
         if ($source = $this->env->getLoader()->getSource()) {

@@ -5,9 +5,10 @@
  */
 
 use Igniter\System\Facades\Country;
+use Illuminate\Database\Eloquent\Model;
 
 if (!function_exists('format_address')) {
-    function format_address(array|\Illuminate\Database\Eloquent\Model $address, $useLineBreaks = true)
+    function format_address(array|Model $address, $useLineBreaks = true)
     {
         return Country::addressFormat($address, $useLineBreaks);
     }

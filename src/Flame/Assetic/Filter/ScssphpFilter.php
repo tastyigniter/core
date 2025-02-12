@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Filter;
 
 use Igniter\Flame\Assetic\Asset\AssetInterface;
@@ -27,8 +18,6 @@ use ScssPhp\ScssPhp\Compiler;
  */
 class ScssphpFilter implements DependencyExtractorInterface
 {
-    private $compass = false;
-
     private $importPaths = [];
 
     private $customFunctions = [];
@@ -36,16 +25,6 @@ class ScssphpFilter implements DependencyExtractorInterface
     private $formatter;
 
     private $variables = [];
-
-    public function enableCompass($enable = true)
-    {
-        $this->compass = (bool)$enable;
-    }
-
-    public function isCompassEnabled()
-    {
-        return $this->compass;
-    }
 
     public function setFormatter($formatter)
     {
@@ -70,9 +49,9 @@ class ScssphpFilter implements DependencyExtractorInterface
         $this->variables = $variables;
     }
 
-    public function addVariable($variable)
+    public function addVariable($variable, $value = null)
     {
-        $this->variables[] = $variable;
+        $this->variables[$variable] = $value;
     }
 
     public function setImportPaths(array $paths)
@@ -93,10 +72,6 @@ class ScssphpFilter implements DependencyExtractorInterface
     public function filterLoad(AssetInterface $asset)
     {
         $sc = new Compiler;
-
-        if ($this->compass) {
-            new \scss_compass($sc);
-        }
 
         if ($dir = $asset->getSourceDirectory()) {
             $sc->addImportPath($dir);

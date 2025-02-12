@@ -58,9 +58,4 @@ class Language extends Model
      * @var string The database table primary key
      */
     protected $primaryKey = 'language_id';
-
-    protected function getTranslationLoader()
-    {
-        return app('translation.loader');
-    }
 }

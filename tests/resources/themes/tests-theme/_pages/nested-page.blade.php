@@ -1,7 +1,7 @@
 ---
-title: Nested page
+title: 'Nested page'
 description: ''
-permalink: /nested-page
+permalink: /nested-page/:levelOne?/:levelTwo?/:levelThree?
 layout: default
 '[testComponent]': []
 '[testComponent testComponentCopy]': []

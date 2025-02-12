@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Filter\FilterCollection;
@@ -28,27 +19,24 @@ abstract class BaseAsset implements AssetInterface
 
     private ?string $sourceDir = null;
 
-    private $targetPath;
+    private string $targetPath = '';
 
-    private $content;
+    private string $content = '';
 
-    private $loaded;
+    private bool $loaded = false;
 
-    private $values;
+    private array $values = [];
 
     public function __construct(
         array $filters,
         private readonly ?string $sourceRoot = null,
         private readonly ?string $sourcePath = null,
-        private readonly array $vars = []
+        private readonly array $vars = [],
     ) {
         $this->filters = new FilterCollection($filters);
         if ($sourcePath && $sourceRoot) {
             $this->sourceDir = dirname("$sourceRoot/$sourcePath");
         }
-
-        $this->values = [];
-        $this->loaded = false;
     }
 
     public function __clone()

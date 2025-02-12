@@ -266,8 +266,8 @@ return new class extends Migration
             $table->string('location_postcode', 10);
             $table->integer('location_country_id');
             $table->string('location_telephone', 32);
-            $table->float('location_lat', 10, 6);
-            $table->float('location_lng', 10, 6);
+            $table->decimal('location_lat', 10, 6);
+            $table->decimal('location_lng', 10, 6);
             $table->integer('location_radius');
             $table->boolean('offer_delivery');
             $table->boolean('offer_collection');

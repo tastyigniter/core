@@ -88,7 +88,7 @@ it('updates the object status and status_updated_at', function() {
 
     StatusHistory::createHistory($status, $order);
 
-    $order->refresh();
+    $order->reload();
 
     expect($order->status_id)->toBe($status->getKey())
         ->and($order->status_updated_at)->not->toBeNull();

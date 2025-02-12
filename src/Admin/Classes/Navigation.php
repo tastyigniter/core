@@ -36,10 +36,7 @@ class Navigation
         'permission' => null,
     ];
 
-    public function __construct(?string $path = null)
-    {
-        $this->viewPath[] = $path;
-    }
+    public function __construct(?string $path = null) {}
 
     public function setContext(string $itemCode, ?string $parentCode = null)
     {

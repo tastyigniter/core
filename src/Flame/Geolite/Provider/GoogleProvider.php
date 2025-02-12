@@ -31,22 +31,19 @@ class GoogleProvider extends AbstractProvider
     {
         $endpoint = array_get($this->config, 'endpoints.geocode');
         $url = $this->prependGeocodeQuery($query, sprintf($endpoint,
-            rawurlencode($query->getText())
+            rawurlencode($query->getText()),
         ));
 
         $result = [];
 
         try {
             $result = $this->cacheCallback($url, function() use ($query, $url) {
-                return $this->hydrateResponse(
-                    $this->requestGeocodingUrl($url, $query),
-                    $query->getLimit()
-                );
+                return $this->hydrateResponse($this->requestGeocodingUrl($url, $query), $query->getLimit());
             });
         } catch (Throwable $ex) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
-                $this->getName(), $ex->getMessage()
+                $this->getName(), $ex->getMessage(),
             ));
         }
 
@@ -60,22 +57,19 @@ class GoogleProvider extends AbstractProvider
         $endpoint = array_get($this->config, 'endpoints.reverse');
         $url = $this->prependReverseQuery($query, sprintf($endpoint,
             $coordinates->getLatitude(),
-            $coordinates->getLongitude()
+            $coordinates->getLongitude(),
         ));
 
         $result = [];
 
         try {
             $result = $this->cacheCallback($url, function() use ($query, $url) {
-                return $this->hydrateResponse(
-                    $this->requestGeocodingUrl($url, $query),
-                    $query->getLimit()
-                );
+                return $this->hydrateResponse($this->requestGeocodingUrl($url, $query), $query->getLimit());
             });
         } catch (Throwable $ex) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
-                $this->getName(), $ex->getMessage()
+                $this->getName(), $ex->getMessage(),
             ));
         }
 
@@ -89,7 +83,7 @@ class GoogleProvider extends AbstractProvider
             $distance->getFrom()->getLongitude(),
             $distance->getFrom()->getLatitude(),
             $distance->getTo()->getLongitude(),
-            $distance->getTo()->getLatitude()
+            $distance->getTo()->getLatitude(),
         ));
 
         try {
@@ -97,12 +91,14 @@ class GoogleProvider extends AbstractProvider
                 $response = $this->requestDistanceUrl($url, $distance);
 
                 return new Model\Distance(
-                    array_get($response->rows, '0.elements.0.distance', 0),
-                    array_get($response->rows, '0.elements.0.duration', 0)
+                    array_get($response, '0.elements.0.distance.value', 0),
+                    array_get($response, '0.elements.0.duration.value', 0),
                 );
             });
-        } catch (Throwable) {
-            $this->log(sprintf('Provider "%s" could not calculate distance.', $this->getName()));
+        } catch (Throwable $ex) {
+            $this->log(sprintf('Provider "%s" could not calculate distance, "%s".',
+                $this->getName(), $ex->getMessage(),
+            ));
 
             return null;
         }
@@ -158,7 +154,7 @@ class GoogleProvider extends AbstractProvider
             'timeout' => $query->getData('timeout', 15),
         ]);
 
-        return $this->parseResponse($response);
+        return $this->parseResponse($this->validateResponse($response));
     }
 
     protected function requestDistanceUrl($url, DistanceInterface $query): array
@@ -171,12 +167,39 @@ class GoogleProvider extends AbstractProvider
             'timeout' => $query->getData('timeout', 15),
         ]);
 
-        return $this->parseResponse($response);
+        $this->validateResponse($response);
+
+        return array_get(json_decode($response->getBody()->getContents(), true), 'rows', []);
     }
 
     //
     //
     //
+
+    protected function validateResponse(ResponseInterface $response): ResponseInterface
+    {
+        $json = json_decode($response->getBody()->getContents(), false);
+
+        // API error
+        if (!$json) {
+            throw new GeoliteException('The geocoder server returned an empty or invalid response.');
+        }
+
+        if ($json->status === 'REQUEST_DENIED') {
+            throw new GeoliteException(sprintf(
+                'API access denied. Message: %s', $json->error_message ?? 'empty error message',
+            ));
+        }
+
+        // you are over your quota
+        if ($json->status === 'OVER_QUERY_LIMIT') {
+            throw new GeoliteException(sprintf(
+                'Daily quota exceeded. Message: %s', $json->error_message ?? 'empty error message',
+            ));
+        }
+
+        return $response;
+    }
 
     /**
      * Decode the response content and validate it to make sure it does not have any errors.
@@ -185,34 +208,12 @@ class GoogleProvider extends AbstractProvider
     {
         $json = json_decode($response->getBody()->getContents(), false);
 
-        // API error
-        if (!$json) {
-            throw new GeoliteException(
-                'The geocoder server returned an empty or invalid response.'
-            );
-        }
-
-        if ($json->status === 'REQUEST_DENIED') {
-            throw new GeoliteException(sprintf(
-                'API access denied. Message: %s', $json->error_message ?? 'empty error message'
-            ));
-        }
-
-        // you are over your quota
-        if ($json->status === 'OVER_QUERY_LIMIT') {
-            throw new GeoliteException(sprintf(
-                'Daily quota exceeded. Message: %s', $json->error_message ?? 'empty error message'
-            ));
-        }
-
-        if (!isset($json->results)
-            || !count($json->results)
-            || $json->status !== 'OK'
-        ) {
+        $response = $json->results ?? $json->rows ?? [];
+        if (!count($response) || $json->status !== 'OK') {
             throw new GeoliteException($json->error_message ?? 'empty error message');
         }
 
-        return $json->results;
+        return $response;
     }
 
     protected function prependGeocodeQuery(GeoQueryInterface $query, string $url): string
@@ -220,13 +221,13 @@ class GoogleProvider extends AbstractProvider
         if ($bounds = $query->getBounds()) {
             $url .= sprintf('&bounds=%s,%s|%s,%s',
                 $bounds->getSouth(), $bounds->getWest(),
-                $bounds->getNorth(), $bounds->getEast()
+                $bounds->getNorth(), $bounds->getEast(),
             );
         }
 
         if ($components = $query->getData('components')) {
             $url .= sprintf('&components=%s',
-                urlencode($this->serializeComponents($components))
+                urlencode($this->serializeComponents($components)),
             );
         }
 
@@ -289,14 +290,14 @@ class GoogleProvider extends AbstractProvider
                 $geometry->bounds->southwest->lat,
                 $geometry->bounds->southwest->lng,
                 $geometry->bounds->northeast->lat,
-                $geometry->bounds->northeast->lng
+                $geometry->bounds->northeast->lng,
             );
         } elseif (isset($geometry->viewport)) {
             $address->setBounds(
                 $geometry->viewport->southwest->lat,
                 $geometry->viewport->southwest->lng,
                 $geometry->viewport->northeast->lat,
-                $geometry->viewport->northeast->lng
+                $geometry->viewport->northeast->lng,
             );
         } elseif ($geometry->location_type === 'ROOFTOP') {
             // Fake bounds
@@ -304,7 +305,7 @@ class GoogleProvider extends AbstractProvider
                 $coordinates->lat,
                 $coordinates->lng,
                 $coordinates->lat,
-                $coordinates->lng
+                $coordinates->lng,
             );
         }
     }
@@ -334,7 +335,7 @@ class GoogleProvider extends AbstractProvider
                 return $address->addAdminLevel(
                     (int)substr($type, -1),
                     $component->long_name,
-                    $component->short_name
+                    $component->short_name,
                 );
             case 'sublocality_level_1':
             case 'sublocality_level_2':

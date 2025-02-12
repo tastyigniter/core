@@ -117,15 +117,13 @@ class InitialSchemaSeeder extends Seeder
         $locationId = DB::table('locations')->insertGetId($location, 'location_id');
         DB::table('locations')->update(['updated_at' => now(), 'created_at' => now()]);
 
-        $this->seedLocationTables($locationId);
+        if (!DB::table('tables')->count()) {
+            $this->seedLocationTables($locationId);
+        }
     }
 
     protected function seedLocationTables(int $locationId)
     {
-        if (DB::table('tables')->count()) {
-            return;
-        }
-
         for ($i = 1; $i < 15; $i++) {
             $tableId = DB::table('tables')->insertGetId([
                 'table_name' => 'Table '.$i,

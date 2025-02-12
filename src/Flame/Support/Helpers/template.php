@@ -77,7 +77,6 @@ if (!function_exists('component')) {
      * @param string $component
      *
      * @return string
-     * @throws \Igniter\Flame\Exception\ApplicationException
      */
     function component($component = '', array $params = [])
     {

@@ -4,7 +4,6 @@ namespace Igniter\Flame\Geolite\Model;
 
 use Igniter\Flame\Geolite\Exception\GeoliteException;
 use Illuminate\Support\Collection;
-use InvalidArgumentException;
 
 class AdminLevelCollection extends Collection
 {
@@ -23,7 +22,7 @@ class AdminLevelCollection extends Collection
         if ($level <= 0 || $level > self::MAX_LEVEL_DEPTH) {
             throw new GeoliteException(sprintf(
                 'Administrative level should be an integer in [1,%d], %d given',
-                self::MAX_LEVEL_DEPTH, $level
+                self::MAX_LEVEL_DEPTH, $level,
             ));
         }
     }
@@ -35,10 +34,8 @@ class AdminLevelCollection extends Collection
             $level = $adminLevel->getLevel();
             $this->checkLevel($level);
 
-            if ($this->has($level)) {
-                throw new InvalidArgumentException(sprintf(
-                    'Administrative level %d is defined twice', $level
-                ));
+            if (isset($levels[$level])) {
+                throw new GeoliteException(sprintf('Administrative level %d is defined twice', $level));
             }
 
             $levels[$level] = $adminLevel;

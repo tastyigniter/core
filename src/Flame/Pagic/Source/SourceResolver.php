@@ -5,7 +5,7 @@ namespace Igniter\Flame\Pagic\Source;
 class SourceResolver implements SourceResolverInterface
 {
     /**
-     * All of the registered sources.
+     * All the registered sources.
      */
     protected array $sources = [];
 

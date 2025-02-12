@@ -4,6 +4,7 @@ namespace Igniter\Flame\Database;
 
 use Igniter\Flame\Database\Attach\Manipulator;
 use Igniter\Flame\Database\Attach\Media;
+use Igniter\Flame\Database\Attach\MediaAdder;
 use Igniter\Flame\Database\Attach\Observers\MediaObserver;
 use Igniter\Flame\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\DatabaseManager;
@@ -24,6 +25,8 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         parent::register();
 
         $this->app->singleton(Manipulator::class);
+        $this->app->singleton(MediaAdder::class);
+        $this->app->singleton(MemoryCache::class);
     }
 
     public function boot()

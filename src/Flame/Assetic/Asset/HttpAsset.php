@@ -1,18 +1,12 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Flame\Assetic\Util\VarUtils;
+use Igniter\Flame\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
+use RuntimeException;
 
 /**
  * Represents an asset loaded via an HTTP request.
@@ -52,12 +46,12 @@ class HttpAsset extends BaseAsset
 
     public function load(?FilterInterface $additionalFilter = null)
     {
-        $content = @file_get_contents(
-            VarUtils::resolve($this->sourceUrl, $this->getVars(), $this->getValues())
+        $content = @File::get(
+            VarUtils::resolve($this->sourceUrl, $this->getVars(), $this->getValues()),
         );
 
         if ($content === false && !$this->ignoreErrors) {
-            throw new \RuntimeException(sprintf('Unable to load asset from URL "%s"', $this->sourceUrl));
+            throw new RuntimeException(sprintf('Unable to load asset from URL "%s"', $this->sourceUrl));
         }
 
         $this->doLoad($content, $additionalFilter);
@@ -65,13 +59,10 @@ class HttpAsset extends BaseAsset
 
     public function getLastModified(): ?int
     {
-        if (@file_get_contents($this->sourceUrl, false, stream_context_create(['http' => ['method' => 'HEAD']])) !== false) {
-            foreach ($http_response_header as $header) {
-                if (stripos($header, 'Last-Modified: ') === 0) {
-                    [, $mtime] = explode(':', $header, 2);
-
-                    return strtotime(trim($mtime));
-                }
+        $response = Http::withHeaders(['Accept' => '*/*'])->head($this->sourceUrl);
+        if ($response->successful()) {
+            if ($lastModified = $response->header('Last-Modified')) {
+                return strtotime($lastModified);
             }
         }
 

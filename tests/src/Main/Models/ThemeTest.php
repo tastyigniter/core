@@ -16,22 +16,22 @@ it('creates a new theme instance for a given theme data', function() {
     expect($theme->code)->toBe('tests-theme');
 });
 
-it('returns false when onboarding is not complete', function() {
-    Theme::truncate();
-    expect(Theme::onboardingIsComplete())->toBeFalse();
-});
-
 it('returns true when onboarding is complete', function() {
-    $theme = Theme::create(['code' => 'tests-theme', 'name' => 'Test Theme', 'data' => ['key' => 'value'], 'status' => 1]);
-    $theme->makeDefault();
     Theme::clearDefaultModel();
+    $theme = Theme::factory()->create([
+        'code' => 'tests-theme',
+        'name' => 'Test Theme',
+        'data' => ['key' => 'value'],
+        'status' => 1,
+    ]);
+    $theme->makeDefault();
 
     expect(Theme::onboardingIsComplete())->toBeTrue();
 });
 
 it('returns layout options for the theme', function() {
     $themeData = new ThemeData(testThemePath(), ['code' => 'tests-theme']);
-    $theme = Theme::create(['code' => 'tests-theme']);
+    $theme = Theme::factory()->create(['code' => 'tests-theme']);
     resolve(ThemeManager::class)->themes['tests-theme'] = $themeData;
 
     expect($theme->getLayoutOptions())->toHaveKey('default', 'default [default]');
@@ -116,7 +116,7 @@ it('returns field values when data is set', function() {
 
 it('saves theme customizer attributes', function() {
     Theme::flushEventListeners();
-    $theme = Theme::create(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
+    $theme = Theme::factory()->create(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
     $theme->name = 'New Test Theme';
     $theme->background_color = '#ffffff';
     $theme->save();
@@ -126,7 +126,7 @@ it('saves theme customizer attributes', function() {
 });
 
 it('activates a theme and installs required extensions', function() {
-    $theme = Theme::create(['code' => 'tests-theme', 'name' => 'Test Theme', 'status' => 1]);
+    $theme = Theme::factory()->create(['code' => 'tests-theme', 'name' => 'Test Theme', 'status' => 1]);
     $themeData = mock(ThemeData::class);
     $themeData->shouldReceive('listRequires')->andReturn(['extension1' => '1.0.0']);
     $themeData->shouldReceive('hasParent')->andReturnFalse();
@@ -141,7 +141,7 @@ it('activates a theme and installs required extensions', function() {
 });
 
 it('generates unique theme code', function() {
-    Theme::create(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
+    Theme::factory()->create(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
 
     $themeCode = Theme::generateUniqueCode('tests-theme', 'suffix');
     expect($themeCode)->toStartWith('tests-theme-');

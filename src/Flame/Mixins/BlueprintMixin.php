@@ -40,7 +40,7 @@ class BlueprintMixin
             }, Schema::getIndexes($this->getTable()));
 
             if (!starts_with($key, $this->getPrefix())) {
-                $key = sprintf('%s%s_%s_foreign', $this->getPrefix(), $this->getTable(), $key);
+                $key = sprintf('%s%s_%s_index', $this->getPrefix(), $this->getTable(), $key);
             }
 
             if (!in_array($key, $indexes)) {

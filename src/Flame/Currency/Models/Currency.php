@@ -7,6 +7,7 @@ use Igniter\Flame\Database\Model;
 
 /**
  * @deprecated remove before v5
+ * @codeCoverageIgnore
  */
 abstract class Currency extends Model implements CurrencyInterface
 {

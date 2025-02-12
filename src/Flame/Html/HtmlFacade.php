@@ -5,7 +5,9 @@ namespace Igniter\Flame\Html;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see HtmlBuilder
+ * @method static string attributes(array $attributes)
+ *
+ * @see \Igniter\Flame\Html\HtmlBuilder
  */
 class HtmlFacade extends Facade
 {

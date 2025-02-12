@@ -22,7 +22,7 @@ interface GeoQueryInterface
 
     public function getAllData(): array;
 
-    public function getCoordinates(): CoordinatesInterface;
+    public function getCoordinates(): ?CoordinatesInterface;
 
     public function __toString(): string;
 }

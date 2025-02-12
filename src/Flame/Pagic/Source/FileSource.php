@@ -36,12 +36,12 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Create a new source instance.
      */
-    public function __construct($basePath, ?Filesystem $files = null)
+    public function __construct($basePath, ?Filesystem $files = null, ?Finder $finder = null)
     {
         $this->basePath = $basePath;
 
         $this->files = $files ?: resolve(Filesystem::class);
-        $this->finder = new Finder;
+        $this->finder = $finder ?? new Finder;
         $this->processor = new Processor;
     }
 
@@ -241,7 +241,7 @@ class FileSource extends AbstractSource implements SourceInterface
 
         // Create base file directory
         if (str_contains($fileName, '/')) {
-            $fileDirPath = dirname($path);
+            $fileDirPath = $this->files->dirname($path);
 
             if (
                 !$this->files->isDirectory($fileDirPath) &&
@@ -267,7 +267,7 @@ class FileSource extends AbstractSource implements SourceInterface
      */
     public function makeCacheKey(string $name = ''): int
     {
-        return crc32($this->basePath.$name);
+        return parent::makeCacheKey($this->basePath.$name);
     }
 
     /**
@@ -287,24 +287,5 @@ class FileSource extends AbstractSource implements SourceInterface
     public function getPathsCacheKey()
     {
         return 'pagic-source-file-'.$this->basePath;
-    }
-
-    /**
-     * Get all available paths within this source
-     *
-     * @return array $paths
-     */
-    public function getAvailablePaths()
-    {
-        $iterator = $this->finder->create();
-        $iterator->files();
-        $iterator->ignoreVCS(true);
-        $iterator->ignoreDotFiles(true);
-        $iterator->exclude('node_modules');
-        $iterator->in($this->basePath);
-
-        return collect($iterator)->map(function(\SplFileInfo $fileInfo) {
-            return $fileInfo->getRelativePathName();
-        })->values()->all();
     }
 }

@@ -83,7 +83,7 @@ class Finder
      */
     public function __construct(
         protected SourceInterface $source,
-        protected Processor $processor
+        protected Processor $processor,
     ) {}
 
     /**
@@ -199,7 +199,7 @@ class Finder
     public function insert(array $values): int
     {
         if (empty($values)) {
-            return true;
+            return 1;
         }
 
         $this->validateFileName();
@@ -212,7 +212,7 @@ class Finder
             $this->model->getTypeDirName(),
             $name,
             $extension,
-            $result
+            $result,
         );
     }
 
@@ -231,7 +231,7 @@ class Finder
 
         if ($this->model->isDirty('fileName')) {
             [$oldName, $oldExtension] = $this->model->getFileNameParts(
-                $this->model->getOriginal('fileName')
+                $this->model->getOriginal('fileName'),
             );
         }
 
@@ -241,7 +241,7 @@ class Finder
             $extension,
             $result,
             $oldName,
-            $oldExtension
+            $oldExtension,
         );
     }
 
@@ -257,7 +257,7 @@ class Finder
         return $this->source->delete(
             $this->model->getTypeDirName(),
             $name,
-            $extension
+            $extension,
         );
     }
 
@@ -273,7 +273,7 @@ class Finder
         return $this->source->lastModified(
             $this->model->getTypeDirName(),
             $name,
-            $extension
+            $extension,
         );
     }
 
@@ -282,9 +282,7 @@ class Finder
      */
     public function getFresh(array $columns = ['*']): ?array
     {
-        if (is_null($this->columns)) {
-            $this->columns = $columns;
-        }
+        $this->columns ??= $columns;
 
         $processCmd = $this->select ? 'processSelect' : 'processSelectAll';
 
@@ -437,7 +435,7 @@ class Finder
     /**
      * Indicate that the query results should be cached forever.
      */
-    public function rememberForever(string $key): static
+    public function rememberForever(?string $key = null): static
     {
         return $this->remember(-1, $key);
     }
@@ -467,9 +465,7 @@ class Finder
      */
     public function getCached(array $columns = ['*']): array
     {
-        if (is_null($this->columns)) {
-            $this->columns = $columns;
-        }
+        $this->columns ??= $columns;
 
         $key = $this->getCacheKey();
 
@@ -527,7 +523,7 @@ class Finder
         $lastMTime = $this->source->lastModified(
             $this->in,
             $name,
-            $extension
+            $extension,
         );
 
         return $lastMTime != $mTime;

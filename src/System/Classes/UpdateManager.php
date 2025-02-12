@@ -3,7 +3,7 @@
 namespace Igniter\System\Classes;
 
 use Carbon\Carbon;
-use Composer\IO\BufferIO;
+use Closure;
 use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Database\Migrations\DatabaseMigrationRepository;
@@ -396,10 +396,8 @@ class UpdateManager
         throw_if($hasErrors, new ApplicationException($errorMessage));
     }
 
-    public function install(array $requirements)
+    public function install(array $requirements, Closure|OutputInterface|null $output = null)
     {
-        $io = new BufferIO;
-
         $packages = collect($requirements)->mapWithKeys(function($package) {
             $packageInfo = $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
             $packageName = $packageInfo->isCore() ? PackageInfo::CORE : $packageInfo->package;
@@ -411,9 +409,9 @@ class UpdateManager
             return [$packageName => $packageInfo->version];
         })->all();
 
-        resolve(Manager::class)->install($packages, $io);
+        resolve(Manager::class)->install($packages, $output);
 
-        $this->log(lang('igniter::system.updates.progress_install_ok')."\nOutput: ".$io->getOutput());
+        $this->log(lang('igniter::system.updates.progress_install_ok'));
     }
 
     public function completeInstall(array $requirements)

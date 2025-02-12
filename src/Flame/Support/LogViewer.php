@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Support;
 
+use Igniter\Flame\Support\Facades\File;
 use InvalidArgumentException;
 
 /**
@@ -11,12 +12,12 @@ use InvalidArgumentException;
 class LogViewer
 {
     // Limit to 30MB, reading larger files can eat up memory
-    const MAX_FILE_SIZE = 31457280;
+    public const int MAX_FILE_SIZE = 31457280;
 
     /**
      * @var string file
      */
-    protected static $file;
+    protected ?string $file = null;
 
     protected static $levelClasses = [
         'debug' => 'info',
@@ -63,9 +64,11 @@ class LogViewer
      *
      * @throws \Exception
      */
-    public static function setFile($file)
+    public function setFile($file)
     {
-        self::$file = self::pathToLogFile($file);
+        $this->file = self::pathToLogFile($file);
+
+        return $this;
     }
 
     /**
@@ -74,17 +77,11 @@ class LogViewer
      * @return string
      * @throws \Exception
      */
-    public static function pathToLogFile($file)
+    public function pathToLogFile($file)
     {
-        $logsPath = storage_path('logs');
-        if (app('files')->exists($file)) { // try the absolute path
-            return $file;
-        }
-
-        $file = $logsPath.'/'.$file;
         // check if requested file is really in the logs directory
-        if (dirname($file) !== $logsPath) {
-            throw new InvalidArgumentException('No such log file');
+        if (!starts_with($file, storage_path('logs'))) {
+            throw new InvalidArgumentException('Invalid log file');
         }
 
         return $file;
@@ -93,40 +90,40 @@ class LogViewer
     /**
      * @return string
      */
-    public static function getFileName()
+    public function getFileName()
     {
-        return basename(self::$file);
+        return File::basename($this->file);
     }
 
     /**
      * @return array
      */
-    public static function all()
+    public function all()
     {
         $log = [];
-        $pattern = '/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\].*/';
-        if (!self::$file) {
+        if (!$this->file) {
             $logFile = self::getFiles();
 
             if (!count($logFile)) {
                 return [];
             }
 
-            self::$file = $logFile[0];
+            $this->file = $logFile[0];
         }
 
-        if (app('files')->size(self::$file) > self::MAX_FILE_SIZE) {
+        if (File::size($this->file) > self::MAX_FILE_SIZE) {
             return null;
         }
 
-        $file = app('files')->get(self::$file);
-        preg_match_all($pattern, $file, $headings);
+        $fileContents = File::get($this->file);
+        $pattern = '/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\].*/';
+        preg_match_all($pattern, $fileContents, $headings);
 
-        if (!is_array($headings)) {
+        if (!array_filter($headings)) {
             return $log;
         }
 
-        $logData = preg_split($pattern, $file);
+        $logData = preg_split($pattern, $fileContents);
 
         if ($logData[0] < 1) {
             array_shift($logData);
@@ -135,13 +132,11 @@ class LogViewer
         foreach ($headings as $h) {
             for ($i = 0, $j = count($h); $i < $j; $i++) {
                 foreach (self::$levels as $level) {
-                    if (strpos(strtolower($h[$i]), '.'.$level)
-                        || strpos(strtolower($h[$i]), $level.':')
-                    ) {
+                    if (strpos(strtolower($h[$i]), '.'.$level) || strpos(strtolower($h[$i]), $level.':')) {
 
                         preg_match(
                             '/^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\](?:.*?(\w+)\.|.*?)'
-                            .$level.': (.*?)( in .*?:[0-9]+)?$/i', $h[$i], $current
+                            .$level.': (.*?)( in .*?:[0-9]+)?$/i', $h[$i], $current,
                         );
 
                         if (!isset($current[3])) {
@@ -155,8 +150,8 @@ class LogViewer
                             'icon' => self::$levelIcons[$level],
                             'date' => $current[1],
                             'text' => $current[3],
-                            'summary' => isset($current[4]) ? $current[4] : null,
-                            'stack' => preg_replace("/^\n*/", '', $logData[$i]),
+                            'summary' => $current[4] ?? null,
+                            'stack' => ltrim($logData[$i], "\n"),
                         ];
                     }
                 }
@@ -171,15 +166,15 @@ class LogViewer
      *
      * @return array
      */
-    public static function getFiles($basename = false)
+    public function getFiles($basename = false)
     {
-        $files = glob(storage_path().'/logs/*.log');
+        $files = File::glob(storage_path().'/logs/*.log');
         $files = array_reverse($files);
-        $files = array_filter($files, 'is_file');
+        $files = array_filter($files, fn($file) => File::isFile($file));
 
-        if ($basename && is_array($files)) {
+        if ($basename) {
             foreach ($files as $k => $file) {
-                $files[$k] = basename($file);
+                $files[$k] = File::basename($file);
             }
         }
 

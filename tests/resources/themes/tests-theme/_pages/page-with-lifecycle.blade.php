@@ -1,7 +1,7 @@
 ---
 title: Page with Lifecycle
 description: ''
-permalink: /page-with-lifecycle
+permalink: /page-with-lifecycle/:lifeCycle
 layout: default
 
 '[testComponentWithLifecycle]':

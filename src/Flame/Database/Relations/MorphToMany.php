@@ -63,7 +63,7 @@ class MorphToMany extends BelongsToMany
         $parentKey,
         $relatedKey,
         $relationName = null,
-        $inverse = false
+        $inverse = false,
     ) {
         $this->inverse = $inverse;
 
@@ -79,7 +79,7 @@ class MorphToMany extends BelongsToMany
             $otherKey,
             $parentKey,
             $relatedKey,
-            $relationName
+            $relationName,
         );
 
         $this->addDefinedConstraints();
@@ -123,7 +123,7 @@ class MorphToMany extends BelongsToMany
         return Arr::add(
             parent::baseAttachRecord($id, $timed),
             $this->morphType,
-            $this->morphClass
+            $this->morphClass,
         );
     }
 
@@ -137,7 +137,7 @@ class MorphToMany extends BelongsToMany
     {
         return parent::getRelationExistenceQuery($query, $parentQuery, $columns)->where(
             $this->table.'.'.$this->morphType,
-            $this->morphClass
+            $this->morphClass,
         );
     }
 
@@ -148,7 +148,7 @@ class MorphToMany extends BelongsToMany
      */
     public function newPivotQuery()
     {
-        return parent::newPivotQuery()->where($this->morphType, $this->morphClass);
+        return parent::newPivotQuery()->where($this->getMorphType(), $this->getMorphClass());
     }
 
     /**

@@ -38,9 +38,8 @@ it('renders component partial', function() {
     $baseComponent = createBaseComponent();
     $baseComponent->setAlias('testAlias');
 
-    expect(fn() => $baseComponent->renderPartial('test'))
-        ->toThrow(\Exception::class, 'The partial [test] is not found.');
-})->note('Fails because of the missing component partial file');
+    expect($baseComponent->renderPartial('@default'))->toContain('This is a test component partial content');
+});
 
 it('runs component event handler', function() {
     Event::fake([

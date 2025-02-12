@@ -283,7 +283,7 @@ it('deletes theme and its data successfully', function() {
 });
 
 it('installs theme successfully', function() {
-    \Igniter\Main\Models\Theme::create([
+    \Igniter\Main\Models\Theme::factory()->create([
         'code' => 'tests-theme',
         'name' => 'Theme Name',
     ]);
@@ -295,7 +295,7 @@ it('installs theme successfully', function() {
 });
 
 it('returns false when install theme can not be found', function() {
-    \Igniter\Main\Models\Theme::create([
+    \Igniter\Main\Models\Theme::factory()->create([
         'code' => 'invalid-theme',
         'name' => 'Theme Name',
     ]);

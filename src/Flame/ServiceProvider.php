@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame;
 
+use Igniter\Flame\Composer\Manager as ComposerManaer;
 use Igniter\Flame\Exception\ErrorHandler;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Support\ClassLoader;
@@ -12,6 +13,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Event;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -19,6 +21,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected $root = __DIR__.'/../..';
 
     protected $providers = [
+        \Igniter\Flame\Assetic\AsseticServiceProvider::class,
         \Igniter\Flame\Currency\CurrencyServiceProvider::class,
         \Igniter\Flame\Providers\ConsoleSupportServiceProvider::class,
         \Igniter\Flame\Database\DatabaseServiceProvider::class,
@@ -100,6 +103,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 new Filesystem,
                 $this->app->basePath(),
                 Igniter::getCachedAddonsPath(),
+            );
+        });
+
+        $this->app->singleton(ComposerManaer::class, function() {
+            return new ComposerManaer(
+                base_path(),
+                storage_path('igniter/composer'),
+                new Composer(new Filesystem, base_path()),
             );
         });
 

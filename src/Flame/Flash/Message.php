@@ -70,7 +70,7 @@ class Message implements \ArrayAccess
      */
     public function offsetUnset(mixed $offset): void
     {
-        //
+        $this->$offset = null;
     }
 
     public function toArray()

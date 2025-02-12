@@ -69,7 +69,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
         string $extension,
         string $content,
         ?string $oldFileName = null,
-        ?string $oldExtension = null
+        ?string $oldExtension = null,
     ): int {
         return $this->getActiveSource()->update($dirName, $fileName, $extension, $content, $oldFileName, $oldExtension);
     }
@@ -120,6 +120,6 @@ class ChainFileSource extends AbstractSource implements SourceInterface
             $key .= $source->makeCacheKey($name).'-';
         }
 
-        return crc32($key);
+        return parent::makeCacheKey($key);
     }
 }

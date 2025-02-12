@@ -8,7 +8,7 @@ use Igniter\Admin\Models\StatusHistory;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Flame\Database\Relations\HasMany;
 use Igniter\Flame\Exception\FlashException;
-use Illuminate\Database\Eloquent\Model;
+use Igniter\Tests\Fixtures\Models\IlluminateModel;
 
 it('creates form model correctly', function() {
     $widget = new class
@@ -278,13 +278,3 @@ it('skips setting attributes with NO_SAVE_DATA', function() {
     expect($model->status_for)->toBe('example')
         ->and($model->status_name)->toBeNull();
 });
-
-class IlluminateModel extends Model
-{
-    protected $table = 'statuses';
-
-    public function status_history()
-    {
-        return $this->hasMany(StatusHistory::class);
-    }
-}

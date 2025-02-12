@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Support;
 
+use Igniter\Flame\Support\Facades\File;
 use RuntimeException;
 
 /**
@@ -29,9 +30,9 @@ class ConfigRewrite
 {
     public function toFile($filePath, $newValues, $useValidation = true)
     {
-        $contents = file_get_contents($filePath);
+        $contents = File::get($filePath);
         $contents = $this->toContent($contents, $newValues, $useValidation);
-        file_put_contents($filePath, $contents);
+        File::put($filePath, $contents);
 
         return $contents;
     }
@@ -54,9 +55,6 @@ class ConfigRewrite
                 $array = $array[$part];
             }
             $actualValue = $array;
-            if ($actualValue != $expectedValue) {
-                throw new RuntimeException(sprintf('Unable to rewrite key "%s" in config, rewrite failed', $key));
-            }
         }
 
         return $contents;
@@ -98,9 +96,9 @@ class ConfigRewrite
 
     protected function writeValueToPhp($value)
     {
-        if (is_string($value) && strpos($value, "'") === false) {
+        if (is_string($value) && !str_contains($value, "'")) {
             $replaceValue = "'".$value."'";
-        } elseif (is_string($value) && strpos($value, '"') === false) {
+        } elseif (is_string($value) && !str_contains($value, '"')) {
             $replaceValue = '"'.$value.'"';
         } elseif (is_bool($value)) {
             $replaceValue = ($value ? 'true' : 'false');
@@ -112,9 +110,7 @@ class ConfigRewrite
             $replaceValue = $value;
         }
 
-        $replaceValue = str_replace('$', '\$', $replaceValue);
-
-        return $replaceValue;
+        return str_replace('$', '\$', $replaceValue);
     }
 
     protected function writeArrayToPhp($array)

@@ -16,7 +16,7 @@ class FlashException extends Exception implements HttpExceptionInterface
 
     protected ?string $title = null;
 
-    protected bool $shouldReport = false;
+    protected ?bool $shouldReport = null;
 
     protected ?string $actionUrl = null;
 
@@ -98,9 +98,9 @@ class FlashException extends Exception implements HttpExceptionInterface
         return $this;
     }
 
-    public function shouldReport(): self
+    public function shouldReport(bool $shouldReport = true): self
     {
-        $this->shouldReport = true;
+        $this->shouldReport = $shouldReport;
 
         return $this;
     }
@@ -129,7 +129,7 @@ class FlashException extends Exception implements HttpExceptionInterface
 
     public function report(): ?bool
     {
-        return $this->shouldReport ?: null;
+        return $this->shouldReport;
     }
 
     public function render(Request $request): mixed

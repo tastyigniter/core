@@ -171,8 +171,8 @@ class ClassLoader
 
         foreach ($this->directories as $directory) {
             $paths = [
-                $directory.DIRECTORY_SEPARATOR.$lowerClass,
                 $directory.DIRECTORY_SEPARATOR.$upperClass,
+                $directory.DIRECTORY_SEPARATOR.$lowerClass,
                 $directory.DIRECTORY_SEPARATOR.$lowerClassStudlyFile,
                 $directory.DIRECTORY_SEPARATOR.$upperClassStudlyFile,
             ];
@@ -338,9 +338,7 @@ class ClassLoader
 
         $aliasKey = array_search($class, $this->aliases);
 
-        return ($aliasKey !== false)
-            ? $aliasKey
-            : null;
+        return ($aliasKey !== false) ? $aliasKey : null;
     }
 
     /**
@@ -351,16 +349,12 @@ class ClassLoader
      */
     protected static function normalizeClass($class)
     {
-        /*
-         * Strip first slash
-         */
-        if (substr($class, 0, 1) == '\\') {
+        // Strip first slash
+        if (str_starts_with($class, '\\')) {
             $class = substr($class, 1);
         }
 
-        return implode('\\', array_map(function($part) {
-            return $part;
-        }, explode('\\', $class)));
+        return implode('\\', array_map(fn($part) => $part, explode('\\', $class)));
     }
 
     /**
@@ -385,39 +379,6 @@ class ClassLoader
         $upperClassStudlyFile = $directory.DIRECTORY_SEPARATOR.Str::studly($file).'.php';
 
         return [$lowerClass, $upperClass, $lowerClassStudlyFile, $upperClassStudlyFile];
-    }
-
-    /**
-     * Load the mapped class for a directory prefix and relative class.
-     *
-     * @param string $class The class name.
-     *
-     * @return bool|string bool false if no mapped file can be load
-     * ed, or the
-     * name of the mapped file that was loaded.
-     */
-    protected function loadMappedClass($class)
-    {
-        [$lowerClass, $upperClass] = $this->normalizeClass($class);
-
-        // Look through registered directories
-        foreach ($this->directories as $directory) {
-            // If the mapped class exists, require it
-            if ($this->isRealFilePath($path = $directory.DIRECTORY_SEPARATOR.$lowerClass.'.php')) {
-                $this->requireClass($class, $path);
-
-                return $path;
-            }
-
-            if ($this->isRealFilePath($path = $directory.DIRECTORY_SEPARATOR.$upperClass.'.php')) {
-                $this->requireClass($class, $path);
-
-                return true;
-            }
-        }
-
-        // never found it
-        return false;
     }
 
     /**
@@ -459,14 +420,14 @@ class ClassLoader
             return;
         }
 
-        if (file_exists($this->manifestPath)) {
+        if ($this->files->exists($this->manifestPath)) {
             try {
                 $this->manifest = $this->files->getRequire($this->manifestPath);
 
                 if (!is_array($this->manifest)) {
                     $this->manifest = [];
                 }
-            } catch (Exception|Throwable $ex) {
+            } catch (Exception|Throwable) {
                 $this->manifest = [];
             }
         } else {
@@ -482,12 +443,12 @@ class ClassLoader
      */
     protected function write(array $manifest)
     {
-        if (!is_writable($path = dirname($this->manifestPath))) {
+        if (!is_writable($path = $this->files->dirname($this->manifestPath))) {
             throw new \RuntimeException('The '.$path.' directory must be present and writable.');
         }
 
         $this->files->put(
-            $this->manifestPath, '<?php return '.var_export($manifest, true).';'
+            $this->manifestPath, '<?php return '.var_export($manifest, true).';',
         );
     }
 }

@@ -44,16 +44,16 @@ class MediaAdder
         return $this;
     }
 
-    public function useDisk(string $disk): self
+    public function useDisk(?string $disk): self
     {
         $this->diskName = $disk;
 
         return $this;
     }
 
-    public function useMediaTag(string $tag = 'default'): self
+    public function useMediaTag(?string $tag = null): self
     {
-        $this->tag = $tag;
+        $this->tag = $tag ?? 'default';
 
         return $this;
     }
@@ -67,7 +67,6 @@ class MediaAdder
         $media->name = $media->getUniqueName();
         $media->disk = $this->diskName ?? $media->getDiskName();
         $media->tag = $this->tag ?? $this->performedOn->getDefaultTagName();
-
         $media->custom_properties = $this->customProperties;
 
         $this->attachMedia($media);

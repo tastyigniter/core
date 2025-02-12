@@ -4,6 +4,7 @@ namespace Igniter\Flame\Pagic\Parsers;
 
 use Igniter\Flame\Pagic\Cache\FileSystem;
 use Igniter\Flame\Pagic\Model;
+use Igniter\Flame\Support\Facades\File;
 
 /**
  * FileParser class.
@@ -53,10 +54,9 @@ class FileParser
         $result = [
             'filePath' => $path,
             'mTime' => $this->object->mTime,
-            'className' => null,
         ];
 
-        if (is_file($path)) {
+        if (File::isFile($path)) {
             $cachedInfo = $this->fileCache->getCached($path);
             $hasCache = $cachedInfo !== null;
 
@@ -66,7 +66,7 @@ class FileParser
                 return $result;
             }
 
-            if (!$hasCache && filemtime($path) >= $this->object->mTime) {
+            if (!$hasCache && File::lastModified($path) >= $this->object->mTime) {
                 if ($className = $this->extractClassFromFile($path)) {
                     $result['className'] = $cacheItem['className'] = $className;
                     $this->fileCache->storeCached($filePath, $cacheItem);
@@ -107,11 +107,12 @@ class FileParser
         }
 
         $fileContents = '<?php '.PHP_EOL;
+        $fileContents .= "/* {$this->object->getFilePath()} */".PHP_EOL;
+
         foreach ($imports[0] as $namespace) {
             $fileContents .= $namespace;
         }
 
-        $fileContents .= "/* {$this->object->getFilePath()} */".PHP_EOL;
         $fileContents .= 'class '.$className.$parentClass.PHP_EOL;
         $fileContents .= '{'.PHP_EOL;
         $fileContents .= $code.PHP_EOL;
@@ -128,14 +129,14 @@ class FileParser
     protected function handleCorruptCache(array $data): array
     {
         $path = array_get($data, 'filePath', $data['className'] ? $this->fileCache->getCacheKey($data['className']) : '');
-        if (is_file($path)) {
+        if (File::isFile($path)) {
             if (($className = $this->extractClassFromFile($path)) && class_exists($className)) {
                 $data['className'] = $className;
 
                 return $data;
             }
 
-            @unlink($path);
+            @File::delete($path);
         }
 
         return $this->process();
@@ -146,7 +147,7 @@ class FileParser
      */
     protected function extractClassFromFile(string $path): ?string
     {
-        $fileContent = file_get_contents($path);
+        $fileContent = File::get($path);
         $matches = [];
         $pattern = '/Pagic\S+_\S+Class/';
         preg_match($pattern, $fileContent, $matches);

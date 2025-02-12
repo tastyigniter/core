@@ -24,7 +24,7 @@ class GeoQuery implements Contracts\GeoQueryInterface
 
     protected array $data = [];
 
-    public function __construct($text)
+    public function __construct(string|Model\Coordinates $text)
     {
         if ($text instanceof Model\Coordinates) {
             $this->coordinates = $text;
@@ -38,13 +38,6 @@ class GeoQuery implements Contracts\GeoQueryInterface
     public static function create(string $text): self
     {
         return new self($text);
-    }
-
-    public function withText(string $text): self
-    {
-        $this->text = $text;
-
-        return $this;
     }
 
     public function withBounds(Model\Bounds $bounds): self
@@ -125,7 +118,7 @@ class GeoQuery implements Contracts\GeoQueryInterface
         return $this;
     }
 
-    public function getCoordinates(): CoordinatesInterface
+    public function getCoordinates(): ?CoordinatesInterface
     {
         return $this->coordinates;
     }
@@ -138,7 +131,7 @@ class GeoQuery implements Contracts\GeoQueryInterface
         return sprintf('GeoQuery: %s', json_encode([
             'text' => $this->getText(),
             'bounds' => $this->getBounds() ? $this->getBounds()->toArray() : 'null',
-            'coordinates' => $this->getCoordinates()->toArray(),
+            'coordinates' => $this->getCoordinates()?->toArray() ?? 'null',
             'locale' => $this->getLocale(),
             'limit' => $this->getLimit(),
             'data' => $this->getAllData(),

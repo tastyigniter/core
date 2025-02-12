@@ -50,7 +50,7 @@ class TemplateCode extends Extendable implements ArrayAccess
 
     public function offsetGet(mixed $offset): mixed
     {
-        return isset($this->controller->vars[$offset]) ? $this->controller->vars[$offset] : null;
+        return $this->controller->vars[$offset] ?? null;
     }
 
     /**
@@ -58,15 +58,15 @@ class TemplateCode extends Extendable implements ArrayAccess
      */
     public function __call(string $name, ?array $params): mixed
     {
-        if ($this->methodExists($name)) {
-            return call_user_func_array([$this, $name], $params);
+        if ($this->controller->methodExists($name)) {
+            return call_user_func_array([$this->controller, $name], $params);
         }
 
         if (method_exists($this->page, $name)) {
             return call_user_func_array([$this->page, $name], $params);
         }
 
-        return call_user_func_array([$this->controller, $name], $params);
+        return $this->extendableCall($name, $params);
     }
 
     /**
@@ -77,7 +77,7 @@ class TemplateCode extends Extendable implements ArrayAccess
      */
     public function __get($name): mixed
     {
-        if (isset($this->page->components[$name]) || isset($this->layout->components[$name])) {
+        if (array_has($this->page->getComponents(), $name) || array_has($this->layout->getComponents(), $name)) {
             return $this[$name];
         }
 

@@ -2,11 +2,9 @@
 
 namespace Igniter\Flame\Filesystem;
 
-use DirectoryIterator;
 use FilesystemIterator;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use ReflectionClass;
@@ -92,27 +90,8 @@ class Filesystem extends IlluminateFilesystem
     {
         $result = null;
         $publicPath = public_path();
-
         if (str_starts_with($path, $publicPath)) {
             $result = str_replace('\\', '/', substr($path, strlen($publicPath)));
-        } else {
-            /**
-             * Find symlinks within base folder and work out if this path can be resolved to a symlinked directory.
-             *
-             * This abides by the `cms.restrictBaseDir` config and will not allow symlinks to external directories
-             * if the restriction is enabled.
-             */
-            if ($this->symlinks === null) {
-                $this->findSymlinks();
-            } elseif (count($this->symlinks) > 0) {
-                foreach ($this->symlinks as $source => $target) {
-                    if (str_starts_with($path, $target)) {
-                        $relativePath = substr($path, strlen($target));
-                        $result = str_replace('\\', '/', substr($source, strlen($publicPath)).$relativePath);
-                        break;
-                    }
-                }
-            }
         }
 
         return $result;
@@ -270,24 +249,22 @@ class Filesystem extends IlluminateFilesystem
     /**
      * Create a directory.
      * @param string $path
-     * @param int $mode
+     * @param ?int $mode
      * @param bool $recursive
      * @param bool $force
      * @return bool
      */
-    public function makeDirectory($path, $mode = 0777, $recursive = false, $force = false)
+    public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false)
     {
         if ($mask = $this->getFolderPermissions()) {
             $mode = $mask;
         }
 
-        /*
-         * Find the green leaves
-         */
+        // Find the green leaves
+        $chmodPath = $path;
         if ($recursive && $mask) {
-            $chmodPath = $path;
             while (true) {
-                $basePath = dirname($chmodPath);
+                $basePath = $this->dirname($chmodPath);
                 if ($chmodPath == $basePath) {
                     break;
                 }
@@ -296,18 +273,12 @@ class Filesystem extends IlluminateFilesystem
                 }
                 $chmodPath = $basePath;
             }
-        } else {
-            $chmodPath = $path;
         }
 
-        /*
-         * Make the directory
-         */
+        // Make the directory
         $result = parent::makeDirectory($path, $mode, $recursive, $force);
 
-        /*
-         * Apply the permissions
-         */
+        // Apply the permissions
         if ($mask) {
             $this->chmod($chmodPath, $mask);
 
@@ -351,13 +322,13 @@ class Filesystem extends IlluminateFilesystem
         }
 
         if (!$fileMask) {
-            return;
+            return false;
         }
 
         if (!$this->isDirectory($path)) {
             $this->chmod($path, $fileMask);
 
-            return;
+            return false;
         }
 
         $items = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
@@ -404,55 +375,5 @@ class Filesystem extends IlluminateFilesystem
         $regex = strtr(preg_quote($pattern, '#'), ['\*' => '.*', '\?' => '.']);
 
         return (bool)preg_match('#^'.$regex.'$#i', $fileName);
-    }
-
-    /**
-     * Finds symlinks within the base path and provides a source => target array of symlinks.
-     *
-     * @return void
-     */
-    protected function findSymlinks()
-    {
-        $restrictBaseDir = Config::get('igniter-system.restrictBaseDir', true);
-        $deep = Config::get('igniter-system.allowDeepSymlinks', false);
-        $basePath = base_path();
-        $symlinks = [];
-
-        $iterator = function($path) use (&$iterator, &$symlinks, $basePath, $restrictBaseDir, $deep) {
-            foreach (new DirectoryIterator($path) as $directory) {
-                if (
-                    $directory->isDir() === false
-                    || $directory->isDot() === true
-                ) {
-                    continue;
-                }
-                if ($directory->isLink()) {
-                    $source = $directory->getPathname();
-                    $target = realpath(readlink($directory->getPathname()));
-                    if (!$target) {
-                        $target = realpath($directory->getPath().'/'.readlink($directory->getPathname()));
-
-                        if (!$target) {
-                            // Cannot resolve symlink
-                            continue;
-                        }
-                    }
-
-                    if ($restrictBaseDir && strpos($target.'/', $basePath.'/') !== 0) {
-                        continue;
-                    }
-                    $symlinks[$source] = $target;
-                    continue;
-                }
-
-                // Get subfolders if "develop.allowDeepSymlinks" is enabled.
-                if ($deep) {
-                    $iterator($directory->getPathname());
-                }
-            }
-        };
-        $iterator($basePath);
-
-        $this->symlinks = $symlinks;
     }
 }

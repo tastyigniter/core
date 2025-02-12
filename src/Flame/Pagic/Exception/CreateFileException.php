@@ -22,12 +22,4 @@ class CreateFileException extends RuntimeException
 
         return $this;
     }
-
-    /**
-     * Get the affected file path.
-     */
-    public function getInvalidPath(): string
-    {
-        return $this->invalidPath;
-    }
 }

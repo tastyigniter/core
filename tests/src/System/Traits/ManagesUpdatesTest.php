@@ -2,9 +2,7 @@
 
 namespace Igniter\Tests\System\Traits;
 
-use Composer\IO\BufferIO;
 use Exception;
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\UpdateManager;
 
 it('searches extensions successfully', function() {
@@ -246,6 +244,48 @@ it('returns process steps when update items are applied', function() {
             ]]);
 });
 
+it('returns process steps when update core items are applied', function() {
+    $updateManager = mock(UpdateManager::class);
+    app()->instance(UpdateManager::class, $updateManager);
+    $updateManager->shouldReceive('requestUpdateList')->andReturn([
+        'items' => collect([
+            ['code' => 'TastyIgniter', 'type' => 'core'],
+            ['code' => 'igniter.test', 'type' => 'extension'],
+        ]),
+    ]);
+
+    actingAsSuperUser()
+        ->post(route('igniter.system.extensions'), [], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onApplyUpdate',
+        ])
+        ->assertStatus(200)
+        ->assertJson([
+            'steps' => [
+                'check' => [
+                    'meta' => [
+                        ['code' => 'TastyIgniter', 'type' => 'core'],
+                    ],
+                    'process' => 'check',
+                    'progress' => 'Performing pre installation checks...',
+                ],
+                'install' => [
+                    'meta' => [
+                        ['code' => 'TastyIgniter', 'type' => 'core'],
+                    ],
+                    'process' => 'install',
+                    'progress' => 'Updating composer requirements...',
+                ],
+                'complete' => [
+                    'meta' => [
+                        ['code' => 'TastyIgniter', 'type' => 'core'],
+                    ],
+                    'process' => 'complete',
+                    'progress' => 'Finishing installation...',
+                ],
+            ]]);
+});
+
 it('throws exception when no items to update', function() {
     $updateManager = mock(UpdateManager::class);
     app()->instance(UpdateManager::class, $updateManager);
@@ -369,7 +409,7 @@ it('throws exception when composer install fails', function() {
     $updateManager = mock(UpdateManager::class);
     app()->instance(UpdateManager::class, $updateManager);
     $updateManager->shouldReceive('getLogs')->andReturn([]);
-    $updateManager->shouldReceive('install')->andThrow(new ComposerException(new Exception('Composer install failed'), new BufferIO()));
+    $updateManager->shouldReceive('install')->andThrow(new Exception('Composer install failed'));
 
     actingAsSuperUser()
         ->post(route('igniter.system.extensions'), [
@@ -392,7 +432,6 @@ it('throws exception when composer install fails', function() {
         ->assertStatus(200)
         ->assertJson([
             'success' => false,
-            'message' => "Error updating composer requirements: Composer install failed<br />\nOutput: "
-                ."\n\n<a href=\"https://tastyigniter.com/support/articles/failed-updates\" target=\"_blank\">Troubleshoot</a>\n\n",
+            'message' => 'Composer install failed'."\n\n".'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'."\n\n",
         ]);
 });

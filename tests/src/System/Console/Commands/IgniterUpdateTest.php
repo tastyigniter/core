@@ -2,10 +2,8 @@
 
 namespace Igniter\Tests\System\Console\Commands;
 
-use Composer\IO\BufferIO;
 use Exception;
 use Igniter\Flame\Composer\Manager as ComposerManager;
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Console\Commands\IgniterUpdate;
 use Illuminate\Console\OutputStyle;
@@ -184,9 +182,9 @@ it('errors when installing update fails', function() {
     $command->shouldReceive('option')->with('addons')->andReturnNull();
     $command->shouldReceive('option')->with('core')->andReturnNull();
     $output->shouldReceive('writeln')->with('<info>Updating extensions/themes...</info>');
-    $updateManager->shouldReceive('install')->andThrow(new ComposerException(new Exception('Update failed'), new BufferIO()));
+    $updateManager->shouldReceive('install')->andThrow(new Exception('Update failed'));
     $output->shouldReceive('writeln')
-        ->withArgs(fn($message) => str_contains($message, 'Error updating composer requirements: Update failed'))->once();
+        ->withArgs(fn($message) => str_contains($message, 'Update failed'))->once();
 
     $command->handle();
 });

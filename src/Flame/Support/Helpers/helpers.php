@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * Igniter System Helpers
+ */
+
 use Carbon\Carbon;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Currency\Currency;
+use Igniter\Flame\Currency\Facades\Currency as CurrencyFacade;
 use Igniter\Flame\Support\StringParser;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
@@ -26,7 +31,7 @@ if (!function_exists('assets_url')) {
     /**
      * Assets URL
      * Returns the full URL (including segments) of the assets directory
-     *
+     * @codeCoverageIgnore
      * @deprecated Remove before v5
      */
     function assets_url(?string $uri = null, ?bool $secure = null): void
@@ -57,6 +62,7 @@ if (!function_exists('image_url')) {
      * Image Assets URL
      * Returns the full URL (including segments) of the assets image directory
      *
+     * @codeCoverageIgnore
      * @deprecated Remove before v5
      */
     function image_url(?string $uri = null, ?bool $protocol = null): string
@@ -71,6 +77,7 @@ if (!function_exists('image_path')) {
     /**
      * Get the path to the assets image folder.
      *
+     * @codeCoverageIgnore
      * @deprecated Remove before v5
      */
     function image_path(string $path = ''): string
@@ -123,6 +130,7 @@ if (!function_exists('root_url')) {
      * Create a local URL based on your root path.
      * Segments can be passed in as a string.
      *
+     * @codeCoverageIgnore
      * @deprecated Remove in v5
      */
     function root_url(string $uri = '', array $params = []): string
@@ -137,6 +145,7 @@ if (!function_exists('extension_path')) {
     /**
      * Get the path to the extensions folder.
      *
+     * @codeCoverageIgnore
      * @deprecated Remove in v5
      */
     function extension_path(string $path = ''): string
@@ -151,6 +160,7 @@ if (!function_exists('assets_path')) {
     /**
      * Get the path to the assets folder.
      *
+     * @codeCoverageIgnore
      * @deprecated Remove in v5
      */
     function assets_path(string $path = ''): string
@@ -298,13 +308,13 @@ if (!function_exists('currency')) {
         float|string|null $amount = null,
         ?string $from = null,
         ?string $to = null,
-        bool $format = true
+        bool $format = true,
     ): Currency|string {
         if (is_null($amount)) {
             return resolve(Currency::class);
         }
 
-        return resolve(Currency::class)->convert($amount, $from, $to, $format);
+        return CurrencyFacade::convert($amount, $from, $to, $format);
     }
 }
 
@@ -315,9 +325,9 @@ if (!function_exists('currency_format')) {
     function currency_format(
         float|string|null $amount = null,
         ?string $currency = null,
-        bool $include_symbol = true
+        bool $include_symbol = true,
     ): string {
-        return resolve('currency')->format($amount, $currency, $include_symbol);
+        return CurrencyFacade::format($amount, $currency, $include_symbol);
     }
 }
 
@@ -327,7 +337,7 @@ if (!function_exists('currency_json')) {
      */
     function currency_json(float|string|null $amount = null, ?string $currency = null): array
     {
-        return resolve('currency')->formatToJson($amount, $currency);
+        return CurrencyFacade::formatToJson($amount, $currency);
     }
 }
 
@@ -353,12 +363,12 @@ if (!function_exists('normalize_uri')) {
      */
     function normalize_uri(string $uri): string
     {
-        if (substr($uri, 0, 1) != '/') {
-            $uri = '/'.$uri;
-        }
-
         if (!strlen($uri)) {
             $uri = '/';
+        }
+
+        if (!str_starts_with($uri, '/')) {
+            $uri = '/'.$uri;
         }
 
         return $uri;
@@ -369,16 +379,6 @@ if (!function_exists('array_undot')) {
     function array_undot(array $array): array
     {
         return Arr::undot($array);
-    }
-}
-
-if (!function_exists('trans')) {
-    /**
-     * Translate the given message.
-     */
-    function trans(?string $id = null, array $parameters = [], ?string $locale = null): string
-    {
-        return resolve('translator')->get($id, $parameters, $locale);
     }
 }
 
@@ -411,6 +411,7 @@ if (!function_exists('site_url')) {
      * first parameter either as a string or an array.
      *
      * @deprecated Remove in v5
+     * @codeCoverageIgnore
      */
     function site_url(?string $uri = null, array $params = []): string
     {
@@ -448,6 +449,7 @@ if (!function_exists('uploads_url')) {
      * Returns the full URL (including segments) of the assets media uploads directory
      *
      * @deprecated Remove in v5
+     * @codeCoverageIgnore
      */
     function uploads_url(?string $path = null)
     {
@@ -530,7 +532,7 @@ if (!function_exists('mdate')) {
             $format = str_replace(
                 '%\\',
                 '',
-                preg_replace('/([a-z]+?)/i', '\\\\\\1', $format)
+                preg_replace('/([a-z]+?)/i', '\\\\\\1', $format),
             );
         }
 
@@ -666,7 +668,7 @@ if (!function_exists('parse_date_format')) {
             $format = str_replace(
                 '%\\',
                 '',
-                preg_replace('/([a-z]+?)/i', '\\\\\\1', $format)
+                preg_replace('/([a-z]+?)/i', '\\\\\\1', $format),
             );
         }
 
@@ -788,12 +790,10 @@ if (!function_exists('name_to_array')) {
         }
 
         if (preg_match('/^([^\]]+)(?:\[(.+)\])+$/', $string, $matches)) {
-            if (count($matches) < 2) {
-                return $result;
+            if (count($matches) >= 2) {
+                $result = explode('][', $matches[2]);
+                array_unshift($result, $matches[1]);
             }
-
-            $result = explode('][', $matches[2]);
-            array_unshift($result, $matches[1]);
         }
 
         return array_filter($result, function($val) {
@@ -818,15 +818,11 @@ if (!function_exists('is_lang_key')) {
      */
     function is_lang_key(string $line): bool
     {
-        if (!is_string($line)) {
-            return false;
-        }
-
-        if (str_contains($line, '::')) {
+        if (starts_with($line, 'lang:')) {
             return true;
         }
 
-        if (starts_with($line, 'lang:')) {
+        if (str_contains($line, '::')) {
             return true;
         }
 

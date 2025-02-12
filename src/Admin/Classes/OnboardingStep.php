@@ -2,7 +2,7 @@
 
 namespace Igniter\Admin\Classes;
 
-class OnboardingStep
+final class OnboardingStep
 {
     public string $code;
 

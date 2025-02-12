@@ -21,10 +21,10 @@ use Igniter\Flame\Assetic\Util\CssUtils;
 abstract class BaseCssFilter implements FilterInterface
 {
     /**
-     * @see CssUtils::filterReferences()
      * @param int $limit
      * @param int $count
      * @return string
+     * @see CssUtils::filterReferences()
      */
     protected function filterReferences($content, $callback, $limit = -1, &$count = 0)
     {
@@ -32,36 +32,14 @@ abstract class BaseCssFilter implements FilterInterface
     }
 
     /**
-     * @see CssUtils::filterUrls()
-     * @param int $limit
-     * @param int $count
-     * @return string
-     */
-    protected function filterUrls($content, $callback, $limit = -1, &$count = 0)
-    {
-        return CssUtils::filterUrls($content, $callback, $limit, $count);
-    }
-
-    /**
-     * @see CssUtils::filterImports()
      * @param int $limit
      * @param int $count
      * @param bool $includeUrl
      * @return string
+     * @see CssUtils::filterImports()
      */
     protected function filterImports($content, $callback, $limit = -1, &$count = 0, $includeUrl = true)
     {
         return CssUtils::filterImports($content, $callback, $limit, $count, $includeUrl);
-    }
-
-    /**
-     * @see CssUtils::filterIEFilters()
-     * @param int $limit
-     * @param int $count
-     * @return string
-     */
-    protected function filterIEFilters($content, $callback, $limit = -1, &$count = 0)
-    {
-        return CssUtils::filterIEFilters($content, $callback, $limit, $count);
     }
 }

@@ -168,8 +168,8 @@ return new class extends Migration
             $table->integer('location_country_id')->nullable()->change();
             $table->integer('location_radius')->nullable()->change();
             $table->string('location_image')->nullable()->change();
-            $table->float('location_lat', 10, 6)->nullable()->change();
-            $table->float('location_lng', 10, 6)->nullable()->change();
+            $table->decimal('location_lat', 10, 6)->nullable()->change();
+            $table->decimal('location_lng', 10, 6)->nullable()->change();
             $table->boolean('offer_delivery')->nullable()->change();
             $table->boolean('offer_collection')->nullable()->change();
             $table->integer('delivery_time')->nullable()->change();

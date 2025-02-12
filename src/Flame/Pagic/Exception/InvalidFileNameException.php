@@ -24,12 +24,4 @@ class InvalidFileNameException extends RuntimeException
 
         return $this;
     }
-
-    /**
-     * Get the affected file name.
-     */
-    public function getInvalidFileName(): string
-    {
-        return $this->invalidFileName;
-    }
 }

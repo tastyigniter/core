@@ -6,6 +6,7 @@ use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Throwable;
 
 class ThemeRemove extends Command
 {
@@ -41,9 +42,9 @@ class ThemeRemove extends Command
         }
 
         if (!$forceDelete && !$this->confirmToProceed(sprintf(
-            'This will DELETE theme "%s" from the filesystem and database.',
-            $themeName
-        ))) {
+                'This will DELETE theme "%s" from the filesystem and database.',
+                $themeName,
+            ))) {
             return;
         }
 
@@ -52,7 +53,7 @@ class ThemeRemove extends Command
 
             $themeManager->deleteTheme($themeName);
             $this->output->writeln(sprintf('<info>Deleted theme: %s</info>', $themeName));
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $this->output->writeln($e->getMessage());
         }
     }

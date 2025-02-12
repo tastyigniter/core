@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Util;
 
 /**
@@ -40,9 +31,8 @@ abstract class CssUtils
     {
         $content = static::filterUrls($content, $callback);
         $content = static::filterImports($content, $callback, false);
-        $content = static::filterIEFilters($content, $callback);
 
-        return $content;
+        return static::filterIEFilters($content, $callback);
     }
 
     /**
@@ -136,5 +126,8 @@ abstract class CssUtils
         return array_unique(array_filter($imports));
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final private function __construct() {}
 }

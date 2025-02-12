@@ -2,10 +2,8 @@
 
 namespace Igniter\Tests\System\Console\Commands;
 
-use Composer\IO\BufferIO;
 use Exception;
 use Igniter\Flame\Composer\Manager as ComposerManager;
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Support\Facades\Http;
 
@@ -66,9 +64,9 @@ it('handles composer exception during installation', function() {
     Http::fake(['https://api.tastyigniter.com/v2/core/apply' => Http::response($expectedResponse)]);
     $composerManager = mock(ComposerManager::class);
     app()->instance(ComposerManager::class, $composerManager);
-    $composerManager->shouldReceive('install')->andThrow(new ComposerException(new Exception('Composer error'), new BufferIO()));
+    $composerManager->shouldReceive('install')->andThrow(new Exception('Composer error'));
 
     $this->artisan('igniter:extension-install IgniterLab.Demo')
-        ->expectsOutput("Error updating composer requirements: Composer error\nOutput: ")
+        ->expectsOutput("Composer error")
         ->assertExitCode(0);
 });

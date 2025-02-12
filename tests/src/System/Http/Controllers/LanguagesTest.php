@@ -69,7 +69,7 @@ it('sets default language successfully', function() {
         ])
         ->assertOk();
 
-    Language::clearDefaultModel();
+    Language::clearDefaultModels();
     expect(Language::getDefault()->getKey())->toBe($language->getKey());
 });
 
@@ -261,6 +261,3 @@ it('processes update for marketplace locale translated strings', function() {
             'message' => sprintf(lang('igniter::system.languages.alert_update_complete'), $language->code, $language->code),
         ]);
 });
-
-
-

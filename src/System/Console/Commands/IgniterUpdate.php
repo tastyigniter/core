@@ -3,13 +3,13 @@
 namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Composer\Manager;
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Notifications\UpdateFoundNotification;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputOption;
+use Throwable;
 
 /**
  * Console command to perform a system update.
@@ -68,7 +68,7 @@ class IgniterUpdate extends Command
 
             // Run migrations
             $this->call('igniter:up');
-        } catch (ComposerException $e) {
+        } catch (Throwable $e) {
             $this->output->writeln($e->getMessage());
         }
     }

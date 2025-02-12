@@ -7,13 +7,6 @@ use Illuminate\Support\ServiceProvider;
 class HtmlServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    /**
      * Register the service provider.
      *
      * @return void
@@ -52,15 +45,5 @@ class HtmlServiceProvider extends ServiceProvider
 
             return $form->setSessionStore($app['session.store']);
         });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['html', 'form', HtmlBuilder::class, FormBuilder::class];
     }
 }

@@ -36,7 +36,7 @@ class NominatimProvider extends AbstractProvider
         $url = sprintf(
             array_get($this->config, 'endpoints.geocode'),
             urlencode($query->getText()),
-            $query->getLimit()
+            $query->getLimit(),
         );
 
         $result = [];
@@ -44,13 +44,13 @@ class NominatimProvider extends AbstractProvider
         try {
             $result = $this->cacheCallback($url, function() use ($query, $url) {
                 return $this->hydrateResponse(
-                    $this->requestUrl($url, $query)
+                    $this->requestUrl($url, $query),
                 );
             });
         } catch (Throwable $ex) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
-                $this->getName(), $ex->getMessage()
+                $this->getName(), $ex->getMessage(),
             ));
         }
 
@@ -68,7 +68,7 @@ class NominatimProvider extends AbstractProvider
             array_get($this->config, 'endpoints.reverse'),
             $coordinates->getLatitude(),
             $coordinates->getLongitude(),
-            $query->getData('zoom', 18)
+            $query->getData('zoom', 18),
         );
 
         $result = [];
@@ -76,13 +76,13 @@ class NominatimProvider extends AbstractProvider
         try {
             $result = $this->cacheCallback($url, function() use ($query, $url) {
                 return $this->hydrateResponse(
-                    $this->requestUrl($url, $query)
+                    $this->requestUrl($url, $query),
                 );
             });
         } catch (Throwable $e) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
-                $this->getName(), $e->getMessage()
+                $this->getName(), $e->getMessage(),
             ));
         }
 
@@ -97,7 +97,7 @@ class NominatimProvider extends AbstractProvider
             $distance->getFrom()->getLongitude(),
             $distance->getFrom()->getLatitude(),
             $distance->getTo()->getLongitude(),
-            $distance->getTo()->getLatitude()
+            $distance->getTo()->getLatitude(),
         );
 
         try {
@@ -110,7 +110,9 @@ class NominatimProvider extends AbstractProvider
                 return new Model\Distance($route->distance ?? 0, $route->duration ?? 0);
             });
         } catch (Throwable $e) {
-            $this->log(sprintf('Provider "%s" could not calculate distance.', $this->getName()));
+            $this->log(sprintf('Provider "%s" could not calculate distance, "%s".',
+                $this->getName(), $e->getMessage(),
+            ));
 
             return null;
         }
@@ -154,8 +156,8 @@ class NominatimProvider extends AbstractProvider
 
             $this->parseAddress($address, $location);
 
-            if (isset($location->formatted_address)) {
-                $address->withFormattedAddress($location->formatted_address);
+            if (isset($location->display_name)) {
+                $address->withFormattedAddress($location->display_name);
             }
 
             $result[] = $address;
@@ -174,27 +176,27 @@ class NominatimProvider extends AbstractProvider
 
         if (empty($json)) {
             throw new GeoliteException(
-                'The geocoder server returned an empty or invalid response.'
+                'The geocoder server returned an empty or invalid response.',
             );
         }
 
         $statusCode = $response->getStatusCode();
         if ($statusCode === 401 || $statusCode === 403) {
             throw new GeoliteException(sprintf(
-                'API access denied. Message: %s', $json->error_message ?? 'empty error message'
+                'API access denied. Message: %s', $json->error_message ?? 'empty error message',
             ));
         }
 
         if ($statusCode === 429) {
             throw new GeoliteException(sprintf(
-                'Daily quota exceeded. Message: %s', $json->error_message ?? 'empty error message'
+                'Daily quota exceeded. Message: %s', $json->error_message ?? 'empty error message',
             ));
         }
 
         if ($statusCode >= 300) {
             throw new GeoliteException(sprintf(
                 'The geocoder server returned [%s] an invalid response for query. Message: %s.',
-                $statusCode, $json->error_message ?? 'empty error message'
+                $statusCode, $json->error_message ?? 'empty error message',
             ));
         }
 

@@ -11,7 +11,6 @@ return new class extends Migration
     {
         $idsToKeep = DB::table('location_options')
             ->groupBy('id', 'location_id', 'item')
-            ->get()
             ->pluck('id')
             ->all();
 

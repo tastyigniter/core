@@ -32,7 +32,9 @@ class ConnectionFactory extends BaseConnectionFactory
                 }
             }
 
-            throw $e;
+            if (isset($e)) {
+                throw $e;
+            }
         };
     }
 

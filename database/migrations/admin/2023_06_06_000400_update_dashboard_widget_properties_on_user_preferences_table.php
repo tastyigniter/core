@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\DB;
 return new class extends Migration
 {
     protected array $widgetsMap = [
-        \System\DashboardWidgets\Activities::class => ['recent-activities'],
-        \System\DashboardWidgets\Cache::class => ['cache'],
-        \System\DashboardWidgets\News::class => ['news'],
-        \Admin\DashboardWidgets\Onboarding::class => ['onboarding'],
-        \Admin\DashboardWidgets\Statistics::class => ['stats', 'card'],
-        \Admin\DashboardWidgets\Charts::class => ['charts', 'dataset'],
+        'System\DashboardWidgets\Activities' => ['recent-activities'],
+        'System\DashboardWidgets\Cache' => ['cache'],
+        'System\DashboardWidgets\News' => ['news'],
+        'Admin\DashboardWidgets\Onboarding' => ['onboarding'],
+        'Admin\DashboardWidgets\Statistics' => ['stats', 'card'],
+        'Admin\DashboardWidgets\Charts' => ['charts', 'dataset'],
     ];
 
     public function up()

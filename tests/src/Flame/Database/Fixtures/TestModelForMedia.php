@@ -1,0 +1,24 @@
+<?php
+
+namespace Igniter\Tests\Flame\Database\Fixtures;
+
+use Igniter\Flame\Database\Attach\HasMedia;
+use Igniter\Flame\Database\Model;
+
+class TestModelForMedia extends Model
+{
+    use HasMedia;
+
+    public $table = 'countries';
+
+    protected $primaryKey = 'country_id';
+
+    public $timestamps = true;
+
+    public $mediable = ['thumb', 'image', 'gallery' => ['multiple' => true]];
+
+    public function getMorphClass()
+    {
+        return 'test_countries';
+    }
+}

@@ -12,6 +12,7 @@ use Igniter\Main\FormWidgets\MediaFinder;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Models\Page;
 use Igniter\Tests\Fixtures\Controllers\TestController;
+use Igniter\Tests\Flame\Database\Fixtures\TestModelForMedia;
 
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
@@ -231,13 +232,8 @@ it('throws exception when adding attachment on a non existing model', function()
 
 it('adds attachment correctly', function() {
     $this->mediaFinderWidget->useAttachment = true;
-    $this->mediaFinderWidget->model = new class extends Model
-    {
-        use HasMedia;
-
-        public $mediable = ['image'];
-    };
-    $this->mediaFinderWidget->model->exists = true;
+    $this->mediaFinderWidget->model = new TestModelForMedia();
+    $this->mediaFinderWidget->model->save();
     request()->merge([
         'media_id' => 1,
         'items' => [

@@ -86,7 +86,7 @@ class OnboardingSteps
         }
 
         // Load manually registered components
-        foreach (static::$callbacks as $callback) {
+        foreach (self::$callbacks as $callback) {
             $callback($this);
         }
 
@@ -145,11 +145,11 @@ class OnboardingSteps
      */
     public static function registerCallback(callable $callback)
     {
-        static::$callbacks[] = $callback;
+        self::$callbacks[] = $callback;
     }
 
     public static function clearCallbacks()
     {
-        static::$callbacks = [];
+        self::$callbacks = [];
     }
 }

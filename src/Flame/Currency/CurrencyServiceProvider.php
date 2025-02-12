@@ -25,7 +25,7 @@ class CurrencyServiceProvider extends ServiceProvider
     protected function registerMiddlewareAlias()
     {
         $this->app[\Illuminate\Routing\Router::class]->aliasMiddleware(
-            'currency', CurrencyMiddleware::class
+            'currency', CurrencyMiddleware::class,
         );
     }
 
@@ -42,8 +42,8 @@ class CurrencyServiceProvider extends ServiceProvider
             $this->app['events']->dispatch('currency.beforeRegister', [$this]);
 
             return new Currency(
-                $app->config->get('igniter-currency', []),
-                $app['cache']
+                $app->config['igniter-currency'] ?? [],
+                $app['cache'],
             );
         });
     }

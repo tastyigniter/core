@@ -395,7 +395,7 @@ abstract class Model extends EloquentModel
 
         // Halted by event
         if ($result === false) {
-            return $result;
+            return false;
         }
 
         //If there is nothing to update, Eloquent will not fire afterSave(),
@@ -414,7 +414,7 @@ abstract class Model extends EloquentModel
      * @return bool
      * @throws \Exception
      */
-    public function save(?array $options = null, $sessionKey = null)
+    public function save(?array $options = null)
     {
         return $this->saveInternal(['force' => false] + (array)$options);
     }
@@ -427,11 +427,11 @@ abstract class Model extends EloquentModel
      * @return bool
      * @throws \Exception
      */
-    public function push($options = null, $sessionKey = null)
+    public function push($options = null)
     {
         $always = Arr::get($options, 'always', false);
 
-        if (!$this->save(null, $sessionKey) && !$always) {
+        if (!$this->save() && !$always) {
             return false;
         }
 
@@ -444,12 +444,10 @@ abstract class Model extends EloquentModel
                 $models = $models->all();
             } elseif ($models instanceof EloquentModel) {
                 $models = [$models];
-            } else {
-                $models = (array)$models;
             }
 
             foreach (array_filter($models) as $model) {
-                if (!$model->push(null, $sessionKey)) {
+                if (!$model->push($options)) {
                     return false;
                 }
             }
@@ -498,9 +496,7 @@ abstract class Model extends EloquentModel
                     continue;
                 }
 
-                if (!$relation = $this->{$name}) {
-                    continue;
-                }
+                $relation = $this->{$name};
 
                 if ($relation instanceof EloquentModel) {
                     $relation->forceDelete();
@@ -516,11 +512,9 @@ abstract class Model extends EloquentModel
              */
             if ($type == 'belongsToMany') {
                 foreach ($relations as $name => $options) {
-                    if (!Arr::get($options, 'delete', Arr::get($options, 'detach', true))) {
-                        continue;
+                    if (Arr::get($options, 'delete', Arr::get($options, 'detach', true))) {
+                        $this->{$name}()->detach();
                     }
-
-                    $this->{$name}()->detach();
                 }
             }
         }

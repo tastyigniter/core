@@ -1,17 +1,9 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Filter;
 
 use Igniter\Flame\Assetic\Asset\AssetInterface;
+use Igniter\Flame\Support\Facades\File;
 
 /**
  * Fixes relative CSS urls.
@@ -38,17 +30,17 @@ class CssRewriteFilter extends BaseCssFilter
             [$host, $path] = explode('/', $url, 2);
 
             $host = $scheme.'://'.$host.'/';
-            $path = !str_contains($path, '/') ? '' : dirname($path);
+            $path = !str_contains($path, '/') ? '' : File::dirname($path);
             $path .= '/';
         } else {
             // assume source and target are on the same host
             $host = '';
 
             // pop entries off the target until it fits in the source
-            if (dirname($sourcePath) == '.') {
+            if (File::dirname($sourcePath) == '.') {
                 $path = str_repeat('../', substr_count($targetPath, '/'));
-            } elseif ('.' == $targetDir = dirname($targetPath)) {
-                $path = dirname($sourcePath).'/';
+            } elseif ('.' == $targetDir = File::dirname($targetPath)) {
+                $path = File::dirname($sourcePath).'/';
             } else {
                 $path = '';
                 while (!str_starts_with($sourcePath, $targetDir)) {
@@ -61,12 +53,15 @@ class CssRewriteFilter extends BaseCssFilter
                         break;
                     }
                 }
-                $path .= ltrim(substr(dirname($sourcePath).'/', strlen($targetDir)), '/');
+                $path .= ltrim(substr(File::dirname($sourcePath).'/', strlen($targetDir)), '/');
             }
         }
 
         $content = $this->filterReferences($asset->getContent(), function($matches) use ($host, $path) {
-            if (strpos($matches['url'], '://') !== false || strpos($matches['url'], '//') === 0 || strpos($matches['url'], 'data:') === 0) {
+            if (str_contains($matches['url'], '://') ||
+                str_starts_with($matches['url'], '//') ||
+                str_starts_with($matches['url'], 'data:')
+            ) {
                 // absolute or protocol-relative or data uri
                 return $matches[0];
             }
@@ -78,7 +73,7 @@ class CssRewriteFilter extends BaseCssFilter
 
             // document relative
             $url = $matches['url'];
-            while (strpos($url, '../') === 0 && substr_count($path, '/') >= 2) {
+            while (str_starts_with($url, '../') && substr_count($path, '/') >= 2) {
                 $path = substr($path, 0, strrpos(rtrim($path, '/'), '/') + 1);
                 $url = substr($url, 3);
             }

@@ -40,24 +40,20 @@ class Migrator extends BaseMigrator
 
     protected function rollDown($paths = [], array $options = [])
     {
-        foreach ($paths as $group => $path) {
-            $this->getRepository()->setGroup($group);
+        $migrations = $this->getMigrationFiles($paths);
 
-            $migrations = $this->getMigrationFiles($paths);
+        $migrations = array_reverse($migrations);
 
-            $migrations = array_reverse($migrations);
+        $this->requireFiles($migrations);
 
-            $this->requireFiles($migrations);
+        if (count($migrations) === 0) {
+            $this->write(Info::class, 'Nothing to rollback.');
 
-            if (count($migrations) === 0) {
-                $this->note(Info::class, 'Nothing to rollback.');
+            return;
+        }
 
-                return;
-            }
-
-            foreach ($migrations as $migration => $file) {
-                $this->runDown($file, $migration, $options['pretend'] ?? false);
-            }
+        foreach ($migrations as $migration => $file) {
+            $this->runDown($file, $migration, $options['pretend'] ?? false);
         }
 
         return $this;

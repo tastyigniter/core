@@ -4,7 +4,6 @@ namespace Igniter\Flame\Database\Query;
 
 use Igniter\Flame\Database\MemoryCache;
 use Illuminate\Database\Query\Builder as IlluminateQueryBuilder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 
 /**
@@ -39,13 +38,6 @@ class Builder extends IlluminateQueryBuilder
      * @var bool
      */
     protected $cachingDuplicateQueries = false;
-
-    /**
-     * The aliased concatenation columns.
-     *
-     * @var array
-     */
-    public $concats = [];
 
     /**
      * Get an array with the values of a given column.
@@ -126,14 +118,11 @@ class Builder extends IlluminateQueryBuilder
             $this->columns = $columns;
         }
 
-        $cache = MemoryCache::instance();
-
+        $cache = resolve(MemoryCache::class);
         if ($cache->has($this)) {
             $results = collect($cache->get($this));
         } else {
-            $results = !is_null($this->cacheMinutes)
-                ? $this->getCached($columns)
-                : parent::get($columns);
+            $results = !is_null($this->cacheMinutes) ? $this->getCached($columns) : parent::get($columns);
 
             $cache->put($this, $results->all());
         }
@@ -307,50 +296,6 @@ class Builder extends IlluminateQueryBuilder
     }
 
     /**
-     * Insert new records or update the existing ones.
-     *
-     * @param array|string $uniqueBy
-     * @param array|null $update
-     * @return int
-     */
-    public function upsert(array $values, $uniqueBy, $update = null)
-    {
-        if (empty($values)) {
-            return 0;
-        }
-
-        if ($update === []) {
-            return (int)$this->insert($values);
-        }
-
-        if (!is_array(reset($values))) {
-            $values = [$values];
-        } else {
-            foreach ($values as $key => $value) {
-                ksort($value);
-
-                $values[$key] = $value;
-            }
-        }
-
-        if (is_null($update)) {
-            $update = array_keys(reset($values));
-        }
-
-        $bindings = $this->cleanBindings(array_merge(
-            Arr::flatten($values, 1),
-            collect($update)->reject(function($value, $key) {
-                return is_int($key);
-            })->all()
-        ));
-
-        return $this->connection->affectingStatement(
-            $this->grammar->compileUpsert($this, $values, (array)$uniqueBy, $update),
-            $bindings
-        );
-    }
-
-    /**
      * Run a truncate statement on the table.
      *
      * @return void
@@ -370,7 +315,7 @@ class Builder extends IlluminateQueryBuilder
      */
     public function clearDuplicateCache($table = null)
     {
-        MemoryCache::instance()->forget($table ?: $this->from);
+        resolve(MemoryCache::class)->forget($table ?: $this->from);
 
         return $this;
     }
@@ -382,7 +327,7 @@ class Builder extends IlluminateQueryBuilder
      */
     public function flushDuplicateCache()
     {
-        MemoryCache::instance()->flush();
+        resolve(MemoryCache::class)->flush();
 
         return $this;
     }
@@ -419,19 +364,5 @@ class Builder extends IlluminateQueryBuilder
     public function cachingDuplicates()
     {
         return $this->cachingDuplicateQueries;
-    }
-
-    /**
-     * Adds a concatenated column as an alias.
-     *
-     * @param array $parts The concatenation parts.
-     * @param string $as The name of the alias for the compiled concatenation.
-     * @return $this
-     */
-    public function selectConcat(array $parts, string $as)
-    {
-        $this->concats[$as] = $parts;
-
-        return $this;
     }
 }

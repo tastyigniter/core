@@ -41,7 +41,7 @@ trait HasAttributes
         $attributes = $this->getArrayableAttributes();
 
         $attributes = $this->addMutatedAttributesToArray(
-            $attributes, $this->getMutatedAttributes()
+            $attributes, $this->getMutatedAttributes(),
         );
 
         // Here we will grab all of the appended, calculated attributes to this model
@@ -71,7 +71,7 @@ trait HasAttributes
             // mutated attribute's actual values. After we finish mutating each of the
             // attributes we will return this final array of the mutated attributes.
             $attributes[$key] = $this->mutateAttributeForArray(
-                $key, $attributes[$key]
+                $key, $attributes[$key],
             );
         }
 
@@ -314,9 +314,7 @@ trait HasAttributes
      */
     public function isDirty(array|string|null $attributes = null): bool
     {
-        return $this->hasChanges(
-            $this->getDirty(), is_array($attributes) ? $attributes : func_get_args()
-        );
+        return $this->hasChanges($this->getDirty(), is_array($attributes) ? $attributes : func_get_args());
     }
 
     /**
@@ -332,9 +330,7 @@ trait HasAttributes
      */
     public function wasChanged(array|string|null $attributes = null): bool
     {
-        return $this->hasChanges(
-            $this->getChanges(), is_array($attributes) ? $attributes : func_get_args()
-        );
+        return $this->hasChanges($this->getChanges(), is_array($attributes) ? $attributes : func_get_args());
     }
 
     /**
@@ -398,10 +394,6 @@ trait HasAttributes
 
         if ($current === $original) {
             return true;
-        }
-
-        if (is_null($current)) {
-            return false;
         }
 
         return is_numeric($current) && is_numeric($original)

@@ -247,12 +247,12 @@ class Igniter
         return $this->isAdminUser($user) || $this->isCustomer($user);
     }
 
-    public function isCustomer($user): bool
+    public function isCustomer(?Authenticatable $user): bool
     {
         return $user instanceof Customer;
     }
 
-    public function isAdminUser($user): bool
+    public function isAdminUser(?Authenticatable $user): bool
     {
         return $user instanceof User;
     }

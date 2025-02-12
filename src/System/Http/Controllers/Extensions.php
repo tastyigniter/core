@@ -295,11 +295,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         // Prepare query and find model record
         $result = $model->getSettingsRecord();
 
-        if (!$result) {
-            return $model;
-        }
-
-        return $result;
+        return $result ?: $model;
     }
 
     protected function formValidate(Model $model, Form $form): array|false|null

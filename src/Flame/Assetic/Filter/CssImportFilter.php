@@ -15,6 +15,7 @@ use Igniter\Flame\Assetic\Asset\AssetInterface;
 use Igniter\Flame\Assetic\Asset\FileAsset;
 use Igniter\Flame\Assetic\Asset\HttpAsset;
 use Igniter\Flame\Assetic\Factory\AssetFactory;
+use Igniter\Flame\Support\Facades\File;
 
 /**
  * Inlines imported stylesheets.
@@ -46,12 +47,12 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
 
             $importRoot = $sourceRoot;
 
-            if (strpos($matches['url'], '://') !== false) {
+            if (str_contains($matches['url'], '://')) {
                 // absolute
                 [$importScheme, $tmp] = explode('://', $matches['url'], 2);
                 [$importHost, $importPath] = explode('/', $tmp, 2);
                 $importRoot = $importScheme.'://'.$importHost;
-            } elseif (strpos($matches['url'], '//') === 0) {
+            } elseif (str_starts_with($matches['url'], '//')) {
                 // protocol-relative
                 [$importHost, $importPath] = explode('/', substr($matches['url'], 2), 2);
                 $importRoot = '//'.$importHost;
@@ -61,7 +62,7 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
             } elseif ($sourcePath !== null) {
                 // document-relative
                 $importPath = $matches['url'];
-                if ('.' != $sourceDir = dirname($sourcePath)) {
+                if ('.' != $sourceDir = File::dirname($sourcePath)) {
                     $importPath = $sourceDir.'/'.$importPath;
                 }
             } else {
@@ -69,9 +70,9 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
             }
 
             $importSource = $importRoot.'/'.$importPath;
-            if (strpos($importSource, '://') !== false || strpos($importSource, '//') === 0) {
+            if (str_contains($importSource, '://') || str_starts_with($importSource, '//')) {
                 $import = new HttpAsset($importSource, [$importFilter], true);
-            } elseif (pathinfo($importPath, PATHINFO_EXTENSION) != 'css' || !file_exists($importSource)) {
+            } elseif (pathinfo($importPath, PATHINFO_EXTENSION) != 'css' || !File::exists($importSource)) {
                 // ignore non-css and non-existant imports
                 return $matches[0];
             } else {

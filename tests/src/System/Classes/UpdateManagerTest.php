@@ -375,7 +375,7 @@ function mockRequestUpdate()
 function mockInstalledItems(): void
 {
     Extension::create(['name' => 'extension1', 'version' => '1.0.0']);
-    Theme::create(['code' => 'theme1', 'name' => 'Theme', 'version' => '1.0.0', 'data' => []]);
+    Theme::factory()->create(['code' => 'theme1', 'name' => 'Theme', 'version' => '1.0.0', 'data' => []]);
     $expectedResponse = [
         'data' => [
             ['code' => 'extension1', 'icon' => null],

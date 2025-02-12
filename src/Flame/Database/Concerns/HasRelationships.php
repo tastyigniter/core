@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Database\Concerns;
 
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Relations\BelongsTo;
 use Igniter\Flame\Database\Relations\BelongsToMany;
 use Igniter\Flame\Database\Relations\HasMany;
@@ -70,7 +71,7 @@ trait HasRelationships
     public function getRelationDefinition($name)
     {
         if (($type = $this->getRelationType($name)) !== null) {
-            return (array)$this->relation[$type][$name] + $this->getRelationDefaults($type);
+            return (array)$this->relation[$type][$name];
         }
     }
 
@@ -88,13 +89,6 @@ trait HasRelationships
             }
 
             $result[$type] = $this->relation[$type];
-
-            // Apply default values for the relation type
-            if ($defaults = $this->getRelationDefaults($type)) {
-                foreach ($result[$type] as $relation => $options) {
-                    $result[$type][$relation] = (array)$options + $defaults;
-                }
-            }
         }
 
         return $result;
@@ -150,7 +144,7 @@ trait HasRelationships
      *
      * @param string $name Relation name
      *
-     * @return string
+     * @return Model
      */
     public function makeRelation($name)
     {
@@ -184,25 +178,6 @@ trait HasRelationships
         return (bool)$definition['push'];
     }
 
-    /**
-     * Returns default relation arguments for a given type.
-     *
-     * @param string $type Relation type
-     *
-     * @return array
-     */
-    protected function getRelationDefaults($type)
-    {
-        switch ($type) {
-            case 'attachOne':
-            case 'attachMany':
-                return ['order' => 'sort_order', 'delete' => true];
-
-            default:
-                return [];
-        }
-    }
-
     public function handleRelation($relationName)
     {
         $relationType = $this->getRelationType($relationName);
@@ -210,13 +185,13 @@ trait HasRelationships
 
         if (!isset($relation[0]) && $relationType != 'morphTo') {
             throw new InvalidArgumentException(sprintf(
-                "Relation '%s' on model '%s' should have at least a classname.", $relationName, get_called_class()
+                "Relation '%s' on model '%s' should have at least a classname.", $relationName, get_called_class(),
             ));
         }
 
         if (isset($relation[0]) && $relationType == 'morphTo') {
             throw new InvalidArgumentException(sprintf(
-                "Relation '%s' on model '%s' is a morphTo relation and should not contain additional arguments.", $relationName, get_called_class()
+                "Relation '%s' on model '%s' is a morphTo relation and should not contain additional arguments.", $relationName, get_called_class(),
             ));
         }
 
@@ -225,57 +200,55 @@ trait HasRelationships
             case 'hasMany':
             case 'belongsTo':
                 $relation = $this->validateRelationArgs($relationName,
-                    ['foreignKey', 'otherKey']
+                    ['foreignKey', 'otherKey'],
                 );
-                $relationObj = $this->$relationType(
+                return $this->$relationType(
                     $relation[0],
                     $relation['foreignKey'],
                     $relation['otherKey'],
-                    $relationName);
-                break;
+                    $relationName,
+                );
 
             case 'belongsToMany':
                 $relation = $this->validateRelationArgs($relationName,
-                    ['table', 'foreignKey', 'otherKey', 'parentKey', 'relatedKey', 'pivot', 'timestamps']
+                    ['table', 'foreignKey', 'otherKey', 'parentKey', 'relatedKey', 'pivot', 'timestamps'],
                 );
 
-                $relationObj = $this->$relationType(
+                return $this->$relationType(
                     $relation[0],
                     $relation['table'],
                     $relation['foreignKey'],
                     $relation['otherKey'],
                     $relation['parentKey'],
                     $relation['relatedKey'],
-                    $relationName);
-                break;
+                    $relationName,
+                );
 
             case 'morphTo':
                 $relation = $this->validateRelationArgs($relationName,
-                    ['name', 'type', 'id']
+                    ['name', 'type', 'id'],
                 );
-                $relationObj = $this->$relationType($relation['name'] ?: $relationName, $relation['type'], $relation['id']);
-                break;
+                return $this->$relationType($relation['name'] ?: $relationName, $relation['type'], $relation['id']);
 
             case 'morphOne':
             case 'morphMany':
                 $relation = $this->validateRelationArgs($relationName,
-                    ['type', 'id', 'foreignKey'], ['name']
+                    ['type', 'id', 'foreignKey'], ['name'],
                 );
-                $relationObj = $this->$relationType(
+                return $this->$relationType(
                     $relation[0],
                     $relation['name'],
                     $relation['type'],
                     $relation['id'],
                     $relation['foreignKey'],
-                    $relationName
+                    $relationName,
                 );
-                break;
 
             case 'morphToMany':
                 $relation = $this->validateRelationArgs($relationName,
-                    ['table', 'foreignKey', 'otherKey', 'pivot', 'timestamps'], ['name']
+                    ['table', 'foreignKey', 'otherKey', 'pivot', 'timestamps'], ['name'],
                 );
-                $relationObj = $this->$relationType(
+                return $this->$relationType(
                     $relation[0],
                     $relation['name'],
                     $relation['table'],
@@ -285,13 +258,12 @@ trait HasRelationships
                     null,
                     false,
                     $relationName);
-                break;
 
             case 'morphedByMany':
                 $relation = $this->validateRelationArgs($relationName,
-                    ['table', 'foreignKey', 'otherKey', 'parentKey', 'relatedKey', 'pivot', 'timestamps'], ['name']
+                    ['table', 'foreignKey', 'otherKey', 'parentKey', 'relatedKey', 'pivot', 'timestamps'], ['name'],
                 );
-                $relationObj = $this->$relationType(
+                return $this->$relationType(
                     $relation[0],
                     $relation['name'],
                     $relation['table'],
@@ -299,29 +271,22 @@ trait HasRelationships
                     $relation['otherKey'],
                     $relation['parentKey'],
                     $relation['relatedKey'],
-                    $relationName
+                    $relationName,
                 );
-                break;
 
             case 'hasOneThrough':
             case 'hasManyThrough':
                 $relation = $this->validateRelationArgs($relationName, ['foreignKey', 'throughKey', 'otherKey', 'secondOtherKey'], ['through']);
-                $relationObj = $this->$relationType(
+                return $this->$relationType(
                     $relation[0],
                     $relation['through'],
                     $relation['foreignKey'],
                     $relation['throughKey'],
                     $relation['otherKey'],
                     $relation['secondOtherKey'],
-                    $relationName
+                    $relationName,
                 );
-                break;
-
-            default:
-                throw new InvalidArgumentException(sprintf("There is no such relation type known as '%s' on model '%s'.", $relationType, get_called_class()));
         }
-
-        return $relationObj;
     }
 
     /**
@@ -355,7 +320,7 @@ trait HasRelationships
             throw new InvalidArgumentException(sprintf('Relation "%s" on model "%s" should contain the following key(s): %s',
                 $relationName,
                 get_called_class(),
-                implode(', ', $missingRequired)
+                implode(', ', $missingRequired),
             ));
         }
 
@@ -385,7 +350,7 @@ trait HasRelationships
             $this,
             $instance->getTable().'.'.$foreignKey,
             $localKey,
-            $relationName
+            $relationName,
         );
     }
 
@@ -396,9 +361,7 @@ trait HasRelationships
      */
     public function hasOneThrough($related, $through, $primaryKey = null, $throughKey = null, $localKey = null, $secondLocalKey = null, $relationName = null)
     {
-        if (is_null($relationName)) {
-            $relationName = $this->getRelationCaller();
-        }
+        $relationName ??= $this->getRelationCaller();
 
         $throughInstance = new $through;
 
@@ -438,7 +401,7 @@ trait HasRelationships
             $this,
             $instance->getTable().'.'.$foreignKey,
             $localKey,
-            $relationName
+            $relationName,
         );
     }
 
@@ -477,7 +440,7 @@ trait HasRelationships
             $secondKey,
             $localKey,
             $secondLocalKey,
-            $relationName
+            $relationName,
         );
     }
 
@@ -498,14 +461,14 @@ trait HasRelationships
             $this,
             $foreignKey,
             $otherKey,
-            $relationName
+            $relationName,
         );
     }
 
     public function belongsToMany(
         $related,
         $table = null, $foreignPivotKey = null, $relatedPivotKey = null,
-        $parentKey = null, $relatedKey = null, $relationName = null
+        $parentKey = null, $relatedKey = null, $relationName = null,
     ) {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
@@ -520,7 +483,7 @@ trait HasRelationships
         return new BelongsToMany(
             $instance->newQuery(), $this, $table, $foreignPivotKey,
             $relatedPivotKey, $parentKey ?: $this->getKeyName(),
-            $relatedKey ?: $instance->getKeyName(), $relationName
+            $relatedKey ?: $instance->getKeyName(), $relationName,
         );
     }
 
@@ -552,7 +515,7 @@ trait HasRelationships
             $table.'.'.$type,
             $table.'.'.$id,
             $localKey,
-            $relationName
+            $relationName,
         );
     }
 
@@ -572,7 +535,7 @@ trait HasRelationships
             $id,
             $ownerKey,
             $type,
-            $name
+            $name,
         );
     }
 
@@ -588,7 +551,7 @@ trait HasRelationships
     protected function morphInstanceTo($target, $name, $type, $id, $ownerKey)
     {
         $instance = $this->newRelatedInstance(
-            static::getActualClassNameForMorph($target)
+            static::getActualClassNameForMorph($target),
         );
 
         return new MorphTo(
@@ -597,7 +560,7 @@ trait HasRelationships
             $id,
             $ownerKey ?? $instance->getKeyName(),
             $type,
-            $name
+            $name,
         );
     }
 
@@ -629,7 +592,7 @@ trait HasRelationships
             $table.'.'.$type,
             $table.'.'.$id,
             $localKey,
-            $relationName
+            $relationName,
         );
     }
 
@@ -649,7 +612,7 @@ trait HasRelationships
     public function morphToMany(
         $related, $name, $table = null, $foreignPivotKey = null,
         $relatedPivotKey = null, $parentKey = null,
-        $relatedKey = null, $inverse = false, $relationName = null
+        $relatedKey = null, $inverse = false, $relationName = null,
     ) {
         $relationName = $relationName ?: $this->guessBelongsToManyRelation();
 
@@ -677,7 +640,7 @@ trait HasRelationships
             $parentKey ?: $this->getKeyName(),
             $relatedKey ?: $instance->getKeyName(),
             $relationName,
-            $inverse
+            $inverse,
         );
     }
 
@@ -695,7 +658,7 @@ trait HasRelationships
      */
     public function morphedByMany(
         $related, $name, $table = null, $foreignPivotKey = null,
-        $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relationName = null
+        $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relationName = null,
     ) {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
@@ -712,7 +675,7 @@ trait HasRelationships
             $parentKey,
             $relatedKey,
             true,
-            $relationName
+            $relationName,
         );
     }
 }

@@ -26,10 +26,6 @@ class Processor
      */
     public function processSelectAll(Finder $finder, array $results): ?array
     {
-        if (!count($results)) {
-            return [];
-        }
-
         $items = [];
 
         foreach ($results as $result) {

@@ -1,18 +1,11 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Flame\Assetic\Util\VarUtils;
+use Igniter\Flame\Support\Facades\File;
+use RuntimeException;
 
 /**
  * Represents an asset loaded from a file.
@@ -36,12 +29,12 @@ class FileAsset extends BaseAsset
     public function __construct($source, $filters = [], $sourceRoot = null, $sourcePath = null, array $vars = [])
     {
         if ($sourceRoot === null) {
-            $sourceRoot = dirname($source);
+            $sourceRoot = File::dirname($source);
             if ($sourcePath === null) {
-                $sourcePath = basename($source);
+                $sourcePath = File::name($source);
             }
         } elseif ($sourcePath === null) {
-            if (strpos($source, $sourceRoot) !== 0) {
+            if (!str_starts_with($source, $sourceRoot)) {
                 throw new \InvalidArgumentException(sprintf('The source "%s" is not in the root directory "%s"', $source, $sourceRoot));
             }
 
@@ -57,21 +50,21 @@ class FileAsset extends BaseAsset
     {
         $source = VarUtils::resolve($this->source, $this->getVars(), $this->getValues());
 
-        if (!is_file($source)) {
-            throw new \RuntimeException(sprintf('The source file "%s" does not exist.', $source));
+        if (!File::isFile($source)) {
+            throw new RuntimeException(sprintf('The source file "%s" does not exist.', $source));
         }
 
-        $this->doLoad(file_get_contents($source), $additionalFilter);
+        $this->doLoad(File::get($source), $additionalFilter);
     }
 
     public function getLastModified(): ?int
     {
         $source = VarUtils::resolve($this->source, $this->getVars(), $this->getValues());
 
-        if (!is_file($source)) {
+        if (!File::isFile($source)) {
             throw new \RuntimeException(sprintf('The source file "%s" does not exist.', $source));
         }
 
-        return filemtime($source);
+        return File::lastModified($source);
     }
 }

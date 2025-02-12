@@ -19,7 +19,7 @@ trait NestedTree
      */
     public function getLftName()
     {
-        return defined('static::NEST_LEFT') ? static::NEST_LEFT : 'nest_left';
+        return 'nest_left';
     }
 
     /**
@@ -29,7 +29,7 @@ trait NestedTree
      */
     public function getRgtName()
     {
-        return defined('static::NEST_RIGHT') ? static::NEST_RIGHT : 'nest_right';
+        return 'nest_right';
     }
 
     /**
@@ -39,21 +39,20 @@ trait NestedTree
      */
     public function getParentIdName()
     {
-        return defined('static::PARENT_ID') ? static::PARENT_ID : 'parent_id';
+        return 'parent_id';
     }
 
-    public static function create(array $attributes = [], $parentOrSessionKey = null)
+    public static function create(array $attributes = [], $parent = null)
     {
         $children = array_pull($attributes, 'children');
 
         $instance = new static($attributes);
 
-        if ($parentOrSessionKey instanceof self) {
-            $instance->appendToNode($parentOrSessionKey);
-            $parentOrSessionKey = null;
+        if ($parent instanceof self) {
+            $instance->appendToNode($parent);
         }
 
-        $instance->save(null, $parentOrSessionKey);
+        $instance->save();
 
         // Now create children
         $relation = new EloquentCollection;

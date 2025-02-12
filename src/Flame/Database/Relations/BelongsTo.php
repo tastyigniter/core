@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo as BelongsToBase;
  */
 class BelongsTo extends BelongsToBase
 {
-    use DeferOneOrMany;
     use DefinedConstraints;
 
     /**
@@ -31,25 +30,17 @@ class BelongsTo extends BelongsToBase
     /**
      * Adds a model to this relationship type.
      */
-    public function add(Model $model, $sessionKey = null)
+    public function add(Model $model)
     {
-        if ($sessionKey === null) {
-            $this->associate($model);
-        } else {
-            $this->child->bindDeferred($this->relationName, $model, $sessionKey);
-        }
+        return $this->associate($model);
     }
 
     /**
      * Removes a model from this relationship type.
      */
-    public function remove(Model $model, $sessionKey = null)
+    public function remove(Model $model)
     {
-        if ($sessionKey === null) {
-            $this->dissociate();
-        } else {
-            $this->child->unbindDeferred($this->relationName, $model, $sessionKey);
-        }
+        return $this->dissociate();
     }
 
     /**
@@ -67,7 +58,7 @@ class BelongsTo extends BelongsToBase
 
         if ($value instanceof Model) {
             /*
-             * Non existent model, use a single serve event to associate it again when ready
+             * Non-existent model, use a single serve event to associate it again when ready
              */
             if (!$value->exists) {
                 $value->bindEventOnce('model.afterSave', function() use ($value) {

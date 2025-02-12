@@ -69,7 +69,7 @@ class Geolite
             ->setPrecision(config('igniter-geocoder.precision', 8));
     }
 
-    public function coordinates(null|int|float $latitude, null|int|float $longitude): CoordinatesInterface
+    public function coordinates(int|float $latitude, int|float $longitude): CoordinatesInterface
     {
         return (new Coordinates($latitude, $longitude))
             ->setPrecision(config('igniter-geocoder.precision', 8));

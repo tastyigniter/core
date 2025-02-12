@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Currency\Console;
 
+use Igniter\Flame\Currency\Facades\Currency;
 use Illuminate\Console\Command;
 
 class Update extends Command
@@ -27,6 +28,6 @@ class Update extends Command
      */
     public function handle()
     {
-        app('currency')->updateRates(true);
+        Currency::updateRates(true);
     }
 }

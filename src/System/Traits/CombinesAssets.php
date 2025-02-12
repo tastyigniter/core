@@ -7,6 +7,7 @@ use Igniter\Flame\Assetic\Asset\AssetCache;
 use Igniter\Flame\Assetic\Asset\AssetCollection;
 use Igniter\Flame\Assetic\Asset\FileAsset;
 use Igniter\Flame\Assetic\Asset\HttpAsset;
+use Igniter\Flame\Assetic\AssetManager;
 use Igniter\Flame\Assetic\Cache\FilesystemCache;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Flame\Exception\SystemException;
@@ -121,11 +122,12 @@ trait CombinesAssets
         $this->storagePath = null;
 
         $targetPath = File::localToPublic(dirname($destination));
-        $combiner = $this->prepareCombiner($assets, $targetPath);
+        $assetCollection = $this->prepareCombiner($assets);
+        $assetCollection->setTargetPath($this->getCombinerPath($targetPath));
 
         File::makeDirectory(dirname($destination), 0777, true, true);
 
-        File::put($destination, $combiner->dump());
+        File::put($destination, $assetCollection->dump());
     }
 
     public function combineGetContents(string $cacheKey): \Illuminate\Http\Response
@@ -150,8 +152,9 @@ trait CombinesAssets
 
         // Request says response is cached, no code evaluation needed
         if ($modified) {
-            $combiner = $this->prepareCombiner($cacheData['files']);
-            $contents = $combiner->dump();
+            $assetCollection = $this->prepareCombiner($cacheData['files']);
+            $assetCollection->setTargetPath($this->getCombinerPath());
+            $contents = $assetCollection->dump();
             $response->setContent($contents);
         }
 
@@ -206,7 +209,7 @@ trait CombinesAssets
         return array_filter($assets);
     }
 
-    protected function prepareCombiner(array $assets, ?string $targetPath = null): AssetCollection
+    protected function prepareCombiner(array $assets): AssetCollection
     {
         // Extensibility
         AssetsBeforePrepareCombinerEvent::dispatch($this, $assets);
@@ -215,35 +218,34 @@ trait CombinesAssets
         foreach ($assets as $path) {
             $filters = $this->getFilters(File::extension($path)) ?: [];
 
-            if (File::exists($basePath = base_path($path))) {
-                $path = $basePath;
+            if (starts_with($path, ['//', 'http://', 'https://'])) {
+                $asset = new HttpAsset($path, $filters);
+            } else {
+                if (File::exists($basePath = base_path($path))) {
+                    $path = $basePath;
+                }
+
+                if (!File::exists($path)) {
+                    $path = File::symbolizePath($path, null) ?? $path;
+                }
+
+                if (!File::exists($path)) {
+                    continue;
+                }
+
+                $source = str_starts_with($path, public_path())
+                    ? public_path()
+                    : dirname($path);
+
+                $asset = new FileAsset($path, $filters, $source);
             }
-
-            if (!File::exists($path)) {
-                $path = File::symbolizePath($path, null) ?? $path;
-            }
-
-            if (!File::exists($path)) {
-                continue;
-            }
-
-            $source = str_starts_with($path, public_path())
-                ? public_path()
-                : dirname($path);
-
-            $asset = starts_with($path, ['//', 'http://', 'https://'])
-                ? new HttpAsset($path, $filters)
-                : new FileAsset($path, $filters, $source);
 
             $files[] = $asset;
         }
 
         $files = $this->applyCacheOnFiles($files);
 
-        $collection = new AssetCollection($files, []);
-        $collection->setTargetPath($this->getCombinerPath($targetPath));
-
-        return $collection;
+        return resolve(AssetManager::class)->makeCollection($files, []);
     }
 
     /**

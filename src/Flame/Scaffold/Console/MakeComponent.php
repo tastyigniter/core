@@ -36,7 +36,7 @@ class MakeComponent extends GeneratorCommand
      */
     protected $stubs = [
         'component/component.stub' => 'src/Components/{{studly_name}}.php',
-        'component/default.stub' => 'src/Components/{{lower_name}}/default.blade.php',
+        'component/default.stub' => 'resources/views/_components/{{lower_name}}/default.blade.php',
     ];
 
     /**
@@ -49,7 +49,7 @@ class MakeComponent extends GeneratorCommand
         if (!$code = $this->getExtensionInput()) {
             $this->error('Invalid extension name, Example name: AuthorName.ExtensionName');
 
-            return;
+            return false;
         }
 
         [$author, $extension] = $code;

@@ -10,7 +10,7 @@ class Coordinates implements CoordinatesInterface
         private null|int|float $latitude,
         private null|int|float $longitude,
         private ?Ellipsoid $ellipsoid = null,
-        private int $precision = 0
+        private int $precision = 0,
     ) {
         $this->latitude = $this->normalizeLatitude($latitude);
         $this->longitude = $this->normalizeLongitude($longitude);
@@ -110,11 +110,6 @@ class Coordinates implements CoordinatesInterface
      */
     public function toArray(): array
     {
-        return [$this->getLongitude(), $this->getLatitude()];
-    }
-
-    protected function typeToString(mixed $value): string
-    {
-        return is_object($value) ? get_class($value) : gettype($value);
+        return [$this->getLatitude(), $this->getLongitude()];
     }
 }

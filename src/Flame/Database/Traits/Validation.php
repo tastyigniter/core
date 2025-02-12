@@ -52,7 +52,7 @@ trait Validation
         if (!property_exists(get_called_class(), 'rules')) {
             throw new LogicException(sprintf(
                 'You must define a $rules property in %s to use the Validation trait.',
-                get_called_class()
+                get_called_class(),
             ));
         }
 
@@ -68,7 +68,7 @@ trait Validation
     }
 
     /**
-     * Returns whether or not the model will attempt to validate
+     * Returns whether the model will attempt to validate
      * itself when saving.
      *
      * @return bool
@@ -84,9 +84,9 @@ trait Validation
      * @param bool $value
      * @return void
      */
-    public function setValidating($value)
+    public function setValidating(bool $value)
     {
-        $this->validating = (bool)$value;
+        $this->validating = $value;
     }
 
     /**
@@ -147,7 +147,7 @@ trait Validation
      */
     public function getRules()
     {
-        return isset($this->rules) ? $this->rules : [];
+        return $this->rules ?? [];
     }
 
     /**
@@ -183,25 +183,14 @@ trait Validation
     }
 
     /**
-     * Returns whether the model will raise an exception or
-     * return a boolean when validating.
-     *
-     * @return bool
-     */
-    public function getThrowValidationExceptions()
-    {
-        return $this->throwValidationExceptions ?? true;
-    }
-
-    /**
-     * Returns whether or not the model will add it's unique
+     * Returns whether the model will add it's unique
      * identifier to the rules when validating.
      *
      * @return bool
      */
     public function getInjectUniqueIdentifier()
     {
-        return isset($this->injectUniqueIdentifier) ? $this->injectUniqueIdentifier : true;
+        return $this->injectUniqueIdentifier ?? true;
     }
 
     /**
@@ -221,7 +210,6 @@ trait Validation
      * Perform validation with the specified ruleset.
      *
      * @param string $event
-     * @return bool
      */
     protected function performValidation($event)
     {
@@ -238,11 +226,7 @@ trait Validation
                 $this->fireValidatedEvents('failed');
                 $this->fireEvent('model.afterValidate', ['failed']);
 
-                if ($this->getThrowValidationExceptions()) {
-                    $this->throwValidationException();
-                }
-
-                return false;
+                $this->throwValidationException();
             }
             // Fire the validating.passed event.
             $this->fireValidatedEvents('passed');
@@ -258,7 +242,7 @@ trait Validation
         $parsed = ValidationHelper::prepareRules($rules);
         $rules = Arr::get($parsed, 'rules', $rules);
 
-        // Get the casted model attributes.
+        // Get the cast model attributes.
         $attributes = $this->getValidationAttributes();
 
         if ($this->getInjectUniqueIdentifier()) {
@@ -269,7 +253,7 @@ trait Validation
             $attributes,
             $rules,
             $this->getValidationMessages(),
-            Arr::get($parsed, 'attributes', $this->getValidationAttributeNames())
+            Arr::get($parsed, 'attributes', $this->getValidationAttributeNames()),
         );
     }
 
@@ -290,7 +274,7 @@ trait Validation
         }
 
         if ($this->methodExists('beforeValidate')) {
-            $this->beforeValidate();
+            return $this->beforeValidate();
         }
     }
 
@@ -328,10 +312,10 @@ trait Validation
                     $parameters = explode(':', $rule);
                     $validationRule = array_shift($parameters);
 
-                    if ($method = $this->getUniqueIdentifierInjectorMethod($validationRule)) {
+                    if ($method = $this->getPrepareRuleMethod($validationRule)) {
                         $ruleset[$key] = call_user_func_array(
                             [$this, $method],
-                            [explode(',', head($parameters)), $field]
+                            [explode(',', head($parameters)), $field],
                         );
                     } elseif ($validationRule === 'unique' && $this->exists) {
                         $ruleset[$key] = $this->processValidationUniqueRule($rule, $field);
@@ -354,7 +338,7 @@ trait Validation
      * @param string $validationRule
      * @return mixed
      */
-    protected function getUniqueIdentifierInjectorMethod($validationRule)
+    protected function getPrepareRuleMethod($validationRule)
     {
         $method = 'prepare'.Str::studly($validationRule).'Rule';
 
@@ -370,17 +354,18 @@ trait Validation
     protected function processValidationUniqueRule($definition, $fieldName)
     {
         [
+            $rule,
             $table,
             $column,
             $key,
             $keyName,
             $whereColumn,
             $whereValue,
-        ] = array_pad(explode(',', $definition), 6, null);
+        ] = array_pad(explode(',', $definition), 7, null);
 
-        $table = $this->getConnectionName().'.'.$this->getTable();
+        $table = $table ?: $this->getConnectionName().'.'.$this->getTable();
         $column = $column ?: $fieldName;
-        $key = $keyName ? $this->$keyName : $this->getKey();
+        $key = $key ?: ($keyName ? $this->$keyName : $this->getKey());
         $keyName = $keyName ?: $this->getKeyName();
 
         $params = [$table, $column, $key, $keyName];

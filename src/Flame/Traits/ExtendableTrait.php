@@ -4,7 +4,6 @@ namespace Igniter\Flame\Traits;
 
 use BadMethodCallException;
 use Igniter\Flame\Support\ClassLoader;
-use Illuminate\Support\Facades\App;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -69,23 +68,11 @@ trait ExtendableTrait
         }
 
         // Apply extensions
-        if (!$this->implement) {
-            return;
-        }
-
-        if (is_string($this->implement)) {
-            $uses = explode(',', $this->implement);
-        } elseif (is_array($this->implement)) {
-            $uses = $this->implement;
-        } else {
-            throw new \InvalidArgumentException(sprintf('Class %s contains an invalid $implement value', get_class($this)));
-        }
-
-        foreach (array_unique($uses) as $use) {
+        foreach (array_unique($this->implement) as $use) {
             $useClass = $this->extensionNormalizeClassName($use);
 
             // Soft implement
-            if (substr($useClass, 0, 1) == '?') {
+            if (str_starts_with($useClass, '?')) {
                 $useClass = substr($useClass, 1);
                 if (!class_exists($useClass)) {
                     continue;
@@ -157,7 +144,7 @@ trait ExtendableTrait
         if (!method_exists($extensionObject, 'extensionIsHiddenMethod')) {
             throw new \LogicException(sprintf(
                 'Extension %s should implement Igniter\Flame\Traits\ExtensionTrait.',
-                $extensionName
+                $extensionName,
             ));
         }
 
@@ -176,7 +163,7 @@ trait ExtendableTrait
     /**
      * Programmatically adds a method to the extendable class
      */
-    public function addDynamicMethod(string $dynamicName, callable $method, ?string $extension = null): void
+    public function addDynamicMethod(string $dynamicName, string|callable $method, ?string $extension = null): void
     {
         if (
             is_string($method) &&
@@ -190,7 +177,7 @@ trait ExtendableTrait
     }
 
     /**
-     * Programatically adds a property to the extendable class
+     * Programmatically adds a property to the extendable class
      */
     public function addDynamicProperty(string $dynamicName, mixed $value = null): void
     {
@@ -233,12 +220,6 @@ trait ExtendableTrait
         return $this->extensionData['extensions'][$this->extensionNormalizeClassName($name)] ?? null;
     }
 
-    /**
-     * Short hand for getClassExtension() method, except takes the short
-     * extension name, example:
-     *
-     *   $this->asExtension('FormController')
-     */
     public function asExtension(string $shortName): mixed
     {
         foreach ($this->extensionData['extensions'] as $class => $obj) {
@@ -272,7 +253,7 @@ trait ExtendableTrait
         return array_values(array_unique(array_merge(
             get_class_methods($this),
             array_keys($this->extensionData['methods']),
-            array_keys($this->extensionData['dynamicMethods'])
+            array_keys($this->extensionData['dynamicMethods']),
         )));
     }
 
@@ -315,7 +296,7 @@ trait ExtendableTrait
     /**
      * Checks if a property is accessible, property equivalent of is_callabe()
      */
-    protected function extendableIsAccessible(string $class, string $propertyName): bool
+    protected function extendableIsAccessible(string|object $class, string $propertyName): bool
     {
         $reflector = new ReflectionClass($class);
         $property = $reflector->getProperty($propertyName);
@@ -358,17 +339,13 @@ trait ExtendableTrait
             $extensionObject->{$name} = $value;
         }
 
-        /*
-         * This targets trait usage in particular
-         */
+        // This targets trait usage in particular
         $parent = get_parent_class(__CLASS__);
         if ($parent !== false && method_exists($parent, '__set')) {
             parent::__set($name, $value);
         }
 
-        /*
-         * Setting an undefined property
-         */
+        // Setting an undefined property
         if (!self::$extendableGuardProperties) {
             $this->{$name} = $value;
         }
@@ -384,7 +361,7 @@ trait ExtendableTrait
             $extensionObject = $this->extensionData['extensions'][$extension];
 
             if (method_exists($extension, $name)) {
-                return call_user_func_array([$extensionObject, $name], array_values($params));
+                return call_user_func_array([$extensionObject, $name], array_values($params ?? []));
             }
         }
 
@@ -392,7 +369,7 @@ trait ExtendableTrait
             $dynamicCallable = $this->extensionData['dynamicMethods'][$name];
 
             if (is_callable($dynamicCallable)) {
-                return call_user_func_array($dynamicCallable, array_values($params));
+                return call_user_func_array($dynamicCallable, array_values($params ?? []));
             }
         }
 
@@ -404,7 +381,7 @@ trait ExtendableTrait
         throw new BadMethodCallException(sprintf(
             'Call to undefined method %s::%s()',
             get_class($this),
-            $name
+            $name,
         ));
     }
 
@@ -424,21 +401,18 @@ trait ExtendableTrait
                 array_key_exists('implement', $defaultProperties) &&
                 ($implement = $defaultProperties['implement'])
             ) {
-                /*
-                 * Apply extensions
-                 */
-                if (is_string($implement)) {
-                    $uses = explode(',', $implement);
-                } elseif (is_array($implement)) {
-                    $uses = $implement;
-                } else {
-                    throw new \InvalidArgumentException(sprintf('Class %s contains an invalid $implement value', $className));
-                }
-
-                foreach ($uses as $use) {
+                // Apply extensions
+                foreach ($implement as $use) {
                     // Class alias checks not required here as the current name of the extension class doesn't
                     // matter because as long as $useClassName is able to be instantiated the method will resolve
                     $useClassName = str_replace('.', '\\', trim($use));
+                    // Soft implement
+                    if (str_starts_with($useClassName, '?')) {
+                        $useClassName = substr($useClassName, 1);
+                        if (!class_exists($useClassName)) {
+                            continue;
+                        }
+                    }
 
                     $useClass = new ReflectionClass($useClassName);
                     $staticMethods = $useClass->getMethods(ReflectionMethod::IS_STATIC);
@@ -454,7 +428,7 @@ trait ExtendableTrait
 
             if (method_exists($extension, $name) && is_callable([$extension, $name])) {
                 $extension::$extendableStaticCalledClass = $className;
-                $result = forward_static_call_array([$extension, $name], $params);
+                $result = forward_static_call_array([$extension, $name], $params ?? []);
                 $extension::$extendableStaticCalledClass = null;
 
                 return $result;
@@ -466,26 +440,6 @@ trait ExtendableTrait
             return parent::__callStatic($name, $params);
         }
 
-        throw new BadMethodCallException(sprintf(
-            'Call to undefined method %s::%s()',
-            $className,
-            $name
-        ));
-    }
-
-    /**
-     * Gets the class loader
-     */
-    protected function extensionGetClassLoader(): ?ClassLoader
-    {
-        if (!is_null(self::$extendableClassLoader)) {
-            return self::$extendableClassLoader;
-        }
-
-        if (!class_exists('App')) {
-            return null;
-        }
-
-        return self::$extendableClassLoader = App::make(ClassLoader::class);
+        throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', $className, $name));
     }
 }

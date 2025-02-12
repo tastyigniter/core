@@ -44,7 +44,7 @@ class MakeExtension extends GeneratorCommand
         if (!$code = $this->getExtensionInput()) {
             $this->error('Invalid extension name, Example name: AuthorName.ExtensionName');
 
-            return;
+            return false;
         }
 
         [$author, $name] = $code;

@@ -127,7 +127,7 @@ it('returns default theme code from config when no active theme', function() {
     Event::fake();
     Igniter::shouldReceive('hasDatabase')->andReturn(true);
     \Igniter\Main\Models\Theme::clearDefaultModel();
-    \Igniter\Main\Models\Theme::create([
+    \Igniter\Main\Models\Theme::factory()->create([
         'name' => 'Default Theme',
         'code' => 'defaultThemeCode',
         'status' => 1,
@@ -174,7 +174,7 @@ it('returns correct config array', function() {
 
 it('returns the correct custom data', function() {
     $themeData = ['field1' => 'value1'];
-    \Igniter\Main\Models\Theme::create([
+    \Igniter\Main\Models\Theme::factory()->create([
         'code' => 'themeCode',
         'data' => $themeData,
     ]);
@@ -212,7 +212,7 @@ it('returns empty array when theme data is not available', function() {
 
 it('returns empty array when no asset variables are defined', function() {
     \Igniter\Main\Models\Theme::clearThemeInstances();
-    \Igniter\Main\Models\Theme::create([
+    \Igniter\Main\Models\Theme::factory()->create([
         'code' => 'themeCode',
         'data' => ['field1' => 'value1'],
     ]);
@@ -241,7 +241,7 @@ it('returns empty array when no asset variables are defined', function() {
 
 it('returns correct asset variables when defined', function() {
     \Igniter\Main\Models\Theme::clearThemeInstances();
-    \Igniter\Main\Models\Theme::create([
+    \Igniter\Main\Models\Theme::factory()->create([
         'code' => 'themeCode',
         'data' => ['field1' => 'value1'],
     ]);

@@ -204,7 +204,7 @@ class Ellipsoid
     public function __construct(protected string $name, protected float $a, protected ?float $invF)
     {
         if ((float)$invF <= 0.0) {
-            throw new InvalidArgumentException('The inverse flattening cannot be negative or equal to zero !');
+            throw new GeoliteException('The inverse flattening cannot be negative or equal to zero !');
         }
     }
 
@@ -216,12 +216,12 @@ class Ellipsoid
         $name = trim($name);
 
         if (empty($name)) {
-            throw new InvalidArgumentException('Please provide an ellipsoid name !');
+            throw new GeoliteException('Please provide an ellipsoid name !');
         }
 
         if (!array_key_exists($name, self::$referenceEllipsoids)) {
-            throw new InvalidArgumentException(
-                sprintf('%s ellipsoid does not exist in selected reference ellipsoids !', $name)
+            throw new GeoliteException(
+                sprintf('%s ellipsoid does not exist in selected reference ellipsoids !', $name),
             );
         }
 
@@ -234,7 +234,7 @@ class Ellipsoid
     public static function createFromArray(array $newEllipsoid): self
     {
         if (!isset($newEllipsoid['name'], $newEllipsoid['a'], $newEllipsoid['invF']) || count($newEllipsoid) !== 3) {
-            throw new InvalidArgumentException('Ellipsoid arrays should contain `name`, `a` and `invF` keys !');
+            throw new GeoliteException('Ellipsoid arrays should contain `name`, `a` and `invF` keys !');
         }
 
         return new self($newEllipsoid['name'], $newEllipsoid['a'], $newEllipsoid['invF']);
@@ -245,7 +245,7 @@ class Ellipsoid
      */
     public static function checkCoordinatesEllipsoid(CoordinatesInterface $a, CoordinatesInterface $b)
     {
-        if ($a->getEllipsoid() != $b->getEllipsoid()) {
+        if ($a->getEllipsoid()->getName() !== $b->getEllipsoid()->getName()) {
             throw new GeoliteException('The ellipsoids for both coordinates must match !');
         }
     }

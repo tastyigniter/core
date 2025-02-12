@@ -59,9 +59,9 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
      */
     public function __construct(array $attributes = [])
     {
-        $this->bootIfNotBooted();
-
         $this->bootNicerEvents();
+
+        $this->bootIfNotBooted();
 
         parent::__construct();
 
@@ -95,7 +95,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     }
 
     /**
-     * Boot all of the bootable traits on the model.
+     * Boot all the bootable traits on the model.
      */
     protected static function bootTraits(): void
     {
@@ -152,7 +152,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     }
 
     /**
-     * Get all of the models from the source.
+     * Get all the models from the source.
      */
     public static function all(): Collection
     {
@@ -187,7 +187,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Get the value of the model's primary key.
      */
-    public function getKey(): mixed
+    public function getKey(): string|null
     {
         return str_replace(DIRECTORY_SEPARATOR, '.', $this->getBaseFileName());
     }
@@ -195,7 +195,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Get the primary key for the model.
      *
-     * @return string
+     * @return null|string
      */
     public function getKeyName()
     {
@@ -432,7 +432,6 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
             return parent::__call($name, $params);
         } catch (BadMethodCallException) {
             $finder = $this->newFinder();
-
             return call_user_func_array([$finder, $name], $params);
         }
     }
@@ -497,7 +496,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
      *
      * @return array
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

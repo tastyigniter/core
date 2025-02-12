@@ -85,7 +85,7 @@ class Loader implements TemplateLoader
 
         $view = $name;
         if (File::extension($view) == $this->extension) {
-            $view = substr($view, 0, -strlen($this->extension));
+            $view = substr($view, 0, -(strlen($this->extension) + 1));
         }
 
         $path = $finder->find($view);
@@ -153,7 +153,7 @@ class Loader implements TemplateLoader
     /**
      * Looks up a fallback partial object.
      */
-    protected function findFallbackObject(string $name): PartialTemplate|bool
+    protected function findFallbackObject(string $name): PartialTemplate|bool|null
     {
         if (str_contains($name, '::')) {
             return false;

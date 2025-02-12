@@ -3,7 +3,6 @@
 namespace Igniter\Flame\Database;
 
 use Igniter\Flame\Database\Query\Builder as QueryBuilder;
-use Igniter\Flame\Traits\Singleton;
 
 /**
  * Query memory cache class.
@@ -14,8 +13,6 @@ use Igniter\Flame\Traits\Singleton;
  */
 class MemoryCache
 {
-    use Singleton;
-
     /**
      * Cached results.
      *

@@ -36,13 +36,11 @@ class StringParser
                 $replace,
                 is_array($value)
                     ? $this->parsePair($key, $value, $template)
-                    : $this->parseSingle($key, $value, $template)
+                    : $this->parseSingle($key, $value, $template),
             );
         }
 
-        $result = strtr($template, $replace);
-
-        return $result;
+        return strtr($template, $replace);
     }
 
     protected function parseSingle($key, $value, $template)
@@ -61,7 +59,7 @@ class StringParser
             '#'.preg_quote($this->left.$key.$this->right, '/').'(.+?)'.preg_quote($this->left.'/'.$key.$this->right, '/').'#s',
             $template,
             $matches,
-            PREG_SET_ORDER
+            PREG_SET_ORDER,
         );
 
         foreach ($matches as $match) {

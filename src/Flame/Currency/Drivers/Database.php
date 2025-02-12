@@ -3,12 +3,12 @@
 namespace Igniter\Flame\Currency\Drivers;
 
 use DateTime;
-use Illuminate\Database\DatabaseManager;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Collection;
 
 class Database extends AbstractDriver
 {
-    protected DatabaseManager $database;
+    protected ConnectionInterface $database;
 
     /**
      * Create a new driver instance.
@@ -23,22 +23,17 @@ class Database extends AbstractDriver
     public function create(array $params): bool
     {
         // Ensure the currency doesn't already exist
-        if ($this->find($params['code'], 0) !== null) {
+        if ($this->find(array_get($params, 'code', array_get($params, 'currency_code')), null) !== null) {
             return true;
         }
-
-        // Created at stamp
-        $created = new DateTime('now');
 
         $params = array_merge([
             'currency_name' => '',
             'currency_code' => '',
             'currency_symbol' => '',
-            'format' => '',
             'currency_rate' => 1,
             'currency_status' => 0,
-            // 'created_at' => $created,
-            'updated_at' => $created,
+            'updated_at' => now()->toDateTimeString(),
         ], $params);
 
         return $this->database->table($this->config('table'))->insert($params);
@@ -75,7 +70,7 @@ class Database extends AbstractDriver
             ->where('currency_code', strtoupper($code));
 
         // Make active optional
-        if (is_null($active) === false) {
+        if (!is_null($active)) {
             $query->where('currency_status', $active);
         }
 

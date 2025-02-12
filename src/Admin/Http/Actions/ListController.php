@@ -294,9 +294,7 @@ class ListController extends ControllerAction
     public function renderListToolbar(?string $alias = null): mixed
     {
         $alias = $alias ?? $this->primaryAlias;
-        if (isset($this->toolbarWidgets[$alias])) {
-            return $this->toolbarWidgets[$alias]->render();
-        }
+        return isset($this->toolbarWidgets[$alias]) ? $this->toolbarWidgets[$alias]->render() : null;
     }
 
     public function renderListFilter(?string $alias = null): mixed

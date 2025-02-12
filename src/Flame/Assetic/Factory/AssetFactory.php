@@ -1,26 +1,13 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Factory;
 
 use Igniter\Flame\Assetic\Asset\AssetCollection;
 use Igniter\Flame\Assetic\Asset\AssetCollectionInterface;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
-use Igniter\Flame\Assetic\Asset\AssetReference;
 use Igniter\Flame\Assetic\Asset\FileAsset;
-use Igniter\Flame\Assetic\Asset\GlobAsset;
 use Igniter\Flame\Assetic\Asset\HttpAsset;
-use Igniter\Flame\Assetic\AssetManager;
 use Igniter\Flame\Assetic\Filter\DependencyExtractorInterface;
-use Igniter\Flame\Assetic\FilterManager;
 
 /**
  * The asset factory creates asset objects.
@@ -36,10 +23,6 @@ class AssetFactory
     private $output;
 
     private $workers;
-
-    private $am;
-
-    private $fm;
 
     /**
      * Constructor.
@@ -86,46 +69,6 @@ class AssetFactory
     }
 
     /**
-     * Returns the current asset manager.
-     *
-     * @return AssetManager|null The asset manager
-     */
-    public function getAssetManager(): ?AssetManager
-    {
-        return $this->am;
-    }
-
-    /**
-     * Sets the asset manager to use when creating asset references.
-     *
-     * @param AssetManager $am The asset manager
-     */
-    public function setAssetManager(AssetManager $am)
-    {
-        $this->am = $am;
-    }
-
-    /**
-     * Returns the current filter manager.
-     *
-     * @return FilterManager|null The filter manager
-     */
-    public function getFilterManager(): ?FilterManager
-    {
-        return $this->fm;
-    }
-
-    /**
-     * Sets the filter manager to use when adding filters.
-     *
-     * @param FilterManager $fm The filter manager
-     */
-    public function setFilterManager(FilterManager $fm)
-    {
-        $this->fm = $fm;
-    }
-
-    /**
      * Creates a new asset.
      *
      * Prefixing a filter name with a question mark will cause it to be
@@ -144,14 +87,10 @@ class AssetFactory
      *
      * @return AssetCollection An asset collection
      */
-    public function createAsset(array|string $inputs = [], array|string $filters = [], array $options = []): AssetCollection
+    public function createAsset(array|string $inputs = [], array $filters = [], array $options = []): AssetCollection
     {
         if (!is_array($inputs)) {
             $inputs = [$inputs];
-        }
-
-        if (!is_array($filters)) {
-            $filters = [$filters];
         }
 
         if (!isset($options['output'])) {
@@ -196,10 +135,8 @@ class AssetFactory
 
         // filters
         foreach ($filters as $filter) {
-            if ($filter[0] != '?') {
-                $asset->ensureFilter($this->getFilter($filter));
-            } elseif (!$options['debug']) {
-                $asset->ensureFilter($this->getFilter(substr($filter, 1)));
+            if (!$options['debug']) {
+                $asset->ensureFilter($filter);
             }
         }
 
@@ -227,8 +164,7 @@ class AssetFactory
         // output --> target url
         $asset->setTargetPath(str_replace('*', $options['name'], $options['output']));
 
-        // apply workers and return
-        return $this->applyWorkers($asset);
+        return $asset instanceof AssetCollectionInterface ? $asset : $this->createAssetCollection([$asset]);
     }
 
     public function generateAssetName($inputs, $filters, $options = [])
@@ -296,10 +232,6 @@ class AssetFactory
      */
     protected function parseInput(string $input, array $options = []): AssetInterface
     {
-        if ($input[0] == '@') {
-            return $this->createAssetReference(substr($input, 1));
-        }
-
         if (str_contains($input, '://') || str_starts_with($input, '//')) {
             return $this->createHttpAsset($input, $options['vars']);
         }
@@ -316,10 +248,6 @@ class AssetFactory
             $input = $this->root.'/'.$path;
         }
 
-        if (str_contains($input, '*')) {
-            return $this->createGlobAsset($input, $root, $options['vars']);
-        }
-
         return $this->createFileAsset($input, $root, $path, $options['vars']);
     }
 
@@ -328,68 +256,14 @@ class AssetFactory
         return new AssetCollection($assets, [], null, $options['vars'] ?? []);
     }
 
-    protected function createAssetReference($name)
-    {
-        if (!$this->am) {
-            throw new \LogicException('There is no asset manager.');
-        }
-
-        return new AssetReference($this->am, $name);
-    }
-
     protected function createHttpAsset($sourceUrl, $vars)
     {
         return new HttpAsset($sourceUrl, [], false, $vars);
     }
 
-    protected function createGlobAsset($glob, $root = null, $vars = [])
-    {
-        return new GlobAsset($glob, [], $root, $vars);
-    }
-
     protected function createFileAsset($source, $root = null, $path = null, $vars = [])
     {
         return new FileAsset($source, [], $root, $path, $vars);
-    }
-
-    protected function getFilter($name)
-    {
-        if (!$this->fm) {
-            throw new \LogicException('There is no filter manager.');
-        }
-
-        return $this->fm->get($name);
-    }
-
-    /**
-     * Filters an asset collection through the factory workers.
-     *
-     * Each leaf asset will be processed first, followed by the asset
-     * collection itself.
-     *
-     * @param AssetCollectionInterface $asset An asset collection
-     */
-    private function applyWorkers(AssetCollectionInterface $asset): AssetCollectionInterface
-    {
-        foreach ($asset as $leaf) {
-            foreach ($this->workers as $worker) {
-                $retval = $worker->process($leaf, $this);
-
-                if ($retval instanceof AssetInterface && $leaf !== $retval) {
-                    $asset->replaceLeaf($leaf, $retval);
-                }
-            }
-        }
-
-        foreach ($this->workers as $worker) {
-            $retval = $worker->process($asset, $this);
-
-            if ($retval instanceof AssetInterface) {
-                $asset = $retval;
-            }
-        }
-
-        return $asset instanceof AssetCollectionInterface ? $asset : $this->createAssetCollection([$asset]);
     }
 
     private static function isAbsolutePath($path)

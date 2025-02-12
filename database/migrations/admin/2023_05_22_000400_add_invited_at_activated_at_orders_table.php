@@ -12,12 +12,20 @@ return new class extends Migration
     {
         Schema::table('admin_users', function(Blueprint $table) {
             $table->timestamp('invited_at')->nullable();
-            $table->renameColumn('date_activated', 'activated_at')->nullable();
+            $table->dateTime('date_activated')->change()->nullable();
         });
 
         Schema::table('customers', function(Blueprint $table) {
             $table->timestamp('invited_at')->nullable();
-            $table->renameColumn('date_activated', 'activated_at')->nullable();
+            $table->dateTime('date_activated')->change()->nullable();
+        });
+        
+        Schema::table('admin_users', function(Blueprint $table) {
+            $table->renameColumn('date_activated', 'activated_at');
+        });
+
+        Schema::table('customers', function(Blueprint $table) {
+            $table->renameColumn('date_activated', 'activated_at');
         });
     }
 

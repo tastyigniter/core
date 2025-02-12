@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Asset\Iterator\AssetCollectionFilterIterator;
@@ -36,14 +27,10 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
 
     public function __construct(
         private array $assets,
-        array $filters,
+        array $filters = [],
         private readonly ?string $sourceRoot = null,
         private readonly array $vars = [],
     ) {
-        foreach ($assets as $asset) {
-            $this->add($asset);
-        }
-
         $this->filters = new FilterCollection($filters);
         $this->clones = new \SplObjectStorage;
         $this->values = [];

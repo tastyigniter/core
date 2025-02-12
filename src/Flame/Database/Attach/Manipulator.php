@@ -2,7 +2,7 @@
 
 namespace Igniter\Flame\Database\Attach;
 
-use BadMethodCallException;
+use Igniter\Flame\Support\Facades\File;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use League\Glide\Server;
@@ -26,17 +26,6 @@ class Manipulator
     public static function make(string $file): self
     {
         return resolve(static::class)->useFile($file);
-    }
-
-    public function __call(string $name, array $arguments): self
-    {
-        if (!in_array($name, $this->getAvailableGlideParameters())) {
-            throw new BadMethodCallException("Manipulation '$name' is not a valid glide parameter");
-        }
-
-        $this->manipulations()->push($name, $arguments);
-
-        return $this;
     }
 
     public function useFile(string $file): self
@@ -234,16 +223,16 @@ class Manipulator
     protected function writeManipulatedContentsTo(string $path): void
     {
         if (starts_with($path, base_path())) {
-            copy($this->tempFilePath, $path);
+            File::copy($this->tempFilePath, $path);
         } else {
-            $this->source->put($path, file_get_contents($this->tempFilePath));
+            $this->source->put($path, File::get($this->tempFilePath));
         }
     }
 
     protected function copyFileContentsTo(string $path): void
     {
         if (starts_with($path, base_path())) {
-            copy($this->file, $path);
+            File::copy($this->file, $path);
         } else {
             $this->source->copy($this->file, $path);
         }

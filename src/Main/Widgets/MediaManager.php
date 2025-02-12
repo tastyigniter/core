@@ -196,7 +196,7 @@ class MediaManager extends BaseWidget
             'selectMode' => ['required', 'string'],
             'chooseButton' => ['required', 'boolean'],
             'chooseButtonText' => ['required', 'string'],
-            'goToItem' => ['required', 'string'],
+            'goToItem' => ['nullable', 'string'],
         ]);
 
         $this->popupLoaded = true;

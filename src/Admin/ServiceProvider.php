@@ -58,9 +58,7 @@ class ServiceProvider extends AppServiceProvider
      */
     protected function registerSingletons()
     {
-        $this->app->singleton('admin.helper', function() {
-            return new AdminHelper;
-        });
+        $this->app->singleton(AdminHelper::class);
 
         $this->app->singleton('admin.menu', function($app) {
             return new Classes\Navigation('igniter.admin::_partials');

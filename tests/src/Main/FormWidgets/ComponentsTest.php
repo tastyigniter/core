@@ -19,7 +19,7 @@ beforeEach(function() {
     $this->formField->displayAs('components');
     $this->formField->arrayName = 'theme';
     $this->componentsWidget = new Components($this->controller, $this->formField, [
-        'model' => Theme::create(['code' => 'tests-theme']),
+        'model' => Theme::factory()->make(['code' => 'tests-theme']),
         'form' => [
             'fields' => [
                 'alias' => [

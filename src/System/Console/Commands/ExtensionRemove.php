@@ -2,11 +2,11 @@
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Exception\ComposerException;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Throwable;
 
 class ExtensionRemove extends Command
 {
@@ -53,7 +53,7 @@ class ExtensionRemove extends Command
 
             $extensionManager->deleteExtension($extensionName);
             $this->output->writeln(sprintf('<info>Deleted extension: %s</info>', $extensionName));
-        } catch (ComposerException $e) {
+        } catch (Throwable $e) {
             $this->output->writeln($e->getMessage());
         }
     }

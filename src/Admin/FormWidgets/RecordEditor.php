@@ -257,7 +257,7 @@ class RecordEditor extends BaseFormWidget
             return $this->getRecordEditorOptions();
         });
 
-        return $this->clonedFormField = $field;
+        return $field;
     }
 
     protected function modelMethodExists(Model $model, string $methodName): bool

@@ -51,9 +51,6 @@ class Relation extends BaseFormWidget
 
     public Model $relatedModel;
 
-    /** Object used for rendering a simple field type */
-    public FormField $clonedFormField;
-
     public function initialize()
     {
         $this->fillFromConfig([
@@ -115,7 +112,7 @@ class Relation extends BaseFormWidget
      */
     protected function makeFormField(): FormField
     {
-        return $this->clonedFormField = RelationBase::noConstraints(function() {
+        return RelationBase::noConstraints(function() {
             $field = clone $this->formField;
             $relationObject = $this->getRelationObject();
             $query = $relationObject->newQuery();

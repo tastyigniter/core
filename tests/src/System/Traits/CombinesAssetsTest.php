@@ -2,6 +2,8 @@
 
 namespace Igniter\Tests\System\Traits;
 
+use Igniter\Flame\Assetic\Asset\AssetCollection;
+use Igniter\Flame\Assetic\AssetManager;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
@@ -11,12 +13,19 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 
 it('combines assets and returns correct URL', function() {
-    $assets = ['assets/css/vendor/animate.css', 'assets/css/vendor/dropzone.css'];
+    file_put_contents(base_path('style.css'), 'body {}');
+    $assets = [
+        'style.css',
+        'http://example.com/style.css',
+        'assets/css/vendor/animate.css',
+        'assets/css/vendor/dropzone.css',
+    ];
 
     $combinesAssetsObject = new Assets();
     $result = $combinesAssetsObject->combine('css', $assets);
 
     expect($result)->toContain('/_assets/');
+    unlink(base_path('style.css'));
 });
 
 it('combines assets to file', function() {
@@ -38,6 +47,7 @@ it('throws exception when cache key not found', function() {
 });
 
 it('combines assets and returns correct contents', function() {
+    File::deleteDirectory(storage_path('/igniter/combiner/data'));
     Cache::put('ti.combiner.assets_cache', base64_encode(serialize([
         'eTag' => 'eTag',
         'type' => 'css',
@@ -52,11 +62,18 @@ it('combines assets and returns correct contents', function() {
 });
 
 it('builds bundles and returns notes', function() {
+    Event::fake();
     $theme = resolve(ThemeManager::class)->findTheme('igniter-orange');
+    app()->instance(AssetManager::class, $assetManager = mock(AssetManager::class));
+    $assetManager->shouldReceive('makeCollection')->andReturn($assetCollection = mock(AssetCollection::class));
+    $assetCollection->shouldReceive('setTargetPath')->andReturnSelf();
+    $assetCollection->shouldReceive('dump')->andReturn('compiled css');
 
     $result = (new Assets())->buildBundles($theme);
 
     expect($result)->toContain('app.scss', ' -> /vendor/igniter-orange/css/app.css');
+
+    Event::assertDispatched('assets.combiner.afterBuildBundles');
 });
 
 it('flashes error when build bundles fails', function() {

@@ -1,15 +1,9 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2014 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Igniter\Flame\Assetic\Cache;
+
+use Igniter\Flame\Support\Facades\File;
+use RuntimeException;
 
 /**
  * A simple filesystem cache.
@@ -27,30 +21,30 @@ class FilesystemCache implements CacheInterface
 
     public function has(string $key): bool
     {
-        return file_exists($this->dir.'/'.$key);
+        return File::exists($this->dir.'/'.$key);
     }
 
     public function get(string $key): ?string
     {
         $path = $this->dir.'/'.$key;
 
-        if (!file_exists($path)) {
-            throw new \RuntimeException('There is no cached value for '.$key);
+        if (!File::exists($path)) {
+            throw new RuntimeException('There is no cached value for '.$key);
         }
 
-        return file_get_contents($path);
+        return File::get($path);
     }
 
     public function set(string $key, string $value)
     {
-        if (!is_dir($this->dir) && @mkdir($this->dir, 0777, true) === false) {
-            throw new \RuntimeException('Unable to create directory '.$this->dir);
+        if (!File::isDirectory($this->dir) && File::makeDirectory($this->dir, 0777, true) === false) {
+            throw new RuntimeException('Unable to create directory '.$this->dir);
         }
 
         $path = $this->dir.'/'.$key;
 
-        if (@file_put_contents($path, $value) === false) {
-            throw new \RuntimeException('Unable to write file '.$path);
+        if (File::put($path, $value) === false) {
+            throw new RuntimeException('Unable to write file '.$path);
         }
     }
 
@@ -58,8 +52,8 @@ class FilesystemCache implements CacheInterface
     {
         $path = $this->dir.'/'.$key;
 
-        if (file_exists($path) && @unlink($path) === false) {
-            throw new \RuntimeException('Unable to remove file '.$path);
+        if (File::exists($path) && File::delete($path) === false) {
+            throw new RuntimeException('Unable to remove file '.$path);
         }
     }
 }
