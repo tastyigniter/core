@@ -80,13 +80,13 @@ jobs:
         run: composer static
 
       - name: Run Admin test suite
-        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=admin
+        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=admin --recreate-databases
 
       - name: Run Flame test suite
-        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=flame
+        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=flame --recreate-databases
 
       - name: Run Main test suite
-        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=main
+        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=main --recreate-databases
 
       - name: Run System test suite
-        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=system
+        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10 --group=system --recreate-databases
