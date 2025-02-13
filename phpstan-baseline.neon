@@ -2106,6 +2106,11 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getTheme\\(\\)\\.$#"
 			count: 1
 			path: src/Main/Models/Theme.php
@@ -2581,6 +2586,11 @@ parameters:
 			path: src/System/Models/Country.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
 			message: "#^Method Igniter\\\\System\\\\Models\\\\Country\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
@@ -2613,6 +2623,11 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
 			count: 3
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
 			path: src/System/Models/Currency.php
 
 		-
@@ -2666,6 +2681,11 @@ parameters:
 			path: src/System/Models/Language.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
 			message: "#^Method Igniter\\\\System\\\\Models\\\\Language\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
 			count: 1
 			path: src/System/Models/Language.php
@@ -2682,6 +2702,11 @@ parameters:
 
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\MailLayout\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/MailLayout.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/MailLayout.php
 
@@ -2752,6 +2777,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:generatePermalinkOnSave\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Page.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Page.php
 
