@@ -59,12 +59,8 @@ jobs:
 
       - name: Create MySQL Database
         run: |
-          sudo systemctl start mysql
-          mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} --execute="
-            SET GLOBAL innodb_lock_wait_timeout = 50;
-            SET GLOBAL innodb_deadlock_detect = ON;
-          " --port ${{ job.services.mysql.ports['3306'] }}
-          mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' --port ${{ job.services.mysql.ports['3306'] }}
+          sudo service mysql start
+          mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }};" --port ${{ job.services.mysql.ports['3306'] }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -81,4 +77,4 @@ jobs:
         run: composer static
 
       - name: Run test suite
-        run: vendor/bin/pest --coverage --exactly=100 --parallel --processes=10
+        run: vendor/bin/pest --coverage --exactly=100
