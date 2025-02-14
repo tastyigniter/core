@@ -2546,11 +2546,6 @@ parameters:
 			path: src/System/Http/Controllers/Settings.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\System\\\\Libraries\\\\Assets\\:\\:\\$registeredCallback\\.$#"
-			count: 1
-			path: src/System/Libraries/Assets.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\AssetManager\\:\\:makeCollection\\(\\) invoked with 2 parameters, 1 required\\.$#"
 			count: 1
 			path: src/System/Libraries/Assets.php
@@ -2824,3 +2819,8 @@ parameters:
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Models/Settings.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:clearInternalCache\\(\\)\\.$#"
+			count: 1
+			path: src/System/ServiceProvider.php
