@@ -79,7 +79,6 @@ trait HasRelationships
 
     /**
      * Returns relationship details for all relations defined on this model.
-     * @return array
      */
     public function getRelationDefinitions(): array
     {

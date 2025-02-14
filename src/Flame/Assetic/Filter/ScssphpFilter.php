@@ -100,9 +100,6 @@ class ScssphpFilter implements DependencyExtractorInterface
 
     public function filterDump(AssetInterface $asset) {}
 
-    /**
-     * @return array
-     */
     public function getChildren(AssetFactory $factory, $content, $loadPath = null): array
     {
         $sc = new Compiler;

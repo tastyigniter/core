@@ -159,9 +159,6 @@ class MailTemplate extends Model
         return $template;
     }
 
-    /**
-     * @return array
-     */
     public static function listAllTemplates(): array
     {
         $registeredTemplates = (array)resolve(MailManager::class)->listRegisteredTemplates();

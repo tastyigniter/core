@@ -82,9 +82,6 @@ class Statistics extends BaseDashboardWidget
         $this->vars['statsCount'] = $this->getValue($context);
     }
 
-    /**
-     * @return array
-     */
     protected function listCards(): array
     {
         $result = [];

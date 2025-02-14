@@ -16,8 +16,6 @@ trait NestedTree
 
     /**
      * Get the lft key name.
-     *
-     * @return  string
      */
     public function getLftName(): string
     {
@@ -26,8 +24,6 @@ trait NestedTree
 
     /**
      * Get the rgt key name.
-     *
-     * @return  string
      */
     public function getRgtName(): string
     {
@@ -36,8 +32,6 @@ trait NestedTree
 
     /**
      * Get the parent id key name.
-     *
-     * @return  string
      */
     public function getParentIdName(): string
     {

@@ -135,9 +135,6 @@ class MailTheme extends Model
         ];
     }
 
-    /**
-     * @return array
-     */
     protected static function makeCssVars(): array
     {
         $result = [];

@@ -9,8 +9,6 @@ class ValidationHelper
     /**
      * Returns shared view variables, this should be used for simple rendering cycles.
      * Such as content blocks and mail templates.
-     *
-     * @return array
      */
     public static function prepareRules(array $rules): array
     {

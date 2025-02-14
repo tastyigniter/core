@@ -308,7 +308,6 @@ class ClassLoader
      * Gets aliases registered for a namespace, if available.
      *
      * @param string $namespace
-     * @return array
      */
     public function getNamespaceAliases($namespace): array
     {

@@ -151,7 +151,6 @@ class Extension extends Model
 
     /**
      * Sets the extension class as a property of this class
-     * @return bool
      */
     public function applyExtensionClass(): bool
     {
