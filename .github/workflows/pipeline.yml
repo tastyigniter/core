@@ -49,7 +49,7 @@ jobs:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
-      DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+      DB_PORT: 3306
       DB_DATABASE: 'testbench'
       DB_USERNAME: root
       DB_PASSWORD: root
@@ -60,7 +60,7 @@ jobs:
       - name: Create MySQL Database
         run: |
           sudo service mysql start
-          mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }};" --port ${{ job.services.mysql.ports['3306'] }}
+          mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }};"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
