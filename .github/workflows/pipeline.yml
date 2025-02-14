@@ -49,7 +49,7 @@ jobs:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
-      DB_PORT: 3306
+      DB_PORT: ${{ job.services.mysql.ports['3306'] }}
       DB_DATABASE: 'testbench'
       DB_USERNAME: root
       DB_PASSWORD: root
@@ -78,4 +78,4 @@ jobs:
         run: composer static
 
       - name: Run test suite
-        run: php -d memory_limit=-1 vendor/bin/pest --coverage --exactly=100 --parallel --recreate-databases
+        run: php -d memory_limit=-1 vendor/bin/pest --coverage --exactly=100 --parallel
