@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Assetic\Filter;
 
 use Igniter\Flame\Assetic\Asset\AssetInterface;

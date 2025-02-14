@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame;
 
 use Igniter\Flame\Composer\Manager as ComposerManaer;

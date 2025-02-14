@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Support;
 
 class StringParser
@@ -52,7 +54,10 @@ class StringParser
         return [$this->left.$key.$this->right => $value];
     }
 
-    protected function parsePair($key, $data, $template)
+    /**
+     * @return string[]
+     */
+    protected function parsePair($key, $data, $template): array
     {
         $replace = [];
         preg_match_all(

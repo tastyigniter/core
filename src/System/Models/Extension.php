@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Model;
@@ -48,7 +50,7 @@ class Extension extends Model
      */
     public $class;
 
-    public static function onboardingIsComplete()
+    public static function onboardingIsComplete(): bool
     {
         $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
         if (!$activeTheme) {
@@ -151,7 +153,7 @@ class Extension extends Model
      * Sets the extension class as a property of this class
      * @return bool
      */
-    public function applyExtensionClass()
+    public function applyExtensionClass(): bool
     {
         $code = $this->name;
 

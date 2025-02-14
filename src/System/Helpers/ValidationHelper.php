@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Helpers;
 
 class ValidationHelper
@@ -10,7 +12,7 @@ class ValidationHelper
      *
      * @return array
      */
-    public static function prepareRules(array $rules)
+    public static function prepareRules(array $rules): array
     {
         $result = [];
 

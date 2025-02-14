@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Helpers;
 
 use Igniter\Flame\Composer\Manager;
@@ -107,7 +109,7 @@ class SystemHelper
             'g' => $value * 1024 * 1024 * 1024,
             'm' => $value * 1024 * 1024,
             'k' => $value * 1024,
-            default => (int)$value,
+            default => $value,
         };
     }
 

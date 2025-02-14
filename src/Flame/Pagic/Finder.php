@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Pagic;
 
 use BadMethodCallException;
@@ -368,7 +370,7 @@ class Finder
         }
 
         if (!strlen($fileName)) {
-            throw (new MissingFileNameException)->setModel($this->model);
+            throw (new MissingFileNameException)->setModel($this->model::class);
         }
 
         if (!$this->validateFileNamePath($fileName, $this->model->getMaxNesting())) {

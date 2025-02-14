@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Assetic\Filter;
 
 use Igniter\Flame\Assetic\Asset\AssetInterface;
@@ -98,7 +100,10 @@ class ScssphpFilter implements DependencyExtractorInterface
 
     public function filterDump(AssetInterface $asset) {}
 
-    public function getChildren(AssetFactory $factory, $content, $loadPath = null)
+    /**
+     * @return array
+     */
+    public function getChildren(AssetFactory $factory, $content, $loadPath = null): array
     {
         $sc = new Compiler;
         if ($loadPath !== null) {

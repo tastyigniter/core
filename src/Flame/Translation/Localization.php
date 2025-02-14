@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Translation;
 
 use Carbon\Carbon;
@@ -31,7 +33,7 @@ class Localization
         }
     }
 
-    public function loadLocaleFromBrowser()
+    public function loadLocaleFromBrowser(): bool
     {
         if (!$this->detectBrowserLocale()) {
             return false;
@@ -47,7 +49,7 @@ class Localization
         return true;
     }
 
-    public function loadLocaleFromRequest()
+    public function loadLocaleFromRequest(): bool
     {
         $locale = $this->getRequestLocale();
         if (!$locale || !$this->isValid($locale)) {
@@ -59,7 +61,7 @@ class Localization
         return true;
     }
 
-    public function loadLocaleFromSession()
+    public function loadLocaleFromSession(): bool
     {
         $locale = $this->getSessionLocale();
         if (!$locale || !$this->isValid($locale)) {

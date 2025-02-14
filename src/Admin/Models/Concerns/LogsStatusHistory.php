@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Models\Concerns;
 
 use Igniter\Admin\Models\Status;

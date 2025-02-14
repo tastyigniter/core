@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Database\Migrations;
 
 use Illuminate\Console\View\Components\Info;

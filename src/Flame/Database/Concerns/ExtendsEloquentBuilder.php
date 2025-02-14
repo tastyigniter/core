@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Database\Concerns;
 
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -161,7 +163,6 @@ trait ExtendsEloquentBuilder
         $value = mb_strtolower(trim($value));
 
         if ($side === 'none') {
-            $value = $value;
         } elseif ($side === 'before') {
             $value = "%{$value}";
         } elseif ($side === 'after') {

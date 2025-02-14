@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Helpers;
 
 use Igniter\Flame\Exception\SystemException;

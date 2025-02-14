@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Pagic\Source;
 
 use Igniter\Flame\Pagic\Processors\Processor;

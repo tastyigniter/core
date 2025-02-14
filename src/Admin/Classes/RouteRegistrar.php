@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Classes;
 
 use Igniter\Flame\Support\Facades\File;
@@ -94,4 +96,3 @@ class RouteRegistrar
         return [$name, $uri];
     }
 }
-

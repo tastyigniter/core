@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Main\Traits;
 
 use Igniter\Main\Template\Page;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Notifications;
 
 use Igniter\Cart\Models\Order;

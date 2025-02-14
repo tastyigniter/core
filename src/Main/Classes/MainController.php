@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Main\Classes;
 
 use Igniter\Admin\Helpers\AdminHelper;
@@ -106,7 +108,7 @@ class MainController extends Controller
         }
     }
 
-    public function remap(string $method, array $parameters): mixed
+    public function remap(string $method, array $parameters = []): mixed
     {
         if (!$this->theme) {
             throw new FlashException(lang('igniter::main.not_found.active_theme'));
@@ -493,10 +495,8 @@ class MainController extends Controller
     public function renderPartialEach(string $name, array $params, string $iterator, bool $throwException = true): string
     {
         $output = '';
-        if (count($params) > 0) {
-            foreach ($params as $key => $value) {
-                $output .= $this->renderPartial($name, ['key' => $key, $iterator => $value], $throwException);
-            }
+        foreach ($params as $key => $value) {
+            $output .= $this->renderPartial($name, ['key' => $key, $iterator => $value], $throwException);
         }
 
         return $output;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Mail;
 
 use Igniter\Flame\Support\Facades\File;

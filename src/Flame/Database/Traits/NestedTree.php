@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Database\Traits;
 
 use Igniter\Flame\Database\NestedSet\QueryBuilder;
@@ -17,7 +19,7 @@ trait NestedTree
      *
      * @return  string
      */
-    public function getLftName()
+    public function getLftName(): string
     {
         return 'nest_left';
     }
@@ -27,7 +29,7 @@ trait NestedTree
      *
      * @return  string
      */
-    public function getRgtName()
+    public function getRgtName(): string
     {
         return 'nest_right';
     }
@@ -37,7 +39,7 @@ trait NestedTree
      *
      * @return  string
      */
-    public function getParentIdName()
+    public function getParentIdName(): string
     {
         return 'parent_id';
     }

@@ -2271,11 +2271,6 @@ parameters:
 			path: src/System/Classes/Controller.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:remap\\(\\) invoked with 1 parameter, 2 required\\.$#"
-			count: 1
-			path: src/System/Classes/Controller.php
-
-		-
 			message: "#^Method Igniter\\\\System\\\\Classes\\\\Controller\\:\\:locateControllerInPath\\(\\) should return bool\\|Igniter\\\\Admin\\\\Classes\\\\AdminController\\|Igniter\\\\Main\\\\Classes\\\\MainController but returns null\\.$#"
 			count: 1
 			path: src/System/Classes/Controller.php

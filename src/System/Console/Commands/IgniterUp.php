@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Console\Commands;
 
 use Igniter\Flame\Filesystem\Filesystem;

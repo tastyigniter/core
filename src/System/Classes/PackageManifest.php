@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Classes;
 
 use Illuminate\Foundation\PackageManifest as BasePackageManifest;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Database\Relations;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany as BelongsToManyBase;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Models;
 
 use Carbon\Carbon;
@@ -49,7 +51,10 @@ class Settings extends Model
      */
     protected static $callbacks = [];
 
-    public static function listMenuSettingItems($menu, $item, $user)
+    /**
+     * @return array[]
+     */
+    public static function listMenuSettingItems($menu, $item, $user): array
     {
         $options = [];
         $settingItems = (new static)->listSettingItems();
@@ -324,8 +329,10 @@ class Settings extends Model
     //
     // Form Dropdown options
     //
-
-    public static function listTimezones()
+    /**
+     * @return non-falsy-string[]
+     */
+    public static function listTimezones(): array
     {
         $timezoneIdentifiers = DateTimeZone::listIdentifiers();
         $utcTime = new DateTime('now', new DateTimeZone('UTC'));
@@ -335,7 +342,7 @@ class Settings extends Model
             $currentTimezone = new DateTimeZone($timezoneIdentifier);
 
             $tempTimezones[] = [
-                'offset' => (int)$currentTimezone->getOffset($utcTime),
+                'offset' => $currentTimezone->getOffset($utcTime),
                 'identifier' => $timezoneIdentifier,
             ];
         }

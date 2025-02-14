@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Exception;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Mail;
 
 /**
@@ -28,7 +30,7 @@ class MailParser
      * parsed INI file as array. If the content string doesn't contain a section, the corresponding
      * result element has null value.
      */
-    public static function parse($content)
+    public static function parse($content): array
     {
         $sections = preg_split('/^={2,}\s*/m', $content, -1);
         $count = count($sections);

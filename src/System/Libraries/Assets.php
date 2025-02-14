@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Libraries;
 
 use Igniter\Flame\Html\HtmlFacade as Html;
@@ -216,7 +218,7 @@ class Assets
     {
         $vars = array_get($this->assets['jsVars'], $key, []);
 
-        $value = array_merge((array)$vars, (array)$value);
+        $value = array_merge((array)$vars, $value);
 
         array_set($this->assets['jsVars'], $key, $value);
     }

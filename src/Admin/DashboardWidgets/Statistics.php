@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\DashboardWidgets;
 
 use Igniter\Admin\Classes\BaseDashboardWidget;
@@ -80,7 +82,10 @@ class Statistics extends BaseDashboardWidget
         $this->vars['statsCount'] = $this->getValue($context);
     }
 
-    protected function listCards()
+    /**
+     * @return array
+     */
+    protected function listCards(): array
     {
         $result = [];
 

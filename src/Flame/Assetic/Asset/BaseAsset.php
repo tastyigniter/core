@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Filter\FilterCollection;
@@ -130,11 +132,9 @@ abstract class BaseAsset implements AssetInterface
 
     public function setTargetPath(string $targetPath)
     {
-        if ($this->vars) {
-            foreach ($this->vars as $var) {
-                if (!str_contains($targetPath, $var)) {
-                    throw new \RuntimeException(sprintf('The asset target path "%s" must contain the variable "{%s}".', $targetPath, $var));
-                }
+        foreach ($this->vars as $var) {
+            if (!str_contains($targetPath, $var)) {
+                throw new \RuntimeException(sprintf('The asset target path "%s" must contain the variable "{%s}".', $targetPath, $var));
             }
         }
 

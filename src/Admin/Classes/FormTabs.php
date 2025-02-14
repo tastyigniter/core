@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Classes;
 
 use ArrayAccess;
@@ -100,9 +102,6 @@ class FormTabs implements ArrayAccess, IteratorAggregate
                 if ($fieldName == $name) {
                     unset($this->fields[$tab][$fieldName]);
 
-                    /*
-                     * Remove empty tabs from collection
-                     */
                     if (!count($this->fields[$tab])) {
                         unset($this->fields[$tab]);
                     }

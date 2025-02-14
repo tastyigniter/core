@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Geolite\Model;
 
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
@@ -102,7 +104,7 @@ class Coordinates implements CoordinatesInterface
         $fallback = $mod > 180 ? $mod - 360 : $mod;
         $longitude = $mod < -180 ? $mod + 360 : $fallback;
 
-        return (float)$longitude;
+        return $longitude;
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Assets helper functions
  */
@@ -23,7 +25,7 @@ if (!function_exists('set_meta')) {
      *
      * @param array $meta
      */
-    function set_meta($meta = [])
+    function set_meta($meta = []): void
     {
         Assets::collection()->addMeta($meta);
     }
@@ -46,7 +48,7 @@ if (!function_exists('set_favicon')) {
      *
      * @param string $href
      */
-    function set_favicon($href = '')
+    function set_favicon($href = ''): void
     {
         Assets::addFavIcon($href);
     }
@@ -71,7 +73,7 @@ if (!function_exists('set_style_tag')) {
      * @param string $href
      * @param string $name
      */
-    function set_style_tag($href = '', $name = '')
+    function set_style_tag($href = '', $name = ''): void
     {
         Assets::addCss($href);
     }
@@ -81,7 +83,7 @@ if (!function_exists('set_style_tags')) {
     /**
      * Set multiple stylesheet html tags
      */
-    function set_style_tags(array $tags = [])
+    function set_style_tags(array $tags = []): void
     {
         Assets::addTags(['css' => $tags]);
     }
@@ -106,7 +108,7 @@ if (!function_exists('set_script_tag')) {
      * @param string $href
      * @param string $name
      */
-    function set_script_tag($href = '', $name = '')
+    function set_script_tag($href = '', $name = ''): void
     {
         Assets::addJs($href);
     }
@@ -116,7 +118,7 @@ if (!function_exists('set_script_tags')) {
     /**
      * Set multiple scripts html tags
      */
-    function set_script_tags(array $tags = [])
+    function set_script_tags(array $tags = []): void
     {
         Assets::addTags(['js' => $tags]);
     }

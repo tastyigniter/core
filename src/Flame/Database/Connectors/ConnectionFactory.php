@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Database\Connectors;
 
 use Igniter\Flame\Database\Connections\MySqlConnection;
@@ -23,7 +25,7 @@ class ConnectionFactory extends BaseConnectionFactory
     protected function createPdoResolverWithHosts(array $config)
     {
         return function() use ($config) {
-            foreach (Arr::shuffle($hosts = $this->parseHosts($config)) as $key => $host) {
+            foreach (Arr::shuffle($hosts = $this->parseHosts($config)) as $host) {
                 $config['host'] = $host;
 
                 try {

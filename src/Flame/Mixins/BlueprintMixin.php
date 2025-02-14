@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Mixins;
 
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +16,7 @@ class BlueprintMixin
                 return array_get($key, 'name');
             }, Schema::getForeignKeys($this->getTable()));
 
-            if (ends_with($key, '_foreign')) {
-                $key = $key;
-            } else {
+            if (!ends_with($key, '_foreign')) {
                 $key = sprintf('%s_%s_foreign', $this->getTable(), $key);
             }
 

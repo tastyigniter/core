@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Geolite\Contracts;
 
 use Igniter\Flame\Geolite\Model\Ellipsoid;

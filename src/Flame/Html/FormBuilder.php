@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Html;
 
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -82,7 +84,7 @@ class FormBuilder
     /**
      * Input Type.
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * Create a new form builder instance.
@@ -143,7 +145,7 @@ class FormBuilder
     /**
      * Close the current form.
      *
-     * @return string
+     * @return HtmlString
      */
     public function close()
     {
@@ -155,7 +157,7 @@ class FormBuilder
     /**
      * Generate a hidden field with the current CSRF token.
      *
-     * @return string
+     * @return HtmlString
      */
     public function token()
     {

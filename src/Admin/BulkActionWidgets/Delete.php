@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\BulkActionWidgets;
 
 use Igniter\Admin\Classes\BaseBulkActionWidget;

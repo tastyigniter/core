@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Geolite;
 
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;

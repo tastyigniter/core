@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Pagic\Concerns;
 
 use Igniter\Flame\Pagic\Model;

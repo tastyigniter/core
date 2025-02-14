@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Support\Facades;
 
 use Igniter\Flame\Filesystem\Filesystem;

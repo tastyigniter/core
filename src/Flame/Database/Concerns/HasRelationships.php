@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Database\Concerns;
 
 use Igniter\Flame\Database\Model;
@@ -79,7 +81,7 @@ trait HasRelationships
      * Returns relationship details for all relations defined on this model.
      * @return array
      */
-    public function getRelationDefinitions()
+    public function getRelationDefinitions(): array
     {
         $result = [];
 

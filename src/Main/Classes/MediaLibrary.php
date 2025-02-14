@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Database\Attach\Manipulator;

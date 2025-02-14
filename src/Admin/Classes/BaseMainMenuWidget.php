@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Classes;
 
 class BaseMainMenuWidget extends BaseWidget

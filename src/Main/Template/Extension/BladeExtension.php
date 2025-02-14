@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Main\Template\Extension;
 
 use Illuminate\Support\Facades\Blade;

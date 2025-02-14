@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Http\Controllers;
 
 use Facades\Igniter\Flame\Support\LogViewer;

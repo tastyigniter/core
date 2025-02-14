@@ -46,13 +46,14 @@
   },
   "require-dev": {
     "fakerphp/faker": "~1.14",
+    "larastan/larastan": "^2.4.0",
     "laravel/pint": "^1.2",
     "mockery/mockery": "^1.5.1",
     "nunomaduro/collision": "^8.1",
-    "larastan/larastan": "^2.4.0",
     "orchestra/testbench": "^9.0",
     "pestphp/pest": "^3.7",
-    "pestphp/pest-plugin-laravel": "^3.0"
+    "pestphp/pest-plugin-laravel": "^3.0",
+    "rector/rector": "^1.2"
   },
   "replace": {
     "kriswallsmith/assetic": "*",

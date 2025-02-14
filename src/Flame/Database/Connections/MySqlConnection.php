@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Database\Connections;
 
 use Igniter\Flame\Database\Query\Builder as QueryBuilder;

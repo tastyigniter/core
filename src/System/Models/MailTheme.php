@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Models;
 
 use Exception;
@@ -133,7 +135,10 @@ class MailTheme extends Model
         ];
     }
 
-    protected static function makeCssVars()
+    /**
+     * @return array
+     */
+    protected static function makeCssVars(): array
     {
         $result = [];
         foreach (static::getCssVars() as $var => $default) {

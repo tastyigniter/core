@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Model;
@@ -157,7 +159,10 @@ class MailTemplate extends Model
         return $template;
     }
 
-    public static function listAllTemplates()
+    /**
+     * @return array
+     */
+    public static function listAllTemplates(): array
     {
         $registeredTemplates = (array)resolve(MailManager::class)->listRegisteredTemplates();
         $dbTemplates = (array)self::lists('code', 'code');

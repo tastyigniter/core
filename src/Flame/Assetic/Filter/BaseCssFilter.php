@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Assetic package, an OpenSky project.
  *
@@ -8,7 +10,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Igniter\Flame\Assetic\Filter;
 
 use Igniter\Flame\Assetic\Util\CssUtils;

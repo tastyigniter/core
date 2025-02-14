@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Http\Actions;
 
 use Igniter\Admin\Facades\Template;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Widgets;
 
 use Igniter\Admin\Classes\BaseWidget;

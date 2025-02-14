@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Main\Components;
 
 use Igniter\Flame\Pagic\TemplateCode;

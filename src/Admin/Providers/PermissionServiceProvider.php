@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Providers;
 
 use Igniter\User\Classes\PermissionManager;

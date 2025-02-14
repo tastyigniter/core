@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Main\Models;
 
 use Igniter\Flame\Database\Factories\HasFactory;
@@ -127,7 +129,10 @@ class Theme extends Model
         return Layout::getDropdownOptions($this->getTheme()->getName());
     }
 
-    public static function getComponentOptions()
+    /**
+     * @return array[]
+     */
+    public static function getComponentOptions(): array
     {
         $components = [];
         $manager = resolve(ComponentManager::class);

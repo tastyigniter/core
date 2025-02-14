@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Classes;
 
 use Closure;
@@ -79,7 +81,7 @@ class Controller extends IlluminateController
      *
      * @param string $url Specifies the requested page URL.
      *
-     * @return string Returns the processed page content.
+     * @return string|\Illuminate\Http\Response Returns the processed page content.
      */
     public function run($url = '/')
     {
@@ -96,7 +98,7 @@ class Controller extends IlluminateController
      * @param string $url Specifies the requested page URL.
      * If the parameter is omitted, the dashboard URL used.
      *
-     * @return string Returns the processed page content.
+     * @return string|\Illuminate\Http\Response Returns the processed page content.
      */
     public function runAdmin($url = '/')
     {
@@ -116,7 +118,7 @@ class Controller extends IlluminateController
      *
      * @param string $asset
      *
-     * @return string
+     * @return \Illuminate\Http\Response
      */
     public function combineAssets($asset)
     {

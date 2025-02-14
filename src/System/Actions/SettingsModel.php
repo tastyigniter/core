@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Actions;
 
 use Igniter\Flame\Database\Model;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Support;
 
 /**
@@ -38,7 +40,7 @@ class RouterHelper
      * @param string $url URL to segment.
      * @return array Returns the URL segments.
      */
-    public static function segmentizeUrl($url)
+    public static function segmentizeUrl($url): array
     {
         $url = self::normalizeUrl($url);
         $segments = explode('/', $url);

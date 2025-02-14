@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Factories\HasFactory;

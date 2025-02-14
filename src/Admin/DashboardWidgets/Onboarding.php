@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\DashboardWidgets;
 
 use Igniter\Admin\Classes\BaseDashboardWidget;

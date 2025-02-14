@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Currency\Formatters;
 
 use Igniter\Flame\Currency\Contracts\FormatterInterface;

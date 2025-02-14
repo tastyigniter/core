@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Admin\Classes;
 
 use Igniter\Flame\Html\HtmlFacade as Html;
@@ -221,7 +223,7 @@ class MainMenuItem
         $attributes = $this->attributes;
 
         if ($this->disabled) {
-            $attributes = $attributes + ['disabled' => 'disabled'];
+            $attributes += ['disabled' => 'disabled'];
         }
 
         foreach ($attributes as $key => $value) {

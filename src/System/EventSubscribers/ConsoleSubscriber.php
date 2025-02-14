@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\EventSubscribers;
 
 use Facades\Igniter\System\Helpers\CacheHelper;

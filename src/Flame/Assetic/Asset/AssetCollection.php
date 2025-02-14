@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Asset\Iterator\AssetCollectionFilterIterator;

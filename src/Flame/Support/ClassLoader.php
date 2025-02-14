@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Support;
 
 use Exception;
@@ -308,7 +310,7 @@ class ClassLoader
      * @param string $namespace
      * @return array
      */
-    public function getNamespaceAliases($namespace)
+    public function getNamespaceAliases($namespace): array
     {
         $aliases = [];
         foreach ($this->namespaceAliases as $alias => $original) {

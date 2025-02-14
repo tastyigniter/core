@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Providers;
 
 use Illuminate\Support\ServiceProvider;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Mail;
 
 use Igniter\Flame\Mail\Mailable;
@@ -52,7 +54,7 @@ class TemplateMailable extends Mailable
     protected function buildSubject($message): self
     {
         if ($subject = $this->getMailTemplate()->subject) {
-            $this->subject($this->getMailManager()->renderView($subject, $this->buildViewData()));
+            $this->subject($this->getMailManager()->renderView($subject, $this->buildViewData())->toHtml());
         }
 
         return parent::buildSubject($message);

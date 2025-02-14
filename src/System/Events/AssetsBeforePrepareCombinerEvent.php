@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Events;
 
 use Igniter\Flame\Traits\EventDispatchable;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Classes;
 
 use Igniter\Flame\Support\StringParser;
@@ -94,7 +96,7 @@ class MailManager
     /**
      * Render the Markdown template into HTML.
      */
-    public function render(string $content, array $data = []): string
+    public function render(string $content, array $data = []): string|HtmlString
     {
         $html = $this->renderView($content, $data);
 
@@ -104,9 +106,9 @@ class MailManager
     /**
      * Render the Markdown template into text.
      */
-    public function renderText(string $content, array $data = []): string|HtmlString
+    public function renderText(string $content, array $data = []): HtmlString
     {
-        $text = $this->renderView($content, $data);
+        $text = $this->renderView($content, $data)->toHtml();
 
         return new HtmlString(html_entity_decode(preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8'));
     }

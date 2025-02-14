@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Database\Attach;
 
 use Igniter\Flame\Database\Attach\Events\MediaTagCleared as MediaTagClearedEvent;
@@ -39,7 +41,7 @@ trait HasMedia
         }
 
         $query->whereHas('media', function(Builder $q) use ($tags) {
-            $q->whereIn('tag', (array)$tags);
+            $q->whereIn('tag', $tags);
         });
     }
 

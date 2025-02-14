@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Database\Traits;
 
 use Igniter\Flame\Database\Model;
@@ -103,7 +105,7 @@ trait HasPermalink
         return $this->whereSlug($slug)->first($columns);
     }
 
-    public function permalinkable()
+    public function permalinkable(): array
     {
         $result = [];
         $permalinkable = $this->permalinkable ?? [];

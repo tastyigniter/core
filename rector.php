@@ -3,13 +3,19 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictNewArrayRector;
+use Rector\TypeDeclaration\Rector\ArrowFunction\AddArrowFunctionReturnTypeRector;
+use Rector\TypeDeclaration\Rector\Closure\AddClosureVoidReturnTypeWhereNoReturnRector;
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 
 return RectorConfig::configure()
-    ->withPaths([__DIR__.'/src', __DIR__.'/tests'])
-    ->withSkip([
-        ReturnTypeFromStrictNewArrayRector::class,
+    ->withPaths([__DIR__.'/src'])
+    ->withRules([
+        DeclareStrictTypesRector::class,
     ])
-    ->withTypeCoverageLevel(1)
-    ->withDeadCodeLevel(0)
-    ->withCodeQualityLevel(0);
+    ->withSkip([
+        AddClosureVoidReturnTypeWhereNoReturnRector::class,
+        AddArrowFunctionReturnTypeRector::class,
+    ])
+    ->withTypeCoverageLevel(10)
+    ->withDeadCodeLevel(10)
+    ->withCodeQualityLevel(10);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Traits;
 
 use ErrorException;
@@ -214,7 +216,7 @@ trait ViewMaker
         } catch (Exception $e) {
             $this->handleViewException($e, $obLevel);
         } catch (Throwable $e) {
-            $this->handleViewException(new ErrorException($e), $obLevel);
+            $this->handleViewException(new ErrorException($e->getMessage()), $obLevel);
         }
 
         return ob_get_clean();

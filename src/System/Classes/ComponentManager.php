@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\SystemException;
@@ -304,7 +306,7 @@ class ComponentManager
                 $property['options'] = [get_class($component), $methodName];
             }
 
-            $property = $property + $config;
+            $property += $config;
 
             // Translate human values
             $translate = ['label', 'description', 'options', 'group', 'validationMessage'];

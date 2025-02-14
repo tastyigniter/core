@@ -75,6 +75,9 @@ jobs:
       - name: Execute static analysis
         run: composer static
 
+      - name: Dry run rector
+        run: vendor/bin/rector process --dry-run
+
       - name: Run test suite
         run: vendor/bin/pest
         env:
