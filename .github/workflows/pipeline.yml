@@ -42,25 +42,24 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: 'mysql:8.0'
+        image: mysql:latest
         env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testbench
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
-      DB_PORT: 3306
-      DB_DATABASE: 'testbench'
+      DB_DATABASE: testbench
       DB_USERNAME: root
       DB_PASSWORD: root
     steps:
       - name: Checkout changes
         uses: actions/checkout@v4
 
-      - name: Create MySQL Database
-        run: |
-          sudo service mysql start
-          mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }};"
+      - name: Start mysql service
+        run: sudo systemctl start mysql.service
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -78,4 +77,6 @@ jobs:
         run: composer static
 
       - name: Run test suite
-        run: php -d memory_limit=-1 vendor/bin/pest --coverage --exactly=100 --parallel
+        run: php -d memory_limit=-1 vendor/bin/pest --coverage --exactly=100
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
