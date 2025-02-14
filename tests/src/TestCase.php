@@ -37,8 +37,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         Igniter::loadResourcesFrom(__DIR__.'/../resources', 'igniter.tests');
         View::addNamespace('tests.admin', __DIR__.'/../resources/views');
 
-        ThemeManager::addDirectory(__DIR__.'/../resources/themes');
         $app['config']->set('igniter-system.defaultTheme', 'tests-theme');
+        $app->afterResolving(ThemeManager::class, function(ThemeManager $themeManager) {
+            $themeManager->addDirectory(__DIR__.'/../resources/themes');
+        });
 
         resolve(ComponentManager::class)->registerCallback(function(ComponentManager $manager) {
             $manager->registerComponent(TestComponent::class, TestComponent::componentMeta());

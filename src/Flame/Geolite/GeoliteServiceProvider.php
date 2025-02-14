@@ -2,6 +2,7 @@
 
 namespace Igniter\Flame\Geolite;
 
+use GuzzleHttp\Client;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +24,10 @@ class GeoliteServiceProvider extends ServiceProvider
 
         $this->app->singleton('geolite', function() {
             return new Geolite;
+        });
+
+        $this->app->singleton('geocoder.client', function() {
+            return new Client;
         });
 
         $aliasLoader = AliasLoader::getInstance();

@@ -35,7 +35,7 @@ class ExtensionManager
     /** Used Set whether extensions have been registered. */
     protected bool $registered = false;
 
-    protected static array $directories = [];
+    protected array $directories = [];
 
     public function __construct(protected PackageManifest $packageManifest, protected Manager $composerManager)
     {
@@ -44,9 +44,9 @@ class ExtensionManager
         $this->loadExtensions();
     }
 
-    public static function addDirectory(string $directory)
+    public function addDirectory(string $directory)
     {
-        self::$directories[] = $directory;
+        $this->directories[] = $directory;
     }
 
     /**
@@ -93,7 +93,7 @@ class ExtensionManager
     {
         $paths = [];
 
-        $directories = self::$directories;
+        $directories = $this->directories;
         if (File::isDirectory($extensionsPath = Igniter::extensionsPath())) {
             array_unshift($directories, $extensionsPath);
         }

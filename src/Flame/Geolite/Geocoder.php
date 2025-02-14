@@ -2,7 +2,6 @@
 
 namespace Igniter\Flame\Geolite;
 
-use GuzzleHttp\Client;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Illuminate\Support\Collection;
@@ -144,13 +143,13 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
     {
         $config = $this->container['config']['igniter-geocoder.providers.nominatim'];
 
-        return new Provider\NominatimProvider(new Client, $config);
+        return new Provider\NominatimProvider($this->container['geocoder.client'], $config);
     }
 
     protected function createGoogleProvider(): AbstractProvider
     {
         $config = $this->container['config']['igniter-geocoder.providers.google'];
 
-        return new Provider\GoogleProvider(new Client, $config);
+        return new Provider\GoogleProvider($this->container['geocoder.client'], $config);
     }
 }

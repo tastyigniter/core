@@ -23,8 +23,6 @@ it('adds assets from admin manifest successfully', function() {
         ->and(AssetsFacade::getFavIcon())->toContain('rel="shortcut icon" type="image/x-icon"')
         ->and(AssetsFacade::getMetas())->toContain('name="Content-type" content="text/html; charset=utf-8" type="equiv"')
         ->and(AssetsFacade::getRss())->toBeNull();
-
-    AssetsFacade::clearInternalCache();
 });
 
 it('adds assets from theme manifest successfully', function() {
@@ -95,7 +93,9 @@ it('adds and retrieves js variables successfully', function() {
 it('throws exception when invalid transforming js variable', function() {
     $assets = new Assets;
     $assets->putJsVars([
-        'key' => new class {},
+        'key' => new class
+        {
+        },
     ]);
 
     expect(fn() => $assets->getJsVars())
@@ -105,33 +105,31 @@ it('throws exception when invalid transforming js variable', function() {
 it('removes duplicate assets from combined', function() {
     File::put(public_path('/test.css'), 'body { color: red; }');
 
-    Assets::registerCallback(function(Assets $manager) {
-        $manager->addTags([
-            'css' => [
-                [
-                    'path' => base_path('css/style.css'),
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                ],
-                [
-                    'path' => 'css/style.css',
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                ],
-                [
-                    'path' => 'css/style.css',
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                ],
-                [
-                    'path' => public_path('/test.css'),
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                ],
-            ],
-        ]);
-    });
     $assets = new Assets;
+    $assets->addTags([
+        'css' => [
+            [
+                'path' => base_path('css/style.css'),
+                'rel' => 'stylesheet',
+                'type' => 'text/css',
+            ],
+            [
+                'path' => 'css/style.css',
+                'rel' => 'stylesheet',
+                'type' => 'text/css',
+            ],
+            [
+                'path' => 'css/style.css',
+                'rel' => 'stylesheet',
+                'type' => 'text/css',
+            ],
+            [
+                'path' => public_path('/test.css'),
+                'rel' => 'stylesheet',
+                'type' => 'text/css',
+            ],
+        ],
+    ]);
     $assets->registerSourcePath(__DIR__.'/../../../resources');
 
     expect($assets->getCss())->toContain('rel="stylesheet" type="text/css"');

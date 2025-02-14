@@ -2,6 +2,8 @@
 
 namespace Igniter\Admin;
 
+use Igniter\Admin\DashboardWidgets\Charts;
+use Igniter\Admin\DashboardWidgets\Statistics;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Support\Facades\File;
@@ -30,6 +32,7 @@ class ServiceProvider extends AppServiceProvider
 
         $this->defineRoutes();
         $this->defineEloquentMorphMaps();
+        $this->clearStaticCacheOnTerminate();
     }
 
     /**
@@ -86,7 +89,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function registerAssets()
     {
-        Assets::registerCallback(function(Assets $manager) {
+        $this->app->resolving(Assets::class, function(Assets $manager) {
             $manager->registerSourcePath(public_path('vendor/igniter'));
             $manager->registerSourcePath(File::symbolizePath('igniter::/'));
 
@@ -109,5 +112,13 @@ class ServiceProvider extends AppServiceProvider
                 (new Classes\RouteRegistrar($router))->all();
             });
         }
+    }
+
+    protected function clearStaticCacheOnTerminate()
+    {
+        $this->app->terminating(function() {
+            Charts::clearRegisteredDatasets();
+            Statistics::clearRegisteredCards();
+        });
     }
 }

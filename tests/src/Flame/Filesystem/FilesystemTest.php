@@ -135,7 +135,7 @@ it('modifies file permissions', function() {
     expect($filesystem->chmod($path))->toBeFalse();
 
     $filesystem->filePermissions = '0644';
-    expect($filesystem->chmod($path))->toBeFalse();
+    expect($filesystem->chmod($path))->toBeTrue();
 
     $filesystem->folderPermissions = '0777';
     $filesystem->shouldReceive('dirname')->andReturn(__DIR__.'/test_directory');
@@ -171,3 +171,10 @@ it('matches filename against pattern', function() {
     expect($this->filesystem->fileNameMatch($fileName, $fileName))->toBeTrue()
         ->and($this->filesystem->fileNameMatch($fileName, $pattern))->toBeTrue();
 });
+
+namespace Igniter\Flame\Filesystem;
+
+function chmod(string $filename, int $permissions): bool
+{
+    return true;
+}

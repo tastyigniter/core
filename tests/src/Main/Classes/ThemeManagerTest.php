@@ -210,11 +210,16 @@ it('throws exception when writing to a non-existent theme file', function() {
 });
 
 it('renames an existing theme file successfully', function() {
-    $oldFile = '_pages/components';
-    $newFile = '_pages/compon';
+    File::put($this->themePath.'/_pages/fileName.blade.php', "\n");
+    $oldFile = '_pages/fileName';
+    $newFile = '_pages/newFileName';
 
     expect($this->themeManager->renameFile($oldFile, $newFile, 'tests-theme'))->toBeTrue()
         ->and($this->themeManager->renameFile($newFile, $oldFile, 'tests-theme'))->toBeTrue();
+    File::delete($this->themePath.'/_pages/newFileName.blade.php');
+})->after(function() {
+    rescue(fn() => File::delete($this->themePath.'/_pages/fileName.blade.php'));
+    rescue(fn() => File::delete($this->themePath.'/_pages/newFileName.blade.php'));
 });
 
 it('throws exception when renaming a non-existent theme file', function() {
@@ -240,13 +245,12 @@ it('throws exception when renaming to an existing theme file', function() {
 
 it('deletes an existing theme file successfully', function() {
     File::put($this->themePath.'/_pages/fileName.blade.php', "\n");
-
     expect($this->themeManager->deleteFile('_pages/fileName', 'tests-theme'))->toBeTrue();
 });
 
 it('throws exception when deleting a non-existent theme file', function() {
-    expect(fn() => $this->themeManager->deleteFile('_pages/fileName', 'tests-theme'))
-        ->toThrow(SystemException::class, 'Theme template file not found: _pages/fileName');
+    expect(fn() => $this->themeManager->deleteFile('_pages/nonExistenceName', 'tests-theme'))
+        ->toThrow(SystemException::class, 'Theme template file not found: _pages/nonExistenceName');
 });
 
 it('throws exception when deleting a locked theme file', function() {

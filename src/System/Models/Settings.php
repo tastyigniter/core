@@ -49,8 +49,6 @@ class Settings extends Model
      */
     protected static $callbacks = [];
 
-    protected static $instance;
-
     public static function listMenuSettingItems($menu, $item, $user)
     {
         $options = [];
@@ -318,37 +316,42 @@ class Settings extends Model
         self::$callbacks[] = $callback;
     }
 
+    public static function clearInternalCache()
+    {
+        self::$callbacks = [];
+    }
+
     //
     // Form Dropdown options
     //
 
     public static function listTimezones()
     {
-        $timezone_identifiers = DateTimeZone::listIdentifiers();
-        $utc_time = new DateTime('now', new DateTimeZone('UTC'));
+        $timezoneIdentifiers = DateTimeZone::listIdentifiers();
+        $utcTime = new DateTime('now', new DateTimeZone('UTC'));
 
-        $temp_timezones = [];
-        foreach ($timezone_identifiers as $timezone_identifier) {
-            $current_timezone = new DateTimeZone($timezone_identifier);
+        $tempTimezones = [];
+        foreach ($timezoneIdentifiers as $timezoneIdentifier) {
+            $currentTimezone = new DateTimeZone($timezoneIdentifier);
 
-            $temp_timezones[] = [
-                'offset' => (int)$current_timezone->getOffset($utc_time),
-                'identifier' => $timezone_identifier,
+            $tempTimezones[] = [
+                'offset' => (int)$currentTimezone->getOffset($utcTime),
+                'identifier' => $timezoneIdentifier,
             ];
         }
 
-        usort($temp_timezones, function($a, $b) {
+        usort($tempTimezones, function($a, $b) {
             return ($a['offset'] == $b['offset']) ? strcmp($a['identifier'], $b['identifier']) : $a['offset'] - $b['offset'];
         });
 
-        $timezone_list = [];
-        foreach ($temp_timezones as $tz) {
+        $timezoneList = [];
+        foreach ($tempTimezones as $tz) {
             $sign = ($tz['offset'] > 0) ? '+' : '-';
             $offset = gmdate('H:i', abs($tz['offset']));
-            $timezone_list[$tz['identifier']] = $tz['identifier'].' (UTC '.$sign.$offset.')';
+            $timezoneList[$tz['identifier']] = $tz['identifier'].' (UTC '.$sign.$offset.')';
         }
 
-        return $timezone_list;
+        return $timezoneList;
     }
 
     //

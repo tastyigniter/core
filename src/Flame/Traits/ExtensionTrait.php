@@ -81,4 +81,9 @@ trait ExtensionTrait
     {
         return self::$extendableStaticCalledClass;
     }
+
+    public static function extensionClearCallbacks()
+    {
+        self::$extensionCallbacks = [];
+    }
 }

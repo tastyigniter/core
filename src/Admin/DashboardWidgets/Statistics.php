@@ -25,6 +25,11 @@ class Statistics extends BaseDashboardWidget
         static::$registeredCards[] = $callback;
     }
 
+    public static function clearRegisteredCards()
+    {
+        static::$registeredCards = [];
+    }
+
     /**
      * Renders the widget.
      */
@@ -103,7 +108,7 @@ class Statistics extends BaseDashboardWidget
         $end = $this->property('endDate', now());
 
         throw_unless($dataFromCallable = $this->getCardDefinition('valueFrom'), new SystemException(sprintf(
-            'The card [%s] does must have a defined valueFrom property', $cardCode
+            'The card [%s] does must have a defined valueFrom property', $cardCode,
         )));
 
         $count = $dataFromCallable($cardCode, $start, $end, function($query) use ($start, $end) {

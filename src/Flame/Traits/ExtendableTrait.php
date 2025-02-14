@@ -105,6 +105,7 @@ trait ExtendableTrait
     public static function clearExtendedClasses(): void
     {
         self::$extendableCallbacks = [];
+        self::$extendableStaticMethods = [];
     }
 
     /**

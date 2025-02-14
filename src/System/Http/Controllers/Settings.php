@@ -187,7 +187,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
 
     protected function createModel(): SettingsModel
     {
-        return new $this->modelClass;
+        return resolve($this->modelClass);
     }
 
     protected function getFieldConfig(string $code, SettingsModel $model): array

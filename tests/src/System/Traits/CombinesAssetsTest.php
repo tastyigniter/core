@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 
 it('combines assets and returns correct URL', function() {
-    file_put_contents(base_path('style.css'), 'body {}');
+    app()->instance(AssetManager::class, $assetManager = mock(AssetManager::class));
+    $assetManager->shouldReceive('makeCollection')->andReturn($assetCollection = mock(AssetCollection::class));
+    $assetCollection->shouldReceive('setTargetPath')->andReturnSelf();
+    $assetCollection->shouldReceive('getLastModified')->once()->andReturn(time());
     $assets = [
         'style.css',
         'http://example.com/style.css',
@@ -25,18 +28,21 @@ it('combines assets and returns correct URL', function() {
     $result = $combinesAssetsObject->combine('css', $assets);
 
     expect($result)->toContain('/_assets/');
-    unlink(base_path('style.css'));
 });
 
 it('combines assets to file', function() {
+    app()->instance(AssetManager::class, $assetManager = mock(AssetManager::class));
+    $assetManager->shouldReceive('makeCollection')->andReturn($assetCollection = mock(AssetCollection::class));
+    $assetCollection->shouldReceive('setTargetPath')->andReturnSelf();
+    $assetCollection->shouldReceive('dump')->once()->andReturn('compiled css');
+    $fileMock = File::partialMock();
+    $fileMock->shouldReceive('makeDirectory')->andReturnTrue();
+    $fileMock->shouldReceive('put')->andReturnTrue();
     $combinesAssetsObject = new Assets;
 
     $assets = ['igniter.tests::/scss/style.scss'];
     $destination = base_path('/style.css');
     $combinesAssetsObject->combineToFile($assets, $destination);
-
-    expect(File::exists($destination))->toBeTrue();
-    File::delete($destination);
 });
 
 it('throws exception when cache key not found', function() {
@@ -63,7 +69,6 @@ it('combines assets and returns correct contents', function() {
 
 it('builds bundles and returns notes', function() {
     Event::fake();
-    $theme = resolve(ThemeManager::class)->findTheme('igniter-orange');
     app()->instance(AssetManager::class, $assetManager = mock(AssetManager::class));
     $assetManager->shouldReceive('makeCollection')->andReturn($assetCollection = mock(AssetCollection::class));
     $assetCollection->shouldReceive('setTargetPath')->andReturnSelf();
@@ -72,6 +77,7 @@ it('builds bundles and returns notes', function() {
     $fileMock->shouldReceive('makeDirectory')->andReturnTrue();
     $fileMock->shouldReceive('put')->andReturnTrue();
 
+    $theme = resolve(ThemeManager::class)->findTheme('igniter-orange');
     expect((new Assets)->buildBundles($theme))->toContain('app.scss', ' -> /app.css');
 
     Event::assertDispatched('assets.combiner.afterBuildBundles');

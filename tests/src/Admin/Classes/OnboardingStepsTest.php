@@ -34,6 +34,10 @@ beforeEach(function() {
     $this->onboardingSteps = new OnboardingSteps;
 });
 
+afterEach(function() {
+    OnboardingSteps::clearCallbacks();
+});
+
 it('adds, gets and removes onboarding steps correctly', function() {
     $this->onboardingSteps->registerSteps([
         'testStep' => [

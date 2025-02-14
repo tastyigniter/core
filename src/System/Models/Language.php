@@ -125,6 +125,13 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return count(self::listSupported()) > 1;
     }
 
+    public static function clearInternalCache()
+    {
+        self::$localesCache = [];
+        self::$supportedLocalesCache = null;
+        self::$activeLanguage = null;
+    }
+
     //
     // Translations
     //

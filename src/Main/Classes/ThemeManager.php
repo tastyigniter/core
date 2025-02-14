@@ -43,21 +43,21 @@ class ThemeManager
 
     protected bool $booted = false;
 
-    protected static array $directories = [];
+    protected array $directories = [];
 
     public function initialize()
     {
         $this->disabledThemes = resolve(PackageManifest::class)->disabledAddons();
     }
 
-    public static function addDirectory(string $directory)
+    public function addDirectory(string $directory)
     {
-        self::$directories[] = $directory;
+        $this->directories[] = $directory;
     }
 
-    public static function clearDirectory()
+    public function clearDirectory()
     {
-        self::$directories = [];
+        $this->directories = [];
     }
 
     //
@@ -234,7 +234,7 @@ class ThemeManager
     {
         $paths = [];
 
-        $directories = self::$directories;
+        $directories = $this->directories;
         if (File::isDirectory($themesPath = Igniter::themesPath())) {
             array_unshift($directories, $themesPath);
         }

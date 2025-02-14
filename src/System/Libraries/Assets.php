@@ -20,9 +20,7 @@ class Assets
 {
     use CombinesAssets;
 
-    protected static array $registeredPaths = [];
-
-    protected static array $registeredCallback = [];
+    protected array $registeredPaths = [];
 
     protected array $assets = [];
 
@@ -32,18 +30,9 @@ class Assets
     {
         $this->flush();
 
-        static::$registeredPaths[] = public_path();
+        $this->registeredPaths[] = public_path();
 
         $this->initCombiner();
-
-        foreach (self::$registeredCallback as $callback) {
-            $callback($this);
-        }
-    }
-
-    public static function registerCallback(callable $callback)
-    {
-        static::$registeredCallback[] = $callback;
     }
 
     /**
@@ -51,7 +40,7 @@ class Assets
      */
     public function registerSourcePath(string $path)
     {
-        static::$registeredPaths[] = $path;
+        $this->registeredPaths[] = $path;
     }
 
     public function addFromManifest(string $path)
@@ -239,8 +228,8 @@ class Assets
 
     public function clearInternalCache()
     {
-        static::$registeredPaths = [];
-        static::$registeredCallback = [];
+        $this->registeredPaths = [];
+        $this->registeredCallback = [];
     }
 
     protected function putAsset(string $type, string $path, null|string|array $attributes)
@@ -281,7 +270,7 @@ class Assets
             return File::symbolizePath($name);
         }
 
-        foreach (static::$registeredPaths as $path) {
+        foreach ($this->registeredPaths as $path) {
             if (File::isFile($file = str_replace('//', '/', $path.'/'.$name))) {
                 return $file;
             }
@@ -359,23 +348,23 @@ class Assets
     {
         if ($type == 'rss') {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'alternate',
-                'href' => $file,
-                'title' => 'RSS',
-                'type' => 'application/rss+xml',
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'alternate',
+                    'href' => $file,
+                    'title' => 'RSS',
+                    'type' => 'application/rss+xml',
+                ], $attributes)).'>'.PHP_EOL;
         } elseif ($type == 'js') {
             $html = '<script'.Html::attributes(array_merge([
-                'charset' => strtolower(setting('charset', 'UTF-8')),
-                'type' => 'text/javascript',
-                'src' => asset($file),
-            ], $attributes)).'></script>'.PHP_EOL;
+                    'charset' => strtolower(setting('charset', 'UTF-8')),
+                    'type' => 'text/javascript',
+                    'src' => asset($file),
+                ], $attributes)).'></script>'.PHP_EOL;
         } else {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => asset($file),
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'stylesheet',
+                    'type' => 'text/css',
+                    'href' => asset($file),
+                ], $attributes)).'>'.PHP_EOL;
         }
 
         return $html;

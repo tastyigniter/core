@@ -30,6 +30,13 @@ beforeEach(function() {
     ]);
 });
 
+afterEach(function() {
+    $this->themeManager = null;
+    $this->controller = null;
+    $this->formField = null;
+    $this->templateEditorWidget = null;
+});
+
 it('initializes correctly', function() {
     expect($this->templateEditorWidget->form)->toBeNull()
         ->and($this->templateEditorWidget->placeholder)->toBe('igniter::system.themes.text_select_file')

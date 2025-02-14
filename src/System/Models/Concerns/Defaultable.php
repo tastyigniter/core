@@ -67,7 +67,7 @@ trait Defaultable
         unset(static::$defaultModels[static::class]);
     }
 
-    public static function clearDefaultModels(?string $className = null)
+    public static function clearDefaultModels()
     {
         static::$defaultModels = [];
     }

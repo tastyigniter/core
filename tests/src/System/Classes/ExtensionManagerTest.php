@@ -34,7 +34,7 @@ it('returns extension lookup folders with added directory', function() {
         '/path/to/extensions/igniter/blog/composer.json',
     ]);
     $manager = resolve(ExtensionManager::class);
-    ExtensionManager::addDirectory('/path/to/extensions');
+    $manager->addDirectory('/path/to/extensions');
 
     $folders = $manager->folders();
     expect($folders)->toContain(
@@ -86,7 +86,7 @@ it('throws exception when extension config validation fails', function() {
         '/path/to/extensions/igniter/blog/composer.json',
     ]);
     $manager = resolve(ExtensionManager::class);
-    ExtensionManager::addDirectory('/path/to/extensions');
+    $manager->addDirectory('/path/to/extensions');
 
     expect(fn() => $manager->loadExtensions())
         ->toThrow(SystemException::class);

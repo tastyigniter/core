@@ -27,16 +27,16 @@ class ThemeServiceProvider extends ServiceProvider
             $router->setTheme(Theme::getActiveCode());
         });
 
-        Model::extend(function(Model $model) {
-            $model->setSource(Theme::getActiveCode());
-        });
-
         Livewire::componentHook(SupportConfigurableComponent::class);
     }
 
     public function boot()
     {
         $this->app->booted(function() {
+            Model::extend(function(Model $model) {
+                $model->setSource(Theme::getActiveCode());
+            });
+
             resolve(ComponentManager::class)->bootComponents();
 
             resolve(ThemeManager::class)->bootThemes();

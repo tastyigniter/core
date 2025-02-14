@@ -57,8 +57,10 @@ abstract class Model extends EloquentModel
         $this->extendableConstruct();
         $this->fill($attributes);
 
-        self::$primitiveCastTypes[] = 'time';
-        self::$primitiveCastTypes[] = 'serialize';
+        if (!in_array('time', self::$primitiveCastTypes)) {
+            self::$primitiveCastTypes[] = 'time';
+            self::$primitiveCastTypes[] = 'serialize';
+        }
     }
 
     /**

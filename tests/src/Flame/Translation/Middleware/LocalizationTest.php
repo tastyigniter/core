@@ -59,4 +59,6 @@ it('loads locale from session when not running in admin', function() {
     expect((new Localization)->handle($request, fn($request) => 'next'))->toBe('next')
         ->and(app()->getLocale())->toBe('fr')
         ->and(app('translator.localization')->getLocale())->toBe('fr');
+
+    app('translator.localization')->setSessionLocale('en');
 });

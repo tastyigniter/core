@@ -133,6 +133,11 @@ class Charts extends BaseDashboardWidget
         static::$registeredDatasets[] = $callback;
     }
 
+    public static function clearRegisteredDatasets()
+    {
+        static::$registeredDatasets = [];
+    }
+
     protected function makeDataset(array $config, \DateTimeInterface $start, \DateTimeInterface $end): array
     {
         $config['label'] = lang(array_pull($config, 'label', ''));

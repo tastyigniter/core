@@ -114,6 +114,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     public static function clearBootedModels(): void
     {
         static::$booted = [];
+        static::$eventsBooted = [];
     }
 
     /**

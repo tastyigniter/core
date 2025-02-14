@@ -31,7 +31,7 @@ it('returns true when onboarding is complete', function() {
 
 it('returns layout options for the theme', function() {
     $themeData = new ThemeData(testThemePath(), ['code' => 'tests-theme']);
-    $theme = Theme::factory()->create(['code' => 'tests-theme']);
+    $theme = Theme::factory()->make(['code' => 'tests-theme']);
     resolve(ThemeManager::class)->themes['tests-theme'] = $themeData;
 
     expect($theme->getLayoutOptions())->toHaveKey('default', 'default [default]');
@@ -116,7 +116,7 @@ it('returns field values when data is set', function() {
 
 it('saves theme customizer attributes', function() {
     Theme::flushEventListeners();
-    $theme = Theme::factory()->create(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
+    $theme = Theme::factory()->make(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
     $theme->name = 'New Test Theme';
     $theme->background_color = '#ffffff';
     $theme->save();
@@ -141,7 +141,7 @@ it('activates a theme and installs required extensions', function() {
 });
 
 it('generates unique theme code', function() {
-    Theme::factory()->create(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
+    Theme::factory()->make(['code' => 'tests-theme-suffix', 'name' => 'Test Theme']);
 
     $themeCode = Theme::generateUniqueCode('tests-theme', 'suffix');
     expect($themeCode)->toStartWith('tests-theme-');

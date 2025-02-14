@@ -4,8 +4,12 @@ namespace Igniter\System;
 
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Providers\AppServiceProvider;
+use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Support\LogViewer;
+use Igniter\System\Actions\ModelAction;
+use Igniter\System\Actions\SettingsModel;
+use Igniter\System\Classes\ControllerAction;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Currency;
 use Igniter\System\Models\Language;
@@ -63,6 +67,7 @@ class ServiceProvider extends AppServiceProvider
         $this->definePrunableModels();
         $this->defineEloquentMorphMaps();
         $this->resolveFlashSessionKey();
+        $this->clearStaticCacheOnTerminate();
 
         $this->app->booted(fn() => $this->updateTimezone());
 
@@ -188,5 +193,18 @@ class ServiceProvider extends AppServiceProvider
             Notification::class,
             RequestLog::class,
         ]);
+    }
+
+    protected function clearStaticCacheOnTerminate()
+    {
+        $this->app->terminating(function() {
+            SettingsModel::clearInternalCache();
+            ModelAction::extensionClearCallbacks();
+            ControllerAction::extensionClearCallbacks();
+            Extendable::clearExtendedClasses();
+            Settings::clearInternalCache();
+            Language::clearInternalCache();
+            Language::clearDefaultModels();
+        });
     }
 }

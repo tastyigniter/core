@@ -2,10 +2,13 @@
 
 namespace Igniter\Tests\System\DashboardWidgets;
 
+use DOMDocument;
 use Igniter\Admin\Http\Controllers\Dashboard;
 use Igniter\System\DashboardWidgets\News;
 
 beforeEach(function() {
+    app()->instance(DOMDocument::class, $dom = $this->createMock(DOMDocument::class));
+    $dom->method('load')->willReturn(false);
     $this->newsWidget = new News(resolve(Dashboard::class), []);
 });
 

@@ -20,6 +20,7 @@ beforeEach(function() {
             return 'mutated_value';
         }
     };
+    $this->settingsModel::flushEventListeners();
 });
 
 it('resets settings to defaults by deleting the record', function() {

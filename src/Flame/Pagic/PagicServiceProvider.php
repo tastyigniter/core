@@ -23,6 +23,12 @@ class PagicServiceProvider extends ServiceProvider
         Model::setEventDispatcher($this->app['events']);
 
         Model::setCacheManager($this->app['cache']);
+
+        $this->app->terminating(function() {
+            Model::clearExtendedClasses();
+            Model::clearBootedModels();
+            Finder::clearInternalCache();
+        });
     }
 
     /**

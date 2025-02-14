@@ -22,6 +22,7 @@ it('builds database tables when confirmed', function() {
     $migrator = mock('migrator');
     $migrator->shouldReceive('getRepository->prepareMigrationTable')->once();
     app()->instance('migrator', $migrator);
+    Schema::shouldReceive('hasColumn')->with('users', 'staff_id')->andReturnFalse();
 
     $updateManager = mock(UpdateManager::class);
     $updateManager->shouldReceive('setLogsOutput')->with($output)->andReturnSelf();
