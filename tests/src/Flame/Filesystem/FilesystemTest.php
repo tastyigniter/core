@@ -21,9 +21,9 @@ it('symbolizes path', function() {
 });
 
 it('checks directory is empty', function() {
-    expect($this->filesystem->isDirectoryEmpty(__DIR__.'/unreadable_directory'))->toBeTrue();
+    expect($this->filesystem->isDirectoryEmpty(temp_path().'/unreadable_directory'))->toBeTrue();
 
-    $directory = __DIR__.'/empty_directory';
+    $directory = temp_path().'/empty_directory';
     mkdir($directory);
     expect($this->filesystem->isDirectoryEmpty($directory))->toBeTrue();
     rmdir($directory);
@@ -90,7 +90,7 @@ it('returns symbolized path', function() {
 });
 
 it('writes contents to a file and sets permissions', function() {
-    $path = __DIR__.'/test_file.txt';
+    $path = temp_path().'/'.fake()->lexify('???.txt');
     @unlink($path);
     $contents = 'test contents';
     $this->filesystem->put($path, $contents);
@@ -99,48 +99,43 @@ it('writes contents to a file and sets permissions', function() {
 });
 
 it('copies a file to a new location and sets permissions', function() {
-    $source = __DIR__.'/source_file.txt';
-    $target = __DIR__.'/target_file.txt';
-    @unlink($source);
-    @unlink($target);
+    $source = temp_path().'/'.fake()->lexify('???.txt');
+    $target = temp_path().'/'.fake()->lexify('???.txt');
     file_put_contents($source, 'test contents');
-    $this->filesystem->copy($source, $target);
-    expect(file_get_contents($target))->toBe('test contents');
+    expect($this->filesystem->copy($source, $target))->toBeTrue()
+        ->and(file_get_contents($target))->toBe('test contents');
     unlink($source);
     unlink($target);
 });
 
 it('creates a directory and sets permissions', function() {
-    $path = __DIR__.'/test_directory';
-    $subPath = $path.'/sub_directory';
-    @rmdir($subPath.'/sub_directory');
-    @rmdir($subPath);
-    @rmdir($path);
+    $path = temp_path().'/'.fake()->lexify('???');
+    $subPath = $path.'/'.fake()->lexify('???');
     $filesystem = mock(Filesystem::class)->makePartial();
     $filesystem->folderPermissions = '0755';
-    $filesystem->shouldReceive('chmod')->andReturn();
-    $filesystem->shouldReceive('chmodRecursive')->andReturn();
+    $filesystem->shouldReceive('chmod')->twice()->andReturn();
+    $filesystem->shouldReceive('chmodRecursive')->once()->andReturn();
     $filesystem->makeDirectory($path);
-    $filesystem->makeDirectory($subPath.'/sub_directory', 0755, true);
+    $filesystem->makeDirectory($subPath2 = $subPath.'/'.fake()->lexify('???'), 0755, true);
     expect(is_dir($path))->toBeTrue();
-    rmdir($subPath.'/sub_directory');
+    rmdir($subPath2);
     rmdir($subPath);
     rmdir($path);
 });
 
 it('modifies file permissions', function() {
-    $path = __DIR__.'/test_file.txt';
+    $path = temp_path().'/'.fake()->lexify('???.txt');
     $filesystem = mock(Filesystem::class)->makePartial();
-    $filesystem->shouldReceive('isDirectory')->andReturn(true, false);
-    expect($filesystem->chmod($path))->toBeFalse();
+    $filesystem->shouldReceive('isDirectory')->times(3)->andReturn(true, false);
+    expect($filesystem->chmod($path))->toBeFalse(); // file permission is not set
 
     $filesystem->filePermissions = '0644';
-    expect($filesystem->chmod($path))->toBeTrue();
+    expect($filesystem->chmod($path))->toBeTrue(); // file permission is set
 
     $filesystem->folderPermissions = '0777';
-    $filesystem->shouldReceive('dirname')->andReturn(__DIR__.'/test_directory');
-    $filesystem->makeDirectory(__DIR__.'/test_directory', 0755, true, true);
-    rmdir(__DIR__.'/test_directory');
+    $filesystem->shouldReceive('dirname')->once()->andReturn(temp_path().'/test_directory');
+    $filesystem->makeDirectory(temp_path().'/test_directory', 0755, true, true);
+    rmdir(temp_path().'/test_directory');
 });
 
 it('modifies directory permissions recursively', function() {

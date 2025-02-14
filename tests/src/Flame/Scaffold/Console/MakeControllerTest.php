@@ -14,15 +14,16 @@ it('does not run command when not confirmed', function() {
 });
 
 it('creates a new controller with valid extension and controller names', function() {
+    File::partialMock()->shouldReceive('makeDirectory');
+    File::partialMock()->shouldReceive('put')->once();
     $this->artisan('make:igniter-controller', ['extension' => 'Custom.Controller', 'controller' => 'TestController'])
         ->expectsOutput('Controller created successfully.')
         ->assertExitCode(0);
 
+    File::partialMock()->shouldReceive('exists')->andReturnTrue()->once();
     $this->artisan('make:igniter-controller', ['extension' => 'Custom.Controller', 'controller' => 'TestController'])
         ->expectsOutput('Controller already exists! '.base_path('extensions/custom/controller/src/Http/Controllers/TestController.php'))
         ->assertExitCode(0);
-})->after(function() {
-    rescue(fn() => File::deleteDirectory(base_path('extensions/custom/controller')));
 });
 
 it('throws error with invalid extension name', function() {

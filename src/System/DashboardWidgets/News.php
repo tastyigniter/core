@@ -72,7 +72,7 @@ class News extends BaseDashboardWidget
             $dom?->load($this->newsRss);
 
             return $dom;
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return null;
         }
     }

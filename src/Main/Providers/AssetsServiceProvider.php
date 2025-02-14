@@ -18,7 +18,7 @@ class AssetsServiceProvider extends ServiceProvider
 
     protected function registerAssets()
     {
-        $this->app->resolving(Assets::class, function(Assets $manager) {
+        $this->app->resolving('assets', function(Assets $manager) {
             $manager->registerSourcePath(Igniter::themesPath());
 
             if ($activeTheme = resolve(ThemeManager::class)->getActiveTheme()) {

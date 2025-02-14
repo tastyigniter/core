@@ -10,6 +10,7 @@ use Igniter\Flame\Support\LogViewer;
 use Igniter\System\Actions\ModelAction;
 use Igniter\System\Actions\SettingsModel;
 use Igniter\System\Classes\ControllerAction;
+use Igniter\System\Facades\Assets;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Currency;
 use Igniter\System\Models\Language;
@@ -198,6 +199,7 @@ class ServiceProvider extends AppServiceProvider
     protected function clearStaticCacheOnTerminate()
     {
         $this->app->terminating(function() {
+            Assets::clearInternalCache();
             SettingsModel::clearInternalCache();
             ModelAction::extensionClearCallbacks();
             ControllerAction::extensionClearCallbacks();

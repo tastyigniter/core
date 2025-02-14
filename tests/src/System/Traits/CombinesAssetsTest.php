@@ -13,12 +13,19 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 
 it('combines assets and returns correct URL', function() {
+    $fileMock = File::partialMock();
+    $fileMock->shouldReceive('exists')->with('style.css')->andReturnTrue();
+    $fileMock->shouldReceive('exists')->with(base_path('style.css'))->andReturnTrue();
+    $fileMock->shouldReceive('exists')->with('http://example.com/style.css')->andReturnTrue();
+    $fileMock->shouldReceive('exists')->with('assets/css/vendor/animate.css')->andReturnTrue();
+    $fileMock->shouldReceive('exists')->with('assets/css/vendor/dropzone.css')->andReturnTrue();
     app()->instance(AssetManager::class, $assetManager = mock(AssetManager::class));
     $assetManager->shouldReceive('makeCollection')->andReturn($assetCollection = mock(AssetCollection::class));
     $assetCollection->shouldReceive('setTargetPath')->andReturnSelf();
     $assetCollection->shouldReceive('getLastModified')->once()->andReturn(time());
     $assets = [
         'style.css',
+        base_path('style.css'),
         'http://example.com/style.css',
         'assets/css/vendor/animate.css',
         'assets/css/vendor/dropzone.css',

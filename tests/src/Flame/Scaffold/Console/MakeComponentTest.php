@@ -14,16 +14,17 @@ it('does not run command when not confirmed', function() {
 });
 
 it('creates a new component with valid extension and component names', function() {
+    File::partialMock()->shouldReceive('makeDirectory');
+    File::partialMock()->shouldReceive('put')->twice();
     $this->artisan('make:igniter-component', ['extension' => 'Custom.Component', 'component' => 'TestComponent'])
         ->expectsOutput('Component created successfully.')
         ->assertExitCode(0);
 
+    File::partialMock()->shouldReceive('exists')->andReturnTrue()->twice();
     $this->artisan('make:igniter-component', ['extension' => 'Custom.Component', 'component' => 'TestComponent'])
         ->expectsOutput('Component already exists! '.base_path('extensions/custom/component/src/Components/TestComponent.php'))
         ->expectsOutput('Component already exists! '.base_path('extensions/custom/component/resources/views/_components/testcomponent/default.blade.php'))
         ->assertExitCode(0);
-})->after(function() {
-    rescue(fn() => File::deleteDirectory(base_path('extensions/custom/component')));
 });
 
 it('throws error with invalid extension name', function() {

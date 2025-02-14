@@ -89,7 +89,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function registerAssets()
     {
-        $this->app->resolving(Assets::class, function(Assets $manager) {
+        $this->app->resolving('assets', function(Assets $manager) {
             $manager->registerSourcePath(public_path('vendor/igniter'));
             $manager->registerSourcePath(File::symbolizePath('igniter::/'));
 

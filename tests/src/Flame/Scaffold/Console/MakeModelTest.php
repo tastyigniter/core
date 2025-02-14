@@ -14,16 +14,17 @@ it('does not run command when not confirmed', function() {
 });
 
 it('creates a new model with valid extension and model names', function() {
+    File::partialMock()->shouldReceive('makeDirectory');
+    File::partialMock()->shouldReceive('put')->times(3);
     $this->artisan('make:igniter-model', ['extension' => 'Custom.Model', 'model' => 'TestModel'])
         ->expectsOutput('Model created successfully.')
         ->assertExitCode(0);
 
+    File::partialMock()->shouldReceive('exists')->andReturnTrue()->times(3);
     $this->artisan('make:igniter-model', ['extension' => 'Custom.Model', 'model' => 'TestModel'])
         ->expectsOutput('Model already exists! '.base_path('extensions/custom/model/src/Models/TestModel.php'))
         ->expectsOutput('Model already exists! '.base_path('extensions/custom/model/resources/models/testmodel.php'))
         ->assertExitCode(0);
-})->after(function() {
-    rescue(fn() => File::deleteDirectory(base_path('extensions/custom/model')));
 });
 
 it('throws error with invalid extension name', function() {

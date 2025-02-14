@@ -68,7 +68,8 @@ jobs:
           php-version: 8.3
           extensions: dom, curl, xml, mbstring, zip, pdo, sqlite, bcmath, soap, intl, gd
           tools: composer:v2
-          coverage: none
+          coverage: xdebug
+          ini-values: xdebug.mode=coverage, xdebug_start_with_request=trigger
 
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
@@ -77,4 +78,4 @@ jobs:
         run: composer static
 
       - name: Run test suite
-        run: vendor/bin/pest
+        run: php -d memory_limit=-1 vendor/bin/pest --coverage --exactly=100 --parallel --recreate-databases

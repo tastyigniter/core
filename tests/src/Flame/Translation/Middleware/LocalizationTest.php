@@ -5,6 +5,7 @@ namespace Igniter\Tests\Flame\Translation\Middleware;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Translation\Middleware\Localization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 it('loads admin locale when running in admin', function() {
     Igniter::shouldReceive('hasDatabase')->andReturn(true);
@@ -49,6 +50,8 @@ it('loads locale from browser when not running in admin', function() {
 });
 
 it('loads locale from session when not running in admin', function() {
+    Session::shouldReceive('get')->with('igniter.translation.locale')->andReturn('fr');
+    Session::shouldReceive('put')->with('igniter.translation.locale', 'fr')->andReturnNull();
     Igniter::shouldReceive('hasDatabase')->andReturn(true);
     Igniter::shouldReceive('runningInAdmin')->andReturn(false);
     setting()->setPref('supported_languages', ['fr', 'en']);
@@ -59,6 +62,4 @@ it('loads locale from session when not running in admin', function() {
     expect((new Localization)->handle($request, fn($request) => 'next'))->toBe('next')
         ->and(app()->getLocale())->toBe('fr')
         ->and(app('translator.localization')->getLocale())->toBe('fr');
-
-    app('translator.localization')->setSessionLocale('en');
 });

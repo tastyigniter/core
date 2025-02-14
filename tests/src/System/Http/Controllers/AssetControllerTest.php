@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 it('returns combined contents of assets', function() {
     Assets::shouldReceive('combineGetContents')->with('combined')->once()->andReturn(new Response('combined-contents'));
+    Assets::shouldReceive('clearInternalCache');
 
     $response = $this->get('/_assets/combined-cache-key');
     expect($response->getContent())->toBe('combined-contents');

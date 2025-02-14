@@ -64,6 +64,7 @@ it('boots theme correctly', function() {
     ]);
     $theme->active = true;
 
+    $this->themeManager->loadTheme($this->themePath);
     $this->themeManager->bootTheme($theme);
 
     expect(ServiceProvider::$publishGroups['igniter-assets'])->toContain(public_path('vendor/tests-theme'))
