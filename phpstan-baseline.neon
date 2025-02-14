@@ -2546,6 +2546,11 @@ parameters:
 			path: src/System/Http/Controllers/Settings.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Libraries\\\\Assets\\:\\:\\$registeredCallback\\.$#"
+			count: 1
+			path: src/System/Libraries/Assets.php
+
+		-
 			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\AssetManager\\:\\:makeCollection\\(\\) invoked with 2 parameters, 1 required\\.$#"
 			count: 1
 			path: src/System/Libraries/Assets.php
