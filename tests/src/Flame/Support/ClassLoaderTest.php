@@ -61,9 +61,10 @@ it('builds correctly', function() {
 
 it('loads a class from the manifest', function() {
     mkdir(base_path('extensions/custom/controller/Http/Controllers'), 0755, true);
-    file_put_contents(base_path('extensions/custom/controller/Http/Controllers/TestController.php'), '<?php namespace Custom\\Controller\\Http\\Controllers; class TestController {}');
+    file_put_contents(base_path($path = 'extensions/custom/controller/Http/Controllers/TestController.php'), '<?php namespace Custom\\Controller\\Http\\Controllers; class TestController {}');
 
     $loader = resolve(ClassLoader::class);
+    $loader->manifest['Custom\\Controller\\Http\\Controllers\\TestController'] = $path;
     $loader->addNamespaceAliases(['Custom\\Controller\\Http\\Controllers' => 'Custom\\Controller\\Controllers']);
     $result = $loader->load('Custom\\Controller\\Http\\Controllers\\TestController');
     $loader->build();
