@@ -236,11 +236,6 @@ parameters:
 			path: src/Admin/Http/Actions/FormController.php
 
 		-
-			message: "#^Method Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:prepareVars\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: src/Admin/Http/Actions/FormController.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getSearchWidget\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Http/Actions/ListController.php
@@ -386,11 +381,6 @@ parameters:
 			path: src/Admin/Widgets/Form.php
 
 		-
-			message: "#^PHPDoc tag @return with type mixed is not subtype of native type Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget\\|null\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Form.php
-
-		-
 			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Form.php
@@ -471,6 +461,11 @@ parameters:
 			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionIterator.php
 
 		-
+			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 1
+			path: src/Flame/Assetic/Factory/AssetFactory.php
+
+		-
 			message: "#^PHPDoc tag @param for parameter \\$filters with type array\\|string is not subtype of native type array\\.$#"
 			count: 1
 			path: src/Flame/Assetic/Factory/AssetFactory.php
@@ -482,16 +477,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#3 \\$includeUrl of static method Igniter\\\\Flame\\\\Assetic\\\\Util\\\\CssUtils\\:\\:filterImports\\(\\) expects bool, int given\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Filter/BaseCssFilter.php
-
-		-
-			message: "#^Static method Igniter\\\\Flame\\\\Assetic\\\\Util\\\\CssUtils\\:\\:filterImports\\(\\) invoked with 5 parameters, 2\\-3 required\\.$#"
-			count: 1
-			path: src/Flame/Assetic/Filter/BaseCssFilter.php
-
-		-
-			message: "#^Static method Igniter\\\\Flame\\\\Assetic\\\\Util\\\\CssUtils\\:\\:filterReferences\\(\\) invoked with 4 parameters, 2 required\\.$#"
 			count: 1
 			path: src/Flame/Assetic/Filter/BaseCssFilter.php
 
@@ -601,6 +586,16 @@ parameters:
 			path: src/Flame/Database/Builder.php
 
 		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Contracts\\\\Pagination\\\\LengthAwarePaginator is not subtype of native type Illuminate\\\\Pagination\\\\LengthAwarePaginator\\.$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Contracts\\\\Pagination\\\\Paginator is not subtype of native type Illuminate\\\\Pagination\\\\Paginator\\.$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
 			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\<int, string\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Builder.php
@@ -696,16 +691,6 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:belongsTo\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<TRelatedModel of Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Model\\)\\> but returns Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:belongsToMany\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<TRelatedModel of Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Model\\)\\> but returns Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\.$#"
-			count: 1
-			path: src/Flame/Database/Model.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getRelationDefinition\\(\\) should return array but return statement is missing\\.$#"
 			count: 1
 			path: src/Flame/Database/Model.php
@@ -726,8 +711,33 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:push\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\.$#"
 			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasManyThrough is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOne is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphOne is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphTo is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\.$#"
+			count: 2
 			path: src/Flame/Database/Model.php
 
 		-
@@ -761,7 +771,52 @@ parameters:
 			path: src/Flame/Database/Model.php
 
 		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:belongsTo\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:belongsTo\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:belongsToMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:belongsToMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:hasMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:hasManyThrough\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasManyThrough\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasManyThrough\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:hasOne\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOne\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasOne\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
 			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOneThrough\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:hasOneThrough\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOneThrough\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasOneThrough\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphOne\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphOne\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphOne\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphEagerTo\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphTo\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphEagerTo\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphInstanceTo\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphTo\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphInstanceTo\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Model.php
 
@@ -797,6 +852,16 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:pluckDates\\(\\) should return array but returns Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\), mixed\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Contracts\\\\Pagination\\\\LengthAwarePaginator is not subtype of native type Illuminate\\\\Pagination\\\\LengthAwarePaginator\\.$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Contracts\\\\Pagination\\\\Paginator is not subtype of native type Illuminate\\\\Pagination\\\\Paginator\\.$#"
 			count: 1
 			path: src/Flame/Database/NestedSet/QueryBuilder.php
 
@@ -1001,11 +1066,6 @@ parameters:
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:sync\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Database/Relations/BelongsToMany.php
-
-		-
 			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\) given\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
@@ -1037,6 +1097,16 @@ parameters:
 
 		-
 			message: "#^Return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\) should be compatible with return type \\(array\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:shouldSelect\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Return type \\(void\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:detach\\(\\) should be compatible with return type \\(int\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:detach\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Return type \\(void\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:sync\\(\\) should be compatible with return type \\(array\\{attached\\: array, detached\\: array, updated\\: array\\}\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:sync\\(\\)$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsToMany.php
 
@@ -1486,11 +1556,6 @@ parameters:
 			path: src/Flame/Pagic/Finder.php
 
 		-
-			message: "#^PHPDoc tag @return with type Igniter\\\\Flame\\\\Pagic\\\\Finder is not subtype of native type static\\(Igniter\\\\Flame\\\\Pagic\\\\Finder\\)\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Finder.php
-
-		-
 			message: "#^PHPDoc tag @return with type mixed is not subtype of native type Igniter\\\\Flame\\\\Pagic\\\\Model\\|null\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Finder.php
@@ -1731,11 +1796,6 @@ parameters:
 			path: src/Flame/Translation/FileLoader.php
 
 		-
-			message: "#^Method Igniter\\\\Flame\\\\Translation\\\\Localization\\:\\:getConfig\\(\\) invoked with 2 parameters, 1 required\\.$#"
-			count: 2
-			path: src/Flame/Translation/Localization.php
-
-		-
 			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:put\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Flame/Translation/Localization.php
@@ -1827,11 +1887,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:createChildTheme\\(\\) should return Igniter\\\\Main\\\\Models\\\\Theme but returns Illuminate\\\\Database\\\\Eloquent\\\\Model\\.$#"
-			count: 1
-			path: src/Main/Classes/ThemeManager.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:getFileNameParts\\(\\) invoked with 2 parameters, 1 required\\.$#"
 			count: 1
 			path: src/Main/Classes/ThemeManager.php
 
@@ -2016,7 +2071,7 @@ parameters:
 			path: src/Main/Models/Theme.php
 
 		-
-			message: "#^Method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:setAttribute\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Model but return statement is missing\\.$#"
+			message: "#^Return type \\(void\\) of method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:setAttribute\\(\\) should be compatible with return type \\(Igniter\\\\Flame\\\\Database\\\\Model\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:setAttribute\\(\\)$#"
 			count: 1
 			path: src/Main/Models/Theme.php
 
@@ -2429,11 +2484,6 @@ parameters:
 			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
 			count: 1
 			path: src/System/Http/Controllers/Settings.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\AssetManager\\:\\:makeCollection\\(\\) invoked with 2 parameters, 1 required\\.$#"
-			count: 1
-			path: src/System/Libraries/Assets.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:sorted\\(\\)\\.$#"
