@@ -138,6 +138,7 @@ trait ComponentMaker
         if (!$componentObj = $this->findComponentByAlias($alias)) {
             return false;
         }
+
         return !$componentObj instanceof BlankComponent;
     }
 

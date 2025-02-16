@@ -85,6 +85,7 @@ class Navigation
         if ($code == $this->navContextParentCode) {
             return true;
         }
+
         return $code == $this->navContextItemCode;
     }
 

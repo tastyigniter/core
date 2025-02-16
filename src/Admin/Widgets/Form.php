@@ -806,6 +806,7 @@ class Form extends BaseWidget
         if (!class_exists($widgetClass)) {
             return false;
         }
+
         return is_subclass_of($widgetClass, \Igniter\Admin\Classes\BaseFormWidget::class);
     }
 

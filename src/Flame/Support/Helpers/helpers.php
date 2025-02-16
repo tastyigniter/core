@@ -823,6 +823,7 @@ if (!function_exists('is_lang_key')) {
         if (starts_with($line, 'lang:')) {
             return true;
         }
+
         return str_contains($line, '::');
     }
 }
