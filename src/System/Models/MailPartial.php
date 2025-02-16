@@ -134,7 +134,7 @@ class MailPartial extends Model
         }
     }
 
-    protected static function getTemplateSections($code)
+    protected static function getTemplateSections($code): array
     {
         return MailParser::parse(File::get(View::make($code)->getPath()));
     }

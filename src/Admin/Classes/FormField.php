@@ -306,14 +306,14 @@ class FormField
         $attributes = $this->filterTriggerAttributes($attributes, $position);
         $attributes = $this->filterPresetAttributes($attributes, $position);
 
-        if ($position == 'field' && $this->disabled) {
+        if ($position === 'field' && $this->disabled) {
             $attributes += ['disabled' => 'disabled'];
         }
 
-        if ($position == 'field' && $this->readOnly) {
+        if ($position === 'field' && $this->readOnly) {
             $attributes += ['readonly' => 'readonly'];
 
-            if ($this->type == 'checkbox' || $this->type == 'switch') {
+            if ($this->type === 'checkbox' || $this->type === 'switch') {
                 $attributes += ['onclick' => 'return false;'];
             }
         }
@@ -365,7 +365,7 @@ class FormField
      */
     protected function filterPresetAttributes(array $attributes, string $position = 'field'): array
     {
-        if (!$this->preset || $position != 'field') {
+        if (!$this->preset || $position !== 'field') {
             return $attributes;
         }
 

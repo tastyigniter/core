@@ -143,7 +143,7 @@ class Relation extends BaseFormWidget
 
             // It is safe to assume that if the model and related model are of
             // the exact same class, then it cannot be related to itself
-            if ($model->exists && (get_class($model) == get_class($this->relatedModel))) {
+            if ($model->exists && (get_class($model) === get_class($this->relatedModel))) {
                 $query->where($this->relatedModel->getKeyName(), '<>', $model->getKey());
             }
 

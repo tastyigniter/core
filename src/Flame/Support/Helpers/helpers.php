@@ -453,7 +453,7 @@ if (!function_exists('uploads_url')) {
      * @deprecated Remove in v5
      * @codeCoverageIgnore
      */
-    function uploads_url(?string $path = null)
+    function uploads_url(?string $path = null): string
     {
         traceLog('uploads_url() has been deprecated, use media_url() instead. Remove in v5');
 
@@ -466,7 +466,7 @@ if (!function_exists('media_url')) {
      * Media URL
      * Returns the full URL (including segments) of the assets media uploads directory
      */
-    function media_url(?string $path = null)
+    function media_url(?string $path = null): string
     {
         return resolve(\Igniter\Main\Classes\MediaLibrary::class)->getMediaUrl($path);
     }
@@ -791,11 +791,9 @@ if (!function_exists('name_to_array')) {
             return $result;
         }
 
-        if (preg_match('/^([^\]]+)(?:\[(.+)\])+$/', $string, $matches)) {
-            if (count($matches) >= 2) {
-                $result = explode('][', $matches[2]);
-                array_unshift($result, $matches[1]);
-            }
+        if (preg_match('/^([^\]]+)(?:\[(.+)\])+$/', $string, $matches) && count($matches) >= 2) {
+            $result = explode('][', $matches[2]);
+            array_unshift($result, $matches[1]);
         }
 
         return array_filter($result, function($val) {
@@ -865,7 +863,7 @@ if (!function_exists('generate_extension_icon')) {
 }
 
 if (!function_exists('array_replace_key')) {
-    function array_replace_key($array, $oldKey, $newKey)
+    function array_replace_key($array, $oldKey, $newKey): array
     {
         $keys = array_keys($array);
 

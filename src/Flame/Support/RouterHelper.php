@@ -235,7 +235,7 @@ class RouterHelper
         return strlen($value) !== 0 ? $value : false;
     }
 
-    public static function convertToRouteProperties($pageInfo)
+    public static function convertToRouteProperties($pageInfo): array
     {
         $segments = $constraints = $defaults = [];
 

@@ -26,10 +26,8 @@ class Pivot extends Model
 {
     /**
      * The parent model of the relationship.
-     *
-     * @var \Illuminate\Database\Eloquent\Model
      */
-    protected $parent;
+    protected ?ModelBase $parent;
 
     /**
      * The name of the foreign key column.

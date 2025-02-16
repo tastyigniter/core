@@ -10,7 +10,7 @@ class RecordEditorLanguageCustomMethod extends Model
 {
     protected $table = 'languages';
 
-    public function getTestFieldRecordEditorOptions()
+    public function getTestFieldRecordEditorOptions(): array
     {
         return [];
     }

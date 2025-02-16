@@ -147,7 +147,7 @@ trait HasRelationships
      *
      * @return Model
      */
-    public function makeRelation($name)
+    public function makeRelation($name): ?object
     {
         $relationType = $this->getRelationType($name);
         $relation = $this->getRelationDefinition($name);

@@ -247,11 +247,8 @@ class Menu extends BaseWidget
 
     protected function getOptionsFromModel(MainMenuItem $item, callable $itemOptions): mixed
     {
-        if (is_callable($itemOptions)) {
-            $user = $this->getLoggedUser();
-            $itemOptions = $itemOptions($this, $item, $user);
-        }
+        $user = $this->getLoggedUser();
 
-        return $itemOptions;
+        return $itemOptions($this, $item, $user);
     }
 }

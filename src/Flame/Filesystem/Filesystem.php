@@ -44,7 +44,7 @@ class Filesystem extends IlluminateFilesystem
 
         $handle = opendir($directory);
         while (false !== ($entry = readdir($handle))) {
-            if ($entry != '.' && $entry != '..') {
+            if ($entry !== '.' && $entry !== '..') {
                 closedir($handle);
 
                 return false;
@@ -151,7 +151,7 @@ class Filesystem extends IlluminateFilesystem
         }
 
         foreach ($files as $file) {
-            if (strtolower($file) == $pathLower) {
+            if (strtolower($file) === $pathLower) {
                 return $file;
             }
         }

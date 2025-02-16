@@ -224,7 +224,7 @@ class StatusEditor extends BaseFormWidget
 
     public static function getAssigneeOptions(Form $form, $field): array|Collection
     {
-        if (strlen($groupId = post('groupId', $form->getField('assignee_group_id')->value ?? '')) === 0) {
+        if (empty($groupId = post('groupId', $form->getField('assignee_group_id')->value ?? ''))) {
             return [];
         }
 

@@ -107,7 +107,7 @@ class Manipulator
             return false;
         }
 
-        if ($this->driver == 'gd') {
+        if ($this->driver === 'gd') {
             return in_array($extension, $gdExtensions);
         }
 

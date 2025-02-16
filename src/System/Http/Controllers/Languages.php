@@ -86,7 +86,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function search()
+    public function search(): array
     {
         $filter = input('filter');
         if (!$filter || !is_array($filter) || !isset($filter['search']) || !$filter['search']) {
@@ -121,7 +121,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
 
     public function listOverrideColumnValue(Language $record, ListColumn $column, ?string $alias = null): void
     {
-        if ($column->type == 'button' && $column->columnName == 'default') {
+        if ($column->type === 'button' && $column->columnName === 'default') {
             $column->iconCssClass = $record->isDefault() ? 'fa fa-star' : 'fa fa-star-o';
         }
     }
@@ -285,7 +285,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         );
     }
 
-    protected function getFilterValue(string $key, ?string $default = null)
+    protected function getFilterValue(string $key, ?string $default = null): mixed
     {
         return $this->getSession('translation_'.$key, $default);
     }

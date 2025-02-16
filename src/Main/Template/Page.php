@@ -66,7 +66,7 @@ class Page extends Model
 
         return [
             'url' => $pageUrl,
-            'isActive' => $pageUrl == $url,
+            'isActive' => $pageUrl === $url,
         ];
     }
 

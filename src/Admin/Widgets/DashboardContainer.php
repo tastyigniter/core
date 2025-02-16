@@ -270,7 +270,7 @@ class DashboardContainer extends BaseWidget
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Dashboard widgets updated'))->now();
     }
 
-    public function onSetDateRange()
+    public function onSetDateRange(): array
     {
         $validated = $this->validate(request()->post(), [
             'start' => ['nullable', 'date'],

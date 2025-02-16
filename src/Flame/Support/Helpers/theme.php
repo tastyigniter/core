@@ -10,10 +10,8 @@ use Igniter\Main\Classes\ThemeManager;
 if (!function_exists('active_theme')) {
     /**
      * Get the active theme code of the specified domain
-     *
-     * @return null
      */
-    function active_theme()
+    function active_theme(): ?string
     {
         return resolve(ThemeManager::class)->getActiveThemeCode();
     }
@@ -24,10 +22,8 @@ if (!function_exists('parent_theme')) {
      * Get the parent theme code of the specified domain
      *
      * @param string $theme
-     *
-     * @return null
      */
-    function parent_theme($theme)
+    function parent_theme($theme): ?string
     {
         return resolve(ThemeManager::class)->findParentCode($theme);
     }

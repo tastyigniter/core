@@ -40,7 +40,7 @@ it('checks for route segment', function() {
         ->and(RouterHelper::segmentIsOptional(':id?|[0-9]+'))->toBeTrue() // Optional
         ->and(RouterHelper::segmentIsOptional(':id|[0-9]+?'))->toBeFalse() // Optional
         ->and(RouterHelper::segmentIsOptional(':id'))->toBeFalse() // Non-optional
-        ->and(RouterHelper::getSegmentRegExp(':id|[0-9]+'))->toBe('/[0-9]+/') // Regex
+        ->and(RouterHelper::getSegmentRegExp(':id|[0-9]+'))->toBe('/\d+/') // Regex
         ->and(RouterHelper::getSegmentRegExp(':id|'))->toBeFalse() // Non-regex
         ->and(RouterHelper::getSegmentRegExp(':id'))->toBeFalse() // Non-regex
         ->and(RouterHelper::getSegmentDefaultValue(':id?default'))->toBe('default') // Default value
@@ -56,6 +56,6 @@ it('converts page info to route properties', function() {
         'pattern' => '/user/:id|[0-9]+/:name?default/:foo*',
         'uri' => '/user/{id}/{name?}/{foo}',
         'defaults' => ['name' => 'default'],
-        'constraints' => ['id' => '/[0-9]+/', 'foo' => '.*'],
+        'constraints' => ['id' => '/\d+/', 'foo' => '.*'],
     ]);
 });

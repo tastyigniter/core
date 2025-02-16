@@ -15,11 +15,11 @@ class ThemeTestController
         return static::$context;
     }
 
-    public function getFormModel()
+    public function getFormModel(): object
     {
         return new class
         {
-            public function getFieldsConfig()
+            public function getFieldsConfig(): array
             {
                 return [
                     'theme_website' => [

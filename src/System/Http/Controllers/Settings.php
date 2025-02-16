@@ -115,7 +115,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         return $this->refresh();
     }
 
-    public function edit_onTestMail(string $context, ?string $settingCode = null)
+    public function edit_onTestMail(string $context, ?string $settingCode = null): RedirectResponse
     {
         [$model, $definition] = $this->findSettingDefinitions('mail');
         throw_unless($settingCode === 'mail' && $definition,

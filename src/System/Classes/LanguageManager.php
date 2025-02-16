@@ -151,7 +151,7 @@ class LanguageManager
         return $result;
     }
 
-    public function publishTranslations(Language $model)
+    public function publishTranslations(Language $model): array
     {
         $translations = $model->translations()
             ->get()
@@ -228,9 +228,7 @@ class LanguageManager
             'pageName' => 'page',
         ];
 
-        return App::makeWith(LengthAwarePaginator::class, compact(
-            'items', 'total', 'perPage', 'page', 'options',
-        ));
+        return App::makeWith(LengthAwarePaginator::class, ['items' => $items, 'total' => $total, 'perPage' => $perPage, 'page' => $page, 'options' => $options]);
     }
 
     //

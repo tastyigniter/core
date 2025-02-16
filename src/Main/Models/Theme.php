@@ -124,7 +124,7 @@ class Theme extends Model
         return (bool)self::getDefault()?->data;
     }
 
-    public function getLayoutOptions()
+    public function getLayoutOptions(): array
     {
         return Layout::getDropdownOptions($this->getTheme()->getName());
     }

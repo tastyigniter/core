@@ -276,7 +276,7 @@ class ThemeManager
      */
     public function checkName(string $themeCode): ?string
     {
-        if ($themeCode == 'errors') {
+        if ($themeCode === 'errors') {
             return null;
         }
 
@@ -425,7 +425,7 @@ class ThemeManager
         $oldFilePath = $theme->path.'/'.$dirName.'/'.$fileName;
         $newFilePath = $theme->path.'/'.$newDirName.'/'.$newFileName;
 
-        if ($oldFilePath == $newFilePath) {
+        if ($oldFilePath === $newFilePath) {
             throw new SystemException("Theme template file already exists: $filePath");
         }
 

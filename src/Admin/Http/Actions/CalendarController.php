@@ -117,7 +117,7 @@ class CalendarController extends ControllerAction
 
     public function renderCalendar(?string $alias = null, bool $noToolbar = false): string
     {
-        if (is_null($alias) || !isset($this->listConfig[$alias])) {
+        if (is_null($alias) || !isset($this->calendarConfig[$alias])) {
             $alias = $this->primaryAlias;
         }
 

@@ -182,7 +182,7 @@ trait HasMedia
 
     public function prepareUnattachedMedia(Media $media, MediaAdder $mediaAdder): void
     {
-        $this->unAttachedMediaItems[] = compact('media', 'mediaAdder');
+        $this->unAttachedMediaItems[] = ['media' => $media, 'mediaAdder' => $mediaAdder];
     }
 
     public function processUnattachedMedia(callable $callable): void
@@ -199,11 +199,8 @@ trait HasMedia
         $result = [];
         $mediable = $this->mediable ?? [];
         foreach ($mediable as $attribute => $config) {
-            if (is_numeric($attribute)) {
-                $attribute = $config;
-                $config = [];
-            }
-
+            $attribute = $config;
+            $config = [];
             $result[$attribute] = $config;
         }
 

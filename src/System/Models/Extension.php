@@ -92,30 +92,27 @@ class Extension extends Model
         return $this->class && !$this->class->disabled;
     }
 
-    public function getRequiredAttribute()
+    public function getRequiredAttribute(): bool
     {
         return resolve(ExtensionManager::class)->isRequired($this->name);
     }
 
-    public function getIconAttribute()
+    public function getIconAttribute(): array
     {
         $icon = array_get($this->meta, 'icon', []);
         if (is_string($icon)) {
             $icon = ['class' => 'fa '.$icon];
         }
 
-        if (!empty($image = array_get($icon, 'image', ''))) {
-            if (File::exists($file = resolve(ExtensionManager::class)->path($this->name, $image))) {
-                $extension = pathinfo($file, PATHINFO_EXTENSION);
-                if (!array_key_exists($extension, self::ICON_MIMETYPES)) {
-                    throw new \InvalidArgumentException('Invalid extension icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
-                }
-
-                $mimeType = self::ICON_MIMETYPES[$extension];
-                $data = base64_encode(File::get($file));
-                $icon['backgroundImage'] = [$mimeType, $data];
-                $icon['class'] = 'fa';
+        if (!empty($image = array_get($icon, 'image', '')) && File::exists($file = resolve(ExtensionManager::class)->path($this->name, $image))) {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+            if (!array_key_exists($extension, self::ICON_MIMETYPES)) {
+                throw new \InvalidArgumentException('Invalid extension icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
             }
+            $mimeType = self::ICON_MIMETYPES[$extension];
+            $data = base64_encode(File::get($file));
+            $icon['backgroundImage'] = [$mimeType, $data];
+            $icon['class'] = 'fa';
         }
 
         return generate_extension_icon($icon);

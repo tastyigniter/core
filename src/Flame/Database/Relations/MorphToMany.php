@@ -23,10 +23,8 @@ class MorphToMany extends BelongsToMany
 
     /**
      * The type of the polymorphic relation.
-     *
-     * @var string
      */
-    protected $morphType;
+    protected string $morphType;
 
     /**
      * The class name of the morph type constraint.
@@ -173,10 +171,8 @@ class MorphToMany extends BelongsToMany
 
     /**
      * Get the foreign key "type" name.
-     *
-     * @return string
      */
-    public function getMorphType()
+    public function getMorphType(): string
     {
         return $this->morphType;
     }

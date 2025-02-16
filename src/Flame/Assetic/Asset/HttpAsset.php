@@ -17,9 +17,9 @@ use RuntimeException;
  */
 class HttpAsset extends BaseAsset
 {
-    private $sourceUrl;
+    private string $sourceUrl;
 
-    private $ignoreErrors;
+    private bool $ignoreErrors;
 
     /**
      * Constructor.
@@ -62,10 +62,8 @@ class HttpAsset extends BaseAsset
     public function getLastModified(): ?int
     {
         $response = Http::withHeaders(['Accept' => '*/*'])->head($this->sourceUrl);
-        if ($response->successful()) {
-            if ($lastModified = $response->header('Last-Modified')) {
-                return strtotime($lastModified);
-            }
+        if ($response->successful() && ($lastModified = $response->header('Last-Modified'))) {
+            return strtotime($lastModified);
         }
 
         return null;

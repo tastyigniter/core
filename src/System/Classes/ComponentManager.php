@@ -68,7 +68,7 @@ class ComponentManager
     /**
      * Scans each extension and loads it components.
      */
-    protected function loadComponents()
+    protected function loadComponents(): ?array
     {
         $this->components = [];
 

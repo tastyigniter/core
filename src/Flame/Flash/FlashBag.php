@@ -47,7 +47,7 @@ class FlashBag
         return $messages;
     }
 
-    public function set(?string $level = null, ?string $message = null)
+    public function set(?string $level = null, ?string $message = null): \Igniter\Flame\Flash\FlashBag
     {
         return $this->message($message, $level);
     }
@@ -108,11 +108,11 @@ class FlashBag
         // If no message was provided, we should update
         // the most recently added message.
         if (is_null($message)) {
-            return $this->updateLastMessage(compact('level'));
+            return $this->updateLastMessage(['level' => $level]);
         }
 
         if (!$message instanceof Message) {
-            $message = new Message(compact('message', 'level'));
+            $message = new Message(['message' => $message, 'level' => $level]);
         }
 
         $this->messages()->push($message);
@@ -141,7 +141,7 @@ class FlashBag
             return $this->message(new OverlayMessage($this->messages()->last()->toArray()))->important();
         }
 
-        return $this->message(new OverlayMessage(compact('title', 'message')))->important();
+        return $this->message(new OverlayMessage(['title' => $title, 'message' => $message]))->important();
     }
 
     /**

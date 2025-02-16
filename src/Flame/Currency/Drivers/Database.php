@@ -83,7 +83,7 @@ class Database extends AbstractDriver
         $table = $this->config('table');
 
         // Create timestamp
-        if (empty($attributes['updated_at']) === true) {
+        if (empty($attributes['updated_at'])) {
             $attributes['updated_at'] = new DateTime('now');
         }
 

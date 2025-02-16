@@ -207,7 +207,7 @@ trait HasAttributes
         return $value;
     }
 
-    protected function asTime($value)
+    protected function asTime($value): ?\Carbon\Carbon
     {
         // If this value is already a Carbon instance, we shall just return it as is.
         // This prevents us having to re-instantiate a Carbon instance when we know

@@ -63,7 +63,7 @@ class Currency
         $value = $amount * $toRate * (1 / $fromRate);
 
         // Should the result be formatted?
-        if ($format === true) {
+        if ($format) {
             return $this->format($value, $to);
         }
 
@@ -95,7 +95,7 @@ class Currency
         $format = $this->getCurrency($code)?->getFormat();
 
         // Value Regex
-        $valRegex = '/([0-9].*|)[0-9]/';
+        $valRegex = '/(\d.*|)\d/';
 
         // Match decimal and a thousand separators
         preg_match_all('/[\s\',.!]/', $format, $separators);

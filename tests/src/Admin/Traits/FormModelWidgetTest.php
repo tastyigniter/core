@@ -119,7 +119,7 @@ it('returns relation model correctly', function() {
 
         public $valueFrom = 'status_history';
 
-        public function testGetRelationModel()
+        public function testGetRelationModel(): Model
         {
             return $this->getRelationModel();
         }
@@ -142,7 +142,7 @@ it('throws exception when getting relation model fails', function() {
 
         public $valueFrom = 'invalid_relation';
 
-        public function testGetRelationModel()
+        public function testGetRelationModel(): Model
         {
             $this->formField = new FormField('text', 'Text field');
             $this->model = Status::factory()->create();
@@ -165,7 +165,7 @@ it('returns relation model instance correctly', function() {
 
         public $valueFrom = 'status_history';
 
-        public function testGetRelationObject()
+        public function testGetRelationObject(): Relation
         {
             $this->formField = new FormField('text', 'Text field');
             $this->model = Status::factory()->create();
@@ -188,7 +188,7 @@ it('throws exception when getting relation model instance fails', function() {
 
         public $valueFrom = 'invalid_relation';
 
-        public function testGetRelationObject()
+        public function testGetRelationObject(): Relation
         {
             $this->formField = new FormField('text', 'Text field');
             $this->model = Status::factory()->create();
@@ -232,7 +232,7 @@ it('makes model relation correctly', function() {
 
         public $valueFrom = 'status_history';
 
-        public function testMakeModelRelation()
+        public function testMakeModelRelation(): mixed
         {
             return $this->makeModelRelation($this->model, $this->valueFrom);
         }

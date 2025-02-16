@@ -49,7 +49,7 @@ if (!function_exists('partial')) {
      *
      * @return string
      */
-    function partial($partial = '', array $data = [])
+    function partial($partial = '', array $data = []): mixed
     {
         return controller()->renderPartial($partial, $data);
     }
@@ -60,10 +60,8 @@ if (!function_exists('has_component')) {
      * Check if a component is loaded
      *
      * @param string $component
-     *
-     * @return bool
      */
-    function has_component($component = '')
+    function has_component($component = ''): bool
     {
         return controller()->hasComponent($component);
     }
@@ -77,7 +75,7 @@ if (!function_exists('component')) {
      *
      * @return string
      */
-    function component($component = '', array $params = [])
+    function component($component = '', array $params = []): string|false
     {
         return controller()->renderComponent($component, $params);
     }

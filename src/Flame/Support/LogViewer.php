@@ -100,7 +100,7 @@ class LogViewer
     /**
      * @return array
      */
-    public function all()
+    public function all(): ?array
     {
         $log = [];
         if (!$this->file) {
@@ -165,10 +165,8 @@ class LogViewer
 
     /**
      * @param bool $basename
-     *
-     * @return array
      */
-    public function getFiles($basename = false)
+    public function getFiles($basename = false): array
     {
         $files = File::glob(storage_path().'/logs/*.log');
         $files = array_reverse($files);

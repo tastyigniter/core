@@ -14,28 +14,23 @@ use Illuminate\Support\Traits\Macroable;
 
 class FormBuilder
 {
+    public $payload;
     use Macroable;
 
     /**
      * The HTML builder instance.
-     *
-     * @var HtmlBuilder
      */
-    protected $html;
+    protected HtmlBuilder $html;
 
     /**
      * The URL generator instance.
-     *
-     * @var \Illuminate\Contracts\Routing\UrlGenerator
      */
-    protected $url;
+    protected UrlGenerator $url;
 
     /**
      * The View factory instance.
-     *
-     * @var \Illuminate\Contracts\View\Factory
      */
-    protected $view;
+    protected Factory $view;
 
     /**
      * The CSRF token used by the form builder.
@@ -58,7 +53,7 @@ class FormBuilder
      */
     protected $model;
 
-    protected $request;
+    protected ?Request $request;
 
     /**
      * The reserved form open attributes.
@@ -102,10 +97,8 @@ class FormBuilder
 
     /**
      * Open up a new HTML form.
-     *
-     * @return \Illuminate\Support\HtmlString
      */
-    public function open(array $options = [])
+    public function open(array $options = []): HtmlString
     {
         $method = array_get($options, 'method', 'post');
 
@@ -144,10 +137,8 @@ class FormBuilder
 
     /**
      * Close the current form.
-     *
-     * @return HtmlString
      */
-    public function close()
+    public function close(): HtmlString
     {
         $this->model = null;
 
@@ -156,10 +147,8 @@ class FormBuilder
 
     /**
      * Generate a hidden field with the current CSRF token.
-     *
-     * @return HtmlString
      */
-    public function token()
+    public function token(): HtmlString
     {
         $token = !empty($this->csrfToken) ? $this->csrfToken : $this->session->token();
 
@@ -173,10 +162,8 @@ class FormBuilder
      * @param string $name
      * @param string $value
      * @param array $options
-     *
-     * @return \Illuminate\Support\HtmlString
      */
-    public function input($type, $name, $value = null, $options = [])
+    public function input($type, $name, $value = null, $options = []): HtmlString
     {
         $this->type = $type;
 
@@ -196,7 +183,7 @@ class FormBuilder
         // Once we have the type, value, and ID we can merge them into the rest of the
         // attributes array so we can convert them into their HTML attribute format
         // when creating the HTML element. Then, we will return the entire input.
-        $merge = compact('type', 'value', 'id');
+        $merge = ['type' => $type, 'value' => $value, 'id' => $id];
 
         $options = array_merge($options, $merge);
 
@@ -209,10 +196,8 @@ class FormBuilder
      * @param string $name
      * @param string $value
      * @param array $options
-     *
-     * @return \Illuminate\Support\HtmlString
      */
-    public function hidden($name, $value = null, $options = [])
+    public function hidden($name, $value = null, $options = []): HtmlString
     {
         return $this->input('hidden', $name, $value, $options);
     }
@@ -226,7 +211,7 @@ class FormBuilder
     {
         $method = strtoupper($method);
 
-        return $method != 'GET' ? 'POST' : $method;
+        return $method !== 'GET' ? 'POST' : $method;
     }
 
     /**
@@ -324,7 +309,7 @@ class FormBuilder
         // If the method is something other than GET we will go ahead and attach the
         // CSRF token to the form, as this can't hurt and is convenient to simply
         // always have available on every form the developers creates for them.
-        if ($method != 'GET') {
+        if ($method !== 'GET') {
             $appendage .= $this->token();
         }
 
@@ -443,10 +428,8 @@ class FormBuilder
      * Transform key from array to dot syntax.
      *
      * @param string $key
-     *
-     * @return mixed
      */
-    protected function transformKey($key)
+    protected function transformKey($key): string
     {
         return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $key);
     }

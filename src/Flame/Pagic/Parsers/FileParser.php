@@ -68,13 +68,10 @@ class FileParser
                 return $result;
             }
 
-            if (!$hasCache && File::lastModified($path) >= $this->object->mTime) {
-                if ($className = $this->extractClassFromFile($path)) {
-                    $result['className'] = $cacheItem['className'] = $className;
-                    $this->fileCache->storeCached($filePath, $cacheItem);
-
-                    return $result;
-                }
+            if (!$hasCache && File::lastModified($path) >= $this->object->mTime && ($className = $this->extractClassFromFile($path))) {
+                $result['className'] = $cacheItem['className'] = $className;
+                $this->fileCache->storeCached($filePath, $cacheItem);
+                return $result;
             }
         }
 

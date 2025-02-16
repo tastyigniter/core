@@ -33,10 +33,8 @@ class PermalinkMaker
      * including default values that where not specified.
      *
      * @param array $overrides
-     *
-     * @return array
      */
-    public function getConfiguration($overrides = [])
+    public function getConfiguration($overrides = []): array
     {
         static $defaultConfig = null;
 

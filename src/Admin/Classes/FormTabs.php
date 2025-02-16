@@ -51,7 +51,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
         $this->section = strtolower($section) ?: $this->section;
         $this->config = $this->evalConfig($config);
 
-        if ($this->section == self::SECTION_OUTSIDE) {
+        if ($this->section === self::SECTION_OUTSIDE) {
             $this->suppressTabs = true;
         }
     }

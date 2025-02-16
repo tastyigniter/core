@@ -10,7 +10,7 @@ use Illuminate\Support\Manager;
 
 class Converter extends Manager
 {
-    public function getExchangeRates($base, Collection $currencies)
+    public function getExchangeRates($base, Collection $currencies): array
     {
         $currencies = ($currencies->map->getCode())->all();
 

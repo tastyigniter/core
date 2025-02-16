@@ -203,7 +203,7 @@ class Vertex implements Contracts\VertexInterface
      */
     public function isOnSameLine(Vertex $vertex): bool
     {
-        if (is_null($this->getGradient()) && is_null($vertex->getGradient()) && $this->from->getLongitude() == $vertex->getFrom()->getLongitude()) {
+        if (is_null($this->getGradient()) && is_null($vertex->getGradient()) && $this->from->getLongitude() === $vertex->getFrom()->getLongitude()) {
             return true;
         }
 

@@ -12,7 +12,7 @@ class TestWidget extends BaseWidget
 
     protected string $defaultAlias = 'testwidget';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'property',

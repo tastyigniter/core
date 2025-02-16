@@ -96,7 +96,7 @@ class ConfigRewrite
         return $result;
     }
 
-    protected function writeValueToPhp($value)
+    protected function writeValueToPhp($value): string
     {
         if (is_string($value) && !str_contains($value, "'")) {
             $replaceValue = "'".$value."'";

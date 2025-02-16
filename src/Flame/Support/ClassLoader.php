@@ -154,11 +154,9 @@ class ClassLoader
         ) {
             require_once $this->basePath.DIRECTORY_SEPARATOR.$path;
 
-            if (!is_null($reverse = $this->getReverseAlias($class))) {
-                if (!class_exists($reverse, false) && !in_array($reverse, $this->loadedAliases)) {
-                    class_alias($class, $reverse);
-                    $this->reversedClasses[] = $reverse;
-                }
+            if (!is_null($reverse = $this->getReverseAlias($class)) && (!class_exists($reverse, false) && !in_array($reverse, $this->loadedAliases))) {
+                class_alias($class, $reverse);
+                $this->reversedClasses[] = $reverse;
             }
 
             return true;
@@ -178,11 +176,9 @@ class ClassLoader
                 if ($this->isRealFilePath($path)) {
                     $this->includeClass($class, $path);
 
-                    if (!is_null($reverse = $this->getReverseAlias($class))) {
-                        if (!class_exists($reverse, false) && !in_array($reverse, $this->loadedAliases)) {
-                            class_alias($class, $reverse);
-                            $this->reversedClasses[] = $reverse;
-                        }
+                    if (!is_null($reverse = $this->getReverseAlias($class)) && (!class_exists($reverse, false) && !in_array($reverse, $this->loadedAliases))) {
+                        class_alias($class, $reverse);
+                        $this->reversedClasses[] = $reverse;
                     }
 
                     return true;

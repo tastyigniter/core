@@ -136,7 +136,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         ]);
     }
 
-    public function index_onInstall(?string $context = null)
+    public function index_onInstall(?string $context = null): RedirectResponse
     {
         if (empty($extensionCode = trim(post('code') ?: ''))) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
@@ -155,7 +155,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         return $this->redirectBack();
     }
 
-    public function index_onUninstall(?string $context = null)
+    public function index_onUninstall(?string $context = null): RedirectResponse
     {
         if (empty($extensionCode = trim(post('code') ?: ''))) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
@@ -221,7 +221,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         return $this->refresh();
     }
 
-    public function delete_onDelete(?string $context = null, ?string $extensionCode = null)
+    public function delete_onDelete(?string $context = null, ?string $extensionCode = null): RedirectResponse
     {
         $manager = resolve(ExtensionManager::class);
         if (!$extension = $manager->findExtension($extensionCode)) {
@@ -239,13 +239,13 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function listOverrideColumnValue(Extension $record, ListColumn $column, ?string $alias = null): ?array
     {
-        if ($column->type != 'button') {
+        if ($column->type !== 'button') {
             return null;
         }
 
-        if (($column->columnName == 'delete' && $record->status)
-            || ($column->columnName == 'uninstall' && $record->required)
-            || ($column->columnName != 'delete' && !$record->class)
+        if (($column->columnName === 'delete' && $record->status)
+            || ($column->columnName === 'uninstall' && $record->required)
+            || ($column->columnName !== 'delete' && !$record->class)
         ) {
             $attributes = $column->attributes;
             $attributes['class'] .= ' disabled';

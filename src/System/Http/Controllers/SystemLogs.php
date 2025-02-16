@@ -46,7 +46,7 @@ class SystemLogs extends \Igniter\Admin\Classes\AdminController
         $this->vars['logs'] = $logs;
     }
 
-    public function index_onEmptyLog()
+    public function index_onEmptyLog(): RedirectResponse
     {
         $logFile = $this->getLogsFile();
         if (File::exists($logFile) && File::isWritable($logFile)) {

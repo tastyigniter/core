@@ -101,7 +101,7 @@ abstract class CssUtils
     {
         $result = '';
         foreach (preg_split(static::REGEX_COMMENTS, $content, -1, PREG_SPLIT_DELIM_CAPTURE) as $part) {
-            if (!preg_match(static::REGEX_COMMENTS, $part, $match) || $part != $match[0]) {
+            if (!preg_match(static::REGEX_COMMENTS, $part, $match) || $part !== $match[0]) {
                 $part = call_user_func($callback, $part);
             }
 

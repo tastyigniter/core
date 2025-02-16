@@ -192,7 +192,7 @@ trait ViewMaker
      */
     public function makeFileContent(string $filePath, array $extraParams = []): string
     {
-        if (!strlen($filePath) || $filePath == 'index.php' || !File::isFile($filePath)) {
+        if (!strlen($filePath) || $filePath === 'index.php' || !File::isFile($filePath)) {
             return '';
         }
 

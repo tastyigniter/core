@@ -275,10 +275,8 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public function formAfterSave(Theme $model): void
     {
-        if ($this->widgets['form']->context != 'source') {
-            if (config('igniter-system.buildThemeAssetsBundle', true)) {
-                Assets::buildBundles($model->getTheme());
-            }
+        if ($this->widgets['form']->context != 'source' && config('igniter-system.buildThemeAssetsBundle', true)) {
+            Assets::buildBundles($model->getTheme());
         }
     }
 }

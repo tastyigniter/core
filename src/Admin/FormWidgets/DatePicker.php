@@ -91,9 +91,9 @@ class DatePicker extends BaseFormWidget
         }
 
         // Display alias, used by preview mode
-        if ($this->mode == 'time') {
+        if ($this->mode === 'time') {
             $formatAlias = lang('igniter::system.php.time_format');
-        } elseif ($this->mode == 'date') {
+        } elseif ($this->mode === 'date') {
             $formatAlias = lang('igniter::system.php.date_format');
         } else {
             $formatAlias = lang('igniter::system.php.date_time_format');
@@ -105,7 +105,7 @@ class DatePicker extends BaseFormWidget
         $this->vars['dateFormat'] = $this->dateFormat;
         $this->vars['dateTimeFormat'] = $this->dateFormat.' '.$this->timeFormat;
 
-        $this->vars['datePickerFormat'] = ($this->mode == 'datetime')
+        $this->vars['datePickerFormat'] = ($this->mode === 'datetime')
             ? convert_php_to_moment_js_format($formatAlias)
             : strtr($this->dateFormat, $find);
 

@@ -848,12 +848,12 @@ class Lists extends BaseWidget
         $term = $this->searchTerm;
 
         if ($scopeMethod = $this->searchScope) {
-            $searchMethod = $boolean == 'and' ? 'where' : 'orWhere';
+            $searchMethod = $boolean === 'and' ? 'where' : 'orWhere';
             $query->$searchMethod(function($q) use ($term, $scopeMethod) {
                 $q->$scopeMethod($term);
             });
         } else {
-            $searchMethod = $boolean == 'and' ? 'search' : 'orSearch';
+            $searchMethod = $boolean === 'and' ? 'search' : 'orSearch';
             $query->$searchMethod($term, $columns, $this->searchMode);
         }
     }
@@ -874,7 +874,7 @@ class Lists extends BaseWidget
         // Toggle the sort direction and set the sorting column
         $sortOptions = [$this->getSortColumn(), $this->sortDirection];
 
-        if ($column != $sortOptions[0] || strtolower($sortOptions[1]) == 'asc') {
+        if ($column != $sortOptions[0] || strtolower($sortOptions[1]) === 'asc') {
             $this->sortDirection = $sortOptions[1] = 'desc';
         } else {
             $this->sortDirection = $sortOptions[1] = 'asc';
@@ -1201,7 +1201,7 @@ class Lists extends BaseWidget
      */
     protected function isColumnPivot(ListColumn $column): bool
     {
-        return isset($column->relation) && $column->relation == 'pivot';
+        return isset($column->relation) && $column->relation === 'pivot';
     }
 
     protected function getRelationType(string $relation): ?string

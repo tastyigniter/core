@@ -347,14 +347,14 @@ class Assets
 
     protected function buildAssetUrl(string $type, string $file, string|array|null $attributes = null): string
     {
-        if ($type == 'rss') {
+        if ($type === 'rss') {
             $html = '<link'.Html::attributes(array_merge([
                 'rel' => 'alternate',
                 'href' => $file,
                 'title' => 'RSS',
                 'type' => 'application/rss+xml',
             ], $attributes)).'>'.PHP_EOL;
-        } elseif ($type == 'js') {
+        } elseif ($type === 'js') {
             $html = '<script'.Html::attributes(array_merge([
                 'charset' => strtolower(setting('charset', 'UTF-8')),
                 'type' => 'text/javascript',

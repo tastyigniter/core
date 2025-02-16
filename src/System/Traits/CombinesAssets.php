@@ -336,7 +336,7 @@ trait CombinesAssets
             $file = File::name($firstFile);
             $path = dirname($firstFile);
 
-            if ($extension != 'js') {
+            if ($extension !== 'js') {
                 $cssPath = $path.'/../css';
                 if (File::isDirectory(File::symbolizePath($cssPath))) {
                     $path = $cssPath;

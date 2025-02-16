@@ -8,14 +8,14 @@ class TestFormWidget extends \Igniter\Admin\Classes\BaseFormWidget
 {
     public string $property = 'value';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'property',
         ]);
     }
 
-    public function getFormField()
+    public function getFormField(): FormField
     {
         return $this->formField;
     }

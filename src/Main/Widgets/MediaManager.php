@@ -677,7 +677,7 @@ class MediaManager extends BaseWidget
             $result[] = ['name' => '<i class="fa fa-home"></i>'];
             foreach ($folderArray as $p_dir) {
                 $tmpPath .= $p_dir.'/';
-                if ($p_dir != '') {
+                if ($p_dir !== '') {
                     $result[] = ['name' => $p_dir, 'link' => $tmpPath];
                 }
             }
@@ -710,6 +710,6 @@ class MediaManager extends BaseWidget
 
     protected function isFolderTreeNodeSelected(string $node): bool
     {
-        return $this->getCurrentFolder() == $node;
+        return $this->getCurrentFolder() === $node;
     }
 }

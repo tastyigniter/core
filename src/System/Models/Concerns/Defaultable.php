@@ -76,12 +76,10 @@ trait Defaultable
 
     public function makeDefault(): bool
     {
-        if ($this->defaultableUsesSwitchable()) {
-            if (!$this->{$this->switchableGetColumn()}) {
-                throw ValidationException::withMessages([$this->switchableGetColumn() => sprintf(
-                    lang('igniter::admin.alert_error_set_default'), $this->defaultableName(),
-                )]);
-            }
+        if ($this->defaultableUsesSwitchable() && !$this->{$this->switchableGetColumn()}) {
+            throw ValidationException::withMessages([$this->switchableGetColumn() => sprintf(
+                lang('igniter::admin.alert_error_set_default'), $this->defaultableName(),
+            )]);
         }
 
         static::withoutTimestamps(function() {

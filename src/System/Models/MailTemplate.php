@@ -63,7 +63,7 @@ class MailTemplate extends Model
 
     public $timestamps = true;
 
-    public static function getVariableOptions()
+    public static function getVariableOptions(): array
     {
         return resolve(MailManager::class)->listRegisteredVariables();
     }
@@ -168,7 +168,7 @@ class MailTemplate extends Model
         return $templates;
     }
 
-    protected static function getTemplateSections($code)
+    protected static function getTemplateSections($code): array
     {
         return MailParser::parse(File::get(View::make($code)->getPath()));
     }

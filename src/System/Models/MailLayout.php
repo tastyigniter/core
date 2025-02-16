@@ -133,7 +133,7 @@ class MailLayout extends Model
         $this->plain_layout = array_get($sections, 'text');
     }
 
-    protected static function getTemplateSections($code)
+    protected static function getTemplateSections($code): array
     {
         return MailParser::parse(File::get(View::make($code)->getPath()));
     }

@@ -10,7 +10,7 @@ class RecordEditorLanguage extends Language
 {
     protected $table = 'languages';
 
-    public function getRecordEditorOptions()
+    public function getRecordEditorOptions(): array
     {
         return [];
     }

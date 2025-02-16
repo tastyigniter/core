@@ -74,7 +74,7 @@ class MediaItem
 
     public function isFile(): bool
     {
-        return $this->type == self::TYPE_FILE;
+        return $this->type === self::TYPE_FILE;
     }
 
     public function getFileType(): ?string
@@ -116,7 +116,7 @@ class MediaItem
      */
     public function sizeToString(): string
     {
-        return $this->type == self::TYPE_FILE
+        return $this->type === self::TYPE_FILE
             ? File::sizeToString($this->size)
             : $this->size.' '.trans('igniter::main.media_manager.text_items');
     }

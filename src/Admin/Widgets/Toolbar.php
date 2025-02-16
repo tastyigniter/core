@@ -143,7 +143,7 @@ class Toolbar extends BaseWidget
         return $buttons;
     }
 
-    public function getActiveSaveAction()
+    public function getActiveSaveAction(): mixed
     {
         return $this->getSession('toolbar_save_action', 'continue');
     }

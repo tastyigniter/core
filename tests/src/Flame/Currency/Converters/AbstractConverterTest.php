@@ -53,7 +53,7 @@ it('forgets cache when cache lifetime is set', function() {
             return [];
         }
 
-        public function testGetCacheDriver()
+        public function testGetCacheDriver(): Repository
         {
             return $this->getCacheDriver();
         }

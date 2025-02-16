@@ -44,7 +44,7 @@ class Manager
         return array_get($this->loadInstalledPackages()->get($name, []), 'name');
     }
 
-    public function listInstalledPackages()
+    public function listInstalledPackages(): Collection
     {
         return $this->loadInstalledPackages();
     }
@@ -59,7 +59,7 @@ class Manager
         return $this->formatPackageManifest($path, 'theme');
     }
 
-    public function getLoader()
+    public function getLoader(): ?ClassLoader
     {
         if (is_null($this->loader) && File::isFile($path = $this->workingPath.'/vendor/autoload.php')) {
             $this->loader = require $path;

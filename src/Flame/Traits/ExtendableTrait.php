@@ -153,7 +153,7 @@ trait ExtendableTrait
 
         $extensionMethods = get_class_methods($extensionName);
         foreach ($extensionMethods as $methodName) {
-            if ($methodName == '__construct' || $methodName == '__remap'
+            if ($methodName === '__construct' || $methodName === '__remap'
                 || $extensionObject->extensionIsHiddenMethod($methodName)
             ) {
                 continue;
@@ -228,7 +228,7 @@ trait ExtendableTrait
         foreach ($this->extensionData['extensions'] as $class => $obj) {
             if (
                 preg_match('@\\\\([\w]+)$@', $class, $matches) &&
-                $matches[1] == $shortName
+                $matches[1] === $shortName
             ) {
                 return $obj;
             }

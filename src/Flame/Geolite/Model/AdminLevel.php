@@ -32,10 +32,8 @@ readonly class AdminLevel
 
     /**
      * Returns the administrative level short name.
-     *
-     * @return string|null
      */
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->code;
     }

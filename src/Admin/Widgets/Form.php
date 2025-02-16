@@ -330,7 +330,7 @@ class Form extends BaseWidget
 
             $this->allFields[$name] = $fieldObj;
 
-            if (strtolower($addToArea) == FormTabs::SECTION_PRIMARY) {
+            if (strtolower($addToArea) === FormTabs::SECTION_PRIMARY) {
                 $this->allTabs['primary']->addField($name, $fieldObj, $fieldTab);
             } else {
                 $this->allTabs['outside']->addField($name, $fieldObj);
@@ -409,7 +409,7 @@ class Form extends BaseWidget
             }
 
             // Widget with configuration
-            if ($this->isFormWidget($fieldType) !== false) {
+            if ($this->isFormWidget($fieldType)) {
                 $config['widget'] = $fieldType;
                 $fieldType = 'widget';
             }
@@ -552,7 +552,7 @@ class Form extends BaseWidget
             if (!isset($this->allFields[$field])) {
                 throw new SystemException(lang(
                     'igniter::admin.form.missing_definition',
-                    compact('field'),
+                    ['field' => $field],
                 ));
             }
 
@@ -583,11 +583,11 @@ class Form extends BaseWidget
      */
     public function showFieldLabels(FormField $field): bool
     {
-        if ($field->type == 'section') {
+        if ($field->type === 'section') {
             return false;
         }
 
-        if ($field->type == 'widget') {
+        if ($field->type === 'widget') {
             return $this->makeFormFieldWidget($field)->showLabels;
         }
 

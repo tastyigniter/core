@@ -43,27 +43,27 @@ class BaseDashboardWidget extends BaseWidget
         return [$rules, $attributes];
     }
 
-    public function getWidth()
+    public function getWidth(): mixed
     {
         return $this->property('width');
     }
 
-    public function getCssClass()
+    public function getCssClass(): mixed
     {
         return $this->property('cssClass');
     }
 
-    public function getPriority()
+    public function getPriority(): mixed
     {
         return $this->property('priority', 9999);
     }
 
-    public function getStartDate()
+    public function getStartDate(): mixed
     {
         return $this->property('startDate');
     }
 
-    public function getEndDate()
+    public function getEndDate(): mixed
     {
         return $this->property('endDate');
     }

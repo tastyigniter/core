@@ -56,7 +56,7 @@ class Statistics extends BaseDashboardWidget
         ];
     }
 
-    public function getActiveCard()
+    public function getActiveCard(): mixed
     {
         return $this->property('card', 'sale');
     }
@@ -66,7 +66,7 @@ class Statistics extends BaseDashboardWidget
         $this->addCss('statistics.css', 'statistics-css');
     }
 
-    protected function getCardOptions()
+    protected function getCardOptions(): array
     {
         return array_map(function($context) {
             return array_get($context, 'label');

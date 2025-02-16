@@ -22,7 +22,7 @@ class CssRewriteFilter extends BaseCssFilter
         $sourcePath = $asset->getSourcePath();
         $targetPath = $asset->getTargetPath();
 
-        if ($sourcePath === null || $targetPath === null || $sourcePath == $targetPath) {
+        if ($sourcePath === null || $targetPath === null || $sourcePath === $targetPath) {
             return;
         }
 

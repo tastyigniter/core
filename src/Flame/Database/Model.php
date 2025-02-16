@@ -133,7 +133,7 @@ abstract class Model extends EloquentModel
             foreach ($hooks as $hook => $event) {
                 $eventMethod = $radical.$event; // saving / saved
                 $method = $hook.ucfirst($radical); // beforeSave / afterSave
-                if ($radical != 'fetch') {
+                if ($radical !== 'fetch') {
                     $method .= 'e';
                 }
 

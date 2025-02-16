@@ -95,7 +95,7 @@ class MediaLibrary
             $result[] = $folder;
         }
 
-        if ($path == '/' && !in_array('/', $result)) {
+        if ($path === '/' && !in_array('/', $result)) {
             array_unshift($result, '/');
         }
 

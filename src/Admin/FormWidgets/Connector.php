@@ -151,7 +151,7 @@ class Connector extends BaseFormWidget
         return parent::reload();
     }
 
-    public function onRefresh()
+    public function onRefresh(): array
     {
         $model = $this->getRelationModel();
         if ($recordId = post('recordId', '')) {

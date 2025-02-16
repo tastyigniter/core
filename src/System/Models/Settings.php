@@ -348,7 +348,7 @@ class Settings extends Model
         }
 
         usort($tempTimezones, function($a, $b) {
-            return ($a['offset'] == $b['offset']) ? strcmp($a['identifier'], $b['identifier']) : $a['offset'] - $b['offset'];
+            return ($a['offset'] === $b['offset']) ? strcmp($a['identifier'], $b['identifier']) : $a['offset'] - $b['offset'];
         });
 
         $timezoneList = [];

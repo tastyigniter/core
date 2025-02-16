@@ -18,13 +18,11 @@ use Igniter\Flame\Assetic\Filter\DependencyExtractorInterface;
  */
 class AssetFactory
 {
-    private $root;
+    private string $root;
 
-    private $debug;
+    private bool $debug;
 
-    private $output;
-
-    private $workers;
+    private string $output;
 
     /**
      * Constructor.
@@ -37,7 +35,6 @@ class AssetFactory
         $this->root = rtrim($root, '/');
         $this->debug = $debug;
         $this->output = 'assetic/*';
-        $this->workers = [];
     }
 
     /**

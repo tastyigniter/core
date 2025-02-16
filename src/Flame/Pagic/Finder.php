@@ -401,7 +401,7 @@ class Finder
         }
 
         $segments = explode(DIRECTORY_SEPARATOR, $filePath);
-        if ($maxNesting !== null && count($segments) > $maxNesting) {
+        if (count($segments) > $maxNesting) {
             return false;
         }
 

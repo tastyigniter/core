@@ -86,7 +86,7 @@ class Charts extends BaseDashboardWidget
         $this->vars['chartData'] = $this->getData();
     }
 
-    public function getActiveDataset()
+    public function getActiveDataset(): mixed
     {
         return $this->property('dataset', 'reports');
     }
@@ -109,7 +109,7 @@ class Charts extends BaseDashboardWidget
         return ['datasets' => $datasets];
     }
 
-    public function getDatasetOptions()
+    public function getDatasetOptions(): array
     {
         return array_map(function($context) {
             return array_get($context, 'label');

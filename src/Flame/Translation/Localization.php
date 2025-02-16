@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Session;
 
 class Localization
 {
-    protected $request;
+    protected Request $request;
 
-    protected $config;
+    protected Repository $config;
 
     protected $sessionKey = 'igniter.translation.locale';
 

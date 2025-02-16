@@ -35,7 +35,7 @@ class Filesystem extends AbstractDriver
         $currencies = $this->all();
 
         // Verify the currency doesn't exists
-        if (isset($currencies[$params['code']]) === true) {
+        if (isset($currencies[$params['code']])) {
             return true;
         }
 
@@ -95,7 +95,7 @@ class Filesystem extends AbstractDriver
         }
 
         // Create timestamp
-        if (empty($attributes['updated_at']) === true) {
+        if (empty($attributes['updated_at'])) {
             $attributes['updated_at'] = (new DateTime('now'))->format('Y-m-d H:i:s');
         }
 
