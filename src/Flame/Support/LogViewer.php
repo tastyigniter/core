@@ -97,9 +97,6 @@ class LogViewer
         return File::basename($this->file);
     }
 
-    /**
-     * @return array
-     */
     public function all(): ?array
     {
         $log = [];

@@ -15,6 +15,7 @@ use Illuminate\Support\Traits\Macroable;
 class FormBuilder
 {
     public $payload;
+
     use Macroable;
 
     /**
