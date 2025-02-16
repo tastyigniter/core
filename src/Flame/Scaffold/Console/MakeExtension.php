@@ -41,7 +41,7 @@ class MakeExtension extends GeneratorCommand
         'composer.stub' => 'composer.json',
     ];
 
-    protected function prepareVars()
+    protected function prepareVars(): ?bool
     {
         if (!$code = $this->getExtensionInput()) {
             $this->error('Invalid extension name, Example name: AuthorName.ExtensionName');
@@ -62,6 +62,7 @@ class MakeExtension extends GeneratorCommand
             'title_author' => title_case($author),
             'studly_author' => studly_case($author),
         ];
+        return null;
     }
 
     /**

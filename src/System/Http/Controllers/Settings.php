@@ -15,6 +15,7 @@ use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Models\MailTemplate;
 use Igniter\System\Models\Settings as SettingsModel;
 use Igniter\User\Facades\AdminAuth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
@@ -78,6 +79,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setPreviousUrl('settings');
 
         $this->initWidgets($model, $definition);
+        return null;
     }
 
     public function edit_onSave(string $context, ?string $settingCode = null)

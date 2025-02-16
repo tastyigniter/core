@@ -109,7 +109,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('FormController')->edit($context, $themeCode);
     }
 
-    public function delete(string $context, string $themeCode)
+    public function delete(string $context, string $themeCode): ?RedirectResponse
     {
         $pageTitle = lang('igniter::system.themes.text_delete_title');
         Template::setTitle($pageTitle);
@@ -143,6 +143,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->vars['themeModel'] = $model;
         $this->vars['themeObj'] = $theme;
         $this->vars['themeData'] = $model->data;
+        return null;
     }
 
     public function index_onSetDefault(): RedirectResponse

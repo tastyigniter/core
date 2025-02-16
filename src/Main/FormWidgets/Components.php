@@ -134,12 +134,9 @@ class Components extends BaseFormWidget
             if (!array_has($this->getComponents(), $codeAlias)) {
                 throw new FlashException('Invalid component selected');
             }
-
             $codeAlias = $this->getUniqueAlias($codeAlias);
-        } else {
-            if (!array_has($this->loadTemplateComponents(), $codeAlias)) {
-                throw new FlashException('Invalid component selected');
-            }
+        } elseif (!array_has($this->loadTemplateComponents(), $codeAlias)) {
+            throw new FlashException('Invalid component selected');
         }
 
         if (!$template = $this->data->fileSource) {

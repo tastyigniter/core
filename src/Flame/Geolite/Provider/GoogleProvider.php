@@ -10,6 +10,7 @@ use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Exception\GeoliteException;
 use Igniter\Flame\Geolite\Model;
+use Igniter\Flame\Geolite\Model\Distance;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
@@ -39,7 +40,7 @@ class GoogleProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function() use ($query, $url) {
+            $result = $this->cacheCallback($url, function() use ($query, $url): array {
                 return $this->hydrateResponse($this->requestGeocodingUrl($url, $query), $query->getLimit());
             });
         } catch (Throwable $ex) {
@@ -65,7 +66,7 @@ class GoogleProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function() use ($query, $url) {
+            $result = $this->cacheCallback($url, function() use ($query, $url): array {
                 return $this->hydrateResponse($this->requestGeocodingUrl($url, $query), $query->getLimit());
             });
         } catch (Throwable $ex) {
@@ -89,7 +90,7 @@ class GoogleProvider extends AbstractProvider
         ));
 
         try {
-            return $this->cacheCallback($url, function() use ($distance, $url) {
+            return $this->cacheCallback($url, function() use ($distance, $url): Distance {
                 $response = $this->requestDistanceUrl($url, $distance);
 
                 return new Model\Distance(
@@ -264,7 +265,7 @@ class GoogleProvider extends AbstractProvider
         }
         $units = $distance->getUnit();
 
-        if (empty($units)) {
+        if (!empty($units)) {
             $url .= '&units='.urlencode($units);
         }
 
@@ -389,7 +390,7 @@ class GoogleProvider extends AbstractProvider
             return $components;
         }
 
-        return implode('|', array_map(function($name, $value) {
+        return implode('|', array_map(function($name, $value): string {
             return sprintf('%s:%s', $name, $value);
         }, array_keys($components), $components));
     }

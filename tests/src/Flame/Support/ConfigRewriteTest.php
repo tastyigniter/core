@@ -13,7 +13,7 @@ it('writes new values to the config file', function() {
     $contents = "<?php return ['key' => 'old_value'];";
 
     File::shouldReceive('get')->with($filePath)->andReturn($contents);
-    File::shouldReceive('put')->withArgs(function($filePath, $arg) {
+    File::shouldReceive('put')->withArgs(function($filePath, $arg): bool {
         return str_contains($arg, "'key' => 'new_value'");
     });
 

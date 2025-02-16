@@ -31,7 +31,7 @@ it('builds subject from mail template', function() {
     };
 
     $mailer = mock(Mailer::class);
-    $mailer->shouldReceive('send')->withArgs(function($view, $data, $messageCallback) {
+    $mailer->shouldReceive('send')->withArgs(function($view, $data, $messageCallback): true {
         $message = mock(Message::class);
         $message->shouldReceive('subject')->once();
         $messageCallback($message);
@@ -58,7 +58,7 @@ it('builds view with rendered templates', function() {
     $mailManager->shouldReceive('renderTextTemplate')->andReturn(new HtmlString('Rendered Text'));
 
     $mailer = mock(Mailer::class);
-    $mailer->shouldReceive('send')->withArgs(function($view, $data, $messageCallback) {
+    $mailer->shouldReceive('send')->withArgs(function($view, $data, $messageCallback): true {
         expect($view['html']->toHtml())->toBe('Rendered HTML')
             ->and($view['text']->toHtml())->toBe('Rendered Text');
 

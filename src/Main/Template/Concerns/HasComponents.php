@@ -84,6 +84,7 @@ trait HasComponents
                 return $event;
             }
         }
+        return null;
     }
 
     public function setConfigurableComponentProperties(string|array $componentName, array $properties = []): void

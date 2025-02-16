@@ -56,7 +56,7 @@ it('renders response with exception.beforeRender event', function() {
 });
 
 it('returns null when exception.beforeReport event returns false', function() {
-    Event::listen('exception.beforeReport', function($exception) {
+    Event::listen('exception.beforeReport', function($exception): false {
         return false;
     });
     $handler = resolve(ExceptionHandler::class);

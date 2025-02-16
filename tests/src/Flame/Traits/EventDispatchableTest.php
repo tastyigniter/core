@@ -13,7 +13,7 @@ it('dispatches event when namespaced event is missing', function() {
     {
         use \Igniter\Flame\Traits\EventDispatchable;
     };
-    Event::listen($event::class, function($event) {
+    Event::listen($event::class, function($event): string {
         return 'result';
     });
 
@@ -21,10 +21,10 @@ it('dispatches event when namespaced event is missing', function() {
 });
 
 it('dispatches namespaced event once', function() {
-    Event::listen('test.event', function($event) {
+    Event::listen('test.event', function($event): string {
         return 'result';
     });
-    Event::listen('test.event', function($event) {
+    Event::listen('test.event', function($event): string {
         return 'another-result';
     });
 
@@ -32,10 +32,10 @@ it('dispatches namespaced event once', function() {
 });
 
 it('dispatches namespaced event', function() {
-    Event::listen('test.event', function($data) {
+    Event::listen('test.event', function($data): string {
         return 'result';
     });
-    Event::listen('test.event', function($data) {
+    Event::listen('test.event', function($data): string {
         return 'another-result';
     });
 
@@ -43,7 +43,7 @@ it('dispatches namespaced event', function() {
 });
 
 it('dispatches namespaced event if condition is true', function() {
-    Event::listen('test.event', function($data) {
+    Event::listen('test.event', function($data): string {
         return 'result';
     });
 
@@ -52,7 +52,7 @@ it('dispatches namespaced event if condition is true', function() {
 });
 
 it('dispatches namespaced event unless condition is true', function() {
-    Event::listen('test.event', function($data) {
+    Event::listen('test.event', function($data): string {
         return 'result';
     });
 

@@ -8,9 +8,11 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Models\Status;
 use Igniter\Admin\Models\StatusHistory;
 use Igniter\Admin\Traits\FormModelWidget;
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Relations\HasMany;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Tests\Fixtures\Models\IlluminateModel;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 it('creates form model correctly', function() {
     $widget = new class

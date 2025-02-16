@@ -907,21 +907,18 @@ class Lists extends BaseWidget
         if ($this->showSorting && ($sortOptions = $this->getSession('sort'))) {
             $this->sortColumn = $sortOptions[0];
             $this->sortDirection = $sortOptions[1];
-        } // Supplied default
-        else {
-            if (is_string($this->defaultSort)) {
-                $this->sortColumn = $this->defaultSort;
-                $this->sortDirection = 'desc';
-            } elseif (is_array($this->defaultSort) && isset($this->defaultSort[0])) {
-                $this->sortColumn = $this->defaultSort[0];
-                $this->sortDirection = $this->defaultSort[1] ?? 'desc';
-            }
+        } elseif (is_string($this->defaultSort)) {
+            $this->sortColumn = $this->defaultSort;
+            $this->sortDirection = 'desc';
+        } elseif (is_array($this->defaultSort) && isset($this->defaultSort[0])) {
+            $this->sortColumn = $this->defaultSort[0];
+            $this->sortDirection = $this->defaultSort[1] ?? 'desc';
         }
 
         // First available column
         if ($this->sortColumn === null || !$this->isSortable($this->sortColumn)) {
             $columns = $this->visibleColumns ?: $this->getVisibleColumns();
-            $columns = array_filter($columns, function($column) {
+            $columns = array_filter($columns, function($column): bool {
                 return $column->sortable && $column->type != 'button';
             });
             $this->sortColumn = key($columns);

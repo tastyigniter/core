@@ -65,7 +65,7 @@ class PackageManifest extends BasePackageManifest
         $this->manifest = null;
 
         $this->write(collect($packages)
-            ->filter(function($package) {
+            ->filter(function($package): bool {
                 return array_has($package, 'extra.tastyigniter-extension') ||
                     array_has($package, 'extra.tastyigniter-theme');
             })
@@ -98,10 +98,10 @@ class PackageManifest extends BasePackageManifest
         $corePath = __DIR__.'/../../../composer.json';
         $installed = json_decode($this->files->get($corePath), true);
         $addons = collect($installed['require'] ?? [])
-            ->filter(function($version, $name) {
+            ->filter(function($version, $name): bool {
                 return str_starts_with($name, 'tastyigniter/');
             })
-            ->map(function($version, $name) {
+            ->map(function($version, $name): array {
                 return [
                     'code' => str_replace([
                         'tastyigniter/ti-ext-',

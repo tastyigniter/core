@@ -330,6 +330,7 @@ class FormBuilder
         if (array_key_exists('id', $attributes)) {
             return $attributes['id'];
         }
+        return null;
     }
 
     /**
@@ -374,6 +375,7 @@ class FormBuilder
         if (!is_null($value)) {
             return $value;
         }
+        return null;
     }
 
     /**
@@ -415,6 +417,7 @@ class FormBuilder
 
             return $payload;
         }
+        return null;
     }
 
     /**

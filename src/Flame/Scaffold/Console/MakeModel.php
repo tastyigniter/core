@@ -48,7 +48,7 @@ class MakeModel extends GeneratorCommand
      *
      * return @array
      */
-    protected function prepareVars()
+    protected function prepareVars(): ?bool
     {
         if (!$code = $this->getExtensionInput()) {
             $this->error('Invalid extension name, Example name: AuthorName.ExtensionName');
@@ -79,6 +79,7 @@ class MakeModel extends GeneratorCommand
             'studly_plural_name' => studly_case(str_plural($model)),
             'snake_plural_name' => snake_case(str_plural($model)),
         ];
+        return null;
     }
 
     /**

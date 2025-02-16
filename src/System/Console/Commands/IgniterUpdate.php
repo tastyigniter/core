@@ -102,7 +102,7 @@ class IgniterUpdate extends Command
 
         $updatesCollection = $updatesCollection->except('core')->flatten(1);
         if ($addons = (array)$this->option('addons')) {
-            $updatesCollection = $updatesCollection->filter(function($item) use ($addons) {
+            $updatesCollection = $updatesCollection->filter(function($item) use ($addons): bool {
                 return in_array($item->code, $addons);
             });
         }

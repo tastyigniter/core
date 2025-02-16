@@ -8,7 +8,7 @@ use Igniter\Admin\Http\Controllers\Dashboard;
 
 it('loads dashboard page', function() {
     Dashboard::extend(function(Dashboard $controller) {
-        $controller->extendDashboardContainer(function($widget) {
+        $controller->extendDashboardContainer(function($widget): true {
             return true;
         });
     });

@@ -263,9 +263,9 @@ class AssetFactory
         return new FileAsset($source, [], $root, $path, $vars);
     }
 
-    private static function isAbsolutePath($path): bool
+    private static function isAbsolutePath(string $path): bool
     {
-        return $path[0] == '/' || $path[0] == '\\' || (strlen($path) > 3 && ctype_alpha($path[0]) && $path[1] == ':' && ($path[2] == '\\' || $path[2] == '/'));
+        return $path[0] === '/' || $path[0] === '\\' || (strlen($path) > 3 && ctype_alpha($path[0]) && $path[1] === ':' && ($path[2] === '\\' || $path[2] === '/'));
     }
 
     /**

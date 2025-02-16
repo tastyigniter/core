@@ -13,7 +13,7 @@ it('adds X-Powered-By header when config is enabled', function() {
     $middleware = new PoweredBy;
     $request = new Request;
     $response = new Response;
-    $next = function($req) use ($response) {
+    $next = function($req) use ($response): Response {
         return $response;
     };
 
@@ -27,7 +27,7 @@ it('does not add X-Powered-By header when config is disabled', function() {
     $middleware = new PoweredBy;
     $request = new Request;
     $response = new Response;
-    $next = function($req) use ($response) {
+    $next = function($req) use ($response): Response {
         return $response;
     };
 
@@ -39,9 +39,9 @@ it('does not add X-Powered-By header when config is disabled', function() {
 it('does not add X-Powered-By header for non-Response instance', function() {
     config()->set('igniter-system.sendPoweredByHeader', true);
     $middleware = new PoweredBy;
-    $request = new \Illuminate\Http\Request;
+    $request = new Request;
     $response = new \Symfony\Component\HttpFoundation\Response;
-    $next = function($req) use ($response) {
+    $next = function($req) use ($response): \Symfony\Component\HttpFoundation\Response {
         return $response;
     };
 

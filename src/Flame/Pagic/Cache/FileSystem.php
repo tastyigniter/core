@@ -62,7 +62,7 @@ class FileSystem
         // Compile cached file into bytecode cache
         if (Config::get('igniter-pagic.forceBytecodeInvalidation', false)) {
             if (function_exists('opcache_invalidate')) {
-                opcache_invalidate($path, true);
+                opcache_invalidate($path);
             }
 
             if (function_exists('apc_compile_file')) {

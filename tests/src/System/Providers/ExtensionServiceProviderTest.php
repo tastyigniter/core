@@ -40,7 +40,7 @@ it('allows extensions to use the scheduler', function() {
     $extension1->shouldReceive('registerSchedule')->with($schedule)->once();
     $extension2->shouldReceive('registerSchedule')->with($schedule)->once();
 
-    Event::shouldReceive('listen')->withArgs(function($event, $callback) use ($schedule) {
+    Event::shouldReceive('listen')->withArgs(function($event, $callback) use ($schedule): bool {
         $callback($schedule);
 
         return $event === 'console.schedule';

@@ -24,7 +24,7 @@ class MigrationServiceProvider extends BaseServiceProvider
      */
     protected function registerRepository()
     {
-        $this->app->singleton('migration.repository', function($app) {
+        $this->app->singleton('migration.repository', function($app): DatabaseMigrationRepository {
             $migrations = $app['config']['database.migrations'];
             $table = is_array($migrations) ? ($migrations['table'] ?? null) : $migrations;
 
@@ -39,7 +39,7 @@ class MigrationServiceProvider extends BaseServiceProvider
      */
     protected function registerMigrator()
     {
-        $this->app->singleton('migrator', function($app) {
+        $this->app->singleton('migrator', function($app): Migrator {
             $repository = $app['migration.repository'];
 
             return new Migrator($repository, $app['db'], $app['files'], $app['events']);

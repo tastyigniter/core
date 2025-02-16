@@ -13,7 +13,7 @@ it('registers assets when not running in console and not in admin', function() {
     $app = mock(Application::class)->makePartial();
     $app->shouldReceive('runningInConsole')->andReturn(false);
     Igniter::partialMock()->shouldReceive('runningInAdmin')->andReturn(false);
-    $app->shouldReceive('resolving')->withArgs(function($name, $callback) {
+    $app->shouldReceive('resolving')->withArgs(function($name, $callback): true {
         $callback(app('assets'));
 
         return true;

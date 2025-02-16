@@ -37,7 +37,7 @@ it('validates model on saving', function() {
 
     expect($model->save())->toBeTrue();
 
-    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, function($model, $status) {
+    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, function($model, $status): bool {
         return $status[1] === 'passed';
     });
 });
@@ -54,7 +54,7 @@ it('validates model on restoring', function() {
 
     $model->fireEvent('model.restoring');
 
-    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, function($model, $status) {
+    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, function($model, $status): bool {
         return $status[1] === 'passed';
     });
 });
@@ -69,7 +69,7 @@ it('skips validation if validating is disabled', function() {
 
     expect($model->save())->toBeTrue();
 
-    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, function($model, $status) {
+    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, function($model, $status): bool {
         return $status[1] === 'skipped';
     });
 });
@@ -88,7 +88,7 @@ it('skips validation using model.beforeValidate event', function() {
     ]);
     $model = new TestModelForValidation;
     $model->country_name = 'Test Country';
-    $model->bindEvent('model.beforeValidate', function() {
+    $model->bindEvent('model.beforeValidate', function(): false {
         return false;
     });
 
@@ -98,7 +98,7 @@ it('skips validation using model.beforeValidate event', function() {
 });
 
 it('skips validation using eloquent.validating event', function() {
-    Event::listen('eloquent.validating: '.TestModelForValidation::class, function() {
+    Event::listen('eloquent.validating: '.TestModelForValidation::class, function(): false {
         return false;
     });
     $model = new TestModelForValidation;

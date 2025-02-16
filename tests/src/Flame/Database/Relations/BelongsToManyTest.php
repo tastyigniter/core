@@ -35,7 +35,7 @@ it('does not attach when event returns false', function() {
     $user = User::factory()->create();
     $userGroup = UserGroup::factory()->create();
     $builder = $user->groups();
-    $user->bindEvent('model.relation.beforeAttach', function() {
+    $user->bindEvent('model.relation.beforeAttach', function(): false {
         return false;
     });
 
@@ -47,7 +47,7 @@ it('does not attach when event returns false', function() {
 it('does not detach when event returns false', function() {
     $user = User::factory()->create();
     $builder = $user->groups();
-    $user->bindEvent('model.relation.beforeDetach', function() {
+    $user->bindEvent('model.relation.beforeDetach', function(): false {
         return false;
     });
 

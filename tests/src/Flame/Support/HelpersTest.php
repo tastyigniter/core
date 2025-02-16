@@ -367,14 +367,14 @@ it('returns list of countries with default columns', function() {
 
 it('opens form with action url', function() {
     app()->instance(FormBuilder::class, $formBuilder = mock(FormBuilder::class));
-    $formBuilder->shouldReceive('open')->with(['url' => 'test/action'])->andReturn('<form>');
+    $formBuilder->shouldReceive('open')->with(['url' => 'test/action'])->andReturn(new HtmlString('<form>'));
     expect(form_open('test/action'))->toBe('<form>');
 });
 
 it('opens form with attributes', function() {
     app()->instance(FormBuilder::class, $formBuilder = mock(FormBuilder::class));
-    $formBuilder->shouldReceive('open')->with(['method' => 'POST', 'handler' => 'onTest'])->andReturn('<form>');
-    $formBuilder->shouldReceive('hidden')->andReturn('<input type="hidden">');
+    $formBuilder->shouldReceive('open')->with(['method' => 'POST', 'handler' => 'onTest'])->andReturn(new HtmlString('<form>'));
+    $formBuilder->shouldReceive('hidden')->andReturn(new HtmlString('<input type="hidden">'));
     expect(form_open(['method' => 'POST', 'handler' => 'onTest']))->toBe('<form><input type="hidden">');
 });
 
@@ -383,13 +383,13 @@ it('opens multipart form', function() {
     $formBuilder->shouldReceive('open')->with([
         'url' => 'test/action',
         'enctype' => 'multipart/form-data',
-    ])->andReturn('<form>');
+    ])->andReturn(new HtmlString('<form>'));
     expect(form_open_multipart('test/action'))->toBe('<form>');
 });
 
 it('closes form with extra content', function() {
     app()->instance(FormBuilder::class, $formBuilder = mock(FormBuilder::class));
-    $formBuilder->shouldReceive('close')->andReturn('</form>');
+    $formBuilder->shouldReceive('close')->andReturn(new HtmlString('</form>'));
     expect(form_close('extra content'))->toBe('</form>extra content');
 });
 

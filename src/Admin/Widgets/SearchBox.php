@@ -62,7 +62,7 @@ class SearchBox extends BaseWidget
     /**
      * Search field has been submitted.
      */
-    public function onSubmit()
+    public function onSubmit(): RedirectResponse|array|null
     {
         // Save or reset search term in session
         $this->setActiveTerm(post($this->getName()));
@@ -76,6 +76,7 @@ class SearchBox extends BaseWidget
             return ($redirect instanceof RedirectResponse) ?
                 $redirect : array_merge(...$result);
         }
+        return null;
     }
 
     /**

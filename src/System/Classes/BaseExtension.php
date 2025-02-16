@@ -54,7 +54,7 @@ abstract class BaseExtension extends EventServiceProvider
         }
 
         if ($this->disabled) {
-            $this->app->bindMethod(static::class.'@boot', function() {
+            $this->app->bindMethod(static::class.'@boot', function(): null {
                 return null;
             });
 
@@ -78,6 +78,7 @@ abstract class BaseExtension extends EventServiceProvider
             File::exists($routesFile = $extensionPath.'/routes/web.php')) {
             $this->loadRoutesFrom($routesFile);
         }
+        return null;
     }
 
     /**

@@ -153,7 +153,7 @@ it('reloads form with additional fields correctly', function() {
         'fields' => ['status_color', 'invalid_field'],
     ]);
     $this->formWidget->data = ['status_color' => 'Test Color'];
-    Event::listen('admin.form.refresh', function($formWidget) {
+    Event::listen('admin.form.refresh', function($formWidget): array {
         return ['#id-element' => 'Test content'];
     });
 

@@ -70,7 +70,7 @@ class IgniterInstall extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): ?bool
     {
         resolve(Manager::class)->assertSchema();
 
@@ -103,6 +103,7 @@ class IgniterInstall extends Command
         }
 
         $this->alert(sprintf(self::LOGIN_TO_ADMIN_DASHBOARD, admin_url('login')));
+        return null;
     }
 
     /**
@@ -180,7 +181,7 @@ class IgniterInstall extends Command
 
             return $answer;
         });
-        DatabaseSeeder::$password = $this->output->ask('Admin Password', '123456', function($answer) {
+        DatabaseSeeder::$password = $this->output->ask('Admin Password', '123456', function($answer): string {
             throw_if(
                 !is_string($answer) || strlen($answer) < 6 || strlen($answer) > 32,
                 new \RuntimeException('Please specify the administrator password, at least 6 characters'),

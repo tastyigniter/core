@@ -15,7 +15,7 @@ dataset('onboardingSteps', [
             'icon' => 'fa fa-angle-double-right',
             'url' => 'http://localhost/admin/testStep1',
             'priority' => 500,
-            'complete' => function() {
+            'complete' => function(): false {
                 return false;
             },
         ],
@@ -25,7 +25,7 @@ dataset('onboardingSteps', [
             'icon' => 'fa fa-angle-double-left',
             'url' => 'http://localhost/admin/testStep2',
             'priority' => 1000,
-            'complete' => function() {
+            'complete' => function(): true {
                 return true;
             },
         ],

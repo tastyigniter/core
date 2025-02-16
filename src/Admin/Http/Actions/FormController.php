@@ -303,11 +303,9 @@ class FormController extends ControllerAction
         return implode(PHP_EOL, $form);
     }
 
-    public function renderFormToolbar()
+    public function renderFormToolbar(): ?string
     {
-        if (!is_null($this->toolbarWidget)) {
-            return $this->toolbarWidget->render();
-        }
+        return $this->toolbarWidget?->render() ?: null;
     }
 
     /**

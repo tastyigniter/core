@@ -144,7 +144,7 @@ it('throws exception when can not write compiled file', function() {
     expect(fn() => FileParser::on($model)->source($model, $model, controller()))
         ->toThrow(fn(\RuntimeException $e) => str_contains($e->getMessage(), 'Unable to create cache directory'));
 
-    File::shouldReceive('put')->withArgs(function($tmpFile, $content) {
+    File::shouldReceive('put')->withArgs(function($tmpFile, $content): true {
         @unlink($tmpFile);
 
         return true;
@@ -152,7 +152,7 @@ it('throws exception when can not write compiled file', function() {
     expect(fn() => FileParser::on($model)->source($model, $model, controller()))
         ->toThrow(fn(\RuntimeException $e) => str_contains($e->getMessage(), 'Failed to write cache file '));
 
-    File::shouldReceive('move')->withArgs(function($tmpFile, $content) {
+    File::shouldReceive('move')->withArgs(function($tmpFile, $content): true {
         @unlink($tmpFile);
 
         return true;

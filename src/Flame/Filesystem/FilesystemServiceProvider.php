@@ -10,7 +10,7 @@ class FilesystemServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(Filesystem::class, function() {
+        $this->app->singleton(Filesystem::class, function(): Filesystem {
             $config = $this->app['config'];
             $files = new Filesystem;
             $files->filePermissions = $config->get('igniter-system.filePermissions', null);

@@ -109,9 +109,8 @@ trait HasPermalink
         $result = [];
         $permalinkable = $this->permalinkable ?? [];
         foreach ($permalinkable as $attribute => $config) {
-            $attribute = $config;
-            $config = [];
-            $result[$attribute] = $config;
+            $index = is_numeric($attribute) ? $config : $attribute;
+            $result[$index] = is_numeric($attribute) ? [] : $config;
         }
 
         return $result;

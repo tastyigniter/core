@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Admin;
 
+use Igniter\Admin\Classes\Navigation;
+use Igniter\Admin\Classes\Template;
 use Igniter\Admin\DashboardWidgets\Charts;
 use Igniter\Admin\DashboardWidgets\Statistics;
 use Igniter\Admin\Helpers\AdminHelper;
@@ -63,11 +65,11 @@ class ServiceProvider extends AppServiceProvider
     {
         $this->app->singleton(AdminHelper::class);
 
-        $this->app->singleton('admin.menu', function($app) {
+        $this->app->singleton('admin.menu', function($app): Navigation {
             return new Classes\Navigation('igniter.admin::_partials');
         });
 
-        $this->app->singleton('admin.template', function($app) {
+        $this->app->singleton('admin.template', function($app): Template {
             return new Classes\Template;
         });
 

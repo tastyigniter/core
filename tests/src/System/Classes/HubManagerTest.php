@@ -26,7 +26,7 @@ it('prepares request correctly', function() {
 
     $this->hubManager->listItems(['filter' => 'value']);
 
-    Http::assertSent(function(Request $request) {
+    Http::assertSent(function(Request $request): bool {
         $postData = $request->data();
 
         return $request->hasHeader('Authorization', 'Bearer carte_key')

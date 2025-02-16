@@ -72,7 +72,7 @@ it('creates a new status history record', function() {
 });
 
 it('returns false if beforeAddStatus event returns false', function() {
-    Event::listen('admin.statusHistory.beforeAddStatus', function() {
+    Event::listen('admin.statusHistory.beforeAddStatus', function(): false {
         return false;
     });
 

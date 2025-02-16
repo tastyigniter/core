@@ -10,6 +10,7 @@ use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Exception\GeoliteException;
 use Igniter\Flame\Geolite\Model;
+use Igniter\Flame\Geolite\Model\Distance;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
@@ -44,7 +45,7 @@ class NominatimProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function() use ($query, $url) {
+            $result = $this->cacheCallback($url, function() use ($query, $url): array {
                 return $this->hydrateResponse(
                     $this->requestUrl($url, $query),
                 );
@@ -76,7 +77,7 @@ class NominatimProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function() use ($query, $url) {
+            $result = $this->cacheCallback($url, function() use ($query, $url): array {
                 return $this->hydrateResponse(
                     $this->requestUrl($url, $query),
                 );
@@ -105,7 +106,7 @@ class NominatimProvider extends AbstractProvider
         try {
             $url .= '?overview=false';
 
-            return $this->cacheCallback($url, function() use ($distance, $url) {
+            return $this->cacheCallback($url, function() use ($distance, $url): Distance {
                 $response = $this->requestDistanceUrl($url, $distance);
                 $route = current($response);
 

@@ -143,7 +143,7 @@ class Settings extends Model
 
     public static function set(string|array $key, mixed $value = null, string $group = 'config'): bool
     {
-        $data = collect(is_array($key) ? $key : [$key => $value])->map(function($value, $key) use ($group) {
+        $data = collect(is_array($key) ? $key : [$key => $value])->map(function($value, $key) use ($group): array {
             return [
                 'sort' => $group,
                 'item' => $key,
@@ -236,7 +236,7 @@ class Settings extends Model
             $this->registerSettingItems($code, $extension->registerSettings());
         }
 
-        usort($this->items, function($a, $b) {
+        usort($this->items, function($a, $b): int|float {
             return $a->priority - $b->priority;
         });
 
@@ -347,7 +347,7 @@ class Settings extends Model
             ];
         }
 
-        usort($tempTimezones, function($a, $b) {
+        usort($tempTimezones, function($a, $b): int {
             return ($a['offset'] === $b['offset']) ? strcmp($a['identifier'], $b['identifier']) : $a['offset'] - $b['offset'];
         });
 

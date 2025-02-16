@@ -72,7 +72,7 @@ class ConfigRewrite
         return $result;
     }
 
-    protected function parseContentValue($contents, $path, $value)
+    protected function parseContentValue($contents, $path, $value): string|array|null
     {
         $result = $contents;
         $items = explode('.', $path);

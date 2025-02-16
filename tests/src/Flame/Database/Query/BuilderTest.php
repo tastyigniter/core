@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 it('caches query results', function() {
     Cache::shouldReceive('remember')
-        ->withArgs(function($cacheKey, $minutes, $callback) {
+        ->withArgs(function($cacheKey, $minutes, $callback): true {
             $callback();
 
             return true;
@@ -23,7 +23,7 @@ it('caches query results', function() {
 
 it('caches query results forever', function() {
     Cache::shouldReceive('rememberForever')
-        ->withArgs(function($cacheKey, $callback) {
+        ->withArgs(function($cacheKey, $callback): bool {
             return $cacheKey === 'cache_key' && $callback();
         })
         ->andReturn(collect($expected = ['result1', 'result2']));

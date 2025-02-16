@@ -46,7 +46,7 @@ class MakeComponent extends GeneratorCommand
      *
      * return @array
      */
-    protected function prepareVars()
+    protected function prepareVars(): ?bool
     {
         if (!$code = $this->getExtensionInput()) {
             $this->error('Invalid extension name, Example name: AuthorName.ExtensionName');
@@ -73,6 +73,7 @@ class MakeComponent extends GeneratorCommand
             'title_name' => title_case($component),
             'studly_name' => studly_case($component),
         ];
+        return null;
     }
 
     /**

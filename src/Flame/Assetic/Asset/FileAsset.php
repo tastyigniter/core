@@ -23,12 +23,10 @@ class FileAsset extends BaseAsset
      *
      * @param string $source An absolute path
      * @param array $filters An array of filters
-     * @param string $sourceRoot The source asset root directory
-     * @param string $sourcePath The source asset path
-     *
-     * @throws \InvalidArgumentException If the supplied root doesn't match the source when guessing the path
+     * @param null|string $sourceRoot The source asset root directory
+     * @param null|string $sourcePath The source asset path
      */
-    public function __construct($source, $filters = [], $sourceRoot = null, $sourcePath = null, array $vars = [])
+    public function __construct($source, array $filters = [], ?string $sourceRoot = null, ?string $sourcePath = null, array $vars = [])
     {
         if ($sourceRoot === null) {
             $sourceRoot = File::dirname($source);

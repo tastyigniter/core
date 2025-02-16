@@ -26,7 +26,7 @@ class PageFactory extends Factory
 
     public function hidden(): self
     {
-        return $this->state(function(array $attributes) {
+        return $this->state(function(array $attributes): array {
             return [
                 'metadata' => ['navigation_hidden' => true],
             ];

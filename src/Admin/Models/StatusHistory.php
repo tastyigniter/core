@@ -97,7 +97,7 @@ class StatusHistory extends Model
      * @param array $options
      * @return static|bool
      */
-    public static function createHistory($status, $object, $options = [])
+    public static function createHistory($status, $object, $options = []): false|self
     {
         if (!$status instanceof Status) {
             $status = Status::find($status);

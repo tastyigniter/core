@@ -391,7 +391,7 @@ class MediaManager extends BaseWidget
         ]);
 
         $path = trim(array_get($validated, 'path'));
-        $files = array_map(function($value) use ($path) {
+        $files = array_map(function($value) use ($path): string {
             return $path.'/'.$value['path'];
         }, array_get($validated, 'files'));
 
@@ -525,7 +525,7 @@ class MediaManager extends BaseWidget
 
         $mediaLibrary = $this->getMediaLibrary();
 
-        $folderTree = function($path) use (&$folderTree, $mediaLibrary) {
+        $folderTree = function($path) use (&$folderTree, $mediaLibrary): array {
             $result = [];
             if (!($folders = $mediaLibrary->listFolders($path))) {
                 return $result;

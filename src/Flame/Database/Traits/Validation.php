@@ -266,6 +266,7 @@ trait Validation
         if ($this->methodExists('beforeValidate')) {
             return $this->beforeValidate();
         }
+        return null;
     }
 
     /**
@@ -287,10 +288,8 @@ trait Validation
      * This will go through all the rules and append the model's
      * primary key to the unique rules so that the validation
      * will work as expected.
-     *
-     * @return array
      */
-    protected function injectUniqueIdentifierToRules(array $rules)
+    protected function injectUniqueIdentifierToRules(array $rules): array
     {
         foreach ($rules as $field => &$ruleset) {
             // If the ruleset is a pipe-delimited string, convert it to an array.

@@ -1,0 +1,2756 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:dropForeignKeyIfExists\\(\\)\\.$#"
+			count: 7
+			path: database/migrations/admin/2022_02_17_000300_merge_staffs_into_users_table.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:dropForeignKeyIfExists\\(\\)\\.$#"
+			count: 1
+			path: database/migrations/admin/2022_06_30_010000_drop_foreign_key_constraints_on_all_tables.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:dropIndexIfExists\\(\\)\\.$#"
+			count: 1
+			path: database/migrations/admin/2022_06_30_010000_drop_foreign_key_constraints_on_all_tables.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:dropForeignKeyIfExists\\(\\)\\.$#"
+			count: 1
+			path: database/migrations/system/2022_06_30_010000_drop_foreign_key_constraints_on_all_tables.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Schema\\\\Blueprint\\:\\:dropIndexIfExists\\(\\)\\.$#"
+			count: 1
+			path: database/migrations/system/2022_06_30_010000_drop_foreign_key_constraints_on_all_tables.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$config\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:\\$sessionKey\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__callStatic\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__get\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__set\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
+			count: 1
+			path: src/Admin/Classes/AdminController.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$property$#"
+			count: 1
+			path: src/Admin/Classes/BaseDashboardWidget.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$sessionKey\\.$#"
+			count: 1
+			path: src/Admin/Classes/BaseWidget.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
+			count: 1
+			path: src/Admin/Classes/BaseWidget.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/MainMenuItem.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Classes/Navigation.php
+
+		-
+			message: "#^Constructor of class Igniter\\\\Admin\\\\Classes\\\\Navigation has an unused parameter \\$path\\.$#"
+			count: 1
+			path: src/Admin/Classes/Navigation.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\FormWidgets\\\\Connector\\:\\:\\$modelClass\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Connector.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKeyName\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Connector.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Connector.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\FormWidgets\\\\DataTable\\:\\:\\$modelClass\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/DataTable.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getDataTableOptions\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/DataTable.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:search\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/DataTable.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/DataTable.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getFormWidget\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:attachRecordTo\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRecordEditorOptions\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/RecordEditor.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:sorted\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Relation.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\FormWidgets\\\\Repeater\\:\\:\\$modelClass\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Repeater.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/Repeater.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignee_group_id\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignee_id\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$groups\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:addStatusHistory\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:updateAssignTo\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Relation 'groups' is not found in Igniter\\\\User\\\\Models\\\\User model\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Admin/FormWidgets/StatusEditor.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$formWidget\\.$#"
+			count: 6
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$toolbarWidget\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Access to protected property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$controller\\.$#"
+			count: 6
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendFields\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendFieldsBefore\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendRefreshData\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendRefreshFields\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:formExtendRefreshResults\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to protected method prepareVars\\(\\) of class Igniter\\\\Admin\\\\Widgets\\\\Form\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/FormController.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getSearchWidget\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$scope with type array is incompatible with native type Igniter\\\\Admin\\\\Classes\\\\FilterScope\\.$#"
+			count: 1
+			path: src/Admin/Http/Actions/ListController.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:\\$sale_permission\\.$#"
+			count: 3
+			path: src/Admin/Models/Staff.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:\\$staff_email\\.$#"
+			count: 2
+			path: src/Admin/Models/Staff.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:\\$staff_name\\.$#"
+			count: 1
+			path: src/Admin/Models/Staff.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:\\$user\\.$#"
+			count: 1
+			path: src/Admin/Models/Staff.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:groups\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Models/Staff.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:locations\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Models/Staff.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:user\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/Staff.php
+
+		-
+			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Staff\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/Admin/Models/Staff.php
+
+		-
+			message: "#^Method Igniter\\\\Admin\\\\Models\\\\Status\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/Admin/Models/Status.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$notify_customer\\.$#"
+			count: 1
+			path: src/Admin/Models/StatusHistory.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$status_comment\\.$#"
+			count: 1
+			path: src/Admin/Models/StatusHistory.php
+
+		-
+			message: "#^Called 'Model\\:\\:make\\(\\)' which performs unnecessary work, use 'new Model\\(\\)'\\.$#"
+			count: 1
+			path: src/Admin/Models/StatusHistory.php
+
+		-
+			message: "#^Method Igniter\\\\Admin\\\\Models\\\\StatusHistory\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/Admin/Models/StatusHistory.php
+
+		-
+			message: "#^PHPDoc tag @return with type bool\\|static\\(Igniter\\\\Admin\\\\Models\\\\StatusHistory\\) is not subtype of native type Igniter\\\\Admin\\\\Models\\\\StatusHistory\\|false\\.$#"
+			count: 1
+			path: src/Admin/Models/StatusHistory.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Models/StatusHistory.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$object\\.$#"
+			count: 5
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$user\\.$#"
+			count: 1
+			path: src/Admin/Notifications/StatusUpdatedNotification.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\DashboardContainer\\:\\:\\$previewMode\\.$#"
+			count: 1
+			path: src/Admin/Widgets/DashboardContainer.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\SearchBox\\:\\:\\$searchWidget\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Filter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Filter.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with mixed will always evaluate to false\\.$#"
+			count: 2
+			path: src/Admin/Widgets/Filter.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$formField\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$modelClass\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$valueFrom\\.$#"
+			count: 5
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$field with type Igniter\\\\Admin\\\\Classes\\\\BaseFormWidget is incompatible with native type Igniter\\\\Admin\\\\Classes\\\\FormField\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$field with type mixed is not subtype of native type Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Form.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Lists\\:\\:\\$primaryAlias\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$columnName\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$relation\\.$#"
+			count: 2
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\AdminController\\:\\:refreshList\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
+			count: 2
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationType\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasRelation\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Variable \\$mode might not be defined\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Variable \\$scope might not be defined\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Pagination\\\\LengthAwarePaginator\\:\\:getCollection\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Table.php
+
+		-
+			message: "#^Parameter \\#2 \\$default of static method Illuminate\\\\Http\\\\Request\\:\\:post\\(\\) expects array\\|string\\|null, int given\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Table.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Toolbar.php
+
+		-
+			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:getChildren\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionFilterIterator.php
+
+		-
+			message: "#^Method Iterator\\<mixed,mixed\\>\\:\\:current\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionFilterIterator.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\Iterator\\\\AssetCollectionIterator\\:\\:removeDuplicateVar\\(\\) never returns array so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionIterator.php
+
+		-
+			message: "#^Parameter \\#1 \\$coll of class Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\Iterator\\\\AssetCollectionIterator constructor expects Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetCollectionInterface, Igniter\\\\Flame\\\\Assetic\\\\Asset\\\\AssetInterface given\\.$#"
+			count: 1
+			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionIterator.php
+
+		-
+			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 1
+			path: src/Flame/Assetic/Factory/AssetFactory.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$filters with type array\\|string is not subtype of native type array\\.$#"
+			count: 1
+			path: src/Flame/Assetic/Factory/AssetFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$includeUrl of static method Igniter\\\\Flame\\\\Assetic\\\\Util\\\\CssUtils\\:\\:filterImports\\(\\) expects bool, int given\\.$#"
+			count: 1
+			path: src/Flame/Assetic/Filter/BaseCssFilter.php
+
+		-
+			message: "#^Right side of && is always true\\.$#"
+			count: 1
+			path: src/Flame/Assetic/Filter/CssImportFilter.php
+
+		-
+			message: "#^Binary operation \"\\*\\=\" between string and \\-1 results in an error\\.$#"
+			count: 1
+			path: src/Flame/Currency/Currency.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Currency\\\\Contracts\\\\CurrencyInterface\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Currency/Currency.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:put\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Currency/Middleware/CurrencyMiddleware.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Currency\\\\Models\\\\Currency\\:\\:\\$rate\\.$#"
+			count: 1
+			path: src/Flame/Currency/Models/Currency.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Attach/Events/MediaAdded.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Attach/Events/MediaTagCleared.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$file_size\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:addFromUrl\\(\\) should return \\$this\\(Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\) but returns Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:deleteEmptyDirectory\\(\\) with return type void returns false but should not return anything\\.$#"
+			count: 3
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:getHeightAttribute\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:getWidthAttribute\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:sizeToString\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$appends is not covariant with PHPDoc type array\\<int, string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$appends\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$hidden is not covariant with PHPDoc type array\\<int, string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$hidden\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Parameter \\#1 \\$model of method Igniter\\\\Flame\\\\Database\\\\Attach\\\\MediaAdder\\:\\:performedOn\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Model, Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null given\\.$#"
+			count: 2
+			path: src/Flame/Database/Attach/Media.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getDefaultTagName\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/MediaAdder.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:media\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/MediaAdder.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:prepareUnattachedMedia\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/MediaAdder.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:processUnattachedMedia\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Attach/MediaAdder.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:pluckDates\\(\\) should return array but returns Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\), mixed\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Contracts\\\\Pagination\\\\LengthAwarePaginator is not subtype of native type Illuminate\\\\Pagination\\\\LengthAwarePaginator\\.$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Contracts\\\\Pagination\\\\Paginator is not subtype of native type Illuminate\\\\Pagination\\\\Paginator\\.$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\<int, string\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$columns \\(array\\<int, string\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Builder.php
+
+		-
+			message: "#^Return type \\(void\\) of method Igniter\\\\Flame\\\\Database\\\\Connections\\\\Connection\\:\\:fireConnectionEvent\\(\\) should be compatible with return type \\(array\\|null\\) of method Illuminate\\\\Database\\\\Connection\\:\\:fireConnectionEvent\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Connections/Connection.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\ConnectionInterface\\:\\:getName\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/MemoryCache.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Migrations\\\\MigrationRepositoryInterface\\:\\:getGroup\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Migrations/Migrator.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Migrations\\\\MigrationRepositoryInterface\\:\\:setGroup\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Migrations/Migrator.php
+
+		-
+			message: "#^Parameter \\#2 \\$migration of method Illuminate\\\\Database\\\\Migrations\\\\Migrator\\:\\:runDown\\(\\) expects object, string given\\.$#"
+			count: 1
+			path: src/Flame/Database/Migrations/Migrator.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:afterBoot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getRelationCaller\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyFilters\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:applySorts\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:search\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: string$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:__set\\(\\) with return type void returns null but should not return anything\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:addCasts\\(\\) with return type void returns \\$this\\(Igniter\\\\Flame\\\\Database\\\\Model\\) but should not return anything\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:asDateTime\\(\\) should return Illuminate\\\\Support\\\\Carbon but returns Carbon\\\\Carbon\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getRelationType\\(\\) should return string but returns null\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:newRelationPivot\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Pivot but returns null\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasManyThrough is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOne is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphOne is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphTo is not subtype of native type Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\.$#"
+			count: 2
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$casts is not covariant with PHPDoc type array\\<string, string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$casts\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:setKeysForSaveQuery\\(\\) expects Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Igniter\\\\Flame\\\\Database\\\\Model\\>, Igniter\\\\Flame\\\\Database\\\\Builder\\<Igniter\\\\Flame\\\\Database\\\\Model\\> given\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Parameter \\#8 \\$inverse \\(bool\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) should be compatible with parameter \\$relation \\(string\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphToMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Parameter \\#9 \\$relationName of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) expects bool\\|null, string given\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Result of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:extendableSet\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Pivot\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:newPivot\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Pivot\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:newPivot\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:belongsTo\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:belongsTo\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:belongsToMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:belongsToMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:hasMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:hasManyThrough\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasManyThrough\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasManyThrough\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:hasOne\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOne\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasOne\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOneThrough\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:hasOneThrough\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOneThrough\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:hasOneThrough\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphOne\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphOne\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphOne\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphEagerTo\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphTo\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphEagerTo\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphInstanceTo\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphTo\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphInstanceTo\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphToMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphToMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Return type \\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:morphedByMany\\(\\) should be compatible with return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model, \\$this\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:morphedByMany\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Model.php
+
+		-
+			message: "#^Call to method getKeyName\\(\\) on an unknown class Kalnoy\\\\Nestedset\\\\NodeTrait\\.$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Call to method getPerPage\\(\\) on an unknown class Kalnoy\\\\Nestedset\\\\NodeTrait\\.$#"
+			count: 2
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Call to method newCollection\\(\\) on an unknown class Kalnoy\\\\Nestedset\\\\NodeTrait\\.$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:pluckDates\\(\\) should return array but returns Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\), mixed\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Contracts\\\\Pagination\\\\LengthAwarePaginator is not subtype of native type Illuminate\\\\Pagination\\\\LengthAwarePaginator\\.$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^PHPDoc tag @return with type Illuminate\\\\Contracts\\\\Pagination\\\\Paginator is not subtype of native type Illuminate\\\\Pagination\\\\Paginator\\.$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\<int, string\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Parameter \\#2 \\$page \\(int\\|null\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$columns \\(array\\<int, string\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\NestedSet\\\\QueryBuilder\\:\\:simplePaginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:simplePaginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/NestedSet/QueryBuilder.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Builder\\<Igniter\\\\Flame\\\\Database\\\\Model\\>\\:\\:findSimilarSlugs\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/PermalinkMaker.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:permalinkable\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/PermalinkMaker.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:withUniqueSlugConstraints\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/PermalinkMaker.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\PermalinkMaker\\:\\:generateSuffix\\(\\) should return string but returns \\(float\\|int\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/PermalinkMaker.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\\\Illuminate\\\\Database\\\\Eloquent\\\\Builder\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 107$#"
+			count: 1
+			path: src/Flame/Database/Pivot.php
+
+		-
+			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Database\\\\Pivot\\:\\:\\$guarded is not covariant with PHPDoc type array\\<string\\>\\|bool of overridden property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$guarded\\.$#"
+			count: 1
+			path: src/Flame/Database/Pivot.php
+
+		-
+			message: "#^Return type \\(int\\) of method Igniter\\\\Flame\\\\Database\\\\Pivot\\:\\:delete\\(\\) should be compatible with return type \\(bool\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:delete\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Pivot.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\ConnectionInterface\\:\\:getName\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Query/Builder.php
+
+		-
+			message: "#^Cannot call method all\\(\\) on array\\.$#"
+			count: 1
+			path: src/Flame/Database/Query/Builder.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder\\:\\:get\\(\\) should return Illuminate\\\\Support\\\\Collection\\<int, stdClass\\> but returns array\\.$#"
+			count: 2
+			path: src/Flame/Database/Query/Builder.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder\\:\\:getCached\\(\\) should return array but returns Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\), mixed\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/Query/Builder.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:bindEventOnce\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:flushDuplicateCache\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:bindEventOnce\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:fireEvent\\(\\)\\.$#"
+			count: 4
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:newRelationPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:lists\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany but returns array\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany but returns string\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Parameter \\#2 \\$columns of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\) expects array\\<int, string\\>, int\\|null given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Parameter \\#2 \\$currentPage \\(int\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$columns \\(array\\<int, string\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Parameter \\#3 \\$columns \\(array\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$pageName \\(string\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Parameter \\#3 \\$pageName of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\) expects string, array given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Parameter \\#4 \\$pageName \\(string\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:paginate\\(\\) should be compatible with parameter \\$page \\(int\\|null\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:paginate\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Return type \\(Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:shouldSelect\\(\\) should be compatible with return type \\(array\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:shouldSelect\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Return type \\(void\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:detach\\(\\) should be compatible with return type \\(int\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:detach\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Return type \\(void\\) of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsToMany\\:\\:sync\\(\\) should be compatible with return type \\(array\\{attached\\: array, detached\\: array, updated\\: array\\}\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:sync\\(\\)$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsToMany.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:bindEventOnce\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to private method update\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to private method whereNotIn\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:add\\(\\) invoked with 2 parameters, 1 required\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasManyThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/HasManyThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/HasManyThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasManyThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasManyThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasManyThrough.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasManyThrough.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:bindEventOnce\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Call to private method update\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOne\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:add\\(\\) invoked with 2 parameters, 1 required\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOneThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/HasOneThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/HasOneThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOneThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOneThrough.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOneThrough.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOneThrough\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOneThrough\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOneThrough.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:bindEventOnce\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 4
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to private method update\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to private method whereNotIn\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:bindEventOnce\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 4
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Call to private method update\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphOne\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:bindEventOnce\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:\\$countMode\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/MorphToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getForeignKey\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/MorphToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withPivot\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphToMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphToMany.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\:\\:addDefinedConstraintsToQuery\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder, \\$this\\(Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphToMany\\) given\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphToMany.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 5
+			path: src/Flame/Exception/FlashException.php
+
+		-
+			message: "#^Call to an undefined method League\\\\Flysystem\\\\FilesystemOperator\\:\\:getAdapter\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Filesystem/Filesystem.php
+
+		-
+			message: "#^Variable \\$text in empty\\(\\) always exists and is always falsy\\.$#"
+			count: 1
+			path: src/Flame/Geolite/GeoQuery.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Geolite/Model/Bounds.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Geolite/Model/Location.php
+
+		-
+			message: "#^Call to an undefined method Psr\\\\Http\\\\Client\\\\ClientInterface\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Geolite/Provider/GoogleProvider.php
+
+		-
+			message: "#^Call to an undefined method Psr\\\\Http\\\\Client\\\\ClientInterface\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Geolite/Provider/NominatimProvider.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:getIdAttribute\\(\\) should return string but returns null\\.$#"
+			count: 1
+			path: src/Flame/Html/FormBuilder.php
+
+		-
+			message: "#^Property Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:\\$session \\(Illuminate\\\\Contracts\\\\Session\\\\Session\\) in isset\\(\\) is not nullable\\.$#"
+			count: 2
+			path: src/Flame/Html/FormBuilder.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Flame/Html/FormBuilder.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Html\\\\HtmlBuilder\\:\\:attributeElement\\(\\) should return string but returns null\\.$#"
+			count: 1
+			path: src/Flame/Html/HtmlBuilder.php
+
+		-
+			message: "#^Class Igniter\\\\Flame\\\\Html\\\\HtmlBuilder does not have a constructor and must be instantiated without any parameters\\.$#"
+			count: 1
+			path: src/Flame/Html/HtmlServiceProvider.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:normalizeClassName\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Mixins/StringMixin.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateLoader\\:\\:setSource\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Environment.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\View\\\\Compilers\\\\CompilerInterface\\:\\:compileString\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Environment.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\View\\\\Compilers\\\\CompilerInterface\\:\\:setPath\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Environment.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$fileName\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Finder.php
+
+		-
+			message: "#^PHPDoc tag @return with type mixed is not subtype of native type Igniter\\\\Flame\\\\Pagic\\\\Model\\|null\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Finder.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateInterface\\:\\:\\$exists\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Loader.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateInterface\\:\\:\\$mTime\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Loader.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Template\\\\Partial\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Loader.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$baseFileName\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$code\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$content\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$description\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$fileName\\.$#"
+			count: 5
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$isHidden\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$mTime\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$markup\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$title\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:remember\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\SourceInterface\\:\\:getProcessor\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\SourceResolverInterface\\:\\:hasSource\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 9
+			path: src/Flame/Pagic/Model.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$mTime\\.$#"
+			count: 3
+			path: src/Flame/Pagic/Parsers/FileParser.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:getCodeClassParent\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Parsers/FileParser.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Parsers/FileParser.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateLoader\\:\\:getSource\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Pagic/Template.php
+
+		-
+			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Providers\\\\ConsoleSupportServiceProvider\\:\\:\\$providers is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Foundation\\\\Providers\\\\ConsoleSupportServiceProvider\\:\\:\\$providers\\.$#"
+			count: 1
+			path: src/Flame/Providers/ConsoleSupportServiceProvider.php
+
+		-
+			message: "#^Cannot call static method extend\\(\\) on \\(int\\|string\\)\\.$#"
+			count: 1
+			path: src/Flame/Providers/EventServiceProvider.php
+
+		-
+			message: "#^ServiceProviders that implement the \"DeferrableProvider\" interface should implement the \"provides\" method that returns an array of strings or class\\-strings$#"
+			count: 1
+			path: src/Flame/Providers/MacroServiceProvider.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Scaffold\\\\GeneratorCommand\\:\\:makeDirectory\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: src/Flame/Scaffold/GeneratorCommand.php
+
+		-
+			message: "#^Class Igniter\\\\Flame\\\\Scaffold\\\\Console\\\\MakeComponent constructor invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: src/Flame/Scaffold/ScaffoldServiceProvider.php
+
+		-
+			message: "#^Class Igniter\\\\Flame\\\\Scaffold\\\\Console\\\\MakeController constructor invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: src/Flame/Scaffold/ScaffoldServiceProvider.php
+
+		-
+			message: "#^Class Igniter\\\\Flame\\\\Scaffold\\\\Console\\\\MakeExtension constructor invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: src/Flame/Scaffold/ScaffoldServiceProvider.php
+
+		-
+			message: "#^Class Igniter\\\\Flame\\\\Scaffold\\\\Console\\\\MakeModel constructor invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: src/Flame/Scaffold/ScaffoldServiceProvider.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\View\\\\ViewFinderInterface\\:\\:getHints\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/ServiceProvider.php
+
+		-
+			message: "#^Igniter\\\\Flame\\\\Support\\\\Extendable\\:\\:extendableCall\\(\\) calls parent\\:\\:__call\\(\\) but Igniter\\\\Flame\\\\Support\\\\Extendable does not extend any class\\.$#"
+			count: 1
+			path: src/Flame/Support/Extendable.php
+
+		-
+			message: "#^Igniter\\\\Flame\\\\Support\\\\Extendable\\:\\:extendableCallStatic\\(\\) calls parent\\:\\:__callStatic\\(\\) but Igniter\\\\Flame\\\\Support\\\\Extendable does not extend any class\\.$#"
+			count: 1
+			path: src/Flame/Support/Extendable.php
+
+		-
+			message: "#^Igniter\\\\Flame\\\\Support\\\\Extendable\\:\\:extendableGet\\(\\) calls parent\\:\\:__get\\(\\) but Igniter\\\\Flame\\\\Support\\\\Extendable does not extend any class\\.$#"
+			count: 1
+			path: src/Flame/Support/Extendable.php
+
+		-
+			message: "#^Igniter\\\\Flame\\\\Support\\\\Extendable\\:\\:extendableSet\\(\\) calls parent\\:\\:__set\\(\\) but Igniter\\\\Flame\\\\Support\\\\Extendable does not extend any class\\.$#"
+			count: 1
+			path: src/Flame/Support/Extendable.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:collection\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Support/Helpers/assets.php
+
+		-
+			message: "#^Parameter \\#2 \\$default of function set_value expects string, false given\\.$#"
+			count: 3
+			path: src/Flame/Support/Helpers/form.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:getClassId\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Support/Helpers/helpers.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:normalizeClassName\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Support/Helpers/helpers.php
+
+		-
+			message: "#^Called 'Model\\:\\:make\\(\\)' which performs unnecessary work, use 'new Model\\(\\)'\\.$#"
+			count: 1
+			path: src/Flame/Support/Helpers/helpers.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$title\\.$#"
+			count: 1
+			path: src/Flame/Support/Helpers/template.php
+
+		-
+			message: "#^Closure invoked with 2 parameters, 1 required\\.$#"
+			count: 2
+			path: src/Flame/Support/Igniter.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Support/Igniter.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Support\\\\RouterHelper\\:\\:getSegmentDefaultValue\\(\\) should return string but returns false\\.$#"
+			count: 1
+			path: src/Flame/Support/RouterHelper.php
+
+		-
+			message: "#^Parameter \\#1 \\$abstract of function app expects string\\|null, Igniter\\\\Flame\\\\Translation\\\\Contracts\\\\Driver given\\.$#"
+			count: 1
+			path: src/Flame/Translation/FileLoader.php
+
+		-
+			message: "#^Result of static method Illuminate\\\\Support\\\\Facades\\\\Session\\:\\:put\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/Flame/Translation/Localization.php
+
+		-
+			message: "#^PHPDoc type array of property Igniter\\\\Flame\\\\Translation\\\\Models\\\\Translation\\:\\:\\$fillable is not covariant with PHPDoc type array\\<int, string\\> of overridden property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$fillable\\.$#"
+			count: 1
+			path: src/Flame/Translation/Models/Translation.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$layout\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Classes\\\\BaseComponent\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__callStatic\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__get\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__set\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$name with type mixed is not subtype of native type string\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^Result of \\|\\| is always true\\.$#"
+			count: 1
+			path: src/Main/Classes/MainController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Router\\:\\:pagic\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/RouteRegistrar.php
+
+		-
+			message: "#^Variable \\$apiResult in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Main/Classes/Theme.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
+			count: 2
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$description\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$version\\.$#"
+			count: 2
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:find\\(\\)\\.$#"
+			count: 4
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\SourceResolverInterface\\:\\:addSource\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Method Igniter\\\\Main\\\\Classes\\\\ThemeManager\\:\\:createChildTheme\\(\\) should return Igniter\\\\Main\\\\Models\\\\Theme but returns Illuminate\\\\Database\\\\Eloquent\\\\Model\\.$#"
+			count: 1
+			path: src/Main/Classes/ThemeManager.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Events/ThemeActivatedEvent.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Events/ThemeExtendFormConfigEvent.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Events/ThemeGetActiveEvent.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$code\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getTheme\\(\\)\\.$#"
+			count: 2
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateInterface\\:\\:updateComponent\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getComponentOptions\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/Components.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:deleteMedia\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/MediaFinder.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:findMedia\\(\\)\\.$#"
+			count: 2
+			path: src/Main/FormWidgets/MediaFinder.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:mediable\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/MediaFinder.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:newMediaInstance\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/MediaFinder.php
+
+		-
+			message: "#^Variable \\$value on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/MediaFinder.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$data\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$code\\.$#"
+			count: 9
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateInterface\\:\\:\\$settings\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\FormWidgets\\\\TemplateEditor\\:\\:\\$modelClass\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:getSaveData\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getTheme\\(\\)\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
+			message: "#^Variable \\$result in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Main/FormWidgets/TemplateEditor.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:\\$context\\.$#"
+			count: 1
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Classes\\\\BaseWidget\\:\\:onSaveSource\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Main\\\\Http\\\\Controllers\\\\Themes\\:\\:formCreateModelObject\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:isDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Http/Controllers/Themes.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$data\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$description\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$version\\.$#"
+			count: 2
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\Main\\\\Models\\\\Theme\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 3
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getTheme\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Return type \\(void\\) of method Igniter\\\\Main\\\\Models\\\\Theme\\:\\:setAttribute\\(\\) should be compatible with return type \\(Igniter\\\\Flame\\\\Database\\\\Model\\) of method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:setAttribute\\(\\)$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 3
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Main/Models/Theme.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/Main/Template/ComponentPartial.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Content\\:\\:\\$fileName\\.$#"
+			count: 1
+			path: src/Main/Template/Content.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Content\\:\\:\\$markup\\.$#"
+			count: 3
+			path: src/Main/Template/Content.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Template/Content.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$fileName\\.$#"
+			count: 1
+			path: src/Main/Template/Layout.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$markup\\.$#"
+			count: 1
+			path: src/Main/Template/Layout.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$settings\\.$#"
+			count: 1
+			path: src/Main/Template/Layout.php
+
+		-
+			message: "#^Method Igniter\\\\Main\\\\Template\\\\Layout\\:\\:getViewBag\\(\\) should return Igniter\\\\Main\\\\Components\\\\ViewBag\\|null but returns Igniter\\\\System\\\\Classes\\\\BaseComponent\\|null\\.$#"
+			count: 1
+			path: src/Main/Template/Layout.php
+
+		-
+			message: "#^Property Igniter\\\\Main\\\\Template\\\\Layout\\:\\:\\$viewBagCache \\(Igniter\\\\Main\\\\Components\\\\ViewBag\\|null\\) does not accept Igniter\\\\System\\\\Classes\\\\BaseComponent\\|null\\.$#"
+			count: 1
+			path: src/Main/Template/Layout.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$settings\\.$#"
+			count: 1
+			path: src/Main/Template/Page.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Template\\\\Page\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/Main/Template/Page.php
+
+		-
+			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MainController\\:\\:pageUrl\\(\\) invoked with 3 parameters, 0\\-2 required\\.$#"
+			count: 1
+			path: src/Main/Template/Page.php
+
+		-
+			message: "#^Method Igniter\\\\Main\\\\Template\\\\Page\\:\\:getViewBag\\(\\) should return Igniter\\\\Main\\\\Components\\\\ViewBag\\|null but returns Igniter\\\\System\\\\Classes\\\\BaseComponent\\|null\\.$#"
+			count: 1
+			path: src/Main/Template/Page.php
+
+		-
+			message: "#^Parameter \\#1 \\$model of method Illuminate\\\\Database\\\\Eloquent\\\\ModelNotFoundException\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:setModel\\(\\) expects class\\-string\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>, string given\\.$#"
+			count: 2
+			path: src/Main/Template/Page.php
+
+		-
+			message: "#^Property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$viewBagCache \\(Igniter\\\\Main\\\\Components\\\\ViewBag\\|null\\) does not accept Igniter\\\\System\\\\Classes\\\\BaseComponent\\|null\\.$#"
+			count: 1
+			path: src/Main/Template/Page.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$data\\.$#"
+			count: 3
+			path: src/System/Actions/SettingsModel.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$item\\.$#"
+			count: 1
+			path: src/System/Actions/SettingsModel.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$settingsCode\\.$#"
+			count: 1
+			path: src/System/Actions/SettingsModel.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$settingsFieldsConfig\\.$#"
+			count: 1
+			path: src/System/Actions/SettingsModel.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:initSettingsData\\(\\)\\.$#"
+			count: 1
+			path: src/System/Actions/SettingsModel.php
+
+		-
+			message: "#^Method Igniter\\\\System\\\\Actions\\\\SettingsModel\\:\\:getSettingsRecord\\(\\) should return Igniter\\\\Flame\\\\Database\\\\Model\\|null but returns Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
+			count: 1
+			path: src/System/Actions/SettingsModel.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$property$#"
+			count: 1
+			path: src/System/Classes/BaseComponent.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/BaseComponent.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__callStatic\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/Controller.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__get\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/Controller.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Routing\\\\Controller\\:\\:__set\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/Controller.php
+
+		-
+			message: "#^Method Igniter\\\\System\\\\Classes\\\\Controller\\:\\:locateControllerInPath\\(\\) should return bool\\|Igniter\\\\Admin\\\\Classes\\\\AdminController\\|Igniter\\\\Main\\\\Classes\\\\MainController but returns null\\.$#"
+			count: 1
+			path: src/System/Classes/Controller.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$inPath$#"
+			count: 1
+			path: src/System/Classes/Controller.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
+			count: 1
+			path: src/System/Classes/ControllerAction.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
+			count: 4
+			path: src/System/Classes/ExtensionManager.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$version\\.$#"
+			count: 2
+			path: src/System/Classes/ExtensionManager.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:applyExtensionClass\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/ExtensionManager.php
+
+		-
+			message: "#^Property Illuminate\\\\Foundation\\\\PackageManifest\\:\\:\\$manifest \\(array\\) does not accept null\\.$#"
+			count: 1
+			path: src/System/Classes/ExtensionManager.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Models\\\\Language\\:\\:translations\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Property Igniter\\\\System\\\\Classes\\\\LanguageManager\\:\\:\\$loader \\(Igniter\\\\Flame\\\\Translation\\\\FileLoader\\) does not accept Illuminate\\\\Translation\\\\FileLoader\\.$#"
+			count: 1
+			path: src/System/Classes/LanguageManager.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Models\\\\MailTemplate\\:\\:\\$layout\\.$#"
+			count: 2
+			path: src/System/Classes/MailManager.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/System/Classes/PackageInfo.php
+
+		-
+			message: "#^Property Illuminate\\\\Foundation\\\\PackageManifest\\:\\:\\$manifest \\(array\\) does not accept null\\.$#"
+			count: 1
+			path: src/System/Classes/PackageManifest.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: string$#"
+			count: 1
+			path: src/System/Classes/UpdateManager.php
+
+		-
+			message: "#^Property Igniter\\\\System\\\\Classes\\\\UpdateManager\\:\\:\\$migrator \\(Igniter\\\\Flame\\\\Database\\\\Migrations\\\\Migrator\\) does not accept Illuminate\\\\Database\\\\Migrations\\\\Migrator\\.$#"
+			count: 1
+			path: src/System/Classes/UpdateManager.php
+
+		-
+			message: "#^Property Igniter\\\\System\\\\Classes\\\\UpdateManager\\:\\:\\$repository \\(Igniter\\\\Flame\\\\Database\\\\Migrations\\\\DatabaseMigrationRepository\\) does not accept Illuminate\\\\Database\\\\Migrations\\\\DatabaseMigrationRepository\\.$#"
+			count: 1
+			path: src/System/Classes/UpdateManager.php
+
+		-
+			message: "#^Result of method Illuminate\\\\Console\\\\OutputStyle\\:\\:writeln\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/System/Console/Commands/ExtensionInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$language_id\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$location_id\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$user_group_id\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$user_role_id\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterInstall.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\UserProvider\\:\\:register\\(\\)\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$password\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterPasswd.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Migrations\\\\MigrationRepositoryInterface\\:\\:prepareMigrationTable\\(\\)\\.$#"
+			count: 1
+			path: src/System/Console/Commands/IgniterUp.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
+			count: 3
+			path: src/System/Console/Commands/LanguageInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/System/Console/Commands/LanguageInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/System/Console/Commands/LanguageInstall.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$version\\.$#"
+			count: 1
+			path: src/System/Console/Commands/LanguageInstall.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:updateVersions\\(\\)\\.$#"
+			count: 1
+			path: src/System/Console/Commands/LanguageInstall.php
+
+		-
+			message: "#^Called 'Model\\:\\:make\\(\\)' which performs unnecessary work, use 'new Model\\(\\)'\\.$#"
+			count: 1
+			path: src/System/Console/Commands/LanguageInstall.php
+
+		-
+			message: "#^Result of method Illuminate\\\\Console\\\\OutputStyle\\:\\:writeln\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/System/Console/Commands/ThemeInstall.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/System/Events/AssetsBeforePrepareCombinerEvent.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(\\)\\: void given\\.$#"
+			count: 1
+			path: src/System/Helpers/SystemHelper.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Countries\\:\\:refreshList\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Countries.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Currencies\\:\\:refreshList\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Currencies.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$formWidget\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$toolbarWidget\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getFieldConfig\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getSettingsRecord\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getSettingItem\\(\\)\\.$#"
+			count: 2
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^Called 'Model\\:\\:make\\(\\)' which performs unnecessary work, use 'new Model\\(\\)'\\.$#"
+			count: 2
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Extensions.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:\\$sessionKey\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:formFindModelObject\\(\\)\\.$#"
+			count: 5
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\Languages\\:\\:refreshList\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Called 'Model\\:\\:make\\(\\)' which performs unnecessary work, use 'new Model\\(\\)'\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Languages.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\MailTemplates\\:\\:formFindModelObject\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/MailTemplates.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Http\\\\Controllers\\\\RequestLogs\\:\\:refreshList\\(\\)\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/RequestLogs.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$formWidget\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Settings.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\Admin\\\\Widgets\\\\Form\\:\\:\\$toolbarWidget\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Settings.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:\\$controller\\.$#"
+			count: 5
+			path: src/System/Http/Controllers/Settings.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Http\\\\Controllers\\\\Settings\\:\\:getCalledExtensionClass\\(\\)\\.$#"
+			count: 2
+			path: src/System/Http/Controllers/Settings.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$fieldConfig with type mixed is not subtype of native type array\\|Igniter\\\\Admin\\\\Classes\\\\FormField\\|string\\.$#"
+			count: 1
+			path: src/System/Http/Controllers/Settings.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:sorted\\(\\)\\.$#"
+			count: 1
+			path: src/System/Libraries/Country.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Collection\\:\\:find\\(\\)\\.$#"
+			count: 2
+			path: src/System/Libraries/Country.php
+
+		-
+			message: "#^Variable \\$countryModel in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/System/Libraries/Country.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/System/Mail/AnonymousTemplateMailable.php
+
+		-
+			message: "#^Property Illuminate\\\\Mail\\\\Mailable\\:\\:\\$textView \\(string\\) does not accept Illuminate\\\\Support\\\\HtmlString\\.$#"
+			count: 1
+			path: src/System/Mail/TemplateMailable.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
+			count: 2
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 3
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Method Igniter\\\\System\\\\Models\\\\Country\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 3
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/System/Models/Country.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\:\\:COUNTRY_RELATION\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Currency\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
+			count: 2
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 3
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getQualifiedForeignKeyName\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Method Igniter\\\\System\\\\Models\\\\Currency\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 3
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/System/Models/Currency.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Extension.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Language\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:makeDefault\\(\\)\\.$#"
+			count: 2
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\System\\\\Models\\\\Language\\:\\:translations\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:applyDefaultable\\(\\)\\.$#"
+			count: 3
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Method Igniter\\\\System\\\\Models\\\\Language\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 3
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/System/Models/Language.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\MailLayout\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/MailLayout.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailLayout.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getPath\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailLayout.php
+
+		-
+			message: "#^Method Igniter\\\\System\\\\Models\\\\MailLayout\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/System/Models/MailLayout.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailLayout.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getPath\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailPartial.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailPartial.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$code\\.$#"
+			count: 1
+			path: src/System/Models/MailTemplate.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$is_custom\\.$#"
+			count: 1
+			path: src/System/Models/MailTemplate.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$label\\.$#"
+			count: 1
+			path: src/System/Models/MailTemplate.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$layout_id\\.$#"
+			count: 1
+			path: src/System/Models/MailTemplate.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\View\\:\\:getPath\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailTemplate.php
+
+		-
+			message: "#^Static call to instance method Igniter\\\\System\\\\Models\\\\MailTheme\\:\\:instance\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/MailTheme.php
+
+		-
+			message: "#^Static method Igniter\\\\Flame\\\\Database\\\\Builder\\:\\:get\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
+			count: 1
+			path: src/System/Models/MailTheme.php
+
+		-
+			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Page\\)\\:\\:SWITCHABLE_COLUMN\\.$#"
+			count: 1
+			path: src/System/Models/Page.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:generatePermalinkOnSave\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Page.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Page.php
+
+		-
+			message: "#^Method Igniter\\\\System\\\\Models\\\\Page\\:\\:newFactory\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory but return statement is missing\\.$#"
+			count: 1
+			path: src/System/Models/Page.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$referrer\\.$#"
+			count: 2
+			path: src/System/Models/RequestLog.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:addLog\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/RequestLog.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getFieldValues\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Settings.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:resetFieldValues\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Settings.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/System/Models/Settings.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\System\\\\Facades\\\\Assets\\:\\:clearInternalCache\\(\\)\\.$#"
+			count: 1
+			path: src/System/ServiceProvider.php

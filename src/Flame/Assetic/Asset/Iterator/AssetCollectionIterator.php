@@ -112,7 +112,7 @@ class AssetCollectionIterator implements \RecursiveIterator
         return new self($this->current(), $this->clones);
     }
 
-    private function removeDuplicateVar($name)
+    private function removeDuplicateVar(string $name): string|array
     {
         foreach ($this->vars as $var) {
             $var = '{'.$var.'}';

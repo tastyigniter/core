@@ -41,10 +41,10 @@ it('defines properties correctly', function() {
 it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('js/vendor.datetime.js', 'vendor-datetime-js');
     Assets::shouldReceive('addJs')->once()->with('js/vendor.chart.js', 'vendor-chart-js');
-    Assets::shouldReceive('addCss')->once()->withArgs(function($css, $alias) {
+    Assets::shouldReceive('addCss')->once()->withArgs(function($css, $alias): bool {
         return ends_with($css, 'dashboardwidgets/charts.css') && $alias === 'charts-css';
     });
-    Assets::shouldReceive('addJs')->once()->withArgs(function($js, $alias) {
+    Assets::shouldReceive('addJs')->once()->withArgs(function($js, $alias): bool {
         return ends_with($js, 'dashboardwidgets/charts.js') && $alias === 'charts-js';
     });
 
@@ -58,7 +58,7 @@ it('renders widget correctly', function() {
 });
 
 it('tests prepareVars', function() {
-    Charts::registerDatasets(function() {
+    Charts::registerDatasets(function(): array {
         return [
             'newDataset' => [
                 'label' => 'igniter::admin.dashboard.text_reports_chart',
@@ -67,7 +67,7 @@ it('tests prepareVars', function() {
                         'model' => MailTemplate::class,
                         'column' => 'created_at',
                         'priority' => 1,
-                        'datasetFrom' => function() {
+                        'datasetFrom' => function(): array {
                             return [];
                         },
                     ],
@@ -94,11 +94,11 @@ it('returns active dataset', function() {
 it('loads dataset from', function() {
     $this->travelTo(now()->setMonth(1));
 
-    Charts::registerDatasets(function() {
+    Charts::registerDatasets(function(): array {
         return [
             'newDataset' => [
                 'label' => 'igniter::admin.dashboard.text_reports_chart',
-                'datasetFrom' => function() {
+                'datasetFrom' => function(): array {
                     return [
                         'datasets' => [
                             [
@@ -131,7 +131,7 @@ it('adds dataset correctly', function() {
                 'model' => MailTemplate::class,
                 'column' => 'created_at',
                 'priority' => 1,
-                'datasetFrom' => function() {
+                'datasetFrom' => function(): array {
                     return [];
                 },
             ],
@@ -151,7 +151,7 @@ it('merges dataset correctly', function() {
                 'model' => MailTemplate::class,
                 'column' => 'created_at',
                 'priority' => 1,
-                'datasetFrom' => function() {
+                'datasetFrom' => function(): array {
                     return [];
                 },
             ],

@@ -8,6 +8,7 @@ use Facades\Igniter\Flame\Support\LogViewer;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Support\Facades\File;
+use Illuminate\Http\RedirectResponse;
 
 class SystemLogs extends \Igniter\Admin\Classes\AdminController
 {

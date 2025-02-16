@@ -73,7 +73,7 @@ class Localization
         return true;
     }
 
-    public function setLocale($locale)
+    public function setLocale($locale): ?bool
     {
         if (!$this->isValid($locale)) {
             return false;
@@ -81,6 +81,7 @@ class Localization
 
         app()->setLocale($locale);
         Carbon::setLocale($locale);
+        return null;
     }
 
     public function getLocale()

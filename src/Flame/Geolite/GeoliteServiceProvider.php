@@ -18,15 +18,15 @@ class GeoliteServiceProvider extends ServiceProvider
         $this->app->bind('geocoder', Geocoder::class);
         $this->app->bind(Geolite::class, 'geolite');
 
-        $this->app->singleton('geocoder', function($app) {
+        $this->app->singleton('geocoder', function($app): Geocoder {
             return new Geocoder($app);
         });
 
-        $this->app->singleton('geolite', function() {
+        $this->app->singleton('geolite', function(): Geolite {
             return new Geolite;
         });
 
-        $this->app->singleton('geocoder.client', function() {
+        $this->app->singleton('geocoder.client', function(): \GuzzleHttp\Client {
             return new Client;
         });
 

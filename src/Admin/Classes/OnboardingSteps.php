@@ -54,7 +54,7 @@ class OnboardingSteps
      */
     public function completed(): bool
     {
-        return collect($this->steps)->filter(function(OnboardingStep $step) {
+        return collect($this->steps)->filter(function(OnboardingStep $step): bool {
             return !$step->isCompleted();
         })->isEmpty();
     }
@@ -72,7 +72,7 @@ class OnboardingSteps
      */
     public function nextIncompleteStep(): ?OnboardingStep
     {
-        return collect($this->steps)->first(function(OnboardingStep $step) {
+        return collect($this->steps)->first(function(OnboardingStep $step): bool {
             return !$step->isCompleted();
         });
     }

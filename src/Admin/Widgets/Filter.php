@@ -157,6 +157,7 @@ class Filter extends BaseWidget
 
             return ($redirect instanceof RedirectResponse) ? $redirect : array_collapse($result);
         }
+        return null;
     }
 
     public function onClear()
@@ -173,6 +174,8 @@ class Filter extends BaseWidget
 
             return ($redirect instanceof RedirectResponse) ? $redirect : array_collapse($result);
         }
+
+        return null;
     }
 
     public function getSelectOptions($scopeName): array
@@ -423,7 +426,7 @@ class Filter extends BaseWidget
                     }
 
                     if (is_array($value)) {
-                        $filtered = implode(',', array_map(function($key) {
+                        $filtered = implode(',', array_map(function($key): string {
                             return DB::getPdo()->quote($key);
                         }, $value));
                     } else {

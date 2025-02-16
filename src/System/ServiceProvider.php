@@ -99,11 +99,11 @@ class ServiceProvider extends AppServiceProvider
      */
     protected function registerSingletons()
     {
-        $this->app->singleton('assets', function() {
+        $this->app->singleton('assets', function(): Libraries\Assets {
             return new Libraries\Assets;
         });
 
-        $this->app->singleton('country', function($app) {
+        $this->app->singleton('country', function($app): Libraries\Country {
             return new Libraries\Country;
         });
 

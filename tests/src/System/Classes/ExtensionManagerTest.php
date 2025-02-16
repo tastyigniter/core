@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Classes;
 
+use Composer\Autoload\ClassLoader;
 use Igniter\Flame\Composer\Manager as ComposerManager;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
@@ -68,9 +69,9 @@ it('returns existing extension if already loaded', function() {
 
 it('loads extension and sets PSR-4 autoloading', function() {
     $composerManager = mock(ComposerManager::class)->makePartial();
-    $composerManager->shouldReceive('getLoader')->andReturnSelf();
-    $composerManager->shouldReceive('getPrefixesPsr4')->andReturn([]);
-    $composerManager->shouldReceive('setPsr4')->andReturnTrue();
+    $composerManager->shouldReceive('getLoader')->andReturn($classLoader = mock(ClassLoader::class));
+    $classLoader->shouldReceive('getPrefixesPsr4')->andReturn([]);
+    $classLoader->shouldReceive('setPsr4')->andReturnTrue();
     $manager = resolve(ExtensionManager::class, [
         'composerManager' => $composerManager,
         'packageManifest' => resolve(PackageManifest::class),

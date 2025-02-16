@@ -45,7 +45,7 @@ class MakeController extends GeneratorCommand
      *
      * return @array
      */
-    protected function prepareVars()
+    protected function prepareVars(): ?bool
     {
         if (!$code = $this->getExtensionInput()) {
             $this->error('Invalid extension name, Example name: AuthorName.ExtensionName');
@@ -78,6 +78,7 @@ class MakeController extends GeneratorCommand
             'studly_plural_name' => studly_case(str_plural($controller)),
             'snake_plural_name' => snake_case(str_plural($controller)),
         ];
+        return null;
     }
 
     /**

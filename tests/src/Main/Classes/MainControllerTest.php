@@ -56,7 +56,7 @@ it('returns response with correct status code in remap', function() {
 
 it('returns response using event in remap', function() {
     preparePage();
-    Event::listen('main.controller.beforeResponse', function($controller, $url, $page, $output) {
+    Event::listen('main.controller.beforeResponse', function($controller, $url, $page, $output): string {
         return 'test-path';
     });
 
@@ -81,7 +81,7 @@ it('returns rendered page content in runPage', function() {
 });
 
 it('returns rendered page content using page.init event in runPage', function() {
-    Event::listen('main.page.init', function($controller, $page) {
+    Event::listen('main.page.init', function($controller, $page): string {
         return 'test-page-content';
     });
 
@@ -91,7 +91,7 @@ it('returns rendered page content using page.init event in runPage', function() 
 });
 
 it('returns rendered page content using page.beforeRenderPage event in runPage', function() {
-    Event::listen('main.page.beforeRenderPage', function($controller, $page) {
+    Event::listen('main.page.beforeRenderPage', function($controller, $page): string {
         return 'test-page-content';
     });
 
@@ -101,7 +101,7 @@ it('returns rendered page content using page.beforeRenderPage event in runPage',
 });
 
 it('returns response using page.start event in pageCycle', function() {
-    Event::listen('main.page.start', function($controller) {
+    Event::listen('main.page.start', function($controller): string {
         return 'test-page-content';
     });
 
@@ -109,7 +109,7 @@ it('returns response using page.start event in pageCycle', function() {
 });
 
 it('returns response using page.end event in pageCycle', function() {
-    Event::listen('main.page.end', function($controller) {
+    Event::listen('main.page.end', function($controller): string {
         return 'test-page-content';
     });
 
@@ -136,7 +136,7 @@ it('returns response from page component lifecycle method', function() {
     $pageCode['unset-custom'] = 'custom-value';
     unset($pageCode['unset-custom']);
     $pageCode->custom = 'custom-value';
-    $pageCode->addDynamicMethod('dynamicMethod', function() {
+    $pageCode->addDynamicMethod('dynamicMethod', function(): string {
         return 'dynamic-method-result';
     });
 
@@ -232,7 +232,7 @@ it('returns rendered page content in renderPage', function() {
 });
 
 it('returns page content using event in renderPage', function() {
-    Event::listen('main.page.render', function($controller, $contents) {
+    Event::listen('main.page.render', function($controller, $contents): string {
         return 'test-page-content';
     });
 
@@ -257,7 +257,7 @@ it('returns rendered partial content in renderPartial', function() {
 });
 
 it('returns rendered partial content using page.beforeRenderPartial event in renderPartial', function() {
-    Event::listen('main.page.beforeRenderPartial', function($controller, $contents) {
+    Event::listen('main.page.beforeRenderPartial', function($controller, $contents): string {
         return 'test-partial-content';
     });
 
@@ -265,7 +265,7 @@ it('returns rendered partial content using page.beforeRenderPartial event in ren
 });
 
 it('returns rendered partial content using page.renderPartial event in renderPartial', function() {
-    Event::listen('main.page.renderPartial', function($controller, $name, $partialContent) {
+    Event::listen('main.page.renderPartial', function($controller, $name, $partialContent): string {
         return 'test-partial-content';
     });
 
@@ -307,7 +307,7 @@ it('returns rendered content in renderContent', function() {
 });
 
 it('returns rendered content using page.beforeRenderContent event in renderContent', function() {
-    Event::listen('main.page.beforeRenderContent', function($controller, $name) {
+    Event::listen('main.page.beforeRenderContent', function($controller, $name): string {
         return 'test-content';
     });
 
@@ -315,7 +315,7 @@ it('returns rendered content using page.beforeRenderContent event in renderConte
 });
 
 it('returns rendered content using page.renderContent event in renderContent', function() {
-    Event::listen('main.page.renderContent', function($controller, $name, $fileContent) {
+    Event::listen('main.page.renderContent', function($controller, $name, $fileContent): string {
         return $fileContent.'test-content';
     });
 
@@ -350,7 +350,7 @@ it('returns false when theme partial is not found', function() {
 
 function preparePage(): void
 {
-    $route = new Route('GET', 'test-path', function() {
+    $route = new Route('GET', 'test-path', function(): string {
         return 'test-path';
     });
     request()->setRouteResolver(fn() => $route);

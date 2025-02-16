@@ -552,7 +552,7 @@ class Finder
 
     protected function getCacheCallback(array $columns): callable
     {
-        return function() use ($columns) {
+        return function() use ($columns): array {
             return $this->processInitCacheData($this->getFresh($columns));
         };
     }

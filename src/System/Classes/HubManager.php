@@ -38,7 +38,7 @@ class HubManager
 
         $itemNames = collect($itemNames);
 
-        return collect(array_get($response, 'data', []))->map(function($package) use ($itemNames) {
+        return collect(array_get($response, 'data', []))->map(function($package) use ($itemNames): PackageInfo {
             $package['installedVersion'] = $package['type'] == 'core'
                 ? Igniter::version()
                 : array_get($itemNames->firstWhere('name', $package['code']), 'ver', '0.0.0');

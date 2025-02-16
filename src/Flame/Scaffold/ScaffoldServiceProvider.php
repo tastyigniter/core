@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Scaffold;
 
+use Igniter\Flame\Scaffold\Console\MakeComponent;
+use Igniter\Flame\Scaffold\Console\MakeController;
+use Igniter\Flame\Scaffold\Console\MakeExtension;
+use Igniter\Flame\Scaffold\Console\MakeModel;
 use Illuminate\Support\ServiceProvider;
 
 class ScaffoldServiceProvider extends ServiceProvider
@@ -46,28 +50,28 @@ class ScaffoldServiceProvider extends ServiceProvider
 
     protected function registerMakeExtensionCommand($command)
     {
-        $this->app->singleton($command, function($app) {
+        $this->app->singleton($command, function($app): MakeExtension {
             return new Console\MakeExtension($app['files']);
         });
     }
 
     protected function registerMakeComponentCommand($command)
     {
-        $this->app->singleton($command, function($app) {
+        $this->app->singleton($command, function($app): MakeComponent {
             return new Console\MakeComponent($app['files']);
         });
     }
 
     protected function registerMakeControllerCommand($command)
     {
-        $this->app->singleton($command, function($app) {
+        $this->app->singleton($command, function($app): MakeController {
             return new Console\MakeController($app['files']);
         });
     }
 
     protected function registerMakeModelCommand($command)
     {
-        $this->app->singleton($command, function($app) {
+        $this->app->singleton($command, function($app): MakeModel {
             return new Console\MakeModel($app['files']);
         });
     }

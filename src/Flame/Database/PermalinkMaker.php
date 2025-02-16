@@ -279,7 +279,7 @@ class PermalinkMaker
             return end($suffix);
         }
 
-        $list->transform(function($value, $key) use ($len) {
+        $list->transform(function($value, $key) use ($len): int {
             return (int)substr($value, $len);
         });
 

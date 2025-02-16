@@ -44,7 +44,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
      */
     public function selectAll(string $dirName, array $options = []): array
     {
-        $sourceResults = array_map(function(SourceInterface $source) use ($dirName, $options) {
+        $sourceResults = array_map(function(SourceInterface $source) use ($dirName, $options): array {
             return $source->selectAll($dirName, $options);
         }, array_reverse($this->sources));
 

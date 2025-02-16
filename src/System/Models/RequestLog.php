@@ -48,11 +48,11 @@ class RequestLog extends Model
     public static function createLog($statusCode = 404)
     {
         if (!Igniter::hasDatabase()) {
-            return;
+            return null;
         }
 
         if (!setting('enable_request_log', true)) {
-            return;
+            return null;
         }
 
         $url = Request::fullUrl();

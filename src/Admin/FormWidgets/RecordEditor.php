@@ -255,7 +255,7 @@ class RecordEditor extends BaseFormWidget
     {
         $field = clone $this->formField;
 
-        $field->options(function() {
+        $field->options(function(): Collection|array {
             return $this->getRecordEditorOptions();
         });
 

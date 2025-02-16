@@ -57,13 +57,13 @@ function setupInstallation(): IgniterInstall|MockInterface
     $installCommand->shouldReceive('confirm')->withSomeOfArgs('Install demo data?')->andReturn(true);
     $installCommand->shouldReceive('call')->with('igniter:up', ['--force' => true]);
     $installCommand->shouldReceive('ask')->with('Admin Name', 'Chef Admin')->andReturn('Chef Admin');
-    $output->shouldReceive('ask')->withArgs(function($name, $value, $callback) {
+    $output->shouldReceive('ask')->withArgs(function($name, $value, $callback): bool {
         return $name === 'Admin Email' && $callback($value);
     })->andReturn('admin@domain.tld');
-    $output->shouldReceive('ask')->withArgs(function($name, $value, $callback) {
+    $output->shouldReceive('ask')->withArgs(function($name, $value, $callback): bool {
         return $name === 'Admin Password' && $callback($value);
     })->andReturn('123456');
-    $output->shouldReceive('ask')->withArgs(function($name, $value, $callback) {
+    $output->shouldReceive('ask')->withArgs(function($name, $value, $callback): bool {
         return $name === 'Admin Username' && $callback($value);
     })->andReturn('admin');
     $installCommand->shouldReceive('line')->with('Admin user admin created!');

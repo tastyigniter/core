@@ -10,12 +10,12 @@ use Igniter\System\Facades\Assets;
 use Igniter\System\Models\MailTemplate;
 
 beforeEach(function() {
-    Statistics::registerCards(function() {
+    Statistics::registerCards(function(): array {
         return [
             'sale' => [
                 'label' => 'lang:igniter::admin.dashboard.text_total_sale',
                 'icon' => ' text-success fa fa-4x fa-line-chart',
-                'valueFrom' => function() {
+                'valueFrom' => function(): string {
                     return '£0.00';
                 },
             ],
@@ -56,12 +56,12 @@ it('tests prepareVars', function() {
 });
 
 it('tests getValue', function() {
-    Statistics::registerCards(function() {
+    Statistics::registerCards(function(): array {
         return [
             'test-sale' => [
                 'label' => 'lang:igniter::admin.dashboard.text_total_sale',
                 'icon' => ' text-success fa fa-4x fa-line-chart',
-                'valueFrom' => function($cardCode, $start, $end, $callback) {
+                'valueFrom' => function($cardCode, $start, $end, $callback): string {
                     $callback(MailTemplate::query());
 
                     return '£100.00';

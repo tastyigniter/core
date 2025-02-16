@@ -40,7 +40,7 @@ class Migrator extends BaseMigrator
         }
     }
 
-    protected function rollDown($paths = [], array $options = [])
+    protected function rollDown($paths = [], array $options = []): ?self
     {
         $migrations = $this->getMigrationFiles($paths);
 
@@ -51,7 +51,7 @@ class Migrator extends BaseMigrator
         if (count($migrations) === 0) {
             $this->write(Info::class, 'Nothing to rollback.');
 
-            return;
+            return null;
         }
 
         foreach ($migrations as $migration => $file) {

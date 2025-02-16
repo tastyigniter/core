@@ -69,7 +69,7 @@ it('returns response using component.beforeRun event on run components', functio
     $pageCode = FileParser::on($page)->source($page, null, controller());
     $component = resolve(ComponentManager::class)->makeComponent('testComponent', $pageCode);
     $page->loadedComponents['testComponent'] = $component;
-    $component->bindEvent('component.beforeRun', function() {
+    $component->bindEvent('component.beforeRun', function(): string {
         return 'beforeRun';
     });
 
@@ -95,7 +95,7 @@ it('returns response using component.run event on run components', function() {
     $pageCode = FileParser::on($page)->source($page, null, controller());
     $component = resolve(ComponentManager::class)->makeComponent('testComponent', $pageCode);
     $page->loadedComponents['testComponent'] = $component;
-    $component->bindEvent('component.run', function() {
+    $component->bindEvent('component.run', function(): string {
         return 'ran';
     });
 

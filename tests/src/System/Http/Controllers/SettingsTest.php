@@ -95,7 +95,7 @@ it('updates extension settings and redirects to settings page', function() {
 });
 
 it('sends test email', function() {
-    Mail::shouldReceive('raw')->withArgs(function($content, $callback) {
+    Mail::shouldReceive('raw')->withArgs(function($content, $callback): true {
         $message = mock(Message::class);
         $message->shouldReceive('to')->andReturnSelf();
         $message->shouldReceive('subject')->with('This a test email')->andReturnSelf();

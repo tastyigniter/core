@@ -138,10 +138,10 @@ it('appends suffix from uniqueSuffix method when slug is in reserved list', func
             return [
                 'permalink_slug' => [
                     'source' => 'title',
-                    'reserved' => function($model) {
+                    'reserved' => function($model): array {
                         return ['hello-world'];
                     },
-                    'uniqueSuffix' => function($slug, $separator, $list) {
+                    'uniqueSuffix' => function($slug, $separator, $list): string {
                         return '100';
                     },
                 ],

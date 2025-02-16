@@ -41,7 +41,7 @@ it('disables extension if disabled property is true', function() {
 
 it('loads resources if directory exists', function() {
     $extension = createExtension();
-    File::partialMock()->shouldReceive('isDirectory')->with(Mockery::on(function($path) {
+    File::partialMock()->shouldReceive('isDirectory')->with(Mockery::on(function($path): bool {
         return str_contains($path, '/resources');
     }))->andReturn(true);
 
@@ -51,7 +51,7 @@ it('loads resources if directory exists', function() {
 
 it('loads migrations if directory exists', function() {
     $extension = createExtension();
-    File::partialMock()->shouldReceive('isDirectory')->with(Mockery::on(function($path) {
+    File::partialMock()->shouldReceive('isDirectory')->with(Mockery::on(function($path): bool {
         return str_contains($path, '/database/migrations');
     }))->andReturn(true);
 

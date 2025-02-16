@@ -29,7 +29,7 @@ it('creates and deletes a new model instance with attributes', function() {
 it('returns false if creating event returns false', function() {
     $model = Partial::on('tests-theme');
     $model->fileName = 'new-test-partial';
-    Event::listen('pagic.creating: '.Partial::class, function() {
+    Event::listen('pagic.creating: '.Partial::class, function(): false {
         return false;
     });
 
@@ -46,7 +46,7 @@ it('returns false if deleting event returns false', function() {
 
     $model = Partial::load('tests-theme', 'test-partial');
     $oldContent = file_get_contents($model->getFilePath());
-    Event::listen('pagic.deleting: '.Partial::class, function() {
+    Event::listen('pagic.deleting: '.Partial::class, function(): false {
         return false;
     });
 
@@ -80,7 +80,7 @@ it('updates an existing model instance', function() {
 it('returns false if saveInternal event returns false', function() {
     $model = new Page;
     $model->fill(['content' => 'test content']);
-    $model->bindEvent('model.saveInternal', function() {
+    $model->bindEvent('model.saveInternal', function(): false {
         return false;
     });
 
@@ -90,7 +90,7 @@ it('returns false if saveInternal event returns false', function() {
 it('returns false if saving event returns false', function() {
     $model = new Partial;
     $model->fill(['content' => 'test content']);
-    Event::listen('pagic.saving: '.Partial::class, function() {
+    Event::listen('pagic.saving: '.Partial::class, function(): false {
         return false;
     });
 
@@ -100,7 +100,7 @@ it('returns false if saving event returns false', function() {
 it('returns false if updating event returns false', function() {
     $model = Partial::load('tests-theme', 'test-partial');
     $oldContent = file_get_contents($model->getFilePath());
-    Event::listen('pagic.updating: '.Partial::class, function() {
+    Event::listen('pagic.updating: '.Partial::class, function(): false {
         return false;
     });
 
@@ -167,10 +167,10 @@ it('converts model to array & JSON', function() {
             return 'extra';
         }
     };
-    $model->bindEvent('model.beforeGetAttribute', function($key) {
+    $model->bindEvent('model.beforeGetAttribute', function($key): ?string {
         return $key === 'custom' ? 'custom' : null;
     });
-    $model->bindEvent('model.getAttribute', function($key, $attr) {
+    $model->bindEvent('model.getAttribute', function($key, $attr): ?string {
         return $key === 'extra' ? 'extra' : null;
     });
     $model->syncOriginalAttribute('content');

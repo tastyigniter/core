@@ -53,5 +53,6 @@ class HtmlBuilder
         if (!is_null($value)) {
             return $key.'="'.e($value).'"';
         }
+        return null;
     }
 }

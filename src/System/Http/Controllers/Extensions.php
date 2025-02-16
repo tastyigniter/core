@@ -18,6 +18,7 @@ use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
 use Igniter\System\Traits\ManagesUpdates;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Request;
 
@@ -91,7 +92,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->initFormWidget($model, $action);
     }
 
-    public function delete(string $context, ?string $extensionCode = null)
+    public function delete(string $context, ?string $extensionCode = null): ?\Illuminate\Http\RedirectResponse
     {
         $pageTitle = lang('igniter::system.extensions.text_delete_title');
         Template::setTitle($pageTitle);
@@ -123,6 +124,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->vars['extensionMeta'] = $meta;
         $this->vars['extensionName'] = $meta['name'] ?? '';
         $this->vars['extensionData'] = $this->extensionHasMigrations($extensionCode);
+        return null;
     }
 
     public function index_onLoadReadme(?string $context = null): string
@@ -178,7 +180,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         return $this->redirectBack();
     }
 
-    public function edit_onSave(string $action, ?string $vendor = null, ?string $extension = null, ?string $context = null)
+    public function edit_onSave(string $action, ?string $vendor = null, ?string $extension = null, ?string $context = null): array|false|RedirectResponse
     {
         throw_if(!strlen($vendor) || !strlen($extension),
             new FlashException(lang('igniter::system.extensions.alert_setting_missing_id')),

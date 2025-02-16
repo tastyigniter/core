@@ -59,7 +59,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
     /**
      * Process options and apply them to this object.
      */
-    protected function evalConfig(array $config)
+    protected function evalConfig(array $config): array
     {
         if (array_key_exists('defaultTab', $config)) {
             $this->defaultTab = $config['defaultTab'];

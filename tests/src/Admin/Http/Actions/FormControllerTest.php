@@ -249,7 +249,7 @@ it('returns error when deleting fails', function() {
     $recordId = $record->getKey();
     $context = 'edit';
 
-    Status::deleting(function() {
+    Status::deleting(function(): false {
         return false;
     });
 

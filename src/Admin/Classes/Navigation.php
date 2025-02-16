@@ -59,7 +59,7 @@ class Navigation
     {
         $navItems = $this->getNavItems();
 
-        uasort($navItems, function($a, $b) {
+        uasort($navItems, function($a, $b): int|float {
             return $a['priority'] - $b['priority'];
         });
 
@@ -70,7 +70,7 @@ class Navigation
                 continue;
             }
 
-            uasort($navItem['child'], function($a, $b) {
+            uasort($navItem['child'], function($a, $b): int|float {
                 return $a['priority'] - $b['priority'];
             });
 
@@ -123,10 +123,8 @@ class Navigation
             if ($oldItem = array_get($this->navItems, $parentCode.'.child.'.$itemCode, [])) {
                 $this->navItems[$parentCode]['child'][$itemCode] = array_merge($oldItem, $options);
             }
-        } else {
-            if ($oldItem = array_get($this->navItems, $itemCode, [])) {
-                $this->navItems[$itemCode] = array_merge($oldItem, $options);
-            }
+        } elseif ($oldItem = array_get($this->navItems, $itemCode, [])) {
+            $this->navItems[$itemCode] = array_merge($oldItem, $options);
         }
     }
 

@@ -70,11 +70,9 @@ trait HasRelationships
      *
      * @return array
      */
-    public function getRelationDefinition($name)
+    public function getRelationDefinition($name): ?array
     {
-        if (($type = $this->getRelationType($name)) !== null) {
-            return (array)$this->relation[$type][$name];
-        }
+        return !is_null($type = $this->getRelationType($name)) ? (array)$this->relation[$type][$name] : null;
     }
 
     /**
@@ -109,6 +107,7 @@ trait HasRelationships
                 return $type;
             }
         }
+        return null;
     }
 
     /**
@@ -124,9 +123,7 @@ trait HasRelationships
             return $this->relations[$key];
         }
 
-        if ($this->hasRelation($key)) {
-            return $this->getRelationshipFromMethod($key);
-        }
+        return $this->hasRelation($key) ? $this->getRelationshipFromMethod($key) : null;
     }
 
     /**
@@ -196,104 +193,15 @@ trait HasRelationships
             ));
         }
 
-        switch ($relationType) {
-            case 'hasOne':
-            case 'hasMany':
-            case 'belongsTo':
-                $relation = $this->validateRelationArgs($relationName,
-                    ['foreignKey', 'otherKey'],
-                );
-
-                return $this->$relationType(
-                    $relation[0],
-                    $relation['foreignKey'],
-                    $relation['otherKey'],
-                    $relationName,
-                );
-
-            case 'belongsToMany':
-                $relation = $this->validateRelationArgs($relationName,
-                    ['table', 'foreignKey', 'otherKey', 'parentKey', 'relatedKey', 'pivot', 'timestamps'],
-                );
-
-                return $this->$relationType(
-                    $relation[0],
-                    $relation['table'],
-                    $relation['foreignKey'],
-                    $relation['otherKey'],
-                    $relation['parentKey'],
-                    $relation['relatedKey'],
-                    $relationName,
-                );
-
-            case 'morphTo':
-                $relation = $this->validateRelationArgs($relationName,
-                    ['name', 'type', 'id'],
-                );
-
-                return $this->$relationType($relation['name'] ?: $relationName, $relation['type'], $relation['id']);
-
-            case 'morphOne':
-            case 'morphMany':
-                $relation = $this->validateRelationArgs($relationName,
-                    ['type', 'id', 'foreignKey'], ['name'],
-                );
-
-                return $this->$relationType(
-                    $relation[0],
-                    $relation['name'],
-                    $relation['type'],
-                    $relation['id'],
-                    $relation['foreignKey'],
-                    $relationName,
-                );
-
-            case 'morphToMany':
-                $relation = $this->validateRelationArgs($relationName,
-                    ['table', 'foreignKey', 'otherKey', 'pivot', 'timestamps'], ['name'],
-                );
-
-                return $this->$relationType(
-                    $relation[0],
-                    $relation['name'],
-                    $relation['table'],
-                    $relation['pivot'],
-                    $relation['foreignKey'],
-                    $relation['otherKey'],
-                    null,
-                    false,
-                    $relationName);
-
-            case 'morphedByMany':
-                $relation = $this->validateRelationArgs($relationName,
-                    ['table', 'foreignKey', 'otherKey', 'parentKey', 'relatedKey', 'pivot', 'timestamps'], ['name'],
-                );
-
-                return $this->$relationType(
-                    $relation[0],
-                    $relation['name'],
-                    $relation['table'],
-                    $relation['foreignKey'],
-                    $relation['otherKey'],
-                    $relation['parentKey'],
-                    $relation['relatedKey'],
-                    $relationName,
-                );
-
-            case 'hasOneThrough':
-            case 'hasManyThrough':
-                $relation = $this->validateRelationArgs($relationName, ['foreignKey', 'throughKey', 'otherKey', 'secondOtherKey'], ['through']);
-
-                return $this->$relationType(
-                    $relation[0],
-                    $relation['through'],
-                    $relation['foreignKey'],
-                    $relation['throughKey'],
-                    $relation['otherKey'],
-                    $relation['secondOtherKey'],
-                    $relationName,
-                );
-        }
+        return match ($relationType) {
+            'hasOne', 'hasMany', 'belongsTo' => $this->makeOneToRelation($relationType, $relationName, $relation),
+            'belongsToMany' => $this->makeBelongsToManyRelation($relationType, $relationName, $relation),
+            'morphTo' => $this->makeMorphToRelation($relationType, $relationName, $relation),
+            'morphOne', 'morphMany' => $this->makeMorphOneToRelation($relationType, $relationName, $relation),
+            'morphToMany' => $this->makeMorphHasManyRelation($relationType, $relationName, $relation),
+            'morphedByMany' => $this->makeMorphManyRelation($relationType, $relationName, $relation),
+            'hasOneThrough', 'hasManyThrough' => $this->makeHasThroughRelation($relationType, $relationName, $relation),
+        };
     }
 
     /**
@@ -332,6 +240,112 @@ trait HasRelationships
         }
 
         return $relation;
+    }
+
+    protected function makeOneToRelation(string $relationType, string $relationName, ?array $relation)
+    {
+        $relation = $this->validateRelationArgs($relationName, ['foreignKey', 'otherKey']);
+
+        return $this->$relationType(
+            $relation[0],
+            $relation['foreignKey'],
+            $relation['otherKey'],
+            $relationName,
+        );
+    }
+
+    protected function makeBelongsToManyRelation(string $relationType, string $relationName, ?array $relation)
+    {
+        $relation = $this->validateRelationArgs($relationName,
+            ['table', 'foreignKey', 'otherKey', 'parentKey', 'relatedKey', 'pivot', 'timestamps'],
+        );
+
+        return $this->$relationType(
+            $relation[0],
+            $relation['table'],
+            $relation['foreignKey'],
+            $relation['otherKey'],
+            $relation['parentKey'],
+            $relation['relatedKey'],
+            $relationName,
+        );
+    }
+
+    protected function makeMorphToRelation(string $relationType, $relationName, ?array $relation)
+    {
+        $relation = $this->validateRelationArgs($relationName,
+            ['name', 'type', 'id'],
+        );
+
+        return $this->$relationType($relation['name'] ?: $relationName, $relation['type'], $relation['id']);
+    }
+
+    protected function makeMorphOneToRelation(string $relationType, $relationName, ?array $relation)
+    {
+        $relation = $this->validateRelationArgs($relationName,
+            ['type', 'id', 'foreignKey'], ['name'],
+        );
+
+        return $this->$relationType(
+            $relation[0],
+            $relation['name'],
+            $relation['type'],
+            $relation['id'],
+            $relation['foreignKey'],
+            $relationName,
+        );
+    }
+
+    protected function makeMorphHasManyRelation(string $relationType, $relationName, ?array $relation)
+    {
+        $relation = $this->validateRelationArgs($relationName,
+            ['table', 'foreignKey', 'otherKey', 'pivot', 'timestamps'], ['name'],
+        );
+
+        return $this->$relationType(
+            $relation[0],
+            $relation['name'],
+            $relation['table'],
+            $relation['pivot'],
+            $relation['foreignKey'],
+            $relation['otherKey'],
+            null,
+            false,
+            $relationName,
+        );
+    }
+
+    protected function makeMorphManyRelation(string $relationType, $relationName, ?array $relation)
+    {
+        $relation = $this->validateRelationArgs($relationName,
+            ['table', 'foreignKey', 'otherKey', 'parentKey', 'relatedKey', 'pivot', 'timestamps'], ['name'],
+        );
+
+        return $this->$relationType(
+            $relation[0],
+            $relation['name'],
+            $relation['table'],
+            $relation['foreignKey'],
+            $relation['otherKey'],
+            $relation['parentKey'],
+            $relation['relatedKey'],
+            $relationName,
+        );
+    }
+
+    protected function makeHasThroughRelation(string $relationType, $relationName, ?array $relation)
+    {
+        $relation = $this->validateRelationArgs($relationName, ['foreignKey', 'throughKey', 'otherKey', 'secondOtherKey'], ['through']);
+
+        return $this->$relationType(
+            $relation[0],
+            $relation['through'],
+            $relation['foreignKey'],
+            $relation['throughKey'],
+            $relation['otherKey'],
+            $relation['secondOtherKey'],
+            $relationName,
+        );
     }
 
     /**

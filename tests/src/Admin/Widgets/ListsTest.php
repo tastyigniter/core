@@ -240,6 +240,8 @@ it('filter list columns using model filterColumns method', function() {
         public function filterColumns(&$listColumn): array
         {
             unset($listColumn['status_id']);
+
+            return $listColumn;
         }
     };
     $listsWidget = new Lists($this->controller, $this->widgetConfig);
@@ -316,7 +318,7 @@ it('returns button attributes', function() {
 });
 
 it('overrides list header value using event', function() {
-    $this->listsWidget->bindEvent('list.overrideHeaderValue', function($column, $value) {
+    $this->listsWidget->bindEvent('list.overrideHeaderValue', function($column, $value): string {
         return 'Overridden Value';
     });
 
@@ -362,7 +364,7 @@ it('returns list column value', function($columnName, $type, $value, $expected, 
 
 it('returns column value from formatter', function() {
     $listColumn = new ListColumn('status_name', 'Test Column');
-    $listColumn->formatter = function($value) {
+    $listColumn->formatter = function($value): string {
         return 'Formatted Value';
     };
     $record = Status::factory()->create([
@@ -413,7 +415,7 @@ it('returns list column value from model pivot relation', function() {
 });
 
 it('overrides list column value using event', function() {
-    $this->listsWidget->bindEvent('list.overrideColumnValue', function($column, $record, $value) {
+    $this->listsWidget->bindEvent('list.overrideColumnValue', function($column, $record, $value): string {
         return 'Overridden Value';
     });
     $listColumn = new ListColumn('status_name', 'Test Column');
@@ -426,7 +428,7 @@ it('overrides list column value using event', function() {
 });
 
 it('overrides button attributes using event', function() {
-    $this->listsWidget->bindEvent('list.overrideColumnValue', function($column, $record, $attributes) {
+    $this->listsWidget->bindEvent('list.overrideColumnValue', function($column, $record, $attributes): array {
         return [
             'title' => 'Overridden Title',
             'url' => 'model/edit',

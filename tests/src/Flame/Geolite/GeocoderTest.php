@@ -103,7 +103,7 @@ it('creates provider correctly', function() {
 
 it('creates a custom provider', function() {
     $geocoder = resolve('geocoder');
-    $geocoder->extend('custom', function() {
+    $geocoder->extend('custom', function(): \Igniter\Flame\Geolite\Contracts\AbstractProvider {
         return new class extends AbstractProvider
         {
             public function getName(): string

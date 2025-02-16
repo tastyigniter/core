@@ -18,7 +18,7 @@ it('returns no database view when database is missing', function() {
 
     $middleware = new CheckRequirements;
     $request = new Request;
-    $next = function($req) {
+    $next = function($req): Response {
         return new Response('next_response');
     };
 
@@ -32,7 +32,7 @@ it('calls next middleware when database exists', function() {
 
     $middleware = new CheckRequirements;
     $request = new Request;
-    $next = function($req) {
+    $next = function($req): Response {
         return new Response('next_response');
     };
 

@@ -132,11 +132,9 @@ class CalendarController extends ControllerAction
         return implode(PHP_EOL, $list);
     }
 
-    public function renderCalendarToolbar()
+    public function renderCalendarToolbar(): ?string
     {
-        if (!is_null($this->toolbarWidget)) {
-            return $this->toolbarWidget->render();
-        }
+        return $this->toolbarWidget?->render() ?: null;
     }
 
     /**

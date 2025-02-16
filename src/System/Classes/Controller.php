@@ -197,7 +197,7 @@ class Controller extends IlluminateController
         return $actionName;
     }
 
-    protected function locateControllerInApp(array $segments)
+    protected function locateControllerInApp(array $segments): ?array
     {
         $modules = [
             '\\Igniter\\Admin\\Http\\',
@@ -216,9 +216,10 @@ class Controller extends IlluminateController
                 'segments' => $segments,
             ];
         }
+        return null;
     }
 
-    protected function locateControllerInExtensions($segments)
+    protected function locateControllerInExtensions($segments): ?array
     {
         if (count($segments) >= 3) {
             [$author, $extension, $controller] = $segments;
@@ -228,7 +229,7 @@ class Controller extends IlluminateController
             $extensionCode = sprintf('%s.%s', $author, $extension);
             $extension = resolve(ExtensionManager::class)->findExtension($extensionCode);
             if (!$extension || $extension->disabled) {
-                return;
+                return null;
             }
 
             $namespace = array_get($extension->extensionMeta(), 'namespace');
@@ -243,6 +244,7 @@ class Controller extends IlluminateController
                 ];
             }
         }
+        return null;
     }
 
     protected function pushRequestedControllerMiddleware()

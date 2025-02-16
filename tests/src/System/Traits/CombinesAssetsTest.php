@@ -93,7 +93,7 @@ it('builds bundles and returns notes', function() {
 });
 
 it('flashes error when build bundles fails', function() {
-    Event::listen(AssetsBeforePrepareCombinerEvent::class, function($event) {
+    Event::listen(AssetsBeforePrepareCombinerEvent::class, function($event): never {
         throw new \Exception('Error');
     });
 

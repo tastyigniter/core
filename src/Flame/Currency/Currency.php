@@ -195,7 +195,7 @@ class Currency
 
         $code = $code ?: $this->getUserCurrency();
 
-        $currency = $this->getCurrencies()->first(function(CurrencyInterface $currency) use ($code) {
+        $currency = $this->getCurrencies()->first(function(CurrencyInterface $currency) use ($code): bool {
             return ($currency->isEnabled() && $code == $currency->getId()) || ($code === $currency->getCode());
         });
 

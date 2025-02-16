@@ -49,12 +49,12 @@ class Manager
         return $this->loadInstalledPackages();
     }
 
-    public function getExtensionManifest(string $path)
+    public function getExtensionManifest(string $path): array
     {
         return $this->formatPackageManifest($path);
     }
 
-    public function getThemeManifest(string $path)
+    public function getThemeManifest(string $path): array
     {
         return $this->formatPackageManifest($path, 'theme');
     }
@@ -91,7 +91,7 @@ class Manager
             });
     }
 
-    protected function formatPackageManifest(string $path, string $type = 'extension')
+    protected function formatPackageManifest(string $path, string $type = 'extension'): array
     {
         $composer = File::json($path.'/composer.json') ?? [];
         if (!$manifest = array_get($composer, 'extra.tastyigniter-'.$type, [])) {
@@ -185,7 +185,7 @@ class Manager
 
     public function assertSchema(): void
     {
-        $this->composer->modify(function(array $composer) {
+        $this->composer->modify(function(array $composer): array {
             $newConfig = $this->assertRepository($composer);
             if ($composer !== $newConfig) {
                 $composer = $newConfig;

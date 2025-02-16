@@ -195,7 +195,7 @@ class RouterHelper
      * @param string $segment The segment definition.
      * @return string Returns the regular expression string or false if the expression is not defined.
      */
-    public static function getSegmentRegExp($segment)
+    public static function getSegmentRegExp($segment): false|string
     {
         if (($pos = mb_strpos($segment, '|')) !== false) {
             $regexp = mb_substr($segment, $pos + 1);
@@ -203,7 +203,7 @@ class RouterHelper
                 return false;
             }
 
-            return '/'.$regexp.'/';
+            return '/'.str_replace('[0-9]', '\\d', $regexp).'/';
         }
 
         return false;

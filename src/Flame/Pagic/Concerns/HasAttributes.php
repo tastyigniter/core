@@ -435,7 +435,7 @@ trait HasAttributes
      */
     public static function cacheMutatedAttributes(string $class): void
     {
-        static::$mutatorCache[$class] = collect(static::getMutatorMethods($class))->map(function($match) {
+        static::$mutatorCache[$class] = collect(static::getMutatorMethods($class))->map(function($match): string {
             return lcfirst(static::$snakeAttributes ? Str::snake($match) : $match);
         })->all();
     }

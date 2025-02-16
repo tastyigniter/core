@@ -13,7 +13,7 @@ it('registers custom validation rules from extensions', function() {
     $extensionManager->shouldReceive('getRegistrationMethodValues')
         ->with('registerValidationRules')
         ->andReturn([
-            ['custom_rule' => function($attribute, $value, $parameters) {
+            ['custom_rule' => function($attribute, $value, $parameters): bool {
                 return $value === 'custom';
             }],
         ]);

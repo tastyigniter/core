@@ -101,7 +101,7 @@ it('submits correctly and dispatches filter.submit event', function() {
         'status' => 'value',
     ]]);
 
-    $this->filterWidget->bindEvent('filter.submit', function($params) {
+    $this->filterWidget->bindEvent('filter.submit', function($params): array {
         return ['triggered'];
     });
 
@@ -139,9 +139,10 @@ it('clears correctly', function() {
 
     $this->filterWidget->onSubmit();
 
-    expect($this->filterWidget->getScopeValue('status'))->toEqual('value');
+    expect($this->filterWidget->getScopeValue('status'))->toEqual('value')
+        ->and($this->filterWidget->onClear())->toBeNull();
 
-    $this->filterWidget->bindEvent('filter.submit', function($params) {
+    $this->filterWidget->bindEvent('filter.submit', function($params): array {
         return ['triggered'];
     });
 

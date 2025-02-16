@@ -58,7 +58,7 @@ class FileLoader extends FileLoaderBase
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
     {
         return collect($this->paths)
-            ->reduce(function($output, $path) use ($lines, $locale, $group, $namespace) {
+            ->reduce(function($output, $path) use ($lines, $locale, $group, $namespace): array {
                 if (!$this->files->exists($path)) {
                     return $lines;
                 }

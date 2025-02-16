@@ -86,6 +86,7 @@ abstract class GeneratorCommand extends Command
         $this->makeDirectory($destinationFile);
 
         File::put($destinationFile, $this->parseString($stubContent));
+        return null;
     }
 
     protected function getExtensionInput()
@@ -93,7 +94,7 @@ abstract class GeneratorCommand extends Command
         $code = $this->argument('extension');
 
         if (count($array = explode('.', $code)) != 2) {
-            return;
+            return null;
         }
 
         return $array;

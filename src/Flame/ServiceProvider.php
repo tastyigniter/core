@@ -100,7 +100,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function registerSingletons()
     {
-        $this->app->singleton(PackageManifest::class, function() {
+        $this->app->singleton(PackageManifest::class, function(): PackageManifest {
             return new PackageManifest(
                 new Filesystem,
                 $this->app->basePath(),
@@ -108,7 +108,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             );
         });
 
-        $this->app->singleton(ComposerManaer::class, function() {
+        $this->app->singleton(ComposerManaer::class, function(): ComposerManaer {
             return new ComposerManaer(
                 base_path(),
                 storage_path('igniter/composer'),

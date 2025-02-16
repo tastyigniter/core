@@ -297,7 +297,7 @@ class MainController extends Controller
                 $response['X_IGNITER_REDIRECT'] = $result->getTargetUrl();
                 $result = null;
             } elseif (Request::header('X-IGNITER-REQUEST-FLASH') && Flash::messages()->isNotEmpty()) {
-                $response['X_IGNITER_FLASH_MESSAGES'] = Flash::all()->map(function(Message $message) {
+                $response['X_IGNITER_FLASH_MESSAGES'] = Flash::all()->map(function(Message $message): array {
                     return $message->toArray();
                 })->all();
             }
@@ -323,23 +323,17 @@ class MainController extends Controller
     {
         if (strpos($handler, '::')) {
             [$componentName, $handlerName] = explode('::', $handler);
-
             $componentObj = $this->findComponentByAlias($componentName);
-
             if ($componentObj && $componentObj->methodExists($handlerName)) {
                 $this->componentContext = $componentObj;
                 $result = $componentObj->runEventHandler($handlerName);
 
                 return $result ?: true;
             }
-        } // Process page specific handler (index_onSomething)
-        else {
-            if (($componentObj = $this->findComponentByHandler($handler)) !== null) {
-                $this->componentContext = $componentObj;
-                $result = $componentObj->runEventHandler($handler);
-
-                return $result ?: true;
-            }
+        } elseif (($componentObj = $this->findComponentByHandler($handler)) !== null) {
+            $this->componentContext = $componentObj;
+            $result = $componentObj->runEventHandler($handler);
+            return $result ?: true;
         }
 
         return false;
@@ -485,7 +479,7 @@ class MainController extends Controller
 
     public function renderPartialFirst(array $partials, array $params = [], bool $throwException = true): mixed
     {
-        $partial = Arr::first($partials, function($partial) {
+        $partial = Arr::first($partials, function($partial): bool {
             return $this->hasPartial($partial);
         });
 

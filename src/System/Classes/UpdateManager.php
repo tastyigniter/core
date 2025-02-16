@@ -274,9 +274,9 @@ class UpdateManager
 
         $result = $this->fetchItemsToUpdate($installedItems, $force);
 
-        [$ignoredItems, $items] = $result['items']->filter(function(PackageInfo $packageInfo) {
+        [$ignoredItems, $items] = $result['items']->filter(function(PackageInfo $packageInfo): bool {
             return !($packageInfo->isCore() && $this->disableCoreUpdates);
-        })->partition(function(PackageInfo $packageInfo) {
+        })->partition(function(PackageInfo $packageInfo): bool {
             return $this->isMarkedAsIgnored($packageInfo->code);
         });
 
@@ -327,7 +327,7 @@ class UpdateManager
     {
         return $this->getHubManager()
             ->applyItems($names)
-            ->filter(function(PackageInfo $packageInfo) {
+            ->filter(function(PackageInfo $packageInfo): bool {
                 if ($packageInfo->isCore() && $this->disableCoreUpdates) {
                     return false;
                 }
@@ -418,7 +418,7 @@ class UpdateManager
 
     public function completeInstall(array $requirements): void
     {
-        collect($requirements)->map(function($package) {
+        collect($requirements)->map(function($package): PackageInfo {
             return $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
         })->each(function(PackageInfo $packageInfo) {
             match ($packageInfo->type) {

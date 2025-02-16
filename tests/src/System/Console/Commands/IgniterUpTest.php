@@ -58,7 +58,7 @@ it('renames conflicting foundation tables', function() {
 
     Schema::shouldReceive('hasColumn')->with('users', 'staff_id')->andReturn(true);
     Schema::shouldReceive('rename')->with('users', 'admin_users')->once();
-    Schema::shouldReceive('hasTable')->andReturnUsing(function($table) {
+    Schema::shouldReceive('hasTable')->andReturnUsing(function($table): bool {
         return in_array($table, ['cache', 'failed_jobs', 'jobs', 'job_batches', 'sessions']);
     });
     Schema::shouldReceive('rename')->with(Mockery::any(), Mockery::any())->times(5);

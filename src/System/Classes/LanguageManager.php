@@ -119,7 +119,7 @@ class LanguageManager
         ];
 
         collect($this->listLocalePackages())
-            ->filter(function(stdClass $localePackage) use ($packageCode) {
+            ->filter(function(stdClass $localePackage) use ($packageCode): bool {
                 return !$packageCode || $localePackage->code === $packageCode;
             })
             ->each(function(stdClass $localePackage) use ($filter, $result, $model) {
@@ -155,14 +155,14 @@ class LanguageManager
     {
         $translations = $model->translations()
             ->get()
-            ->groupBy(function(Translation $translation) {
+            ->groupBy(function(Translation $translation): string {
                 return sprintf('%s::%s', $translation->namespace, $translation->group);
             })
-            ->map(function(Collection $translations, string $group) {
+            ->map(function(Collection $translations, string $group): array {
                 return [
                     'name' => $group,
                     'strings' => $translations
-                        ->map(function(Translation $translation) {
+                        ->map(function(Translation $translation): array {
                             return [
                                 'key' => $translation->item,
                                 'value' => $translation->text,

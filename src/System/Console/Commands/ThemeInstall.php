@@ -48,6 +48,7 @@ class ThemeInstall extends Command
         } catch (Throwable $e) {
             $this->output->writeln($e->getMessage());
         }
+        return null;
     }
 
     /**

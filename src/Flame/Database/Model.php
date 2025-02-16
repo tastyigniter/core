@@ -366,6 +366,7 @@ abstract class Model extends EloquentModel
 
             return new $pivotModel($parent, $attributes, $table, $exists);
         }
+        return null;
     }
 
     //

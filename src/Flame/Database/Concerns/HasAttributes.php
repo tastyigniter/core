@@ -32,7 +32,7 @@ trait HasAttributes
         }
 
         if (method_exists(self::class, $key)) {
-            return;
+            return null;
         }
 
         if ($this->relationLoaded($key)) {
@@ -42,6 +42,7 @@ trait HasAttributes
         if ($this->hasRelation($key) || method_exists($this, $key)) {
             return $this->getRelationshipFromMethod($key);
         }
+        return null;
     }
 
     public function getAttributeValue($key)

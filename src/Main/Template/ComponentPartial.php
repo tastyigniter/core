@@ -44,7 +44,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
 
     public static function loadOverrideCached(Theme $theme, string $componentName, string $fileName): ?Partial
     {
-        return Partial::listInTheme($theme->getName())->first(function($partial) use ($componentName, $fileName) {
+        return Partial::listInTheme($theme->getName())->first(function($partial) use ($componentName, $fileName): bool {
             return in_array($partial->getBaseFileName(), [$componentName.'/'.$fileName, strtolower($componentName).'/'.$fileName]);
         });
     }

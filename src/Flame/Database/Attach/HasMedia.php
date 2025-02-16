@@ -68,13 +68,12 @@ trait HasMedia
 
     public function setAttribute($key, $value)
     {
-        if (!array_key_exists($key, $this->mediable()) || $this->hasSetMutator($key)) {
-            return parent::setAttribute($key, $value);
-        }
-        // Do nothing
+        return (!array_key_exists($key, $this->mediable()) || $this->hasSetMutator($key))
+            ? parent::setAttribute($key, $value)
+            : null;
     }
 
-    public function getDefaultTagName()
+    public function getDefaultTagName(): int|string|null
     {
         return ($mediable = $this->mediable()) ? key($mediable) : 'default';
     }
@@ -138,7 +137,7 @@ trait HasMedia
         $collection = $this->exists ? $this->media : collect($this->unAttachedMediaItems)->pluck('media');
 
         return collect($collection)
-            ->filter(function(Media $mediaItem) use ($tag) {
+            ->filter(function(Media $mediaItem) use ($tag): bool {
                 return $tag === '*' || $mediaItem->tag === $tag;
             })
             ->sortBy('priority')->values();
@@ -199,9 +198,8 @@ trait HasMedia
         $result = [];
         $mediable = $this->mediable ?? [];
         foreach ($mediable as $attribute => $config) {
-            $attribute = $config;
-            $config = [];
-            $result[$attribute] = $config;
+            $index = is_numeric($attribute) ? $config : $attribute;
+            $result[$index] = is_numeric($attribute) ? [] : $config;
         }
 
         return $result;
@@ -229,7 +227,7 @@ trait HasMedia
      */
     protected function buildMediaPropertiesFilter(array $filters): \Closure
     {
-        return function(Media $media) use ($filters) {
+        return function(Media $media) use ($filters): bool {
             foreach ($filters as $property => $value) {
                 if (!$media->hasCustomProperty($property)) {
                     return false;

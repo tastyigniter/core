@@ -49,7 +49,7 @@ it('retrieves attribute value using beforeGetAttribute event', function() {
 
         public $attributes = ['attribute' => 'value'];
     };
-    $model->bindEvent('model.beforeGetAttribute', function($key) {
+    $model->bindEvent('model.beforeGetAttribute', function($key): string {
         return 'beforeGetAttribute';
     });
 
@@ -63,7 +63,7 @@ it('retrieves attribute value using getAttribute event', function() {
 
         public $attributes = ['attribute' => 'value'];
     };
-    $model->bindEvent('model.getAttribute', function($key, $value) {
+    $model->bindEvent('model.getAttribute', function($key, $value): string {
         return 'getAttribute';
     });
 
@@ -107,7 +107,7 @@ it('fires event before getting attribute', function() {
 
         public $attributes = ['attribute' => 'value'];
     };
-    $model->bindEvent('model.beforeGetAttribute', function($key) {
+    $model->bindEvent('model.beforeGetAttribute', function($key): string {
         return 'eventValue';
     });
 
@@ -121,7 +121,7 @@ it('fires event after getting attribute', function() {
 
         public $attributes = ['attribute' => 'value'];
     };
-    $model->bindEvent('model.getAttribute', function($key) {
+    $model->bindEvent('model.getAttribute', function($key): string {
         return 'eventValue';
     });
     expect($model->attributesToArray())->toHaveKey('attribute', 'eventValue');
@@ -154,7 +154,7 @@ it('sets attribute using event', function() {
 
         public $attributes = ['customAttribute' => 'value'];
     };
-    $model->bindEvent('model.beforeSetAttribute', function($key, $value) {
+    $model->bindEvent('model.beforeSetAttribute', function($key, $value): string {
         return 'eventValue';
     });
 

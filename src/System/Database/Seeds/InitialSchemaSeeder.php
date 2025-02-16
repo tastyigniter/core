@@ -48,7 +48,7 @@ class InitialSchemaSeeder extends Seeder
             return;
         }
 
-        DB::table('countries')->insert(collect(Igniter::getSeedRecords('countries'))->map(function($country) {
+        DB::table('countries')->insert(collect(Igniter::getSeedRecords('countries'))->map(function($country): array {
             return array_merge($country, ['status' => 1]);
         })->all());
 
@@ -106,7 +106,7 @@ class InitialSchemaSeeder extends Seeder
         DB::table('languages')->update(['updated_at' => now(), 'created_at' => now()]);
     }
 
-    protected function seedDefaultLocation()
+    protected function seedDefaultLocation(): ?bool
     {
         // Abort: a location already exists
         if (DB::table('locations')->count()) {
@@ -121,6 +121,7 @@ class InitialSchemaSeeder extends Seeder
         if (!DB::table('tables')->count()) {
             $this->seedLocationTables($locationId);
         }
+        return null;
     }
 
     protected function seedLocationTables(int $locationId)

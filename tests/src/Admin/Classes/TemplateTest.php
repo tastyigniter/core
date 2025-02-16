@@ -85,7 +85,7 @@ it('tests setButton', function() {
 });
 
 it('tests renderHook', function() {
-    $this->template->registerHook('test', function() {
+    $this->template->registerHook('test', function(): string {
         return 'Test Hook';
     });
 
@@ -96,7 +96,7 @@ it('tests renderHook', function() {
 });
 
 it('tests registerHook', function() {
-    $this->template->registerHook('test', function() {
+    $this->template->registerHook('test', function(): string {
         return 'Test Hook';
     });
 

@@ -54,7 +54,7 @@ class RouteRegistrar
     protected function getAdminPages(): Collection
     {
         return collect(Igniter::controllerPath())
-            ->flatMap(function($path, $namespace) {
+            ->flatMap(function($path, $namespace): array {
                 $result = [];
                 foreach (File::allFiles($path) as $file) {
                     $result[] = (string)Str::of($namespace)

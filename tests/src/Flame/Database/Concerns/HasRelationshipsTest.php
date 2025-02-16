@@ -189,7 +189,7 @@ it('handles invalid relation type', function() {
     $model->handleRelation('invalidRelationName');
 })->throws(InvalidArgumentException::class);
 
-it('validates relation arguments', closure: function() {
+it('validates relation arguments', function() {
     $model = new class extends Model
     {
         use HasRelationships;

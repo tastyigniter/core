@@ -14,7 +14,7 @@ it('loads admin locale when running in admin', function() {
     Igniter::shouldReceive('runningInAdmin')->andReturn(true);
 
     $request = new Request;
-    $next = function($request) {
+    $next = function($request): string {
         return 'next';
     };
 

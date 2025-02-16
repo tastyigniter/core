@@ -137,9 +137,8 @@ class ClassLoader
      * Load the given class file.
      *
      * @param string $class
-     * @return bool|null
      */
-    public function load($class)
+    public function load($class): ?bool
     {
         $class = static::normalizeClass($class);
 
@@ -192,6 +191,7 @@ class ClassLoader
 
             return true;
         }
+        return null;
     }
 
     /**
@@ -228,7 +228,7 @@ class ClassLoader
         } else {
             $directories = (array)$directories;
 
-            $this->directories = array_filter($this->directories, function($directory) use ($directories) {
+            $this->directories = array_filter($this->directories, function($directory) use ($directories): bool {
                 return !in_array($directory, $directories);
             });
         }
@@ -310,7 +310,7 @@ class ClassLoader
      * @param string $class
      * @return string|null
      */
-    public function getReverseAlias($class)
+    public function getReverseAlias($class): string|array|int|null
     {
         if (count($this->namespaceAliases)) {
             foreach ($this->namespaceAliases as $alias => $original) {

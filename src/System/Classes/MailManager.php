@@ -313,11 +313,11 @@ class MailManager
 
     protected function registerBladeDirectives()
     {
-        Blade::directive('partial', function($expression) {
+        Blade::directive('partial', function($expression): string {
             return "<?php resolve(\Igniter\System\Classes\MailManager::class)->startPartial({$expression}); ?>";
         });
 
-        Blade::directive('endpartial', function() {
+        Blade::directive('endpartial', function(): string {
             return "<?php echo resolve(\Igniter\System\Classes\MailManager::class)->renderPartial(); ?>";
         });
     }

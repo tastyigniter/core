@@ -113,7 +113,7 @@ class Assets
 
     public function getFavIcon(): ?string
     {
-        $favIcons = array_map(function($href) {
+        $favIcons = array_map(function($href): string {
             $attributes = ['rel' => 'shortcut icon', 'type' => 'image/x-icon'];
             if (is_array($href)) {
                 $attributes = array_except($href, 'href');
@@ -134,7 +134,7 @@ class Assets
             return null;
         }
 
-        $metas = array_map(function($meta) {
+        $metas = array_map(function($meta): string {
             return '<meta'.Html::attributes($meta).'>'.PHP_EOL;
         }, $this->assets['meta']);
 
@@ -164,7 +164,7 @@ class Assets
 
         $output = "window.{$this->jsVarNamespace} = window.{$this->jsVarNamespace} || {};";
 
-        $output .= collect($this->assets['jsVars'])->map(function($value, $name) {
+        $output .= collect($this->assets['jsVars'])->map(function($value, $name): string {
             $value = is_object($value)
                 ? $this->transformJsObjectVar($value) : $this->transformJsVar($value);
 
