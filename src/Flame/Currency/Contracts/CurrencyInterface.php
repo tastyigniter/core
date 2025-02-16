@@ -14,7 +14,7 @@ interface CurrencyInterface
 
     public function getSymbol(): ?string;
 
-    public function getSymbolPosition(): ?int;
+    public function getSymbolPosition(): ?bool;
 
     public function getFormat(): string;
 

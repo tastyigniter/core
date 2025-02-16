@@ -12,18 +12,24 @@ use Igniter\System\Models\Currency;
 
 it('returns enabled currencies in dropdown options', function() {
     $country = Country::factory()->create();
-    Currency::factory()->for($country, 'country')->create(['currency_name' => 'Currency 1', 'currency_code' => 'CUR1', 'currency_symbol' => '$', 'currency_status' => 1]);
-    Currency::factory()->for($country, 'country')->create(['currency_name' => 'Currency 2', 'currency_code' => 'CUR2', 'currency_symbol' => '€', 'currency_status' => 0]);
+    Currency::factory()->for($country, 'country')->create([
+        'currency_name' => 'Currency 1',
+        'currency_code' => 'CUR1',
+        'currency_symbol' => '$',
+        'currency_status' => 1,
+    ]);
+    Currency::factory()->for($country, 'country')->create([
+        'currency_name' => 'Currency 2',
+        'currency_code' => 'CUR2',
+        'currency_symbol' => '€',
+        'currency_status' => 0,
+    ]);
 
-    $options = Currency::getDropdownOptions();
-
-    expect($options)->toContain($country->country_name.' - CUR - $');
+    expect(Currency::getDropdownOptions())->toContain($country->country_name.' - CUR - $');
 });
 
 it('returns the converter dropdown options', function() {
-    $options = Currency::getConverterDropdownOptions();
-
-    expect($options)->toEqual([
+    expect(Currency::getConverterDropdownOptions())->toEqual([
         'openexchangerates' => 'lang:igniter::system.settings.text_openexchangerates',
         'fixerio' => 'lang:igniter::system.settings.text_fixerio',
     ]);
@@ -41,34 +47,38 @@ it('getters returns values correctly', function() {
 
 it('returns defaultable name as currency name', function() {
     $currency = new Currency(['currency_name' => 'Currency 1']);
-
-    $defaultableName = $currency->defaultableName();
-
-    expect($defaultableName)->toBe('Currency 1');
+    expect($currency->defaultableName())->toBe('Currency 1');
 });
 
 it('updates currency rate', function() {
     $currency = Currency::factory()->create(['currency_name' => 'Currency 1', 'currency_rate' => 1.0]);
-
     $currency->updateRate(1.5);
 
     expect($currency->getRate())->toBe(1.5);
 });
 
 it('returns correct currency format with symbol at the end', function() {
-    $currency = new Currency(['currency_symbol' => '$', 'symbol_position' => 1, 'thousand_sign' => ',', 'decimal_sign' => '.', 'decimal_position' => 2]);
+    $currency = new Currency([
+        'currency_symbol' => '$',
+        'symbol_position' => true,
+        'thousand_sign' => ',',
+        'decimal_sign' => '.',
+        'decimal_position' => 2,
+    ]);
 
-    $format = $currency->getFormat();
-
-    expect($format)->toBe('1,0.00$');
+    expect($currency->getFormat())->toBe('1,0.00$');
 });
 
 it('returns correct currency format with symbol at the beginning', function() {
-    $currency = new Currency(['currency_symbol' => '$', 'symbol_position' => 0, 'thousand_sign' => ',', 'decimal_sign' => '.', 'decimal_position' => 2]);
+    $currency = new Currency([
+        'currency_symbol' => '$',
+        'symbol_position' => false,
+        'thousand_sign' => ',',
+        'decimal_sign' => '.',
+        'decimal_position' => 2,
+    ]);
 
-    $format = $currency->getFormat();
-
-    expect($format)->toBe('$1,0.00');
+    expect($currency->getFormat())->toBe('$1,0.00');
 });
 
 it('configures model correctly', function() {
@@ -85,7 +95,7 @@ it('configures model correctly', function() {
             'currency_id' => 'int',
             'country_id' => 'integer',
             'currency_rate' => 'float',
-            'symbol_position' => 'integer',
+            'symbol_position' => 'boolean',
             'is_default' => 'boolean',
         ])
         ->and($currency->relation['belongsTo'])->toEqual([

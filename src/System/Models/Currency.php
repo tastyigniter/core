@@ -20,7 +20,7 @@ use Igniter\System\Models\Concerns\Switchable;
  * @property string $currency_code
  * @property string $currency_symbol
  * @property float $currency_rate
- * @property int|null $symbol_position
+ * @property bool|null $symbol_position
  * @property string $thousand_sign
  * @property string $decimal_sign
  * @property int $decimal_position
@@ -45,7 +45,7 @@ class Currency extends Model implements CurrencyInterface
     use HasFactory;
     use Switchable;
 
-    const SWITCHABLE_COLUMN = 'currency_status';
+    public const SWITCHABLE_COLUMN = 'currency_status';
 
     /**
      * @var string The database table name
@@ -64,7 +64,7 @@ class Currency extends Model implements CurrencyInterface
     protected $casts = [
         'country_id' => 'integer',
         'currency_rate' => 'float',
-        'symbol_position' => 'integer',
+        'symbol_position' => 'boolean',
     ];
 
     public $relation = [
@@ -141,7 +141,7 @@ class Currency extends Model implements CurrencyInterface
         return $this->currency_symbol;
     }
 
-    public function getSymbolPosition(): ?int
+    public function getSymbolPosition(): ?bool
     {
         return $this->symbol_position;
     }
