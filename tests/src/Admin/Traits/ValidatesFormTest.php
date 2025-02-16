@@ -28,6 +28,18 @@ it('validates request successfully with valid data', function() {
     expect($result)->toBe($request);
 });
 
+it('validates request successfully with codeigniter-style rules', function() {
+    $request = ['name' => 'John Doe'];
+    $rules = [['name', 'Name', 'required|string']];
+
+    $this->traitObject->validateAfter(function($request) {
+        return $request;
+    });
+    $result = $this->traitObject->validate($request, $rules);
+
+    expect($result)->toBe($request);
+});
+
 it('throws validation exception with invalid data', function() {
     $request = ['name' => ''];
     $rules = ['name' => 'required|string'];

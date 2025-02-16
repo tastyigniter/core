@@ -181,6 +181,7 @@ it('converts model to array & JSON', function() {
 
     expect($model->toArray())->toBe($expected)
         ->and($model->toJson())->toBe(json_encode($expected))
+        ->and((string)$model)->toBe(json_encode($expected))
         ->and($model->getAttribute(''))->toBeNull()
         ->and($model->getAttribute('custom'))->toBe('custom')
         ->and($model->getAttribute('extra'))->toBe('extra')

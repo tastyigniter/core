@@ -56,7 +56,9 @@ it('onboardingIsComplete returns true when all required extensions are enabled',
     $theme = new Theme('/path/to/theme', [
         'require' => ['TestExtension' => '*'],
     ]);
-    $extension = new class(app()) extends BaseExtension {};
+    $extension = new class(app()) extends BaseExtension
+    {
+    };
     $themeManager = mock(ThemeManager::class);
     app()->instance(ThemeManager::class, $themeManager);
     $themeManager->shouldReceive('getActiveTheme')->andReturn($theme);
@@ -270,11 +272,8 @@ it('does not apply extension class when extension is not found', function() {
     $extensionManager = mock(ExtensionManager::class);
     app()->instance(ExtensionManager::class, $extensionManager);
     $extensionManager->shouldReceive('findExtension')->with('test_extension')->andReturnNull();
-
-    Extension::create(['name' => 'test_extension']);
-    $extension = Extension::firstWhere('name', 'test_extension');
-
-    expect($extension->class)->toBeNull();
+    $extension = Extension::create(['name' => 'test_extension']);
+    expect($extension->applyExtensionClass())->toBeFalse();
 });
 
 it('syncs available extensions from filesystem', function() {
@@ -283,9 +282,14 @@ it('syncs available extensions from filesystem', function() {
     $packageManifest->shouldReceive('getVersion')->andReturn('1.0.0');
     $extensionManager = mock(ExtensionManager::class);
     app()->instance(ExtensionManager::class, $extensionManager);
-    $extensionManager->shouldReceive('namespaces')->andReturn(['test_extension' => '/path/to/test_extension']);
+    $extensionManager->shouldReceive('namespaces')->andReturn([
+        'test_extension' => '/path/to/test_extension',
+        'invalid_extension' => '/path/to/invalid_extension',
+    ]);
     $extensionManager->shouldReceive('getIdentifier')->with('test_extension')->andReturn('test.extension');
+    $extensionManager->shouldReceive('getIdentifier')->with('invalid_extension')->andReturn('invalid.extension');
     $extensionManager->shouldReceive('findExtension')->with('test.extension')->andReturn(mock(BaseExtension::class));
+    $extensionManager->shouldReceive('findExtension')->with('invalid.extension')->andReturnNull();
 
     Extension::syncAll();
 

@@ -346,13 +346,13 @@ parameters:
 			path: src/Admin/Widgets/Filter.php
 
 		-
-			message: "#^Binary operation \"\\-\" between non\\-empty\\-string and 1 results in an error\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Filter.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
-			count: 1
+			message: "#^Call to function is_array\\(\\) with mixed will always evaluate to false\\.$#"
+			count: 2
 			path: src/Admin/Widgets/Filter.php
 
 		-
@@ -511,11 +511,6 @@ parameters:
 			path: src/Flame/Currency/Currency.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of method Igniter\\\\Flame\\\\Currency\\\\Contracts\\\\FormatterInterface\\:\\:format\\(\\) expects float, string\\|null given\\.$#"
-			count: 1
-			path: src/Flame/Currency/Currency.php
-
-		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:put\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Currency/Middleware/CurrencyMiddleware.php
@@ -578,11 +573,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$model of method Igniter\\\\Flame\\\\Database\\\\Attach\\\\MediaAdder\\:\\:performedOn\\(\\) expects Igniter\\\\Flame\\\\Database\\\\Model, Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null given\\.$#"
 			count: 2
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Parameter \\#1 \\$prefix of function uniqid expects string, null given\\.$#"
-			count: 1
 			path: src/Flame/Database/Attach/Media.php
 
 		-
@@ -1426,44 +1416,14 @@ parameters:
 			path: src/Flame/Geolite/GeoQuery.php
 
 		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float\\|int given\\.$#"
-			count: 8
-			path: src/Flame/Geolite/Model/Bounds.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float\\|int given\\.$#"
-			count: 8
-			path: src/Flame/Geolite/Model/Bounds.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Geolite/Model/Bounds.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float\\|int\\|null given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Model/Coordinates.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float\\|int given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Model/Coordinates.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Geolite/Model/Location.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float\\|int given\\.$#"
-			count: 13
-			path: src/Flame/Geolite/Polygon.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float\\|int given\\.$#"
-			count: 15
-			path: src/Flame/Geolite/Polygon.php
 
 		-
 			message: "#^Call to an undefined method Psr\\\\Http\\\\Client\\\\ClientInterface\\:\\:get\\(\\)\\.$#"
@@ -1474,36 +1434,6 @@ parameters:
 			message: "#^Call to an undefined method Psr\\\\Http\\\\Client\\\\ClientInterface\\:\\:get\\(\\)\\.$#"
 			count: 2
 			path: src/Flame/Geolite/Provider/NominatimProvider.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float given\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bccomp expects string, float\\|null given\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#1 \\$num1 of function bcmul expects string, float\\|int given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float given\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bccomp expects string, float\\|null given\\.$#"
-			count: 1
-			path: src/Flame/Geolite/Vertex.php
-
-		-
-			message: "#^Parameter \\#2 \\$num2 of function bcmul expects string, float\\|int given\\.$#"
-			count: 2
-			path: src/Flame/Geolite/Vertex.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Html\\\\FormBuilder\\:\\:\\$payload\\.$#"
@@ -1552,16 +1482,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$fileName\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Finder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Finder\\:\\:delete\\(\\) should return bool but returns int\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Finder.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Finder\\:\\:insert\\(\\) should return int but returns bool\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Finder.php
 
@@ -1666,11 +1586,6 @@ parameters:
 			path: src/Flame/Pagic/Model.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$code\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Pagic\\\\Model\\:\\:\\$mTime\\.$#"
 			count: 3
 			path: src/Flame/Pagic/Parsers/FileParser.php
@@ -1681,24 +1596,9 @@ parameters:
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, int\\<0, max\\> given\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Pagic/Parsers/FileParser.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:delete\\(\\) should return int but returns bool\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/FileSource.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Pagic\\\\Source\\\\FileSource\\:\\:insert\\(\\) should return bool but returns int\\.$#"
-			count: 1
-			path: src/Flame/Pagic/Source/FileSource.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Pagic\\\\Contracts\\\\TemplateLoader\\:\\:getSource\\(\\)\\.$#"
@@ -1796,11 +1696,6 @@ parameters:
 			path: src/Flame/Support/Helpers/helpers.php
 
 		-
-			message: "#^Parameter \\#2 \\$time of function mdate expects string\\|null, \\(int\\|false\\) given\\.$#"
-			count: 2
-			path: src/Flame/Support/Helpers/helpers.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\Main\\\\Template\\\\Page\\:\\:\\$title\\.$#"
 			count: 1
 			path: src/Flame/Support/Helpers/template.php
@@ -1889,11 +1784,6 @@ parameters:
 			message: "#^Result of \\|\\| is always true\\.$#"
 			count: 1
 			path: src/Main/Classes/MainController.php
-
-		-
-			message: "#^Method Igniter\\\\Main\\\\Classes\\\\MediaItem\\:\\:getFileType\\(\\) should return string\\|null but returns false\\.$#"
-			count: 1
-			path: src/Main/Classes/MediaItem.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Routing\\\\Router\\:\\:pagic\\(\\)\\.$#"
@@ -2556,9 +2446,19 @@ parameters:
 			path: src/System/Libraries/Country.php
 
 		-
+			message: "#^Variable \\$countryModel in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/System/Libraries/Country.php
+
+		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/System/Mail/AnonymousTemplateMailable.php
+
+		-
+			message: "#^Property Illuminate\\\\Mail\\\\Mailable\\:\\:\\$textView \\(string\\) does not accept Illuminate\\\\Support\\\\HtmlString\\.$#"
+			count: 1
+			path: src/System/Mail/TemplateMailable.php
 
 		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
@@ -2802,11 +2702,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:resetFieldValues\\(\\)\\.$#"
-			count: 1
-			path: src/System/Models/Settings.php
-
-		-
-			message: "#^Method Igniter\\\\System\\\\Models\\\\Settings\\:\\:set\\(\\) should return bool but returns int\\.$#"
 			count: 1
 			path: src/System/Models/Settings.php
 
