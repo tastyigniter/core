@@ -113,9 +113,9 @@ class Bounds implements Contracts\BoundsInterface
     public function pointInBounds(Contracts\CoordinatesInterface $coordinate): bool
     {
         return !(bccomp(
-                number_format($coordinate->getLatitude(), $this->getPrecision()),
-                number_format($this->getSouth(), $this->getPrecision()),
-                $this->getPrecision()) === -1
+            number_format($coordinate->getLatitude(), $this->getPrecision()),
+            number_format($this->getSouth(), $this->getPrecision()),
+            $this->getPrecision()) === -1
             || bccomp(
                 number_format($coordinate->getLatitude(), $this->getPrecision()),
                 number_format($this->getNorth(), $this->getPrecision()),
@@ -190,33 +190,33 @@ class Bounds implements Contracts\BoundsInterface
             $this->setWest($longitude);
         } else {
             if (bccomp(
-                    number_format($latitude, $this->getPrecision()),
-                    number_format($this->getSouth(), $this->getPrecision()),
-                    $this->getPrecision()) === -1
+                number_format($latitude, $this->getPrecision()),
+                number_format($this->getSouth(), $this->getPrecision()),
+                $this->getPrecision()) === -1
             ) {
                 $this->setSouth($latitude);
             }
 
             if (bccomp(
-                    number_format($latitude, $this->getPrecision()),
-                    number_format($this->getNorth(), $this->getPrecision()),
-                    $this->getPrecision()) === 1
+                number_format($latitude, $this->getPrecision()),
+                number_format($this->getNorth(), $this->getPrecision()),
+                $this->getPrecision()) === 1
             ) {
                 $this->setNorth($latitude);
             }
 
             if (bccomp(
-                    number_format($longitude, $this->getPrecision()),
-                    number_format($this->getEast(), $this->getPrecision()),
-                    $this->getPrecision()) === 1
+                number_format($longitude, $this->getPrecision()),
+                number_format($this->getEast(), $this->getPrecision()),
+                $this->getPrecision()) === 1
             ) {
                 $this->setEast($longitude);
             }
 
             if (bccomp(
-                    number_format($longitude, $this->getPrecision()),
-                    number_format($this->getWest(), $this->getPrecision()),
-                    $this->getPrecision()) === -1
+                number_format($longitude, $this->getPrecision()),
+                number_format($this->getWest(), $this->getPrecision()),
+                $this->getPrecision()) === -1
             ) {
                 $this->setWest($longitude);
             }

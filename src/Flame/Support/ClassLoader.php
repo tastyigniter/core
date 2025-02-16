@@ -392,6 +392,7 @@ class ClassLoader
     protected function isRealFilePath($path)
     {
         $filename = realpath($this->basePath.DIRECTORY_SEPARATOR.$path);
+
         return $filename && is_file($filename);
     }
 
