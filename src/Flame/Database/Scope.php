@@ -14,7 +14,7 @@ abstract class Scope implements IlluminateScope
 
     public function apply(Builder $builder, Model $model) {}
 
-    public function extend(Builder $builder)
+    public function extend(Builder $builder): void
     {
         foreach (get_class_methods($this) as $extension) {
             if (starts_with($extension, 'add')) {

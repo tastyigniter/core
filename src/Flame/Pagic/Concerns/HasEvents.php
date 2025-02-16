@@ -25,7 +25,7 @@ trait HasEvents
     /**
      * Register an observer with the Model.
      */
-    public static function observe(string|object $class)
+    public static function observe(string|object $class): void
     {
         $instance = new static;
 
@@ -70,10 +70,8 @@ trait HasEvents
      * Add an observable event name.
      *
      * @param array|mixed $observables
-     *
-     * @return void
      */
-    public function addObservableEvents(mixed $observables)
+    public function addObservableEvents(mixed $observables): void
     {
         $this->observables = array_unique(array_merge(
             $this->observables, is_array($observables) ? $observables : func_get_args(),
@@ -83,7 +81,7 @@ trait HasEvents
     /**
      * Remove an observable event name.
      */
-    public function removeObservableEvents(mixed $observables)
+    public function removeObservableEvents(mixed $observables): void
     {
         $this->observables = array_diff(
             $this->observables, is_array($observables) ? $observables : func_get_args(),
@@ -168,7 +166,7 @@ trait HasEvents
     /**
      * Create a new native event for handling beforeFetch().
      */
-    public static function retrieving(string|\Closure $callback)
+    public static function retrieving(string|\Closure $callback): void
     {
         static::registerModelEvent('retrieving', $callback);
     }
@@ -176,7 +174,7 @@ trait HasEvents
     /**
      * Register a retrieved model event with the dispatcher.
      */
-    public static function retrieved(string|\Closure $callback)
+    public static function retrieved(string|\Closure $callback): void
     {
         static::registerModelEvent('retrieved', $callback);
     }
@@ -184,7 +182,7 @@ trait HasEvents
     /**
      * Register a saving model event with the dispatcher.
      */
-    public static function saving(string|\Closure $callback)
+    public static function saving(string|\Closure $callback): void
     {
         static::registerModelEvent('saving', $callback);
     }
@@ -192,7 +190,7 @@ trait HasEvents
     /**
      * Register a saved model event with the dispatcher.
      */
-    public static function saved(string|\Closure $callback)
+    public static function saved(string|\Closure $callback): void
     {
         static::registerModelEvent('saved', $callback);
     }
@@ -200,7 +198,7 @@ trait HasEvents
     /**
      * Register an updating model event with the dispatcher.
      */
-    public static function updating(string|\Closure $callback)
+    public static function updating(string|\Closure $callback): void
     {
         static::registerModelEvent('updating', $callback);
     }
@@ -208,7 +206,7 @@ trait HasEvents
     /**
      * Register an updated model event with the dispatcher.
      */
-    public static function updated(string|\Closure $callback)
+    public static function updated(string|\Closure $callback): void
     {
         static::registerModelEvent('updated', $callback);
     }
@@ -216,7 +214,7 @@ trait HasEvents
     /**
      * Register a creating model event with the dispatcher.
      */
-    public static function creating(string|\Closure $callback)
+    public static function creating(string|\Closure $callback): void
     {
         static::registerModelEvent('creating', $callback);
     }
@@ -224,7 +222,7 @@ trait HasEvents
     /**
      * Register a created model event with the dispatcher.
      */
-    public static function created(string|\Closure $callback)
+    public static function created(string|\Closure $callback): void
     {
         static::registerModelEvent('created', $callback);
     }
@@ -232,7 +230,7 @@ trait HasEvents
     /**
      * Register a deleting model event with the dispatcher.
      */
-    public static function deleting(string|\Closure $callback)
+    public static function deleting(string|\Closure $callback): void
     {
         static::registerModelEvent('deleting', $callback);
     }
@@ -240,7 +238,7 @@ trait HasEvents
     /**
      * Register a deleted model event with the dispatcher.
      */
-    public static function deleted(string|\Closure $callback)
+    public static function deleted(string|\Closure $callback): void
     {
         static::registerModelEvent('deleted', $callback);
     }
@@ -248,7 +246,7 @@ trait HasEvents
     /**
      * Remove all the event listeners for the model.
      */
-    public static function flushEventListeners()
+    public static function flushEventListeners(): void
     {
         $instance = new static;
 
@@ -270,17 +268,15 @@ trait HasEvents
     /**
      * Set the event dispatcher instance.
      */
-    public static function setEventDispatcher(Dispatcher $dispatcher)
+    public static function setEventDispatcher(Dispatcher $dispatcher): void
     {
         static::$dispatcher = $dispatcher;
     }
 
     /**
      * Unset the event dispatcher for models.
-     *
-     * @return void
      */
-    public static function unsetEventDispatcher()
+    public static function unsetEventDispatcher(): void
     {
         static::$dispatcher = null;
     }

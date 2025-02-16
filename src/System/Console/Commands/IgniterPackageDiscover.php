@@ -24,9 +24,8 @@ class IgniterPackageDiscover extends Command
 
     /**
      * Execute the console command.
-     * @return mixed
      */
-    public function handle(PackageManifest $manifest)
+    public function handle(PackageManifest $manifest): void
     {
         if ($manifest->files->exists($manifest->manifestPath)) {
             $manifest->files->delete($manifest->manifestPath);

@@ -10,7 +10,7 @@ abstract class ConsoleServiceProvider extends IlluminateEventServiceProvider
 {
     protected $commands = [];
 
-    public function register()
+    public function register(): void
     {
         parent::register();
 

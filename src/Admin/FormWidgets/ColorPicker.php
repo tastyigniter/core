@@ -45,7 +45,7 @@ class ColorPicker extends BaseFormWidget
 
     protected string $defaultAlias = 'colorpicker';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'availableColors',
@@ -55,7 +55,7 @@ class ColorPicker extends BaseFormWidget
         ]);
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -65,7 +65,7 @@ class ColorPicker extends BaseFormWidget
     /**
      * Prepares the list data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['name'] = $this->formField->getName();
         $this->vars['value'] = $this->getLoadValue();
@@ -75,7 +75,7 @@ class ColorPicker extends BaseFormWidget
         $this->vars['disabled'] = $this->disabled;
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('colorpicker.js', 'colorpicker-js');
     }

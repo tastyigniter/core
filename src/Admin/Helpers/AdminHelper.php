@@ -84,7 +84,7 @@ class AdminHelper
         return null;
     }
 
-    public static function validateAjaxHandler(string $handler)
+    public static function validateAjaxHandler(string $handler): void
     {
         if (!preg_match('/^(?:\w+\:{2})?on[A-Z]{1}[\w+]*$/', $handler)) {
             throw new SystemException(sprintf(lang('igniter::admin.alert_invalid_ajax_handler_name'), $handler));
@@ -93,7 +93,7 @@ class AdminHelper
 
     public static function validateAjaxHandlerPartials(): array
     {
-        if (!$partials = trim(request()->header('X-IGNITER-REQUEST-PARTIALS', ''))) {
+        if (empty($partials = trim(request()->header('X-IGNITER-REQUEST-PARTIALS', '')))) {
             return [];
         }
 

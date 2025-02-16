@@ -70,7 +70,7 @@ class MailPartial extends Model
     // Helpers
     //
 
-    public function fillFromCode($code = null)
+    public function fillFromCode($code = null): void
     {
         if (is_null($code)) {
             $code = $this->code;
@@ -88,7 +88,7 @@ class MailPartial extends Model
         $this->fillFromView($definition);
     }
 
-    public function fillFromView($path)
+    public function fillFromView($path): void
     {
         $sections = self::getTemplateSections($path);
         $this->name = array_get($sections, 'settings.name', '???');
@@ -114,9 +114,8 @@ class MailPartial extends Model
     /**
      * Loops over each mail layout and ensures the system has a layout,
      * if the layout does not exist, it will create one.
-     * @return void
      */
-    public static function createPartials()
+    public static function createPartials(): void
     {
         $dbPartials = self::lists('code', 'code')->all();
         $definitions = resolve(MailManager::class)->listRegisteredPartials();

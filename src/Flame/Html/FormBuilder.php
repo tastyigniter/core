@@ -221,10 +221,8 @@ class FormBuilder
      * Parse the form action method.
      *
      * @param string $method
-     *
-     * @return string
      */
-    protected function getMethod($method)
+    protected function getMethod($method): string
     {
         $method = strtoupper($method);
 
@@ -311,10 +309,8 @@ class FormBuilder
      * Get the form appendage for the given method.
      *
      * @param string $method
-     *
-     * @return string
      */
-    protected function getAppendage($method)
+    protected function getAppendage($method): string
     {
         [$method, $appendage] = [strtoupper($method), ''];
 
@@ -437,10 +433,8 @@ class FormBuilder
 
     /**
      * Determine if the old input is empty.
-     *
-     * @return bool
      */
-    public function oldInputIsEmpty()
+    public function oldInputIsEmpty(): bool
     {
         return isset($this->session) && count($this->session->getOldInput()) == 0;
     }
@@ -459,10 +453,8 @@ class FormBuilder
 
     /**
      * Transform the string to an Html serializable object
-     *
-     * @return \Illuminate\Support\HtmlString
      */
-    protected function toHtmlString($html)
+    protected function toHtmlString($html): HtmlString
     {
         return new HtmlString($html);
     }

@@ -15,10 +15,8 @@ class PagicServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Model::setSourceResolver($this->app['pagic.resolver']);
 
@@ -35,9 +33,8 @@ class PagicServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton('pagic.resolver', function() {
             return new SourceResolver;

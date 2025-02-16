@@ -87,7 +87,7 @@ class Currency
         $value = preg_replace('/[\s\',!]/', '', (string)$value);
 
         // Check for a custom formatter
-        if ($formatter = $this->getFormatter()) {
+        if (!is_null($formatter = $this->getFormatter())) {
             return $formatter->format((float)$value, $code);
         }
 
@@ -115,7 +115,8 @@ class Currency
         $decimals = $decimal ? strlen(substr(strrchr($valFormat, $decimal), 1)) : 0;
 
         // Do we have a negative value?
-        if ($negative = $value < 0 ? '-' : '') {
+        $negative = $value < 0 ? '-' : '';
+        if ($negative !== '') {
             $value *= -1;
         }
 
@@ -152,7 +153,7 @@ class Currency
     /**
      * Set user's currency.
      */
-    public function setUserCurrency(string $code)
+    public function setUserCurrency(string $code): void
     {
         $this->userCurrency = strtoupper($code);
     }
@@ -248,7 +249,7 @@ class Currency
     /**
      * Clear cached currencies.
      */
-    public function clearCache()
+    public function clearCache(): void
     {
         $this->cache->forget('igniter.currency');
     }
@@ -278,7 +279,7 @@ class Currency
     //
     //
 
-    public function updateRates(bool $skipCache = false)
+    public function updateRates(bool $skipCache = false): void
     {
         $base = $this->config('default');
 

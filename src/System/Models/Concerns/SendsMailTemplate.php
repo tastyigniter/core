@@ -24,7 +24,7 @@ trait SendsMailTemplate
         return [];
     }
 
-    public function mailSend(string $view, ?string $recipientType = null, array $vars = [])
+    public function mailSend(string $view, ?string $recipientType = null, array $vars = []): void
     {
         $vars += $this->mailGetData();
 

@@ -9,7 +9,7 @@ use Livewire\ComponentHook;
 
 class SupportConfigurableComponent extends ComponentHook
 {
-    public function mount($params, $key)
+    public function mount($params, $key): void
     {
         if (!in_array(ConfigurableComponent::class, class_uses_recursive($this->component))) {
             return;

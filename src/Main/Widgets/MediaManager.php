@@ -58,7 +58,7 @@ class MediaManager extends BaseWidget
         $this->checkUploadHandler();
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -68,7 +68,7 @@ class MediaManager extends BaseWidget
     /**
      * Prepares the list data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $folder = $this->getCurrentFolder();
         $sortBy = $this->getSortBy();
@@ -95,7 +95,7 @@ class MediaManager extends BaseWidget
         $this->vars['breadcrumbs'] = $this->makeBreadcrumb();
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addCss('mediamanager.css', 'mediamanager-css');
 
@@ -207,7 +207,7 @@ class MediaManager extends BaseWidget
         $this->chooseButtonText = array_get($data, 'chooseButtonText', $this->chooseButtonText);
 
         $goToItem = array_get($data, 'goToItem');
-        if ($goToPath = dirname($goToItem)) {
+        if (!empty($goToPath = dirname($goToItem))) {
             $this->selectItem = basename($goToItem);
             $this->setCurrentFolder($goToPath);
         }

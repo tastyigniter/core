@@ -71,9 +71,8 @@ class MailTheme extends Model
     /**
      * Initialize the seed data for this model. This only executes when the
      * model is first created or reset to default.
-     * @return void
      */
-    public function initSettingsData()
+    public function initSettingsData(): void
     {
         foreach (static::getCssVars() as $var => $default) {
             $this->{$var} = config('theme.mail.'.studly_case($var), $default);
@@ -89,7 +88,7 @@ class MailTheme extends Model
     // Helpers
     //
 
-    public function resetCache()
+    public function resetCache(): void
     {
         Cache::forget(self::instance()->cacheKey);
     }
@@ -111,7 +110,7 @@ class MailTheme extends Model
         return $customCss;
     }
 
-    protected static function getCssVars()
+    protected static function getCssVars(): array
     {
         return [
             'body_bg' => static::BODY_BG,

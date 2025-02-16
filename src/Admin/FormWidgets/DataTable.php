@@ -49,7 +49,7 @@ class DataTable extends BaseFormWidget
 
     protected ?Table $table = null;
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'size',
@@ -77,7 +77,7 @@ class DataTable extends BaseFormWidget
         $this->table->bindToController();
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -126,7 +126,7 @@ class DataTable extends BaseFormWidget
     /**
      * Prepares the list data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->populateTableWidget();
         $this->vars['table'] = $this->table;
@@ -141,7 +141,7 @@ class DataTable extends BaseFormWidget
 
         $this->locationApplyScope($query);
 
-        if ($search) {
+        if ($search !== '' && $search !== '0') {
             $query->search($search, $this->searchableFields);
         }
 

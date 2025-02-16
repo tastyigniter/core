@@ -146,7 +146,7 @@ class Bounds implements Contracts\BoundsInterface
         );
     }
 
-    public function setPolygon(Contracts\PolygonInterface $polygon)
+    public function setPolygon(Contracts\PolygonInterface $polygon): void
     {
         foreach ($polygon->getCoordinates() as $coordinate) {
             $this->addCoordinate($coordinate);

@@ -33,11 +33,7 @@ class ViewBag extends BaseComponent
      */
     public function __isset(string $key): bool
     {
-        if (array_key_exists($key, $this->properties)) {
-            return true;
-        }
-
-        return false;
+        return array_key_exists($key, $this->properties);
     }
 
     public function defineProperties(): array

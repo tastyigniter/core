@@ -72,7 +72,7 @@ class Connector extends BaseFormWidget
 
     public bool $hideNewButton = true;
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'formName',
@@ -98,14 +98,14 @@ class Connector extends BaseFormWidget
         }
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('connector/connector');
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('formwidgets/repeater.js', 'repeater-js');
 
@@ -126,7 +126,7 @@ class Connector extends BaseFormWidget
     /**
      * Prepares the view data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['formField'] = $this->formField;
         $this->vars['fieldItems'] = $this->processLoadValue() ?? [];

@@ -103,7 +103,7 @@ class Currency extends Model implements CurrencyInterface
             ->dropdown('name', 'currency_id');
     }
 
-    public static function getConverterDropdownOptions()
+    public static function getConverterDropdownOptions(): array
     {
         return [
             'openexchangerates' => 'lang:igniter::system.settings.text_openexchangerates',
@@ -111,7 +111,7 @@ class Currency extends Model implements CurrencyInterface
         ];
     }
 
-    public function updateRate($rate)
+    public function updateRate($rate): void
     {
         $this->currency_rate = $rate;
         $this->save();

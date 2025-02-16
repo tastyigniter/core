@@ -95,7 +95,7 @@ trait HasAttributes
     {
         $defaults = [];
 
-        if (!count($this->appends)) {
+        if (empty($this->appends)) {
             return $defaults;
         }
 
@@ -128,7 +128,7 @@ trait HasAttributes
             return $attr;
         }
 
-        if (!$key) {
+        if (empty($key)) {
             return null;
         }
 
@@ -433,7 +433,7 @@ trait HasAttributes
     /**
      * Extract and cache all the mutated attributes of a class.
      */
-    public static function cacheMutatedAttributes(string $class)
+    public static function cacheMutatedAttributes(string $class): void
     {
         static::$mutatorCache[$class] = collect(static::getMutatorMethods($class))->map(function($match) {
             return lcfirst(static::$snakeAttributes ? Str::snake($match) : $match);

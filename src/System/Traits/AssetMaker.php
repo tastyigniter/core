@@ -12,7 +12,7 @@ trait AssetMaker
     /** Specifies a path to the asset directory. */
     public array $assetPath = [];
 
-    public function flushAssets()
+    public function flushAssets(): void
     {
         Assets::flush();
     }
@@ -46,22 +46,22 @@ trait AssetMaker
         return $fileName;
     }
 
-    public function addMeta(array $meta)
+    public function addMeta(array $meta): void
     {
         Assets::addMeta($meta);
     }
 
-    public function addJs(string $href, string|array|null $attributes = null)
+    public function addJs(string $href, string|array|null $attributes = null): void
     {
         Assets::addJs($this->getAssetPath($href), $attributes);
     }
 
-    public function addCss(string $href, string|array|null $attributes = null)
+    public function addCss(string $href, string|array|null $attributes = null): void
     {
         Assets::addCss($this->getAssetPath($href), $attributes);
     }
 
-    public function addRss(string $href, string|array|null $attributes = [])
+    public function addRss(string $href, string|array|null $attributes = []): void
     {
         Assets::addRss($this->getAssetPath($href), $attributes);
     }

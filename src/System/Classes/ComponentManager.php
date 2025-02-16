@@ -43,7 +43,7 @@ class ComponentManager
 
     protected ?array $componentObjects = null;
 
-    public function bootComponents()
+    public function bootComponents(): void
     {
         if ($this->components === null) {
             $this->loadComponents();
@@ -99,12 +99,12 @@ class ComponentManager
      *   });
      * </pre>
      */
-    public function registerCallback(callable $definitions)
+    public function registerCallback(callable $definitions): void
     {
         $this->componentsCallbacks[] = $definitions;
     }
 
-    public function registerComponents(array $components)
+    public function registerComponents(array $components): void
     {
         foreach ($components as $className => $definition) {
             if (!is_string($className)) {
@@ -121,7 +121,7 @@ class ComponentManager
     /**
      * Registers a single component.
      */
-    public function registerComponent(string $className, null|string|array $definition = null)
+    public function registerComponent(string $className, null|string|array $definition = null): void
     {
         if (!$this->classMap) {
             $this->classMap = [];
@@ -353,7 +353,7 @@ class ComponentManager
 
         $rules = $attributes = [];
         foreach ($properties as $name => $params) {
-            if (strlen($rule = array_get($params, 'validationRule', ''))) {
+            if (strlen($rule = array_get($params, 'validationRule', '')) !== 0) {
                 $rules[$name] = $rule;
                 $attributes[$name] = array_get($params, 'label', $name);
             }

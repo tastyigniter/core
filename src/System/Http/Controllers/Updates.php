@@ -26,7 +26,7 @@ class Updates extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('updates', 'system');
     }
 
-    public function index()
+    public function index(): void
     {
         Extension::syncAll();
         Theme::syncAll();

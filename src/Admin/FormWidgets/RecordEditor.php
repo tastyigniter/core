@@ -57,7 +57,7 @@ class RecordEditor extends BaseFormWidget
 
     protected string $defaultAlias = 'recordeditor';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'form',
@@ -76,14 +76,14 @@ class RecordEditor extends BaseFormWidget
         $this->makeRecordFormWidgetFromRequest();
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('recordeditor/recordeditor');
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('formwidgets/repeater.js', 'repeater-js');
         $this->addCss('formwidgets/recordeditor.css', 'recordeditor-css');
@@ -91,7 +91,7 @@ class RecordEditor extends BaseFormWidget
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['field'] = $this->makeFormField();
         $this->vars['addonLeft'] = $this->makeFieldAddon('left');

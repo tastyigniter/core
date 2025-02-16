@@ -71,7 +71,7 @@ class Widgets
         return $this->bulkActionWidgets;
     }
 
-    public function registerBulkActionWidget(string $className, array $widgetInfo)
+    public function registerBulkActionWidget(string $className, array $widgetInfo): void
     {
         $widgetCode = $widgetInfo['code'] ?? null;
 
@@ -83,7 +83,7 @@ class Widgets
         $this->bulkActionWidgetHints[$widgetCode] = $className;
     }
 
-    public function registerBulkActionWidgets(callable $definitions)
+    public function registerBulkActionWidgets(callable $definitions): void
     {
         $this->bulkActionWidgetCallbacks[] = $definitions;
     }
@@ -147,14 +147,12 @@ class Widgets
     }
 
     /**
-     * Registers a single form form widget.
+     * Registers a single form widget.
      *
      * @param string $className Widget class name.
      * @param array $widgetInfo Registration information, can contain an 'code' key.
-     *
-     * @return void
      */
-    public function registerFormWidget(string $className, array $widgetInfo)
+    public function registerFormWidget(string $className, array $widgetInfo): void
     {
         $widgetCode = $widgetInfo['code'] ?? null;
 
@@ -178,7 +176,7 @@ class Widgets
      *   });
      * </pre>
      */
-    public function registerFormWidgets(callable $definitions)
+    public function registerFormWidgets(callable $definitions): void
     {
         $this->formWidgetCallbacks[] = $definitions;
     }
@@ -244,7 +242,7 @@ class Widgets
     /*
      * Registers a single dashboard widget.
      */
-    public function registerDashboardWidget(string $className, array $widgetInfo)
+    public function registerDashboardWidget(string $className, array $widgetInfo): void
     {
         $widgetCode = $widgetInfo['code'] ?? null;
 
@@ -268,7 +266,7 @@ class Widgets
      *   });
      * </pre>
      */
-    public function registerDashboardWidgets(callable $definitions)
+    public function registerDashboardWidgets(callable $definitions): void
     {
         $this->dashboardWidgetCallbacks[] = $definitions;
     }

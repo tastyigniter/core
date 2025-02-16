@@ -46,7 +46,7 @@ abstract class BaseAsset implements AssetInterface
         $this->filters = clone $this->filters;
     }
 
-    public function ensureFilter(FilterInterface $filter)
+    public function ensureFilter(FilterInterface $filter): void
     {
         $this->filters->ensure($filter);
     }
@@ -56,7 +56,7 @@ abstract class BaseAsset implements AssetInterface
         return $this->filters->all();
     }
 
-    public function clearFilters()
+    public function clearFilters(): void
     {
         $this->filters->clear();
     }
@@ -70,7 +70,7 @@ abstract class BaseAsset implements AssetInterface
     protected function doLoad($content, ?FilterInterface $additionalFilter = null)
     {
         $filter = clone $this->filters;
-        if ($additionalFilter) {
+        if (!is_null($additionalFilter)) {
             $filter->ensure($additionalFilter);
         }
 
@@ -90,7 +90,7 @@ abstract class BaseAsset implements AssetInterface
         }
 
         $filter = clone $this->filters;
-        if ($additionalFilter) {
+        if (!is_null($additionalFilter)) {
             $filter->ensure($additionalFilter);
         }
 
@@ -105,7 +105,7 @@ abstract class BaseAsset implements AssetInterface
         return $this->content;
     }
 
-    public function setContent(string $content)
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
@@ -130,7 +130,7 @@ abstract class BaseAsset implements AssetInterface
         return $this->targetPath;
     }
 
-    public function setTargetPath(string $targetPath)
+    public function setTargetPath(string $targetPath): void
     {
         foreach ($this->vars as $var) {
             if (!str_contains($targetPath, $var)) {
@@ -146,7 +146,7 @@ abstract class BaseAsset implements AssetInterface
         return $this->vars;
     }
 
-    public function setValues(array $values)
+    public function setValues(array $values): void
     {
         foreach ($values as $var => $v) {
             if (!in_array($var, $this->vars, true)) {

@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 class PagicServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         Route::bind('_file_', function($value) {
             return Page::resolveRouteBinding($value);

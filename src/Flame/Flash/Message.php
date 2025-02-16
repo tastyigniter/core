@@ -75,7 +75,7 @@ class Message implements \ArrayAccess
         $this->$offset = null;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'title' => $this->title,

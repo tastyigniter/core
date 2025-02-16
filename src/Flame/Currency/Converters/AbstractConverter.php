@@ -47,7 +47,7 @@ abstract class AbstractConverter
      */
     public function forgetCache(): self
     {
-        if ($this->getCacheLifetime()) {
+        if ($this->getCacheLifetime() !== 0) {
             // Flush cache keys, then forget actual cache
             $this->getCacheDriver()->forget($this->getCacheKey());
         }
@@ -70,7 +70,7 @@ abstract class AbstractConverter
 
     protected function cacheCallback(string $cacheKey, \Closure $closure): mixed
     {
-        if (!$lifetime = $this->getCacheLifetime()) {
+        if (($lifetime = $this->getCacheLifetime()) === 0) {
             return $closure();
         }
 

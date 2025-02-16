@@ -17,7 +17,7 @@ class FlashStore
     /**
      * Flash a message to the session.
      */
-    public function flash(string $name, Collection $data)
+    public function flash(string $name, Collection $data): void
     {
         $this->session->flash($name, $data);
     }
@@ -27,7 +27,7 @@ class FlashStore
         return $this->session->get($key, $default);
     }
 
-    public function forget(string $key)
+    public function forget(string $key): void
     {
         $this->session->forget($key);
     }

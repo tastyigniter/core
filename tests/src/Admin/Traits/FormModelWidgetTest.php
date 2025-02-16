@@ -211,7 +211,7 @@ it('returns relation type correctly', function() {
 
         public $valueFrom = 'status_history';
 
-        public function testGetRelationType()
+        public function testGetRelationType(): string
         {
             return $this->getRelationType();
         }

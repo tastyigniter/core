@@ -20,7 +20,7 @@ trait HasViewBag
     /**
      * Boot the sortable trait for this model.
      */
-    public static function bootHasViewBag()
+    public static function bootHasViewBag(): void
     {
         static::retrieved(function(self $model) {
             $model->fillViewBagArray();

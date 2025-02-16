@@ -40,7 +40,7 @@ class FileLoader extends FileLoaderBase
         })->toArray();
     }
 
-    public function addDriver($driver)
+    public function addDriver($driver): void
     {
         $this->drivers[] = $driver;
     }

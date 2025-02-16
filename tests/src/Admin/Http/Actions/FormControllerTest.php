@@ -306,7 +306,7 @@ it('binds events correctly', function() {
             ],
         ];
 
-        public function formExtendRefreshData(Form $host, array $saveData)
+        public function formExtendRefreshData(Form $host, array $saveData): array
         {
             return [];
         }

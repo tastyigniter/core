@@ -81,7 +81,7 @@ class Manipulator
         return $this;
     }
 
-    public function save(string $path)
+    public function save(string $path): void
     {
         if ($this->tempFilePath) {
             $this->writeManipulatedContentsTo($path);
@@ -103,7 +103,7 @@ class Manipulator
             'tiff', 'bmp', 'ico', 'psd',
         ]);
 
-        if (!$extension = pathinfo($this->file, PATHINFO_EXTENSION)) {
+        if (empty($extension = pathinfo($this->file, PATHINFO_EXTENSION))) {
             return false;
         }
 
@@ -144,7 +144,7 @@ class Manipulator
             'driver' => $this->driver,
         ];
 
-        if ($watermarks) {
+        if (!empty($watermarks)) {
             $config['watermarks'] = $watermarks;
         }
 

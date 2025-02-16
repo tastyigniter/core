@@ -138,12 +138,7 @@ trait ComponentMaker
         if (!$componentObj = $this->findComponentByAlias($alias)) {
             return false;
         }
-
-        if ($componentObj instanceof BlankComponent) {
-            return false;
-        }
-
-        return true;
+        return !$componentObj instanceof BlankComponent;
     }
 
     /**
@@ -199,7 +194,7 @@ trait ComponentMaker
         return $this->page->loadedConfigurableComponents[$alias] ?? $this->layout->loadedConfigurableComponents[$alias] ?? [];
     }
 
-    public function setComponentContext(?BaseComponent $component)
+    public function setComponentContext(?BaseComponent $component): void
     {
         $this->componentContext = $component;
     }
@@ -209,7 +204,7 @@ trait ComponentMaker
         [$componentAlias, $partialName] = explode('::', $name);
 
         // Component alias not supplied
-        if (!strlen($componentAlias)) {
+        if (empty($componentAlias)) {
             if (!is_null($this->componentContext)) {
                 $componentObj = $this->componentContext;
             } elseif (($componentObj = $this->findComponentByPartial($partialName)) === null) {

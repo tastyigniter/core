@@ -11,7 +11,7 @@ use Illuminate\Support\ServiceProvider;
 
 class MailServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         resolve(MailManager::class)->registerCallback(function(MailManager $manager) {
             $manager->registerMailLayouts([
@@ -34,7 +34,7 @@ class MailServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot()
+    public function boot(): void
     {
         Event::listen('mailer.beforeRegister', function() {
             resolve(MailManager::class)->applyMailerConfigValues();

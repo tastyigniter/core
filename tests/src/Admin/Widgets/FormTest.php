@@ -18,7 +18,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function() {
-    $this->controller = new class extends AdminController {};
+    $this->controller = new class extends AdminController
+    {
+    };
     $this->widgetConfig = [
         'toolbar' => [
             'prompt' => 'Search text',
@@ -130,7 +132,7 @@ it('reloads form with filtered fields correctly', function() {
     ];
     $this->widgetConfig['model'] = new class extends Status
     {
-        public function filterFields($form, &$allFields, $context)
+        public function filterFields($form, &$allFields, $context): void
         {
             unset($allFields['status_color']);
         }
@@ -227,7 +229,7 @@ it('makes form field', function() {
 it('make form field with callable options', function() {
     $this->widgetConfig['model'] = new class extends Model
     {
-        public function getTestFieldOptions()
+        public function getTestFieldOptions(): array
         {
             return ['option1' => 'Option 1', 'option2' => 'Option 2'];
         }
@@ -247,7 +249,7 @@ it('make form field with callable options', function() {
 it('make form field with model getDropdownOptions method', function() {
     $this->widgetConfig['model'] = new class extends Model
     {
-        public function getDropdownOptions()
+        public function getDropdownOptions(): array
         {
             return ['option1' => 'Option 1', 'option2' => 'Option 2'];
         }

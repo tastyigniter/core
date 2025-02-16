@@ -43,7 +43,7 @@ class Menu extends BaseWidget
      */
     public array $cssClasses = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'items',
@@ -51,13 +51,13 @@ class Menu extends BaseWidget
         ]);
     }
 
-    public function bindToController()
+    public function bindToController(): void
     {
         $this->defineMenuItems();
         parent::bindToController();
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -71,7 +71,7 @@ class Menu extends BaseWidget
         $this->vars['items'] = $this->getItems();
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('mainmenu.js', 'mainmenu-js');
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
@@ -80,7 +80,7 @@ class Menu extends BaseWidget
     /**
      * Renders the HTML element for a item
      */
-    public function renderItemElement(MainMenuItem $item)
+    public function renderItemElement(MainMenuItem $item): string
     {
         $params = ['item' => $item];
 
@@ -118,7 +118,7 @@ class Menu extends BaseWidget
     /**
      * Programatically add items, used internally and for extensibility.
      */
-    public function addItems(array $items)
+    public function addItems(array $items): void
     {
         foreach ($items as $name => $config) {
             $itemObj = $this->makeMenuItem($name, $config);
@@ -222,7 +222,7 @@ class Menu extends BaseWidget
      */
     public function onGetDropdownOptions(): array
     {
-        if (!strlen($itemName = input('item', ''))) {
+        if (empty($itemName = input('item', ''))) {
             throw new FlashException(lang('igniter::admin.side_menu.alert_invalid_menu'));
         }
 

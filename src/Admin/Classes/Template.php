@@ -42,7 +42,7 @@ class Template
      * @param string $name Specifies the block name.
      * @param string $contents Specifies the block content.
      */
-    public function appendBlock(string $name, string $contents)
+    public function appendBlock(string $name, string $contents): void
     {
         if (!isset($this->blocks[$name])) {
             $this->blocks[$name] = '';
@@ -57,7 +57,7 @@ class Template
      * @param string $name Specifies the block name.
      * @param string $contents Specifies the block content.
      */
-    public function setBlock(string $name, string $contents)
+    public function setBlock(string $name, string $contents): void
     {
         $this->blocks[$name] = $contents;
     }
@@ -77,12 +77,12 @@ class Template
         return implode(PHP_EOL, $this->pageButtons);
     }
 
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->pageTitle = $title;
     }
 
-    public function setHeading(string $heading)
+    public function setHeading(string $heading): void
     {
         if (strpos($heading, ':')) {
             [$normal, $small] = explode(':', $heading);
@@ -92,7 +92,7 @@ class Template
         $this->pageHeading = $heading;
     }
 
-    public function setButton(string $name, array $attributes = [])
+    public function setButton(string $name, array $attributes = []): void
     {
         $this->pageButtons[] = '<a'.Html::attributes($attributes).'>'.$name.'</a>';
     }
@@ -106,7 +106,7 @@ class Template
         return new HtmlString(implode('', $hooks));
     }
 
-    public function registerHook(string $name, \Closure $callback)
+    public function registerHook(string $name, \Closure $callback): void
     {
         $this->renderHooks[$name][] = $callback;
     }

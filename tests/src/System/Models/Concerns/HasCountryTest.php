@@ -16,7 +16,7 @@ it('returns country relation name', function() {
 
         public const COUNTRY_RELATION = 'const_is_default';
 
-        public function testCountryRelationName()
+        public function testCountryRelationName(): string
         {
             return $this->getCountryRelationName();
         }

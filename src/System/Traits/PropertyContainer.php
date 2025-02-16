@@ -43,7 +43,7 @@ trait PropertyContainer
     /**
      * Sets multiple properties.
      */
-    public function setProperties(array $properties)
+    public function setProperties(array $properties): void
     {
         $this->properties = $this->validateProperties($properties);
     }
@@ -51,7 +51,7 @@ trait PropertyContainer
     /**
      * Merge multiple properties.
      */
-    public function mergeProperties(array $properties)
+    public function mergeProperties(array $properties): void
     {
         $this->properties = array_merge($this->properties, $this->validateProperties($properties));
     }
@@ -59,7 +59,7 @@ trait PropertyContainer
     /**
      * Sets a property value
      */
-    public function setProperty(string $name, mixed $value)
+    public function setProperty(string $name, mixed $value): void
     {
         $this->properties[$name] = $value;
     }

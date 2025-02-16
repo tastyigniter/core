@@ -6,7 +6,7 @@ namespace Igniter\Tests\System\Fixtures;
 
 class TestComponentWithLifecycle extends \Igniter\System\Classes\BaseComponent
 {
-    public static function componentMeta()
+    public static function componentMeta(): array
     {
         return [
             'code' => 'testComponentWithLifecycle',

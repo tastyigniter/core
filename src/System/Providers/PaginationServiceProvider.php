@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 class PaginationServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         Paginator::useBootstrap();
 

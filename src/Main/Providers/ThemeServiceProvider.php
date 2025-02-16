@@ -20,7 +20,7 @@ use Livewire\LivewireServiceProvider;
 
 class ThemeServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->register(LivewireServiceProvider::class);
 
@@ -32,7 +32,7 @@ class ThemeServiceProvider extends ServiceProvider
         Livewire::componentHook(SupportConfigurableComponent::class);
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->app->booted(function() {
             Model::extend(function(Model $model) {

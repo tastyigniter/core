@@ -14,13 +14,13 @@ class CacheHelper
     /**
      * Execute the console command.
      */
-    public function clear()
+    public function clear(): void
     {
         Cache::flush();
         $this->clearInternal();
     }
 
-    public function clearInternal()
+    public function clearInternal(): void
     {
         $this->clearCache();
         $this->clearView();
@@ -31,7 +31,7 @@ class CacheHelper
         $this->clearCompiled();
     }
 
-    public function clearView()
+    public function clearView(): void
     {
         $path = config('view.compiled');
         foreach (File::glob("{$path}/*") as $view) {
@@ -39,12 +39,12 @@ class CacheHelper
         }
     }
 
-    public function clearCombiner()
+    public function clearCombiner(): void
     {
         $this->clearDirectory('/igniter/combiner');
     }
 
-    public function clearCache()
+    public function clearCache(): void
     {
         $path = config('igniter-pagic.parsedTemplateCachePath', storage_path('/igniter/cache'));
         if (!File::isDirectory($path)) {
@@ -58,14 +58,14 @@ class CacheHelper
 
     public function clearTemplates() {}
 
-    public function clearCompiled()
+    public function clearCompiled(): void
     {
         File::delete(Igniter::getCachedAddonsPath());
         File::delete(App::getCachedPackagesPath());
         File::delete(App::getCachedServicesPath());
     }
 
-    public function clearDirectory($path)
+    public function clearDirectory($path): void
     {
         if (!File::isDirectory(storage_path().$path)) {
             return;

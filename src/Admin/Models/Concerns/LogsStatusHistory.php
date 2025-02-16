@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait LogsStatusHistory
 {
-    public static function bootLogsStatusHistory()
+    public static function bootLogsStatusHistory(): void
     {
         self::extend(function(self $model) {
             $model->relation['belongsTo']['status'] = [\Igniter\Admin\Models\Status::class];

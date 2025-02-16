@@ -19,7 +19,7 @@ trait MorphOneOrMany
     /**
      * Adds a model to this relationship type.
      */
-    public function add(Model $model)
+    public function add(Model $model): void
     {
         $model->setAttribute($this->getForeignKeyName(), $this->getParentKey());
         $model->setAttribute($this->getMorphType(), $this->morphClass);
@@ -38,7 +38,7 @@ trait MorphOneOrMany
     /**
      * Removes a model from this relationship type.
      */
-    public function remove(Model $model)
+    public function remove(Model $model): void
     {
         $options = $this->parent->getRelationDefinition($this->relationName);
 

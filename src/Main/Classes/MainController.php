@@ -98,7 +98,7 @@ class MainController extends Controller
 
     protected function definePaths()
     {
-        if (!$this->theme) {
+        if (is_null($this->theme)) {
             return;
         }
 
@@ -110,7 +110,7 @@ class MainController extends Controller
 
     public function remap(string $method, array $parameters = []): mixed
     {
-        if (!$this->theme) {
+        if (is_null($this->theme)) {
             throw new FlashException(lang('igniter::main.not_found.active_theme'));
         }
 
@@ -220,7 +220,7 @@ class MainController extends Controller
         }
 
         // Run layout functions
-        if ($this->layoutObj) {
+        if (!is_null($this->layoutObj)) {
             // Let the layout do stuff after components are initialized and before AJAX is handled.
             $response = (
                 ($result = $this->layoutObj->onStart()) ||
@@ -244,7 +244,7 @@ class MainController extends Controller
         }
 
         // Run remaining layout functions
-        if ($this->layoutObj) {
+        if (!is_null($this->layoutObj)) {
             $response = ($result = $this->layoutObj->onEnd()) ? $result : null;
         }
 

@@ -115,7 +115,7 @@ class ConfigRewrite
         return str_replace('$', '\$', (string)$replaceValue);
     }
 
-    protected function writeArrayToPhp($array)
+    protected function writeArrayToPhp($array): string
     {
         $result = [];
         foreach ($array as $value) {
@@ -127,7 +127,7 @@ class ConfigRewrite
         return '['.implode(', ', $result).']';
     }
 
-    protected function buildStringExpression($targetKey, $arrayItems = [], $quoteChar = "'")
+    protected function buildStringExpression($targetKey, $arrayItems = [], $quoteChar = "'"): string
     {
         $expression = [];
 
@@ -149,9 +149,8 @@ class ConfigRewrite
     /**
      * Common constants only (true, false, null, integers)
      * @param array $arrayItems
-     * @return string
      */
-    protected function buildConstantExpression($targetKey, $arrayItems = [])
+    protected function buildConstantExpression($targetKey, $arrayItems = []): string
     {
         $expression = [];
 
@@ -170,9 +169,8 @@ class ConfigRewrite
     /**
      * Single level arrays only
      * @param array $arrayItems
-     * @return string
      */
-    protected function buildArrayExpression($targetKey, $arrayItems = [])
+    protected function buildArrayExpression($targetKey, $arrayItems = []): string
     {
         $expression = [];
 
@@ -188,9 +186,9 @@ class ConfigRewrite
         return '/'.implode('', $expression).'/';
     }
 
-    protected function buildArrayOpeningExpression($arrayItems)
+    protected function buildArrayOpeningExpression($arrayItems): string
     {
-        if (count($arrayItems)) {
+        if (count($arrayItems) > 0) {
             $itemOpen = [];
             foreach ($arrayItems as $item) {
                 // The left hand array assignment

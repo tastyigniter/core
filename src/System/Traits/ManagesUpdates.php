@@ -51,7 +51,7 @@ trait ManagesUpdates
     public function onApplyItems(): array
     {
         $items = post('items') ?? [];
-        if (!count($items)) {
+        if (empty($items)) {
             throw new FlashException(lang('igniter::system.updates.alert_no_items'));
         }
 
@@ -95,7 +95,7 @@ trait ManagesUpdates
     public function onIgnoreUpdate(): RedirectResponse
     {
         $itemCode = post('code', '');
-        if (!strlen($itemCode)) {
+        if (empty($itemCode)) {
             throw new FlashException(lang('igniter::system.updates.alert_item_to_ignore'));
         }
 

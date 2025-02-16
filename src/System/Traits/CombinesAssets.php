@@ -115,10 +115,8 @@ trait CombinesAssets
      *
      * @param array $assets Collection of assets
      * @param string $destination Write the combined file to this location
-     *
-     * @return void
      */
-    public function combineToFile(array $assets, string $destination)
+    public function combineToFile(array $assets, string $destination): void
     {
         // Disable cache always
         $this->storagePath = null;
@@ -247,7 +245,7 @@ trait CombinesAssets
 
         $files = $this->applyCacheOnFiles($files);
 
-        return resolve(AssetManager::class)->makeCollection($files, []);
+        return resolve(AssetManager::class)->makeCollection($files);
     }
 
     /**
@@ -324,7 +322,7 @@ trait CombinesAssets
     /**
      * Registers bundle.
      */
-    public function registerBundle(string $extension, string|array $files, ?string $destination = null, string $appContext = 'main')
+    public function registerBundle(string $extension, string|array $files, ?string $destination = null, string $appContext = 'main'): void
     {
         if (!is_array($files)) {
             $files = [$files];

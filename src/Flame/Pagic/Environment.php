@@ -58,7 +58,7 @@ class Environment
         View::share('___env', $this);
     }
 
-    public function setLoader(Contracts\TemplateLoader $loader)
+    public function setLoader(Contracts\TemplateLoader $loader): void
     {
         $this->loader = $loader;
     }
@@ -100,7 +100,7 @@ class Environment
      *
      * @param string $charset The default charset
      */
-    public function setCharset(string $charset)
+    public function setCharset(string $charset): void
     {
         $this->charset = strtoupper($charset);
     }
@@ -125,7 +125,7 @@ class Environment
     /**
      * Sets the current cache implementation.
      */
-    public function setCache(Cache\FileSystem $cache)
+    public function setCache(Cache\FileSystem $cache): void
     {
         $this->cache = $cache;
     }
@@ -243,7 +243,7 @@ class Environment
      * New globals can be added before compiling or rendering a template;
      * but after, you can only update existing globals.
      */
-    public function addGlobal(string $name, mixed $value)
+    public function addGlobal(string $name, mixed $value): void
     {
         self::$globalsCache[$name] = $value;
     }

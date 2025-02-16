@@ -110,7 +110,7 @@ it('flashes validation errors to session', function() {
     {
         use ValidatesForm;
 
-        public function testFlashValidationErrors(array $errors)
+        public function testFlashValidationErrors(array $errors): void
         {
             $this->flashValidationErrors($errors);
         }

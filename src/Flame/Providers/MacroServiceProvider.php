@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 class MacroServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public function boot()
+    public function boot(): void
     {
         Str::mixin(new StringMixin);
 

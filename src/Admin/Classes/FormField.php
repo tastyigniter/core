@@ -246,11 +246,7 @@ class FormField
             $this->attributes($config['containerAttributes'], 'container');
         }
 
-        if (isset($config['valueFrom'])) {
-            $this->valueFrom = $config['valueFrom'];
-        } else {
-            $this->valueFrom = $this->fieldName;
-        }
+        $this->valueFrom = $config['valueFrom'] ?? $this->fieldName;
 
         return $config;
     }
@@ -263,7 +259,7 @@ class FormField
     public function attributes(array $items, string $position = 'field'): self
     {
         $multiArray = array_filter($items, 'is_array');
-        if (!$multiArray) {
+        if (empty($multiArray)) {
             $this->attributes[$position] = $items;
 
             return $this;
@@ -361,9 +357,7 @@ class FormField
             'data-trigger-closest-parent' => 'form',
         ];
 
-        $attributes += $newAttributes;
-
-        return $attributes;
+        return $attributes + $newAttributes;
     }
 
     /**
@@ -398,9 +392,7 @@ class FormField
             $newAttributes['data-input-preset-prefix-input'] = $prefixInput;
         }
 
-        $attributes += $newAttributes;
-
-        return $attributes;
+        return $attributes + $newAttributes;
     }
 
     /**

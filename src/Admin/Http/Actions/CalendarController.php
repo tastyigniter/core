@@ -57,7 +57,7 @@ class CalendarController extends ControllerAction
         ]);
     }
 
-    public function calendar()
+    public function calendar(): void
     {
         $pageTitle = lang($this->getConfig('title', 'lang:text_title'));
         Template::setTitle($pageTitle);
@@ -151,7 +151,7 @@ class CalendarController extends ControllerAction
         return array_get($this->calendarWidgets, $alias);
     }
 
-    public function calendarGenerateEvents(?string $startAt, ?string $endAt)
+    public function calendarGenerateEvents(?string $startAt, ?string $endAt): array
     {
         return [];
     }

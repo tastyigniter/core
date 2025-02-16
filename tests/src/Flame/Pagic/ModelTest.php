@@ -126,7 +126,7 @@ it('adds mutated attributes to array', function() {
     {
         public array $attributes = ['name' => 'test'];
 
-        public function getNameAttribute($value)
+        public function getNameAttribute($value): string
         {
             return strtoupper($value);
         }

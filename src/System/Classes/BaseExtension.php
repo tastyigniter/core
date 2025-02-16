@@ -180,7 +180,7 @@ abstract class BaseExtension extends EventServiceProvider
     /**
      * Registers a new console (artisan) command
      */
-    public function registerConsoleCommand(string $key, string $class)
+    public function registerConsoleCommand(string $key, string $class): void
     {
         $key = 'command.'.$key;
 

@@ -76,7 +76,7 @@ class StatusHistory extends Model
         return $this->user->staff_name ?? $value;
     }
 
-    public function getDateAddedSinceAttribute($value)
+    public function getDateAddedSinceAttribute($value): ?string
     {
         return $this->created_at ? time_elapsed($this->created_at) : null;
     }
@@ -86,7 +86,7 @@ class StatusHistory extends Model
         return ($this->status && $this->status->exists) ? $this->status->status_name : $value;
     }
 
-    public function getNotifiedAttribute()
+    public function getNotifiedAttribute(): string
     {
         return $this->notify == 1 ? lang('igniter::admin.text_yes') : lang('igniter::admin.text_no');
     }
@@ -129,7 +129,7 @@ class StatusHistory extends Model
         return $model;
     }
 
-    public function isForOrder()
+    public function isForOrder(): bool
     {
         return $this->object_type === Order::make()->getMorphClass();
     }

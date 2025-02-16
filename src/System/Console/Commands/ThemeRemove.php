@@ -28,9 +28,8 @@ class ThemeRemove extends Command
 
     /**
      * Execute the console command.
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $forceDelete = $this->option('force');
         $themeName = $this->argument('name');

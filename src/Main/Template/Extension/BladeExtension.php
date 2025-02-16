@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Blade;
 
 class BladeExtension
 {
-    public function register()
+    public function register(): void
     {
         Blade::directive('themeStyles', [$this, 'compilesThemeStyles']);
         Blade::directive('themeScripts', [$this, 'compilesThemeScripts']);

@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 
 class FormServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         resolve(Widgets::class)->registerFormWidgets(function(Widgets $manager) {
             $manager->registerFormWidget(\Igniter\Main\FormWidgets\Components::class, [

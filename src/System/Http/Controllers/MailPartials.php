@@ -61,7 +61,7 @@ class MailPartials extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('mail_templates', 'design');
     }
 
-    public function formExtendFields(Form $form)
+    public function formExtendFields(Form $form): void
     {
         if ($form->context != 'create') {
             $field = $form->getField('code');
@@ -69,7 +69,7 @@ class MailPartials extends \Igniter\Admin\Classes\AdminController
         }
     }
 
-    public function formBeforeSave(MailPartial $model)
+    public function formBeforeSave(MailPartial $model): void
     {
         $model->is_custom = true;
     }

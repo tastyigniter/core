@@ -32,9 +32,8 @@ class IgniterUtil extends Command
 
     /**
      * Execute the console command.
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $command = implode(' ', (array)$this->argument('name'));
         $method = 'util'.studly_case($command);

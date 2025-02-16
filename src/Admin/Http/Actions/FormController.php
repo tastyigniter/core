@@ -103,7 +103,7 @@ class FormController extends ControllerAction
     /**
      * Prepare the widgets used by this action
      */
-    public function initForm(Model $model, ?string $context = null)
+    public function initForm(Model $model, ?string $context = null): void
     {
         if ($context !== null) {
             $this->context = $context;
@@ -162,18 +162,18 @@ class FormController extends ControllerAction
             }
         }
 
-        $this->prepareVars($model);
         $this->model = $model;
+        $this->prepareVars();
     }
 
-    protected function prepareVars(?Model $model)
+    protected function prepareVars()
     {
-        $this->controller->vars['formModel'] = $model;
+        $this->controller->vars['formModel'] = $this->model;
         $this->controller->vars['formContext'] = $this->getFormContext();
         $this->controller->vars['formRecordName'] = lang($this->getConfig('name', 'form_name'));
     }
 
-    public function create(?string $context = null)
+    public function create(?string $context = null): void
     {
         $this->context = $context ?: $this->getConfig('create[context]', self::CONTEXT_CREATE);
 
@@ -215,7 +215,7 @@ class FormController extends ControllerAction
         return $this->makeRedirect($context, $model) ?: null;
     }
 
-    public function edit(?string $context = null, mixed $recordId = null)
+    public function edit(?string $context = null, mixed $recordId = null): void
     {
         $context = $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
 
@@ -276,7 +276,7 @@ class FormController extends ControllerAction
         return $this->makeRedirect('delete', $model) ?: null;
     }
 
-    public function preview(?string $context = null, mixed $recordId = null)
+    public function preview(?string $context = null, mixed $recordId = null): void
     {
         $context = $this->context = $context ?: $this->getConfig('preview[context]', self::CONTEXT_PREVIEW);
 
@@ -375,7 +375,7 @@ class FormController extends ControllerAction
             $redirectUrl = parse_values($model->getAttributes(), $redirectUrl);
         }
 
-        return $redirectUrl ? $this->controller->redirect($redirectUrl) : null;
+        return $redirectUrl !== '' && $redirectUrl !== '0' ? $this->controller->redirect($redirectUrl) : null;
     }
 
     /**

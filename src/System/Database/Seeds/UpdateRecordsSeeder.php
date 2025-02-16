@@ -15,9 +15,8 @@ class UpdateRecordsSeeder extends Seeder
 {
     /**
      * Run the demo schema seeds.
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->updateDiskColumnOnMediaAttachments();
 

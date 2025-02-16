@@ -106,9 +106,8 @@ class BaseWidget extends Extendable
 
     /**
      * Binds a widget to the controller for safe use.
-     * @return void
      */
-    public function bindToController()
+    public function bindToController(): void
     {
         $this->controller->widgets[$this->alias] = $this;
     }
@@ -175,7 +174,7 @@ class BaseWidget extends Extendable
      *
      * @param array $required Required config items
      */
-    public function setConfig(array $config, array $required = [])
+    public function setConfig(array $config, array $required = []): void
     {
         $this->config = $this->makeConfig($config, $required);
     }

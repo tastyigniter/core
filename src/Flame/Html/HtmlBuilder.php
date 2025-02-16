@@ -10,10 +10,8 @@ class HtmlBuilder
      * Build an HTML attribute string from an array.
      *
      * @param array $attributes
-     *
-     * @return string
      */
-    public function attributes($attributes)
+    public function attributes($attributes): string
     {
         $html = [];
 

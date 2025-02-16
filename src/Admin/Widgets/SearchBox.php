@@ -29,7 +29,7 @@ class SearchBox extends BaseWidget
     /**
      * Initialize the widget, called by the constructor and free from its parameters.
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'prompt',
@@ -41,7 +41,7 @@ class SearchBox extends BaseWidget
     /**
      * Renders the widget.
      */
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -51,7 +51,7 @@ class SearchBox extends BaseWidget
     /**
      * Prepares the view data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['searchBox'] = $this;
         $this->vars['cssClasses'] = implode(' ', $this->cssClasses);
@@ -89,7 +89,7 @@ class SearchBox extends BaseWidget
     /**
      * Sets an active search term for this widget instance.
      */
-    public function setActiveTerm(?string $term)
+    public function setActiveTerm(?string $term): void
     {
         if ($term) {
             $this->putSession('term', $term);

@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ValidationServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->registerValidator();
     }

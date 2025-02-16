@@ -28,10 +28,9 @@ trait Purgeable
 
     /**
      * Boot the purgeable trait for a model.
-     * @return void
      * @throws \Exception
      */
-    public static function bootPurgeable()
+    public static function bootPurgeable(): void
     {
         if (!property_exists(get_called_class(), 'purgeable')) {
             throw new LogicException(sprintf(

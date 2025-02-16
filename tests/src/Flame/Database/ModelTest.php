@@ -19,7 +19,7 @@ it('calls afterBoot method if it exists', function() {
     {
         public static bool $afterBootCalled = false;
 
-        public static function afterBoot()
+        public static function afterBoot(): void
         {
             self::$afterBootCalled = true;
         }

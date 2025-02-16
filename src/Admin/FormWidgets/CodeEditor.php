@@ -35,7 +35,7 @@ class CodeEditor extends BaseFormWidget
 
     protected string $defaultAlias = 'codeeditor';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'fullPage',
@@ -46,21 +46,21 @@ class CodeEditor extends BaseFormWidget
         ]);
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('codeeditor/codeeditor');
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('js/vendor.editor.js', 'vendor-editor-js');
         $this->addCss('codeeditor.css', 'codeeditor-css');
         $this->addJs('codeeditor.js', 'codeeditor-js');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['field'] = $this->formField;
         $this->vars['fullPage'] = $this->fullPage;

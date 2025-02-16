@@ -87,7 +87,7 @@ it('renders flash partial when debugging is off', function() {
     $request = new Request;
     $request->setRouteResolver(fn() => new class
     {
-        public function getController()
+        public function getController(): TestController
         {
             return new TestController;
         }

@@ -78,7 +78,7 @@ class Staff extends Model
         return $this->staff_email;
     }
 
-    public function getAvatarUrlAttribute()
+    public function getAvatarUrlAttribute(): string
     {
         return '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->staff_email))).'.png?d=mm';
     }
@@ -101,14 +101,14 @@ class Staff extends Model
         return $query->where('staff_status', 1);
     }
 
-    public function scopeWhereNotSuperUser($query)
+    public function scopeWhereNotSuperUser($query): void
     {
         $query->whereHas('user', function($q) {
             $q->where('super_user', '!=', 1);
         });
     }
 
-    public function scopeWhereIsSuperUser($query)
+    public function scopeWhereIsSuperUser($query): void
     {
         $query->whereHas('user', function($q) {
             $q->where('super_user', 1);
@@ -202,22 +202,22 @@ class Staff extends Model
     //
     //
 
-    public function canAssignTo()
+    public function canAssignTo(): bool
     {
         return !UserState::forUser($this->user)->isAway();
     }
 
-    public function hasGlobalAssignableScope()
+    public function hasGlobalAssignableScope(): bool
     {
         return $this->sale_permission === 1;
     }
 
-    public function hasGroupAssignableScope()
+    public function hasGroupAssignableScope(): bool
     {
         return $this->sale_permission === 2;
     }
 
-    public function hasRestrictedAssignableScope()
+    public function hasRestrictedAssignableScope(): bool
     {
         return $this->sale_permission === 3;
     }

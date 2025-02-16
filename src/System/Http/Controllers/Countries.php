@@ -77,7 +77,7 @@ class Countries extends \Igniter\Admin\Classes\AdminController
         return $this->refreshList('list');
     }
 
-    public function listOverrideColumnValue(Country $record, ListColumn $column, ?string $alias = null)
+    public function listOverrideColumnValue(Country $record, ListColumn $column, ?string $alias = null): void
     {
         if ($column->type == 'button' && $column->columnName == 'default') {
             $column->iconCssClass = $record->isDefault() ? 'fa fa-star' : 'fa fa-star-o';

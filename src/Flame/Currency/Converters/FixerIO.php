@@ -28,7 +28,7 @@ class FixerIO extends AbstractConverter
 
     public function getExchangeRates($base, array $currencies): array
     {
-        if (!strlen($this->accessKey)) {
+        if (!$this->accessKey) {
             return [];
         }
 

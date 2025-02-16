@@ -25,7 +25,7 @@ trait ManagesCache
     /**
      * Set the cache manager instance.
      */
-    public static function setCacheManager(CacheManager $cache)
+    public static function setCacheManager(CacheManager $cache): void
     {
         static::$cache = $cache;
     }
@@ -33,7 +33,7 @@ trait ManagesCache
     /**
      * Unset the cache manager for models.
      */
-    public static function unsetCacheManager()
+    public static function unsetCacheManager(): void
     {
         static::$cache = null;
     }
@@ -55,7 +55,7 @@ trait ManagesCache
     /**
      * Returns true if the object was loaded from the cache.
      */
-    public function setLoadedFromCache(bool $value)
+    public function setLoadedFromCache(bool $value): void
     {
         $this->loadedFromCache = $value;
     }

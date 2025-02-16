@@ -331,7 +331,7 @@ it('fails to delete extension when request is invalid', function() {
         ->assertStatus(406);
 });
 
-function getExtension()
+function getExtension(): BaseExtension
 {
     return new class(app()) extends BaseExtension
     {
@@ -344,7 +344,7 @@ function getExtension()
             ];
         }
 
-        public function register() {}
+        public function register(): void {}
 
         public function registerSettings(): array
         {
@@ -362,7 +362,7 @@ function getExtension()
     };
 }
 
-function getExtensionWithSettingsRules()
+function getExtensionWithSettingsRules(): BaseExtension
 {
     return new class(app()) extends BaseExtension
     {
@@ -375,7 +375,7 @@ function getExtensionWithSettingsRules()
             ];
         }
 
-        public function register() {}
+        public function register(): void {}
 
         public function registerSettings(): array
         {

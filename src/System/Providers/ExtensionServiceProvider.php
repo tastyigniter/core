@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ExtensionServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         // Register all extensions
         foreach (resolve(ExtensionManager::class)->getExtensions() as $extension) {

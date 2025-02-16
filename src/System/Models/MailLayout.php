@@ -105,7 +105,7 @@ class MailLayout extends Model
         return array_get(self::listCodes()->flip(), $code);
     }
 
-    public function fillFromCode($code = null)
+    public function fillFromCode($code = null): void
     {
         if (is_null($code)) {
             $code = $this->code;
@@ -123,7 +123,7 @@ class MailLayout extends Model
         $this->fillFromView($definition);
     }
 
-    public function fillFromView($path)
+    public function fillFromView($path): void
     {
         $sections = self::getTemplateSections($path);
 
@@ -141,9 +141,8 @@ class MailLayout extends Model
     /**
      * Loops over each mail layout and ensures the system has a layout,
      * if the layout does not exist, it will create one.
-     * @return void
      */
-    public static function createLayouts()
+    public static function createLayouts(): void
     {
         $dbLayouts = self::lists('code', 'code')->all();
 

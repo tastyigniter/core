@@ -24,7 +24,7 @@ class Localization
         $this->config = $config;
     }
 
-    public function loadLocale()
+    public function loadLocale(): void
     {
         $locale = $this->getLocale();
 
@@ -100,15 +100,15 @@ class Localization
 
     public function supportedLocales()
     {
-        return $this->getConfig('supportedLocales', []);
+        return $this->getConfig('supportedLocales') ?: [];
     }
 
-    public function detectBrowserLocale()
+    public function detectBrowserLocale(): bool
     {
-        return (bool)$this->getConfig('detectBrowserLocale', false);
+        return (bool)$this->getConfig('detectBrowserLocale');
     }
 
-    public function isValid($locale)
+    public function isValid($locale): bool
     {
         return in_array($locale, $this->supportedLocales());
     }
@@ -128,7 +128,7 @@ class Localization
         return RequestFacade::segment(1);
     }
 
-    public function getBrowserLocale()
+    public function getBrowserLocale(): string
     {
         return substr($this->request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
     }

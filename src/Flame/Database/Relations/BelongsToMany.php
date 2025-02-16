@@ -81,9 +81,8 @@ class BelongsToMany extends BelongsToManyBase
      * Override sync() method of BelongToMany relation in order to flush the query cache.
      * @param array $ids
      * @param bool $detaching
-     * @return array
      */
-    public function sync($ids, $detaching = true)
+    public function sync($ids, $detaching = true): void
     {
         parent::sync($ids, $detaching);
         $this->flushDuplicateCache();
@@ -95,7 +94,7 @@ class BelongsToMany extends BelongsToManyBase
      * @param mixed $id
      * @param bool $touch
      */
-    public function attach($id, array $attributes = [], $touch = true)
+    public function attach($id, array $attributes = [], $touch = true): void
     {
         $insertData = $this->formatAttachRecords($this->parseIds($id), $attributes);
         $attachedIdList = array_pluck($insertData, $this->relatedPivotKey);
@@ -120,9 +119,8 @@ class BelongsToMany extends BelongsToManyBase
      * Override detach() method of BelongToMany relation.
      * This is necessary in order to fire 'model.relation.beforeDetach', 'model.relation.afterDetach' events
      * @param bool $touch
-     * @return int|void
      */
-    public function detach($ids = null, $touch = true)
+    public function detach($ids = null, $touch = true): void
     {
         $attachedIdList = $this->parseIds($ids);
         if (empty($attachedIdList)) {
@@ -141,7 +139,7 @@ class BelongsToMany extends BelongsToManyBase
     /**
      * Adds a model to this relationship type.
      */
-    public function add(Model $model, $pivotData = [])
+    public function add(Model $model, $pivotData = []): void
     {
         $this->attach($model->getKey(), $pivotData);
         $this->parent->reloadRelations($this->relationName);
@@ -150,7 +148,7 @@ class BelongsToMany extends BelongsToManyBase
     /**
      * Removes a model from this relationship type.
      */
-    public function remove(Model $model)
+    public function remove(Model $model): void
     {
         $this->detach($model->getKey());
         $this->parent->reloadRelations($this->relationName);
@@ -203,7 +201,7 @@ class BelongsToMany extends BelongsToManyBase
      * Helper for setting this relationship using various expected
      * values. For example, $model->relation = $value;
      */
-    public function setSimpleValue($value)
+    public function setSimpleValue($value): void
     {
         $relationModel = $this->getRelated();
 
@@ -293,20 +291,16 @@ class BelongsToMany extends BelongsToManyBase
 
     /**
      * Get the fully qualified foreign key for the relation.
-     *
-     * @return string
      */
-    public function getForeignKey()
+    public function getForeignKey(): string
     {
         return $this->table.'.'.$this->foreignPivotKey;
     }
 
     /**
      * Get the fully qualified "other key" for the relation.
-     *
-     * @return string
      */
-    public function getOtherKey()
+    public function getOtherKey(): string
     {
         return $this->table.'.'.$this->relatedPivotKey;
     }

@@ -96,9 +96,8 @@ class ClassLoader
 
     /**
      * Register loader with SPL autoloader stack.
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         if ($this->registered) {
             return;
@@ -111,10 +110,8 @@ class ClassLoader
 
     /**
      * De-register the given class loader on the auto-loader stack.
-     *
-     * @return void
      */
-    public function unregister()
+    public function unregister(): void
     {
         if (!$this->registered) {
             return;
@@ -126,10 +123,8 @@ class ClassLoader
 
     /**
      * Build the manifest and write it to disk.
-     *
-     * @return void
      */
-    public function build()
+    public function build(): void
     {
         if (!$this->manifestIsDirty) {
             return;
@@ -217,10 +212,8 @@ class ClassLoader
      * Add directories to the class loader.
      *
      * @param string|array $directories
-     *
-     * @return void
      */
-    public function addDirectories($directories)
+    public function addDirectories($directories): void
     {
         $this->directories = array_merge($this->directories, (array)$directories);
 
@@ -231,10 +224,8 @@ class ClassLoader
      * Remove directories from the class loader.
      *
      * @param string|array $directories
-     *
-     * @return void
      */
-    public function removeDirectories($directories = null)
+    public function removeDirectories($directories = null): void
     {
         if (is_null($directories)) {
             $this->directories = [];
@@ -252,10 +243,8 @@ class ClassLoader
      *
      * Aliases are first-come, first-served. If a real class already exists with the same name as an alias, the real
      * class is used over the alias.
-     *
-     * @return void
      */
-    public function addAliases(array $aliases)
+    public function addAliases(array $aliases): void
     {
         foreach ($aliases as $original => $alias) {
             if (!array_key_exists($alias, $this->aliases)) {
@@ -271,10 +260,8 @@ class ClassLoader
      *
      * Aliases are first-come, first-served. If a real class already exists with the same name as an alias, the real
      * class is used over the alias.
-     *
-     * @return void
      */
-    public function addNamespaceAliases(array $namespaceAliases)
+    public function addNamespaceAliases(array $namespaceAliases): void
     {
         foreach ($namespaceAliases as $original => $alias) {
             if (!array_key_exists($alias, $this->namespaceAliases)) {
@@ -346,9 +333,8 @@ class ClassLoader
      * Normalise the class name.
      *
      * @param string $class
-     * @return string
      */
-    protected static function normalizeClass($class)
+    protected static function normalizeClass($class): string
     {
         // Strip first slash
         if (str_starts_with($class, '\\')) {
@@ -362,9 +348,8 @@ class ClassLoader
      * Get the possible paths for a class.
      *
      * @param string $class
-     * @return array
      */
-    protected static function getPathsForClass($class)
+    protected static function getPathsForClass($class): array
     {
         // Lowercase folders
         $parts = explode('\\', $class);
@@ -386,10 +371,8 @@ class ClassLoader
      * Determine if a relative path to a file exists and is real
      *
      * @param string $path
-     *
-     * @return bool
      */
-    protected function isRealFilePath($path)
+    protected function isRealFilePath($path): bool
     {
         $filename = realpath($this->basePath.DIRECTORY_SEPARATOR.$path);
 

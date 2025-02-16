@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 it('throws validation exception on failed validation', function() {
     $formRequest = new class extends FormRequest
     {
-        public function rules()
+        public function rules(): array
         {
             return [
                 'name' => 'required',

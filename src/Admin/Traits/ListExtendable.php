@@ -77,10 +77,8 @@ trait ListExtendable
 
     /**
      * Static helper for extending list columns.
-     *
-     * @return void
      */
-    public static function extendListColumns(callable $callback)
+    public static function extendListColumns(callable $callback): void
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.list.extendColumns', function($widget) use ($calledClass, $callback) {
@@ -90,7 +88,7 @@ trait ListExtendable
         });
     }
 
-    public static function extendListQuery(callable $callback)
+    public static function extendListQuery(callable $callback): void
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.list.extendQuery', function($widget, $query) use ($calledClass, $callback) {

@@ -50,10 +50,8 @@ class MemoryCache
 
     /**
      * Check if the given query is cached.
-     *
-     * @return bool
      */
-    public function has(QueryBuilder $query)
+    public function has(QueryBuilder $query): bool
     {
         return $this->enabled && isset($this->cache[$this->hash($query)]);
     }
@@ -74,10 +72,8 @@ class MemoryCache
 
     /**
      * Store the results for the given query.
-     *
-     * @return void
      */
-    public function put(QueryBuilder $query, array $results)
+    public function put(QueryBuilder $query, array $results): void
     {
         if (!$this->enabled) {
             return;
@@ -94,9 +90,8 @@ class MemoryCache
      * Delete the cache for the given table.
      *
      * @param string $table
-     * @return void
      */
-    public function forget($table)
+    public function forget($table): void
     {
         if (!isset($this->tableMap[$table])) {
             return;
@@ -111,9 +106,8 @@ class MemoryCache
 
     /**
      * Clear the memory cache.
-     * @return void
      */
-    public function flush()
+    public function flush(): void
     {
         $this->cache = [];
         $this->tableMap = [];
@@ -121,10 +115,8 @@ class MemoryCache
 
     /**
      * Calculate a hash key for the given query.
-     *
-     * @return string
      */
-    protected function hash(QueryBuilder $query)
+    protected function hash(QueryBuilder $query): string
     {
         // First we will cast all bindings to string, so we can ensure the same
         // hash format regardless of the binding type provided by the user.

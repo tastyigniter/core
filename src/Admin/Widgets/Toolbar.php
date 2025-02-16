@@ -30,7 +30,7 @@ class Toolbar extends BaseWidget
 
     protected bool $buttonsDefined = false;
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'container',
@@ -40,13 +40,13 @@ class Toolbar extends BaseWidget
         ]);
     }
 
-    public function reInitialize(array $config)
+    public function reInitialize(array $config): void
     {
         $this->setConfig($config);
         $this->initialize();
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -57,7 +57,7 @@ class Toolbar extends BaseWidget
         return $this->makePartial('toolbar/toolbar');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->defineButtons();
         $this->vars['toolbarId'] = $this->getId();
@@ -109,7 +109,7 @@ class Toolbar extends BaseWidget
         return $this->context;
     }
 
-    public function addButtons(array $buttons)
+    public function addButtons(array $buttons): void
     {
         $buttons = $this->makeButtons($buttons);
 
@@ -118,17 +118,17 @@ class Toolbar extends BaseWidget
         }
     }
 
-    public function addButton(string $name, array $attributes = [])
+    public function addButton(string $name, array $attributes = []): void
     {
         $this->allButtons[$name] = $this->makeButton($name, $attributes);
     }
 
-    public function removeButton(string $name)
+    public function removeButton(string $name): void
     {
         unset($this->allButtons[$name]);
     }
 
-    public function mergeAttributes(string $name, array $attributes = [])
+    public function mergeAttributes(string $name, array $attributes = []): void
     {
         $this->buttons[$name] = array_merge($this->buttons[$name], $attributes);
     }
@@ -148,7 +148,7 @@ class Toolbar extends BaseWidget
         return $this->getSession('toolbar_save_action', 'continue');
     }
 
-    public function onChooseSaveButtonAction()
+    public function onChooseSaveButtonAction(): void
     {
         $data = validator(post(), [
             'toolbar_save_action' => ['required', 'string'],

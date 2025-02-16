@@ -52,7 +52,7 @@ class UpdateManager
         $this->bindContainerObjects();
     }
 
-    public function bindContainerObjects()
+    public function bindContainerObjects(): void
     {
         $this->hubManager = resolve(HubManager::class);
         $this->themeManager = resolve(ThemeManager::class);
@@ -111,7 +111,7 @@ class UpdateManager
             $this->purgeExtension($code);
         }
 
-        if ($this->logsOutput) {
+        if (!is_null($this->logsOutput)) {
             $this->migrator->setOutput($this->logsOutput);
         }
 
@@ -128,7 +128,7 @@ class UpdateManager
 
     public function migrate(): static
     {
-        if ($this->logsOutput) {
+        if (!is_null($this->logsOutput)) {
             $this->migrator->setOutput($this->logsOutput);
         }
 
@@ -151,7 +151,7 @@ class UpdateManager
 
         $this->log("<info>Migrating extension $name</info>");
 
-        if ($this->logsOutput) {
+        if (!is_null($this->logsOutput)) {
             $this->migrator->setOutput($this->logsOutput);
         }
 
@@ -168,7 +168,7 @@ class UpdateManager
 
         $this->log("<info>Purging extension $name</info>");
 
-        if ($this->logsOutput) {
+        if (!is_null($this->logsOutput)) {
             $this->migrator->setOutput($this->logsOutput);
         }
 
@@ -185,7 +185,7 @@ class UpdateManager
 
         $this->log("<info>Rolling back extension $name</info>");
 
-        if ($this->logsOutput) {
+        if (!is_null($this->logsOutput)) {
             $this->migrator->setOutput($this->logsOutput);
         }
 
@@ -336,7 +336,7 @@ class UpdateManager
             });
     }
 
-    public function markedAsIgnored(string $code, bool $remove = false)
+    public function markedAsIgnored(string $code, bool $remove = false): void
     {
         $ignoredUpdates = $this->getIgnoredUpdates();
 
@@ -373,7 +373,7 @@ class UpdateManager
     //
     //
 
-    public function preInstall()
+    public function preInstall(): void
     {
         if (!SystemHelper::assertIniSet()) {
             $this->log(lang('igniter::system.updates.progress_preinstall_ok'));
@@ -398,7 +398,7 @@ class UpdateManager
         throw_if($hasErrors, new ApplicationException($errorMessage));
     }
 
-    public function install(array $requirements, Closure|OutputInterface|null $output = null)
+    public function install(array $requirements, Closure|OutputInterface|null $output = null): void
     {
         $packages = collect($requirements)->mapWithKeys(function($package) {
             $packageInfo = $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
@@ -416,7 +416,7 @@ class UpdateManager
         $this->log(lang('igniter::system.updates.progress_install_ok'));
     }
 
-    public function completeInstall(array $requirements)
+    public function completeInstall(array $requirements): void
     {
         collect($requirements)->map(function($package) {
             return $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);

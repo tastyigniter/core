@@ -112,7 +112,7 @@ class Filesystem extends IlluminateFilesystem
             $path = realpath($path);
         }
 
-        return !($path === false || strncmp($path, $base, strlen($base)) !== 0);
+        return $path !== false && strncmp($path, $base, strlen($base)) === 0;
     }
 
     /**

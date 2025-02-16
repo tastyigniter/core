@@ -33,7 +33,7 @@ class MorphTo extends MorphToBase
      * Helper for setting this relationship using various expected
      * values. For example, $model->relation = $value;
      */
-    public function setSimpleValue($value)
+    public function setSimpleValue($value): void
     {
         // Nulling the relationship
         if (!$value) {
@@ -69,7 +69,7 @@ class MorphTo extends MorphToBase
      * Helper for getting this relationship simple value,
      * generally useful with form values.
      */
-    public function getSimpleValue()
+    public function getSimpleValue(): array
     {
         return [
             $this->parent->getAttribute($this->foreignKey),

@@ -39,7 +39,7 @@ class Table extends BaseWidget
     /**
      * Initialize the widget, called by the constructor and free from its parameters.
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->columns = $this->getConfig('columns', []);
         $this->fieldName = $this->getConfig('fieldName', $this->alias);
@@ -78,7 +78,7 @@ class Table extends BaseWidget
     /**
      * Renders the widget.
      */
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -88,7 +88,7 @@ class Table extends BaseWidget
     /**
      * Prepares the view data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['tableId'] = $this->getId();
         $this->vars['tableAlias'] = $this->alias;
@@ -109,7 +109,7 @@ class Table extends BaseWidget
         );
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addCss('table.css', 'table-css');
         $this->addJs('table.js', 'table-js');
@@ -173,7 +173,7 @@ class Table extends BaseWidget
 
         $options = [];
         $eventResults = $this->fireEvent('table.getDropdownOptions', [$columnName, $rowData]);
-        if (count($eventResults)) {
+        if (count($eventResults) > 0) {
             $options = $eventResults[0];
         }
 

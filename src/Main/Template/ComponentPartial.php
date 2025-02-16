@@ -103,7 +103,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
         }
 
         $basename = $fileName;
-        if (!strlen(File::extension($basename))) {
+        if (empty(File::extension($basename))) {
             $basename .= '.'.$this->defaultExtension;
         }
 

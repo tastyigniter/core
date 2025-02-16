@@ -95,7 +95,7 @@ trait ValidatesForm
         return $result;
     }
 
-    public function validateAfter(Closure $callback)
+    public function validateAfter(Closure $callback): void
     {
         $this->validateAfterCallback = $callback;
     }

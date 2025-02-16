@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class FilesystemServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(Filesystem::class, function() {
             $config = $this->app['config'];

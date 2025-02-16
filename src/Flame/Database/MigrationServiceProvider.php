@@ -10,7 +10,7 @@ use Illuminate\Database\MigrationServiceProvider as BaseServiceProvider;
 
 class MigrationServiceProvider extends BaseServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->register(BaseServiceProvider::class);
 

@@ -81,9 +81,8 @@ class DashboardContainer extends BaseWidget
     /**
      * Ensure dashboard widgets are registered so they can also be bound to
      * the controller this allows their AJAX features to operate.
-     * @return void
      */
-    public function bindToController()
+    public function bindToController(): void
     {
         $this->defineDashboardWidgets();
         parent::bindToController();
@@ -92,7 +91,7 @@ class DashboardContainer extends BaseWidget
     /**
      * Renders this widget along with its collection of dashboard widgets.
      */
-    public function render()
+    public function render(): string
     {
         $this->vars['startDate'] = $this->startDate = $this->getStartDate();
         $this->vars['endDate'] = $this->endDate = $this->getEndDate();
@@ -101,7 +100,7 @@ class DashboardContainer extends BaseWidget
         return $this->makePartial('dashboardcontainer/dashboardcontainer');
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
         $this->addCss('formwidgets/datepicker.css', 'datepicker-css');
@@ -132,9 +131,7 @@ class DashboardContainer extends BaseWidget
 
     public function onLoadUpdatePopup(): array
     {
-        $widgetAlias = trim(post('widgetAlias', ''));
-
-        if (!$widgetAlias) {
+        if (empty($widgetAlias = trim(post('widgetAlias', '')))) {
             throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_update'));
         }
 
@@ -195,7 +192,7 @@ class DashboardContainer extends BaseWidget
         return ['#'.$this->getId('container-list') => $this->makePartial('widget_list')];
     }
 
-    public function onSetAsDefault()
+    public function onSetAsDefault(): void
     {
         if (!$this->canSetDefault) {
             throw new FlashException(lang('igniter::admin.alert_access_denied'));
@@ -231,7 +228,7 @@ class DashboardContainer extends BaseWidget
         return $this->onRenderWidgets();
     }
 
-    public function onRemoveWidget()
+    public function onRemoveWidget(): void
     {
         $alias = post('alias');
 
@@ -252,7 +249,7 @@ class DashboardContainer extends BaseWidget
         $this->setWidgetsToUserPreferences($widgets);
     }
 
-    public function onSetWidgetPriorities()
+    public function onSetWidgetPriorities(): void
     {
         $validated = $this->validate(request()->post(), [
             'aliases' => ['required', 'array'],

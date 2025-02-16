@@ -48,7 +48,7 @@ abstract class GeneratorCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         if (!$this->confirmToProceed()) {
             return;
@@ -63,7 +63,7 @@ abstract class GeneratorCommand extends Command
         $this->info($this->type.' created successfully.');
     }
 
-    public function buildStubs()
+    public function buildStubs(): void
     {
         foreach ($this->stubs as $stub => $class) {
             $this->buildStub($stub, $class);

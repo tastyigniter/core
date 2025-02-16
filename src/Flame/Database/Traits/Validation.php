@@ -46,10 +46,8 @@ trait Validation
 
     /**
      * Boot the trait. Adds an observer class for validating.
-     *
-     * @return void
      */
-    public static function bootValidation()
+    public static function bootValidation(): void
     {
         if (!property_exists(get_called_class(), 'rules')) {
             throw new LogicException(sprintf(
@@ -82,10 +80,8 @@ trait Validation
 
     /**
      * Set whether the model should attempt validation on saving.
-     *
-     * @return void
      */
-    public function setValidating(bool $value)
+    public function setValidating(bool $value): void
     {
         $this->validating = $value;
     }
@@ -102,20 +98,16 @@ trait Validation
 
     /**
      * Get the custom validation messages being used by the model.
-     *
-     * @return array
      */
-    public function getValidationMessages()
+    public function getValidationMessages(): array
     {
         return isset($this->validationMessages) ? $this->validationMessages : [];
     }
 
     /**
      * Get the custom validation attribute names being used by the model.
-     *
-     * @return array
      */
-    public function getValidationAttributeNames()
+    public function getValidationAttributeNames(): array
     {
         return isset($this->validationAttributeNames) ? $this->validationAttributeNames : [];
     }
@@ -163,10 +155,8 @@ trait Validation
 
     /**
      * Set the error messages.
-     *
-     * @return void
      */
-    public function setErrors(MessageBag $validationErrors)
+    public function setErrors(MessageBag $validationErrors): void
     {
         $this->validationErrors = $validationErrors;
     }
@@ -176,7 +166,7 @@ trait Validation
      *
      * @throws \Igniter\Flame\Database\Traits\Validation
      */
-    public function throwValidationException()
+    public function throwValidationException(): void
     {
         $validator = $this->makeValidator($this->getRules());
 
@@ -199,10 +189,9 @@ trait Validation
      * validation.
      *
      * @param bool $value
-     * @return void
      * @throws \InvalidArgumentException
      */
-    public function setInjectUniqueIdentifier($value)
+    public function setInjectUniqueIdentifier($value): void
     {
         $this->injectUniqueIdentifier = (bool)$value;
     }
@@ -350,9 +339,8 @@ trait Validation
      * Rebuilds the unique validation rule to force for the existing ID
      * @param string $definition
      * @param string $fieldName
-     * @return string
      */
-    protected function processValidationUniqueRule($definition, $fieldName)
+    protected function processValidationUniqueRule($definition, $fieldName): string
     {
         [
             $rule,

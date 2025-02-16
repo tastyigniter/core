@@ -23,7 +23,7 @@ class ConsoleSubscriber
         ];
     }
 
-    public function defineSchedule(Schedule $schedule)
+    public function defineSchedule(Schedule $schedule): void
     {
         // Every 12 hours check for system updates
         $schedule->command('igniter:update', ['--check' => true])
@@ -39,7 +39,7 @@ class ConsoleSubscriber
 
     public function handleCommandStarting(CommandStarting $event) {}
 
-    public function handleCommandFinished(CommandFinished $event)
+    public function handleCommandFinished(CommandFinished $event): void
     {
         match ($event->command) {
             'package:discover' => Artisan::call('igniter:package-discover', [], $event->output),

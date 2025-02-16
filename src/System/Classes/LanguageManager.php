@@ -31,7 +31,7 @@ class LanguageManager
      */
     protected $paths = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->loader = App::make('translation.loader');
         $this->langPath = App::langPath();

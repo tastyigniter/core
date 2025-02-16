@@ -39,7 +39,7 @@ class Charts extends BaseDashboardWidget
 
     protected static $registeredDatasets = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->setProperty('rangeFormat', 'MMMM D, YYYY');
     }
@@ -58,7 +58,7 @@ class Charts extends BaseDashboardWidget
         ];
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
         $this->addJs('js/vendor.chart.js', 'vendor-chart-js');
@@ -70,7 +70,7 @@ class Charts extends BaseDashboardWidget
     /**
      * Renders the widget.
      */
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -130,12 +130,12 @@ class Charts extends BaseDashboardWidget
         return $this;
     }
 
-    public static function registerDatasets($callback)
+    public static function registerDatasets($callback): void
     {
         static::$registeredDatasets[] = $callback;
     }
 
-    public static function clearRegisteredDatasets()
+    public static function clearRegisteredDatasets(): void
     {
         static::$registeredDatasets = [];
     }
@@ -189,7 +189,7 @@ class Charts extends BaseDashboardWidget
         return $this->datasetsConfig;
     }
 
-    protected function getDefaultSets()
+    protected function getDefaultSets(): array
     {
         return [
             'reports' => [

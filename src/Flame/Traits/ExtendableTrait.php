@@ -123,7 +123,7 @@ trait ExtendableTrait
      */
     public function extendClassWith(string $extensionName): void
     {
-        if (!strlen($extensionName)) {
+        if (empty($extensionName)) {
             return;
         }
 

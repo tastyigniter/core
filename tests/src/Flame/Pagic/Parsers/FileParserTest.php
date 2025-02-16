@@ -166,7 +166,7 @@ it('throws exception when can not write compiled file', function() {
 
 namespace Igniter\Flame\Pagic\Cache;
 
-function function_exists($function)
+function function_exists($function): bool
 {
     return in_array($function, ['opcache_invalidate', 'apc_compile_file']);
 }

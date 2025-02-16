@@ -14,7 +14,7 @@ use Igniter\Tests\System\Fixtures\TestComponent;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Event;
 
-function createBaseComponent($controller = null)
+function createBaseComponent($controller = null): TestComponent
 {
     $page = new Page;
     $layout = new Layout;
@@ -103,7 +103,7 @@ it('throws exception for undefined method calls', function() {
 it('converts to string', function() {
     $component = new class extends BaseComponent
     {
-        public function initialize() {}
+        public function initialize(): void {}
     };
 
     $component->setAlias('stringAlias');

@@ -52,7 +52,7 @@ trait HasComponents
         return $this->save();
     }
 
-    public function sortComponents(array $priorities)
+    public function sortComponents(array $priorities): void
     {
         $priorities = array_flip($priorities);
         $components = array_sort(array_get($this->settings, 'components', []),
@@ -86,7 +86,7 @@ trait HasComponents
         }
     }
 
-    public function setConfigurableComponentProperties(string|array $componentName, array $properties = [])
+    public function setConfigurableComponentProperties(string|array $componentName, array $properties = []): void
     {
         if (is_array($componentName)) {
             foreach ($componentName as $name => $componentProperties) {
@@ -99,7 +99,7 @@ trait HasComponents
         $this->loadedConfigurableComponents[$componentName] = $properties;
     }
 
-    public function mergeConfigurableComponentProperties(string|array $componentName, array $properties = [])
+    public function mergeConfigurableComponentProperties(string|array $componentName, array $properties = []): void
     {
         if (is_array($componentName)) {
             foreach ($componentName as $name => $componentProperties) {

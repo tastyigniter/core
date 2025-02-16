@@ -17,7 +17,7 @@ class Onboarding extends BaseDashboardWidget
      */
     protected string $defaultAlias = 'onboarding';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->setProperty('cssClass', 'widget-item-onboarding');
     }
@@ -25,14 +25,14 @@ class Onboarding extends BaseDashboardWidget
     /**
      * Renders the widget.
      */
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('onboarding/onboarding');
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addCss('onboarding.css', 'onboarding-css');
     }

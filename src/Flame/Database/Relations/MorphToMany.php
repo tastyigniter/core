@@ -103,10 +103,8 @@ class MorphToMany extends BelongsToMany
 
     /**
      * Set the constraints for an eager load of the relation.
-     *
-     * @return void
      */
-    public function addEagerConstraints(array $models)
+    public function addEagerConstraints(array $models): void
     {
         parent::addEagerConstraints($models);
 

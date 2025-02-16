@@ -41,7 +41,7 @@ class SourceResolver implements SourceResolverInterface
     /**
      * Add a source to the resolver.
      */
-    public function addSource(string $name, SourceInterface $source)
+    public function addSource(string $name, SourceInterface $source): void
     {
         $this->sources[$name] = $source;
     }
@@ -65,7 +65,7 @@ class SourceResolver implements SourceResolverInterface
     /**
      * Set the default source name.
      */
-    public function setDefaultSourceName(string $name)
+    public function setDefaultSourceName(string $name): void
     {
         $this->default = $name;
     }

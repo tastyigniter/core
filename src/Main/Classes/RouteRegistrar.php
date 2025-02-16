@@ -15,16 +15,14 @@ class RouteRegistrar
 
     /**
      * Register routes for admin and frontend.
-     *
-     * @return void
      */
-    public function all()
+    public function all(): void
     {
         $this->forAssets();
         $this->forThemePages();
     }
 
-    public function forAssets()
+    public function forAssets(): void
     {
         $this->router
             ->namespace('Igniter\System\Http\Controllers')
@@ -37,7 +35,7 @@ class RouteRegistrar
             });
     }
 
-    public function forThemePages()
+    public function forThemePages(): void
     {
         $this->router
             ->middleware(config('igniter-routes.middleware', []))

@@ -295,11 +295,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
             return false;
         }
 
-        if ($this->exists) {
-            $saved = $this->performUpdate($query, $options);
-        } else {
-            $saved = $this->performInsert($query, $options);
-        }
+        $saved = $this->exists ? $this->performUpdate($query, $options) : $this->performInsert($query, $options);
 
         if ($saved) {
             $this->finishSave($options);

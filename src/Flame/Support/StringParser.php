@@ -26,7 +26,7 @@ class StringParser
      *
      * @return string The rendered template
      */
-    public function parse($template, $data)
+    public function parse($template, $data): string
     {
         if (!is_array($data)) {
             $data = ['' => $data];
@@ -45,7 +45,7 @@ class StringParser
         return strtr($template, $replace);
     }
 
-    protected function parseSingle($key, $value, $template)
+    protected function parseSingle($key, $value, $template): array
     {
         if (!is_scalar($value)) {
             $value = '';

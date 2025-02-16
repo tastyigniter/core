@@ -32,10 +32,8 @@ trait Sortable
 {
     /**
      * Boot the sortable trait for this model.
-     *
-     * @return void
      */
-    public static function bootSortable()
+    public static function bootSortable(): void
     {
         static::creating(function($model) {
             $sortOrderColumn = $model->getSortOrderColumn();
@@ -58,7 +56,7 @@ trait Sortable
      *
      * @throws \Exception
      */
-    public function setSortableOrder($itemIds, $itemOrders = null)
+    public function setSortableOrder($itemIds, $itemOrders = null): void
     {
         if (!is_array($itemIds)) {
             $itemIds = [$itemIds];

@@ -18,10 +18,8 @@ if (!function_exists('form_open')) {
      *
      * @param string $action the URI segments of the form destination
      * @param array $attributes a key/value a pair of attributes
-     *
-     * @return    string
      */
-    function form_open($action = null, $attributes = [])
+    function form_open($action = null, $attributes = []): string
     {
         if (is_string($action)) {
             $attributes['url'] = $action;
@@ -45,10 +43,8 @@ if (!function_exists('form_open_multipart')) {
      *
      * @param string $action the URI segments of the form destination
      * @param array $attributes a key/value pair of attributes
-     *
-     * @return    string
      */
-    function form_open_multipart($action = '', $attributes = [])
+    function form_open_multipart($action = '', $attributes = []): string
     {
         $attributes['enctype'] = 'multipart/form-data';
 
@@ -61,10 +57,8 @@ if (!function_exists('form_close')) {
      * Form Close Tag
      *
      * @param string $extra
-     *
-     * @return    string
      */
-    function form_close($extra = '')
+    function form_close($extra = ''): string
     {
         return app(FormBuilder::class)->close().$extra;
     }
@@ -97,10 +91,8 @@ if (!function_exists('set_select')) {
      * @param $field string
      * @param $value string
      * @param $default bool
-     *
-     * @return    string
      */
-    function set_select($field, $value = '', $default = false)
+    function set_select($field, $value = '', $default = false): string
     {
         if (($input = set_value($field, false)) === null) {
             return ($default === true) ? ' selected="selected"' : '';
@@ -128,10 +120,8 @@ if (!function_exists('set_checkbox')) {
      * @param $field string
      * @param $value string
      * @param $default bool
-     *
-     * @return    string
      */
-    function set_checkbox($field, $value = '', $default = false)
+    function set_checkbox($field, $value = '', $default = false): string
     {
         // Form inputs are always strings ...
         $value = (string)$value;
@@ -160,10 +150,8 @@ if (!function_exists('set_radio')) {
      * @param string $field
      * @param string $value
      * @param bool $default
-     *
-     * @return    string
      */
-    function set_radio($field, $value = '', $default = false)
+    function set_radio($field, $value = '', $default = false): string
     {
         // Form inputs are always strings ...
         $value = (string)$value;

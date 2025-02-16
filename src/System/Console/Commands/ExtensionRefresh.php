@@ -28,9 +28,8 @@ class ExtensionRefresh extends Command
 
     /**
      * Execute the console command.
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         if (!$this->confirmToProceed()) {
             return;
@@ -47,7 +46,7 @@ class ExtensionRefresh extends Command
         $manager = resolve(UpdateManager::class);
         $manager->setLogsOutput($this->output);
 
-        if ($step = (int)$this->option('step')) {
+        if (($step = (int)$this->option('step')) !== 0) {
             $this->output->writeln(sprintf('<info>Rolling back extension %s...</info>', $extensionName));
             $manager->rollbackExtension($extensionName, [
                 'pretend' => $this->option('pretend'),

@@ -28,7 +28,7 @@ class FlashBag
 
     public function messages(): Collection
     {
-        if ($this->messages) {
+        if (!is_null($this->messages)) {
             return $this->messages;
         }
 

@@ -13,7 +13,7 @@ class DemoSchemaSeeder extends Seeder
     /**
      * Run the demo schema seeds.
      */
-    public function run()
+    public function run(): void
     {
         if (!DatabaseSeeder::$seedDemo) {
             return;

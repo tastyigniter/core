@@ -48,14 +48,14 @@ class Filter extends BaseWidget
     /** List of CSS classes to apply to the filter container element */
     public array $cssClasses = [];
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
         $this->addJs('widgets/daterangepicker.js', 'daterangepicker-js');
         $this->addCss('formwidgets/datepicker.css', 'datepicker-css');
     }
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'search',
@@ -72,14 +72,14 @@ class Filter extends BaseWidget
         }
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('filter/filter');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->defineFilterScopes();
         $this->vars['filterAlias'] = $this->alias;
@@ -87,7 +87,7 @@ class Filter extends BaseWidget
         $this->vars['onSubmitHandler'] = $this->getEventHandler('onSubmit');
         $this->vars['onClearHandler'] = $this->getEventHandler('onClear');
         $this->vars['cssClasses'] = implode(' ', $this->cssClasses);
-        $this->vars['search'] = $this->searchWidget ? $this->searchWidget->render() : '';
+        $this->vars['search'] = $this->searchWidget !== null ? $this->searchWidget->render() : '';
         $this->vars['scopes'] = $this->getScopes();
     }
 
@@ -281,7 +281,7 @@ class Filter extends BaseWidget
     /**
      * Programatically add scopes, used internally and for extensibility.
      */
-    public function addScopes(array $scopes)
+    public function addScopes(array $scopes): void
     {
         foreach ($scopes as $name => $config) {
             $scopeObj = $this->makeFilterScope($name, $config);
@@ -471,7 +471,7 @@ class Filter extends BaseWidget
     /**
      * Sets an scope value for this widget instance.
      */
-    public function setScopeValue(string|FilterScope $scope, mixed $value)
+    public function setScopeValue(string|FilterScope $scope, mixed $value): void
     {
         if (is_string($scope)) {
             $scope = $this->getScope($scope);

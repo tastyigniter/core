@@ -61,7 +61,7 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('mail_templates', 'design');
     }
 
-    public function formExtendFields(Form $form)
+    public function formExtendFields(Form $form): void
     {
         if ($form->context != 'create') {
             $field = $form->getField('code');
@@ -69,7 +69,7 @@ class MailLayouts extends \Igniter\Admin\Classes\AdminController
         }
     }
 
-    public function formBeforeSave(MailLayout $model)
+    public function formBeforeSave(MailLayout $model): void
     {
         $model->is_locked = true;
     }

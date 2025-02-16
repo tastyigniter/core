@@ -31,7 +31,7 @@ class MediaLibrary
 
     protected array $config = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->config = Config::get('igniter-system.assets.media', []);
 
@@ -84,7 +84,7 @@ class MediaLibrary
         $result = [];
         $folders = array_unique($folders, SORT_LOCALE_STRING);
         foreach ($folders as $folder) {
-            if (!strlen($folder)) {
+            if (empty($folder)) {
                 $folder = '/';
             }
 
@@ -285,7 +285,7 @@ class MediaLibrary
         return in_array($extension, $this->getAllowedExtensions());
     }
 
-    public function resetCache()
+    public function resetCache(): void
     {
         Cache::forget(self::$cacheKey);
     }
@@ -312,7 +312,7 @@ class MediaLibrary
             case 'files':
                 $files = $this->getStorageDisk()->files($this->getMediaPath($path), $recursive);
                 foreach ($files as $file) {
-                    if ($libraryItem = $this->initMediaItem($file, MediaItem::TYPE_FILE)) {
+                    if (!is_null($libraryItem = $this->initMediaItem($file, MediaItem::TYPE_FILE))) {
                         $result[] = $libraryItem;
                     }
                 }
@@ -387,7 +387,7 @@ class MediaLibrary
 
     protected function searchFiles(array &$files, string $filter)
     {
-        if (!$filter) {
+        if (empty($filter)) {
             return;
         }
 
@@ -408,7 +408,7 @@ class MediaLibrary
 
     protected function getStorageDisk(): FilesystemContract
     {
-        if ($this->storageDisk) {
+        if (!is_null($this->storageDisk)) {
             return $this->storageDisk;
         }
 

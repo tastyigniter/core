@@ -40,12 +40,12 @@ class Assets
     /**
      * Set the default assets paths.
      */
-    public function registerSourcePath(string $path)
+    public function registerSourcePath(string $path): void
     {
         $this->registeredPaths[] = $path;
     }
 
-    public function addFromManifest(string $path)
+    public function addFromManifest(string $path): void
     {
         $assetsConfigPath = $this->getAssetPath($path);
         if (!File::exists($assetsConfigPath)) {
@@ -66,7 +66,7 @@ class Assets
         $this->addTags(array_except($content, 'bundles'));
     }
 
-    public function addAssetsFromThemeManifest(Theme $theme)
+    public function addAssetsFromThemeManifest(Theme $theme): void
     {
         collect([$theme])
             ->merge($theme->hasParent() ? [$theme->getParent()] : [])
@@ -79,7 +79,7 @@ class Assets
             });
     }
 
-    public function addTags(array $tags = [])
+    public function addTags(array $tags = []): void
     {
         foreach ($tags as $type => $value) {
             if (!is_array($value)) {
@@ -125,12 +125,12 @@ class Assets
             return '<link'.Html::attributes($attributes).'>'.PHP_EOL;
         }, $this->assets['icon']);
 
-        return $favIcons ? implode("\t\t", $favIcons) : null;
+        return !empty($favIcons) ? implode("\t\t", $favIcons) : null;
     }
 
     public function getMetas(): ?string
     {
-        if (!count($this->assets['meta'])) {
+        if (empty($this->assets['meta'])) {
             return null;
         }
 
@@ -138,7 +138,7 @@ class Assets
             return '<meta'.Html::attributes($meta).'>'.PHP_EOL;
         }, $this->assets['meta']);
 
-        return $metas ? implode("\t\t", $metas) : null;
+        return !empty($metas) ? implode("\t\t", $metas) : null;
     }
 
     public function getRss(): ?string
@@ -209,12 +209,12 @@ class Assets
         return $this;
     }
 
-    public function putJsVars(array $variables)
+    public function putJsVars(array $variables): void
     {
         $this->assets['jsVars'] = array_merge($this->assets['jsVars'], $variables);
     }
 
-    public function mergeJsVars(string $key, array $value)
+    public function mergeJsVars(string $key, array $value): void
     {
         $vars = array_get($this->assets['jsVars'], $key, []);
 
@@ -223,12 +223,12 @@ class Assets
         array_set($this->assets['jsVars'], $key, $value);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->assets = ['icon' => [], 'meta' => [], 'rss' => [], 'js' => [], 'css' => [], 'jsVars' => []];
     }
 
-    public function clearInternalCache()
+    public function clearInternalCache(): void
     {
         $this->registeredPaths = [];
     }
@@ -241,7 +241,7 @@ class Assets
     protected function getAsset(string $type): ?string
     {
         $assets = $this->getUniqueAssets($type);
-        if (!$assets) {
+        if (empty($assets)) {
             return null;
         }
 
@@ -301,7 +301,7 @@ class Assets
      */
     protected function getUniqueAssets(string $type): array
     {
-        if (!count($this->assets[$type])) {
+        if (empty($this->assets[$type])) {
             return [];
         }
 
@@ -349,23 +349,23 @@ class Assets
     {
         if ($type == 'rss') {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'alternate',
-                'href' => $file,
-                'title' => 'RSS',
-                'type' => 'application/rss+xml',
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'alternate',
+                    'href' => $file,
+                    'title' => 'RSS',
+                    'type' => 'application/rss+xml',
+                ], $attributes)).'>'.PHP_EOL;
         } elseif ($type == 'js') {
             $html = '<script'.Html::attributes(array_merge([
-                'charset' => strtolower(setting('charset', 'UTF-8')),
-                'type' => 'text/javascript',
-                'src' => asset($file),
-            ], $attributes)).'></script>'.PHP_EOL;
+                    'charset' => strtolower(setting('charset', 'UTF-8')),
+                    'type' => 'text/javascript',
+                    'src' => asset($file),
+                ], $attributes)).'></script>'.PHP_EOL;
         } else {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => asset($file),
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'stylesheet',
+                    'type' => 'text/css',
+                    'href' => asset($file),
+                ], $attributes)).'>'.PHP_EOL;
         }
 
         return $html;

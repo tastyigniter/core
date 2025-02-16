@@ -10,7 +10,7 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
 {
     protected $group;
 
-    public function prepareMigrationTable()
+    public function prepareMigrationTable(): void
     {
         if (!$this->getConnection()->getSchemaBuilder()->hasColumn($this->table, 'group')) {
             return;
@@ -62,10 +62,8 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
      * Set the module or extension the migration belongs to.
      *
      * @param string $name
-     *
-     * @return void
      */
-    public function setGroup($name)
+    public function setGroup($name): void
     {
         $this->group = $name;
     }

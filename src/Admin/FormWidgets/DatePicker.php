@@ -39,7 +39,7 @@ class DatePicker extends BaseFormWidget
     //
     protected string $defaultAlias = 'datepicker';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'dateFormat',
@@ -64,7 +64,7 @@ class DatePicker extends BaseFormWidget
         }
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $mode = $this->getConfig('mode', 'date');
         if ($mode == 'date' || $mode == 'datetime') {
@@ -72,7 +72,7 @@ class DatePicker extends BaseFormWidget
         }
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -82,7 +82,7 @@ class DatePicker extends BaseFormWidget
     /**
      * Prepares the list data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['name'] = $this->formField->getName();
 

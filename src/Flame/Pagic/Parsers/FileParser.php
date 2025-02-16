@@ -104,7 +104,7 @@ class FileParser
         preg_match_all($pattern, $code, $imports);
         $code = preg_replace($pattern, '', $code);
 
-        if ($parentClass) {
+        if (!empty($parentClass)) {
             $parentClass = ' extends '.$parentClass;
         }
 

@@ -33,7 +33,7 @@ class RichEditor extends BaseFormWidget
 
     protected string $defaultAlias = 'richeditor';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'fullPage',
@@ -43,14 +43,14 @@ class RichEditor extends BaseFormWidget
         ]);
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('richeditor/richeditor');
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('js/vendor.editor.js', 'vendor-editor-js');
         $this->addCss('richeditor.css', 'richeditor-css');
@@ -60,7 +60,7 @@ class RichEditor extends BaseFormWidget
     /**
      * Prepares the list data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['field'] = $this->formField;
         $this->vars['fullPage'] = $this->fullPage;

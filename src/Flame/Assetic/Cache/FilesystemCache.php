@@ -37,7 +37,7 @@ class FilesystemCache implements CacheInterface
         return File::get($path);
     }
 
-    public function set(string $key, string $value)
+    public function set(string $key, string $value): void
     {
         if (!File::isDirectory($this->dir) && File::makeDirectory($this->dir, 0777, true) === false) {
             throw new RuntimeException('Unable to create directory '.$this->dir);
@@ -50,7 +50,7 @@ class FilesystemCache implements CacheInterface
         }
     }
 
-    public function remove(string $key)
+    public function remove(string $key): void
     {
         $path = $this->dir.'/'.$key;
 

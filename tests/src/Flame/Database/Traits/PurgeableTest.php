@@ -74,7 +74,7 @@ it('restores purged values', function() {
 it('returns true if relation is purgeable', function() {
     $model = new class extends Currency
     {
-        public function getPurgeableAttributes()
+        public function getPurgeableAttributes(): array
         {
             return ['country'];
         }

@@ -48,7 +48,7 @@ class HasOne extends HasOneBase
      * Helper for setting this relationship using various expected
      * values. For example, $model->relation = $value;
      */
-    public function setSimpleValue($value)
+    public function setSimpleValue($value): void
     {
         if (is_array($value)) {
             return;

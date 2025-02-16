@@ -115,7 +115,7 @@ class Theme
         return $this->path.$this->metaPath;
     }
 
-    public function getAssetsFilePath()
+    public function getAssetsFilePath(): string
     {
         return $this->getMetaPath().'/assets.json';
     }
@@ -228,7 +228,7 @@ class Theme
         return $this->active;
     }
 
-    public function loadThemeFile()
+    public function loadThemeFile(): void
     {
         if (File::exists($path = $this->getPath().'/theme.php')) {
             require $path;
@@ -359,7 +359,7 @@ class Theme
         return $result;
     }
 
-    public function fillFromConfig()
+    public function fillFromConfig(): void
     {
         if (isset($this->config['code'])) {
             $this->name = $this->config['code'];
@@ -406,7 +406,7 @@ class Theme
     {
         $findInPaths = [];
         $findInPaths[$this->path] = $this->publicPath;
-        if ($parent = $this->getParent()) {
+        if (!is_null($parent = $this->getParent())) {
             $findInPaths[$parent->path] = $parent->publicPath;
         }
 

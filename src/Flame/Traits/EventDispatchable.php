@@ -42,7 +42,7 @@ trait EventDispatchable
     {
         $result = [];
 
-        if (strlen($eventName = static::eventName())) {
+        if (!empty($eventName = static::eventName())) {
             $result = event($eventName, $arguments, $halt);
             if ($halt && !is_null($result)) {
                 return $result;

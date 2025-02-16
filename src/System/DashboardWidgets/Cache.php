@@ -37,7 +37,7 @@ class Cache extends BaseDashboardWidget
         ],
     ];
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 

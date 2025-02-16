@@ -15,7 +15,7 @@ class SystemLogs extends \Igniter\Admin\Classes\AdminController
 
     protected string $logFile = '/logs/laravel';
 
-    public function index()
+    public function index(): void
     {
         AdminMenu::setContext('system_logs', 'system');
 

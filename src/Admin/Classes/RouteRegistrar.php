@@ -18,13 +18,13 @@ class RouteRegistrar
     /**
      * Register routes for admin and frontend.
      */
-    public function all()
+    public function all(): void
     {
         $this->forAssets();
         $this->forAdminPages();
     }
 
-    public function forAssets()
+    public function forAssets(): void
     {
         $this->router
             ->namespace('Igniter\System\Http\Controllers')
@@ -37,7 +37,7 @@ class RouteRegistrar
             });
     }
 
-    public function forAdminPages()
+    public function forAdminPages(): void
     {
         $this->router
             ->middleware(config('igniter-routes.adminMiddleware', []))

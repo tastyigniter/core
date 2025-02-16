@@ -27,7 +27,7 @@ beforeEach(function() {
 
         public $mediable = ['thumb'];
 
-        public function findMedia($mediaId)
+        public function findMedia($mediaId): Media
         {
             return new Media(['id' => $mediaId, 'name' => 'filename.jpg']);
         }

@@ -132,7 +132,7 @@ class GeoQuery implements Contracts\GeoQueryInterface
     {
         return sprintf('GeoQuery: %s', json_encode([
             'text' => $this->getText(),
-            'bounds' => $this->getBounds() ? $this->getBounds()->toArray() : 'null',
+            'bounds' => !is_null($this->getBounds()) ? $this->getBounds()->toArray() : 'null',
             'coordinates' => $this->getCoordinates()?->toArray() ?? 'null',
             'locale' => $this->getLocale(),
             'limit' => $this->getLimit(),

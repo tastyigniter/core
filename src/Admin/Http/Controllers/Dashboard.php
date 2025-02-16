@@ -32,7 +32,7 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
         return $this->makeView('dashboard');
     }
 
-    public function initDashboardContainer()
+    public function initDashboardContainer(): void
     {
         $this->containerConfig['canManage'] = array_get($this->containerConfig, 'canManage', $this->canManageWidgets());
         $this->containerConfig['canSetDefault'] = array_get($this->containerConfig, 'canSetDefault', AdminAuth::isSuperUser());
@@ -89,7 +89,7 @@ class Dashboard extends \Igniter\Admin\Classes\AdminController
         return $this->getUser()->hasPermission('Admin.Dashboard');
     }
 
-    public function extendDashboardContainer(callable $callback)
+    public function extendDashboardContainer(callable $callback): void
     {
         $this->callbacks[] = $callback;
     }

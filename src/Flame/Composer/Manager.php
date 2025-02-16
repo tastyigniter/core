@@ -70,7 +70,7 @@ class Manager
 
     protected function loadInstalledPackages(): Collection
     {
-        if ($this->installedPackages) {
+        if (!is_null($this->installedPackages)) {
             return $this->installedPackages;
         }
 
@@ -113,7 +113,7 @@ class Manager
     //
     //
 
-    public function install(?array $requirements, Closure|OutputInterface|null $output = null)
+    public function install(?array $requirements, Closure|OutputInterface|null $output = null): void
     {
         $this->backupComposerFiles();
 
@@ -127,7 +127,7 @@ class Manager
         }
     }
 
-    public function uninstall(array $requirements, Closure|OutputInterface|null $output = null)
+    public function uninstall(array $requirements, Closure|OutputInterface|null $output = null): void
     {
         $this->backupComposerFiles();
 
@@ -141,7 +141,7 @@ class Manager
         }
     }
 
-    public function addAuthCredentials(string $username, string $password, string $type = 'http-basic')
+    public function addAuthCredentials(string $username, string $password, string $type = 'http-basic'): void
     {
         $config = new JsonConfigSource(new JsonFile($this->workingPath.'/auth.json'), true);
 
@@ -183,7 +183,7 @@ class Manager
     // Asserts
     //
 
-    public function assertSchema()
+    public function assertSchema(): void
     {
         $this->composer->modify(function(array $composer) {
             $newConfig = $this->assertRepository($composer);

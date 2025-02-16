@@ -45,7 +45,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         'currency', 'geocoder', 'routes', 'system',
     ];
 
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(Igniter::class);
 
@@ -66,7 +66,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->registerErrorViewPaths();
     }
 
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishConfigFiles();

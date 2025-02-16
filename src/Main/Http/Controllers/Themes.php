@@ -62,7 +62,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('themes', 'design');
     }
 
-    public function index()
+    public function index(): void
     {
         Theme::syncAll();
 
@@ -71,7 +71,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function edit(string $context, string $themeCode)
+    public function edit(string $context, string $themeCode): void
     {
         if (resolve(ThemeManager::class)->isLocked($themeCode)) {
             Template::setButton(lang('igniter::system.themes.button_child'), [
@@ -88,7 +88,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('FormController')->edit($context, $themeCode);
     }
 
-    public function source(string $context, string $themeCode)
+    public function source(string $context, string $themeCode): void
     {
         $this->defaultView = 'edit';
         if (resolve(ThemeManager::class)->isLocked($themeCode)) {
@@ -242,7 +242,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         return $attributes;
     }
 
-    public function formExtendConfig(array &$formConfig)
+    public function formExtendConfig(array &$formConfig): void
     {
         $formConfig['data'] = $formConfig['model']->toArray();
 
@@ -273,7 +273,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         return $result;
     }
 
-    public function formAfterSave(Theme $model)
+    public function formAfterSave(Theme $model): void
     {
         if ($this->widgets['form']->context != 'source') {
             if (config('igniter-system.buildThemeAssetsBundle', true)) {

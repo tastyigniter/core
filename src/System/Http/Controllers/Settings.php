@@ -46,7 +46,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('settings', 'system');
     }
 
-    public function index()
+    public function index(): void
     {
         MailTemplate::syncAll();
 
@@ -150,7 +150,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         return $this->refresh();
     }
 
-    public function initWidgets(SettingsModel $model, \stdClass $definition)
+    public function initWidgets(SettingsModel $model, \stdClass $definition): void
     {
         $modelConfig = $this->getFieldConfig($definition->code, $model);
 

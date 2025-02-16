@@ -17,7 +17,7 @@ class RouterHelper
      * @param string $url URL to normalize.
      * @return string Returns normalized URL.
      */
-    public static function normalizeUrl($url)
+    public static function normalizeUrl($url): string
     {
         if (!str_starts_with($url, '/')) {
             $url = '/'.$url;
@@ -27,7 +27,7 @@ class RouterHelper
             $url = substr($url, 0, -1);
         }
 
-        if (!strlen($url)) {
+        if (empty($url)) {
             $url = '/';
         }
 
@@ -47,7 +47,7 @@ class RouterHelper
 
         $result = [];
         foreach ($segments as $segment) {
-            if (strlen($segment)) {
+            if (!empty($segment)) {
                 $result[] = $segment;
             }
         }
@@ -61,11 +61,11 @@ class RouterHelper
      * @param array $urlArray Array the URL segments.
      * @return string Returns rebuilt URL.
      */
-    public static function rebuildUrl(array $urlArray)
+    public static function rebuildUrl(array $urlArray): string
     {
         $url = '';
         foreach ($urlArray as $segment) {
-            if (strlen($segment)) {
+            if (!empty($segment)) {
                 $url .= '/'.trim($segment);
             }
         }
@@ -123,7 +123,7 @@ class RouterHelper
      * @param string $segment The segment definition.
      * @return bool Returns boolean true if the segment is a wildcard. Returns false otherwise.
      */
-    public static function segmentIsWildcard($segment)
+    public static function segmentIsWildcard($segment): bool
     {
         return mb_strpos($segment, ':') === 0 && mb_substr($segment, -1) === '*';
     }
@@ -155,7 +155,7 @@ class RouterHelper
      * @param string $segment The segment definition.
      * @return string Returns the segment name.
      */
-    public static function getParameterName($segment)
+    public static function getParameterName($segment): string
     {
         $name = mb_substr($segment, 1);
 
@@ -199,7 +199,7 @@ class RouterHelper
     {
         if (($pos = mb_strpos($segment, '|')) !== false) {
             $regexp = mb_substr($segment, $pos + 1);
-            if (!mb_strlen($regexp)) {
+            if (mb_strlen($regexp) === 0) {
                 return false;
             }
 
@@ -232,7 +232,7 @@ class RouterHelper
             $value = mb_substr($segment, $optMarkerPos + 1);
         }
 
-        return strlen($value) ? $value : false;
+        return strlen($value) !== 0 ? $value : false;
     }
 
     public static function convertToRouteProperties($pageInfo)

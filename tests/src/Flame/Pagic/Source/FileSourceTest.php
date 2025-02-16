@@ -80,7 +80,7 @@ it('throws exception when creating a template', function() {
     $files->shouldReceive('isFile')->with('base/path/dir/file.blade.php')->andReturn(false, true);
     expect(fn() => $fileSource->insert('dir', 'file', 'blade.php', 'content'))
         ->toThrow('Error creating file [base/path/dir/file.blade.php]. Please check write permissions.')
-        ->and(fn() => $fileSource->insert('dir', 'file', 'blade.php', 'content', 'new-file'))
+        ->and(fn() => $fileSource->insert('dir', 'file', 'blade.php', 'content'))
         ->toThrow('A file already exists at [base/path/dir/file.blade.php].');
 
 });

@@ -189,11 +189,7 @@ class Distance implements Contracts\DistanceInterface
             $sigma = atan2($sinSigma, $cosSigma);
             $sinAlpha = $cosU1 * $cosU2 * $sinLambda / $sinSigma;
             $cosSqAlpha = 1 - $sinAlpha * $sinAlpha;
-            if ($cosSqAlpha != 0.0) {
-                $cos2SigmaM = $cosSigma - 2 * $sinU1 * $sinU2 / $cosSqAlpha;
-            } else {
-                $cos2SigmaM = 0.0;
-            }
+            $cos2SigmaM = $cosSqAlpha != 0.0 ? $cosSigma - 2 * $sinU1 * $sinU2 / $cosSqAlpha : 0.0;
             $cC = $f / 16 * $cosSqAlpha * (4 + $f * (4 - 3 * $cosSqAlpha));
             $lambdaP = $lambda;
             $lambda = $lL + (1 - $cC) * $f * $sinAlpha * ($sigma + $cC * $sinSigma *

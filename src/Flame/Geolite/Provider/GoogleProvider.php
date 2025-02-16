@@ -220,7 +220,7 @@ class GoogleProvider extends AbstractProvider
 
     protected function prependGeocodeQuery(GeoQueryInterface $query, string $url): string
     {
-        if ($bounds = $query->getBounds()) {
+        if (!is_null($bounds = $query->getBounds())) {
             $url .= sprintf('&bounds=%s,%s|%s,%s',
                 $bounds->getSouth(), $bounds->getWest(),
                 $bounds->getNorth(), $bounds->getEast(),
@@ -262,8 +262,9 @@ class GoogleProvider extends AbstractProvider
         if ($language = $distance->getData('language', array_get($this->config, 'locale'))) {
             $url .= '&language='.urlencode($language);
         }
+        $units = $distance->getUnit();
 
-        if ($units = $distance->getUnit()) {
+        if (empty($units)) {
             $url .= '&units='.urlencode($units);
         }
 

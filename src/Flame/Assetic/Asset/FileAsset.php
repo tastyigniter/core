@@ -48,7 +48,7 @@ class FileAsset extends BaseAsset
         parent::__construct($filters, $sourceRoot, $sourcePath, $vars);
     }
 
-    public function load(?FilterInterface $additionalFilter = null)
+    public function load(?FilterInterface $additionalFilter = null): void
     {
         $source = VarUtils::resolve($this->source, $this->getVars(), $this->getValues());
 

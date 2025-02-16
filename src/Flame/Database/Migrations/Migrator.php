@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class Migrator extends BaseMigrator
 {
-    public function runGroup($paths = [], array $options = [])
+    public function runGroup($paths = [], array $options = []): void
     {
         foreach ($paths as $group => $path) {
             $this->write(Info::class, sprintf('Migrating group %s.', $group));
@@ -20,7 +20,7 @@ class Migrator extends BaseMigrator
         }
     }
 
-    public function rollbackAll($paths = [], array $options = [])
+    public function rollbackAll($paths = [], array $options = []): void
     {
         foreach ($paths as $group => $path) {
             $this->write(Info::class, sprintf('Rolling back group %s.', $group));
@@ -30,7 +30,7 @@ class Migrator extends BaseMigrator
         }
     }
 
-    public function resetAll($paths = [], $pretend = false)
+    public function resetAll($paths = [], $pretend = false): void
     {
         foreach ($paths as $group => $path) {
             $this->write(Info::class, sprintf('Resetting group %s.', $group));

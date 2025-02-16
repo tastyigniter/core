@@ -81,11 +81,7 @@ class FileSource extends AbstractSource implements SourceInterface
             return $result;
         }
 
-        if ($columns === ['*'] || !is_array($columns)) {
-            $columns = null;
-        } else {
-            $columns = array_flip($columns);
-        }
+        $columns = $columns === ['*'] || !is_array($columns) ? null : array_flip($columns);
 
         $iterator = $this->finder->create()
             ->files()
@@ -256,10 +252,8 @@ class FileSource extends AbstractSource implements SourceInterface
 
     /**
      * Helper to make file path.
-     *
-     * @return string
      */
-    protected function makeFilePath($dirName, $fileName, $extension)
+    protected function makeFilePath($dirName, $fileName, $extension): string
     {
         return $this->basePath.'/'.$dirName.'/'.$fileName.'.'.$extension;
     }
@@ -283,10 +277,8 @@ class FileSource extends AbstractSource implements SourceInterface
 
     /**
      * Generate a paths cache key unique to this source
-     *
-     * @return string
      */
-    public function getPathsCacheKey()
+    public function getPathsCacheKey(): string
     {
         return 'pagic-source-file-'.$this->basePath;
     }

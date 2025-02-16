@@ -71,7 +71,7 @@ class SettingsModel extends ModelAction
             return self::$instances[$this->recordCode];
         }
 
-        if (!$item = $this->getSettingsRecord()) {
+        if (is_null($item = $this->getSettingsRecord())) {
             $this->model->initSettingsData();
             $item = $this->model;
         }
@@ -82,9 +82,9 @@ class SettingsModel extends ModelAction
     /**
      * Reset the settings to their defaults, this will delete the record model
      */
-    public function resetDefault()
+    public function resetDefault(): void
     {
-        if ($record = $this->getSettingsRecord()) {
+        if (!is_null($record = $this->getSettingsRecord())) {
             $record->delete();
             $this->fieldValues = [];
             $this->model->data = [];
@@ -147,7 +147,7 @@ class SettingsModel extends ModelAction
     /**
      * Set a single setting value, if allowed.
      */
-    public function setSettingsValue(string $key, mixed $value)
+    public function setSettingsValue(string $key, mixed $value): void
     {
         if ($this->isKeyAllowed($key)) {
             return;
@@ -164,7 +164,7 @@ class SettingsModel extends ModelAction
     /**
      * Populate the field values from the database record.
      */
-    public function afterModelFetch()
+    public function afterModelFetch(): void
     {
         $this->fieldValues = $this->model->data ?: [];
         $this->model->setRawAttributes(array_merge($this->fieldValues, $this->model->getAttributes()));
@@ -173,7 +173,7 @@ class SettingsModel extends ModelAction
     /**
      * Internal save method for the model
      */
-    public function saveModelInternal()
+    public function saveModelInternal(): void
     {
         // Purge the field values from the attributes
         $this->model->setRawAttributes(array_diff_key($this->model->getAttributes(), $this->fieldValues));
@@ -183,7 +183,7 @@ class SettingsModel extends ModelAction
      * Before the model is saved, ensure the record code is set
      * and the jsonable field values
      */
-    public function beforeModelSave()
+    public function beforeModelSave(): void
     {
         $this->model->item = $this->recordCode;
         if ($this->fieldValues) {
@@ -220,9 +220,8 @@ class SettingsModel extends ModelAction
 
     /**
      * Clears the internal memory cache of model instances.
-     * @return void
      */
-    public static function clearInternalCache()
+    public static function clearInternalCache(): void
     {
         self::$instances = [];
     }

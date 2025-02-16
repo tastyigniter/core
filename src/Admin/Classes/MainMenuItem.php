@@ -238,10 +238,8 @@ class MainMenuItem
 
     /**
      * Returns a value suitable for the item id property.
-     *
-     * @return string
      */
-    public function getId($suffix = null)
+    public function getId($suffix = null): string
     {
         $id = 'menuitem';
         $id .= '-'.$this->itemName;

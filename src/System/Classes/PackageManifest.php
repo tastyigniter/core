@@ -27,7 +27,7 @@ class PackageManifest extends BasePackageManifest
         return collect($this->getManifest())->where('type', 'tastyigniter-theme')->values()->all();
     }
 
-    public function getPackagePath(string $path)
+    public function getPackagePath(string $path): string
     {
         return str_starts_with($path, '../')
             ? $this->vendorPath.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.$path
@@ -53,7 +53,7 @@ class PackageManifest extends BasePackageManifest
             ->value('version');
     }
 
-    public function build()
+    public function build(): void
     {
         $packages = [];
 
@@ -125,7 +125,7 @@ class PackageManifest extends BasePackageManifest
         return json_decode($this->files->get($path, true), true) ?: [];
     }
 
-    public function writeDisabled(array $codes)
+    public function writeDisabled(array $codes): void
     {
         $this->files->replace(dirname($this->manifestPath).$this->metaFile, json_encode($codes));
     }

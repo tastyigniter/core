@@ -14,7 +14,7 @@ trait HasMedia
 {
     protected array $unAttachedMediaItems = [];
 
-    public static function bootHasMedia()
+    public static function bootHasMedia(): void
     {
         static::deleting(function(Model $model) {
             $model->handleHasMediaDeletion();
@@ -32,9 +32,8 @@ trait HasMedia
     /**
      * Query scope to detect the presence of one or more attached media for a given tag.
      * @param string|string[] $tags
-     * @return void
      */
-    public function scopeWhereHasMedia(Builder $query, string|array $tags)
+    public function scopeWhereHasMedia(Builder $query, string|array $tags): void
     {
         if (!is_array($tags)) {
             $tags = [$tags];
@@ -156,7 +155,7 @@ trait HasMedia
     /**
      * Detach a media item from the model.
      */
-    public function deleteMedia(int|string|Media $mediaId)
+    public function deleteMedia(int|string|Media $mediaId): void
     {
         if ($mediaId instanceof Media) {
             $mediaId = $mediaId->getKey();
@@ -170,7 +169,7 @@ trait HasMedia
     /**
      * Remove all media with the given tag.
      */
-    public function clearMediaTag(?string $tag = null)
+    public function clearMediaTag(?string $tag = null): void
     {
         $this->getMedia($tag)->each->delete();
 
@@ -181,12 +180,12 @@ trait HasMedia
         }
     }
 
-    public function prepareUnattachedMedia(Media $media, MediaAdder $mediaAdder)
+    public function prepareUnattachedMedia(Media $media, MediaAdder $mediaAdder): void
     {
         $this->unAttachedMediaItems[] = compact('media', 'mediaAdder');
     }
 
-    public function processUnattachedMedia(callable $callable)
+    public function processUnattachedMedia(callable $callable): void
     {
         foreach ($this->unAttachedMediaItems as $item) {
             $callable($item['media'], $item['mediaAdder']);

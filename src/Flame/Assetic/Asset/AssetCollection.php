@@ -49,7 +49,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         return $this->assets;
     }
 
-    public function add(AssetInterface $asset)
+    public function add(AssetInterface $asset): void
     {
         $this->assets[] = $asset;
     }
@@ -99,7 +99,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         throw new \InvalidArgumentException('Leaf not found.');
     }
 
-    public function ensureFilter(FilterInterface $filter)
+    public function ensureFilter(FilterInterface $filter): void
     {
         $this->filters->ensure($filter);
     }
@@ -109,13 +109,13 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         return $this->filters->all();
     }
 
-    public function clearFilters()
+    public function clearFilters(): void
     {
         $this->filters->clear();
         $this->clones = new \SplObjectStorage;
     }
 
-    public function load(?FilterInterface $additionalFilter = null)
+    public function load(?FilterInterface $additionalFilter = null): void
     {
         // loop through leaves and load each asset
         $parts = [];
@@ -143,7 +143,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         return $this->content;
     }
 
-    public function setContent(string $content)
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
@@ -168,7 +168,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         return $this->targetPath;
     }
 
-    public function setTargetPath(string $targetPath)
+    public function setTargetPath(string $targetPath): void
     {
         $this->targetPath = $targetPath;
     }
@@ -208,7 +208,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         return $this->vars;
     }
 
-    public function setValues(array $values)
+    public function setValues(array $values): void
     {
         $this->values = $values;
 

@@ -47,7 +47,7 @@ class ControllerAction
     /**
      * Sets the widget configuration values
      */
-    public function setConfig(null|string|array $config, array $required = [])
+    public function setConfig(null|string|array $config, array $required = []): void
     {
         $this->config = $this->makeConfig($config, $required);
     }

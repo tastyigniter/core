@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 
 class PermissionServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->callAfterResolving(PermissionManager::class, function($manager) {
             $manager->registerCallback(function($manager) {

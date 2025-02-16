@@ -28,7 +28,7 @@ class OpenExchangeRates extends AbstractConverter
 
     public function getExchangeRates(string $base, array $currencies): array
     {
-        if (!strlen($this->appId)) {
+        if (!$this->appId) {
             return [];
         }
 

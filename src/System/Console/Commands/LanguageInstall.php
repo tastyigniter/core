@@ -16,11 +16,11 @@ class LanguageInstall extends Command
 
     protected $description = 'Pull translated strings from the TastyIgniter marketplace.';
 
-    public function handle()
+    public function handle(): void
     {
         $locale = $this->argument('locale');
 
-        if (!$language = Language::findByCode($locale)) {
+        if (is_null($language = Language::findByCode($locale))) {
             $language = Language::make(['code' => $locale]);
         }
 

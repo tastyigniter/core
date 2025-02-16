@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class Delete extends BaseBulkActionWidget
 {
-    public function handleAction(array $requestData, Collection $records)
+    public function handleAction(array $requestData, Collection $records): void
     {
         // Delete records
-        if ($count = $records->count()) {
+        if (($count = $records->count()) !== 0) {
             DB::transaction(function() use ($records) {
                 foreach ($records as $record) {
                     $record->delete();

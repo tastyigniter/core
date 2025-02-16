@@ -28,7 +28,7 @@ class MarkdownEditor extends BaseFormWidget
 
     protected string $defaultAlias = 'markdown';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'mode',
@@ -39,7 +39,7 @@ class MarkdownEditor extends BaseFormWidget
         }
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -49,7 +49,7 @@ class MarkdownEditor extends BaseFormWidget
     /**
      * Prepares the widget data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['mode'] = $this->mode;
         $this->vars['stretch'] = $this->formField->stretch;
@@ -58,7 +58,7 @@ class MarkdownEditor extends BaseFormWidget
         $this->vars['value'] = $this->getLoadValue();
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('js/vendor.editor.js', 'vendor-editor-js');
         $this->addCss('markdowneditor.css', 'markdowneditor-css');

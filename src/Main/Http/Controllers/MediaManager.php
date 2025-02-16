@@ -18,7 +18,7 @@ class MediaManager extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('media_manager', 'tools');
     }
 
-    public function index()
+    public function index(): void
     {
         Template::setTitle(lang('igniter::main.media_manager.text_title'));
         Template::setHeading(lang('igniter::main.media_manager.text_heading'));

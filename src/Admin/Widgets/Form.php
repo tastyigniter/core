@@ -76,7 +76,7 @@ class Form extends BaseWidget
 
     protected array $optionModelTypes = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'fields',
@@ -104,15 +104,14 @@ class Form extends BaseWidget
      * Ensure fields are defined and form widgets are registered so they can
      * also be bound to the controller this allows their AJAX features to
      * operate.
-     * @return void
      */
-    public function bindToController()
+    public function bindToController(): void
     {
         $this->defineFormFields();
         parent::bindToController();
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('form.js', 'form-js');
         $this->addJs('formwidget.js', 'formwidget-js');
@@ -297,7 +296,7 @@ class Form extends BaseWidget
     /**
      * Event handler for storing the active tab.
      */
-    public function onActiveTab()
+    public function onActiveTab(): void
     {
         $data = validator(post(), [
             'tab' => ['required', 'string'],
@@ -309,7 +308,7 @@ class Form extends BaseWidget
     /**
      * Programmatically add fields, used internally and for extensibility.
      */
-    public function addFields(array $fields, string $addToArea = '')
+    public function addFields(array $fields, string $addToArea = ''): void
     {
         foreach ($fields as $name => $config) {
             // Check if admin has permissions to show this field
@@ -341,10 +340,8 @@ class Form extends BaseWidget
 
     /**
      * Add tab fields.
-     *
-     * @return void
      */
-    public function addTabFields(array $fields)
+    public function addTabFields(array $fields): void
     {
         $this->addFields($fields, 'primary');
     }
@@ -371,7 +368,7 @@ class Form extends BaseWidget
     /**
      * Programmatically remove all fields belonging to a tab.
      */
-    public function removeTab(string $name)
+    public function removeTab(string $name): void
     {
         foreach ($this->allFields as $fieldName => $field) {
             if ($field->tab == $name) {
@@ -486,8 +483,6 @@ class Form extends BaseWidget
      * Get a specified form widget
      *
      * @param string $field
-     *
-     * @return mixed
      */
     public function getFormWidget($field): ?BaseFormWidget
     {
@@ -653,7 +648,7 @@ class Form extends BaseWidget
         return $result;
     }
 
-    public function setActiveTab(string $tab)
+    public function setActiveTab(string $tab): void
     {
         $this->activeTab = $tab;
     }
@@ -786,11 +781,7 @@ class Form extends BaseWidget
 
         foreach ($fields as $field) {
             if (strtolower($field->span) === 'auto') {
-                if ($prevSpan === 'left') {
-                    $field->span = 'right';
-                } else {
-                    $field->span = 'left';
-                }
+                $field->span = $prevSpan === 'left' ? 'right' : 'left';
             }
 
             $prevSpan = $field->span;
@@ -815,12 +806,7 @@ class Form extends BaseWidget
         if (!class_exists($widgetClass)) {
             return false;
         }
-
-        if (is_subclass_of($widgetClass, \Igniter\Admin\Classes\BaseFormWidget::class)) {
-            return true;
-        }
-
-        return false;
+        return is_subclass_of($widgetClass, \Igniter\Admin\Classes\BaseFormWidget::class);
     }
 
     /**

@@ -21,7 +21,7 @@ trait VerifiesCsrfToken
 {
     public $enableCsrfProtection = true;
 
-    protected function makeXsrfCookie()
+    protected function makeXsrfCookie(): Cookie
     {
         $config = config('session');
 
@@ -48,7 +48,7 @@ trait VerifiesCsrfToken
             return true;
         }
 
-        if (!strlen($token = $this->getCsrfTokenFromRequest())) {
+        if (empty($token = $this->getCsrfTokenFromRequest())) {
             return false;
         }
 

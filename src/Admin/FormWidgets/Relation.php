@@ -53,7 +53,7 @@ class Relation extends BaseFormWidget
 
     public Model $relatedModel;
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'relationFrom',
@@ -68,7 +68,7 @@ class Relation extends BaseFormWidget
         }
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -92,7 +92,7 @@ class Relation extends BaseFormWidget
         return $value;
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['field'] = $this->makeFormField();
     }

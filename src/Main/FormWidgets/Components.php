@@ -48,7 +48,7 @@ class Components extends BaseFormWidget
 
     protected array $components = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'form',
@@ -59,14 +59,14 @@ class Components extends BaseFormWidget
         $this->manager = resolve(ComponentManager::class);
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('components/components');
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
 
@@ -74,7 +74,7 @@ class Components extends BaseFormWidget
         $this->addJs('components.js', 'components-js');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['field'] = $this->formField;
         $this->vars['components'] = $this->getComponents();
@@ -248,7 +248,7 @@ class Components extends BaseFormWidget
     protected function makeComponentBy(string $codeAlias): null|BaseComponent|LivewireComponent|BladeComponent
     {
         $componentObj = null;
-        if (strlen($codeAlias)) {
+        if (!empty($codeAlias)) {
             [$code,] = $this->manager->getCodeAlias($codeAlias);
             $propertyValues = array_get((array)$this->getLoadValue(), $codeAlias, []);
             $componentObj = $this->manager->makeComponent([$code, $codeAlias], null, $propertyValues);

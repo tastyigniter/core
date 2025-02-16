@@ -19,7 +19,7 @@ readonly class AssetCache implements AssetInterface
         private CacheInterface $cache,
     ) {}
 
-    public function ensureFilter(FilterInterface $filter)
+    public function ensureFilter(FilterInterface $filter): void
     {
         $this->asset->ensureFilter($filter);
     }
@@ -29,12 +29,12 @@ readonly class AssetCache implements AssetInterface
         return $this->asset->getFilters();
     }
 
-    public function clearFilters()
+    public function clearFilters(): void
     {
         $this->asset->clearFilters();
     }
 
-    public function load(?FilterInterface $additionalFilter = null)
+    public function load(?FilterInterface $additionalFilter = null): void
     {
         $cacheKey = self::getCacheKey($this->asset, $additionalFilter, 'load');
         if ($this->cache->has($cacheKey)) {
@@ -65,7 +65,7 @@ readonly class AssetCache implements AssetInterface
         return $this->asset->getContent();
     }
 
-    public function setContent($content)
+    public function setContent($content): void
     {
         $this->asset->setContent($content);
     }
@@ -90,7 +90,7 @@ readonly class AssetCache implements AssetInterface
         return $this->asset->getTargetPath();
     }
 
-    public function setTargetPath(string $targetPath)
+    public function setTargetPath(string $targetPath): void
     {
         $this->asset->setTargetPath($targetPath);
     }
@@ -105,7 +105,7 @@ readonly class AssetCache implements AssetInterface
         return $this->asset->getVars();
     }
 
-    public function setValues(array $values)
+    public function setValues(array $values): void
     {
         $this->asset->setValues($values);
     }
@@ -132,9 +132,9 @@ readonly class AssetCache implements AssetInterface
      *
      * @return string A key for identifying the current asset
      */
-    private static function getCacheKey(AssetInterface $asset, ?FilterInterface $additionalFilter = null, $salt = '')
+    private static function getCacheKey(AssetInterface $asset, ?FilterInterface $additionalFilter = null, $salt = ''): string
     {
-        if ($additionalFilter) {
+        if ($additionalFilter !== null) {
             $asset = clone $asset;
             $asset->ensureFilter($additionalFilter);
         }

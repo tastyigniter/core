@@ -119,7 +119,7 @@ class Theme extends Model
         return self::$instances[$themeCode] = $instance;
     }
 
-    public static function onboardingIsComplete()
+    public static function onboardingIsComplete(): bool
     {
         return (bool)self::getDefault()?->data;
     }
@@ -181,7 +181,7 @@ class Theme extends Model
         return $this->getTheme()?->getScreenshotData();
     }
 
-    public function setAttribute($key, $value)
+    public function setAttribute($key, $value): void
     {
         if (!$this->isFillable($key)) {
             $this->fieldValues[$key] = $value;
@@ -250,7 +250,7 @@ class Theme extends Model
     // Helpers
     //
 
-    public static function syncAll()
+    public static function syncAll(): void
     {
         $installedThemes = [];
         $manifest = resolve(PackageManifest::class);
@@ -310,7 +310,7 @@ class Theme extends Model
         return $theme;
     }
 
-    public static function generateUniqueCode($code, $suffix = null)
+    public static function generateUniqueCode($code, $suffix = null): string
     {
         do {
             $uniqueCode = $code.($suffix ? '-'.$suffix : '');
@@ -320,7 +320,7 @@ class Theme extends Model
         return $uniqueCode;
     }
 
-    public static function clearThemeInstances()
+    public static function clearThemeInstances(): void
     {
         self::$instances = [];
     }
@@ -329,9 +329,8 @@ class Theme extends Model
      * Checks whether a code exists in the database or not
      *
      * @param string $uniqueCode
-     * @return bool
      */
-    protected static function themeCodeExists($uniqueCode)
+    protected static function themeCodeExists($uniqueCode): bool
     {
         return self::where('code', '=', $uniqueCode)->limit(1)->count() > 0;
     }

@@ -92,7 +92,7 @@ class MediaItem
         }
 
         $extension = pathinfo($this->path, PATHINFO_EXTENSION);
-        if (!strlen($extension)) {
+        if (empty($extension)) {
             return null;
         }
 

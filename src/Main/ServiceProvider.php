@@ -20,10 +20,8 @@ class ServiceProvider extends AppServiceProvider
 {
     /**
      * Bootstrap the service provider.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadViewsFrom($this->root.'/resources/views/main', 'igniter.main');
 
@@ -37,10 +35,8 @@ class ServiceProvider extends AppServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerSingletons();
         $this->registerComponents();

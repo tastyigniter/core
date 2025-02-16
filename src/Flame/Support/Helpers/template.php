@@ -22,9 +22,8 @@ if (!function_exists('pagic')) {
 if (!function_exists('page')) {
     /**
      * Get the page content
-     * @return string
      */
-    function page()
+    function page(): string
     {
         return controller()->renderPage();
     }
@@ -35,10 +34,8 @@ if (!function_exists('content')) {
      * Load a content template file
      *
      * @param string $content
-     *
-     * @return string
      */
-    function content($content = '', array $data = [])
+    function content($content = '', array $data = []): string
     {
         return controller()->renderContent($content, $data);
     }

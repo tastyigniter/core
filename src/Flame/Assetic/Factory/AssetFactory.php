@@ -45,7 +45,7 @@ class AssetFactory
      *
      * @param bool $debug Debug mode
      */
-    public function setDebug(bool $debug)
+    public function setDebug(bool $debug): void
     {
         $this->debug = $debug;
     }
@@ -65,7 +65,7 @@ class AssetFactory
      *
      * @param string $output The default output string
      */
-    public function setDefaultOutput(string $output)
+    public function setDefaultOutput(string $output): void
     {
         $this->output = $output;
     }
@@ -153,7 +153,7 @@ class AssetFactory
                 $toAdd[] = '{'.$var.'}';
             }
 
-            if ($toAdd) {
+            if (!empty($toAdd)) {
                 $options['output'] = str_replace('*', '*.'.implode('.', $toAdd), $options['output']);
             }
         }
@@ -169,7 +169,7 @@ class AssetFactory
         return $asset instanceof AssetCollectionInterface ? $asset : $this->createAssetCollection([$asset]);
     }
 
-    public function generateAssetName($inputs, $filters, $options = [])
+    public function generateAssetName($inputs, $filters, $options = []): string
     {
         foreach (array_diff(array_keys($options), ['output', 'debug', 'root']) as $key) {
             unset($options[$key]);
@@ -239,11 +239,9 @@ class AssetFactory
         }
 
         if (self::isAbsolutePath($input)) {
-            if ($root = self::findRootDir($input, $options['root'])) {
-                $path = ltrim(substr($input, strlen($root)), '/');
-            } else {
-                $path = null;
-            }
+            $path = ($root = self::findRootDir($input, $options['root']))
+                ? ltrim(substr($input, strlen($root)), '/')
+                : null;
         } else {
             $root = $this->root;
             $path = $input;
@@ -253,22 +251,22 @@ class AssetFactory
         return $this->createFileAsset($input, $root, $path, $options['vars']);
     }
 
-    protected function createAssetCollection(array $assets = [], array $options = [])
+    protected function createAssetCollection(array $assets = [], array $options = []): AssetCollection
     {
         return new AssetCollection($assets, [], null, $options['vars'] ?? []);
     }
 
-    protected function createHttpAsset($sourceUrl, $vars)
+    protected function createHttpAsset($sourceUrl, $vars): HttpAsset
     {
         return new HttpAsset($sourceUrl, [], false, $vars);
     }
 
-    protected function createFileAsset($source, $root = null, $path = null, $vars = [])
+    protected function createFileAsset($source, $root = null, $path = null, $vars = []): FileAsset
     {
         return new FileAsset($source, [], $root, $path, $vars);
     }
 
-    private static function isAbsolutePath($path)
+    private static function isAbsolutePath($path): bool
     {
         return $path[0] == '/' || $path[0] == '\\' || (strlen($path) > 3 && ctype_alpha($path[0]) && $path[1] == ':' && ($path[2] == '\\' || $path[2] == '/'));
     }

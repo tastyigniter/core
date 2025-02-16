@@ -11,10 +11,8 @@ class CurrencyServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerMiddlewareAlias();
 
@@ -33,10 +31,8 @@ class CurrencyServiceProvider extends ServiceProvider
 
     /**
      * Register currency provider.
-     *
-     * @return void
      */
-    public function registerCurrency()
+    public function registerCurrency(): void
     {
         $this->app->bind(Currency::class, 'currency');
 
@@ -52,10 +48,8 @@ class CurrencyServiceProvider extends ServiceProvider
 
     /**
      * Register currency commands.
-     *
-     * @return void
      */
-    public function registerCurrencyCommands()
+    public function registerCurrencyCommands(): void
     {
         $this->commands([
             Console\Cleanup::class,

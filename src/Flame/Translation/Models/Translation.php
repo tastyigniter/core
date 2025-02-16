@@ -72,7 +72,7 @@ class Translation extends Model
         'locked' => 'boolean',
     ];
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
@@ -85,16 +85,15 @@ class Translation extends Model
         });
     }
 
-    public static function getCacheKey($locale, $group, $namespace)
+    public static function getCacheKey($locale, $group, $namespace): string
     {
         return static::$cacheKey.".{$locale}.{$namespace}.{$group}";
     }
 
     /**
      *  Returns the full translation code for an entry: namespace.group.item
-     * @return string
      */
-    public function getCodeAttribute()
+    public function getCodeAttribute(): string
     {
         return $this->namespace === '*' ? "{$this->group}.{$this->item}" : "{$this->namespace}::{$this->group}.{$this->item}";
     }
@@ -113,7 +112,7 @@ class Translation extends Model
     /**
      *  Flag this entry as pending review.
      */
-    public function flagAsUnstable()
+    public function flagAsUnstable(): void
     {
         $this->unstable = true;
 
@@ -133,9 +132,8 @@ class Translation extends Model
 
     /**
      *  Check if the translation is locked
-     * @return bool
      */
-    public function isLocked()
+    public function isLocked(): bool
     {
         return (bool)$this->locked;
     }

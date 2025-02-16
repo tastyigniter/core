@@ -83,7 +83,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
     /**
      * Add a field to the collection of tabs.
      */
-    public function addField(string $name, FormField $field, ?string $tab = null)
+    public function addField(string $name, FormField $field, ?string $tab = null): void
     {
         if (!$tab) {
             $tab = $this->defaultTab;
@@ -102,7 +102,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
                 if ($fieldName == $name) {
                     unset($this->fields[$tab][$fieldName]);
 
-                    if (!count($this->fields[$tab])) {
+                    if (count($this->fields[$tab]) === 0) {
                         unset($this->fields[$tab]);
                     }
 

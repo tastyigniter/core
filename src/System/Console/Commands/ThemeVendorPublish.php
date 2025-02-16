@@ -34,9 +34,8 @@ class ThemeVendorPublish extends VendorPublishCommand
 
     /**
      * Execute the console command.
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->comment('Publishing theme assets...');
 

@@ -138,7 +138,7 @@ trait FormExtendable
     public function formExtendConfig(array $formConfig) {}
 
     /** Static helper for extending form fields. */
-    public static function extendFormFields(callable $callback)
+    public static function extendFormFields(callable $callback): void
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.form.extendFields', function($widget) use ($calledClass, $callback) {
@@ -150,10 +150,8 @@ trait FormExtendable
 
     /**
      * Static helper for extending form fields.
-     *
-     * @return void
      */
-    public static function extendFormFieldsBefore(callable $callback)
+    public static function extendFormFieldsBefore(callable $callback): void
     {
         $calledClass = self::getCalledExtensionClass();
         Event::listen('admin.form.extendFieldsBefore', function($widget) use ($calledClass, $callback) {

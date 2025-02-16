@@ -21,10 +21,9 @@ trait HasPermalink
 {
     /**
      * Boot the sortable trait for this model.
-     * @return void
      * @throws \Exception
      */
-    public static function bootHasPermalink()
+    public static function bootHasPermalink(): void
     {
         if (!property_exists(get_called_class(), 'permalinkable')) {
             throw new LogicException(sprintf(

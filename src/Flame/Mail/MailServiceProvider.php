@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class MailServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->resolving('mail.manager', function($manager, $app) {
             $this->app['events']->dispatch('mailer.beforeRegister', [$manager]);

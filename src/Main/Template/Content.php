@@ -13,7 +13,7 @@ class Content extends Model
     /** The directory name associated with the model */
     public const DIR_NAME = '_content';
 
-    public static function initCacheItem(array &$item)
+    public static function initCacheItem(array &$item): void
     {
         $item['parsedMarkup'] = (new static($item))->parseMarkup();
     }

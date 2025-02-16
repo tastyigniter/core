@@ -11,7 +11,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AssetsServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         if (!$this->app->runningInConsole() && !Igniter::runningInAdmin()) {
             $this->registerAssets();

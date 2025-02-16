@@ -30,7 +30,7 @@ class OnboardingSteps
         return $this->steps[$code] ?? null;
     }
 
-    public function removeStep(string $code)
+    public function removeStep(string $code): void
     {
         unset($this->steps[$code]);
     }
@@ -114,7 +114,7 @@ class OnboardingSteps
      * Registers the onboarding steps.
      * The argument is an array of the onboarding steps definition.
      */
-    public function registerSteps(array $definitions)
+    public function registerSteps(array $definitions): void
     {
         $defaultDefinitions = [
             'code' => null,
@@ -145,12 +145,12 @@ class OnboardingSteps
      *
      * @param callable $callback A callable function.
      */
-    public static function registerCallback(callable $callback)
+    public static function registerCallback(callable $callback): void
     {
         self::$callbacks[] = $callback;
     }
 
-    public static function clearCallbacks()
+    public static function clearCallbacks(): void
     {
         self::$callbacks = [];
     }

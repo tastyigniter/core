@@ -42,7 +42,7 @@ class MailManager
     /** The original data passed to the partial. */
     protected array $partialData = [];
 
-    public function applyMailerConfigValues()
+    public function applyMailerConfigValues(): void
     {
         $config = App::make('config');
         $config->set('mail.default', setting('protocol', $config['mail.default']));
@@ -149,7 +149,7 @@ class MailManager
         return new HtmlString((new StringParser)->parse($content, $data));
     }
 
-    public function startPartial(string $code, array $params = [])
+    public function startPartial(string $code, array $params = []): void
     {
         if (ob_start()) {
             $this->partialStack[] = $code;
@@ -183,7 +183,7 @@ class MailManager
     /**
      * Loads registered templates from extensions
      */
-    public function loadRegisteredTemplates()
+    public function loadRegisteredTemplates(): void
     {
         foreach ($this->callbacks as $callback) {
             $callback($this);
@@ -248,7 +248,7 @@ class MailManager
     /**
      * Registers mail views and manageable layouts.
      */
-    public function registerMailLayouts(array $definitions)
+    public function registerMailLayouts(array $definitions): void
     {
         if (!$this->registeredLayouts) {
             $this->registeredLayouts = [];
@@ -260,7 +260,7 @@ class MailManager
     /**
      * Registers mail views and manageable templates.
      */
-    public function registerMailTemplates(array $definitions)
+    public function registerMailTemplates(array $definitions): void
     {
         if (!$this->registeredTemplates) {
             $this->registeredTemplates = [];
@@ -272,7 +272,7 @@ class MailManager
     /**
      * Registers mail views and manageable partials.
      */
-    public function registerMailPartials(array $definitions)
+    public function registerMailPartials(array $definitions): void
     {
         if (!$this->registeredPartials) {
             $this->registeredPartials = [];
@@ -284,7 +284,7 @@ class MailManager
     /**
      * Registers mail variables.
      */
-    public function registerMailVariables(array $definitions)
+    public function registerMailVariables(array $definitions): void
     {
         if (!$this->registeredVariables) {
             $this->registeredVariables = [];
@@ -306,7 +306,7 @@ class MailManager
      *
      * @param callable $callback A callable function.
      */
-    public function registerCallback(callable $callback)
+    public function registerCallback(callable $callback): void
     {
         $this->callbacks[] = $callback;
     }

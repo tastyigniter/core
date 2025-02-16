@@ -11,7 +11,7 @@ use Illuminate\Support\ServiceProvider;
 
 class FormServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         if (Igniter::runningInAdmin() || app()->runningUnitTests()) {
             $this->registerDashboardWidgets();

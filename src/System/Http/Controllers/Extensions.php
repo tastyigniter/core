@@ -55,7 +55,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('extensions', 'system');
     }
 
-    public function index()
+    public function index(): void
     {
         Extension::syncAll();
 
@@ -64,7 +64,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function edit($action, ?string $vendor = null, ?string $extension = null, ?string $context = null)
+    public function edit($action, ?string $vendor = null, ?string $extension = null, ?string $context = null): void
     {
         AdminMenu::setContext('settings', 'system');
         AdminMenu::setPreviousUrl('settings');
@@ -125,9 +125,9 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->vars['extensionData'] = $this->extensionHasMigrations($extensionCode);
     }
 
-    public function index_onLoadReadme(?string $context = null)
+    public function index_onLoadReadme(?string $context = null): string
     {
-        if (!$recordId = trim((string)post('recordId'))) {
+        if (empty($recordId = trim((string)post('recordId')))) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
@@ -138,7 +138,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function index_onInstall(?string $context = null)
     {
-        if (!$extensionCode = trim(post('code') ?: '')) {
+        if (empty($extensionCode = trim(post('code') ?: ''))) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
@@ -157,7 +157,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function index_onUninstall(?string $context = null)
     {
-        if (!$extensionCode = trim(post('code') ?: '')) {
+        if (empty($extensionCode = trim(post('code') ?: ''))) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 

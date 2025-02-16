@@ -12,20 +12,20 @@ class Status extends BaseBulkActionWidget
 {
     public $statusColumn = 'status_id';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'statusColumn',
         ]);
     }
 
-    public function handleAction(array $requestData, Collection $records)
+    public function handleAction(array $requestData, Collection $records): void
     {
         $code = array_get($requestData, 'code');
         [, $statusCode] = explode('.', $code, 2);
         $statusColumn = $this->statusColumn;
 
-        if ($count = $records->count()) {
+        if (($count = $records->count()) !== 0) {
             DB::transaction(function() use ($records, $statusColumn, $statusCode) {
                 foreach ($records as $record) {
                     $record->$statusColumn = ($statusCode === 'enable');

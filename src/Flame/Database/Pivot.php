@@ -162,10 +162,8 @@ class Pivot extends Model
 
     /**
      * Determine if the pivot model has timestamp attributes.
-     *
-     * @return bool
      */
-    public function hasTimestampAttributes()
+    public function hasTimestampAttributes(): bool
     {
         return array_key_exists($this->getCreatedAtColumn(), $this->attributes);
     }

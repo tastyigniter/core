@@ -71,7 +71,7 @@ it('adds and retrieves js variables successfully', function() {
         'object' => (object)['key' => 'value'],
         'toJson' => new class
         {
-            public function toJson()
+            public function toJson(): array
             {
                 return ['key' => 'value'];
             }

@@ -22,12 +22,12 @@ class Statistics extends BaseDashboardWidget
 
     protected static array $registeredCards = [];
 
-    public static function registerCards(\Closure $callback)
+    public static function registerCards(\Closure $callback): void
     {
         static::$registeredCards[] = $callback;
     }
 
-    public static function clearRegisteredCards()
+    public static function clearRegisteredCards(): void
     {
         static::$registeredCards = [];
     }
@@ -35,7 +35,7 @@ class Statistics extends BaseDashboardWidget
     /**
      * Renders the widget.
      */
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -61,7 +61,7 @@ class Statistics extends BaseDashboardWidget
         return $this->property('card', 'sale');
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addCss('statistics.css', 'statistics-css');
     }

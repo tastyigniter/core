@@ -33,9 +33,8 @@ class ServiceProvider extends AppServiceProvider
 {
     /**
      * Register the service provider.
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerSingletons();
         $this->registerFacadeAliases();
@@ -59,9 +58,8 @@ class ServiceProvider extends AppServiceProvider
 
     /**
      * Bootstrap the module events.
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadViewsFrom($this->root.'/resources/views/system', 'igniter.system');
         $this->loadAnonymousComponentFrom('igniter.system::_components.', 'igniter.system');

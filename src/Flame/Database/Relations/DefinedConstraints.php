@@ -16,10 +16,8 @@ trait DefinedConstraints
 {
     /**
      * Set the defined constraints on the relation query.
-     *
-     * @return void
      */
-    public function addDefinedConstraints()
+    public function addDefinedConstraints(): void
     {
         $args = $this->parent->getRelationDefinition($this->relationName);
 
@@ -34,7 +32,7 @@ trait DefinedConstraints
      * @param \Illuminate\Database\Eloquent\Relations\Relation $relation
      * @param array $args
      */
-    public function addDefinedConstraintsToRelation($relation, $args = null)
+    public function addDefinedConstraintsToRelation($relation, $args = null): void
     {
         if ($args === null) {
             $args = $this->parent->getRelationDefinition($this->relationName);
@@ -84,7 +82,7 @@ trait DefinedConstraints
      * @param \Igniter\Flame\Database\Query\Builder $query
      * @param array $args
      */
-    public function addDefinedConstraintsToQuery($query, $args = null)
+    public function addDefinedConstraintsToQuery($query, $args = null): void
     {
         if ($args === null) {
             $args = $this->parent->getRelationDefinition($this->relationName);

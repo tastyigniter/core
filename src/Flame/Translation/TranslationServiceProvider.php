@@ -9,7 +9,7 @@ use Illuminate\Translation\TranslationServiceProvider as BaseServiceProvider;
 
 class TranslationServiceProvider extends BaseServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->register(BaseServiceProvider::class);
 
@@ -37,7 +37,7 @@ class TranslationServiceProvider extends BaseServiceProvider
         });
     }
 
-    public function registerLoader()
+    public function registerLoader(): void
     {
         $this->app->singleton('translation.loader', function($app) {
             $reflection = new \ReflectionClass(BaseServiceProvider::class);

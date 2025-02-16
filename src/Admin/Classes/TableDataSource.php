@@ -30,7 +30,7 @@ class TableDataSource
      *
      * @param array $records Records to initialize in the data source.
      */
-    public function initRecords(array $records)
+    public function initRecords(array $records): void
     {
         $this->data = array_merge($this->data, $records);
     }
@@ -46,7 +46,7 @@ class TableDataSource
     /**
      * Removes all records from the data source.
      */
-    public function purge()
+    public function purge(): void
     {
         $this->data = [];
     }
@@ -78,7 +78,7 @@ class TableDataSource
      * Rewinds the the data source to the first record.
      * Use this method with the readRecords() method.
      */
-    public function reset()
+    public function reset(): void
     {
         $this->offset = 0;
     }

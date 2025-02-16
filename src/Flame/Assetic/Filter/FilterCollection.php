@@ -38,7 +38,7 @@ class FilterCollection implements \Countable, \IteratorAggregate, FilterInterfac
      * If the supplied filter is another filter collection, each of its
      * filters will be checked.
      */
-    public function ensure(FilterInterface $filter)
+    public function ensure(FilterInterface $filter): void
     {
         if ($filter instanceof \Traversable) {
             foreach ($filter as $f) {
@@ -54,19 +54,19 @@ class FilterCollection implements \Countable, \IteratorAggregate, FilterInterfac
         return $this->filters;
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->filters = [];
     }
 
-    public function filterLoad(AssetInterface $asset)
+    public function filterLoad(AssetInterface $asset): void
     {
         foreach ($this->filters as $filter) {
             $filter->filterLoad($asset);
         }
     }
 
-    public function filterDump(AssetInterface $asset)
+    public function filterDump(AssetInterface $asset): void
     {
         foreach ($this->filters as $filter) {
             $filter->filterDump($asset);

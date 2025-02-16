@@ -11,9 +11,8 @@ class UrlServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->booted(function() {
             $this->forceUrlGeneratorPolicy();
@@ -28,7 +27,7 @@ class UrlServiceProvider extends ServiceProvider
      * insecure - detect hostname and force HTTP schema
      * force    - force hostname and schema using app.url config value
      */
-    public function forceUrlGeneratorPolicy()
+    public function forceUrlGeneratorPolicy(): void
     {
         $policy = $this->app['config']->get('igniter-system.urlPolicy', 'detect');
 

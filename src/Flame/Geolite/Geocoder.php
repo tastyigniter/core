@@ -34,7 +34,7 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
     {
         $query = GeoQuery::create($address);
 
-        if ($this->limit) {
+        if ($this->limit !== 0) {
             $query = $query->withLimit($this->limit);
         }
 
@@ -49,7 +49,7 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
     {
         $query = GeoQuery::fromCoordinates($latitude, $longitude);
 
-        if ($this->limit) {
+        if ($this->limit !== 0) {
             $query = $query->withLimit($this->limit);
         }
 

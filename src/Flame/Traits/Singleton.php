@@ -30,7 +30,7 @@ trait Singleton
     /**
      * Forget this singleton's instance if it exists
      */
-    final public static function forgetInstance()
+    final public static function forgetInstance(): void
     {
         static::$instance = null;
     }

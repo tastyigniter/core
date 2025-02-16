@@ -108,7 +108,7 @@ class Lists extends BaseWidget
 
     protected array $bulkActionWidgets = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'bulkActions',
@@ -133,19 +133,19 @@ class Lists extends BaseWidget
         $this->validateModel();
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('lists.js', 'lists-js');
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('lists/list');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['listId'] = $this->getId();
         $this->vars['bulkActions'] = $this->getAvailableBulkActions();
@@ -252,7 +252,7 @@ class Lists extends BaseWidget
         }
 
         // Add eager loads to the query
-        if ($withs) {
+        if (!empty($withs)) {
             $query->with(array_unique($withs));
         }
 
@@ -264,7 +264,7 @@ class Lists extends BaseWidget
             }
 
             // Search relation columns
-            if ($joins) {
+            if (!empty($joins)) {
                 foreach (array_unique($joins) as $join) {
                     // Apply a supplied search term for relation columns and
                     // constrain the query only if there is something to search for
@@ -348,11 +348,7 @@ class Lists extends BaseWidget
             $this->currentPageNumber = input('page');
         }
 
-        if ($this->showPagination) {
-            $records = $model->paginate($this->pageLimit, $this->currentPageNumber);
-        } else {
-            $records = $model->get();
-        }
+        $records = $this->showPagination ? $model->paginate($this->pageLimit, $this->currentPageNumber) : $model->get();
 
         if ($event = $this->fireSystemEvent('admin.list.extendRecords', [&$records])) {
             $records = $event;
@@ -459,7 +455,7 @@ class Lists extends BaseWidget
     /**
      * Programmatically add columns, used internally and for extensibility.
      */
-    public function addColumns(array $columns)
+    public function addColumns(array $columns): void
     {
         foreach ($columns as $columnName => $config) {
             // Check if admin has permissions to show this column
@@ -477,7 +473,7 @@ class Lists extends BaseWidget
         }
     }
 
-    public function removeColumn(string $columnName)
+    public function removeColumn(string $columnName): void
     {
         if (isset($this->allColumns[$columnName])) {
             unset($this->allColumns[$columnName]);
@@ -793,7 +789,7 @@ class Lists extends BaseWidget
     // Filtering
     //
 
-    public function addFilter(callable $filter)
+    public function addFilter(callable $filter): void
     {
         $this->filterCallbacks[] = $filter;
     }
@@ -806,7 +802,7 @@ class Lists extends BaseWidget
      * Applies a search term to the list results, searching will disable tree
      * view if a value is supplied.
      */
-    public function setSearchTerm(string $term)
+    public function setSearchTerm(string $term): void
     {
         $this->searchTerm = $term;
     }
@@ -814,7 +810,7 @@ class Lists extends BaseWidget
     /**
      * Applies a search options to the list search.
      */
-    public function setSearchOptions(array $options = [])
+    public function setSearchOptions(array $options = []): void
     {
         extract(array_merge([
             'mode' => null,
@@ -1044,7 +1040,7 @@ class Lists extends BaseWidget
 
     public function onBulkAction(): array
     {
-        if (!strlen($code = request()->input('code', ''))) {
+        if (empty($code = request()->input('code', ''))) {
             throw new FlashException(lang('igniter::admin.list.missing_action_code'));
         }
 

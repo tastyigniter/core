@@ -24,7 +24,7 @@ class ArrayLoader extends Loader
      * @param string $name The template name
      * @param string $template The template source
      */
-    public function setTemplate(string $name, string $template)
+    public function setTemplate(string $name, string $template): void
     {
         $this->templates[$name] = $template;
     }

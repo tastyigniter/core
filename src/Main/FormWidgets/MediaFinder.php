@@ -60,7 +60,7 @@ class MediaFinder extends BaseFormWidget
 
     protected string $defaultAlias = 'media';
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'mode',
@@ -71,7 +71,7 @@ class MediaFinder extends BaseFormWidget
         ]);
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -81,19 +81,19 @@ class MediaFinder extends BaseFormWidget
     /**
      * Prepares the list data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['value'] = $this->getLoadValue();
         $this->vars['fieldName'] = $this->isMulti ? $this->formField->getName().'[]' : $this->formField->getName();
         $this->vars['field'] = $this->formField;
-        $this->vars['prompt'] = str_replace('%s', '<i class="icon-folder"></i>', $this->prompt ? lang($this->prompt) : '');
+        $this->vars['prompt'] = str_replace('%s', '<i class="icon-folder"></i>', !empty($this->prompt) ? lang($this->prompt) : '');
         $this->vars['mode'] = $this->mode;
         $this->vars['isMulti'] = $this->isMulti;
         $this->vars['useAttachment'] = $this->useAttachment;
         $this->vars['chooseButtonText'] = lang($this->useAttachment ? 'igniter::main.media_manager.text_attach' : 'igniter::main.media_manager.text_choose');
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         if ($this->getConfig('useAttachment')) {
             $this->addJs('formwidgets/repeater.js', 'repeater-js');
@@ -136,7 +136,7 @@ class MediaFinder extends BaseFormWidget
             return $media->getThumb($this->thumbOptions);
         }
 
-        if (!strlen($path = trim($media, '/'))) {
+        if (empty($path = trim($media, '/'))) {
             return $path;
         }
 
@@ -151,7 +151,7 @@ class MediaFinder extends BaseFormWidget
         }
 
         $extension = pathinfo($path, PATHINFO_EXTENSION);
-        if (!strlen($extension)) {
+        if (empty($extension)) {
             return MediaItem::FILE_TYPE_DOCUMENT;
         }
 
@@ -217,7 +217,7 @@ class MediaFinder extends BaseFormWidget
         return ['#notification' => $this->makePartial('flash')];
     }
 
-    public function onRemoveAttachment()
+    public function onRemoveAttachment(): void
     {
         if (!$this->useAttachment || !$mediaId = post('media_id')) {
             return;

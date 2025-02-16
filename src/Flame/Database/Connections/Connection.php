@@ -26,9 +26,8 @@ class Connection extends ConnectionBase
 
     /**
      * Flush the memory cache.
-     * @return void
      */
-    public static function flushDuplicateCache()
+    public static function flushDuplicateCache(): void
     {
         resolve(MemoryCache::class)->flush();
     }
@@ -39,9 +38,8 @@ class Connection extends ConnectionBase
      * @param string $query
      * @param array $bindings
      * @param float|null $time
-     * @return void
      */
-    public function logQuery($query, $bindings, $time = null)
+    public function logQuery($query, $bindings, $time = null): void
     {
         if (isset($this->events)) {
             $this->events->dispatch('illuminate.query', [$query, $bindings, $time, $this->getName()]);

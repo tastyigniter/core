@@ -40,7 +40,7 @@ class Navigation
 
     public function __construct(?string $path = null) {}
 
-    public function setContext(string $itemCode, ?string $parentCode = null)
+    public function setContext(string $itemCode, ?string $parentCode = null): void
     {
         $this->navContextItemCode = $itemCode;
         $this->navContextParentCode = is_null($parentCode) ? $itemCode : $parentCode;
@@ -85,12 +85,7 @@ class Navigation
         if ($code == $this->navContextParentCode) {
             return true;
         }
-
-        if ($code == $this->navContextItemCode) {
-            return true;
-        }
-
-        return false;
+        return $code == $this->navContextItemCode;
     }
 
     public function getMainItems(): array
@@ -102,7 +97,7 @@ class Navigation
         return $this->filterPermittedNavItems($this->mainItems);
     }
 
-    public function addNavItem(string $itemCode, array $options = [], ?string $parentCode = null)
+    public function addNavItem(string $itemCode, array $options = [], ?string $parentCode = null): void
     {
         $navItem = array_merge(self::$navItemDefaults, $options);
         $navItem['code'] = $itemCode;
@@ -121,7 +116,7 @@ class Navigation
         }
     }
 
-    public function mergeNavItem(string $itemCode, array $options = [], ?string $parentCode = null)
+    public function mergeNavItem(string $itemCode, array $options = [], ?string $parentCode = null): void
     {
         if ($parentCode) {
             if ($oldItem = array_get($this->navItems, $parentCode.'.child.'.$itemCode, [])) {
@@ -134,7 +129,7 @@ class Navigation
         }
     }
 
-    public function removeNavItem(string $itemCode, ?string $parentCode = null)
+    public function removeNavItem(string $itemCode, ?string $parentCode = null): void
     {
         if (!is_null($parentCode)) {
             unset($this->navItems[$parentCode]['child'][$itemCode]);
@@ -143,12 +138,12 @@ class Navigation
         }
     }
 
-    public function removeMainItem(string $itemCode)
+    public function removeMainItem(string $itemCode): void
     {
         unset($this->mainItems[$itemCode]);
     }
 
-    public function loadItems()
+    public function loadItems(): void
     {
         if ($this->navItemsLoaded) {
             return;
@@ -209,7 +204,7 @@ class Navigation
     // Registration
     //
 
-    public function registerMainItems(?array $definitions = null)
+    public function registerMainItems(?array $definitions = null): void
     {
         if (!$this->mainItems) {
             $this->mainItems = [];
@@ -224,7 +219,7 @@ class Navigation
         }
     }
 
-    public function registerNavItems(?array $definitions = null, ?string $parent = null)
+    public function registerNavItems(?array $definitions = null, ?string $parent = null): void
     {
         if (!$this->navItems) {
             $this->navItems = [];
@@ -241,7 +236,7 @@ class Navigation
         }
     }
 
-    public function registerNavItem(string $code, array $item, ?string $parent = null)
+    public function registerNavItem(string $code, array $item, ?string $parent = null): void
     {
         $item = array_filter(array_merge(self::$navItemDefaults, $item));
 
@@ -265,7 +260,7 @@ class Navigation
      *
      * @param callable $callback A callable function.
      */
-    public function registerCallback(callable $callback)
+    public function registerCallback(callable $callback): void
     {
         $this->callbacks[] = $callback;
     }

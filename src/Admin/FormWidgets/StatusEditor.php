@@ -84,7 +84,7 @@ class StatusEditor extends BaseFormWidget
 
     protected bool $isStatusMode = true;
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'form',
@@ -104,7 +104,7 @@ class StatusEditor extends BaseFormWidget
         ]);
     }
 
-    public function render()
+    public function render(): string
     {
         $this->setMode('status');
         $this->prepareVars();
@@ -204,13 +204,13 @@ class StatusEditor extends BaseFormWidget
         ];
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
         $this->addJs('statuseditor.js', 'statuseditor-js');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['field'] = $this->formField;
         $this->vars['status'] = $this->model->{$this->statusRelationFrom};
@@ -224,7 +224,7 @@ class StatusEditor extends BaseFormWidget
 
     public static function getAssigneeOptions(Form $form, $field): array|Collection
     {
-        if (!strlen($groupId = post('groupId', $form->getField('assignee_group_id')->value ?? ''))) {
+        if (strlen($groupId = post('groupId', $form->getField('assignee_group_id')->value ?? '')) === 0) {
             return [];
         }
 

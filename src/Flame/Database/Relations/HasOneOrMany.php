@@ -19,7 +19,7 @@ trait HasOneOrMany
     /**
      * Adds a model to this relationship type.
      */
-    public function add(Model $model)
+    public function add(Model $model): void
     {
         $model->setAttribute($this->getForeignKeyName(), $this->getParentKey());
 
@@ -40,9 +40,8 @@ trait HasOneOrMany
     /**
      * Attach an array of models to the parent instance with deferred binding support.
      * @param array $models
-     * @return void
      */
-    public function addMany($models, $sessionKey = null)
+    public function addMany($models, $sessionKey = null): void
     {
         foreach ($models as $model) {
             $this->add($model, $sessionKey);
@@ -52,7 +51,7 @@ trait HasOneOrMany
     /**
      * Removes a model from this relationship type.
      */
-    public function remove(Model $model)
+    public function remove(Model $model): void
     {
         $model->setAttribute($this->getForeignKeyName(), null);
         $model->save();

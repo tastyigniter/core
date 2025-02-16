@@ -90,12 +90,12 @@ class MailTemplate extends Model
     // Helpers
     //
 
-    public function fillFromContent($content)
+    public function fillFromContent($content): void
     {
         $this->fillFromSections(MailParser::parse($content));
     }
 
-    public function fillFromView()
+    public function fillFromView(): void
     {
         $this->fillFromSections(self::getTemplateSections($this->code));
     }
@@ -112,9 +112,8 @@ class MailTemplate extends Model
 
     /**
      * Synchronise all templates to the database.
-     * @return void
      */
-    public static function syncAll()
+    public static function syncAll(): void
     {
         MailLayout::createLayouts();
         MailPartial::createPartials();

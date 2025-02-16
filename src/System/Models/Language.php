@@ -71,7 +71,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     /** Active language cache. */
     public static ?self $activeLanguage = null;
 
-    public static function applySupportedLanguages()
+    public static function applySupportedLanguages(): void
     {
         setting()->setPref('supported_languages', self::getDropdownOptions()->keys()->toArray());
     }
@@ -127,7 +127,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return count(self::listSupported()) > 1;
     }
 
-    public static function clearInternalCache()
+    public static function clearInternalCache(): void
     {
         self::$localesCache = [];
         self::$supportedLocalesCache = null;

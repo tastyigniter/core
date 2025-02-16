@@ -57,7 +57,7 @@ class TemplateEditor extends BaseFormWidget
 
     protected ?string $templateFile = null;
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'form',
@@ -74,18 +74,18 @@ class TemplateEditor extends BaseFormWidget
         }
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
-        if ($this->templateWidget) {
+        if (!is_null($this->templateWidget)) {
             $this->setTemplateValue('mTime', $this->getTemplateModifiedTime());
         }
 
         return $this->makePartial('templateeditor/templateeditor');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['field'] = $this->formField;
         $this->vars['fieldOptions'] = $this->getTemplateEditorOptions();
@@ -164,7 +164,7 @@ class TemplateEditor extends BaseFormWidget
         return $this->controller->refresh();
     }
 
-    public function onSaveSource()
+    public function onSaveSource(): void
     {
         if ($this->manager->isLocked($this->model->code)) {
             throw new FlashException(lang('igniter::system.themes.alert_theme_locked'));
@@ -287,7 +287,7 @@ class TemplateEditor extends BaseFormWidget
         return $this->getSession($this->model->code.'-selected-'.$name, $default);
     }
 
-    public function setTemplateValue(string $name, mixed $value)
+    public function setTemplateValue(string $name, mixed $value): void
     {
         $this->putSession($this->model->code.'-selected-'.$name, $value);
     }

@@ -64,7 +64,7 @@ class CurrencyMiddleware
     /**
      * Set the user currency.
      */
-    private function setUserCurrency(string $currency, Request $request)
+    private function setUserCurrency(string $currency, Request $request): void
     {
         // Set user selection globally
         currency()->setUserCurrency($currency = strtoupper($currency));

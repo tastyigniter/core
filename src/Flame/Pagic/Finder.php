@@ -122,8 +122,6 @@ class Finder
      * Alias to set the "offset" value of the query.
      *
      * @param int $value
-     *
-     * @return \Igniter\Flame\Pagic\Finder|static
      */
     public function skip($value): static
     {
@@ -172,11 +170,7 @@ class Finder
      */
     public function get(array $columns = ['*']): Collection
     {
-        if (!is_null($this->cacheSeconds)) {
-            $results = $this->getCached($columns);
-        } else {
-            $results = $this->getFresh($columns);
-        }
+        $results = !is_null($this->cacheSeconds) ? $this->getCached($columns) : $this->getFresh($columns);
 
         $models = $this->getModels($results ?: []);
 
@@ -483,11 +477,7 @@ class Finder
         // If the "seconds" value is less than zero, we will use that as the indicator
         // that the value should be remembered values should be stored indefinitely
         // and if we have seconds we will use the typical remember function here.
-        if ($seconds < 0) {
-            $result = $cache->rememberForever($key, $callback);
-        } else {
-            $result = $cache->remember($key, $seconds, $callback);
-        }
+        $result = $seconds < 0 ? $cache->rememberForever($key, $callback) : $cache->remember($key, $seconds, $callback);
 
         // If this is an old cache record, we can check if the cache has been busted
         // by comparing the modification times. If this is the case, forget the
@@ -496,11 +486,7 @@ class Finder
             $cache->forget($key);
             $isNewCache = true;
 
-            if ($seconds < 0) {
-                $result = $cache->rememberForever($key, $callback);
-            } else {
-                $result = $cache->remember($key, $seconds, $callback);
-            }
+            $result = $seconds < 0 ? $cache->rememberForever($key, $callback) : $cache->remember($key, $seconds, $callback);
         }
 
         $this->loadedFromCache = !$isNewCache;
@@ -518,7 +504,7 @@ class Finder
             return false;
         }
 
-        $mTime = $result ? array_get(reset($result), 'mTime') : null;
+        $mTime = !empty($result) ? array_get(reset($result), 'mTime') : null;
 
         [$name, $extension] = $this->select;
 
@@ -576,7 +562,7 @@ class Finder
      */
     protected function processInitCacheData(array $data): array
     {
-        if ($data) {
+        if (!empty($data)) {
             $model = get_class($this->model);
 
             foreach ($data as &$record) {
@@ -590,7 +576,7 @@ class Finder
     /**
      * Clears the internal request-level object cache.
      */
-    public static function clearInternalCache()
+    public static function clearInternalCache(): void
     {
         MemorySource::$cache = [];
     }

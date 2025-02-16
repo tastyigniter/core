@@ -85,7 +85,7 @@ trait ManagesSource
             ->mapWithKeys(function(Model $model) {
                 $fileName = $model->getKey();
                 $description = (string)($model->description ?: $model->title);
-                $description = str_limit(strlen($description) ? lang($description) : $fileName, 40);
+                $description = str_limit(!empty($description) ? lang($description) : $fileName, 40);
                 $description .= ' ['.$fileName.']';
 
                 if ($model->isHidden) {

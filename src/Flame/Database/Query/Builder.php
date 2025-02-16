@@ -159,11 +159,7 @@ class Builder extends IlluminateQueryBuilder
         if (is_int($minutes) && $minutes < 0) {
             $results = $cache->rememberForever($key, $callback);
         } else {
-            if (is_int($minutes)) {
-                $expiresAt = now()->addMinutes($minutes);
-            } else {
-                $expiresAt = $minutes;
-            }
+            $expiresAt = is_int($minutes) ? now()->addMinutes($minutes) : $minutes;
             $results = $cache->remember($key, $expiresAt, $callback);
         }
 
@@ -184,10 +180,8 @@ class Builder extends IlluminateQueryBuilder
 
     /**
      * Get the cache key and cache minutes as an array.
-     *
-     * @return array
      */
-    protected function getCacheInfo()
+    protected function getCacheInfo(): array
     {
         return [$this->getCacheKey(), $this->cacheMinutes];
     }
@@ -204,10 +198,8 @@ class Builder extends IlluminateQueryBuilder
 
     /**
      * Generate the unique cache key for the query.
-     *
-     * @return string
      */
-    public function generateCacheKey()
+    public function generateCacheKey(): string
     {
         $name = $this->connection->getName();
 
@@ -299,10 +291,8 @@ class Builder extends IlluminateQueryBuilder
 
     /**
      * Run a truncate statement on the table.
-     *
-     * @return void
      */
-    public function truncate()
+    public function truncate(): void
     {
         $this->clearDuplicateCache();
 

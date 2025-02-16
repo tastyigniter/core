@@ -88,7 +88,7 @@ class Template
         }, $data);
     }
 
-    protected function evaluatePath(string $path, array $data)
+    protected function evaluatePath(string $path, array $data): string
     {
         $obLevel = ob_get_level();
         ob_start();

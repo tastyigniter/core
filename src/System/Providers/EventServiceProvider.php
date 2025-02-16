@@ -16,7 +16,7 @@ class EventServiceProvider extends FlameEventServiceProvider
         Language::class => LanguageObserver::class,
     ];
 
-    public function boot()
+    public function boot(): void
     {
         // Allow system based cache clearing
         $this->handleCacheCleared();

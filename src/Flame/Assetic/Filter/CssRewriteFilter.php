@@ -16,7 +16,7 @@ class CssRewriteFilter extends BaseCssFilter
 {
     public function filterLoad(AssetInterface $asset) {}
 
-    public function filterDump(AssetInterface $asset)
+    public function filterDump(AssetInterface $asset): void
     {
         $sourceBase = $asset->getSourceRoot();
         $sourcePath = $asset->getSourcePath();

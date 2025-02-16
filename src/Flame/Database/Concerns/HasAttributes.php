@@ -181,7 +181,7 @@ trait HasAttributes
         return $this;
     }
 
-    protected function asSerialized($value)
+    protected function asSerialized($value): ?string
     {
         return isset($value) ? serialize($value) : null;
     }

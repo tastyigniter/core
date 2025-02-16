@@ -12,10 +12,8 @@ class GeoliteServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->bind('geocoder', Geocoder::class);
         $this->app->bind(Geolite::class, 'geolite');

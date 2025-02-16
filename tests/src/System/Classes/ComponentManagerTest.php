@@ -61,7 +61,7 @@ it('throws an exception when component class does not exists', function() {
 it('throws an exception when component class is invalid', function() {
     $component = new class extends Component
     {
-        public static function componentMeta()
+        public static function componentMeta(): array
         {
             return [
                 'code' => 'test3.component',

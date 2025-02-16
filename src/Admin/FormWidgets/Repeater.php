@@ -60,7 +60,7 @@ class Repeater extends BaseFormWidget
      */
     protected array $formWidgets = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'form',
@@ -80,7 +80,7 @@ class Repeater extends BaseFormWidget
         $this->processExistingItems();
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -114,12 +114,12 @@ class Repeater extends BaseFormWidget
         return (array)$this->processSaveValue($value);
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('repeater.js', 'repeater-js');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['formWidgets'] = $this->formWidgets;
         $this->vars['widgetTemplate'] = $this->getFormWidgetTemplate();
@@ -202,7 +202,7 @@ class Repeater extends BaseFormWidget
 
         $itemIndexes = post($this->sortableInputName, $loadedIndexes);
 
-        if (!count($itemIndexes)) {
+        if (count($itemIndexes) === 0) {
             return;
         }
 

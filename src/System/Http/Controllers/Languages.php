@@ -77,7 +77,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('settings', 'system');
     }
 
-    public function index()
+    public function index(): void
     {
         Language::applySupportedLanguages();
 
@@ -96,7 +96,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return resolve(LanguageManager::class)->searchLanguages($filter['search']);
     }
 
-    public function edit(?string $context = null, ?string $recordId = null)
+    public function edit(?string $context = null, ?string $recordId = null): void
     {
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
         $this->addJs('formwidgets/translationseditor.js', 'translationseditor-js');
@@ -119,7 +119,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return $this->refreshList('list');
     }
 
-    public function listOverrideColumnValue(Language $record, ListColumn $column, ?string $alias = null)
+    public function listOverrideColumnValue(Language $record, ListColumn $column, ?string $alias = null): void
     {
         if ($column->type == 'button' && $column->columnName == 'default') {
             $column->iconCssClass = $record->isDefault() ? 'fa fa-star' : 'fa fa-star-o';
@@ -144,7 +144,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return $this->asExtension('FormController')->makeRedirect('edit', $model);
     }
 
-    public function edit_onCheckUpdates(?string $context = null, ?string $recordId = null)
+    public function edit_onCheckUpdates(?string $context = null, ?string $recordId = null): string
     {
         $model = $this->formFindModelObject($recordId);
 
@@ -167,10 +167,10 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         return $this->asExtension('FormController')->makeRedirect('edit', $model);
     }
 
-    public function onApplyItems()
+    public function onApplyItems(): array
     {
         $items = post('items') ?? [];
-        if (!count($items)) {
+        if (empty($items)) {
             throw new FlashException(lang('igniter::system.updates.alert_no_items'));
         }
 
@@ -183,7 +183,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
             new FlashException(lang('igniter::system.languages.alert_language_not_found')),
         );
 
-        if (!Language::findByCode($itemMeta['name'])) {
+        if (is_null(Language::findByCode($itemMeta['name']))) {
             $language = Language::make(['code' => $itemMeta['name']]);
             $language->name = $response['name'];
             $language->status = true;
@@ -197,7 +197,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         ];
     }
 
-    public function edit_onApplyUpdate(?string $context = null, ?string $recordId = null)
+    public function edit_onApplyUpdate(?string $context = null, ?string $recordId = null): array
     {
         $model = $this->formFindModelObject($recordId);
 
@@ -208,7 +208,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         ];
     }
 
-    public function onProcessItems(?string $context = null, ?string $recordId = null)
+    public function onProcessItems(?string $context = null, ?string $recordId = null): array
     {
         $model = $this->formFindModelObject($recordId);
 
@@ -251,7 +251,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         ];
     }
 
-    public function formExtendModel(Model $model)
+    public function formExtendModel(Model $model): void
     {
         if (!$model->exists) {
             return;
@@ -264,7 +264,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         ]);
     }
 
-    public function formExtendFields(Form $form, array $fields)
+    public function formExtendFields(Form $form, array $fields): void
     {
         if ($form->getContext() !== 'edit') {
             return;

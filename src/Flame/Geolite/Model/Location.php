@@ -241,7 +241,7 @@ class Location implements Contracts\LocationInterface
 
     public function hasCoordinates(): bool
     {
-        if (!$coordinates = $this->getCoordinates()) {
+        if (is_null($coordinates = $this->getCoordinates())) {
             return false;
         }
 
@@ -273,7 +273,7 @@ class Location implements Contracts\LocationInterface
             'providedBy' => $this->providedBy,
             'latitude' => $coordinates?->getLatitude(),
             'longitude' => $coordinates?->getLongitude(),
-            'bounds' => $this->bounds ? $this->bounds->toArray() : $noBounds,
+            'bounds' => !is_null($this->bounds) ? $this->bounds->toArray() : $noBounds,
             'streetNumber' => $this->streetNumber,
             'streetName' => $this->streetName,
             'postalCode' => $this->postalCode,

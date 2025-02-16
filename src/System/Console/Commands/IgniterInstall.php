@@ -224,7 +224,7 @@ class IgniterInstall extends Command
         ]);
     }
 
-    protected function generateEncryptionKey()
+    protected function generateEncryptionKey(): string
     {
         return 'base64:'.base64_encode(random_bytes(32));
     }

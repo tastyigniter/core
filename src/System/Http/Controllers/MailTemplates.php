@@ -62,14 +62,14 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('mail_templates', 'design');
     }
 
-    public function index()
+    public function index(): void
     {
         MailTemplate::syncAll();
 
         $this->asExtension('ListController')->index();
     }
 
-    public function formExtendFields(Form $form)
+    public function formExtendFields(Form $form): void
     {
         if ($form->context != 'create') {
             $field = $form->getField('code');
@@ -77,12 +77,12 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
         }
     }
 
-    public function formBeforeSave(MailTemplate $model)
+    public function formBeforeSave(MailTemplate $model): void
     {
         $model->is_custom = true;
     }
 
-    public function onTestTemplate(?string $context = null, ?string $recordId = null)
+    public function onTestTemplate(?string $context = null, ?string $recordId = null): array
     {
         if (!$recordId) {
             throw new FlashException(lang('igniter::system.mail_templates.alert_template_id_not_found'));

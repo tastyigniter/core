@@ -38,7 +38,7 @@ class IgniterUpdate extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $forceUpdate = (bool)$this->option('force');
 

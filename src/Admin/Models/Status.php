@@ -54,15 +54,13 @@ class Status extends Model
      * Return status_for attribute as lang text, used by
      *
      * @param $row
-     *
-     * @return string
      */
-    public function getStatusForNameAttribute($value)
+    public function getStatusForNameAttribute($value): string
     {
         return ($this->status_for == 'reservation') ? lang('igniter::admin.statuses.text_reservation') : lang('igniter::admin.statuses.text_order');
     }
 
-    public function getStatusForDropdownOptions()
+    public function getStatusForDropdownOptions(): array
     {
         return [
             'order' => lang('igniter::admin.statuses.text_order'),

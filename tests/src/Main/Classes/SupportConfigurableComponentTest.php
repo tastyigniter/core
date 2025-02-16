@@ -36,7 +36,7 @@ it('fills component properties when component uses ConfigurableComponent trait',
             return null;
         }
 
-        public function fill($values)
+        public function fill($values): void
         {
             $this->properties = $values;
         }
@@ -54,7 +54,7 @@ it('does not fill component properties when component does not use ConfigurableC
     {
         public $properties = [];
 
-        public function fill($values)
+        public function fill($values): void
         {
             $this->properties = $values;
         }
@@ -84,7 +84,7 @@ it('fills component properties with alias when component uses ConfigurableCompon
             return 'alias';
         }
 
-        public function fill($values)
+        public function fill($values): void
         {
             $this->properties = $values;
         }

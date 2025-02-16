@@ -65,7 +65,7 @@ class Settings extends Model
         return $options;
     }
 
-    public static function getDateFormatOptions()
+    public static function getDateFormatOptions(): array
     {
         $now = Carbon::now();
 
@@ -84,7 +84,7 @@ class Settings extends Model
         ];
     }
 
-    public static function getTimeFormatOptions()
+    public static function getTimeFormatOptions(): array
     {
         $now = Carbon::now();
 
@@ -95,7 +95,7 @@ class Settings extends Model
         ];
     }
 
-    public static function getPageLimitOptions()
+    public static function getPageLimitOptions(): array
     {
         return [
             '10' => '10',
@@ -106,14 +106,14 @@ class Settings extends Model
         ];
     }
 
-    public static function getMenusPageOptions()
+    public static function getMenusPageOptions(): array
     {
         $theme = resolve(ThemeManager::class)->getActiveThemeCode();
 
         return $theme ? Page::getDropdownOptions($theme, true) : [];
     }
 
-    public static function getReservationPageOptions()
+    public static function getReservationPageOptions(): array
     {
         $theme = resolve(ThemeManager::class)->getActiveThemeCode();
 
@@ -223,7 +223,7 @@ class Settings extends Model
         return $this->items;
     }
 
-    public function loadSettingItems()
+    public function loadSettingItems(): void
     {
         foreach (self::$callbacks as $callback) {
             $callback($this);
@@ -255,7 +255,7 @@ class Settings extends Model
         $this->fireSystemEvent('system.settings.extendItems', [$this]);
     }
 
-    public function removeSettingItem($code)
+    public function removeSettingItem($code): void
     {
         unset($this->allItems[$code]);
 
@@ -274,7 +274,7 @@ class Settings extends Model
         }
     }
 
-    public function registerSettingItems($owner, array $definitions)
+    public function registerSettingItems($owner, array $definitions): void
     {
         if (!$this->items) {
             $this->items = [];
@@ -316,12 +316,12 @@ class Settings extends Model
         }
     }
 
-    public static function registerCallback(callable $callback)
+    public static function registerCallback(callable $callback): void
     {
         self::$callbacks[] = $callback;
     }
 
-    public static function clearInternalCache()
+    public static function clearInternalCache(): void
     {
         self::$callbacks = [];
     }

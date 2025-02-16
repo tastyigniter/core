@@ -30,7 +30,7 @@ abstract class BaseCssFilter implements FilterInterface
      */
     protected function filterReferences($content, $callback, $limit = -1, &$count = 0)
     {
-        return CssUtils::filterReferences($content, $callback, $limit, $count);
+        return CssUtils::filterReferences($content, $callback);
     }
 
     /**
@@ -42,6 +42,6 @@ abstract class BaseCssFilter implements FilterInterface
      */
     protected function filterImports($content, $callback, $limit = -1, &$count = 0, $includeUrl = true)
     {
-        return CssUtils::filterImports($content, $callback, $limit, $count, $includeUrl);
+        return CssUtils::filterImports($content, $callback, $limit);
     }
 }

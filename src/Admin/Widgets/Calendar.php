@@ -25,7 +25,7 @@ class Calendar extends BaseWidget
     /** Defines the event popover partial. */
     public ?string $popoverPartial = null;
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'aspectRatio',
@@ -36,7 +36,7 @@ class Calendar extends BaseWidget
         ]);
     }
 
-    public function loadAssets()
+    public function loadAssets(): void
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
         $this->addCss('formwidgets/datepicker.css', 'datepicker-css');
@@ -47,14 +47,14 @@ class Calendar extends BaseWidget
         $this->addCss('calendar.css', 'calendar-css');
     }
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('calendar/calendar');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['aspectRatio'] = $this->aspectRatio;
         $this->vars['editable'] = $this->editable;
@@ -70,7 +70,7 @@ class Calendar extends BaseWidget
         $eventResults = $this->fireEvent('calendar.generateEvents', [$startAt, $endAt]);
 
         $generatedEvents = [];
-        if (count($eventResults)) {
+        if (count($eventResults) > 0) {
             $generatedEvents = array_merge(...$eventResults);
         }
 
@@ -79,7 +79,7 @@ class Calendar extends BaseWidget
         ];
     }
 
-    public function onUpdateEvent()
+    public function onUpdateEvent(): void
     {
         $eventId = request()->input('eventId', '');
         $startAt = request()->input('start');

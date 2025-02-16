@@ -98,7 +98,7 @@ class BaseController extends Extendable
         return $methodExists;
     }
 
-    public function setStatusCode($code)
+    public function setStatusCode($code): void
     {
         $this->statusCode = $code;
     }

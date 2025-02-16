@@ -71,7 +71,7 @@ class Controller extends IlluminateController
     /**
      * Extend this object properties upon construction.
      */
-    public static function extend(Closure $callback)
+    public static function extend(Closure $callback): void
     {
         self::extendableExtendCallback($callback);
     }

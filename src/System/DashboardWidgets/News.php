@@ -19,7 +19,7 @@ class News extends BaseDashboardWidget
 
     public string $newsRss = 'https://tastyigniter.com/feed';
 
-    public function render()
+    public function render(): string
     {
         $this->prepareVars();
 

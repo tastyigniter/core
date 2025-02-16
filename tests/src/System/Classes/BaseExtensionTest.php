@@ -11,7 +11,7 @@ use Igniter\Tests\System\Fixtures\TestExtension;
 use Illuminate\Console\Scheduling\Schedule;
 use Mockery;
 
-function createExtension()
+function createExtension(): TestExtension
 {
     return new TestExtension(app());
 }

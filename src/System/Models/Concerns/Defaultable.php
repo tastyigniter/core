@@ -12,7 +12,7 @@ trait Defaultable
 {
     public static array $defaultModels = [];
 
-    public static function bootDefaultable()
+    public static function bootDefaultable(): void
     {
         static::extend(function(self $model) {
             $model->mergeCasts([$model->defaultableGetColumn() => 'boolean']);
@@ -69,7 +69,7 @@ trait Defaultable
         unset(static::$defaultModels[static::class]);
     }
 
-    public static function clearDefaultModels()
+    public static function clearDefaultModels(): void
     {
         static::$defaultModels = [];
     }

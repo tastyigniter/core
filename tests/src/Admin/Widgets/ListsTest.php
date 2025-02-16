@@ -21,7 +21,7 @@ use InvalidArgumentException;
 beforeEach(function() {
     $this->controller = new class extends AdminController
     {
-        public function refreshList($alias = null)
+        public function refreshList($alias = null): array
         {
             return [$alias => 'refreshed'];
         }
@@ -237,7 +237,7 @@ it('throws exception when missing defined columns', function() {
 it('filter list columns using model filterColumns method', function() {
     $this->widgetConfig['model'] = new class extends Status
     {
-        public function filterColumns(&$listColumn)
+        public function filterColumns(&$listColumn): array
         {
             unset($listColumn['status_id']);
         }

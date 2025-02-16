@@ -20,7 +20,7 @@ it('fills view bag array with properties from view bag', function() {
     {
         use HasViewBag;
 
-        public function testFillViewBagArray()
+        public function testFillViewBagArray(): void
         {
             $this->fillViewBagArray();
         }

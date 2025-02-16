@@ -47,17 +47,17 @@ class ThemeManager
 
     protected array $directories = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->disabledThemes = resolve(PackageManifest::class)->disabledAddons();
     }
 
-    public function addDirectory(string $directory)
+    public function addDirectory(string $directory): void
     {
         $this->directories[] = $directory;
     }
 
-    public function clearDirectory()
+    public function clearDirectory(): void
     {
         $this->directories = [];
     }
@@ -124,7 +124,7 @@ class ThemeManager
         return $this->loadThemeFromConfig($path, $config);
     }
 
-    public function bootThemes()
+    public function bootThemes(): void
     {
         if ($this->booted) {
             return;
@@ -141,7 +141,7 @@ class ThemeManager
         $this->booted = true;
     }
 
-    public function bootTheme(Theme $theme)
+    public function bootTheme(Theme $theme): void
     {
         Page::getSourceResolver()->addSource($theme->getName(), $theme->makeFileSource());
 
@@ -412,7 +412,7 @@ class ThemeManager
         $theme = $this->findTheme($themeCode);
 
         [$dirName, $fileName] = $this->getFileNameParts($filePath);
-        [$newDirName, $newFileName] = $this->getFileNameParts($newFilePath, $theme);
+        [$newDirName, $newFileName] = $this->getFileNameParts($newFilePath);
 
         if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException("Theme template file not found: $filePath");
@@ -490,7 +490,7 @@ class ThemeManager
     {
         $model = ThemeModel::firstOrNew(['code' => $code]);
 
-        if (!$themeObj = $this->findTheme($model->code)) {
+        if (is_null($themeObj = $this->findTheme($model->code))) {
             return false;
         }
 
@@ -506,7 +506,7 @@ class ThemeManager
     /**
      * Update installed extensions config value
      */
-    public function updateInstalledThemes(string $code, ?bool $enable = true)
+    public function updateInstalledThemes(string $code, ?bool $enable = true): void
     {
         if ($enable) {
             array_pull($this->disabledThemes, $code);

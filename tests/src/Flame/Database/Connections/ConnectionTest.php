@@ -33,7 +33,7 @@ it('fires connection event', function() {
     $events->shouldReceive('dispatch')->twice();
     $connection = new class((Mockery::mock('PDO'))) extends Connection
     {
-        public function testEvent()
+        public function testEvent(): void
         {
             $this->fireConnectionEvent('event');
         }

@@ -34,14 +34,14 @@ class FileSystem
         return $result.basename($name);
     }
 
-    public function load(string $key)
+    public function load(string $key): void
     {
         if (File::exists($key)) {
             include_once $key;
         }
     }
 
-    public function write(string $path, string $content)
+    public function write(string $path, string $content): void
     {
         $dir = dirname($path);
         if (!File::isDirectory($dir) && !File::makeDirectory($dir, 0777, true)) {
@@ -103,7 +103,7 @@ class FileSystem
     /**
      * Stores result data inside cache.
      */
-    public function storeCached(string $filePath, array $cacheItem)
+    public function storeCached(string $filePath, array $cacheItem): void
     {
         $cached = $this->getCached() ?: [];
         $cached[$filePath] = $cacheItem;

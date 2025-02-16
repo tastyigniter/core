@@ -35,7 +35,7 @@ class IgniterPasswd extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $email = $this->argument('email') ?? $this->ask('Admin email to reset');
 

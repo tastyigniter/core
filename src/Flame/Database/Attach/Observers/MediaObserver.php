@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaObserver
 {
-    public function saved(Media $media)
+    public function saved(Media $media): void
     {
         if (!is_null($media->fileToAdd)) {
             if ($media->fileToAdd instanceof UploadedFile) {
@@ -22,7 +22,7 @@ class MediaObserver
         }
     }
 
-    public function deleted(Media $media)
+    public function deleted(Media $media): void
     {
         rescue(function() use ($media) {
             $media->deleteThumbs();

@@ -90,10 +90,8 @@ abstract class Model extends EloquentModel
      * Reloads the model relationship cache.
      *
      * @param string $relationName
-     *
-     * @return void
      */
-    public function reloadRelations($relationName = null)
+    public function reloadRelations($relationName = null): void
     {
         if (!$relationName) {
             $this->setRelations([]);
@@ -105,7 +103,7 @@ abstract class Model extends EloquentModel
     /**
      * Extend this object properties upon construction.
      */
-    public static function extend(callable $callback)
+    public static function extend(callable $callback): void
     {
         self::extendableExtendCallback($callback);
     }
@@ -165,9 +163,8 @@ abstract class Model extends EloquentModel
      * Also flush registry of models that had events booted
      * Allows painless unit testing.
      * @override
-     * @return void
      */
-    public static function flushEventListeners()
+    public static function flushEventListeners(): void
     {
         parent::flushEventListeners();
         static::$eventsBooted = [];
@@ -252,10 +249,8 @@ abstract class Model extends EloquentModel
      * Create a new native event for handling beforeFetch().
      *
      * @param Closure|string $callback
-     *
-     * @return void
      */
-    public static function fetching($callback)
+    public static function fetching($callback): void
     {
         static::registerModelEvent('fetching', $callback);
     }
@@ -264,10 +259,8 @@ abstract class Model extends EloquentModel
      * Create a new native event for handling afterFetch().
      *
      * @param Closure|string $callback
-     *
-     * @return void
      */
-    public static function fetched($callback)
+    public static function fetched($callback): void
     {
         static::registerModelEvent('fetched', $callback);
     }
@@ -471,7 +464,7 @@ abstract class Model extends EloquentModel
      */
     public function alwaysPush($options = null, $sessionKey = null)
     {
-        return $this->push(['always' => true] + (array)$options, $sessionKey);
+        return $this->push(['always' => true] + (array)$options);
     }
 
     /**

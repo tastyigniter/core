@@ -8,7 +8,7 @@ use Igniter\Flame\Database\Builder;
 use Igniter\System\Models\Country;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-function setupModelForApplyFilters()
+function setupModelForApplyFilters(): Country
 {
     Country::factory()->times(3)->create(['country_name' => 'SearchTestCountry', 'status' => 1]);
     Country::factory()->times(3)->create(['country_name' => 'TestCountry', 'status' => 1]);

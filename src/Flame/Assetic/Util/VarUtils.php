@@ -42,7 +42,7 @@ abstract class VarUtils
 
     public static function getCombinations(array $vars, array $values)
     {
-        if (!$vars) {
+        if (empty($vars)) {
             return [[]];
         }
 

@@ -80,7 +80,7 @@ class ListController extends ControllerAction
         ]);
     }
 
-    public function index()
+    public function index(): void
     {
         $pageTitle = lang($this->getConfig('title', 'No title'));
         Template::setTitle($pageTitle);

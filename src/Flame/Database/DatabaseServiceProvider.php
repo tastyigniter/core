@@ -19,9 +19,8 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
 {
     /**
      * Register the service provider.
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         Model::clearExtendedClasses();
 
@@ -43,7 +42,7 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         });
     }
 
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 

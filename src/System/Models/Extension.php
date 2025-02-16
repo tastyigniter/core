@@ -87,7 +87,7 @@ class Extension extends Model
         return array_get($this->meta, 'name', 'Undefined extension title');
     }
 
-    public function getStatusAttribute()
+    public function getStatusAttribute(): bool
     {
         return $this->class && !$this->class->disabled;
     }
@@ -104,7 +104,7 @@ class Extension extends Model
             $icon = ['class' => 'fa '.$icon];
         }
 
-        if (strlen($image = array_get($icon, 'image', ''))) {
+        if (!empty($image = array_get($icon, 'image', ''))) {
             if (File::exists($file = resolve(ExtensionManager::class)->path($this->name, $image))) {
                 $extension = pathinfo($file, PATHINFO_EXTENSION);
                 if (!array_key_exists($extension, self::ICON_MIMETYPES)) {
@@ -173,7 +173,7 @@ class Extension extends Model
     /**
      * Sync all extensions available in the filesystem into database
      */
-    public static function syncAll()
+    public static function syncAll(): void
     {
         $availableExtensions = [];
         $manifest = resolve(PackageManifest::class);

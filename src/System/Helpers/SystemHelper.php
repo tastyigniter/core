@@ -40,7 +40,7 @@ class SystemHelper
     /**
      * Tests whether ini_set() works.
      */
-    public function assertIniSet()
+    public function assertIniSet(): bool
     {
         $oldValue = ini_get('memory_limit');
         $oldBytes = $this->phpIniValueInBytes('memory_limit');
@@ -113,7 +113,7 @@ class SystemHelper
         };
     }
 
-    public function replaceInEnv(string $search, string $replace)
+    public function replaceInEnv(string $search, string $replace): void
     {
         $file = base_path().'/.env';
 
@@ -198,17 +198,17 @@ class SystemHelper
         return $config;
     }
 
-    public function runningOnWindows()
+    public function runningOnWindows(): bool
     {
         return PHP_OS_FAMILY === 'Windows';
     }
 
-    public function runningOnMac()
+    public function runningOnMac(): bool
     {
         return PHP_OS_FAMILY === 'Darwin';
     }
 
-    public function runningOnLinux()
+    public function runningOnLinux(): bool
     {
         return PHP_OS_FAMILY === 'Linux';
     }

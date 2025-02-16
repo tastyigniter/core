@@ -86,7 +86,7 @@ class SectionParser
             $content[] = self::renderSettings($settings);
         }
 
-        if ($code) {
+        if (!empty($code)) {
             $code = preg_replace('/^\<\?php/', '', $code);
             $code = preg_replace('/^\<\?/', '', preg_replace('/\?>$/', '', $code));
 

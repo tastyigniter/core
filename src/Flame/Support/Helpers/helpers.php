@@ -45,7 +45,7 @@ if (!function_exists('assets_url')) {
 if (!function_exists('igniter_path')) {
     function igniter_path(string $path = ''): string
     {
-        return dirname(__DIR__, 4).($path ? '/'.$path : $path);
+        return dirname(__DIR__, 4).(!empty($path) ? '/'.$path : $path);
     }
 }
 
@@ -55,7 +55,7 @@ if (!function_exists('uploads_path')) {
      */
     function uploads_path(string $path = ''): string
     {
-        return resolve('path.uploads').($path ? '/'.$path : $path);
+        return resolve('path.uploads').(!empty($path) ? '/'.$path : $path);
     }
 }
 
@@ -86,7 +86,7 @@ if (!function_exists('image_path')) {
     {
         traceLog('image_path() has been deprecated, use asset() instead.');
 
-        return asset('images').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return asset('images').(!empty($path) ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
@@ -110,7 +110,7 @@ if (!function_exists('theme_path')) {
      */
     function theme_path(string $path = ''): string
     {
-        return resolve('path.themes').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return resolve('path.themes').(!empty($path) ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
@@ -169,7 +169,7 @@ if (!function_exists('assets_path')) {
     {
         traceLog('assets_path() has been deprecated, use url() instead. Remove in v5');
 
-        return resolve('path.assets').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return resolve('path.assets').(!empty($path) ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
@@ -179,7 +179,7 @@ if (!function_exists('temp_path')) {
      */
     function temp_path(string $path = ''): string
     {
-        return resolve('path.temp').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return resolve('path.temp').(!empty($path) ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
@@ -365,7 +365,7 @@ if (!function_exists('normalize_uri')) {
      */
     function normalize_uri(string $uri): string
     {
-        if (!strlen($uri)) {
+        if (empty($uri)) {
             $uri = '/';
         }
 
@@ -477,7 +477,7 @@ if (!function_exists('media_thumb')) {
      * Media thumbnail
      * Returns the full thumbnail (including segments) of the assets media uploads directory
      */
-    function media_thumb(?string $path, array $options = [])
+    function media_thumb(?string $path, array $options = []): string
     {
         return \Igniter\Main\Helpers\ImageHelper::resize($path ?? 'no_photo.png', $options);
     }
@@ -823,12 +823,7 @@ if (!function_exists('is_lang_key')) {
         if (starts_with($line, 'lang:')) {
             return true;
         }
-
-        if (str_contains($line, '::')) {
-            return true;
-        }
-
-        return false;
+        return str_contains($line, '::');
     }
 }
 
@@ -850,11 +845,11 @@ if (!function_exists('generate_extension_icon')) {
         ], $icon);
 
         $styles = [];
-        if (strlen($color = array_get($icon, 'color'))) {
+        if (!empty($color = array_get($icon, 'color'))) {
             $styles[] = "color:$color;";
         }
 
-        if (strlen($backgroundColor = array_get($icon, 'backgroundColor'))) {
+        if (!empty($backgroundColor = array_get($icon, 'backgroundColor'))) {
             $styles[] = "background-color:$backgroundColor;";
         }
 

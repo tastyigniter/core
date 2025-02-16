@@ -8,12 +8,12 @@ use Igniter\System\Models\Language;
 
 class LanguageObserver
 {
-    public function creating(Language $language)
+    public function creating(Language $language): void
     {
         $language->idiom = $language->code;
     }
 
-    public function saved(Language $language)
+    public function saved(Language $language): void
     {
         Language::applySupportedLanguages();
 

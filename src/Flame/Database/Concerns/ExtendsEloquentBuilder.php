@@ -132,7 +132,7 @@ trait ExtendsEloquentBuilder
         if ($mode === 'exact') {
             $this->where(function($query) use ($columns, $term) {
                 foreach ($columns as $field) {
-                    if (strlen($term)) {
+                    if ($term) {
                         $query->orLike($field, $term, 'both');
                     }
                 }
@@ -145,7 +145,7 @@ trait ExtendsEloquentBuilder
                 foreach ($columns as $field) {
                     $query->orWhere(function($query) use ($field, $words, $wordBoolean) {
                         foreach ($words as $word) {
-                            if (strlen($word)) {
+                            if (!empty($word)) {
                                 $query->like($field, $word, 'both', $wordBoolean);
                             }
                         }
@@ -162,13 +162,14 @@ trait ExtendsEloquentBuilder
         $column = $this->toBase()->raw(sprintf('lower(%s)', $column));
         $value = mb_strtolower(trim($value));
 
-        if ($side === 'none') {
-        } elseif ($side === 'before') {
-            $value = "%{$value}";
-        } elseif ($side === 'after') {
-            $value = "{$value}%";
-        } else {
-            $value = "%{$value}%";
+        if ($side !== 'none') {
+            if ($side === 'before') {
+                $value = "%{$value}";
+            } elseif ($side === 'after') {
+                $value = "{$value}%";
+            } else {
+                $value = "%{$value}%";
+            }
         }
 
         return $this->where($column, 'like', $value, $boolean);
@@ -186,7 +187,7 @@ trait ExtendsEloquentBuilder
      *
      * @throws \InvalidArgumentException
      */
-    public function paginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page', $total = null)
+    public function paginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page', $total = null): \Illuminate\Pagination\LengthAwarePaginator
     {
         if (is_array($page)) {
             $_columns = $columns;
@@ -222,7 +223,7 @@ trait ExtendsEloquentBuilder
      *
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    public function simplePaginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page')
+    public function simplePaginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page'): \Illuminate\Pagination\Paginator
     {
         if (is_array($page)) {
             $_columns = $columns;

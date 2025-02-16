@@ -14,9 +14,8 @@ class InitialSchemaSeeder extends Seeder
 
     /**
      * Run the initial schema seeds.
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         if (!DatabaseSeeder::$seedInitial) {
             return;

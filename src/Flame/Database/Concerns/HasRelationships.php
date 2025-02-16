@@ -58,7 +58,7 @@ trait HasRelationships
         'morphMany', 'morphToMany', 'morphedByMany', 'hasManyThrough', 'hasOneThrough',
     ];
 
-    public function hasRelation($name)
+    public function hasRelation($name): bool
     {
         return $this->getRelationDefinition($name) !== null;
     }
@@ -323,7 +323,7 @@ trait HasRelationships
             }
         }
 
-        if ($missingRequired) {
+        if (!empty($missingRequired)) {
             throw new InvalidArgumentException(sprintf('Relation "%s" on model "%s" should contain the following key(s): %s',
                 $relationName,
                 get_called_class(),
@@ -342,7 +342,7 @@ trait HasRelationships
      * @param string|null $localKey
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function hasOne($related, $foreignKey = null, $localKey = null, $relationName = null)
+    public function hasOne($related, $foreignKey = null, $localKey = null, $relationName = null): HasOne
     {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
@@ -364,9 +364,8 @@ trait HasRelationships
     /**
      * Define a has-one-through relationship.
      * This code is a duplicate of Eloquent but uses a Rain relation class.
-     * @return \Igniter\Flame\Database\Relations\HasOneThrough
      */
-    public function hasOneThrough($related, $through, $primaryKey = null, $throughKey = null, $localKey = null, $secondLocalKey = null, $relationName = null)
+    public function hasOneThrough($related, $through, $primaryKey = null, $throughKey = null, $localKey = null, $secondLocalKey = null, $relationName = null): HasOneThrough
     {
         $relationName ??= $this->getRelationCaller();
 
@@ -393,7 +392,7 @@ trait HasRelationships
      * @param string|null $localKey
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function hasMany($related, $foreignKey = null, $localKey = null, $relationName = null)
+    public function hasMany($related, $foreignKey = null, $localKey = null, $relationName = null): HasMany
     {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
@@ -423,7 +422,7 @@ trait HasRelationships
      * @param string|null $secondLocalKey
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
-    public function hasManyThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null, $relationName = null)
+    public function hasManyThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null, $relationName = null): HasManyThrough
     {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
@@ -451,7 +450,7 @@ trait HasRelationships
         );
     }
 
-    public function belongsTo($related, $foreignKey = null, $ownerKey = null, $relationName = null)
+    public function belongsTo($related, $foreignKey = null, $ownerKey = null, $relationName = null): BelongsTo
     {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
@@ -476,7 +475,7 @@ trait HasRelationships
         $related,
         $table = null, $foreignPivotKey = null, $relatedPivotKey = null,
         $parentKey = null, $relatedKey = null, $relationName = null,
-    ) {
+    ): BelongsToMany {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
         $instance = $this->newRelatedInstance($related);
@@ -504,7 +503,7 @@ trait HasRelationships
      * @param string|null $localKey
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
-    public function morphOne($related, $name, $type = null, $id = null, $localKey = null, $relationName = null)
+    public function morphOne($related, $name, $type = null, $id = null, $localKey = null, $relationName = null): MorphOne
     {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
@@ -534,7 +533,7 @@ trait HasRelationships
      * @param string $id
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    protected function morphEagerTo($name, $type, $id, $ownerKey)
+    protected function morphEagerTo($name, $type, $id, $ownerKey): MorphTo
     {
         return new MorphTo(
             $this->newQuery()->setEagerLoads([]),
@@ -555,7 +554,7 @@ trait HasRelationships
      * @param string $id
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    protected function morphInstanceTo($target, $name, $type, $id, $ownerKey)
+    protected function morphInstanceTo($target, $name, $type, $id, $ownerKey): MorphTo
     {
         $instance = $this->newRelatedInstance(
             static::getActualClassNameForMorph($target),
@@ -581,7 +580,7 @@ trait HasRelationships
      * @param string|null $localKey
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function morphMany($related, $name, $type = null, $id = null, $localKey = null, $relationName = null)
+    public function morphMany($related, $name, $type = null, $id = null, $localKey = null, $relationName = null): \Igniter\Flame\Database\Relations\MorphMany
     {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
@@ -614,13 +613,12 @@ trait HasRelationships
      * @param string|null $parentKey
      * @param string|null $relatedKey
      * @param bool $inverse
-     * @return \Igniter\Flame\Database\Relations\MorphToMany
      */
     public function morphToMany(
         $related, $name, $table = null, $foreignPivotKey = null,
         $relatedPivotKey = null, $parentKey = null,
         $relatedKey = null, $inverse = false, $relationName = null,
-    ) {
+    ): MorphToMany {
         $relationName = $relationName ?: $this->guessBelongsToManyRelation();
 
         $instance = $this->newRelatedInstance($related);

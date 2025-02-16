@@ -28,7 +28,7 @@ class ScssphpFilter implements DependencyExtractorInterface
 
     private $variables = [];
 
-    public function setFormatter($formatter)
+    public function setFormatter($formatter): void
     {
         $legacyFormatters = [
             'scss_formatter' => \ScssPhp\ScssPhp\Formatter\Expanded::class,
@@ -46,32 +46,32 @@ class ScssphpFilter implements DependencyExtractorInterface
         $this->formatter = $formatter;
     }
 
-    public function setVariables(array $variables)
+    public function setVariables(array $variables): void
     {
         $this->variables = $variables;
     }
 
-    public function addVariable($variable, $value = null)
+    public function addVariable($variable, $value = null): void
     {
         $this->variables[$variable] = $value;
     }
 
-    public function setImportPaths(array $paths)
+    public function setImportPaths(array $paths): void
     {
         $this->importPaths = $paths;
     }
 
-    public function addImportPath($path)
+    public function addImportPath($path): void
     {
         $this->importPaths[] = $path;
     }
 
-    public function registerFunction($name, $callable)
+    public function registerFunction($name, $callable): void
     {
         $this->customFunctions[$name] = $callable;
     }
 
-    public function filterLoad(AssetInterface $asset)
+    public function filterLoad(AssetInterface $asset): void
     {
         $sc = new Compiler;
 

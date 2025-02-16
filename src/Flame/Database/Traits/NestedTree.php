@@ -64,7 +64,7 @@ trait NestedTree
         return $instance->setRelation('children', $relation);
     }
 
-    public function fixBrokenTreeQuietly()
+    public function fixBrokenTreeQuietly(): void
     {
         self::withoutEvents(function() {
             self::fixTree();
@@ -76,7 +76,7 @@ trait NestedTree
      *
      * @since 2.0
      */
-    public function newEloquentBuilder($query)
+    public function newEloquentBuilder($query): QueryBuilder
     {
         return new QueryBuilder($query);
     }

@@ -46,7 +46,7 @@ class ExtensionManager
         $this->loadExtensions();
     }
 
-    public function addDirectory(string $directory)
+    public function addDirectory(string $directory): void
     {
         $this->directories[] = $directory;
     }
@@ -335,7 +335,7 @@ class ExtensionManager
 
         $this->packageManifest->writeDisabled($this->disabledExtensions);
 
-        if ($extension = $this->findExtension($code)) {
+        if (!is_null($extension = $this->findExtension($code))) {
             $extension->disabled = $enable === false;
         }
 
@@ -347,7 +347,7 @@ class ExtensionManager
      */
     public function removeExtension(?string $extCode = null): bool
     {
-        if (!$extensionPath = $this->getExtensionPath($extCode)) {
+        if (empty($extensionPath = $this->getExtensionPath($extCode))) {
             return false;
         }
 

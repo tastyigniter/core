@@ -49,7 +49,7 @@ it('handles invalid RSS feed URL', function() {
     expect($this->newsWidget->vars['newsFeed'])->toBe([]);
 });
 
-function createRssFeed()
+function createRssFeed(): \DOMDocument
 {
     $doc = new DOMDocument('1.0', 'UTF-8');
     $doc->formatOutput = true;

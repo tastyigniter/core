@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class TestComponent extends \Igniter\System\Classes\BaseComponent
 {
-    public static function componentMeta()
+    public static function componentMeta(): array
     {
         return [
             'code' => 'testComponent',
@@ -17,7 +17,7 @@ class TestComponent extends \Igniter\System\Classes\BaseComponent
         ];
     }
 
-    public function onAjaxHandler()
+    public function onAjaxHandler(): array
     {
         return ['result' => 'handler-result'];
     }
@@ -37,12 +37,12 @@ class TestComponent extends \Igniter\System\Classes\BaseComponent
         return redirect()->to('http://localhost');
     }
 
-    public function onAjaxHandlerWithFlash()
+    public function onAjaxHandlerWithFlash(): void
     {
         flash()->success('Flash message');
     }
 
-    public function onAjaxHandlerWithValidationError()
+    public function onAjaxHandlerWithValidationError(): void
     {
         Validator::make([], [
             'name' => 'required',
