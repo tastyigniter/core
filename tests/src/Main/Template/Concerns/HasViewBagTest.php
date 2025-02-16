@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\Template\Concerns;
 
 use Igniter\Main\Classes\ThemeManager;

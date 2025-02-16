@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\Traits;
 
 use Igniter\Main\Classes\MainController;
@@ -14,7 +16,7 @@ it('renders component using onRender method', function() {
     $page = Page::resolveRouteBinding('components');
     $page->loadedComponents['onRenderComponent'] = new class extends \Igniter\System\Classes\BaseComponent
     {
-        public function onRender()
+        public function onRender(): string
         {
             return 'rendered';
         }

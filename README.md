@@ -1,6 +1,13 @@
 <p align="center"><a href="https://tastyigniter" target="_blank"><img src="https://tastyigniter.com/images/logos/logo-padded.png" width="400"></a></p>
 
-# TastyIgniter :fire:
+<p align="center">
+<a href="https://packagist.org/packages/tastyigniter/core"><img src="https://img.shields.io/packagist/v/tastyigniter/core.svg?label=Stable&style=flat-square" alt="Stable"></a>
+<a href="https://packagist.org/packages/tastyigniter/core"><img src="https://poser.pugx.org/tastyigniter/core/downloads" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/tastyigniter/core"><img src="https://github.com/tastyigniter/core/actions/workflows/pipeline.yml/badge.svg" alt="GitHub Workflow Status"></a>
+<a href="https://github.com/tastyigniter/core/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/tastyigniter/core.svg?label=License&style=flat-square" alt="License"></a>
+<a href="https://github.com/tastyigniter/TastyIgniter" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-8.3%20to%208.4-777bb3.svg?logo=php&logoColor=white&labelColor=555555"></a>
+<a href="https://twitter.com/TastyIgniter"><img src="https://img.shields.io/twitter/follow/TastyIgniter.svg?label=Follow" alt="Twitter"></a>
+</p>
 
 [TastyIgniter](https://tastyigniter.com/) provides a professional and reliable platform for restaurants wanting to offer
 online food ordering and table reservation to their customers.

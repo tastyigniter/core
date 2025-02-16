@@ -220,13 +220,11 @@ trait ManagesSource
             $fileName = $this->fileName;
         }
 
-        if (strlen($fileName) && !str_ends_with($fileName, '.'.static::DEFAULT_EXTENSION)) {
+        if ($fileName && !str_ends_with($fileName, '.'.static::DEFAULT_EXTENSION)) {
             $fileName .= '.'.static::DEFAULT_EXTENSION;
         }
 
-        $fileName = $this->getTypeDirName().'/'.$fileName;
-
-        return $this->getSource()->path($fileName);
+        return $this->getSource()->path($this->getTypeDirName().'/'.$fileName);
     }
 
     /**

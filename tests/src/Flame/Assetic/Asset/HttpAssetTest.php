@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Asset\HttpAsset;
@@ -37,7 +39,7 @@ it('throws exception when loading content from invalid URL', function() {
 
 it('ignores errors when loading content from invalid URL if ignoreErrors is true', function() {
     $sourceUrl = 'http://example.com/asset';
-    File::shouldReceive('get')->with($sourceUrl)->andReturn(false);
+    File::shouldReceive('get')->with($sourceUrl)->andReturn('');
     $asset = new HttpAsset($sourceUrl, [], true);
     $asset->load();
 

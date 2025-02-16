@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Http\Requests;
 
 use Igniter\System\Http\Requests\MailPartialRequest;

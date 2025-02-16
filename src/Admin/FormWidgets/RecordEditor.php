@@ -107,9 +107,9 @@ class RecordEditor extends BaseFormWidget
         $this->vars['showAttachButton'] = !empty($this->attachToField);
     }
 
-    public function onLoadRecord(): mixed
+    public function onLoadRecord(): string
     {
-        $model = strlen($recordId = post('recordId', ''))
+        $model = !empty($recordId = post('recordId', ''))
             ? $this->findFormModel($recordId)
             : $this->createFormModel();
 
@@ -122,7 +122,7 @@ class RecordEditor extends BaseFormWidget
 
     public function onSaveRecord(): array
     {
-        $model = strlen($recordId = post('recordId', ''))
+        $model = !empty($recordId = post('recordId', ''))
             ? $this->findFormModel($recordId)
             : $this->createFormModel();
 
@@ -238,11 +238,11 @@ class RecordEditor extends BaseFormWidget
 
     protected function makeRecordFormWidgetFromRequest()
     {
-        if (!strlen($requestData = request()->header('X-IGNITER-RECORD-EDITOR-REQUEST-DATA', ''))) {
+        if (empty($requestData = request()->header('X-IGNITER-RECORD-EDITOR-REQUEST-DATA', ''))) {
             return;
         }
 
-        if (!strlen($recordId = array_get(json_decode($requestData, true), $this->alias.'.recordId', ''))) {
+        if (empty($recordId = array_get(json_decode($requestData, true), $this->alias.'.recordId', ''))) {
             return;
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Pagic\Source;
 
 use Exception;
@@ -90,7 +92,7 @@ it('updates an existing template', function() {
     $files->shouldReceive('put')->andReturn(1);
     $fileSource = new FileSource('base/path', $files);
 
-    expect($fileSource->update('dir', 'file', 'blade.php', 'content'))->toBe(1);
+    expect($fileSource->update('dir', 'file', 'blade.php', 'content'))->toBeTrue();
 });
 
 it('throws exception when updating a template', function() {
@@ -115,7 +117,7 @@ it('deletes an existing template', function() {
     $files->shouldReceive('delete')->andReturn(1);
     $fileSource = new FileSource('base/path', $files);
 
-    expect($fileSource->delete('dir', 'file', 'blade.php'))->toBe(1);
+    expect($fileSource->delete('dir', 'file', 'blade.php'))->toBeTrue();
 });
 
 it('throws exception when deleting a template', function() {

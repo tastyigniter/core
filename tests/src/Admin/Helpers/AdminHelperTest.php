@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Helpers;
 
 use Facades\Igniter\Admin\Helpers\AdminHelper;

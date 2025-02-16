@@ -134,7 +134,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
      */
     public function getBaseFileName(): string
     {
-        $pos = strrpos($this->fileName, '.');
+        $pos = strrpos((string)$this->fileName, '.');
         if ($pos === false) {
             return $this->fileName;
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Fixtures\Models;
 
 use Igniter\System\Models\Language;

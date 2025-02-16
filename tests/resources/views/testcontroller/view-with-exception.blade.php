@@ -1,3 +1,5 @@
 <?php
-    throw new Exception('This is a test exception');
-?>
+
+declare(strict_types=1);
+
+throw new Exception('This is a test exception');

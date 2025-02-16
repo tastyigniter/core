@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\Components;
 
 use Igniter\Main\Components\ViewBag;

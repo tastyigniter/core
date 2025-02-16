@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Classes;
 
 use BadMethodCallException;
@@ -82,7 +84,7 @@ it('returns component parameter', function() {
 it('handles dynamic method calls', function() {
     $controller = new class extends MainController
     {
-        public function testMethod()
+        public function testMethod(): string
         {
             return 'test';
         }

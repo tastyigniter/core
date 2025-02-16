@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\Traits;
 
 use Igniter\Main\Traits\UsesPage;

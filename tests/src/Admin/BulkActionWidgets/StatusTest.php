@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\BulkActionWidgets;
 
 use Igniter\Admin\BulkActionWidgets\Status;

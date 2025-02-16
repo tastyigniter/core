@@ -12,7 +12,7 @@ namespace Igniter\Admin\Classes;
  */
 class FilterScope
 {
-    /** A prefix to the field identifier so it can be totally unique. */
+    /** A prefix to the field identifier so it can be unique. */
     public ?string $idPrefix = null;
 
     /** Column to display for the display name */
@@ -22,7 +22,7 @@ class FilterScope
     public ?string $descriptionFrom = null;
 
     /** Filter scope value. */
-    public null|string|array $value = null;
+    public mixed $value = null;
 
     /** Filter mode. */
     public string $type = 'select';

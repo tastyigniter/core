@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Database\Relations;
 
 it('checks if parent uses soft deletes', function() {

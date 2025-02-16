@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Classes\MainMenuItem;
@@ -58,8 +60,8 @@ it('renders item element', function() {
 
 it('adds items correctly', function() {
     $items = [
-        new MainMenuItem('item3', 'Item 3'),
-        new MainMenuItem('item4', 'Item 4'),
+        'item3' => new MainMenuItem('item3', 'Item 3'),
+        'item4' => new MainMenuItem('item4', 'Item 4'),
     ];
 
     $this->menuWidget->addItems($items);

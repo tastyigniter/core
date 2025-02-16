@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\AdminController;
@@ -142,7 +144,7 @@ it('processes specific page handler and returns handler response', function() {
             return response(['status' => 'success']);
         }
 
-        public function index()
+        public function index(): string
         {
             return 'index content';
         }
@@ -209,7 +211,7 @@ it('processes handler and returns handler redirect response', function() {
             return $this->redirect('redirected-url');
         }
 
-        public function index()
+        public function index(): string
         {
             return 'index content';
         }
@@ -232,7 +234,7 @@ it('processes handler and returns handler flash message response', function() {
             return 'This is a string response';
         }
 
-        public function index()
+        public function index(): string
         {
             return 'index content';
         }
@@ -254,7 +256,7 @@ it('processes handler and throws validation errors', function() {
             throw ValidationException::withMessages(['name' => 'Name is required']);
         }
 
-        public function index()
+        public function index(): string
         {
             return 'index content';
         }
@@ -276,7 +278,7 @@ it('processes handler and throws mass assignment exception', function() {
             throw new \Illuminate\Database\Eloquent\MassAssignmentException('Mass assignment exception');
         }
 
-        public function index()
+        public function index(): string
         {
             return 'index content';
         }
@@ -303,7 +305,7 @@ it('remaps action and renders controller action default view', function() {
 it('remaps action and returns response', function() {
     $controller = new class extends AdminController
     {
-        public function index()
+        public function index(): string
         {
             return 'index content';
         }

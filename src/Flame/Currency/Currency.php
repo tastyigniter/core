@@ -74,30 +74,30 @@ class Currency
     /**
      * Format the value into the desired currency.
      */
-    public function format(string|float $value, ?string $code = null, bool $includeSymbol = true): string
+    public function format(string|float $value, null|int|string $code = null, bool $includeSymbol = true): string
     {
         // Get default currency if one is not set
         $code = $code ?: $this->config('default');
 
         if (is_numeric($code)) {
-            $code = optional($this->getCurrency($code))->getCode() ?: $code;
+            $code = $this->getCurrency($code)?->getCode() ?: $code;
         }
 
         // Remove unnecessary characters
-        $value = preg_replace('/[\s\',!]/', '', $value);
+        $value = preg_replace('/[\s\',!]/', '', (string)$value);
 
         // Check for a custom formatter
         if ($formatter = $this->getFormatter()) {
-            return $formatter->format($value, $code);
+            return $formatter->format((float)$value, $code);
         }
 
         // Get the measurement format
-        $format = optional($this->getCurrency($code))->getFormat();
+        $format = $this->getCurrency($code)?->getFormat();
 
         // Value Regex
         $valRegex = '/([0-9].*|)[0-9]/';
 
-        // Match decimal and thousand separators
+        // Match decimal and a thousand separators
         preg_match_all('/[\s\',.!]/', $format, $separators);
 
         if (($thousand = array_get($separators, '0.0')) && $thousand == '!') {
@@ -134,7 +134,7 @@ class Currency
     /**
      * Format the value into a json array
      */
-    public function formatToJson(float $value, ?string $code = null): array
+    public function formatToJson(float $value, null|int|string $code = null): array
     {
         // Get default currency if one is not set
         $code = $code ?: $this->config('default');
@@ -186,7 +186,7 @@ class Currency
     /**
      * Return the current currency if the one supplied is not valid.
      */
-    public function getCurrency(?string $code = null): ?CurrencyInterface
+    public function getCurrency(null|int|string $code = null): ?CurrencyInterface
     {
         if (isset($this->currenciesCache[$code])) {
             return $this->currenciesCache[$code];

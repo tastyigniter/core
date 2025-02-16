@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Traits;
 
 use Igniter\Admin\Classes\AdminController;
@@ -21,7 +23,7 @@ it('throws exception if action is hidden', function() {
     {
         public array $hiddenActions = ['hiddenAction'];
 
-        public function hiddenAction()
+        public function hiddenAction(): string
         {
             return 'hidden action called';
         }
@@ -35,7 +37,7 @@ it('calls action method via remap correctly', function() {
     {
         public string $action = 'actionMethod';
 
-        public function actionMethod()
+        public function actionMethod(): string
         {
             return 'action called';
         }
@@ -52,7 +54,7 @@ it('calls action method correctly', function() {
     {
         use ControllerUtils;
 
-        public function actionMethod()
+        public function actionMethod(): string
         {
             return 'action called';
         }

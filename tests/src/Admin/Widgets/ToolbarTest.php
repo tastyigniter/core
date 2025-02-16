@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Facades\Template;

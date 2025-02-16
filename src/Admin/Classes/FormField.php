@@ -176,7 +176,7 @@ class FormField
      */
     public function displayAs(?string $type, array $config = []): self
     {
-        $this->type = strtolower($type) ?: $this->type;
+        $this->type = strtolower($type ?: $this->type);
         $this->config = $this->evalConfig($config);
 
         return $this;

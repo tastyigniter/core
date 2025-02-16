@@ -89,10 +89,10 @@ class FileParser
      */
     protected function compile(string $path): string
     {
-        $code = trim($this->object->code);
+        $code = trim($this->object->code ?? '');
         $parentClass = trim($this->object->getCodeClassParent());
 
-        $uniqueName = str_replace('.', '', uniqid('', true)).'_'.md5(mt_rand());
+        $uniqueName = str_replace('.', '', uniqid('', true)).'_'.md5((string)mt_rand());
         $className = 'Pagic'.$uniqueName.'Class';
 
         $code = preg_replace('/^\s*function/m', 'public function', $code);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Fixtures;
 
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +22,7 @@ class TestComponent extends \Igniter\System\Classes\BaseComponent
         return ['result' => 'handler-result'];
     }
 
-    public function onAjaxHandlerWithStringResponse()
+    public function onAjaxHandlerWithStringResponse(): string
     {
         return 'handler-result';
     }

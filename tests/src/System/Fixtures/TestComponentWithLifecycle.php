@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Fixtures;
 
 class TestComponentWithLifecycle extends \Igniter\System\Classes\BaseComponent

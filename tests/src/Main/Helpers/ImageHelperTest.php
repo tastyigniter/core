@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\Helpers;
 
 use Igniter\Main\Classes\MediaLibrary;

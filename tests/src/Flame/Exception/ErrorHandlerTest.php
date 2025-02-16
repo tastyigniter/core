@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Exception;
 
 use Exception;
@@ -45,7 +47,7 @@ it('renders response with exception.beforeRender event', function() {
         return response('Custom response', 500);
     });
     $handler = resolve(ExceptionHandler::class);
-    $exception = new Exception(500);
+    $exception = new Exception('', 500);
     $request = new Request;
 
     $response = (new ErrorHandler($handler))->render($request, $exception);

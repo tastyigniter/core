@@ -89,7 +89,7 @@ class Languages extends \Igniter\Admin\Classes\AdminController
     public function search()
     {
         $filter = input('filter');
-        if (!$filter || !is_array($filter) || !isset($filter['search']) || !strlen($filter['search'])) {
+        if (!$filter || !is_array($filter) || !isset($filter['search']) || !$filter['search']) {
             return [];
         }
 
@@ -133,13 +133,13 @@ class Languages extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('FormController')->initForm($model, $context);
 
         $group = post('Language._group');
-        $this->setFilterValue('group', !strlen($group) ? null : $group);
+        $this->setFilterValue('group', !$group ? null : $group);
 
         $term = post('Language._search');
-        $this->setFilterValue('search', (!is_string($term) || !strlen($term)) ? null : $term);
+        $this->setFilterValue('search', (!is_string($term) || !$term) ? null : $term);
 
         $filter = post('Language._filter');
-        $this->setFilterValue('filter', (!strlen($filter) || !is_string($filter)) ? null : $filter);
+        $this->setFilterValue('filter', (!$filter || !is_string($filter)) ? null : $filter);
 
         return $this->asExtension('FormController')->makeRedirect('edit', $model);
     }

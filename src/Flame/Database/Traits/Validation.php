@@ -316,7 +316,7 @@ trait Validation
                     if ($method = $this->getPrepareRuleMethod($validationRule)) {
                         $ruleset[$key] = call_user_func_array(
                             [$this, $method],
-                            [explode(',', head($parameters)), $field],
+                            [explode(',', head($parameters) ?: ''), $field],
                         );
                     } elseif ($validationRule === 'unique' && $this->exists) {
                         $ruleset[$key] = $this->processValidationUniqueRule($rule, $field);

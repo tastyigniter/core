@@ -552,7 +552,7 @@ class Lists extends BaseWidget
     /**
      * Looks up the column value
      */
-    public function getColumnValue(mixed $record, ListColumn $column): ?string
+    public function getColumnValue(mixed $record, ListColumn $column): null|int|string
     {
         $columnName = $column->columnName;
 

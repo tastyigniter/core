@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Classes;
 
 use Igniter\System\Classes\ControllerAction;

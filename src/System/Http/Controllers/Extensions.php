@@ -127,7 +127,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function index_onLoadReadme(?string $context = null)
     {
-        if (!$recordId = trim(post('recordId'))) {
+        if (!$recordId = trim((string)post('recordId'))) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
@@ -138,7 +138,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function index_onInstall(?string $context = null)
     {
-        if (!$extensionCode = trim(post('code'))) {
+        if (!$extensionCode = trim(post('code') ?: '')) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
@@ -157,7 +157,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
     public function index_onUninstall(?string $context = null)
     {
-        if (!$extensionCode = trim(post('code'))) {
+        if (!$extensionCode = trim(post('code') ?: '')) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 

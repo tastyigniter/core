@@ -193,7 +193,7 @@ class Vertex implements Contracts\VertexInterface
         $endLat = asin(sin($lat) * cos($distance / $this->from->getEllipsoid()->getA()) + cos($lat) *
             sin($distance / $this->from->getEllipsoid()->getA()) * cos($bearing));
         $endLon = $lng + atan2(sin($bearing) * sin($distance / $this->from->getEllipsoid()->getA()) * cos($lat),
-            cos($distance / $this->from->getEllipsoid()->getA()) - sin($lat) * sin($endLat));
+                cos($distance / $this->from->getEllipsoid()->getA()) - sin($lat) * sin($endLat));
 
         return new Model\Coordinates(rad2deg($endLat), rad2deg($endLon));
     }
@@ -208,10 +208,16 @@ class Vertex implements Contracts\VertexInterface
         }
 
         if (!is_null($this->getGradient()) && !is_null($vertex->getGradient())) {
-            return
-                bccomp($this->getGradient(), $vertex->getGradient(), $this->getPrecision()) === 0
-                &&
-                bccomp($this->getOrdinateIntercept(), $vertex->getOrdinateIntercept(), $this->getPrecision()) === 0;
+            return bccomp(
+                    number_format($this->getGradient(), $this->getPrecision()),
+                    number_format($vertex->getGradient(), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 0
+                && bccomp(
+                    number_format($this->getOrdinateIntercept(), $this->getPrecision()),
+                    number_format($vertex->getOrdinateIntercept(), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 0;
         }
 
         return false;
@@ -244,9 +250,17 @@ class Vertex implements Contracts\VertexInterface
         $ordinateVertexSecond = $vertex->getTo()->getLongitude() - $vertex->getFrom()->getLongitude();
 
         return bcsub(
-            bcmul($abscissaVertexOne, $ordinateVertexSecond, $this->precision),
-            bcmul($abscissaVertexSecond, $ordinateVertexOne, $this->precision),
-            $this->precision
+            bcmul(
+                number_format($abscissaVertexOne, $this->getPrecision()),
+                number_format($ordinateVertexSecond, $this->getPrecision()),
+                $this->getPrecision(),
+            ),
+            bcmul(
+                number_format($abscissaVertexSecond, $this->getPrecision()),
+                number_format($ordinateVertexOne, $this->getPrecision()),
+                $this->getPrecision(),
+            ),
+            $this->getPrecision(),
         );
     }
 }

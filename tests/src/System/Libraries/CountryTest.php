@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Igniter\System\Libraries\Country;
 use Igniter\System\Models\Country as CountryModel;
 

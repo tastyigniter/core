@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\Classes;
 
 use Igniter\Main\Classes\MainController;
@@ -29,7 +31,7 @@ it('fills component properties when component uses ConfigurableComponent trait',
             return 'componentName';
         }
 
-        public function getAlias()
+        public function getAlias(): null
         {
             return null;
         }
@@ -77,7 +79,7 @@ it('fills component properties with alias when component uses ConfigurableCompon
             return 'componentName';
         }
 
-        public function getAlias()
+        public function getAlias(): string
         {
             return 'alias';
         }

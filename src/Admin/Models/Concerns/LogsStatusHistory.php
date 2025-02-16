@@ -70,7 +70,7 @@ trait LogsStatusHistory
         return $this->status_history()->whereIn('status_id', (array)$statusId)->exists();
     }
 
-    public function scopeWhereStatus($query, null|string|array $statusId = null): Builder
+    public function scopeWhereStatus($query, null|int|string|array $statusId = null): Builder
     {
         if (is_null($statusId)) {
             return $query->where('status_id', '>=', 1);

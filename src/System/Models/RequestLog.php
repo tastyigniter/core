@@ -63,7 +63,7 @@ class RequestLog extends Model
             'status_code' => $statusCode,
         ]);
 
-        if (strlen($referrer)) {
+        if ($referrer) {
             $referrers = (array)$record->referrer ?: [];
             $referrers[] = $referrer;
             $record->referrer = $referrers;

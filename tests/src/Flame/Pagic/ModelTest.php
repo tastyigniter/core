@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Pagic;
 
 use Igniter\Flame\Pagic\Exception\MissingFileNameException;
@@ -70,7 +72,7 @@ it('updates an existing model instance', function() {
     $model->layout = 'default';
     $model['custom'] = [1, 2, 3];
 
-    expect($model->update(['content' => 'test content']))->toBeInt();
+    expect($model->update(['content' => 'test content']))->toBeBool();
     unset($model->layout, $model['custom']);
     @unlink($model->getFilePath());
 });
@@ -160,7 +162,7 @@ it('converts model to array & JSON', function() {
 
         protected array $original = ['content' => 'test content'];
 
-        public function getExtraAttribute()
+        public function getExtraAttribute(): string
         {
             return 'extra';
         }
@@ -191,7 +193,7 @@ it('adds observables', function() {
     $model = new TestPage;
     $model->observe(new class
     {
-        public function saved()
+        public function saved(): string
         {
             return 'test';
         }

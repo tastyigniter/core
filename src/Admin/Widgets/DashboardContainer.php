@@ -454,7 +454,7 @@ class DashboardContainer extends BaseWidget
 
         $properties = $widget->defineProperties();
         foreach ($properties as $name => $params) {
-            $result[$name] = lang($widget->property($name));
+            $result[$name] = lang((string)$widget->property($name));
         }
 
         $result['width'] = $widget->property('width');

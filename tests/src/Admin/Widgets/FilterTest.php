@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Widgets;
 
 use Igniter\Admin\Classes\FilterScope;
@@ -184,23 +186,6 @@ it('throws exception when model method is missing', function() {
         ->toThrow(SystemException::class, sprintf(lang('igniter::admin.list.filter_missing_definitions'),
             Status::class, 'getDropdownOptionsForInvalid', 'status-missing-model-method',
         ));
-});
-
-it('returns empty select options when option is invalid', function() {
-    $this->widgetConfig['scopes']['status-invalid-option'] = [
-        'label' => 'Status invalid option',
-        'type' => 'select',
-        'modelClass' => Status::class,
-        'options' => true,
-    ];
-    $filterWidget = new Filter($this->controller, $this->widgetConfig);
-
-    $result = $filterWidget->getSelectOptions('status-invalid-option');
-
-    expect($result)->toBeArray()
-        ->toHaveKey('available')
-        ->toHaveKey('active')
-        ->and($result['available'])->toBeEmpty();
 });
 
 it('returns select options from model method', function() {

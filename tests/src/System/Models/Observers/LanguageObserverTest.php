@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Models\Observers;
 
 use Igniter\System\Models\Language;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\Template\Concerns;
 
 use Igniter\Flame\Pagic\Parsers\FileParser;
@@ -13,7 +15,7 @@ it('returns component by name if it exists', function() {
     $page = Page::load(resolve(ThemeManager::class)->getActiveThemeCode(), 'components');
     $component = new class extends BaseComponent
     {
-        public function onRun()
+        public function onRun(): string
         {
             return 'onRun';
         }
@@ -78,7 +80,7 @@ it('returns response using onRun method during run component lifecycle', functio
     $page = Page::load(resolve(ThemeManager::class)->getActiveThemeCode(), 'components');
     $component = new class extends BaseComponent
     {
-        public function onRun()
+        public function onRun(): string
         {
             return 'onRun';
         }

@@ -47,7 +47,7 @@ class Database extends AbstractDriver
 
         return $collection->keyBy('currency_code')
             ->map(function($item) {
-                $format = $item->thousand_sign.'0'.$item->decimal_sign.str_repeat('0', $item->decimal_position);
+                $format = $item->thousand_sign.'0'.$item->decimal_sign.str_repeat('0', (int)$item->decimal_position);
 
                 return [
                     'currency_id' => $item->currency_id,
@@ -60,7 +60,6 @@ class Database extends AbstractDriver
                     'currency_rate' => $item->currency_rate,
                     'currency_status' => $item->currency_status,
                     'updated_at' => $item->updated_at,
-                    // 'updated_at' => $item->updated_at,
                 ];
             })
             ->all();

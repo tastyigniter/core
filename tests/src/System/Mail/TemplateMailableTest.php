@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Mail;
 
 use Igniter\System\Classes\MailManager;
@@ -7,6 +9,7 @@ use Igniter\System\Mail\TemplateMailable;
 use Igniter\System\Models\MailTemplate;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
+use Illuminate\Support\HtmlString;
 
 it('retrieves template code successfully', function() {
     $mailable = new class extends TemplateMailable
@@ -51,13 +54,13 @@ it('builds view with rendered templates', function() {
     };
     $mailManager = mock(MailManager::class);
     app()->instance(MailManager::class, $mailManager);
-    $mailManager->shouldReceive('renderTemplate')->andReturn('Rendered HTML');
-    $mailManager->shouldReceive('renderTextTemplate')->andReturn('Rendered Text');
+    $mailManager->shouldReceive('renderTemplate')->andReturn(new HtmlString('Rendered HTML'));
+    $mailManager->shouldReceive('renderTextTemplate')->andReturn(new HtmlString('Rendered Text'));
 
     $mailer = mock(Mailer::class);
     $mailer->shouldReceive('send')->withArgs(function($view, $data, $messageCallback) {
-        expect((string)$view['html'])->toBe('Rendered HTML')
-            ->and((string)$view['text'])->toBe('Rendered Text');
+        expect($view['html']->toHtml())->toBe('Rendered HTML')
+            ->and($view['text']->toHtml())->toBe('Rendered Text');
 
         return true;
     });

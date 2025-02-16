@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Models\Concerns;
 
 use Igniter\Admin\Models\Status;
@@ -89,9 +91,7 @@ it('returns true if model has status history', function() {
 });
 
 it('returns false if model does not have status history', function() {
-    $model = Order::factory()->create();
-
-    expect($model->hasStatus())->toBeFalse();
+    expect(Order::factory()->create()->hasStatus())->toBeFalse();
 });
 
 it('returns true if model has specific status in history', function() {

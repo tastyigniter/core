@@ -30,13 +30,13 @@ interface SourceInterface
         string $extension,
         string $content,
         ?string $oldFileName = null,
-        ?string $oldExtension = null
-    ): int;
+        ?string $oldExtension = null,
+    ): bool;
 
     /**
      * Run a delete statement against the datasource.
      */
-    public function delete(string $dirName, string $fileName, string $extension): int;
+    public function delete(string $dirName, string $fileName, string $extension): bool;
 
     public function path(string $path): ?string;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Geolite\Model;
 
 use Igniter\Flame\Geolite\Model\AdminLevelCollection;

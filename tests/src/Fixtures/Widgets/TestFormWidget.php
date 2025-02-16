@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Fixtures\Widgets;
 
 class TestFormWidget extends \Igniter\Admin\Classes\BaseFormWidget

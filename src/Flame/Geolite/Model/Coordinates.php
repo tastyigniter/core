@@ -77,8 +77,16 @@ class Coordinates implements CoordinatesInterface
      */
     public function isEqual(CoordinatesInterface $coordinate): bool
     {
-        return bccomp($this->latitude, $coordinate->getLatitude(), $this->getPrecision()) === 0
-            && bccomp($this->longitude, $coordinate->getLongitude(), $this->getPrecision()) === 0;
+        return bccomp(
+                number_format($this->latitude, $this->getPrecision()),
+                number_format($coordinate->getLatitude(), $this->getPrecision()),
+                $this->getPrecision(),
+            ) === 0
+            && bccomp(
+                number_format($this->longitude, $this->getPrecision()),
+                number_format($coordinate->getLongitude(), $this->getPrecision()),
+                $this->getPrecision(),
+            ) === 0;
     }
 
     /**
@@ -102,9 +110,7 @@ class Coordinates implements CoordinatesInterface
 
         $mod = fmod($longitude, 360);
         $fallback = $mod > 180 ? $mod - 360 : $mod;
-        $longitude = $mod < -180 ? $mod + 360 : $fallback;
-
-        return $longitude;
+        return $mod < -180 ? $mod + 360 : $fallback;
     }
 
     /**

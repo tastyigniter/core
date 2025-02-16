@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Classes;
 
 use Igniter\System\Classes\MailManager;
@@ -61,7 +63,7 @@ it('renders template with layout', function() {
     ]);
 
     $result = $manager->renderTemplate($template);
-    expect($result)->toBe("layout css Test layout content <p>Test body</p>\n");
+    expect($result->toHtml())->toBe("layout css Test layout content <p>Test body</p>\n");
 });
 
 it('renders text template with layout', function() {
@@ -87,7 +89,7 @@ it('renders missing partial correctly', function() {
     $manager = resolve(MailManager::class);
     $manager->startPartial('test_partial');
 
-    expect($manager->renderPartial())->toBe('<!-- Missing partial: test_partial -->');
+    expect($manager->renderPartial()->toHtml())->toBe('<!-- Missing partial: test_partial -->');
 
     // Clear output buffer
     new HtmlString(trim(ob_get_clean()));

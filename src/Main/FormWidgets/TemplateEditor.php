@@ -257,7 +257,7 @@ class TemplateEditor extends BaseFormWidget
     {
         $formData = $this->templateWidget?->getSaveData() ?? [];
 
-        $code = array_get($formData, 'codeSection');
+        $code = (string)array_get($formData, 'codeSection', '');
         $code = preg_replace('/^\<\?php/', '', $code);
         $code = preg_replace('/^\<\?/', '', preg_replace('/\?>$/', '', $code));
 

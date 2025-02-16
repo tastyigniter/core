@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Database;
 
 use Igniter\System\Models\Page;
@@ -41,12 +43,12 @@ it('converts model to string when slug source is null', function() {
 it('converts model to string when slug source is callable', function() {
     $model = new class extends Page
     {
-        public function permalinkable()
+        public function permalinkable(): array
         {
             return ['permalink_slug' => ['source' => [$this, 'getSlug']]];
         }
 
-        public function getSlug()
+        public function getSlug(): string
         {
             return 'Hello World';
         }
@@ -131,7 +133,7 @@ it('appends suffix when slug is in reserved list and uniqueSuffix is null', func
 it('appends suffix from uniqueSuffix method when slug is in reserved list', function() {
     $model = new class extends Page
     {
-        public function permalinkable()
+        public function permalinkable(): array
         {
             return [
                 'permalink_slug' => [
@@ -199,7 +201,7 @@ it('throws exception when reserved is not array or closure', function() {
 it('returns last element of suffix array', function() {
     $model = new class extends Page
     {
-        public function permalinkable()
+        public function permalinkable(): array
         {
             return [
                 'permalink_slug' => [

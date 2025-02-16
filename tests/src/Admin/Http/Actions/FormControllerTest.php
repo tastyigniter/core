@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Http\Actions;
 
 use Igniter\Admin\Classes\AdminController;

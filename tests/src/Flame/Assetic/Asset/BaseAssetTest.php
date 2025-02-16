@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Asset\BaseAsset;
@@ -12,7 +14,7 @@ beforeEach(function() {
     $filter = new CssImportFilter;
     $this->asset = new class([$filter], 'root', 'path', ['var']) extends BaseAsset
     {
-        public function load(?FilterInterface $additionalFilter = null)
+        public function load(?FilterInterface $additionalFilter = null): string
         {
             return 'content';
         }

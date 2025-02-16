@@ -365,7 +365,7 @@ class Media extends Model
 
         $ext = strtolower($this->getExtension());
 
-        $name = str_replace('.', '', uniqid(null, true));
+        $name = str_replace('.', '', uniqid('', true));
 
         return $this->name = $name.(strlen($ext) ? '.'.$ext : '');
     }

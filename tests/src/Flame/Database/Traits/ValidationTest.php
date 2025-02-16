@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Database\Traits;
 
 use Igniter\Flame\Database\Model;
@@ -110,7 +112,7 @@ it('skips validation using eloquent.validating event', function() {
 it('skips validation using beforeValidate method', function() {
     $model = new class extends TestModelForValidation
     {
-        public function beforeValidate()
+        public function beforeValidate(): bool
         {
             return true;
         }

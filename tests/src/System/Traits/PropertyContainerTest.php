@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Traits;
 
 use Igniter\System\Traits\PropertyContainer;

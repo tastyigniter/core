@@ -72,14 +72,14 @@ class ChainFileSource extends AbstractSource implements SourceInterface
         string $content,
         ?string $oldFileName = null,
         ?string $oldExtension = null,
-    ): int {
+    ): bool {
         return $this->getActiveSource()->update($dirName, $fileName, $extension, $content, $oldFileName, $oldExtension);
     }
 
     /**
      * Run a delete statement against the source.
      */
-    public function delete(string $dirName, string $fileName, string $extension): int
+    public function delete(string $dirName, string $fileName, string $extension): bool
     {
         // Delete from only the active source
         return $this->getActiveSource()->delete($dirName, $fileName, $extension);

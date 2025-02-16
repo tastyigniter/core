@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Http\Requests;
 
 use Igniter\Admin\Http\Requests\StatusRequest;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Http\Controllers;
 
 use Igniter\System\Classes\LanguageManager;

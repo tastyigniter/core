@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Exception;
 
 use Igniter\Flame\Exception\FlashException;

@@ -69,10 +69,11 @@ class Country
         return $countryModel->country_name;
     }
 
-    public function getCountryCodeById(null|int|string $id = null, ?string $codeType = null): ?string
+    public function getCountryCodeById(null|int|string $id = null, ?int $codeType = null): ?string
     {
         $this->loadCountries();
 
+        /** @var \Igniter\System\Models\Country $countryModel */
         if (!$countryModel = $this->countriesCollection->firstWhere('country_id', $id)) {
             return null;
         }

@@ -112,10 +112,23 @@ class Bounds implements Contracts\BoundsInterface
 
     public function pointInBounds(Contracts\CoordinatesInterface $coordinate): bool
     {
-        return !(bccomp($coordinate->getLatitude(), $this->getSouth(), $this->getPrecision()) === -1
-            || bccomp($coordinate->getLatitude(), $this->getNorth(), $this->getPrecision()) === 1
-            || bccomp($coordinate->getLongitude(), $this->getEast(), $this->getPrecision()) === 1
-            || bccomp($coordinate->getLongitude(), $this->getWest(), $this->getPrecision()) === -1);
+        return !(bccomp(
+                number_format($coordinate->getLatitude(), $this->getPrecision()),
+                number_format($this->getSouth(), $this->getPrecision()),
+                $this->getPrecision()) === -1
+            || bccomp(
+                number_format($coordinate->getLatitude(), $this->getPrecision()),
+                number_format($this->getNorth(), $this->getPrecision()),
+                $this->getPrecision()) === 1
+            || bccomp(
+                number_format($coordinate->getLongitude(), $this->getPrecision()),
+                number_format($this->getEast(), $this->getPrecision()),
+                $this->getPrecision()) === 1
+            || bccomp(
+                number_format($coordinate->getLongitude(), $this->getPrecision()),
+                number_format($this->getWest(), $this->getPrecision()),
+                $this->getPrecision()) === -1
+        );
     }
 
     public function getAsPolygon(): PolygonInterface
@@ -176,19 +189,35 @@ class Bounds implements Contracts\BoundsInterface
             $this->setEast($longitude);
             $this->setWest($longitude);
         } else {
-            if (bccomp($latitude, $this->getSouth(), $this->getPrecision()) === -1) {
+            if (bccomp(
+                    number_format($latitude, $this->getPrecision()),
+                    number_format($this->getSouth(), $this->getPrecision()),
+                    $this->getPrecision()) === -1
+            ) {
                 $this->setSouth($latitude);
             }
 
-            if (bccomp($latitude, $this->getNorth(), $this->getPrecision()) === 1) {
+            if (bccomp(
+                    number_format($latitude, $this->getPrecision()),
+                    number_format($this->getNorth(), $this->getPrecision()),
+                    $this->getPrecision()) === 1
+            ) {
                 $this->setNorth($latitude);
             }
 
-            if (bccomp($longitude, $this->getEast(), $this->getPrecision()) === 1) {
+            if (bccomp(
+                    number_format($longitude, $this->getPrecision()),
+                    number_format($this->getEast(), $this->getPrecision()),
+                    $this->getPrecision()) === 1
+            ) {
                 $this->setEast($longitude);
             }
 
-            if (bccomp($longitude, $this->getWest(), $this->getPrecision()) === -1) {
+            if (bccomp(
+                    number_format($longitude, $this->getPrecision()),
+                    number_format($this->getWest(), $this->getPrecision()),
+                    $this->getPrecision()) === -1
+            ) {
                 $this->setWest($longitude);
             }
         }

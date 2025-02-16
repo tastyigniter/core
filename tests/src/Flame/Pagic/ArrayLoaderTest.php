@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Pagic;
 
 use Igniter\Flame\Pagic\ArrayLoader;

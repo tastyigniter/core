@@ -112,7 +112,7 @@ class ConfigRewrite
             $replaceValue = $value;
         }
 
-        return str_replace('$', '\$', $replaceValue);
+        return str_replace('$', '\$', (string)$replaceValue);
     }
 
     protected function writeArrayToPhp($array)

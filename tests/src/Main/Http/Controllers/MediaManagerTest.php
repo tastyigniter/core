@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\Http\Controllers;
 
 it('loads media manager page', function() {

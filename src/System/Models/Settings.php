@@ -153,7 +153,7 @@ class Settings extends Model
 
         static::make()->resetFieldValues();
 
-        return static::upsert($data, ['sort', 'item'], ['value']);
+        return (bool)static::upsert($data, ['sort', 'item'], ['value']);
     }
 
     public static function setPref(string|array $key, mixed $value = null): bool

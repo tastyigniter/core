@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Actions;
 
 use Igniter\Flame\Database\Model;
@@ -15,7 +17,7 @@ beforeEach(function() {
 
         public string $settingsFieldsConfig = 'igniter.tests::/models/test_settings';
 
-        public function getMutatedKeyAttribute()
+        public function getMutatedKeyAttribute(): string
         {
             return 'mutated_value';
         }

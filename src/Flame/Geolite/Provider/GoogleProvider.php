@@ -272,11 +272,11 @@ class GoogleProvider extends AbstractProvider
         }
 
         if ($departureTime = $distance->getData('departure_time')) {
-            $url .= '&departure_time='.urlencode($departureTime);
+            $url .= '&departure_time='.urlencode((string)$departureTime);
         }
 
         if ($arrivalTime = $distance->getData('arrival_time')) {
-            $url .= '&arrival_time='.urlencode($arrivalTime);
+            $url .= '&arrival_time='.urlencode((string)$arrivalTime);
         }
 
         return $url;

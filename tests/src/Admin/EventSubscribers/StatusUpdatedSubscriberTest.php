@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\EventSubscribers;
 
 use Igniter\Admin\EventSubscribers\StatusUpdatedSubscriber;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Http\Middleware;
 
 use Igniter\Flame\Support\Facades\Igniter;

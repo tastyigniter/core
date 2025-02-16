@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Http\Controllers;
 
 use Igniter\User\Facades\AdminAuth;
@@ -39,7 +41,7 @@ it('updates general settings', function() {
                 'distance_unit' => 'km',
                 'default_geocoder' => 'nominatim',
                 'timezone' => 'Europe/London',
-                'detect_language' => '0',
+                'detect_language' => 1,
             ],
         ], [
             'X-Requested-With' => 'XMLHttpRequest',
@@ -83,7 +85,7 @@ it('updates extension settings and redirects to settings page', function() {
                 'distance_unit' => 'km',
                 'default_geocoder' => 'nominatim',
                 'timezone' => 'Europe/London',
-                'detect_language' => '0',
+                'detect_language' => '1',
             ],
         ], [
             'X-Requested-With' => 'XMLHttpRequest',

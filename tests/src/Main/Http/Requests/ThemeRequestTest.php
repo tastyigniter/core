@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\Http\Requests;
 
 use Igniter\Main\Http\Requests\ThemeRequest;

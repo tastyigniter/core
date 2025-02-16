@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Main\FormWidgets;
 
 use Igniter\Admin\Classes\FormField;
@@ -27,10 +29,10 @@ beforeEach(function() {
 
         public function findMedia($mediaId)
         {
-            return new Media(['id' => $mediaId]);
+            return new Media(['id' => $mediaId, 'name' => 'filename.jpg']);
         }
 
-        public function deleteMedia($mediaId)
+        public function deleteMedia($mediaId): null
         {
             return null;
         }

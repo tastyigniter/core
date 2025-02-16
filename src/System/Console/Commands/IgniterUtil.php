@@ -113,8 +113,7 @@ class IgniterUtil extends Command
     {
         $this->comment('Setting Carte Key...');
 
-        $carteKey = $this->option('carteKey');
-        if (!strlen($carteKey)) {
+        if (!$carteKey = $this->option('carteKey')) {
             $this->error('No carteKey defined, use --key=<key> to set a Carte');
 
             return;
@@ -125,8 +124,7 @@ class IgniterUtil extends Command
 
     protected function utilSetTheme()
     {
-        $themeName = $this->option('theme');
-        if (!strlen($themeName)) {
+        if (!$themeName = $this->option('theme')) {
             $this->error('No theme defined, use --theme=<code> to set a theme');
 
             return;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Pagic;
 
 use Igniter\Flame\Pagic\Exception\InvalidExtensionException;
@@ -45,7 +47,9 @@ it('sets and gets the limit correctly', function() {
 });
 
 it('throws exception when validating file name fails', function($fileName, $exception) {
-    $model = new class extends Model {};
+    $model = new class extends Model
+    {
+    };
     $model->fileName = $fileName;
     $this->finder->setModel($model);
     expect(fn() => $this->finder->insert(['content' => 'this is the content']))->toThrow($exception);
@@ -59,7 +63,9 @@ it('throws exception when validating file name fails', function($fileName, $exce
 ]);
 
 it('returns null when file is not found', function() {
-    $model = new class extends Model {};
+    $model = new class extends Model
+    {
+    };
     $this->finder->setModel($model);
     $this->finder->in('templates');
     expect($this->finder->find('nonexistent-file'))->toBeNull();
@@ -75,7 +81,7 @@ it('returns model when file is found', function() {
 it('returns cached results when cache is available', function() {
     $model = Page::load('tests-theme', 'nested-page');
     $modelArray = $model->toArray();
-    $modelArray['mTime'] = $modelArray['mTime'] + 1000;
+    $modelArray['mTime'] += 1000;
     cache()->put('cache_key', [$modelArray], 10);
     $this->finder->setModel($model);
     $this->finder->in('_pages');
@@ -104,9 +110,10 @@ it('inserts a new record successfully', function() {
     $model = new Page;
     $model->fileName = 'new-template';
     $this->finder->setModel($model);
-    expect($this->finder->insert([]))->toBe(1)
-        ->and($this->finder->insert(['content' => 'this is the content']))->toBeInt()
+    expect($this->finder->insert([]))->toBeTrue()
+        ->and($this->finder->insert(['content' => 'this is the content']))->toBeBool()
         ->and($this->finder->lastModified())->toBeInt();
+})->after(function() {
     unlink($this->source->getBasePath().'/_pages/new-template.blade.php');
 });
 
@@ -116,7 +123,7 @@ it('updates and deletes a record successfully', function() {
     $model->fileName = 'new-nested-page';
     $this->finder->setModel($model);
     $this->finder->in('_pages');
-    expect($this->finder->update(['content' => 'this is the updated content']))->toBeInt();
+    expect($this->finder->update(['content' => 'this is the updated content']))->toBeBool();
     file_put_contents($this->source->getBasePath().'/_pages/nested-page.blade.php', $oldContent);
 
     $model = Page::load('tests-theme', 'new-nested-page');

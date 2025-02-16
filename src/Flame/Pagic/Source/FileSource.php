@@ -143,7 +143,7 @@ class FileSource extends AbstractSource implements SourceInterface
         }
 
         try {
-            return $this->files->put($path, $content);
+            return (bool)$this->files->put($path, $content);
         } catch (Exception) {
             throw (new CreateFileException)->setInvalidPath($path);
         }
@@ -152,7 +152,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Updates an existing template.
      */
-    public function update(string $dirName, string $fileName, string $extension, string $content, ?string $oldFileName = null, ?string $oldExtension = null): int
+    public function update(string $dirName, string $fileName, string $extension, string $content, ?string $oldFileName = null, ?string $oldExtension = null): bool
     {
         $this->validateDirectoryForSave($dirName, $fileName, $extension);
 
@@ -180,7 +180,7 @@ class FileSource extends AbstractSource implements SourceInterface
         }
 
         try {
-            return $this->files->put($path, $content);
+            return (bool)$this->files->put($path, $content);
         } catch (Exception) {
             throw (new CreateFileException)->setInvalidPath($path);
         }
@@ -189,12 +189,12 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Run a delete statement against the source.
      */
-    public function delete(string $dirName, string $fileName, string $extension): int
+    public function delete(string $dirName, string $fileName, string $extension): bool
     {
         $path = $this->makeFilePath($dirName, $fileName, $extension);
 
         try {
-            return $this->files->delete($path);
+            return (bool)$this->files->delete($path);
         } catch (Exception) {
             throw (new DeleteFileException)->setInvalidPath($path);
         }

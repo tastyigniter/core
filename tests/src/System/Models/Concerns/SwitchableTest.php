@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Models\Concerns;
 
 use Igniter\System\Models\Concerns\Switchable;

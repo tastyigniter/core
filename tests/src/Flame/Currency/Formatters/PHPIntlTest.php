@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Currency\Formatters;
 
 use Igniter\Flame\Currency\Formatters\PHPIntl;
@@ -19,4 +21,3 @@ it('formats currency correctly with custom locale', function() {
         ->and($formatter->format(123.45, 'EUR'))->toEqual('€123.45')
         ->and($formatter->format(123.45, 'GBP'))->toEqual('£123.45');
 });
-

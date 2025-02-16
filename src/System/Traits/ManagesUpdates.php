@@ -108,8 +108,7 @@ trait ManagesUpdates
 
     public function onApplyCarte(): RedirectResponse
     {
-        $carteKey = post('carte_key');
-        if (!strlen($carteKey)) {
+        if (!$carteKey = post('carte_key')) {
             throw new FlashException(lang('igniter::system.updates.alert_no_carte_key'));
         }
 

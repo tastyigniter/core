@@ -28,9 +28,9 @@ trait FormModelWidget
         return new $class;
     }
 
-    public function findFormModel(string $recordId): Model
+    public function findFormModel(int|string $recordId): Model
     {
-        throw_unless(strlen($recordId = strip_tags($recordId)),
+        throw_unless(!empty($recordId = strip_tags((string)$recordId)),
             new FlashException(lang('igniter::admin.form.missing_id')),
         );
 

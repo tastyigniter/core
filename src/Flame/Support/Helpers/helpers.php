@@ -511,7 +511,7 @@ if (!function_exists('mdate')) {
      * have to worry about escaping your text letters that
      * match the date codes.
      */
-    function mdate(?string $format = null, ?string $time = null): ?string
+    function mdate(null|int|string $format = null, null|int|string $time = null): ?string
     {
         if (is_null($time) && $format) {
             $time = $format;
@@ -688,7 +688,7 @@ if (!function_exists('make_carbon')) {
             $value = Carbon::instance($value);
         } elseif (is_numeric($value)) {
             $value = Carbon::createFromTimestamp($value);
-        } elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value)) {
+        } elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', (string)$value)) {
             $value = Carbon::createFromFormat('Y-m-d', $value)->startOfDay();
         } else {
             try {

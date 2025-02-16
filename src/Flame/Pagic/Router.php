@@ -222,7 +222,7 @@ class Router
 
                 // Check if parameter has been supplied and is not a default value
                 $parameterExists = array_key_exists($paramName, $parameters) &&
-                    strlen($parameters[$paramName]) &&
+                    $parameters[$paramName] &&
                     $parameters[$paramName] !== $defaultValue;
 
                 // Use supplied parameter value

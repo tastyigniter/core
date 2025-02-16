@@ -75,8 +75,8 @@ class SectionParser
      */
     public static function render(array $data): string
     {
-        $code = trim(array_get($data, 'code'));
-        $markup = trim(array_get($data, 'markup'));
+        $code = trim((string)array_get($data, 'code'));
+        $markup = trim((string)array_get($data, 'markup'));
         $settings = array_get($data, 'settings', []);
 
         // Build content
@@ -128,7 +128,7 @@ class SectionParser
             Yaml::DUMP_OBJECT_AS_MAP
             | Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE
             | Yaml::DUMP_NUMERIC_KEY_AS_STRING
-            | Yaml::DUMP_NULL_AS_TILDE
+            | Yaml::DUMP_NULL_AS_TILDE,
         );
 
         return self::SOURCE_SEPARATOR.PHP_EOL.trim($content, PHP_EOL);

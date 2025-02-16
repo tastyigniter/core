@@ -198,10 +198,10 @@ class Finder
     /**
      * Insert a new record into the source.
      */
-    public function insert(array $values): int
+    public function insert(array $values): bool
     {
         if (empty($values)) {
-            return 1;
+            return true;
         }
 
         $this->validateFileName();
@@ -221,7 +221,7 @@ class Finder
     /**
      * Update a record in the source.
      */
-    public function update(array $values): int
+    public function update(array $values): bool
     {
         $this->validateFileName();
 
@@ -369,7 +369,7 @@ class Finder
             $fileName = $this->model->fileName;
         }
 
-        if (!strlen($fileName)) {
+        if (!$fileName) {
             throw (new MissingFileNameException)->setModel($this->model::class);
         }
 

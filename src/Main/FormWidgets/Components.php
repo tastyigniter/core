@@ -147,7 +147,7 @@ class Components extends BaseFormWidget
         }
 
         $partialToOverride = array_get($data, name_to_dot_string($this->formField->arrayName.'[componentData][partial]'));
-        if (!$isConfigurable && strlen($partialToOverride)) {
+        if (!$isConfigurable && $partialToOverride) {
             $this->overrideComponentPartial($codeAlias, $partialToOverride);
 
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Component partial copied'))->now();
@@ -170,8 +170,7 @@ class Components extends BaseFormWidget
 
     public function onRemoveComponent(): array
     {
-        $codeAlias = post('code');
-        if (!strlen($codeAlias)) {
+        if (!$codeAlias = post('code')) {
             throw new FlashException('Invalid component selected');
         }
 

@@ -171,24 +171,24 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
 
             // Check if coordinate is on a horizontal boundary
             if (bccomp(
-                (string)$currentVertex->getLatitude(),
-                (string)$nextVertex->getLatitude(),
-                $this->getPrecision()
-            ) === 0
-                && bccomp(
-                    (string)$currentVertex->getLatitude(),
-                    (string)$coordinate->getLatitude(),
-                    $this->getPrecision()
+                    number_format($currentVertex->getLatitude(), $this->getPrecision()),
+                    number_format($nextVertex->getLatitude(), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) === 0
                 && bccomp(
-                    $coordinate->getLongitude(),
-                    min($currentVertex->getLongitude(), $nextVertex->getLongitude()),
-                    $this->getPrecision()
+                    number_format($currentVertex->getLatitude(), $this->getPrecision()),
+                    number_format($coordinate->getLatitude(), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 0
+                && bccomp(
+                    number_format($coordinate->getLongitude(), $this->getPrecision()),
+                    number_format(min($currentVertex->getLongitude(), $nextVertex->getLongitude()), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) === 1
                 && bccomp(
-                    $coordinate->getLongitude(),
-                    max($currentVertex->getLongitude(), $nextVertex->getLongitude()),
-                    $this->getPrecision()
+                    number_format($coordinate->getLongitude(), $this->getPrecision()),
+                    number_format(max($currentVertex->getLongitude(), $nextVertex->getLongitude()), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) === -1
             ) {
                 return true;
@@ -196,24 +196,24 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
 
             // Check if coordinate is on a boundary
             if (bccomp(
-                $coordinate->getLatitude(),
-                min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
-                $this->getPrecision()
-            ) === 1
+                    number_format($coordinate->getLatitude(), $this->getPrecision()),
+                    number_format(min($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 1
                 && bccomp(
-                    $coordinate->getLatitude(),
-                    max($currentVertex->getLatitude(), $nextVertex->getLatitude()),
-                    $this->getPrecision()
+                    number_format($coordinate->getLatitude(), $this->getPrecision()),
+                    number_format(max($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) <= 0
                 && bccomp(
-                    $coordinate->getLongitude(),
-                    max($currentVertex->getLongitude(), $nextVertex->getLongitude()),
-                    $this->getPrecision()
+                    number_format($coordinate->getLongitude(), $this->getPrecision()),
+                    number_format(max($currentVertex->getLongitude(), $nextVertex->getLongitude()), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) <= 0
                 && bccomp(
-                    $currentVertex->getLatitude(),
-                    $nextVertex->getLatitude(),
-                    $this->getPrecision()
+                    number_format($currentVertex->getLatitude(), $this->getPrecision()),
+                    number_format($nextVertex->getLatitude(), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) !== 0
             ) {
                 $xinters = ($coordinate->getLatitude() - $currentVertex->getLatitude())
@@ -222,10 +222,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
                     + $currentVertex->getLongitude();
 
                 if (bccomp(
-                    $xinters,
-                    $coordinate->getLongitude(),
-                    $this->getPrecision()
-                ) === 0
+                        number_format($xinters, $this->getPrecision()),
+                        number_format($coordinate->getLongitude(), $this->getPrecision()),
+                        $this->getPrecision(),
+                    ) === 0
                 ) {
                     return true;
                 }
@@ -239,14 +239,14 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
     {
         foreach ($this->coordinates as $vertexCoordinate) {
             if (bccomp(
-                $vertexCoordinate->getLatitude(),
-                $coordinate->getLatitude(),
-                $this->getPrecision()
-            ) === 0 &&
+                    number_format($vertexCoordinate->getLatitude(), $this->getPrecision()),
+                    number_format($coordinate->getLatitude(), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 0 &&
                 bccomp(
-                    $vertexCoordinate->getLongitude(),
-                    $coordinate->getLongitude(),
-                    $this->getPrecision()
+                    number_format($vertexCoordinate->getLongitude(), $this->getPrecision()),
+                    number_format($coordinate->getLongitude(), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) === 0
             ) {
                 return true;
@@ -265,24 +265,24 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
             $nextVertex = $this->get($i);
 
             if (bccomp(
-                $coordinate->getLatitude(),
-                min($currentVertex->getLatitude(), $nextVertex->getLatitude()),
-                $this->getPrecision()
-            ) === 1
+                    number_format($coordinate->getLatitude(), $this->getPrecision()),
+                    number_format(min($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 1
                 && bccomp(
-                    $coordinate->getLatitude(),
-                    max($currentVertex->getLatitude(), $nextVertex->getLatitude()),
-                    $this->getPrecision()
+                    number_format($coordinate->getLatitude(), $this->getPrecision()),
+                    number_format(max($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) <= 0
                 && bccomp(
-                    $coordinate->getLongitude(),
-                    max($currentVertex->getLongitude(), $nextVertex->getLongitude()),
-                    $this->getPrecision()
+                    number_format($coordinate->getLongitude(), $this->getPrecision()),
+                    number_format(max($currentVertex->getLongitude(), $nextVertex->getLongitude()), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) <= 0
                 && bccomp(
-                    $currentVertex->getLatitude(),
-                    $nextVertex->getLatitude(),
-                    $this->getPrecision()
+                    number_format($currentVertex->getLatitude(), $this->getPrecision()),
+                    number_format($nextVertex->getLatitude(), $this->getPrecision()),
+                    $this->getPrecision(),
                 ) !== 0
             ) {
                 $xinters = ($coordinate->getLatitude() - $currentVertex->getLatitude())
@@ -291,14 +291,14 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
                     + $currentVertex->getLongitude();
 
                 if (bccomp(
-                    $coordinate->getLongitude(),
-                    $xinters,
-                    $this->getPrecision()
-                ) <= 0
+                        number_format($coordinate->getLongitude(), $this->getPrecision()),
+                        number_format($xinters, $this->getPrecision()),
+                        $this->getPrecision(),
+                    ) <= 0
                     || bccomp(
-                        $currentVertex->getLongitude(),
-                        $nextVertex->getLongitude(),
-                        $this->getPrecision()
+                        number_format($currentVertex->getLongitude(), $this->getPrecision()),
+                        number_format($nextVertex->getLongitude(), $this->getPrecision()),
+                        $this->getPrecision(),
                     ) === 0
                 ) {
                     $intersections++;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Pagic\Source;
 
 use Igniter\Flame\Filesystem\Filesystem;
@@ -46,18 +48,18 @@ it('inserts a file into the active source', function() {
 
 it('updates a file in the active source', function() {
     $source = mock(SourceInterface::class);
-    $source->shouldReceive('update')->andReturn(1);
+    $source->shouldReceive('update')->andReturnTrue();
     $chainSource = new ChainFileSource([$source]);
 
-    expect($chainSource->update('dir', 'file', 'ext', 'content'))->toBe(1);
+    expect($chainSource->update('dir', 'file', 'ext', 'content'))->toBeTrue();
 });
 
 it('deletes a file from the active source', function() {
     $source = mock(SourceInterface::class);
-    $source->shouldReceive('delete')->andReturn(1);
+    $source->shouldReceive('delete')->andReturnTrue();
     $chainSource = new ChainFileSource([$source]);
 
-    expect($chainSource->delete('dir', 'file', 'ext'))->toBe(1);
+    expect($chainSource->delete('dir', 'file', 'ext'))->toBeTrue();
 });
 
 it('returns the last modified date from the first source that has it', function() {

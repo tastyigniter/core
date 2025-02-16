@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Admin\Classes;
 
 use Igniter\Admin\Classes\OnboardingSteps;
@@ -95,7 +97,7 @@ it('lists empty onboarding steps when nothing is registered', function() {
     $extensionManager->shouldReceive('getExtensions')->andReturn([
         'testExtension' => new class
         {
-            public function registerOnboardingSteps()
+            public function registerOnboardingSteps(): string
             {
                 return 'not-an-array';
             }
@@ -114,7 +116,7 @@ it('checks if onboarding is completed correctly', function($steps) {
 
     $class = new class
     {
-        public function method()
+        public function method(): bool
         {
             return true;
         }

@@ -172,7 +172,7 @@ class StatusEditor extends BaseFormWidget
 
     public function onLoadStatus(): array
     {
-        throw_unless(strlen($statusId = post('statusId', '')),
+        throw_unless(!empty($statusId = post('statusId', '')),
             new FlashException(lang('igniter::admin.form.missing_id')),
         );
 
@@ -185,7 +185,7 @@ class StatusEditor extends BaseFormWidget
 
     public function onLoadAssigneeList(): array
     {
-        throw_unless(strlen(post('groupId', '')),
+        throw_unless(!empty(post('groupId', '')),
             new FlashException(lang('igniter::admin.form.missing_id')),
         );
 

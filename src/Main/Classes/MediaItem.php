@@ -93,7 +93,7 @@ class MediaItem
 
         $extension = pathinfo($this->path, PATHINFO_EXTENSION);
         if (!strlen($extension)) {
-            return false;
+            return null;
         }
 
         if (in_array($extension, self::$imageExtensions)) {

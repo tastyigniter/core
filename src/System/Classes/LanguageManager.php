@@ -120,7 +120,7 @@ class LanguageManager
 
         collect($this->listLocalePackages())
             ->filter(function(stdClass $localePackage) use ($packageCode) {
-                return !strlen($packageCode) || $localePackage->code === $packageCode;
+                return !$packageCode || $localePackage->code === $packageCode;
             })
             ->each(function(stdClass $localePackage) use ($filter, $result, $model) {
                 collect($localePackage->files)->each(function($filePath) use ($filter, $result, $localePackage, $model) {

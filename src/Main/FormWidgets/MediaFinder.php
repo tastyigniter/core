@@ -145,7 +145,7 @@ class MediaFinder extends BaseFormWidget
 
     public function getMediaFileType(null|string|Media $media): string
     {
-        $path = trim($media, '/');
+        $path = is_string($media) ? trim($media, '/') : null;
         if ($media instanceof Media) {
             $path = $media->getFilename();
         }

@@ -53,15 +53,9 @@ class MailManager
             case 'smtp':
                 $config->set('mail.mailers.smtp.host', setting('smtp_host'));
                 $config->set('mail.mailers.smtp.port', setting('smtp_port'));
-                $config->set('mail.mailers.smtp.encryption', strlen(setting('smtp_encryption'))
-                    ? setting('smtp_encryption') : null,
-                );
-                $config->set('mail.mailers.smtp.username', strlen(setting('smtp_user'))
-                    ? setting('smtp_user') : null,
-                );
-                $config->set('mail.mailers.smtp.password', strlen(setting('smtp_pass'))
-                    ? setting('smtp_pass') : null,
-                );
+                $config->set('mail.mailers.smtp.encryption', setting('smtp_encryption') ?: null);
+                $config->set('mail.mailers.smtp.username', setting('smtp_user') ?: null);
+                $config->set('mail.mailers.smtp.password', setting('smtp_pass') ?: null);
                 break;
             case 'mailgun':
                 $config->set('services.mailgun.domain', setting('mailgun_domain'));
@@ -96,7 +90,7 @@ class MailManager
     /**
      * Render the Markdown template into HTML.
      */
-    public function render(string $content, array $data = []): string|HtmlString
+    public function render(string $content, array $data = []): HtmlString
     {
         $html = $this->renderView($content, $data);
 
@@ -113,7 +107,7 @@ class MailManager
         return new HtmlString(html_entity_decode(preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8'));
     }
 
-    public function renderTemplate(MailTemplate $template, array $data = []): string
+    public function renderTemplate(MailTemplate $template, array $data = []): HtmlString
     {
         $this->isRenderingHtml = true;
 
@@ -122,7 +116,7 @@ class MailManager
         if ($template->layout) {
             $html = $this->renderView($template->layout->layout,
                 [
-                    'body' => $html,
+                    'body' => $html->toHtml(),
                     'layout_css' => $template->layout->layout_css,
                     'custom_css' => MailTheme::renderCss(),
                 ] + $data,
@@ -132,23 +126,15 @@ class MailManager
         return $html;
     }
 
-    public function renderTextTemplate(MailTemplate $template, array $data = []): string|HtmlString
+    public function renderTextTemplate(MailTemplate $template, array $data = []): HtmlString
     {
         $this->isRenderingHtml = false;
 
-        $templateText = $template->plain_body;
-        if (!strlen($template->plain_body)) {
-            $templateText = $template->body;
-        }
-
+        $templateText = $template->plain_body ?: $template->body;
         $text = $this->renderText($templateText, $data);
 
         if ($template->layout) {
-            $text = $this->renderView($template->layout->plain_layout,
-                [
-                    'body' => $text,
-                ] + $data,
-            );
+            $text = $this->renderView($template->layout->plain_layout, ['body' => $text->toHtml()] + $data);
         }
 
         return $text;
@@ -173,11 +159,11 @@ class MailManager
         }
     }
 
-    public function renderPartial(): string|HtmlString
+    public function renderPartial(): HtmlString
     {
         $code = array_pop($this->partialStack);
         if (!$partial = MailPartial::findOrMakePartial($code)) {
-            return '<!-- Missing partial: '.$code.' -->';
+            return new HtmlString('<!-- Missing partial: '.$code.' -->');
         }
 
         $currentPartial = count($this->partialStack);

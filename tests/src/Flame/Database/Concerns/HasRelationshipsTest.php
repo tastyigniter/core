@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Database\Concerns;
 
 use Igniter\Flame\Database\Concerns\HasRelationships;

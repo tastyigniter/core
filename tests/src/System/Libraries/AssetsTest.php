@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\System\Libraries;
 
 use Igniter\Admin\ServiceProvider;

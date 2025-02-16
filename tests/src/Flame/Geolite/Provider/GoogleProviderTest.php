@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Geolite\Provider;
 
 use GuzzleHttp\Client as HttpClient;
@@ -216,7 +218,7 @@ it('returns null when distance query fails', function() {
     $distance->withData('language', 'en');
     $distance->withData('avoid', 'tolls');
     $distance->withData('departure_time', time());
-    $distance->withData('arrival_time', time());
+    $distance->withData('arrival_time', (string)time());
     expect($provider->distance($distance))->toBeNull()
         ->and($provider->getLogs()[0])->toContain('Error');
 });

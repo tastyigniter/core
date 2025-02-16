@@ -154,7 +154,7 @@ class Connector extends BaseFormWidget
     public function onRefresh()
     {
         $model = $this->getRelationModel();
-        if (strlen($recordId = post('recordId', ''))) {
+        if ($recordId = post('recordId', '')) {
             $model = $model->find($recordId);
         }
 
@@ -168,7 +168,7 @@ class Connector extends BaseFormWidget
         $model = $this->getRelationModel();
         $formTitle = lang($this->newRecordTitle);
 
-        if (strlen($recordId = post('recordId', ''))) {
+        if ($recordId = post('recordId', '')) {
             $model = $model->find($recordId);
             $formTitle = lang($this->editRecordTitle);
         }
@@ -184,7 +184,7 @@ class Connector extends BaseFormWidget
     {
         $model = $this->getRelationModel();
 
-        if (strlen($recordId = post('recordId', ''))) {
+        if ($recordId = post('recordId', '')) {
             throw_unless($model = $model->find($recordId),
                 new FlashException(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model))),
             );
@@ -213,7 +213,7 @@ class Connector extends BaseFormWidget
 
     public function onDeleteRecord(): false|array
     {
-        if (!strlen($recordId = post('recordId', ''))) {
+        if (!$recordId = post('recordId', '')) {
             return false;
         }
 

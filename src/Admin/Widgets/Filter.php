@@ -253,8 +253,6 @@ class Filter extends BaseWidget
             $options = $model->$methodName();
         } elseif (is_callable($options)) {
             return $options();
-        } elseif (!is_array($options)) {
-            $options = [];
         }
 
         return $options;

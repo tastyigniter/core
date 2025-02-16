@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Tests\Flame\Database\Fixtures;
 
 use Igniter\Flame\Database\Traits\Validation;
@@ -18,7 +20,7 @@ class TestModelForValidation extends Country
         'format' => 'required:update',
     ];
 
-    public function prepareCustomRule($params, $field)
+    public function prepareCustomRule($params, $field): string
     {
         return 'string';
     }
