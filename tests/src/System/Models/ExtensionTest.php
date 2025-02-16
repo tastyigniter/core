@@ -56,9 +56,7 @@ it('onboardingIsComplete returns true when all required extensions are enabled',
     $theme = new Theme('/path/to/theme', [
         'require' => ['TestExtension' => '*'],
     ]);
-    $extension = new class(app()) extends BaseExtension
-    {
-    };
+    $extension = new class(app()) extends BaseExtension {};
     $themeManager = mock(ThemeManager::class);
     app()->instance(ThemeManager::class, $themeManager);
     $themeManager->shouldReceive('getActiveTheme')->andReturn($theme);
