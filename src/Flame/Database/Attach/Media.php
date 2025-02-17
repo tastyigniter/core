@@ -179,7 +179,7 @@ class Media extends Model
      * @return $this
      * @throws \Exception
      */
-    public function addFromUrl($url, $filename = null, $tag = null): self
+    public function addFromUrl($url, $filename = null, ?string $tag = null): self
     {
         $response = Http::get($url);
         if (!$response->successful()) {
@@ -549,7 +549,7 @@ class Media extends Model
 
         $options = array_merge($defaultOptions, $override);
 
-        if (strtolower($options['extension']) == 'auto') {
+        if (strtolower($options['extension']) === 'auto') {
             $options['extension'] = strtolower($this->getExtension());
         }
 
@@ -598,24 +598,13 @@ class Media extends Model
 
     /**
      * Get if the value of custom property with the given name.
-     *
-     * @param string $propertyName
-     * @param mixed $default
-     *
-     * @return mixed
      */
-    public function getCustomProperty($propertyName, $default = null)
+    public function getCustomProperty(string $propertyName, mixed $default = null): mixed
     {
         return array_get($this->custom_properties, $propertyName, $default);
     }
 
-    /**
-     * @param string $name
-     * @param mixed $value
-     *
-     * @return $this
-     */
-    public function setCustomProperty($name, $value)
+    public function setCustomProperty(string $name, mixed $value): Media
     {
         $customProperties = $this->custom_properties;
 
@@ -631,7 +620,7 @@ class Media extends Model
      *
      * @return $this
      */
-    public function forgetCustomProperty($name)
+    public function forgetCustomProperty($name): static
     {
         $customProperties = $this->custom_properties;
 
