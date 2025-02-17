@@ -87,7 +87,7 @@ class Filter extends BaseWidget
         $this->vars['onSubmitHandler'] = $this->getEventHandler('onSubmit');
         $this->vars['onClearHandler'] = $this->getEventHandler('onClear');
         $this->vars['cssClasses'] = implode(' ', $this->cssClasses);
-        $this->vars['search'] = $this->searchWidget !== null ? $this->searchWidget->render() : '';
+        $this->vars['search'] = $this->searchWidget instanceof SearchBox ? $this->searchWidget->render() : '';
         $this->vars['scopes'] = $this->getScopes();
     }
 
@@ -109,7 +109,7 @@ class Filter extends BaseWidget
     /**
      * Update a filter scope value.
      */
-    public function onSubmit()
+    public function onSubmit(...$params)
     {
         $this->defineFilterScopes();
 
@@ -150,7 +150,6 @@ class Filter extends BaseWidget
         }
 
         // Trigger class event, merge results as viewable array
-        $params = func_get_args();
         $result = $this->fireEvent('filter.submit', [$params]);
         if ($result && is_array($result)) {
             [$redirect] = $result;
@@ -161,14 +160,13 @@ class Filter extends BaseWidget
         return null;
     }
 
-    public function onClear()
+    public function onClear(...$params)
     {
         $this->resetSession();
         $this->searchWidget?->resetSession();
 
         $this->defineFilterScopes();
 
-        $params = func_get_args();
         $result = $this->fireEvent('filter.submit', [$params]);
         if ($result && is_array($result)) {
             [$redirect] = $result;
@@ -179,7 +177,7 @@ class Filter extends BaseWidget
         return null;
     }
 
-    public function getSelectOptions($scopeName): array
+    public function getSelectOptions(string $scopeName): array
     {
         $this->defineFilterScopes();
 

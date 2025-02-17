@@ -180,7 +180,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
      */
     public function getLastModified(): ?int
     {
-        if (!count($this->assets)) {
+        if ($this->assets === []) {
             return 0;
         }
 

@@ -323,7 +323,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     {
         $dirty = $this->getDirty();
 
-        if (count($dirty) > 0) {
+        if ($dirty !== []) {
             // If the updating event returns false, we will cancel the update operation so
             // developers can hook Validation systems into their models and cancel this
             // operation if the model does not pass validation. Otherwise, we update.
@@ -333,7 +333,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
 
             $dirty = $this->getDirty();
 
-            if (count($dirty) > 0) {
+            if ($dirty !== []) {
                 $query->update($dirty);
 
                 $this->fireModelEvent('updated', false);

@@ -78,7 +78,7 @@ it('adds and retrieves js variables successfully', function() {
         },
         'toString' => new class
         {
-            public function __toString()
+            public function __toString(): string
             {
                 return 'value';
             }

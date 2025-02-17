@@ -149,7 +149,7 @@ class Pivot extends Model
      * @param string $otherKey
      * @return $this
      */
-    public function setPivotKeys($foreignKey, $otherKey)
+    public function setPivotKeys($foreignKey, $otherKey): static
     {
         $this->foreignKey = $foreignKey;
 

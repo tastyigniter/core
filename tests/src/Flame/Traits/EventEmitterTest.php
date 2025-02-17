@@ -50,10 +50,10 @@ it('fires single event and returns results', function() {
     {
         use EventEmitter;
     };
-    $emitter->bindEventOnce('test.event', function($param): string {
+    $emitter->bindEventOnce('test.event', function(string $param): string {
         return $param.'1';
     });
-    $emitter->bindEventOnce('test.event', function($param): string {
+    $emitter->bindEventOnce('test.event', function(string $param): string {
         return $param.'2';
     });
     expect($emitter->fireEvent('test.event', ['value']))->toBe(['value1', 'value2'])
@@ -80,10 +80,10 @@ it('fires multiple events and returns all results', function() {
     {
         use EventEmitter;
     };
-    $emitter->bindEvent('test.event', function($param): string {
+    $emitter->bindEvent('test.event', function(string $param): string {
         return $param.'1';
     });
-    $emitter->bindEvent('test.event', function($param): string {
+    $emitter->bindEvent('test.event', function(string $param): string {
         return $param.'2';
     });
     expect($emitter->fireEvent('test.event', ['value']))->toBe(['value1', 'value2']);

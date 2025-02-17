@@ -65,7 +65,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function edit($action, ?string $vendor = null, ?string $extension = null, ?string $context = null): void
+    public function edit(?string $action, ?string $vendor = null, ?string $extension = null, ?string $context = null): void
     {
         AdminMenu::setContext('settings', 'system');
         AdminMenu::setPreviousUrl('settings');

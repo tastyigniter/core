@@ -91,7 +91,7 @@ class MainMenuItem
         $this->label = $label;
     }
 
-    public static function make(string $name, ?string $type = null, array $config = [])
+    public static function make(string $name, ?string $type = null, array $config = []): static
     {
         $instance = new static($name);
         $instance->displayAs($type, $config);
@@ -104,17 +104,17 @@ class MainMenuItem
         return static::make($name, static::DROPDOWN_TYPE);
     }
 
-    public static function link(string $name)
+    public static function link(string $name): static
     {
         return static::make($name, static::LINK_TYPE);
     }
 
-    public static function partial(string $name, ?string $path = null)
+    public static function partial(string $name, ?string $path = null): MainMenuItem
     {
         return static::make($name, static::PARTIAL_TYPE)->path($path);
     }
 
-    public static function widget(string $name, string $class)
+    public static function widget(string $name, string $class): static
     {
         return static::make($name, static::WIDGET_TYPE, ['widget' => $class]);
     }
@@ -155,7 +155,7 @@ class MainMenuItem
      *
      * @return $this
      */
-    public function displayAs($type, $config = [])
+    public function displayAs($type, $config = []): static
     {
         $this->type = !is_null($type) ? $type : $this->type;
         $this->config = $this->evalConfig($config);

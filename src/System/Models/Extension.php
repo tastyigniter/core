@@ -58,7 +58,7 @@ class Extension extends Model
         }
 
         $requiredExtensions = (array)$activeTheme->requires;
-        foreach ($requiredExtensions as $name => $constraint) {
+        foreach (array_keys($requiredExtensions) as $name) {
             $extension = resolve(ExtensionManager::class)->findExtension($name);
             if (!$extension || $extension->disabled) {
                 return false;

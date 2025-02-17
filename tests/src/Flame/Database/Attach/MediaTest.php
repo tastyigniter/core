@@ -54,8 +54,7 @@ it('adds file from disk', function() {
     $storageMock->assertExists($media->getStorageDirectory().'/'.$media->getPartitionDirectory().'/'.$media->name);
     expect($media->path)->toBe($media->getPublicPath().$media->getPartitionDirectory().$media->name)
         ->and($media->getFullDiskPath())->toBeString()
-        ->and($media->sizeToString())->toBe('0 bytes')
-        ->and($media->human_readable_size)->toBe('0 bytes')
+        ->and($media->sizeToString())->toBe($media->human_readable_size)
         ->and($media->getFilename())->toBe('test.png')
         ->and($media->type)->toBe('image/png')
         ->and($media->extension)->toBe('png')

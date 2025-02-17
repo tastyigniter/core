@@ -10,6 +10,7 @@ use Igniter\Flame\Database\Attach\MediaAdder;
 use Igniter\Flame\Database\Attach\Observers\MediaObserver;
 use Igniter\Flame\Database\Connections\MySqlConnection;
 use Igniter\Flame\Database\Connectors\ConnectionFactory;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\DatabaseServiceProvider as BaseDatabaseServiceProvider;
 use Illuminate\Database\DatabaseTransactionsManager;
@@ -70,11 +71,11 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         // The database manager is used to resolve various connections, since multiple
         // connections might be managed. It also implements the connection resolver
         // interface which may be used by other components requiring connections.
-        $this->app->singleton('db', function($app): DatabaseManager {
+        $this->app->singleton('db', function(Application $app): DatabaseManager {
             return new DatabaseManager($app, $app['db.factory']);
         });
 
-        $this->app->bind('db.connection', function($app) {
+        $this->app->bind('db.connection', function(Application $app) {
             return $app['db']->connection();
         });
 

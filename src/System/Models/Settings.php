@@ -126,7 +126,7 @@ class Settings extends Model
             return false;
         }
 
-        return count(array_filter((array)Session::get('settings.errors'))) === 0;
+        return array_filter((array)Session::get('settings.errors')) === [];
     }
 
     public function getValueAttribute()
@@ -193,14 +193,14 @@ class Settings extends Model
             ->all();
     }
 
-    public function resetFieldValues()
+    public function resetFieldValues(): static
     {
         $this->fieldValues = [];
 
         return $this;
     }
 
-    public function getSettingDefinitions($code)
+    public function getSettingDefinitions(string $code)
     {
         return $this->getSettingItem('core.'.$code);
     }
@@ -347,7 +347,7 @@ class Settings extends Model
             ];
         }
 
-        usort($tempTimezones, function($a, $b): int {
+        usort($tempTimezones, function(array $a, array $b): int {
             return ($a['offset'] === $b['offset']) ? strcmp($a['identifier'], $b['identifier']) : $a['offset'] - $b['offset'];
         });
 

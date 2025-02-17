@@ -367,7 +367,7 @@ class ThemeManager
         return $template;
     }
 
-    public function newFile($filePath, $themeCode): string|false
+    public function newFile(string $filePath, ?string $themeCode): string|false
     {
         $theme = $this->findTheme($themeCode);
         [$dirName, $fileName] = $this->getFileNameParts($filePath);

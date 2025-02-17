@@ -74,7 +74,7 @@ class RequestLog extends Model
         return $record;
     }
 
-    public function addLog()
+    public function addLog(): static
     {
         if (!$this->exists) {
             $this->count = 1;

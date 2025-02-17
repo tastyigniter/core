@@ -66,7 +66,7 @@ class LogViewer
      *
      * @throws \Exception
      */
-    public function setFile($file)
+    public function setFile($file): static
     {
         $this->file = self::pathToLogFile($file);
 
@@ -103,7 +103,7 @@ class LogViewer
         if (!$this->file) {
             $logFile = self::getFiles();
 
-            if (!count($logFile)) {
+            if ($logFile === []) {
                 return [];
             }
 

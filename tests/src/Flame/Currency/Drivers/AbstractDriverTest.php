@@ -20,7 +20,7 @@ it('returns configuration value when key exists', function() {
 
         public function delete(string $code): int {}
 
-        public function testConfig($key, $default = null): mixed
+        public function testConfig(string $key, $default = null): mixed
         {
             return $this->config($key, $default);
         }

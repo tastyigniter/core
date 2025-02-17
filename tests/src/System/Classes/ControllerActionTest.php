@@ -50,7 +50,7 @@ it('hides action methods correctly', function() {
 
     $action = new class($controller) extends ControllerAction
     {
-        public function testHideAction($action): void
+        public function testHideAction(string|array $action): void
         {
             $this->hideAction($action);
         }

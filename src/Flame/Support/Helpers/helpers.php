@@ -588,7 +588,7 @@ if (!function_exists('convert_php_to_moment_js_format')) {
             'U' => 'X',
         ];
 
-        foreach ($replacements as $from => $to) {
+        foreach (array_keys($replacements) as $from) {
             $replacements['\\'.$from] = '['.$from.']';
         }
 
@@ -729,10 +729,8 @@ if (!function_exists('log_message')) {
 }
 
 if (!function_exists('traceLog')) {
-    function traceLog(): void
+    function traceLog(...$messages): void
     {
-        $messages = func_get_args();
-
         foreach ($messages as $message) {
             $level = 'info';
 

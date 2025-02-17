@@ -127,7 +127,7 @@ class ConfigRewrite
         return '['.implode(', ', $result).']';
     }
 
-    protected function buildStringExpression($targetKey, $arrayItems = [], $quoteChar = "'"): string
+    protected function buildStringExpression(string $targetKey, $arrayItems = [], string $quoteChar = "'"): string
     {
         $expression = [];
 
@@ -150,7 +150,7 @@ class ConfigRewrite
      * Common constants only (true, false, null, integers)
      * @param array $arrayItems
      */
-    protected function buildConstantExpression($targetKey, $arrayItems = []): string
+    protected function buildConstantExpression(string $targetKey, $arrayItems = []): string
     {
         $expression = [];
 
@@ -170,7 +170,7 @@ class ConfigRewrite
      * Single level arrays only
      * @param array $arrayItems
      */
-    protected function buildArrayExpression($targetKey, $arrayItems = []): string
+    protected function buildArrayExpression(string $targetKey, $arrayItems = []): string
     {
         $expression = [];
 

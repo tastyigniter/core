@@ -38,8 +38,6 @@ class Navigation
         'permission' => null,
     ];
 
-    public function __construct(?string $path = null) {}
-
     public function setContext(string $itemCode, ?string $parentCode = null): void
     {
         $this->navContextItemCode = $itemCode;
@@ -59,7 +57,7 @@ class Navigation
     {
         $navItems = $this->getNavItems();
 
-        uasort($navItems, function($a, $b): int|float {
+        uasort($navItems, function(array $a, array $b): int|float {
             return $a['priority'] - $b['priority'];
         });
 
@@ -70,7 +68,7 @@ class Navigation
                 continue;
             }
 
-            uasort($navItem['child'], function($a, $b): int|float {
+            uasort($navItem['child'], function(array $a, array $b): int|float {
                 return $a['priority'] - $b['priority'];
             });
 

@@ -116,14 +116,14 @@ class Charts extends BaseDashboardWidget
         }, $this->listSets());
     }
 
-    public function addDataset(string $code, array $config = [])
+    public function addDataset(string $code, array $config = []): static
     {
         $this->datasetsConfig[$code] = $config;
 
         return $this;
     }
 
-    public function mergeDataset(string $code, string $key, mixed $value)
+    public function mergeDataset(string $code, string $key, mixed $value): static
     {
         $this->datasetsConfig[$code][$key] = array_merge($this->datasetsConfig[$code][$key] ?? [], $value);
 
@@ -177,7 +177,7 @@ class Charts extends BaseDashboardWidget
         $this->fireSystemEvent('admin.charts.extendDatasets');
 
         $this->datasetsConfig = collect($this->datasetsConfig)
-            ->mapWithKeys(function($config, $code) {
+            ->mapWithKeys(function(array $config, $code) {
                 if (array_key_exists('sets', $config)) {
                     $config['sets'] = sort_array($config['sets']);
                 }

@@ -70,7 +70,7 @@ abstract class GeneratorCommand extends Command
         }
     }
 
-    public function buildStub($stubName, $className)
+    public function buildStub(string $stubName, string $className)
     {
         $stubFile = $this->getStubPath($stubName);
         $destinationFile = $this->parseString($this->getDestinationPath($className));
@@ -115,7 +115,7 @@ abstract class GeneratorCommand extends Command
         }
     }
 
-    protected function getStubPath($stubName)
+    protected function getStubPath(string $stubName)
     {
         $className = get_class($this);
         $class = new ReflectionClass($className);
@@ -123,7 +123,7 @@ abstract class GeneratorCommand extends Command
         return dirname($class->getFileName()).'/stubs/'.$stubName;
     }
 
-    protected function getDestinationPath($className)
+    protected function getDestinationPath(string $className)
     {
         $code = $this->argument('extension');
         $destinationPath = str_replace('.', '/', strtolower($code));

@@ -321,11 +321,10 @@ class FormBuilder
      * Get the ID attribute for a field name.
      *
      * @param string $name
-     * @param array $attributes
      *
      * @return string
      */
-    public function getIdAttribute($name, $attributes)
+    public function getIdAttribute($name, array $attributes)
     {
         if (array_key_exists('id', $attributes)) {
             return $attributes['id'];
@@ -464,7 +463,7 @@ class FormBuilder
      *
      * @return $this
      */
-    public function setSessionStore(Session $session)
+    public function setSessionStore(Session $session): static
     {
         $this->session = $session;
 

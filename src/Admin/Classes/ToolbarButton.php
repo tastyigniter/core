@@ -42,7 +42,7 @@ class ToolbarButton
      *
      * @return $this
      */
-    public function displayAs(string $type, array $config)
+    public function displayAs(string $type, array $config): static
     {
         $this->type = strtolower($type) ?: $this->type;
         $this->config = $this->evalConfig($config);

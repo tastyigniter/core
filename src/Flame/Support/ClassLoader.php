@@ -366,10 +366,8 @@ class ClassLoader
 
     /**
      * Determine if a relative path to a file exists and is real
-     *
-     * @param string $path
      */
-    protected function isRealFilePath($path): bool
+    protected function isRealFilePath(string $path): bool
     {
         $filename = realpath($this->basePath.DIRECTORY_SEPARATOR.$path);
 
@@ -380,10 +378,9 @@ class ClassLoader
      * Includes a class and adds to the manifest
      *
      * @param string $class
-     * @param string $path
      * @return void
      */
-    protected function includeClass($class, $path)
+    protected function includeClass($class, string $path)
     {
         require_once $this->basePath.DIRECTORY_SEPARATOR.$path;
 

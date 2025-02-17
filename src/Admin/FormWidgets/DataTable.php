@@ -111,7 +111,7 @@ class DataTable extends BaseFormWidget
 
         // We should be dealing with a simple array, so
         // strip out the id columns in the final array.
-        foreach ($result as $key => $_result) {
+        foreach (array_keys($result) as $key) {
             unset($result[$key]['id']);
         }
 

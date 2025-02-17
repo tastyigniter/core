@@ -20,13 +20,13 @@ use ScssPhp\ScssPhp\Compiler;
  */
 class ScssphpFilter implements DependencyExtractorInterface
 {
-    private $importPaths = [];
+    private array $importPaths = [];
 
-    private $customFunctions = [];
+    private array $customFunctions = [];
 
     private $formatter;
 
-    private $variables = [];
+    private array $variables = [];
 
     public function setFormatter($formatter): void
     {

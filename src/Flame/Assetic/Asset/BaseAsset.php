@@ -67,7 +67,7 @@ abstract class BaseAsset implements AssetInterface
      * @param string $content The asset content
      * @param ?FilterInterface $additionalFilter An additional filter
      */
-    protected function doLoad($content, ?FilterInterface $additionalFilter = null)
+    protected function doLoad(string $content, ?FilterInterface $additionalFilter = null)
     {
         $filter = clone $this->filters;
         if (!is_null($additionalFilter)) {
@@ -148,7 +148,7 @@ abstract class BaseAsset implements AssetInterface
 
     public function setValues(array $values): void
     {
-        foreach ($values as $var => $v) {
+        foreach (array_keys($values) as $var) {
             if (!in_array($var, $this->vars, true)) {
                 throw new \InvalidArgumentException(sprintf('The asset with source path "%s" has no variable named "%s".', $this->sourcePath, $var));
             }

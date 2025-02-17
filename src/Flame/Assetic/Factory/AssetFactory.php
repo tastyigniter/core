@@ -166,7 +166,7 @@ class AssetFactory
         return $asset instanceof AssetCollectionInterface ? $asset : $this->createAssetCollection([$asset]);
     }
 
-    public function generateAssetName($inputs, $filters, $options = []): string
+    public function generateAssetName($inputs, $filters, array $options = []): string
     {
         foreach (array_diff(array_keys($options), ['output', 'debug', 'root']) as $key) {
             unset($options[$key]);

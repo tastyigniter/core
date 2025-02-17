@@ -19,7 +19,7 @@ if (!function_exists('form_open')) {
      * @param string $action the URI segments of the form destination
      * @param array $attributes a key/value a pair of attributes
      */
-    function form_open($action = null, $attributes = []): string
+    function form_open(string|array $action = '', array $attributes = []): string
     {
         if (is_string($action)) {
             $attributes['url'] = $action;
@@ -44,7 +44,7 @@ if (!function_exists('form_open_multipart')) {
      * @param string $action the URI segments of the form destination
      * @param array $attributes a key/value pair of attributes
      */
-    function form_open_multipart($action = '', $attributes = []): string
+    function form_open_multipart(string|array $action = '', array $attributes = []): string
     {
         $attributes['enctype'] = 'multipart/form-data';
 
@@ -55,10 +55,8 @@ if (!function_exists('form_open_multipart')) {
 if (!function_exists('form_close')) {
     /**
      * Form Close Tag
-     *
-     * @param string $extra
      */
-    function form_close($extra = ''): string
+    function form_close(string $extra = ''): string
     {
         return app(FormBuilder::class)->close().$extra;
     }
@@ -177,7 +175,7 @@ if (!function_exists('form_error')) {
      * Returns the error for a specific form field. This is a helper for the
      * form validation class.
      */
-    function form_error($field = null, $prefix = '', $suffix = '', $bag = 'default')
+    function form_error($field = null, string $prefix = '', string $suffix = '', $bag = 'default')
     {
         $errors = (Config::get('session.driver') && Session::has('errors'))
             ? Session::get('errors')

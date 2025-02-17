@@ -59,7 +59,7 @@ class CssRewriteFilter extends BaseCssFilter
             }
         }
 
-        $content = $this->filterReferences($asset->getContent(), function($matches) use ($host, $path) {
+        $content = $this->filterReferences($asset->getContent(), function(array $matches) use ($host, $path) {
             if (str_contains($matches['url'], '://') ||
                 str_starts_with($matches['url'], '//') ||
                 str_starts_with($matches['url'], 'data:')

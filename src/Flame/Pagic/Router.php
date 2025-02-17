@@ -92,7 +92,7 @@ class Router
      */
     public function getUrlMap(): array
     {
-        if (!count($this->urlMap)) {
+        if ($this->urlMap === []) {
             $this->loadUrlMap();
         }
 
@@ -251,7 +251,7 @@ class Router
 
     public function findRouteRule($name)
     {
-        return collect($this->getUrlMap())->first(function($page) use ($name): bool {
+        return collect($this->getUrlMap())->first(function(array $page) use ($name): bool {
             return $page['route'] === $name || $page['file'] === $name;
         });
     }

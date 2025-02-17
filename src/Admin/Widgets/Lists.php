@@ -259,7 +259,7 @@ class Lists extends BaseWidget
         // Apply search term
         $query->where(function($innerQuery) use ($primarySearchable, $relationSearchable, $joins) {
             // Search primary columns
-            if (count($primarySearchable) > 0) {
+            if ($primarySearchable !== []) {
                 $this->applySearchToQuery($innerQuery, $primarySearchable, 'or');
             }
 
@@ -387,7 +387,7 @@ class Lists extends BaseWidget
 
         if ($this->columnOverride && is_array($this->columnOverride)) {
             $invalidColumns = array_diff($this->columnOverride, array_keys($definitions));
-            if (count($invalidColumns)) {
+            if ($invalidColumns !== []) {
                 throw new SystemException(sprintf(
                     lang('igniter::admin.list.invalid_column_override'), implode(',', $invalidColumns),
                 ));
@@ -416,7 +416,7 @@ class Lists extends BaseWidget
      */
     protected function defineListColumns(): array
     {
-        if (!count($this->columns)) {
+        if ($this->columns === []) {
             throw new SystemException(sprintf(lang('igniter::admin.list.missing_column'), get_class($this->controller)));
         }
 
@@ -934,7 +934,7 @@ class Lists extends BaseWidget
     protected function isSortable(?string $column = null): bool
     {
         if ($column === null) {
-            return count($this->getSortableColumns()) > 0;
+            return $this->getSortableColumns() !== [];
         }
 
         return array_key_exists($column, $this->getSortableColumns());
@@ -1048,7 +1048,7 @@ class Lists extends BaseWidget
         }
 
         $checkedIds = request()->input('checked');
-        if (!$checkedIds || !is_array($checkedIds) || !count($checkedIds)) {
+        if (!$checkedIds || !is_array($checkedIds) || $checkedIds === []) {
             throw new FlashException(lang('igniter::admin.list.delete_empty'));
         }
 

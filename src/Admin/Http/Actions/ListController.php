@@ -96,7 +96,7 @@ class ListController extends ControllerAction
     public function index_onDelete(): array
     {
         $checkedIds = post('checked');
-        if (!$checkedIds || !is_array($checkedIds) || !count($checkedIds)) {
+        if (!$checkedIds || !is_array($checkedIds) || $checkedIds === []) {
             flash()->success(lang('igniter::admin.list.delete_empty'));
 
             return $this->controller->refreshList();
@@ -142,7 +142,7 @@ class ListController extends ControllerAction
     {
         $this->listWidgets = [];
 
-        foreach ($this->listConfig as $alias => $config) {
+        foreach (array_keys($this->listConfig) as $alias) {
             $this->listWidgets[$alias] = $this->makeList($alias);
         }
 

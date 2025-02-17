@@ -2,9 +2,13 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
+use Rector\CodeQuality\Rector\Ternary\SwitchNegatedTernaryRector;
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\TypeDeclaration\Rector\ArrowFunction\AddArrowFunctionReturnTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\StrictStringParamConcatRector;
 use Rector\TypeDeclaration\Rector\Closure\AddClosureVoidReturnTypeWhereNoReturnRector;
 use Rector\TypeDeclaration\Rector\Function_\AddFunctionVoidReturnTypeWhereNoReturnRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
@@ -21,7 +25,15 @@ return RectorConfig::configure()
         AddVoidReturnTypeWhereNoReturnRector::class => [
             __DIR__.'/src/Flame/Providers/EventServiceProvider.php',
         ],
+        RemoveUselessParamTagRector::class => [
+            __DIR__.'/src/Flame/Database/Concerns/HasRelationships.php',
+        ],
+        StrictStringParamConcatRector::class => [
+            __DIR__.'/src/Flame/Database/Concerns/HasRelationships.php',
+        ],
+        SwitchNegatedTernaryRector::class,
+        IssetOnPropertyObjectToPropertyExistsRector::class,
     ])
-    ->withTypeCoverageLevel(40)
-    ->withDeadCodeLevel(40)
-    ->withCodeQualityLevel(40);
+    ->withTypeCoverageLevel(60)
+    ->withDeadCodeLevel(60)
+    ->withCodeQualityLevel(60);

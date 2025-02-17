@@ -277,7 +277,7 @@ class LanguageManager
     public function applyLanguagePack(string $locale, ?array $builds = null): array
     {
         $items = collect($this->updateManager->getInstalledItems())
-            ->map(function($item) use ($builds) {
+            ->map(function(array $item) use ($builds) {
                 $item['build'] = array_get($builds, $item['name']);
 
                 return $item;

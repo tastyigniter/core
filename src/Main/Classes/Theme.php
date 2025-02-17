@@ -183,10 +183,10 @@ class Theme
         return $this;
     }
 
-    public function screenshot($name): self
+    public function screenshot(string $name): self
     {
-        foreach ($this->getFindInPaths() as $findInPath => $publicPath) {
-            foreach (ThemeModel::ICON_MIMETYPES as $extension => $mimeType) {
+        foreach (array_keys($this->getFindInPaths()) as $findInPath) {
+            foreach (array_keys(ThemeModel::ICON_MIMETYPES) as $extension) {
                 if (File::isFile($findInPath.'/'.$name.'.'.$extension)) {
                     $this->screenshot = $findInPath.'/'.$name.'.'.$extension;
                     break 2;

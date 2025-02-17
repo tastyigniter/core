@@ -58,7 +58,7 @@ it('builds view with rendered templates', function() {
     $mailManager->shouldReceive('renderTextTemplate')->andReturn(new HtmlString('Rendered Text'));
 
     $mailer = mock(Mailer::class);
-    $mailer->shouldReceive('send')->withArgs(function($view, $data, $messageCallback): true {
+    $mailer->shouldReceive('send')->withArgs(function(array $view, $data, $messageCallback): true {
         expect($view['html']->toHtml())->toBe('Rendered HTML')
             ->and($view['text']->toHtml())->toBe('Rendered Text');
 

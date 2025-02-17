@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Html;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class HtmlServiceProvider extends ServiceProvider
@@ -28,7 +29,7 @@ class HtmlServiceProvider extends ServiceProvider
      */
     protected function registerHtmlBuilder()
     {
-        $this->app->singleton('html', function($app): HtmlBuilder {
+        $this->app->singleton('html', function(Application $app): HtmlBuilder {
             return new HtmlBuilder($app['url'], $app['view']);
         });
     }
@@ -40,7 +41,7 @@ class HtmlServiceProvider extends ServiceProvider
      */
     protected function registerFormBuilder()
     {
-        $this->app->singleton('form', function($app) {
+        $this->app->singleton('form', function(Application $app): FormBuilder {
             $form = new FormBuilder($app['html'], $app['url'], $app['view'], $app['session.store']->token(), $app['request']);
 
             return $form->setSessionStore($app['session.store']);

@@ -22,7 +22,7 @@ class ChainProvider extends Contracts\AbstractProvider
 
     public function geocodeQuery(GeoQueryInterface $query): Collection
     {
-        foreach ($this->providers as $name => $config) {
+        foreach (array_keys($this->providers) as $name) {
             $provider = $this->geocoder->makeProvider($name);
             $result = $provider->geocodeQuery($query);
             if ($result->isNotEmpty()) {
@@ -35,7 +35,7 @@ class ChainProvider extends Contracts\AbstractProvider
 
     public function reverseQuery(GeoQueryInterface $query): Collection
     {
-        foreach ($this->providers as $name => $config) {
+        foreach (array_keys($this->providers) as $name) {
             $provider = $this->geocoder->makeProvider($name);
             $result = $provider->reverseQuery($query);
             if ($result->isNotEmpty()) {
@@ -48,7 +48,7 @@ class ChainProvider extends Contracts\AbstractProvider
 
     public function distance(DistanceInterface $distance): ?Distance
     {
-        foreach ($this->providers as $name => $config) {
+        foreach (array_keys($this->providers) as $name) {
             $result = $this->geocoder->makeProvider($name)->distance($distance);
             if (!is_null($result)) {
                 return $result;
@@ -68,7 +68,7 @@ class ChainProvider extends Contracts\AbstractProvider
     public function getLogs(): array
     {
         $logs = [];
-        foreach ($this->providers as $name => $config) {
+        foreach (array_keys($this->providers) as $name) {
             $provider = $this->geocoder->makeProvider($name);
             $logs[] = $provider->getLogs();
         }

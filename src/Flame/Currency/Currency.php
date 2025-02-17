@@ -207,7 +207,7 @@ class Currency
      */
     public function getCurrencies(): Collection
     {
-        if ($this->loadedCurrencies === null) {
+        if (!$this->loadedCurrencies instanceof Collection) {
             $this->loadCurrencies();
         }
 
@@ -219,7 +219,7 @@ class Currency
      */
     public function getModel(): CurrencyInterface
     {
-        if ($this->model === null && ($model = $this->config('model'))) {
+        if (!$this->model instanceof CurrencyInterface && ($model = $this->config('model'))) {
             // Create model instance
             $this->model = new $model;
         }
@@ -232,7 +232,7 @@ class Currency
      */
     public function getFormatter(): ?FormatterInterface
     {
-        if ($this->formatter === null && $this->config('formatter') !== null) {
+        if (!$this->formatter instanceof FormatterInterface && $this->config('formatter') !== null) {
             // Get formatter configuration
             $config = $this->config('formatters.'.$this->config('formatter'), []);
 

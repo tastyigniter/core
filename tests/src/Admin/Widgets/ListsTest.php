@@ -94,7 +94,7 @@ it('loads assets correctly', function() {
 });
 
 it('renders correctly', function() {
-    $this->listsWidget->columns = array_map(function($column) {
+    $this->listsWidget->columns = array_map(function(array $column) {
         $column['sortable'] = false;
 
         return $column;
@@ -237,7 +237,7 @@ it('throws exception when missing defined columns', function() {
 it('filter list columns using model filterColumns method', function() {
     $this->widgetConfig['model'] = new class extends Status
     {
-        public function filterColumns(&$listColumn): array
+        public function filterColumns(array &$listColumn): array
         {
             unset($listColumn['status_id']);
 

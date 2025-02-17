@@ -55,7 +55,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return $this->coordinates;
     }
 
-    public function setCoordinates(Model\CoordinatesCollection $coordinates)
+    public function setCoordinates(Model\CoordinatesCollection $coordinates): static
     {
         $this->coordinates = $coordinates;
         $this->bounds->setPolygon($this);
@@ -101,7 +101,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
     {
         if (is_array($key)) {
             $values = $key;
-        } elseif ($coordinate !== null) {
+        } elseif ($coordinate instanceof Contracts\CoordinatesInterface) {
             $values = [$key => $coordinate];
         } else {
             throw new \InvalidArgumentException;
@@ -171,10 +171,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
 
             // Check if coordinate is on a horizontal boundary
             if (bccomp(
-                number_format($currentVertex->getLatitude(), $this->getPrecision()),
-                number_format($nextVertex->getLatitude(), $this->getPrecision()),
-                $this->getPrecision(),
-            ) === 0
+                    number_format($currentVertex->getLatitude(), $this->getPrecision()),
+                    number_format($nextVertex->getLatitude(), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 0
                 && bccomp(
                     number_format($currentVertex->getLatitude(), $this->getPrecision()),
                     number_format($coordinate->getLatitude(), $this->getPrecision()),
@@ -196,10 +196,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
 
             // Check if coordinate is on a boundary
             if (bccomp(
-                number_format($coordinate->getLatitude(), $this->getPrecision()),
-                number_format(min($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
-                $this->getPrecision(),
-            ) === 1
+                    number_format($coordinate->getLatitude(), $this->getPrecision()),
+                    number_format(min($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 1
                 && bccomp(
                     number_format($coordinate->getLatitude(), $this->getPrecision()),
                     number_format(max($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
@@ -222,10 +222,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
                     + $currentVertex->getLongitude();
 
                 if (bccomp(
-                    number_format($xinters, $this->getPrecision()),
-                    number_format($coordinate->getLongitude(), $this->getPrecision()),
-                    $this->getPrecision(),
-                ) === 0
+                        number_format($xinters, $this->getPrecision()),
+                        number_format($coordinate->getLongitude(), $this->getPrecision()),
+                        $this->getPrecision(),
+                    ) === 0
                 ) {
                     return true;
                 }
@@ -239,10 +239,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
     {
         foreach ($this->coordinates as $vertexCoordinate) {
             if (bccomp(
-                number_format($vertexCoordinate->getLatitude(), $this->getPrecision()),
-                number_format($coordinate->getLatitude(), $this->getPrecision()),
-                $this->getPrecision(),
-            ) === 0 &&
+                    number_format($vertexCoordinate->getLatitude(), $this->getPrecision()),
+                    number_format($coordinate->getLatitude(), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 0 &&
                 bccomp(
                     number_format($vertexCoordinate->getLongitude(), $this->getPrecision()),
                     number_format($coordinate->getLongitude(), $this->getPrecision()),
@@ -265,10 +265,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
             $nextVertex = $this->get($i);
 
             if (bccomp(
-                number_format($coordinate->getLatitude(), $this->getPrecision()),
-                number_format(min($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
-                $this->getPrecision(),
-            ) === 1
+                    number_format($coordinate->getLatitude(), $this->getPrecision()),
+                    number_format(min($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
+                    $this->getPrecision(),
+                ) === 1
                 && bccomp(
                     number_format($coordinate->getLatitude(), $this->getPrecision()),
                     number_format(max($currentVertex->getLatitude(), $nextVertex->getLatitude()), $this->getPrecision()),
@@ -291,10 +291,10 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
                     + $currentVertex->getLongitude();
 
                 if (bccomp(
-                    number_format($coordinate->getLongitude(), $this->getPrecision()),
-                    number_format($xinters, $this->getPrecision()),
-                    $this->getPrecision(),
-                ) <= 0
+                        number_format($coordinate->getLongitude(), $this->getPrecision()),
+                        number_format($xinters, $this->getPrecision()),
+                        $this->getPrecision(),
+                    ) <= 0
                     || bccomp(
                         number_format($currentVertex->getLongitude(), $this->getPrecision()),
                         number_format($nextVertex->getLongitude(), $this->getPrecision()),

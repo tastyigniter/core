@@ -630,7 +630,7 @@ trait HasRelationships
     public function morphToMany(
         $related, $name, $table = null, $foreignPivotKey = null,
         $relatedPivotKey = null, $parentKey = null,
-        $relatedKey = null, $inverse = false, $relationName = null,
+        $relatedKey = null, $relationName = null, $inverse = false,
     ): MorphToMany {
         $relationName = $relationName ?: $this->guessBelongsToManyRelation();
 

@@ -130,7 +130,7 @@ it('reloads form with filtered fields correctly', function() {
     ];
     $this->widgetConfig['model'] = new class extends Status
     {
-        public function filterFields($form, &$allFields, $context): void
+        public function filterFields($form, array &$allFields, $context): void
         {
             unset($allFields['status_color']);
         }
@@ -365,7 +365,7 @@ it('throws exception when field widget class does not exists', function() {
     $this->formWidget->makeFormFieldWidget($field);
 });
 
-it('returns field name', function($name, $context) {
+it('returns field name', function(string $name, ?string $context) {
     [$fieldName, $fieldContext] = $this->formWidget->getFieldName($context ? $name.'@'.$context : $name);
 
     expect($fieldName)->toBe($name)

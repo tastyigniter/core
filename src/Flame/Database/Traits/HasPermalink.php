@@ -87,11 +87,10 @@ trait HasPermalink
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string $attribute
-     * @param string $slug
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeFindSimilarSlugs($query, $attribute, array $config, $slug)
+    public function scopeFindSimilarSlugs($query, $attribute, array $config, string $slug)
     {
         $separator = $config['separator'];
 

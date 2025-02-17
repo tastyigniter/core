@@ -228,7 +228,7 @@ trait ComponentMaker
         }
 
         // Check the component partial
-        if ($partial === null) {
+        if (!$partial instanceof Partial) {
             $partial = ComponentPartial::loadCached($componentObj->getPath(), $partialName);
         }
 

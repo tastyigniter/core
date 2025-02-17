@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Mail;
 
 class MailHelper
 {
-    public function sendTemplate($view, $vars, $callback = null)
+    public function sendTemplate(string $view, $vars, $callback = null)
     {
         return Mail::send(AnonymousTemplateMailable::create($view)->applyCallback($callback)->with($vars));
     }
 
-    public function queueTemplate($view, $vars, $callback = null)
+    public function queueTemplate(string $view, $vars, $callback = null)
     {
         return Mail::queue(AnonymousTemplateMailable::create($view)->applyCallback($callback)->with($vars));
     }

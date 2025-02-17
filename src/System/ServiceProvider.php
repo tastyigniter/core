@@ -19,6 +19,7 @@ use Igniter\System\Models\Language;
 use Igniter\System\Models\RequestLog;
 use Igniter\System\Models\Settings;
 use Igniter\User\Models\Notification;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\MigrationsStarted;
@@ -160,7 +161,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function loadLocalizationConfiguration()
     {
-        $this->app->resolving('translator.localization', function($localization, $app) {
+        $this->app->resolving('translator.localization', function($localization, Application $app) {
             $app['config']->set('localization.locale', Language::getDefault()?->code ?? $app['config']['app.locale']);
             $app['config']->set('localization.supportedLocales', params('supported_languages', []) ?: ['en']);
             $app['config']->set('localization.detectBrowserLocale', (bool)setting('detect_language', false));
@@ -169,7 +170,7 @@ class ServiceProvider extends AppServiceProvider
 
     protected function loadGeocoderConfiguration()
     {
-        $this->app->resolving('geocoder', function($geocoder, $app) {
+        $this->app->resolving('geocoder', function($geocoder, Application $app) {
             $app['config']->set('igniter-geocoder.default', setting('default_geocoder', 'nominatim'));
 
             $region = $app['country']->getCountryCodeById(Country::getDefaultKey());

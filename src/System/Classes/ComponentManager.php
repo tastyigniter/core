@@ -340,7 +340,7 @@ class ComponentManager
         $result['alias'] = $component->getAlias();
 
         $properties = $component->defineProperties();
-        foreach ($properties as $name => $params) {
+        foreach (array_keys($properties) as $name) {
             $result[$name] = $component->property($name);
         }
 

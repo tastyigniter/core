@@ -62,13 +62,12 @@ class SearchBox extends BaseWidget
     /**
      * Search field has been submitted.
      */
-    public function onSubmit(): RedirectResponse|array|null
+    public function onSubmit(...$params): RedirectResponse|array|null
     {
         // Save or reset search term in session
         $this->setActiveTerm(post($this->getName()));
 
         // Trigger class event, merge results as viewable array
-        $params = func_get_args();
         $result = $this->fireEvent('search.submit', [$params]);
         if ($result && is_array($result)) {
             [$redirect] = $result;

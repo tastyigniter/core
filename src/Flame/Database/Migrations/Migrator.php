@@ -48,7 +48,7 @@ class Migrator extends BaseMigrator
 
         $this->requireFiles($migrations);
 
-        if (count($migrations) === 0) {
+        if ($migrations === []) {
             $this->write(Info::class, 'Nothing to rollback.');
 
             return null;

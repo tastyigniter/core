@@ -201,13 +201,13 @@ class Media extends Model
      * Helper attribute for getPath.
      * @return string
      */
-    public function getPathAttribute()
+    public function getPathAttribute(): string
     {
         return $this->getPath();
     }
 
     /**
-     * Determine the type of a file.
+     * Determine the type of file.
      *
      * @return string
      */
@@ -227,11 +227,7 @@ class Media extends Model
      */
     public function getWidthAttribute()
     {
-        if ($this->isImage()) {
-            $dimensions = $this->getImageDimensions();
-
-            return $dimensions[0];
-        }
+        return $this->isImage() ? $this->getImageDimensions()[0] : null;
     }
 
     /**
@@ -240,11 +236,7 @@ class Media extends Model
      */
     public function getHeightAttribute()
     {
-        if ($this->isImage()) {
-            $dimensions = $this->getImageDimensions();
-
-            return $dimensions[1];
-        }
+        return $this->isImage() ? $this->getImageDimensions()[1] : null;
     }
 
     public function getHumanReadableSizeAttribute()
@@ -306,7 +298,7 @@ class Media extends Model
      * Returns the path to the file, relative to the storage disk.
      * @return string
      */
-    public function getDiskPath()
+    public function getDiskPath(): string
     {
         return $this->getStoragePath().$this->name;
     }

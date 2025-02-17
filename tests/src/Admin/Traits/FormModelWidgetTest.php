@@ -250,7 +250,7 @@ it('sets model attributes with nested data', function() {
     {
         use FormModelWidget;
 
-        public function testSetModelAttributes($model, $saveData)
+        public function testSetModelAttributes(?IlluminateModel $model, $saveData)
         {
             return $this->setModelAttributes($model, $saveData);
         }
@@ -267,7 +267,7 @@ it('does not set attributes starting with underscore', function() {
     {
         use FormModelWidget;
 
-        public function testSetModelAttributes($model, $saveData)
+        public function testSetModelAttributes(?Model $model, $saveData)
         {
             return $this->setModelAttributes($model, $saveData);
         }
@@ -286,7 +286,7 @@ it('skips setting attributes with NO_SAVE_DATA', function() {
     {
         use FormModelWidget;
 
-        public function testSetModelAttributes($model, $saveData)
+        public function testSetModelAttributes(?Model $model, $saveData)
         {
             return $this->setModelAttributes($model, $saveData);
         }

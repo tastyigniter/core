@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Flame\Translation;
 
 use Igniter\Flame\Translation\Drivers\Database;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Translation\TranslationServiceProvider as BaseServiceProvider;
 
 class TranslationServiceProvider extends BaseServiceProvider
@@ -15,7 +16,7 @@ class TranslationServiceProvider extends BaseServiceProvider
 
         $this->registerLoader();
 
-        $this->app->singleton('translator', function($app): Translator {
+        $this->app->singleton('translator', function(Application $app): Translator {
             $loader = $app['translation.loader'];
 
             // When registering the translator component, we'll need to set the default
@@ -32,14 +33,14 @@ class TranslationServiceProvider extends BaseServiceProvider
             return $trans;
         });
 
-        $this->app->singleton('translator.localization', function($app): Localization {
+        $this->app->singleton('translator.localization', function(Application $app): Localization {
             return new Localization($app['request'], $app['config']);
         });
     }
 
     public function registerLoader(): void
     {
-        $this->app->singleton('translation.loader', function($app): FileLoader {
+        $this->app->singleton('translation.loader', function(Application $app): FileLoader {
             $reflection = new \ReflectionClass(BaseServiceProvider::class);
             $dir = dirname($reflection->getFileName());
 

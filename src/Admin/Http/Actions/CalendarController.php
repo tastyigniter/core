@@ -70,7 +70,7 @@ class CalendarController extends ControllerAction
     {
         $this->calendarWidgets = [];
 
-        foreach ($this->calendarConfig as $alias => $config) {
+        foreach (array_keys($this->calendarConfig) as $alias) {
             $this->calendarWidgets[$alias] = $this->makeCalendar($alias);
         }
 

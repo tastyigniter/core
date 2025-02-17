@@ -25,6 +25,7 @@ use Igniter\Main\Template\Page;
 use Igniter\Main\Template\Partial;
 use Igniter\Main\Traits\ComponentMaker;
 use Igniter\Main\Traits\ControllerHelpers;
+use Igniter\System\Classes\BaseComponent;
 use Igniter\System\Helpers\ViewHelper;
 use Igniter\System\Traits\AssetMaker;
 use Illuminate\Http\RedirectResponse;
@@ -330,7 +331,7 @@ class MainController extends Controller
 
                 return $result ?: true;
             }
-        } elseif (($componentObj = $this->findComponentByHandler($handler)) !== null) {
+        } elseif (($componentObj = $this->findComponentByHandler($handler)) instanceof BaseComponent) {
             $this->componentContext = $componentObj;
             $result = $componentObj->runEventHandler($handler);
 
@@ -556,7 +557,7 @@ class MainController extends Controller
         return $partial instanceof Partial || $partial instanceof ComponentPartial;
     }
 
-    protected function loadPartial($name, $throwException = true): Partial|false
+    protected function loadPartial($name, bool $throwException = true): Partial|false
     {
         if (($partial = Partial::loadCached($this->theme->getName(), $name)) === null) {
             $this->handleException(sprintf(lang('igniter::main.not_found.partial'), $name), $throwException);

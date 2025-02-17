@@ -391,7 +391,7 @@ class MediaManager extends BaseWidget
         ]);
 
         $path = trim(array_get($validated, 'path'));
-        $files = array_map(function($value) use ($path): string {
+        $files = array_map(function(array $value) use ($path): string {
             return $path.'/'.$value['path'];
         }, array_get($validated, 'files'));
 

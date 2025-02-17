@@ -109,7 +109,7 @@ it('lists empty onboarding steps when nothing is registered', function() {
     expect($steps)->toBeEmpty();
 });
 
-it('checks if onboarding is completed correctly', function($steps) {
+it('checks if onboarding is completed correctly', function(array $steps) {
     $this->onboardingSteps->registerSteps($steps);
 
     expect($this->onboardingSteps->completed())->toBeFalse();
@@ -129,7 +129,7 @@ it('checks if onboarding is completed correctly', function($steps) {
     expect($this->onboardingSteps->completed())->toBeTrue();
 })->with('onboardingSteps');
 
-it('checks if onboarding is in progress correctly', function($steps) {
+it('checks if onboarding is in progress correctly', function(array $steps) {
     $this->onboardingSteps->registerSteps($steps);
 
     expect($this->onboardingSteps->inProgress())->toBeTrue();

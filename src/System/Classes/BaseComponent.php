@@ -146,7 +146,7 @@ abstract class BaseComponent extends Extendable
         return $this;
     }
 
-    public static function resolve($name, ?TemplateCode $page = null, array $properties = []): self
+    public static function resolve(string $name, ?TemplateCode $page = null, array $properties = []): self
     {
         $component = new static($page, $properties);
         $component->setName($name);

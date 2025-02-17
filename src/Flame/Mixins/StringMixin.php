@@ -16,7 +16,7 @@ class StringMixin
      */
     public function ordinal()
     {
-        return function($number): string {
+        return function(int|string $number): string {
             if (in_array($number % 100, range(11, 13))) {
                 return $number.'th';
             }

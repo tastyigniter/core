@@ -45,7 +45,7 @@ class StringParser
         return strtr($template, $replace);
     }
 
-    protected function parseSingle($key, $value, $template): array
+    protected function parseSingle(string $key, $value, $template): array
     {
         if (!is_scalar($value)) {
             $value = '';
@@ -57,7 +57,7 @@ class StringParser
     /**
      * @return string[]
      */
-    protected function parsePair($key, $data, $template): array
+    protected function parsePair(string $key, $data, $template): array
     {
         $replace = [];
         preg_match_all(

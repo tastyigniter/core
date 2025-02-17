@@ -68,7 +68,9 @@ class ErrorHandler
             return false;
         }
 
-        class_exists('Event') && Event::dispatch('exception.report', [$e]);
+        if (class_exists('Event')) {
+            Event::dispatch('exception.report', [$e]);
+        }
 
         return null;
     }

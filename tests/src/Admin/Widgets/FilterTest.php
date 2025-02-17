@@ -276,7 +276,7 @@ it('returns context', function() {
     expect($this->filterWidget->getContext())->toEqual('test-context');
 });
 
-it('applies date scope to query', function($type, $value, $config, $expected) {
+it('applies date scope to query', function(string $type, $value, $config, $expected) {
     $this->widgetConfig['scopes']['status-'.$type] = array_merge([
         'label' => 'Status',
         'type' => $type,

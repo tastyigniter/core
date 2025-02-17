@@ -134,7 +134,7 @@ readonly class AssetCache implements AssetInterface
      */
     private static function getCacheKey(AssetInterface $asset, ?FilterInterface $additionalFilter = null, string $salt = ''): string
     {
-        if ($additionalFilter !== null) {
+        if ($additionalFilter instanceof FilterInterface) {
             $asset = clone $asset;
             $asset->ensureFilter($additionalFilter);
         }

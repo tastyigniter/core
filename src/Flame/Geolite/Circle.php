@@ -69,7 +69,7 @@ class Circle implements Contracts\CircleInterface
         return new Model\CoordinatesCollection([$this->getCoordinate()]);
     }
 
-    public function setCoordinate(CoordinatesInterface $coordinate)
+    public function setCoordinate(CoordinatesInterface $coordinate): static
     {
         $this->coordinate = $coordinate;
 

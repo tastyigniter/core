@@ -154,13 +154,12 @@ class PermalinkMaker
     /**
      * Checks if the slug should be unique, and makes it so if needed.
      *
-     * @param string $slug
      * @param string $attribute
      *
      * @return string
      * @throws \UnexpectedValueException
      */
-    protected function makeSlugUnique($slug, array $config, $attribute)
+    protected function makeSlugUnique(string $slug, array $config, $attribute)
     {
         if (!$config['generateUnique']) {
             return $slug;
@@ -224,12 +223,9 @@ class PermalinkMaker
     /**
      * Checks that the given slug is not a reserved word.
      *
-     * @param string $slug
-     * @param string $attribute
      *
-     * @return string
      */
-    protected function validateSlug($slug, array $config, $attribute)
+    protected function validateSlug(string $slug, array $config, string $attribute): string
     {
         $separator = $config['separator'];
         $reserved = $config['reserved'];
@@ -262,12 +258,10 @@ class PermalinkMaker
     /**
      * Generate a unique suffix for the given slug (and list of existing, "similar" slugs.
      *
-     * @param string $slug
-     * @param string $separator
      *
      * @return string
      */
-    protected function generateSuffix($slug, $separator, Collection $list)
+    protected function generateSuffix(string $slug, string $separator, Collection $list)
     {
         $len = strlen($slug.$separator);
 
@@ -287,7 +281,7 @@ class PermalinkMaker
         return $list->max() + 1;
     }
 
-    public function setModel(Model $model)
+    public function setModel(Model $model): static
     {
         $this->model = $model;
 

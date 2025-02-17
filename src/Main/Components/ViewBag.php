@@ -40,7 +40,7 @@ class ViewBag extends BaseComponent
     {
         $result = [];
 
-        foreach ($this->properties as $name => $value) {
+        foreach (array_keys($this->properties) as $name) {
             $result[$name] = [
                 'title' => $name,
                 'type' => 'text',

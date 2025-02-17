@@ -100,9 +100,8 @@ class Translation extends Model
 
     /**
      *  Flag this entry as Reviewed
-     * @return \Igniter\Flame\Translation\Models\Translation
      */
-    public function flagAsReviewed()
+    public function flagAsReviewed(): static
     {
         $this->unstable = false;
 
@@ -121,9 +120,8 @@ class Translation extends Model
 
     /**
      *  Set the translation to the locked state
-     * @return \Igniter\Flame\Translation\Models\Translation
      */
-    public function lockState()
+    public function lockState(): static
     {
         $this->locked = true;
 

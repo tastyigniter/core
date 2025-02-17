@@ -97,7 +97,7 @@ class SettingsModel extends ModelAction
      */
     public function isConfigured(): bool
     {
-        return Igniter::hasDatabase() && $this->getSettingsRecord() !== null;
+        return Igniter::hasDatabase() && $this->getSettingsRecord() instanceof Model;
     }
 
     /**

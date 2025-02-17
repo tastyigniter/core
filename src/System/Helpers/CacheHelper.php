@@ -65,7 +65,7 @@ class CacheHelper
         File::delete(App::getCachedServicesPath());
     }
 
-    public function clearDirectory($path): void
+    public function clearDirectory(string $path): void
     {
         if (!File::isDirectory(storage_path().$path)) {
             return;

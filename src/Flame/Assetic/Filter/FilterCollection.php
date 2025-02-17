@@ -23,7 +23,7 @@ use Traversable;
  */
 class FilterCollection implements \Countable, \IteratorAggregate, FilterInterface
 {
-    private $filters = [];
+    private array $filters = [];
 
     public function __construct($filters = [])
     {
@@ -49,7 +49,7 @@ class FilterCollection implements \Countable, \IteratorAggregate, FilterInterfac
         }
     }
 
-    public function all()
+    public function all(): array
     {
         return $this->filters;
     }

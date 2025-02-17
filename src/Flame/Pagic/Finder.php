@@ -120,10 +120,8 @@ class Finder
 
     /**
      * Alias to set the "offset" value of the query.
-     *
-     * @param int $value
      */
-    public function skip($value): static
+    public function skip(int $value): static
     {
         return $this->offset($value);
     }

@@ -101,7 +101,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public static function getActiveLocale(): ?self
     {
-        if (self::$activeLanguage !== null) {
+        if (self::$activeLanguage instanceof Language) {
             return self::$activeLanguage;
         }
 

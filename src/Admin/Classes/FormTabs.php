@@ -119,7 +119,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
      */
     public function hasFields(): bool
     {
-        return count($this->fields) > 0;
+        return $this->fields !== [];
     }
 
     /**

@@ -158,7 +158,9 @@ class Controller extends IlluminateController
      */
     protected function locateControllerInPath($controller, $modules)
     {
-        is_array($modules) || $modules = [$modules];
+        if (!is_array($modules)) {
+            $modules = [$modules];
+        }
 
         $controllerClass = null;
         foreach ($modules as $namespace) {
@@ -263,7 +265,7 @@ class Controller extends IlluminateController
         $path = implode('/', $pathParts);
         if ($result = $this->locateController($path)) {
             // Collect controller middleware and insert middleware into pipeline
-            collect($result['controller']->getMiddleware())->each(function($data) {
+            collect($result['controller']->getMiddleware())->each(function(array $data) {
                 $this->middleware($data['middleware'], $data['options']);
             });
         }

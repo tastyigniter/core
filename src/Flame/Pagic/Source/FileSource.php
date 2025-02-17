@@ -218,13 +218,10 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Ensure the requested file can be created in the requested directory.
      *
-     * @param string $dirName
      * @param string $fileName
-     * @param string $extension
-     *
      * @return void
      */
-    protected function validateDirectoryForSave($dirName, $fileName, $extension)
+    protected function validateDirectoryForSave(string $dirName, $fileName, string $extension)
     {
         $path = $this->makeFilePath($dirName, $fileName, $extension);
         $dirPath = $this->basePath.'/'.$dirName;
@@ -253,7 +250,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Helper to make file path.
      */
-    protected function makeFilePath($dirName, $fileName, $extension): string
+    protected function makeFilePath(string $dirName, string $fileName, string $extension): string
     {
         return $this->basePath.'/'.$dirName.'/'.$fileName.'.'.$extension;
     }

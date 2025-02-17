@@ -69,7 +69,7 @@ class PackageManifest extends BasePackageManifest
                 return array_has($package, 'extra.tastyigniter-extension') ||
                     array_has($package, 'extra.tastyigniter-theme');
             })
-            ->mapWithKeys(function($package) {
+            ->mapWithKeys(function(array $package) {
                 return [
                     $package['name'] => [
                         'code' => array_get($package, 'extra.tastyigniter-theme.code')

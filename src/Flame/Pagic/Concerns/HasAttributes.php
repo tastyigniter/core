@@ -344,7 +344,7 @@ trait HasAttributes
         // already contains any attributes. If it does we will just return that this
         // count is greater than zero. Else, we need to check specific attributes.
         if (empty($attributes)) {
-            return count($changes) > 0;
+            return $changes !== [];
         }
 
         // Here we will spin through every attribute and see if this is in the array of

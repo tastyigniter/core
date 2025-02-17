@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 trait HasChartDatasets
 {
-    protected function getDataDefinition($key, $default = null)
+    protected function getDataDefinition(string $key, $default = null)
     {
         return array_get($this->listSets(), $this->getActiveDataset().'.'.$key, $default);
     }

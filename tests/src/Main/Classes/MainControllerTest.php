@@ -315,7 +315,7 @@ it('returns rendered content using page.beforeRenderContent event in renderConte
 });
 
 it('returns rendered content using page.renderContent event in renderContent', function() {
-    Event::listen('main.page.renderContent', function($controller, $name, $fileContent): string {
+    Event::listen('main.page.renderContent', function($controller, $name, string $fileContent): string {
         return $fileContent.'test-content';
     });
 

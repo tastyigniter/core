@@ -23,7 +23,7 @@ class HtmlBuilder
             }
         }
 
-        return count($html) > 0 ? ' '.implode(' ', $html) : '';
+        return $html !== [] ? ' '.implode(' ', $html) : '';
     }
 
     /**

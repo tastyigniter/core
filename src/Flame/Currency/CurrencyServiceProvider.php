@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Flame\Currency;
 
 use Igniter\Flame\Currency\Middleware\CurrencyMiddleware;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class CurrencyServiceProvider extends ServiceProvider
@@ -36,7 +37,7 @@ class CurrencyServiceProvider extends ServiceProvider
     {
         $this->app->bind(Currency::class, 'currency');
 
-        $this->app->singleton('currency', function($app): Currency {
+        $this->app->singleton('currency', function(Application $app): Currency {
             $this->app['events']->dispatch('currency.beforeRegister', [$this]);
 
             return new Currency(

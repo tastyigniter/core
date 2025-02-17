@@ -213,7 +213,7 @@ class Repeater extends BaseFormWidget
         }
     }
 
-    protected function makeItemFormWidget($index, $model): Form
+    protected function makeItemFormWidget(int|string $index, $model): Form
     {
         $data = null;
         if (!$model instanceof Model) {

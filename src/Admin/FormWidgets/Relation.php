@@ -85,7 +85,7 @@ class Relation extends BaseFormWidget
             return null;
         }
 
-        if (is_array($value) && !count($value)) {
+        if (is_array($value) && $value === []) {
             return null;
         }
 

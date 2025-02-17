@@ -310,7 +310,7 @@ class Theme extends Model
         return $theme;
     }
 
-    public static function generateUniqueCode($code, $suffix = null): string
+    public static function generateUniqueCode(string $code, $suffix = null): string
     {
         do {
             $uniqueCode = $code.($suffix ? '-'.$suffix : '');

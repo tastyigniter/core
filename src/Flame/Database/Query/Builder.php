@@ -60,7 +60,7 @@ class Builder extends IlluminateQueryBuilder
      * @param string $key
      * @return $this
      */
-    public function remember($minutes, $key = null)
+    public function remember($minutes, $key = null): static
     {
         $this->cacheMinutes = $minutes;
         $this->cacheKey = $key;
@@ -74,7 +74,7 @@ class Builder extends IlluminateQueryBuilder
      * @param string $key
      * @return \Illuminate\Database\Query\Builder|static
      */
-    public function rememberForever($key = null)
+    public function rememberForever($key = null): static
     {
         return $this->remember(-1, $key);
     }
@@ -85,7 +85,7 @@ class Builder extends IlluminateQueryBuilder
      * @param array|mixed $cacheTags
      * @return $this
      */
-    public function cacheTags($cacheTags)
+    public function cacheTags($cacheTags): static
     {
         $this->cacheTags = $cacheTags;
 
@@ -305,7 +305,7 @@ class Builder extends IlluminateQueryBuilder
      * @param string|null $table
      * @return \Illuminate\Database\Query\Builder|static
      */
-    public function clearDuplicateCache($table = null)
+    public function clearDuplicateCache($table = null): static
     {
         resolve(MemoryCache::class)->forget($table ?: $this->from);
 
@@ -317,7 +317,7 @@ class Builder extends IlluminateQueryBuilder
      *
      * @return \Illuminate\Database\Query\Builder|static
      */
-    public function flushDuplicateCache()
+    public function flushDuplicateCache(): static
     {
         resolve(MemoryCache::class)->flush();
 
@@ -329,7 +329,7 @@ class Builder extends IlluminateQueryBuilder
      *
      * @return \Illuminate\Database\Query\Builder|static
      */
-    public function enableDuplicateCache()
+    public function enableDuplicateCache(): static
     {
         $this->cachingDuplicateQueries = true;
 
@@ -341,7 +341,7 @@ class Builder extends IlluminateQueryBuilder
      *
      * @return \Illuminate\Database\Query\Builder|static
      */
-    public function disableDuplicateCache()
+    public function disableDuplicateCache(): static
     {
         $this->cachingDuplicateQueries = false;
 
