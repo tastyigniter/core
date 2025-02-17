@@ -130,7 +130,7 @@ class Media extends Model
      * Creates a file object from a file an uploaded file.
      * @return self
      */
-    public function addFromRequest(UploadedFile $uploadedFile, ?string $tag = null, ?string $disk = null)
+    public function addFromRequest(UploadedFile $uploadedFile, ?string $tag = null, ?string $disk = null): self
     {
         $this->getMediaAdder()
             ->useDisk($disk)
@@ -180,7 +180,7 @@ class Media extends Model
      * @return $this
      * @throws \Exception
      */
-    public function addFromUrl($url, $filename = null, $tag = null)
+    public function addFromUrl($url, $filename = null, $tag = null): self
     {
         $response = Http::get($url);
         if (!$response->successful()) {
@@ -250,7 +250,7 @@ class Media extends Model
 
     public function getHumanReadableSizeAttribute()
     {
-        return $this->sizeToString($this->size);
+        return $this->sizeToString();
     }
 
     //
@@ -289,7 +289,7 @@ class Media extends Model
     /**
      * Returns the public address to access the file.
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->getPublicPath().$this->getPartitionDirectory().$this->name;
     }
@@ -298,7 +298,7 @@ class Media extends Model
      * Returns a local path to this file. If the file is stored remotely,
      * it will be downloaded to a temporary directory.
      */
-    public function getFullDiskPath()
+    public function getFullDiskPath(): string
     {
         return $this->getStorageDisk()->path($this->getDiskPath());
     }
@@ -330,7 +330,7 @@ class Media extends Model
      */
     public function sizeToString()
     {
-        return File::sizeToString((int)$this->file_size);
+        return File::sizeToString($this->size);
     }
 
     public function getMimeType()
@@ -349,9 +349,7 @@ class Media extends Model
     public function getTypeFromExtension()
     {
         $ext = $this->getExtension();
-        if (isset($this->autoMimeTypes[$ext])) {
-            return $this->autoMimeTypes[$ext];
-        }
+        return $this->autoMimeTypes[$ext] ?? null;
     }
 
     /**
@@ -367,10 +365,10 @@ class Media extends Model
 
         $name = str_replace('.', '', uniqid('', true));
 
-        return $this->name = $name.(strlen($ext) ? '.'.$ext : '');
+        return $this->name = $name.(!empty($ext) ? '.'.$ext : '');
     }
 
-    public function getDiskName()
+    public function getDiskName(): string
     {
         if (!is_null($this->disk)) {
             return $this->disk;
@@ -384,7 +382,7 @@ class Media extends Model
         return $this->disk = $diskName;
     }
 
-    public function getDiskDriverName()
+    public function getDiskDriverName(): string
     {
         return strtolower(config("filesystems.disks.$this->disk.driver"));
     }
@@ -396,7 +394,7 @@ class Media extends Model
     /**
      * Delete all thumbnails for this file.
      */
-    public function deleteThumbs()
+    public function deleteThumbs(): void
     {
         $pattern = 'thumb_'.$this->id.'_';
 
@@ -413,7 +411,7 @@ class Media extends Model
      * Delete file contents from storage device.
      * @return void
      */
-    public function deleteFile(?string $fileName = null)
+    public function deleteFile(?string $fileName = null): void
     {
         if (!$fileName) {
             $fileName = $this->name;
@@ -435,7 +433,7 @@ class Media extends Model
      * @param string $directory
      * @return void
      */
-    protected function deleteEmptyDirectory($directory = null)
+    protected function deleteEmptyDirectory($directory = null): ?bool
     {
         if (!$this->isDirectoryEmpty($directory)) {
             return false;
@@ -462,7 +460,7 @@ class Media extends Model
      * Returns true if a directory contains no files.
      * @return bool|null
      */
-    protected function isDirectoryEmpty($directory)
+    protected function isDirectoryEmpty($directory): bool
     {
         $path = $this->getStorageDisk()->path($directory);
 
@@ -488,7 +486,7 @@ class Media extends Model
     /**
      * Checks if the file extension is an image and returns true or false.
      */
-    public function isImage()
+    public function isImage(): bool
     {
         return in_array(strtolower($this->getExtension()), static::$imageExtensions);
     }
@@ -528,7 +526,7 @@ class Media extends Model
      * Get image dimensions
      * @return array|bool
      */
-    protected function getImageDimensions()
+    protected function getImageDimensions(): array|false
     {
         return getimagesize($this->getFullDiskPath());
     }
@@ -665,7 +663,7 @@ class Media extends Model
     /**
      * Define the internal storage path, override this method to define.
      */
-    public function getStoragePath()
+    public function getStoragePath(): string
     {
         return $this->getStorageDirectory().$this->getPartitionDirectory();
     }
@@ -673,7 +671,7 @@ class Media extends Model
     /**
      * Define the public address for the storage path.
      */
-    public function getPublicPath()
+    public function getPublicPath(): string
     {
         return $this->getStorageDisk()->url($this->getStorageDirectory());
     }
@@ -681,7 +679,7 @@ class Media extends Model
     /**
      * Define the internal working path, override this method to define.
      */
-    public function getTempPath()
+    public function getTempPath(): string
     {
         $path = temp_path().'/attachments/';
 
@@ -695,7 +693,7 @@ class Media extends Model
     /**
      * Define the internal storage folder, override this method to define.
      */
-    public function getStorageDirectory()
+    public function getStorageDirectory(): string
     {
         $mediaFolder = config('igniter-system.assets.attachment.folder', 'media/attachments/');
 
