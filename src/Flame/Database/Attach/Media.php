@@ -430,7 +430,6 @@ class Media extends Model
      * Checks if directory is empty then deletes it,
      * three levels up to match the partition directory.
      * @param string $directory
-     * @return void
      */
     protected function deleteEmptyDirectory($directory = null): ?bool
     {
@@ -452,12 +451,11 @@ class Media extends Model
             return false;
         }
 
-        $this->getStorageDisk()->deleteDirectory($directory);
+        return $this->getStorageDisk()->deleteDirectory($directory);
     }
 
     /**
      * Returns true if a directory contains no files.
-     * @return bool|null
      */
     protected function isDirectoryEmpty($directory): bool
     {
@@ -523,7 +521,6 @@ class Media extends Model
 
     /**
      * Get image dimensions
-     * @return array|bool
      */
     protected function getImageDimensions(): array|false
     {

@@ -521,18 +521,8 @@ parameters:
 			path: src/Flame/Database/Attach/Events/MediaTagCleared.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:\\$file_size\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Media.php
-
-		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:addFromUrl\\(\\) should return \\$this\\(Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\) but returns Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\.$#"
 			count: 1
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:deleteEmptyDirectory\\(\\) with return type void returns false but should not return anything\\.$#"
-			count: 3
 			path: src/Flame/Database/Attach/Media.php
 
 		-
@@ -542,11 +532,6 @@ parameters:
 
 		-
 			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:getWidthAttribute\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: src/Flame/Database/Attach/Media.php
-
-		-
-			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Attach\\\\Media\\:\\:sizeToString\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Flame/Database/Attach/Media.php
 
