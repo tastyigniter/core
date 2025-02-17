@@ -222,8 +222,6 @@ class PermalinkMaker
 
     /**
      * Checks that the given slug is not a reserved word.
-     *
-     *
      */
     protected function validateSlug(string $slug, array $config, string $attribute): string
     {
@@ -257,7 +255,6 @@ class PermalinkMaker
 
     /**
      * Generate a unique suffix for the given slug (and list of existing, "similar" slugs.
-     *
      *
      * @return string
      */

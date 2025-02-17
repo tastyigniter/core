@@ -199,7 +199,6 @@ class Media extends Model
 
     /**
      * Helper attribute for getPath.
-     * @return string
      */
     public function getPathAttribute(): string
     {
@@ -296,7 +295,6 @@ class Media extends Model
 
     /**
      * Returns the path to the file, relative to the storage disk.
-     * @return string
      */
     public function getDiskPath(): string
     {
