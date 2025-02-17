@@ -76,6 +76,7 @@ class SearchBox extends BaseWidget
             return ($redirect instanceof RedirectResponse) ?
                 $redirect : array_merge(...$result);
         }
+
         return null;
     }
 

@@ -42,6 +42,7 @@ trait HasAttributes
         if ($this->hasRelation($key) || method_exists($this, $key)) {
             return $this->getRelationshipFromMethod($key);
         }
+
         return null;
     }
 

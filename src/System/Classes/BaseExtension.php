@@ -78,6 +78,7 @@ abstract class BaseExtension extends EventServiceProvider
             File::exists($routesFile = $extensionPath.'/routes/web.php')) {
             $this->loadRoutesFrom($routesFile);
         }
+
         return null;
     }
 

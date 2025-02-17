@@ -81,6 +81,7 @@ class Localization
 
         app()->setLocale($locale);
         Carbon::setLocale($locale);
+
         return null;
     }
 

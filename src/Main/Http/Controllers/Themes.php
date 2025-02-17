@@ -143,6 +143,7 @@ class Themes extends \Igniter\Admin\Classes\AdminController
         $this->vars['themeModel'] = $model;
         $this->vars['themeObj'] = $theme;
         $this->vars['themeData'] = $model->data;
+
         return null;
     }
 

@@ -79,6 +79,7 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setPreviousUrl('settings');
 
         $this->initWidgets($model, $definition);
+
         return null;
     }
 

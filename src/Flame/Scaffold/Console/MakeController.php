@@ -78,6 +78,7 @@ class MakeController extends GeneratorCommand
             'studly_plural_name' => studly_case(str_plural($controller)),
             'snake_plural_name' => snake_case(str_plural($controller)),
         ];
+
         return null;
     }
 

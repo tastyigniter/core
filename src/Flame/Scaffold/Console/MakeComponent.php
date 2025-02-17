@@ -73,6 +73,7 @@ class MakeComponent extends GeneratorCommand
             'title_name' => title_case($component),
             'studly_name' => studly_case($component),
         ];
+
         return null;
     }
 

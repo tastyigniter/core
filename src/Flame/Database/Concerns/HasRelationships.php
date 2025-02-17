@@ -67,8 +67,6 @@ trait HasRelationships
      * Returns relationship details from a supplied name.
      *
      * @param string $name Relation name
-     *
-     * @return array
      */
     public function getRelationDefinition($name): ?array
     {
@@ -107,6 +105,7 @@ trait HasRelationships
                 return $type;
             }
         }
+
         return null;
     }
 

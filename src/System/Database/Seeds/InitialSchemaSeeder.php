@@ -121,6 +121,7 @@ class InitialSchemaSeeder extends Seeder
         if (!DB::table('tables')->count()) {
             $this->seedLocationTables($locationId);
         }
+
         return null;
     }
 

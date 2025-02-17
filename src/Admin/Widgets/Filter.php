@@ -157,6 +157,7 @@ class Filter extends BaseWidget
 
             return ($redirect instanceof RedirectResponse) ? $redirect : array_collapse($result);
         }
+
         return null;
     }
 

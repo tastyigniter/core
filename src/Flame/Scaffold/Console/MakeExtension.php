@@ -62,6 +62,7 @@ class MakeExtension extends GeneratorCommand
             'title_author' => title_case($author),
             'studly_author' => studly_case($author),
         ];
+
         return null;
     }
 

@@ -343,6 +343,7 @@ class Filesystem extends IlluminateFilesystem
                 $this->chmod($item->getPathname(), $fileMask);
             }
         }
+
         return null;
     }
 

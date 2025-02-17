@@ -107,6 +107,7 @@ class MediaAdder
                 $this->processMediaItem($media, $mediaAdder);
             });
         });
+
         return null;
     }
 

@@ -86,6 +86,7 @@ abstract class GeneratorCommand extends Command
         $this->makeDirectory($destinationFile);
 
         File::put($destinationFile, $this->parseString($stubContent));
+
         return null;
     }
 

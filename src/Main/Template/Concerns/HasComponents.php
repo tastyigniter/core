@@ -84,6 +84,7 @@ trait HasComponents
                 return $event;
             }
         }
+
         return null;
     }
 

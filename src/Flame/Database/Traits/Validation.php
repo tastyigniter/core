@@ -266,6 +266,7 @@ trait Validation
         if ($this->methodExists('beforeValidate')) {
             return $this->beforeValidate();
         }
+
         return null;
     }
 

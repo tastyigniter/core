@@ -103,6 +103,7 @@ class IgniterInstall extends Command
         }
 
         $this->alert(sprintf(self::LOGIN_TO_ADMIN_DASHBOARD, admin_url('login')));
+
         return null;
     }
 

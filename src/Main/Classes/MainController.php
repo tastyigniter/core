@@ -333,6 +333,7 @@ class MainController extends Controller
         } elseif (($componentObj = $this->findComponentByHandler($handler)) !== null) {
             $this->componentContext = $componentObj;
             $result = $componentObj->runEventHandler($handler);
+
             return $result ?: true;
         }
 

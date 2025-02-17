@@ -216,6 +216,7 @@ class Controller extends IlluminateController
                 'segments' => $segments,
             ];
         }
+
         return null;
     }
 
@@ -244,6 +245,7 @@ class Controller extends IlluminateController
                 ];
             }
         }
+
         return null;
     }
 

@@ -124,6 +124,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->vars['extensionMeta'] = $meta;
         $this->vars['extensionName'] = $meta['name'] ?? '';
         $this->vars['extensionData'] = $this->extensionHasMigrations($extensionCode);
+
         return null;
     }
 
