@@ -128,7 +128,6 @@ class Media extends Model
 
     /**
      * Creates a file object from a file an uploaded file.
-     * @return self
      */
     public function addFromRequest(UploadedFile $uploadedFile, ?string $tag = null, ?string $disk = null): self
     {
@@ -349,6 +348,7 @@ class Media extends Model
     public function getTypeFromExtension()
     {
         $ext = $this->getExtension();
+
         return $this->autoMimeTypes[$ext] ?? null;
     }
 
@@ -409,7 +409,6 @@ class Media extends Model
 
     /**
      * Delete file contents from storage device.
-     * @return void
      */
     public function deleteFile(?string $fileName = null): void
     {
