@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\System\DashboardWidgets;
 
 use DOMDocument;
+use Exception;
 use Igniter\Admin\Http\Controllers\Dashboard;
 use Igniter\System\DashboardWidgets\News;
 
@@ -41,7 +42,7 @@ it('defines widget properties correctly', function() {
 });
 
 it('handles invalid RSS feed URL', function() {
-    $this->dom->shouldReceive('load')->andThrow(new \Exception('Error'));
+    $this->dom->shouldReceive('load')->andThrow(new Exception('Error'));
     $this->newsWidget->newsRss = 'https://invalid-url.com/feed';
 
     $this->newsWidget->render();
@@ -49,19 +50,21 @@ it('handles invalid RSS feed URL', function() {
     expect($this->newsWidget->vars['newsFeed'])->toBe([]);
 });
 
-function createRssFeed(): \DOMDocument
+function createRssFeed(): DOMDocument
 {
     $doc = new DOMDocument('1.0', 'UTF-8');
     $doc->formatOutput = true;
 
     $feed = $doc->createElement('feed');
     $feed->setAttribute('xmlns', 'http://www.w3.org/2005/Atom');
+
     $doc->appendChild($feed);
     $title = $doc->createElement('title', 'My Blog Feed');
     $feed->appendChild($title);
     $link = $doc->createElement('link');
     $link->setAttribute('href', 'https://example.com/blog');
     $link->setAttribute('rel', 'self');
+
     $feed->appendChild($link);
     $updated = $doc->createElement('updated', date(DATE_ATOM));
     $feed->appendChild($updated);
@@ -70,6 +73,7 @@ function createRssFeed(): \DOMDocument
     $entry->appendChild($entryTitle);
     $entryLink = $doc->createElement('link');
     $entryLink->setAttribute('href', 'https://example.com/blog/first-post');
+
     $entry->appendChild($entryLink);
     $entryId = $doc->createElement('id', 'https://example.com/blog/first-post');
     $entry->appendChild($entryId);

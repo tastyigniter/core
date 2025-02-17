@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Facades;
 
+use Igniter\Flame\Currency\Contracts\CurrencyInterface;
+use Igniter\Flame\Currency\Contracts\FormatterInterface;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -14,10 +17,10 @@ use Illuminate\Support\Facades\Facade;
  * @method static string getUserCurrency()
  * @method static bool hasCurrency(string $code)
  * @method static bool isActive(string $code)
- * @method static \Igniter\Flame\Currency\Contracts\CurrencyInterface getCurrency(string|null $code = null)
- * @method static \Illuminate\Support\Collection getCurrencies()
- * @method static \Igniter\Flame\Currency\Contracts\CurrencyInterface getModel()
- * @method static \Igniter\Flame\Currency\Contracts\FormatterInterface|null getFormatter()
+ * @method static CurrencyInterface getCurrency((string | null) $code = null)
+ * @method static Collection getCurrencies()
+ * @method static CurrencyInterface getModel()
+ * @method static FormatterInterface|null getFormatter()
  * @method static void clearCache()
  * @method static mixed config(string|null $key = null, mixed $default = null)
  * @method static void updateRates(bool $skipCache = false)

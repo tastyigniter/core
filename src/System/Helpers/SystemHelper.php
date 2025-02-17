@@ -129,11 +129,11 @@ class SystemHelper
     {
         throw_if(
             File::exists($manifestFile = $path.'/extension.json'),
-            new SystemException("extension.json files are no longer supported, please convert to composer.json: $manifestFile"),
+            new SystemException('extension.json files are no longer supported, please convert to composer.json: '.$manifestFile),
         );
 
         throw_unless(File::exists($path.'/composer.json'), new SystemException(
-            "Required extension configuration file not found: $path/composer.json",
+            sprintf('Required extension configuration file not found: %s/composer.json', $path),
         ));
 
         return resolve(Manager::class)->getExtensionManifest($path);

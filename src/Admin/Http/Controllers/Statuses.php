@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
+use Igniter\Admin\Http\Requests\StatusRequest;
+use Igniter\Admin\Models\Status;
 
-class Statuses extends \Igniter\Admin\Classes\AdminController
+class Statuses extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\Admin\Models\Status::class,
+            'model' => Status::class,
             'title' => 'lang:igniter::admin.statuses.text_title',
             'emptyMessage' => 'lang:igniter::admin.statuses.text_empty',
             'defaultSort' => ['status_id', 'DESC'],
@@ -26,8 +31,8 @@ class Statuses extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter::admin.statuses.text_form_name',
-        'model' => \Igniter\Admin\Models\Status::class,
-        'request' => \Igniter\Admin\Http\Requests\StatusRequest::class,
+        'model' => Status::class,
+        'request' => StatusRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'statuses/edit/{status_id}',

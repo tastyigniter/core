@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support\Facades;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -28,7 +29,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array controllerPath()
  * @method static string|null uri()
  * @method static string adminUri()
- * @method static bool isUser(\Illuminate\Contracts\Auth\Authenticatable $user)
+ * @method static bool isUser(Authenticatable $user)
  * @method static bool isCustomer(void $user)
  * @method static bool isAdminUser(void $user)
  * @method static string version()

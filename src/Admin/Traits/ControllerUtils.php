@@ -6,6 +6,7 @@ namespace Igniter\Admin\Traits;
 
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Support\RouterHelper;
+use ReflectionMethod;
 
 trait ControllerUtils
 {
@@ -50,7 +51,7 @@ trait ControllerUtils
         );
 
         if (method_exists($this, $action)) {
-            $methodInfo = new \ReflectionMethod($this, $action);
+            $methodInfo = new ReflectionMethod($this, $action);
 
             return $methodInfo->isPublic();
         }

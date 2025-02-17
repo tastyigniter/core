@@ -6,6 +6,7 @@ namespace Igniter\Flame\Traits;
 
 use BadMethodCallException;
 use Igniter\Flame\Support\ClassLoader;
+use LogicException;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -130,7 +131,7 @@ trait ExtendableTrait
         $extensionName = $this->extensionNormalizeClassName($extensionName);
 
         if (isset($this->extensionData['extensions'][$extensionName])) {
-            throw new \LogicException(sprintf('Class %s has already been extended with %s', get_class($this), $extensionName));
+            throw new LogicException(sprintf('Class %s has already been extended with %s', get_class($this), $extensionName));
         }
 
         $this->extensionData['extensions'][$extensionName] = $extensionObject = new $extensionName($this);
@@ -145,7 +146,7 @@ trait ExtendableTrait
     protected function extensionExtractMethods(string $extensionName, object $extensionObject): void
     {
         if (!method_exists($extensionObject, 'extensionIsHiddenMethod')) {
-            throw new \LogicException(sprintf(
+            throw new LogicException(sprintf(
                 'Extension %s should implement Igniter\Flame\Traits\ExtensionTrait.',
                 $extensionName,
             ));

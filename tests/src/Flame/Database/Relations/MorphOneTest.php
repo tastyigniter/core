@@ -22,6 +22,7 @@ it('associates and dissociates model correctly', function() {
         }
     };
     $status->save();
+
     $statusHistory = StatusHistory::factory()->create();
     $builder = $status->object();
     $builder->add($statusHistory);
@@ -75,6 +76,7 @@ it('sets simple value with model instance', function() {
         }
     };
     $status->save();
+
     $statusHistory = StatusHistory::factory()->create();
     $status->object()->setSimpleValue($statusHistory);
     $status->save();
@@ -100,6 +102,7 @@ it('sets simple value with id', function() {
         }
     };
     $status->save();
+
     $statusHistory = StatusHistory::factory()->create();
     $status->object()->setSimpleValue($statusHistory->status_history_id);
     $status->save();

@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Igniter\Flame\Database;
 
 use Closure;
+use Exception;
+use Igniter\Flame\Database\Concerns\HasAttributes;
+use Igniter\Flame\Database\Concerns\HasRelationships;
 use Igniter\Flame\Database\Traits\HasQueryModifier;
 use Igniter\Flame\Traits\EventEmitter;
 use Igniter\Flame\Traits\ExtendableTrait;
@@ -18,11 +21,11 @@ use Illuminate\Support\Str;
  */
 abstract class Model extends EloquentModel
 {
-    use Concerns\HasAttributes;
-    use Concerns\HasRelationships;
     use EventEmitter;
     use ExtendableTrait;
+    use HasAttributes;
     use HasQueryModifier;
+    use HasRelationships;
 
     /**
      * @var array Make the model's attributes public so actions can modify them.
@@ -284,7 +287,7 @@ abstract class Model extends EloquentModel
      *
      * @param \Illuminate\Database\Query\Builder $query
      *
-     * @return \Igniter\Flame\Database\Builder
+     * @return Builder
      */
     public function newEloquentBuilder($query)
     {
@@ -333,13 +336,12 @@ abstract class Model extends EloquentModel
     //
     // Pivot
     //
-
     /**
      * Create a generic pivot model instance.
      * @param string $table
      * @param bool $exists
      * @param string|null $using
-     * @return \Igniter\Flame\Database\Pivot
+     * @return Pivot
      */
     public function newPivot(EloquentModel $parent, array $attributes, $table, $exists, $using = null)
     {
@@ -355,7 +357,7 @@ abstract class Model extends EloquentModel
      * @param array $attributes
      * @param string $table
      * @param bool $exists
-     * @return \Igniter\Flame\Database\Pivot
+     * @return Pivot
      */
     public function newRelationPivot($relationName, $parent, $attributes, $table, $exists)
     {
@@ -373,14 +375,13 @@ abstract class Model extends EloquentModel
     //
     // Saving
     //
-
     /**
      * Save the model to the database. Is used by {@link save()}
      *
      * @param array $options
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     protected function saveInternal($options = [])
     {
@@ -411,7 +412,7 @@ abstract class Model extends EloquentModel
      * Save the model to the database.
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(?array $options = null)
     {
@@ -424,7 +425,7 @@ abstract class Model extends EloquentModel
      * @param array $options
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function push($options = null)
     {

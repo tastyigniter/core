@@ -46,8 +46,8 @@ class ExtensionInstall extends Command
             $extensionManager = resolve(ExtensionManager::class);
             $extensionManager->loadExtensions();
             $extensionManager->installExtension($packageInfo->code, $packageInfo->version);
-        } catch (Throwable $e) {
-            $this->output->writeln($e->getMessage());
+        } catch (Throwable $throwable) {
+            $this->output->writeln($throwable->getMessage());
         }
 
         return null;

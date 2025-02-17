@@ -11,6 +11,7 @@ use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Contracts\Validation\Validator;
@@ -193,7 +194,7 @@ class TemplateEditor extends BaseFormWidget
     {
         try {
             $template = $this->manager->readFile($this->getFilename(), $this->model->code);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return null;
         }
 
@@ -237,7 +238,7 @@ class TemplateEditor extends BaseFormWidget
             throw new FlashException('Missing theme object on '.$this->model::class);
         }
 
-        /** @var \Igniter\Flame\Pagic\Model $templateClass */
+        /** @var Model $templateClass */
         $templateClass = $themeObject->getTemplateClass($this->getTemplateType());
 
         return $templateClass::getDropdownOptions($themeObject->getName(), true);

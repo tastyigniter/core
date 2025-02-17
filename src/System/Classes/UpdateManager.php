@@ -116,11 +116,11 @@ class UpdateManager
         }
 
         foreach (array_reverse(Igniter::coreMigrationPath(), true) as $group => $path) {
-            $this->log("<info>Rolling back $group</info>");
+            $this->log(sprintf('<info>Rolling back %s</info>', $group));
 
             $this->migrator->resetAll([$group => $path]);
 
-            $this->log("<info>Rolled back $group</info>");
+            $this->log(sprintf('<info>Rolled back %s</info>', $group));
         }
 
         return $this;
@@ -149,7 +149,7 @@ class UpdateManager
             return $this->log('<error>Unable to find migrations for:</error> '.$name);
         }
 
-        $this->log("<info>Migrating extension $name</info>");
+        $this->log(sprintf('<info>Migrating extension %s</info>', $name));
 
         if (!is_null($this->logsOutput)) {
             $this->migrator->setOutput($this->logsOutput);
@@ -166,7 +166,7 @@ class UpdateManager
             return $this->log('<error>Unable to find migrations for:</error> '.$name);
         }
 
-        $this->log("<info>Purging extension $name</info>");
+        $this->log(sprintf('<info>Purging extension %s</info>', $name));
 
         if (!is_null($this->logsOutput)) {
             $this->migrator->setOutput($this->logsOutput);
@@ -183,7 +183,7 @@ class UpdateManager
             return $this->log('<error>Unable to find migrations for:</error> '.$name);
         }
 
-        $this->log("<info>Rolling back extension $name</info>");
+        $this->log(sprintf('<info>Rolling back extension %s</info>', $name));
 
         if (!is_null($this->logsOutput)) {
             $this->migrator->setOutput($this->logsOutput);

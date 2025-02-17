@@ -6,7 +6,7 @@ namespace Igniter\Flame\Mixins;
 
 use Illuminate\Support\Str;
 
-/** @mixin \Illuminate\Support\Str */
+/** @mixin Str */
 class StringMixin
 {
     /**
@@ -63,6 +63,7 @@ class StringMixin
             if (is_object($name)) {
                 $name = get_class($name);
             }
+
             $name = ltrim($name, '\\');
             $name = str_replace('\\', '_', $name);
 

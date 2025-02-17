@@ -9,10 +9,11 @@ use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Exception\GeoliteException;
-use Igniter\Flame\Geolite\Model;
 use Igniter\Flame\Geolite\Model\Distance;
+use Igniter\Flame\Geolite\Model\Location;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
+use stdClass;
 use Throwable;
 
 class NominatimProvider extends AbstractProvider
@@ -50,10 +51,10 @@ class NominatimProvider extends AbstractProvider
                     $this->requestUrl($url, $query),
                 );
             });
-        } catch (Throwable $ex) {
+        } catch (Throwable $throwable) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
-                $this->getName(), $ex->getMessage(),
+                $this->getName(), $throwable->getMessage(),
             ));
         }
 
@@ -82,17 +83,17 @@ class NominatimProvider extends AbstractProvider
                     $this->requestUrl($url, $query),
                 );
             });
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
-                $this->getName(), $e->getMessage(),
+                $this->getName(), $throwable->getMessage(),
             ));
         }
 
         return collect($result);
     }
 
-    public function distance(DistanceInterface $distance): ?Model\Distance
+    public function distance(DistanceInterface $distance): ?Distance
     {
         $endpoint = array_get($this->config, 'endpoints.distance');
         $url = sprintf($endpoint,
@@ -110,11 +111,11 @@ class NominatimProvider extends AbstractProvider
                 $response = $this->requestDistanceUrl($url, $distance);
                 $route = current($response);
 
-                return new Model\Distance($route->distance ?? 0, $route->duration ?? 0);
+                return new Distance($route->distance ?? 0, $route->duration ?? 0);
             });
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             $this->log(sprintf('Provider "%s" could not calculate distance, "%s".',
-                $this->getName(), $e->getMessage(),
+                $this->getName(), $throwable->getMessage(),
             ));
 
             return null;
@@ -148,7 +149,7 @@ class NominatimProvider extends AbstractProvider
     {
         $result = [];
         foreach ($response as $location) {
-            $address = new Model\Location($this->getName());
+            $address = new Location($this->getName());
 
             $this->parseCoordinates($address, $location);
 
@@ -210,7 +211,7 @@ class NominatimProvider extends AbstractProvider
         return $returnKey ? $json->$returnKey : $json;
     }
 
-    protected function parseCoordinates(Model\Location $address, \stdClass $location)
+    protected function parseCoordinates(Location $address, stdClass $location)
     {
         $address->setCoordinates($location->lat, $location->lon);
 
@@ -220,7 +221,7 @@ class NominatimProvider extends AbstractProvider
         }
     }
 
-    protected function parseAddress(Model\Location $address, \stdClass $location)
+    protected function parseAddress(Location $address, stdClass $location)
     {
         foreach (['state', 'county'] as $level => $field) {
             if (isset($location->address->{$field})) {

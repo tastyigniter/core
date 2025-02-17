@@ -6,8 +6,10 @@ namespace Igniter\Admin\Models;
 
 use Carbon\Carbon;
 use Igniter\Cart\Models\Order;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
+use Igniter\User\Models\User;
 
 /**
  * Status History Model Class
@@ -25,12 +27,12 @@ use Igniter\Flame\Database\Model;
  * @property-read mixed $notified
  * @property-read mixed $staff_name
  * @property-read mixed $status_name
- * @property-read \Igniter\Admin\Models\Status|null $status
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory applyRelated($model)
- * @method static \Igniter\Flame\Database\Builder<static>|StatusHistory whereStatusIsLatest($statusId)
+ * @property-read Status|null $status
+ * @method static Builder<static>|StatusHistory applyRelated($model)
+ * @method static Builder<static>|StatusHistory whereStatusIsLatest($statusId)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
-class StatusHistory extends Model
+final class StatusHistory extends Model
 {
     use HasFactory;
 
@@ -56,8 +58,8 @@ class StatusHistory extends Model
 
     public $relation = [
         'belongsTo' => [
-            'user' => \Igniter\User\Models\User::class,
-            'status' => [\Igniter\Admin\Models\Status::class, 'status_id'],
+            'user' => User::class,
+            'status' => [Status::class, 'status_id'],
         ],
         'morphTo' => [
             'object' => [],
@@ -93,7 +95,7 @@ class StatusHistory extends Model
 
     /**
      * @param Status|mixed $status
-     * @param \Igniter\Flame\Database\Model|mixed $object
+     * @param Model|mixed $object
      * @param array $options
      * @return static|bool
      */
@@ -106,7 +108,7 @@ class StatusHistory extends Model
         $statusId = $status->getKey();
         $previousStatus = $object->getOriginal('status_id');
 
-        $model = new static;
+        $model = new self;
         $model->status_id = $statusId;
         $model->object_id = $object->getKey();
         $model->object_type = $object->getMorphClass();
@@ -131,7 +133,7 @@ class StatusHistory extends Model
 
     public function isForOrder(): bool
     {
-        return $this->object_type === Order::make()->getMorphClass();
+        return $this->object_type === (new Order)->getMorphClass();
     }
 
     //

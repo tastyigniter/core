@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Main\Classes;
 
+use ErrorException;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Pagic\Source\ChainFileSource;
 use Igniter\Flame\Support\Facades\File;
@@ -89,6 +90,7 @@ it('throws exception for invalid screenshot file type', function() {
     File::shouldReceive('exists')->andReturn(true);
     $theme = new Theme($this->themePath);
     $theme->fillFromConfig();
+
     $theme->screenshot = '/path/to/theme/screenshot.jpg';
     expect(fn() => $theme->getScreenshotData())->toThrow(FlashException::class);
 });
@@ -110,8 +112,8 @@ it('loads theme file if exists', function() {
     File::shouldReceive('exists')->with(dirname($this->themePath, 2).'/theme.php')->andReturn(true, false);
     File::shouldReceive('exists')->with($this->themePath.'/theme.php')->andReturn(true);
 
-    expect(fn() => $theme->loadThemeFile())->toThrow(\ErrorException::class)
-        ->and(fn() => $theme->loadThemeFile())->toThrow(\ErrorException::class);
+    expect(fn() => $theme->loadThemeFile())->toThrow(ErrorException::class)
+        ->and(fn() => $theme->loadThemeFile())->toThrow(ErrorException::class);
 });
 
 it('returns active theme code from event', function() {

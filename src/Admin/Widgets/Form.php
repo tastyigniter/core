@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use Closure;
+use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\FormField;
@@ -135,9 +137,11 @@ class Form extends BaseWidget
         if (isset($options['preview'])) {
             $this->previewMode = $options['preview'];
         }
+
         if (!isset($options['useContainer'])) {
             $options['useContainer'] = true;
         }
+
         if (!isset($options['section'])) {
             $options['section'] = null;
         }
@@ -188,6 +192,7 @@ class Form extends BaseWidget
         if (!isset($options['useContainer'])) {
             $options['useContainer'] = true;
         }
+
         $targetPartial = $options['useContainer'] ? 'form/field_container' : 'form/field';
 
         $this->prepareVars();
@@ -198,7 +203,7 @@ class Form extends BaseWidget
     /**
      * Renders the HTML element for a field
      *
-     * @param \Igniter\Admin\Classes\BaseFormWidget $field
+     * @param BaseFormWidget $field
      *
      * @return string|bool The rendered partial contents, or false if suppressing an exception
      */
@@ -389,6 +394,7 @@ class Form extends BaseWidget
         if ($fieldContext) {
             $field->context = $fieldContext;
         }
+
         $field->arrayName = $this->arrayName;
         $field->idPrefix = $this->getId();
 
@@ -544,7 +550,7 @@ class Form extends BaseWidget
      * @param mixed $field
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function getFieldValue(string|FormField $field): mixed
     {
@@ -807,7 +813,7 @@ class Form extends BaseWidget
             return false;
         }
 
-        return is_subclass_of($widgetClass, \Igniter\Admin\Classes\BaseFormWidget::class);
+        return is_subclass_of($widgetClass, BaseFormWidget::class);
     }
 
     /**
@@ -825,7 +831,7 @@ class Form extends BaseWidget
     /**
      * Looks at the model for defined options.
      */
-    protected function getOptionsFromModel(FormField $field, null|string|array|\Closure $fieldOptions): mixed
+    protected function getOptionsFromModel(FormField $field, null|string|array|Closure $fieldOptions): mixed
     {
         // Advanced usage, supplied options are callable
         if (is_array($fieldOptions) && is_callable($fieldOptions)) {

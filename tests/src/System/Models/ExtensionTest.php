@@ -11,6 +11,7 @@ use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Models\Extension;
+use InvalidArgumentException;
 
 it('onboardingIsComplete returns false when there is no active theme', function() {
     $themeManager = mock(ThemeManager::class);
@@ -205,7 +206,7 @@ it('throws exception when icon mime type is invalid', function() {
         }
     };
 
-    $this->expectException(\InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->expectExceptionMessage('Invalid extension icon file type in: test_extension. Only SVG and PNG images are supported');
 
     $extension->icon;

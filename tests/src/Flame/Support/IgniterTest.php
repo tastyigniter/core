@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Flame\Support;
 
+use Exception;
 use Igniter\Flame\Support\Igniter;
 use Igniter\Tests\Fixtures\Models\TestModel;
 use Igniter\User\Models\Customer;
@@ -18,6 +19,7 @@ it('returns themes path when set', function() {
 
     $igniter = resolve(Igniter::class);
     $igniter->useThemesPath('/custom/themes/path');
+
     expect($igniter->themesPath())->toBe('/custom/themes/path');
 });
 
@@ -27,6 +29,7 @@ it('returns extensions path when set', function() {
 
     $igniter = resolve(Igniter::class);
     $igniter->useExtensionsPath('/custom/extensions/path');
+
     expect($igniter->extensionsPath())->toBe('/custom/extensions/path');
 });
 
@@ -36,6 +39,7 @@ it('returns temp path when set', function() {
 
     $igniter = resolve(Igniter::class);
     $igniter->useTempPath('/custom/temp/path');
+
     expect($igniter->tempPath())->toBe('/custom/temp/path');
 });
 
@@ -52,7 +56,7 @@ it('checks if running in admin area', function() {
 
 it('checks if database connection is present', function() {
     $connection = mock(Connection::class);
-    $connection->shouldReceive('getSchemaBuilder')->andThrow(new \Exception);
+    $connection->shouldReceive('getSchemaBuilder')->andThrow(new Exception);
     DB::shouldReceive('connection')->andReturn($connection);
 
     expect(resolve(Igniter::class)->hasDatabase())->toBeFalse();
@@ -73,6 +77,7 @@ it('returns records to seed', function() {
 it('loads views from extensions', function() {
     $igniter = resolve(Igniter::class);
     $igniter->loadViewsFrom('/path/to/extensions', 'test.namespace');
+
     expect(view()->getFinder()->getHints())->toHaveKey('test.namespace');
 });
 
@@ -90,6 +95,7 @@ it('checks if user is admin or customer', function() {
 it('registers prunable models', function() {
     $igniter = resolve(Igniter::class);
     $igniter->prunableModel(TestModel::class);
+
     expect($igniter->prunableModels())->toContain(TestModel::class);
 });
 

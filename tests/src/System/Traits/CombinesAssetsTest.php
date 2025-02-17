@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Traits;
 
+use Exception;
 use Igniter\Flame\Assetic\Asset\AssetCollection;
 use Igniter\Flame\Assetic\AssetManager;
 use Igniter\Flame\Exception\SystemException;
@@ -94,7 +95,7 @@ it('builds bundles and returns notes', function() {
 
 it('flashes error when build bundles fails', function() {
     Event::listen(AssetsBeforePrepareCombinerEvent::class, function($event): never {
-        throw new \Exception('Error');
+        throw new Exception('Error');
     });
 
     $theme = resolve(ThemeManager::class)->findTheme('igniter-orange');
@@ -112,6 +113,7 @@ it('registers and retrieves bundles correctly', function() {
 
     $combinesAssetsObject->registerBundle('js', ['igniter.tests::/js/script.js']);
     $combinesAssetsObject->registerBundle('css', ['igniter.tests::/scss/style.scss']);
+
     $cssFilters = $combinesAssetsObject->getBundles('css');
     $jsFilters = $combinesAssetsObject->getBundles('js');
 

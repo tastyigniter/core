@@ -10,6 +10,7 @@ use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Facades\Assets as AssetsFacade;
 use Igniter\System\Libraries\Assets;
+use RuntimeException;
 
 it('adds assets from admin manifest successfully', function() {
     Igniter::shouldReceive('runningInAdmin')->andReturnTrue();
@@ -99,7 +100,7 @@ it('throws exception when invalid transforming js variable', function() {
     ]);
 
     expect(fn() => $assets->getJsVars())
-        ->toThrow(new \RuntimeException('Cannot transform this object to JavaScript.'));
+        ->toThrow(new RuntimeException('Cannot transform this object to JavaScript.'));
 });
 
 it('removes duplicate assets from combined', function() {

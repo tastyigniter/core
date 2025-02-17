@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Igniter\System\Libraries\Country;
 use Igniter\System\Models\Country as CountryModel;
+use Igniter\User\Models\Address;
 
 it('formats address correctly', function() {
     $address = [
@@ -41,7 +42,7 @@ it('formats address correctly using country id', function() {
 });
 
 it('formats address correctly using model', function() {
-    $address = \Igniter\User\Models\Address::factory()->create([
+    $address = Address::factory()->create([
         'address_1' => '123 Street',
         'address_2' => 'Apt 4B',
         'city' => 'City',

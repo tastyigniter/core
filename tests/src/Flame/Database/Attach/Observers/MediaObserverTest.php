@@ -38,6 +38,7 @@ it('handles saved event with null fileToAdd', function() {
 
     $media->shouldNotReceive('addFromRequest');
     $media->shouldNotReceive('addFromFile');
+
     $observer = new MediaObserver;
     $observer->saved($media);
 

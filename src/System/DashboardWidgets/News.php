@@ -6,6 +6,7 @@ namespace Igniter\System\DashboardWidgets;
 
 use DOMDocument;
 use Igniter\Admin\Classes\BaseDashboardWidget;
+use Throwable;
 
 /**
  * TastyIgniter news dashboard widget.
@@ -74,7 +75,7 @@ class News extends BaseDashboardWidget
             $dom?->load($this->newsRss);
 
             return $dom;
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return null;
         }
     }

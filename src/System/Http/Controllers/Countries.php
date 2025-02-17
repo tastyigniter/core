@@ -4,23 +4,27 @@ declare(strict_types=1);
 
 namespace Igniter\System\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
+use Igniter\System\Http\Requests\CountryRequest;
 use Igniter\System\Models\Country;
 
 /**
  * Controller Class Countries
  */
-class Countries extends \Igniter\Admin\Classes\AdminController
+class Countries extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\System\Models\Country::class,
+            'model' => Country::class,
             'title' => 'lang:igniter::system.countries.text_title',
             'emptyMessage' => 'lang:igniter::system.countries.text_empty',
             'defaultSort' => ['country_name', 'ASC'],
@@ -31,8 +35,8 @@ class Countries extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter::system.countries.text_form_name',
-        'model' => \Igniter\System\Models\Country::class,
-        'request' => \Igniter\System\Http\Requests\CountryRequest::class,
+        'model' => Country::class,
+        'request' => CountryRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'countries/edit/{country_id}',

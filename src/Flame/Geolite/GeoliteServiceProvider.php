@@ -26,7 +26,7 @@ class GeoliteServiceProvider extends ServiceProvider
             return new Geolite;
         });
 
-        $this->app->singleton('geocoder.client', function(): \GuzzleHttp\Client {
+        $this->app->singleton('geocoder.client', function(): Client {
             return new Client;
         });
 

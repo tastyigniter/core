@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
+use Igniter\Tests\TestCase;
 use Igniter\User\Models\User;
 
-uses(Igniter\Tests\TestCase::class)->in(__DIR__.'/src');
+uses(TestCase::class)->in(__DIR__.'/src');
 
 pest()->group('admin')->in('src/Admin');
 pest()->group('main')->in('src/Main');

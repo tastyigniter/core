@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
+use Closure;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
+use UnexpectedValueException;
 
 class PermalinkMaker
 {
-    /** @var \Igniter\Flame\Database\Model */
+    /** @var Model */
     protected $model;
 
     public function slug(Model $model, $force = false)
@@ -157,7 +160,7 @@ class PermalinkMaker
      * @param string $attribute
      *
      * @return string
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     protected function makeSlugUnique(string $slug, array $config, $attribute)
     {
@@ -198,7 +201,7 @@ class PermalinkMaker
      * @param string $slug
      * @param string $attribute
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function getExistingSlugs($slug, $attribute, array $config)
     {
@@ -229,7 +232,7 @@ class PermalinkMaker
         $reserved = $config['reserved'];
 
         // check for reserved names
-        if ($reserved instanceof \Closure) {
+        if ($reserved instanceof Closure) {
             $reserved = $reserved($this->model);
         }
 
@@ -241,7 +244,7 @@ class PermalinkMaker
                 } elseif (is_callable($method)) {
                     $suffix = $method($slug, $separator, collect($reserved));
                 } else {
-                    throw new \InvalidArgumentException('Sluggable "uniqueSuffix" for '.$this->model::class.':'.$attribute.' is not null, or a closure.');
+                    throw new InvalidArgumentException('Sluggable "uniqueSuffix" for '.$this->model::class.':'.$attribute.' is not null, or a closure.');
                 }
 
                 return $slug.$separator.$suffix;
@@ -250,7 +253,7 @@ class PermalinkMaker
             return $slug;
         }
 
-        throw new \InvalidArgumentException('Sluggable "reserved" for '.get_class($this->model).':'.$attribute.' is not null, an array, or a closure that returns null/array.');
+        throw new InvalidArgumentException('Sluggable "reserved" for '.get_class($this->model).':'.$attribute.' is not null, an array, or a closure that returns null/array.');
     }
 
     /**

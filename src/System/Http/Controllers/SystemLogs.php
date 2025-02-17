@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Igniter\System\Http\Controllers;
 
 use Facades\Igniter\Flame\Support\LogViewer;
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Http\RedirectResponse;
 
-class SystemLogs extends \Igniter\Admin\Classes\AdminController
+class SystemLogs extends AdminController
 {
     protected null|string|array $requiredPermissions = 'Admin.SystemLogs';
 

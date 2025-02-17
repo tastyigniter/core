@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Igniter\System\Facades;
 
+use Igniter\Flame\Assetic\Filter\FilterInterface;
+use Igniter\Main\Classes\Theme;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static void registerCallback(callable $callback)
  * @method static void registerSourcePath(string $path)
  * @method static void addFromManifest(string $path)
- * @method static void addAssetsFromThemeManifest(\Igniter\Main\Classes\Theme $theme)
+ * @method static void addAssetsFromThemeManifest(Theme $theme)
  * @method static void addTags(array $tags = [])
  * @method static \Igniter\System\Libraries\Assets addTag(string $type, array|string|null $tag, array $options = [])
  * @method static string|null getFavIcon()
@@ -29,9 +32,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static void flush()
  * @method static string combine(string $type, array $assets = [])
  * @method static void combineToFile(array $assets, string $destination)
- * @method static \Illuminate\Http\Response combineGetContents(string $cacheKey)
- * @method static array buildBundles(\Igniter\Main\Classes\Theme $theme)
- * @method static \Igniter\System\Libraries\Assets registerFilter(array|string $extension, \Igniter\Flame\Assetic\Filter\FilterInterface|null $filter)
+ * @method static Response combineGetContents(string $cacheKey)
+ * @method static array buildBundles(Theme $theme)
+ * @method static \Igniter\System\Libraries\Assets registerFilter(array | string $extension, FilterInterface | null $filter)
  * @method static void registerBundle(string $extension, array|string $files, string|null $destination = null, string $appContext = 'main')
  * @method static array|null getBundles(string|null $extension = null, string $appContext = 'main')
  * @method static array|null getFilters(void $extension = null)

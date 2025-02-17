@@ -284,6 +284,7 @@ it('applies date scope to query', function(string $type, $value, $config, $expec
     $filterWidget = new Filter($this->controller, $this->widgetConfig);
     $filterWidget->prepareVars();
     $filterWidget->setScopeValue('status-'.$type, $value);
+
     $query = Status::query();
 
     $filterWidget->applyScopeToQuery('status-'.$type, $query);

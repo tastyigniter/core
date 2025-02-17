@@ -20,7 +20,7 @@ class MissingFileNameException extends RuntimeException
     {
         $this->model = $model;
 
-        $this->message = "No file name attribute (fileName) specified for model [{$model}].";
+        $this->message = sprintf('No file name attribute (fileName) specified for model [%s].', $model);
 
         return $this;
     }

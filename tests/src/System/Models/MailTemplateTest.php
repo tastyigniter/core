@@ -6,6 +6,7 @@ namespace Igniter\Tests\System\Models;
 
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
+use Igniter\System\Models\MailLayout;
 use Igniter\System\Models\MailTemplate;
 use Illuminate\Support\Facades\View;
 
@@ -118,7 +119,7 @@ it('configures mail template correctly', function() {
             'layout_id' => 'integer',
         ])
         ->and($template->relation['belongsTo'])->toEqual([
-            'layout' => [\Igniter\System\Models\MailLayout::class, 'foreignKey' => 'layout_id'],
+            'layout' => [MailLayout::class, 'foreignKey' => 'layout_id'],
         ])
         ->and($template->getAppends())->toEqual(['title'])
         ->and($template->timestamps)->toBeTrue();

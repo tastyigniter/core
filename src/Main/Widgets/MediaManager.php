@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Widgets;
 
+use Closure;
 use Exception;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\BaseWidget;
@@ -651,18 +652,18 @@ class MediaManager extends BaseWidget
                 'link' => $mediaLibrary->getMediaUrl($filePath),
                 'result' => 'success',
             ]);
-        } catch (Exception $ex) {
-            $response = Response::json($ex->getMessage(), 400);
+        } catch (Exception $exception) {
+            $response = Response::json($exception->getMessage(), 400);
         }
 
         abort($response);
     }
 
-    protected function validateFileExists(): \Closure
+    protected function validateFileExists(): Closure
     {
-        return function(string $attribute, mixed $value, \Closure $fail) {
+        return function(string $attribute, mixed $value, Closure $fail) {
             if (!$this->getMediaLibrary()->exists($value)) {
-                $fail("The $attribute file/folder does not exists.");
+                $fail(sprintf('The %s file/folder does not exists.', $attribute));
             }
         };
     }

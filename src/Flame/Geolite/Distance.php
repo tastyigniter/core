@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Igniter\Flame\Geolite;
 
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
+use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Exception\GeoliteException;
 use Igniter\Flame\Geolite\Model\Ellipsoid;
 
-class Distance implements Contracts\DistanceInterface
+class Distance implements DistanceInterface
 {
     /**
      * The origin coordinate.
@@ -27,7 +28,7 @@ class Distance implements Contracts\DistanceInterface
 
     protected array $data = [];
 
-    public function setFrom(Contracts\CoordinatesInterface $from): self
+    public function setFrom(CoordinatesInterface $from): self
     {
         $this->from = $from;
 
@@ -39,7 +40,7 @@ class Distance implements Contracts\DistanceInterface
         return $this->from;
     }
 
-    public function setTo(Contracts\CoordinatesInterface $to): self
+    public function setTo(CoordinatesInterface $to): self
     {
         $this->to = $to;
 

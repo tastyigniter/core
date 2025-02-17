@@ -4,4 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Exception;
 
-class GeoliteException extends \Exception {}
+use Exception;
+
+class GeoliteException extends Exception {}

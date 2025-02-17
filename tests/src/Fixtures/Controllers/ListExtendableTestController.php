@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Fixtures\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Models\Status;
 
-class ListExtendableTestController extends \Igniter\Admin\Classes\AdminController
+class ListExtendableTestController extends AdminController
 {
     public array $implement = [ListController::class];
 

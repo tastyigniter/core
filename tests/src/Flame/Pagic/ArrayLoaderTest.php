@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\Flame\Pagic;
 
 use Igniter\Flame\Pagic\ArrayLoader;
+use InvalidArgumentException;
 
 it('adds or overrides a template', function() {
     $loader = new ArrayLoader(['template1' => 'content1']);
@@ -20,11 +21,11 @@ it('adds or overrides a template', function() {
 it('generates cache key for a template', function() {
     $loader = new ArrayLoader(['template1' => 'content1']);
     expect($loader->getCacheKey('template1'))->toBe('template1:content1')
-        ->and(fn() => $loader->getCacheKey('template2'))->toThrow(\InvalidArgumentException::class);
+        ->and(fn() => $loader->getCacheKey('template2'))->toThrow(InvalidArgumentException::class);
 });
 
 it('checks if a template is fresh', function() {
     $loader = new ArrayLoader(['template1' => 'content1']);
     expect($loader->isFresh('template1', time()))->toBeTrue()
-        ->and(fn() => $loader->isFresh('template2', time()))->toThrow(\InvalidArgumentException::class);
+        ->and(fn() => $loader->isFresh('template2', time()))->toThrow(InvalidArgumentException::class);
 });

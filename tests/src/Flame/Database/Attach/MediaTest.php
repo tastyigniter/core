@@ -36,6 +36,7 @@ it('adds file from request', function() {
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
     $model = new TestModelForMedia;
     $model->save();
+
     $media = $model->newMediaInstance();
     $uploadedFile = UploadedFile::fake()->image('file.jpg');
     $media->addFromRequest($uploadedFile);
@@ -48,6 +49,7 @@ it('adds file from disk', function() {
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
     $model = new TestModelForMedia;
     $model->save();
+
     $media = $model->newMediaInstance();
     $media->addFromFile(__DIR__.'/../Fixtures/test.png');
 
@@ -86,6 +88,7 @@ it('adds non image file from disk', function() {
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
     $model = new TestModelForMedia;
     $model->save();
+
     $media = $model->newMediaInstance();
     $media->addFromFile(__DIR__.'/../Fixtures/test.pdf');
 
@@ -101,6 +104,7 @@ it('adds file from raw data', function() {
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
     $model = new TestModelForMedia;
     $model->save();
+
     $media = $model->newMediaInstance();
 
     $media->addFromRaw(Manipulator::decodedBlankImage(), 'path/file.png');
@@ -128,6 +132,7 @@ it('adds file from url', function() {
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
     $model = new TestModelForMedia;
     $model->save();
+
     $media = $model->newMediaInstance();
     $url = 'http://example.com/file.jpg';
     $filename = 'file.jpg';
@@ -144,20 +149,25 @@ it('it does not delete empty directory after deleting file', function() {
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
     $model = new TestModelForMedia;
     $model->save();
+
     $media = $model->newMediaInstance();
 
     $media->addFromFile(__DIR__.'/../Fixtures/test.png');
+
     $storageMock->assertExists($media->getStorageDirectory().$media->getPartitionDirectory().$media->name);
 
     $storageMock->put($media->getStorageDirectory().$media->getPartitionDirectory().'/test.txt', 'test');
+
     expect($media->addFromFile(__DIR__.'/../Fixtures/test.png')->deleteFile())->toBeNull();
 
     $storageMock->delete($media->getStorageDirectory().$media->getPartitionDirectory().'/test.txt');
     $storageMock->put(dirname($media->getStorageDirectory().$media->getPartitionDirectory()).'/test.txt', 'test');
+
     expect($media->addFromFile(__DIR__.'/../Fixtures/test.png')->deleteFile())->toBeNull();
 
     $storageMock->delete(dirname($media->getStorageDirectory().$media->getPartitionDirectory()).'/test.txt');
     $storageMock->put(dirname($media->getStorageDirectory().$media->getPartitionDirectory(), 2).'/test.txt', 'test');
+
     expect($media->addFromFile(__DIR__.'/../Fixtures/test.png')->deleteFile())->toBeNull();
 
     $storageMock->delete(dirname($media->getStorageDirectory().$media->getPartitionDirectory(), 2).'/test.txt');

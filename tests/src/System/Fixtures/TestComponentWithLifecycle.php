@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Fixtures;
 
-class TestComponentWithLifecycle extends \Igniter\System\Classes\BaseComponent
+use Igniter\System\Classes\BaseComponent;
+
+class TestComponentWithLifecycle extends BaseComponent
 {
     public static function componentMeta(): array
     {

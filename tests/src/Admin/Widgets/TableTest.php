@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Admin\Widgets;
 
+use Exception;
 use Igniter\Admin\Classes\TableDataSource;
 use Igniter\Admin\Models\Status;
 use Igniter\Admin\Widgets\Table;
@@ -95,7 +96,7 @@ it('renders without errors', function() {
     $viewMock->method('exists')->with($this->stringContains('table/table'));
 
     expect($this->tableWidget->render())->toBeString();
-})->throws(\Exception::class);
+})->throws(Exception::class);
 
 it('prepares variables correctly', function() {
     $this->tableWidget->prepareVars();

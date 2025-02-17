@@ -29,6 +29,7 @@ it('returns the correct precision', function() {
 it('sets and returns the correct precision', function() {
     $circle = new Circle(new Coordinates(10, 20), 100);
     $circle->setPrecision(5);
+
     expect($circle->getPrecision())->toBe(5);
 });
 
@@ -54,6 +55,7 @@ it('returns true when a point is within the radius', function() {
     $coordinate = new Coordinates(51.5074, -0.1278);
     $circle = new Circle($coordinate, 5000);
     $circle->distanceUnit('mi');
+
     $point = new Coordinates(51.5014, -0.1419);
     expect($circle->pointInRadius($point))->toBeTrue();
 });
@@ -62,6 +64,7 @@ it('returns false when a point is outside the radius', function() {
     $coordinate = new Coordinates(51.5074, -0.1278);
     $circle = new Circle($coordinate, 1000);
     $circle->distanceUnit('mi');
+
     $point = new Coordinates(51.5550, -0.2795);
     expect($circle->pointInRadius($point))->toBeFalse();
 });

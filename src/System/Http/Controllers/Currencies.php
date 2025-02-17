@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace Igniter\System\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
+use Igniter\System\Http\Requests\CurrencyRequest;
 use Igniter\System\Models\Currency;
 
-class Currencies extends \Igniter\Admin\Classes\AdminController
+class Currencies extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\System\Models\Currency::class,
+            'model' => Currency::class,
             'title' => 'lang:igniter::system.currencies.text_title',
             'emptyMessage' => 'lang:igniter::system.currencies.text_empty',
             'defaultSort' => ['currency_status', 'DESC'],
@@ -28,8 +32,8 @@ class Currencies extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter::system.currencies.text_form_name',
-        'model' => \Igniter\System\Models\Currency::class,
-        'request' => \Igniter\System\Http\Requests\CurrencyRequest::class,
+        'model' => Currency::class,
+        'request' => CurrencyRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'currencies/edit/{currency_id}',

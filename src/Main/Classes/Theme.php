@@ -19,6 +19,7 @@ use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial as PartialTemplate;
 use Illuminate\Support\Collection;
+use RuntimeException;
 
 class Theme
 {
@@ -217,7 +218,7 @@ class Theme
             $mimeType = ThemeModel::ICON_MIMETYPES[$extension];
             $data = base64_encode(File::get($file));
 
-            $screenshotData = "data:$mimeType;base64,$data";
+            $screenshotData = sprintf('data:%s;base64,%s', $mimeType, $data);
         }
 
         return $this->screenshotData = $screenshotData;
@@ -476,7 +477,7 @@ class Theme
     public function getTemplateClass(string $dirName): string
     {
         if (!isset(self::$allowedTemplateModels[$dirName])) {
-            throw new \RuntimeException(sprintf('Source Model not found for [%s].', $dirName));
+            throw new RuntimeException(sprintf('Source Model not found for [%s].', $dirName));
         }
 
         return self::$allowedTemplateModels[$dirName];

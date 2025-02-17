@@ -350,8 +350,8 @@ class ComponentManager
     public function getComponentPropertyRules(BaseComponent|LivewireComponent|BladeComponent $component): array
     {
         $properties = $component->defineProperties();
-
-        $rules = $attributes = [];
+        $rules = [];
+        $attributes = [];
         foreach ($properties as $name => $params) {
             if (strlen($rule = array_get($params, 'validationRule', '')) !== 0) {
                 $rules[$name] = $rule;

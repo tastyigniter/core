@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Sortable;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
+use Illuminate\Support\Carbon;
 
 /**
  * Country Model Class
@@ -20,15 +22,15 @@ use Igniter\System\Models\Concerns\Switchable;
  * @property string|null $format
  * @property int $status
  * @property int $priority
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property bool $is_default
- * @method static \Igniter\Flame\Database\Builder<static>|Country applyDefaultable(bool $default = true)
- * @method static \Igniter\Flame\Database\Builder<static>|Country applySwitchable(bool $switch = true)
- * @method static \Igniter\Flame\Database\Builder<static>|Country listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Country query()
- * @method static \Igniter\Flame\Database\Builder<static>|Country sorted()
- * @method static \Igniter\Flame\Database\Builder<static>|Country whereIsEnabled()
+ * @method static Builder<static>|Country applyDefaultable(bool $default = true)
+ * @method static Builder<static>|Country applySwitchable(bool $switch = true)
+ * @method static Builder<static>|Country listFrontEnd(array $options = [])
+ * @method static Builder<static>|Country query()
+ * @method static Builder<static>|Country sorted()
+ * @method static Builder<static>|Country whereIsEnabled()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Country extends Model
@@ -58,7 +60,7 @@ class Country extends Model
 
     public $relation = [
         'hasOne' => [
-            'currency' => \Igniter\System\Models\Currency::class,
+            'currency' => Currency::class,
         ],
     ];
 

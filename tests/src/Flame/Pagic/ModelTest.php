@@ -57,6 +57,7 @@ it('returns false if deleting event returns false', function() {
 it('updates an existing model instance', function() {
     $model = Partial::load('tests-theme', 'test-partial');
     $model->fillable(['fileName', 'content']);
+
     $oldContent = file_get_contents($model->getFilePath());
 
     $model->update(['content' => 'updated content']);

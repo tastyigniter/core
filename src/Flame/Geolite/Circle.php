@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
+use Igniter\Flame\Geolite\Contracts\CircleInterface;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Model\Bounds;
+use Igniter\Flame\Geolite\Model\Coordinates;
+use Igniter\Flame\Geolite\Model\CoordinatesCollection;
 
-class Circle implements Contracts\CircleInterface
+class Circle implements CircleInterface
 {
     const TYPE = 'CIRCLE';
 
@@ -21,11 +24,11 @@ class Circle implements Contracts\CircleInterface
 
     public function __construct(array|CoordinatesInterface $coordinate, int $radius)
     {
-        if ($coordinate instanceof Contracts\CoordinatesInterface) {
+        if ($coordinate instanceof CoordinatesInterface) {
             $this->coordinate = $coordinate;
         } else {
             [$latitude, $longitude] = $coordinate;
-            $this->coordinate = new Model\Coordinates($latitude, $longitude);
+            $this->coordinate = new Coordinates($latitude, $longitude);
         }
 
         $this->radius = $radius;
@@ -64,9 +67,9 @@ class Circle implements Contracts\CircleInterface
         return $this->coordinate;
     }
 
-    public function getCoordinates(): Model\CoordinatesCollection
+    public function getCoordinates(): CoordinatesCollection
     {
-        return new Model\CoordinatesCollection([$this->getCoordinate()]);
+        return new CoordinatesCollection([$this->getCoordinate()]);
     }
 
     public function setCoordinate(CoordinatesInterface $coordinate): static
@@ -90,14 +93,14 @@ class Circle implements Contracts\CircleInterface
             || !$this->getRadius();
     }
 
-    public function distanceUnit($unit): Contracts\CircleInterface
+    public function distanceUnit($unit): CircleInterface
     {
         $this->unit = $unit;
 
         return $this;
     }
 
-    public function pointInRadius(Contracts\CoordinatesInterface $coordinate): bool
+    public function pointInRadius(CoordinatesInterface $coordinate): bool
     {
         $distance = new Distance;
         $distance->in($this->unit)

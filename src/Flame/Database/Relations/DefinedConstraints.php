@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
+use Igniter\Flame\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany as BelongsToManyBase;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /*
  * Handles the constraints and filters defined by a relation.
@@ -29,7 +31,7 @@ trait DefinedConstraints
     /**
      * Add relation based constraints.
      *
-     * @param \Illuminate\Database\Eloquent\Relations\Relation $relation
+     * @param Relation $relation
      * @param array $args
      */
     public function addDefinedConstraintsToRelation($relation, $args = null): void
@@ -79,7 +81,7 @@ trait DefinedConstraints
     /**
      * Add query based constraints.
      *
-     * @param \Igniter\Flame\Database\Query\Builder $query
+     * @param Builder $query
      * @param array $args
      */
     public function addDefinedConstraintsToQuery($query, $args = null): void

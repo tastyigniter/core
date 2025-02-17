@@ -26,7 +26,7 @@ class CalendarController extends ControllerAction
     public array $calendarConfig = [];
 
     /**
-     * @var \Igniter\Admin\Widgets\Calendar[] Reference to the list widget objects
+     * @var Calendar[] Reference to the list widget objects
      */
     protected array $calendarWidgets = [];
 
@@ -107,7 +107,7 @@ class CalendarController extends ControllerAction
         // Prep the optional toolbar widget
         if (isset($modelConfig['toolbar'], $this->controller->widgets['toolbar'])) {
             $this->toolbarWidget = $this->controller->widgets['toolbar'];
-            if ($this->toolbarWidget instanceof \Igniter\Admin\Widgets\Toolbar) {
+            if ($this->toolbarWidget instanceof Toolbar) {
                 $this->toolbarWidget->reInitialize($modelConfig['toolbar']);
             }
         }

@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Igniter\System\Database\Factories;
 
 use Igniter\Flame\Database\Factories\Factory;
+use Igniter\System\Models\Country;
 
 class CountryFactory extends Factory
 {
-    protected $model = \Igniter\System\Models\Country::class;
+    protected $model = Country::class;
 
     public function definition(): array
     {

@@ -20,6 +20,7 @@ beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('image', 'Image');
     $this->formField->displayAs('image');
+
     $this->formField->arrayName = 'theme';
     $this->mediaModel = new class extends Model
     {
@@ -236,6 +237,7 @@ it('adds attachment correctly', function() {
     $this->mediaFinderWidget->useAttachment = true;
     $this->mediaFinderWidget->model = new TestModelForMedia;
     $this->mediaFinderWidget->model->save();
+
     request()->merge([
         'media_id' => 1,
         'items' => [

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
+use Igniter\System\Http\Requests\AdvancedSettingsRequest;
+use Igniter\System\Http\Requests\GeneralSettingsRequest;
+use Igniter\System\Http\Requests\MailSettingsRequest;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,7 +24,7 @@ class FormServiceProvider extends ServiceProvider
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/general'),
                     'form' => 'generalsettings',
-                    'request' => \Igniter\System\Http\Requests\GeneralSettingsRequest::class,
+                    'request' => GeneralSettingsRequest::class,
                 ],
                 'mail' => [
                     'label' => 'lang:igniter::system.settings.text_tab_mail',
@@ -31,7 +34,7 @@ class FormServiceProvider extends ServiceProvider
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/mail'),
                     'form' => 'mailsettings',
-                    'request' => \Igniter\System\Http\Requests\MailSettingsRequest::class,
+                    'request' => MailSettingsRequest::class,
                 ],
                 'statuses' => [
                     'label' => 'lang:igniter::admin.side_menu.status',
@@ -74,7 +77,7 @@ class FormServiceProvider extends ServiceProvider
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/advanced'),
                     'form' => 'advancedsettings',
-                    'request' => \Igniter\System\Http\Requests\AdvancedSettingsRequest::class,
+                    'request' => AdvancedSettingsRequest::class,
                 ],
             ]);
         });

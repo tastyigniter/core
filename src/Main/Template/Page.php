@@ -8,6 +8,9 @@ use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\Template\Code\PageCode;
+use Igniter\Main\Template\Concerns\HasComponents;
+use Igniter\Main\Template\Concerns\HasViewBag;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -16,8 +19,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class Page extends Model
 {
-    use Concerns\HasComponents;
-    use Concerns\HasViewBag;
+    use HasComponents;
+    use HasViewBag;
 
     /** The directory name associated with the model, eg: _pages. */
     public const DIR_NAME = '_pages';
@@ -76,7 +79,7 @@ class Page extends Model
      */
     public function getCodeClassParent(): string
     {
-        return \Igniter\Main\Template\Code\PageCode::class;
+        return PageCode::class;
     }
 
     public static function resolveRouteBinding(string $value, ?string $field = null): mixed

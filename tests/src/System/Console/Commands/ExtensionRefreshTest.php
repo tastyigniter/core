@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\System\Console\Commands;
 
 use Igniter\System\Classes\UpdateManager;
+use InvalidArgumentException;
 
 it('rolls back extension with step option', function() {
     $updateManager = mock(UpdateManager::class);
@@ -30,7 +31,7 @@ it('purges and migrates extension without step option', function() {
 });
 
 it('throws exception if extension not found', function() {
-    $this->expectException(\InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->expectExceptionMessage('Extension "igniter.demo" not found.');
 
     $this->artisan('igniter:extension-refresh Igniter.Demo')

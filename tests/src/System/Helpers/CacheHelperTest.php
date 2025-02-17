@@ -25,7 +25,7 @@ it('clears all caches successfully', function() {
 it('clears view cache successfully', function() {
     $cacheHelper = new CacheHelper;
     $path = config('view.compiled');
-    File::shouldReceive('glob')->with("{$path}/*")->andReturn(['view1.php', 'view2.php']);
+    File::shouldReceive('glob')->with($path.'/*')->andReturn(['view1.php', 'view2.php']);
     File::shouldReceive('delete')->with('view1.php')->once();
     File::shouldReceive('delete')->with('view2.php')->once();
 

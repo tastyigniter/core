@@ -64,6 +64,7 @@ it('returns null when file is not found', function() {
     $model = new class extends Model {};
     $this->finder->setModel($model);
     $this->finder->in('templates');
+
     expect($this->finder->find('nonexistent-file'))->toBeNull();
 });
 
@@ -71,6 +72,7 @@ it('returns model when file is found', function() {
     $model = Page::load('tests-theme', 'nested-page');
     $this->finder->setModel($model);
     $this->finder->in('_pages');
+
     expect($this->finder->find('nested-page'))->toEqual($model);
 });
 
@@ -85,15 +87,18 @@ it('returns cached results when cache is available', function() {
     $this->finder->cacheTags(['tag1', 'tag2']);
     $this->finder->cacheTags([]);
     $this->finder->cacheDriver(config('cache.default'));
+
     expect($this->finder->remember(10, 'cache_key')->get()->count())->toBeGreaterThan(0);
 
     MemorySource::$cache = [];
     cache()->put('cache_key', [$modelArray], 10);
+
     $this->finder->whereFileName('nested-page');
     expect($this->finder->rememberForever('cache_key')->get()->count())->toBeGreaterThan(0);
 
     MemorySource::$cache = [];
     cache()->put('cache_key', [$modelArray], 10);
+
     $this->finder->select = [];
     expect($this->finder->rememberForever('cache_key')->get()->count())->toBeGreaterThan(0);
 
@@ -119,6 +124,7 @@ it('updates and deletes a record successfully', function() {
     $model->fileName = 'new-nested-page';
     $this->finder->setModel($model);
     $this->finder->in('_pages');
+
     expect($this->finder->update(['content' => 'this is the updated content']))->toBeBool();
     file_put_contents($this->source->getBasePath().'/_pages/nested-page.blade.php', $oldContent);
 

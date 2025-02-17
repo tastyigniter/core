@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Facades;
 
+use Closure;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\HtmlString;
 
 /**
- * @method static \Illuminate\Support\HtmlString getBlock(string $name, ?string $default = null)
+ * @method static HtmlString getBlock(string $name, ?string $default = null)
  * @method static void appendBlock(string $name, string $contents)
  * @method static void setBlock(string $name, string $contents)
  * @method static string|null getTitle()
@@ -16,8 +18,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static void setTitle(string $title)
  * @method static void setHeading(string $heading)
  * @method static void setButton(string $name, array $attributes = [])
- * @method static \Illuminate\Support\HtmlString renderHook(string $name)
- * @method static void registerHook(string $name, \Closure $callback)
+ * @method static HtmlString renderHook(string $name)
+ * @method static void registerHook(string $name, Closure $callback)
  * @method static string renderStaticCss()
  *
  * @see \Igniter\Admin\Classes\Template

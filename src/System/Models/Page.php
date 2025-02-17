@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\HasPermalink;
 use Igniter\System\Models\Concerns\Switchable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * Page Class
@@ -19,24 +22,24 @@ use Igniter\System\Models\Concerns\Switchable;
  * @property string $content
  * @property string|null $meta_description
  * @property string|null $meta_keywords
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property int $status
  * @property string|null $permalink_slug
  * @property string|null $layout
  * @property array|null $metadata
  * @property int|null $priority
- * @method static \Igniter\Flame\Database\Builder<static>|Page applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Page applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Page applySwitchable(bool $switch = true)
- * @method static \Illuminate\Support\Collection dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Page findSimilarSlugs($attribute, array $config, $slug)
- * @method static \Igniter\Flame\Database\Builder<static>|Page isEnabled()
- * @method static \Igniter\Flame\Database\Builder<static>|Page listFrontEnd(array $options = [])
+ * @method static Builder<static>|Page applyFilters(array $options = [])
+ * @method static Builder<static>|Page applySorts(array $sorts = [])
+ * @method static Builder<static>|Page applySwitchable(bool $switch = true)
+ * @method static Collection dropdown(string $column, string $key = null)
+ * @method static Builder<static>|Page findSimilarSlugs($attribute, array $config, $slug)
+ * @method static Builder<static>|Page isEnabled()
+ * @method static Builder<static>|Page listFrontEnd(array $options = [])
  * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
- * @method static \Igniter\Flame\Database\Builder<static>|Page query()
- * @method static \Igniter\Flame\Database\Builder<static>|Page whereSlug(string $slug)
- * @method static \Igniter\Flame\Database\Builder<static>|Page whereIsEnabled()
+ * @method static Builder<static>|Page query()
+ * @method static Builder<static>|Page whereSlug(string $slug)
+ * @method static Builder<static>|Page whereIsEnabled()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Page extends Model
@@ -66,7 +69,7 @@ class Page extends Model
 
     public $relation = [
         'belongsTo' => [
-            'language' => \Igniter\System\Models\Language::class,
+            'language' => Language::class,
         ],
     ];
 

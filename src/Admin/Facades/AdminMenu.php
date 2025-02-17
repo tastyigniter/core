@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Facades;
 
+use Igniter\Admin\Classes\Navigation;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -19,15 +20,15 @@ use Illuminate\Support\Facades\Facade;
  * @method static void removeMainItem(string $itemCode)
  * @method static void loadItems()
  * @method static array filterPermittedNavItems(array $items)
- * @method static \Igniter\Admin\Classes\Navigation setPreviousUrl(string $pathOrUrl)
+ * @method static Navigation setPreviousUrl(string $pathOrUrl)
  * @method static string|null getPreviousUrl()
  * @method static void registerMainItems(array|null $definitions = null)
  * @method static void registerNavItems(array|null $definitions = null, string|null $parent = null)
  * @method static void registerNavItem(string $code, array $item, string|null $parent = null)
  * @method static void registerCallback(callable $callback)
- * @method static \Igniter\Admin\Classes\Navigation bindEvent(string $event, callable $callback, int $priority = 0)
- * @method static \Igniter\Admin\Classes\Navigation bindEventOnce(string $event, callable $callback)
- * @method static \Igniter\Admin\Classes\Navigation unbindEvent(string|null $event = null)
+ * @method static Navigation bindEvent(string $event, callable $callback, int $priority = 0)
+ * @method static Navigation bindEventOnce(string $event, callable $callback)
+ * @method static Navigation unbindEvent(string | null $event = null)
  * @method static mixed fireEvent(string $event, array $params = [], bool $halt = false)
  * @method static mixed fireSystemEvent(string $event, array $params = [], bool $halt = true)
  * @method static string getViewPath(string $view, array|string|null $paths = [], string|null $prefix = null)

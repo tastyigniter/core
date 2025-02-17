@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Exception;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class AjaxException extends \Exception
+class AjaxException extends Exception
 {
     protected array $contents;
 

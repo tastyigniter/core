@@ -13,6 +13,7 @@ use Igniter\Flame\Database\Relations\HasMany;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Tests\Fixtures\Models\IlluminateModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use LogicException;
 
 it('creates form model correctly', function() {
     $widget = new class
@@ -258,7 +259,7 @@ it('sets model attributes with nested data', function() {
 
     $saveData = ['status_history' => [['comment' => 'Some comment']]];
 
-    expect(fn() => $widget->testSetModelAttributes($model, $saveData))->toThrow(\LogicException::class);
+    expect(fn() => $widget->testSetModelAttributes($model, $saveData))->toThrow(LogicException::class);
 });
 
 it('does not set attributes starting with underscore', function() {

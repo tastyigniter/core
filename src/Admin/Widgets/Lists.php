@@ -772,6 +772,7 @@ class Lists extends BaseWidget
         if ($value === null) {
             return null;
         }
+
         $dateTime = make_carbon($value);
 
         return day_elapsed($dateTime);

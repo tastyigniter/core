@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Contracts;
 
+use Closure;
 use GuzzleHttp\Client;
 use Igniter\Flame\Geolite\Model\Distance;
 use Illuminate\Contracts\Cache\Repository;
@@ -85,7 +86,7 @@ abstract class AbstractProvider
         return !is_null($this->cacheLifetime) ? $this->cacheLifetime : $lifetime;
     }
 
-    protected function cacheCallback(string $cacheKey, \Closure $closure): mixed
+    protected function cacheCallback(string $cacheKey, Closure $closure): mixed
     {
         if (!$lifetime = $this->getCacheLifetime()) {
             return $closure();

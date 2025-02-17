@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Database\Factories;
 
+use Igniter\Admin\Models\StatusHistory;
 use Igniter\Flame\Database\Factories\Factory;
 
 class StatusHistoryFactory extends Factory
 {
-    protected $model = \Igniter\Admin\Models\StatusHistory::class;
+    protected $model = StatusHistory::class;
 
     public function definition(): array
     {

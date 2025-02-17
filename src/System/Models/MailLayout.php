@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
@@ -11,6 +12,7 @@ use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Models\Concerns\Switchable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View;
 
 /**
@@ -19,21 +21,21 @@ use Illuminate\Support\Facades\View;
  * @property int $layout_id
  * @property string $name
  * @property int $language_id
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property bool $status
  * @property string $code
  * @property string|null $layout
  * @property string|null $plain_layout
  * @property string|null $layout_css
  * @property bool $is_locked
- * @method static \Igniter\Flame\Database\Builder<static>|MailLayout applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailLayout applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailLayout applySwitchable(bool $switch = true)
- * @method static \Igniter\Flame\Database\Builder<static>|MailLayout dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|MailLayout isEnabled()
- * @method static \Igniter\Flame\Database\Builder<static>|MailLayout lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|MailLayout listFrontEnd(array $options = [])
+ * @method static Builder<static>|MailLayout applyFilters(array $options = [])
+ * @method static Builder<static>|MailLayout applySorts(array $sorts = [])
+ * @method static Builder<static>|MailLayout applySwitchable(bool $switch = true)
+ * @method static Builder<static>|MailLayout dropdown(string $column, string $key = null)
+ * @method static Builder<static>|MailLayout isEnabled()
+ * @method static Builder<static>|MailLayout lists(string $column, string $key = null)
+ * @method static Builder<static>|MailLayout listFrontEnd(array $options = [])
  * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @mixin \Illuminate\Database\Eloquent\Model
  */
@@ -64,10 +66,10 @@ class MailLayout extends Model
 
     public $relation = [
         'hasMany' => [
-            'templates' => [\Igniter\System\Models\MailTemplate::class, 'foreignKey' => 'layout_id'],
+            'templates' => [MailTemplate::class, 'foreignKey' => 'layout_id'],
         ],
         'belongsTo' => [
-            'language' => \Igniter\System\Models\Language::class,
+            'language' => Language::class,
         ],
     ];
 

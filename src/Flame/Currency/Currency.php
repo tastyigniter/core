@@ -16,9 +16,9 @@ class Currency
 {
     protected Repository $cache;
 
-    protected ?Contracts\CurrencyInterface $model = null;
+    protected ?CurrencyInterface $model = null;
 
-    protected ?Contracts\FormatterInterface $formatter = null;
+    protected ?FormatterInterface $formatter = null;
 
     protected ?string $userCurrency = null;
 

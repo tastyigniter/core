@@ -4,30 +4,34 @@ declare(strict_types=1);
 
 namespace Igniter\System\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\LanguageManager;
+use Igniter\System\Http\Requests\LanguageRequest;
 use Igniter\System\Models\Language;
 use Igniter\System\Traits\ManagesUpdates;
 use Igniter\System\Traits\SessionMaker;
 
-class Languages extends \Igniter\Admin\Classes\AdminController
+class Languages extends AdminController
 {
     use ManagesUpdates;
     use SessionMaker;
 
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\System\Models\Language::class,
+            'model' => Language::class,
             'title' => 'lang:igniter::system.languages.text_title',
             'emptyMessage' => 'lang:igniter::system.languages.text_empty',
             'defaultSort' => ['language_id', 'DESC'],
@@ -38,8 +42,8 @@ class Languages extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter::system.languages.text_form_name',
-        'model' => \Igniter\System\Models\Language::class,
-        'request' => \Igniter\System\Http\Requests\LanguageRequest::class,
+        'model' => Language::class,
+        'request' => LanguageRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'languages/edit/{language_id}',

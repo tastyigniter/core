@@ -6,6 +6,7 @@ namespace Igniter\Tests\Flame\Database;
 
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Pivot;
+use Igniter\System\Models\Country;
 use Igniter\System\Models\Currency;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\MailLayout;
@@ -115,7 +116,7 @@ it('skip pushing relations when push is disabled', function() {
     {
         public $relation = [
             'belongsTo' => [
-                'country' => [\Igniter\System\Models\Country::class, 'push' => false],
+                'country' => [Country::class, 'push' => false],
             ],
         ];
     };
@@ -151,10 +152,10 @@ it('deletes the model and its relations', function() {
     {
         public $relation = [
             'hasMany' => [
-                'templates' => [\Igniter\System\Models\MailTemplate::class, 'foreignKey' => 'layout_id', 'delete' => true],
+                'templates' => [MailTemplate::class, 'foreignKey' => 'layout_id', 'delete' => true],
             ],
             'belongsTo' => [
-                'language' => [\Igniter\System\Models\Language::class, 'delete' => true],
+                'language' => [Language::class, 'delete' => true],
             ],
         ];
     };
@@ -172,7 +173,7 @@ it('deletes the model and its relations', function() {
 it('deletes the model and its belongsToMany relations', function() {
     $model = User::factory()->create();
     $model->relation['belongsToMany']['groups'] = [
-        \Igniter\User\Models\UserGroup::class, 'table' => 'admin_users_groups', 'delete' => true,
+        UserGroup::class, 'table' => 'admin_users_groups', 'delete' => true,
     ];
     $model->groups()->attach($group = UserGroup::factory()->create());
 

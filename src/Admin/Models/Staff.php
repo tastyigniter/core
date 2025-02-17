@@ -8,12 +8,19 @@ use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Local\Models\Concerns\Locationable;
+use Igniter\Local\Models\Location;
+use Igniter\System\Models\Language;
 use Igniter\User\Classes\UserState;
+use Igniter\User\Models\AssignableLog;
+use Igniter\User\Models\User;
+use Igniter\User\Models\UserGroup;
+use Igniter\User\Models\UserRole;
 
 /**
  * Staff Model Class
  * @codeCoverageIgnore
  * @deprecated use Igniter\Admin\Models\User instead. Remove before v5
+ * @phpstan-ignore
  */
 class Staff extends Model
 {
@@ -47,20 +54,20 @@ class Staff extends Model
 
     public $relation = [
         'hasOne' => [
-            'user' => [\Igniter\User\Models\User::class, 'foreignKey' => 'staff_id', 'otherKey' => 'staff_id', 'delete' => true],
+            'user' => [User::class, 'foreignKey' => 'staff_id', 'otherKey' => 'staff_id', 'delete' => true],
         ],
         'hasMany' => [
-            'assignable_logs' => [\Igniter\User\Models\AssignableLog::class, 'foreignKey' => 'assignee_id'],
+            'assignable_logs' => [AssignableLog::class, 'foreignKey' => 'assignee_id'],
         ],
         'belongsTo' => [
-            'role' => [\Igniter\User\Models\UserRole::class, 'foreignKey' => 'user_role_id'],
-            'language' => [\Igniter\System\Models\Language::class],
+            'role' => [UserRole::class, 'foreignKey' => 'user_role_id'],
+            'language' => [Language::class],
         ],
         'belongsToMany' => [
-            'groups' => [\Igniter\User\Models\UserGroup::class, 'table' => 'admin_users_groups'],
+            'groups' => [UserGroup::class, 'table' => 'admin_users_groups'],
         ],
         'morphToMany' => [
-            'locations' => [\Igniter\Local\Models\Location::class, 'name' => 'locationable'],
+            'locations' => [Location::class, 'name' => 'locationable'],
         ],
     ];
 

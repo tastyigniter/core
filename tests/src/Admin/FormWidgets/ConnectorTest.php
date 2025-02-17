@@ -16,6 +16,7 @@ beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('status_history', 'Connector');
     $this->formField->displayAs('connector');
+
     $this->formField->arrayName = 'status';
     $this->connectorWidget = new Connector($this->controller, $this->formField, [
         'model' => Status::factory()->create(),

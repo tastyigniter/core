@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Admin\Traits;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Tests\Fixtures\Controllers\FormExtendableTestController;
 use Illuminate\Support\Facades\Event;
@@ -12,7 +13,7 @@ beforeEach(function() {
     $this->controller = resolve(FormExtendableTestController::class);
     $this->form = new class($this->controller) extends Form
     {
-        public function __construct(protected \Igniter\Admin\Classes\AdminController $controller) {}
+        public function __construct(protected AdminController $controller) {}
     };
 });
 

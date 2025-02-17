@@ -10,6 +10,7 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Models\Extension;
+use LogicException;
 use ZipArchive;
 
 /**
@@ -147,7 +148,7 @@ class ExtensionManager
     /**
      * Loads a single extension in to the manager.
      * @param string $path Eg: base_path().'/extensions/vendor/extension';
-     * @throws \Igniter\Flame\Exception\SystemException
+     * @throws SystemException
      */
     public function loadExtension(string $path): BaseExtension
     {
@@ -197,11 +198,11 @@ class ExtensionManager
         );
 
         if (!$class || !class_exists($class)) {
-            throw new \LogicException("Missing Extension class '$class' in '$identifier', create the Extension class to override extensionMeta() method.");
+            throw new LogicException(sprintf("Missing Extension class '%s' in '%s', create the Extension class to override extensionMeta() method.", $class, $identifier));
         }
 
         if (!is_subclass_of($class, BaseExtension::class)) {
-            throw new \LogicException("Extension class '$class' must extend '".BaseExtension::class."'.");
+            throw new LogicException(sprintf("Extension class '%s' must extend '", $class).BaseExtension::class."'.");
         }
 
         return app()->resolveProvider($class);
@@ -388,7 +389,7 @@ class ExtensionManager
 
             throw_if(
                 File::exists($configFile = $extensionDir.'extension.json'),
-                new SystemException("extension.json files are no longer supported, please convert to composer.json: $configFile"),
+                new SystemException('extension.json files are no longer supported, please convert to composer.json: '.$configFile),
             );
 
             $meta = @json_decode($zip->getFromName($extensionDir.'composer.json'));

@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class AnonymousTemplateMailable extends TemplateMailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public static function create(string $templateCode): static
     {

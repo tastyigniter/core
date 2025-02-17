@@ -77,7 +77,8 @@ class RouteRegistrar
     protected function guessRouteUri(string $class): array
     {
         if (Str::startsWith($class, config('igniter-routes.coreNamespaces', []))) {
-            $uri = $resource = strtolower(snake_case(class_basename($class)));
+            $uri = strtolower(snake_case(class_basename($class)));
+            $resource = $uri;
             $name = strtolower(implode('.', array_slice(explode('\\', $class), 0, 2)).'.'.$resource);
 
             return [$name, $uri];

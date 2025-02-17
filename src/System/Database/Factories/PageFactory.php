@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Igniter\System\Database\Factories;
 
 use Igniter\Flame\Database\Factories\Factory;
+use Igniter\System\Models\Page;
 
 class PageFactory extends Factory
 {
-    protected $model = \Igniter\System\Models\Page::class;
+    protected $model = Page::class;
 
     public function definition(): array
     {

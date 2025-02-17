@@ -8,6 +8,7 @@ use Igniter\Flame\Database\Traits\Sortable;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
 use Igniter\System\Models\Country;
+use Igniter\System\Models\Currency;
 
 it('returns enabled countries in dropdown options', function() {
     $options = Country::getDropdownOptions();
@@ -48,7 +49,7 @@ it('configures model correctly', function() {
             'is_default' => 'boolean',
         ])
         ->and($country->relation['hasOne'])->toEqual([
-            'currency' => \Igniter\System\Models\Currency::class,
+            'currency' => Currency::class,
         ])
         ->and($country->timestamps)->toBeTrue();
 });

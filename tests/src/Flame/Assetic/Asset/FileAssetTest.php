@@ -7,6 +7,8 @@ namespace Igniter\Tests\Flame\Assetic\Asset;
 use Igniter\Flame\Assetic\Asset\FileAsset;
 use Igniter\Flame\Assetic\Filter\CssImportFilter;
 use Igniter\Flame\Support\Facades\File;
+use InvalidArgumentException;
+use RuntimeException;
 
 it('constructs file asset with valid source and root', function() {
     $source = '/path/to/source/file.txt';
@@ -22,7 +24,7 @@ it('throws exception when source is not in root directory', function() {
     $filters = [];
     $sourceRoot = '/different/path';
 
-    expect(fn() => new FileAsset($source, $filters, $sourceRoot))->toThrow(\InvalidArgumentException::class);
+    expect(fn() => new FileAsset($source, $filters, $sourceRoot))->toThrow(InvalidArgumentException::class);
 });
 
 it('loads content from existing file', function() {
@@ -49,7 +51,7 @@ it('throws exception when loading non-existent file', function() {
 
     $asset = new FileAsset($source, $filters, $sourceRoot, $sourcePath);
 
-    expect(fn() => $asset->load())->toThrow(\RuntimeException::class);
+    expect(fn() => $asset->load())->toThrow(RuntimeException::class);
 });
 
 it('returns last modified timestamp of existing file', function() {
@@ -76,5 +78,5 @@ it('throws exception when getting last modified timestamp of non-existent file',
 
     $asset = new FileAsset($source, $filters, $sourceRoot, $sourcePath);
 
-    expect(fn() => $asset->getLastModified())->toThrow(\RuntimeException::class);
+    expect(fn() => $asset->getLastModified())->toThrow(RuntimeException::class);
 });

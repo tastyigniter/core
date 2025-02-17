@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency;
 
+use Igniter\Flame\Currency\Console\Cleanup;
+use Igniter\Flame\Currency\Console\Update;
 use Igniter\Flame\Currency\Middleware\CurrencyMiddleware;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
 class CurrencyServiceProvider extends ServiceProvider
@@ -25,7 +28,7 @@ class CurrencyServiceProvider extends ServiceProvider
 
     protected function registerMiddlewareAlias()
     {
-        $this->app[\Illuminate\Routing\Router::class]->aliasMiddleware(
+        $this->app[Router::class]->aliasMiddleware(
             'currency', CurrencyMiddleware::class,
         );
     }
@@ -53,8 +56,8 @@ class CurrencyServiceProvider extends ServiceProvider
     public function registerCurrencyCommands(): void
     {
         $this->commands([
-            Console\Cleanup::class,
-            Console\Update::class,
+            Cleanup::class,
+            Update::class,
         ]);
     }
 

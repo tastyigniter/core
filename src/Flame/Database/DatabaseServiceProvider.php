@@ -50,7 +50,7 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         Media::observe(MediaObserver::class);
 
         Relation::morphMap([
-            'media' => \Igniter\Flame\Database\Attach\Media::class,
+            'media' => Media::class,
         ]);
     }
 

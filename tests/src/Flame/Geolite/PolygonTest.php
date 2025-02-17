@@ -9,6 +9,8 @@ use Igniter\Flame\Geolite\Model\Bounds;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\CoordinatesCollection;
 use Igniter\Flame\Geolite\Polygon;
+use InvalidArgumentException;
+use Traversable;
 
 it('creates a polygon with coordinates array', function() {
     $coordinates = [new Coordinates(10, 20), new Coordinates(15, 25)];
@@ -18,7 +20,7 @@ it('creates a polygon with coordinates array', function() {
         ->and($polygon->getGeometryType())->toBe('POLYGON')
         ->and($polygon->getCoordinate())->toEqual($coordinates[0])
         ->and($polygon->getPrecision())->toBe(5)
-        ->and($polygon->getIterator())->toBeInstanceOf(\Traversable::class)
+        ->and($polygon->getIterator())->toBeInstanceOf(Traversable::class)
         ->and($polygon->getBounds()->getAsPolygon())->toBeInstanceOf(PolygonInterface::class)
         ->and($polygon->getBounds()->toArray())->toHaveKeys(['north', 'east', 'south', 'west']);
 });
@@ -36,7 +38,7 @@ it('creates a polygon with coordinates collection', function() {
 });
 
 it('throws exception for invalid coordinates input', function() {
-    expect(fn() => new Polygon('invalid'))->toThrow(\InvalidArgumentException::class);
+    expect(fn() => new Polygon('invalid'))->toThrow(InvalidArgumentException::class);
 });
 
 it('adds coordinates to the polygon', function() {
@@ -50,7 +52,7 @@ it('adds coordinates to the polygon', function() {
     unset($polygon[12]);
     $polygon->setCoordinates(new CoordinatesCollection([new Coordinates(10, 20), 'valid' => new Coordinates(15, 25)]));
 
-    expect(fn() => $polygon->put(0))->toThrow(\InvalidArgumentException::class)
+    expect(fn() => $polygon->put(0))->toThrow(InvalidArgumentException::class)
         ->and($polygon->getCoordinates()->count())->toBe(2)
         ->and($polygon->isEmpty())->toBeFalse()
         ->and($polygon['valid'])->toBeInstanceOf(Coordinates::class);

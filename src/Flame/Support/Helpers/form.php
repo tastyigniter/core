@@ -179,7 +179,7 @@ if (!function_exists('form_error')) {
     {
         $errors = (Config::get('session.driver') && Session::has('errors'))
             ? Session::get('errors')
-            : array_get(app('view')->getShared(), 'errors', new \Illuminate\Support\ViewErrorBag);
+            : array_get(app('view')->getShared(), 'errors', new ViewErrorBag);
 
         $errors = $errors->getBag($bag);
 

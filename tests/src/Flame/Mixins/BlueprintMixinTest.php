@@ -14,6 +14,7 @@ it('drops foreign key if it exists', function() {
 
     $blueprint = new Blueprint('table_name');
     $blueprint->dropForeignKeyIfExists('column');
+
     $command = $blueprint->getCommands()[0]->toArray();
     expect($command)->toHaveKey('name', 'dropForeign')
         ->and($command)->toHaveKey('index', 'table_name_column_foreign');
@@ -24,6 +25,7 @@ it('does not drop foreign key if it does not exist', function() {
 
     $blueprint = new Blueprint('table_name');
     $blueprint->dropForeignKeyIfExists('column');
+
     expect($blueprint->getCommands())->not->toContain('dropForeign');
     $blueprint->dropForeignKeyIfExists('column_foreign');
     expect($blueprint->getCommands())->not->toContain('dropForeign');
@@ -36,6 +38,7 @@ it('drops index if it exists', function() {
 
     $blueprint = new Blueprint('table_name');
     $blueprint->dropIndexIfExists('column');
+
     $command = $blueprint->getCommands()[0]->toArray();
     expect($command)->toHaveKey('name', 'dropIndex')
         ->and($command)->toHaveKey('index', 'table_name_column_index');
@@ -46,5 +49,6 @@ it('does not drop index if it does not exist', function() {
 
     $blueprint = new Blueprint('table_name');
     $blueprint->dropIndexIfExists('column');
+
     expect($blueprint->getCommands())->not->toContain('dropIndex');
 });

@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Concerns;
 
+use Igniter\Flame\Database\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 trait ExtendsEloquentBuilder
 {
@@ -15,7 +18,7 @@ trait ExtendsEloquentBuilder
      * @param string $column
      * @param string|null $key
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function lists($column, $key = null)
     {
@@ -28,7 +31,7 @@ trait ExtendsEloquentBuilder
      * @param string $column
      * @param string|null $key
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function dropdown($column, $key = null)
     {
@@ -49,7 +52,7 @@ trait ExtendsEloquentBuilder
     public function pluckDates($column, $keyFormat = '%Y-%m', $valueFormat = '%M %Y')
     {
         return $this
-            ->selectRaw("DATE_FORMAT({$column}, ?) as dateKey, DATE_FORMAT({$column}, ?) as dateValue", [
+            ->selectRaw(sprintf('DATE_FORMAT(%s, ?) as dateKey, DATE_FORMAT(%s, ?) as dateValue', $column, $column), [
                 $keyFormat, $valueFormat,
             ])
             ->groupBy(['dateKey', 'dateValue'])
@@ -92,7 +95,7 @@ trait ExtendsEloquentBuilder
      * @param string $side
      * @param string $boolean
      *
-     * @return \Igniter\Flame\Database\Builder
+     * @return Builder
      */
     public function like($column, $value, $side = 'both', $boolean = 'and')
     {
@@ -164,11 +167,11 @@ trait ExtendsEloquentBuilder
 
         if ($side !== 'none') {
             if ($side === 'before') {
-                $value = "%{$value}";
+                $value = '%'.$value;
             } elseif ($side === 'after') {
-                $value = "{$value}%";
+                $value .= '%';
             } else {
-                $value = "%{$value}%";
+                $value = sprintf('%%%s%%', $value);
             }
         }
 
@@ -185,9 +188,9 @@ trait ExtendsEloquentBuilder
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function paginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page', $total = null): \Illuminate\Pagination\LengthAwarePaginator
+    public function paginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page', $total = null): LengthAwarePaginator
     {
         if (is_array($page)) {
             $_columns = $columns;
@@ -223,7 +226,7 @@ trait ExtendsEloquentBuilder
      *
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    public function simplePaginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page'): \Illuminate\Pagination\Paginator
+    public function simplePaginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page'): Paginator
     {
         if (is_array($page)) {
             $_columns = $columns;

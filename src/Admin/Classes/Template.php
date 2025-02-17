@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Classes;
 
+use Closure;
 use Igniter\Flame\Html\HtmlFacade as Html;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\HtmlString;
@@ -106,7 +107,7 @@ class Template
         return new HtmlString(implode('', $hooks));
     }
 
-    public function registerHook(string $name, \Closure $callback): void
+    public function registerHook(string $name, Closure $callback): void
     {
         $this->renderHooks[$name][] = $callback;
     }

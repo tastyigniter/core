@@ -22,6 +22,7 @@ it('associates and dissociates model correctly', function() {
         }
     };
     $status->save();
+
     $statusHistory = StatusHistory::factory()->create();
     $builder = $status->objects();
     $builder->add($statusHistory);
@@ -69,6 +70,7 @@ it('sets simple value with model instance', function() {
         }
     };
     $status->save();
+
     $statusHistory = StatusHistory::factory()->create();
     $status->objects()->setSimpleValue($statusHistory);
     $status->save();
@@ -91,6 +93,7 @@ it('sets simple value with collection of models', function() {
         }
     };
     $status->save();
+
     $statusHistories = StatusHistory::factory()->count(2)->create();
     $status->objects()->setSimpleValue($statusHistories);
     $status->save();
@@ -113,6 +116,7 @@ it('sets simple value with array of ids', function() {
         }
     };
     $status->save();
+
     $statusHistories = StatusHistory::factory()->count(2)->create();
     $status->objects()->setSimpleValue($statusHistories->pluck('status_id')->all());
     $status->save();

@@ -13,6 +13,7 @@ use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Widgets\MediaManager;
 use Igniter\Tests\Fixtures\Controllers\TestController;
 use Igniter\User\Models\User;
+use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -92,6 +93,7 @@ it('throws exception if action is not found', function() {
 it('processes handler throws exception if widget is not found', function() {
     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
     request()->headers->set('X-IGNITER-REQUEST-HANDLER', 'nonExistentWidget::onAjax');
+
     $controller = resolve(TestController::class);
 
     $this->expectException(FlashException::class);
@@ -103,6 +105,7 @@ it('processes handler throws exception if widget is not found', function() {
 it('processes handler throws exception if widget handler does not exist', function() {
     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
     request()->headers->set('X-IGNITER-REQUEST-HANDLER', 'testWidget::onNonExistentHandler');
+
     $controller = resolve(TestController::class);
     $widget = new class($controller) extends BaseWidget
     {
@@ -119,6 +122,7 @@ it('processes handler throws exception if widget handler does not exist', functi
 it('processes widget handler and returns response', function() {
     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
     request()->headers->set('X-IGNITER-REQUEST-HANDLER', 'testWidget::onHandler');
+
     $controller = resolve(TestController::class);
     $widget = new class($controller) extends BaseWidget
     {
@@ -159,6 +163,7 @@ it('processes specific page handler and returns handler response', function() {
 it('processes widget generic handler and returns handler response', function() {
     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
     request()->headers->set('X-IGNITER-REQUEST-HANDLER', 'onHandler');
+
     $controller = resolve(TestController::class);
     $widget = new class($controller) extends BaseWidget
     {
@@ -179,6 +184,7 @@ it('processes widget generic handler and returns handler response', function() {
 it('returns null when no matching generic handler is found in widgets', function() {
     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
     request()->headers->set('X-IGNITER-REQUEST-HANDLER', 'onNonExistentHandler');
+
     $controller = resolve(TestController::class);
     $widget = new class($controller) extends BaseWidget
     {
@@ -204,6 +210,7 @@ it('processes handler and returns partial response', function() {
 it('processes handler and returns handler redirect response', function() {
     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
     request()->headers->set('X-IGNITER-REQUEST-HANDLER', 'onAjax');
+
     $controller = new class extends AdminController
     {
         public function onAjax(): RedirectResponse
@@ -225,6 +232,7 @@ it('processes handler and returns handler redirect response', function() {
 it('processes handler and returns handler flash message response', function() {
     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
     request()->headers->set('X-IGNITER-REQUEST-HANDLER', 'onAjax');
+
     $controller = new class extends AdminController
     {
         public function onAjax(): string
@@ -249,6 +257,7 @@ it('processes handler and returns handler flash message response', function() {
 it('processes handler and throws validation errors', function() {
     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
     request()->headers->set('X-IGNITER-REQUEST-HANDLER', 'onAjax');
+
     $controller = new class extends AdminController
     {
         public function onAjax(): string
@@ -271,11 +280,12 @@ it('processes handler and throws validation errors', function() {
 it('processes handler and throws mass assignment exception', function() {
     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
     request()->headers->set('X-IGNITER-REQUEST-HANDLER', 'onAjax');
+
     $controller = new class extends AdminController
     {
         public function onAjax(): string
         {
-            throw new \Illuminate\Database\Eloquent\MassAssignmentException('Mass assignment exception');
+            throw new MassAssignmentException('Mass assignment exception');
         }
 
         public function index(): string
@@ -298,7 +308,7 @@ it('remaps action and renders controller action default view', function() {
 
     $response = $controller->remap('test');
 
-    expect($response)->toBeInstanceOf(\Illuminate\Http\Response::class)
+    expect($response)->toBeInstanceOf(Response::class)
         ->and($response->getContent())->toContain('This is a test view content');
 });
 
@@ -313,6 +323,6 @@ it('remaps action and returns response', function() {
 
     $response = $controller->remap('index');
 
-    expect($response)->toBeInstanceOf(\Illuminate\Http\Response::class)
+    expect($response)->toBeInstanceOf(Response::class)
         ->and($response->getContent())->toBe('index content');
 });

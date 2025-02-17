@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Flame\Database\Traits;
 
 use BadMethodCallException;
+use Exception;
 
 /**
  * Sortable model trait
@@ -54,7 +55,7 @@ trait Sortable
      * Sets the sort order of records to the specified orders. If the orders is
      * undefined, the record identifier is used.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setSortableOrder($itemIds, $itemOrders = null): void
     {

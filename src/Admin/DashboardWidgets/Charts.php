@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\DashboardWidgets;
 
+use DateTimeInterface;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Admin\Traits\HasChartDatasets;
 use Igniter\Local\Traits\LocationAwareWidget;
@@ -140,7 +141,7 @@ class Charts extends BaseDashboardWidget
         static::$registeredDatasets = [];
     }
 
-    protected function makeDataset(array $config, \DateTimeInterface $start, \DateTimeInterface $end): array
+    protected function makeDataset(array $config, DateTimeInterface $start, DateTimeInterface $end): array
     {
         $config['label'] = lang(array_pull($config, 'label', ''));
 

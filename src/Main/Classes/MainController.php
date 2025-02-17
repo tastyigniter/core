@@ -312,8 +312,8 @@ class MainController extends Controller
             }
 
             return Response::make($response, $this->statusCode);
-        } catch (ValidationException $ex) {
-            $response['X_IGNITER_ERROR_FIELDS'] = $ex->errors();
+        } catch (ValidationException $validationException) {
+            $response['X_IGNITER_ERROR_FIELDS'] = $validationException->errors();
             $response['X_IGNITER_ERROR_MESSAGE'] = lang('igniter::admin.alert_form_error_message');
 
             throw new AjaxException($response);
@@ -504,7 +504,7 @@ class MainController extends Controller
      * @param string $name The content view to load.
      * @param array $params Parameter variables to pass to the view.
      *
-     * @throws \Igniter\Flame\Exception\FlashException
+     * @throws FlashException
      */
     public function renderContent(string $name, array $params = []): string
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support;
 
+use Exception;
 use Igniter\Flame\Support\Facades\File;
 use InvalidArgumentException;
 
@@ -64,7 +65,7 @@ class LogViewer
     /**
      * @param string $file
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setFile($file): static
     {
@@ -77,7 +78,7 @@ class LogViewer
      * @param string $file
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function pathToLogFile($file)
     {

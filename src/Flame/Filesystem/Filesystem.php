@@ -270,9 +270,11 @@ class Filesystem extends IlluminateFilesystem
                 if ($chmodPath == $basePath) {
                     break;
                 }
+
                 if ($this->isDirectory($basePath)) {
                     break;
                 }
+
                 $chmodPath = $basePath;
             }
         }

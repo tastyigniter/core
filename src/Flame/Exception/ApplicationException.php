@@ -8,12 +8,12 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ApplicationException extends \Exception
+class ApplicationException extends Exception
 {
     /**
      * @param string $message Error message.
      * @param int $code Error code.
-     * @param \Exception|null $previous Previous exception.
+     * @param Exception|null $previous Previous exception.
      */
     public function __construct($message = '', $code = 500, ?Exception $previous = null)
     {

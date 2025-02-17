@@ -6,13 +6,14 @@ namespace Igniter\System\Console\Commands;
 
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;
 
 class ExtensionRemove extends Command
 {
-    use \Illuminate\Console\ConfirmableTrait;
+    use ConfirmableTrait;
 
     /**
      * The console command name.
@@ -54,8 +55,8 @@ class ExtensionRemove extends Command
 
             $extensionManager->deleteExtension($extensionName);
             $this->output->writeln(sprintf('<info>Deleted extension: %s</info>', $extensionName));
-        } catch (Throwable $e) {
-            $this->output->writeln($e->getMessage());
+        } catch (Throwable $throwable) {
+            $this->output->writeln($throwable->getMessage());
         }
     }
 

@@ -55,6 +55,7 @@ class CssRewriteFilter extends BaseCssFilter
                         break;
                     }
                 }
+
                 $path .= ltrim(substr(File::dirname($sourcePath).'/', strlen($targetDir)), '/');
             }
         }

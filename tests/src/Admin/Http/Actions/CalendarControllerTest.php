@@ -7,12 +7,13 @@ namespace Igniter\Tests\Admin\Http\Actions;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Http\Actions\CalendarController;
 use Igniter\Admin\Widgets\Calendar;
+use Igniter\Admin\Widgets\Toolbar;
 
 beforeEach(function() {
     $this->controller = new class extends AdminController
     {
         public array $implement = [
-            \Igniter\Admin\Http\Actions\CalendarController::class,
+            CalendarController::class,
         ];
 
         public $calendarConfig = [
@@ -28,7 +29,7 @@ beforeEach(function() {
             ],
         ];
     };
-    $this->controller->widgets['toolbar'] = new \Igniter\Admin\Widgets\Toolbar($this->controller);
+    $this->controller->widgets['toolbar'] = new Toolbar($this->controller);
     $this->calendarController = new CalendarController($this->controller);
 });
 

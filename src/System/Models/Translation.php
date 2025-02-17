@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Exception;
+use Igniter\Flame\Database\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+
 /**
  * @property int $translation_id
  * @property string $locale
@@ -13,16 +18,16 @@ namespace Igniter\System\Models;
  * @property string $text
  * @property bool $unstable
  * @property bool $locked
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read string $code
- * @method static \Igniter\Flame\Database\Builder<static>|Translation applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Translation applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Translation dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Translation listFrontEnd(array $options = [])
+ * @method static Builder<static>|Translation applyFilters(array $options = [])
+ * @method static Builder<static>|Translation applySorts(array $sorts = [])
+ * @method static Builder<static>|Translation dropdown(string $column, string $key = null)
+ * @method static Builder<static>|Translation listFrontEnd(array $options = [])
  * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
- * @method static \Igniter\Flame\Database\Builder<static>|Translation query()
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @method static Builder<static>|Translation query()
+ * @mixin Model
  */
 class Translation extends \Igniter\Flame\Translation\Models\Translation
 {
@@ -31,7 +36,7 @@ class Translation extends \Igniter\Flame\Translation\Models\Translation
      * When loading translations into the database, locked translations will not be overwritten .
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function updateAndLock($text)
     {

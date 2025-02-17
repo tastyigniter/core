@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support;
 
+use stdClass;
+
 /**
  * Methods that may be useful for processing routing activity
  *
@@ -76,7 +78,7 @@ class RouterHelper
     /**
      * Replaces :column_name with it's object value. Example: /some/link/:id/:name -> /some/link/1/Joe
      *
-     * @param array|\stdClass $object Object containing the data
+     * @param array|stdClass $object Object containing the data
      * @param array $columns Expected key names to parse
      * @param string $string URL template
      * @return string Built string
@@ -105,7 +107,7 @@ class RouterHelper
     /**
      * Replaces :column_name with object value without requiring a list of names. Example: /some/link/:id/:name -> /some/link/1/Joe
      *
-     * @param \stdClass $object Object containing the data
+     * @param stdClass $object Object containing the data
      * @param string $string URL template
      * @return string Built string
      */
@@ -237,8 +239,9 @@ class RouterHelper
 
     public static function convertToRouteProperties(array $pageInfo): array
     {
-        $segments = $constraints = $defaults = [];
-
+        $segments = [];
+        $constraints = [];
+        $defaults = [];
         foreach (static::segmentizeUrl($pageInfo['pattern']) as $segment) {
             if (str_starts_with($segment, ':')) {
                 $name = static::getParameterName($segment);

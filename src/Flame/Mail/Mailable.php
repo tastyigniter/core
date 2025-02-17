@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Mail;
 
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable as MailableBase;
+use Illuminate\Mail\Message;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
 
 /**
@@ -14,8 +17,8 @@ use Illuminate\Support\Facades\App;
  */
 class Mailable extends MailableBase
 {
-    use \Illuminate\Bus\Queueable;
-    use \Illuminate\Queue\SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public function build(): self
     {
@@ -55,7 +58,7 @@ class Mailable extends MailableBase
     /**
      * Set the subject for the message.
      *
-     * @param \Illuminate\Mail\Message $message
+     * @param Message $message
      * @return $this
      */
     protected function buildSubject($message): self

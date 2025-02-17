@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\System\Classes;
 
 use Composer\Autoload\ClassLoader;
+use Exception;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Support\Facades\File;
@@ -196,13 +197,13 @@ it('restores composer files on exception in install', function() {
     File::shouldReceive('isFile')->with(base_path('composer.json'))->andReturnTrue();
     File::shouldReceive('isFile')->with(base_path('composer.lock'))->andReturnTrue();
     File::shouldReceive('copy')->with(base_path('composer.lock'), '/storage/backups/composer.lock');
-    $composer->shouldReceive('requirePackages')->andThrow(new \Exception('Error'));
+    $composer->shouldReceive('requirePackages')->andThrow(new Exception('Error'));
     File::shouldReceive('copy')->with('/storage/backups/composer.json', base_path('composer.json'));
     File::shouldReceive('isFile')->with('/storage/backups/composer.lock')->andReturnTrue();
     File::shouldReceive('copy')->with('/storage/backups/composer.lock', base_path('composer.lock'));
 
     $manager = new Manager(base_path(), '/storage', $composer);
-    expect(fn() => $manager->install($requirements, $output))->toThrow(\Exception::class);
+    expect(fn() => $manager->install($requirements, $output))->toThrow(Exception::class);
 });
 
 it('uninstalls packages correctly', function() {
@@ -230,13 +231,13 @@ it('restores composer files on exception in uninstall', function() {
     File::shouldReceive('isFile')->with(base_path('composer.json'))->andReturnTrue();
     File::shouldReceive('isFile')->with(base_path('composer.lock'))->andReturnTrue();
     File::shouldReceive('copy')->with(base_path('composer.lock'), '/storage/backups/composer.lock');
-    $composer->shouldReceive('removePackages')->andThrow(new \Exception('Error'));
+    $composer->shouldReceive('removePackages')->andThrow(new Exception('Error'));
     File::shouldReceive('copy')->with('/storage/backups/composer.json', base_path('composer.json'));
     File::shouldReceive('isFile')->with('/storage/backups/composer.lock')->andReturnTrue();
     File::shouldReceive('copy')->with('/storage/backups/composer.lock', base_path('composer.lock'));
 
     $manager = new Manager(base_path(), '/storage', $composer);
-    expect(fn() => $manager->uninstall($packages, $output))->toThrow(\Exception::class);
+    expect(fn() => $manager->uninstall($packages, $output))->toThrow(Exception::class);
 });
 
 it('adds auth credentials to config', function() {

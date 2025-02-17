@@ -8,6 +8,10 @@ use Igniter\Flame\Assetic\Asset\AssetInterface;
 use Igniter\Flame\Assetic\Factory\AssetFactory;
 use Igniter\Flame\Assetic\Util\CssUtils;
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Formatter\Compressed;
+use ScssPhp\ScssPhp\Formatter\Crunched;
+use ScssPhp\ScssPhp\Formatter\Expanded;
+use ScssPhp\ScssPhp\Formatter\Nested;
 
 /**
  * Loads SCSS files using the PHP implementation of scss, scssphp.
@@ -31,10 +35,10 @@ class ScssphpFilter implements DependencyExtractorInterface
     public function setFormatter($formatter): void
     {
         $legacyFormatters = [
-            'scss_formatter' => \ScssPhp\ScssPhp\Formatter\Expanded::class,
-            'scss_formatter_nested' => \ScssPhp\ScssPhp\Formatter\Nested::class,
-            'scss_formatter_compressed' => \ScssPhp\ScssPhp\Formatter\Compressed::class,
-            'scss_formatter_crunched' => \ScssPhp\ScssPhp\Formatter\Crunched::class,
+            'scss_formatter' => Expanded::class,
+            'scss_formatter_nested' => Nested::class,
+            'scss_formatter_compressed' => Compressed::class,
+            'scss_formatter_crunched' => Crunched::class,
         ];
 
         if (isset($legacyFormatters[$formatter])) {

@@ -11,6 +11,7 @@ use Igniter\System\Classes\ComponentManager;
 use Illuminate\Support\Collection;
 use Livewire\Component as LivewireComponent;
 use Livewire\Livewire;
+use LogicException;
 
 trait ConfigurableComponent
 {
@@ -20,7 +21,7 @@ trait ConfigurableComponent
 
     public static function componentMeta(): array
     {
-        throw new \LogicException('Method componentMeta() must be implemented in the extended class: '.static::class);
+        throw new LogicException('Method componentMeta() must be implemented in the extended class: '.static::class);
     }
 
     /**

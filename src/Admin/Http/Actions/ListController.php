@@ -42,7 +42,7 @@ class ListController extends ControllerAction
     public array $listConfig;
 
     /**
-     * @var \Igniter\Admin\Widgets\Lists[] Reference to the list widget objects
+     * @var Lists[] Reference to the list widget objects
      */
     protected array $listWidgets = [];
 
@@ -214,7 +214,7 @@ class ListController extends ControllerAction
         // Prep the optional filter widget
         if (array_get($modelConfig, 'filter')) {
             $filterConfig = $modelConfig['filter'];
-            $filterConfig['alias'] = "{$widget->alias}_filter";
+            $filterConfig['alias'] = $widget->alias.'_filter';
             $filterWidget = $this->makeWidget(Filter::class, $filterConfig);
             $filterWidget->bindToController();
 

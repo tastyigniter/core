@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Traits;
 
+use Exception;
 use LogicException;
 
 /**
@@ -28,7 +29,7 @@ trait Purgeable
 
     /**
      * Boot the purgeable trait for a model.
-     * @throws \Exception
+     * @throws Exception
      */
     public static function bootPurgeable(): void
     {

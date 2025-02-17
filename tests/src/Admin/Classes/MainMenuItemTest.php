@@ -158,5 +158,6 @@ it('sets config correctly', function() {
 it('merges config correctly', function() {
     $this->mainMenuItem->config(['icon' => 'test-icon']);
     $this->mainMenuItem->mergeConfig(['anchor' => 'testAnchor']);
+
     expect($this->mainMenuItem->config)->toBe(['icon' => 'test-icon', 'anchor' => 'testAnchor']);
 });

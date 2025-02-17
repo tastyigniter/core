@@ -6,8 +6,9 @@ namespace Igniter\Flame\Geolite;
 
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\VertexInterface;
+use Igniter\Flame\Geolite\Model\Coordinates;
 
-class Vertex implements Contracts\VertexInterface
+class Vertex implements VertexInterface
 {
     /**
      * The origin coordinate.
@@ -37,7 +38,7 @@ class Vertex implements Contracts\VertexInterface
         'N',
     ];
 
-    public function setFrom(Contracts\CoordinatesInterface $from): VertexInterface
+    public function setFrom(CoordinatesInterface $from): VertexInterface
     {
         $this->from = $from;
 
@@ -61,7 +62,7 @@ class Vertex implements Contracts\VertexInterface
         return $this->from;
     }
 
-    public function setTo(Contracts\CoordinatesInterface $to): self
+    public function setTo(CoordinatesInterface $to): self
     {
         $this->to = $to;
 
@@ -176,14 +177,14 @@ class Vertex implements Contracts\VertexInterface
         $lat3 = rad2deg(atan2(sin($latA) + sin($latB), sqrt((cos($latA) + $bx) * (cos($latA) + $bx) + $by * $by)));
         $lng3 = rad2deg($lngA + atan2($by, cos($latA) + $bx));
 
-        return new Model\Coordinates($lat3, $lng3);
+        return new Coordinates($lat3, $lng3);
     }
 
     /**
      * Returns the destination point with a given bearing in degrees travelling along a
      * (shortest distance) great circle arc and a distance in meters.
      */
-    public function destination(int $bearing, int $distance): Model\Coordinates
+    public function destination(int $bearing, int $distance): Coordinates
     {
         $lat = deg2rad($this->from->getLatitude());
         $lng = deg2rad($this->from->getLongitude());
@@ -195,7 +196,7 @@ class Vertex implements Contracts\VertexInterface
         $endLon = $lng + atan2(sin($bearing) * sin($distance / $this->from->getEllipsoid()->getA()) * cos($lat),
             cos($distance / $this->from->getEllipsoid()->getA()) - sin($lat) * sin($endLat));
 
-        return new Model\Coordinates(rad2deg($endLat), rad2deg($endLon));
+        return new Coordinates(rad2deg($endLat), rad2deg($endLon));
     }
 
     /**
@@ -226,7 +227,7 @@ class Vertex implements Contracts\VertexInterface
     /**
      * Returns the other coordinate who is not the coordinate passed on argument
      */
-    public function getOtherCoordinate(Contracts\CoordinatesInterface $coordinate): ?CoordinatesInterface
+    public function getOtherCoordinate(CoordinatesInterface $coordinate): ?CoordinatesInterface
     {
         if ($coordinate->isEqual($this->from)) {
             return $this->to;

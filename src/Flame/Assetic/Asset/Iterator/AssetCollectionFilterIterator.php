@@ -14,7 +14,7 @@ use RecursiveFilterIterator;
  *
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  */
-class AssetCollectionFilterIterator extends \RecursiveFilterIterator
+class AssetCollectionFilterIterator extends RecursiveFilterIterator
 {
     /**
      * Constructor.

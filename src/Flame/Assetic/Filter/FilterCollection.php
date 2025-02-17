@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Filter;
 
+use ArrayIterator;
+use Countable;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
+use IteratorAggregate;
 use Traversable;
 
 /**
@@ -21,7 +24,7 @@ use Traversable;
  *
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  */
-class FilterCollection implements \Countable, \IteratorAggregate, FilterInterface
+class FilterCollection implements Countable, FilterInterface, IteratorAggregate
 {
     private array $filters = [];
 
@@ -40,7 +43,7 @@ class FilterCollection implements \Countable, \IteratorAggregate, FilterInterfac
      */
     public function ensure(FilterInterface $filter): void
     {
-        if ($filter instanceof \Traversable) {
+        if ($filter instanceof Traversable) {
             foreach ($filter as $f) {
                 $this->ensure($f);
             }
@@ -75,7 +78,7 @@ class FilterCollection implements \Countable, \IteratorAggregate, FilterInterfac
 
     public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->filters);
+        return new ArrayIterator($this->filters);
     }
 
     public function count(): int

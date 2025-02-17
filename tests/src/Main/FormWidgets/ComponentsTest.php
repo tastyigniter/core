@@ -19,6 +19,7 @@ beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('components', 'Components');
     $this->formField->displayAs('components');
+
     $this->formField->arrayName = 'theme';
     $this->componentsWidget = new Components($this->controller, $this->formField, [
         'model' => Theme::factory()->make(['code' => 'tests-theme']),
@@ -274,6 +275,7 @@ it('removes component successfully', function() {
     $template->shouldReceive('setRawAttributes');
     $template->shouldReceive('setAttribute');
     $template->shouldReceive('save');
+
     $template->settings = ['components' => ['testComponent' => []]];
 
     expect($this->componentsWidget->onRemoveComponent())->toBeArray()

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Translation;
 
+use Igniter\Flame\Translation\Contracts\Driver;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Translation\FileLoader as FileLoaderBase;
 
 class FileLoader extends FileLoaderBase
@@ -35,7 +37,7 @@ class FileLoader extends FileLoaderBase
     {
         return collect($this->drivers)->map(function($className) {
             return app($className);
-        })->mapWithKeys(function(Contracts\Driver $driver) use ($locale, $group, $namespace) {
+        })->mapWithKeys(function(Driver $driver) use ($locale, $group, $namespace) {
             return $driver->load($locale, $group, $namespace);
         })->toArray();
     }
@@ -53,7 +55,7 @@ class FileLoader extends FileLoaderBase
      * @param string $namespace
      *
      * @return array
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
     {
@@ -67,12 +69,12 @@ class FileLoader extends FileLoaderBase
                 $hyphenNamespace = str_replace('.', '-', $namespace);
 
                 foreach ([
-                    "$path/vendor/$slashNamespace/$locale/$group.php",
-                    "$path/vendor/$hyphenNamespace/$locale/$group.php",
-                    "$path/$locale/$slashNamespace/$group.php",
-                    "$path/$locale/$hyphenNamespace/$group.php",
-                    "$path/bundles/$locale/$slashNamespace/$group.php",
-                    "$path/bundles/$locale/$hyphenNamespace/$group.php",
+                    sprintf('%s/vendor/%s/%s/%s.php', $path, $slashNamespace, $locale, $group),
+                    sprintf('%s/vendor/%s/%s/%s.php', $path, $hyphenNamespace, $locale, $group),
+                    sprintf('%s/%s/%s/%s.php', $path, $locale, $slashNamespace, $group),
+                    sprintf('%s/%s/%s/%s.php', $path, $locale, $hyphenNamespace, $group),
+                    sprintf('%s/bundles/%s/%s/%s.php', $path, $locale, $slashNamespace, $group),
+                    sprintf('%s/bundles/%s/%s/%s.php', $path, $locale, $hyphenNamespace, $group),
                 ] as $file) {
                     if ($this->files->exists($file)) {
                         return array_replace_recursive($lines, $this->files->getRequire($file));

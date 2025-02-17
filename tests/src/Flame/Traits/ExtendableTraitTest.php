@@ -52,6 +52,7 @@ it('adds dynamic method and calls it', function() {
     };
     $class->extendClassWith(TestControllerAction::class);
     $class->addDynamicMethod('dynamicMethod', 'testFunction', TestControllerAction::class);
+
     expect($class->extendableCall('dynamicMethod'))->toBe('result');
 });
 

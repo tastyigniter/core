@@ -57,6 +57,7 @@ it('opens form with route option', function() {
 it('closes form and resets state', function() {
     $formBuilder = new FormBuilder(new HtmlBuilder, url(), view(), 'csrfToken');
     $formBuilder->open(['files' => true, 'route' => 'igniter.admin.dashboard']);
+
     $form = $formBuilder->close();
     expect($form)->toBeInstanceOf(HtmlString::class)
         ->and((string)$form)->toBe('</form>');
@@ -75,6 +76,7 @@ it('creates input field with given type, name, and value', function() {
     session()->put('_old_input', ['username' => 'OldUsername']);
     $formBuilder = new FormBuilder(new HtmlBuilder, url(), view(), 'csrfToken');
     $formBuilder->setSessionStore(session()->driver());
+
     $inputField = $formBuilder->input('text', 'username', 'JohnDoe', ['selected', 'disabled' => true]);
     expect($inputField)->toBeInstanceOf(HtmlString::class)
         ->and((string)$inputField)->toBe('<input selected disabled name="username" type="text" value="OldUsername">');
@@ -130,5 +132,5 @@ it('calls macro method if it exists', function() {
 it('throws exception if method does not exist', function() {
     $formBuilder = new FormBuilder(new HtmlBuilder, url(), view(), 'csrfToken');
     expect(fn() => $formBuilder->nonExistentMethod())
-        ->toThrow(BadMethodCallException::class, 'Method Igniter\Flame\Html\FormBuilder::nonExistentMethod does not exist.');
+        ->toThrow(BadMethodCallException::class, 'Method '.FormBuilder::class.'::nonExistentMethod does not exist.');
 });

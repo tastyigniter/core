@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Converters;
 
+use Closure;
+use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Cache;
 
 abstract class AbstractConverter
@@ -68,7 +70,7 @@ abstract class AbstractConverter
         return config('currency.ratesCacheDuration', 0);
     }
 
-    protected function cacheCallback(string $cacheKey, \Closure $closure): mixed
+    protected function cacheCallback(string $cacheKey, Closure $closure): mixed
     {
         if (($lifetime = $this->getCacheLifetime()) === 0) {
             return $closure();
@@ -79,7 +81,7 @@ abstract class AbstractConverter
         return $this->getCacheDriver()->remember($cacheKey, $lifetime, $closure);
     }
 
-    protected function getCacheDriver(): \Illuminate\Contracts\Cache\Repository
+    protected function getCacheDriver(): Repository
     {
         return Cache::driver(config('currency.cache_driver'));
     }

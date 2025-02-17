@@ -4,9 +4,30 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Providers;
 
+use Igniter\Admin\BulkActionWidgets\Delete;
+use Igniter\Admin\BulkActionWidgets\Status;
 use Igniter\Admin\Classes\OnboardingSteps;
 use Igniter\Admin\Classes\Widgets;
+use Igniter\Admin\DashboardWidgets\Charts;
+use Igniter\Admin\DashboardWidgets\Onboarding;
+use Igniter\Admin\DashboardWidgets\Statistics;
+use Igniter\Admin\FormWidgets\CodeEditor;
+use Igniter\Admin\FormWidgets\ColorPicker;
+use Igniter\Admin\FormWidgets\Connector;
+use Igniter\Admin\FormWidgets\DataTable;
+use Igniter\Admin\FormWidgets\DatePicker;
+use Igniter\Admin\FormWidgets\MarkdownEditor;
+use Igniter\Admin\FormWidgets\RecordEditor;
+use Igniter\Admin\FormWidgets\Relation;
+use Igniter\Admin\FormWidgets\Repeater;
+use Igniter\Admin\FormWidgets\RichEditor;
+use Igniter\Admin\FormWidgets\StatusEditor;
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\Main\Models\Theme;
+use Igniter\System\DashboardWidgets\Cache;
+use Igniter\System\DashboardWidgets\News;
+use Igniter\System\Models\Extension;
+use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
 
 class FormServiceProvider extends ServiceProvider
@@ -27,27 +48,27 @@ class FormServiceProvider extends ServiceProvider
     protected function registerDashboardWidgets()
     {
         resolve(Widgets::class)->registerDashboardWidgets(function(Widgets $manager) {
-            $manager->registerDashboardWidget(\Igniter\System\DashboardWidgets\Cache::class, [
+            $manager->registerDashboardWidget(Cache::class, [
                 'code' => 'cache',
                 'label' => 'Cache Usage',
             ]);
 
-            $manager->registerDashboardWidget(\Igniter\System\DashboardWidgets\News::class, [
+            $manager->registerDashboardWidget(News::class, [
                 'code' => 'news',
                 'label' => 'Latest News',
             ]);
 
-            $manager->registerDashboardWidget(\Igniter\Admin\DashboardWidgets\Statistics::class, [
+            $manager->registerDashboardWidget(Statistics::class, [
                 'code' => 'stats',
                 'label' => 'Statistics widget',
             ]);
 
-            $manager->registerDashboardWidget(\Igniter\Admin\DashboardWidgets\Onboarding::class, [
+            $manager->registerDashboardWidget(Onboarding::class, [
                 'code' => 'onboarding',
                 'label' => 'Onboarding widget',
             ]);
 
-            $manager->registerDashboardWidget(\Igniter\Admin\DashboardWidgets\Charts::class, [
+            $manager->registerDashboardWidget(Charts::class, [
                 'code' => 'charts',
                 'label' => 'Charts widget',
             ]);
@@ -57,11 +78,11 @@ class FormServiceProvider extends ServiceProvider
     protected function registerBulkActionWidgets()
     {
         resolve(Widgets::class)->registerBulkActionWidgets(function(Widgets $manager) {
-            $manager->registerBulkActionWidget(\Igniter\Admin\BulkActionWidgets\Status::class, [
+            $manager->registerBulkActionWidget(Status::class, [
                 'code' => 'status',
             ]);
 
-            $manager->registerBulkActionWidget(\Igniter\Admin\BulkActionWidgets\Delete::class, [
+            $manager->registerBulkActionWidget(Delete::class, [
                 'code' => 'delete',
             ]);
         });
@@ -73,57 +94,57 @@ class FormServiceProvider extends ServiceProvider
     protected function registerFormWidgets()
     {
         resolve(Widgets::class)->registerFormWidgets(function(Widgets $manager) {
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\CodeEditor::class, [
+            $manager->registerFormWidget(CodeEditor::class, [
                 'label' => 'Code editor',
                 'code' => 'codeeditor',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\ColorPicker::class, [
+            $manager->registerFormWidget(ColorPicker::class, [
                 'label' => 'Color picker',
                 'code' => 'colorpicker',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\Connector::class, [
+            $manager->registerFormWidget(Connector::class, [
                 'label' => 'Connector',
                 'code' => 'connector',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\DataTable::class, [
+            $manager->registerFormWidget(DataTable::class, [
                 'label' => 'Data Table',
                 'code' => 'datatable',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\DatePicker::class, [
+            $manager->registerFormWidget(DatePicker::class, [
                 'label' => 'Date picker',
                 'code' => 'datepicker',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\MarkdownEditor::class, [
+            $manager->registerFormWidget(MarkdownEditor::class, [
                 'label' => 'Markdown Editor',
                 'code' => 'markdowneditor',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\RecordEditor::class, [
+            $manager->registerFormWidget(RecordEditor::class, [
                 'label' => 'Record Editor',
                 'code' => 'recordeditor',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\Relation::class, [
+            $manager->registerFormWidget(Relation::class, [
                 'label' => 'Relationship',
                 'code' => 'relation',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\Repeater::class, [
+            $manager->registerFormWidget(Repeater::class, [
                 'label' => 'Repeater',
                 'code' => 'repeater',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\RichEditor::class, [
+            $manager->registerFormWidget(RichEditor::class, [
                 'label' => 'Rich editor',
                 'code' => 'richeditor',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Admin\FormWidgets\StatusEditor::class, [
+            $manager->registerFormWidget(StatusEditor::class, [
                 'label' => 'Status Editor',
                 'code' => 'statuseditor',
             ]);
@@ -140,7 +161,7 @@ class FormServiceProvider extends ServiceProvider
                     'icon' => 'fa-gears',
                     'url' => admin_url('settings'),
                     'priority' => 10,
-                    'complete' => [\Igniter\System\Models\Settings::class, 'onboardingIsComplete'],
+                    'complete' => [Settings::class, 'onboardingIsComplete'],
                 ],
                 'admin::themes' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_themes',
@@ -148,7 +169,7 @@ class FormServiceProvider extends ServiceProvider
                     'icon' => 'fa-paint-brush',
                     'url' => admin_url('themes'),
                     'priority' => 20,
-                    'complete' => [\Igniter\Main\Models\Theme::class, 'onboardingIsComplete'],
+                    'complete' => [Theme::class, 'onboardingIsComplete'],
                 ],
                 'admin::extensions' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_extensions',
@@ -156,7 +177,7 @@ class FormServiceProvider extends ServiceProvider
                     'icon' => 'fa-plug',
                     'url' => admin_url('extensions'),
                     'priority' => 30,
-                    'complete' => [\Igniter\System\Models\Extension::class, 'onboardingIsComplete'],
+                    'complete' => [Extension::class, 'onboardingIsComplete'],
                 ],
                 'admin::menus' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_menus',

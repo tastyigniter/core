@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Template\Extension;
 
+use Igniter\System\Facades\Assets;
 use Illuminate\Support\Facades\Blade;
 
 class BladeExtension
@@ -36,14 +37,12 @@ class BladeExtension
 
     public function compilesThemeStyles(string $expression): string
     {
-        return "<?php echo \Igniter\System\Facades\Assets::getCss(); ?>\n".
-            "<?php echo \$__env->yieldPushContent('styles'); ?>";
+        return sprintf("<?php echo \\%s::getCss(); ?>\n<?php echo \$__env->yieldPushContent('styles'); ?>", Assets::class);
     }
 
     public function compilesThemeScripts(string $expression): string
     {
-        return "<?php echo \Igniter\System\Facades\Assets::getJs(); ?>\n".
-            "<?php echo \$__env->yieldPushContent('scripts'); ?>";
+        return sprintf("<?php echo \\%s::getJs(); ?>\n<?php echo \$__env->yieldPushContent('scripts'); ?>", Assets::class);
     }
 
     //
@@ -57,61 +56,61 @@ class BladeExtension
 
     public function compilesThemeContent(string $expression): string
     {
-        return "<?php echo controller()->renderContent({$expression}); ?>";
+        return sprintf('<?php echo controller()->renderContent(%s); ?>', $expression);
     }
 
     public function compilesThemeComponent(string $expression): string
     {
-        return "<?php echo controller()->renderComponent({$expression}); ?>";
+        return sprintf('<?php echo controller()->renderComponent(%s); ?>', $expression);
     }
 
     public function compilesThemeComponentIf(string $expression): string
     {
-        return "<?php if (controller()->hasComponent({$expression})) echo controller()->renderComponent({$expression}); ?>";
+        return sprintf('<?php if (controller()->hasComponent(%s)) echo controller()->renderComponent(%s); ?>', $expression, $expression);
     }
 
     public function compilesThemeComponentWhen(string $expression): string
     {
-        return "<?php echo controller()->renderComponentWhen($expression); ?>";
+        return sprintf('<?php echo controller()->renderComponentWhen(%s); ?>', $expression);
     }
 
     public function compilesThemeComponentUnless(string $expression): string
     {
-        return "<?php echo controller()->renderComponentUnless($expression); ?>";
+        return sprintf('<?php echo controller()->renderComponentUnless(%s); ?>', $expression);
     }
 
     public function compilesThemeComponentFirst(string $expression): string
     {
-        return "<?php echo controller()->renderComponentFirst($expression); ?>";
+        return sprintf('<?php echo controller()->renderComponentFirst(%s); ?>', $expression);
     }
 
     public function compilesThemePartial(string $expression): string
     {
-        return "<?php echo controller()->renderPartial($expression); ?>";
+        return sprintf('<?php echo controller()->renderPartial(%s); ?>', $expression);
     }
 
     public function compilesThemePartialIf(string $expression): string
     {
-        return "<?php if (controller()->hasPartial($expression)) echo controller()->renderPartial($expression); ?>";
+        return sprintf('<?php if (controller()->hasPartial(%s)) echo controller()->renderPartial(%s); ?>', $expression, $expression);
     }
 
     public function compilesThemePartialWhen(string $expression): string
     {
-        return "<?php echo controller()->renderPartialWhen($expression); ?>";
+        return sprintf('<?php echo controller()->renderPartialWhen(%s); ?>', $expression);
     }
 
     public function compilesThemePartialUnless(string $expression): string
     {
-        return "<?php echo controller()->renderPartialUnless($expression); ?>";
+        return sprintf('<?php echo controller()->renderPartialUnless(%s); ?>', $expression);
     }
 
     public function compilesThemePartialFirst(string $expression): string
     {
-        return "<?php echo controller()->renderPartialFirst($expression); ?>";
+        return sprintf('<?php echo controller()->renderPartialFirst(%s); ?>', $expression);
     }
 
     public function compilesThemePartialEach(string $expression): string
     {
-        return "<?php echo controller()->renderPartialEach($expression); ?>";
+        return sprintf('<?php echo controller()->renderPartialEach(%s); ?>', $expression);
     }
 }

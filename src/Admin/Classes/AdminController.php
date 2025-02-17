@@ -6,13 +6,24 @@ namespace Igniter\Admin\Classes;
 
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Helpers\AdminHelper;
+use Igniter\Admin\Traits\ControllerHelpers;
+use Igniter\Admin\Traits\ControllerUtils;
+use Igniter\Admin\Traits\ValidatesForm;
+use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Admin\Widgets\Menu;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Exception\AjaxException;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Flash\Facades\Flash;
+use Igniter\Flame\Traits\EventEmitter;
+use Igniter\Flame\Traits\ExtendableTrait;
 use Igniter\Main\Widgets\MediaManager;
+use Igniter\System\Traits\AssetMaker;
+use Igniter\System\Traits\ConfigMaker;
+use Igniter\System\Traits\SessionMaker;
+use Igniter\System\Traits\ViewMaker;
 use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Traits\HasAuthentication;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
@@ -20,20 +31,20 @@ use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
-    use \Igniter\Admin\Traits\ControllerHelpers;
-    use \Igniter\Admin\Traits\ControllerUtils;
-    use \Igniter\Admin\Traits\ValidatesForm;
-    use \Igniter\Admin\Traits\WidgetMaker;
-    use \Igniter\Flame\Traits\EventEmitter;
-    use \Igniter\Flame\Traits\ExtendableTrait;
-    use \Igniter\System\Traits\AssetMaker;
-    use \Igniter\System\Traits\ConfigMaker;
-    use \Igniter\System\Traits\SessionMaker;
-    use \Igniter\System\Traits\ViewMaker;
-    use \Igniter\User\Traits\HasAuthentication;
+    use AssetMaker;
+    use ConfigMaker;
+    use ControllerHelpers;
+    use ControllerUtils;
+    use EventEmitter;
+    use ExtendableTrait;
+    use HasAuthentication;
+    use SessionMaker;
+    use ValidatesForm;
+    use ViewMaker;
+    use WidgetMaker;
 
     /**
-     * @var \Igniter\Admin\Classes\BaseWidget[] A list of BaseWidget objects used on this page
+     * @var BaseWidget[] A list of BaseWidget objects used on this page
      */
     public array $widgets = [];
 

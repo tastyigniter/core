@@ -7,6 +7,7 @@ namespace Igniter\Flame\Database\Relations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Arr;
 
 /**
@@ -129,7 +130,7 @@ class MorphToMany extends BelongsToMany
      * Add the constraints for a relationship count query.
      *
      * @param array|mixed $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
@@ -153,7 +154,7 @@ class MorphToMany extends BelongsToMany
      * Create a new pivot model instance.
      *
      * @param bool $exists
-     * @return \Illuminate\Database\Eloquent\Relations\Pivot
+     * @return Pivot
      */
     public function newPivot(array $attributes = [], $exists = false)
     {

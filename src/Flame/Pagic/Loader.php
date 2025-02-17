@@ -143,7 +143,7 @@ class Loader implements TemplateLoader
             return true;
         }
 
-        if ($fallbackObj = $this->findFallbackObject($name)) {
+        if (($fallbackObj = $this->findFallbackObject($name)) instanceof PartialTemplate) {
             $this->source = $fallbackObj;
 
             return true;
@@ -155,10 +155,10 @@ class Loader implements TemplateLoader
     /**
      * Looks up a fallback partial object.
      */
-    protected function findFallbackObject(string $name): PartialTemplate|bool|null
+    protected function findFallbackObject(string $name): ?PartialTemplate
     {
         if (str_contains($name, '::')) {
-            return false;
+            return null;
         }
 
         if (array_key_exists($name, $this->fallbackCache)) {

@@ -107,7 +107,7 @@ class FileParser
         }
 
         $fileContents = '<?php '.PHP_EOL;
-        $fileContents .= "/* {$this->object->getFilePath()} */".PHP_EOL;
+        $fileContents .= sprintf('/* %s */', $this->object->getFilePath()).PHP_EOL;
 
         foreach ($imports[0] as $namespace) {
             $fileContents .= $namespace;

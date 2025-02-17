@@ -48,7 +48,7 @@ class MediaLibrary
         $cached = $cached ? @unserialize(@base64_decode($cached)) : [];
 
         $cacheSuffix = $recursive ? 'recursive' : 'single';
-        $cachedKey = "$cacheSuffix.$methodName.$path";
+        $cachedKey = sprintf('%s.%s.%s', $cacheSuffix, $methodName, $path);
 
         if (array_has((array)$cached, $cachedKey)) {
             $folderContents = array_get((array)$cached, $cachedKey);
@@ -316,6 +316,7 @@ class MediaLibrary
                         $result[] = $libraryItem;
                     }
                 }
+
                 break;
             case 'directories':
                 $result = $this->getStorageDisk()->directories($this->getMediaPath($path), $recursive);

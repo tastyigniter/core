@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Attach;
 
+use Closure;
 use Igniter\Flame\Database\Attach\Events\MediaTagCleared as MediaTagClearedEvent;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection as BaseCollection;
+use RuntimeException;
 
 trait HasMedia
 {
@@ -120,7 +122,7 @@ trait HasMedia
     public function findMedia(int|string $mediaId): Media
     {
         if (!$media = $this->media->find($mediaId)) {
-            throw new \RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 "Media with id '%s' cannot be deleted because it does not exist or does not belong to model %s with id %s",
                 $mediaId, get_class($this), $this->getKey(),
             ));
@@ -225,7 +227,7 @@ trait HasMedia
     /**
      * Convert the given array to a filter closure.
      */
-    protected function buildMediaPropertiesFilter(array $filters): \Closure
+    protected function buildMediaPropertiesFilter(array $filters): Closure
     {
         return function(Media $media) use ($filters): bool {
             foreach ($filters as $property => $value) {

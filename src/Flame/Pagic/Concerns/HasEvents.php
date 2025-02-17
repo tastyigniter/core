@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic\Concerns;
 
+use Closure;
 use Illuminate\Contracts\Events\Dispatcher;
 
 trait HasEvents
@@ -91,12 +92,12 @@ trait HasEvents
     /**
      * Register a model event with the dispatcher.
      */
-    protected static function registerModelEvent(string $event, string|\Closure $callback)
+    protected static function registerModelEvent(string $event, string|Closure $callback)
     {
         if (isset(static::$dispatcher)) {
             $name = static::class;
 
-            static::$dispatcher->listen("pagic.$event: $name", $callback);
+            static::$dispatcher->listen(sprintf('pagic.%s: %s', $event, $name), $callback);
         }
     }
 
@@ -158,13 +159,13 @@ trait HasEvents
         // returns a result we can return that result, or we'll call the string events.
         $method = $halt ? 'until' : 'dispatch';
 
-        return static::$dispatcher->{$method}("pagic.$event: ".static::class, $this);
+        return static::$dispatcher->{$method}(sprintf('pagic.%s: ', $event).static::class, $this);
     }
 
     /**
      * Create a new native event for handling beforeFetch().
      */
-    public static function retrieving(string|\Closure $callback): void
+    public static function retrieving(string|Closure $callback): void
     {
         static::registerModelEvent('retrieving', $callback);
     }
@@ -172,7 +173,7 @@ trait HasEvents
     /**
      * Register a retrieved model event with the dispatcher.
      */
-    public static function retrieved(string|\Closure $callback): void
+    public static function retrieved(string|Closure $callback): void
     {
         static::registerModelEvent('retrieved', $callback);
     }
@@ -180,7 +181,7 @@ trait HasEvents
     /**
      * Register a saving model event with the dispatcher.
      */
-    public static function saving(string|\Closure $callback): void
+    public static function saving(string|Closure $callback): void
     {
         static::registerModelEvent('saving', $callback);
     }
@@ -188,7 +189,7 @@ trait HasEvents
     /**
      * Register a saved model event with the dispatcher.
      */
-    public static function saved(string|\Closure $callback): void
+    public static function saved(string|Closure $callback): void
     {
         static::registerModelEvent('saved', $callback);
     }
@@ -196,7 +197,7 @@ trait HasEvents
     /**
      * Register an updating model event with the dispatcher.
      */
-    public static function updating(string|\Closure $callback): void
+    public static function updating(string|Closure $callback): void
     {
         static::registerModelEvent('updating', $callback);
     }
@@ -204,7 +205,7 @@ trait HasEvents
     /**
      * Register an updated model event with the dispatcher.
      */
-    public static function updated(string|\Closure $callback): void
+    public static function updated(string|Closure $callback): void
     {
         static::registerModelEvent('updated', $callback);
     }
@@ -212,7 +213,7 @@ trait HasEvents
     /**
      * Register a creating model event with the dispatcher.
      */
-    public static function creating(string|\Closure $callback): void
+    public static function creating(string|Closure $callback): void
     {
         static::registerModelEvent('creating', $callback);
     }
@@ -220,7 +221,7 @@ trait HasEvents
     /**
      * Register a created model event with the dispatcher.
      */
-    public static function created(string|\Closure $callback): void
+    public static function created(string|Closure $callback): void
     {
         static::registerModelEvent('created', $callback);
     }
@@ -228,7 +229,7 @@ trait HasEvents
     /**
      * Register a deleting model event with the dispatcher.
      */
-    public static function deleting(string|\Closure $callback): void
+    public static function deleting(string|Closure $callback): void
     {
         static::registerModelEvent('deleting', $callback);
     }
@@ -236,7 +237,7 @@ trait HasEvents
     /**
      * Register a deleted model event with the dispatcher.
      */
-    public static function deleted(string|\Closure $callback): void
+    public static function deleted(string|Closure $callback): void
     {
         static::registerModelEvent('deleted', $callback);
     }
@@ -250,7 +251,7 @@ trait HasEvents
 
         if (isset(static::$dispatcher)) {
             foreach ($instance->getObservableEvents() as $event) {
-                static::$dispatcher->forget("eloquent.$event: ".static::class);
+                static::$dispatcher->forget(sprintf('eloquent.%s: ', $event).static::class);
             }
         }
     }

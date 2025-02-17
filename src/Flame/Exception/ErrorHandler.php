@@ -101,7 +101,7 @@ class ErrorHandler
      * Checks if the exception implements the HttpExceptionInterface, or returns
      * as generic 500 error code for a server side error.
      */
-    protected function getStatusCode(\Throwable $exception): int
+    protected function getStatusCode(Throwable $exception): int
     {
         if ($exception instanceof HttpExceptionInterface) {
             $code = $exception->getStatusCode();

@@ -74,5 +74,6 @@ it('gets all fields correctly', function() {
     $formTabs = new FormTabs;
 
     $formTabs->addField('testField', $this->formField, 'Test Tab');
+
     expect($formTabs->getAllFields())->toHaveKey('testField');
 });

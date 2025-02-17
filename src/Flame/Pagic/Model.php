@@ -7,12 +7,19 @@ namespace Igniter\Flame\Pagic;
 use ArrayAccess;
 use BadMethodCallException;
 use Closure;
+use Igniter\Flame\Pagic\Concerns\GuardsAttributes;
+use Igniter\Flame\Pagic\Concerns\HasAttributes;
+use Igniter\Flame\Pagic\Concerns\HasEvents;
+use Igniter\Flame\Pagic\Concerns\HidesAttributes;
+use Igniter\Flame\Pagic\Concerns\ManagesCache;
+use Igniter\Flame\Pagic\Concerns\ManagesSource;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Traits\EventEmitter;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use JsonSerializable;
@@ -22,13 +29,13 @@ use JsonSerializable;
  */
 abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsonable, JsonSerializable, TemplateInterface
 {
-    use Concerns\GuardsAttributes;
-    use Concerns\HasAttributes;
-    use Concerns\HasEvents;
-    use Concerns\HidesAttributes;
-    use Concerns\ManagesCache;
-    use Concerns\ManagesSource;
     use EventEmitter;
+    use GuardsAttributes;
+    use HasAttributes;
+    use HasEvents;
+    use HidesAttributes;
+    use ManagesCache;
+    use ManagesSource;
 
     public const DIR_NAME = '';
 
@@ -164,7 +171,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
 
     /**
      * Fill the model with an array of attributes.
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @throws MassAssignmentException
      */
     public function fill(array $attributes): static
     {

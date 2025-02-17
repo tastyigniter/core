@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace Igniter\System\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
+use Igniter\System\Http\Requests\MailPartialRequest;
 use Igniter\System\Models\MailPartial;
 
-class MailPartials extends \Igniter\Admin\Classes\AdminController
+class MailPartials extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\System\Models\MailPartial::class,
+            'model' => MailPartial::class,
             'title' => 'lang:igniter::system.mail_templates.text_partial_title',
             'emptyMessage' => 'lang:igniter::system.mail_templates.text_empty',
             'defaultSort' => ['partial_id', 'DESC'],
@@ -28,8 +32,8 @@ class MailPartials extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter::system.mail_templates.text_partial_form_name',
-        'model' => \Igniter\System\Models\MailPartial::class,
-        'request' => \Igniter\System\Http\Requests\MailPartialRequest::class,
+        'model' => MailPartial::class,
+        'request' => MailPartialRequest::class,
         'create' => [
             'title' => 'lang:igniter::system.mail_templates.text_new_partial_title',
             'redirect' => 'mail_partials/edit/{partial_id}',

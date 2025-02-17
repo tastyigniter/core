@@ -6,8 +6,10 @@ namespace Igniter\Tests\Admin\Http\Actions;
 
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Requests\StatusRequest;
 use Igniter\Admin\Models\Status;
 use Igniter\Admin\Widgets\Form;
+use Igniter\Admin\Widgets\Toolbar;
 use Igniter\System\Models\Currency;
 use Illuminate\Http\RedirectResponse;
 
@@ -15,12 +17,12 @@ beforeEach(function() {
     $this->controller = new class extends AdminController
     {
         public array $implement = [
-            \Igniter\Admin\Http\Actions\FormController::class,
+            FormController::class,
         ];
 
         public $formConfig = [
             'name' => 'Controller',
-            'model' => \Igniter\Admin\Models\Status::class,
+            'model' => Status::class,
             'create' => [
                 'title' => 'Create record',
                 'redirect' => 'path/edit/{id}',
@@ -61,7 +63,7 @@ beforeEach(function() {
             return $formWidget->getSaveData() ?: false;
         }
     };
-    $this->controller->widgets['toolbar'] = new \Igniter\Admin\Widgets\Toolbar($this->controller);
+    $this->controller->widgets['toolbar'] = new Toolbar($this->controller);
     $this->formController = new FormController($this->controller);
 });
 
@@ -94,7 +96,7 @@ it('creates a new record', function() {
     ]);
 
     $formConfig = $this->formController->getConfig();
-    $formConfig['request'] = \Igniter\Admin\Http\Requests\StatusRequest::class;
+    $formConfig['request'] = StatusRequest::class;
     $this->formController->setConfig($formConfig);
 
     $response = $this->formController->create_onSave();
@@ -183,7 +185,7 @@ it('edits an existing record with relationship', function() {
     $controller = new class extends AdminController
     {
         public array $implement = [
-            \Igniter\Admin\Http\Actions\FormController::class,
+            FormController::class,
         ];
 
         public $formConfig = [
@@ -278,7 +280,7 @@ it('binds events correctly', function() {
     $controller = new class extends AdminController
     {
         public array $implement = [
-            \Igniter\Admin\Http\Actions\FormController::class,
+            FormController::class,
         ];
 
         public $formConfig = [

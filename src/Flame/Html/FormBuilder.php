@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Html;
 
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Contracts\View\Factory;
@@ -43,7 +44,7 @@ class FormBuilder
     /**
      * The session store implementation.
      *
-     * @var \Illuminate\Contracts\Session\Session
+     * @var Session
      */
     protected $session;
 
@@ -354,7 +355,7 @@ class FormBuilder
         }
 
         if (function_exists('app')) {
-            $hasNullMiddleware = app("Illuminate\Contracts\Http\Kernel")
+            $hasNullMiddleware = app(Kernel::class)
                 ->hasMiddleware(ConvertEmptyStringsToNull::class);
 
             if ($hasNullMiddleware
@@ -451,7 +452,7 @@ class FormBuilder
     /**
      * Get the session store implementation.
      *
-     * @return  \Illuminate\Contracts\Session\Session  $session
+     * @return Session $session
      */
     public function getSessionStore()
     {

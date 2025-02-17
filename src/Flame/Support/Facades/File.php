@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support\Facades;
 
+use Closure;
 use Igniter\Flame\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Facade as IlluminateFacade;
+use Illuminate\Support\LazyCollection;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * @method static bool isDirectoryEmpty(string $directory)
  * @method static string sizeToString(int $bytes)
  * @method static string|null localToPublic(string $path)
  * @method static bool isLocalPath(string $path, bool $realpath = true)
- * @method static bool isLocalDisk(\Illuminate\Filesystem\FilesystemAdapter $disk)
+ * @method static bool isLocalDisk(FilesystemAdapter $disk)
  * @method static string fromClass(object|string $className)
  * @method static string|false existsInsensitive(string $path)
  * @method static string normalizePath(string $path)
@@ -34,7 +38,7 @@ use Illuminate\Support\Facades\Facade as IlluminateFacade;
  * @method static string sharedGet(string $path)
  * @method static mixed getRequire(string $path, array $data = [])
  * @method static mixed requireOnce(string $path, array $data = [])
- * @method static \Illuminate\Support\LazyCollection lines(string $path)
+ * @method static LazyCollection lines(string $path)
  * @method static string|false hash(string $path, string $algorithm = 'md5')
  * @method static void replace(string $path, string $content, int|null $mode = null)
  * @method static void replaceInFile(array|string $search, array|string $replace, string $path)
@@ -60,8 +64,8 @@ use Illuminate\Support\Facades\Facade as IlluminateFacade;
  * @method static bool hasSameHash(string $firstFile, string $secondFile)
  * @method static bool isFile(string $file)
  * @method static array glob(string $pattern, int $flags = 0)
- * @method static \Symfony\Component\Finder\SplFileInfo[] files(string $directory, bool $hidden = false)
- * @method static \Symfony\Component\Finder\SplFileInfo[] allFiles(string $directory, bool $hidden = false)
+ * @method static SplFileInfo[] files(string $directory, bool $hidden = false)
+ * @method static SplFileInfo[] allFiles(string $directory, bool $hidden = false)
  * @method static array directories(string $directory)
  * @method static void ensureDirectoryExists(string $path, int $mode = 0755, bool $recursive = true)
  * @method static bool moveDirectory(string $from, string $to, bool $overwrite = false)
@@ -69,8 +73,8 @@ use Illuminate\Support\Facades\Facade as IlluminateFacade;
  * @method static bool deleteDirectory(string $directory, bool $preserve = false)
  * @method static bool deleteDirectories(string $directory)
  * @method static bool cleanDirectory(string $directory)
- * @method static \Igniter\Flame\Filesystem\Filesystem|mixed when(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
- * @method static \Igniter\Flame\Filesystem\Filesystem|mixed unless(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+ * @method static Filesystem|mixed when(Closure | mixed | null $value = null, callable | null $callback = null, callable | null $default = null)
+ * @method static Filesystem|mixed unless(Closure | mixed | null $value = null, callable | null $callback = null, callable | null $default = null)
  * @method static void macro(string $name, object|callable $macro)
  * @method static void mixin(object $mixin, bool $replace = true)
  * @method static bool hasMacro(string $name)

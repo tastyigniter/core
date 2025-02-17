@@ -22,12 +22,12 @@ class HubManager
 
     public function getDetail(string $type, array $itemName = []): array
     {
-        return $this->requestRemoteData("$type/detail", ['item' => $itemName]);
+        return $this->requestRemoteData($type.'/detail', ['item' => $itemName]);
     }
 
     public function getDetails(string $type, array $itemNames = []): array
     {
-        return $this->requestRemoteData("$type/details", ['items' => $itemNames]);
+        return $this->requestRemoteData($type.'/details', ['items' => $itemNames]);
     }
 
     public function applyItems(array $itemNames = [], array $params = []): Collection

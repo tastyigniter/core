@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Classes;
 
+use Closure;
+
 final class OnboardingStep
 {
     public string $code;
@@ -18,7 +20,7 @@ final class OnboardingStep
 
     public int $priority;
 
-    public null|array|\Closure $complete = null;
+    public null|array|Closure $complete = null;
 
     public static function fromArray(array $attributes): self
     {

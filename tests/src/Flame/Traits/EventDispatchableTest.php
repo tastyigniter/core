@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Flame\Traits;
 
+use Igniter\Flame\Traits\EventDispatchable;
 use Igniter\Tests\Fixtures\Events\TestEvent;
 use Illuminate\Broadcasting\PendingBroadcast;
 use Illuminate\Support\Facades\Event;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Event;
 it('dispatches event when namespaced event is missing', function() {
     $event = new class
     {
-        use \Igniter\Flame\Traits\EventDispatchable;
+        use EventDispatchable;
     };
     Event::listen($event::class, function($event): string {
         return 'result';

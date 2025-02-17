@@ -47,6 +47,7 @@ it('creates location from array with valid data', function() {
 it('sets bounds correctly', function() {
     $location = new Location('TestProvider');
     $location->setBounds(10, 20, 30, 40);
+
     expect($location->getBounds()->toArray())->toBe([
         'south' => 10.0,
         'west' => 20.0,

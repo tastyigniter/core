@@ -5,21 +5,25 @@ declare(strict_types=1);
 namespace Igniter\System\Http\Controllers;
 
 use Facades\Igniter\System\Helpers\MailHelper;
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\System\Http\Requests\MailTemplateRequest;
 use Igniter\System\Models\MailTemplate;
 
-class MailTemplates extends \Igniter\Admin\Classes\AdminController
+class MailTemplates extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\System\Models\MailTemplate::class,
+            'model' => MailTemplate::class,
             'title' => 'lang:igniter::system.mail_templates.text_template_title',
             'emptyMessage' => 'lang:igniter::system.mail_templates.text_empty',
             'defaultSort' => ['template_id', 'DESC'],
@@ -29,8 +33,8 @@ class MailTemplates extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter::system.mail_templates.text_form_name',
-        'model' => \Igniter\System\Models\MailTemplate::class,
-        'request' => \Igniter\System\Http\Requests\MailTemplateRequest::class,
+        'model' => MailTemplate::class,
+        'request' => MailTemplateRequest::class,
         'create' => [
             'title' => 'lang:igniter::system.mail_templates.text_new_template_title',
             'redirect' => 'mail_templates/edit/{template_id}',

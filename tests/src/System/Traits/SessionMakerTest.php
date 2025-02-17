@@ -38,6 +38,7 @@ it('saves key value pair in session', function() {
     };
 
     $sessionMaker->putSession('key', 'value');
+
     expect(session()->get('class_id.key'))->toBe('value');
 });
 
@@ -63,6 +64,7 @@ it('flashes key value pair in session', function() {
     };
 
     $sessionMaker->flashSession('key', 'value');
+
     expect(session()->get('class_id.key'))->toBe('value');
 });
 
@@ -76,12 +78,14 @@ it('forgets key from session', function() {
     };
 
     $sessionMaker->forgetSession('key');
+
     expect(session()->has('class_id.key'))->toBeFalse();
 });
 
 it('resets session', function() {
     session()->put('class_id.key1', 'value1');
     session()->put('class_id.key2', 'value2');
+
     $sessionMaker = new class
     {
         use SessionMaker;

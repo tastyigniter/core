@@ -5,8 +5,8 @@ declare(strict_types=1);
 /**
  * Template helper functions
  */
-
 use Igniter\Flame\Pagic\Environment;
+use Illuminate\Support\HtmlString;
 
 if (!function_exists('pagic')) {
     function pagic(?string $name = null, array $vars = []): Environment|string
@@ -93,8 +93,8 @@ if (!function_exists('get_title')) {
 }
 
 if (!function_exists('html')) {
-    function html(?string $html): \Illuminate\Support\HtmlString
+    function html(?string $html): HtmlString
     {
-        return new \Illuminate\Support\HtmlString($html ?: '');
+        return new HtmlString($html ?: '');
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
@@ -16,6 +17,7 @@ use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
+use Illuminate\Support\Carbon;
 
 /**
  * Theme Model Class
@@ -28,40 +30,40 @@ use Igniter\System\Models\Concerns\Switchable;
  * @property array|null $data
  * @property bool $status
  * @property bool $is_default
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read mixed $author
  * @property-read mixed $locked
  * @property-read mixed $screenshot
- * @method static \Igniter\Flame\Database\Builder<static>|Theme applyDefaultable(bool $default = true)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Theme applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Theme applySwitchable(bool $switch = true)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme isEnabled()
- * @method static \Igniter\Flame\Database\Builder<static>|Theme like(string $column, string $value, string $side = 'both', string $boolean = 'and')
- * @method static \Igniter\Flame\Database\Builder<static>|Theme listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Theme lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme newModelQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Theme newQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Theme orLike(string $column, string $value, string $side = 'both')
- * @method static \Igniter\Flame\Database\Builder<static>|Theme orSearch(string $term, string $columns = [], string $mode = 'all')
+ * @method static Builder<static>|Theme applyDefaultable(bool $default = true)
+ * @method static Builder<static>|Theme applyFilters(array $options = [])
+ * @method static Builder<static>|Theme applySorts(array $sorts = [])
+ * @method static Builder<static>|Theme applySwitchable(bool $switch = true)
+ * @method static Builder<static>|Theme dropdown(string $column, string $key = null)
+ * @method static Builder<static>|Theme isEnabled()
+ * @method static Builder<static>|Theme like(string $column, string $value, string $side = 'both', string $boolean = 'and')
+ * @method static Builder<static>|Theme listFrontEnd(array $options = [])
+ * @method static Builder<static>|Theme lists(string $column, string $key = null)
+ * @method static Builder<static>|Theme newModelQuery()
+ * @method static Builder<static>|Theme newQuery()
+ * @method static Builder<static>|Theme orLike(string $column, string $value, string $side = 'both')
+ * @method static Builder<static>|Theme orSearch(string $term, string $columns = [], string $mode = 'all')
  * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
- * @method static \Igniter\Flame\Database\Builder<static>|Theme query()
- * @method static \Igniter\Flame\Database\Builder<static>|Theme search(string $term, string $columns = [], string $mode = 'all')
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereCode($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereCreatedAt($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereData($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereDescription($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereIsDefault($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereIsDisabled()
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereIsEnabled()
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereName($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereNotDefault()
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereStatus($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereThemeId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereUpdatedAt($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Theme whereVersion($value)
+ * @method static Builder<static>|Theme query()
+ * @method static Builder<static>|Theme search(string $term, string $columns = [], string $mode = 'all')
+ * @method static Builder<static>|Theme whereCode($value)
+ * @method static Builder<static>|Theme whereCreatedAt($value)
+ * @method static Builder<static>|Theme whereData($value)
+ * @method static Builder<static>|Theme whereDescription($value)
+ * @method static Builder<static>|Theme whereIsDefault($value)
+ * @method static Builder<static>|Theme whereIsDisabled()
+ * @method static Builder<static>|Theme whereIsEnabled()
+ * @method static Builder<static>|Theme whereName($value)
+ * @method static Builder<static>|Theme whereNotDefault()
+ * @method static Builder<static>|Theme whereStatus($value)
+ * @method static Builder<static>|Theme whereThemeId($value)
+ * @method static Builder<static>|Theme whereUpdatedAt($value)
+ * @method static Builder<static>|Theme whereVersion($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Theme extends Model

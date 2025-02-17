@@ -8,7 +8,9 @@ use Igniter\Admin\Classes\FilterScope;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Widgets\Filter;
 use Igniter\Admin\Widgets\Lists;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
@@ -44,7 +46,7 @@ trait ListExtendable
     /**
      * listExtendRecords controller override: Extend the records used for populating the list
      * after the query is processed.
-     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection $records
+     * @param LengthAwarePaginator|Collection $records
      */
     public function listExtendRecords(mixed $records, ?string $alias = null) {}
 

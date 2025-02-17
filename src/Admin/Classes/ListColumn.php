@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Classes;
 
+use Closure;
+
 /**
  * List Columns definition
  * A translation of the list column configuration
@@ -59,7 +61,7 @@ class ListColumn
     public ?string $path = null;
 
     /** Specifies a icon cssClass */
-    public ?\Closure $formatter = null;
+    public ?Closure $formatter = null;
 
     /** Specifies a icon cssClass */
     public ?string $iconCssClass = null;

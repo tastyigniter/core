@@ -7,6 +7,7 @@ namespace Igniter\Flame\Database\Relations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough as HasOneThroughBase;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Adapted from october\rain\database\relations\HasOneThrough
@@ -40,6 +41,6 @@ class HasOneThrough extends HasOneThroughBase
     {
         $uses = class_uses_recursive(get_class($this->parent));
 
-        return in_array(\Illuminate\Database\Eloquent\SoftDeletes::class, $uses);
+        return in_array(SoftDeletes::class, $uses);
     }
 }

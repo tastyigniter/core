@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Main\Template;
 
 use Igniter\Flame\Pagic\Model;
+use Igniter\Main\Template\Code\PartialCode;
 
 class Partial extends Model
 {
@@ -19,6 +20,6 @@ class Partial extends Model
      */
     public function getCodeClassParent(): string
     {
-        return \Igniter\Main\Template\Code\PartialCode::class;
+        return PartialCode::class;
     }
 }

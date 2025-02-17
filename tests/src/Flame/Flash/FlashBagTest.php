@@ -6,10 +6,11 @@ namespace Igniter\Tests\Flame\Flash;
 
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Flash\FlashStore;
+use Illuminate\Session\Store;
 use Mockery;
 
 beforeEach(function() {
-    $this->session = Mockery::mock(\Illuminate\Session\Store::class);
+    $this->session = Mockery::mock(Store::class);
     $this->flashBag = new FlashBag(new FlashStore($this->session));
 });
 

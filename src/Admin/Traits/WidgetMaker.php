@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Traits;
 
+use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\FormField;
@@ -40,8 +41,8 @@ trait WidgetMaker
      * @param mixed $fieldConfig A field name, an array of config or a FormField object.
      * @param array $widgetConfig An array of config.
      *
-     * @return \Igniter\Admin\Classes\BaseFormWidget The widget object
-     * @throws \Exception
+     * @return BaseFormWidget The widget object
+     * @throws Exception
      */
     public function makeFormWidget(
         string $class,

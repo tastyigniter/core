@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Admin\Traits;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Models\Status;
 use Igniter\Admin\Widgets\Lists;
 use Igniter\Tests\Fixtures\Controllers\ListExtendableTestController;
@@ -13,7 +14,7 @@ beforeEach(function() {
     $this->controller = resolve(ListExtendableTestController::class);
     $this->listsWidget = new class($this->controller) extends Lists
     {
-        public function __construct(protected \Igniter\Admin\Classes\AdminController $controller) {}
+        public function __construct(protected AdminController $controller) {}
     };
 });
 

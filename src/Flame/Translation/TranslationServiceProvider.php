@@ -7,6 +7,7 @@ namespace Igniter\Flame\Translation;
 use Igniter\Flame\Translation\Drivers\Database;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Translation\TranslationServiceProvider as BaseServiceProvider;
+use ReflectionClass;
 
 class TranslationServiceProvider extends BaseServiceProvider
 {
@@ -38,10 +39,10 @@ class TranslationServiceProvider extends BaseServiceProvider
         });
     }
 
-    public function registerLoader(): void
+    protected function registerLoader(): void
     {
         $this->app->singleton('translation.loader', function(Application $app): FileLoader {
-            $reflection = new \ReflectionClass(BaseServiceProvider::class);
+            $reflection = new ReflectionClass(BaseServiceProvider::class);
             $dir = dirname($reflection->getFileName());
 
             return new FileLoader($app['files'], [$dir.'/lang', $app['path.lang']]);

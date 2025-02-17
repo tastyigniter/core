@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\DashboardWidgets;
 
+use Closure;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
@@ -22,7 +23,7 @@ class Statistics extends BaseDashboardWidget
 
     protected static array $registeredCards = [];
 
-    public static function registerCards(\Closure $callback): void
+    public static function registerCards(Closure $callback): void
     {
         static::$registeredCards[] = $callback;
     }

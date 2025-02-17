@@ -28,6 +28,7 @@ it('returns alias when set', function() {
         use ConfigurableComponent;
     };
     $component->setAlias('testAlias');
+
     expect($component->getAlias())->toBe('testAlias');
 });
 

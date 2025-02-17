@@ -4,12 +4,33 @@ declare(strict_types=1);
 
 namespace Igniter\Flame;
 
+use Igniter\Flame\Assetic\AsseticServiceProvider;
 use Igniter\Flame\Composer\Manager as ComposerManaer;
+use Igniter\Flame\Currency\CurrencyServiceProvider;
+use Igniter\Flame\Database\DatabaseServiceProvider;
+use Igniter\Flame\Database\Model;
+use Igniter\Flame\Exception\AjaxException;
+use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ErrorHandler;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Filesystem\Filesystem;
+use Igniter\Flame\Filesystem\FilesystemServiceProvider;
+use Igniter\Flame\Flash\Facades\Flash;
+use Igniter\Flame\Flash\FlashServiceProvider;
+use Igniter\Flame\Geolite\GeoliteServiceProvider;
+use Igniter\Flame\Html\FormFacade;
+use Igniter\Flame\Html\HtmlFacade;
+use Igniter\Flame\Html\HtmlServiceProvider;
+use Igniter\Flame\Mail\MailServiceProvider;
+use Igniter\Flame\Pagic\PagicServiceProvider;
+use Igniter\Flame\Providers\ConsoleSupportServiceProvider;
+use Igniter\Flame\Providers\MacroServiceProvider;
+use Igniter\Flame\Providers\UrlServiceProvider;
+use Igniter\Flame\Scaffold\ScaffoldServiceProvider;
 use Igniter\Flame\Support\ClassLoader;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Translation\Middleware\Localization;
+use Igniter\Flame\Translation\TranslationServiceProvider;
 use Igniter\System\Classes\PackageManifest;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\AliasLoader;
@@ -23,20 +44,20 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected $root = __DIR__.'/../..';
 
     protected $providers = [
-        \Igniter\Flame\Assetic\AsseticServiceProvider::class,
-        \Igniter\Flame\Currency\CurrencyServiceProvider::class,
-        \Igniter\Flame\Providers\ConsoleSupportServiceProvider::class,
-        \Igniter\Flame\Database\DatabaseServiceProvider::class,
-        \Igniter\Flame\Filesystem\FilesystemServiceProvider::class,
-        \Igniter\Flame\Flash\FlashServiceProvider::class,
-        \Igniter\Flame\Geolite\GeoliteServiceProvider::class,
-        \Igniter\Flame\Html\HtmlServiceProvider::class,
-        \Igniter\Flame\Mail\MailServiceProvider::class,
-        \Igniter\Flame\Providers\MacroServiceProvider::class,
-        \Igniter\Flame\Pagic\PagicServiceProvider::class,
-        \Igniter\Flame\Scaffold\ScaffoldServiceProvider::class,
-        \Igniter\Flame\Translation\TranslationServiceProvider::class,
-        \Igniter\Flame\Providers\UrlServiceProvider::class,
+        AsseticServiceProvider::class,
+        CurrencyServiceProvider::class,
+        ConsoleSupportServiceProvider::class,
+        DatabaseServiceProvider::class,
+        FilesystemServiceProvider::class,
+        FlashServiceProvider::class,
+        GeoliteServiceProvider::class,
+        HtmlServiceProvider::class,
+        MailServiceProvider::class,
+        MacroServiceProvider::class,
+        PagicServiceProvider::class,
+        ScaffoldServiceProvider::class,
+        TranslationServiceProvider::class,
+        UrlServiceProvider::class,
 
         \Igniter\System\ServiceProvider::class,
     ];
@@ -135,13 +156,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-            'Flash' => \Igniter\Flame\Flash\Facades\Flash::class,
-            'Form' => \Igniter\Flame\Html\FormFacade::class,
-            'Html' => \Igniter\Flame\Html\HtmlFacade::class,
-            'Model' => \Igniter\Flame\Database\Model::class,
-            'SystemException' => \Igniter\Flame\Exception\SystemException::class,
-            'ApplicationException' => \Igniter\Flame\Exception\ApplicationException::class,
-            'AjaxException' => \Igniter\Flame\Exception\AjaxException::class,
+            'Flash' => Flash::class,
+            'Form' => FormFacade::class,
+            'Html' => HtmlFacade::class,
+            'Model' => Model::class,
+            'SystemException' => SystemException::class,
+            'ApplicationException' => ApplicationException::class,
+            'AjaxException' => AjaxException::class,
         ] as $alias => $class) {
             $loader->alias($alias, $class);
         }

@@ -9,15 +9,35 @@ use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Support\LogViewer;
+use Igniter\Main\Models\Theme;
 use Igniter\System\Actions\ModelAction;
 use Igniter\System\Actions\SettingsModel;
+use Igniter\System\Classes\ComponentManager;
 use Igniter\System\Classes\ControllerAction;
+use Igniter\System\Classes\ExtensionManager;
+use Igniter\System\Classes\HubManager;
+use Igniter\System\Classes\LanguageManager;
+use Igniter\System\Classes\MailManager;
+use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Facades\Assets;
+use Igniter\System\Http\Middleware\CheckRequirements;
+use Igniter\System\Http\Middleware\PoweredBy;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Currency;
+use Igniter\System\Models\Extension;
 use Igniter\System\Models\Language;
+use Igniter\System\Models\MailLayout;
+use Igniter\System\Models\MailTemplate;
 use Igniter\System\Models\RequestLog;
 use Igniter\System\Models\Settings;
+use Igniter\System\Providers\ConsoleServiceProvider;
+use Igniter\System\Providers\EventServiceProvider;
+use Igniter\System\Providers\ExtensionServiceProvider;
+use Igniter\System\Providers\FormServiceProvider;
+use Igniter\System\Providers\MailServiceProvider;
+use Igniter\System\Providers\PaginationServiceProvider;
+use Igniter\System\Providers\PermissionServiceProvider;
+use Igniter\System\Providers\ValidationServiceProvider;
 use Igniter\User\Models\Notification;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -42,17 +62,17 @@ class ServiceProvider extends AppServiceProvider
 
         Igniter::loadControllersFrom(igniter_path('src/System/Http/Controllers'), 'Igniter\\System\\Http\\Controllers');
 
-        Route::pushMiddlewareToGroup('igniter', Http\Middleware\CheckRequirements::class);
-        Route::pushMiddlewareToGroup('igniter', Http\Middleware\PoweredBy::class);
+        Route::pushMiddlewareToGroup('igniter', CheckRequirements::class);
+        Route::pushMiddlewareToGroup('igniter', PoweredBy::class);
 
-        $this->app->register(Providers\ConsoleServiceProvider::class);
-        $this->app->register(Providers\ExtensionServiceProvider::class);
-        $this->app->register(Providers\EventServiceProvider::class);
-        $this->app->register(Providers\FormServiceProvider::class);
-        $this->app->register(Providers\MailServiceProvider::class);
-        $this->app->register(Providers\PaginationServiceProvider::class);
-        $this->app->register(Providers\PermissionServiceProvider::class);
-        $this->app->register(Providers\ValidationServiceProvider::class);
+        $this->app->register(ConsoleServiceProvider::class);
+        $this->app->register(ExtensionServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
+        $this->app->register(FormServiceProvider::class);
+        $this->app->register(MailServiceProvider::class);
+        $this->app->register(PaginationServiceProvider::class);
+        $this->app->register(PermissionServiceProvider::class);
+        $this->app->register(ValidationServiceProvider::class);
         $this->app->register(\Igniter\Admin\ServiceProvider::class);
         $this->app->register(\Igniter\Main\ServiceProvider::class);
     }
@@ -113,12 +133,12 @@ class ServiceProvider extends AppServiceProvider
         $this->app->singleton(Settings::class);
         $this->app->singleton(LogViewer::class);
 
-        $this->app->singleton(Classes\ComponentManager::class);
-        $this->app->singleton(Classes\ExtensionManager::class);
-        $this->app->singleton(Classes\HubManager::class);
-        $this->tapSingleton(Classes\LanguageManager::class);
-        $this->app->singleton(Classes\MailManager::class);
-        $this->app->singleton(Classes\UpdateManager::class);
+        $this->app->singleton(ComponentManager::class);
+        $this->app->singleton(ExtensionManager::class);
+        $this->app->singleton(HubManager::class);
+        $this->tapSingleton(LanguageManager::class);
+        $this->app->singleton(MailManager::class);
+        $this->app->singleton(UpdateManager::class);
     }
 
     protected function registerFacadeAliases()
@@ -126,7 +146,7 @@ class ServiceProvider extends AppServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-            'Assets' => \Igniter\System\Facades\Assets::class,
+            'Assets' => Assets::class,
             'Country' => \Igniter\System\Facades\Country::class,
         ] as $alias => $class) {
             $loader->alias($alias, $class);
@@ -136,14 +156,14 @@ class ServiceProvider extends AppServiceProvider
     protected function defineEloquentMorphMaps()
     {
         Relation::morphMap([
-            'countries' => \Igniter\System\Models\Country::class,
-            'currencies' => \Igniter\System\Models\Currency::class,
-            'extensions' => \Igniter\System\Models\Extension::class,
-            'languages' => \Igniter\System\Models\Language::class,
-            'mail_layouts' => \Igniter\System\Models\MailLayout::class,
-            'mail_templates' => \Igniter\System\Models\MailTemplate::class,
-            'settings' => \Igniter\System\Models\Settings::class,
-            'themes' => \Igniter\Main\Models\Theme::class,
+            'countries' => Country::class,
+            'currencies' => Currency::class,
+            'extensions' => Extension::class,
+            'languages' => Language::class,
+            'mail_layouts' => MailLayout::class,
+            'mail_templates' => MailTemplate::class,
+            'settings' => Settings::class,
+            'themes' => Theme::class,
         ]);
     }
 

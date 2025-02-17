@@ -40,6 +40,7 @@ it('loads locale from browser when not running in admin', function() {
     request()->server->set('HTTP_ACCEPT_LANGUAGE', 'fr');
     setting()->setPref('supported_languages', ['fr', 'en']);
     setting()->set('detect_language', true);
+
     $request = new Request;
 
     expect((new Localization)->handle($request, fn($request) => 'next'))->toBe('next')

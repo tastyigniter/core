@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Igniter\System\Database\Factories;
 
 use Igniter\Flame\Database\Factories\Factory;
+use Igniter\System\Models\Language;
 
 class LanguageFactory extends Factory
 {
-    protected $model = \Igniter\System\Models\Language::class;
+    protected $model = Language::class;
 
     public function definition(): array
     {

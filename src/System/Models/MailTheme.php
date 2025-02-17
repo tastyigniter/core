@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Igniter\System\Models;
 
 use Exception;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\System\Actions\SettingsModel;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -17,12 +19,12 @@ use Illuminate\Support\Facades\Cache;
  * @property int $id
  * @property string $item
  * @property array|null $data
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme listFrontEnd(array $options = [])
+ * @method static Builder<static>|MailTheme applyFilters(array $options = [])
+ * @method static Builder<static>|MailTheme applySorts(array $sorts = [])
+ * @method static Builder<static>|MailTheme dropdown(string $column, string $key = null)
+ * @method static Builder<static>|MailTheme listFrontEnd(array $options = [])
  * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
- * @method static \Igniter\Flame\Database\Builder<static>|MailTheme query()
+ * @method static Builder<static>|MailTheme query()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailTheme extends Model
@@ -51,7 +53,7 @@ class MailTheme extends Model
 
     public const PROMOTION_BORDER_COLOR = '#9ba2ab';
 
-    public array $implement = [\Igniter\System\Actions\SettingsModel::class];
+    public array $implement = [SettingsModel::class];
 
     /**
      * @var string Unique code
@@ -103,8 +105,8 @@ class MailTheme extends Model
         try {
             $customCss = self::compileCss();
             Cache::forever($cacheKey, $customCss);
-        } catch (Exception $ex) {
-            $customCss = '/* '.$ex->getMessage().' */';
+        } catch (Exception $exception) {
+            $customCss = '/* '.$exception->getMessage().' */';
         }
 
         return $customCss;

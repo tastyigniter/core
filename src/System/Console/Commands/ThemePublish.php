@@ -8,12 +8,13 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Foundation\Console\VendorPublishCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 class ThemePublish extends VendorPublishCommand
 {
-    use \Illuminate\Console\ConfirmableTrait;
+    use ConfirmableTrait;
 
     protected $name = 'igniter:theme-publish';
 

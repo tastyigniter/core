@@ -297,6 +297,7 @@ it('returns rendered component partial content in renderPartial', function() {
     $mainController = new MainController;
     $mainController->runPage($page);
     $mainController->setComponentContext($page->loadedComponents['testComponent']);
+
     $result = $mainController->renderPartial('@default');
 
     expect($result)->toContain('This is a test component partial content');

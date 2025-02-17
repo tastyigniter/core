@@ -9,6 +9,7 @@ use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\Theme;
 use Igniter\System\Traits\CombinesAssets;
 use JsonSerializable;
+use RuntimeException;
 use stdClass;
 
 /**
@@ -162,16 +163,16 @@ class Assets
             return '';
         }
 
-        $output = "window.{$this->jsVarNamespace} = window.{$this->jsVarNamespace} || {};";
+        $output = sprintf('window.%s = window.%s || {};', $this->jsVarNamespace, $this->jsVarNamespace);
 
         $output .= collect($this->assets['jsVars'])->map(function($value, $name): string {
             $value = is_object($value)
                 ? $this->transformJsObjectVar($value) : $this->transformJsVar($value);
 
-            return "{$this->jsVarNamespace}.{$name} = {$value};";
+            return sprintf('%s.%s = %s;', $this->jsVarNamespace, $name, $value);
         })->implode('');
 
-        return "<script>{$output}</script>";
+        return sprintf('<script>%s</script>', $output);
     }
 
     public function addFavIcon(string|array $icon): self
@@ -389,9 +390,9 @@ class Assets
 
         // Otherwise, if the object doesn't even have a __toString() method, we can't proceed.
         if (!method_exists($value, '__toString')) {
-            throw new \RuntimeException('Cannot transform this object to JavaScript.');
+            throw new RuntimeException('Cannot transform this object to JavaScript.');
         }
 
-        return "'{$value}'";
+        return sprintf("'%s'", $value);
     }
 }

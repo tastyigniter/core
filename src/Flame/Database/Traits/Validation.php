@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Factory;
 use Illuminate\Validation\ValidationException;
+use InvalidArgumentException;
 use LogicException;
 
 /**
@@ -21,7 +23,7 @@ trait Validation
     /**
      * Error messages as provided by the validator.
      *
-     * @var \Illuminate\Support\MessageBag
+     * @var MessageBag
      */
     protected $validationErrors;
 
@@ -40,7 +42,7 @@ trait Validation
     /**
      * The Validator factory class used for validation.
      *
-     * @var \Illuminate\Validation\Factory
+     * @var Factory
      */
     protected $validator;
 
@@ -115,7 +117,7 @@ trait Validation
     /**
      * Get the Validator instance.
      *
-     * @return \Illuminate\Validation\Factory
+     * @return Factory
      */
     public function getValidator()
     {
@@ -146,7 +148,7 @@ trait Validation
     /**
      * Get the validation error messages from the model.
      *
-     * @return \Illuminate\Support\MessageBag
+     * @return MessageBag
      */
     public function getErrors()
     {
@@ -189,7 +191,7 @@ trait Validation
      * validation.
      *
      * @param bool $value
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setInjectUniqueIdentifier($value): void
     {
@@ -218,6 +220,7 @@ trait Validation
 
                 $this->throwValidationException();
             }
+
             // Fire the validating.passed event.
             $this->fireValidatedEvents('passed');
             $this->fireEvent('model.afterValidate', [$event]);

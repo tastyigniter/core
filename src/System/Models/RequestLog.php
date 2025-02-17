@@ -8,6 +8,7 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Prunable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Request;
 
 /**
@@ -18,8 +19,8 @@ use Illuminate\Support\Facades\Request;
  * @property int|null $status_code
  * @property array|null $referrer
  * @property int $count
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog applyFilters(array $options = [])
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog applySorts(array $sorts = [])
  * @method static \Igniter\Flame\Database\Builder<static>|RequestLog dropdown(string $column, string $key = null)

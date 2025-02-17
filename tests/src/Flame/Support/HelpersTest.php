@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Flame\Support;
 
+use DateTime;
+use Exception;
 use Igniter\Flame\Currency\Currency;
 use Igniter\Flame\Currency\Facades\Currency as CurrencyFacade;
+use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Html\FormBuilder;
 use Igniter\Flame\Pagic\Environment;
+use Igniter\Local\Models\Location;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\MediaLibrary;
 use Igniter\Main\Classes\ThemeManager;
@@ -75,6 +79,7 @@ it('parses values in string', function() {
 it('returns request value with default', function() {
     request()->merge(['name' => 'John']);
     request()->request->add(['post' => 'John']);
+
     request()->query->add(['get' => 'John']);
     expect(input())->toBe(['name' => 'John', 'get' => 'John'])
         ->and(input('name', 'default'))->toBe('John')
@@ -107,7 +112,7 @@ it('converts amount to currency', function() {
 });
 
 it('returns flash message', function() {
-    $flashBag = mock(\Igniter\Flame\Flash\FlashBag::class);
+    $flashBag = mock(FlashBag::class);
     app()->instance('flash', $flashBag);
     $flashBag->shouldReceive('message')->with('Test message', 'info')->andReturn($flashBag);
     $result = flash('Test message');
@@ -184,7 +189,7 @@ it('returns time elapsed and range', function() {
 it('makes carbon instance from timestamp', function() {
     $this->travelTo('2023-01-01 00:00:00');
     expect(make_carbon(now())->toDateTimeString())->toBe('2023-01-01 00:00:00')
-        ->and(make_carbon(new \DateTime('2023-01-01 00:00:00'))->toDateTimeString())->toBe('2023-01-01 00:00:00')
+        ->and(make_carbon(new DateTime('2023-01-01 00:00:00'))->toDateTimeString())->toBe('2023-01-01 00:00:00')
         ->and(make_carbon('2023-01-01')->toDateTimeString())->toBe('2023-01-01 00:00:00')
         ->and(make_carbon(1672531200)->toDateTimeString())->toBe('2023-01-01 00:00:00')
         ->and(fn() => make_carbon('invalid'))->toThrow('Invalid date value supplied to DateTime helper.');
@@ -192,7 +197,7 @@ it('makes carbon instance from timestamp', function() {
 });
 
 it('returns true for single location mode', function() {
-    config()->set('igniter-system.locationMode', \Igniter\Local\Models\Location::LOCATION_CONTEXT_SINGLE);
+    config()->set('igniter-system.locationMode', Location::LOCATION_CONTEXT_SINGLE);
     $result = is_single_location();
     expect($result)->toBeTrue();
 });
@@ -206,7 +211,7 @@ it('traces log with info level', function() {
     Log::shouldReceive('info')->twice();
     Log::shouldReceive('error')->once();
     traceLog('Test trace message', ['key' => 'value']);
-    traceLog(new \Exception);
+    traceLog(new Exception);
 });
 
 it('sorts array by key', function() {
@@ -258,7 +263,7 @@ it('generates extension icon with url', function() {
             'image' => 'path/to/image.png',
             'backgroundColor' => '#fff',
             'backgroundImage' => ['image/png', 'cGF0aC90by9pbWFnZS5wbmc='],
-            'styles' => 'color:red; background-color:#fff; background-image:url(\'data:image/png;base64,cGF0aC90by9pbWFnZS5wbmc=\');',
+            'styles' => "color:red; background-color:#fff; background-image:url('data:image/png;base64,cGF0aC90by9pbWFnZS5wbmc=');",
         ]);
 });
 
@@ -474,6 +479,7 @@ it('returns page template content', function() {
     $page = mock(Page::class)->makePartial();
     $mainController = new MainController;
     $mainController->runPage($page);
+
     expect(page())->toBeString();
 });
 

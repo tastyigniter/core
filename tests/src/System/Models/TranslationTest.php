@@ -34,18 +34,21 @@ it('returns full translation code', function() {
 it('flags translation as reviewed', function() {
     $translation = new Translation(['unstable' => true]);
     $translation->flagAsReviewed();
+
     expect($translation->unstable)->toBeFalse();
 });
 
 it('flags translation as unstable', function() {
     $translation = new Translation(['unstable' => false]);
     $translation->flagAsUnstable();
+
     expect($translation->unstable)->toBeTrue();
 });
 
 it('checks translation locks state', function() {
     $translation = new Translation(['locked' => false]);
     $translation->lockState();
+
     expect($translation->locked)->toBeTrue();
 
     $translation = new Translation;

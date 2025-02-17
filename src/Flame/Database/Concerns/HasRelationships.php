@@ -593,7 +593,7 @@ trait HasRelationships
      * @param string|null $localKey
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function morphMany($related, $name, $type = null, $id = null, $localKey = null, $relationName = null): \Igniter\Flame\Database\Relations\MorphMany
+    public function morphMany($related, $name, $type = null, $id = null, $localKey = null, $relationName = null): MorphMany
     {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
@@ -672,7 +672,7 @@ trait HasRelationships
      * @param string|null $relatedPivotKey
      * @param string|null $parentKey
      * @param string|null $relatedKey
-     * @return \Igniter\Flame\Database\Relations\MorphToMany
+     * @return MorphToMany
      */
     public function morphedByMany(
         $related, $name, $table = null, $foreignPivotKey = null,

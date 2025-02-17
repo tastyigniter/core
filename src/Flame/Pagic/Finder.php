@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Igniter\Flame\Pagic;
 
 use BadMethodCallException;
+use DateTime;
 use Igniter\Flame\Pagic\Exception\InvalidExtensionException;
 use Igniter\Flame\Pagic\Exception\InvalidFileNameException;
 use Igniter\Flame\Pagic\Exception\MissingFileNameException;
 use Igniter\Flame\Pagic\Processors\Processor;
 use Igniter\Flame\Pagic\Source\MemorySource;
 use Igniter\Flame\Pagic\Source\SourceInterface;
+use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Collection;
 
 class Finder
@@ -220,8 +222,8 @@ class Finder
         [$name, $extension] = $this->model->getFileNameParts();
 
         $result = $this->processor->processUpdate($this, $values);
-
-        $oldName = $oldExtension = null;
+        $oldName = null;
+        $oldExtension = null;
 
         if ($this->model->isDirty('fileName')) {
             [$oldName, $oldExtension] = $this->model->getFileNameParts(
@@ -315,7 +317,7 @@ class Finder
     /**
      * Get the hydrated models.
      *
-     * @return \Igniter\Flame\Pagic\Model[]
+     * @return Model[]
      */
     public function getModels(array $results): array
     {
@@ -419,7 +421,7 @@ class Finder
     /**
      * Indicate that the query results should be cached.
      */
-    public function remember(\DateTime|int|null $seconds, ?string $key = null): static
+    public function remember(DateTime|int|null $seconds, ?string $key = null): static
     {
         [$this->cacheSeconds, $this->cacheKey] = [$seconds, $key];
 
@@ -518,7 +520,7 @@ class Finder
     /**
      * Get the cache object with tags assigned, if applicable.
      */
-    protected function getCache(): \Illuminate\Contracts\Cache\Repository
+    protected function getCache(): Repository
     {
         $cache = $this->model->getCacheManager()->driver($this->cacheDriver);
 
@@ -583,6 +585,6 @@ class Finder
     {
         $className = get_class($this);
 
-        throw new BadMethodCallException("Call to undefined method $className::$method()");
+        throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', $className, $method));
     }
 }

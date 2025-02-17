@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Util;
 
+use InvalidArgumentException;
+
 /**
  * Variable utilities.
  *
@@ -20,7 +22,7 @@ abstract class VarUtils
      *
      * @return string The resolved string
      *
-     * @throws \InvalidArgumentException If there is a variable with no value
+     * @throws InvalidArgumentException If there is a variable with no value
      */
     public static function resolve($template, array $vars, array $values)
     {
@@ -31,7 +33,7 @@ abstract class VarUtils
             }
 
             if (!isset($values[$var])) {
-                throw new \InvalidArgumentException(sprintf('The template "%s" contains the variable "%s", but was not given any value for it.', $template, $var));
+                throw new InvalidArgumentException(sprintf('The template "%s" contains the variable "%s", but was not given any value for it.', $template, $var));
             }
 
             $map['{'.$var.'}'] = $values[$var];

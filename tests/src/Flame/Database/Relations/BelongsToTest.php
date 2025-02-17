@@ -13,6 +13,7 @@ it('associates and dissociates model correctly', function() {
         public $relation = ['belongsTo' => ['page' => [Page::class]]];
     };
     $status->save();
+
     $page = Page::factory()->create();
     $builder = $status->page();
     $builder->add($page);
@@ -48,6 +49,7 @@ it('sets simple value with model instance', function() {
         public $relation = ['belongsTo' => ['page' => [Page::class]]];
     };
     $status->save();
+
     $page = Page::factory()->create();
     $status->page()->setSimpleValue($page);
 
@@ -61,6 +63,7 @@ it('sets simple value with non-existent model', function() {
         public $relation = ['belongsTo' => ['page' => [Page::class]]];
     };
     $status->save();
+
     $page = Page::factory()->make();
     $status->page()->setSimpleValue($page);
     $page->save();
@@ -74,6 +77,7 @@ it('sets simple value with foreign key', function() {
         public $relation = ['belongsTo' => ['page' => [Page::class]]];
     };
     $status->save();
+
     $page = Page::factory()->create();
     $status->page()->setSimpleValue($page->page_id);
 

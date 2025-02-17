@@ -99,7 +99,7 @@ it('configures model correctly', function() {
             'is_default' => 'boolean',
         ])
         ->and($currency->relation['belongsTo'])->toEqual([
-            'country' => \Igniter\System\Models\Country::class,
+            'country' => Country::class,
         ])
         ->and($currency->timestamps)->toBeTrue();
 });

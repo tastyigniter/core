@@ -62,7 +62,7 @@ trait EventEmitter
         if (isset($this->emitterEvents[$eventName])) {
             krsort($this->emitterEvents[$eventName]);
 
-            $this->emitterEventSorted[$eventName] = call_user_func_array('array_merge', $this->emitterEvents[$eventName]);
+            $this->emitterEventSorted[$eventName] = array_merge(...$this->emitterEvents[$eventName]);
         }
     }
 
@@ -123,11 +123,13 @@ trait EventEmitter
                 if (is_null($response)) {
                     continue;
                 }
+
                 if ($halt) {
                     unset($this->emitterSingleEvents[$event]);
 
                     return $response;
                 }
+
                 $result[] = $response;
             }
 
@@ -145,9 +147,11 @@ trait EventEmitter
                 if (is_null($response)) {
                     continue;
                 }
+
                 if ($halt) {
                     return $response;
                 }
+
                 $result[] = $response;
             }
         }

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Igniter\System\Classes;
 
 use Closure;
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Flame\Support\RouterHelper;
 use Igniter\Flame\Traits\ExtendableTrait;
+use Igniter\Main\Classes\MainController;
 use Igniter\System\Facades\Assets;
 use Illuminate\Routing\Controller as IlluminateController;
 use Illuminate\Support\Facades\App;
@@ -89,7 +91,7 @@ class Controller extends IlluminateController
             return Response::make(View::make('igniter.system::no_database'));
         }
 
-        return App::make(\Igniter\Main\Classes\MainController::class)->remap($url);
+        return App::make(MainController::class)->remap($url);
     }
 
     /**
@@ -110,7 +112,7 @@ class Controller extends IlluminateController
             return $result['controller']->initialize()->remap($result['action'], $result['segments']);
         }
 
-        return App::make('Igniter\Admin\Classes\AdminController')->initialize()->remap('404', []);
+        return App::make(AdminController::class)->initialize()->remap('404', []);
     }
 
     /**
@@ -153,7 +155,7 @@ class Controller extends IlluminateController
      * @param string|array $modules Specifies a list of modules to look in.
      * @param string|array $inPath Base path to search the class file.
      *
-     * @return bool|\Igniter\Admin\Classes\AdminController|\Igniter\Main\Classes\MainController
+     * @return bool|AdminController|MainController
      * Returns the backend controller object
      */
     protected function locateControllerInPath($controller, $modules)
@@ -208,8 +210,11 @@ class Controller extends IlluminateController
         ];
 
         $controller = $segments[0] ?? 'dashboard';
-        self::$action = $action = isset($segments[1]) ? $this->processAction($segments[1]) : 'index';
-        self::$segments = $segments = array_slice($segments, 2);
+        $action = isset($segments[1]) ? $this->processAction($segments[1]) : 'index';
+        self::$action = $action;
+
+        $segments = array_slice($segments, 2);
+        self::$segments = $segments;
 
         if ($controllerObj = $this->locateControllerInPath($controller, $modules)) {
             return [
@@ -226,8 +231,10 @@ class Controller extends IlluminateController
     {
         if (count($segments) >= 3) {
             [$author, $extension, $controller] = $segments;
-            self::$action = $action = isset($segments[3]) ? $this->processAction($segments[3]) : 'index';
-            self::$segments = $segments = array_slice($segments, 4);
+            self::$action = isset($segments[3]) ? $this->processAction($segments[3]) : 'index';
+            $action = isset($segments[3]) ? $this->processAction($segments[3]) : 'index';
+            self::$segments = array_slice($segments, 4);
+            $segments = self::$segments;
 
             $extensionCode = sprintf('%s.%s', $author, $extension);
             $extension = resolve(ExtensionManager::class)->findExtension($extensionCode);
@@ -238,7 +245,7 @@ class Controller extends IlluminateController
             $namespace = array_get($extension->extensionMeta(), 'namespace');
             if ($controllerObj = $this->locateControllerInPath(
                 $controller,
-                ["\\{$namespace}", "\\{$namespace}Http\\"],
+                ['\\'.$namespace, sprintf('\%sHttp\\', $namespace)],
             )) {
                 return [
                     'controller' => $controllerObj,

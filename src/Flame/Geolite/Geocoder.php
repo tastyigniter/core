@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Igniter\Flame\Geolite;
 
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
+use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
+use Igniter\Flame\Geolite\Provider\ChainProvider;
+use Igniter\Flame\Geolite\Provider\GoogleProvider;
+use Igniter\Flame\Geolite\Provider\NominatimProvider;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
 
-class Geocoder extends Manager implements Contracts\GeocoderInterface
+class Geocoder extends Manager implements GeocoderInterface
 {
     protected int $limit = 0;
 
@@ -131,27 +135,27 @@ class Geocoder extends Manager implements Contracts\GeocoderInterface
             return $this->$method();
         }
 
-        throw new InvalidArgumentException("Provider [$name] not supported.");
+        throw new InvalidArgumentException(sprintf('Provider [%s] not supported.', $name));
     }
 
     protected function createChainProvider(): AbstractProvider
     {
         $providers = $this->container['config']['igniter-geocoder.providers'];
 
-        return new Provider\ChainProvider($this, $providers);
+        return new ChainProvider($this, $providers);
     }
 
     protected function createNominatimProvider(): AbstractProvider
     {
         $config = $this->container['config']['igniter-geocoder.providers.nominatim'];
 
-        return new Provider\NominatimProvider($this->container['geocoder.client'], $config);
+        return new NominatimProvider($this->container['geocoder.client'], $config);
     }
 
     protected function createGoogleProvider(): AbstractProvider
     {
         $config = $this->container['config']['igniter-geocoder.providers.google'];
 
-        return new Provider\GoogleProvider($this->container['geocoder.client'], $config);
+        return new GoogleProvider($this->container['geocoder.client'], $config);
     }
 }

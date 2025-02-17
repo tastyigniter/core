@@ -8,7 +8,9 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Models\Concerns\Switchable;
+use Igniter\System\Models\Language;
 use Igniter\System\Models\MailLayout;
+use Igniter\System\Models\MailTemplate;
 use Illuminate\Support\Facades\View;
 
 it('returns dropdown options for mail layouts', function() {
@@ -118,9 +120,9 @@ it('configures mail layout model correctly', function() {
             'is_locked' => 'boolean',
         ])
         ->and($layout->relation['hasMany'])->toEqual([
-            'templates' => [\Igniter\System\Models\MailTemplate::class, 'foreignKey' => 'layout_id'],
+            'templates' => [MailTemplate::class, 'foreignKey' => 'layout_id'],
         ])
         ->and($layout->relation['belongsTo'])->toEqual([
-            'language' => \Igniter\System\Models\Language::class,
+            'language' => Language::class,
         ]);
 });

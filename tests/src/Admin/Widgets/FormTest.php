@@ -435,6 +435,7 @@ it('returns save data', function() {
 
     $formWidget = new Form($this->controller, $this->widgetConfig);
     $formWidget->bindToController();
+
     $saveData = $formWidget->getSaveData();
 
     expect($saveData)->toBeArray()->toHaveKey('status_name')
@@ -452,6 +453,7 @@ it('skips disabled, hidden and private field from save data', function() {
     ];
     $formWidget = new Form($this->controller, $this->widgetConfig);
     $formWidget->bindToController();
+
     request()->request->add([
         'status_name' => 'Test Value',
         'status_for' => null,

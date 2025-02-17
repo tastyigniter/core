@@ -186,7 +186,7 @@ class Relation extends BaseFormWidget
      * Returns the value as a relation object from the model,
      * supports nesting via HTML array.
      */
-    protected function getRelationObject(): \Illuminate\Database\Eloquent\Relations\Relation
+    protected function getRelationObject(): RelationBase
     {
         [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
 

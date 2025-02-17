@@ -39,6 +39,7 @@ it('sets multiple properties', function() {
     };
 
     $propertyContainer->setProperties(['property1' => 'value1']);
+
     expect($propertyContainer->getProperties())->toBe(['property1' => 'value1', 'property2' => 'default2']);
 });
 
@@ -57,6 +58,7 @@ it('merges multiple properties', function() {
     };
 
     $propertyContainer->mergeProperties(['property2' => 'value2']);
+
     expect($propertyContainer->getProperties())->toBe(['property1' => 'default1', 'property2' => 'value2']);
 });
 
@@ -79,6 +81,7 @@ it('returns a defined property value or default', function() {
     };
 
     $propertyContainer->setProperty('property1', 'value1');
+
     $result = $propertyContainer->property('property1', 'default');
     expect($result)->toBe('value1');
 

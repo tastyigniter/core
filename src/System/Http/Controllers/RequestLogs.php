@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Igniter\System\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
 use Igniter\System\Models\RequestLog;
 
-class RequestLogs extends \Igniter\Admin\Classes\AdminController
+class RequestLogs extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\System\Models\RequestLog::class,
+            'model' => RequestLog::class,
             'title' => 'lang:igniter::system.request_logs.text_title',
             'emptyMessage' => 'lang:igniter::system.request_logs.text_empty',
             'defaultSort' => ['count', 'DESC'],
@@ -27,7 +30,7 @@ class RequestLogs extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter::system.request_logs.text_form_name',
-        'model' => \Igniter\System\Models\RequestLog::class,
+        'model' => RequestLog::class,
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
             'back' => 'request_logs',

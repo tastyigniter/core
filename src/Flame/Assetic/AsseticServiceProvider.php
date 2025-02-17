@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic;
 
-class AsseticServiceProvider extends \Illuminate\Support\ServiceProvider
+use Illuminate\Support\ServiceProvider;
+
+class AsseticServiceProvider extends ServiceProvider
 {
     public function register(): void
     {

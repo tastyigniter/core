@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Traits;
 
+use Exception;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Components\BlankComponent;
 use Igniter\Main\Template\ComponentPartial;
 use Igniter\Main\Template\Partial;
@@ -53,7 +55,7 @@ trait ComponentMaker
      * @param bool $throwException Throw an exception if the partial is not found.
      *
      * @return string|false Partial contents or false if not throwing an exception.
-     * @throws \Igniter\Flame\Exception\FlashException
+     * @throws FlashException
      * @internal  This method is used internally.
      */
     public function renderComponent(string $name, array $params = [], $throwException = true): string|false
@@ -114,10 +116,10 @@ trait ComponentMaker
      * @param string $alias Alias to give the component
      * @param array $properties Component properties
      * @param bool $addToLayout Add to layout or page
-     * @param null|\Igniter\System\Classes\ComponentManager $manager Component manager
+     * @param null|ComponentManager $manager Component manager
      *
-     * @return \Igniter\System\Classes\BaseComponent Component object
-     * @throws \Exception
+     * @return BaseComponent Component object
+     * @throws Exception
      */
     public function addComponent(string $name, string $alias, array $properties = [], bool $addToLayout = false, ?ComponentManager $manager = null): BaseComponent
     {

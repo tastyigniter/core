@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View;
 
 /**
@@ -18,20 +20,20 @@ use Illuminate\Support\Facades\View;
  * @property string|null $code
  * @property string $subject
  * @property string $body
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property string|null $label
  * @property bool|null $is_custom
  * @property string|null $plain_body
  * @property-read mixed $title
- * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate listFrontEnd(array $options = [])
+ * @method static Builder<static>|MailTemplate applyFilters(array $options = [])
+ * @method static Builder<static>|MailTemplate applySorts(array $sorts = [])
+ * @method static Builder<static>|MailTemplate dropdown(string $column, string $key = null)
+ * @method static Builder<static>|MailTemplate lists(string $column, string $key = null)
+ * @method static Builder<static>|MailTemplate listFrontEnd(array $options = [])
  * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
- * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate query()
- * @method static \Igniter\Flame\Database\Builder<static>|MailTemplate whereCode($value)
+ * @method static Builder<static>|MailTemplate query()
+ * @method static Builder<static>|MailTemplate whereCode($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailTemplate extends Model
@@ -51,7 +53,7 @@ class MailTemplate extends Model
 
     public $relation = [
         'belongsTo' => [
-            'layout' => [\Igniter\System\Models\MailLayout::class, 'foreignKey' => 'layout_id'],
+            'layout' => [MailLayout::class, 'foreignKey' => 'layout_id'],
         ],
     ];
 

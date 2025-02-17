@@ -77,12 +77,16 @@ class StringParser
                         if (!empty($pair)) {
                             $temp = array_merge($temp, $pair);
                         }
+
                         continue;
                     }
+
                     $temp[$this->left.$rowKey.$this->right] = $val;
                 }
+
                 $str .= strtr($match[1], $temp);
             }
+
             $replace[$match[0]] = $str;
         }
 

@@ -13,6 +13,7 @@ it('unbinds single event', function() {
     };
     $emitter->bindEventOnce('test.event', function() {});
     $emitter->unbindEvent('test.event');
+
     expect($emitter->fireEvent('test.event'))->toBe([]);
 });
 

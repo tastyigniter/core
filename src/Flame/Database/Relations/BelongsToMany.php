@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as CollectionBase;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany as BelongsToManyBase;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * Adapted from october\rain\database\relations\BelongsToMany
@@ -161,7 +163,7 @@ class BelongsToMany extends BelongsToManyBase
      * @param int $currentPage
      * @param array $columns
      * @param string $pageName
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function paginate($perPage = 15, $currentPage = null, $columns = ['*'], $pageName = 'page')
     {
@@ -178,7 +180,7 @@ class BelongsToMany extends BelongsToManyBase
      * Create a new pivot model instance.
      *
      * @param bool $exists
-     * @return \Illuminate\Database\Eloquent\Relations\Pivot
+     * @return Pivot
      */
     public function newPivot(array $attributes = [], $exists = false)
     {

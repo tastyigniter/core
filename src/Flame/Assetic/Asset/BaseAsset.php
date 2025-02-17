@@ -6,6 +6,8 @@ namespace Igniter\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Filter\FilterCollection;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * A base abstract asset.
@@ -37,7 +39,7 @@ abstract class BaseAsset implements AssetInterface
     ) {
         $this->filters = new FilterCollection($filters);
         if ($sourcePath && $sourceRoot) {
-            $this->sourceDir = dirname("$sourceRoot/$sourcePath");
+            $this->sourceDir = dirname(sprintf('%s/%s', $sourceRoot, $sourcePath));
         }
     }
 
@@ -134,7 +136,7 @@ abstract class BaseAsset implements AssetInterface
     {
         foreach ($this->vars as $var) {
             if (!str_contains($targetPath, $var)) {
-                throw new \RuntimeException(sprintf('The asset target path "%s" must contain the variable "{%s}".', $targetPath, $var));
+                throw new RuntimeException(sprintf('The asset target path "%s" must contain the variable "{%s}".', $targetPath, $var));
             }
         }
 
@@ -150,7 +152,7 @@ abstract class BaseAsset implements AssetInterface
     {
         foreach (array_keys($values) as $var) {
             if (!in_array($var, $this->vars, true)) {
-                throw new \InvalidArgumentException(sprintf('The asset with source path "%s" has no variable named "%s".', $this->sourcePath, $var));
+                throw new InvalidArgumentException(sprintf('The asset with source path "%s" has no variable named "%s".', $this->sourcePath, $var));
             }
         }
 

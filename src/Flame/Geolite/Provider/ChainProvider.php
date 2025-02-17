@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Provider;
 
-use Igniter\Flame\Geolite\Contracts;
+use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Model\Distance;
 use Illuminate\Support\Collection;
 
-class ChainProvider extends Contracts\AbstractProvider
+class ChainProvider extends AbstractProvider
 {
     public function __construct(protected GeocoderInterface $geocoder, protected array $providers = []) {}
 

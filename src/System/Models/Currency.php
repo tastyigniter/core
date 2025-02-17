@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Igniter\System\Models;
 
 use Igniter\Flame\Currency\Contracts\CurrencyInterface;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\HasCountry;
 use Igniter\System\Models\Concerns\Switchable;
+use Illuminate\Support\Carbon;
 
 /**
  * Currency Model Class
@@ -28,14 +30,14 @@ use Igniter\System\Models\Concerns\Switchable;
  * @property string|null $iso_alpha3
  * @property int|null $iso_numeric
  * @property int|null $currency_status
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon $created_at
  * @property bool $is_default
- * @method static \Igniter\Flame\Database\Builder<static>|Currency applyDefaultable(bool $default = true)
- * @method static \Igniter\Flame\Database\Builder<static>|Currency applySwitchable(bool $switch = true)
- * @method static \Igniter\Flame\Database\Builder<static>|Currency listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Currency query()
- * @method static \Igniter\Flame\Database\Builder<static>|Currency whereIsEnabled()
+ * @method static Builder<static>|Currency applyDefaultable(bool $default = true)
+ * @method static Builder<static>|Currency applySwitchable(bool $switch = true)
+ * @method static Builder<static>|Currency listFrontEnd(array $options = [])
+ * @method static Builder<static>|Currency query()
+ * @method static Builder<static>|Currency whereIsEnabled()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Currency extends Model implements CurrencyInterface
@@ -69,7 +71,7 @@ class Currency extends Model implements CurrencyInterface
 
     public $relation = [
         'belongsTo' => [
-            'country' => \Igniter\System\Models\Country::class,
+            'country' => Country::class,
         ],
     ];
 

@@ -11,6 +11,7 @@ use Igniter\System\Models\Extension;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Translation;
 use Illuminate\Support\Facades\Http;
+use stdClass;
 
 it('lists all loaded namespaces', function() {
     $manager = resolve(LanguageManager::class);
@@ -55,7 +56,7 @@ it('lists locale packages for a given locale', function() {
     $result = $manager->listLocalePackages('en');
 
     expect($result)->toBeArray()
-        ->and($result[0])->toBeInstanceOf(\stdClass::class)
+        ->and($result[0])->toBeInstanceOf(stdClass::class)
         ->and($result[0]->code)->toBe('igniter')
         ->and($result[0]->name)->toBe('Application')
         ->and($result[0]->files)->toBe(['/path/to/lang/en/file.php']);

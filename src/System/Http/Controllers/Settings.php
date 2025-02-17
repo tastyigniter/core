@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Igniter\System\Http\Controllers;
 
 use Exception;
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
-use Igniter\Admin\Traits\FormExtendable;
 use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Admin\Widgets\Toolbar;
@@ -22,10 +22,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use stdClass;
 
-class Settings extends \Igniter\Admin\Classes\AdminController
+class Settings extends AdminController
 {
-    use FormExtendable;
     use WidgetMaker;
 
     protected null|string|array $requiredPermissions = 'Site.Settings';
@@ -146,14 +146,14 @@ class Settings extends \Igniter\Admin\Classes\AdminController
             });
 
             flash()->success(sprintf(lang('igniter::system.settings.alert_email_sent'), $email));
-        } catch (Exception $ex) {
-            flash()->error($ex->getMessage());
+        } catch (Exception $exception) {
+            flash()->error($exception->getMessage());
         }
 
         return $this->refresh();
     }
 
-    public function initWidgets(SettingsModel $model, \stdClass $definition): void
+    public function initWidgets(SettingsModel $model, stdClass $definition): void
     {
         $modelConfig = $this->getFieldConfig($definition->code, $model);
 
@@ -165,9 +165,10 @@ class Settings extends \Igniter\Admin\Classes\AdminController
         $formConfig['context'] = 'edit';
 
         // Form Widget with extensibility
-        /** @var Form $this ->formWidget */
-        $this->formWidget = $this->makeWidget(Form::class, $formConfig);
-        $this->formWidget->bindToController();
+        /** @var Form $formWidget */
+        $formWidget = $this->makeWidget(Form::class, $formConfig);
+        $formWidget->bindToController();
+        $this->formWidget = $formWidget;
 
         // Prep the optional toolbar widget
         if (isset($modelConfig['toolbar'], $this->widgets['toolbar'])) {

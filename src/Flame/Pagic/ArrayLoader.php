@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Igniter\Flame\Pagic;
 
 use Exception;
+use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use InvalidArgumentException;
 
 /**
  * Loads a template from an array.
- * @method \Igniter\Flame\Pagic\Contracts\TemplateInterface getSource()
+ * @method TemplateInterface getSource()
  */
 class ArrayLoader extends Loader
 {

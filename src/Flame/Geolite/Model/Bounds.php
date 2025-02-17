@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Model;
 
-use Igniter\Flame\Geolite\Contracts;
+use Igniter\Flame\Geolite\Contracts\BoundsInterface;
+use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\PolygonInterface;
 use Igniter\Flame\Geolite\Polygon;
 
-class Bounds implements Contracts\BoundsInterface
+class Bounds implements BoundsInterface
 {
     protected int $precision = 8;
 
@@ -30,7 +31,7 @@ class Bounds implements Contracts\BoundsInterface
         $this->east = (float)$east;
     }
 
-    public static function fromPolygon(Contracts\PolygonInterface $polygon): self
+    public static function fromPolygon(PolygonInterface $polygon): self
     {
         $bounds = new static(null, null, null, null);
         $bounds->setPolygon($polygon);
@@ -110,7 +111,7 @@ class Bounds implements Contracts\BoundsInterface
         return $this;
     }
 
-    public function pointInBounds(Contracts\CoordinatesInterface $coordinate): bool
+    public function pointInBounds(CoordinatesInterface $coordinate): bool
     {
         return !(bccomp(
             number_format($coordinate->getLatitude(), $this->getPrecision()),
@@ -146,14 +147,14 @@ class Bounds implements Contracts\BoundsInterface
         );
     }
 
-    public function setPolygon(Contracts\PolygonInterface $polygon): void
+    public function setPolygon(PolygonInterface $polygon): void
     {
         foreach ($polygon->getCoordinates() as $coordinate) {
             $this->addCoordinate($coordinate);
         }
     }
 
-    public function merge(Contracts\BoundsInterface $bounds): self
+    public function merge(BoundsInterface $bounds): self
     {
         $cBounds = clone $this;
 
@@ -178,7 +179,7 @@ class Bounds implements Contracts\BoundsInterface
         ];
     }
 
-    protected function addCoordinate(Contracts\CoordinatesInterface $coordinate)
+    protected function addCoordinate(CoordinatesInterface $coordinate)
     {
         $latitude = $coordinate->getLatitude();
         $longitude = $coordinate->getLongitude();

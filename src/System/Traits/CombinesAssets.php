@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace Igniter\System\Traits;
 
 use Carbon\Carbon;
+use Exception;
 use Igniter\Flame\Assetic\Asset\AssetCache;
 use Igniter\Flame\Assetic\Asset\AssetCollection;
 use Igniter\Flame\Assetic\Asset\FileAsset;
 use Igniter\Flame\Assetic\Asset\HttpAsset;
 use Igniter\Flame\Assetic\AssetManager;
 use Igniter\Flame\Assetic\Cache\FilesystemCache;
+use Igniter\Flame\Assetic\Filter\CssImportFilter;
+use Igniter\Flame\Assetic\Filter\CssRewriteFilter;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
+use Igniter\Flame\Assetic\Filter\ScssphpFilter;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
@@ -53,10 +57,10 @@ trait CombinesAssets
             $this->assetsCombinerUri = Igniter::adminUri().$this->assetsCombinerUri;
         }
 
-        $this->registerFilter('css', new \Igniter\Flame\Assetic\Filter\CssImportFilter);
-        $this->registerFilter(['css', 'scss'], new \Igniter\Flame\Assetic\Filter\CssRewriteFilter);
+        $this->registerFilter('css', new CssImportFilter);
+        $this->registerFilter(['css', 'scss'], new CssRewriteFilter);
 
-        $scssPhpFilter = new \Igniter\Flame\Assetic\Filter\ScssphpFilter;
+        $scssPhpFilter = new ScssphpFilter;
         $scssPhpFilter->addImportPath(public_path());
         $this->registerFilter('scss', $scssPhpFilter);
     }
@@ -148,6 +152,7 @@ trait CombinesAssets
         $response->setLastModified(new Carbon($lastModTime));
         $response->setEtag($eTag);
         $response->setPublic();
+
         $modified = !$response->isNotModified(App::make('request'));
 
         // Request says response is cached, no code evaluation needed
@@ -178,8 +183,8 @@ trait CombinesAssets
             $notes = $this->combineBundles();
 
             Event::dispatch('assets.combiner.afterBuildBundles', [$this, $theme]);
-        } catch (\Exception $ex) {
-            flash()->error('Building assets bundle error: '.$ex->getMessage())->important();
+        } catch (Exception $exception) {
+            flash()->error('Building assets bundle error: '.$exception->getMessage())->important();
         }
 
         return $notes;

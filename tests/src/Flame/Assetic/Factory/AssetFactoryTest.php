@@ -16,6 +16,7 @@ it('creates asset with default options', function() {
     $factory = new AssetFactory('/root');
     $factory->setDebug(false);
     $factory->setDefaultOutput('assetic/*');
+
     $asset = $factory->createAsset('input.css');
 
     expect($factory->isDebug())->toBeFalse()

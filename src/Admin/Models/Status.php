@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * Status Model Class
@@ -16,11 +18,11 @@ use Igniter\Flame\Database\Model;
  * @property bool|null $notify_customer
  * @property string $status_for
  * @property string $status_color
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read string $status_for_name
- * @method static \Igniter\Flame\Database\Builder<static>|Status isForOrder()
- * @method static \Igniter\Flame\Database\Builder<static>|Status isForReservation()
+ * @method static Builder<static>|Status isForOrder()
+ * @method static Builder<static>|Status isForReservation()
  * @mixin \Illuminate\Database\Eloquent\Model
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -44,7 +46,7 @@ class Status extends Model
 
     public $relation = [
         'hasMany' => [
-            'status_history' => \Igniter\Admin\Models\StatusHistory::class,
+            'status_history' => StatusHistory::class,
         ],
     ];
 

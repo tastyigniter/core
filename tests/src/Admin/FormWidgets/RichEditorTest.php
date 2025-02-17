@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Admin\FormWidgets;
 
+use Exception;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\RichEditor;
 use Igniter\System\Facades\Assets;
@@ -57,4 +58,4 @@ it('renders correctly', function() {
     $viewMock->method('exists')->with($this->stringContains('richeditor/richeditor'));
 
     $this->richEditorWidget->render();
-})->throws(\Exception::class);
+})->throws(Exception::class);

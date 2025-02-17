@@ -11,6 +11,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
+use stdClass;
 
 class FormRequest extends BaseFormRequest
 {
@@ -24,7 +25,7 @@ class FormRequest extends BaseFormRequest
         $registeredRules = $this->container->call([$this, 'rules']);
         $parsedRules = ValidationHelper::prepareRules($registeredRules);
 
-        $dataHolder = new \stdClass;
+        $dataHolder = new stdClass;
         $dataHolder->data = $this->validationData();
         $dataHolder->rules = Arr::get($parsedRules, 'rules', $registeredRules);
         $dataHolder->messages = Arr::get($parsedRules, 'messages', $this->messages());

@@ -43,5 +43,6 @@ it('forgets cache for a given table', function() {
 
     $memoryCache->forget($query->from);
     $memoryCache->flush();
+
     expect($memoryCache->get($query))->toBeNull();
 });

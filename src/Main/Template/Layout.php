@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Igniter\Main\Template;
 
 use Igniter\Flame\Pagic\Model;
+use Igniter\Main\Template\Code\LayoutCode;
+use Igniter\Main\Template\Concerns\HasComponents;
+use Igniter\Main\Template\Concerns\HasViewBag;
 
 /**
  * Layout Template Class
  */
 class Layout extends Model
 {
-    use Concerns\HasComponents;
-    use Concerns\HasViewBag;
+    use HasComponents;
+    use HasViewBag;
 
     /** The directory name associated with the model, eg: pages. */
     public const DIR_NAME = '_layouts';
@@ -32,6 +35,6 @@ class Layout extends Model
      */
     public function getCodeClassParent(): string
     {
-        return \Igniter\Main\Template\Code\LayoutCode::class;
+        return LayoutCode::class;
     }
 }

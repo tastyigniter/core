@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support;
 
+use Exception;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\User\Models\Customer;
 use Igniter\User\Models\User;
@@ -106,7 +107,7 @@ class Igniter
                 $schema = resolve('db.connection')->getSchemaBuilder();
                 $this->hasDatabase = $schema->hasTable('settings') && $schema->hasTable('extension_settings');
             }
-        } catch (\Exception) {
+        } catch (Exception) {
             $this->hasDatabase = false;
         }
 

@@ -38,6 +38,7 @@ it('updates component properties and saves', function() {
     $page = Page::load(resolve(ThemeManager::class)->getActiveThemeCode(), 'components');
 
     $page->updateComponent('testComponent', ['property' => 'new value']);
+
     expect($page->settings['components']['testComponent'])->toBe(['property' => 'new value']);
     File::put(testThemePath().'/_pages/components.blade.php', $oldContent);
 });
@@ -47,6 +48,7 @@ it('updates different component properties and saves', function() {
     $page = Page::load(resolve(ThemeManager::class)->getActiveThemeCode(), 'components');
 
     $page->updateComponent('testComponent', ['alias' => 'testComponentCopy', 'property' => 'new value']);
+
     expect($page->settings['components']['testComponentCopy'])->toBe(['property' => 'new value']);
     File::put(testThemePath().'/_pages/components.blade.php', $oldContent);
 });
@@ -55,6 +57,7 @@ it('sorts components by given priorities', function() {
     $page = Page::load(resolve(ThemeManager::class)->getActiveThemeCode(), 'nested-page');
 
     $page->sortComponents(['testComponent testComponentCopy', 'testComponent']);
+
     expect(array_keys($page->settings['components']))->toBe(['testComponent testComponentCopy', 'testComponent']);
 });
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic;
 
+use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\View;
 use Throwable;
@@ -38,8 +39,8 @@ class Template
      * @param array $data An array of parameters to pass to the template
      *
      * @return string The rendered template
-     * @throws \Exception
-     * @throws \Throwable
+     * @throws Exception
+     * @throws Throwable
      */
     public function render(array $data = []): string
     {
@@ -100,8 +101,8 @@ class Template
         // an exception is thrown. This prevents any partial views from leaking.
         try {
             include $path;
-        } catch (Throwable $e) {
-            $this->handleException($e, $obLevel);
+        } catch (Throwable $throwable) {
+            $this->handleException($throwable, $obLevel);
         }
 
         return ltrim(ob_get_clean());

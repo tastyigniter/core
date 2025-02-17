@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\System\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
+use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Admin\Widgets\Toolbar;
@@ -22,18 +24,18 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Request;
 
-class Extensions extends \Igniter\Admin\Classes\AdminController
+class Extensions extends AdminController
 {
     use ManagesUpdates;
     use WidgetMaker;
 
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
+        ListController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\System\Models\Extension::class,
+            'model' => Extension::class,
             'title' => 'lang:igniter::system.extensions.text_title',
             'emptyMessage' => 'lang:igniter::system.extensions.text_empty',
             'pageLimit' => 50,
@@ -92,7 +94,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $this->initFormWidget($model, $action);
     }
 
-    public function delete(string $context, ?string $extensionCode = null): ?\Illuminate\Http\RedirectResponse
+    public function delete(string $context, ?string $extensionCode = null): ?RedirectResponse
     {
         $pageTitle = lang('igniter::system.extensions.text_delete_title');
         Template::setTitle($pageTitle);
@@ -150,7 +152,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
         if ($manager->installExtension($extensionCode)) {
             $title = array_get($extension->extensionMeta(), 'name');
-            flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension $title installed "));
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), sprintf('Extension %s installed ', $title)));
         } else {
             flash()->danger(lang('igniter::admin.alert_error_try_again'));
         }
@@ -173,7 +175,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
 
         if ($manager->uninstallExtension($extensionCode)) {
             $title = $extension ? array_get($extension->extensionMeta(), 'name') : $extensionCode;
-            flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension $title uninstalled "));
+            flash()->success(sprintf(lang('igniter::admin.alert_success'), sprintf('Extension %s uninstalled ', $title)));
         } else {
             flash()->danger(lang('igniter::admin.alert_error_try_again'));
         }
@@ -235,7 +237,7 @@ class Extensions extends \Igniter\Admin\Classes\AdminController
         $manager->deleteExtension($extensionCode, $purgeData);
 
         $title = array_get($extension->extensionMeta(), 'name');
-        flash()->success(sprintf(lang('igniter::admin.alert_success'), "Extension $title deleted "));
+        flash()->success(sprintf(lang('igniter::admin.alert_success'), sprintf('Extension %s deleted ', $title)));
 
         return $this->redirect('extensions');
     }

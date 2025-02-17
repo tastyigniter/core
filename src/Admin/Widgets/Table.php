@@ -28,7 +28,7 @@ class Table extends BaseWidget
 
     protected ?string $recordsKeyFrom = null;
 
-    protected string $dataSourceAliases = \Igniter\Admin\Classes\TableDataSource::class;
+    protected string $dataSourceAliases = TableDataSource::class;
 
     public bool $showPagination = true;
 

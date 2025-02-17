@@ -9,6 +9,7 @@ use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Flame\Traits\ExtensionTrait;
 use Igniter\System\Traits\ConfigMaker;
 use Igniter\System\Traits\ViewMaker;
+use LogicException;
 
 /**
  * Controller Action base Class
@@ -39,7 +40,7 @@ class ControllerAction
 
         foreach ($this->requiredProperties as $property) {
             if (!isset($controller->{$property})) {
-                throw new \LogicException('Class '.$this->controller::class." must define property [$property] used by ".get_called_class());
+                throw new LogicException('Class '.$this->controller::class.sprintf(' must define property [%s] used by ', $property).get_called_class());
             }
         }
     }

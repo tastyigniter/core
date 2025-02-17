@@ -22,7 +22,7 @@ class InvalidFileNameException extends RuntimeException
     {
         $this->invalidFileName = $invalidFileName;
 
-        $this->message = "The specified file name [{$invalidFileName}] is invalid.";
+        $this->message = sprintf('The specified file name [%s] is invalid.', $invalidFileName);
 
         return $this;
     }

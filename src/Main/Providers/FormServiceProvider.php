@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Igniter\Main\Providers;
 
 use Igniter\Admin\Classes\Widgets;
+use Igniter\Main\FormWidgets\Components;
+use Igniter\Main\FormWidgets\MediaFinder;
+use Igniter\Main\FormWidgets\TemplateEditor;
 use Illuminate\Support\ServiceProvider;
 
 class FormServiceProvider extends ServiceProvider
@@ -12,17 +15,17 @@ class FormServiceProvider extends ServiceProvider
     public function register(): void
     {
         resolve(Widgets::class)->registerFormWidgets(function(Widgets $manager) {
-            $manager->registerFormWidget(\Igniter\Main\FormWidgets\Components::class, [
+            $manager->registerFormWidget(Components::class, [
                 'label' => 'Components',
                 'code' => 'components',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Main\FormWidgets\MediaFinder::class, [
+            $manager->registerFormWidget(MediaFinder::class, [
                 'label' => 'Media finder',
                 'code' => 'mediafinder',
             ]);
 
-            $manager->registerFormWidget(\Igniter\Main\FormWidgets\TemplateEditor::class, [
+            $manager->registerFormWidget(TemplateEditor::class, [
                 'label' => 'Template editor',
                 'code' => 'templateeditor',
             ]);

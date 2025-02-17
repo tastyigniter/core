@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as ModelBase;
 
 /**
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot like(string $column, string $value, string $side = 'both', string $boolean = 'and')
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot newModelQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot newQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot orLike(string $column, string $value, string $side = 'both')
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot orSearch(string $term, string $columns = [], string $mode = 'all')
+ * @method static Builder<static>|Pivot applyFilters(array $options = [])
+ * @method static Builder<static>|Pivot applySorts(array $sorts = [])
+ * @method static Builder<static>|Pivot dropdown(string $column, string $key = null)
+ * @method static Builder<static>|Pivot like(string $column, string $value, string $side = 'both', string $boolean = 'and')
+ * @method static Builder<static>|Pivot listFrontEnd(array $options = [])
+ * @method static Builder<static>|Pivot lists(string $column, string $key = null)
+ * @method static Builder<static>|Pivot newModelQuery()
+ * @method static Builder<static>|Pivot newQuery()
+ * @method static Builder<static>|Pivot orLike(string $column, string $value, string $side = 'both')
+ * @method static Builder<static>|Pivot orSearch(string $term, string $columns = [], string $mode = 'all')
  * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot query()
- * @method static \Igniter\Flame\Database\Builder<static>|Pivot search(string $term, string $columns = [], string $mode = 'all')
+ * @method static Builder<static>|Pivot query()
+ * @method static Builder<static>|Pivot search(string $term, string $columns = [], string $mode = 'all')
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Pivot extends Model
@@ -89,7 +90,7 @@ class Pivot extends Model
      * Set the keys for a save update query.
      *
      * @param \Illuminate\Database\Eloquent\Builder
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     protected function setKeysForSaveQuery($query)
     {
@@ -111,7 +112,7 @@ class Pivot extends Model
     /**
      * Get the query builder for a delete operation on the pivot.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     protected function getDeleteQuery()
     {

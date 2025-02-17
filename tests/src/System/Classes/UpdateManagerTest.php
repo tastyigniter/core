@@ -22,6 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 it('logs messages correctly', function() {
     $updateManager = resolve(UpdateManager::class);
     $updateManager->log('Test message');
+
     expect($updateManager->getLogs())->toBe(['Test message']);
 });
 
@@ -29,6 +30,7 @@ it('resets logs correctly', function() {
     $updateManager = resolve(UpdateManager::class);
     $updateManager->log('Test message');
     $updateManager->resetLogs();
+
     expect($updateManager->getLogs())->toBe([]);
 });
 
@@ -57,9 +59,11 @@ it('rolls back extensions and core migrations during down', function() {
     $updateManager = new UpdateManager;
     $outputMock = mock(OutputInterface::class);
     $outputMock->shouldReceive('writeln');
+
     $updateManager->setLogsOutput($outputMock);
 
     $updateManager->down();
+
     $logs = $updateManager->getLogs();
 
     expect($logs[0])->toContain('<info>Purging extension test.extension</info>')
@@ -92,6 +96,7 @@ it('migrates extension correctly', function() {
     Igniter::shouldReceive('migrationPath')->andReturn(['test.extension' => ['/path/to/migrations']]);
     $outputMock = mock(OutputInterface::class);
     $outputMock->shouldReceive('writeln');
+
     $updateManager->setLogsOutput($outputMock);
     $migrator->shouldReceive('runGroup')->once();
 
@@ -127,6 +132,7 @@ it('rolls back extension migrations correctly', function() {
     Igniter::shouldReceive('migrationPath')->andReturn(['test.extension' => ['/path/to/migrations']]);
     $outputMock = mock(OutputInterface::class);
     $outputMock->shouldReceive('writeln');
+
     $updateManager->setLogsOutput($outputMock);
 
     $updateManager->rollbackExtension('test.extension');
@@ -395,10 +401,12 @@ function mockMigrate(): UpdateManager
     $migrator->shouldReceive('runGroup')->twice();
     $databaseSeeder = mock(DatabaseSeeder::class)->makePartial();
     $databaseSeeder->shouldReceive('run');
+
     app()->instance(DatabaseSeeder::class, $databaseSeeder);
     $updateManager = new UpdateManager;
     $outputMock = mock(OutputInterface::class);
     $outputMock->shouldReceive('writeln');
+
     $updateManager->setLogsOutput($outputMock);
 
     return $updateManager;

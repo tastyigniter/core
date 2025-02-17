@@ -7,9 +7,12 @@ namespace Igniter\Flame\Geolite;
 use Igniter\Flame\Geolite\Contracts\BoundsInterface;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
+use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
+use Igniter\Flame\Geolite\Model\Bounds;
+use Igniter\Flame\Geolite\Model\Coordinates;
 use InvalidArgumentException;
 
-class GeoQuery implements Contracts\GeoQueryInterface
+class GeoQuery implements GeoQueryInterface
 {
     /**
      * The address or text that should be geocoded.
@@ -26,9 +29,9 @@ class GeoQuery implements Contracts\GeoQueryInterface
 
     protected array $data = [];
 
-    public function __construct(string|Model\Coordinates $text)
+    public function __construct(string|Coordinates $text)
     {
-        if ($text instanceof Model\Coordinates) {
+        if ($text instanceof Coordinates) {
             $this->coordinates = $text;
         } elseif (!empty($text) && is_string($text)) {
             $this->text = $text;
@@ -42,7 +45,7 @@ class GeoQuery implements Contracts\GeoQueryInterface
         return new self($text);
     }
 
-    public function withBounds(Model\Bounds $bounds): self
+    public function withBounds(Bounds $bounds): self
     {
         $this->bounds = $bounds;
 
@@ -63,7 +66,7 @@ class GeoQuery implements Contracts\GeoQueryInterface
         return $this;
     }
 
-    public function withData(string $name, $value): Contracts\GeoQueryInterface
+    public function withData(string $name, $value): GeoQueryInterface
     {
         $this->data[$name] = $value;
 
@@ -110,10 +113,10 @@ class GeoQuery implements Contracts\GeoQueryInterface
 
     public static function fromCoordinates(int|float $latitude, int|float $longitude): self
     {
-        return new self(new Model\Coordinates($latitude, $longitude));
+        return new self(new Coordinates($latitude, $longitude));
     }
 
-    public function withCoordinates(Model\Coordinates $coordinates): self
+    public function withCoordinates(Coordinates $coordinates): self
     {
         $this->coordinates = $coordinates;
 

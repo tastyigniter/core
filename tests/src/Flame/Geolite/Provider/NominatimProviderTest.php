@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\Flame\Geolite\Provider;
 
 use GuzzleHttp\Client as HttpClient;
+use Igniter\Flame\Geolite\Distance;
 use Igniter\Flame\Geolite\Exception\GeoliteException;
 use Igniter\Flame\Geolite\GeoQuery;
 use Igniter\Flame\Geolite\Model\Coordinates;
@@ -60,6 +61,7 @@ it('returns empty collection when geocode query fails', function() {
     $query = new GeoQuery('test address');
     $query->withLocale('en');
     $query->withData('countrycodes', 'gb');
+
     $this->provider->resetLogs();
 
     expect($this->provider->geocodeQuery($query))->toBeEmpty()
@@ -124,7 +126,7 @@ it('throws exception when user agent is not set for geocode query', function() {
 
 it('returns null when distance query fails', function() {
     $this->httpClient->shouldReceive('get')->andThrow(new GeoliteException('Error'));
-    $distance = new \Igniter\Flame\Geolite\Distance;
+    $distance = new Distance;
     $distance->in('mi');
     $distance->setFrom(new Coordinates(1, 2));
     $distance->setTo(new Coordinates(1, 2));
@@ -172,7 +174,7 @@ it('returns distance result when query is successful', function() {
         ],
     ]));
     $this->httpClient->shouldReceive('get')->andReturn($response);
-    $distance = new \Igniter\Flame\Geolite\Distance;
+    $distance = new Distance;
     $distance->in('mi');
     $distance->setFrom(new Coordinates(1, 2));
     $distance->setTo(new Coordinates(1, 2));
@@ -188,7 +190,7 @@ it('returns distance result when query is successful', function() {
 
 it('throws exception when user agent is not set for distance query', function() {
     $this->httpClient->shouldReceive('get')->andThrow(new GeoliteException('Error'));
-    $distance = new \Igniter\Flame\Geolite\Distance;
+    $distance = new Distance;
     $distance->in('mi');
     $distance->setFrom(new Coordinates(1, 2));
     $distance->setTo(new Coordinates(1, 2));

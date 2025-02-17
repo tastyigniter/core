@@ -9,6 +9,7 @@ use Igniter\Flame\Filesystem\Filesystem;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
+use ReflectionClass;
 
 it('runs migrations for each group', function() {
     $repository = mock(MigrationRepositoryInterface::class);
@@ -32,7 +33,7 @@ it('rolls back migrations', function() {
 
     $migrator = mock(Migrator::class)->makePartial()->shouldAllowMockingProtectedMethods();
     $filesystem = mock(Filesystem::class);
-    $reflection = new \ReflectionClass($migrator);
+    $reflection = new ReflectionClass($migrator);
     $property = $reflection->getProperty('files');
     $property->setAccessible(true);
     $property->setValue($migrator, $filesystem);

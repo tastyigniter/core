@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Flame\Support;
 
+use Exception;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Support\ClassLoader;
 use Igniter\Flame\Support\Facades\File;
+use ReflectionClass;
+use RuntimeException;
 
 it('registers and unregisters the class loader with SPL autoloader stack', function() {
     $loader = resolve(ClassLoader::class);
@@ -16,6 +19,7 @@ it('registers and unregisters the class loader with SPL autoloader stack', funct
     $files = mock(Filesystem::class);
     $loader = new ClassLoader($files, '/base/path', '/manifest/path');
     $loader->unregister();
+
     expect($loader->unregister())->toBeNull();
 
     $loader->manifest = [];
@@ -31,11 +35,12 @@ it('registers and unregisters the class loader with SPL autoloader stack', funct
     $files->shouldReceive('exists')->andReturnFalse();
     $loader = new ClassLoader($files, '/base/path', '/manifest/path');
     $loader->register();
+
     expect($loader->manifest)->toBe([]);
 
     $files = mock(Filesystem::class);
     $files->shouldReceive('exists')->andReturnTrue();
-    $files->shouldReceive('getRequire')->andThrow(new \Exception('Error'));
+    $files->shouldReceive('getRequire')->andThrow(new Exception('Error'));
     $loader = new ClassLoader($files, '/base/path', '/manifest/path');
     $loader->register();
 });
@@ -45,19 +50,20 @@ it('builds correctly', function() {
     $files->shouldReceive('dirname')->andReturn('/manifest/path');
     $loader = new ClassLoader($files, '/base/path', '/manifest/path');
     $loader->manifest = [];
-    $reflection = new \ReflectionClass($loader);
+    $reflection = new ReflectionClass($loader);
     $property = $reflection->getProperty('manifestIsDirty');
     $property->setAccessible(true);
     $property->setValue($loader, true);
 
     expect(fn() => $loader->build())
-        ->toThrow(\RuntimeException::class, 'The /manifest/path directory must be present and writable.');
+        ->toThrow(RuntimeException::class, 'The /manifest/path directory must be present and writable.');
 
     $loader = resolve(ClassLoader::class);
-    $reflection = new \ReflectionClass($loader);
+    $reflection = new ReflectionClass($loader);
     $property = $reflection->getProperty('manifestIsDirty');
     $property->setAccessible(true);
     $property->setValue($loader, true);
+
     $loader->build();
 });
 
@@ -96,6 +102,7 @@ it('loads reverse class if not in the manifest', function() {
     $loader = resolve(ClassLoader::class);
     $loader->addNamespaceAliases(['TestNamespaceAlias' => 'TestNamespace']);
     $loader->register();
+
     expect($loader->load('\\TestNamespaceAlias\\TestReverseClass'))->toBeTrue();
 
     $loader = resolve(ClassLoader::class);
@@ -109,6 +116,7 @@ it('adds directories to the class loader', function() {
     $files = mock(Filesystem::class);
     $loader = new ClassLoader($files, '/base/path', '/manifest/path');
     $loader->addDirectories(['path/to/directory']);
+
     expect($loader->getDirectories())->toContain('path/to/directory');
 });
 
@@ -118,6 +126,7 @@ it('removes directories from the class loader', function() {
     $loader->addDirectories(['path/to/directory']);
     $loader->removeDirectories(['path/to/directory']);
     $loader->removeDirectories();
+
     expect($loader->getDirectories())->not->toContain('path/to/directory');
 });
 
@@ -125,6 +134,7 @@ it('adds aliases to the class loader', function() {
     $files = mock(Filesystem::class);
     $loader = new ClassLoader($files, '/base/path', '/manifest/path');
     $loader->addAliases(['OriginalClass' => 'AliasClass']);
+
     expect($loader->getAlias('AliasClass'))->toBe('OriginalClass');
 });
 

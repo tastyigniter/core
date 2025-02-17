@@ -28,6 +28,7 @@ it('returns result from first provider with non-empty geocode query result', fun
     $geocoder->shouldReceive('makeProvider')->with('provider1')->andReturn($provider);
     $chainProvider = new ChainProvider($geocoder);
     $chainProvider->addProvider('provider1');
+
     expect($chainProvider->geocodeQuery($query))->toBe($result);
 });
 

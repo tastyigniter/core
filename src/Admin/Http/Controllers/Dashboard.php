@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Widgets\DashboardContainer;
 use Igniter\User\Facades\AdminAuth;
 
-class Dashboard extends \Igniter\Admin\Classes\AdminController
+class Dashboard extends AdminController
 {
     public array $containerConfig = [];
 

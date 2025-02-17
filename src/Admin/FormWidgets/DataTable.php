@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\FormWidgets;
 
+use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\FormModelWidget;
@@ -162,7 +163,7 @@ class DataTable extends BaseFormWidget
      * @param string $field Table field name
      * @param array $data Data for the entire table
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getDataTableOptions(string $field, array $data): array
     {

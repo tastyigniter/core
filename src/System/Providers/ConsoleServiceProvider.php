@@ -5,7 +5,21 @@ declare(strict_types=1);
 namespace Igniter\System\Providers;
 
 use Igniter\Flame\Providers\ConsoleServiceProvider as BaseConsoleServiceProvider;
-use Igniter\System\Console;
+use Igniter\System\Console\Commands\ExtensionInstall;
+use Igniter\System\Console\Commands\ExtensionRefresh;
+use Igniter\System\Console\Commands\ExtensionRemove;
+use Igniter\System\Console\Commands\IgniterDown;
+use Igniter\System\Console\Commands\IgniterInstall;
+use Igniter\System\Console\Commands\IgniterPackageDiscover;
+use Igniter\System\Console\Commands\IgniterPasswd;
+use Igniter\System\Console\Commands\IgniterUp;
+use Igniter\System\Console\Commands\IgniterUpdate;
+use Igniter\System\Console\Commands\IgniterUtil;
+use Igniter\System\Console\Commands\LanguageInstall;
+use Igniter\System\Console\Commands\ThemeInstall;
+use Igniter\System\Console\Commands\ThemePublish;
+use Igniter\System\Console\Commands\ThemeRemove;
+use Igniter\System\Console\Commands\ThemeVendorPublish;
 use Igniter\System\EventSubscribers\ConsoleSubscriber;
 
 class ConsoleServiceProvider extends BaseConsoleServiceProvider
@@ -15,20 +29,20 @@ class ConsoleServiceProvider extends BaseConsoleServiceProvider
     ];
 
     protected $commands = [
-        'util' => Console\Commands\IgniterUtil::class,
-        'up' => Console\Commands\IgniterUp::class,
-        'down' => Console\Commands\IgniterDown::class,
-        'package-discover' => Console\Commands\IgniterPackageDiscover::class,
-        'install' => Console\Commands\IgniterInstall::class,
-        'update' => Console\Commands\IgniterUpdate::class,
-        'passwd' => Console\Commands\IgniterPasswd::class,
-        'extension.install' => Console\Commands\ExtensionInstall::class,
-        'extension.refresh' => Console\Commands\ExtensionRefresh::class,
-        'extension.remove' => Console\Commands\ExtensionRemove::class,
-        'theme.install' => Console\Commands\ThemeInstall::class,
-        'theme.remove' => Console\Commands\ThemeRemove::class,
-        'theme.publish' => Console\Commands\ThemePublish::class,
-        'theme.vendor-publish' => Console\Commands\ThemeVendorPublish::class,
-        'language.install' => Console\Commands\LanguageInstall::class,
+        'util' => IgniterUtil::class,
+        'up' => IgniterUp::class,
+        'down' => IgniterDown::class,
+        'package-discover' => IgniterPackageDiscover::class,
+        'install' => IgniterInstall::class,
+        'update' => IgniterUpdate::class,
+        'passwd' => IgniterPasswd::class,
+        'extension.install' => ExtensionInstall::class,
+        'extension.refresh' => ExtensionRefresh::class,
+        'extension.remove' => ExtensionRemove::class,
+        'theme.install' => ThemeInstall::class,
+        'theme.remove' => ThemeRemove::class,
+        'theme.publish' => ThemePublish::class,
+        'theme.vendor-publish' => ThemeVendorPublish::class,
+        'language.install' => LanguageInstall::class,
     ];
 }

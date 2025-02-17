@@ -17,5 +17,6 @@ it('builds view data with restored property values', function() {
 it('sets serialized view data with current locale', function() {
     $mailable = new Mailable;
     $mailable->withSerializedData(['key' => 'value']);
+
     expect($mailable->viewData)->toBe(['_current_locale' => App::getLocale(), 'key' => 'value']);
 });

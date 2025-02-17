@@ -36,6 +36,7 @@ it('caches query results forever', function() {
 it('retrieves query results when duplicate caching is enabled', function() {
     $builder = Status::getQuery()->enableDuplicateCache()->remember(10, 'cache_key');
     $builder->flushDuplicateCache();
+
     expect($builder->get())->toEqual($builder->get());
     $builder->disableDuplicateCache();
 });

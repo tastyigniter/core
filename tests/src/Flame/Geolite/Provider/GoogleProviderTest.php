@@ -132,6 +132,7 @@ it('returns cached geocode results when query was previously geocoded', function
     $client->shouldReceive('get')->andReturn($response);
     $provider = new GoogleProvider($client, ['endpoints' => ['geocode' => 'http://example.com'], 'apiKey' => 'test']);
     $provider->setCacheLifetime(1234);
+
     $query = new GeoQuery('test');
     $query->withLimit(1);
     $query->withLocale('fr');

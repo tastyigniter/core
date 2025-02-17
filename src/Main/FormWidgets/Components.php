@@ -134,6 +134,7 @@ class Components extends BaseFormWidget
             if (!array_has($this->getComponents(), $codeAlias)) {
                 throw new FlashException('Invalid component selected');
             }
+
             $codeAlias = $this->getUniqueAlias($codeAlias);
         } elseif (!array_has($this->loadTemplateComponents(), $codeAlias)) {
             throw new FlashException('Invalid component selected');
@@ -258,8 +259,9 @@ class Components extends BaseFormWidget
         string $context,
         null|BaseComponent|LivewireComponent|BladeComponent $componentObj = null,
     ): Form {
-        $propertyConfig = $propertyValues = [];
-        if ($componentObj) {
+        $propertyConfig = [];
+        $propertyValues = [];
+        if ($componentObj !== null) {
             $propertyConfig = $context === 'edit' ? $this->manager->getComponentPropertyConfig($componentObj) : [];
             $propertyValues = $this->manager->getComponentPropertyValues($componentObj);
         }

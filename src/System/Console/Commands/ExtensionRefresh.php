@@ -7,12 +7,14 @@ namespace Igniter\System\Console\Commands;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
+use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class ExtensionRefresh extends Command
 {
-    use \Illuminate\Console\ConfirmableTrait;
+    use ConfirmableTrait;
 
     /**
      * The console command name.
@@ -40,7 +42,7 @@ class ExtensionRefresh extends Command
 
         $extensionName = $extensionManager->getIdentifier(strtolower($extensionName));
         if (!$extensionManager->hasExtension($extensionName)) {
-            throw new \InvalidArgumentException(sprintf('Extension "%s" not found.', $extensionName));
+            throw new InvalidArgumentException(sprintf('Extension "%s" not found.', $extensionName));
         }
 
         $manager = resolve(UpdateManager::class);

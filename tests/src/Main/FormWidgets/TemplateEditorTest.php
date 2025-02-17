@@ -26,6 +26,7 @@ beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->formField = new FormField('template', 'Template Editor');
     $this->formField->displayAs('templateeditor');
+
     $this->formField->arrayName = 'theme';
     $this->templateEditorWidget = new TemplateEditor($this->controller, $this->formField, [
         'model' => Theme::factory()->make(['code' => 'tests-theme']),
@@ -191,7 +192,8 @@ it('updates template file content', function() {
     $theme->shouldReceive('getName')->andReturn('tests-theme');
 
     $this->templateEditorWidget->prepareVars();
-    $this->templateEditorWidget->vars['templateWidget']->data->fileSource = $pageTemplate = mock(PageTemplate::class);
+    $this->templateEditorWidget->vars['templateWidget']->data->fileSource = mock(PageTemplate::class);
+    $pageTemplate = $this->templateEditorWidget->vars['templateWidget']->data->fileSource;
     $pageTemplate->shouldReceive('fill')->andReturnSelf();
     $pageTemplate->shouldReceive('save')->andReturnTrue();
     $pageTemplate->shouldReceive('hasGetMutator')->andReturnFalse();

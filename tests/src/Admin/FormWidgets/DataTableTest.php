@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Admin\FormWidgets;
 
+use Exception;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\FormWidgets\DataTable;
 use Igniter\Admin\Models\Status;
@@ -55,7 +56,7 @@ it('renders correctly', function() {
     $viewMock->method('exists')->with($this->stringContains('datatable/datatable'));
 
     $this->dataTableWidget->render();
-})->throws(\Exception::class);
+})->throws(Exception::class);
 
 it('returns load value correctly when value is a collection', function() {
     expect($this->dataTableWidget->getLoadValue())->toBeArray();

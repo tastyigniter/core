@@ -167,6 +167,7 @@ class FlashException extends Exception implements HttpExceptionInterface
         if ($this->overlay) {
             $flashBag->overlay();
         }
+
         if ($this->important) {
             $flashBag->important();
         }

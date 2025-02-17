@@ -9,6 +9,7 @@ use Igniter\System\Console\Commands\IgniterUp;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\Schema;
 use Mockery;
+use ReflectionClass;
 use Symfony\Component\Console\Input\InputInterface;
 
 it('builds database tables when confirmed', function() {
@@ -51,7 +52,7 @@ it('renames conflicting foundation tables', function() {
     $command = mock(IgniterUp::class)->makePartial()->shouldAllowMockingProtectedMethods();
     $output = mock(OutputStyle::class);
     $command->setOutput($output);
-    $reflection = new \ReflectionClass($command);
+    $reflection = new ReflectionClass($command);
     $property = $reflection->getProperty('components');
     $property->setAccessible(true);
     $property->setValue($command, $output);

@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic;
 
+use Exception;
+use Igniter\Flame\Pagic\Cache\FileSystem;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
+use Igniter\Flame\Pagic\Contracts\TemplateLoader;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Compilers\CompilerInterface;
+use Throwable;
 
 class Environment
 {
@@ -20,7 +24,7 @@ class Environment
 
     protected string $charset;
 
-    protected ?Cache\FileSystem $cache;
+    protected ?FileSystem $cache;
 
     protected static array $globalsCache;
 
@@ -39,14 +43,14 @@ class Environment
      *
      * @param array $options An array of options
      */
-    public function __construct(protected Contracts\TemplateLoader $loader, array $options = [])
+    public function __construct(protected TemplateLoader $loader, array $options = [])
     {
         $this->setLoader($loader);
 
         $options = array_merge([
             'debug' => false,
             'charset' => 'UTF-8',
-            'templateClass' => \Igniter\Flame\Pagic\Template::class,
+            'templateClass' => Template::class,
             'cache' => null,
         ], $options);
 
@@ -58,7 +62,7 @@ class Environment
         View::share('___env', $this);
     }
 
-    public function setLoader(Contracts\TemplateLoader $loader): void
+    public function setLoader(TemplateLoader $loader): void
     {
         $this->loader = $loader;
     }
@@ -66,7 +70,7 @@ class Environment
     /**
      * Gets the Loader instance.
      */
-    public function getLoader(): Contracts\TemplateLoader
+    public function getLoader(): TemplateLoader
     {
         return $this->loader;
     }
@@ -117,7 +121,7 @@ class Environment
     /**
      * Gets the current cache implementation.
      */
-    public function getCache(): Cache\FileSystem
+    public function getCache(): FileSystem
     {
         return $this->cache;
     }
@@ -125,7 +129,7 @@ class Environment
     /**
      * Sets the current cache implementation.
      */
-    public function setCache(Cache\FileSystem $cache): void
+    public function setCache(FileSystem $cache): void
     {
         $this->cache = $cache;
     }
@@ -154,8 +158,8 @@ class Environment
      * @param array $context An array of parameters to pass to the template
      *
      * @return string The rendered template
-     * @throws \Exception
-     * @throws \Throwable
+     * @throws Exception
+     * @throws Throwable
      */
     public function render(string $name, array $context = []): string
     {
@@ -230,7 +234,7 @@ class Environment
      * @param int $time The last modification time of the cached template
      *
      * @return bool true if the template is fresh, false otherwise
-     * @throws \Exception
+     * @throws Exception
      */
     public function isTemplateFresh(string $name, int $time): bool
     {

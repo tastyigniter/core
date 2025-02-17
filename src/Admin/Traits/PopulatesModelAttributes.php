@@ -6,6 +6,7 @@ namespace Igniter\Admin\Traits;
 
 use Igniter\Admin\Classes\FormField;
 use Illuminate\Database\Eloquent\Model;
+use LogicException;
 
 trait PopulatesModelAttributes
 {
@@ -49,7 +50,7 @@ trait PopulatesModelAttributes
             return $model->getRelationType($attribute);
         }
 
-        throw new \LogicException('Model does not implement getRelationType method');
+        throw new LogicException('Model does not implement getRelationType method');
     }
 
     protected function hasModelRelation(Model $model, string $attribute): bool

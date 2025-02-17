@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Http\Controllers;
 
+use Exception;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserRole;
@@ -121,7 +122,7 @@ it('sends test email', function() {
 });
 
 it('flashes error when sending test email fails', function() {
-    Mail::shouldReceive('raw')->andThrow(new \Exception('Test exception'));
+    Mail::shouldReceive('raw')->andThrow(new Exception('Test exception'));
 
     actingAsSuperUser()
         ->post(route('igniter.system.settings', ['slug' => 'edit/mail']), [

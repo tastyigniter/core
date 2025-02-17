@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset;
 
+use InvalidArgumentException;
+use Traversable;
+
 /**
  * An asset collection.
  *
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  */
-interface AssetCollectionInterface extends \Traversable, AssetInterface
+interface AssetCollectionInterface extends AssetInterface, Traversable
 {
     /**
      * Returns all child assets.
@@ -33,7 +36,7 @@ interface AssetCollectionInterface extends \Traversable, AssetInterface
      *
      * @return bool Whether the asset has been found
      *
-     * @throws \InvalidArgumentException If the asset cannot be found
+     * @throws InvalidArgumentException If the asset cannot be found
      */
     public function removeLeaf(AssetInterface $leaf, bool $graceful = false): bool;
 
@@ -46,7 +49,7 @@ interface AssetCollectionInterface extends \Traversable, AssetInterface
      *
      * @return bool Whether the asset has been found
      *
-     * @throws \InvalidArgumentException If the asset cannot be found
+     * @throws InvalidArgumentException If the asset cannot be found
      */
     public function replaceLeaf(AssetInterface $needle, AssetInterface $replacement, bool $graceful = false): bool;
 }

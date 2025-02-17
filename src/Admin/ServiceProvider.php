@@ -5,10 +5,20 @@ declare(strict_types=1);
 namespace Igniter\Admin;
 
 use Igniter\Admin\Classes\Navigation;
+use Igniter\Admin\Classes\OnboardingSteps;
+use Igniter\Admin\Classes\RouteRegistrar;
 use Igniter\Admin\Classes\Template;
+use Igniter\Admin\Classes\Widgets;
 use Igniter\Admin\DashboardWidgets\Charts;
 use Igniter\Admin\DashboardWidgets\Statistics;
+use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Helpers\AdminHelper;
+use Igniter\Admin\Models\Status;
+use Igniter\Admin\Models\StatusHistory;
+use Igniter\Admin\Providers\EventServiceProvider;
+use Igniter\Admin\Providers\FormServiceProvider;
+use Igniter\Admin\Providers\MenuItemServiceProvider;
+use Igniter\Admin\Providers\PermissionServiceProvider;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
@@ -48,10 +58,10 @@ class ServiceProvider extends AppServiceProvider
 
         Igniter::loadControllersFrom(igniter_path('src/Admin/Http/Controllers'), 'Igniter\\Admin\\Http\\Controllers');
 
-        $this->app->register(Providers\EventServiceProvider::class);
-        $this->app->register(Providers\FormServiceProvider::class);
-        $this->app->register(Providers\MenuItemServiceProvider::class);
-        $this->app->register(Providers\PermissionServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
+        $this->app->register(FormServiceProvider::class);
+        $this->app->register(MenuItemServiceProvider::class);
+        $this->app->register(PermissionServiceProvider::class);
 
         if (Igniter::runningInAdmin()) {
             $this->registerAssets();
@@ -66,15 +76,15 @@ class ServiceProvider extends AppServiceProvider
         $this->app->singleton(AdminHelper::class);
 
         $this->app->singleton('admin.menu', function($app): Navigation {
-            return new Classes\Navigation('igniter.admin::_partials');
+            return new Navigation;
         });
 
         $this->app->singleton('admin.template', function($app): Template {
-            return new Classes\Template;
+            return new Template;
         });
 
-        $this->app->singleton(Classes\OnboardingSteps::class);
-        $this->app->singleton(Classes\Widgets::class);
+        $this->app->singleton(OnboardingSteps::class);
+        $this->app->singleton(Widgets::class);
     }
 
     protected function registerFacadeAliases()
@@ -82,7 +92,7 @@ class ServiceProvider extends AppServiceProvider
         $loader = AliasLoader::getInstance();
 
         foreach ([
-            'AdminMenu' => \Igniter\Admin\Facades\AdminMenu::class,
+            'AdminMenu' => AdminMenu::class,
             'Template' => \Igniter\Admin\Facades\Template::class,
         ] as $alias => $class) {
             $loader->alias($alias, $class);
@@ -102,8 +112,8 @@ class ServiceProvider extends AppServiceProvider
     protected function defineEloquentMorphMaps()
     {
         Relation::morphMap([
-            'status_history' => \Igniter\Admin\Models\StatusHistory::class,
-            'statuses' => \Igniter\Admin\Models\Status::class,
+            'status_history' => StatusHistory::class,
+            'statuses' => Status::class,
         ]);
     }
 
@@ -111,7 +121,7 @@ class ServiceProvider extends AppServiceProvider
     {
         if (!app()->routesAreCached()) {
             Route::group([], function($router) {
-                (new Classes\RouteRegistrar($router))->all();
+                (new RouteRegistrar($router))->all();
             });
         }
     }

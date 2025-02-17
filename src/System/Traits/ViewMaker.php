@@ -120,7 +120,7 @@ trait ViewMaker
      * @param bool $throwException Throw an exception if the layout is not found
      *
      * @return string The layout contents, or false.
-     * @throws \Igniter\Flame\Exception\SystemException
+     * @throws SystemException
      */
     public function makeLayout(?string $name = null, array $vars = [], bool $throwException = true): string
     {

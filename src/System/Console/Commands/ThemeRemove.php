@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Closure;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;
 
 class ThemeRemove extends Command
 {
-    use \Illuminate\Console\ConfirmableTrait;
+    use ConfirmableTrait;
 
     /**
      * The console command name.
@@ -54,8 +56,8 @@ class ThemeRemove extends Command
 
             $themeManager->deleteTheme($themeName);
             $this->output->writeln(sprintf('<info>Deleted theme: %s</info>', $themeName));
-        } catch (Throwable $e) {
-            $this->output->writeln($e->getMessage());
+        } catch (Throwable $throwable) {
+            $this->output->writeln($throwable->getMessage());
         }
     }
 
@@ -83,7 +85,7 @@ class ThemeRemove extends Command
 
     /**
      * Get the default confirmation callback.
-     * @return \Closure
+     * @return Closure
      */
     protected function getDefaultConfirmCallback()
     {

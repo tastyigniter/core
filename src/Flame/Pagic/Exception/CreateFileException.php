@@ -20,7 +20,7 @@ class CreateFileException extends RuntimeException
     {
         $this->invalidPath = $path;
 
-        $this->message = "Error creating file [{$path}]. Please check write permissions.";
+        $this->message = sprintf('Error creating file [%s]. Please check write permissions.', $path);
 
         return $this;
     }

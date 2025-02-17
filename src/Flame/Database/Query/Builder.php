@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Query;
 
+use Closure;
+use DateTime;
 use Igniter\Flame\Database\MemoryCache;
+use Illuminate\Cache\CacheManager;
 use Illuminate\Database\Query\Builder as IlluminateQueryBuilder;
 use Illuminate\Support\Facades\App;
 
@@ -56,7 +59,7 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Indicate that the query results should be cached.
      *
-     * @param \DateTime|int $minutes
+     * @param DateTime|int $minutes
      * @param string $key
      * @return $this
      */
@@ -169,7 +172,7 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Get the cache object with tags assigned, if applicable.
      *
-     * @return \Illuminate\Cache\CacheManager
+     * @return CacheManager
      */
     protected function getCache()
     {
@@ -210,7 +213,7 @@ class Builder extends IlluminateQueryBuilder
      * Get the Closure callback used when caching queries.
      *
      * @param array $columns
-     * @return \Closure
+     * @return Closure
      */
     protected function getCacheCallback($columns)
     {

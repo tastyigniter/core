@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Connectors;
 
+use Closure;
 use Igniter\Flame\Database\Connections\MySqlConnection;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Connectors\ConnectionFactory as BaseConnectionFactory;
@@ -12,6 +13,7 @@ use Illuminate\Database\SQLiteConnection;
 use Illuminate\Database\SqlServerConnection;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use PDO;
 use PDOException;
 
 class ConnectionFactory extends BaseConnectionFactory
@@ -20,7 +22,7 @@ class ConnectionFactory extends BaseConnectionFactory
      * Carbon copy of parent. Except Laravel creates an "uncatchable" exception,
      * this is resolved as part of the override below.
      *
-     * @return \Closure
+     * @return Closure
      */
     protected function createPdoResolverWithHosts(array $config)
     {
@@ -44,12 +46,12 @@ class ConnectionFactory extends BaseConnectionFactory
      * Create a new connection instance.
      *
      * @param string $driver
-     * @param \PDO $connection
+     * @param PDO $connection
      * @param string $database
      * @param string $prefix
-     * @return \Illuminate\Database\Connection
+     * @return Connection
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
     {
@@ -68,6 +70,6 @@ class ConnectionFactory extends BaseConnectionFactory
                 return new SqlServerConnection($connection, $database, $prefix, $config);
         }
 
-        throw new InvalidArgumentException("Unsupported driver [$driver]");
+        throw new InvalidArgumentException(sprintf('Unsupported driver [%s]', $driver));
     }
 }

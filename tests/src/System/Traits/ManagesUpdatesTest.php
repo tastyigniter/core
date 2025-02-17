@@ -28,7 +28,7 @@ it('searches extensions successfully', function() {
 it('returns error when search fails', function() {
     $updateManager = mock(UpdateManager::class);
     app()->instance(UpdateManager::class, $updateManager);
-    $updateManager->shouldReceive('searchItems')->andThrow(new \Exception('Search failed'));
+    $updateManager->shouldReceive('searchItems')->andThrow(new Exception('Search failed'));
 
     actingAsSuperUser()
         ->get(route('igniter.system.extensions', ['slug' => 'search'])

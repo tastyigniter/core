@@ -8,8 +8,10 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\Markdown;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\PackageManifest;
+use InvalidArgumentException;
 
 /**
  * Extension Model Class
@@ -46,7 +48,7 @@ class Extension extends Model
     protected $fillable = ['name', 'version'];
 
     /**
-     * @var \Igniter\System\Classes\BaseExtension
+     * @var BaseExtension
      */
     public $class;
 
@@ -107,8 +109,9 @@ class Extension extends Model
         if (!empty($image = array_get($icon, 'image', '')) && File::exists($file = resolve(ExtensionManager::class)->path($this->name, $image))) {
             $extension = pathinfo($file, PATHINFO_EXTENSION);
             if (!array_key_exists($extension, self::ICON_MIMETYPES)) {
-                throw new \InvalidArgumentException('Invalid extension icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
+                throw new InvalidArgumentException('Invalid extension icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
             }
+
             $mimeType = self::ICON_MIMETYPES[$extension];
             $data = base64_encode(File::get($file));
             $icon['backgroundImage'] = [$mimeType, $data];

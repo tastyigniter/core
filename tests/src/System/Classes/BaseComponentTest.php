@@ -59,6 +59,7 @@ it('sets and gets alias', function() {
     $baseComponent = createBaseComponent();
 
     $baseComponent->setAlias('testAlias');
+
     expect($baseComponent->getAlias())->toBe('testAlias');
 });
 
@@ -75,6 +76,7 @@ it('returns component parameter', function() {
     request()->setRouteResolver(fn() => $route);
     $route->bind(request());
     $route->setParameter('location', 'value');
+
     $baseComponent = createBaseComponent();
 
     expect($baseComponent->param('location'))->toBe('value')
@@ -107,5 +109,6 @@ it('converts to string', function() {
     };
 
     $component->setAlias('stringAlias');
+
     expect((string)$component)->toBe('stringAlias');
 });

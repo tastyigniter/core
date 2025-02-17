@@ -8,6 +8,7 @@ use GuzzleHttp\Client as HttpClient;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
+use Igniter\Flame\Geolite\Facades\Geocoder;
 use Igniter\Flame\Geolite\GeoQuery;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Distance;
@@ -74,7 +75,8 @@ it('geocodes an address with limit and locale', function() {
 
     $query = new GeoQuery($address);
     $query->withLimit(0);
-    expect(\Igniter\Flame\Geolite\Facades\Geocoder::geocodeQuery($query))->toBeInstanceOf(Collection::class);
+
+    expect(Geocoder::geocodeQuery($query))->toBeInstanceOf(Collection::class);
 });
 
 it('reverses geocodes coordinates with limit and locale', function() {
@@ -89,6 +91,7 @@ it('reverses geocodes coordinates with limit and locale', function() {
 
     $query = new GeoQuery(new Coordinates(37.4224764, -122.0842499));
     $query->withLimit(0);
+
     expect($geocoder->reverseQuery($query))->toBeInstanceOf(Collection::class);
 });
 
@@ -103,7 +106,7 @@ it('creates provider correctly', function() {
 
 it('creates a custom provider', function() {
     $geocoder = resolve('geocoder');
-    $geocoder->extend('custom', function(): \Igniter\Flame\Geolite\Contracts\AbstractProvider {
+    $geocoder->extend('custom', function(): AbstractProvider {
         return new class extends AbstractProvider
         {
             public function getName(): string

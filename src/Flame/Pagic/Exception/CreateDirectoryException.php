@@ -20,7 +20,7 @@ class CreateDirectoryException extends RuntimeException
     {
         $this->invalidPath = $path;
 
-        $this->message = "Error creating directory [{$path}]. Please check write permissions.";
+        $this->message = sprintf('Error creating directory [%s]. Please check write permissions.', $path);
 
         return $this;
     }

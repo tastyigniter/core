@@ -14,6 +14,7 @@ use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Models\Extension;
 use LogicException;
+use stdClass;
 use ZipArchive;
 
 it('returns correct path for extension with folder', function() {
@@ -159,7 +160,7 @@ it('throws exception if extension class does not exist', function() {
 it('throws exception if extension class does not extend BaseExtension', function() {
     $manager = resolve(ExtensionManager::class);
 
-    expect(fn() => $manager->resolveExtension('test.identifier', __DIR__, \stdClass::class))
+    expect(fn() => $manager->resolveExtension('test.identifier', __DIR__, stdClass::class))
         ->toThrow(LogicException::class, "Extension class 'stdClass' must extend 'Igniter\System\Classes\BaseExtension'.");
 });
 

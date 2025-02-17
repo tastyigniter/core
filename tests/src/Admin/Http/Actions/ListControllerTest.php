@@ -9,12 +9,13 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Models\Status;
 use Igniter\Admin\Widgets\Lists;
+use Igniter\Admin\Widgets\Toolbar;
 
 beforeEach(function() {
     $this->controller = new class extends AdminController
     {
         public array $implement = [
-            \Igniter\Admin\Http\Actions\ListController::class,
+            ListController::class,
         ];
 
         public $listConfig = [
@@ -119,7 +120,7 @@ it('binds events correctly', function() {
 });
 
 it('renders list widget correctly', function() {
-    $this->controller->widgets['toolbar'] = new \Igniter\Admin\Widgets\Toolbar($this->controller);
+    $this->controller->widgets['toolbar'] = new Toolbar($this->controller);
 
     $this->listController->index();
 
@@ -127,7 +128,7 @@ it('renders list widget correctly', function() {
 });
 
 it('renders list toolbar correctly', function() {
-    $this->controller->widgets['toolbar'] = new \Igniter\Admin\Widgets\Toolbar($this->controller);
+    $this->controller->widgets['toolbar'] = new Toolbar($this->controller);
     $this->listController->index();
 
     expect($this->listController->renderListToolbar())->toBeString();

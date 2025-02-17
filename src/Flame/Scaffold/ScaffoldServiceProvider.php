@@ -43,7 +43,7 @@ class ScaffoldServiceProvider extends ServiceProvider
     protected function registerCommands(array $commands)
     {
         foreach ($commands as $class => $command) {
-            $this->{"register{$class}Command"}($command);
+            $this->{sprintf('register%sCommand', $class)}($command);
         }
 
         $this->commands(array_values($commands));
@@ -52,28 +52,28 @@ class ScaffoldServiceProvider extends ServiceProvider
     protected function registerMakeExtensionCommand($command)
     {
         $this->app->singleton($command, function(Application $app): MakeExtension {
-            return new Console\MakeExtension($app['files']);
+            return new MakeExtension($app['files']);
         });
     }
 
     protected function registerMakeComponentCommand($command)
     {
         $this->app->singleton($command, function(Application $app): MakeComponent {
-            return new Console\MakeComponent($app['files']);
+            return new MakeComponent($app['files']);
         });
     }
 
     protected function registerMakeControllerCommand($command)
     {
         $this->app->singleton($command, function(Application $app): MakeController {
-            return new Console\MakeController($app['files']);
+            return new MakeController($app['files']);
         });
     }
 
     protected function registerMakeModelCommand($command)
     {
         $this->app->singleton($command, function(Application $app): MakeModel {
-            return new Console\MakeModel($app['files']);
+            return new MakeModel($app['files']);
         });
     }
 }

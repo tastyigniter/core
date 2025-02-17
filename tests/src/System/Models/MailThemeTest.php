@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Models;
 
+use Exception;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Actions\SettingsModel;
 use Igniter\System\Models\MailTheme;
@@ -46,7 +47,7 @@ it('compiles and caches CSS if not available in cache', function() {
 
 it('throws exception when rendering css', function() {
     File::shouldReceive('symbolizePath')->with('igniter::views/system/_mail/themes/default.css')->andReturn('file_path');
-    File::shouldReceive('get')->with('file_path')->andThrow(new \Exception('Error compiling CSS'));
+    File::shouldReceive('get')->with('file_path')->andThrow(new Exception('Error compiling CSS'));
 
     $result = MailTheme::renderCss();
 

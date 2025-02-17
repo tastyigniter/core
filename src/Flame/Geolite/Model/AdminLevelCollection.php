@@ -12,7 +12,7 @@ class AdminLevelCollection extends Collection
     public const MAX_LEVEL_DEPTH = 5;
 
     /**
-     * @param \Igniter\Flame\Geolite\Model\AdminLevel[] $items
+     * @param AdminLevel[] $items
      */
     public function __construct(array $items = [])
     {

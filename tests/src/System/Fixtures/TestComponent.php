@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Fixtures;
 
+use Igniter\System\Classes\BaseComponent;
 use Illuminate\Support\Facades\Validator;
 
-class TestComponent extends \Igniter\System\Classes\BaseComponent
+class TestComponent extends BaseComponent
 {
     public static function componentMeta(): array
     {

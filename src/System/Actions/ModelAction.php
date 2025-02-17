@@ -7,6 +7,7 @@ namespace Igniter\System\Actions;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Traits\ExtensionTrait;
 use Igniter\System\Traits\ConfigMaker;
+use LogicException;
 
 /**
  * Model Action base Class
@@ -28,7 +29,7 @@ class ModelAction
 
         foreach ($this->requiredProperties as $property) {
             if (!isset($model->{$property})) {
-                throw new \LogicException(sprintf(
+                throw new LogicException(sprintf(
                     'Class %s must define property %s used by %s',
                     $model::class, $property, get_called_class()
                 ));

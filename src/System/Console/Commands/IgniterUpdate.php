@@ -70,8 +70,8 @@ class IgniterUpdate extends Command
 
             // Run migrations
             $this->call('igniter:up');
-        } catch (Throwable $e) {
-            $this->output->writeln($e->getMessage());
+        } catch (Throwable $throwable) {
+            $this->output->writeln($throwable->getMessage());
         }
     }
 

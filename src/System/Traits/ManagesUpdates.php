@@ -9,6 +9,7 @@ use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Http\RedirectResponse;
+use Throwable;
 
 trait ManagesUpdates
 {
@@ -183,7 +184,7 @@ trait ManagesUpdates
                     'install' => $updateManager->install($meta),
                     'complete' => $updateManager->completeinstall($meta),
                 };
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $errorMessage = nl2br($e->getMessage());
                 $errorMessage .= "\n\n".'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'."\n\n";
 
@@ -193,8 +194,8 @@ trait ManagesUpdates
             $json['message'] = implode(PHP_EOL, $updateManager->getLogs());
 
             $success = true;
-        } catch (\Throwable $e) {
-            $json['message'] = $e->getMessage();
+        } catch (Throwable $throwable) {
+            $json['message'] = $throwable->getMessage();
         }
 
         $json['success'] = $success;

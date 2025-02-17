@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Main\Traits;
 
+use Exception;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Components\BlankComponent;
 use Igniter\Main\Template\Page;
+use Igniter\System\Classes\BaseComponent;
 
 it('returns false if component not found', function() {
     expect((new MainController)->renderComponent('nonexistent', [], false))->toBeFalse();
@@ -14,7 +16,7 @@ it('returns false if component not found', function() {
 
 it('renders component using onRender method', function() {
     $page = Page::resolveRouteBinding('components');
-    $page->loadedComponents['onRenderComponent'] = new class extends \Igniter\System\Classes\BaseComponent
+    $page->loadedComponents['onRenderComponent'] = new class extends BaseComponent
     {
         public function onRender(): string
         {
@@ -61,7 +63,7 @@ it('throws exception when no component is found in array', function() {
     $controller->runPage($page);
 
     expect(fn() => $controller->renderComponentFirst(['component1', 'component2'], []))
-        ->toThrow(new \Exception('None of the components in the given array exist.'));
+        ->toThrow(new Exception('None of the components in the given array exist.'));
 });
 
 it('checks component exists', function() {

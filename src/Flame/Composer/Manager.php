@@ -120,10 +120,10 @@ class Manager
         try {
             $packages = array_map('strtolower', $requirements);
             $this->composer->requirePackages($packages, false, $output);
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             $this->restoreComposerFiles();
 
-            throw $e;
+            throw $throwable;
         }
     }
 
@@ -134,10 +134,10 @@ class Manager
         try {
             $packages = array_map('strtolower', $requirements);
             $this->composer->removePackages($packages, false, $output);
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             $this->restoreComposerFiles();
 
-            throw $e;
+            throw $throwable;
         }
     }
 

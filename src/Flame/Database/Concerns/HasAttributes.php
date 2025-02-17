@@ -6,6 +6,7 @@ namespace Igniter\Flame\Database\Concerns;
 
 use BadMethodCallException;
 use Carbon\Carbon;
+use DateTime;
 use DateTimeInterface;
 use InvalidArgumentException;
 
@@ -209,7 +210,7 @@ trait HasAttributes
         return $value;
     }
 
-    protected function asTime($value): ?\Carbon\Carbon
+    protected function asTime($value): ?Carbon
     {
         // If this value is already a Carbon instance, we shall just return it as is.
         // This prevents us having to re-instantiate a Carbon instance when we know
@@ -250,7 +251,7 @@ trait HasAttributes
     /**
      * Convert a Carbon Time to a storable string.
      *
-     * @param \DateTime|\Carbon\Carbon|int $value
+     * @param DateTime|Carbon|int $value
      *
      * @return string
      */

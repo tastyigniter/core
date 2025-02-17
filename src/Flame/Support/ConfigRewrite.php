@@ -54,8 +54,10 @@ class ConfigRewrite
                 if (!is_array($array) || !array_key_exists($part, $array)) {
                     throw new RuntimeException(sprintf('Unable to rewrite key "%s" in config, does it exist?', $key));
                 }
+
                 $array = $array[$part];
             }
+
             $actualValue = $array;
         }
 
@@ -194,6 +196,7 @@ class ConfigRewrite
                 // The left hand array assignment
                 $itemOpen[] = '[\'|"]'.$item.'[\'|"]\s*=>\s*(?:[aA][rR]{2}[aA][yY]\(|[\[])';
             }
+
             // Capture all opening array (non greedy)
             $result = '('.implode('[\s\S]*', $itemOpen).'[\s\S]*?)';
         } else {

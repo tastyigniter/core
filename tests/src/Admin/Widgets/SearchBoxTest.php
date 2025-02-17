@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Admin\Widgets;
 
+use Exception;
 use Igniter\Admin\Widgets\SearchBox;
 use Igniter\Tests\Fixtures\Controllers\TestController;
 use Illuminate\View\Factory;
@@ -18,7 +19,7 @@ it('renders without errors', function() {
     $viewMock->method('exists')->with($this->stringContains('searchbox/searchbox'));
 
     expect($this->searchBoxWidget->render())->toBeString();
-})->throws(\Exception::class);
+})->throws(Exception::class);
 
 it('prepares vars without errors', function() {
     $this->searchBoxWidget->prepareVars();

@@ -11,6 +11,7 @@ use Igniter\Flame\Pagic\Exception\CreateFileException;
 use Igniter\Flame\Pagic\Exception\DeleteFileException;
 use Igniter\Flame\Pagic\Exception\FileExistsException;
 use Igniter\Flame\Pagic\Processors\Processor;
+use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -26,12 +27,12 @@ class FileSource extends AbstractSource implements SourceInterface
 
     /**
      * The filesystem instance.
-     * @var \Igniter\Flame\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $files;
 
     /**
-     * @var \Symfony\Component\Finder\Finder
+     * @var Finder
      */
     public $finder;
 
@@ -89,7 +90,7 @@ class FileSource extends AbstractSource implements SourceInterface
             ->ignoreDotFiles(true)
             ->depth('<= 1');  // Support only a single level of subdirectories
 
-        $iterator->filter(function(\SplFileInfo $file) use ($extensions, $fileMatch) {
+        $iterator->filter(function(SplFileInfo $file) use ($extensions, $fileMatch) {
             // Filter by extension
             $fileExt = $file->getExtension();
             if (!is_null($extensions) && !in_array($fileExt, $extensions)) {

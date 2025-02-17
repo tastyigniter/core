@@ -218,30 +218,39 @@ class FormField
         if (isset($config['options'])) {
             $this->options($config['options']);
         }
+
         if (isset($config['span'])) {
             $this->span($config['span']);
         }
+
         if (isset($config['size'])) {
             $this->size($config['size']);
         }
+
         if (isset($config['tab'])) {
             $this->tab($config['tab']);
         }
+
         if (isset($config['commentAbove'])) {
             $this->commentAbove = $config['commentAbove'];
         }
+
         if (isset($config['comment'])) {
             $this->comment = $config['comment'];
         }
+
         if (isset($config['default'])) {
             $this->defaults = $config['default'];
         }
+
         if (isset($config['defaultFrom'])) {
             $this->defaultFrom = $config['defaultFrom'];
         }
+
         if (isset($config['attributes'])) {
             $this->attributes($config['attributes']);
         }
+
         if (isset($config['containerAttributes'])) {
             $this->attributes($config['containerAttributes'], 'container');
         }
@@ -351,7 +360,7 @@ class FormField
         }
 
         $newAttributes = [
-            'data-trigger' => '[name=\''.trim($fullTriggerField).'\']',
+            'data-trigger' => "[name='".trim($fullTriggerField)."']",
             'data-trigger-action' => $triggerAction,
             'data-trigger-condition' => $triggerCondition,
             'data-trigger-closest-parent' => 'form',
@@ -514,11 +523,13 @@ class FormField
                 if (!array_key_exists($key, $result)) {
                     return $default;
                 }
+
                 $result = $result[$key];
             } else {
                 if (!isset($result->{$key})) {
                     return $default;
                 }
+
                 $result = $result->{$key};
             }
         }

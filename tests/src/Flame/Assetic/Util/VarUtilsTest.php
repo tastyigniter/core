@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\Flame\Assetic\Util;
 
 use Igniter\Flame\Assetic\Util\VarUtils;
+use InvalidArgumentException;
 
 it('resolves template with all variables', function() {
     $template = 'Hello, {name}!';
@@ -19,7 +20,7 @@ it('throws exception for missing variable value', function() {
     $vars = ['name'];
     $values = [];
 
-    expect(fn() => VarUtils::resolve($template, $vars, $values))->toThrow(\InvalidArgumentException::class);
+    expect(fn() => VarUtils::resolve($template, $vars, $values))->toThrow(InvalidArgumentException::class);
 });
 
 it('ignores unused variables in template', function() {

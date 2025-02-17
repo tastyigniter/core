@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Traits;
 
+use Exception;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\PermalinkMaker;
+use Illuminate\Database\Eloquent\Builder;
 use LogicException;
 
 /**
@@ -21,7 +23,7 @@ trait HasPermalink
 {
     /**
      * Boot the sortable trait for this model.
-     * @throws \Exception
+     * @throws Exception
      */
     public static function bootHasPermalink(): void
     {
@@ -75,7 +77,7 @@ trait HasPermalink
      *
      * @param string $slug
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeWhereSlug($query, $slug)
     {
@@ -85,10 +87,10 @@ trait HasPermalink
     /**
      * Query scope for finding "similar" slugs, used to determine uniqueness.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @param string $attribute
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeFindSimilarSlugs($query, $attribute, array $config, string $slug)
     {
@@ -116,7 +118,7 @@ trait HasPermalink
     }
 
     /**
-     * @return \Igniter\Flame\Database\PermalinkMaker
+     * @return PermalinkMaker
      */
     protected function getPermalinkMaker()
     {

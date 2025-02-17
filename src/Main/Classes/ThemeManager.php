@@ -17,6 +17,7 @@ use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use LogicException;
 
 /**
  * Theme Manager Class
@@ -268,7 +269,7 @@ class ThemeManager
      */
     public function isDisabled(string $themeCode): bool
     {
-        throw new \LogicException('Deprecated. Use $instance::isActive($themeCode) instead');
+        throw new LogicException('Deprecated. Use $instance::isActive($themeCode) instead');
     }
 
     /**
@@ -361,7 +362,7 @@ class ThemeManager
         [$dirName, $fileName] = $this->getFileNameParts($filePath);
 
         if (!strlen($fileName) || !$template = $theme->onTemplate($dirName)->find($fileName)) {
-            throw new SystemException("Theme template file not found: $filePath");
+            throw new SystemException('Theme template file not found: '.$filePath);
         }
 
         return $template;
@@ -378,7 +379,7 @@ class ThemeManager
         }
 
         if (File::isFile($path)) {
-            throw new SystemException("Theme template file already exists: $filePath");
+            throw new SystemException('Theme template file already exists: '.$filePath);
         }
 
         if (!File::isDirectory($directory = File::dirname($path))) {
@@ -398,7 +399,7 @@ class ThemeManager
         [$dirName, $fileName] = $this->getFileNameParts($filePath);
 
         if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
-            throw new SystemException("Theme template file not found: $filePath");
+            throw new SystemException('Theme template file not found: '.$filePath);
         }
 
         return $template->fill($attributes)->save();
@@ -415,7 +416,7 @@ class ThemeManager
         [$newDirName, $newFileName] = $this->getFileNameParts($newFilePath);
 
         if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
-            throw new SystemException("Theme template file not found: $filePath");
+            throw new SystemException('Theme template file not found: '.$filePath);
         }
 
         if ($this->isLockedPath($template->getFilePath(), $theme)) {
@@ -426,7 +427,7 @@ class ThemeManager
         $newFilePath = $theme->path.'/'.$newDirName.'/'.$newFileName;
 
         if ($oldFilePath === $newFilePath) {
-            throw new SystemException("Theme template file already exists: $filePath");
+            throw new SystemException('Theme template file already exists: '.$filePath);
         }
 
         return $template->update(['fileName' => $newFileName]);
@@ -442,7 +443,7 @@ class ThemeManager
         [$dirName, $fileName] = $this->getFileNameParts($filePath);
 
         if (!$template = $theme->onTemplate($dirName)->find($fileName)) {
-            throw new SystemException("Theme template file not found: $filePath");
+            throw new SystemException('Theme template file not found: '.$filePath);
         }
 
         if ($this->isLockedPath($template->getFilePath(), $theme)) {

@@ -126,33 +126,34 @@ class FormController extends ControllerAction
 
         $this->controller->formExtendConfig($formConfig);
 
-        /** @var Form $this ->formWidget */
-        $this->formWidget = $this->makeWidget(Form::class, $formConfig);
+        /** @var Form $formWidget */
+        $formWidget = $this->makeWidget(Form::class, $formConfig);
 
-        $this->formWidget->bindEvent('form.extendFieldsBefore', function() {
+        $formWidget->bindEvent('form.extendFieldsBefore', function() {
             $this->controller->formExtendFieldsBefore($this->formWidget);
         });
 
-        $this->formWidget->bindEvent('form.extendFields', function($fields) {
+        $formWidget->bindEvent('form.extendFields', function($fields) {
             $this->controller->formExtendFields($this->formWidget, $fields);
         });
 
-        $this->formWidget->bindEvent('form.beforeRefresh', function($holder) {
+        $formWidget->bindEvent('form.beforeRefresh', function($holder) {
             $result = $this->controller->formExtendRefreshData($this->formWidget, $holder->data);
             if (is_array($result)) {
                 $holder->data = $result;
             }
         });
 
-        $this->formWidget->bindEvent('form.refreshFields', function($fields) {
+        $formWidget->bindEvent('form.refreshFields', function($fields) {
             return $this->controller->formExtendRefreshFields($this->formWidget, $fields);
         });
 
-        $this->formWidget->bindEvent('form.refresh', function($result) {
+        $formWidget->bindEvent('form.refresh', function($result) {
             return $this->controller->formExtendRefreshResults($this->formWidget, $result);
         });
 
-        $this->formWidget->bindToController();
+        $formWidget->bindToController();
+        $this->formWidget = $formWidget;
 
         // Prep the optional toolbar widget
         if (isset($modelConfig['toolbar'], $this->controller->widgets['toolbar'])) {
@@ -186,7 +187,9 @@ class FormController extends ControllerAction
 
     public function create_onSave(?string $context = null): ?RedirectResponse
     {
-        $context = $this->context = $context ?: $this->getConfig('create[context]', self::CONTEXT_CREATE);
+        $context = $context ?: $this->getConfig('create[context]', self::CONTEXT_CREATE);
+        $this->context = $context;
+
         $model = $this->controller->formCreateModelObject();
         $model = $this->controller->formExtendModel($model) ?: $model;
         $this->initForm($model, $context);
@@ -217,8 +220,8 @@ class FormController extends ControllerAction
 
     public function edit(?string $context = null, mixed $recordId = null): void
     {
-        $context = $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
-
+        $context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
+        $this->context = $context;
         $this->setFormTitle('lang:igniter::admin.form.edit_title');
 
         $model = $this->controller->formFindModelObject($recordId);
@@ -228,7 +231,8 @@ class FormController extends ControllerAction
 
     public function edit_onSave(?string $context = null, mixed $recordId = null): ?RedirectResponse
     {
-        $context = $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
+        $context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
+        $this->context = $context;
 
         $model = $this->controller->formFindModelObject($recordId);
         $this->initForm($model, $context);
@@ -259,7 +263,8 @@ class FormController extends ControllerAction
 
     public function edit_onDelete(?string $context = null, mixed $recordId = null): ?RedirectResponse
     {
-        $context = $this->context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
+        $context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
+        $this->context = $context;
 
         $model = $this->controller->formFindModelObject($recordId);
         $this->initForm($model, $context);
@@ -278,8 +283,8 @@ class FormController extends ControllerAction
 
     public function preview(?string $context = null, mixed $recordId = null): void
     {
-        $context = $this->context = $context ?: $this->getConfig('preview[context]', self::CONTEXT_PREVIEW);
-
+        $context = $context ?: $this->getConfig('preview[context]', self::CONTEXT_PREVIEW);
+        $this->context = $context;
         $this->setFormTitle('lang:igniter::admin.form.preview_title');
 
         $model = $this->controller->formFindModelObject($recordId);
@@ -390,7 +395,7 @@ class FormController extends ControllerAction
             ? 'redirect'.studly_case($redirectAction)
             : 'redirect';
 
-        $redirects = [$context => $this->getConfig("{$redirectContext}[{$redirectSource}]", '')];
+        $redirects = [$context => $this->getConfig(sprintf('%s[%s]', $redirectContext, $redirectSource), '')];
         $redirects['default'] = $this->getConfig('defaultRedirect', '');
 
         return $redirects[$context] ?? $redirects['default'];

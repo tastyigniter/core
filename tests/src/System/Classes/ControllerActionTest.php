@@ -6,6 +6,7 @@ namespace Igniter\Tests\System\Classes;
 
 use Igniter\System\Classes\ControllerAction;
 use Igniter\Tests\Fixtures\Controllers\TestController;
+use LogicException;
 
 it('initializes with controller and sets paths', function() {
     $controller = resolve(TestController::class);
@@ -24,7 +25,7 @@ it('throws exception if required property is missing', function() {
     expect(fn() => new class($controller) extends ControllerAction
     {
         protected array $requiredProperties = ['missingProperty'];
-    })->toThrow(\LogicException::class);
+    })->toThrow(LogicException::class);
 });
 
 it('sets and gets config correctly', function() {

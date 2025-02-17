@@ -85,8 +85,10 @@ it('throws exception when replacing non-existent leaf asset', function() {
 it('loads assets and concatenates content', function() {
     $asset1 = new FileAsset('path/to/asset1');
     $asset1->setContent('content1');
+
     $asset2 = new FileAsset('path/to/asset2');
     $asset2->setContent('content2');
+
     $collection = new AssetCollection([$asset1, $asset2]);
     File::shouldReceive('isFile')->andReturnTrue();
     File::shouldReceive('get')->andReturn('content1', 'content2');
@@ -98,8 +100,10 @@ it('loads assets and concatenates content', function() {
 it('dumps assets and concatenates content', function() {
     $asset1 = new FileAsset('path/to/asset1');
     $asset1->setContent('content1');
+
     $asset2 = new FileAsset('path/to/asset2');
     $asset2->setContent('content2');
+
     $collection = new AssetCollection([$asset1, $asset2]);
     $collection->ensureFilter(new CssImportFilter);
     File::shouldReceive('isFile')->andReturnTrue();

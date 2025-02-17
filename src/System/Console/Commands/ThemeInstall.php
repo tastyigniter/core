@@ -45,8 +45,8 @@ class ThemeInstall extends Command
 
             resolve(ThemeManager::class)->loadThemes();
             resolve(ThemeManager::class)->installTheme($packageInfo->code, $packageInfo->version);
-        } catch (Throwable $e) {
-            $this->output->writeln($e->getMessage());
+        } catch (Throwable $throwable) {
+            $this->output->writeln($throwable->getMessage());
         }
 
         return null;

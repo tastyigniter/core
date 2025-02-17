@@ -8,6 +8,7 @@ use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Flame\Assetic\Util\VarUtils;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -27,14 +28,14 @@ class HttpAsset extends BaseAsset
      * @param string $sourceUrl The source URL
      * @param array $filters An array of filters
      *
-     * @throws \InvalidArgumentException If the first argument is not an URL
+     * @throws InvalidArgumentException If the first argument is not an URL
      */
     public function __construct(string $sourceUrl, array $filters = [], bool $ignoreErrors = false, array $vars = [])
     {
         if (str_starts_with($sourceUrl, '//')) {
             $sourceUrl = 'http:'.$sourceUrl;
         } elseif (!str_contains($sourceUrl, '://')) {
-            throw new \InvalidArgumentException(sprintf('"%s" is not a valid URL.', $sourceUrl));
+            throw new InvalidArgumentException(sprintf('"%s" is not a valid URL.', $sourceUrl));
         }
 
         $this->sourceUrl = $sourceUrl;

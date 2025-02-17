@@ -39,6 +39,7 @@ it('returns parameter value if set', function() {
     $route = new Route('GET', 'test', []);
     $route->bind(request());
     $route->setParameter('param', 'value');
+
     request()->setRouteResolver(fn() => $route);
 
     expect(controller()->param('param'))->toBe('value')

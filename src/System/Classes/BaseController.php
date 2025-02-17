@@ -6,6 +6,7 @@ namespace Igniter\System\Classes;
 
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Traits\EventEmitter;
+use ReflectionMethod;
 
 /**
  * Base Controller Class
@@ -90,7 +91,7 @@ class BaseController extends Extendable
         }
 
         if ($ownMethod = method_exists($this, $action)) {
-            $methodInfo = new \ReflectionMethod($this, $action);
+            $methodInfo = new ReflectionMethod($this, $action);
 
             return $methodInfo->isPublic();
         }

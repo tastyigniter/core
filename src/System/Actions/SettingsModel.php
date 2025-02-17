@@ -42,6 +42,7 @@ class SettingsModel extends ModelAction
         $this->model->setKeyName('id');
         $this->model->addCasts(['data' => 'array']);
         $this->model->guard([]);
+
         $this->model->timestamps = false;
 
         $parts = explode('\\', strtolower(get_class($model)));

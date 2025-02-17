@@ -5,27 +5,31 @@ declare(strict_types=1);
 namespace Igniter\Main\Http\Controllers;
 
 use Facades\Igniter\System\Helpers\CacheHelper;
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\Http\Requests\ThemeRequest;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Http\RedirectResponse;
 
-class Themes extends \Igniter\Admin\Classes\AdminController
+class Themes extends AdminController
 {
     use ManagesUpdates;
 
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\Main\Models\Theme::class,
+            'model' => Theme::class,
             'title' => 'lang:igniter::system.themes.text_title',
             'emptyMessage' => 'lang:igniter::system.themes.text_empty',
             'defaultSort' => ['theme_id', 'DESC'],
@@ -35,8 +39,8 @@ class Themes extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter::system.themes.text_form_name',
-        'model' => \Igniter\Main\Models\Theme::class,
-        'request' => \Igniter\Main\Http\Requests\ThemeRequest::class,
+        'model' => Theme::class,
+        'request' => ThemeRequest::class,
         'edit' => [
             'title' => 'igniter::system.themes.text_edit_title',
             'redirect' => 'themes/edit/{code}',

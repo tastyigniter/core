@@ -8,6 +8,7 @@ use Igniter\Flame\Database\Attach\HasMedia;
 use Igniter\Flame\Database\Attach\Manipulator;
 use Igniter\Flame\Database\Attach\Media;
 use Igniter\System\Models\Country;
+use RuntimeException;
 
 it('attaches media to model', function() {
     $model = new class extends Country
@@ -22,6 +23,7 @@ it('attaches media to model', function() {
         }
     };
     $model->save();
+
     $media = new Media([
         'name' => 'image.jpg',
         'disk' => 'image.jpg',
@@ -56,6 +58,7 @@ it('attaches multiple media to model', function() {
         }
     };
     $model->save();
+
     $media1 = $model->newMediaInstance()->fill([
         'name' => 'image1.jpg',
         'disk' => 'image1.jpg',
@@ -90,7 +93,7 @@ it('throws exception when it can not find media', function() {
         }
     };
 
-    expect(fn() => $model->findMedia(123))->toThrow(\RuntimeException::class);
+    expect(fn() => $model->findMedia(123))->toThrow(RuntimeException::class);
 });
 
 it('filters media by custom properties when retrieving media', function() {
@@ -106,6 +109,7 @@ it('filters media by custom properties when retrieving media', function() {
         }
     };
     $model->save();
+
     $media1 = new Media([
         'name' => 'image1.jpg',
         'disk' => 'image1.jpg',

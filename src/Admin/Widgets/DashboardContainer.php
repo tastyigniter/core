@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use DateTimeInterface;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Admin\Classes\BaseWidget;
@@ -36,9 +37,9 @@ class DashboardContainer extends BaseWidget
 
     public string $dateRangeFormat = 'MMMM D, YYYY hh:mm A';
 
-    public ?\DateTimeInterface $startDate = null;
+    public ?DateTimeInterface $startDate = null;
 
-    public ?\DateTimeInterface $endDate = null;
+    public ?DateTimeInterface $endDate = null;
 
     /**
      * A list of default widgets to load.
@@ -162,7 +163,7 @@ class DashboardContainer extends BaseWidget
         ]);
 
         throw_unless(
-            $widget instanceof \Igniter\Admin\Classes\BaseDashboardWidget,
+            $widget instanceof BaseDashboardWidget,
             new FlashException(lang('igniter::admin.dashboard.alert_invalid_widget')),
         );
 
@@ -261,7 +262,7 @@ class DashboardContainer extends BaseWidget
         $this->setWidgetsToUserPreferences(
             collect($this->getWidgetsFromUserPreferences())
                 ->mapWithKeys(function(array $widget, $alias) use ($aliases) {
-                    $widget['priority'] = (int)array_search($alias, $aliases);
+                    $widget['priority'] = (int)array_search($alias, $aliases, true);
 
                     return [$alias => $widget];
                 })->all(),
@@ -299,12 +300,12 @@ class DashboardContainer extends BaseWidget
     // Helpers
     //
 
-    public function getStartDate(): \DateTimeInterface
+    public function getStartDate(): DateTimeInterface
     {
         return $this->getSession('startDate', now()->startOfDay()->subDays(29));
     }
 
-    public function getEndDate(): \DateTimeInterface
+    public function getEndDate(): DateTimeInterface
     {
         return $this->getSession('endDate', now()->startOfDay());
     }

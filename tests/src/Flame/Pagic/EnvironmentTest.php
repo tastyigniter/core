@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Flame\Pagic;
 
+use Exception;
 use Igniter\Flame\Pagic\Cache\FileSystem;
 use Igniter\Flame\Pagic\Environment;
 use Igniter\Flame\Pagic\Template;
@@ -13,6 +14,7 @@ use Igniter\Main\Template\Page;
 it('sets and gets debug mode correctly', function() {
     $environment = resolve(Environment::class);
     $environment->setDebug(true);
+
     expect($environment->getDebug())->toBeTrue();
     $environment->setDebug(false);
     expect($environment->getDebug())->toBeFalse();
@@ -21,12 +23,14 @@ it('sets and gets debug mode correctly', function() {
 it('sets and gets template class correctly', function() {
     $environment = resolve(Environment::class);
     $environment->setTemplateClass('NewTemplateClass');
+
     expect($environment->getTemplateClass())->toBe('NewTemplateClass');
 });
 
 it('sets and gets charset correctly', function() {
     $environment = resolve(Environment::class);
     $environment->setCharset('ISO-8859-1');
+
     expect($environment->getCharset())->toBe('ISO-8859-1');
 });
 
@@ -34,6 +38,7 @@ it('sets and gets cache correctly', function() {
     $cache = mock(FileSystem::class);
     $environment = resolve(Environment::class);
     $environment->setCache($cache);
+
     expect($environment->getCache())->toBe($cache);
 });
 
@@ -60,7 +65,7 @@ it('renders template correctly', function() {
 it('throws exception when template path is invalid', function() {
     $environment = resolve(Environment::class);
     $template = new Template($environment, '/path/to/invalid/template');
-    expect(fn() => $template->render())->toThrow(\Exception::class);
+    expect(fn() => $template->render())->toThrow(Exception::class);
 });
 
 it('renders source with provided variables', function() {
@@ -81,12 +86,14 @@ it('creates template and returns template instance', function() {
 it('adds and gets global variables correctly', function() {
     $environment = resolve(Environment::class);
     $environment->addGlobal('key', 'value');
+
     expect($environment->getGlobals())->toHaveKey('key', 'value');
 });
 
 it('merges globals with context correctly', function() {
     $environment = resolve(Environment::class);
     $environment->addGlobal('globalKey', 'globalValue');
+
     $context = ['contextKey' => 'contextValue'];
     $merged = $environment->mergeGlobals($context);
     expect($merged)->toHaveKey('globalKey', 'globalValue')

@@ -32,7 +32,8 @@ class BaseDashboardWidget extends BaseWidget
 
     public function getPropertyRules(): array
     {
-        $rules = $attributes = [];
+        $rules = [];
+        $attributes = [];
         foreach ($this->defineProperties() as $name => $params) {
             if (strlen($rule = array_get($params, 'validationRule', '')) !== 0) {
                 $rules[$name] = $rule;

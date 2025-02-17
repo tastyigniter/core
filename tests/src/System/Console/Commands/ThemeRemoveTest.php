@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Console\Commands;
 
+use Exception;
 use Igniter\Main\Classes\ThemeManager;
 
 it('removes theme successfully', function() {
@@ -44,7 +45,7 @@ it('handles exception during removal', function() {
     $themeManager = mock(ThemeManager::class);
     app()->instance(ThemeManager::class, $themeManager);
     $themeManager->shouldReceive('hasTheme')->with('tests-theme')->andReturnTrue();
-    $themeManager->shouldReceive('deleteTheme')->with('tests-theme')->andThrow(new \Exception('An error occurred'));
+    $themeManager->shouldReceive('deleteTheme')->with('tests-theme')->andThrow(new Exception('An error occurred'));
 
     $this->artisan('igniter:theme-remove tests-theme')
         ->expectsConfirmation('Are you sure you want to run this command?', 'yes')

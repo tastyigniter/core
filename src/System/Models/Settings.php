@@ -7,6 +7,7 @@ namespace Igniter\System\Models;
 use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Session;
  * @property string|null $item
  * @property string|null $value
  * @property int|null $serialized
- * @method static \Igniter\Flame\Database\Builder<static>|Settings query()
+ * @method static Builder<static>|Settings query()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Settings extends Model

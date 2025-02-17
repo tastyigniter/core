@@ -34,7 +34,7 @@ class CacheHelper
     public function clearView(): void
     {
         $path = config('view.compiled');
-        foreach (File::glob("{$path}/*") as $view) {
+        foreach (File::glob($path.'/*') as $view) {
             File::delete($view);
         }
     }

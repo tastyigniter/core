@@ -7,8 +7,10 @@ namespace Igniter\Flame\Database\Attach;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use League\Glide\Server;
 use League\Glide\ServerFactory;
+use LogicException;
 
 class Manipulator
 {
@@ -41,7 +43,7 @@ class Manipulator
     public function useDriver(string $driver): self
     {
         if (!in_array($driver, ['gd', 'imagick'])) {
-            throw new \LogicException("Driver must be 'gd' or 'imagick'. '$driver' provided.");
+            throw new LogicException(sprintf("Driver must be 'gd' or 'imagick'. '%s' provided.", $driver));
         }
 
         $this->driver = $driver;
@@ -127,7 +129,7 @@ class Manipulator
         $parameters = $this->getAvailableGlideParameters();
         foreach ($this->manipulations() as $name => $argument) {
             if (!$paramName = array_get($parameters, $name)) {
-                throw new \InvalidArgumentException("Unknown parameter '$name' provided when manipulating '$this->file'");
+                throw new InvalidArgumentException(sprintf("Unknown parameter '%s' provided when manipulating '%s'", $name, $this->file));
             }
 
             $glideParameters[$paramName] = $argument;
@@ -216,7 +218,7 @@ class Manipulator
         }
 
         if (starts_with($path, base_path())) {
-            throw new \InvalidArgumentException("The provided path ($path) must be a relative path to the file, from the source root");
+            throw new InvalidArgumentException(sprintf('The provided path (%s) must be a relative path to the file, from the source root', $path));
         }
 
         return $path;

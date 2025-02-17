@@ -9,10 +9,11 @@ use Igniter\Flame\Support\Facades\File;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use InvalidArgumentException;
 use League\Flysystem\FilesystemOperator;
+use LogicException;
 
 it('throws exception for unsupported driver', function() {
     $manipulator = new Manipulator('path/to/file.jpg');
-    expect(fn() => $manipulator->useDriver('unsupported'))->toThrow(\LogicException::class);
+    expect(fn() => $manipulator->useDriver('unsupported'))->toThrow(LogicException::class);
 });
 
 it('throws exception when manipulating local file', function() {
@@ -97,6 +98,7 @@ it('returns false for unsupported file', function() {
 
     $manipulator = new Manipulator('path/to/file.txt');
     $manipulator->useDriver('imagick');
+
     expect($manipulator->isSupported())->toBeFalse();
 
     $manipulator = new Manipulator('path/to/file');

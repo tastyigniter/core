@@ -22,7 +22,7 @@ class AssetFactory
 
     private bool $debug;
 
-    private string $output;
+    private string $output = 'assetic/*';
 
     /**
      * Constructor.
@@ -34,7 +34,6 @@ class AssetFactory
     {
         $this->root = rtrim($root, '/');
         $this->debug = $debug;
-        $this->output = 'assetic/*';
     }
 
     /**
@@ -125,7 +124,7 @@ class AssetFactory
         foreach ($inputs as $input) {
             if (is_array($input)) {
                 // nested formula
-                $asset->add(call_user_func_array([$this, 'createAsset'], $input));
+                $asset->add($this->createAsset(...$input));
             } else {
                 $asset->add($this->parseInput($input, $options));
                 $extensions[pathinfo($input, PATHINFO_EXTENSION)] = true;
@@ -201,6 +200,7 @@ class AssetFactory
                 foreach (array_slice($prevFilters, 0, -1) as $prevFilter) {
                     $clone->ensureFilter($prevFilter);
                 }
+
                 $clone->load();
 
                 foreach ($filter->getChildren($this, $clone->getContent(), $clone->getSourceDirectory()) as $child) {
@@ -235,8 +235,8 @@ class AssetFactory
             return $this->createHttpAsset($input, $options['vars']);
         }
 
-        if (self::isAbsolutePath($input)) {
-            $path = ($root = self::findRootDir($input, $options['root']))
+        if ($this->isAbsolutePath($input)) {
+            $path = ($root = $this->findRootDir($input, $options['root']))
                 ? ltrim(substr($input, strlen($root)), '/')
                 : null;
         } else {
@@ -263,7 +263,7 @@ class AssetFactory
         return new FileAsset($source, [], $root, $path, $vars);
     }
 
-    private static function isAbsolutePath(string $path): bool
+    private function isAbsolutePath(string $path): bool
     {
         return $path[0] === '/' || $path[0] === '\\' || (strlen($path) > 3 && ctype_alpha($path[0]) && $path[1] === ':' && ($path[2] === '\\' || $path[2] === '/'));
     }
@@ -276,7 +276,7 @@ class AssetFactory
      *
      * @return string|null The matching root directory, if found
      */
-    private static function findRootDir(string $path, array $roots): ?string
+    private function findRootDir(string $path, array $roots): ?string
     {
         foreach ($roots as $root) {
             if (str_starts_with($path, $root)) {

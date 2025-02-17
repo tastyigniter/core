@@ -44,6 +44,7 @@ it('returns shouldReport value', function() {
 it('renders response with redirect when redirectUrl is set', function() {
     $exception = FlashException::error('Error message')->overlay()->important();
     $exception->redirectTo('http://example.com');
+
     $request = new Request;
     $response = $exception->render($request);
     expect($response->getTargetUrl())->toBe('http://example.com')

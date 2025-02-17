@@ -86,6 +86,7 @@ it('paginates query', function() {
         ];
     };
     $user->save();
+
     $userGroup = UserGroup::factory()->create();
     $builder = $user->groups();
     $builder->add($userGroup);

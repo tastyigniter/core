@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\System\Http\Controllers;
 
 use Exception;
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Support\Facades\Igniter;
@@ -13,7 +14,7 @@ use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Models\Extension;
 use Igniter\System\Traits\ManagesUpdates;
 
-class Updates extends \Igniter\Admin\Classes\AdminController
+class Updates extends AdminController
 {
     use ManagesUpdates;
 
@@ -42,8 +43,8 @@ class Updates extends \Igniter\Admin\Classes\AdminController
             $this->vars['igniterVersion'] = Igniter::version();
             $this->vars['carteInfo'] = $updateManager->getSiteDetail();
             $this->vars['updates'] = $updateManager->requestUpdateList();
-        } catch (Exception $ex) {
-            flash()->warning($ex->getMessage())->now();
+        } catch (Exception $exception) {
+            flash()->warning($exception->getMessage())->now();
         }
     }
 }

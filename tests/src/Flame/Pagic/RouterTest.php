@@ -17,6 +17,7 @@ it('returns routing parameters', function() {
     $route = new Route('GET', '/test', fn() => 'test');
     $route->bind(request());
     $route->setParameter('param1', 'value1');
+
     request()->setRouteResolver(fn() => $route);
 
     $router = resolve(Router::class);

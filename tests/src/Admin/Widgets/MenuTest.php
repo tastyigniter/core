@@ -17,6 +17,7 @@ use Igniter\User\Models\User;
 beforeEach(function() {
     $this->controller = resolve(TestController::class);
     $this->controller->setUser(User::factory()->create());
+
     $this->menuWidget = new Menu($this->controller, [
         'items' => [
             'item1' => [

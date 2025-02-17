@@ -5,12 +5,18 @@ declare(strict_types=1);
 /**
  * Igniter System Helpers
  */
-
 use Carbon\Carbon;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Currency\Currency;
 use Igniter\Flame\Currency\Facades\Currency as CurrencyFacade;
+use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Support\StringParser;
+use Igniter\Local\Models\Location;
+use Igniter\Main\Classes\MainController;
+use Igniter\Main\Classes\MediaLibrary;
+use Igniter\Main\Helpers\ImageHelper;
+use Igniter\Main\Helpers\MainHelper;
+use Igniter\System\Models\Settings;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Lang;
@@ -187,17 +193,17 @@ if (!function_exists('setting')) {
     function setting(?string $key = null, mixed $default = null): mixed
     {
         if (is_null($key)) {
-            return \Igniter\System\Models\Settings::make();
+            return Settings::make();
         }
 
-        return \Igniter\System\Models\Settings::get($key, $default);
+        return Settings::get($key, $default);
     }
 }
 
 if (!function_exists('params')) {
     function params(?string $key = null, mixed $default = null): mixed
     {
-        return \Igniter\System\Models\Settings::get($key, $default, 'prefs');
+        return Settings::get($key, $default, 'prefs');
     }
 }
 
@@ -347,7 +353,7 @@ if (!function_exists('flash')) {
     /**
      * Arrange for a flash message.
      */
-    function flash(?string $message = null, string $level = 'info'): Igniter\Flame\Flash\FlashBag
+    function flash(?string $message = null, string $level = 'info'): FlashBag
     {
         $flashBag = resolve('flash');
 
@@ -388,9 +394,9 @@ if (!function_exists('controller')) {
     /**
      * Get the page controller
      */
-    function controller(): Igniter\Main\Classes\MainController
+    function controller(): MainController
     {
-        return \Igniter\Main\Classes\MainController::getController();
+        return MainController::getController();
     }
 }
 
@@ -402,7 +408,7 @@ if (!function_exists('page_url')) {
      */
     function page_url(?string $uri = null, array $params = []): string
     {
-        return \Igniter\Main\Helpers\MainHelper::pageUrl($uri, $params);
+        return MainHelper::pageUrl($uri, $params);
     }
 }
 
@@ -429,7 +435,7 @@ if (!function_exists('restaurant_url')) {
      */
     function restaurant_url(?string $uri = null, array $params = []): string
     {
-        return \Igniter\Main\Helpers\MainHelper::pageUrl($uri, $params);
+        return MainHelper::pageUrl($uri, $params);
     }
 }
 
@@ -468,7 +474,7 @@ if (!function_exists('media_url')) {
      */
     function media_url(?string $path = null): string
     {
-        return resolve(\Igniter\Main\Classes\MediaLibrary::class)->getMediaUrl($path);
+        return resolve(MediaLibrary::class)->getMediaUrl($path);
     }
 }
 
@@ -479,7 +485,7 @@ if (!function_exists('media_thumb')) {
      */
     function media_thumb(?string $path, array $options = []): string
     {
-        return \Igniter\Main\Helpers\ImageHelper::resize($path ?? 'no_photo.png', $options);
+        return ImageHelper::resize($path ?? 'no_photo.png', $options);
     }
 }
 
@@ -657,6 +663,7 @@ if (!function_exists('time_range')) {
             $times[] = mdate($time_format, $start_time);
             $start_time += $diff;
         }
+
         $times[] = mdate($time_format, $start_time);
 
         return $times;
@@ -712,7 +719,7 @@ if (!function_exists('is_single_location')) {
      */
     function is_single_location(): bool
     {
-        return config('igniter-system.locationMode', setting('site_location_mode')) === \Igniter\Local\Models\Location::LOCATION_CONTEXT_SINGLE;
+        return config('igniter-system.locationMode', setting('site_location_mode')) === Location::LOCATION_CONTEXT_SINGLE;
     }
 }
 
@@ -843,15 +850,15 @@ if (!function_exists('generate_extension_icon')) {
 
         $styles = [];
         if (!empty($color = array_get($icon, 'color'))) {
-            $styles[] = "color:$color;";
+            $styles[] = sprintf('color:%s;', $color);
         }
 
         if (!empty($backgroundColor = array_get($icon, 'backgroundColor'))) {
-            $styles[] = "background-color:$backgroundColor;";
+            $styles[] = sprintf('background-color:%s;', $backgroundColor);
         }
 
         if (is_array($backgroundImage = array_get($icon, 'backgroundImage'))) {
-            $styles[] = "background-image:url('data:$backgroundImage[0];base64,$backgroundImage[1]');";
+            $styles[] = sprintf("background-image:url('data:%s;base64,%s');", $backgroundImage[0], $backgroundImage[1]);
         }
 
         $icon['styles'] = implode(' ', $styles);

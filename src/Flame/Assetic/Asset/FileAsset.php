@@ -7,6 +7,7 @@ namespace Igniter\Flame\Assetic\Asset;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Flame\Assetic\Util\VarUtils;
 use Igniter\Flame\Support\Facades\File;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -35,7 +36,7 @@ class FileAsset extends BaseAsset
             }
         } elseif ($sourcePath === null) {
             if (!str_starts_with($source, $sourceRoot)) {
-                throw new \InvalidArgumentException(sprintf('The source "%s" is not in the root directory "%s"', $source, $sourceRoot));
+                throw new InvalidArgumentException(sprintf('The source "%s" is not in the root directory "%s"', $source, $sourceRoot));
             }
 
             $sourcePath = substr($source, strlen($sourceRoot) + 1);
@@ -62,7 +63,7 @@ class FileAsset extends BaseAsset
         $source = VarUtils::resolve($this->source, $this->getVars(), $this->getValues());
 
         if (!File::isFile($source)) {
-            throw new \RuntimeException(sprintf('The source file "%s" does not exist.', $source));
+            throw new RuntimeException(sprintf('The source file "%s" does not exist.', $source));
         }
 
         return File::lastModified($source);

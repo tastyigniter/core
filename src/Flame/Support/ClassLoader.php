@@ -7,6 +7,7 @@ namespace Igniter\Flame\Support;
 use Exception;
 use Igniter\Flame\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -19,7 +20,7 @@ class ClassLoader
 {
     /**
      * The filesystem instance.
-     * @var \Igniter\Flame\Filesystem\Filesystem
+     * @var Filesystem
      */
     public $files;
 
@@ -321,7 +322,7 @@ class ClassLoader
             }
         }
 
-        $aliasKey = array_search($class, $this->aliases);
+        $aliasKey = array_search($class, $this->aliases, true);
 
         return ($aliasKey !== false) ? $aliasKey : null;
     }
@@ -419,12 +420,12 @@ class ClassLoader
      * Write the manifest array to filesystem.
      *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     protected function write(array $manifest)
     {
         if (!is_writable($path = $this->files->dirname($this->manifestPath))) {
-            throw new \RuntimeException('The '.$path.' directory must be present and writable.');
+            throw new RuntimeException('The '.$path.' directory must be present and writable.');
         }
 
         $this->files->put(

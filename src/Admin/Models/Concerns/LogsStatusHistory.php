@@ -13,9 +13,9 @@ trait LogsStatusHistory
     public static function bootLogsStatusHistory(): void
     {
         self::extend(function(self $model) {
-            $model->relation['belongsTo']['status'] = [\Igniter\Admin\Models\Status::class];
+            $model->relation['belongsTo']['status'] = [Status::class];
             $model->relation['morphMany']['status_history'] = [
-                \Igniter\Admin\Models\StatusHistory::class, 'name' => 'object', 'delete' => true,
+                StatusHistory::class, 'name' => 'object', 'delete' => true,
             ];
 
             $model->appends[] = 'status_name';

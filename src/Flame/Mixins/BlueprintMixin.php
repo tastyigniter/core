@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Mixins;
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/** @mixin \Illuminate\Database\Schema\Blueprint */
+/** @mixin Blueprint */
 class BlueprintMixin
 {
     public function dropForeignKeyIfExists()

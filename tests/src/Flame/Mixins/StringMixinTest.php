@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\Flame\Mixins;
 
 use Igniter\Flame\Mixins\StringMixin;
+use stdClass;
 
 it('converts number to ordinal form correctly', function() {
     $ordinal = (new StringMixin)->ordinal();
@@ -28,14 +29,14 @@ it('normalizes class name by removing starting slash', function() {
     $normalizeClassName = (new StringMixin)->normalizeClassName();
     expect($normalizeClassName('\\Namespace\\ClassName'))->toBe('\\Namespace\\ClassName')
         ->and($normalizeClassName('Namespace\\ClassName'))->toBe('\\Namespace\\ClassName')
-        ->and($normalizeClassName(new \stdClass))->toBe('\\stdClass');
+        ->and($normalizeClassName(new stdClass))->toBe('\\stdClass');
 });
 
 it('generates class ID correctly', function() {
     $getClassId = (new StringMixin)->getClassId();
     expect($getClassId('\\Namespace\\ClassName'))->toBe('namespace_classname')
         ->and($getClassId('Namespace\\ClassName'))->toBe('namespace_classname')
-        ->and($getClassId(new \stdClass))->toBe('stdclass');
+        ->and($getClassId(new stdClass))->toBe('stdclass');
 });
 
 it('returns class namespace correctly', function() {

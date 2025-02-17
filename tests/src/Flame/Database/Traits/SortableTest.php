@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Flame\Database\Traits;
 
+use Exception;
 use Igniter\System\Models\Country;
 
 it('sets sort order when creating if not set', function() {
@@ -13,7 +14,7 @@ it('sets sort order when creating if not set', function() {
 it('throws exception if itemIds and itemOrders count do not match', function() {
     $model = new Country;
 
-    $this->expectException(\Exception::class);
+    $this->expectException(Exception::class);
     $this->expectExceptionMessage('Invalid setSortableOrder call - count of itemIds do not match count of itemOrders');
 
     $model->setSortableOrder(1, [1, 2]);

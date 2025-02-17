@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Fixtures\Controllers;
 
-class TestController extends \Igniter\Admin\Classes\AdminController
+use Igniter\Admin\Classes\AdminController;
+
+class TestController extends AdminController
 {
     public function index() {}
 

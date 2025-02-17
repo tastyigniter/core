@@ -65,6 +65,7 @@ it('skips validation if validating is disabled', function() {
     ]);
     $model = new TestModelForValidation;
     $model->setValidating(false);
+
     $model->country_name = 'Test Country';
 
     expect($model->save())->toBeTrue();

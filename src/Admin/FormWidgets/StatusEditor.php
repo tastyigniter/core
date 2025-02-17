@@ -7,6 +7,7 @@ namespace Igniter\Admin\FormWidgets;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Models\Status;
+use Igniter\Admin\Models\StatusHistory;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
@@ -15,6 +16,7 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Local\Facades\Location as LocationFacade;
 use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Models\AssignableLog;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
 use Illuminate\Support\Collection;
@@ -50,7 +52,7 @@ class StatusEditor extends BaseFormWidget
 
     public string $statusRelationFrom = 'status';
 
-    public string $statusModelClass = \Igniter\Admin\Models\StatusHistory::class;
+    public string $statusModelClass = StatusHistory::class;
 
     /** Text to display for the title of the popup list form */
     public string $assigneeFormName = 'Assignee';
@@ -68,7 +70,7 @@ class StatusEditor extends BaseFormWidget
 
     public string $assigneeRelationFrom = 'assignee';
 
-    public string $assigneeModelClass = \Igniter\User\Models\AssignableLog::class;
+    public string $assigneeModelClass = AssignableLog::class;
 
     public string $assigneeOrderPermission = 'Admin.AssignOrders';
 

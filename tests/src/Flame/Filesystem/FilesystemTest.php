@@ -119,6 +119,7 @@ it('creates a directory and sets permissions', function() {
     $filesystem->shouldReceive('chmodRecursive')->once()->andReturn();
     $filesystem->makeDirectory($path);
     $filesystem->makeDirectory($subPath2 = $subPath.'/'.fake()->lexify('???'), 0755, true);
+
     expect(is_dir($path))->toBeTrue();
     rmdir($subPath2);
     rmdir($subPath);

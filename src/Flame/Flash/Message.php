@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Flash;
 
-class Message implements \ArrayAccess
+use ArrayAccess;
+
+class Message implements ArrayAccess
 {
     /** The title of the message. */
     public ?string $title = null;

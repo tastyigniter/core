@@ -91,7 +91,7 @@ trait FormExtendable
     /**
      * Called before the form fields are defined.
      *
-     * @param \Igniter\Admin\Widgets\Form $host The hosting form widget
+     * @param Form $host The hosting form widget
      *
      * @return void
      */
@@ -100,7 +100,7 @@ trait FormExtendable
     /**
      * Called after the form fields are defined.
      *
-     * @param \Igniter\Admin\Widgets\Form $host The hosting form widget
+     * @param Form $host The hosting form widget
      *
      * @return void
      */

@@ -7,6 +7,9 @@ namespace Igniter\Tests\Flame\Database\Connectors;
 use Igniter\Flame\Database\Connections\MySqlConnection;
 use Igniter\Flame\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\Connection;
+use Illuminate\Database\PostgresConnection;
+use Illuminate\Database\SQLiteConnection;
+use Illuminate\Database\SqlServerConnection;
 use InvalidArgumentException;
 use Mockery;
 use PDOException;
@@ -56,19 +59,19 @@ it('creates mysql connection', function() {
 it('creates postgres connection', function() {
     $pdo = Mockery::mock('PDO');
     $connection = $this->connectionFactory->testCreateConnection('pgsql', $pdo, 'database', 'prefix', []);
-    expect($connection)->toBeInstanceOf(\Illuminate\Database\PostgresConnection::class);
+    expect($connection)->toBeInstanceOf(PostgresConnection::class);
 });
 
 it('creates sqlite connection', function() {
     $pdo = Mockery::mock('PDO');
     $connection = $this->connectionFactory->testCreateConnection('sqlite', $pdo, 'database', 'prefix', []);
-    expect($connection)->toBeInstanceOf(\Illuminate\Database\SQLiteConnection::class);
+    expect($connection)->toBeInstanceOf(SQLiteConnection::class);
 });
 
 it('creates sqlsrv connection', function() {
     $pdo = Mockery::mock('PDO');
     $connection = $this->connectionFactory->testCreateConnection('sqlsrv', $pdo, 'database', 'prefix', []);
-    expect($connection)->toBeInstanceOf(\Illuminate\Database\SqlServerConnection::class);
+    expect($connection)->toBeInstanceOf(SqlServerConnection::class);
 });
 
 it('throws exception for unsupported driver', function() {

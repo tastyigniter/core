@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Lang;
 
 /**
@@ -22,19 +25,19 @@ use Illuminate\Support\Facades\Lang;
  * @property int $status
  * @property int $can_delete
  * @property int|null $original_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property array|null $version
  * @property bool $is_default
- * @method static \Igniter\Flame\Database\Builder<static>|Language applyDefaultable(bool $default = true)
- * @method static \Igniter\Flame\Database\Builder<static>|Language applySwitchable(bool $switch = true)
- * @method static \Igniter\Flame\Database\Builder<static>|Language dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Language isEnabled()
- * @method static \Igniter\Flame\Database\Builder<static>|Language lists(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Language listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Language query()
- * @method static \Igniter\Flame\Database\Builder<static>|Language whereIsEnabled()
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @method static Builder<static>|Language applyDefaultable(bool $default = true)
+ * @method static Builder<static>|Language applySwitchable(bool $switch = true)
+ * @method static Builder<static>|Language dropdown(string $column, string $key = null)
+ * @method static Builder<static>|Language isEnabled()
+ * @method static Builder<static>|Language lists(string $column, string $key = null)
+ * @method static Builder<static>|Language listFrontEnd(array $options = [])
+ * @method static Builder<static>|Language query()
+ * @method static Builder<static>|Language whereIsEnabled()
+ * @mixin Model
  */
 class Language extends \Igniter\Flame\Translation\Models\Language
 {
@@ -52,7 +55,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public $relation = [
         'hasMany' => [
-            'translations' => [\Igniter\System\Models\Translation::class, 'foreignKey' => 'locale', 'otherKey' => 'code', 'delete' => true],
+            'translations' => [Translation::class, 'foreignKey' => 'locale', 'otherKey' => 'code', 'delete' => true],
         ],
     ];
 
@@ -188,7 +191,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public function updateTranslation(string $group, string $namespace, string $key, string $text)
     {
-        $oldText = Lang::get("$namespace::$group.$key", [], $this->code);
+        $oldText = Lang::get(sprintf('%s::%s.%s', $namespace, $group, $key), [], $this->code);
 
         if (strcmp($text, $oldText) === 0) {
             return false;

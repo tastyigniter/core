@@ -19,9 +19,11 @@ use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
 use Igniter\User\Models\UserRole;
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Process;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -32,7 +34,7 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class IgniterInstall extends Command
 {
-    use \Illuminate\Console\ConfirmableTrait;
+    use ConfirmableTrait;
 
     protected const CONFIRM_CREATE_STORAGE_LINK = 'Create a symbolic link of <options=bold>storage/app/public</> at <options=bold>public/storage</> to make uploaded files publicly available?';
 
@@ -133,11 +135,12 @@ class IgniterInstall extends Command
 
         $name = Config::get('database.default');
         foreach ($this->dbConfig as $key => $value) {
-            Config::set("database.connections.$name.".strtolower($key), $value);
+            Config::set(sprintf('database.connections.%s.', $name).strtolower($key), $value);
 
             if ($key === 'password') {
                 $value = '"'.$value.'"';
             }
+
             SystemHelper::replaceInEnv('DB_'.strtoupper($key).'=', 'DB_'.strtoupper($key).'='.$value);
         }
     }
@@ -158,12 +161,12 @@ class IgniterInstall extends Command
         $this->line('Enter a new value, or press ENTER for the default');
 
         $name = Config::get('database.default');
-        $this->dbConfig['host'] = $this->ask('MySQL Host', Config::get("database.connections.$name.host"));
-        $this->dbConfig['port'] = $this->ask('MySQL Port', Config::get("database.connections.$name.port") ?: false) ?: '';
-        $this->dbConfig['database'] = $this->ask('MySQL Database', Config::get("database.connections.$name.database"));
-        $this->dbConfig['username'] = $this->ask('MySQL Username', Config::get("database.connections.$name.username"));
-        $this->dbConfig['password'] = $this->ask('MySQL Password', Config::get("database.connections.$name.password") ?: false) ?: '';
-        $this->dbConfig['prefix'] = $this->ask('MySQL Table Prefix', Config::get("database.connections.$name.prefix") ?: false) ?: '';
+        $this->dbConfig['host'] = $this->ask('MySQL Host', Config::get(sprintf('database.connections.%s.host', $name)));
+        $this->dbConfig['port'] = $this->ask('MySQL Port', Config::get(sprintf('database.connections.%s.port', $name)) ?: false) ?: '';
+        $this->dbConfig['database'] = $this->ask('MySQL Database', Config::get(sprintf('database.connections.%s.database', $name)));
+        $this->dbConfig['username'] = $this->ask('MySQL Username', Config::get(sprintf('database.connections.%s.username', $name)));
+        $this->dbConfig['password'] = $this->ask('MySQL Password', Config::get(sprintf('database.connections.%s.password', $name)) ?: false) ?: '';
+        $this->dbConfig['prefix'] = $this->ask('MySQL Table Prefix', Config::get(sprintf('database.connections.%s.prefix', $name)) ?: false) ?: '';
 
         DatabaseSeeder::$siteName = $this->ask('Site Name', DatabaseSeeder::$siteName);
         DatabaseSeeder::$siteUrl = $this->ask('Site URL', Config::get('app.url'));
@@ -177,7 +180,7 @@ class IgniterInstall extends Command
         DatabaseSeeder::$siteEmail = $this->output->ask('Admin Email', DatabaseSeeder::$siteEmail, function($answer) {
             throw_if(
                 User::whereEmail($answer)->first(),
-                new \RuntimeException('An administrator with that email already exists, please choose a different email.'),
+                new RuntimeException('An administrator with that email already exists, please choose a different email.'),
             );
 
             return $answer;
@@ -185,7 +188,7 @@ class IgniterInstall extends Command
         DatabaseSeeder::$password = $this->output->ask('Admin Password', '123456', function($answer): string {
             throw_if(
                 !is_string($answer) || strlen($answer) < 6 || strlen($answer) > 32,
-                new \RuntimeException('Please specify the administrator password, at least 6 characters'),
+                new RuntimeException('Please specify the administrator password, at least 6 characters'),
             );
 
             return $answer;
@@ -193,7 +196,7 @@ class IgniterInstall extends Command
         DatabaseSeeder::$username = $this->output->ask('Admin Username', 'admin', function($answer) {
             throw_if(
                 User::whereUsername($answer)->first(),
-                new \RuntimeException('An administrator with that username already exists, please choose a different username.'),
+                new RuntimeException('An administrator with that username already exists, please choose a different username.'),
             );
 
             return $answer;

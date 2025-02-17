@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Fixtures;
 
-class TestExtension extends \Igniter\System\Classes\BaseExtension
+use Igniter\System\Classes\BaseExtension;
+
+class TestExtension extends BaseExtension
 {
     public function register() {}
 }

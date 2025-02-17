@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests;
 
+use Igniter\Flame\ServiceProvider;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\ComponentManager;
@@ -24,7 +25,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             LivewireServiceProvider::class,
-            \Igniter\Flame\ServiceProvider::class,
+            ServiceProvider::class,
         ];
     }
 
@@ -68,7 +69,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $configs = ['currency', 'geocoder', 'system'];
 
         foreach ($configs as $config) {
-            $app['config']->set("igniter.$config", require(__DIR__."/../../config/{$config}.php"));
+            $app['config']->set('igniter.'.$config, require(__DIR__.sprintf('/../../config/%s.php', $config)));
         }
     }
 }

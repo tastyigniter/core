@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Main\Template\Extension;
 
+use Igniter\System\Facades\Assets;
 use Illuminate\Support\Facades\Blade;
 
 it('compiles theme styles directive', function() {
     expect(Blade::compileString('@themeStyles'))
-        ->toBe("<?php echo \Igniter\System\Facades\Assets::getCss(); ?>\n<?php echo \$__env->yieldPushContent('styles'); ?>");
+        ->toBe(sprintf("<?php echo \\%s::getCss(); ?>\n<?php echo \$__env->yieldPushContent('styles'); ?>", Assets::class));
 });
 
 it('compiles theme scripts directive', function() {
     expect(Blade::compileString('@themeScripts'))
-        ->toBe("<?php echo \Igniter\System\Facades\Assets::getJs(); ?>\n<?php echo \$__env->yieldPushContent('scripts'); ?>");
+        ->toBe(sprintf("<?php echo \\%s::getJs(); ?>\n<?php echo \$__env->yieldPushContent('scripts'); ?>", Assets::class));
 });
 
 it('compiles theme page directive', function() {

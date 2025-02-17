@@ -446,6 +446,7 @@ it('overrides button attributes using event', function() {
 it('throws exception with datetime value is invalid', function() {
     $listColumn = new ListColumn('status_name', 'Test Column');
     $listColumn->displayAs('datetime');
+
     $record = Status::factory()->create([
         'status_name' => 'Invalid Date',
     ]);
@@ -459,6 +460,7 @@ it('throws exception with datetime value is invalid', function() {
 it('throws exception when model does not have relation', function() {
     $listColumn = new ListColumn('status_id', 'Test Column');
     $listColumn->displayAs('text', ['relation' => 'invalid_relation']);
+
     $status = Status::factory()->create();
     $status->setRelation('invalid_relation', StatusHistory::factory()->create([
         'status_id' => 1,

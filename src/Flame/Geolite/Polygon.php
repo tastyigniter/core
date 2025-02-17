@@ -4,15 +4,24 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
+use ArrayAccess;
+use Countable;
 use Igniter\Flame\Geolite\Contracts\BoundsInterface;
+use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\PolygonInterface;
+use Igniter\Flame\Geolite\Model\Bounds;
+use Igniter\Flame\Geolite\Model\Coordinates;
+use Igniter\Flame\Geolite\Model\CoordinatesCollection;
+use InvalidArgumentException;
+use IteratorAggregate;
+use JsonSerializable;
 use Traversable;
 
-class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable, PolygonInterface
+class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, PolygonInterface
 {
     public const TYPE = 'POLYGON';
 
-    protected Model\CoordinatesCollection $coordinates;
+    protected CoordinatesCollection $coordinates;
 
     protected BoundsInterface $bounds;
 
@@ -25,15 +34,15 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
      */
     public function __construct($coordinates = null)
     {
-        if ($coordinates instanceof Model\CoordinatesCollection) {
+        if ($coordinates instanceof CoordinatesCollection) {
             $this->coordinates = $coordinates;
         } elseif (is_array($coordinates) || is_null($coordinates)) {
-            $this->coordinates = new Model\CoordinatesCollection([]);
+            $this->coordinates = new CoordinatesCollection([]);
         } else {
-            throw new \InvalidArgumentException;
+            throw new InvalidArgumentException;
         }
 
-        $this->bounds = Model\Bounds::fromPolygon($this);
+        $this->bounds = Bounds::fromPolygon($this);
 
         if (is_array($coordinates)) {
             $this->put($coordinates);
@@ -45,17 +54,17 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return self::TYPE;
     }
 
-    public function getCoordinate(): ?Contracts\CoordinatesInterface
+    public function getCoordinate(): ?CoordinatesInterface
     {
         return $this->coordinates->offsetGet(0);
     }
 
-    public function getCoordinates(): Model\CoordinatesCollection
+    public function getCoordinates(): CoordinatesCollection
     {
         return $this->coordinates;
     }
 
-    public function setCoordinates(Model\CoordinatesCollection $coordinates): static
+    public function setCoordinates(CoordinatesCollection $coordinates): static
     {
         $this->coordinates = $coordinates;
         $this->bounds->setPolygon($this);
@@ -92,25 +101,25 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
     //
     //
 
-    public function get(int $key): ?Contracts\CoordinatesInterface
+    public function get(int $key): ?CoordinatesInterface
     {
         return $this->coordinates->get($key);
     }
 
-    public function put(int|array $key, ?Contracts\CoordinatesInterface $coordinate = null): void
+    public function put(int|array $key, ?CoordinatesInterface $coordinate = null): void
     {
         if (is_array($key)) {
             $values = $key;
-        } elseif ($coordinate instanceof Contracts\CoordinatesInterface) {
+        } elseif ($coordinate instanceof CoordinatesInterface) {
             $values = [$key => $coordinate];
         } else {
-            throw new \InvalidArgumentException;
+            throw new InvalidArgumentException;
         }
 
         foreach ($values as $index => $value) {
-            if (!$value instanceof Contracts\CoordinatesInterface) {
+            if (!$value instanceof CoordinatesInterface) {
                 [$latitude, $longitude] = $value;
-                $value = new Model\Coordinates($latitude, $longitude);
+                $value = new Coordinates($latitude, $longitude);
             }
 
             $this->coordinates->put($index, $value);
@@ -119,7 +128,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         $this->bounds->setPolygon($this);
     }
 
-    public function push(Contracts\CoordinatesInterface $coordinate)
+    public function push(CoordinatesInterface $coordinate)
     {
         $coordinates = $this->coordinates->push($coordinate);
 
@@ -137,7 +146,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return $coordinates;
     }
 
-    public function pointInPolygon(Contracts\CoordinatesInterface $coordinate): bool
+    public function pointInPolygon(CoordinatesInterface $coordinate): bool
     {
         if ($this->isEmpty()) {
             return false;
@@ -158,7 +167,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return $this->pointOnIntersections($coordinate);
     }
 
-    public function pointOnBoundary(Contracts\CoordinatesInterface $coordinate): bool
+    public function pointOnBoundary(CoordinatesInterface $coordinate): bool
     {
         $total = $this->count();
         for ($i = 1; $i <= $total; $i++) {
@@ -235,7 +244,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return false;
     }
 
-    public function pointOnVertex(Contracts\CoordinatesInterface $coordinate): bool
+    public function pointOnVertex(CoordinatesInterface $coordinate): bool
     {
         foreach ($this->coordinates as $vertexCoordinate) {
             if (bccomp(
@@ -256,7 +265,7 @@ class Polygon implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSeri
         return false;
     }
 
-    protected function pointOnIntersections(Contracts\CoordinatesInterface $coordinate): bool
+    protected function pointOnIntersections(CoordinatesInterface $coordinate): bool
     {
         $total = $this->count();
         $intersections = 0;

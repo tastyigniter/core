@@ -20,7 +20,7 @@ class FileExistsException extends RuntimeException
     {
         $this->invalidPath = $path;
 
-        $this->message = "A file already exists at [{$path}].";
+        $this->message = sprintf('A file already exists at [%s].', $path);
 
         return $this;
     }

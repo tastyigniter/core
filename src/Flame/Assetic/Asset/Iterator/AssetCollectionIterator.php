@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Igniter\Flame\Assetic\Asset\Iterator;
 
 use Igniter\Flame\Assetic\Asset\AssetCollectionInterface;
+use Igniter\Flame\Assetic\Asset\AssetInterface;
 use RecursiveIterator;
+use SplObjectStorage;
 
 /**
  * Iterates over an asset collection.
@@ -15,7 +17,7 @@ use RecursiveIterator;
  *
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  */
-class AssetCollectionIterator implements \RecursiveIterator
+class AssetCollectionIterator implements RecursiveIterator
 {
     private array $assets;
 
@@ -25,9 +27,9 @@ class AssetCollectionIterator implements \RecursiveIterator
 
     private ?string $output;
 
-    private \SplObjectStorage $clones;
+    private SplObjectStorage $clones;
 
-    public function __construct(AssetCollectionInterface $coll, \SplObjectStorage $clones)
+    public function __construct(AssetCollectionInterface $coll, SplObjectStorage $clones)
     {
         $this->assets = $coll->all();
         $this->filters = $coll->getFilters();
@@ -47,7 +49,7 @@ class AssetCollectionIterator implements \RecursiveIterator
      *
      * @param bool $raw Returns the unmodified asset if true
      *
-     * @return \Igniter\Flame\Assetic\Asset\AssetInterface
+     * @return AssetInterface
      */
     public function current($raw = false): mixed
     {

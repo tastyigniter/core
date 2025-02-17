@@ -197,6 +197,7 @@ class Router
             if (!starts_with($param, ':')) {
                 continue;
             }
+
             $normalizedParam = substr($param, 1);
             $parameters[$normalizedParam] = $value;
             unset($parameters[$param]);

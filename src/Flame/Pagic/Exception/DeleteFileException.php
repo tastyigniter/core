@@ -20,7 +20,7 @@ class DeleteFileException extends RuntimeException
     {
         $this->invalidPath = $path;
 
-        $this->message = "Error deleting file [{$path}]. Please check write permissions.";
+        $this->message = sprintf('Error deleting file [%s]. Please check write permissions.', $path);
 
         return $this;
     }

@@ -24,6 +24,7 @@ it('compiles SCSS content', function() {
     $filter->registerFunction('customFunction', $callable = fn($args) => 'result');
 
     $filter->filterLoad($asset);
+
     expect($filter->filterDump($asset))->toBeNull();
 });
 

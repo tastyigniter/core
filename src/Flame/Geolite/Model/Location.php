@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Model;
 
-use Igniter\Flame\Geolite\Contracts;
+use Igniter\Flame\Geolite\Contracts\LocationInterface;
 use Igniter\Flame\Geolite\Formatter\StringFormatter;
 
-class Location implements Contracts\LocationInterface
+class Location implements LocationInterface
 {
     protected ?Coordinates $coordinates = null;
 
@@ -288,7 +288,8 @@ class Location implements Contracts\LocationInterface
 
     protected function fillFromData(array $data)
     {
-        $this->data = $data = $this->mergeWithDefaults($data);
+        $this->data = $this->mergeWithDefaults($data);
+        $data = $this->data;
 
         $this->adminLevels = $this->makeAdminLevels($data);
         $this->coordinates = $this->createCoordinates($data);

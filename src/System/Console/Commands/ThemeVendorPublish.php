@@ -6,12 +6,13 @@ namespace Igniter\System\Console\Commands;
 
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Foundation\Console\VendorPublishCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 class ThemeVendorPublish extends VendorPublishCommand
 {
-    use \Illuminate\Console\ConfirmableTrait;
+    use ConfirmableTrait;
 
     /**
      * The console command name.

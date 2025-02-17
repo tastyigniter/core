@@ -4,25 +4,28 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Flash\Facades;
 
+use Igniter\Flame\Flash\FlashBag;
+use Igniter\Flame\Flash\Message;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade as IlluminateFacade;
 
 /**
- * @method static \Igniter\Flame\Flash\FlashBag setSessionKey(string $key)
+ * @method static FlashBag setSessionKey(string $key)
  * @method static string getSessionKey()
- * @method static \Illuminate\Support\Collection messages()
- * @method static \Illuminate\Support\Collection all()
+ * @method static Collection messages()
+ * @method static Collection all()
  * @method static void set(string|null $level = null, string|null $message = null)
- * @method static \Igniter\Flame\Flash\FlashBag alert(string $message)
- * @method static \Igniter\Flame\Flash\FlashBag info(string $message)
- * @method static \Igniter\Flame\Flash\FlashBag success(string $message)
- * @method static \Igniter\Flame\Flash\FlashBag error(string $message)
- * @method static \Igniter\Flame\Flash\FlashBag danger(string $message)
- * @method static \Igniter\Flame\Flash\FlashBag warning(string $message)
- * @method static \Igniter\Flame\Flash\FlashBag message(\Igniter\Flame\Flash\Message|string|null $message = null, string|null $level = null)
- * @method static \Igniter\Flame\Flash\FlashBag overlay(string|null $message = null, string $title = '')
- * @method static \Igniter\Flame\Flash\FlashBag now()
- * @method static \Igniter\Flame\Flash\FlashBag important()
- * @method static \Igniter\Flame\Flash\FlashBag clear()
+ * @method static FlashBag alert(string $message)
+ * @method static FlashBag info(string $message)
+ * @method static FlashBag success(string $message)
+ * @method static FlashBag error(string $message)
+ * @method static FlashBag danger(string $message)
+ * @method static FlashBag warning(string $message)
+ * @method static FlashBag message(Message | string | null $message = null, string | null $level = null)
+ * @method static FlashBag overlay(string | null $message = null, string $title = '')
+ * @method static FlashBag now()
+ * @method static FlashBag important()
+ * @method static FlashBag clear()
  *
  * @see \Igniter\Flame\Flash\FlashBag
  */

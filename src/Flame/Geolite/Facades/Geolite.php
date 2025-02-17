@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Facades;
 
+use Igniter\Flame\Geolite\AddressMatch;
+use Igniter\Flame\Geolite\Contracts\CircleInterface;
+use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
+use Igniter\Flame\Geolite\Contracts\DistanceInterface;
+use Igniter\Flame\Geolite\Contracts\PolygonInterface;
+use Igniter\Flame\Geolite\Contracts\VertexInterface;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \Igniter\Flame\Geolite\Contracts\DistanceInterface distance()
- * @method static \Igniter\Flame\Geolite\Contracts\CircleInterface circle(\Igniter\Flame\Geolite\Contracts\CoordinatesInterface|array $coordinate, int $radius)
- * @method static \Igniter\Flame\Geolite\Contracts\PolygonInterface polygon(\Igniter\Flame\Geolite\Contracts\CoordinatesInterface|array $coordinates)
- * @method static \Igniter\Flame\Geolite\Contracts\VertexInterface vertex()
- * @method static \Igniter\Flame\Geolite\Contracts\CoordinatesInterface coordinates(int|float|null $latitude, int|float|null $longitude)
- * @method static \Igniter\Flame\Geolite\AddressMatch addressMatch(void $components)
+ * @method static DistanceInterface distance()
+ * @method static CircleInterface circle(CoordinatesInterface | array $coordinate, int $radius)
+ * @method static PolygonInterface polygon(CoordinatesInterface | array $coordinates)
+ * @method static VertexInterface vertex()
+ * @method static CoordinatesInterface coordinates(int | float | null $latitude, int | float | null $longitude)
+ * @method static AddressMatch addressMatch(void $components)
  *
  * @see \Igniter\Flame\Geolite\Geolite
  */

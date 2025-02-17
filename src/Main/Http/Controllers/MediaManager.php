@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 
-class MediaManager extends \Igniter\Admin\Classes\AdminController
+class MediaManager extends AdminController
 {
     protected null|string|array $requiredPermissions = 'Admin.MediaManager';
 
