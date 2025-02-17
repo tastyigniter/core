@@ -79,6 +79,6 @@ jobs:
         run: vendor/bin/rector process --dry-run
 
       - name: Run test suite
-        run: php -d memory_limit=-1 vendor/bin/pest --parallel --processes=5
+        run: vendor/bin/pest
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
