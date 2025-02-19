@@ -346,14 +346,13 @@ trait Validation
     protected function processValidationUniqueRule($definition, $fieldName): string
     {
         [
-            $rule,
             $table,
             $column,
             $key,
             $keyName,
             $whereColumn,
             $whereValue,
-        ] = array_pad(explode(',', $definition), 7, null);
+        ] = array_pad(explode(',', str_after($definition, 'unique:')), 6, null);
 
         $table = $table ?: $this->getConnectionName().'.'.$this->getTable();
         $column = $column ?: $fieldName;

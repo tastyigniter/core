@@ -15,7 +15,7 @@ class TestModelForValidation extends Country
 
     protected $rules = [
         'country_name' => ['required', 'custom'],
-        'iso_code_2' => ['required', 'unique:,,,,,status,1'],
+        'iso_code_2' => ['required', 'unique:,,,,status,1'],
         'iso_code_3' => 'required:create',
         'format' => 'required:update',
     ];
