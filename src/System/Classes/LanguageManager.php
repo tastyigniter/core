@@ -155,7 +155,7 @@ class LanguageManager
     {
         $translations = $model->translations()
             ->get()
-            // @phpstan-ignore-line
+            // @phpstan-ignore-next-line
             ->groupBy(function(Translation $translation): string {
                 return sprintf('%s::%s', $translation->namespace, $translation->group);
             })
@@ -163,7 +163,7 @@ class LanguageManager
                 return [
                     'name' => $group,
                     'strings' => $translations
-                        // @phpstan-ignore-line
+                        // @phpstan-ignore-next-line
                         ->map(function(Translation $translation): array {
                             return [
                                 'key' => $translation->item,

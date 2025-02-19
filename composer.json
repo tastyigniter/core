@@ -107,7 +107,7 @@
     "static": "vendor/bin/phpstan analyse --ansi --memory-limit 1056M",
     "test-suite": [
       "@format",
-      "@coverage",
+      "@test-coverage",
       "@refactor",
       "@static"
     ]

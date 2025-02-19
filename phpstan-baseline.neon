@@ -696,11 +696,6 @@ parameters:
 			path: src/System/Libraries/Country.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Collection\\:\\:find\\(\\)\\.$#"
-			count: 2
-			path: src/System/Libraries/Country.php
-
-		-
 			message: "#^Access to undefined constant static\\(Igniter\\\\System\\\\Models\\\\Country\\)\\:\\:DEFAULTABLE_COLUMN\\.$#"
 			count: 1
 			path: src/System/Models/Country.php
