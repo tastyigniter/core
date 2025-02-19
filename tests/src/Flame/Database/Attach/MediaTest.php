@@ -182,5 +182,5 @@ it('throws exception when disk name is not configured', function() {
     expect($media->getDiskDriverName())->toBe(config('filesystems.disks.public.driver'));
 
     $media->disk = null;
-    expect(fn() => $media->getDiskName())->toThrow(LogicException::class, "Disk invalid is not configured.");
+    expect(fn() => $media->getDiskName())->toThrow(LogicException::class, 'Disk invalid is not configured.');
 });
