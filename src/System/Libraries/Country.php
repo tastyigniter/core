@@ -13,9 +13,9 @@ use Illuminate\Support\Collection;
  */
 class Country
 {
-    public const ISO_CODE_2 = 2;
+    public const int ISO_CODE_2 = 2;
 
-    public const ISO_CODE_3 = 3;
+    public const int ISO_CODE_3 = 3;
 
     protected string $defaultFormat = "{address_1}\r\n{address_2}\r\n{city} {postcode}\r\n{state}\r\n{country}";
 
@@ -62,6 +62,7 @@ class Country
     {
         $this->loadCountries();
 
+        /** @var \Igniter\System\Models\Country $countryModel */
         if (!$countryModel = $this->countriesCollection->find($id)) {
             return null;
         }
@@ -86,6 +87,7 @@ class Country
     {
         $this->loadCountries();
 
+        /** @var \Igniter\System\Models\Country $countryModel */
         if (!$countryModel = $this->countriesCollection->firstWhere('iso_code_2', $isoCodeTwo)) {
             return null;
         }
@@ -135,6 +137,7 @@ class Country
         } elseif (is_numeric($country)) {
             $this->loadCountries();
 
+            /** @var \Igniter\System\Models\Country $countryModel */
             if ($countryModel = $this->countriesCollection->find($country)) {
                 $result['country'] = $countryModel->country_name;
                 $result['format'] = $countryModel->format;
@@ -147,7 +150,7 @@ class Country
     protected function loadCountries(): Collection
     {
         if (is_null($this->countriesCollection)) {
-            $this->countriesCollection = CountryModel::whereIsEnabled()->sorted()->get();
+            $this->countriesCollection = collect(CountryModel::query()->whereIsEnabled()->sorted()->get());
         }
 
         return $this->countriesCollection;

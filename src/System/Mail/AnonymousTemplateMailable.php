@@ -8,7 +8,7 @@ use Igniter\Flame\Database\Model;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 
-class AnonymousTemplateMailable extends TemplateMailable
+final class AnonymousTemplateMailable extends TemplateMailable
 {
     use Queueable;
     use SerializesModels;

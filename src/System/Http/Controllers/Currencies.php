@@ -75,7 +75,7 @@ class Currencies extends AdminController
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::system.currencies.alert_set_default')));
         }
 
-        return $this->refreshList('list');
+        return $this->asExtension(ListController::class)->refreshList('list');
     }
 
     public function listOverrideColumnValue(Currency $record, ListColumn $column, ?string $alias = null): void

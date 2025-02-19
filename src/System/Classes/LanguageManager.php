@@ -6,7 +6,6 @@ namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Support\Facades\File;
-use Igniter\Flame\Translation\FileLoader;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Translation;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -14,11 +13,12 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Translation\FileLoader as IlluminateFileLoader;
 use stdClass;
 
 class LanguageManager
 {
-    protected FileLoader $loader;
+    protected IlluminateFileLoader $loader;
 
     protected string $langPath;
 
@@ -155,14 +155,14 @@ class LanguageManager
     {
         $translations = $model->translations()
             ->get()
-            ->groupBy(function(Translation $translation): string {
+            ->groupBy(function(Translation $translation): string { // @phpstan-ignore-line
                 return sprintf('%s::%s', $translation->namespace, $translation->group);
             })
             ->map(function(Collection $translations, string $group): array {
                 return [
                     'name' => $group,
                     'strings' => $translations
-                        ->map(function(Translation $translation): array {
+                        ->map(function(Translation $translation): array { // @phpstan-ignore-line
                             return [
                                 'key' => $translation->item,
                                 'value' => $translation->text,

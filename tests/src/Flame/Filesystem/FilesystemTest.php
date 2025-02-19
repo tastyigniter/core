@@ -56,7 +56,7 @@ it('checks path is within application path', function() {
 it('checks if disk is using local driver', function() {
     $adapter = mock(LocalFilesystemAdapter::class);
     $disk = mock(FilesystemAdapter::class);
-    $disk->shouldReceive('getDriver->getAdapter')->andReturn($adapter);
+    $disk->shouldReceive('getAdapter')->andReturn($adapter);
     expect($this->filesystem->isLocalDisk($disk))->toBeTrue();
 });
 

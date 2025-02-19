@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Igniter\Flame\Database\Migrations\DatabaseMigrationRepository;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
@@ -41,7 +42,9 @@ class IgniterUp extends Command
             return;
         }
 
-        resolve('migrator')->getRepository()->prepareMigrationTable();
+        /** @var DatabaseMigrationRepository $repository */
+        $repository = resolve('migrator')->getRepository();
+        $repository->prepareMigrationTable();
 
         $this->renameConflictingFoundationTables();
 

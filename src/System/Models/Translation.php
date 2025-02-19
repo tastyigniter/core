@@ -6,10 +6,10 @@ namespace Igniter\System\Models;
 
 use Exception;
 use Igniter\Flame\Database\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
+ *
  * @property int $translation_id
  * @property string $locale
  * @property string $namespace
@@ -23,11 +23,11 @@ use Illuminate\Support\Carbon;
  * @property-read string $code
  * @method static Builder<static>|Translation applyFilters(array $options = [])
  * @method static Builder<static>|Translation applySorts(array $sorts = [])
- * @method static Builder<static>|Translation dropdown(string $column, string $key = null)
  * @method static Builder<static>|Translation listFrontEnd(array $options = [])
- * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static Builder<static>|Translation newModelQuery()
+ * @method static Builder<static>|Translation newQuery()
  * @method static Builder<static>|Translation query()
- * @mixin Model
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Translation extends \Igniter\Flame\Translation\Models\Translation
 {

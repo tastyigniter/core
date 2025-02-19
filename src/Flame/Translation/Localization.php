@@ -117,7 +117,7 @@ class Localization
 
     public function setSessionLocale($locale)
     {
-        return Session::put($this->sessionKey, $locale);
+        Session::put($this->sessionKey, $locale);
     }
 
     public function getSessionLocale()

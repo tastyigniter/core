@@ -169,6 +169,7 @@ class RecordEditor extends BaseFormWidget
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang($this->formName).' attached'))->now();
         }
 
+        /** @var null|Form $formWidget */
         $formWidget = $this->getController()->widgets['form'] ?? null;
         $formWidget?->getFormWidget($this->attachToField)?->reload();
 

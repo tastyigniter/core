@@ -120,7 +120,7 @@ class Languages extends AdminController
             flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::system.languages.alert_set_default')));
         }
 
-        return $this->refreshList('list');
+        return $this->asExtension(ListController::class)->refreshList('list');
     }
 
     public function listOverrideColumnValue(Language $record, ListColumn $column, ?string $alias = null): void
@@ -132,9 +132,10 @@ class Languages extends AdminController
 
     public function edit_onSubmitFilter(?string $context = null, ?string $recordId = null)
     {
-        $model = $this->formFindModelObject($recordId);
+        $formController = $this->asExtension(FormController::class);
+        $model = $formController->formFindModelObject($recordId);
 
-        $this->asExtension('FormController')->initForm($model, $context);
+        $formController->initForm($model, $context);
 
         $group = post('Language._group');
         $this->setFilterValue('group', !$group ? null : $group);
@@ -145,12 +146,12 @@ class Languages extends AdminController
         $filter = post('Language._filter');
         $this->setFilterValue('filter', (!$filter || !is_string($filter)) ? null : $filter);
 
-        return $this->asExtension('FormController')->makeRedirect('edit', $model);
+        return $formController->makeRedirect('edit', $model);
     }
 
     public function edit_onCheckUpdates(?string $context = null, ?string $recordId = null): string
     {
-        $model = $this->formFindModelObject($recordId);
+        $model = $this->asExtension(FormController::class)->formFindModelObject($recordId);
 
         $response = resolve(LanguageManager::class)->applyLanguagePack($model->code, (array)$model->version);
 
@@ -162,7 +163,7 @@ class Languages extends AdminController
 
     public function edit_onPublishTranslations(?string $context = null, ?string $recordId = null)
     {
-        $model = $this->formFindModelObject($recordId);
+        $model = $this->asExtension(FormController::class)->formFindModelObject($recordId);
 
         resolve(LanguageManager::class)->publishTranslations($model);
 
@@ -188,7 +189,7 @@ class Languages extends AdminController
         );
 
         if (is_null(Language::findByCode($itemMeta['name']))) {
-            $language = Language::make(['code' => $itemMeta['name']]);
+            $language = new Language(['code' => $itemMeta['name']]);
             $language->name = $response['name'];
             $language->status = true;
             $language->save();
@@ -203,7 +204,7 @@ class Languages extends AdminController
 
     public function edit_onApplyUpdate(?string $context = null, ?string $recordId = null): array
     {
-        $model = $this->formFindModelObject($recordId);
+        $model = $this->asExtension(FormController::class)->formFindModelObject($recordId);
 
         $response = resolve(LanguageManager::class)->applyLanguagePack($model->code, (array)$model->version);
 
@@ -214,7 +215,7 @@ class Languages extends AdminController
 
     public function onProcessItems(?string $context = null, ?string $recordId = null): array
     {
-        $model = $this->formFindModelObject($recordId);
+        $model = $this->asExtension(FormController::class)->formFindModelObject($recordId);
 
         $data = $this->validate(post(), [
             'process' => ['required', 'string'],

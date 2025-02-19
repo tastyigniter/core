@@ -38,6 +38,7 @@ use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Event;
+use Illuminate\View\FileViewFinder;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -181,7 +182,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerErrorViewPaths()
     {
         Event::listen('exception.beforeRender', function($exception, $httpCode, $request) {
-            $themeViewPaths = array_get(view()->getFinder()->getHints(), 'igniter.system', []);
+            /** @var FileViewFinder $finder */
+            $finder = view()->getFinder();
+            $themeViewPaths = array_get($finder->getHints(), 'igniter.system', []);
             config()->set('view.paths', array_merge($themeViewPaths, config('view.paths')));
         });
     }

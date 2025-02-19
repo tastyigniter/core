@@ -17,16 +17,16 @@ use Illuminate\Support\Facades\Request;
  * @property int $id
  * @property string|null $url
  * @property int|null $status_code
- * @property array|null $referrer
+ * @property array<array-key, mixed>|null $referrer
  * @property int $count
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog listFrontEnd(array $options = [])
- * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
- * @method static \Igniter\Flame\Database\Builder<static>|RequestLog query()
+ * @method static Builder<static>|RequestLog applyFilters(array $options = [])
+ * @method static Builder<static>|RequestLog applySorts(array $sorts = [])
+ * @method static Builder<static>|RequestLog listFrontEnd(array $options = [])
+ * @method static Builder<static>|RequestLog newModelQuery()
+ * @method static Builder<static>|RequestLog newQuery()
+ * @method static Builder<static>|RequestLog query()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class RequestLog extends Model
@@ -59,6 +59,7 @@ class RequestLog extends Model
         $url = Request::fullUrl();
         $referrer = Request::header('referer');
 
+        /** @var RequestLog $record */
         $record = self::firstOrNew([
             'url' => substr($url, 0, 191),
             'status_code' => $statusCode,

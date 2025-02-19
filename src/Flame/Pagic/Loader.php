@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\App;
 
 /**
  * Loader class
+ * @property-read Model $source
  */
 class Loader implements TemplateLoader
 {
@@ -165,6 +166,8 @@ class Loader implements TemplateLoader
             return $this->fallbackCache[$name];
         }
 
-        return $this->fallbackCache[$name] = PartialTemplate::find($name);
+        /** @var PartialTemplate $partial */
+        $partial = PartialTemplate::query()->find($name);
+        return $this->fallbackCache[$name] = $partial;
     }
 }

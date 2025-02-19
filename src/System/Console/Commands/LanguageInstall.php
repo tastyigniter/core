@@ -21,7 +21,7 @@ class LanguageInstall extends Command
         $locale = $this->argument('locale');
 
         if (is_null($language = Language::findByCode($locale))) {
-            $language = Language::make(['code' => $locale]);
+            $language = new Language(['code' => $locale]);
         }
 
         $languageManager = resolve(LanguageManager::class);

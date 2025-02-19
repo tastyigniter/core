@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void putJsVars(array $variables)
  * @method static void mergeJsVars(string $key, array $value)
  * @method static void flush()
+ * @method static void clearInternalCache()
  * @method static string combine(string $type, array $assets = [])
  * @method static void combineToFile(array $assets, string $destination)
  * @method static Response combineGetContents(string $cacheKey)

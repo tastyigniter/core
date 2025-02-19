@@ -11,7 +11,7 @@ class ThemeActivatedEvent
 {
     use EventDispatchable;
 
-    public function __construct(public Theme $theme) {}
+    final public function __construct(public Theme $theme) {}
 
     public static function eventName(): string
     {

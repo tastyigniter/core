@@ -70,6 +70,6 @@ class CurrencyMiddleware
         currency()->setUserCurrency($currency = strtoupper($currency));
 
         // Save it for later too!
-        $request->getSession()->put(['igniter.currency' => $currency]);
+        $request->getSession()->set('igniter.currency', $currency);
     }
 }

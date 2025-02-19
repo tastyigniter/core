@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\Markdown;
 use Igniter\Flame\Support\Facades\File;
@@ -20,12 +21,18 @@ use InvalidArgumentException;
  * @property string|null $name
  * @property string|null $version
  * @property-read mixed $description
- * @property-read mixed $icon
+ * @property-read array $icon
  * @property-read mixed $meta
  * @property-read mixed $readme
- * @property-read mixed $required
- * @property-read mixed $status
+ * @property-read bool $required
+ * @property-read bool $status
  * @property-read mixed $title
+ * @method static Builder<static>|Extension applyFilters(array $options = [])
+ * @method static Builder<static>|Extension applySorts(array $sorts = [])
+ * @method static Builder<static>|Extension listFrontEnd(array $options = [])
+ * @method static Builder<static>|Extension newModelQuery()
+ * @method static Builder<static>|Extension newQuery()
+ * @method static Builder<static>|Extension query()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Extension extends Model

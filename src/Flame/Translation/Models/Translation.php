@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 /**
+ *
  * @property int $translation_id
  * @property string $locale
  * @property string $namespace
@@ -23,27 +24,10 @@ use Illuminate\Support\Facades\Cache;
  * @property-read string $code
  * @method static Builder<static>|Translation applyFilters(array $options = [])
  * @method static Builder<static>|Translation applySorts(array $sorts = [])
- * @method static Builder<static>|Translation dropdown(string $column, string $key = null)
- * @method static Builder<static>|Translation like(string $column, string $value, string $side = 'both', string $boolean = 'and')
  * @method static Builder<static>|Translation listFrontEnd(array $options = [])
- * @method static Builder<static>|Translation lists(string $column, string $key = null)
  * @method static Builder<static>|Translation newModelQuery()
  * @method static Builder<static>|Translation newQuery()
- * @method static Builder<static>|Translation orLike(string $column, string $value, string $side = 'both')
- * @method static Builder<static>|Translation orSearch(string $term, string $columns = [], string $mode = 'all')
- * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static Builder<static>|Translation query()
- * @method static Builder<static>|Translation search(string $term, string $columns = [], string $mode = 'all')
- * @method static Builder<static>|Translation whereCreatedAt($value)
- * @method static Builder<static>|Translation whereGroup($value)
- * @method static Builder<static>|Translation whereItem($value)
- * @method static Builder<static>|Translation whereLocale($value)
- * @method static Builder<static>|Translation whereLocked($value)
- * @method static Builder<static>|Translation whereNamespace($value)
- * @method static Builder<static>|Translation whereText($value)
- * @method static Builder<static>|Translation whereTranslationId($value)
- * @method static Builder<static>|Translation whereUnstable($value)
- * @method static Builder<static>|Translation whereUpdatedAt($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Translation extends Model
@@ -53,8 +37,7 @@ class Translation extends Model
     public $timestamps = true;
 
     /**
-     *  Table name in the database.
-     * @var string
+     * @var string Table name in the database.
      */
     protected $table = 'language_translations';
 
@@ -64,8 +47,7 @@ class Translation extends Model
     protected $primaryKey = 'translation_id';
 
     /**
-     *  List of variables that can be mass assigned
-     * @var array
+     * @var array<int, string> List of variables that can be mass assigned
      */
     protected $fillable = ['locale', 'namespace', 'group', 'item', 'text', 'unstable'];
 

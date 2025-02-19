@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @property null|Model|HasMedia $performedOn
+ */
 class MediaAdder
 {
     protected ?Media $media = null;

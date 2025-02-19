@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Models;
 
-use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Local\Models\Concerns\Locationable;
@@ -18,13 +17,13 @@ use Igniter\User\Models\UserRole;
 
 /**
  * Staff Model Class
+ *
  * @codeCoverageIgnore
  * @deprecated use Igniter\Admin\Models\User instead. Remove before v5
  * @phpstan-ignore
  */
 class Staff extends Model
 {
-    use HasFactory;
     use Locationable;
     use Purgeable;
 

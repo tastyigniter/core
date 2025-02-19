@@ -69,7 +69,6 @@ trait ComponentMaker
             return false;
         }
 
-        $componentObj->id = uniqid($alias);
         $this->componentContext = $componentObj;
         $componentObj->setProperties(array_merge($componentObj->getProperties(), $params));
         if ($result = $componentObj->onRender()) {
@@ -112,7 +111,7 @@ trait ComponentMaker
     /**
      * Adds a component to the layout object
      *
-     * @param mixed $name Component class name or short name
+     * @param string $name Component class name or short name
      * @param string $alias Alias to give the component
      * @param array $properties Component properties
      * @param bool $addToLayout Add to layout or page

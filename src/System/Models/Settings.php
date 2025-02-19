@@ -24,6 +24,11 @@ use Illuminate\Support\Facades\Session;
  * @property string|null $item
  * @property string|null $value
  * @property int|null $serialized
+ * @method static Builder<static>|Settings applyFilters(array $options = [])
+ * @method static Builder<static>|Settings applySorts(array $sorts = [])
+ * @method static Builder<static>|Settings listFrontEnd(array $options = [])
+ * @method static Builder<static>|Settings newModelQuery()
+ * @method static Builder<static>|Settings newQuery()
  * @method static Builder<static>|Settings query()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
@@ -139,7 +144,7 @@ class Settings extends Model
 
     public static function get(?string $key = null, mixed $default = null, string $group = 'config'): mixed
     {
-        return array_get(self::make()->getFieldValues($group), $key, $default);
+        return array_get((new Settings())->getFieldValues($group), $key, $default);
     }
 
     public static function set(string|array $key, mixed $value = null, string $group = 'config'): bool
@@ -152,7 +157,7 @@ class Settings extends Model
             ];
         })->values()->all();
 
-        static::make()->resetFieldValues();
+        (new Settings())->resetFieldValues();
 
         return (bool)static::upsert($data, ['sort', 'item'], ['value']);
     }
@@ -165,11 +170,6 @@ class Settings extends Model
     public static function getPref(string|array $key, mixed $default = null): mixed
     {
         return self::get($key, $default, 'prefs');
-    }
-
-    public static function make($attributes = [])
-    {
-        return resolve(static::class);
     }
 
     //

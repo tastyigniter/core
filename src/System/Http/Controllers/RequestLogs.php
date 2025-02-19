@@ -56,6 +56,6 @@ class RequestLogs extends AdminController
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Logs Emptied '));
 
-        return $this->refreshList('list');
+        return $this->asExtension(ListController::class)->refreshList('list');
     }
 }

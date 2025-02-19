@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models\Concerns;
 
+use Igniter\Flame\Database\Relations\BelongsTo;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait HasCountry
 {
@@ -25,7 +25,7 @@ trait HasCountry
         return 'country';
     }
 
-    protected function getCountryRelationObject(): Relation
+    protected function getCountryRelationObject(): BelongsTo
     {
         $relationName = $this->getCountryRelationName();
 

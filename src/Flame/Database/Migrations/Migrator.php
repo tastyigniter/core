@@ -8,6 +8,9 @@ use Illuminate\Console\View\Components\Info;
 use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 use Illuminate\Support\Str;
 
+/**
+ * @method DatabaseMigrationRepository getRepository()
+ */
 class Migrator extends BaseMigrator
 {
     public function runGroup($paths = [], array $options = []): void
@@ -55,7 +58,7 @@ class Migrator extends BaseMigrator
         }
 
         foreach ($migrations as $migration => $file) {
-            $this->runDown($file, $migration, $options['pretend'] ?? false);
+            $this->runDown($file, $this->resolve($migration), $options['pretend'] ?? false);
         }
 
         return $this;

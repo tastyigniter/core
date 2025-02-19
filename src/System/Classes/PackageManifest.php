@@ -6,6 +6,9 @@ namespace Igniter\System\Classes;
 
 use Illuminate\Foundation\PackageManifest as BasePackageManifest;
 
+/**
+ * PackageManifest class
+ */
 class PackageManifest extends BasePackageManifest
 {
     protected string $metaFile = '/disabled-addons.json';
@@ -62,7 +65,7 @@ class PackageManifest extends BasePackageManifest
             $packages = $installed['packages'] ?? $installed;
         }
 
-        $this->manifest = null;
+        $this->manifest = null; // @phpstan-ignore assign.propertyType
 
         $this->write(collect($packages)
             ->filter(function($package): bool {

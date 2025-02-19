@@ -42,6 +42,6 @@ abstract class BaseCssFilter implements FilterInterface
      */
     protected function filterImports($content, $callback, $limit = -1, &$count = 0, $includeUrl = true)
     {
-        return CssUtils::filterImports($content, $callback, $limit);
+        return CssUtils::filterImports($content, $callback, $includeUrl);
     }
 }

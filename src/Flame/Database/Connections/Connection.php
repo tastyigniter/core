@@ -52,7 +52,7 @@ class Connection extends ConnectionBase
      * Fire an event for this connection.
      *
      * @param string $event
-     * @return void
+     * @return array|null
      */
     protected function fireConnectionEvent($event)
     {
@@ -60,6 +60,6 @@ class Connection extends ConnectionBase
             $this->events->dispatch('connection.'.$this->getName().'.'.$event, $this);
         }
 
-        parent::fireConnectionEvent($event);
+        return parent::fireConnectionEvent($event);
     }
 }

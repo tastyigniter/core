@@ -26,6 +26,15 @@ use JsonSerializable;
 
 /**
  * Model class.
+ *
+ * @property null|string $fileName
+ * @property null|string $baseFileName
+ * @property null|int $mTime
+ * @property null|string $content
+ * @property null|string $markup
+ * @property null|string $code
+ * @property null|array $settings
+ * @method static find(string $fileName)
  */
 abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsonable, JsonSerializable, TemplateInterface
 {
@@ -37,9 +46,9 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     use ManagesCache;
     use ManagesSource;
 
-    public const DIR_NAME = '';
+    public const string DIR_NAME = '';
 
-    public const DEFAULT_EXTENSION = 'blade.php';
+    public const string DEFAULT_EXTENSION = 'blade.php';
 
     public static ?Dispatcher $dispatcher;
 
@@ -66,7 +75,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Create a new Halcyon model instance.
      */
-    public function __construct(array $attributes = [])
+    final public function __construct(array $attributes = [])
     {
         $this->bootNicerEvents();
 

@@ -66,9 +66,10 @@ class Filter extends BaseWidget
         if (isset($this->search)) {
             $searchConfig = $this->search;
             $searchConfig['alias'] = $this->alias.'Search';
-            /** @var SearchBox $this ->searchWidget */
-            $this->searchWidget = $this->makeWidget(SearchBox::class, $searchConfig);
-            $this->searchWidget->bindToController();
+            /** @var SearchBox $searchWidget */
+            $searchWidget = $this->makeWidget(SearchBox::class, $searchConfig);
+            $searchWidget->bindToController();
+            $this->searchWidget = $searchWidget;
         }
     }
 
@@ -415,6 +416,7 @@ class Filter extends BaseWidget
                 break;
 
             default:
+                /** @var null|int|string|array $value */
                 $value = is_array($scope->value) ? array_values($scope->value) : $scope->value;
 
                 if ($scopeConditions = $scope->conditions) {

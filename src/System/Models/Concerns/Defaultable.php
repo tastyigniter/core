@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models\Concerns;
 
-use Igniter\Flame\Database\Model;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
 
@@ -37,9 +36,8 @@ trait Defaultable
 
     public static function updateDefault(mixed $id): bool
     {
-        /** @var Model $model */
-        return ($model = static::firstWhere((new static)->defaultableKeyName(), $id))
-            ? $model->makeDefault() : false;
+        /** @var static $model */
+        return (($model = static::firstWhere((new static)->defaultableKeyName(), $id))) && $model->makeDefault();
     }
 
     public static function getDefaultKey(): mixed
@@ -54,8 +52,9 @@ trait Defaultable
             return static::$defaultModels[static::class];
         }
 
-        if (!$defaultModel = (new static)->defaultableFindQuery()->applyDefaultable(true)->first()) {
-            /** @var Model $defaultModel */
+        /** @var static $defaultModel */
+        if (!$defaultModel = (new static)->defaultableFindQuery()->applyDefaultable()->first()) {
+            /** @var static $defaultModel */
             if ($defaultModel = (new static)->defaultableFindQuery()->first()) {
                 $defaultModel->makeDefault();
             }
@@ -126,12 +125,12 @@ trait Defaultable
 
     public function scopeWhereIsDefault(Builder $query): Builder
     {
-        return $query->applyDefaultable(true);
+        return $this->scopeApplyDefaultable($query);
     }
 
     public function scopeWhereNotDefault(Builder $query): Builder
     {
-        return $query->applyDefaultable(false);
+        return $this->scopeApplyDefaultable($query, false);
     }
 
     public function scopeApplyDefaultable(Builder $query, bool $default = true): Builder
@@ -146,7 +145,7 @@ trait Defaultable
         return in_array(Switchable::class, class_uses_recursive(static::class));
     }
 
-    protected function defaultableFindQuery(): Builder
+    protected function defaultableFindQuery(): Builder|static
     {
         $query = static::query();
         if ($this->defaultableUsesSwitchable()) {

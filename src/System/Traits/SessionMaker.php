@@ -52,7 +52,9 @@ trait SessionMaker
 
     public function setSessionKey(string $key): self
     {
-        $this->sessionKey = $key;
+        if (property_exists($this, 'sessionKey')) {
+            $this->sessionKey = $key;
+        }
 
         return $this;
     }

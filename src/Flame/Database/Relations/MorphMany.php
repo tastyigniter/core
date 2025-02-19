@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
+use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany as MorphManyBase;
 
 /**
  * Adapted from october\rain\database\relations\MorphMany
+ * @property \Igniter\Flame\Database\Model $parent
  */
 class MorphMany extends MorphManyBase
 {

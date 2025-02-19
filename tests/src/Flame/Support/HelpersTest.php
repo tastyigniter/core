@@ -18,6 +18,7 @@ use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Facades\Country;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -292,7 +293,7 @@ it('merges arrays deeply', function() {
 
 it('returns metas html tags', function() {
     $meta = ['name' => 'description', 'content' => 'Test'];
-    Assets::shouldReceive('collection->addMeta')->once()->with($meta);
+    Assets::shouldReceive('addMeta')->once()->with($meta);
     set_meta($meta);
 
     Assets::shouldReceive('getMetas')->once()->andReturn('<meta name="description" content="Test">');
@@ -358,7 +359,7 @@ it('formats address with line breaks', function() {
 });
 
 it('returns list of countries with default columns', function() {
-    $countries = collect([
+    $countries = new Collection([
         ['country_id' => 1, 'country_name' => 'USA'],
         ['country_id' => 2, 'country_name' => 'Canada'],
     ]);

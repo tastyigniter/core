@@ -17,6 +17,7 @@ use Illuminate\Support\Arr;
  * so the base Igniter\Flame\Database\Relations\BelongsToMany class can be inherited
  *
  * Adapted from october\rain\database\relations\MorphToMany
+ * @property \Igniter\Flame\Database\Model $parent
  */
 class MorphToMany extends BelongsToMany
 {

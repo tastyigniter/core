@@ -85,7 +85,7 @@ class MainMenuItem
 
     public array $config = [];
 
-    public function __construct(string $itemName, ?string $label = null)
+    final public function __construct(string $itemName, ?string $label = null)
     {
         $this->itemName = $itemName;
         $this->label = $label;

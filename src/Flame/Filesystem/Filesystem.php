@@ -120,7 +120,7 @@ class Filesystem extends IlluminateFilesystem
      */
     public function isLocalDisk(FilesystemAdapter $disk): bool
     {
-        return $disk->getDriver()->getAdapter() instanceof LocalFilesystemAdapter;
+        return $disk->getAdapter() instanceof LocalFilesystemAdapter;
     }
 
     /**

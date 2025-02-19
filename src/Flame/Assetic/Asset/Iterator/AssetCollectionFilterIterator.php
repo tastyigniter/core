@@ -13,6 +13,7 @@ use RecursiveFilterIterator;
  * on both strict equality and source URL.
  *
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
+ * @method AssetCollectionIterator getInnerIterator()
  */
 class AssetCollectionFilterIterator extends RecursiveFilterIterator
 {

@@ -45,7 +45,7 @@ abstract class Model extends EloquentModel
     /**
      * The attributes that should be cast to native types.
      * New Custom types: serialize, time
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [];
 
@@ -153,9 +153,7 @@ abstract class Model extends EloquentModel
         // Hook to boot events
         static::registerModelEvent('booted', function(Model $model) {
             $model->fireEvent('model.afterBoot');
-            if ($model->methodExists('afterBoot')) {
-                return $model->afterBoot();
-            }
+            return $model->afterBoot();
         });
 
         static::$eventsBooted[$class] = true;
@@ -197,6 +195,11 @@ abstract class Model extends EloquentModel
 
         return $instance;
     }
+
+    /**
+     * Handle the "booted" model event
+     */
+    protected function afterBoot() {}
 
     /**
      * Handle the "creating" model event
@@ -314,7 +317,7 @@ abstract class Model extends EloquentModel
 
     public function __set($key, $value)
     {
-        return $this->extendableSet($key, $value);
+        $this->extendableSet($key, $value);
     }
 
     /**
@@ -341,7 +344,7 @@ abstract class Model extends EloquentModel
      * @param string $table
      * @param bool $exists
      * @param string|null $using
-     * @return Pivot
+     * @return Pivot|\Illuminate\Database\Eloquent\Relations\Pivot
      */
     public function newPivot(EloquentModel $parent, array $attributes, $table, $exists, $using = null)
     {
@@ -357,7 +360,7 @@ abstract class Model extends EloquentModel
      * @param array $attributes
      * @param string $table
      * @param bool $exists
-     * @return Pivot
+     * @return Pivot|\Illuminate\Database\Eloquent\Relations\Pivot
      */
     public function newRelationPivot($relationName, $parent, $attributes, $table, $exists)
     {
@@ -369,7 +372,7 @@ abstract class Model extends EloquentModel
             return new $pivotModel($parent, $attributes, $table, $exists);
         }
 
-        return null;
+        return new Pivot($parent, $attributes, $table, $exists);
     }
 
     //
@@ -477,7 +480,7 @@ abstract class Model extends EloquentModel
     protected function performDeleteOnModel()
     {
         $this->performDeleteOnRelations();
-        $this->setKeysForSaveQuery($this->newQueryWithoutScopes())->delete();
+        $this->setKeysForSaveQuery($this->newQueryWithoutScopes())->delete(); // @phpstan-ignore-line
     }
 
     /**

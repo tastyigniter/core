@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace Igniter\Flame\Geolite\Contracts;
 
 use Closure;
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as HttpClient;
 use Igniter\Flame\Geolite\Model\Distance;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Psr\Http\Client\ClientInterface;
 
 abstract class AbstractProvider
 {
-    protected ?ClientInterface $httpClient = null;
+    protected ?HttpClient $httpClient = null;
 
     protected ?int $cacheLifetime = null;
 
@@ -39,9 +38,9 @@ abstract class AbstractProvider
 
     abstract public function distance(DistanceInterface $distance): ?Distance;
 
-    protected function getHttpClient(): ClientInterface
+    protected function getHttpClient(): HttpClient
     {
-        return $this->httpClient ?? new Client;
+        return $this->httpClient ?? new HttpClient;
     }
 
     //

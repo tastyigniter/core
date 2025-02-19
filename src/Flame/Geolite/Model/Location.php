@@ -37,7 +37,7 @@ class Location implements LocationInterface
 
     protected array $data;
 
-    public function __construct(string $providedBy, array $data = [])
+    final public function __construct(string $providedBy, array $data = [])
     {
         $this->providedBy = $providedBy;
         $this->fillFromData($data);

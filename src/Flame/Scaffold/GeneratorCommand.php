@@ -106,7 +106,7 @@ abstract class GeneratorCommand extends Command
      *
      * @param string $path
      *
-     * @return string
+     * @return void
      */
     protected function makeDirectory($path)
     {

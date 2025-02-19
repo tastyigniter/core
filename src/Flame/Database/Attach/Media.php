@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
+ *
+ *
  * @property int $id
  * @property string $disk
  * @property string $name
@@ -24,11 +26,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @property string|null $attachment_type
  * @property int|null $attachment_id
  * @property int $is_public
- * @property array|null $custom_properties
+ * @property array<array-key, mixed>|null $custom_properties
  * @property int|null $priority
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Igniter\Flame\Database\Model|\Illuminate\Database\Eloquent\Model|null $attachment
+ * @property-read \Igniter\Flame\Database\Model|null $attachment
  * @property-read mixed $extension
  * @property-read string $height
  * @property-read mixed $human_readable_size
@@ -37,39 +39,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @property-read string $width
  * @method static \Igniter\Flame\Database\Builder<static>|Media applyFilters(array $options = [])
  * @method static \Igniter\Flame\Database\Builder<static>|Media applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Media dropdown(string $column, string $key = null)
- * @method static \Igniter\Flame\Database\Builder<static>|Media like(string $column, string $value, string $side = 'both', string $boolean = 'and')
  * @method static \Igniter\Flame\Database\Builder<static>|Media listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Media lists(string $column, string $key = null)
  * @method static \Igniter\Flame\Database\Builder<static>|Media newModelQuery()
  * @method static \Igniter\Flame\Database\Builder<static>|Media newQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Media orLike(string $column, string $value, string $side = 'both')
- * @method static \Igniter\Flame\Database\Builder<static>|Media orSearch(string $term, string $columns = [], string $mode = 'all')
- * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static \Igniter\Flame\Database\Builder<static>|Media query()
- * @method static \Igniter\Flame\Database\Builder<static>|Media search(string $term, string $columns = [], string $mode = 'all')
  * @method static \Igniter\Flame\Database\Builder<static>|Media sorted()
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereAttachmentId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereAttachmentType($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereCreatedAt($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereCustomProperties($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereDisk($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereFileName($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereId($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereIsPublic($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereMimeType($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereName($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media wherePriority($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereSize($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereTag($value)
- * @method static \Igniter\Flame\Database\Builder<static>|Media whereUpdatedAt($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Media extends Model
 {
     use \Igniter\Flame\Database\Traits\Sortable;
 
-    const SORT_ORDER = 'priority';
+    public const string SORT_ORDER = 'priority';
 
     protected $table = 'media_attachments';
 
@@ -83,19 +64,17 @@ class Media extends Model
     public static $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
     /**
-     * @var array Hidden fields from array/json access
+     * @var array<int, string> Hidden fields from array/json access
      */
     protected $hidden = ['attachment_type', 'attachment_id', 'is_public'];
 
     /**
-     * @var array Add fields to array/json access
+     * @var array<int, string> Add fields to array/json access
      */
     protected $appends = ['path', 'extension'];
 
     /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
+     * @var array<string, string> The attributes that should be cast to native types.
      */
     protected $casts = [
         'manipulations' => 'array',
@@ -176,7 +155,7 @@ class Media extends Model
      * Creates a file object from url
      * @param $url string URL
      * @param $filename string Filename
-     * @return $this
+     * @return self
      * @throws \Exception
      */
     public function addFromUrl($url, $filename = null, ?string $tag = null): self

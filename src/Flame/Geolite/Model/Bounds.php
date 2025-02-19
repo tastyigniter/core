@@ -19,7 +19,7 @@ class Bounds implements BoundsInterface
      * @param null|int|float $north North bound, also max latitude
      * @param null|int|float $east Eastbound, also max longitude
      */
-    public function __construct(
+    final public function __construct(
         protected null|int|float $south,
         protected null|int|float $west,
         protected null|int|float $north,
@@ -114,9 +114,9 @@ class Bounds implements BoundsInterface
     public function pointInBounds(CoordinatesInterface $coordinate): bool
     {
         return !(bccomp(
-            number_format($coordinate->getLatitude(), $this->getPrecision()),
-            number_format($this->getSouth(), $this->getPrecision()),
-            $this->getPrecision()) === -1
+                number_format($coordinate->getLatitude(), $this->getPrecision()),
+                number_format($this->getSouth(), $this->getPrecision()),
+                $this->getPrecision()) === -1
             || bccomp(
                 number_format($coordinate->getLatitude(), $this->getPrecision()),
                 number_format($this->getNorth(), $this->getPrecision()),
@@ -191,33 +191,33 @@ class Bounds implements BoundsInterface
             $this->setWest($longitude);
         } else {
             if (bccomp(
-                number_format($latitude, $this->getPrecision()),
-                number_format($this->getSouth(), $this->getPrecision()),
-                $this->getPrecision()) === -1
+                    number_format($latitude, $this->getPrecision()),
+                    number_format($this->getSouth(), $this->getPrecision()),
+                    $this->getPrecision()) === -1
             ) {
                 $this->setSouth($latitude);
             }
 
             if (bccomp(
-                number_format($latitude, $this->getPrecision()),
-                number_format($this->getNorth(), $this->getPrecision()),
-                $this->getPrecision()) === 1
+                    number_format($latitude, $this->getPrecision()),
+                    number_format($this->getNorth(), $this->getPrecision()),
+                    $this->getPrecision()) === 1
             ) {
                 $this->setNorth($latitude);
             }
 
             if (bccomp(
-                number_format($longitude, $this->getPrecision()),
-                number_format($this->getEast(), $this->getPrecision()),
-                $this->getPrecision()) === 1
+                    number_format($longitude, $this->getPrecision()),
+                    number_format($this->getEast(), $this->getPrecision()),
+                    $this->getPrecision()) === 1
             ) {
                 $this->setEast($longitude);
             }
 
             if (bccomp(
-                number_format($longitude, $this->getPrecision()),
-                number_format($this->getWest(), $this->getPrecision()),
-                $this->getPrecision()) === -1
+                    number_format($longitude, $this->getPrecision()),
+                    number_format($this->getWest(), $this->getPrecision()),
+                    $this->getPrecision()) === -1
             ) {
                 $this->setWest($longitude);
             }

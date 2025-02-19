@@ -9,6 +9,7 @@ use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Classes\Widgets;
+use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Html\HtmlFacade as Html;
@@ -20,6 +21,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Lists widget.
+ * @property ListController $controller
+ * @property \Igniter\Flame\Database\Model $model
+ */
 class Lists extends BaseWidget
 {
     use LocationAwareWidget;
@@ -247,7 +253,6 @@ class Lists extends BaseWidget
             }
 
             $withs[] = $column->relation;
-
             $joins[] = $column->relation;
         }
 
@@ -375,6 +380,8 @@ class Lists extends BaseWidget
 
     /**
      * Returns the list columns that are visible by list settings or default
+     *
+     * @return array<ListColumn>
      */
     public function getVisibleColumns(): array
     {
@@ -813,13 +820,8 @@ class Lists extends BaseWidget
      */
     public function setSearchOptions(array $options = []): void
     {
-        extract(array_merge([
-            'mode' => null,
-            'scope' => null,
-        ], $options));
-
-        $this->searchMode = $mode;
-        $this->searchScope = $scope;
+        $this->searchMode = array_get($options, 'mode');
+        $this->searchScope = array_get($options, 'scope');
     }
 
     /**
@@ -1049,11 +1051,11 @@ class Lists extends BaseWidget
         }
 
         $checkedIds = request()->input('checked');
-        if (!$checkedIds || !is_array($checkedIds) || $checkedIds === []) {
+        if (!is_array($checkedIds) || empty($checkedIds)) {
             throw new FlashException(lang('igniter::admin.list.delete_empty'));
         }
 
-        $alias = request()->input('alias') ?: $this->primaryAlias;
+        $alias = request()->input('alias') ?: $this->alias;
 
         $query = $this->prepareModel();
 

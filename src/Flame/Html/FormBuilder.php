@@ -36,24 +36,18 @@ class FormBuilder
 
     /**
      * The CSRF token used by the form builder.
-     *
-     * @var string
      */
-    protected $csrfToken;
+    protected string $csrfToken;
 
     /**
      * The session store implementation.
-     *
-     * @var Session
      */
-    protected $session;
+    protected ?Session $session;
 
     /**
      * The current model instance for the form.
-     *
-     * @var mixed
      */
-    protected $model;
+    protected mixed $model;
 
     protected ?Request $request;
 
@@ -323,15 +317,11 @@ class FormBuilder
      *
      * @param string $name
      *
-     * @return string
+     * @return ?string
      */
     public function getIdAttribute($name, array $attributes)
     {
-        if (array_key_exists('id', $attributes)) {
-            return $attributes['id'];
-        }
-
-        return null;
+        return array_key_exists('id', $attributes) ? $attributes['id'] : null;
     }
 
     /**

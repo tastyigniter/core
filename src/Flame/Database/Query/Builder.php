@@ -6,13 +6,16 @@ namespace Igniter\Flame\Database\Query;
 
 use Closure;
 use DateTime;
+use Igniter\Flame\Database\Connections\Connection;
 use Igniter\Flame\Database\MemoryCache;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Database\Query\Builder as IlluminateQueryBuilder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 
 /**
  * Adapted from october\rain\database\QueryBuilder
+ * @property Connection $connection
  */
 class Builder extends IlluminateQueryBuilder
 {
@@ -75,7 +78,7 @@ class Builder extends IlluminateQueryBuilder
      * Indicate that the query results should be cached forever.
      *
      * @param string $key
-     * @return \Illuminate\Database\Query\Builder|static
+     * @return $this
      */
     public function rememberForever($key = null): static
     {
@@ -115,7 +118,7 @@ class Builder extends IlluminateQueryBuilder
      * Check the memory cache before executing the query
      *
      * @param array $columns
-     * @return array
+     * @return Collection
      */
     protected function getDuplicateCached($columns = ['*'])
     {
@@ -139,7 +142,7 @@ class Builder extends IlluminateQueryBuilder
      * Execute the query as a cached "select" statement.
      *
      * @param array $columns
-     * @return array
+     * @return Collection
      */
     public function getCached($columns = ['*'])
     {
@@ -306,7 +309,7 @@ class Builder extends IlluminateQueryBuilder
      * Clear memory cache for the given table.
      *
      * @param string|null $table
-     * @return \Illuminate\Database\Query\Builder|static
+     * @return $this
      */
     public function clearDuplicateCache($table = null): static
     {
@@ -318,7 +321,7 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Flush the memory cache.
      *
-     * @return \Illuminate\Database\Query\Builder|static
+     * @return $this
      */
     public function flushDuplicateCache(): static
     {
@@ -330,7 +333,7 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Enable the memory cache on the query.
      *
-     * @return \Illuminate\Database\Query\Builder|static
+     * @return $this
      */
     public function enableDuplicateCache(): static
     {
@@ -342,7 +345,7 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Disable the memory cache on the query.
      *
-     * @return \Illuminate\Database\Query\Builder|static
+     * @return $this
      */
     public function disableDuplicateCache(): static
     {

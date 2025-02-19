@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset\Iterator;
 
+use Igniter\Flame\Assetic\Asset\AssetCollection;
 use Igniter\Flame\Assetic\Asset\AssetCollectionInterface;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
 use RecursiveIterator;
@@ -109,12 +110,12 @@ class AssetCollectionIterator implements RecursiveIterator
     /**
      * @uses current()
      */
-    public function getChildren(): ?RecursiveIterator
+    public function getChildren(): ?AssetCollectionIterator
     {
-        return new self($this->current(), $this->clones);
+        return new self(new AssetCollection([$this->current()]), $this->clones);
     }
 
-    private function removeDuplicateVar(string $name): string|array
+    private function removeDuplicateVar(string $name): string
     {
         foreach ($this->vars as $var) {
             $var = '{'.$var.'}';

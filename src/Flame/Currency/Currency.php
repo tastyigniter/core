@@ -117,7 +117,7 @@ class Currency
         // Do we have a negative value?
         $negative = $value < 0 ? '-' : '';
         if ($negative !== '') {
-            $value *= -1;
+            $value = (float)$value * -1;
         }
 
         // Format the value
@@ -217,7 +217,7 @@ class Currency
     /**
      * Get currency model.
      */
-    public function getModel(): CurrencyInterface
+    public function getModel(): CurrencyInterface|\Igniter\System\Models\Currency
     {
         if (!$this->model instanceof CurrencyInterface && ($model = $this->config('model'))) {
             // Create model instance

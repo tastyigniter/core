@@ -23,16 +23,23 @@ use Igniter\User\Models\User;
  * @property string|null $comment
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
- * @property-read mixed $date_added_since
- * @property-read mixed $notified
+ * @property-read string|null $date_added_since
+ * @property-read string $notified
  * @property-read mixed $staff_name
  * @property-read mixed $status_name
  * @property-read Status|null $status
+ * @property-read User|null $user
+ * @method static Builder<static>|StatusHistory applyFilters(array $options = [])
  * @method static Builder<static>|StatusHistory applyRelated($model)
+ * @method static Builder<static>|StatusHistory applySorts(array $sorts = [])
+ * @method static Builder<static>|StatusHistory listFrontEnd(array $options = [])
+ * @method static Builder<static>|StatusHistory newModelQuery()
+ * @method static Builder<static>|StatusHistory newQuery()
+ * @method static Builder<static>|StatusHistory query()
  * @method static Builder<static>|StatusHistory whereStatusIsLatest($statusId)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
-final class StatusHistory extends Model
+class StatusHistory extends Model
 {
     use HasFactory;
 
@@ -97,7 +104,7 @@ final class StatusHistory extends Model
      * @param Status|mixed $status
      * @param Model|mixed $object
      * @param array $options
-     * @return static|bool
+     * @return false|self
      */
     public static function createHistory($status, $object, $options = []): false|self
     {
@@ -116,7 +123,7 @@ final class StatusHistory extends Model
         $model->comment = array_get($options, 'comment', $status->status_comment);
         $model->notify = array_get($options, 'notify', $status->notify_customer);
 
-        if ($model->fireSystemEvent('admin.statusHistory.beforeAddStatus', [$object, $statusId, $previousStatus], true) === false) {
+        if ($model->fireSystemEvent('admin.statusHistory.beforeAddStatus', [$object, $statusId, $previousStatus]) === false) {
             return false;
         }
 

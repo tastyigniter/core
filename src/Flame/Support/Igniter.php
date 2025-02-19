@@ -73,7 +73,7 @@ class Igniter
     {
         $this->themesPath = $path;
 
-        return new static;
+        return $this;
     }
 
     /**
@@ -83,7 +83,7 @@ class Igniter
     {
         $this->tempPath = $path;
 
-        return new static;
+        return $this;
     }
 
     /**
@@ -202,7 +202,7 @@ class Igniter
         app()->afterResolving(Filesystem::class, $callback);
 
         if (app()->resolved(Filesystem::class)) {
-            $callback(resolve(Filesystem::class), app());
+            $callback(resolve(Filesystem::class));
         }
 
         return $this;
@@ -224,7 +224,7 @@ class Igniter
         app()->afterResolving('view', $callback);
 
         if (app()->resolved('view')) {
-            $callback(app('view'), app());
+            $callback(app('view'));
         }
 
         return $this;

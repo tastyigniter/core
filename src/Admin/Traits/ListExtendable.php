@@ -55,7 +55,7 @@ trait ListExtendable
      * options before the default query is processed.
      *
      * @param \Igniter\Flame\Database\Builder $query
-     * @param array $scope
+     * @param FilterScope $scope
      */
     public function listFilterExtendQuery(Builder $query, FilterScope $scope) {}
 

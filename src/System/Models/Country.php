@@ -26,11 +26,18 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property bool $is_default
  * @method static Builder<static>|Country applyDefaultable(bool $default = true)
+ * @method static Builder<static>|Country applyFilters(array $options = [])
+ * @method static Builder<static>|Country applySorts(array $sorts = [])
  * @method static Builder<static>|Country applySwitchable(bool $switch = true)
+ * @method static Builder<static>|Country isEnabled()
  * @method static Builder<static>|Country listFrontEnd(array $options = [])
+ * @method static Builder<static>|Country newModelQuery()
+ * @method static Builder<static>|Country newQuery()
  * @method static Builder<static>|Country query()
  * @method static Builder<static>|Country sorted()
+ * @method static Builder<static>|Country whereIsDisabled()
  * @method static Builder<static>|Country whereIsEnabled()
+ * @method static Builder<static>|Country whereNotDefault()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Country extends Model
@@ -40,7 +47,7 @@ class Country extends Model
     use Sortable;
     use Switchable;
 
-    public const SORT_ORDER = 'priority';
+    public const string SORT_ORDER = 'priority';
 
     /**
      * @var string The database table name

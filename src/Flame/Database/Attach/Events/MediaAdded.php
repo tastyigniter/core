@@ -11,7 +11,7 @@ class MediaAdded
 {
     use EventDispatchable;
 
-    public function __construct(public Media $media) {}
+    final public function __construct(public Media $media) {}
 
     public static function eventName(): string
     {

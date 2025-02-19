@@ -26,7 +26,7 @@ class FlashException extends Exception implements HttpExceptionInterface
 
     protected ?Response $response = null;
 
-    public function __construct($message, protected string $type = 'danger', $code = 406, ?Exception $previous = null)
+    final public function __construct($message, protected string $type = 'danger', $code = 406, ?Exception $previous = null)
     {
         $this->message = $message;
 

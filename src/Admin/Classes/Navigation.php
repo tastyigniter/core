@@ -8,6 +8,7 @@ use Igniter\Flame\Traits\EventEmitter;
 use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Models\User;
 
 class Navigation
 {
@@ -173,7 +174,9 @@ class Navigation
                 return true;
             }
 
-            return AdminAuth::user()->hasPermission($permission);
+            /** @var User $adminUser */
+            $adminUser = AdminAuth::user();
+            return $adminUser->hasPermission($permission);
         })->toArray();
     }
 

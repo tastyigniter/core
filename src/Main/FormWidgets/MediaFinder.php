@@ -290,7 +290,7 @@ class MediaFinder extends BaseFormWidget
             $value[] = null;
         }
 
-        return $value ?? [];
+        return $value;
     }
 
     public function getSaveValue(mixed $value): mixed

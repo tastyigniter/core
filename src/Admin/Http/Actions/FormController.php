@@ -128,6 +128,7 @@ class FormController extends ControllerAction
 
         /** @var Form $formWidget */
         $formWidget = $this->makeWidget(Form::class, $formConfig);
+        $this->formWidget = $formWidget;
 
         $formWidget->bindEvent('form.extendFieldsBefore', function() {
             $this->controller->formExtendFieldsBefore($this->formWidget);
@@ -153,7 +154,6 @@ class FormController extends ControllerAction
         });
 
         $formWidget->bindToController();
-        $this->formWidget = $formWidget;
 
         // Prep the optional toolbar widget
         if (isset($modelConfig['toolbar'], $this->controller->widgets['toolbar'])) {

@@ -17,7 +17,6 @@ use Igniter\Flame\Traits\EventEmitter;
 use Igniter\Flame\Traits\ExtendableTrait;
 use Igniter\Main\Template\Code\LayoutCode;
 use Igniter\Main\Template\Code\PageCode;
-use Igniter\Main\Template\ComponentPartial;
 use Igniter\Main\Template\Content;
 use Igniter\Main\Template\Layout;
 use Igniter\Main\Template\Layout as LayoutTemplate;
@@ -119,7 +118,7 @@ class MainController extends Controller
 
         $url = request()->path();
 
-        $page = Event::fire('router.beforeRoute', [$url, $this->router], true);
+        $page = Event::dispatch('router.beforeRoute', [$url, $this->router], true);
         if (is_null($page)) {
             $page = request()->route('_file_');
         }
@@ -546,15 +545,15 @@ class MainController extends Controller
         }
 
         if (str_contains($name, '::')) {
-            if (($partial = $this->loadComponentPartial($name, false)) === false) {
+            if (($this->loadComponentPartial($name, false)) === false) {
                 return false;
             }
         } // Process theme partial
-        elseif (($partial = $this->loadPartial($name, false)) === false) {
+        elseif (($this->loadPartial($name, false)) === false) {
             return false;
         }
 
-        return $partial instanceof Partial || $partial instanceof ComponentPartial;
+        return true;
     }
 
     protected function loadPartial($name, bool $throwException = true): Partial|false

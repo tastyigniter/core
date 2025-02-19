@@ -259,7 +259,7 @@ class PermalinkMaker
     /**
      * Generate a unique suffix for the given slug (and list of existing, "similar" slugs.
      *
-     * @return string
+     * @return int
      */
     protected function generateSuffix(string $slug, string $separator, Collection $list)
     {
@@ -270,7 +270,7 @@ class PermalinkMaker
         if ($list->search($slug) === $this->model->getKey()) {
             $suffix = explode($separator, $slug);
 
-            return end($suffix);
+            return (int)end($suffix);
         }
 
         $list->transform(function($value, $key) use ($len): int {

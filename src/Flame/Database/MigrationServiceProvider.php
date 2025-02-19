@@ -31,6 +31,8 @@ class MigrationServiceProvider extends BaseServiceProvider
 
             return new DatabaseMigrationRepository($app['db'], $table);
         });
+
+        $this->app->alias('migration.repository', DatabaseMigrationRepository::class);
     }
 
     /**
@@ -45,5 +47,7 @@ class MigrationServiceProvider extends BaseServiceProvider
 
             return new Migrator($repository, $app['db'], $app['files'], $app['events']);
         });
+
+        $this->app->alias('migrator', Migrator::class);
     }
 }

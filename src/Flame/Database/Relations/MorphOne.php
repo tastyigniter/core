@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne as MorphOneBase;
 
 /**
  * Adapted from october\rain\database\relations\MorphOne
+ * @property \Igniter\Flame\Database\Model $parent
  */
 class MorphOne extends MorphOneBase
 {

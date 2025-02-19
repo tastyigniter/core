@@ -15,6 +15,7 @@ use Igniter\Cart\Models\Order;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Local\Facades\Location as LocationFacade;
+use Igniter\Reservation\Models\Reservation;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\AssignableLog;
 use Igniter\User\Models\User;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Status Editor
+ * @property-read Order|Reservation $model
  */
 class StatusEditor extends BaseFormWidget
 {
@@ -323,10 +325,13 @@ class StatusEditor extends BaseFormWidget
     protected function saveRecord(array $saveData, string $keyFrom)
     {
         if (!$this->isStatusMode) {
+            /** @var UserGroup $group */
             $group = UserGroup::find(array_get($saveData, $this->assigneeGroupKeyFrom));
+            /** @var User $user */
             $user = User::find(array_get($saveData, $keyFrom));
             $record = $this->model->updateAssignTo($group, $user, $this->controller->getUser());
         } else {
+            /** @var Status $status */
             $status = Status::find(array_get($saveData, $keyFrom));
             $record = $this->model->addStatusHistory($status, $saveData);
         }

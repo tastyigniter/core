@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne as HasOneBase;
 
 /**
  * Adapted from october\rain\database\relations\HasOne
+ * @property \Igniter\Flame\Database\Model $parent
  */
 class HasOne extends HasOneBase
 {

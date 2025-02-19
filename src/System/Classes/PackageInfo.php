@@ -9,11 +9,11 @@ use Illuminate\Support\HtmlString;
 
 class PackageInfo
 {
-    public const CORE = 'tastyigniter/core';
+    public const string CORE = 'tastyigniter/core';
 
     protected ?array $iconCache = null;
 
-    public function __construct(
+    final public function __construct(
         public string $code,
         public string $package,
         public string $type,

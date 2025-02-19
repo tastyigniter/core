@@ -214,13 +214,13 @@ class RouterHelper
     /**
      * Extracts the default parameter value from a URL pattern segment definition.
      * @param string $segment The segment definition.
-     * @return string Returns the default value if it is provided. Returns false otherwise.
+     * @return ?string Returns the default value if it is provided. Returns false otherwise.
      */
     public static function getSegmentDefaultValue($segment)
     {
         $optMarkerPos = mb_strpos($segment, '?');
         if ($optMarkerPos === false) {
-            return false;
+            return null;
         }
 
         $regexMarkerPos = mb_strpos($segment, '|');
@@ -234,7 +234,7 @@ class RouterHelper
             $value = mb_substr($segment, $optMarkerPos + 1);
         }
 
-        return strlen($value) !== 0 ? $value : false;
+        return strlen($value) !== 0 ? $value : null;
     }
 
     public static function convertToRouteProperties(array $pageInfo): array

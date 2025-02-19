@@ -6,7 +6,6 @@ namespace Igniter\Main\FormWidgets;
 
 use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
-use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
@@ -19,6 +18,7 @@ use Illuminate\Http\RedirectResponse;
 
 /**
  * Template Editor
+ * @property-read \Igniter\Main\Models\Theme $model
  */
 class TemplateEditor extends BaseFormWidget
 {
@@ -52,7 +52,7 @@ class TemplateEditor extends BaseFormWidget
         '_content' => 'igniter::models/main/content',
     ];
 
-    protected ?BaseWidget $templateWidget = null;
+    protected ?Form $templateWidget = null;
 
     protected ?string $templateType = null;
 
@@ -204,7 +204,7 @@ class TemplateEditor extends BaseFormWidget
         $widgetConfig['data'] = [
             'fileName' => $template->getFileName(),
             'baseFileName' => $template->getBaseFileName(),
-            'settings' => $template->settings,
+            'settings' => $template->settings ?? [],
             'markup' => $template->getMarkup(),
             'codeSection' => $template->getCode(),
             'fileSource' => $template,

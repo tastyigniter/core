@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany as HasManyBase;
 
 /**
  * Adapted from october\rain\database\relations\HasMany
+ * @property \Igniter\Flame\Database\Model $parent
  */
 class HasMany extends HasManyBase
 {

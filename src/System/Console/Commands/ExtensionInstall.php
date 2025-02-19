@@ -36,7 +36,8 @@ class ExtensionInstall extends Command
         ]]);
 
         if (!$packageInfo = $response->first()) {
-            return $this->output->writeln(sprintf('<info>Extension %s not found</info>', $extensionName));
+            $this->output->writeln(sprintf('<info>Extension %s not found</info>', $extensionName));
+            return null;
         }
 
         try {

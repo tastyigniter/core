@@ -92,7 +92,7 @@ class MailTemplates extends AdminController
             throw new FlashException(lang('igniter::system.mail_templates.alert_template_id_not_found'));
         }
 
-        $model = $this->formFindModelObject($recordId);
+        $model = $this->asExtension(FormController::class)->formFindModelObject($recordId);
 
         $adminUser = $this->getUser();
 

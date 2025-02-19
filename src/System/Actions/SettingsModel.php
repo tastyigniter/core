@@ -106,7 +106,9 @@ class SettingsModel extends ModelAction
      */
     public function getSettingsRecord(): ?Model
     {
-        return $this->model->where('item', $this->recordCode)->first();
+        /** @var Model $model */
+        $model = $this->model->where('item', $this->recordCode)->first();
+        return $model;
     }
 
     /**

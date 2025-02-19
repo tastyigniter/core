@@ -10,8 +10,10 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Http\Actions\FormController;
 use Igniter\Admin\Http\Actions\ListController;
+use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\FormWidgets\TemplateEditor;
 use Igniter\Main\Http\Requests\ThemeRequest;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Facades\Assets;
@@ -187,7 +189,9 @@ class Themes extends AdminController
         $model = $this->formFindModelObject($themeCode);
         $formController->initForm($model, $context);
 
-        $this->widgets['formTemplate']->onSaveSource();
+        /** @var TemplateEditor $formTemplate */
+        $formTemplate = $this->widgets['formTemplate'];
+        $formTemplate->onSaveSource();
 
         flash()->success(
             sprintf(lang('igniter::admin.form.edit_success'), lang('lang:igniter::system.themes.text_form_name')),
@@ -214,6 +218,7 @@ class Themes extends AdminController
 
     public function delete_onDelete(string $context, string $themeCode): RedirectResponse
     {
+        /** @var Theme $model */
         $model = Theme::whereCode($themeCode)->first();
         if ($model && $model->isDefault()) {
             flash()->warning(sprintf(
@@ -267,7 +272,7 @@ class Themes extends AdminController
     {
         throw_unless(strlen($recordId), new FlashException(lang('igniter::admin.form.missing_id')));
 
-        $model = $this->formCreateModelObject();
+        $model = $this->asExtension(FormController::class)->formCreateModelObject();
 
         // Prepare query and find model record
         $query = $model->newQuery();
@@ -281,7 +286,9 @@ class Themes extends AdminController
 
     public function formAfterSave(Theme $model): void
     {
-        if ($this->widgets['form']->context != 'source' && config('igniter-system.buildThemeAssetsBundle', true)) {
+        /** @var Form $form */
+        $form = $this->widgets['form'];
+        if ($form->context != 'source' && config('igniter-system.buildThemeAssetsBundle', true)) {
             Assets::buildBundles($model->getTheme());
         }
     }

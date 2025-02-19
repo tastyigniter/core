@@ -13,7 +13,7 @@ class FileLoader extends FileLoaderBase
     /**
      * Translation driver instance.
      *
-     * @var Contracts\Driver[]
+     * @var array<int, string>
      */
     protected $drivers = [];
 
@@ -42,7 +42,7 @@ class FileLoader extends FileLoaderBase
         })->toArray();
     }
 
-    public function addDriver($driver): void
+    public function addDriver(string $driver): void
     {
         $this->drivers[] = $driver;
     }

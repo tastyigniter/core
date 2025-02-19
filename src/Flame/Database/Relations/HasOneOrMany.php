@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Adapted from october\rain\database\relations\HasOneOrMany
+ * @property \Igniter\Flame\Database\Model $parent
  */
 trait HasOneOrMany
 {
@@ -41,10 +42,10 @@ trait HasOneOrMany
      * Attach an array of models to the parent instance with deferred binding support.
      * @param array $models
      */
-    public function addMany($models, $sessionKey = null): void
+    public function addMany($models): void
     {
         foreach ($models as $model) {
-            $this->add($model, $sessionKey);
+            $this->add($model);
         }
     }
 

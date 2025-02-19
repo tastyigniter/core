@@ -85,9 +85,10 @@ trait PropertyContainer
     /**
      * Returns options for multi-option properties (drop-downs, etc.)
      *
-     * @param string $property Specifies the property name
+     * @param string $form
+     * @param string $field
      *
-     * @return array Return an array of option values and descriptions
+     * @return array|Collection Return an array of option values and descriptions
      */
     public static function getPropertyOptions($form, $field): array|Collection
     {

@@ -38,8 +38,6 @@ class CurrencyServiceProvider extends ServiceProvider
      */
     public function registerCurrency(): void
     {
-        $this->app->bind(Currency::class, 'currency');
-
         $this->app->singleton('currency', function(Application $app): Currency {
             $this->app['events']->dispatch('currency.beforeRegister', [$this]);
 
@@ -48,6 +46,8 @@ class CurrencyServiceProvider extends ServiceProvider
                 $app['cache'],
             );
         });
+
+        $this->app->alias('currency', Currency::class);
     }
 
     /**

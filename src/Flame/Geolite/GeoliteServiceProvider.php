@@ -15,9 +15,6 @@ class GeoliteServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('geocoder', Geocoder::class);
-        $this->app->bind(Geolite::class, 'geolite');
-
         $this->app->singleton('geocoder', function($app): Geocoder {
             return new Geocoder($app);
         });
@@ -29,6 +26,8 @@ class GeoliteServiceProvider extends ServiceProvider
         $this->app->singleton('geocoder.client', function(): Client {
             return new Client;
         });
+        $this->app->alias('geocoder', Geocoder::class);
+        $this->app->alias('geolite', Geolite::class);
 
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('Geocoder', Facades\Geocoder::class);

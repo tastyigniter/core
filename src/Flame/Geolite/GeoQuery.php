@@ -35,7 +35,7 @@ class GeoQuery implements GeoQueryInterface
             $this->coordinates = $text;
         } elseif (!empty($text) && is_string($text)) {
             $this->text = $text;
-        } elseif (empty($text)) {
+        } elseif (strlen($text) === 0) {
             throw new InvalidArgumentException('Geocode query cannot be empty');
         }
     }

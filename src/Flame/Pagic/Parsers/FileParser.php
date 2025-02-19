@@ -17,7 +17,7 @@ class FileParser
 
     protected FileSystem $fileCache;
 
-    public function __construct()
+    final public function __construct()
     {
         $this->fileCache = resolve(FileSystem::class);
     }

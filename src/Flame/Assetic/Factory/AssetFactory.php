@@ -80,7 +80,7 @@ class AssetFactory
      *  * root:   An array or string of more root directories
      *
      * @param array|string $inputs An array of input strings
-     * @param array|string $filters An array of filter names
+     * @param array $filters An array of filter names
      * @param array $options An array of options
      *
      * @return AssetCollection An asset collection
@@ -162,7 +162,7 @@ class AssetFactory
         // output --> target url
         $asset->setTargetPath(str_replace('*', $options['name'], $options['output']));
 
-        return $asset instanceof AssetCollectionInterface ? $asset : $this->createAssetCollection([$asset]);
+        return $asset;
     }
 
     public function generateAssetName($inputs, $filters, array $options = []): string

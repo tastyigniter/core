@@ -13,7 +13,7 @@ class ConsoleSupportServiceProvider extends BaseServiceProvider
     /**
      * The provider class names.
      *
-     * @var array
+     * @var array<string>
      */
     protected $providers = [
         ArtisanServiceProvider::class,

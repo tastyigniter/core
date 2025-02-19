@@ -102,6 +102,8 @@ it('sets custom session key', function() {
     $sessionMaker = new class
     {
         use SessionMaker;
+
+        protected string $sessionKey = '';
     };
 
     $sessionMaker->setSessionKey('custom_key');

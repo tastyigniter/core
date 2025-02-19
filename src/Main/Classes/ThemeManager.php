@@ -489,6 +489,7 @@ class ThemeManager
 
     public function installTheme(string $code, ?string $version = null): bool
     {
+        /** @var ThemeModel $model */
         $model = ThemeModel::firstOrNew(['code' => $code]);
 
         if (is_null($themeObj = $this->findTheme($model->code))) {
@@ -546,6 +547,7 @@ class ThemeManager
         File::put($childThemePath.'/theme.json', json_encode($themeConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         $themeConfig['data'] = $parentTheme->data ?? [];
+        /** @var ThemeModel $childThemeModel */
         $childThemeModel = ThemeModel::create(array_only($themeConfig, [
             'code', 'name', 'description', 'data',
         ]));

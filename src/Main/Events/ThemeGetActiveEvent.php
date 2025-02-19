@@ -6,7 +6,7 @@ namespace Igniter\Main\Events;
 
 use Igniter\Flame\Traits\EventDispatchable;
 
-class ThemeGetActiveEvent
+final class ThemeGetActiveEvent
 {
     use EventDispatchable;
 

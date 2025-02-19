@@ -10,6 +10,10 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
+/**
+ * ExtendsEloquentBuilder trait
+ * @property
+ */
 trait ExtendsEloquentBuilder
 {
     /**
@@ -47,7 +51,7 @@ trait ExtendsEloquentBuilder
      * @param string $keyFormat
      * @param string $valueFormat
      *
-     * @return array
+     * @return Collection
      */
     public function pluckDates($column, $keyFormat = '%Y-%m', $valueFormat = '%M %Y')
     {
@@ -186,22 +190,11 @@ trait ExtendsEloquentBuilder
      * @param string $pageName
      * @param int|null $page
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     *
+     * @return LengthAwarePaginator
      * @throws InvalidArgumentException
      */
-    public function paginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page', $total = null): LengthAwarePaginator
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null, $total = null): LengthAwarePaginator
     {
-        if (is_array($page)) {
-            $_columns = $columns;
-            $_currentPage = $page;
-            $_pageName = $pageName;
-
-            $columns = $_currentPage;
-            $pageName = is_string($_columns) ? $_columns : 'page';
-            $page = $_pageName === 'page' ? null : $_pageName;
-        }
-
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
 
         $perPage = $perPage ?: $this->model->getPerPage();
@@ -224,20 +217,10 @@ trait ExtendsEloquentBuilder
      * @param string $pageName
      * @param int|null $page
      *
-     * @return \Illuminate\Contracts\Pagination\Paginator
+     * @return Paginator
      */
-    public function simplePaginate($perPage = null, $page = null, $columns = ['*'], $pageName = 'page'): Paginator
+    public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null): Paginator
     {
-        if (is_array($page)) {
-            $_columns = $columns;
-            $_currentPage = $page;
-            $_pageName = $pageName;
-
-            $columns = $_currentPage;
-            $pageName = is_string($_columns) ? $_columns : 'page';
-            $page = $_pageName === 'page' ? null : $_pageName;
-        }
-
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
 
         $perPage = $perPage ?: $this->model->getPerPage();

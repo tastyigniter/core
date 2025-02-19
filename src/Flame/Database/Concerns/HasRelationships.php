@@ -96,7 +96,7 @@ trait HasRelationships
      *
      * @param string $name Relation name
      *
-     * @return string
+     * @return ?string
      */
     public function getRelationType($name)
     {
@@ -180,7 +180,7 @@ trait HasRelationships
         $relationType = $this->getRelationType($relationName);
         $relation = $this->getRelationDefinition($relationName);
 
-        if (!isset($relation[0]) && $relationType != 'morphTo') {
+        if (is_null($relationType) || (!isset($relation[0]) && $relationType != 'morphTo')) {
             throw new InvalidArgumentException(sprintf(
                 "Relation '%s' on model '%s' should have at least a classname.", $relationName, get_called_class(),
             ));
@@ -200,6 +200,7 @@ trait HasRelationships
             'morphToMany' => $this->makeMorphHasManyRelation($relationType, $relationName, $relation),
             'morphedByMany' => $this->makeMorphManyRelation($relationType, $relationName, $relation),
             'hasOneThrough', 'hasManyThrough' => $this->makeHasThroughRelation($relationType, $relationName, $relation),
+            default => throw new \UnexpectedValueException(sprintf('Unknown package type: %s', $relationType)),
         };
     }
 
@@ -353,7 +354,7 @@ trait HasRelationships
      * @param string $related
      * @param string|null $foreignKey
      * @param string|null $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function hasOne($related, $foreignKey = null, $localKey = null, $relationName = null): HasOne
     {
@@ -380,9 +381,9 @@ trait HasRelationships
      */
     public function hasOneThrough($related, $through, $primaryKey = null, $throughKey = null, $localKey = null, $secondLocalKey = null, $relationName = null): HasOneThrough
     {
-        $relationName ??= $this->getRelationCaller();
-
         $throughInstance = new $through;
+
+        $relationName = $relationName ?: $this->guessBelongsToRelation();
 
         $primaryKey = $primaryKey ?: $this->getForeignKey();
 
@@ -399,11 +400,7 @@ trait HasRelationships
 
     /**
      * Define a one-to-many relationship.
-     *
-     * @param string $related
-     * @param string|null $foreignKey
-     * @param string|null $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * {@inheritdoc}
      */
     public function hasMany($related, $foreignKey = null, $localKey = null, $relationName = null): HasMany
     {
@@ -426,14 +423,7 @@ trait HasRelationships
 
     /**
      * Define a has-many-through relationship.
-     *
-     * @param string $related
-     * @param string $through
-     * @param string|null $firstKey
-     * @param string|null $secondKey
-     * @param string|null $localKey
-     * @param string|null $secondLocalKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * {@inheritdoc}
      */
     public function hasManyThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null, $relationName = null): HasManyThrough
     {
@@ -463,6 +453,10 @@ trait HasRelationships
         );
     }
 
+    /**
+     * Define an inverse one-to-one or many relationship.
+     * {@inheritdoc}
+     */
     public function belongsTo($related, $foreignKey = null, $ownerKey = null, $relationName = null): BelongsTo
     {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
@@ -484,6 +478,10 @@ trait HasRelationships
         );
     }
 
+    /**
+     * Define a many-to-many relationship.
+     * {@inheritdoc}
+     */
     public function belongsToMany(
         $related,
         $table = null, $foreignPivotKey = null, $relatedPivotKey = null,
@@ -508,13 +506,7 @@ trait HasRelationships
 
     /**
      * Define a polymorphic one-to-one relationship.
-     *
-     * @param string $related
-     * @param string $name
-     * @param string|null $type
-     * @param string|null $id
-     * @param string|null $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * {@inheritdoc}
      */
     public function morphOne($related, $name, $type = null, $id = null, $localKey = null, $relationName = null): MorphOne
     {
@@ -540,11 +532,7 @@ trait HasRelationships
 
     /**
      * Define a polymorphic, inverse one-to-one or many relationship.
-     *
-     * @param string $name
-     * @param string $type
-     * @param string $id
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * {@inheritdoc}
      */
     protected function morphEagerTo($name, $type, $id, $ownerKey): MorphTo
     {
@@ -560,12 +548,7 @@ trait HasRelationships
 
     /**
      * Define a polymorphic, inverse one-to-one or many relationship.
-     *
-     * @param string $target
-     * @param string $name
-     * @param string $type
-     * @param string $id
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * {@inheritdoc}
      */
     protected function morphInstanceTo($target, $name, $type, $id, $ownerKey): MorphTo
     {
@@ -585,13 +568,7 @@ trait HasRelationships
 
     /**
      * Define a polymorphic one-to-many relationship.
-     *
-     * @param string $related
-     * @param string $name
-     * @param string|null $type
-     * @param string|null $id
-     * @param string|null $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * {@inheritdoc}
      */
     public function morphMany($related, $name, $type = null, $id = null, $localKey = null, $relationName = null): MorphMany
     {
@@ -617,15 +594,7 @@ trait HasRelationships
 
     /**
      * Define a polymorphic many-to-many relationship.
-     *
-     * @param string $related
-     * @param string $name
-     * @param string|null $table
-     * @param string|null $foreignPivotKey
-     * @param string|null $relatedPivotKey
-     * @param string|null $parentKey
-     * @param string|null $relatedKey
-     * @param bool $inverse
+     * {@inheritdoc}
      */
     public function morphToMany(
         $related, $name, $table = null, $foreignPivotKey = null,
@@ -664,20 +633,12 @@ trait HasRelationships
 
     /**
      * Define a polymorphic, inverse many-to-many relationship.
-     *
-     * @param string $related
-     * @param string $name
-     * @param string|null $table
-     * @param string|null $foreignPivotKey
-     * @param string|null $relatedPivotKey
-     * @param string|null $parentKey
-     * @param string|null $relatedKey
-     * @return MorphToMany
+     * {@inheritdoc}
      */
     public function morphedByMany(
         $related, $name, $table = null, $foreignPivotKey = null,
         $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relationName = null,
-    ) {
+    ): MorphToMany {
         $relationName = $relationName ?: $this->guessBelongsToRelation();
 
         $foreignPivotKey = $foreignPivotKey ?: $this->getForeignKey();
@@ -692,8 +653,8 @@ trait HasRelationships
             $relatedPivotKey,
             $parentKey,
             $relatedKey,
-            true,
             $relationName,
+            true,
         );
     }
 }

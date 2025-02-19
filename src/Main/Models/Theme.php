@@ -27,7 +27,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $code
  * @property string|null $description
  * @property string|null $version
- * @property array|null $data
+ * @property array<array-key, mixed>|null $data
  * @property bool $status
  * @property bool $is_default
  * @property Carbon|null $created_at
@@ -39,31 +39,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Theme applyFilters(array $options = [])
  * @method static Builder<static>|Theme applySorts(array $sorts = [])
  * @method static Builder<static>|Theme applySwitchable(bool $switch = true)
- * @method static Builder<static>|Theme dropdown(string $column, string $key = null)
  * @method static Builder<static>|Theme isEnabled()
- * @method static Builder<static>|Theme like(string $column, string $value, string $side = 'both', string $boolean = 'and')
  * @method static Builder<static>|Theme listFrontEnd(array $options = [])
- * @method static Builder<static>|Theme lists(string $column, string $key = null)
  * @method static Builder<static>|Theme newModelQuery()
  * @method static Builder<static>|Theme newQuery()
- * @method static Builder<static>|Theme orLike(string $column, string $value, string $side = 'both')
- * @method static Builder<static>|Theme orSearch(string $term, string $columns = [], string $mode = 'all')
- * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
  * @method static Builder<static>|Theme query()
- * @method static Builder<static>|Theme search(string $term, string $columns = [], string $mode = 'all')
- * @method static Builder<static>|Theme whereCode($value)
- * @method static Builder<static>|Theme whereCreatedAt($value)
- * @method static Builder<static>|Theme whereData($value)
- * @method static Builder<static>|Theme whereDescription($value)
- * @method static Builder<static>|Theme whereIsDefault($value)
  * @method static Builder<static>|Theme whereIsDisabled()
  * @method static Builder<static>|Theme whereIsEnabled()
- * @method static Builder<static>|Theme whereName($value)
- * @method static Builder<static>|Theme whereNotDefault()
- * @method static Builder<static>|Theme whereStatus($value)
- * @method static Builder<static>|Theme whereThemeId($value)
- * @method static Builder<static>|Theme whereUpdatedAt($value)
- * @method static Builder<static>|Theme whereVersion($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Theme extends Model
@@ -183,13 +165,15 @@ class Theme extends Model
         return $this->getTheme()?->getScreenshotData();
     }
 
-    public function setAttribute($key, $value): void
+    public function setAttribute($key, $value)
     {
         if (!$this->isFillable($key)) {
             $this->fieldValues[$key] = $value;
-        } else {
-            parent::setAttribute($key, $value);
+
+            return $this;
         }
+
+        return parent::setAttribute($key, $value);
     }
 
     //
@@ -269,6 +253,7 @@ class Theme extends Model
                 continue;
             }
 
+            /** @var self $theme */
             $theme = self::firstOrNew(['code' => $name]);
             $theme->name = $themeObj->label ?? title_case($code);
             $theme->code = $name;
@@ -293,6 +278,7 @@ class Theme extends Model
      */
     public static function activateTheme($code, $skipRequires = false)
     {
+        /** @var self $theme */
         if (empty($code) || !$theme = self::whereCode($code)->first()) {
             return false;
         }

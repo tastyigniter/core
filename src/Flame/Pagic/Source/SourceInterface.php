@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic\Source;
 
+use Igniter\Flame\Pagic\Processors\Processor;
+
 interface SourceInterface
 {
     /**
@@ -49,4 +51,6 @@ interface SourceInterface
      * Generate a cache key unique to this source.
      */
     public function makeCacheKey(string $name = ''): int;
+
+    public function getProcessor(): Processor;
 }

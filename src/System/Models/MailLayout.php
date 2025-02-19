@@ -13,7 +13,8 @@ use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\View as ViewFacade;
+use Illuminate\View\View;
 
 /**
  * MailLayout Model Class
@@ -32,11 +33,13 @@ use Illuminate\Support\Facades\View;
  * @method static Builder<static>|MailLayout applyFilters(array $options = [])
  * @method static Builder<static>|MailLayout applySorts(array $sorts = [])
  * @method static Builder<static>|MailLayout applySwitchable(bool $switch = true)
- * @method static Builder<static>|MailLayout dropdown(string $column, string $key = null)
  * @method static Builder<static>|MailLayout isEnabled()
- * @method static Builder<static>|MailLayout lists(string $column, string $key = null)
  * @method static Builder<static>|MailLayout listFrontEnd(array $options = [])
- * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static Builder<static>|MailLayout newModelQuery()
+ * @method static Builder<static>|MailLayout newQuery()
+ * @method static Builder<static>|MailLayout query()
+ * @method static Builder<static>|MailLayout whereIsDisabled()
+ * @method static Builder<static>|MailLayout whereIsEnabled()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailLayout extends Model
@@ -137,7 +140,9 @@ class MailLayout extends Model
 
     protected static function getTemplateSections($code): array
     {
-        return MailParser::parse(File::get(View::make($code)->getPath()));
+        /** @var View $view */
+        $view = ViewFacade::make($code);
+        return MailParser::parse(File::get($view->getPath()));
     }
 
     /**

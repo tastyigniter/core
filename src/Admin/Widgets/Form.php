@@ -203,7 +203,7 @@ class Form extends BaseWidget
     /**
      * Renders the HTML element for a field
      *
-     * @param BaseFormWidget $field
+     * @param FormField $field
      *
      * @return string|bool The rendered partial contents, or false if suppressing an exception
      */
@@ -547,7 +547,7 @@ class Form extends BaseWidget
     /**
      * Looks up the field value.
      *
-     * @param mixed $field
+     * @param string|FormField $field
      *
      * @return string
      * @throws Exception

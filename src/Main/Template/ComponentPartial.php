@@ -27,7 +27,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
     /**
      * Creates an instance of the object and associates it with a component.
      */
-    public function __construct(protected string $componentPath)
+    final public function __construct(protected string $componentPath)
     {
         $this->extendableConstruct();
     }

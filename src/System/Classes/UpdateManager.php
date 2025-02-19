@@ -58,8 +58,8 @@ class UpdateManager
         $this->themeManager = resolve(ThemeManager::class);
         $this->extensionManager = resolve(ExtensionManager::class);
 
-        $this->migrator = resolve('migrator');
-        $this->repository = resolve('migration.repository');
+        $this->migrator = resolve(Migrator::class);
+        $this->repository = resolve(DatabaseMigrationRepository::class);
     }
 
     /**
@@ -425,6 +425,7 @@ class UpdateManager
                 'core' => $this->migrate(),
                 'extension' => $this->extensionManager->installExtension($packageInfo->code, $packageInfo->version),
                 'theme' => $this->themeManager->installTheme($packageInfo->code, $packageInfo->version),
+                default => throw new \UnexpectedValueException(sprintf('Unknown package type: %s', $packageInfo->type)),
             };
         });
 

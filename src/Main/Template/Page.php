@@ -16,6 +16,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Page Template Class
+ *
+ * @property string $title
+ * @property string $permalink
+ * @property string $layout
+ * @property bool $isHidden
  */
 class Page extends Model
 {
@@ -23,7 +28,7 @@ class Page extends Model
     use HasViewBag;
 
     /** The directory name associated with the model, eg: _pages. */
-    public const DIR_NAME = '_pages';
+    public const string DIR_NAME = '_pages';
 
     /**
      * Helper that makes a URL for a page in the active theme.
@@ -65,7 +70,7 @@ class Page extends Model
         }
 
         $controller = MainController::getController();
-        $pageUrl = $controller->pageUrl($item->reference, [], false);
+        $pageUrl = $controller->pageUrl($item->reference);
 
         return [
             'url' => $pageUrl,
@@ -88,10 +93,13 @@ class Page extends Model
             return $page;
         }
 
-        $page = self::find($value);
+        /** @var Page $page */
+        $page = self::query()->find($value);
 
+        // @phpstan-ignore-next-line
         throw_unless($page, (new ModelNotFoundException)->setModel(__CLASS__));
 
+        // @phpstan-ignore-next-line
         throw_if($page->isHidden && !AdminAuth::check(), (new ModelNotFoundException)->setModel(__CLASS__));
 
         return $page;

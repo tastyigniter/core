@@ -92,7 +92,10 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
         do {
             $content = $this->filterImports($content, $callback);
             $hash = md5($content);
-        } while ($lastHash !== $hash && $lastHash = $hash);
+
+            $continueLoop = $lastHash !== $hash;
+            $lastHash = $hash;
+        } while ($continueLoop);
 
         $asset->setContent($content);
     }

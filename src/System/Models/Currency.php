@@ -34,10 +34,18 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property bool $is_default
  * @method static Builder<static>|Currency applyDefaultable(bool $default = true)
+ * @method static Builder<static>|Currency applyFilters(array $options = [])
+ * @method static Builder<static>|Currency applySorts(array $sorts = [])
  * @method static Builder<static>|Currency applySwitchable(bool $switch = true)
+ * @method static Builder<static>|Currency isEnabled()
  * @method static Builder<static>|Currency listFrontEnd(array $options = [])
+ * @method static Builder<static>|Currency newModelQuery()
+ * @method static Builder<static>|Currency newQuery()
  * @method static Builder<static>|Currency query()
+ * @method static Builder<static>|Currency whereCountry($countryId)
+ * @method static Builder<static>|Currency whereIsDisabled()
  * @method static Builder<static>|Currency whereIsEnabled()
+ * @method static Builder<static>|Currency whereNotDefault()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Currency extends Model implements CurrencyInterface

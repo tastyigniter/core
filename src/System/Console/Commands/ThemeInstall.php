@@ -36,7 +36,8 @@ class ThemeInstall extends Command
         ]]);
 
         if (!$packageInfo = $response->first()) {
-            return $this->output->writeln(sprintf('<info>Theme %s not found</info>', $themeName));
+            $this->output->writeln(sprintf('<info>Theme %s not found</info>', $themeName));
+            return null;
         }
 
         try {

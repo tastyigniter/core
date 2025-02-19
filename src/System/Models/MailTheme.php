@@ -14,16 +14,14 @@ use Illuminate\Support\Facades\Cache;
 /**
  * MailTheme Model Class
  *
- * @method static instance()
- * @method static get($var, $default)
  * @property int $id
  * @property string $item
- * @property array|null $data
+ * @property array<array-key, mixed>|null $data
  * @method static Builder<static>|MailTheme applyFilters(array $options = [])
  * @method static Builder<static>|MailTheme applySorts(array $sorts = [])
- * @method static Builder<static>|MailTheme dropdown(string $column, string $key = null)
  * @method static Builder<static>|MailTheme listFrontEnd(array $options = [])
- * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static Builder<static>|MailTheme newModelQuery()
+ * @method static Builder<static>|MailTheme newQuery()
  * @method static Builder<static>|MailTheme query()
  * @mixin \Illuminate\Database\Eloquent\Model
  */

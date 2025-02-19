@@ -46,7 +46,7 @@ class TemplateMailable extends Mailable
         $viewData = $this->buildViewData();
 
         $this->html = $manager->renderTemplate($template, $viewData)->toHtml();
-        $this->textView = $manager->renderTextTemplate($template, $viewData);
+        $this->textView = $manager->renderTextTemplate($template, $viewData); // @phpstan-ignore assign.propertyType
 
         return parent::buildView();
     }

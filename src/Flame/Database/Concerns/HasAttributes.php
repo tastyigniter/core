@@ -16,7 +16,7 @@ trait HasAttributes
      * Add attribute casts for the model.
      *
      * @param array $attributes
-     * @return void
+     * @return static
      */
     public function addCasts($attributes)
     {
@@ -204,7 +204,7 @@ trait HasAttributes
         try {
             $value = parent::asDateTime($value);
         } catch (InvalidArgumentException) {
-            $value = Carbon::parse($value);
+            $value = \Illuminate\Support\Carbon::parse($value);
         }
 
         return $value;

@@ -77,7 +77,7 @@ class Extensions extends AdminController
         );
 
         $extensionCode = $vendor.'.'.$extension.'.'.$context;
-        throw_if(!$settingItem = Settings::make()->getSettingItem($extensionCode),
+        throw_if(!$settingItem = (new Settings())->getSettingItem($extensionCode),
             new FlashException(lang('igniter::system.extensions.alert_setting_not_found')),
         );
 
@@ -190,7 +190,7 @@ class Extensions extends AdminController
         );
 
         $extensionCode = $vendor.'.'.$extension.'.'.$context;
-        throw_unless($settingItem = Settings::make()->getSettingItem($extensionCode),
+        throw_unless($settingItem = (new Settings())->getSettingItem($extensionCode),
             new FlashException(lang('igniter::system.extensions.alert_setting_not_found')),
         );
 
@@ -263,6 +263,7 @@ class Extensions extends AdminController
 
     protected function initFormWidget(Model $model, ?string $context = null)
     {
+        /** @var SettingsModel $model */
         $config = $model->getFieldConfig();
 
         $modelConfig = array_except($config, 'toolbar');
@@ -271,14 +272,17 @@ class Extensions extends AdminController
         $modelConfig['context'] = $context;
 
         // Form Widget with extensibility
-        /** @var Form $this ->formWidget */
-        $this->formWidget = $this->makeWidget(Form::class, $modelConfig);
-        $this->formWidget->bindToController();
+        /** @var Form $formWidget */
+        $formWidget = $this->makeWidget(Form::class, $modelConfig);
+        $formWidget->bindToController();
+        $this->formWidget = $formWidget;
 
         // Prep the optional toolbar widget
         if (isset($config['toolbar'], $this->widgets['toolbar'])) {
-            $this->toolbarWidget = $this->widgets['toolbar'];
-            $this->toolbarWidget->reInitialize($config['toolbar']);
+            /** @var Toolbar $toolbarWidget */
+            $toolbarWidget = $this->widgets['toolbar'];
+            $toolbarWidget->reInitialize($config['toolbar']);
+            $this->toolbarWidget = $toolbarWidget;
         }
     }
 
@@ -297,6 +301,7 @@ class Extensions extends AdminController
 
     protected function formFindModelObject($settingItem): Model
     {
+        /** @var SettingsModel $model */
         $model = $this->createModel($settingItem->model);
 
         // Prepare query and find model record

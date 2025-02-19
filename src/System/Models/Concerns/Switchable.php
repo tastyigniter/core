@@ -29,7 +29,7 @@ trait Switchable
 
     public function scopeIsEnabled(Builder $query): Builder
     {
-        return $query->whereIsEnabled();
+        return $this->scopeWhereIsEnabled($query);
     }
 
     public function scopeWhereIsEnabled(Builder $query): Builder

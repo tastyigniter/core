@@ -149,9 +149,10 @@ class Table extends BaseWidget
     public function onGetRecords(): array
     {
         $search = Request::post('search', '');
-        $offset = Request::post('offset', 1);
+        $offset = Request::post('offset', '1');
         $limit = Request::post('limit', $this->getConfig('pageLimit', $this->pageLimit));
 
+        /** @var null|array|LengthAwarePaginatorContract $eventResults */
         $eventResults = $this->fireEvent('table.getRecords', [$offset, $limit, $search], true);
 
         throw_unless($eventResults instanceof LengthAwarePaginatorContract, new SystemException(

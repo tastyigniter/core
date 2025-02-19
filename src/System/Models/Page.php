@@ -10,7 +10,6 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\HasPermalink;
 use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 
 /**
  * Page Class
@@ -27,19 +26,20 @@ use Illuminate\Support\Collection;
  * @property int $status
  * @property string|null $permalink_slug
  * @property string|null $layout
- * @property array|null $metadata
+ * @property array<array-key, mixed>|null $metadata
  * @property int|null $priority
  * @method static Builder<static>|Page applyFilters(array $options = [])
  * @method static Builder<static>|Page applySorts(array $sorts = [])
  * @method static Builder<static>|Page applySwitchable(bool $switch = true)
- * @method static Collection dropdown(string $column, string $key = null)
- * @method static Builder<static>|Page findSimilarSlugs($attribute, array $config, $slug)
+ * @method static Builder<static>|Page findSimilarSlugs($attribute, array $config, string $slug)
  * @method static Builder<static>|Page isEnabled()
  * @method static Builder<static>|Page listFrontEnd(array $options = [])
- * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static Builder<static>|Page newModelQuery()
+ * @method static Builder<static>|Page newQuery()
  * @method static Builder<static>|Page query()
- * @method static Builder<static>|Page whereSlug(string $slug)
+ * @method static Builder<static>|Page whereIsDisabled()
  * @method static Builder<static>|Page whereIsEnabled()
+ * @method static Builder<static>|Page whereSlug(string $slug)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Page extends Model

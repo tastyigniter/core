@@ -158,7 +158,7 @@ class Finder
 
     /**
      * Execute the query and get the first result.
-     * @return mixed|static
+     * @return Model|null
      */
     public function first(): ?Model
     {

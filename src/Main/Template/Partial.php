@@ -10,7 +10,7 @@ use Igniter\Main\Template\Code\PartialCode;
 class Partial extends Model
 {
     /** The directory name associated with the model */
-    public const DIR_NAME = '_partials';
+    public const string DIR_NAME = '_partials';
 
     public array $settings = [];
 

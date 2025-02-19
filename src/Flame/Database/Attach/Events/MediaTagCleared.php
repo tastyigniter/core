@@ -11,7 +11,7 @@ class MediaTagCleared
 {
     use EventDispatchable;
 
-    public function __construct(public Model $model, public ?string $tag) {}
+    final public function __construct(public Model $model, public ?string $tag) {}
 
     public static function eventName(): string
     {

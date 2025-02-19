@@ -19,7 +19,7 @@ trait FormModelWidget
 
     public function createFormModel(): Model
     {
-        if (!$this->modelClass) {
+        if (!property_exists($this, 'modelClass') || !$this->modelClass) {
             throw new FlashException(sprintf(lang('igniter::admin.alert_missing_field_property'), $this::class));
         }
 
@@ -54,17 +54,21 @@ trait FormModelWidget
      */
     public function resolveModelAttribute(?string $attribute = null): array
     {
-        return $this->formField->resolveModelAttribute($this->model, $attribute);
+        return property_exists($this, 'formField')
+            ? $this->formField->resolveModelAttribute($this->model, $attribute)
+            : [null, null];
     }
 
     /** Returns the model of a relation type. */
     protected function getRelationModel(): Model
     {
-        [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
+        [$model, $attribute] = $this->resolveModelAttribute(
+            property_exists($this, 'valueFrom') ? $this->valueFrom : null,
+        );
 
         if (!$model || !$this->hasModelRelation($model, $attribute)) {
             throw new FlashException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
-                $this->model::class, $this->valueFrom,
+                $this->model::class, property_exists($this, 'valueFrom') ? $this->valueFrom : null,
             ));
         }
 
@@ -73,11 +77,13 @@ trait FormModelWidget
 
     protected function getRelationObject(): Relation
     {
-        [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
+        [$model, $attribute] = $this->resolveModelAttribute(
+            property_exists($this, 'valueFrom') ? $this->valueFrom : null,
+        );
 
         if (!$model || !$this->hasModelRelation($model, $attribute)) {
             throw new FlashException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
-                $this->model::class, $this->valueFrom,
+                $this->model::class, property_exists($this, 'valueFrom') ? $this->valueFrom : null,
             ));
         }
 
@@ -86,7 +92,9 @@ trait FormModelWidget
 
     protected function getRelationType(): string
     {
-        [$model, $attribute] = $this->resolveModelAttribute($this->valueFrom);
+        [$model, $attribute] = $this->resolveModelAttribute(
+            property_exists($this, 'valueFrom') ? $this->valueFrom : null,
+        );
 
         return $this->getModelRelationType($model, $attribute);
     }

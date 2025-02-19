@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Notifications;
 
+use Igniter\Admin\Models\StatusHistory;
 use Igniter\Cart\Models\Order;
+use Igniter\Reservation\Models\Reservation;
 use Igniter\User\Classes\Notification;
 
+/**
+ * StatusUpdatedNotification class
+ * @property-read StatusHistory $subject
+ */
 class StatusUpdatedNotification extends Notification
 {
     public function getRecipients(): array
     {
         $recipients = [];
+        /** @var Order|Reservation $orderOrReservation */
         $orderOrReservation = $this->subject->object;
         foreach ($orderOrReservation->listGroupAssignees() as $assignee) {
             if (auth()->user() && $assignee->getKey() === auth()->user()->getKey()) {

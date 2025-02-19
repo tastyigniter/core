@@ -33,7 +33,7 @@ trait HasPermalink
             ));
         }
 
-        static::saving(function(Model $model) {
+        static::saving(function(self|Model $model) {
             $model->generatePermalinkOnSave();
         });
     }

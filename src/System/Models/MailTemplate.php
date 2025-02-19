@@ -10,7 +10,8 @@ use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\View as ViewFacade;
+use Illuminate\View\View;
 
 /**
  * MailTemplate Model Class
@@ -26,14 +27,14 @@ use Illuminate\Support\Facades\View;
  * @property bool|null $is_custom
  * @property string|null $plain_body
  * @property-read mixed $title
+ * @property-read MailLayout $layout
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsTo layout()
  * @method static Builder<static>|MailTemplate applyFilters(array $options = [])
  * @method static Builder<static>|MailTemplate applySorts(array $sorts = [])
- * @method static Builder<static>|MailTemplate dropdown(string $column, string $key = null)
- * @method static Builder<static>|MailTemplate lists(string $column, string $key = null)
  * @method static Builder<static>|MailTemplate listFrontEnd(array $options = [])
- * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static Builder<static>|MailTemplate newModelQuery()
+ * @method static Builder<static>|MailTemplate newQuery()
  * @method static Builder<static>|MailTemplate query()
- * @method static Builder<static>|MailTemplate whereCode($value)
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class MailTemplate extends Model
@@ -49,6 +50,7 @@ class MailTemplate extends Model
 
     protected $casts = [
         'layout_id' => 'integer',
+        'is_custom' => 'boolean',
     ];
 
     public $relation = [
@@ -140,10 +142,10 @@ class MailTemplate extends Model
             $sections = self::getTemplateSections($name);
             $layoutCode = array_get($sections, 'settings.layout', 'default');
 
-            $templateModel = self::make();
+            $templateModel = new MailTemplate;
             $templateModel->code = $name;
             $templateModel->label = $label;
-            $templateModel->is_custom = 0;
+            $templateModel->is_custom = false;
             $templateModel->layout_id = MailLayout::getIdFromCode($layoutCode);
             $templateModel->save();
         }
@@ -172,6 +174,8 @@ class MailTemplate extends Model
 
     protected static function getTemplateSections($code): array
     {
-        return MailParser::parse(File::get(View::make($code)->getPath()));
+        /** @var View $view */
+        $view = ViewFacade::make($code);
+        return MailParser::parse(File::get($view->getPath()));
     }
 }

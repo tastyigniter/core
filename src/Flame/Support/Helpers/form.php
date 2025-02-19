@@ -70,7 +70,7 @@ if (!function_exists('set_value')) {
      * is active it retrieves the info from the validation class
      *
      * @param string $field Field name
-     * @param string $default Default value
+     * @param bool|string $default Default value
      *
      * @return    string
      */

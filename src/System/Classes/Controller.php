@@ -153,10 +153,8 @@ class Controller extends IlluminateController
      *
      * @param string $controller Specifies a controller name to locate.
      * @param string|array $modules Specifies a list of modules to look in.
-     * @param string|array $inPath Base path to search the class file.
      *
-     * @return bool|AdminController|MainController
-     * Returns the backend controller object
+     * @return null|AdminController|MainController Returns the controller object if found, otherwise false.
      */
     protected function locateControllerInPath($controller, $modules)
     {
@@ -182,7 +180,7 @@ class Controller extends IlluminateController
             return $controllerObj;
         }
 
-        return false;
+        return null;
     }
 
     /**

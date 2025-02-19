@@ -137,7 +137,7 @@ class ExtensionManager
             $this->loadExtension($path);
         }
 
-        $this->packageManifest->manifest = null;
+        $this->packageManifest->manifest = null; // @phpstan-ignore assign.propertyType
         foreach ($this->packageManifest->extensions() as $config) {
             $this->loadExtension($this->packageManifest->getPackagePath(array_get($config, 'installPath')));
         }
@@ -411,6 +411,7 @@ class ExtensionManager
      */
     public function installExtension(string $code, ?string $version = null): bool
     {
+        /** @var Extension $model */
         $model = Extension::firstOrNew(['name' => $code]);
         if (!$model->applyExtensionClass() || !$extension = $this->findExtension($model->name)) {
             return false;

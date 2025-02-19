@@ -49,7 +49,7 @@ class SystemHelper
         $testBytes = $oldBytes === -1 ? 1024 * 1024 * 442 : $oldBytes + 1024 * 1024;
 
         $testValue = sprintf('%sM', ceil($testBytes / (1024 * 1024)));
-        set_error_handler(function() {});
+        set_error_handler(function() {}); // @phpstan-ignore-line
         $result = ini_set('memory_limit', $testValue);
         $newValue = ini_get('memory_limit');
         ini_set('memory_limit', $oldValue);

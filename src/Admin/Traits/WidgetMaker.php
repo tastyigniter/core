@@ -38,7 +38,7 @@ trait WidgetMaker
      * Makes a form widget object with the supplied form field and widget configuration.
      *
      * @param string $class Widget class name
-     * @param mixed $fieldConfig A field name, an array of config or a FormField object.
+     * @param string|array|FormField $fieldConfig A field name, an array of config or a FormField object.
      * @param array $widgetConfig An array of config.
      *
      * @return BaseFormWidget The widget object
@@ -62,7 +62,7 @@ trait WidgetMaker
         if (is_array($fieldConfig)) {
             $formField = new FormField(
                 array_get($fieldConfig, 'name'),
-                array_get($fieldConfig, 'label')
+                array_get($fieldConfig, 'label'),
             );
             $formField->displayAs('widget', $fieldConfig);
         } else {

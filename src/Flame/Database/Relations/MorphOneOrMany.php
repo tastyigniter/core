@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Adapted from october\rain\database\relations\MorphOneOrMany
+ * @property \Igniter\Flame\Database\Model $parent
  */
 trait MorphOneOrMany
 {

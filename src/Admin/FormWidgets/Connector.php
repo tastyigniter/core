@@ -194,7 +194,7 @@ class Connector extends BaseFormWidget
 
         $saveData = $this->validateFormWidget($form, $form->getSaveData());
 
-        if (!$model->exists) {
+        if (!$model->exists && method_exists($this->getRelationObject(), 'getForeignKeyName')) {
             $saveData[$this->getRelationObject()->getForeignKeyName()] = $this->model->getKey();
         }
 

@@ -27,7 +27,7 @@ if (!function_exists('set_meta')) {
      */
     function set_meta($meta = []): void
     {
-        Assets::collection()->addMeta($meta);
+        Assets::addMeta($meta);
     }
 }
 

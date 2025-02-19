@@ -18,7 +18,7 @@ class Layout extends Model
     use HasViewBag;
 
     /** The directory name associated with the model, eg: pages. */
-    public const DIR_NAME = '_layouts';
+    public const string DIR_NAME = '_layouts';
 
     public static function initFallback(string $source): self
     {

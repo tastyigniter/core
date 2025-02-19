@@ -8,6 +8,7 @@ use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * Status Model Class
@@ -21,10 +22,16 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read string $status_for_name
+ * @property-read Collection<StatusHistory> $status_history
+ * @method static Builder<static>|Status applyFilters(array $options = [])
+ * @method static Builder<static>|Status applySorts(array $sorts = [])
  * @method static Builder<static>|Status isForOrder()
  * @method static Builder<static>|Status isForReservation()
+ * @method static Builder<static>|Status listFrontEnd(array $options = [])
+ * @method static Builder<static>|Status newModelQuery()
+ * @method static Builder<static>|Status newQuery()
+ * @method static Builder<static>|Status query()
  * @mixin \Illuminate\Database\Eloquent\Model
- * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Status extends Model
 {

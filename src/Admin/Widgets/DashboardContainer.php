@@ -35,6 +35,8 @@ class DashboardContainer extends BaseWidget
     /** Determines whether widgets could be set as default. */
     public bool $canSetDefault = false;
 
+    public bool $previewMode = false;
+
     public string $dateRangeFormat = 'MMMM D, YYYY hh:mm A';
 
     public ?DateTimeInterface $startDate = null;
@@ -75,7 +77,10 @@ class DashboardContainer extends BaseWidget
     {
         parent::__construct($controller, $config);
 
-        $this->fillFromConfig();
+        $this->fillFromConfig([
+            'previewMode',
+            'defaultWidgets',
+        ]);
         $this->bindToController();
     }
 

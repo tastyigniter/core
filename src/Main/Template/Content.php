@@ -11,7 +11,7 @@ use Igniter\Flame\Support\Facades\File;
 class Content extends Model
 {
     /** The directory name associated with the model */
-    public const DIR_NAME = '_content';
+    public const string DIR_NAME = '_content';
 
     public static function initCacheItem(array &$item): void
     {

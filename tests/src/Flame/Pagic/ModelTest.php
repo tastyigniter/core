@@ -118,7 +118,8 @@ it('throws exception when deleting a model without file name', function() {
 });
 
 it('queries model correctly', function() {
-    expect(Page::query())->toBeInstanceOf(Finder::class)
+    expect(Page::find('fileName'))->toBeNull()
+        ->and(Page::query())->toBeInstanceOf(Finder::class)
         ->and(Page::all())->toBeCollection();
 });
 

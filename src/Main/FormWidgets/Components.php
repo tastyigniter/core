@@ -11,10 +11,12 @@ use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
-use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\Models\Theme;
+use Igniter\Main\Template\Layout;
+use Igniter\Main\Template\Page;
 use Igniter\System\Classes\BaseComponent;
 use Igniter\System\Classes\ComponentManager;
 use Illuminate\Http\RedirectResponse;
@@ -25,6 +27,7 @@ use stdClass;
 /**
  * Components
  * This widget is used by the system internally on the Layouts pages.
+ * @property-read Theme $model
  */
 class Components extends BaseFormWidget
 {
@@ -322,7 +325,7 @@ class Components extends BaseFormWidget
         return $alias;
     }
 
-    protected function updateComponent(string $codeAlias, bool $isCreateContext, TemplateInterface $template)
+    protected function updateComponent(string $codeAlias, bool $isCreateContext, Page|Layout $template)
     {
         throw_unless($componentObj = $this->makeComponentBy($codeAlias), new FlashException('Invalid component selected'));
 

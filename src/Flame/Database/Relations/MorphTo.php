@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
+use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo as MorphToBase;
 
 /**
  * Adapted from october\rain\database\relations\MorphTo
+ * @property \Igniter\Flame\Database\Model $parent
  */
 class MorphTo extends MorphToBase
 {
@@ -43,9 +44,7 @@ class MorphTo extends MorphToBase
         }
 
         if ($value instanceof Model) {
-            /*
-             * Non existent model, use a single serve event to associate it again when ready
-             */
+            // Non-existent model, use a single serve event to associate it again when ready
             if (!$value->exists) {
                 $value->bindEventOnce('model.afterSave', function() use ($value) {
                     $this->associate($value);

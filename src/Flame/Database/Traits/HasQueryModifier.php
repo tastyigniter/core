@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Traits;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\Filters\FiltersScope;
 
 trait HasQueryModifier
@@ -20,7 +20,7 @@ trait HasQueryModifier
 
     public function scopeListFrontEnd(Builder $builder, array $options = []): Builder|LengthAwarePaginator
     {
-        $builder->applyFilters($options);
+        $builder = $this->scopeApplyFilters($builder, $options);
 
         $this->fireEvent('model.extendListFrontEndQuery', [$builder]);
 
@@ -46,9 +46,7 @@ trait HasQueryModifier
                 }
             });
 
-        $builder->applySorts((array)array_get($options, 'sort', []));
-
-        return $builder;
+        return $this->scopeApplySorts($builder, (array)array_get($options, 'sort', []));
     }
 
     public function scopeApplySorts(Builder $builder, array $sorts = []): Builder

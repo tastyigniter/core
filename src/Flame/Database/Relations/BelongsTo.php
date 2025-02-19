@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
+use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo as BelongsToBase;
 
 /**
  * Adapted from october\rain\database\relations\BelongsTo
+ * @property Model $child
  */
 class BelongsTo extends BelongsToBase
 {

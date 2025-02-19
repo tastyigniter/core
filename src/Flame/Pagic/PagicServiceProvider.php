@@ -46,7 +46,7 @@ class PagicServiceProvider extends ServiceProvider
             return new FileCache(config('igniter-pagic.parsedTemplateCachePath'));
         });
 
-        $this->app->bind(Environment::class, 'pagic');
+        $this->app->alias('pagic', Environment::class);
 
         $this->app->singleton('pagic', function(): Environment {
             return new Environment(new Loader, [

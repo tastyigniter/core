@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * Adapted from october\rain\database\relations\BelongsToMany
+ * @property \Igniter\Flame\Database\Model $parent
  */
 class BelongsToMany extends BelongsToManyBase
 {
@@ -64,12 +65,12 @@ class BelongsToMany extends BelongsToManyBase
     /**
      * Get the select columns for the relation query.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return array
      */
     protected function shouldSelect(array $columns = ['*'])
     {
         if ($this->countMode) {
-            return $this->table.'.'.$this->foreignPivotKey.' as pivot_'.$this->foreignPivotKey;
+            return [$this->table.'.'.$this->foreignPivotKey.' as pivot_'.$this->foreignPivotKey];
         }
 
         if ($columns == ['*']) {
@@ -81,13 +82,11 @@ class BelongsToMany extends BelongsToManyBase
 
     /**
      * Override sync() method of BelongToMany relation in order to flush the query cache.
-     * @param array $ids
-     * @param bool $detaching
+     * {@inheritdoc}
      */
-    public function sync($ids, $detaching = true): void
+    public function sync($ids, $detaching = true)
     {
-        parent::sync($ids, $detaching);
-        $this->flushDuplicateCache();
+        return parent::sync($ids, $detaching);
     }
 
     /**
@@ -122,20 +121,24 @@ class BelongsToMany extends BelongsToManyBase
      * This is necessary in order to fire 'model.relation.beforeDetach', 'model.relation.afterDetach' events
      * @param bool $touch
      */
-    public function detach($ids = null, $touch = true): void
+    public function detach($ids = null, $touch = true): int
     {
         $attachedIdList = $this->parseIds($ids);
         if (empty($attachedIdList)) {
-            $attachedIdList = $this->newPivotQuery()->lists($this->relatedPivotKey);
+            /** @var \Igniter\Flame\Database\Query\Builder $builder */
+            $builder = $this->newPivotQuery();
+            $attachedIdList = $builder->lists($this->relatedPivotKey);
         }
 
         if ($this->parent->fireEvent('model.relation.beforeDetach', [$this->relationName, $attachedIdList], true) === false) {
-            return;
+            return 0;
         }
 
-        parent::detach($attachedIdList, $touch);
+        $results = parent::detach($attachedIdList, $touch);
 
         $this->parent->fireEvent('model.relation.afterDetach', [$this->relationName, $attachedIdList]);
+
+        return $results;
     }
 
     /**
@@ -160,16 +163,16 @@ class BelongsToMany extends BelongsToManyBase
      * Get a paginator for the "select" statement. Complies with October Rain.
      *
      * @param int $perPage
-     * @param int $currentPage
      * @param array $columns
      * @param string $pageName
+     * @param int $page
      * @return LengthAwarePaginator
      */
-    public function paginate($perPage = 15, $currentPage = null, $columns = ['*'], $pageName = 'page')
+    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $this->query->addSelect($this->shouldSelect($columns));
 
-        $paginator = $this->query->paginate($perPage, $currentPage, $columns);
+        $paginator = $this->query->paginate($perPage, $columns, $pageName, $page);
 
         $this->hydratePivotRelation($paginator->items());
 

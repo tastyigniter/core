@@ -33,9 +33,5 @@ abstract class Currency extends Model implements CurrencyInterface
         return '1,0.00';
     }
 
-    public function updateRate($rate): void
-    {
-        $this->rate = $rate;
-        $this->save();
-    }
+    public function updateRate($rate): void {}
 }

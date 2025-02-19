@@ -88,6 +88,7 @@ it('calls method from extension', function() {
     {
         public array $implement = ['?InvalidOptionalClass', TestControllerAction::class];
     };
+    $class->attribute = 'value';
     expect($class->extendableCall('testFunction'))->toBe('result')
         ->and($class::extendableCallStatic('testStaticFunction'))->toBe('staticResult');
 });

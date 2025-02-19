@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * Igniter System Helpers
  */
+
 use Carbon\Carbon;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Currency\Currency;
@@ -193,7 +194,7 @@ if (!function_exists('setting')) {
     function setting(?string $key = null, mixed $default = null): mixed
     {
         if (is_null($key)) {
-            return Settings::make();
+            return new Settings();
         }
 
         return Settings::get($key, $default);

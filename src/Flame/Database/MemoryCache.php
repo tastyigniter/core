@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
+use Igniter\Flame\Database\Connections\Connection;
 use Igniter\Flame\Database\Query\Builder as QueryBuilder;
 
 /**
@@ -124,7 +125,9 @@ class MemoryCache
             return (string)$binding;
         }, $query->getBindings());
 
-        $name = $query->getConnection()->getName();
+        /** @var Connection $connection */
+        $connection = $query->getConnection();
+        $name = $connection->getName();
 
         return md5($name.$query->toSql().serialize($bindings));
     }

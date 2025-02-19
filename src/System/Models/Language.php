@@ -6,12 +6,13 @@ namespace Igniter\System\Models;
 
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
+use Igniter\Flame\Database\Relations\HasMany;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
 
 /**
@@ -22,22 +23,29 @@ use Illuminate\Support\Facades\Lang;
  * @property string $name
  * @property string|null $image
  * @property string $idiom
- * @property int $status
+ * @property bool $status
  * @property int $can_delete
  * @property int|null $original_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property array|null $version
+ * @property array<array-key, mixed>|null $version
  * @property bool $is_default
+ * @property Collection<int, Translation> $translations
+ * @method HasMany translations()
  * @method static Builder<static>|Language applyDefaultable(bool $default = true)
+ * @method static Builder<static>|Language applyFilters(array $options = [])
+ * @method static Builder<static>|Language applySorts(array $sorts = [])
  * @method static Builder<static>|Language applySwitchable(bool $switch = true)
- * @method static Builder<static>|Language dropdown(string $column, string $key = null)
  * @method static Builder<static>|Language isEnabled()
- * @method static Builder<static>|Language lists(string $column, string $key = null)
  * @method static Builder<static>|Language listFrontEnd(array $options = [])
+ * @method static Builder<static>|Language newModelQuery()
+ * @method static Builder<static>|Language newQuery()
  * @method static Builder<static>|Language query()
+ * @method static Language first()
+ * @method static Builder<static>|Language whereIsDisabled()
  * @method static Builder<static>|Language whereIsEnabled()
- * @mixin Model
+ * @method static Builder<static>|Language whereNotDefault()
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Language extends \Igniter\Flame\Translation\Models\Language
 {
@@ -51,6 +59,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     protected $casts = [
         'original_id' => 'integer',
         'version' => 'array',
+        'status' => 'boolean',
     ];
 
     public $relation = [
@@ -197,6 +206,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
             return false;
         }
 
+        /** @var Translation $translation */
         $translation = $this->translations()->firstOrNew([
             'group' => $group,
             'namespace' => $namespace,
