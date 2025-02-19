@@ -347,7 +347,7 @@ class Media extends Model
 
         $diskName = config('igniter-system.assets.attachment.disk');
         if (is_null(config('filesystems.disks.'.$diskName))) {
-            throw new LogicException("There is no filesystem disk named '$diskName'");
+            throw new LogicException(sprintf('Disk %s is not configured.', $diskName));
         }
 
         return $this->disk = $diskName;

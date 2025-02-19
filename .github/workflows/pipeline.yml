@@ -72,11 +72,11 @@ jobs:
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
 
-      - name: Execute static analysis
-        run: composer static
-
       - name: Dry run rector
         run: vendor/bin/rector process --dry-run
+
+      - name: Execute static analysis
+        run: composer static
 
       - name: Run test suite
         run: vendor/bin/pest
