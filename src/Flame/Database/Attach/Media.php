@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace Igniter\Flame\Database\Attach;
 
 use FilesystemIterator;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
+use Igniter\Flame\Database\Traits\Sortable;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use LogicException;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -26,27 +31,27 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @property int $is_public
  * @property array<array-key, mixed>|null $custom_properties
  * @property int|null $priority
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Igniter\Flame\Database\Model|null $attachment
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Model|null $attachment
  * @property-read mixed $extension
  * @property-read string $height
  * @property-read mixed $human_readable_size
  * @property-read string $path
  * @property-read string $type
  * @property-read string $width
- * @method static \Igniter\Flame\Database\Builder<static>|Media applyFilters(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Media applySorts(array $sorts = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Media listFrontEnd(array $options = [])
- * @method static \Igniter\Flame\Database\Builder<static>|Media newModelQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Media newQuery()
- * @method static \Igniter\Flame\Database\Builder<static>|Media query()
- * @method static \Igniter\Flame\Database\Builder<static>|Media sorted()
+ * @method static Builder<static>|Media applyFilters(array $options = [])
+ * @method static Builder<static>|Media applySorts(array $sorts = [])
+ * @method static Builder<static>|Media listFrontEnd(array $options = [])
+ * @method static Builder<static>|Media newModelQuery()
+ * @method static Builder<static>|Media newQuery()
+ * @method static Builder<static>|Media query()
+ * @method static Builder<static>|Media sorted()
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Media extends Model
 {
-    use \Igniter\Flame\Database\Traits\Sortable;
+    use Sortable;
 
     public const string SORT_ORDER = 'priority';
 
@@ -153,13 +158,13 @@ class Media extends Model
      * Creates a file object from url
      * @param $url string URL
      * @param $filename string Filename
-     * @throws \Exception
+     * @throws RuntimeException
      */
     public function addFromUrl($url, $filename = null, ?string $tag = null): self
     {
         $response = Http::get($url);
         if (!$response->successful()) {
-            throw new \RuntimeException(sprintf('Error opening file "%s"', $url));
+            throw new RuntimeException(sprintf('Error opening file "%s"', $url));
         }
 
         return $this->addFromRaw(
@@ -341,8 +346,8 @@ class Media extends Model
         }
 
         $diskName = config('igniter-system.assets.attachment.disk');
-        if (is_null(config("filesystems.disks.$diskName"))) {
-            throw new \LogicException("There is no filesystem disk named '$diskName'");
+        if (is_null(config('filesystems.disks.'.$diskName))) {
+            throw new LogicException("There is no filesystem disk named '$diskName'");
         }
 
         return $this->disk = $diskName;
@@ -350,7 +355,7 @@ class Media extends Model
 
     public function getDiskDriverName(): string
     {
-        return strtolower(config("filesystems.disks.$this->disk.driver"));
+        return strtolower(config(sprintf('filesystems.disks.%s.driver', $this->getDiskName())));
     }
 
     //
