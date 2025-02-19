@@ -14,7 +14,8 @@ trait HasFactory
      */
     public static function factory(...$parameters)
     {
-        $factory = Factory::factoryForModel(get_called_class());
+        // @phpstan-ignore-next-line
+        $factory = static::newFactory() ?: Factory::factoryForModel(get_called_class());
 
         return $factory
             ->count(is_numeric($parameters[0] ?? null) ? $parameters[0] : null)

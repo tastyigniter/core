@@ -41,11 +41,6 @@ parameters:
 			path: src/Admin/FormWidgets/Relation.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$groups\\.$#"
-			count: 1
-			path: src/Admin/FormWidgets/StatusEditor.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$notify_customer\\.$#"
 			count: 1
 			path: src/Admin/Models/StatusHistory.php
@@ -69,11 +64,6 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Pagination\\\\LengthAwarePaginator\\:\\:getCollection\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Table.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasPermission\\(\\)\\.$#"
-			count: 1
-			path: src/Admin/Widgets/Toolbar.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Currency\\\\Contracts\\\\CurrencyInterface\\:\\:get\\(\\)\\.$#"
