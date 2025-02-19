@@ -46,7 +46,7 @@ it('checks for route segment', function() {
         ->and(RouterHelper::getSegmentDefaultValue(':id?default'))->toBe('default') // Default value
         ->and(RouterHelper::getSegmentDefaultValue(':id?default|[a-z]+'))->toBe('default') // Default value
         ->and(RouterHelper::getSegmentDefaultValue(':id?default*'))->toBe('default') // Default value
-        ->and(RouterHelper::getSegmentDefaultValue(':id'))->toBeFalse();  // Non-default value
+        ->and(RouterHelper::getSegmentDefaultValue(':id'))->toBeNull();  // Non-default value
 
 });
 

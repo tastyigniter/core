@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany as MorphManyBase;
 
 /**
  * Adapted from october\rain\database\relations\MorphMany
- * @property \Igniter\Flame\Database\Model $parent
+ * @property Model $parent
  */
 class MorphMany extends MorphManyBase
 {

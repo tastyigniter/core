@@ -6,10 +6,10 @@ namespace Igniter\System\Models;
 
 use Exception;
 use Igniter\Flame\Database\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
- *
  * @property int $translation_id
  * @property string $locale
  * @property string $namespace
@@ -27,7 +27,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Translation newModelQuery()
  * @method static Builder<static>|Translation newQuery()
  * @method static Builder<static>|Translation query()
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin Model
  */
 class Translation extends \Igniter\Flame\Translation\Models\Translation
 {

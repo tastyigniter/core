@@ -27,7 +27,7 @@ it('handles request with user defined currency in query', function() {
     $request->shouldReceive('get')->with('currency')->andReturn('ABC');
     $request->shouldReceive('getSession')->andReturn($session = mock(SessionInterface::class));
     $session->shouldReceive('get')->with('igniter.currency')->andReturnNull();
-    $session->shouldReceive('put')->with(['igniter.currency' => 'ABC'])->andReturnSelf();
+    $session->shouldReceive('set')->with('igniter.currency', 'ABC')->andReturnSelf();
 
     expect((new CurrencyMiddleware)->handle($request, fn($req) => 'next'))->toBe('next');
 });
@@ -39,7 +39,7 @@ it('handles request with user defined currency in session', function() {
     $request->shouldReceive('get')->with('currency')->andReturnNull();
     $request->shouldReceive('getSession')->andReturn($session = mock(SessionInterface::class));
     $session->shouldReceive('get')->with('igniter.currency')->andReturn('ABC');
-    $session->shouldReceive('put')->with(['igniter.currency' => 'ABC'])->andReturnSelf();
+    $session->shouldReceive('set')->with('igniter.currency', 'ABC')->andReturnSelf();
 
     expect((new CurrencyMiddleware)->handle($request, fn($req) => 'next'))->toBe('next');
 });
@@ -50,7 +50,7 @@ it('handles request with inactive currency', function() {
     $request->shouldReceive('get')->with('currency')->andReturn('INVALID');
     $request->shouldReceive('getSession')->andReturn($session = mock(SessionInterface::class));
     $session->shouldReceive('get')->with('igniter.currency')->andReturnNull();
-    $session->shouldReceive('put')->never();
+    $session->shouldReceive('set')->never();
 
     expect((new CurrencyMiddleware)->handle($request, fn($req) => 'next'))->toBe('next');
 });

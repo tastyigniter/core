@@ -13,16 +13,16 @@ final class AnonymousTemplateMailable extends TemplateMailable
     use Queueable;
     use SerializesModels;
 
-    public static function create(string $templateCode): static
+    public static function create(string $templateCode): self
     {
-        $instance = new static;
+        $instance = new self;
 
         $instance->templateCode = $templateCode;
 
         return $instance;
     }
 
-    public function with($key, $value = null): static
+    public function with($key, $value = null): self
     {
         if (is_array($key)) {
             $key = array_filter($key, function($v): bool {
@@ -33,7 +33,7 @@ final class AnonymousTemplateMailable extends TemplateMailable
         return parent::with($key, $value);
     }
 
-    public function applyCallback(mixed $callback): static
+    public function applyCallback(mixed $callback): self
     {
         if (is_callable($callback)) {
             $this->withSymfonyMessage($callback);

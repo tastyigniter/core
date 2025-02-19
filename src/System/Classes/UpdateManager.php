@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Console\Output\OutputInterface;
+use UnexpectedValueException;
 
 /**
  * TastyIgniter Updates Manager Class
@@ -425,7 +426,7 @@ class UpdateManager
                 'core' => $this->migrate(),
                 'extension' => $this->extensionManager->installExtension($packageInfo->code, $packageInfo->version),
                 'theme' => $this->themeManager->installTheme($packageInfo->code, $packageInfo->version),
-                default => throw new \UnexpectedValueException(sprintf('Unknown package type: %s', $packageInfo->type)),
+                default => throw new UnexpectedValueException(sprintf('Unknown package type: %s', $packageInfo->type)),
             };
         });
 

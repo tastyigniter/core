@@ -142,6 +142,7 @@ class MailLayout extends Model
     {
         /** @var View $view */
         $view = ViewFacade::make($code);
+
         return MailParser::parse(File::get($view->getPath()));
     }
 

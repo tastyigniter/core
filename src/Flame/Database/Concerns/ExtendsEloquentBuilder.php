@@ -190,7 +190,6 @@ trait ExtendsEloquentBuilder
      * @param string $pageName
      * @param int|null $page
      *
-     * @return LengthAwarePaginator
      * @throws InvalidArgumentException
      */
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null, $total = null): LengthAwarePaginator
@@ -216,8 +215,6 @@ trait ExtendsEloquentBuilder
      * @param array $columns
      * @param string $pageName
      * @param int|null $page
-     *
-     * @return Paginator
      */
     public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null): Paginator
     {

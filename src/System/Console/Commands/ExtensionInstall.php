@@ -25,7 +25,7 @@ class ExtensionInstall extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $extensionName = $this->argument('name');
         $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
@@ -37,7 +37,8 @@ class ExtensionInstall extends Command
 
         if (!$packageInfo = $response->first()) {
             $this->output->writeln(sprintf('<info>Extension %s not found</info>', $extensionName));
-            return null;
+
+            return;
         }
 
         try {
@@ -50,8 +51,6 @@ class ExtensionInstall extends Command
         } catch (Throwable $throwable) {
             $this->output->writeln($throwable->getMessage());
         }
-
-        return null;
     }
 
     /**

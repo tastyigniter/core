@@ -104,7 +104,6 @@ class StatusHistory extends Model
      * @param Status|mixed $status
      * @param Model|mixed $object
      * @param array $options
-     * @return false|self
      */
     public static function createHistory($status, $object, $options = []): false|self
     {

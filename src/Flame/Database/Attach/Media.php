@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- *
- *
  * @property int $id
  * @property string $disk
  * @property string $name
@@ -155,7 +153,6 @@ class Media extends Model
      * Creates a file object from url
      * @param $url string URL
      * @param $filename string Filename
-     * @return self
      * @throws \Exception
      */
     public function addFromUrl($url, $filename = null, ?string $tag = null): self

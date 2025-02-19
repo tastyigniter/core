@@ -63,7 +63,7 @@ class Country
         $this->loadCountries();
 
         /** @var \Igniter\System\Models\Country $countryModel */
-        if (!$countryModel = $this->countriesCollection->find($id)) {
+        if (!$countryModel = $this->countriesCollection->get($id)) {
             return null;
         }
 
@@ -75,11 +75,11 @@ class Country
         $this->loadCountries();
 
         /** @var \Igniter\System\Models\Country $countryModel */
-        if (!$countryModel = $this->countriesCollection->firstWhere('country_id', $id)) {
+        if (!$countryModel = $this->countriesCollection->get($id)) {
             return null;
         }
 
-        return (is_null($codeType) || $codeType == static::ISO_CODE_2)
+        return (is_null($codeType) || $codeType === static::ISO_CODE_2)
             ? $countryModel->iso_code_2 : $countryModel->iso_code_3;
     }
 
@@ -138,7 +138,7 @@ class Country
             $this->loadCountries();
 
             /** @var \Igniter\System\Models\Country $countryModel */
-            if ($countryModel = $this->countriesCollection->find($country)) {
+            if ($countryModel = $this->countriesCollection->get($country)) {
                 $result['country'] = $countryModel->country_name;
                 $result['format'] = $countryModel->format;
             }
@@ -150,7 +150,7 @@ class Country
     protected function loadCountries(): Collection
     {
         if (is_null($this->countriesCollection)) {
-            $this->countriesCollection = collect(CountryModel::query()->whereIsEnabled()->sorted()->get());
+            $this->countriesCollection = collect(CountryModel::query()->whereIsEnabled()->sorted()->get()->keyBy('country_id'));
         }
 
         return $this->countriesCollection;

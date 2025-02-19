@@ -128,13 +128,6 @@ it('refreshes list widget on paginate', function() {
     expect($this->listsWidget->onPaginate())->toBeArray();
 });
 
-it('throws exception when initializing with missing model', function() {
-    $this->widgetConfig['model'] = null;
-
-    expect(fn() => new Lists($this->controller, $this->widgetConfig))
-        ->toThrow(SystemException::class, sprintf(lang('igniter::admin.list.missing_model'), $this->controller::class));
-});
-
 it('applies search term to list results', function() {
     $listsWidget = new Lists($this->controller, $this->widgetConfig);
     $listsWidget->bindToController();

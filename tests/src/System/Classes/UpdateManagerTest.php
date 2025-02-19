@@ -18,6 +18,7 @@ use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Models\Extension;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Console\Output\OutputInterface;
+use UnexpectedValueException;
 
 it('logs messages correctly', function() {
     $updateManager = resolve(UpdateManager::class);
@@ -353,6 +354,29 @@ it('completes installation correctly', function() {
 
     $updateManager = mockMigrate();
     expect(fn() => $updateManager->completeInstall($requirements))->toThrow(SystemException::class);
+});
+
+it('throws exception when completing installation with invalid package type', function() {
+    $updateManager = resolve(UpdateManager::class);
+    $requirements = [
+        [
+            'code' => 'test.core',
+            'package' => 'test/core',
+            'type' => 'invalid',
+            'name' => 'Test Package',
+            'version' => '2.0.0',
+            'author' => 'Sam',
+            'description' => 'Test package description',
+            'icon' => 'fa-icon',
+            'installedVersion' => '1.0.0',
+            'publishedAt' => '2021-01-01 00:00:00',
+            'tags' => [],
+            'hash' => 'hash',
+            'updatedAt' => '2021-01-01 00:00:00',
+        ],
+    ];
+
+    expect(fn() => $updateManager->completeInstall($requirements))->toThrow(UnexpectedValueException::class);
 });
 
 function mockRequestUpdate()

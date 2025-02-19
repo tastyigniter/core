@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as ModelBase;
 
 /**
- *
  * @method static Builder<static>|Pivot applyFilters(array $options = [])
  * @method static Builder<static>|Pivot applySorts(array $sorts = [])
  * @method static Builder<static>|Pivot listFrontEnd(array $options = [])
@@ -83,7 +82,7 @@ class Pivot extends Model
     /**
      * Set the keys for a save update query.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @return Builder
      */
     protected function setKeysForSaveQuery($query)

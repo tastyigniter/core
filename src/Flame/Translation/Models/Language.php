@@ -8,8 +8,6 @@ use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 
 /**
- *
- *
  * @property int $language_id
  * @property string $code
  * @property string $name

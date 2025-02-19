@@ -25,7 +25,7 @@ class ThemeInstall extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $themeName = $this->argument('name');
         $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
@@ -37,7 +37,8 @@ class ThemeInstall extends Command
 
         if (!$packageInfo = $response->first()) {
             $this->output->writeln(sprintf('<info>Theme %s not found</info>', $themeName));
-            return null;
+
+            return;
         }
 
         try {
@@ -49,8 +50,6 @@ class ThemeInstall extends Command
         } catch (Throwable $throwable) {
             $this->output->writeln($throwable->getMessage());
         }
-
-        return null;
     }
 
     /**

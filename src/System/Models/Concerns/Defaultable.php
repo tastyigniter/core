@@ -37,7 +37,7 @@ trait Defaultable
     public static function updateDefault(mixed $id): bool
     {
         /** @var static $model */
-        return (($model = static::firstWhere((new static)->defaultableKeyName(), $id))) && $model->makeDefault();
+        return ($model = static::firstWhere((new static)->defaultableKeyName(), $id)) && $model->makeDefault();
     }
 
     public static function getDefaultKey(): mixed

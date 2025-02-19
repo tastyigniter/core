@@ -44,6 +44,7 @@ it('rolls back migrations', function() {
     $filesystem->shouldReceive('getRequire')->andReturn('migration');
     $migrator->shouldReceive('rollDown')->passthru();
     $migrator->shouldReceive('runDown')->once();
+    $migrator->shouldReceive('resolve')->andReturn((object)['up' => fn() => null]);
 
     $migrator->rollbackAll(['group1' => 'path1']);
 });

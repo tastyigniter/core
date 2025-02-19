@@ -190,12 +190,8 @@ class Lists extends BaseWidget
         return $this->onRefresh();
     }
 
-    protected function validateModel(): Model
+    protected function validateModel(): ?Model
     {
-        if (!$this->model instanceof Model) {
-            throw new SystemException(sprintf(lang('igniter::admin.list.missing_model'), get_class($this->controller)));
-        }
-
         return $this->model;
     }
 

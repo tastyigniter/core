@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo as MorphToBase;
 
 /**
  * Adapted from october\rain\database\relations\MorphTo
- * @property \Igniter\Flame\Database\Model $parent
+ * @property Model $parent
  */
 class MorphTo extends MorphToBase
 {

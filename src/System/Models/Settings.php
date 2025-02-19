@@ -144,7 +144,7 @@ class Settings extends Model
 
     public static function get(?string $key = null, mixed $default = null, string $group = 'config'): mixed
     {
-        return array_get((new Settings())->getFieldValues($group), $key, $default);
+        return array_get((new Settings)->getFieldValues($group), $key, $default);
     }
 
     public static function set(string|array $key, mixed $value = null, string $group = 'config'): bool
@@ -157,7 +157,7 @@ class Settings extends Model
             ];
         })->values()->all();
 
-        (new Settings())->resetFieldValues();
+        (new Settings)->resetFieldValues();
 
         return (bool)static::upsert($data, ['sort', 'item'], ['value']);
     }

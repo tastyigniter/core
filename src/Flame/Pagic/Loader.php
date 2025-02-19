@@ -168,6 +168,7 @@ class Loader implements TemplateLoader
 
         /** @var PartialTemplate $partial */
         $partial = PartialTemplate::query()->find($name);
+
         return $this->fallbackCache[$name] = $partial;
     }
 }

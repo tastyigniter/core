@@ -11,6 +11,7 @@ use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\FormWidgets\Components;
 use Igniter\Main\Models\Theme;
+use Igniter\Main\Template\Page;
 use Igniter\System\Facades\Assets;
 use Igniter\Tests\Fixtures\Controllers\TestController;
 use Illuminate\Http\RedirectResponse;
@@ -212,7 +213,7 @@ it('adds component correctly', function() {
             'property' => 'value',
         ],
     ];
-    $this->componentsWidget->data = (object)['fileSource' => $template = mock(TemplateInterface::class)];
+    $this->componentsWidget->data = (object)['fileSource' => $template = mock(Page::class)->makePartial()];
     $template->shouldReceive('updateComponent')->once();
     $template->settings = ['components' => []];
 
@@ -238,7 +239,7 @@ it('updates component correctly', function() {
             'pageLimit' => '10',
         ],
     ];
-    $this->componentsWidget->data = (object)['fileSource' => $template = mock(TemplateInterface::class)];
+    $this->componentsWidget->data = (object)['fileSource' => $template = mock(Page::class)->makePartial()];
     $template->shouldReceive('updateComponent')->once();
     $template->settings = ['components' => ['testComponent' => []]];
 

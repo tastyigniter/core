@@ -9,6 +9,7 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\MailManager;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\View;
@@ -28,7 +29,7 @@ use Illuminate\View\View;
  * @property string|null $plain_body
  * @property-read mixed $title
  * @property-read MailLayout $layout
- * @method \Illuminate\Database\Eloquent\Relations\BelongsTo layout()
+ * @method BelongsTo layout()
  * @method static Builder<static>|MailTemplate applyFilters(array $options = [])
  * @method static Builder<static>|MailTemplate applySorts(array $sorts = [])
  * @method static Builder<static>|MailTemplate listFrontEnd(array $options = [])
@@ -176,6 +177,7 @@ class MailTemplate extends Model
     {
         /** @var View $view */
         $view = ViewFacade::make($code);
+
         return MailParser::parse(File::get($view->getPath()));
     }
 }

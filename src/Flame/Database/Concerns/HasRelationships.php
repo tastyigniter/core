@@ -17,6 +17,7 @@ use Igniter\Flame\Database\Relations\MorphTo;
 use Igniter\Flame\Database\Relations\MorphToMany;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use UnexpectedValueException;
 
 trait HasRelationships
 {
@@ -200,7 +201,7 @@ trait HasRelationships
             'morphToMany' => $this->makeMorphHasManyRelation($relationType, $relationName, $relation),
             'morphedByMany' => $this->makeMorphManyRelation($relationType, $relationName, $relation),
             'hasOneThrough', 'hasManyThrough' => $this->makeHasThroughRelation($relationType, $relationName, $relation),
-            default => throw new \UnexpectedValueException(sprintf('Unknown package type: %s', $relationType)),
+            default => throw new UnexpectedValueException(sprintf('Unknown package type: %s', $relationType)),
         };
     }
 
@@ -354,7 +355,6 @@ trait HasRelationships
      * @param string $related
      * @param string|null $foreignKey
      * @param string|null $localKey
-     * @return HasOne
      */
     public function hasOne($related, $foreignKey = null, $localKey = null, $relationName = null): HasOne
     {

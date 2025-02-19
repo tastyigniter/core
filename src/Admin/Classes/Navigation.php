@@ -176,6 +176,7 @@ class Navigation
 
             /** @var User $adminUser */
             $adminUser = AdminAuth::user();
+
             return $adminUser->hasPermission($permission);
         })->toArray();
     }

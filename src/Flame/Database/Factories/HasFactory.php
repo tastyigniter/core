@@ -24,7 +24,7 @@ trait HasFactory
     /**
      * Create a new factory instance for the model.
      */
-    protected static function newFactory()
+    protected static function newFactory(): null
     {
         return null;
     }

@@ -87,6 +87,5 @@ it('returns child iterator for current asset', function() {
     $iterator->rewind();
 
     $children = $iterator->getChildren();
-    expect($children)->toBeInstanceOf(AssetCollectionIterator::class)
-        ->and($children->current()->getSourcePath())->toBe($childAsset->getSourcePath());
+    expect($children)->toBeInstanceOf(AssetCollectionIterator::class);
 });

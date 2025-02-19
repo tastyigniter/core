@@ -49,6 +49,7 @@ trait HasViewBag
 
         /** @var ViewBag $viewBag */
         $viewBag = $this->getComponent($componentName);
+
         return $this->viewBagCache = $viewBag;
     }
 

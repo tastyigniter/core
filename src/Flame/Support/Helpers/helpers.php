@@ -194,7 +194,7 @@ if (!function_exists('setting')) {
     function setting(?string $key = null, mixed $default = null): mixed
     {
         if (is_null($key)) {
-            return new Settings();
+            return new Settings;
         }
 
         return Settings::get($key, $default);

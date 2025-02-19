@@ -153,6 +153,7 @@ abstract class Model extends EloquentModel
         // Hook to boot events
         static::registerModelEvent('booted', function(Model $model) {
             $model->fireEvent('model.afterBoot');
+
             return $model->afterBoot();
         });
 
@@ -360,7 +361,7 @@ abstract class Model extends EloquentModel
      * @param array $attributes
      * @param string $table
      * @param bool $exists
-     * @return Pivot|\Illuminate\Database\Eloquent\Relations\Pivot
+     * @return null|Pivot|\Illuminate\Database\Eloquent\Relations\Pivot
      */
     public function newRelationPivot($relationName, $parent, $attributes, $table, $exists)
     {
@@ -372,7 +373,7 @@ abstract class Model extends EloquentModel
             return new $pivotModel($parent, $attributes, $table, $exists);
         }
 
-        return new Pivot($parent, $attributes, $table, $exists);
+        return null;
     }
 
     //

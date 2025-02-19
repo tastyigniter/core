@@ -117,6 +117,7 @@ it('configures mail template correctly', function() {
         ->and($template->getCasts())->toEqual([
             'template_id' => 'int',
             'layout_id' => 'integer',
+            'is_custom' => 'boolean',
         ])
         ->and($template->relation['belongsTo'])->toEqual([
             'layout' => [MailLayout::class, 'foreignKey' => 'layout_id'],

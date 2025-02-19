@@ -77,7 +77,7 @@ class Extensions extends AdminController
         );
 
         $extensionCode = $vendor.'.'.$extension.'.'.$context;
-        throw_if(!$settingItem = (new Settings())->getSettingItem($extensionCode),
+        throw_if(!$settingItem = (new Settings)->getSettingItem($extensionCode),
             new FlashException(lang('igniter::system.extensions.alert_setting_not_found')),
         );
 
@@ -190,7 +190,7 @@ class Extensions extends AdminController
         );
 
         $extensionCode = $vendor.'.'.$extension.'.'.$context;
-        throw_unless($settingItem = (new Settings())->getSettingItem($extensionCode),
+        throw_unless($settingItem = (new Settings)->getSettingItem($extensionCode),
             new FlashException(lang('igniter::system.extensions.alert_setting_not_found')),
         );
 

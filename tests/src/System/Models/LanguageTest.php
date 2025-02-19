@@ -151,6 +151,7 @@ it('configures language model correctly', function() {
             'original_id' => 'integer',
             'version' => 'array',
             'is_default' => 'boolean',
+            'status' => 'boolean',
         ])
         ->and($language->relation['hasMany'])->toEqual([
             'translations' => [Translation::class, 'foreignKey' => 'locale', 'otherKey' => 'code', 'delete' => true],

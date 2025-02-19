@@ -37,7 +37,7 @@ class FormBuilder
     /**
      * The CSRF token used by the form builder.
      */
-    protected string $csrfToken;
+    protected ?string $csrfToken;
 
     /**
      * The session store implementation.
@@ -79,10 +79,8 @@ class FormBuilder
 
     /**
      * Create a new form builder instance.
-     *
-     * @param string $csrfToken
      */
-    public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, $csrfToken, ?Request $request = null)
+    public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, ?string $csrfToken, ?Request $request = null)
     {
         $this->url = $url;
         $this->html = $html;
@@ -321,7 +319,7 @@ class FormBuilder
      */
     public function getIdAttribute($name, array $attributes)
     {
-        return array_key_exists('id', $attributes) ? $attributes['id'] : null;
+        return $attributes['id'] ?? null;
     }
 
     /**
@@ -444,7 +442,7 @@ class FormBuilder
      *
      * @return Session $session
      */
-    public function getSessionStore()
+    public function getSessionStore(): ?Session
     {
         return $this->session;
     }

@@ -11,6 +11,7 @@ use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
@@ -45,7 +46,7 @@ use Illuminate\Support\Facades\Lang;
  * @method static Builder<static>|Language whereIsDisabled()
  * @method static Builder<static>|Language whereIsEnabled()
  * @method static Builder<static>|Language whereNotDefault()
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin Model
  */
 class Language extends \Igniter\Flame\Translation\Models\Language
 {

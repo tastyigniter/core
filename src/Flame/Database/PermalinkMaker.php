@@ -261,7 +261,7 @@ class PermalinkMaker
      *
      * @return int
      */
-    protected function generateSuffix(string $slug, string $separator, Collection $list)
+    protected function generateSuffix(string $slug, string $separator, Collection $list): int|string
     {
         $len = strlen($slug.$separator);
 
@@ -270,7 +270,7 @@ class PermalinkMaker
         if ($list->search($slug) === $this->model->getKey()) {
             $suffix = explode($separator, $slug);
 
-            return (int)end($suffix);
+            return end($suffix);
         }
 
         $list->transform(function($value, $key) use ($len): int {

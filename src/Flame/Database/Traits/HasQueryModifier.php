@@ -28,7 +28,7 @@ trait HasQueryModifier
             return $builder;
         }
 
-        return $builder->paginate(array_get($options, 'pageLimit'), array_get($options, 'page', 1));
+        return $builder->paginate(array_get($options, 'pageLimit'), ['*'], 'page', array_get($options, 'page', 1));
     }
 
     public function scopeApplyFilters(Builder $builder, array $options = []): Builder

@@ -269,11 +269,6 @@ trait ManagesSource
         return $this->code;
     }
 
-    public function getSettings(): ?array
-    {
-        return $this->settings;
-    }
-
     /**
      * Returns the key used by the Template cache.
      */
