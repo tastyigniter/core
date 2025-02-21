@@ -136,7 +136,7 @@ class MediaFinder extends BaseFormWidget
             return $media->getThumb($this->thumbOptions);
         }
 
-        if (empty($path = trim($media, '/'))) {
+        if (empty($path = trim((string)$media, '/'))) {
             return $path;
         }
 
