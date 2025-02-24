@@ -118,7 +118,7 @@ class MediaFinder extends BaseFormWidget
             return $media->getFilename();
         }
 
-        return trim($media, '/');
+        return trim((string)$media, '/');
     }
 
     public function getMediaPath(null|string|Media $media): string

@@ -627,7 +627,7 @@ class Form extends BaseWidget
             } elseif ($value !== false) {
                 $value = match ($field->type) {
                     // Number and switch fields should be converted to integers
-                    'number', 'switch' => $value ? (int)$value : null,
+                    'number', 'switch' => !is_null($value) ? (int)$value : null,
                     default => $value,
                 };
 
