@@ -12,11 +12,12 @@ class Coordinates implements CoordinatesInterface
         private null|int|float $latitude,
         private null|int|float $longitude,
         private ?Ellipsoid $ellipsoid = null,
-        private int $precision = 0,
+        private ?int $precision = null,
     ) {
         $this->latitude = $this->normalizeLatitude($latitude);
         $this->longitude = $this->normalizeLongitude($longitude);
         $this->ellipsoid = $ellipsoid ?: Ellipsoid::createFromName(Ellipsoid::WGS84);
+        $this->precision = $precision ?? config('igniter-geocoder.precision', 8);
     }
 
     /**
@@ -78,10 +79,10 @@ class Coordinates implements CoordinatesInterface
     public function isEqual(CoordinatesInterface $coordinate): bool
     {
         return bccomp(
-            number_format($this->latitude, $this->getPrecision()),
-            number_format($coordinate->getLatitude(), $this->getPrecision()),
-            $this->getPrecision(),
-        ) === 0
+                number_format($this->latitude, $this->getPrecision()),
+                number_format($coordinate->getLatitude(), $this->getPrecision()),
+                $this->getPrecision(),
+            ) === 0
             && bccomp(
                 number_format($this->longitude, $this->getPrecision()),
                 number_format($coordinate->getLongitude(), $this->getPrecision()),

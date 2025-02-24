@@ -183,7 +183,7 @@ it('returns distance result when query is successful', function() {
 
     expect($result)->toBeInstanceOf(\Igniter\Flame\Geolite\Model\Distance::class)
         ->and(round($result->getDistance(), 2))->toBe(123.0)
-        ->and($result->getDuration())->toBe(123)
+        ->and($result->getDuration())->toBe(123.0)
         ->and(round($result->formatDistance(), 2))->toBe(0.08)
         ->and($result->formatDuration())->toBe('2 minutes before');
 });

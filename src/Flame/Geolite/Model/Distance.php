@@ -9,14 +9,14 @@ use Igniter\Flame\Geolite\Geolite;
 
 class Distance
 {
-    public function __construct(protected float $distance, protected int $duration) {}
+    public function __construct(protected float $distance, protected float $duration) {}
 
     public function getDistance(): float
     {
         return $this->distance;
     }
 
-    public function getDuration(): int
+    public function getDuration(): float
     {
         return $this->duration;
     }

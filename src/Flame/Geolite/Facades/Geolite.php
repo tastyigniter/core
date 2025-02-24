@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static PolygonInterface polygon(CoordinatesInterface | array $coordinates)
  * @method static VertexInterface vertex()
  * @method static CoordinatesInterface coordinates(int | float | null $latitude, int | float | null $longitude)
- * @method static AddressMatch addressMatch(void $components)
+ * @method static AddressMatch addressMatch(array $components)
  *
  * @see \Igniter\Flame\Geolite\Geolite
  */

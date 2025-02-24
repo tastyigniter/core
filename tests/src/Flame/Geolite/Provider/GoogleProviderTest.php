@@ -252,7 +252,7 @@ it('returns distance result when query is successful', function() {
 
     expect($result)->toBeInstanceOf(Distance::class)
         ->and($result->getDistance())->toBe(1609.0)
-        ->and($result->getDuration())->toBe(60)
+        ->and($result->getDuration())->toBe(60.0)
         ->and(round($result->formatDistance(), 2))->toBe(1.0)
         ->and($result->formatDuration())->toBe('1 minute before');
 });

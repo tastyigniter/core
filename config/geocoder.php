@@ -22,7 +22,7 @@ return [
     | perform geocoding operations.
     |
     | You can explicitly call subsequently listed providers by
-    | alias: `app('geocoder')->using('google')`.
+    | alias: `resolve(Geocoder::class)->using('google')`.
     |
     */
 

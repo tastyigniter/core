@@ -15,38 +15,28 @@ class Geolite
 {
     /**
      * The ratio meters per mile.
-     *
-     * @var float
      */
-    public const METERS_PER_MILE = 1609.344;
+    public const float METERS_PER_MILE = 1609.344;
 
     /**
      * The ratio feet per meter.
-     *
-     * @var float
      */
-    public const FEET_PER_METER = 0.3048;
+    public const float FEET_PER_METER = 0.3048;
 
     /**
      * The kilometer unit.
-     *
-     * @var string
      */
-    public const KILOMETER_UNIT = 'km';
+    public const string KILOMETER_UNIT = 'km';
 
     /**
      * The mile unit.
-     *
-     * @var string
      */
-    public const MILE_UNIT = 'mi';
+    public const string MILE_UNIT = 'mi';
 
     /**
      * The feet unit.
-     *
-     * @var string
      */
-    public const FOOT_UNIT = 'ft';
+    public const string FOOT_UNIT = 'ft';
 
     public function distance(): DistanceInterface
     {
@@ -77,7 +67,7 @@ class Geolite
             ->setPrecision(config('igniter-geocoder.precision', 8));
     }
 
-    public function addressMatch($components): AddressMatch
+    public function addressMatch(array $components): AddressMatch
     {
         return new AddressMatch($components);
     }

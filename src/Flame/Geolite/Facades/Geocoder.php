@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string getDefaultDriver()
  * @method static \Igniter\Flame\Geolite\Geocoder extend(string $driver, Closure $callback)
  * @method static array getDrivers()
+ * @method static array getLogs()
  * @method static Container getContainer()
  * @method static \Igniter\Flame\Geolite\Geocoder setContainer(Container $container)
  * @method static \Igniter\Flame\Geolite\Geocoder forgetDrivers()
