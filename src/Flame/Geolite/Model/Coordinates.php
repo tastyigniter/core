@@ -79,10 +79,10 @@ class Coordinates implements CoordinatesInterface
     public function isEqual(CoordinatesInterface $coordinate): bool
     {
         return bccomp(
-                number_format($this->latitude, $this->getPrecision()),
-                number_format($coordinate->getLatitude(), $this->getPrecision()),
-                $this->getPrecision(),
-            ) === 0
+            number_format($this->latitude, $this->getPrecision()),
+            number_format($coordinate->getLatitude(), $this->getPrecision()),
+            $this->getPrecision(),
+        ) === 0
             && bccomp(
                 number_format($this->longitude, $this->getPrecision()),
                 number_format($coordinate->getLongitude(), $this->getPrecision()),
