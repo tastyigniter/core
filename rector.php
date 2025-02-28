@@ -39,6 +39,7 @@ return RectorConfig::configure()
         SwitchNegatedTernaryRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
     ])
+    ->withPhpSets(php83: true)
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,

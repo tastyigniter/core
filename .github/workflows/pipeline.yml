@@ -72,13 +72,5 @@ jobs:
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
 
-      - name: Dry run rector
-        run: vendor/bin/rector process --dry-run
-
-      - name: Execute static analysis
-        run: composer static
-
       - name: Run test suite
-        run: vendor/bin/pest
-        env:
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+        run: composer test-suite
