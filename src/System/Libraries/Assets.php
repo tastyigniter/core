@@ -339,34 +339,37 @@ class Assets
         $tags = [];
         foreach ($assets as $asset) {
             $path = array_get($asset, 'path');
-            $attributes = array_get($asset, 'attributes');
+            $attributes = array_get($asset, 'attributes') ?? [];
+            if (!is_array($attributes)) {
+                $attributes = ['class' => $attributes];
+            }
             $tags[] = "\t\t".$this->buildAssetUrl($type, $this->prepUrl($path), $attributes);
         }
 
         return implode(PHP_EOL, $tags).PHP_EOL;
     }
 
-    protected function buildAssetUrl(string $type, string $file, string|array|null $attributes = null): string
+    protected function buildAssetUrl(string $type, string $file, array $attributes = null): string
     {
         if ($type === 'rss') {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'alternate',
-                'href' => $file,
-                'title' => 'RSS',
-                'type' => 'application/rss+xml',
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'alternate',
+                    'href' => $file,
+                    'title' => 'RSS',
+                    'type' => 'application/rss+xml',
+                ], $attributes)).'>'.PHP_EOL;
         } elseif ($type === 'js') {
             $html = '<script'.Html::attributes(array_merge([
-                'charset' => strtolower(setting('charset', 'UTF-8')),
-                'type' => 'text/javascript',
-                'src' => asset($file),
-            ], $attributes)).'></script>'.PHP_EOL;
+                    'charset' => strtolower(setting('charset', 'UTF-8')),
+                    'type' => 'text/javascript',
+                    'src' => asset($file),
+                ], $attributes)).'></script>'.PHP_EOL;
         } else {
             $html = '<link'.Html::attributes(array_merge([
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => asset($file),
-            ], $attributes)).'>'.PHP_EOL;
+                    'rel' => 'stylesheet',
+                    'type' => 'text/css',
+                    'href' => asset($file),
+                ], $attributes)).'>'.PHP_EOL;
         }
 
         return $html;
