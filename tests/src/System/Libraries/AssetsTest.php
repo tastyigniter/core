@@ -96,7 +96,9 @@ it('adds and retrieves js variables successfully', function() {
 it('throws exception when invalid transforming js variable', function() {
     $assets = new Assets;
     $assets->putJsVars([
-        'key' => new class {},
+        'key' => new class
+        {
+        },
     ]);
 
     expect(fn() => $assets->getJsVars())
@@ -132,6 +134,10 @@ it('removes duplicate assets from combined', function() {
         ],
     ]);
     $assets->registerSourcePath(__DIR__.'/../../../resources');
+    $assets->addJs('https://example.com/test.js');
+    $assets->addJs('https://example.com/test1.js', 'test1-js');
+    $assets->addJs('https://example.com/test2.js', ['name' => 'test2-js']);
 
-    expect($assets->getCss())->toContain('rel="stylesheet" type="text/css"');
+    expect($assets->getCss())->toContain('rel="stylesheet" type="text/css"')
+        ->and($assets->getJs())->toContain('type="text/javascript" src="https://example.com/test.js"');
 });
