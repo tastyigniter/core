@@ -15,7 +15,7 @@ beforeEach(function() {
 
 it('renders cache widget successfully', function() {
     expect($this->cacheWidget->render())->toBeString();
-})->only();
+});
 
 it('skips caches with non existence directory', function() {
     File::partialMock()->shouldReceive('isDirectory')->with(storage_path().'/igniter/combiner')->andReturnFalse();
