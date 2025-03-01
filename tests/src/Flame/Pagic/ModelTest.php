@@ -29,9 +29,7 @@ it('creates and deletes a new model instance with attributes', function() {
 it('returns false if creating event returns false', function() {
     $model = Partial::on('tests-theme');
     $model->fileName = 'new-test-partial';
-    Event::listen('pagic.creating: '.Partial::class, function(): false {
-        return false;
-    });
+    Event::listen('pagic.creating: '.Partial::class, fn(): false => false);
 
     $model = $model->create(['fileName' => 'new-test-partial', 'content' => 'test content']);
 
@@ -46,9 +44,7 @@ it('returns false if deleting event returns false', function() {
 
     $model = Partial::load('tests-theme', 'test-partial');
     $oldContent = file_get_contents($model->getFilePath());
-    Event::listen('pagic.deleting: '.Partial::class, function(): false {
-        return false;
-    });
+    Event::listen('pagic.deleting: '.Partial::class, fn(): false => false);
 
     expect($model->delete())->toBeFalse();
     file_put_contents($model->getFilePath(), $oldContent);
@@ -81,9 +77,7 @@ it('updates an existing model instance', function() {
 it('returns false if saveInternal event returns false', function() {
     $model = new Page;
     $model->fill(['content' => 'test content']);
-    $model->bindEvent('model.saveInternal', function(): false {
-        return false;
-    });
+    $model->bindEvent('model.saveInternal', fn(): false => false);
 
     expect($model->save())->toBeFalse();
 });
@@ -91,9 +85,7 @@ it('returns false if saveInternal event returns false', function() {
 it('returns false if saving event returns false', function() {
     $model = new Partial;
     $model->fill(['content' => 'test content']);
-    Event::listen('pagic.saving: '.Partial::class, function(): false {
-        return false;
-    });
+    Event::listen('pagic.saving: '.Partial::class, fn(): false => false);
 
     expect($model->save())->toBeFalse();
 });
@@ -101,9 +93,7 @@ it('returns false if saving event returns false', function() {
 it('returns false if updating event returns false', function() {
     $model = Partial::load('tests-theme', 'test-partial');
     $oldContent = file_get_contents($model->getFilePath());
-    Event::listen('pagic.updating: '.Partial::class, function(): false {
-        return false;
-    });
+    Event::listen('pagic.updating: '.Partial::class, fn(): false => false);
 
     $result = $model->update(['content' => 'updated content']);
     file_put_contents($model->getFilePath(), $oldContent);
@@ -130,7 +120,7 @@ it('adds mutated attributes to array', function() {
 
         public function getNameAttribute($value): string
         {
-            return strtoupper($value);
+            return strtoupper((string) $value);
         }
     };
     expect($model->attributesToArray())->toBe(['name' => 'TEST']);
@@ -169,12 +159,8 @@ it('converts model to array & JSON', function() {
             return 'extra';
         }
     };
-    $model->bindEvent('model.beforeGetAttribute', function($key): ?string {
-        return $key === 'custom' ? 'custom' : null;
-    });
-    $model->bindEvent('model.getAttribute', function($key, $attr): ?string {
-        return $key === 'extra' ? 'extra' : null;
-    });
+    $model->bindEvent('model.beforeGetAttribute', fn($key): ?string => $key === 'custom' ? 'custom' : null);
+    $model->bindEvent('model.getAttribute', fn($key, $attr): ?string => $key === 'extra' ? 'extra' : null);
     $model->syncOriginalAttribute('content');
     $model->syncChanges();
     $model->isClean($attributes);

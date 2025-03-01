@@ -106,29 +106,27 @@ it('creates provider correctly', function() {
 
 it('creates a custom provider', function() {
     $geocoder = resolve('geocoder');
-    $geocoder->extend('custom', function(): AbstractProvider {
-        return new class extends AbstractProvider
+    $geocoder->extend('custom', fn(): AbstractProvider => new class extends AbstractProvider
+    {
+        public function getName(): string
         {
-            public function getName(): string
-            {
-                return 'Custom';
-            }
+            return 'Custom';
+        }
 
-            public function geocodeQuery(GeoQueryInterface $query): Collection
-            {
-                return collect([]);
-            }
+        public function geocodeQuery(GeoQueryInterface $query): Collection
+        {
+            return collect([]);
+        }
 
-            public function reverseQuery(GeoQueryInterface $query): Collection
-            {
-                return collect([]);
-            }
+        public function reverseQuery(GeoQueryInterface $query): Collection
+        {
+            return collect([]);
+        }
 
-            public function distance(DistanceInterface $distance): ?Distance
-            {
-                return null;
-            }
-        };
+        public function distance(DistanceInterface $distance): ?Distance
+        {
+            return null;
+        }
     });
     $provider = $geocoder->using('custom');
     expect($provider)->toBeInstanceOf(AbstractProvider::class);

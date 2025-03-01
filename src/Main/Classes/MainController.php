@@ -297,9 +297,7 @@ class MainController extends Controller
                 $response['X_IGNITER_REDIRECT'] = $result->getTargetUrl();
                 $result = null;
             } elseif (Request::header('X-IGNITER-REQUEST-FLASH') && Flash::messages()->isNotEmpty()) {
-                $response['X_IGNITER_FLASH_MESSAGES'] = Flash::all()->map(function(Message $message): array {
-                    return $message->toArray();
-                })->all();
+                $response['X_IGNITER_FLASH_MESSAGES'] = Flash::all()->map(fn(Message $message): array => $message->toArray())->all();
             }
 
             if (is_array($result)) {
@@ -480,9 +478,7 @@ class MainController extends Controller
 
     public function renderPartialFirst(array $partials, array $params = [], bool $throwException = true): mixed
     {
-        $partial = Arr::first($partials, function($partial): bool {
-            return $this->hasPartial($partial);
-        });
+        $partial = Arr::first($partials, fn($partial): bool => $this->hasPartial($partial));
 
         return $this->renderPartial($partial, $params, $throwException);
     }

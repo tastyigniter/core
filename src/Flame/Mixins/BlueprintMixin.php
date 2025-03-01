@@ -13,9 +13,7 @@ class BlueprintMixin
     public function dropForeignKeyIfExists()
     {
         return function($key) {
-            $foreignKeys = array_map(function($key) {
-                return array_get($key, 'name');
-            }, Schema::getForeignKeys($this->getTable()));
+            $foreignKeys = array_map(fn($key) => array_get($key, 'name'), Schema::getForeignKeys($this->getTable()));
 
             if (!ends_with($key, '_foreign')) {
                 $key = sprintf('%s_%s_foreign', $this->getTable(), $key);
@@ -36,9 +34,7 @@ class BlueprintMixin
     public function dropIndexIfExists()
     {
         return function($key) {
-            $indexes = array_map(function($key) {
-                return array_get($key, 'name');
-            }, Schema::getIndexes($this->getTable()));
+            $indexes = array_map(fn($key) => array_get($key, 'name'), Schema::getIndexes($this->getTable()));
 
             if (!starts_with($key, $this->getPrefix())) {
                 $key = sprintf('%s%s_%s_index', $this->getPrefix(), $this->getTable(), $key);

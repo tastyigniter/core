@@ -124,7 +124,7 @@ trait HasMedia
         if (!$media = $this->media->find($mediaId)) {
             throw new RuntimeException(sprintf(
                 "Media with id '%s' cannot be deleted because it does not exist or does not belong to model %s with id %s",
-                $mediaId, get_class($this), $this->getKey(),
+                $mediaId, $this::class, $this->getKey(),
             ));
         }
 
@@ -139,9 +139,7 @@ trait HasMedia
         $collection = $this->exists ? $this->media : collect($this->unAttachedMediaItems)->pluck('media');
 
         return collect($collection)
-            ->filter(function(Media $mediaItem) use ($tag): bool {
-                return $tag === '*' || $mediaItem->tag === $tag;
-            })
+            ->filter(fn(Media $mediaItem): bool => $tag === '*' || $mediaItem->tag === $tag)
             ->sortBy('priority')->values();
     }
 

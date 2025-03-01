@@ -18,7 +18,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function() {
-    $this->controller = new class extends AdminController {};
+    $this->controller = new class extends AdminController
+    {
+    };
     $this->widgetConfig = [
         'toolbar' => [
             'prompt' => 'Search text',
@@ -59,7 +61,7 @@ beforeEach(function() {
 });
 
 it('throws exception when initializing with invalid model', function() {
-    $this->widgetConfig['model'] = '';
+    $this->widgetConfig['model'] = null;
 
     $this->expectException(SystemException::class);
     $this->expectExceptionMessage(sprintf(lang('igniter::admin.form.missing_model'), $this->controller::class));
@@ -153,9 +155,7 @@ it('reloads form with additional fields correctly', function() {
         'fields' => ['status_color', 'invalid_field'],
     ]);
     $this->formWidget->data = ['status_color' => 'Test Color'];
-    Event::listen('admin.form.refresh', function($formWidget): array {
-        return ['#id-element' => 'Test content'];
-    });
+    Event::listen('admin.form.refresh', fn($formWidget): array => ['#id-element' => 'Test content']);
 
     expect($this->formWidget->onRefresh())->toBeArray()
         ->toHaveKey('#id-element')
@@ -322,7 +322,7 @@ it('make form field widget with callable options', function() {
     $field = new FormField('testField', 'Test Field');
     $field->displayAs('widget', [
         'widget' => 'colorpicker',
-        'options' => [Status::class, 'getDropdownOptionsForOrder'],
+        'options' => Status::getDropdownOptionsForOrder(...),
     ]);
 
     $widget = $this->formWidget->makeFormFieldWidget($field);

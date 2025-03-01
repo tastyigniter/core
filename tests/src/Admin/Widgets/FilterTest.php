@@ -40,7 +40,7 @@ beforeEach(function() {
             'status-dropdown' => [
                 'label' => 'Status callback option',
                 'type' => 'select',
-                'options' => [Status::class, 'getDropdownOptionsForOrder'],
+                'options' => Status::getDropdownOptionsForOrder(...),
             ],
             'status-string-option' => [
                 'label' => 'Status string option',
@@ -101,9 +101,7 @@ it('submits correctly and dispatches filter.submit event', function() {
         'status' => 'value',
     ]]);
 
-    $this->filterWidget->bindEvent('filter.submit', function($params): array {
-        return ['triggered'];
-    });
+    $this->filterWidget->bindEvent('filter.submit', fn($params): array => ['triggered']);
 
     $result = $this->filterWidget->onSubmit();
 
@@ -142,9 +140,7 @@ it('clears correctly', function() {
     expect($this->filterWidget->getScopeValue('status'))->toEqual('value')
         ->and($this->filterWidget->onClear())->toBeNull();
 
-    $this->filterWidget->bindEvent('filter.submit', function($params): array {
-        return ['triggered'];
-    });
+    $this->filterWidget->bindEvent('filter.submit', fn($params): array => ['triggered']);
 
     $response = $this->filterWidget->onClear();
 

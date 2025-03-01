@@ -43,9 +43,7 @@ it('throws exception if all hosts fail', function() {
 
 it('creates connection using resolver', function() {
     $pdo = Mockery::mock('PDO');
-    Connection::resolverFor('mysql-read', function($connection, $database, $prefix, $config): MySqlConnection {
-        return new MySqlConnection($connection, $database, $prefix, $config);
-    });
+    Connection::resolverFor('mysql-read', fn($connection, $database, $prefix, $config): MySqlConnection => new MySqlConnection($connection, $database, $prefix, $config));
     $connection = $this->connectionFactory->testCreateConnection('mysql-read', $pdo, 'database', 'prefix', []);
     expect($connection)->toBeInstanceOf(MySqlConnection::class);
 });

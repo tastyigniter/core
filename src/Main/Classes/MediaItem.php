@@ -10,17 +10,17 @@ use Igniter\System\Models\Settings;
 
 class MediaItem
 {
-    public const TYPE_FILE = 'file';
+    public const string TYPE_FILE = 'file';
 
-    public const TYPE_FOLDER = 'folder';
+    public const string TYPE_FOLDER = 'folder';
 
-    public const FILE_TYPE_IMAGE = 'image';
+    public const string FILE_TYPE_IMAGE = 'image';
 
-    public const FILE_TYPE_DOCUMENT = 'document';
+    public const string FILE_TYPE_DOCUMENT = 'document';
 
-    public const FILE_TYPE_VIDEO = 'video';
+    public const string FILE_TYPE_VIDEO = 'video';
 
-    public const FILE_TYPE_AUDIO = 'audio';
+    public const string FILE_TYPE_AUDIO = 'audio';
 
     /** The item basename. */
     public string $name;
@@ -28,20 +28,8 @@ class MediaItem
     /** The item path relative to the Library root. */
     public string $path;
 
-    /** The file size or folder files count. */
-    public ?int $size = null;
-
-    /** The last modification time (Unix timestamp). */
-    public ?int $lastModified = null;
-
-    /** The item type. ex. file or folder */
-    public string $type;
-
     /** The item file type. ex. image, audio, video */
     public ?string $fileType = null;
-
-    /** Specifies the public URL of the item. */
-    public ?string $publicUrl = null;
 
     /**
      * Contains a default list of image files.
@@ -61,14 +49,18 @@ class MediaItem
      */
     protected static ?array $audioExtensions = null;
 
-    public function __construct(string $path, ?int $size, ?int $lastModified, string $type, string $publicUrl)
-    {
+    public function __construct(
+        string $path,
+        public ?int $size,
+        /** The last modification time (Unix timestamp). */
+        public ?int $lastModified,
+        /** The item type. ex. file or folder */
+        public string $type,
+        /** Specifies the public URL of the item. */
+        public ?string $publicUrl,
+    ) {
         $this->name = basename($path);
         $this->path = $path;
-        $this->size = $size;
-        $this->lastModified = $lastModified;
-        $this->type = $type;
-        $this->publicUrl = $publicUrl;
         $this->fileType = $this->getFileType();
     }
 

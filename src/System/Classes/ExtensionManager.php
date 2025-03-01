@@ -103,7 +103,7 @@ class ExtensionManager
 
         foreach ($directories as $directory) {
             foreach (File::glob($directory.'/*/*/{extension,composer}.json', GLOB_BRACE) as $path) {
-                $paths[] = dirname($path);
+                $paths[] = dirname((string) $path);
             }
         }
 

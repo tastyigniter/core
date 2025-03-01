@@ -285,7 +285,7 @@ class StatusEditor extends BaseFormWidget
 
     protected function getModeConfig($key)
     {
-        $key = ucfirst($key);
+        $key = ucfirst((string) $key);
 
         return $this->isStatusMode ? $this->{'status'.$key} : $this->{'assignee'.$key};
     }
@@ -304,8 +304,8 @@ class StatusEditor extends BaseFormWidget
 
         $form->fields['assignee_group_id']['default'] = $this->model->assignee_group_id;
         $form->fields['assignee_id']['default'] = $this->model->assignee_id;
-        $form->fields['assignee_group_id']['options'] = [$this, 'getAssigneeGroupOptions'];
-        $form->fields['assignee_id']['options'] = [$this, 'getAssigneeOptions'];
+        $form->fields['assignee_group_id']['options'] = $this->getAssigneeGroupOptions(...);
+        $form->fields['assignee_id']['options'] = $this->getAssigneeOptions(...);
     }
 
     protected function formExtendFields($form, $fields) {}

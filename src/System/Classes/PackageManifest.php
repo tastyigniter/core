@@ -68,22 +68,18 @@ class PackageManifest extends BasePackageManifest
         $this->manifest = null; // @phpstan-ignore assign.propertyType
 
         $this->write(collect($packages)
-            ->filter(function($package): bool {
-                return array_has($package, 'extra.tastyigniter-extension') ||
-                    array_has($package, 'extra.tastyigniter-theme');
-            })
-            ->mapWithKeys(function(array $package) {
-                return [
-                    $package['name'] => [
-                        'code' => array_get($package, 'extra.tastyigniter-theme.code')
-                            ?: array_get($package, 'extra.tastyigniter-extension.code'),
-                        'type' => array_has($package, 'extra.tastyigniter-theme')
-                            ? 'tastyigniter-theme'
-                            : 'tastyigniter-extension',
-                        'installPath' => array_get($package, 'install-path'),
-                    ],
-                ];
-            })
+            ->filter(fn($package): bool => array_has($package, 'extra.tastyigniter-extension') ||
+                array_has($package, 'extra.tastyigniter-theme'))
+            ->mapWithKeys(fn(array $package) => [
+                $package['name'] => [
+                    'code' => array_get($package, 'extra.tastyigniter-theme.code')
+                        ?: array_get($package, 'extra.tastyigniter-extension.code'),
+                    'type' => array_has($package, 'extra.tastyigniter-theme')
+                        ? 'tastyigniter-theme'
+                        : 'tastyigniter-extension',
+                    'installPath' => array_get($package, 'install-path'),
+                ],
+            ])
             ->filter()
             ->all());
     }
@@ -101,18 +97,14 @@ class PackageManifest extends BasePackageManifest
         $corePath = __DIR__.'/../../../composer.json';
         $installed = json_decode($this->files->get($corePath), true);
         $addons = collect($installed['require'] ?? [])
-            ->filter(function($version, $name): bool {
-                return str_starts_with($name, 'tastyigniter/');
-            })
-            ->map(function($version, $name): array {
-                return [
-                    'code' => str_replace([
-                        'tastyigniter/ti-ext-',
-                        'tastyigniter/ti-theme-',
-                    ], 'igniter.', $name),
-                    'version' => $version,
-                ];
-            })
+            ->filter(fn($version, $name): bool => str_starts_with((string) $name, 'tastyigniter/'))
+            ->map(fn($version, $name): array => [
+                'code' => str_replace([
+                    'tastyigniter/ti-ext-',
+                    'tastyigniter/ti-theme-',
+                ], 'igniter.', $name),
+                'version' => $version,
+            ])
             ->all();
 
         return $this->coreAddonsCache = $addons;
@@ -120,7 +112,7 @@ class PackageManifest extends BasePackageManifest
 
     public function disabledAddons(): array
     {
-        $path = dirname($this->manifestPath).$this->metaFile;
+        $path = dirname((string) $this->manifestPath).$this->metaFile;
         if (!is_file($path)) {
             return [];
         }
@@ -130,6 +122,6 @@ class PackageManifest extends BasePackageManifest
 
     public function writeDisabled(array $codes): void
     {
-        $this->files->replace(dirname($this->manifestPath).$this->metaFile, json_encode($codes));
+        $this->files->replace(dirname((string) $this->manifestPath).$this->metaFile, json_encode($codes));
     }
 }

@@ -23,9 +23,7 @@ it('caches query results', function() {
 
 it('caches query results forever', function() {
     Cache::shouldReceive('rememberForever')
-        ->withArgs(function($cacheKey, $callback): bool {
-            return $cacheKey === 'cache_key' && $callback();
-        })
+        ->withArgs(fn($cacheKey, $callback): bool => $cacheKey === 'cache_key' && $callback())
         ->andReturn(collect($expected = ['result1', 'result2']));
 
     $builder = Status::getQuery()->rememberForever('cache_key');

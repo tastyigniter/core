@@ -22,9 +22,7 @@ trait Singleton
      */
     final public static function instance()
     {
-        return isset(static::$instance)
-            ? static::$instance
-            : static::$instance = new static;
+        return static::$instance ?? (static::$instance = new static);
     }
 
     /**
@@ -50,11 +48,11 @@ trait Singleton
 
     public function __clone()
     {
-        trigger_error('Cloning '.__CLASS__.' is not allowed.', E_USER_ERROR);
+        trigger_error('Cloning '.self::class.' is not allowed.', E_USER_ERROR);
     }
 
     public function __wakeup()
     {
-        trigger_error('Unserializing '.__CLASS__.' is not allowed.', E_USER_ERROR);
+        trigger_error('Unserializing '.self::class.' is not allowed.', E_USER_ERROR);
     }
 }

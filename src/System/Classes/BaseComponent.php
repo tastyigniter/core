@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
+use Stringable;
 use BadMethodCallException;
 use Igniter\Flame\Pagic\TemplateCode;
 use Igniter\Flame\Support\Extendable;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Lang;
 /**
  * Base Component Class
  */
-abstract class BaseComponent extends Extendable
+abstract class BaseComponent extends Extendable implements Stringable
 {
     use AssetMaker;
     use EventEmitter;
@@ -47,7 +48,7 @@ abstract class BaseComponent extends Extendable
 
     protected ?MainController $controller = null;
 
-    protected ?TemplateCode $page;
+    protected ?TemplateCode $page = null;
 
     public function __construct(?TemplateCode $page = null, array $properties = [])
     {
@@ -58,7 +59,7 @@ abstract class BaseComponent extends Extendable
 
         $this->setProperties($properties);
 
-        $this->dirName = strtolower(str_replace('\\', '/', get_called_class()));
+        $this->dirName = strtolower(str_replace('\\', '/', static::class));
         $namespace = implode('.', array_slice(explode('/', $this->dirName), 0, 2));
         $this->assetPath[] = $namespace.'::assets/'.basename($this->dirName);
         $this->assetPath[] = $namespace.'::assets';
@@ -72,9 +73,9 @@ abstract class BaseComponent extends Extendable
      */
     public function getPath(): string
     {
-        $namespace = implode('.', array_slice(explode('/', $this->dirName), 0, 2));
+        $namespace = implode('.', array_slice(explode('/', (string) $this->dirName), 0, 2));
 
-        return $namespace.'::views/_components/'.basename($this->dirName);
+        return $namespace.'::views/_components/'.basename((string) $this->dirName);
     }
 
     /**
@@ -187,13 +188,13 @@ abstract class BaseComponent extends Extendable
         }
 
         throw new BadMethodCallException(Lang::get('igniter::main.not_found.method', [
-            'name' => get_class($this),
+            'name' => static::class,
             'method' => $name,
         ]));
     }
 
     public function __toString(): string
     {
-        return $this->alias;
+        return (string) $this->alias;
     }
 }

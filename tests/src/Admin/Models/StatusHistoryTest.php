@@ -72,9 +72,7 @@ it('creates a new status history record', function() {
 });
 
 it('returns false if beforeAddStatus event returns false', function() {
-    Event::listen('admin.statusHistory.beforeAddStatus', function(): false {
-        return false;
-    });
+    Event::listen('admin.statusHistory.beforeAddStatus', fn(): false => false);
 
     $status = Status::factory()->create();
     $order = Order::factory()->create();

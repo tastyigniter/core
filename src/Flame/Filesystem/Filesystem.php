@@ -112,7 +112,7 @@ class Filesystem extends IlluminateFilesystem
             $path = realpath($path);
         }
 
-        return $path !== false && strncmp($path, $base, strlen($base)) === 0;
+        return $path !== false && str_starts_with($path, $base);
     }
 
     /**
@@ -151,7 +151,7 @@ class Filesystem extends IlluminateFilesystem
         }
 
         foreach ($files as $file) {
-            if (strtolower($file) === $pathLower) {
+            if (strtolower((string) $file) === $pathLower) {
                 return $file;
             }
         }

@@ -18,9 +18,7 @@ use Igniter\Flame\Assetic\Filter\DependencyExtractorInterface;
  */
 class AssetFactory
 {
-    private string $root;
-
-    private bool $debug;
+    private readonly string $root;
 
     private string $output = 'assetic/*';
 
@@ -30,10 +28,9 @@ class AssetFactory
      * @param string $root The default root directory
      * @param bool $debug Filters prefixed with a "?" will be omitted in debug mode
      */
-    public function __construct(string $root, bool $debug = false)
+    public function __construct(string $root, private bool $debug = false)
     {
         $this->root = rtrim($root, '/');
-        $this->debug = $debug;
     }
 
     /**
@@ -127,7 +124,7 @@ class AssetFactory
                 $asset->add($this->createAsset(...$input));
             } else {
                 $asset->add($this->parseInput($input, $options));
-                $extensions[pathinfo($input, PATHINFO_EXTENSION)] = true;
+                $extensions[pathinfo((string) $input, PATHINFO_EXTENSION)] = true;
             }
         }
 
@@ -142,7 +139,7 @@ class AssetFactory
         if (!empty($options['vars'])) {
             $toAdd = [];
             foreach ($options['vars'] as $var) {
-                if (str_contains($options['output'], '{'.$var.'}')) {
+                if (str_contains((string) $options['output'], '{'.$var.'}')) {
                     continue;
                 }
 
@@ -155,7 +152,7 @@ class AssetFactory
         }
 
         // append consensus extension if missing
-        if (count($extensions) == 1 && !pathinfo($options['output'], PATHINFO_EXTENSION) && $extension = key($extensions)) {
+        if (count($extensions) == 1 && !pathinfo((string) $options['output'], PATHINFO_EXTENSION) && $extension = key($extensions)) {
             $options['output'] .= '.'.$extension;
         }
 
@@ -279,7 +276,7 @@ class AssetFactory
     private function findRootDir(string $path, array $roots): ?string
     {
         foreach ($roots as $root) {
-            if (str_starts_with($path, $root)) {
+            if (str_starts_with($path, (string) $root)) {
                 return $root;
             }
         }

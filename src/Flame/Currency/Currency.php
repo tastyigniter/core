@@ -98,7 +98,7 @@ class Currency
         $valRegex = '/(\d.*|)\d/';
 
         // Match decimal and a thousand separators
-        preg_match_all('/[\s\',.!]/', $format, $separators);
+        preg_match_all('/[\s\',.!]/', (string) $format, $separators);
 
         if (($thousand = array_get($separators, '0.0')) && $thousand == '!') {
             $thousand = '';
@@ -107,12 +107,12 @@ class Currency
         $decimal = array_get($separators, '0.1');
 
         // Match format for decimals count
-        preg_match($valRegex, $format, $valFormat);
+        preg_match($valRegex, (string) $format, $valFormat);
 
         $valFormat = array_get($valFormat, 0, 0);
 
         // Count decimals length
-        $decimals = $decimal ? strlen(substr(strrchr($valFormat, $decimal), 1)) : 0;
+        $decimals = $decimal ? strlen(substr(strrchr((string) $valFormat, (string) $decimal), 1)) : 0;
 
         // Do we have a negative value?
         $negative = $value < 0 ? '-' : '';
@@ -125,7 +125,7 @@ class Currency
 
         // Apply the formatted measurement
         if ($includeSymbol) {
-            $value = preg_replace($valRegex, $value, $format);
+            $value = preg_replace($valRegex, $value, (string) $format);
         }
 
         // Return value
@@ -195,9 +195,7 @@ class Currency
 
         $code = $code ?: $this->getUserCurrency();
 
-        $currency = $this->getCurrencies()->first(function(CurrencyInterface $currency) use ($code): bool {
-            return ($currency->isEnabled() && $code == $currency->getId()) || ($code === $currency->getCode());
-        });
+        $currency = $this->getCurrencies()->first(fn(CurrencyInterface $currency): bool => ($currency->isEnabled() && $code == $currency->getId()) || ($code === $currency->getCode()));
 
         return $this->currenciesCache[$code] = $currency;
     }
@@ -268,9 +266,7 @@ class Currency
 
     protected function loadCurrencies()
     {
-        $currencies = $this->cache->rememberForever('igniter.currency', function() {
-            return $this->getModel()->get();
-        });
+        $currencies = $this->cache->rememberForever('igniter.currency', fn() => $this->getModel()->get());
 
         $this->loadedCurrencies = $currencies;
     }
@@ -302,9 +298,7 @@ class Currency
             return app('currency.converter')->getExchangeRates($base, $currencies);
         }
 
-        return $this->cache->remember('igniter.currency.rates', $duration, function() use ($base, $currencies) {
-            return app('currency.converter')->getExchangeRates($base, $currencies);
-        });
+        return $this->cache->remember('igniter.currency.rates', $duration, fn() => app('currency.converter')->getExchangeRates($base, $currencies));
     }
 
     /**

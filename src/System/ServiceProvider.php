@@ -120,13 +120,9 @@ class ServiceProvider extends AppServiceProvider
      */
     protected function registerSingletons()
     {
-        $this->app->singleton('assets', function(): Libraries\Assets {
-            return new Libraries\Assets;
-        });
+        $this->app->singleton('assets', fn(): Libraries\Assets => new Libraries\Assets);
 
-        $this->app->singleton('country', function($app): Libraries\Country {
-            return new Libraries\Country;
-        });
+        $this->app->singleton('country', fn($app): Libraries\Country => new Libraries\Country);
 
         $this->app->instance('path.uploads', base_path(Config::get('igniter-system.assets.media.path', 'assets/media/uploads')));
 

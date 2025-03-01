@@ -25,9 +25,7 @@ final class AnonymousTemplateMailable extends TemplateMailable
     public function with($key, $value = null): self
     {
         if (is_array($key)) {
-            $key = array_filter($key, function($v): bool {
-                return !$v instanceof Model;
-            });
+            $key = array_filter($key, fn($v): bool => !$v instanceof Model);
         }
 
         return parent::with($key, $value);

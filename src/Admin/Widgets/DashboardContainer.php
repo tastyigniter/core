@@ -137,7 +137,7 @@ class DashboardContainer extends BaseWidget
 
     public function onLoadUpdatePopup(): array
     {
-        if (empty($widgetAlias = trim(post('widgetAlias', '')))) {
+        if (empty($widgetAlias = trim((string) post('widgetAlias', '')))) {
             throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_update'));
         }
 

@@ -55,9 +55,7 @@ it('sets and gets options correctly', function() {
 });
 
 it('sets and gets callable options correctly', function() {
-    $this->mainMenuItem->options(function(): array {
-        return ['option1', 'option2'];
-    });
+    $this->mainMenuItem->options(fn(): array => ['option1', 'option2']);
     expect($this->mainMenuItem->options())->toBe(['option1', 'option2']);
 });
 

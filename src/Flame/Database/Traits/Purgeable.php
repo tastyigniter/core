@@ -33,9 +33,9 @@ trait Purgeable
      */
     public static function bootPurgeable(): void
     {
-        if (!property_exists(get_called_class(), 'purgeable')) {
+        if (!property_exists(static::class, 'purgeable')) {
             throw new LogicException(sprintf(
-                'You must define a $purgeable property in %s to use the Purgeable trait.', get_called_class(),
+                'You must define a $purgeable property in %s to use the Purgeable trait.', static::class,
             ));
         }
 

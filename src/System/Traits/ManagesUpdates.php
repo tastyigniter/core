@@ -19,7 +19,7 @@ trait ManagesUpdates
 
         if (($filter = input('filter')) && is_array($filter)) {
             $itemType = $filter['type'] ?? 'extension';
-            $searchQuery = isset($filter['search']) ? strtolower($filter['search']) : '';
+            $searchQuery = isset($filter['search']) ? strtolower((string) $filter['search']) : '';
 
             try {
                 $json = resolve(UpdateManager::class)->searchItems($itemType, $searchQuery);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic;
 
+use Stringable;
 use ArrayAccess;
 use BadMethodCallException;
 use Closure;
@@ -36,7 +37,7 @@ use JsonSerializable;
  * @property null|array $settings
  * @method static find(string $fileName)
  */
-abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsonable, JsonSerializable, TemplateInterface
+abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsonable, JsonSerializable, TemplateInterface, Stringable
 {
     use EventEmitter;
     use GuardsAttributes;
@@ -50,7 +51,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
 
     public const string DEFAULT_EXTENSION = 'blade.php';
 
-    public static ?Dispatcher $dispatcher;
+    public static ?Dispatcher $dispatcher = null;
 
     /**
      * The array of booted models.
@@ -143,9 +144,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
         $instance = new static;
         $instance->setSource($source);
 
-        $items = array_map(function($item) use ($instance): static {
-            return $instance->newFromFinder($item);
-        }, $items);
+        $items = array_map(fn($item): static => $instance->newFromFinder($item), $items);
 
         return $instance->newCollection($items);
     }
@@ -428,7 +427,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
      */
     public function __toString(): string
     {
-        return $this->toJson();
+        return (string) $this->toJson();
     }
 
     public function __get(string $name): mixed

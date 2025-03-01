@@ -22,7 +22,7 @@ class Status extends BaseBulkActionWidget
     public function handleAction(array $requestData, Collection $records): void
     {
         $code = array_get($requestData, 'code');
-        [, $statusCode] = explode('.', $code, 2);
+        [, $statusCode] = explode('.', (string) $code, 2);
         $statusColumn = $this->statusColumn;
 
         if (($count = $records->count()) !== 0) {

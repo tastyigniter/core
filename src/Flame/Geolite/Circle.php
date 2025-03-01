@@ -16,13 +16,11 @@ class Circle implements CircleInterface
 
     protected CoordinatesInterface $coordinate;
 
-    protected int $radius;
-
     protected ?string $unit = null;
 
     protected int $precision = 8;
 
-    public function __construct(array|CoordinatesInterface $coordinate, int $radius)
+    public function __construct(array|CoordinatesInterface $coordinate, protected int $radius)
     {
         if ($coordinate instanceof CoordinatesInterface) {
             $this->coordinate = $coordinate;
@@ -30,8 +28,6 @@ class Circle implements CircleInterface
             [$latitude, $longitude] = $coordinate;
             $this->coordinate = new Coordinates($latitude, $longitude);
         }
-
-        $this->radius = $radius;
     }
 
     public function getRadius(): int

@@ -72,7 +72,7 @@ class Extensions extends AdminController
         AdminMenu::setContext('settings', 'system');
         AdminMenu::setPreviousUrl('settings');
 
-        throw_if(!strlen($vendor) || !strlen($extension),
+        throw_if(!strlen((string) $vendor) || !strlen((string) $extension),
             new FlashException(lang('igniter::system.extensions.alert_setting_missing_id')),
         );
 
@@ -143,7 +143,7 @@ class Extensions extends AdminController
 
     public function index_onInstall(?string $context = null): RedirectResponse
     {
-        if (empty($extensionCode = trim(post('code') ?: ''))) {
+        if (empty($extensionCode = trim((string) (post('code') ?: '')))) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
@@ -162,7 +162,7 @@ class Extensions extends AdminController
 
     public function index_onUninstall(?string $context = null): RedirectResponse
     {
-        if (empty($extensionCode = trim(post('code') ?: ''))) {
+        if (empty($extensionCode = trim((string) (post('code') ?: '')))) {
             throw new FlashException(lang('igniter::admin.alert_error_try_again'));
         }
 
@@ -185,7 +185,7 @@ class Extensions extends AdminController
 
     public function edit_onSave(string $action, ?string $vendor = null, ?string $extension = null, ?string $context = null): array|false|RedirectResponse
     {
-        throw_if(!strlen($vendor) || !strlen($extension),
+        throw_if(!strlen((string) $vendor) || !strlen((string) $extension),
             new FlashException(lang('igniter::system.extensions.alert_setting_missing_id')),
         );
 

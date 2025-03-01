@@ -122,21 +122,17 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function registerSingletons()
     {
-        $this->app->singleton(PackageManifest::class, function(): PackageManifest {
-            return new PackageManifest(
-                new Filesystem,
-                $this->app->basePath(),
-                Igniter::getCachedAddonsPath(),
-            );
-        });
+        $this->app->singleton(PackageManifest::class, fn(): PackageManifest => new PackageManifest(
+            new Filesystem,
+            $this->app->basePath(),
+            Igniter::getCachedAddonsPath(),
+        ));
 
-        $this->app->singleton(ComposerManaer::class, function(): ComposerManaer {
-            return new ComposerManaer(
-                base_path(),
-                storage_path('igniter/composer'),
-                new Composer(new Filesystem, base_path()),
-            );
-        });
+        $this->app->singleton(ComposerManaer::class, fn(): ComposerManaer => new ComposerManaer(
+            base_path(),
+            storage_path('igniter/composer'),
+            new Composer(new Filesystem, base_path()),
+        ));
 
         $this->app->instance(ClassLoader::class, $loader = new ClassLoader(
             new Filesystem,

@@ -17,21 +17,18 @@ class ModelAction
     use ConfigMaker;
     use ExtensionTrait;
 
-    /** Reference to the controller associated to this action */
-    protected ?Model $model;
-
     /** Properties that must exist in the controller using this action. */
     protected array $requiredProperties = [];
 
-    public function __construct(?Model $model = null)
-    {
-        $this->model = $model;
-
+    public function __construct(
+        /** Reference to the controller associated to this action */
+        protected ?Model $model = null,
+    ) {
         foreach ($this->requiredProperties as $property) {
-            if (!isset($model->{$property})) {
+            if (!isset($this->model->{$property})) {
                 throw new LogicException(sprintf(
                     'Class %s must define property %s used by %s',
-                    $model::class, $property, get_called_class()
+                    $this->model::class, $property, static::class,
                 ));
             }
         }

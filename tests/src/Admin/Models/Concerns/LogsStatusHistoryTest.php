@@ -73,9 +73,7 @@ it('adds status history with additional data', function() {
 });
 
 it('returns false when event admin.statusHistory.beforeAddStatus returns false', function() {
-    Event::listen('admin.statusHistory.beforeAddStatus', function(): false {
-        return false;
-    });
+    Event::listen('admin.statusHistory.beforeAddStatus', fn(): false => false);
 
     $status = Status::factory()->create();
     $model = Order::factory()->create();

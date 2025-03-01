@@ -32,9 +32,7 @@ class FixerIO extends AbstractConverter
             return [];
         }
 
-        $response = $this->cacheCallback($this->getCacheKey(), function() use ($base, $currencies) {
-            return Http::get(sprintf(self::API_URL, $this->accessKey, $base, implode(',', $currencies)));
-        });
+        $response = $this->cacheCallback($this->getCacheKey(), fn() => Http::get(sprintf(self::API_URL, $this->accessKey, $base, implode(',', $currencies))));
 
         if (!$response->json('success')) {
             Log::debug('An error occurred when requesting currency exchange rates from fixer.io, check your api key.');

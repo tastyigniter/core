@@ -119,9 +119,7 @@ it('can get callable options', function() {
     expect($this->formField->options())->toBe([]);
 
     $this->formField->displayAs('select', [
-        'options' => function(): array {
-            return ['option1', 'option2'];
-        },
+        'options' => fn(): array => ['option1', 'option2'],
     ]);
 
     expect($this->formField->options())->toBe(['option1', 'option2']);

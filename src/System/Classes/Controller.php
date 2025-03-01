@@ -192,7 +192,7 @@ class Controller extends IlluminateController
      */
     protected function processAction($actionName)
     {
-        if (strpos($actionName, '-') !== false) {
+        if (str_contains($actionName, '-')) {
             return camel_case($actionName);
         }
 

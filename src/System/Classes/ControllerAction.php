@@ -40,7 +40,7 @@ class ControllerAction
 
         foreach ($this->requiredProperties as $property) {
             if (!isset($controller->{$property})) {
-                throw new LogicException('Class '.$this->controller::class.sprintf(' must define property [%s] used by ', $property).get_called_class());
+                throw new LogicException('Class '.$this->controller::class.sprintf(' must define property [%s] used by ', $property).static::class);
             }
         }
     }

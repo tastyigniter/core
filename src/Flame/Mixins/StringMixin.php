@@ -35,9 +35,7 @@ class StringMixin
      */
     public function normalizeEol()
     {
-        return function($string): array|string|null {
-            return preg_replace('~\R~u', "\r\n", $string);
-        };
+        return fn($string): string|null => preg_replace('~\R~u', "\r\n", (string)$string);
     }
 
     /**
@@ -47,7 +45,7 @@ class StringMixin
     {
         return function($name): string {
             if (is_object($name)) {
-                $name = get_class($name);
+                $name = $name::class;
             }
 
             return '\\'.ltrim($name, '\\');
@@ -61,7 +59,7 @@ class StringMixin
     {
         return function($name) {
             if (is_object($name)) {
-                $name = get_class($name);
+                $name = $name::class;
             }
 
             $name = ltrim($name, '\\');
@@ -89,8 +87,6 @@ class StringMixin
      */
     public function getPrecedingSymbols()
     {
-        return function($string, $symbol): int {
-            return strlen($string) - strlen(ltrim($string, $symbol));
-        };
+        return fn($string, $symbol): int => strlen((string)$string) - strlen(ltrim((string)$string, $symbol));
     }
 }

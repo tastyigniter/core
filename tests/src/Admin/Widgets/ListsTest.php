@@ -195,9 +195,7 @@ it('extends list query using events', function() {
         ],
     ];
     $listsWidget = new Lists($this->controller, $this->widgetConfig);
-    $listsWidget->bindEvent('list.extendQuery', function($query) {
-        return $query->where('status_id', 1);
-    });
+    $listsWidget->bindEvent('list.extendQuery', fn($query) => $query->where('status_id', 1));
 
     $listsWidget->prepareVars();
 
@@ -206,9 +204,7 @@ it('extends list query using events', function() {
 
 it('extends list records using events', function() {
     $this->listsWidget->showPagination = false;
-    $this->listsWidget->bindEvent('list.extendRecords', function($records) {
-        return $records;
-    });
+    $this->listsWidget->bindEvent('list.extendRecords', fn($records) => $records);
 
     expect($this->listsWidget->render())->toBeString();
 });
@@ -311,9 +307,7 @@ it('returns button attributes', function() {
 });
 
 it('overrides list header value using event', function() {
-    $this->listsWidget->bindEvent('list.overrideHeaderValue', function($column, $value): string {
-        return 'Overridden Value';
-    });
+    $this->listsWidget->bindEvent('list.overrideHeaderValue', fn($column, $value): string => 'Overridden Value');
 
     $listColumn = new ListColumn('status_name', 'Test Column');
     $listColumn->displayAs('text', []);
@@ -357,9 +351,7 @@ it('returns list column value', function($columnName, $type, $value, $expected, 
 
 it('returns column value from formatter', function() {
     $listColumn = new ListColumn('status_name', 'Test Column');
-    $listColumn->formatter = function($value): string {
-        return 'Formatted Value';
-    };
+    $listColumn->formatter = fn($value): string => 'Formatted Value';
     $record = Status::factory()->create([
         'status_name' => 'Test Value',
     ]);
@@ -408,9 +400,7 @@ it('returns list column value from model pivot relation', function() {
 });
 
 it('overrides list column value using event', function() {
-    $this->listsWidget->bindEvent('list.overrideColumnValue', function($column, $record, $value): string {
-        return 'Overridden Value';
-    });
+    $this->listsWidget->bindEvent('list.overrideColumnValue', fn($column, $record, $value): string => 'Overridden Value');
     $listColumn = new ListColumn('status_name', 'Test Column');
     $listColumn->displayAs('text');
 
@@ -421,12 +411,10 @@ it('overrides list column value using event', function() {
 });
 
 it('overrides button attributes using event', function() {
-    $this->listsWidget->bindEvent('list.overrideColumnValue', function($column, $record, $attributes): array {
-        return [
-            'title' => 'Overridden Title',
-            'url' => 'model/edit',
-        ];
-    });
+    $this->listsWidget->bindEvent('list.overrideColumnValue', fn($column, $record, $attributes): array => [
+        'title' => 'Overridden Title',
+        'url' => 'model/edit',
+    ]);
     $listColumn = new ListColumn('status_name', 'Test Column');
     $listColumn->displayAs('text', ['attributes' => ['class' => 'btn btn-primary', 'href' => 'model/edit']]);
 

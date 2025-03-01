@@ -33,7 +33,7 @@ trait ExtensionTrait
 
     public function extensionApplyInitCallbacks(): void
     {
-        $classes = array_merge([get_class($this)], class_parents($this));
+        $classes = array_merge([$this::class], class_parents($this));
         foreach ($classes as $class) {
             if (isset(self::$extensionCallbacks[$class]) && is_array(self::$extensionCallbacks[$class])) {
                 foreach (self::$extensionCallbacks[$class] as $callback) {
@@ -48,7 +48,7 @@ trait ExtensionTrait
      */
     public static function extensionExtendCallback(callable $callback): void
     {
-        $class = get_called_class();
+        $class = static::class;
         if (
             !isset(self::$extensionCallbacks[$class]) ||
             !is_array(self::$extensionCallbacks[$class])

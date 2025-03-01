@@ -19,7 +19,7 @@ use Throwable;
  */
 class Manager
 {
-    protected const REPOSITORY_HOST = 'satis.tastyigniter.com';
+    protected const string REPOSITORY_HOST = 'satis.tastyigniter.com';
 
     /** The primary composer instance. */
     protected ?ClassLoader $loader = null;
@@ -198,7 +198,7 @@ class Manager
     protected function assertRepository(array $config): array
     {
         foreach ($config['repositories'] ?? [] as $repository) {
-            if (str_contains($repository['url'], static::REPOSITORY_HOST)) {
+            if (str_contains((string)$repository['url'], static::REPOSITORY_HOST)) {
                 return $config;
             }
         }

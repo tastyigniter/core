@@ -14,15 +14,11 @@ class MenuItemServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Event::listen('pages.menuitem.listTypes', function(): array {
-            return [
-                'theme-page' => 'igniter::main.pages.text_theme_page',
-            ];
-        });
+        Event::listen('pages.menuitem.listTypes', fn(): array => [
+            'theme-page' => 'igniter::main.pages.text_theme_page',
+        ]);
 
-        Event::listen('pages.menuitem.getTypeInfo', function($type): ?array {
-            return Page::getMenuTypeInfo((string)$type);
-        });
+        Event::listen('pages.menuitem.getTypeInfo', fn($type): ?array => Page::getMenuTypeInfo((string)$type));
 
         Event::listen('pages.menuitem.resolveItem', function($item, $url, $theme) {
             if ($item->type == 'theme-page' && $theme) {

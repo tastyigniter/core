@@ -161,7 +161,7 @@ class FormServiceProvider extends ServiceProvider
                     'icon' => 'fa-gears',
                     'url' => admin_url('settings'),
                     'priority' => 10,
-                    'complete' => [Settings::class, 'onboardingIsComplete'],
+                    'complete' => Settings::onboardingIsComplete(...),
                 ],
                 'admin::themes' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_themes',
@@ -169,7 +169,7 @@ class FormServiceProvider extends ServiceProvider
                     'icon' => 'fa-paint-brush',
                     'url' => admin_url('themes'),
                     'priority' => 20,
-                    'complete' => [Theme::class, 'onboardingIsComplete'],
+                    'complete' => Theme::onboardingIsComplete(...),
                 ],
                 'admin::extensions' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_extensions',
@@ -177,7 +177,7 @@ class FormServiceProvider extends ServiceProvider
                     'icon' => 'fa-plug',
                     'url' => admin_url('extensions'),
                     'priority' => 30,
-                    'complete' => [Extension::class, 'onboardingIsComplete'],
+                    'complete' => Extension::onboardingIsComplete(...),
                 ],
                 'admin::menus' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_menus',

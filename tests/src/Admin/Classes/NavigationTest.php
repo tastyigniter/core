@@ -331,9 +331,7 @@ it('filters permitted navigation items correctly', function() {
 
     // Mock the AdminAuth facade to return a mock user object with the 'hasPermission' method
     $mockUser = Mockery::mock(User::class);
-    $mockUser->shouldReceive('hasPermission')->andReturnUsing(function($permission): bool {
-        return in_array('Admin.TestItem', $permission);
-    });
+    $mockUser->shouldReceive('hasPermission')->andReturnUsing(fn($permission): bool => in_array('Admin.TestItem', $permission));
 
     AdminAuth::shouldReceive('user')->andReturn($mockUser);
 

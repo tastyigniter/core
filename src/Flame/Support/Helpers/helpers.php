@@ -105,7 +105,7 @@ if (!function_exists('theme_url')) {
      */
     function theme_url(string $uri = '', ?bool $secure = null): string
     {
-        return asset(trim(config('igniter-system.themesDir'), '/').'/'.$uri, $secure);
+        return asset(trim((string) config('igniter-system.themesDir'), '/').'/'.$uri, $secure);
     }
 }
 
@@ -652,8 +652,8 @@ if (!function_exists('time_range')) {
 
         $interval = ctype_digit($interval) ? $interval.' mins' : $interval;
 
-        $start_time = strtotime($unix_start);
-        $end_time = strtotime($unix_end);
+        $start_time = strtotime((string) $unix_start);
+        $end_time = strtotime((string) $unix_end);
 
         $current = time();
         $add_time = strtotime('+'.$interval, $current);
@@ -802,9 +802,7 @@ if (!function_exists('name_to_array')) {
             array_unshift($result, $matches[1]);
         }
 
-        return array_filter($result, function($val): bool {
-            return (bool)strlen($val);
-        });
+        return array_filter($result, fn($val): bool => (bool)strlen($val));
     }
 }
 

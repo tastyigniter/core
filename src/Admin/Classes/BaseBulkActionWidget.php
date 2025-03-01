@@ -26,12 +26,8 @@ class BaseBulkActionWidget extends BaseWidget
 
     protected array $defaultConfig = [];
 
-    protected ToolbarButton $actionButton;
-
-    public function __construct(AdminController $controller, ToolbarButton $actionButton, array $config = [])
+    public function __construct(AdminController $controller, protected ToolbarButton $actionButton, array $config = [])
     {
-        $this->actionButton = $actionButton;
-
         $this->config = $this->makeConfig(array_merge_recursive($this->defaultConfig, $config));
 
         $this->fillFromConfig([

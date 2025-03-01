@@ -117,7 +117,7 @@ abstract class GeneratorCommand extends Command
 
     protected function getStubPath(string $stubName)
     {
-        $className = get_class($this);
+        $className = static::class;
         $class = new ReflectionClass($className);
 
         return dirname($class->getFileName()).'/stubs/'.$stubName;
@@ -131,7 +131,7 @@ abstract class GeneratorCommand extends Command
         return Igniter::extensionsPath().'/'.$destinationPath.'/'.$className;
     }
 
-    protected function parseString($stubContent)
+    protected function parseString(string $stubContent)
     {
         return (new StringParser('{{', '}}'))->parse($stubContent, $this->vars);
     }

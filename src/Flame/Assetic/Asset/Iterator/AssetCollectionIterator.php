@@ -22,26 +22,23 @@ class AssetCollectionIterator implements RecursiveIterator
 {
     private array $assets;
 
-    private array $filters;
+    private readonly array $filters;
 
-    private array $vars;
+    private readonly array $vars;
 
     private ?string $output;
 
-    private SplObjectStorage $clones;
-
-    public function __construct(AssetCollectionInterface $coll, SplObjectStorage $clones)
+    public function __construct(AssetCollectionInterface $coll, private SplObjectStorage $clones)
     {
         $this->assets = $coll->all();
         $this->filters = $coll->getFilters();
         $this->vars = $coll->getVars();
         $this->output = $coll->getTargetPath();
-        $this->clones = $clones;
 
         if (false === $pos = strrpos((string)$this->output, '.')) {
             $this->output .= '_*';
         } else {
-            $this->output = substr($this->output, 0, $pos).'_*'.substr($this->output, $pos);
+            $this->output = substr((string) $this->output, 0, $pos).'_*'.substr((string) $this->output, $pos);
         }
     }
 
@@ -119,7 +116,7 @@ class AssetCollectionIterator implements RecursiveIterator
     {
         foreach ($this->vars as $var) {
             $var = '{'.$var.'}';
-            if (str_contains($name, $var) && str_contains($this->output, $var)) {
+            if (str_contains($name, $var) && str_contains((string) $this->output, $var)) {
                 $name = str_replace($var, '', $name);
             }
         }

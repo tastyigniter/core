@@ -61,7 +61,7 @@ trait ExtendableTrait
     public function extendableConstruct(): void
     {
         // Apply init callbacks
-        $classes = array_merge([get_class($this)], class_parents($this));
+        $classes = array_merge([$this::class], class_parents($this));
         foreach ($classes as $class) {
             if (isset(self::$extendableCallbacks[$class]) && is_array(self::$extendableCallbacks[$class])) {
                 foreach (self::$extendableCallbacks[$class] as $callback) {
@@ -75,8 +75,8 @@ trait ExtendableTrait
             $useClass = $this->extensionNormalizeClassName($use);
 
             // Soft implement
-            if (str_starts_with($useClass, '?')) {
-                $useClass = substr($useClass, 1);
+            if (str_starts_with((string) $useClass, '?')) {
+                $useClass = substr((string) $useClass, 1);
                 if (!class_exists($useClass)) {
                     continue;
                 }
@@ -91,7 +91,7 @@ trait ExtendableTrait
      */
     public static function extendableExtendCallback(callable $callback): void
     {
-        $class = get_called_class();
+        $class = static::class;
         if (
             !isset(self::$extendableCallbacks[$class]) ||
             !is_array(self::$extendableCallbacks[$class])
@@ -131,7 +131,7 @@ trait ExtendableTrait
         $extensionName = $this->extensionNormalizeClassName($extensionName);
 
         if (isset($this->extensionData['extensions'][$extensionName])) {
-            throw new LogicException(sprintf('Class %s has already been extended with %s', get_class($this), $extensionName));
+            throw new LogicException(sprintf('Class %s has already been extended with %s', $this::class, $extensionName));
         }
 
         $this->extensionData['extensions'][$extensionName] = $extensionObject = new $extensionName($this);
@@ -228,7 +228,7 @@ trait ExtendableTrait
     {
         foreach ($this->extensionData['extensions'] as $class => $obj) {
             if (
-                preg_match('@\\\\([\w]+)$@', $class, $matches) &&
+                preg_match('@\\\\([\w]+)$@', (string)$class, $matches) &&
                 $matches[1] === $shortName
             ) {
                 return $obj;
@@ -322,7 +322,7 @@ trait ExtendableTrait
             }
         }
 
-        $parent = get_parent_class(__CLASS__);
+        $parent = get_parent_class(self::class);
         if ($parent !== false && method_exists($parent, '__get')) {
             return parent::__get($name);
         }
@@ -344,7 +344,7 @@ trait ExtendableTrait
         }
 
         // This targets trait usage in particular
-        $parent = get_parent_class(__CLASS__);
+        $parent = get_parent_class(self::class);
         if ($parent !== false && method_exists($parent, '__set')) {
             parent::__set($name, $value);
         }
@@ -377,14 +377,14 @@ trait ExtendableTrait
             }
         }
 
-        $parent = get_parent_class(__CLASS__);
+        $parent = get_parent_class(self::class);
         if ($parent !== false && method_exists($parent, '__call')) {
             return parent::__call($name, $params);
         }
 
         throw new BadMethodCallException(sprintf(
             'Call to undefined method %s::%s()',
-            get_class($this),
+            $this::class,
             $name,
         ));
     }
@@ -394,7 +394,7 @@ trait ExtendableTrait
      */
     public static function extendableCallStatic(string $name, ?array $params = null): mixed
     {
-        $className = get_called_class();
+        $className = static::class;
 
         if (!array_key_exists($className, self::$extendableStaticMethods)) {
             self::$extendableStaticMethods[$className] = [];
@@ -409,7 +409,7 @@ trait ExtendableTrait
                 foreach ($implement as $use) {
                     // Class alias checks not required here as the current name of the extension class doesn't
                     // matter because as long as $useClassName is able to be instantiated the method will resolve
-                    $useClassName = str_replace('.', '\\', trim($use));
+                    $useClassName = str_replace('.', '\\', trim((string)$use));
                     // Soft implement
                     if (str_starts_with($useClassName, '?')) {
                         $useClassName = substr($useClassName, 1);
@@ -439,7 +439,7 @@ trait ExtendableTrait
             }
         }
 
-        $parent = get_parent_class(__CLASS__);
+        $parent = get_parent_class(self::class);
         if ($parent !== false && method_exists($parent, '__callStatic')) {
             return parent::__callStatic($name, $params);
         }

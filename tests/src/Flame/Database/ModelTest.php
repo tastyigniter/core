@@ -57,7 +57,7 @@ it('creates a new pivot model instance using the provided class', function() {
 
     $using->shouldReceive('fromRawAttributes')->with($parent, $attributes, $table, $exists)->andReturnSelf();
 
-    $result = $model->newPivot($parent, $attributes, $table, $exists, get_class($using));
+    $result = $model->newPivot($parent, $attributes, $table, $exists, $using::class);
     expect($result)->toBe($using);
 });
 
@@ -77,9 +77,7 @@ it('creates a new pivot model instance if pivotModel is defined', function() {
 it('returns false if saveInternal event returns false', function() {
     $model = new Currency;
     $model->fill(['currency_name' => 'United States Dollar']);
-    $model->bindEvent('model.saveInternal', function(): false {
-        return false;
-    });
+    $model->bindEvent('model.saveInternal', fn(): false => false);
 
     expect($model->save())->toBeFalse();
 });
@@ -87,9 +85,7 @@ it('returns false if saveInternal event returns false', function() {
 it('returns false if saving event returns false', function() {
     $model = new Currency;
     $model->fill(['currency_name' => 'United States Dollar']);
-    Event::listen('eloquent.saving: '.Currency::class, function(): false {
-        return false;
-    });
+    Event::listen('eloquent.saving: '.Currency::class, fn(): false => false);
 
     expect($model->save())->toBeFalse();
 });
@@ -104,9 +100,7 @@ it('fires updated and saved events if parent save returns null', function() {
 it('returns false if save fails and always option is false', function() {
     $model = new Currency;
     $model->fill(['currency_name' => 'United States Dollar']);
-    $model->bindEvent('model.saveInternal', function(): false {
-        return false;
-    });
+    $model->bindEvent('model.saveInternal', fn(): false => false);
 
     expect($model->push())->toBeFalse();
 });
@@ -132,9 +126,7 @@ it('returns false if a relation push fails', function() {
     $model->language;
 
     $model->language->fill(['name' => 'New Language']);
-    $model->language->bindEvent('model.saveInternal', function(): false {
-        return false;
-    });
+    $model->language->bindEvent('model.saveInternal', fn(): false => false);
 
     expect($model->push())->toBeFalse();
 });

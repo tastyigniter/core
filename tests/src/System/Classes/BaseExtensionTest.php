@@ -26,7 +26,7 @@ it('returns extension meta from config if set', function() {
 
 it('returns extension meta from file if config not set', function() {
     $extension = createExtension();
-    $config = SystemHelper::extensionConfigFromFile(dirname(File::fromClass(get_class($extension))));
+    $config = SystemHelper::extensionConfigFromFile(dirname(File::fromClass($extension::class)));
 
     expect($extension->extensionMeta())->toBe($config);
 });
@@ -36,14 +36,12 @@ it('disables extension if disabled property is true', function() {
     $extension->disabled = true;
 
     expect($extension->bootingExtension())->toBeNull()
-        ->and(app()->call([$extension, 'boot']))->toBeNull();
+        ->and(app()->call($extension->boot(...)))->toBeNull();
 });
 
 it('loads resources if directory exists', function() {
     $extension = createExtension();
-    File::partialMock()->shouldReceive('isDirectory')->with(Mockery::on(function($path): bool {
-        return str_contains($path, '/resources');
-    }))->andReturn(true);
+    File::partialMock()->shouldReceive('isDirectory')->with(Mockery::on(fn($path): bool => str_contains((string) $path, '/resources')))->andReturn(true);
 
     Igniter::shouldReceive('loadResourcesFrom')->once();
     $extension->bootingExtension();
@@ -51,9 +49,7 @@ it('loads resources if directory exists', function() {
 
 it('loads migrations if directory exists', function() {
     $extension = createExtension();
-    File::partialMock()->shouldReceive('isDirectory')->with(Mockery::on(function($path): bool {
-        return str_contains($path, '/database/migrations');
-    }))->andReturn(true);
+    File::partialMock()->shouldReceive('isDirectory')->with(Mockery::on(fn($path): bool => str_contains((string) $path, '/database/migrations')))->andReturn(true);
 
     Igniter::shouldReceive('loadMigrationsFrom')->once();
     $extension->bootingExtension();

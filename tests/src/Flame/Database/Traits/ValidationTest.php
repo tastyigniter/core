@@ -37,9 +37,7 @@ it('validates model on saving', function() {
 
     expect($model->save())->toBeTrue();
 
-    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, function($model, $status): bool {
-        return $status[1] === 'passed';
-    });
+    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, fn($model, $status): bool => $status[1] === 'passed');
 });
 
 it('validates model on restoring', function() {
@@ -54,9 +52,7 @@ it('validates model on restoring', function() {
 
     $model->fireEvent('model.restoring');
 
-    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, function($model, $status): bool {
-        return $status[1] === 'passed';
-    });
+    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, fn($model, $status): bool => $status[1] === 'passed');
 });
 
 it('skips validation if validating is disabled', function() {
@@ -70,9 +66,7 @@ it('skips validation if validating is disabled', function() {
 
     expect($model->save())->toBeTrue();
 
-    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, function($model, $status): bool {
-        return $status[1] === 'skipped';
-    });
+    Event::assertDispatched('eloquent.validated: '.TestModelForValidation::class, fn($model, $status): bool => $status[1] === 'skipped');
 });
 
 it('throws validation exception on failed validation', function() {
@@ -89,9 +83,7 @@ it('skips validation using model.beforeValidate event', function() {
     ]);
     $model = new TestModelForValidation;
     $model->country_name = 'Test Country';
-    $model->bindEvent('model.beforeValidate', function(): false {
-        return false;
-    });
+    $model->bindEvent('model.beforeValidate', fn(): false => false);
 
     $model->save();
 
@@ -99,9 +91,7 @@ it('skips validation using model.beforeValidate event', function() {
 });
 
 it('skips validation using eloquent.validating event', function() {
-    Event::listen('eloquent.validating: '.TestModelForValidation::class, function(): false {
-        return false;
-    });
+    Event::listen('eloquent.validating: '.TestModelForValidation::class, fn(): false => false);
     $model = new TestModelForValidation;
     $model->country_name = 'Test Country';
     $model->setInjectUniqueIdentifier(true);

@@ -82,7 +82,7 @@ class AdminController extends Controller
     {
         $this->layout = $this->layout ?: 'default';
 
-        $parts = explode('\\', strtolower(get_called_class()));
+        $parts = explode('\\', strtolower(static::class));
         $className = array_pop($parts);
         $namespace = implode('.', array_slice($parts, 0, 2));
 
@@ -157,11 +157,11 @@ class AdminController extends Controller
         }
 
         throw_if($action === '404', new FlashException(
-            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this)),
+            sprintf('Method [%s] is not found in the controller [%s]', $action, static::class),
         ));
 
         throw_unless($this->checkAction($action), new FlashException(
-            sprintf('Method [%s] is not found in the controller [%s]', $action, get_class($this)),
+            sprintf('Method [%s] is not found in the controller [%s]', $action, static::class),
         ));
 
         // Execute post handler and AJAX event
@@ -306,10 +306,8 @@ class AdminController extends Controller
     protected function getRequiredPermissionsForAction(string $actionToCheck): array
     {
         return collect((array)$this->requiredPermissions)
-            ->map(function($permission, $action) use ($actionToCheck): ?array {
-                return (!is_string($action) || $action === '*' || $action === $actionToCheck)
-                    ? (array)$permission : null;
-            })
+            ->map(fn($permission, $action): ?array => (!is_string($action) || $action === '*' || $action === $actionToCheck)
+                ? (array)$permission : null)
             ->filter()
             ->collapse()
             ->all();

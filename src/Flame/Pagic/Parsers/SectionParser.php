@@ -37,7 +37,7 @@ class SectionParser
         $separator = static::SOURCE_SEPARATOR;
 
         // Split the document into three sections.
-        $doc = explode($separator, $content);
+        $doc = explode($separator, (string) $content);
 
         $count = count($doc);
 
@@ -88,9 +88,9 @@ class SectionParser
 
         if (!empty($code)) {
             $code = preg_replace('/^\<\?php/', '', $code);
-            $code = preg_replace('/^\<\?/', '', preg_replace('/\?>$/', '', $code));
+            $code = preg_replace('/^\<\?/', '', (string) preg_replace('/\?>$/', '', (string) $code));
 
-            $code = trim($code, PHP_EOL);
+            $code = trim((string) $code, PHP_EOL);
             $content[] = '<?php'.PHP_EOL.$code.PHP_EOL.'?>';
         }
 
@@ -104,7 +104,7 @@ class SectionParser
         $settings = Yaml::parse($frontMatter);
 
         foreach ($settings ?? [] as $setting => $value) {
-            preg_match('/\[(.*?)\]/', $setting, $match);
+            preg_match('/\[(.*?)\]/', (string) $setting, $match);
             if (!isset($match[1])) {
                 continue;
             }

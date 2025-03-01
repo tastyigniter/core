@@ -51,9 +51,7 @@ it('retrieves attribute value using beforeGetAttribute event', function() {
 
         public $attributes = ['attribute' => 'value'];
     };
-    $model->bindEvent('model.beforeGetAttribute', function($key): string {
-        return 'beforeGetAttribute';
-    });
+    $model->bindEvent('model.beforeGetAttribute', fn($key): string => 'beforeGetAttribute');
 
     expect($model->getAttribute('attribute'))->toBe('beforeGetAttribute');
 });
@@ -65,9 +63,7 @@ it('retrieves attribute value using getAttribute event', function() {
 
         public $attributes = ['attribute' => 'value'];
     };
-    $model->bindEvent('model.getAttribute', function($key, $value): string {
-        return 'getAttribute';
-    });
+    $model->bindEvent('model.getAttribute', fn($key, $value): string => 'getAttribute');
 
     expect($model->getAttribute('attribute'))->toBe('getAttribute');
 });
@@ -109,9 +105,7 @@ it('fires event before getting attribute', function() {
 
         public $attributes = ['attribute' => 'value'];
     };
-    $model->bindEvent('model.beforeGetAttribute', function($key): string {
-        return 'eventValue';
-    });
+    $model->bindEvent('model.beforeGetAttribute', fn($key): string => 'eventValue');
 
     expect($model->attributesToArray())->toHaveKey('attribute', 'eventValue');
 });
@@ -123,9 +117,8 @@ it('fires event after getting attribute', function() {
 
         public $attributes = ['attribute' => 'value'];
     };
-    $model->bindEvent('model.getAttribute', function($key): string {
-        return 'eventValue';
-    });
+    $model->bindEvent('model.getAttribute', fn($key): string => 'eventValue');
+
     expect($model->attributesToArray())->toHaveKey('attribute', 'eventValue');
 });
 
@@ -156,9 +149,7 @@ it('sets attribute using event', function() {
 
         public $attributes = ['customAttribute' => 'value'];
     };
-    $model->bindEvent('model.beforeSetAttribute', function($key, $value): string {
-        return 'eventValue';
-    });
+    $model->bindEvent('model.beforeSetAttribute', fn($key, $value): string => 'eventValue');
 
     $model->setAttribute('customAttribute', 'value');
 

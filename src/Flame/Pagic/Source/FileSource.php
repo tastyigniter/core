@@ -20,31 +20,18 @@ use Symfony\Component\Finder\Finder;
 class FileSource extends AbstractSource implements SourceInterface
 {
     /**
-     * The local path where the source can be found.
-     * @var string
-     */
-    protected $basePath;
-
-    /**
      * The filesystem instance.
      * @var Filesystem
      */
     protected $files;
 
     /**
-     * @var Finder
-     */
-    public $finder;
-
-    /**
      * Create a new source instance.
+     * @param string $basePath
      */
-    public function __construct($basePath, ?Filesystem $files = null, ?Finder $finder = null)
+    public function __construct(protected $basePath, ?Filesystem $files = null, public Finder $finder = new Finder)
     {
-        $this->basePath = $basePath;
-
         $this->files = $files ?: resolve(Filesystem::class);
-        $this->finder = $finder ?? new Finder;
         $this->processor = new Processor;
     }
 

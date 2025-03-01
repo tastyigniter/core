@@ -14,9 +14,7 @@ it('loads admin locale when running in admin', function() {
     Igniter::shouldReceive('runningInAdmin')->andReturn(true);
 
     $request = new Request;
-    $next = function($request): string {
-        return 'next';
-    };
+    $next = fn($request): string => 'next';
 
     expect((new Localization)->handle($request, $next))->toBe('next');
 });
@@ -65,4 +63,8 @@ it('loads locale from session when not running in admin', function() {
     expect((new Localization)->handle($request, fn($request) => 'next'))->toBe('next')
         ->and(app()->getLocale())->toBe('fr')
         ->and(app('translator.localization')->getLocale())->toBe('fr');
+});
+
+it('returns false when setting invalid locale', function() {
+    expect(resolve(\Igniter\Flame\Translation\Localization::class)->setLocale('invalid'))->toBeFalse();
 });

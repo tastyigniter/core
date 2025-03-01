@@ -28,25 +28,20 @@ it('defines properties correctly', function() {
     $properties = $this->charts->defineProperties();
 
     expect($properties)->toHaveKey('dataset')
-        ->and($properties['dataset'])->toBe([
-            'label' => 'admin::lang.dashboard.text_charts_dataset',
-            'default' => 'reports',
-            'type' => 'select',
-            'placeholder' => 'lang:admin::lang.text_please_select',
-            'options' => [$this->charts, 'getDatasetOptions'],
-            'validationRule' => 'required|alpha_dash',
-        ]);
+        ->and($properties['dataset'])
+        ->toHaveKey('label', 'admin::lang.dashboard.text_charts_dataset')
+        ->toHaveKey('default', 'reports')
+        ->toHaveKey('type', 'select')
+        ->toHaveKey('placeholder', 'lang:admin::lang.text_please_select')
+        ->toHaveKey('options', $this->charts->getDatasetOptions(...))
+        ->toHaveKey('validationRule', 'required|alpha_dash');
 });
 
 it('loads assets correctly', function() {
     Assets::shouldReceive('addJs')->once()->with('js/vendor.datetime.js', 'vendor-datetime-js');
     Assets::shouldReceive('addJs')->once()->with('js/vendor.chart.js', 'vendor-chart-js');
-    Assets::shouldReceive('addCss')->once()->withArgs(function($css, $alias): bool {
-        return ends_with($css, 'dashboardwidgets/charts.css') && $alias === 'charts-css';
-    });
-    Assets::shouldReceive('addJs')->once()->withArgs(function($js, $alias): bool {
-        return ends_with($js, 'dashboardwidgets/charts.js') && $alias === 'charts-js';
-    });
+    Assets::shouldReceive('addCss')->once()->withArgs(fn($css, $alias): bool => ends_with($css, 'dashboardwidgets/charts.css') && $alias === 'charts-css');
+    Assets::shouldReceive('addJs')->once()->withArgs(fn($js, $alias): bool => ends_with($js, 'dashboardwidgets/charts.js') && $alias === 'charts-js');
 
     $this->charts->loadAssets();
 });
@@ -58,23 +53,19 @@ it('renders widget correctly', function() {
 });
 
 it('tests prepareVars', function() {
-    Charts::registerDatasets(function(): array {
-        return [
-            'newDataset' => [
-                'label' => 'igniter::admin.dashboard.text_reports_chart',
-                'sets' => [
-                    'orders' => [
-                        'model' => MailTemplate::class,
-                        'column' => 'created_at',
-                        'priority' => 1,
-                        'datasetFrom' => function(): array {
-                            return [];
-                        },
-                    ],
+    Charts::registerDatasets(fn(): array => [
+        'newDataset' => [
+            'label' => 'igniter::admin.dashboard.text_reports_chart',
+            'sets' => [
+                'orders' => [
+                    'model' => MailTemplate::class,
+                    'column' => 'created_at',
+                    'priority' => 1,
+                    'datasetFrom' => fn(): array => [],
                 ],
             ],
-        ];
-    });
+        ],
+    ]);
 
     $this->charts->render();
 
@@ -94,25 +85,21 @@ it('returns active dataset', function() {
 it('loads dataset from', function() {
     $this->travelTo(now()->setMonth(1));
 
-    Charts::registerDatasets(function(): array {
-        return [
-            'newDataset' => [
-                'label' => 'igniter::admin.dashboard.text_reports_chart',
-                'datasetFrom' => function(): array {
-                    return [
-                        'datasets' => [
-                            [
-                                'data' => [
-                                    ['x' => '2021-01-01', 'y' => 10],
-                                    ['x' => '2021-01-02', 'y' => 20],
-                                ],
-                            ],
+    Charts::registerDatasets(fn(): array => [
+        'newDataset' => [
+            'label' => 'igniter::admin.dashboard.text_reports_chart',
+            'datasetFrom' => fn(): array => [
+                'datasets' => [
+                    [
+                        'data' => [
+                            ['x' => '2021-01-01', 'y' => 10],
+                            ['x' => '2021-01-02', 'y' => 20],
                         ],
-                    ];
-                },
+                    ],
+                ],
             ],
-        ];
-    });
+        ],
+    ]);
 
     $this->charts->setProperty('dataset', 'newDataset');
     $data = $this->charts->getData();
@@ -131,9 +118,7 @@ it('adds dataset correctly', function() {
                 'model' => MailTemplate::class,
                 'column' => 'created_at',
                 'priority' => 1,
-                'datasetFrom' => function(): array {
-                    return [];
-                },
+                'datasetFrom' => fn(): array => [],
             ],
         ],
     ]);
@@ -151,9 +136,7 @@ it('merges dataset correctly', function() {
                 'model' => MailTemplate::class,
                 'column' => 'created_at',
                 'priority' => 1,
-                'datasetFrom' => function(): array {
-                    return [];
-                },
+                'datasetFrom' => fn(): array => [],
             ],
         ],
     ]);

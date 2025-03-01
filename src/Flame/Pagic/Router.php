@@ -82,9 +82,7 @@ class Router
 
     public function getRouteMap(): Collection
     {
-        return collect($this->getUrlMap())->map(function($page): array {
-            return RouterHelper::convertToRouteProperties($page);
-        });
+        return collect($this->getUrlMap())->map(fn($page): array => RouterHelper::convertToRouteProperties($page));
     }
 
     /**
@@ -252,8 +250,6 @@ class Router
 
     public function findRouteRule($name)
     {
-        return collect($this->getUrlMap())->first(function(array $page) use ($name): bool {
-            return $page['route'] === $name || $page['file'] === $name;
-        });
+        return collect($this->getUrlMap())->first(fn(array $page): bool => $page['route'] === $name || $page['file'] === $name);
     }
 }

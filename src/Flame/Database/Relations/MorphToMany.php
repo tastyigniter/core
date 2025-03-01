@@ -36,15 +36,6 @@ class MorphToMany extends BelongsToMany
     protected $morphClass;
 
     /**
-     * Indicates if we are connecting the inverse of the relation.
-     *
-     * This primarily affects the morphClass constraint.
-     *
-     * @var bool
-     */
-    protected $inverse;
-
-    /**
      * Create a new morph to many relationship instance.
      *
      * @param string $name
@@ -65,13 +56,11 @@ class MorphToMany extends BelongsToMany
         $parentKey,
         $relatedKey,
         $relationName = null,
-        $inverse = false,
+        protected $inverse = false,
     ) {
-        $this->inverse = $inverse;
-
         $this->morphType = $name.'_type';
 
-        $this->morphClass = $inverse ? $query->getModel()->getMorphClass() : $parent->getMorphClass();
+        $this->morphClass = $this->inverse ? $query->getModel()->getMorphClass() : $parent->getMorphClass();
 
         parent::__construct(
             $query,

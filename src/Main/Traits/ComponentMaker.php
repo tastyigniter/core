@@ -97,9 +97,7 @@ trait ComponentMaker
 
     public function renderComponentFirst(array $components, array $params, $throwException = true): string|false
     {
-        $component = Arr::first($components, function($component) {
-            return $this->hasComponent($component);
-        });
+        $component = Arr::first($components, fn($component) => $this->hasComponent($component));
 
         if (!$component) {
             $this->handleException('None of the components in the given array exist.', $throwException);

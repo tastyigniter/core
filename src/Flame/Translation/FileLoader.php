@@ -35,11 +35,10 @@ class FileLoader extends FileLoaderBase
      */
     public function loadFromDrivers($locale, $group, $namespace = null)
     {
-        return collect($this->drivers)->map(function($className) {
-            return app($className);
-        })->mapWithKeys(function(Driver $driver) use ($locale, $group, $namespace) {
-            return $driver->load($locale, $group, $namespace);
-        })->toArray();
+        return collect($this->drivers)
+            ->map(fn($className) => app($className))
+            ->mapWithKeys(fn(Driver $driver) => $driver->load($locale, $group, $namespace))
+            ->toArray();
     }
 
     public function addDriver(string $driver): void

@@ -58,9 +58,7 @@ it('returns correct code class parent', function() {
 it('resolves route binding through events and returns page', function() {
     $page = mock(Page::class);
 
-    Event::listen('main.page.beforeRoute', function($pageCode) use ($page) {
-        return $page;
-    });
+    Event::listen('main.page.beforeRoute', fn($pageCode) => $page);
 
     expect(Page::resolveRouteBinding('event-page'))->toBe($page);
 });

@@ -33,13 +33,10 @@ class Location implements LocationInterface
 
     protected ?string $timezone = null;
 
-    protected string $providedBy;
-
     protected array $data;
 
-    final public function __construct(string $providedBy, array $data = [])
+    final public function __construct(protected string $providedBy, array $data = [])
     {
-        $this->providedBy = $providedBy;
         $this->fillFromData($data);
     }
 

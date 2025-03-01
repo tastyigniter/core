@@ -6,27 +6,9 @@ namespace Igniter\Flame\Support;
 
 class StringParser
 {
-    protected $left;
+    public function __construct(protected string $left = '{', protected string $right = '}') {}
 
-    protected $right;
-
-    /**
-     * @param string $left The left delimiter
-     * @param string $right The right delimiter
-     */
-    public function __construct($left = '{', $right = '}')
-    {
-        $this->left = $left;
-        $this->right = $right;
-    }
-
-    /**
-     * @param string $template The template string
-     * @param string|array $data The value the template will be rendered with
-     *
-     * @return string The rendered template
-     */
-    public function parse($template, $data): string
+    public function parse(string $template, array|string $data): string
     {
         if (!is_array($data)) {
             $data = ['' => $data];
@@ -45,7 +27,7 @@ class StringParser
         return strtr($template, $replace);
     }
 
-    protected function parseSingle(string $key, $value, $template): array
+    protected function parseSingle(string $key, mixed $value, string $template): array
     {
         if (!is_scalar($value)) {
             $value = '';
@@ -57,7 +39,7 @@ class StringParser
     /**
      * @return string[]
      */
-    protected function parsePair(string $key, $data, $template): array
+    protected function parsePair(string $key, array $data, string $template): array
     {
         $replace = [];
         preg_match_all(

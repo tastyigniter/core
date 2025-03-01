@@ -20,36 +20,14 @@ class FormBuilder
     use Macroable;
 
     /**
-     * The HTML builder instance.
-     */
-    protected HtmlBuilder $html;
-
-    /**
-     * The URL generator instance.
-     */
-    protected UrlGenerator $url;
-
-    /**
-     * The View factory instance.
-     */
-    protected Factory $view;
-
-    /**
-     * The CSRF token used by the form builder.
-     */
-    protected ?string $csrfToken;
-
-    /**
      * The session store implementation.
      */
-    protected ?Session $session;
+    protected ?Session $session = null;
 
     /**
      * The current model instance for the form.
      */
     protected mixed $model;
-
-    protected ?Request $request;
 
     /**
      * The reserved form open attributes.
@@ -80,13 +58,26 @@ class FormBuilder
     /**
      * Create a new form builder instance.
      */
-    public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, ?string $csrfToken, ?Request $request = null)
+    public function __construct(
+        /**
+         * The HTML builder instance.
+         */
+        protected HtmlBuilder $html,
+        /**
+         * The URL generator instance.
+         */
+        protected UrlGenerator $url,
+        /**
+         * The View factory instance.
+         */
+        protected Factory $view,
+        /**
+         * The CSRF token used by the form builder.
+         */
+        protected ?string $csrfToken,
+        protected ?Request $request = null
+    )
     {
-        $this->url = $url;
-        $this->html = $html;
-        $this->view = $view;
-        $this->csrfToken = $csrfToken;
-        $this->request = $request;
     }
 
     /**

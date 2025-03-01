@@ -69,7 +69,7 @@ trait VerifiesCsrfToken
         if (!$token && $header = Request::header('X-XSRF-TOKEN')) {
             try {
                 $token = Crypt::decrypt($header, static::serialized());
-            } catch (DecryptException $e) {
+            } catch (DecryptException) {
                 $token = '';
             }
         }

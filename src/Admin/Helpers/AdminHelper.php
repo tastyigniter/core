@@ -78,7 +78,7 @@ class AdminHelper
         }
 
         if ($handler = post('_handler')) {
-            return trim($handler);
+            return trim((string) $handler);
         }
 
         return null;

@@ -63,8 +63,6 @@ class CurrencyServiceProvider extends ServiceProvider
 
     protected function registerConverter()
     {
-        $this->app->singleton('currency.converter', function($app): Converter {
-            return new Converter($app);
-        });
+        $this->app->singleton('currency.converter', fn($app): Converter => new Converter($app));
     }
 }

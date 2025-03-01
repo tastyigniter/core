@@ -13,9 +13,9 @@ trait GeneratesHash
      */
     public function generateHash(string $column = 'hash'): string
     {
-        $hash = md5(uniqid(__CLASS__, true));
+        $hash = md5(uniqid(self::class, true));
         while ($this->generatesHashNewQuery()->where($column, $hash)->count() > 0) {
-            $hash = md5(uniqid(__CLASS__, true));
+            $hash = md5(uniqid(self::class, true));
         }
 
         return $hash;

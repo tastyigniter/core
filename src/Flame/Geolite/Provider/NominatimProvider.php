@@ -46,11 +46,9 @@ class NominatimProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function() use ($query, $url): array {
-                return $this->hydrateResponse(
-                    $this->requestUrl($url, $query),
-                );
-            });
+            $result = $this->cacheCallback($url, fn(): array => $this->hydrateResponse(
+                $this->requestUrl($url, $query),
+            ));
         } catch (Throwable $throwable) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
@@ -78,11 +76,9 @@ class NominatimProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function() use ($query, $url): array {
-                return $this->hydrateResponse(
-                    $this->requestUrl($url, $query),
-                );
-            });
+            $result = $this->cacheCallback($url, fn(): array => $this->hydrateResponse(
+                $this->requestUrl($url, $query),
+            ));
         } catch (Throwable $throwable) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',

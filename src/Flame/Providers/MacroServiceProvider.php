@@ -23,8 +23,6 @@ class MacroServiceProvider extends ServiceProvider
 
         Blueprint::mixin(new BlueprintMixin);
 
-        Dispatcher::macro('fire', function($event, $payload = [], $halt = false) {
-            return $this->dispatch($event, $payload, $halt);
-        });
+        Dispatcher::macro('fire', fn($event, $payload = [], $halt = false) => $this->dispatch($event, $payload, $halt));
     }
 }

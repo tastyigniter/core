@@ -97,10 +97,10 @@ class Page extends Model
         $page = self::query()->find($value);
 
         // @phpstan-ignore-next-line
-        throw_unless($page, (new ModelNotFoundException)->setModel(__CLASS__));
+        throw_unless($page, (new ModelNotFoundException)->setModel(self::class));
 
         // @phpstan-ignore-next-line
-        throw_if($page->isHidden && !AdminAuth::check(), (new ModelNotFoundException)->setModel(__CLASS__));
+        throw_if($page->isHidden && !AdminAuth::check(), (new ModelNotFoundException)->setModel(self::class));
 
         return $page;
     }

@@ -43,9 +43,7 @@ it('returns null when exception.beforeRender event has no listeners', function()
 });
 
 it('renders response with exception.beforeRender event', function() {
-    Event::listen('exception.beforeRender', function($request, $exception) {
-        return response('Custom response', 500);
-    });
+    Event::listen('exception.beforeRender', fn($request, $exception) => response('Custom response', 500));
     $handler = resolve(ExceptionHandler::class);
     $exception = new Exception('', 500);
     $request = new Request;
@@ -56,9 +54,7 @@ it('renders response with exception.beforeRender event', function() {
 });
 
 it('returns null when exception.beforeReport event returns false', function() {
-    Event::listen('exception.beforeReport', function($exception): false {
-        return false;
-    });
+    Event::listen('exception.beforeReport', fn($exception): false => false);
     $handler = resolve(ExceptionHandler::class);
     $exception = new Exception('Test exception');
 

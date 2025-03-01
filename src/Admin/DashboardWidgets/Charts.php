@@ -53,7 +53,7 @@ class Charts extends BaseDashboardWidget
                 'default' => 'reports',
                 'type' => 'select',
                 'placeholder' => 'lang:admin::lang.text_please_select',
-                'options' => [$this, 'getDatasetOptions'],
+                'options' => $this->getDatasetOptions(...),
                 'validationRule' => 'required|alpha_dash',
             ],
         ];
@@ -112,9 +112,7 @@ class Charts extends BaseDashboardWidget
 
     public function getDatasetOptions(): array
     {
-        return array_map(function($context) {
-            return array_get($context, 'label');
-        }, $this->listSets());
+        return array_map(fn($context) => array_get($context, 'label'), $this->listSets());
     }
 
     public function addDataset(string $code, array $config = []): static

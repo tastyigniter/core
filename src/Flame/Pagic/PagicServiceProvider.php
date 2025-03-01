@@ -36,24 +36,18 @@ class PagicServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('pagic.resolver', function(): SourceResolver {
-            return new SourceResolver;
-        });
+        $this->app->singleton('pagic.resolver', fn(): SourceResolver => new SourceResolver);
 
         $this->app->singleton(Router::class);
 
-        $this->app->singleton(FileCache::class, function(): FileCache {
-            return new FileCache(config('igniter-pagic.parsedTemplateCachePath'));
-        });
+        $this->app->singleton(FileCache::class, fn(): FileCache => new FileCache(config('igniter-pagic.parsedTemplateCachePath')));
 
         $this->app->alias('pagic', Environment::class);
 
-        $this->app->singleton('pagic', function(): Environment {
-            return new Environment(new Loader, [
-                'debug' => config('app.debug', false),
-                'cache' => new FileCache(config('view.compiled')),
-                'templateClass' => Template::class,
-            ]);
-        });
+        $this->app->singleton('pagic', fn(): Environment => new Environment(new Loader, [
+            'debug' => config('app.debug', false),
+            'cache' => new FileCache(config('view.compiled')),
+            'templateClass' => Template::class,
+        ]));
     }
 }

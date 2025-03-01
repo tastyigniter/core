@@ -14,11 +14,8 @@ use RuntimeException;
  */
 class FilesystemCache implements CacheInterface
 {
-    private $dir;
-
-    public function __construct($dir)
+    public function __construct(private $dir)
     {
-        $this->dir = $dir;
     }
 
     public function has(string $key): bool

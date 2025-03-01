@@ -75,13 +75,9 @@ class ServiceProvider extends AppServiceProvider
     {
         $this->app->singleton(AdminHelper::class);
 
-        $this->app->singleton('admin.menu', function($app): Navigation {
-            return new Navigation;
-        });
+        $this->app->singleton('admin.menu', fn($app): Navigation => new Navigation);
 
-        $this->app->singleton('admin.template', function($app): Template {
-            return new Template;
-        });
+        $this->app->singleton('admin.template', fn($app): Template => new Template);
 
         $this->app->singleton(OnboardingSteps::class);
         $this->app->singleton(Widgets::class);

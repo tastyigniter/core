@@ -11,24 +11,24 @@ class BladeExtension
 {
     public function register(): void
     {
-        Blade::directive('themeStyles', [$this, 'compilesThemeStyles']);
-        Blade::directive('themeScripts', [$this, 'compilesThemeScripts']);
+        Blade::directive('themeStyles', $this->compilesThemeStyles(...));
+        Blade::directive('themeScripts', $this->compilesThemeScripts(...));
 
-        Blade::directive('themePage', [$this, 'compilesThemePage']);
-        Blade::directive('themeContent', [$this, 'compilesThemeContent']);
+        Blade::directive('themePage', $this->compilesThemePage(...));
+        Blade::directive('themeContent', $this->compilesThemeContent(...));
 
-        Blade::directive('themeComponent', [$this, 'compilesThemeComponent']);
-        Blade::directive('themeComponentIf', [$this, 'compilesThemeComponentIf']);
-        Blade::directive('themeComponentWhen', [$this, 'compilesThemeComponentWhen']);
-        Blade::directive('themeComponentUnless', [$this, 'compilesThemeComponentUnless']);
-        Blade::directive('themeComponentFirst', [$this, 'compilesThemeComponentFirst']);
+        Blade::directive('themeComponent', $this->compilesThemeComponent(...));
+        Blade::directive('themeComponentIf', $this->compilesThemeComponentIf(...));
+        Blade::directive('themeComponentWhen', $this->compilesThemeComponentWhen(...));
+        Blade::directive('themeComponentUnless', $this->compilesThemeComponentUnless(...));
+        Blade::directive('themeComponentFirst', $this->compilesThemeComponentFirst(...));
 
-        Blade::directive('themePartial', [$this, 'compilesThemePartial']);
-        Blade::directive('themePartialIf', [$this, 'compilesThemePartialIf']);
-        Blade::directive('themePartialWhen', [$this, 'compilesThemePartialWhen']);
-        Blade::directive('themePartialUnless', [$this, 'compilesThemePartialUnless']);
-        Blade::directive('themePartialFirst', [$this, 'compilesThemePartialFirst']);
-        Blade::directive('themePartialEach', [$this, 'compilesThemePartialEach']);
+        Blade::directive('themePartial', $this->compilesThemePartial(...));
+        Blade::directive('themePartialIf', $this->compilesThemePartialIf(...));
+        Blade::directive('themePartialWhen', $this->compilesThemePartialWhen(...));
+        Blade::directive('themePartialUnless', $this->compilesThemePartialUnless(...));
+        Blade::directive('themePartialFirst', $this->compilesThemePartialFirst(...));
+        Blade::directive('themePartialEach', $this->compilesThemePartialEach(...));
     }
 
     //

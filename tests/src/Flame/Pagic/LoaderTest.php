@@ -39,7 +39,7 @@ it('returns cache key when template source is valid', function() {
 
     expect($this->templateLoader->getCacheKey($source->getFilePath()))->toEndWith('_pages/nested-page.blade.php')
         ->and($this->templateLoader->getCacheKey('tests-theme::_partials.test-partial'))->toEndWith('_partials/test-partial.blade.php')
-        ->and($this->templateLoader->getCacheKey(dirname($source->getFilePath()).'/components.blade.php'))->toEndWith('_pages/components.blade.php');
+        ->and($this->templateLoader->getCacheKey(dirname((string) $source->getFilePath()).'/components.blade.php'))->toEndWith('_pages/components.blade.php');
 });
 
 it('checks when template exists', function() {

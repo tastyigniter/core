@@ -18,9 +18,7 @@ use RuntimeException;
  */
 class HttpAsset extends BaseAsset
 {
-    private string $sourceUrl;
-
-    private bool $ignoreErrors;
+    private readonly string $sourceUrl;
 
     /**
      * Constructor.
@@ -30,7 +28,7 @@ class HttpAsset extends BaseAsset
      *
      * @throws InvalidArgumentException If the first argument is not an URL
      */
-    public function __construct(string $sourceUrl, array $filters = [], bool $ignoreErrors = false, array $vars = [])
+    public function __construct(string $sourceUrl, array $filters = [], private readonly bool $ignoreErrors = false, array $vars = [])
     {
         if (str_starts_with($sourceUrl, '//')) {
             $sourceUrl = 'http:'.$sourceUrl;
@@ -39,7 +37,6 @@ class HttpAsset extends BaseAsset
         }
 
         $this->sourceUrl = $sourceUrl;
-        $this->ignoreErrors = $ignoreErrors;
 
         [$scheme, $url] = explode('://', $sourceUrl, 2);
         [$host, $path] = explode('/', $url, 2);

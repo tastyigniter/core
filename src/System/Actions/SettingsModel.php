@@ -45,7 +45,7 @@ class SettingsModel extends ModelAction
 
         $this->model->timestamps = false;
 
-        $parts = explode('\\', strtolower(get_class($model)));
+        $parts = explode('\\', strtolower($model::class));
         $namespace = implode('.', array_slice($parts, 0, 2));
 
         $this->configPath[] = $namespace.'::models';
@@ -54,11 +54,11 @@ class SettingsModel extends ModelAction
         $this->configPath[] = 'igniter::models/main';
 
         // Access to model's overrides is unavailable, using events instead
-        $this->model->bindEvent('model.afterFetch', [$this, 'afterModelFetch']);
-        $this->model->bindEvent('model.beforeSave', [$this, 'beforeModelSave']);
-        $this->model->bindEvent('model.afterSave', [$this, 'afterModelSave']);
-        $this->model->bindEvent('model.setAttribute', [$this, 'setSettingsValue']);
-        $this->model->bindEvent('model.saveInternal', [$this, 'saveModelInternal']);
+        $this->model->bindEvent('model.afterFetch', $this->afterModelFetch(...));
+        $this->model->bindEvent('model.beforeSave', $this->beforeModelSave(...));
+        $this->model->bindEvent('model.afterSave', $this->afterModelSave(...));
+        $this->model->bindEvent('model.setAttribute', $this->setSettingsValue(...));
+        $this->model->bindEvent('model.saveInternal', $this->saveModelInternal(...));
 
         $this->recordCode = $this->model->settingsCode;
     }

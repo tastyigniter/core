@@ -32,9 +32,7 @@ class OpenExchangeRates extends AbstractConverter
             return [];
         }
 
-        $response = $this->cacheCallback($this->getCacheKey(), function() use ($base, $currencies) {
-            return Http::get(sprintf(self::API_URL, $this->appId, $base, implode(',', $currencies)));
-        });
+        $response = $this->cacheCallback($this->getCacheKey(), fn() => Http::get(sprintf(self::API_URL, $this->appId, $base, implode(',', $currencies))));
 
         if ($response->json('error')) {
             Log::info($response->json('description'));

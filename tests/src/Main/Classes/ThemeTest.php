@@ -117,9 +117,7 @@ it('loads theme file if exists', function() {
 });
 
 it('returns active theme code from event', function() {
-    Event::listen(ThemeGetActiveEvent::class, function(): string {
-        return 'activeThemeCode';
-    });
+    Event::listen(ThemeGetActiveEvent::class, fn(): string => 'activeThemeCode');
     expect(Theme::getActiveCode())->toBe('activeThemeCode');
 });
 

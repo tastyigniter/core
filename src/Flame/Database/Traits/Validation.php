@@ -51,21 +51,17 @@ trait Validation
      */
     public static function bootValidation(): void
     {
-        if (!property_exists(get_called_class(), 'rules')) {
+        if (!property_exists(static::class, 'rules')) {
             throw new LogicException(sprintf(
                 'You must define a $rules property in %s to use the Validation trait.',
-                get_called_class(),
+                static::class,
             ));
         }
 
         static::extend(function($model) {
-            $model->bindEvent('model.beforeSave', function() use ($model) {
-                return $model->performValidation('saving');
-            });
+            $model->bindEvent('model.beforeSave', fn() => $model->performValidation('saving'));
 
-            $model->bindEvent('model.restoring', function() use ($model) {
-                return $model->performValidation('restoring');
-            });
+            $model->bindEvent('model.restoring', fn() => $model->performValidation('restoring'));
         });
     }
 
@@ -103,7 +99,7 @@ trait Validation
      */
     public function getValidationMessages(): array
     {
-        return isset($this->validationMessages) ? $this->validationMessages : [];
+        return $this->validationMessages ?? [];
     }
 
     /**
@@ -111,7 +107,7 @@ trait Validation
      */
     public function getValidationAttributeNames(): array
     {
-        return isset($this->validationAttributeNames) ? $this->validationAttributeNames : [];
+        return $this->validationAttributeNames ?? [];
     }
 
     /**
@@ -258,7 +254,7 @@ trait Validation
      */
     protected function fireValidatingEvents($event)
     {
-        if (Event::until('eloquent.validating: '.get_class($this), [$this, $event]) !== null) {
+        if (Event::until('eloquent.validating: '.$this::class, [$this, $event]) !== null) {
             return true;
         }
 
@@ -281,7 +277,7 @@ trait Validation
      */
     protected function fireValidatedEvents($status)
     {
-        Event::dispatch('eloquent.validated: '.get_class($this), [$this, $status]);
+        Event::dispatch('eloquent.validated: '.$this::class, [$this, $status]);
     }
 
     /**
@@ -308,7 +304,7 @@ trait Validation
                     if ($method = $this->getPrepareRuleMethod($validationRule)) {
                         $ruleset[$key] = call_user_func_array(
                             [$this, $method],
-                            [explode(',', head($parameters) ?: ''), $field],
+                            [explode(',', (string) (head($parameters) ?: '')), $field],
                         );
                     } elseif ($validationRule === 'unique' && $this->exists) {
                         $ruleset[$key] = $this->processValidationUniqueRule($rule, $field);

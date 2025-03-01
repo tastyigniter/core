@@ -33,7 +33,7 @@ trait HasQueryModifier
 
     public function scopeApplyFilters(Builder $builder, array $options = []): Builder
     {
-        $search = trim(array_get($options, 'search', ''));
+        $search = trim((string) array_get($options, 'search', ''));
         if (strlen($search) && $searchableFields = $this->queryModifierSearchableFields) {
             $builder->search($search, $searchableFields);
         }
@@ -52,12 +52,12 @@ trait HasQueryModifier
     public function scopeApplySorts(Builder $builder, array $sorts = []): Builder
     {
         foreach ($sorts as $sort) {
-            if (!str_contains($sort, ' ')) {
+            if (!str_contains((string) $sort, ' ')) {
                 $sort = $sort.' '.$this->queryModifierSortDirection;
             }
 
             if (in_array($sort, $this->queryModifierSorts)) {
-                [$sortField, $sortDirection] = explode(' ', $sort);
+                [$sortField, $sortDirection] = explode(' ', (string) $sort);
                 $builder->orderBy($sortField, $sortDirection);
             }
         }

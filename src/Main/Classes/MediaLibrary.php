@@ -45,7 +45,7 @@ class MediaLibrary
     public function listFolderContents(string $path, string $methodName, bool $recursive = false): ?array
     {
         $cached = Cache::get(self::$cacheKey, false);
-        $cached = $cached ? @unserialize(@base64_decode($cached)) : [];
+        $cached = $cached ? @unserialize(@base64_decode((string) $cached)) : [];
 
         $cacheSuffix = $recursive ? 'recursive' : 'single';
         $cachedKey = sprintf('%s.%s.%s', $cacheSuffix, $methodName, $path);
@@ -153,9 +153,7 @@ class MediaLibrary
 
     public function deleteFiles(string|array $paths): bool
     {
-        return $this->getStorageDisk()->delete(array_map(function($path): string {
-            return $this->getMediaPath($path);
-        }, (array)$paths));
+        return $this->getStorageDisk()->delete(array_map(fn($path): string => $this->getMediaPath($path), (array)$paths));
     }
 
     public function deleteFolder(string $path): bool

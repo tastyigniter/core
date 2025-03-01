@@ -6,8 +6,6 @@ namespace Igniter\Admin\Classes;
 
 class BaseMainMenuWidget extends BaseWidget
 {
-    protected MainMenuItem $menuItem;
-
     /**
      * Constructor
      *
@@ -15,10 +13,8 @@ class BaseMainMenuWidget extends BaseWidget
      * @param $menuItem \Igniter\Admin\Classes\MainMenuItem Object containing general form field information.
      * @param $config array Configuration the relates to this widget.
      */
-    public function __construct(AdminController $controller, MainMenuItem $menuItem, array $config = [])
+    public function __construct(AdminController $controller, protected MainMenuItem $menuItem, array $config = [])
     {
-        $this->menuItem = $menuItem;
-
         $this->config = $this->makeConfig($config);
 
         parent::__construct($controller, $config);

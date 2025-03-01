@@ -69,7 +69,7 @@ class LanguageManager
         }
 
         foreach (File::directories($directory) as $path) {
-            $langDir = basename($path);
+            $langDir = basename((string) $path);
             $paths[$langDir] = $path;
         }
 
@@ -119,9 +119,7 @@ class LanguageManager
         ];
 
         collect($this->listLocalePackages())
-            ->filter(function(stdClass $localePackage) use ($packageCode): bool {
-                return !$packageCode || $localePackage->code === $packageCode;
-            })
+            ->filter(fn(stdClass $localePackage): bool => !$packageCode || $localePackage->code === $packageCode)
             ->each(function(stdClass $localePackage) use ($filter, $result, $model) {
                 collect($localePackage->files)->each(function($filePath) use ($filter, $result, $localePackage, $model) {
                     $filePath = pathinfo($filePath, PATHINFO_FILENAME);
@@ -156,23 +154,17 @@ class LanguageManager
         $translations = $model->translations()
             ->get()
             // @phpstan-ignore-next-line
-            ->groupBy(function(Translation $translation): string {
-                return sprintf('%s::%s', $translation->namespace, $translation->group);
-            })
-            ->map(function(Collection $translations, string $group): array {
-                return [
-                    'name' => $group,
-                    'strings' => $translations
-                        // @phpstan-ignore-next-line
-                        ->map(function(Translation $translation): array {
-                            return [
-                                'key' => $translation->item,
-                                'value' => $translation->text,
-                            ];
-                        })
-                        ->all(),
-                ];
-            })
+            ->groupBy(fn(Translation $translation): string => sprintf('%s::%s', $translation->namespace, $translation->group))
+            ->map(fn(Collection $translations, string $group): array => [
+                'name' => $group,
+                'strings' => $translations
+                    // @phpstan-ignore-next-line
+                    ->map(fn(Translation $translation): array => [
+                        'key' => $translation->item,
+                        'value' => $translation->text,
+                    ])
+                    ->all(),
+            ])
             ->all();
 
         return $this->hubManager->publishTranslations($model->code, $translations);
@@ -195,7 +187,7 @@ class LanguageManager
 
             $result[sprintf('%s.%s', $localeGroup, $key)] = [
                 'source' => $sourceLine,
-                'translation' => (strcmp($sourceLine, $translationLine) === 0) ? '' : $translationLine,
+                'translation' => (strcmp((string) $sourceLine, (string) $translationLine) === 0) ? '' : $translationLine,
             ];
         }
 
@@ -205,10 +197,10 @@ class LanguageManager
     protected function searchTranslations(array $translations, ?string $term = null): array
     {
         $result = [];
-        $term = strtolower($term);
+        $term = strtolower((string) $term);
         foreach ($translations as $key => $value) {
-            if (stripos(strtolower(array_get($value, 'source')), $term) !== false
-                || stripos(strtolower(array_get($value, 'translation')), $term) !== false
+            if (stripos(strtolower((string) array_get($value, 'source')), $term) !== false
+                || stripos(strtolower((string) array_get($value, 'translation')), $term) !== false
                 || stripos(strtolower($key), $term) !== false) {
                 $result[$key] = $value;
             }

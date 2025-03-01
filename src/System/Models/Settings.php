@@ -149,13 +149,11 @@ class Settings extends Model
 
     public static function set(string|array $key, mixed $value = null, string $group = 'config'): bool
     {
-        $data = collect(is_array($key) ? $key : [$key => $value])->map(function($value, $key) use ($group): array {
-            return [
-                'sort' => $group,
-                'item' => $key,
-                'value' => is_array($value) ? serialize($value) : $value,
-            ];
-        })->values()->all();
+        $data = collect(is_array($key) ? $key : [$key => $value])->map(fn($value, $key): array => [
+            'sort' => $group,
+            'item' => $key,
+            'value' => is_array($value) ? serialize($value) : $value,
+        ])->values()->all();
 
         (new Settings)->resetFieldValues();
 
@@ -237,9 +235,7 @@ class Settings extends Model
             $this->registerSettingItems($code, $extension->registerSettings());
         }
 
-        usort($this->items, function($a, $b): int|float {
-            return $a->priority - $b->priority;
-        });
+        usort($this->items, fn($a, $b): int|float => $a->priority - $b->priority);
 
         $allItems = [];
         $catItems = ['core' => [], 'extensions' => []];
@@ -348,9 +344,7 @@ class Settings extends Model
             ];
         }
 
-        usort($tempTimezones, function(array $a, array $b): int {
-            return ($a['offset'] === $b['offset']) ? strcmp($a['identifier'], $b['identifier']) : $a['offset'] - $b['offset'];
-        });
+        usort($tempTimezones, fn(array $a, array $b): int => ($a['offset'] === $b['offset']) ? strcmp($a['identifier'], $b['identifier']) : $a['offset'] - $b['offset']);
 
         $timezoneList = [];
         foreach ($tempTimezones as $tz) {

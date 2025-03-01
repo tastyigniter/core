@@ -121,9 +121,7 @@ class MemoryCache
     {
         // First we will cast all bindings to string, so we can ensure the same
         // hash format regardless of the binding type provided by the user.
-        $bindings = array_map(function($binding): string {
-            return (string)$binding;
-        }, $query->getBindings());
+        $bindings = array_map(fn($binding): string => (string)$binding, $query->getBindings());
 
         /** @var Connection $connection */
         $connection = $query->getConnection();

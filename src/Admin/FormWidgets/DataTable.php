@@ -209,8 +209,8 @@ class DataTable extends BaseFormWidget
         /** @var Table $table */
         $table = $this->makeWidget(Table::class, $config);
 
-        $table->bindEvent('table.getRecords', [$this, 'getDataTableRecords']);
-        $table->bindEvent('table.getDropdownOptions', [$this, 'getDataTableOptions']);
+        $table->bindEvent('table.getRecords', $this->getDataTableRecords(...));
+        $table->bindEvent('table.getDropdownOptions', $this->getDataTableOptions(...));
 
         return $table;
     }

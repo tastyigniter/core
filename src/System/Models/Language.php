@@ -154,9 +154,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     public function getGroupOptions(?string $locale = null)
     {
         return collect(resolve(LanguageManager::class)->listLocalePackages($locale))
-            ->mapWithKeys(function($localePackage) {
-                return [$localePackage->code => $localePackage->name];
-            });
+            ->mapWithKeys(fn($localePackage) => [$localePackage->code => $localePackage->name]);
     }
 
     public function getLines(string $locale, string $group, ?string $namespace = null): array

@@ -207,9 +207,7 @@ trait CombinesAssets
 
     protected function prepareAssets(array $assets): array
     {
-        $assets = array_map(function($path) {
-            return $this->getAssetPath($path);
-        }, $assets);
+        $assets = array_map(fn($path) => $this->getAssetPath($path), $assets);
 
         return array_filter($assets);
     }
@@ -238,9 +236,9 @@ trait CombinesAssets
                     continue;
                 }
 
-                $source = str_starts_with($path, public_path())
+                $source = str_starts_with((string) $path, public_path())
                     ? public_path()
-                    : dirname($path);
+                    : dirname((string) $path);
 
                 $asset = new FileAsset($path, $filters, $source);
             }
@@ -339,7 +337,7 @@ trait CombinesAssets
 
         if (is_null($destination)) {
             $file = File::name($firstFile);
-            $path = dirname($firstFile);
+            $path = dirname((string) $firstFile);
 
             if ($extension !== 'js') {
                 $cssPath = $path.'/../css';
@@ -411,7 +409,7 @@ trait CombinesAssets
             return false;
         }
 
-        return @unserialize(@base64_decode(Cache::get($this->cacheKeyPrefix.$cacheKey)));
+        return @unserialize(@base64_decode((string) Cache::get($this->cacheKeyPrefix.$cacheKey)));
     }
 
     protected function putCache(string $cacheKey, array $cacheData): bool

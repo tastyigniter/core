@@ -249,7 +249,7 @@ class Filter extends BaseWidget
 
             if (!$model->methodExists($methodName)) {
                 throw new SystemException(sprintf(lang('igniter::admin.list.filter_missing_definitions'),
-                    get_class($model), $methodName, $scope->scopeName,
+                    $model::class, $methodName, $scope->scopeName,
                 ));
             }
 
@@ -427,9 +427,7 @@ class Filter extends BaseWidget
                     }
 
                     if (is_array($value)) {
-                        $filtered = implode(',', array_map(function($key): string {
-                            return DB::getPdo()->quote($key);
-                        }, $value));
+                        $filtered = implode(',', array_map(fn($key): string => DB::getPdo()->quote($key), $value));
                     } else {
                         $filtered = DB::getPdo()->quote($value);
                     }

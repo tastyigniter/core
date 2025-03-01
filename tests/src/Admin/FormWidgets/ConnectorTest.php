@@ -113,12 +113,10 @@ it('returns processed save value when sortable', function() {
 
     $result = $this->connectorWidget->getSaveValue([]);
 
-    expect($result)->toBe($statuses->map(function($status, $index): array {
-        return [
-            'status_id' => $status->getKey(),
-            'priority' => $index,
-        ];
-    })->all());
+    expect($result)->toBe($statuses->map(fn($status, $index): array => [
+        'status_id' => $status->getKey(),
+        'priority' => $index,
+    ])->all());
 });
 
 it('returns empty results when no sortable field', function() {

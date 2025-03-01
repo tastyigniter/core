@@ -220,9 +220,7 @@ class Builder extends IlluminateQueryBuilder
      */
     protected function getCacheCallback($columns)
     {
-        return function() use ($columns) {
-            return parent::get($columns)->all();
-        };
+        return fn() => parent::get($columns)->all();
     }
 
     /**

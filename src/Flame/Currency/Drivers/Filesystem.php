@@ -66,7 +66,7 @@ class Filesystem extends AbstractDriver
             ? $this->filesystem->get($path)
             : '{}';
 
-        return json_decode($contents, true);
+        return json_decode((string) $contents, true);
     }
 
     public function find(string $code, ?int $active = 1): mixed

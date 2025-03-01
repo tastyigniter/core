@@ -31,7 +31,7 @@ class UrlServiceProvider extends ServiceProvider
     {
         $policy = $this->app['config']->get('igniter-system.urlPolicy', 'detect');
 
-        switch (strtolower($policy)) {
+        switch (strtolower((string) $policy)) {
             case 'force':
                 $appUrl = $this->app['config']->get('app.url');
                 $schema = Str::startsWith($appUrl, 'http://') ? 'http' : 'https';

@@ -13,7 +13,7 @@ class AssetController extends Controller
 {
     public function __invoke(Request $request, ?string $asset = null): Response
     {
-        $parts = explode('-', $asset);
+        $parts = explode('-', (string) $asset);
         $cacheKey = $parts[0];
 
         return Assets::combineGetContents($cacheKey);

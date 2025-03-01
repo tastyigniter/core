@@ -18,12 +18,9 @@ use Throwable;
 
 class GoogleProvider extends AbstractProvider
 {
-    protected array $config = [];
-
-    public function __construct(HttpClient $client, array $config)
+    public function __construct(HttpClient $client, protected array $config)
     {
         $this->httpClient = $client;
-        $this->config = $config;
     }
 
     public function getName(): string
@@ -41,9 +38,7 @@ class GoogleProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function() use ($query, $url): array {
-                return $this->hydrateResponse($this->requestGeocodingUrl($url, $query), $query->getLimit());
-            });
+            $result = $this->cacheCallback($url, fn(): array => $this->hydrateResponse($this->requestGeocodingUrl($url, $query), $query->getLimit()));
         } catch (Throwable $throwable) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
@@ -67,9 +62,7 @@ class GoogleProvider extends AbstractProvider
         $result = [];
 
         try {
-            $result = $this->cacheCallback($url, function() use ($query, $url): array {
-                return $this->hydrateResponse($this->requestGeocodingUrl($url, $query), $query->getLimit());
-            });
+            $result = $this->cacheCallback($url, fn(): array => $this->hydrateResponse($this->requestGeocodingUrl($url, $query), $query->getLimit()));
         } catch (Throwable $throwable) {
             $this->log(sprintf(
                 'Provider "%s" could not geocode address, "%s".',
@@ -241,11 +234,11 @@ class GoogleProvider extends AbstractProvider
     protected function prependReverseQuery(GeoQueryInterface $query, string $url): string
     {
         if ($locationType = $query->getData('location_type')) {
-            $url .= '&location_type='.urlencode($locationType);
+            $url .= '&location_type='.urlencode((string) $locationType);
         }
 
         if ($resultType = $query->getData('result_type')) {
-            $url .= '&result_type='.urlencode($resultType);
+            $url .= '&result_type='.urlencode((string) $resultType);
         }
 
         return $url;
@@ -254,15 +247,15 @@ class GoogleProvider extends AbstractProvider
     protected function prependDistanceQuery(DistanceInterface $distance, string $url): string
     {
         if ($mode = $distance->getData('mode')) {
-            $url .= '&mode='.urlencode($mode);
+            $url .= '&mode='.urlencode((string) $mode);
         }
 
         if ($region = $distance->getData('region', array_get($this->config, 'region'))) {
-            $url .= '&region='.urlencode($region);
+            $url .= '&region='.urlencode((string) $region);
         }
 
         if ($language = $distance->getData('language', array_get($this->config, 'locale'))) {
-            $url .= '&language='.urlencode($language);
+            $url .= '&language='.urlencode((string) $language);
         }
 
         $units = $distance->getUnit();
@@ -272,7 +265,7 @@ class GoogleProvider extends AbstractProvider
         }
 
         if ($avoid = $distance->getData('avoid')) {
-            $url .= '&avoid='.urlencode($avoid);
+            $url .= '&avoid='.urlencode((string) $avoid);
         }
 
         if ($departureTime = $distance->getData('departure_time')) {
@@ -392,8 +385,6 @@ class GoogleProvider extends AbstractProvider
             return $components;
         }
 
-        return implode('|', array_map(function($name, $value): string {
-            return sprintf('%s:%s', $name, $value);
-        }, array_keys($components), $components));
+        return implode('|', array_map(fn($name, $value): string => sprintf('%s:%s', $name, $value), array_keys($components), $components));
     }
 }

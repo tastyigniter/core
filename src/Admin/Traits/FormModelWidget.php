@@ -41,7 +41,7 @@ trait FormModelWidget
 
         /** @var Model $result */
         throw_unless($result = $query->find($recordId),
-            new FlashException(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model))),
+            new FlashException(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, $model::class)),
         );
 
         return $result;

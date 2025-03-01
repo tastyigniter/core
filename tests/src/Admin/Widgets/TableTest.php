@@ -141,9 +141,7 @@ it('handles onGetRecords action correctly', function() {
         'limit' => 'limit',
     ]);
 
-    $this->tableWidget->bindEvent('table.getRecords', function() {
-        return Status::paginate(10);
-    });
+    $this->tableWidget->bindEvent('table.getRecords', fn() => Status::paginate(10));
 
     expect($this->tableWidget->onGetRecords())
         ->toBeArray()
@@ -157,13 +155,9 @@ it('handles onGetDropdownOptions action correctly', function() {
         'rowData' => [],
     ]);
 
-    $this->tableWidget->bindEvent('table.getDropdownOptions', function() {
-        return Status::getDropdownOptionsForOrder();
-    });
+    $this->tableWidget->bindEvent('table.getDropdownOptions', fn() => Status::getDropdownOptionsForOrder());
 
-    $this->tableWidget->bindEvent('table.getDropdownOptions', function() {
-        return Status::getDropdownOptionsForReservation();
-    });
+    $this->tableWidget->bindEvent('table.getDropdownOptions', fn() => Status::getDropdownOptionsForReservation());
 
     $options = $this->tableWidget->onGetDropdownOptions();
     expect($options)->toBeArray()->toHaveKey('options')

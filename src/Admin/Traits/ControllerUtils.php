@@ -47,7 +47,7 @@ trait ControllerUtils
         }
 
         throw_if(in_array(strtolower($action), array_map('strtolower', $this->hiddenActions)),
-            new FlashException(sprintf('Method [%s] is not allowed in the controller [%s]', $action, get_class($this))),
+            new FlashException(sprintf('Method [%s] is not allowed in the controller [%s]', $action, $this::class)),
         );
 
         if (method_exists($this, $action)) {
@@ -68,7 +68,7 @@ trait ControllerUtils
         }
 
         throw_unless($this->checkAction($method), new FlashException(
-            sprintf('Method [%s] is not found in the controller [%s]', $method, get_class($this)),
+            sprintf('Method [%s] is not found in the controller [%s]', $method, $this::class),
         ));
 
         if (method_exists($this, 'remap')) {
@@ -80,7 +80,7 @@ trait ControllerUtils
 
     public function getClass(): string
     {
-        return get_class($this);
+        return $this::class;
     }
 
     public function getAction(): string

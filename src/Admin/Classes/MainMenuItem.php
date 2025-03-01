@@ -23,19 +23,9 @@ class MainMenuItem
     protected const WIDGET_TYPE = 'widget';
 
     /**
-     * @var ?string Item name.
-     */
-    public ?string $itemName = null;
-
-    /**
      * @var ?string A prefix to the field identifier so it can be totally unique.
      */
     public ?string $idPrefix = null;
-
-    /**
-     * @var ?string Menu item label.
-     */
-    public ?string $label = null;
 
     /**
      * @var ?string Menu item anchor.
@@ -85,10 +75,17 @@ class MainMenuItem
 
     public array $config = [];
 
-    final public function __construct(string $itemName, ?string $label = null)
+    final public function __construct(
+        /**
+         * @var ?string Item name.
+         */
+        public ?string $itemName,
+        /**
+         * @var ?string Menu item label.
+         */
+        public ?string $label = null
+    )
     {
-        $this->itemName = $itemName;
-        $this->label = $label;
     }
 
     public static function make(string $name, ?string $type = null, array $config = []): static
@@ -228,7 +225,7 @@ class MainMenuItem
 
         foreach ($attributes as $key => $value) {
             if ($key == 'href') {
-                $value = preg_match('#^(\w+:)?//#i', $value) ? $value : admin_url($value);
+                $value = preg_match('#^(\w+:)?//#i', (string) $value) ? $value : admin_url($value);
             }
 
             $attributes[$key] = is_lang_key($value) ? lang($value) : $value;

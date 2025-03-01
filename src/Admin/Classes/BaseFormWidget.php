@@ -29,12 +29,6 @@ class BaseFormWidget extends BaseWidget
     /** Determines if this form field should display comments and labels. */
     public bool $showLabels = true;
 
-    //
-    // Object properties
-    //
-
-    protected FormField $formField;
-
     protected string $fieldName;
 
     protected ?string $valueFrom = null;
@@ -46,11 +40,10 @@ class BaseFormWidget extends BaseWidget
      * @param $formField \Igniter\Admin\Classes\FormField Object containing general form field information.
      * @param $configuration array Configuration the relates to this widget.
      */
-    public function __construct(AdminController $controller, FormField $formField, array $configuration = [])
+    public function __construct(AdminController $controller, protected FormField $formField, array $configuration = [])
     {
-        $this->formField = $formField;
-        $this->fieldName = $formField->fieldName;
-        $this->valueFrom = $formField->valueFrom;
+        $this->fieldName = $this->formField->fieldName;
+        $this->valueFrom = $this->formField->valueFrom;
 
         $this->config = $this->makeConfig($configuration);
 

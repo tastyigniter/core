@@ -551,9 +551,7 @@ class Finder
 
     protected function getCacheCallback(array $columns): callable
     {
-        return function() use ($columns): array {
-            return $this->processInitCacheData($this->getFresh($columns));
-        };
+        return fn(): array => $this->processInitCacheData($this->getFresh($columns));
     }
 
     /**
@@ -562,7 +560,7 @@ class Finder
     protected function processInitCacheData(array $data): array
     {
         if (!empty($data)) {
-            $model = get_class($this->model);
+            $model = $this->model::class;
 
             foreach ($data as &$record) {
                 $model::initCacheItem($record);
@@ -582,7 +580,7 @@ class Finder
 
     public function __call(string $method, ?array $parameters): mixed
     {
-        $className = get_class($this);
+        $className = static::class;
 
         throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', $className, $method));
     }

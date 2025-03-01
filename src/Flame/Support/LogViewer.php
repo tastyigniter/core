@@ -145,7 +145,7 @@ class LogViewer
 
                         $log[] = [
                             'context' => $current[2],
-                            'level' => strtoupper($level),
+                            'level' => strtoupper((string) $level),
                             'class' => self::$levelClasses[$level],
                             'icon' => self::$levelIcons[$level],
                             'date' => $current[1],

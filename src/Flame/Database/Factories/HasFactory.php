@@ -9,13 +9,12 @@ trait HasFactory
     /**
      * Get a new factory instance for the model.
      *
-     * @param mixed $parameters
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public static function factory(...$parameters)
+    public static function factory(mixed ...$parameters)
     {
         // @phpstan-ignore-next-line
-        $factory = static::newFactory() ?: Factory::factoryForModel(get_called_class());
+        $factory = static::newFactory() ?: Factory::factoryForModel(static::class);
 
         return $factory
             ->count(is_numeric($parameters[0] ?? null) ? $parameters[0] : null)

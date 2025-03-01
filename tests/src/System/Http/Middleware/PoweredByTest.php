@@ -13,9 +13,7 @@ it('adds X-Powered-By header when config is enabled', function() {
     $middleware = new PoweredBy;
     $request = new Request;
     $response = new Response;
-    $next = function($req) use ($response): Response {
-        return $response;
-    };
+    $next = fn($req): Response => $response;
 
     $result = $middleware->handle($request, $next);
 
@@ -27,9 +25,7 @@ it('does not add X-Powered-By header when config is disabled', function() {
     $middleware = new PoweredBy;
     $request = new Request;
     $response = new Response;
-    $next = function($req) use ($response): Response {
-        return $response;
-    };
+    $next = fn($req): Response => $response;
 
     $result = $middleware->handle($request, $next);
 
@@ -41,9 +37,7 @@ it('does not add X-Powered-By header for non-Response instance', function() {
     $middleware = new PoweredBy;
     $request = new Request;
     $response = new \Symfony\Component\HttpFoundation\Response;
-    $next = function($req) use ($response): \Symfony\Component\HttpFoundation\Response {
-        return $response;
-    };
+    $next = fn($req): \Symfony\Component\HttpFoundation\Response => $response;
 
     $result = $middleware->handle($request, $next);
 

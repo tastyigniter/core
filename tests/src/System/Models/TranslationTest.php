@@ -69,9 +69,7 @@ it('retrieves cached translations', function() {
     ]);
     $translation->save();
 
-    Cache::shouldReceive('rememberForever')->withArgs(function($cacheKey, $callback): bool {
-        return !empty($callback());
-    })->andReturn([]);
+    Cache::shouldReceive('rememberForever')->withArgs(fn($cacheKey, $callback): bool => !empty($callback()))->andReturn([]);
     $translations = Translation::getCached('en', 'messages', 'namespace');
     expect($translations)->toBe([]);
 });

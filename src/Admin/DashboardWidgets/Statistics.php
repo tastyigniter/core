@@ -69,9 +69,7 @@ class Statistics extends BaseDashboardWidget
 
     protected function getCardOptions(): array
     {
-        return array_map(function($context) {
-            return array_get($context, 'label');
-        }, $this->listCards());
+        return array_map(fn($context) => array_get($context, 'label'), $this->listCards());
     }
 
     protected function prepareVars()

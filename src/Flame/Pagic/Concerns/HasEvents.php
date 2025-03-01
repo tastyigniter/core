@@ -30,7 +30,7 @@ trait HasEvents
     {
         $instance = new static;
 
-        $className = is_string($class) ? $class : get_class($class);
+        $className = is_string($class) ? $class : $class::class;
 
         // When registering a model observer, we will spin through the possible events
         // and determine if this observer has that method. If it does, we will hook
@@ -106,7 +106,7 @@ trait HasEvents
      */
     protected function bootNicerEvents()
     {
-        $class = get_called_class();
+        $class = static::class;
 
         if (isset(static::$eventsBooted[$class])) {
             return;

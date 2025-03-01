@@ -145,7 +145,7 @@ trait ExtendsEloquentBuilder
                 }
             }, null, null, $boolean);
         } else {
-            $words = explode(' ', $term);
+            $words = explode(' ', (string) $term);
             $wordBoolean = $mode === 'any' ? 'or' : 'and';
 
             $this->where(function($query) use ($columns, $words, $wordBoolean) {
@@ -167,7 +167,7 @@ trait ExtendsEloquentBuilder
     protected function likeInternal($column, $value, $side = null, $boolean = 'and')
     {
         $column = $this->toBase()->raw(sprintf('lower(%s)', $column));
-        $value = mb_strtolower(trim($value));
+        $value = mb_strtolower(trim((string) $value));
 
         if ($side !== 'none') {
             if ($side === 'before') {

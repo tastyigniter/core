@@ -28,10 +28,8 @@ abstract class AppServiceProvider extends ServiceProvider
 
     protected function tapSingleton($className)
     {
-        $this->app->singleton($className, function() use ($className) {
-            return tap(new $className, function($manager) {
-                $manager->initialize();
-            });
-        });
+        $this->app->singleton($className, fn() => tap(new $className, function($manager) {
+            $manager->initialize();
+        }));
     }
 }

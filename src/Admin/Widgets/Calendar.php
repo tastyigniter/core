@@ -91,7 +91,7 @@ class Calendar extends BaseWidget
     public function renderPopoverPartial(): mixed
     {
         if (!$this->popoverPartial) {
-            throw new SystemException(sprintf(lang('igniter::admin.calendar.missing_partial'), get_class($this->controller)));
+            throw new SystemException(sprintf(lang('igniter::admin.calendar.missing_partial'), $this->controller::class));
         }
 
         return $this->makePartial($this->popoverPartial);

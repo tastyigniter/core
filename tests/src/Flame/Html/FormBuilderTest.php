@@ -120,9 +120,7 @@ it('returns null when old input is empty and value is null', function() {
 });
 
 it('calls macro method if it exists', function() {
-    FormBuilder::macro('customMacro', function(): string {
-        return 'macro result';
-    });
+    FormBuilder::macro('customMacro', fn(): string => 'macro result');
 
     $formBuilder = new FormBuilder(new HtmlBuilder, url(), view(), 'csrfToken');
     $result = $formBuilder->customMacro();

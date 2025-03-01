@@ -244,7 +244,7 @@ class ThemeManager
 
         foreach ($directories as $directory) {
             foreach (File::glob($directory.'/*/theme.json') as $path) {
-                $paths[] = dirname($path);
+                $paths[] = dirname((string) $path);
             }
         }
 
@@ -335,7 +335,7 @@ class ThemeManager
     {
         $path = $this->findPath($themeCode);
 
-        $themePath = rtrim($path, '/');
+        $themePath = rtrim((string) $path, '/');
         if (is_null($base)) {
             $base = ['/'];
         } elseif (!is_array($base)) {
@@ -361,7 +361,7 @@ class ThemeManager
 
         [$dirName, $fileName] = $this->getFileNameParts($filePath);
 
-        if (!strlen($fileName) || !$template = $theme->onTemplate($dirName)->find($fileName)) {
+        if (!strlen((string) $fileName) || !$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException('Theme template file not found: '.$filePath);
         }
 

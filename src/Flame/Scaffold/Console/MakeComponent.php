@@ -59,12 +59,12 @@ class MakeComponent extends GeneratorCommand
 
         $this->vars = [
             'extension' => $extension,
-            'lower_extension' => strtolower($extension),
+            'lower_extension' => strtolower((string) $extension),
             'title_extension' => title_case($extension),
             'studly_extension' => studly_case($extension),
 
             'author' => $author,
-            'lower_author' => strtolower($author),
+            'lower_author' => strtolower((string) $author),
             'title_author' => title_case($author),
             'studly_author' => studly_case($author),
 

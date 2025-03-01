@@ -31,7 +31,7 @@ abstract class BaseExtension extends EventServiceProvider
 
     public function bootingExtension()
     {
-        $reflector = new ReflectionClass(get_class($this));
+        $reflector = new ReflectionClass(static::class);
 
         $config = SystemHelper::extensionValidateConfig($this->extensionMeta());
 
@@ -54,9 +54,7 @@ abstract class BaseExtension extends EventServiceProvider
         }
 
         if ($this->disabled) {
-            $this->app->bindMethod(static::class.'@boot', function(): null {
-                return null;
-            });
+            $this->app->bindMethod(static::class.'@boot', fn(): null => null);
 
             return null;
         }
@@ -95,7 +93,7 @@ abstract class BaseExtension extends EventServiceProvider
             return $this->config;
         }
 
-        return $this->config = SystemHelper::extensionConfigFromFile(dirname(File::fromClass(get_class($this))));
+        return $this->config = SystemHelper::extensionConfigFromFile(dirname(File::fromClass(static::class)));
     }
 
     /**

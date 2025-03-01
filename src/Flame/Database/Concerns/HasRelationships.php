@@ -183,13 +183,13 @@ trait HasRelationships
 
         if (is_null($relationType) || (!isset($relation[0]) && $relationType != 'morphTo')) {
             throw new InvalidArgumentException(sprintf(
-                "Relation '%s' on model '%s' should have at least a classname.", $relationName, get_called_class(),
+                "Relation '%s' on model '%s' should have at least a classname.", $relationName, static::class,
             ));
         }
 
         if (isset($relation[0]) && $relationType == 'morphTo') {
             throw new InvalidArgumentException(sprintf(
-                "Relation '%s' on model '%s' is a morphTo relation and should not contain additional arguments.", $relationName, get_called_class(),
+                "Relation '%s' on model '%s' is a morphTo relation and should not contain additional arguments.", $relationName, static::class,
             ));
         }
 
@@ -235,7 +235,7 @@ trait HasRelationships
         if (!empty($missingRequired)) {
             throw new InvalidArgumentException(sprintf('Relation "%s" on model "%s" should contain the following key(s): %s',
                 $relationName,
-                get_called_class(),
+                static::class,
                 implode(', ', $missingRequired),
             ));
         }
@@ -610,7 +610,7 @@ trait HasRelationships
         $relatedPivotKey = $relatedPivotKey ?: $instance->getForeignKey();
 
         if (!$table) {
-            $words = preg_split('/(_)/u', $name, -1, PREG_SPLIT_DELIM_CAPTURE);
+            $words = preg_split('/(_)/u', (string) $name, -1, PREG_SPLIT_DELIM_CAPTURE);
 
             $lastWord = array_pop($words);
 

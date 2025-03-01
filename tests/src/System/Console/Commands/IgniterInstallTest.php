@@ -57,15 +57,9 @@ function setupInstallation(): IgniterInstall|MockInterface
     $installCommand->shouldReceive('confirm')->withSomeOfArgs('Install demo data?')->andReturn(true);
     $installCommand->shouldReceive('call')->with('igniter:up', ['--force' => true]);
     $installCommand->shouldReceive('ask')->with('Admin Name', 'Chef Admin')->andReturn('Chef Admin');
-    $output->shouldReceive('ask')->withArgs(function($name, $value, $callback): bool {
-        return $name === 'Admin Email' && $callback($value);
-    })->andReturn('admin@domain.tld');
-    $output->shouldReceive('ask')->withArgs(function($name, $value, $callback): bool {
-        return $name === 'Admin Password' && $callback($value);
-    })->andReturn('123456');
-    $output->shouldReceive('ask')->withArgs(function($name, $value, $callback): bool {
-        return $name === 'Admin Username' && $callback($value);
-    })->andReturn('admin');
+    $output->shouldReceive('ask')->withArgs(fn($name, $value, $callback): bool => $name === 'Admin Email' && $callback($value))->andReturn('admin@domain.tld');
+    $output->shouldReceive('ask')->withArgs(fn($name, $value, $callback): bool => $name === 'Admin Password' && $callback($value))->andReturn('123456');
+    $output->shouldReceive('ask')->withArgs(fn($name, $value, $callback): bool => $name === 'Admin Username' && $callback($value))->andReturn('admin');
     $installCommand->shouldReceive('line')->with('Admin user admin created!');
     $installCommand->shouldReceive('call')->with('storage:link')->once();
     $installCommand->shouldReceive('call')->with('igniter:theme-vendor-publish');

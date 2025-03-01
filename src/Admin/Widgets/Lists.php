@@ -420,7 +420,7 @@ class Lists extends BaseWidget
     protected function defineListColumns(): array
     {
         if ($this->columns === []) {
-            throw new SystemException(sprintf(lang('igniter::admin.list.missing_column'), get_class($this->controller)));
+            throw new SystemException(sprintf(lang('igniter::admin.list.missing_column'), $this->controller::class));
         }
 
         $this->addColumns($this->columns);
@@ -594,10 +594,10 @@ class Lists extends BaseWidget
             $result['title'] = e(lang($result['title']));
         }
 
-        $result['class'] = $result['class'] ?? null;
+        $result['class'] ??= null;
 
         foreach ($result as $key => $value) {
-            if ($key == 'href' && !preg_match('#^(\w+:)?//#', $value)) {
+            if ($key == 'href' && !preg_match('#^(\w+:)?//#', (string) $value)) {
                 $result[$key] = $this->controller->pageUrl($value);
             } elseif (is_string($value)) {
                 $result[$key] = lang($value);
@@ -873,7 +873,7 @@ class Lists extends BaseWidget
         // Toggle the sort direction and set the sorting column
         $sortOptions = [$this->getSortColumn(), $this->sortDirection];
 
-        if ($column != $sortOptions[0] || strtolower($sortOptions[1]) === 'asc') {
+        if ($column != $sortOptions[0] || strtolower((string) $sortOptions[1]) === 'asc') {
             $this->sortDirection = $sortOptions[1] = 'desc';
         } else {
             $this->sortDirection = $sortOptions[1] = 'asc';
@@ -917,9 +917,7 @@ class Lists extends BaseWidget
         // First available column
         if ($this->sortColumn === null || !$this->isSortable($this->sortColumn)) {
             $columns = $this->visibleColumns ?: $this->getVisibleColumns();
-            $columns = array_filter($columns, function($column): bool {
-                return $column->sortable && $column->type != 'button';
-            });
+            $columns = array_filter($columns, fn($column): bool => $column->sortable && $column->type != 'button');
             $this->sortColumn = key($columns);
             $this->sortDirection = 'desc';
         }
@@ -949,9 +947,7 @@ class Lists extends BaseWidget
         }
 
         $columns = $this->getColumns();
-        $sortable = array_filter($columns, function($column) {
-            return $column->sortable;
-        });
+        $sortable = array_filter($columns, fn($column) => $column->sortable);
 
         return $this->sortableColumns = $sortable;
     }
@@ -1040,7 +1036,7 @@ class Lists extends BaseWidget
             throw new FlashException(lang('igniter::admin.list.missing_action_code'));
         }
 
-        $parts = explode('.', $code);
+        $parts = explode('.', (string) $code);
         $actionCode = array_shift($parts);
         if (!$bulkAction = array_get($this->getAvailableBulkActions(), $actionCode)) {
             throw new FlashException(sprintf(lang('igniter::admin.list.action_not_found'), $actionCode));

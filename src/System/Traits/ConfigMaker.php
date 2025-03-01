@@ -50,7 +50,7 @@ trait ConfigMaker
 
             if (!File::isFile($configFile)) {
                 throw new SystemException(sprintf(
-                    Lang::get('igniter::system.not_found.config'), $configFile, get_called_class(),
+                    Lang::get('igniter::system.not_found.config'), $configFile, static::class,
                 ));
             }
 
@@ -61,7 +61,7 @@ trait ConfigMaker
         foreach ($requiredConfig as $property) {
             if (!is_array($config) || !array_key_exists($property, $config)) {
                 throw new SystemException(sprintf(
-                    Lang::get('igniter::system.required.config'), get_called_class(), $property,
+                    Lang::get('igniter::system.required.config'), static::class, $property,
                 ));
             }
         }

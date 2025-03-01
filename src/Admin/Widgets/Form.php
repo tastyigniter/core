@@ -38,7 +38,7 @@ class Form extends BaseWidget
     public ?string $activeTab = null;
 
     /** Form model object. */
-    public mixed $model = null;
+    public null|object $model = null;
 
     /** Dataset containing field values, if none supplied, model is used. */
     public mixed $data = null;
@@ -151,7 +151,7 @@ class Form extends BaseWidget
 
         // Determine the partial to use based on the supplied section option
         if ($section = $options['section']) {
-            $section = strtolower($section);
+            $section = strtolower((string)$section);
 
             if (isset($this->allTabs[$section])) {
                 $extraVars['tabs'] = $this->allTabs[$section];
@@ -467,9 +467,7 @@ class Form extends BaseWidget
 
         // If options config is defined, request options from the model.
         if (isset($field->config['options'])) {
-            $field->options(function() use ($field) {
-                return $this->getOptionsFromModel($field, $field->config['options']);
-            });
+            $field->options(fn() => $this->getOptionsFromModel($field, $field->config['options']));
         }
 
         return $this->formWidgets[$field->fieldName] = $widget;
@@ -689,9 +687,9 @@ class Form extends BaseWidget
      */
     protected function validateModel(): mixed
     {
-        if (!$this->model) {
+        if ($this->model === null) {
             throw new SystemException(sprintf(
-                lang('igniter::admin.form.missing_model'), get_class($this->controller),
+                lang('igniter::admin.form.missing_model'), $this->controller::class,
             ));
         }
 
@@ -830,7 +828,7 @@ class Form extends BaseWidget
     protected function getOptionsFromModel(FormField $field, null|string|array|Closure $fieldOptions): mixed
     {
         // Advanced usage, supplied options are callable
-        if (is_array($fieldOptions) && is_callable($fieldOptions)) {
+        if (is_callable($fieldOptions)) {
             $fieldOptions = $fieldOptions($this, $field);
         }
 
@@ -844,7 +842,7 @@ class Form extends BaseWidget
                 !$this->objectMethodExists($model, 'getDropdownOptions')
             ) {
                 throw new SystemException(sprintf(lang('igniter::admin.form.options_method_not_exists'),
-                    get_class($model), $methodName, $field->fieldName,
+                    $model::class, $methodName, $field->fieldName,
                 ));
             }
 
@@ -855,7 +853,7 @@ class Form extends BaseWidget
         elseif (is_string($fieldOptions)) {
             if (!$this->objectMethodExists($this->model, $fieldOptions)) {
                 throw new SystemException(sprintf(lang('igniter::admin.form.options_method_not_exists'),
-                    get_class($this->model), $fieldOptions, $field->fieldName,
+                    $this->model::class, $fieldOptions, $field->fieldName,
                 ));
             }
 

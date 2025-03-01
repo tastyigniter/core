@@ -165,7 +165,7 @@ class Theme extends Model
         return $this->getTheme()?->getScreenshotData();
     }
 
-    public function setAttribute($key, $value)
+    public function setAttribute($key, mixed $value)
     {
         if (!$this->isFillable($key)) {
             $this->fieldValues[$key] = $value;

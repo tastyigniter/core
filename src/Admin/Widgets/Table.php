@@ -53,7 +53,7 @@ class Table extends BaseWidget
         $this->dataSource = new $dataSourceClass($this->recordsKeyFrom);
 
         if (strtolower(request()->method()) === 'post' && $this->isClientDataSource()) {
-            if (!str_contains($this->fieldName, '[')) {
+            if (!str_contains((string) $this->fieldName, '[')) {
                 $requestDataField = $this->fieldName.'TableData';
             } else {
                 $requestDataField = $this->fieldName.'[TableData]';

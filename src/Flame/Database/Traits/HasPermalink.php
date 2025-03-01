@@ -27,9 +27,9 @@ trait HasPermalink
      */
     public static function bootHasPermalink(): void
     {
-        if (!property_exists(get_called_class(), 'permalinkable')) {
+        if (!property_exists(static::class, 'permalinkable')) {
             throw new LogicException(sprintf(
-                'You must define a $permalinkable property in %s to use the HasPermalink trait.', get_called_class(),
+                'You must define a $permalinkable property in %s to use the HasPermalink trait.', static::class,
             ));
         }
 

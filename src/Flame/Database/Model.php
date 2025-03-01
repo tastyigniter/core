@@ -123,7 +123,7 @@ abstract class Model extends EloquentModel
      */
     protected function bootNicerEvents()
     {
-        $class = get_called_class();
+        $class = static::class;
 
         if (isset(static::$eventsBooted[$class])) {
             return;

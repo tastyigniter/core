@@ -145,13 +145,9 @@ class FormController extends ControllerAction
             }
         });
 
-        $formWidget->bindEvent('form.refreshFields', function($fields) {
-            return $this->controller->formExtendRefreshFields($this->formWidget, $fields);
-        });
+        $formWidget->bindEvent('form.refreshFields', fn($fields) => $this->controller->formExtendRefreshFields($this->formWidget, $fields));
 
-        $formWidget->bindEvent('form.refresh', function($result) {
-            return $this->controller->formExtendRefreshResults($this->formWidget, $result);
-        });
+        $formWidget->bindEvent('form.refresh', fn($result) => $this->controller->formExtendRefreshResults($this->formWidget, $result));
 
         $formWidget->bindToController();
 
@@ -389,8 +385,8 @@ class FormController extends ControllerAction
      */
     protected function getRedirectUrl(?string $context = null): string
     {
-        $redirectContext = explode('-', $context, 2)[0];
-        $redirectAction = explode('-', $context, 2)[1] ?? '';
+        $redirectContext = explode('-', (string) $context, 2)[0];
+        $redirectAction = explode('-', (string) $context, 2)[1] ?? '';
         $redirectSource = in_array($redirectAction, ['new', 'close'])
             ? 'redirect'.studly_case($redirectAction)
             : 'redirect';

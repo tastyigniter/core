@@ -17,9 +17,7 @@ class PaginationServiceProvider extends ServiceProvider
         Paginator::defaultView('igniter.system::_partials/pagination/default');
         Paginator::defaultSimpleView('igniter.system::_partials/pagination/simple_default');
 
-        Paginator::currentPathResolver(function() {
-            return url()->current();
-        });
+        Paginator::currentPathResolver(fn() => url()->current());
 
         Paginator::currentPageResolver(function($pageName = 'page') {
             $page = Request::get($pageName);

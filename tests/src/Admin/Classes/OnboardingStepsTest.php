@@ -15,9 +15,7 @@ dataset('onboardingSteps', [
             'icon' => 'fa fa-angle-double-right',
             'url' => 'http://localhost/admin/testStep1',
             'priority' => 500,
-            'complete' => function(): false {
-                return false;
-            },
+            'complete' => fn(): false => false,
         ],
         'testStep2' => [
             'label' => 'Test Step 2',
@@ -25,9 +23,7 @@ dataset('onboardingSteps', [
             'icon' => 'fa fa-angle-double-left',
             'url' => 'http://localhost/admin/testStep2',
             'priority' => 1000,
-            'complete' => function(): true {
-                return true;
-            },
+            'complete' => fn(): true => true,
         ],
     ],
 ]);
@@ -123,7 +119,7 @@ it('checks if onboarding is completed correctly', function(array $steps) {
     };
 
     $steps['testStep1']['complete'] = fn() => true;
-    $steps['testStep2']['complete'] = [$class, 'method'];
+    $steps['testStep2']['complete'] = $class->method(...);
     $this->onboardingSteps->registerSteps($steps);
 
     expect($this->onboardingSteps->completed())->toBeTrue();

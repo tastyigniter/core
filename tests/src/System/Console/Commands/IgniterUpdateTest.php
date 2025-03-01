@@ -186,7 +186,7 @@ it('errors when installing update fails', function() {
     $output->shouldReceive('writeln')->with('<info>Updating extensions/themes...</info>');
     $updateManager->shouldReceive('install')->andThrow(new Exception('Update failed'));
     $output->shouldReceive('writeln')
-        ->withArgs(fn($message) => str_contains($message, 'Update failed'))->once();
+        ->withArgs(fn($message) => str_contains((string) $message, 'Update failed'))->once();
 
     $command->handle();
 });

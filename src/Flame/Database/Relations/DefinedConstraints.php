@@ -109,7 +109,7 @@ trait DefinedConstraints
                 $column = $order;
                 $direction = 'asc';
 
-                $parts = explode(' ', $order);
+                $parts = explode(' ', (string) $order);
                 if (count($parts) > 1) {
                     [$column, $direction] = $parts;
                 }

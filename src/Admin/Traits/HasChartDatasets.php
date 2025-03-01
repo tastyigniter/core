@@ -22,9 +22,7 @@ trait HasChartDatasets
     {
         $dataPoints = $this->queryDatasets($config, $start, $end);
 
-        return collect($this->getDatePeriod($start, $end))->map(function($date) use ($dataPoints): array {
-            return ['x' => $x = $date->format('Y-m-d'), 'y' => $dataPoints->get($x) ?? 0];
-        })->all();
+        return collect($this->getDatePeriod($start, $end))->map(fn($date): array => ['x' => $x = $date->format('Y-m-d'), 'y' => $dataPoints->get($x) ?? 0])->all();
     }
 
     protected function queryDatasets(array $config, DateTimeInterface $start, DateTimeInterface $end): Collection

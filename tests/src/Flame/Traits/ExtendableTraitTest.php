@@ -17,9 +17,7 @@ it('extends class with valid extension', function() {
     {
         use ExtendableTrait;
     };
-    TestControllerAction::extensionExtendCallback(function($extension): bool {
-        return $extension instanceof TestControllerAction;
-    });
+    TestControllerAction::extensionExtendCallback(fn($extension): bool => $extension instanceof TestControllerAction);
     $class->extendClassWith(TestControllerAction::class);
     $controllerAction = $class->asExtension(TestControllerAction::class);
     $controllerAction->extensionHideField('testProperty');

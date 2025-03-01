@@ -303,7 +303,7 @@ class ComponentManager
             if (in_array($property['type'], ['checkbox', 'radio', 'select', 'selectlist']) && !array_key_exists('options', $config)) {
                 $methodName = 'get'.studly_case($name).'Options';
                 $methodName = method_exists($component, $methodName) ? $methodName : 'getPropertyOptions';
-                $property['options'] = [get_class($component), $methodName];
+                $property['options'] = [$component::class, $methodName];
             }
 
             $property += $config;
@@ -353,7 +353,7 @@ class ComponentManager
         $rules = [];
         $attributes = [];
         foreach ($properties as $name => $params) {
-            if (strlen($rule = array_get($params, 'validationRule', '')) !== 0) {
+            if (strlen((string) ($rule = array_get($params, 'validationRule', ''))) !== 0) {
                 $rules[$name] = $rule;
                 $attributes[$name] = array_get($params, 'label', $name);
             }

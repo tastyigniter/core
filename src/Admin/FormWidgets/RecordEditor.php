@@ -225,7 +225,7 @@ class RecordEditor extends BaseFormWidget
 
         throw_if(
             !$this->modelMethodExists($model, $methodName) && !$this->modelMethodExists($model, 'getRecordEditorOptions'),
-            new FlashException(sprintf(lang('igniter::admin.alert_missing_method'), 'getRecordEditorOptions', get_class($model))),
+            new FlashException(sprintf(lang('igniter::admin.alert_missing_method'), 'getRecordEditorOptions', $model::class)),
         );
 
         if ($this->modelMethodExists($model, $methodName)) {
@@ -256,9 +256,7 @@ class RecordEditor extends BaseFormWidget
     {
         $field = clone $this->formField;
 
-        $field->options(function(): Collection|array {
-            return $this->getRecordEditorOptions();
-        });
+        $field->options(fn(): Collection|array => $this->getRecordEditorOptions());
 
         return $field;
     }

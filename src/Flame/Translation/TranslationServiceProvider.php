@@ -34,9 +34,10 @@ class TranslationServiceProvider extends BaseServiceProvider
             return $trans;
         });
 
-        $this->app->singleton('translator.localization', function(Application $app): Localization {
-            return new Localization($app['request'], $app['config']);
-        });
+        $this->app->singleton('translator.localization', fn(Application $app): Localization => new Localization($app['request'], $app['config']));
+
+        $this->app->alias('translator', Translator::class);
+        $this->app->alias('translator.localization', Localization::class);
     }
 
     protected function registerLoader(): void

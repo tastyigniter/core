@@ -19,24 +19,6 @@ use Throwable;
 class ClassLoader
 {
     /**
-     * The filesystem instance.
-     * @var Filesystem
-     */
-    public $files;
-
-    /**
-     * The base path.
-     * @var string
-     */
-    public $basePath;
-
-    /**
-     * The manifest path.
-     * @var string|null
-     */
-    public $manifestPath;
-
-    /**
      * The loaded manifest array.
      * @var array
      */
@@ -88,12 +70,7 @@ class ClassLoader
      */
     protected $reversedClasses = [];
 
-    public function __construct(Filesystem $files, $basePath, $manifestPath)
-    {
-        $this->files = $files;
-        $this->basePath = $basePath;
-        $this->manifestPath = $manifestPath;
-    }
+    public function __construct(public Filesystem $files, public string $basePath, public ?string $manifestPath) {}
 
     /**
      * Register loader with SPL autoloader stack.
@@ -106,7 +83,7 @@ class ClassLoader
 
         $this->ensureManifestIsLoaded();
 
-        $this->registered = spl_autoload_register([$this, 'load']);
+        $this->registered = spl_autoload_register($this->load(...));
     }
 
     /**
@@ -118,7 +95,7 @@ class ClassLoader
             return;
         }
 
-        spl_autoload_unregister([$this, 'load']);
+        spl_autoload_unregister($this->load(...));
         $this->registered = false;
     }
 
@@ -230,9 +207,7 @@ class ClassLoader
         } else {
             $directories = (array)$directories;
 
-            $this->directories = array_filter($this->directories, function($directory) use ($directories): bool {
-                return !in_array($directory, $directories);
-            });
+            $this->directories = array_filter($this->directories, fn($directory): bool => !in_array($directory, $directories));
         }
     }
 
@@ -263,7 +238,7 @@ class ClassLoader
     {
         foreach ($namespaceAliases as $original => $alias) {
             if (!array_key_exists($alias, $this->namespaceAliases)) {
-                $alias = ltrim($alias, '\\');
+                $alias = ltrim((string)$alias, '\\');
                 $original = ltrim($original, '\\');
                 $this->namespaceAliases[$alias] = $original;
             }

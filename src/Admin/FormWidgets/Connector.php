@@ -186,7 +186,7 @@ class Connector extends BaseFormWidget
 
         if ($recordId = post('recordId', '')) {
             throw_unless($model = $model->find($recordId),
-                new FlashException(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, get_class($model))),
+                new FlashException(sprintf(lang('igniter::admin.form.record_not_found_in_model'), $recordId, $model::class)),
             );
         }
 

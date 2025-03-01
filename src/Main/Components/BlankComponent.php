@@ -12,13 +12,12 @@ class BlankComponent extends BaseComponent
     /** This component is hidden from the admin UI. */
     public bool $isHidden = true;
 
-    /** Error message that is shown with this error component. */
-    protected ?string $errorMessage;
-
-    public function __construct(?TemplateCode $page, array $properties, ?string $errorMessage = null)
-    {
-        $this->errorMessage = $errorMessage;
-
+    public function __construct(
+        ?TemplateCode $page,
+        array $properties,
+        /** Error message that is shown with this error component. */
+        protected ?string $errorMessage = null,
+    ) {
         parent::__construct($page, $properties);
     }
 

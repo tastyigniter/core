@@ -45,7 +45,7 @@ it('converts model to string when slug source is callable', function() {
     {
         public function permalinkable(): array
         {
-            return ['permalink_slug' => ['source' => [$this, 'getSlug']]];
+            return ['permalink_slug' => ['source' => $this->getSlug(...)]];
         }
 
         public function getSlug(): string
@@ -138,12 +138,8 @@ it('appends suffix from uniqueSuffix method when slug is in reserved list', func
             return [
                 'permalink_slug' => [
                     'source' => 'title',
-                    'reserved' => function($model): array {
-                        return ['hello-world'];
-                    },
-                    'uniqueSuffix' => function($slug, $separator, $list): string {
-                        return '100';
-                    },
+                    'reserved' => fn($model): array => ['hello-world'],
+                    'uniqueSuffix' => fn($slug, $separator, $list): string => '100',
                 ],
             ];
         }

@@ -370,14 +370,12 @@ class Components extends BaseFormWidget
 
         $formField->comment = sprintf(lang('igniter::system.themes.help_override_partial'), $themePartialPath);
 
-        $formField->options(function() use ($componentPath) {
-            return collect(File::glob($componentPath.'/*.blade.php'))
-                ->mapWithKeys(function($path) {
-                    $name = str_before(File::basename($path), '.'.Model::DEFAULT_EXTENSION);
+        $formField->options(fn() => collect(File::glob($componentPath.'/*.blade.php'))
+            ->mapWithKeys(function($path) {
+                $name = str_before(File::basename($path), '.'.Model::DEFAULT_EXTENSION);
 
-                    return [$name => $name];
-                });
-        });
+                return [$name => $name];
+            }));
     }
 
     protected function overrideComponentPartial(string $codeAlias, string $fileName)

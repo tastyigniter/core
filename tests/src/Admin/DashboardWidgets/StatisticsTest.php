@@ -10,17 +10,13 @@ use Igniter\System\Facades\Assets;
 use Igniter\System\Models\MailTemplate;
 
 beforeEach(function() {
-    Statistics::registerCards(function(): array {
-        return [
-            'sale' => [
-                'label' => 'lang:igniter::admin.dashboard.text_total_sale',
-                'icon' => ' text-success fa fa-4x fa-line-chart',
-                'valueFrom' => function(): string {
-                    return '£0.00';
-                },
-            ],
-        ];
-    });
+    Statistics::registerCards(fn(): array => [
+        'sale' => [
+            'label' => 'lang:igniter::admin.dashboard.text_total_sale',
+            'icon' => ' text-success fa fa-4x fa-line-chart',
+            'valueFrom' => fn(): string => '£0.00',
+        ],
+    ]);
     $this->controller = $this->createMock(AdminController::class);
     $this->statistics = new Statistics($this->controller, ['card' => 'sale']);
 });
@@ -56,19 +52,17 @@ it('tests prepareVars', function() {
 });
 
 it('tests getValue', function() {
-    Statistics::registerCards(function(): array {
-        return [
-            'test-sale' => [
-                'label' => 'lang:igniter::admin.dashboard.text_total_sale',
-                'icon' => ' text-success fa fa-4x fa-line-chart',
-                'valueFrom' => function($cardCode, $start, $end, $callback): string {
-                    $callback(MailTemplate::query());
+    Statistics::registerCards(fn(): array => [
+        'test-sale' => [
+            'label' => 'lang:igniter::admin.dashboard.text_total_sale',
+            'icon' => ' text-success fa fa-4x fa-line-chart',
+            'valueFrom' => function($cardCode, $start, $end, $callback): string {
+                $callback(MailTemplate::query());
 
-                    return '£100.00';
-                },
-            ],
-        ];
-    });
+                return '£100.00';
+            },
+        ],
+    ]);
 
     $this->statistics->setProperty('card', 'test-sale');
     $this->statistics->render();

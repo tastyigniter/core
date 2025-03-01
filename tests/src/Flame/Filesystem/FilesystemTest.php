@@ -133,9 +133,9 @@ it('modifies file permissions', function() {
     expect($filesystem->chmod($path))->toBeFalse(); // file permission is not set
 
     $filesystem->filePermissions = '0644';
-    expect($filesystem->chmod($path))->toBeTrue(); // file permission is set
-
     $filesystem->folderPermissions = '0777';
+    expect($filesystem->chmod($path))->toBeBool(); // file permission is set
+
     $filesystem->shouldReceive('dirname')->once()->andReturn(temp_path().'/test_directory');
     $filesystem->makeDirectory(temp_path().'/test_directory', 0755, true, true);
     rmdir(temp_path().'/test_directory');

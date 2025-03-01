@@ -27,17 +27,19 @@ class ConnectionFactory extends BaseConnectionFactory
     protected function createPdoResolverWithHosts(array $config)
     {
         return function() use ($config) {
+            $lastException = null;
             foreach (Arr::shuffle($hosts = $this->parseHosts($config)) as $host) {
                 $config['host'] = $host;
 
                 try {
                     return $this->createConnector($config)->connect($config);
                 } catch (PDOException $e) {
+                    $lastException = $e;
                 }
             }
 
-            if (isset($e)) {
-                throw $e;
+            if (!is_null($lastException)) {
+                throw $lastException;
             }
         };
     }
@@ -59,17 +61,12 @@ class ConnectionFactory extends BaseConnectionFactory
             return $resolver($connection, $database, $prefix, $config);
         }
 
-        switch ($driver) {
-            case 'mysql':
-                return new MySqlConnection($connection, $database, $prefix, $config);
-            case 'pgsql':
-                return new PostgresConnection($connection, $database, $prefix, $config);
-            case 'sqlite':
-                return new SQLiteConnection($connection, $database, $prefix, $config);
-            case 'sqlsrv':
-                return new SqlServerConnection($connection, $database, $prefix, $config);
-        }
-
-        throw new InvalidArgumentException(sprintf('Unsupported driver [%s]', $driver));
+        return match ($driver) {
+            'mysql' => new MySqlConnection($connection, $database, $prefix, $config),
+            'pgsql' => new PostgresConnection($connection, $database, $prefix, $config),
+            'sqlite' => new SQLiteConnection($connection, $database, $prefix, $config),
+            'sqlsrv' => new SqlServerConnection($connection, $database, $prefix, $config),
+            default => throw new InvalidArgumentException(sprintf('Unsupported driver [%s]', $driver)),
+        };
     }
 }

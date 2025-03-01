@@ -251,9 +251,7 @@ it('returns error when deleting fails', function() {
     $recordId = $record->getKey();
     $context = 'edit';
 
-    Status::deleting(function(): false {
-        return false;
-    });
+    Status::deleting(fn(): false => false);
 
     $response = $this->formController->edit_onDelete($context, $recordId);
 

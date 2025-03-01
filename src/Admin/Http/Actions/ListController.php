@@ -154,7 +154,7 @@ class ListController extends ControllerAction
      */
     public function makeList(?string $alias = null): Lists
     {
-        $alias = $alias ?? $this->primaryAlias;
+        $alias ??= $this->primaryAlias;
 
         $listConfig = $this->controller->getListConfig($alias);
 
@@ -188,17 +188,11 @@ class ListController extends ControllerAction
             $this->controller->listExtendQuery($query, $alias);
         });
 
-        $widget->bindEvent('list.extendRecords', function($records) use ($alias) {
-            return $this->controller->listExtendRecords($records, $alias);
-        });
+        $widget->bindEvent('list.extendRecords', fn($records) => $this->controller->listExtendRecords($records, $alias));
 
-        $widget->bindEvent('list.overrideColumnValue', function($record, $column, $value) use ($alias) {
-            return $this->controller->listOverrideColumnValue($record, $column, $alias);
-        });
+        $widget->bindEvent('list.overrideColumnValue', fn($record, $column, $value) => $this->controller->listOverrideColumnValue($record, $column, $alias));
 
-        $widget->bindEvent('list.overrideHeaderValue', function($column, $value) use ($alias) {
-            return $this->controller->listOverrideHeaderValue($column, $alias);
-        });
+        $widget->bindEvent('list.overrideHeaderValue', fn($column, $value) => $this->controller->listOverrideHeaderValue($column, $alias));
 
         $widget->bindToController();
 
@@ -235,9 +229,7 @@ class ListController extends ControllerAction
                 $widget->setSearchTerm($searchWidget->getActiveTerm());
             }
 
-            $filterWidget->bindEvent('filter.submit', function() use ($widget) {
-                return $widget->onRefresh();
-            });
+            $filterWidget->bindEvent('filter.submit', fn() => $widget->onRefresh());
 
             $filterWidget->bindEvent('filter.extendScopesBefore', function() use ($filterWidget) {
                 $this->controller->listFilterExtendScopesBefore($filterWidget);
@@ -252,7 +244,7 @@ class ListController extends ControllerAction
             });
 
             // Apply predefined filter values
-            $widget->addFilter([$filterWidget, 'applyAllScopesToQuery']);
+            $widget->addFilter($filterWidget->applyAllScopesToQuery(...));
 
             $this->filterWidgets[$alias] = $filterWidget;
         }
@@ -296,14 +288,14 @@ class ListController extends ControllerAction
 
     public function renderListToolbar(?string $alias = null): mixed
     {
-        $alias = $alias ?? $this->primaryAlias;
+        $alias ??= $this->primaryAlias;
 
         return isset($this->toolbarWidgets[$alias]) ? $this->toolbarWidgets[$alias]->render() : null;
     }
 
     public function renderListFilter(?string $alias = null): mixed
     {
-        $alias = $alias ?? $this->primaryAlias;
+        $alias ??= $this->primaryAlias;
         if (isset($this->filterWidgets[$alias])) {
             return $this->filterWidgets[$alias]->render();
         }

@@ -39,7 +39,7 @@ class HasOneThrough extends HasOneThroughBase
      */
     public function parentSoftDeletes(): bool
     {
-        $uses = class_uses_recursive(get_class($this->parent));
+        $uses = class_uses_recursive($this->parent::class);
 
         return in_array(SoftDeletes::class, $uses);
     }

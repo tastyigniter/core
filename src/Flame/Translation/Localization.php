@@ -12,16 +12,10 @@ use Illuminate\Support\Facades\Session;
 
 class Localization
 {
-    protected Request $request;
-
-    protected Repository $config;
-
     protected $sessionKey = 'igniter.translation.locale';
 
-    public function __construct(Request $request, Repository $config)
+    public function __construct(protected Request $request, protected Repository $config)
     {
-        $this->request = $request;
-        $this->config = $config;
     }
 
     public function loadLocale(): void

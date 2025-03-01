@@ -203,7 +203,7 @@ class UpdateManager
     {
         $response = $this->requestUpdateList();
 
-        return !isset($response['last_check']) || strtotime('-7 day') < strtotime($response['last_check']);
+        return !isset($response['last_check']) || strtotime('-7 day') < strtotime((string) $response['last_check']);
     }
 
     public function listItems(string $itemType): array
@@ -275,11 +275,7 @@ class UpdateManager
 
         $result = $this->fetchItemsToUpdate($installedItems, $force);
 
-        [$ignoredItems, $items] = $result['items']->filter(function(PackageInfo $packageInfo): bool {
-            return !($packageInfo->isCore() && $this->disableCoreUpdates);
-        })->partition(function(PackageInfo $packageInfo): bool {
-            return $this->isMarkedAsIgnored($packageInfo->code);
-        });
+        [$ignoredItems, $items] = $result['items']->filter(fn(PackageInfo $packageInfo): bool => !($packageInfo->isCore() && $this->disableCoreUpdates))->partition(fn(PackageInfo $packageInfo): bool => $this->isMarkedAsIgnored($packageInfo->code));
 
         $result['count'] = count($items);
         $result['items'] = $items;
@@ -419,9 +415,7 @@ class UpdateManager
 
     public function completeInstall(array $requirements): void
     {
-        collect($requirements)->map(function($package): PackageInfo {
-            return $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package);
-        })->each(function(PackageInfo $packageInfo) {
+        collect($requirements)->map(fn($package): PackageInfo => $package instanceof PackageInfo ? $package : PackageInfo::fromArray($package))->each(function(PackageInfo $packageInfo) {
             match ($packageInfo->type) {
                 'core' => $this->migrate(),
                 'extension' => $this->extensionManager->installExtension($packageInfo->code, $packageInfo->version),

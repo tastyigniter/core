@@ -20,9 +20,7 @@ it('validates request successfully with valid data', function() {
     $request = ['name' => 'John Doe'];
     $rules = ['name' => 'required|string'];
 
-    $this->traitObject->validateAfter(function($request) {
-        return $request;
-    });
+    $this->traitObject->validateAfter(fn($request) => $request);
     $result = $this->traitObject->validate($request, $rules);
 
     expect($result)->toBe($request);
@@ -32,9 +30,7 @@ it('validates request successfully with codeigniter-style rules', function() {
     $request = ['name' => 'John Doe'];
     $rules = [['name', 'Name', 'required|string']];
 
-    $this->traitObject->validateAfter(function($request) {
-        return $request;
-    });
+    $this->traitObject->validateAfter(fn($request) => $request);
     $result = $this->traitObject->validate($request, $rules);
 
     expect($result)->toBe($request);

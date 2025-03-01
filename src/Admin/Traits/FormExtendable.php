@@ -58,7 +58,7 @@ trait FormExtendable
      */
     public function formFindModelObject(?string $recordId): Model
     {
-        $recordId = strip_tags($recordId); // remove html tags from url(reflective xss)
+        $recordId = strip_tags((string) $recordId); // remove html tags from url(reflective xss)
         throw_unless(strlen($recordId), new FlashException(lang('igniter::admin.form.missing_id')));
 
         $model = $this->controller->formCreateModelObject();

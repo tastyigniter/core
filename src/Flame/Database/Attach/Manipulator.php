@@ -156,7 +156,7 @@ class Manipulator
     protected function extractWatermarkDirectory(array $manipulations): ?string
     {
         if (array_key_exists('watermark', $manipulations)) {
-            return dirname($manipulations['watermark']);
+            return dirname((string) $manipulations['watermark']);
         }
 
         return null;

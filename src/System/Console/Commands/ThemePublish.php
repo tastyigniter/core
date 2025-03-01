@@ -22,7 +22,7 @@ class ThemePublish extends VendorPublishCommand
 
     protected $signature;
 
-    protected ?Theme $activeTheme;
+    protected ?Theme $activeTheme = null;
 
     /**
      * Execute the console command.

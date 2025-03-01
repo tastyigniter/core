@@ -14,12 +14,12 @@ class Distance implements DistanceInterface
     /**
      * The origin coordinate.
      */
-    protected ?CoordinatesInterface $from;
+    protected ?CoordinatesInterface $from = null;
 
     /**
      * The destination coordinate.
      */
-    protected ?CoordinatesInterface $to;
+    protected ?CoordinatesInterface $to = null;
 
     /**
      * The user unit.

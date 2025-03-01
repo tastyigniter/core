@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Model;
 
-readonly class AdminLevel
+use Stringable;
+
+readonly class AdminLevel implements Stringable
 {
     public function __construct(
         private int $level,

@@ -80,14 +80,14 @@ it('throws exception if action is 404', function() {
     $controller = new class extends AdminController {};
 
     expect(fn() => $controller->remap('404', ['param1', 'param2']))
-        ->toThrow(FlashException::class, sprintf('Method [%s] is not found in the controller [%s]', '404', get_class($controller)));
+        ->toThrow(FlashException::class, sprintf('Method [%s] is not found in the controller [%s]', '404', $controller::class));
 });
 
 it('throws exception if action is not found', function() {
     $controller = new class extends AdminController {};
 
     expect(fn() => $controller->remap('nonExistentAction', ['param1', 'param2']))
-        ->toThrow(FlashException::class, sprintf('Method [%s] is not found in the controller [%s]', 'nonExistentAction', get_class($controller)));
+        ->toThrow(FlashException::class, sprintf('Method [%s] is not found in the controller [%s]', 'nonExistentAction', $controller::class));
 });
 
 it('processes handler throws exception if widget is not found', function() {

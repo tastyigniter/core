@@ -26,7 +26,7 @@ beforeEach(function() {
             'item2' => [
                 'path' => 'tests.admin::_partials.test-partial',
                 'type' => 'dropdown',
-                'options' => [Status::class, 'getDropdownOptionsForOrder'],
+                'options' => Status::getDropdownOptionsForOrder(...),
             ],
             'item3' => MainMenuItem::dropdown('item3'),
             'item4' => MainMenuItem::widget('user', UserPanel::class),

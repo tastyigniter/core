@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Classes;
 
+use Closure;
+
 /**
  * Filter scope definition
  * A translation of the filter scope configuration
@@ -28,7 +30,7 @@ class FilterScope
     public string $type = 'select';
 
     /** Filter options. */
-    public null|string|array $options = null;
+    public null|string|array|Closure $options = null;
 
     /** Specifies contextual visibility of this form scope. */
     public null|string|array $context = null;

@@ -58,9 +58,7 @@ class Navigation
     {
         $navItems = $this->getNavItems();
 
-        uasort($navItems, function(array $a, array $b): int|float {
-            return $a['priority'] - $b['priority'];
-        });
+        uasort($navItems, fn(array $a, array $b): int|float => $a['priority'] - $b['priority']);
 
         $navItems = $this->filterPermittedNavItems($navItems);
 
@@ -69,9 +67,7 @@ class Navigation
                 continue;
             }
 
-            uasort($navItem['child'], function(array $a, array $b): int|float {
-                return $a['priority'] - $b['priority'];
-            });
+            uasort($navItem['child'], fn(array $a, array $b): int|float => $a['priority'] - $b['priority']);
 
             $navItem['child'] = $this->filterPermittedNavItems($navItem['child']);
         }
@@ -187,7 +183,7 @@ class Navigation
             ? $pathOrUrl : admin_url($pathOrUrl);
 
         $previousUrl = url()->previous();
-        if (str_contains($previousUrl, '?') && rtrim(preg_replace('/\?.*/', '', $previousUrl), '/') === rtrim($url, '/')) {
+        if (str_contains($previousUrl, '?') && rtrim((string) preg_replace('/\?.*/', '', $previousUrl), '/') === rtrim($url, '/')) {
             $url = $previousUrl;
         }
 
