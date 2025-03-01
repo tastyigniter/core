@@ -332,7 +332,7 @@ class Media extends Model
             return $this->name;
         }
 
-        $ext = strtolower($this->getExtension());
+        $ext = strtolower((string)$this->getExtension());
 
         $name = str_replace('.', '', uniqid('', true));
 
@@ -355,7 +355,7 @@ class Media extends Model
 
     public function getDiskDriverName(): string
     {
-        return strtolower(config(sprintf('filesystems.disks.%s.driver', $this->getDiskName())));
+        return strtolower((string)config(sprintf('filesystems.disks.%s.driver', $this->getDiskName())));
     }
 
     //
@@ -371,9 +371,7 @@ class Media extends Model
 
         $directory = $this->getStoragePath();
         $allFiles = $this->getStorageDisk()->files($directory);
-        $paths = array_filter($allFiles, function($file) use ($pattern) {
-            return starts_with(basename($file), $pattern);
-        });
+        $paths = array_filter($allFiles, fn($file): bool => starts_with(basename($file), $pattern));
 
         $this->getStorageDisk()->delete($paths);
     }
@@ -456,7 +454,7 @@ class Media extends Model
      */
     public function isImage(): bool
     {
-        return in_array(strtolower($this->getExtension()), static::$imageExtensions);
+        return in_array(strtolower((string)$this->getExtension()), static::$imageExtensions);
     }
 
     /**
@@ -530,8 +528,8 @@ class Media extends Model
 
         $options = array_merge($defaultOptions, $override);
 
-        if (strtolower($options['extension']) === 'auto') {
-            $options['extension'] = strtolower($this->getExtension());
+        if (strtolower((string)$options['extension']) === 'auto') {
+            $options['extension'] = strtolower((string)$this->getExtension());
         }
 
         return $options;
