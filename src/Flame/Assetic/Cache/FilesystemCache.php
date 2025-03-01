@@ -14,9 +14,7 @@ use RuntimeException;
  */
 class FilesystemCache implements CacheInterface
 {
-    public function __construct(private $dir)
-    {
-    }
+    public function __construct(private $dir) {}
 
     public function has(string $key): bool
     {

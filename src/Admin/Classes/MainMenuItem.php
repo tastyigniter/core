@@ -84,9 +84,7 @@ class MainMenuItem
          * @var ?string Menu item label.
          */
         public ?string $label = null
-    )
-    {
-    }
+    ) {}
 
     public static function make(string $name, ?string $type = null, array $config = []): static
     {

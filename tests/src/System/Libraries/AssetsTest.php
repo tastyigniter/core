@@ -96,9 +96,7 @@ it('adds and retrieves js variables successfully', function() {
 it('throws exception when invalid transforming js variable', function() {
     $assets = new Assets;
     $assets->putJsVars([
-        'key' => new class
-        {
-        },
+        'key' => new class {},
     ]);
 
     expect(fn() => $assets->getJsVars())

@@ -35,7 +35,7 @@ class StringMixin
      */
     public function normalizeEol()
     {
-        return fn($string): string|null => preg_replace('~\R~u', "\r\n", (string)$string);
+        return fn($string): ?string => preg_replace('~\R~u', "\r\n", (string)$string);
     }
 
     /**

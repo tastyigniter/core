@@ -38,7 +38,7 @@ class Form extends BaseWidget
     public ?string $activeTab = null;
 
     /** Form model object. */
-    public null|object $model = null;
+    public ?object $model = null;
 
     /** Dataset containing field values, if none supplied, model is used. */
     public mixed $data = null;

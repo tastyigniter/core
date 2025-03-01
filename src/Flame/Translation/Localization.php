@@ -14,9 +14,7 @@ class Localization
 {
     protected $sessionKey = 'igniter.translation.locale';
 
-    public function __construct(protected Request $request, protected Repository $config)
-    {
-    }
+    public function __construct(protected Request $request, protected Repository $config) {}
 
     public function loadLocale(): void
     {

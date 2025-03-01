@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
-use Stringable;
 use BadMethodCallException;
 use Igniter\Flame\Pagic\TemplateCode;
 use Igniter\Flame\Support\Extendable;
@@ -13,6 +12,7 @@ use Igniter\Main\Classes\MainController;
 use Igniter\System\Traits\AssetMaker;
 use Igniter\System\Traits\PropertyContainer;
 use Illuminate\Support\Facades\Lang;
+use Stringable;
 
 /**
  * Base Component Class

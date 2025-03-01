@@ -76,9 +76,7 @@ class FormBuilder
          */
         protected ?string $csrfToken,
         protected ?Request $request = null
-    )
-    {
-    }
+    ) {}
 
     /**
      * Open up a new HTML form.
