@@ -202,6 +202,7 @@ class IgniterInstall extends Command
             return $answer;
         });
 
+        /** @var User $user */
         $user = AdminAuth::getProvider()->register([
             'email' => DatabaseSeeder::$siteEmail,
             'name' => DatabaseSeeder::$staffName,
