@@ -37,7 +37,7 @@ class FormRequest extends BaseFormRequest
             $dataHolder->data,
             $dataHolder->rules,
             $dataHolder->messages,
-            $dataHolder->attributes
+            $dataHolder->attributes,
         );
     }
 
@@ -49,7 +49,7 @@ class FormRequest extends BaseFormRequest
         throw new ValidationException($validator);
     }
 
-    protected function getRecordId(): ?string
+    protected function getRecordId(): int|string|null
     {
         return ($slug = $this->route('slug'))
             ? str_after($slug, '/') : null;
