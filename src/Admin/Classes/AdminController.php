@@ -23,6 +23,7 @@ use Igniter\System\Traits\ConfigMaker;
 use Igniter\System\Traits\SessionMaker;
 use Igniter\System\Traits\ViewMaker;
 use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Models\User;
 use Igniter\User\Traits\HasAuthentication;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Http\RedirectResponse;
@@ -133,7 +134,7 @@ class AdminController extends Controller
         }
 
         // Top menu widget is available on all admin pages
-        if ($this->currentUser) {
+        if ($this->currentUser instanceof User) {
             $this->makeMainMenuWidget();
         }
 
