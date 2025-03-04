@@ -58,8 +58,10 @@ jobs:
       - name: Checkout changes
         uses: actions/checkout@v4
 
-      - name: Start mysql service
-        run: sudo systemctl start mysql.service
+      - name: Create MySQL Database
+        run: |
+          sudo service mysql start
+          mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }};"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
