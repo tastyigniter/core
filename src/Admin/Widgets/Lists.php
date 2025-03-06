@@ -185,7 +185,7 @@ class Lists extends BaseWidget
      */
     public function onPaginate(): array
     {
-        $this->currentPageNumber = input('page');
+        $this->currentPageNumber = (int)input('page', 1);
 
         return $this->onRefresh();
     }
@@ -346,7 +346,7 @@ class Lists extends BaseWidget
         $model = $this->prepareModel();
 
         if (!$this->currentPageNumber) {
-            $this->currentPageNumber = input('page');
+            $this->currentPageNumber = (int)input('page', 1);
         }
 
         $records = $this->showPagination ? $model->paginate($this->pageLimit, $this->currentPageNumber) : $model->get();
@@ -597,7 +597,7 @@ class Lists extends BaseWidget
         $result['class'] ??= null;
 
         foreach ($result as $key => $value) {
-            if ($key == 'href' && !preg_match('#^(\w+:)?//#', (string) $value)) {
+            if ($key == 'href' && !preg_match('#^(\w+:)?//#', (string)$value)) {
                 $result[$key] = $this->controller->pageUrl($value);
             } elseif (is_string($value)) {
                 $result[$key] = lang($value);
@@ -873,7 +873,7 @@ class Lists extends BaseWidget
         // Toggle the sort direction and set the sorting column
         $sortOptions = [$this->getSortColumn(), $this->sortDirection];
 
-        if ($column != $sortOptions[0] || strtolower((string) $sortOptions[1]) === 'asc') {
+        if ($column != $sortOptions[0] || strtolower((string)$sortOptions[1]) === 'asc') {
             $this->sortDirection = $sortOptions[1] = 'desc';
         } else {
             $this->sortDirection = $sortOptions[1] = 'asc';
@@ -884,7 +884,7 @@ class Lists extends BaseWidget
         $this->putSession('sort', $sortOptions);
 
         // Persist the page number
-        $this->currentPageNumber = input('page');
+        $this->currentPageNumber = (int)input('page', 1);
 
         return $this->onRefresh();
     }
@@ -1036,7 +1036,7 @@ class Lists extends BaseWidget
             throw new FlashException(lang('igniter::admin.list.missing_action_code'));
         }
 
-        $parts = explode('.', (string) $code);
+        $parts = explode('.', (string)$code);
         $actionCode = array_shift($parts);
         if (!$bulkAction = array_get($this->getAvailableBulkActions(), $actionCode)) {
             throw new FlashException(sprintf(lang('igniter::admin.list.action_not_found'), $actionCode));

@@ -137,7 +137,7 @@ class DashboardContainer extends BaseWidget
 
     public function onLoadUpdatePopup(): array
     {
-        if (empty($widgetAlias = trim((string) post('widgetAlias', '')))) {
+        if (empty($widgetAlias = trim((string)post('widgetAlias', '')))) {
             throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_update'));
         }
 
@@ -442,7 +442,7 @@ class DashboardContainer extends BaseWidget
                     continue;
                 }
 
-                $property[$key] = !is_array($value) ? lang($value) : $value;
+                $property[$key] = is_string($value) ? lang($value) : $value;
             }
 
             $result[$name] = $property;
