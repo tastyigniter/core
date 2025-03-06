@@ -349,7 +349,7 @@ class Lists extends BaseWidget
             $this->currentPageNumber = (int)input('page', 1);
         }
 
-        $records = $this->showPagination ? $model->paginate($this->pageLimit, $this->currentPageNumber) : $model->get();
+        $records = $this->showPagination ? $model->paginate(perPage: $this->pageLimit, page: $this->currentPageNumber) : $model->get();
 
         if ($event = $this->fireSystemEvent('admin.list.extendRecords', [&$records])) {
             $records = $event;
