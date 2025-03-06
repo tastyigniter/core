@@ -2,8 +2,19 @@
     <div class="toolbar-action flex-fill d-lg-flex justify-content-between">
         <div class="toolbar-item pb-3 pb-lg-0">
             <div class="btn-group">
+                @if ($this->getSetting('enable_uploads'))
+                    <button
+                        type="button" class="btn btn-primary"
+                        data-media-control="upload">
+                        <i class="fa fa-upload"></i>&nbsp;&nbsp;
+                        @lang('igniter::main.media_manager.button_upload')
+                    </button>
+                @endif
+            </div>
+
+            <div class="btn-group">
                 <div
-                    class="dropdown mr-2"
+                    class="dropdown mr-1"
                     data-control="folder-tree-dropdown"
                 >
                     <button
@@ -22,17 +33,6 @@
                     data-media-control="refresh">
                     <i class="fa fa-refresh"></i>
                 </button>
-            </div>
-
-            <div class="btn-group">
-                @if ($this->getSetting('enable_uploads'))
-                    <button
-                        type="button" class="btn btn-primary"
-                        data-media-control="upload">
-                        <i class="fa fa-upload"></i>&nbsp;&nbsp;
-                        @lang('igniter::main.media_manager.button_upload')
-                    </button>
-                @endif
             </div>
 
             <div class="btn-group">
