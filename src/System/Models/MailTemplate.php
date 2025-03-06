@@ -124,7 +124,7 @@ class MailTemplate extends Model
         MailPartial::createPartials();
 
         $templates = (array)resolve(MailManager::class)->listRegisteredTemplates();
-        $dbTemplates = self::lists('is_custom', 'code')->all();
+        $dbTemplates = self::query()->get()->pluck('is_custom', 'code')->all();
         $newTemplates = array_diff_key($templates, (array)$dbTemplates);
 
         // Clean up non-customized templates
