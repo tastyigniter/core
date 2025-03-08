@@ -25,6 +25,10 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Set Correct Version for Pull Request
+        if: github.event_name == 'pull_request'
+        run: composer config version 4.0.x-dev
+
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
 
@@ -73,6 +77,10 @@ jobs:
           extensions: dom, curl, xml, mbstring, zip, pdo, sqlite, bcmath, soap, intl, gd
           tools: composer:v2
           coverage: none
+
+      - name: Set Correct Version for Pull Request
+        if: github.event_name == 'pull_request'
+        run: composer config version 4.0.x-dev
 
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress

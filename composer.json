@@ -66,8 +66,7 @@
       ]
     },
     "branch-alias": {
-      "dev-master": "4.x-dev",
-      "dev-4.x": "4.x-dev"
+      "dev-master": "4.x-dev"
     }
   },
   "autoload": {
