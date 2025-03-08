@@ -28,8 +28,8 @@ class FormRequest extends BaseFormRequest
         $dataHolder = new stdClass;
         $dataHolder->data = $this->validationData();
         $dataHolder->rules = Arr::get($parsedRules, 'rules', $registeredRules);
-        $dataHolder->messages = Arr::get($parsedRules, 'messages', $this->messages());
-        $dataHolder->attributes = Arr::get($parsedRules, 'attributes', $this->attributes());
+        $dataHolder->messages = array_merge(Arr::get($parsedRules, 'messages', []), $this->messages());
+        $dataHolder->attributes = array_merge(Arr::get($parsedRules, 'attributes', []), $this->attributes());
 
         $this->fireSystemEvent('system.formRequest.extendValidator', [$dataHolder]);
 
