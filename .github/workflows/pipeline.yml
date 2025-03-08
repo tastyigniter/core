@@ -36,7 +36,7 @@ jobs:
         with:
           commit_message: PHP Linting (Pint) - Fix styling
   php-tests:
-    name: 'PHP Tests 8.3'
+    name: 'PHP Tests'
     needs: php-lint
     if: ${{ always() && needs.php-lint.result == 'success' }}
     runs-on: ubuntu-latest
