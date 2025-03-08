@@ -86,8 +86,9 @@ class Migrator extends BaseMigrator
      */
     protected function getMigrationClass($migrationName): string
     {
+        $group = $this->getRepository()->getGroup();
         $class = Str::studly(implode('_', array_slice(explode('_', $migrationName), 4)));
-        if (!class_exists($class)) {
+        if ((!$class || !class_exists($class)) && $group) {
             $className = str_replace('.', '\\', $this->getRepository()->getGroup());
             $class = $className.'\\Database\\Migrations\\'.$class;
         }

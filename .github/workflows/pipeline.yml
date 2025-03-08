@@ -25,6 +25,10 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Set Correct Version for Pull Request
+        if: github.event_name == 'pull_request'
+        run: composer config version 4.0.x-dev
+
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
 
@@ -36,10 +40,13 @@ jobs:
         with:
           commit_message: PHP Linting (Pint) - Fix styling
   php-tests:
-    name: 'PHP Tests 8.3'
+    name: 'PHP Tests'
     needs: php-lint
     if: ${{ always() && needs.php-lint.result == 'success' }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ '8.3', '8.4' ]
     services:
       mysql:
         image: mysql:latest
@@ -63,13 +70,17 @@ jobs:
           sudo service mysql start
           mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }};"
 
-      - name: Setup PHP
+      - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: ${{ matrix.php-version }}
           extensions: dom, curl, xml, mbstring, zip, pdo, sqlite, bcmath, soap, intl, gd
           tools: composer:v2
           coverage: none
+
+      - name: Set Correct Version for Pull Request
+        if: github.event_name == 'pull_request'
+        run: composer config version 4.0.x-dev
 
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
