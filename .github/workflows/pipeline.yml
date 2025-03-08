@@ -40,6 +40,9 @@ jobs:
     needs: php-lint
     if: ${{ always() && needs.php-lint.result == 'success' }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ '8.3', '8.4' ]
     services:
       mysql:
         image: mysql:latest
