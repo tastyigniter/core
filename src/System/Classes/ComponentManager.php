@@ -320,7 +320,7 @@ class ComponentManager
                         $_propertyValue = lang($_propertyValue);
                     });
                 } else {
-                    $property[$propertyName] = lang($propertyValue);
+                    $property[$propertyName] = is_string($propertyValue) ? lang($propertyValue) : $propertyValue;
                 }
             }
 
