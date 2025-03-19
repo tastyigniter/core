@@ -259,7 +259,9 @@ class Theme extends Model
             $theme->code = $name;
             $theme->version = $manifest->getVersion($theme->code) ?? $theme->version;
             $theme->description = $themeObj->description ?? '';
-            $theme->data = [];
+            if($theme->data == null) {
+                $theme->data = [];
+            }
             $theme->save();
         }
 
@@ -303,7 +305,7 @@ class Theme extends Model
         do {
             $uniqueCode = $code.($suffix ? '-'.$suffix : '');
             $suffix = strtolower(str_random(3));
-        } while (self::themeCodeExists($uniqueCode)); // Already in the DB? Fail. Try again
+        } while (self::themeCodeExists($uniqueCode) || preg_match('/[0-9]/', $uniqueCode) === 1); // Already in the DB or contains a number? Fail. Try again
 
         return $uniqueCode;
     }
