@@ -312,7 +312,7 @@
             paramName: 'file_data',
             addRemoveLinks: true,
             maxFilesize: this.options.maxUploadSize, // MB
-            clickable: this.$el.find('[data-media-control="upload"]').get(0),
+            clickable: '[data-media-control="upload"]',
             dictInvalidFileType: this.options.extensionNotAllowed,
             dictFileTooBig: 'The uploaded file exceeds the max size allowed.',
             accept: $.proxy(this.checkUploadAllowedType, this),
@@ -323,7 +323,7 @@
             dropzoneOptions.headers['X-IGNITER-FILEUPLOAD'] = this.options.uniqueId
         }
 
-        this.dropzone = $uploader.dropzone(dropzoneOptions);
+        this.dropzone = $uploader.dropzone(dropzoneOptions)[0].dropzone
         this.dropzone.on('addedfile', $.proxy(this.uploadFileAdded, this))
         this.dropzone.on('error', $.proxy(this.uploadError, this))
         this.dropzone.on('sending', $.proxy(this.uploadSending, this))
