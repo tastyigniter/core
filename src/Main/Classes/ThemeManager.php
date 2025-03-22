@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Classes;
 
+use Exception;
 use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Exception\SystemException;
@@ -111,8 +112,8 @@ class ThemeManager
             $this->paths[$code] = $themeObject->getPath();
 
             return $themeObject;
-        } catch (\Exception $e) {
-            logger()->debug($e->getMessage());
+        } catch (Exception $exception) {
+            logger()->debug($exception->getMessage());
 
             return null;
         }
