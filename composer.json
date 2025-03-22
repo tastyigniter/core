@@ -110,5 +110,6 @@
       "@test:static",
       "@test:pest-ci"
     ]
-  }
+  },
+  "version": "4.0.x-dev"
 }
