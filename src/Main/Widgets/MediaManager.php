@@ -204,12 +204,12 @@ class MediaManager extends BaseWidget
 
         $this->popupLoaded = true;
         $this->selectMode = array_get($data, 'selectMode');
-        $this->chooseButton = array_get($data, 'chooseButton');
+        $this->chooseButton = (bool)array_get($data, 'chooseButton');
         $this->chooseButtonText = array_get($data, 'chooseButtonText', $this->chooseButtonText);
 
         $goToItem = array_get($data, 'goToItem');
-        if (!empty($goToPath = dirname((string) $goToItem))) {
-            $this->selectItem = basename((string) $goToItem);
+        if (!empty($goToPath = dirname((string)$goToItem))) {
+            $this->selectItem = basename((string)$goToItem);
             $this->setCurrentFolder($goToPath);
         }
 
@@ -233,8 +233,8 @@ class MediaManager extends BaseWidget
             'name.filled' => lang('igniter::main.media_manager.alert_file_name_required'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
-        $fullPath = $path.'/'.trim((string) array_get($validated, 'name'));
+        $path = trim((string)array_get($validated, 'path'));
+        $fullPath = $path.'/'.trim((string)array_get($validated, 'name'));
 
         throw_if($mediaLibrary->exists($fullPath), new FlashException(
             lang('igniter::main.media_manager.alert_file_exists'),
@@ -271,8 +271,8 @@ class MediaManager extends BaseWidget
             'name.filled' => lang('igniter::main.media_manager.alert_file_name_required'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
-        $newPath = Str::deduplicate(File::dirname($path).'/'.trim((string) array_get($validated, 'name')), DIRECTORY_SEPARATOR);
+        $path = trim((string)array_get($validated, 'path'));
+        $newPath = Str::deduplicate(File::dirname($path).'/'.trim((string)array_get($validated, 'name')), DIRECTORY_SEPARATOR);
 
         throw_if($mediaLibrary->exists($newPath), new FlashException(
             lang('igniter::main.media_manager.alert_file_exists'),
@@ -311,9 +311,9 @@ class MediaManager extends BaseWidget
             'name.filled' => lang('igniter::main.media_manager.alert_invalid_new_file_name'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
-        $oldPath = $path.'/'.trim((string) array_get($validated, 'file'));
-        $newPath = $path.'/'.trim((string) array_get($validated, 'name'));
+        $path = trim((string)array_get($validated, 'path'));
+        $oldPath = $path.'/'.trim((string)array_get($validated, 'file'));
+        $newPath = $path.'/'.trim((string)array_get($validated, 'name'));
 
         if (!File::extension($newPath)) {
             $newPath .= '.'.File::extension($oldPath);
@@ -358,7 +358,7 @@ class MediaManager extends BaseWidget
             'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
+        $path = trim((string)array_get($validated, 'path'));
         $mediaLibrary->deleteFolder($path);
         $mediaLibrary->resetCache();
         $this->setCurrentFolder(dirname($path));
@@ -391,7 +391,7 @@ class MediaManager extends BaseWidget
             'regex' => lang('igniter::main.media_manager.alert_invalid_file_name'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
+        $path = trim((string)array_get($validated, 'path'));
         $files = array_map(fn(array $value): string => $path.'/'.$value['path'], array_get($validated, 'files'));
 
         $mediaLibrary->deleteFiles($files);
@@ -426,8 +426,8 @@ class MediaManager extends BaseWidget
             'regex' => lang('igniter::main.media_manager.alert_invalid_file_name'),
         ]);
 
-        $source = trim((string) array_get($validated, 'path'));
-        $destination = trim((string) array_get($validated, 'destination'));
+        $source = trim((string)array_get($validated, 'path'));
+        $destination = trim((string)array_get($validated, 'destination'));
 
         foreach (array_get($validated, 'files') as $file) {
             $name = $file['path'];
@@ -466,8 +466,8 @@ class MediaManager extends BaseWidget
             'regex' => lang('igniter::main.media_manager.alert_invalid_file_name'),
         ]);
 
-        $source = trim((string) array_get($validated, 'path'));
-        $destination = trim((string) array_get($validated, 'destination'));
+        $source = trim((string)array_get($validated, 'path'));
+        $destination = trim((string)array_get($validated, 'destination'));
 
         foreach (array_get($validated, 'files') as $file) {
             $name = $file['path'];
@@ -633,7 +633,7 @@ class MediaManager extends BaseWidget
             $fileName = $uploadedFile->getClientOriginalName();
             $path = array_get($data, 'path');
 
-            $extension = strtolower((string) $uploadedFile->getClientOriginalExtension());
+            $extension = strtolower((string)$uploadedFile->getClientOriginalExtension());
             $fileName = File::name($fileName).'.'.$extension;
             $filePath = $path.'/'.$fileName;
 

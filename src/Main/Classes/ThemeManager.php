@@ -103,16 +103,19 @@ class ThemeManager
             return $this->themes[$code];
         }
 
-        $config = SystemHelper::themeValidateConfig($config);
+        try {
+            $config = SystemHelper::themeValidateConfig($config);
+            $themeObject = new Theme($path, $config);
+            $themeObject->active = $this->isActive($code);
+            $this->themes[$code] = $themeObject;
+            $this->paths[$code] = $themeObject->getPath();
 
-        $themeObject = new Theme($path, $config);
+            return $themeObject;
+        } catch (\Exception $e) {
+            logger()->debug($e->getMessage());
 
-        $themeObject->active = $this->isActive($code);
-
-        $this->themes[$code] = $themeObject;
-        $this->paths[$code] = $themeObject->getPath();
-
-        return $themeObject;
+            return null;
+        }
     }
 
     /**
@@ -244,7 +247,7 @@ class ThemeManager
 
         foreach ($directories as $directory) {
             foreach (File::glob($directory.'/*/theme.json') as $path) {
-                $paths[] = dirname((string) $path);
+                $paths[] = dirname((string)$path);
             }
         }
 
@@ -335,7 +338,7 @@ class ThemeManager
     {
         $path = $this->findPath($themeCode);
 
-        $themePath = rtrim((string) $path, '/');
+        $themePath = rtrim((string)$path, '/');
         if (is_null($base)) {
             $base = ['/'];
         } elseif (!is_array($base)) {
@@ -361,7 +364,7 @@ class ThemeManager
 
         [$dirName, $fileName] = $this->getFileNameParts($filePath);
 
-        if (!strlen((string) $fileName) || !$template = $theme->onTemplate($dirName)->find($fileName)) {
+        if (!strlen((string)$fileName) || !$template = $theme->onTemplate($dirName)->find($fileName)) {
             throw new SystemException('Theme template file not found: '.$filePath);
         }
 
