@@ -45,7 +45,7 @@ class MediaLibrary
     public function listFolderContents(string $path, string $methodName, bool $recursive = false): ?array
     {
         $cached = Cache::get(self::$cacheKey, false);
-        $cached = $cached ? @unserialize(@base64_decode((string) $cached)) : [];
+        $cached = $cached ? @unserialize(@base64_decode((string)$cached)) : [];
 
         $cacheSuffix = $recursive ? 'recursive' : 'single';
         $cachedKey = sprintf('%s.%s.%s', $cacheSuffix, $methodName, $path);
@@ -402,7 +402,7 @@ class MediaLibrary
 
     protected function getThumbDirectory(): string
     {
-        return $this->getConfig('thumbFolder', 'media/attachments/');
+        return sprintf('%spublic/', Config::get('igniter-system.assets.attachment.folder', 'media/attachments/'));
     }
 
     protected function getStorageDisk(): FilesystemContract
