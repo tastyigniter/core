@@ -23,7 +23,7 @@ class MediaManager extends BaseWidget
 {
     use ValidatesForm;
 
-    public const ROOT_FOLDER = '/';
+    public const string ROOT_FOLDER = '/';
 
     /**
      * @var string Media size
@@ -77,7 +77,7 @@ class MediaManager extends BaseWidget
         $searchTerm = $this->getSearchTerm();
 
         $this->vars['currentFolder'] = $folder;
-        $this->vars['isRootFolder'] = $folder == static::ROOT_FOLDER;
+        $this->vars['isRootFolder'] = $folder === static::ROOT_FOLDER;
         $this->vars['items'] = $items = $this->listFolderItems($folder, $sortBy, ['search' => $searchTerm, 'filter' => $filterBy]);
         $this->vars['folderSize'] = $this->getCurrentFolderSize();
         $this->vars['totalItems'] = count($items);
@@ -117,7 +117,7 @@ class MediaManager extends BaseWidget
     {
         $data = $this->validate(post(), [
             'sortBy' => ['required', 'in:name,size,date'],
-            'path' => ['string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            'path' => ['string', 'starts_with:/', $this->validateFileExists()],
         ]);
 
         $this->setSortBy(array_get($data, 'sortBy'));
@@ -165,7 +165,7 @@ class MediaManager extends BaseWidget
     public function onGoToFolder(): array
     {
         $data = $this->validate(post(), [
-            'path' => ['required', 'string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            'path' => ['required', 'string', 'starts_with:/', $this->validateFileExists()],
             'resetCache' => ['boolean'],
             'resetSearch' => ['boolean'],
         ]);
@@ -204,12 +204,12 @@ class MediaManager extends BaseWidget
 
         $this->popupLoaded = true;
         $this->selectMode = array_get($data, 'selectMode');
-        $this->chooseButton = array_get($data, 'chooseButton');
+        $this->chooseButton = (bool)array_get($data, 'chooseButton');
         $this->chooseButtonText = array_get($data, 'chooseButtonText', $this->chooseButtonText);
 
         $goToItem = array_get($data, 'goToItem');
-        if (!empty($goToPath = dirname((string) $goToItem))) {
-            $this->selectItem = basename((string) $goToItem);
+        if (!empty($goToPath = dirname((string)$goToItem))) {
+            $this->selectItem = basename((string)$goToItem);
             $this->setCurrentFolder($goToPath);
         }
 
@@ -225,7 +225,7 @@ class MediaManager extends BaseWidget
         ));
 
         $validated = $this->validate(post(), [
-            'path' => ['string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            'path' => ['string', 'starts_with:/', $this->validateFileExists()],
             'name' => ['required', 'filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)'],
         ], [
             'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),
@@ -233,8 +233,8 @@ class MediaManager extends BaseWidget
             'name.filled' => lang('igniter::main.media_manager.alert_file_name_required'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
-        $fullPath = $path.'/'.trim((string) array_get($validated, 'name'));
+        $path = trim((string)array_get($validated, 'path'));
+        $fullPath = $path.'/'.trim((string)array_get($validated, 'name'));
 
         throw_if($mediaLibrary->exists($fullPath), new FlashException(
             lang('igniter::main.media_manager.alert_file_exists'),
@@ -263,7 +263,7 @@ class MediaManager extends BaseWidget
         ));
 
         $validated = $this->validate(post(), [
-            'path' => ['string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            'path' => ['string', 'starts_with:/', $this->validateFileExists()],
             'name' => ['required', 'filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)'],
         ], [
             'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),
@@ -271,8 +271,8 @@ class MediaManager extends BaseWidget
             'name.filled' => lang('igniter::main.media_manager.alert_file_name_required'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
-        $newPath = Str::deduplicate(File::dirname($path).'/'.trim((string) array_get($validated, 'name')), DIRECTORY_SEPARATOR);
+        $path = trim((string)array_get($validated, 'path'));
+        $newPath = Str::deduplicate(File::dirname($path).'/'.trim((string)array_get($validated, 'name')), DIRECTORY_SEPARATOR);
 
         throw_if($mediaLibrary->exists($newPath), new FlashException(
             lang('igniter::main.media_manager.alert_file_exists'),
@@ -300,7 +300,7 @@ class MediaManager extends BaseWidget
         ));
 
         $validated = $this->validate(post(), [
-            'path' => ['required', 'string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            'path' => ['required', 'string', 'starts_with:/', $this->validateFileExists()],
             'file' => ['required', 'filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)', 'ends_with:'.implode(',', array_map(fn($value) => '.'.$value, $mediaLibrary->getAllowedExtensions()))],
             'name' => ['required', 'filled', 'regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)'],
         ], [
@@ -311,9 +311,9 @@ class MediaManager extends BaseWidget
             'name.filled' => lang('igniter::main.media_manager.alert_invalid_new_file_name'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
-        $oldPath = $path.'/'.trim((string) array_get($validated, 'file'));
-        $newPath = $path.'/'.trim((string) array_get($validated, 'name'));
+        $path = trim((string)array_get($validated, 'path'));
+        $oldPath = $path.'/'.trim((string)array_get($validated, 'file'));
+        $newPath = $path.'/'.trim((string)array_get($validated, 'name'));
 
         if (!File::extension($newPath)) {
             $newPath .= '.'.File::extension($oldPath);
@@ -353,12 +353,12 @@ class MediaManager extends BaseWidget
         ));
 
         $validated = $this->validate(post(), [
-            'path' => ['required', 'string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            'path' => ['required', 'string', 'starts_with:/', $this->validateFileExists()],
         ], [
             'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
+        $path = trim((string)array_get($validated, 'path'));
         $mediaLibrary->deleteFolder($path);
         $mediaLibrary->resetCache();
         $this->setCurrentFolder(dirname($path));
@@ -382,7 +382,7 @@ class MediaManager extends BaseWidget
         ));
 
         $validated = $this->validate(post(), [
-            'path' => ['required', 'string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            'path' => ['required', 'string', 'starts_with:/', $this->validateFileExists()],
             'files' => ['required', 'filled', 'array'],
             'files.*.path' => ['regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)'],
         ], [
@@ -391,7 +391,7 @@ class MediaManager extends BaseWidget
             'regex' => lang('igniter::main.media_manager.alert_invalid_file_name'),
         ]);
 
-        $path = trim((string) array_get($validated, 'path'));
+        $path = trim((string)array_get($validated, 'path'));
         $files = array_map(fn(array $value): string => $path.'/'.$value['path'], array_get($validated, 'files'));
 
         $mediaLibrary->deleteFiles($files);
@@ -416,7 +416,7 @@ class MediaManager extends BaseWidget
         ));
 
         $validated = $this->validate(post(), [
-            'path' => ['required', 'string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            'path' => ['required', 'string', 'starts_with:/', $this->validateFileExists()],
             'files' => ['required', 'filled', 'array'],
             'files.*.path' => ['regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)'],
             'destination' => ['required', 'string', $this->validateFileExists()],
@@ -426,8 +426,8 @@ class MediaManager extends BaseWidget
             'regex' => lang('igniter::main.media_manager.alert_invalid_file_name'),
         ]);
 
-        $source = trim((string) array_get($validated, 'path'));
-        $destination = trim((string) array_get($validated, 'destination'));
+        $source = trim((string)array_get($validated, 'path'));
+        $destination = trim((string)array_get($validated, 'destination'));
 
         foreach (array_get($validated, 'files') as $file) {
             $name = $file['path'];
@@ -456,7 +456,7 @@ class MediaManager extends BaseWidget
         ));
 
         $validated = $this->validate(post(), [
-            'path' => ['required', 'string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            'path' => ['required', 'string', 'starts_with:/', $this->validateFileExists()],
             'files' => ['required', 'filled', 'array'],
             'files.*.path' => ['regex:/^[0-9a-z@\.\s_\-]+$/i', 'not_regex:(\.\.)'],
             'destination' => ['required', 'string', $this->validateFileExists()],
@@ -466,8 +466,8 @@ class MediaManager extends BaseWidget
             'regex' => lang('igniter::main.media_manager.alert_invalid_file_name'),
         ]);
 
-        $source = trim((string) array_get($validated, 'path'));
-        $destination = trim((string) array_get($validated, 'destination'));
+        $source = trim((string)array_get($validated, 'path'));
+        $destination = trim((string)array_get($validated, 'destination'));
 
         foreach (array_get($validated, 'files') as $file) {
             $name = $file['path'];
@@ -513,7 +513,7 @@ class MediaManager extends BaseWidget
                 continue;
             }
 
-            $result[$value] = $value;
+            $result[$value] = ($value != static::ROOT_FOLDER ? '/' : '').$value;
         }
 
         return $result;
@@ -620,8 +620,8 @@ class MediaManager extends BaseWidget
                 throw new FlashException(sprintf(lang('igniter::main.media_manager.alert_permission'), 'upload'));
             }
 
-            $data = $this->validate(post(), [
-                'path' => ['required', 'string', 'starts_with:'.DIRECTORY_SEPARATOR, $this->validateFileExists()],
+            $data = $this->validate(request()->all(), [
+                'path' => ['required', 'string', 'starts_with:/', $this->validateFileExists()],
                 'file_data' => ['required', 'file', 'mimes:'.implode(',', $mediaLibrary->getAllowedExtensions())],
             ], [
                 'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),
@@ -633,7 +633,7 @@ class MediaManager extends BaseWidget
             $fileName = $uploadedFile->getClientOriginalName();
             $path = array_get($data, 'path');
 
-            $extension = strtolower((string) $uploadedFile->getClientOriginalExtension());
+            $extension = strtolower((string)$uploadedFile->getClientOriginalExtension());
             $fileName = File::name($fileName).'.'.$extension;
             $filePath = $path.'/'.$fileName;
 
