@@ -466,7 +466,7 @@ it('uploads files', function() {
     });
 
     Event::assertDispatched('media.file.upload');
-})->only();
+});
 
 function prepareMediaLibraryForRender(MediaLibrary $mediaLibrary): void
 {
