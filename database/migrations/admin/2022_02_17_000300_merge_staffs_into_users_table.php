@@ -96,7 +96,7 @@ return new class extends Migration
 
         if (Schema::hasColumn('admin_users', 'staff_id')) {
             Schema::table('admin_users', function(Blueprint $table) {
-                $table->bigInteger('staff_id')->unique(false)->change();
+                $table->dropIndexIfExists('admin_users_staff_id_unique');
             });
 
             Schema::table('admin_users', function(Blueprint $table) {
