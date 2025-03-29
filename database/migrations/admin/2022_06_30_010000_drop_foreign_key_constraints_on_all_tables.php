@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
@@ -31,7 +30,7 @@ return new class extends Migration
                 $foreignKey = $keys[0];
 
                 $table->dropForeignKeyIfExists($foreignKey);
-                $table->dropIndexIfExists(sprintf('%s%s_%s_foreign', DB::getTablePrefix(), $tableName, $foreignKey));
+                $table->dropIndexIfExists(sprintf('%s_%s_foreign', $tableName, $foreignKey));
             });
         } catch (\Exception $ex) {
             Log::error($ex);

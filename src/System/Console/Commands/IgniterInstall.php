@@ -176,6 +176,10 @@ class IgniterInstall extends Command
 
     protected function createSuperUser()
     {
+        if (User::count() && !$this->confirm('Super user already exists. Do you want to create another super user?')) {
+            return;
+        }
+
         DatabaseSeeder::$staffName = $this->ask('Admin Name', DatabaseSeeder::$staffName);
         DatabaseSeeder::$siteEmail = $this->output->ask('Admin Email', DatabaseSeeder::$siteEmail, function($answer) {
             throw_if(
