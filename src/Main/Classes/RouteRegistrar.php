@@ -55,6 +55,8 @@ class RouteRegistrar
                         $route->where($key, $value);
                     }
                 }
+
+                event('igniter.main.registerRoutes', $router);
             });
     }
 
