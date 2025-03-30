@@ -118,6 +118,7 @@ class MainController extends Controller
 
         $url = request()->path();
 
+        /** @var null|Page $page */
         $page = Event::dispatch('router.beforeRoute', [$url, $this->router], true);
         if (is_null($page)) {
             $page = request()->route('_file_');

@@ -241,7 +241,7 @@ it('converts datetime object to storable string', function() {
 
     expect($model->fromTime(now()))->toBe(now()->format($format))
         ->and($model->fromTime(new DateTime))->toBe((new DateTime)->format($format))
-        ->and($model->fromTime(time()))->toBe(now()->format($format))
+        ->and($model->fromTime(now()->timestamp))->toBe(now()->format($format))
         ->and($model->fromTime('23:59:59'))->toBe('23:59')
         ->and($model->fromTime('23:59'))->toBe('23:59');
 });
