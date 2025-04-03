@@ -65,6 +65,8 @@ class SystemLogs extends AdminController
      */
     protected function getLogsFile(): string
     {
+        // replace slashes with os directory separator
+        $this->logFile = str_replace('/', DIRECTORY_SEPARATOR, $this->logFile);
         // default daily rotating logs (Laravel 5.0)
         $path = storage_path($this->logFile.'-'.date('Y-m-d').'.log');
 
