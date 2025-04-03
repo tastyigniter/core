@@ -39,6 +39,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: PHP Linting (Pint) - Fix styling
+          file_pattern: '*.php'
   php-tests:
     name: 'PHP Tests'
     needs: php-lint

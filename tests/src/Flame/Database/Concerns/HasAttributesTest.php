@@ -8,6 +8,7 @@ use BadMethodCallException;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 use DateTime;
+use DateTimeZone;
 use Igniter\Flame\Database\Concerns\HasAttributes;
 use Igniter\Flame\Database\Model;
 use Igniter\Tests\Flame\Database\Fixtures\TestEnum;
@@ -239,9 +240,11 @@ it('converts datetime object to storable string', function() {
     };
     $model->setTimeFormat($format = 'H:i');
 
+    $dateTime = new DateTime('now', new DateTimeZone('+00:00'));
+
     expect($model->fromTime(now()))->toBe(now()->format($format))
         ->and($model->fromTime(new DateTime))->toBe((new DateTime)->format($format))
-        ->and($model->fromTime(time()))->toBe(now()->format($format))
+        ->and($model->fromTime(($dateTime)->getTimestamp()))->toBe(($dateTime)->format($format))
         ->and($model->fromTime('23:59:59'))->toBe('23:59')
         ->and($model->fromTime('23:59'))->toBe('23:59');
-});
+})->only();

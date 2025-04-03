@@ -16,11 +16,15 @@ class BlueprintMixin
             $foreignKeys = array_map(fn($key) => array_get($key, 'name'), Schema::getForeignKeys($this->getTable()));
 
             if (!ends_with($key, '_foreign')) {
-                $key = sprintf('%s_%s_foreign', $this->getTable(), $key);
+                $key = sprintf('%s_foreign', $key);
             }
 
-            if (in_array($this->getPrefix().$key, $foreignKeys)) {
-                $key = $this->getPrefix().$key;
+            if (!starts_with($key, $this->getTable().'_')) {
+                $key = sprintf('%s_%s', $this->getTable(), $key);
+            }
+
+            if (!starts_with($key, $this->getPrefix())) {
+                $key = sprintf('%s%s', $this->getPrefix(), $key);
             }
 
             if (!in_array($key, $foreignKeys)) {
@@ -36,8 +40,16 @@ class BlueprintMixin
         return function($key) {
             $indexes = array_map(fn($key) => array_get($key, 'name'), Schema::getIndexes($this->getTable()));
 
+            if (!ends_with($key, ['_index', '_foreign', '_unique'])) {
+                $key = sprintf('%s_index', $key);
+            }
+
+            if (!starts_with($key, $this->getTable().'_')) {
+                $key = sprintf('%s_%s', $this->getTable(), $key);
+            }
+
             if (!starts_with($key, $this->getPrefix())) {
-                $key = sprintf('%s%s_%s_index', $this->getPrefix(), $this->getTable(), $key);
+                $key = sprintf('%s%s', $this->getPrefix(), $key);
             }
 
             if (!in_array($key, $indexes)) {

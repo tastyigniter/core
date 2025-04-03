@@ -446,7 +446,7 @@ it('uploads files', function() {
     Event::fake();
     $file = UploadedFile::fake()->image('test-file.jpg');
     request()->headers->set('X-IGNITER-FILEUPLOAD', 'mediamanager');
-    request()->request->add([
+    request()->merge([
         'path' => '/test-folder',
         'file_data' => $file,
     ]);

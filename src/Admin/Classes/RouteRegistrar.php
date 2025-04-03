@@ -48,6 +48,8 @@ class RouteRegistrar
                     [$name, $uri] = $this->guessRouteUri($class);
                     $router->name($name)->any('/'.$uri.'/{slug?}', [$class, 'remap'])->where('slug', '(.*)?');
                 }
+
+                event('igniter.admin.registerRoutes', $router);
             });
     }
 
