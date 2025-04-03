@@ -21,9 +21,9 @@ class Connector extends BaseFormWidget
     use FormModelWidget;
     use ValidatesForm;
 
-    public const INDEX_SEARCH = '___index__';
+    public const string INDEX_SEARCH = '___index__';
 
-    public const SORT_PREFIX = '___dragged_';
+    public const string SORT_PREFIX = '___dragged_';
 
     //
     // Object properties
