@@ -32,6 +32,10 @@ jobs:
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
 
+      - name: Remove composer version after use
+        if: github.head_ref != 'master' && github.head_ref != 'main' && github.head_ref != '4.x'
+        run: composer config --unset version
+
       - name: Run Laravel Pint
         run: composer format
 
@@ -40,10 +44,6 @@ jobs:
         with:
           commit_message: PHP Linting (Pint) - Fix styling
           file_pattern: '*.php'
-
-      - name: Remove composer version after use
-        if: github.head_ref != 'master' && github.head_ref != 'main' && github.head_ref != '4.x'
-        run: composer config --unset version
   php-tests:
     name: 'PHP Tests'
     needs: php-lint
@@ -90,9 +90,9 @@ jobs:
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
 
-      - name: Run test suite
-        run: composer test
-
       - name: Remove composer version after use
         if: github.head_ref != 'master' && github.head_ref != '4.x'
         run: composer config --unset version
+
+      - name: Run test suite
+        run: composer test
