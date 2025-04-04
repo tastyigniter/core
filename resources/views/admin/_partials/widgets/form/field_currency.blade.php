@@ -17,7 +17,7 @@ $decimalPosition = $currencyModel?->decimal_position ?? 2;
             id="{{ $field->getId() }}"
             class="form-control"
             @if(!is_null($field->value))
-            value="{{ number_format($field->value, $decimalPosition, $decimalSign, '') }}"
+            value="{{ number_format((float)$field->value, $decimalPosition, $decimalSign, '') }}"
             @endif
             placeholder="@lang($field->placeholder)"
             autocomplete="off"
