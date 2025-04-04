@@ -66,13 +66,13 @@ trait FormModelWidget
             property_exists($this, 'valueFrom') ? $this->valueFrom : null,
         );
 
-        if (!$model || !$this->hasModelRelation($model, $attribute)) {
+        if (!$model || !$this->hasModelRelation($model, (string)$attribute)) {
             throw new FlashException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
                 $this->model::class, property_exists($this, 'valueFrom') ? $this->valueFrom : null,
             ));
         }
 
-        return $this->makeModelRelation($model, $attribute);
+        return $this->makeModelRelation($model, (string)$attribute);
     }
 
     protected function getRelationObject(): Relation
@@ -81,7 +81,7 @@ trait FormModelWidget
             property_exists($this, 'valueFrom') ? $this->valueFrom : null,
         );
 
-        if (!$model || !$this->hasModelRelation($model, $attribute)) {
+        if (!$model || !$this->hasModelRelation($model, (string)$attribute)) {
             throw new FlashException(sprintf(lang('igniter::admin.alert_missing_model_definition'),
                 $this->model::class, property_exists($this, 'valueFrom') ? $this->valueFrom : null,
             ));
@@ -96,7 +96,7 @@ trait FormModelWidget
             property_exists($this, 'valueFrom') ? $this->valueFrom : null,
         );
 
-        return $this->getModelRelationType($model, $attribute);
+        return $model ? $this->getModelRelationType($model, (string)$attribute) : '';
     }
 
     protected function makeModelRelation(Model $model, string $attribute): mixed
