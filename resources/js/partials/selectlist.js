@@ -22,10 +22,55 @@
         }
 
         this.choices = new Choices(this.$el[0], this.options)
+
+        if (this.$el.closest('.table-responsive').length) {
+            this.$el.on('showDropdown', $.proxy(this.repositionDropdown, this))
+            this.$el.on('hideDropdown', $.proxy(this.revertDropdownPosition, this))
+        }
     }
 
     SelectList.prototype.setChoices = function (choices) {
         this.choices.setChoices(choices, 'value', 'label', true)
+    }
+
+    SelectList.prototype.repositionDropdown = function () {
+        const $container = this.$el.closest('.choices')
+        const $inner = $container.find('.choices__inner');
+        const $dropdown = $container.find('.choices__list--dropdown');
+        const $tableWrapper = $container.closest('.table-responsive');
+        const $tableContainer = $tableWrapper.parent();
+
+        if (!$inner.length || !$dropdown.length || !$tableWrapper.length) return;
+
+        $tableContainer.css('position', 'relative');
+
+        const innerOffset = $inner.offset();
+        const containerOffset = $tableContainer.offset();
+        const top = innerOffset.top - containerOffset.top + $inner.outerHeight();
+        const left = innerOffset.left - containerOffset.left;
+        const width = $inner.outerWidth();
+
+        $dropdown.css({
+            position: 'absolute',
+            top: `${top}px`,
+            left: `${left}px`,
+            width: `${width}px`,
+            zIndex: 9999
+        });
+
+        $tableContainer.append($dropdown);
+    }
+
+    SelectList.prototype.revertDropdownPosition = function () {
+        const $container = this.$el.closest('.choices')
+        const $tableWrapper = $container.closest('.table-responsive');
+        const $dropdown = $tableWrapper.parent().find('.choices__list--dropdown');
+
+        console.log($container, $dropdown);
+        if ($dropdown.length && $container.length) {
+            $container.find('.choices__inner').after($dropdown);
+            $dropdown.attr('style', '');
+        }
     }
 
     // SELECT LIST PLUGIN DEFINITION

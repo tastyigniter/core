@@ -229,9 +229,9 @@ class RecordEditor extends BaseFormWidget
         );
 
         if ($this->modelMethodExists($model, $methodName)) {
-            $result = $model->$methodName();
+            $result = $model->$methodName($this->model, $this->fieldName);
         } else {
-            $result = $model->getRecordEditorOptions($this->fieldName);
+            $result = $model->getRecordEditorOptions($this->model, $this->fieldName);
         }
 
         return $result;

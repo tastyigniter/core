@@ -51,7 +51,7 @@
   {
     "status_name": "Pending",
     "status_comment": "Your table reservation is pending.",
-    "notify_customer": 0,
+    "notify_customer": 1,
     "status_for": "reservation",
     "status_color": ""
   },

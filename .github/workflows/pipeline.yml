@@ -25,12 +25,16 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Set Correct Version for Pull Request
-        if: github.event_name == 'pull_request'
+      - name: Set composer version to avoid conflicts
+        if: github.head_ref != 'master' && github.head_ref != 'main' && github.head_ref != '4.x'
         run: composer config version 4.0.x-dev
 
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
+
+      - name: Remove composer version after use
+        if: github.head_ref != 'master' && github.head_ref != 'main' && github.head_ref != '4.x'
+        run: composer config --unset version
 
       - name: Run Laravel Pint
         run: composer format
@@ -79,12 +83,16 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Set Correct Version for Pull Request
-        if: github.event_name == 'pull_request'
+      - name: Set composer version to avoid conflicts
+        if: github.head_ref != 'master' && github.head_ref != '4.x'
         run: composer config version 4.0.x-dev
 
       - name: Install composer dependencies
         run: composer update --no-interaction --no-progress
+
+      - name: Remove composer version after use
+        if: github.head_ref != 'master' && github.head_ref != '4.x'
+        run: composer config --unset version
 
       - name: Run test suite
         run: composer test
