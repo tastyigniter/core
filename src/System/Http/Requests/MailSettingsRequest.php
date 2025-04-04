@@ -43,19 +43,19 @@ class MailSettingsRequest extends FormRequest
 
             'mail_logo' => ['nullable', 'string'],
 
-            'smtp_host' => ['required_if:protocol,smtp', 'nullable', 'string'],
-            'smtp_port' => ['required_if:protocol,smtp', 'nullable', 'string'],
-            'smtp_user' => ['required_if:protocol,smtp', 'nullable', 'string'],
-            'smtp_pass' => ['required_if:protocol,smtp', 'nullable', 'string'],
+            'smtp_host' => ['nullable', 'required_if:protocol,smtp', 'string'],
+            'smtp_port' => ['nullable', 'required_if:protocol,smtp', 'string'],
+            'smtp_user' => ['nullable', 'required_if:protocol,smtp', 'string'],
+            'smtp_pass' => ['nullable', 'required_if:protocol,smtp', 'string'],
 
-            'mailgun_domain' => ['required_if:protocol,mailgun', 'nullable', 'string'],
-            'mailgun_secret' => ['required_if:protocol,mailgun', 'nullable', 'string'],
+            'mailgun_domain' => ['nullable', 'required_if:protocol,mailgun', 'string'],
+            'mailgun_secret' => ['nullable', 'required_if:protocol,mailgun', 'string'],
 
-            'postmark_token' => ['required_if:protocol,postmark', 'nullable', 'string'],
+            'postmark_token' => ['nullable', 'required_if:protocol,postmark', 'string'],
 
-            'ses_key' => ['required_if:protocol,ses', 'nullable', 'string'],
-            'ses_secret' => ['required_if:protocol,ses', 'nullable', 'string'],
-            'ses_region' => ['required_if:protocol,ses', 'nullable', 'string'],
+            'ses_key' => ['nullable', 'required_if:protocol,ses', 'string'],
+            'ses_secret' => ['nullable', 'required_if:protocol,ses', 'string'],
+            'ses_region' => ['nullable', 'required_if:protocol,ses', 'string'],
         ];
     }
 }
