@@ -247,4 +247,4 @@ it('converts datetime object to storable string', function() {
         ->and($model->fromTime(($dateTime)->getTimestamp()))->toBe(($dateTime)->format($format))
         ->and($model->fromTime('23:59:59'))->toBe('23:59')
         ->and($model->fromTime('23:59'))->toBe('23:59');
-})->only();
+});
