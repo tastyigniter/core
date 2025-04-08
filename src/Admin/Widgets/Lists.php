@@ -389,14 +389,14 @@ class Lists extends BaseWidget
         }
 
         if ($this->columnOverride && is_array($this->columnOverride)) {
-            $invalidColumns = array_diff($this->columnOverride, array_keys($definitions));
+            $invalidColumns = array_diff($this->columnOverride, array_keys($this->columns));
             if ($invalidColumns !== []) {
                 throw new SystemException(sprintf(
                     lang('igniter::admin.list.invalid_column_override'), implode(',', $invalidColumns),
                 ));
             }
 
-            $availableColumns = array_intersect($this->columnOverride, array_keys($definitions));
+            $availableColumns = array_intersect($this->columnOverride, array_keys($this->columns));
             foreach ($availableColumns as $columnName) {
                 $definitions[$columnName]->invisible = false;
                 $columns[$columnName] = $definitions[$columnName];
@@ -980,7 +980,7 @@ class Lists extends BaseWidget
             $this->putSession('visible', $this->columnOverride);
         }
 
-        $pageLimit = post('page_limit');
+        $pageLimit = (int)post('page_limit');
         $this->pageLimit = $pageLimit ?: $this->pageLimit;
         $this->putSession('order', $visibleColumns);
         $this->putSession('page_limit', $this->pageLimit);

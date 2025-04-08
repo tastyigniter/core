@@ -6,7 +6,7 @@
     @endif
 
     @if ($showCheckboxes)
-        <th class="list-action text-nowrap pb-0">
+        <th class="list-action pb-0">
             <div class="form-check">
                 <input
                     type="checkbox" id="{{ 'checkboxAll-'.$listId }}"
@@ -18,7 +18,7 @@
 
     @foreach($columns as $key => $column)
         @if ($column->type == 'button')
-            <th class="list-action {{ $column->cssClass }} text-nowrap"></th>
+            <th class="list-action {{ $column->cssClass }}"></th>
         @elseif ($showSorting && $column->sortable)
             <th
                 @class([
@@ -39,7 +39,7 @@
             </th>
         @else
             <th
-                class="list-cell-name-{{ $column->getName() }} list-cell-type-{{ $column->type }} text-nowrap"
+                class="list-cell-name-{{ $column->getName() }} list-cell-type-{{ $column->type }}"
                 @if ($column->width) style="width: {{ $column->width }}" @endif
             >
                 <span>{{ $this->getHeaderValue($column) }}</span>
