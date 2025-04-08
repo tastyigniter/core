@@ -690,23 +690,27 @@ if (!function_exists('make_carbon')) {
     /**
      * Converts mixed inputs to a Carbon object.
      */
-    function make_carbon(mixed $value, bool $throwException = true): Carbon|string
+    function make_carbon(mixed $value, bool $throwException = true): Carbon|string|null
     {
-        if (!$value instanceof Carbon && $value instanceof DateTime) {
-            $value = Carbon::instance($value);
-        } elseif (is_numeric($value)) {
-            $value = Carbon::createFromTimestamp($value);
-        } elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', (string)$value)) {
-            $value = Carbon::createFromFormat('Y-m-d', $value)->startOfDay();
-        } else {
-            try {
-                $value = Carbon::parse($value);
-            } catch (Exception) {
+        try {
+            if (!$value instanceof Carbon && $value instanceof DateTime) {
+                $value = Carbon::instance($value);
+            } elseif (is_numeric($value)) {
+                $value = Carbon::createFromTimestamp($value);
+            } elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', (string)$value)) {
+                $value = Carbon::createFromFormat('Y-m-d', $value)->startOfDay();
+            } else {
+                try {
+                    $value = Carbon::parse($value);
+                } catch (Exception) {
+                }
             }
-        }
 
-        if (!$value instanceof Carbon && $throwException) {
-            throw new InvalidArgumentException('Invalid date value supplied to DateTime helper.');
+            if (!$value instanceof Carbon) {
+                throw new InvalidArgumentException('Invalid date value supplied to DateTime helper.');
+            }
+        } catch (Exception $ex) {
+            $throwException ? throw $ex : $value = null;
         }
 
         return $value;
