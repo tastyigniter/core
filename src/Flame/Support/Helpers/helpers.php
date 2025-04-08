@@ -709,8 +709,8 @@ if (!function_exists('make_carbon')) {
             if (!$value instanceof Carbon) {
                 throw new InvalidArgumentException('Invalid date value supplied to DateTime helper.');
             }
-        } catch (Exception $ex) {
-            $throwException ? throw $ex : $value = null;
+        } catch (Exception $exception) {
+            $throwException ? throw $exception : $value = null;
         }
 
         return $value;
