@@ -105,7 +105,7 @@ if (!function_exists('theme_url')) {
      */
     function theme_url(string $uri = '', ?bool $secure = null): string
     {
-        return asset(trim((string) config('igniter-system.themesDir'), '/').'/'.$uri, $secure);
+        return asset(trim((string)config('igniter-system.themesDir'), '/').'/'.$uri, $secure);
     }
 }
 
@@ -652,8 +652,8 @@ if (!function_exists('time_range')) {
 
         $interval = ctype_digit($interval) ? $interval.' mins' : $interval;
 
-        $start_time = strtotime((string) $unix_start);
-        $end_time = strtotime((string) $unix_end);
+        $start_time = strtotime((string)$unix_start);
+        $end_time = strtotime((string)$unix_end);
 
         $current = time();
         $add_time = strtotime('+'.$interval, $current);
@@ -690,23 +690,27 @@ if (!function_exists('make_carbon')) {
     /**
      * Converts mixed inputs to a Carbon object.
      */
-    function make_carbon(mixed $value, bool $throwException = true): Carbon|string
+    function make_carbon(mixed $value, bool $throwException = true): Carbon|null
     {
-        if (!$value instanceof Carbon && $value instanceof DateTime) {
-            $value = Carbon::instance($value);
-        } elseif (is_numeric($value)) {
-            $value = Carbon::createFromTimestamp($value);
-        } elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', (string)$value)) {
-            $value = Carbon::createFromFormat('Y-m-d', $value)->startOfDay();
-        } else {
-            try {
-                $value = Carbon::parse($value);
-            } catch (Exception) {
+        try {
+            if (!$value instanceof Carbon && $value instanceof DateTime) {
+                $value = Carbon::instance($value);
+            } elseif (is_numeric($value)) {
+                $value = Carbon::createFromTimestamp($value);
+            } elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', (string)$value)) {
+                $value = Carbon::createFromFormat('Y-m-d', $value)->startOfDay();
+            } else {
+                try {
+                    $value = Carbon::parse($value);
+                } catch (Exception) {
+                }
             }
-        }
 
-        if (!$value instanceof Carbon && $throwException) {
-            throw new InvalidArgumentException('Invalid date value supplied to DateTime helper.');
+            if (!$value instanceof Carbon) {
+                throw new InvalidArgumentException('Invalid date value supplied to DateTime helper.');
+            }
+        } catch (Exception $exception) {
+            $throwException ? throw $exception : $value = null;
         }
 
         return $value;
