@@ -117,7 +117,9 @@ class ListColumn
             $this->invisible = $config['invisible'];
         }
 
-        $this->valueFrom = $config['valueFrom'] ?? $this->columnName;
+        if (isset($config['valueFrom'])) {
+            $this->valueFrom = $config['valueFrom'];
+        }
 
         if (isset($config['default'])) {
             $this->defaults = $config['default'];
