@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 /**
  * Lists widget.
@@ -494,7 +495,12 @@ class Lists extends BaseWidget
 
         $label = $config['label'] ??= studly_case($name);
 
-        if (str_contains($name, '[') && str_contains($name, ']')) {
+        if (starts_with($name, 'pivot[') && Str::contains($name, ']')) {
+            $_name = name_to_array($name);
+            $config['relation'] = array_shift($_name);
+            $config['valueFrom'] = array_shift($_name);
+            $config['searchable'] = false;
+        } elseif (Str::contains($name, ['[', ']'])) {
             $_name = name_to_array($name);
             $config['relation'] = array_shift($_name);
             $config['valueFrom'] = array_shift($_name);

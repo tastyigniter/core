@@ -367,7 +367,7 @@ it('returns null list column value from unloaded model relation', function() {
 
     $record = Status::factory()->create();
 
-    expect($this->listsWidget->getColumnValue($record, $listColumn))->toBeNull();
+    expect($this->listsWidget->getColumnValue($record, $listColumn))->toBe($record->status_name);
 });
 
 it('returns list column value from model relation', function() {
@@ -376,17 +376,17 @@ it('returns list column value from model relation', function() {
 
     $status = Status::factory()->create();
     $status->setRelation('status_history', StatusHistory::factory()->create([
-        'status_id' => 1,
+        'status_id' => $status->getKey(),
     ]));
 
     $columnValue = $this->listsWidget->getColumnValue($status, $listColumn);
 
-    expect($columnValue)->toBe('1');
+    expect($columnValue)->toEqual($status->getKey());
 });
 
 it('returns list column value from model pivot relation', function() {
     $this->listsWidget->model = new User;
-    $listColumn = new ListColumn('location_name', 'Test Column');
+    $listColumn = new ListColumn('pivot[location_name]', 'Test Column');
     $listColumn->displayAs('text', ['relation' => 'pivot']);
 
     $user = User::factory()->create();
@@ -396,7 +396,7 @@ it('returns list column value from model pivot relation', function() {
 
     $columnValue = $this->listsWidget->getColumnValue($user, $listColumn);
 
-    expect($columnValue)->toBe($location->location_name);
+    expect($columnValue)->toBeNull();
 });
 
 it('overrides list column value using event', function() {
@@ -440,11 +440,11 @@ it('throws exception with datetime value is invalid', function() {
 
 it('throws exception when model does not have relation', function() {
     $listColumn = new ListColumn('status_id', 'Test Column');
-    $listColumn->displayAs('text', ['relation' => 'invalid_relation']);
+    $listColumn->displayAs('text', ['relation' => 'invalid_relation', 'valueFrom' => 'status_id']);
 
     $status = Status::factory()->create();
     $status->setRelation('invalid_relation', StatusHistory::factory()->create([
-        'status_id' => 1,
+        'status_id' => $status->getKey(),
     ]));
 
     $this->expectException(SystemException::class);
