@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Main\Classes;
 
-use Carbon\Carbon;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\MediaItem;
 
