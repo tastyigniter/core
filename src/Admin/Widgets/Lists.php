@@ -136,8 +136,6 @@ class Lists extends BaseWidget
         if ($this->showPagination == 'auto') {
             $this->showPagination = $this->pageLimit && $this->pageLimit > 0;
         }
-
-        $this->validateModel();
     }
 
     public function loadAssets(): void

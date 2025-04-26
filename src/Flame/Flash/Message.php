@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Flash;
 
+use AllowDynamicProperties;
 use ArrayAccess;
 
+#[AllowDynamicProperties]
 class Message implements ArrayAccess
 {
     /** The title of the message. */
