@@ -50,9 +50,9 @@ it('returns formatted size string for folder', function() {
 });
 
 it('returns formatted last modified date string', function() {
-    $timestamp = time();
+    $timestamp = 1745506800;
     $mediaItem = new MediaItem('path/to/file.jpg', 1024, $timestamp, MediaItem::TYPE_FILE, 'http://example.com/file.jpg');
-    expect($mediaItem->lastModifiedAsString())->toBe(Carbon::now()->toFormattedDateString());
+    expect($mediaItem->lastModifiedAsString())->toBe('Apr 24, 2025');
 });
 
 it('returns null for last modified date when not set', function() {
