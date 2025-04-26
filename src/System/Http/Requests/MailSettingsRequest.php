@@ -45,8 +45,8 @@ class MailSettingsRequest extends FormRequest
 
             'smtp_host' => ['nullable', 'required_if:protocol,smtp', 'string'],
             'smtp_port' => ['nullable', 'required_if:protocol,smtp', 'string'],
-            'smtp_user' => ['nullable', 'required_if:protocol,smtp', 'string'],
-            'smtp_pass' => ['nullable', 'required_if:protocol,smtp', 'string'],
+            'smtp_user' => ['nullable', 'string'],
+            'smtp_pass' => ['nullable', 'string'],
 
             'mailgun_domain' => ['nullable', 'required_if:protocol,mailgun', 'string'],
             'mailgun_secret' => ['nullable', 'required_if:protocol,mailgun', 'string'],
