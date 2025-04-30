@@ -137,4 +137,8 @@ return [
         'method' => 'The method [:method] is not found in [:name].',
         'ajax_handler' => 'Ajax handler [%s] is not found.',
     ],
+
+    'pages' => [
+        'text_theme_page' => 'Theme Page',
+    ],
 ];
