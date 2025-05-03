@@ -175,7 +175,8 @@ class GoogleProvider extends AbstractProvider
 
     protected function validateResponse(ResponseInterface $response): ResponseInterface
     {
-        $json = json_decode($response->getBody()->getContents(), false);
+        $body = (string) $response->getBody();
+        $json = json_decode($body, false);
 
         // API error
         if (!$json) {
@@ -194,8 +195,9 @@ class GoogleProvider extends AbstractProvider
                 'Daily quota exceeded. Message: %s', $json->error_message ?? 'empty error message',
             ));
         }
-
-        return $response;
+        // Replace the response body with a new stream so it can be read again
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor($body);
+        return $response->withBody($stream);
     }
 
     /**
