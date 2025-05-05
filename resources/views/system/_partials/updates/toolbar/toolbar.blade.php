@@ -11,7 +11,7 @@
         <div class="progress-indicator-container">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    @if (isset($updates['items']) && $updates['items']->isNotEmpty())
+                    @if (isset($carteInfo['owner']) && isset($updates['items']) && $updates['items']->isNotEmpty())
                         <button
                             type="button"
                             class="btn btn-primary pull-left mr-2 ml-0"

@@ -21,10 +21,6 @@
                 </div>
             </div>
         </div>
-        <div class="border-bottom py-2">
-            {!! $this->makePartial('updates/search', ['itemType' => 'language']) !!}
-        </div>
-
         {!! $this->widgets['list']->render() !!}
     </div>
 </div>

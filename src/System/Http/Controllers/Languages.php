@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Http\Controllers;
 
+use Exception;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\ListColumn;
 use Igniter\Admin\Facades\AdminMenu;
@@ -12,7 +13,6 @@ use Igniter\Admin\Http\Actions\FormController;
 use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Http\Requests\LanguageRequest;
 use Igniter\System\Models\Language;
@@ -90,16 +90,6 @@ class Languages extends AdminController
         $this->asExtension('ListController')->index();
     }
 
-    public function search(): array
-    {
-        $filter = input('filter');
-        if (!$filter || !is_array($filter) || !isset($filter['search']) || !$filter['search']) {
-            return [];
-        }
-
-        return resolve(LanguageManager::class)->searchLanguages($filter['search']);
-    }
-
     public function edit(?string $context = null, ?string $recordId = null): void
     {
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
@@ -163,96 +153,57 @@ class Languages extends AdminController
 
     public function edit_onPublishTranslations(?string $context = null, ?string $recordId = null)
     {
-        $model = $this->asExtension(FormController::class)->formFindModelObject($recordId);
+        $formController = $this->asExtension(FormController::class);
+        $model = $formController->formFindModelObject($recordId);
 
         resolve(LanguageManager::class)->publishTranslations($model);
 
         flash()->success(lang('igniter::system.languages.alert_publish_success'));
 
-        return $this->asExtension('FormController')->makeRedirect('edit', $model);
-    }
-
-    public function onApplyItems(): array
-    {
-        $items = post('items') ?? [];
-        if (empty($items)) {
-            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
-        }
-
-        $this->validateItems();
-
-        $itemMeta = $items[0];
-
-        throw_unless(
-            $response = resolve(LanguageManager::class)->findLanguage($itemMeta['name']),
-            new FlashException(lang('igniter::system.languages.alert_language_not_found')),
-        );
-
-        if (is_null(Language::findByCode($itemMeta['name']))) {
-            $language = new Language(['code' => $itemMeta['name']]);
-            $language->name = $response['name'];
-            $language->status = true;
-            $language->save();
-        }
-
-        $response = resolve(LanguageManager::class)->applyLanguagePack($itemMeta['name']);
-
-        return [
-            'steps' => $response ? $this->buildProcessSteps([$response]) : [],
-        ];
+        return $formController->makeRedirect('edit', $model);
     }
 
     public function edit_onApplyUpdate(?string $context = null, ?string $recordId = null): array
     {
-        $model = $this->asExtension(FormController::class)->formFindModelObject($recordId);
+        $formController = $this->asExtension(FormController::class);
 
-        $response = resolve(LanguageManager::class)->applyLanguagePack($model->code, (array)$model->version);
+        /** @var Language $model */
+        $model = $formController->formFindModelObject($recordId);
 
-        return [
-            'steps' => $this->buildProcessSteps($response),
-        ];
-    }
+        $success = true;
+        $messages = [];
+        $languageManager = resolve(LanguageManager::class);
+        $itemsToUpdate = $languageManager->applyLanguagePack($model->code, (array)$model->version);
+        foreach ($itemsToUpdate as $item) {
+            foreach (array_get($item, 'files', []) as $file) {
+                $messages[] = sprintf(lang('igniter::system.languages.alert_update_file_progress'), $model->code, $item['name'], $file['name']);
 
-    public function onProcessItems(?string $context = null, ?string $recordId = null): array
-    {
-        $model = $this->asExtension(FormController::class)->formFindModelObject($recordId);
+                try {
+                    $languageManager->installLanguagePack($model->code, [
+                        'name' => $item['code'],
+                        'type' => $item['type'],
+                        'ver' => '0.1.0',
+                        'file' => $file['name'],
+                        'hash' => $file['hash'],
+                    ]);
+                } catch (Exception $ex) {
+                    $messages[] = sprintf(lang('igniter::system.languages.alert_update_file_failed'), $model->code, $item['name'], $file['name']);
+                    $messages[] = $ex->getMessage();
+                    $success = false;
+                }
 
-        $data = $this->validate(post(), [
-            'process' => ['required', 'string'],
-            'meta' => ['required', 'array'],
-            'meta.code' => ['required', 'string'],
-            'meta.name' => ['required', 'string'],
-            'meta.author' => ['required', 'string'],
-            'meta.type' => ['required', 'in:core,extension,theme'],
-            'meta.version' => ['required', 'string'],
-            'meta.hash' => ['required', 'string'],
-            'meta.description' => ['sometimes', 'string'],
-        ], [], [
-            'process' => lang('igniter::system.updates.label_meta_step'),
-            'meta.code' => lang('igniter::system.updates.label_meta_code'),
-            'meta.name' => lang('igniter::system.updates.label_meta_name'),
-            'meta.type' => lang('igniter::system.updates.label_meta_type'),
-            'meta.author' => lang('igniter::system.updates.label_meta_author'),
-            'meta.version' => lang('igniter::system.updates.label_meta_version'),
-            'meta.hash' => lang('igniter::system.updates.label_meta_hash'),
-            'meta.description' => lang('igniter::system.updates.label_meta_description'),
-        ]);
+                $model->updateVersions($item['code'], $file['name'], $file['hash']);
 
-        resolve(LanguageManager::class)->installLanguagePack($model->code, [
-            'name' => $data['meta']['code'],
-            'type' => $data['meta']['type'],
-            'ver' => str_before($data['meta']['version'], '+'),
-            'build' => str_after($data['meta']['version'], '+'),
-            'hash' => $data['meta']['hash'],
-        ]);
+                $messages[] = sprintf(lang('igniter::system.languages.alert_update_file_complete'), $model->code, $item['name'], $file['name']);
+            }
 
-        $model->updateVersions($data['meta']);
+            $messages[] = sprintf(lang('igniter::system.languages.alert_update_complete'), $model->code, $item['name']);
+        }
 
         return [
-            'success' => true,
-            'message' => sprintf(lang('igniter::system.languages.alert_update_complete'),
-                $model->code, $data['meta']['name'],
-            ),
+            'message' => implode('<br>', $messages),
+            'success' => $success,
+            'redirect' => admin_url('languages/edit/'.$model->getKey()),
         ];
     }
 
@@ -302,20 +253,5 @@ class Languages extends AdminController
         } else {
             $this->putSession('translation_'.$key, trim($value));
         }
-    }
-
-    protected function buildProcessSteps(array $itemsToUpdate): array
-    {
-        $processSteps = [];
-        foreach ($itemsToUpdate as $item) {
-            $step = 'update-'.$item['code'];
-            $processSteps[$step] = [
-                'meta' => $item,
-                'process' => $step,
-                'progress' => sprintf(lang('igniter::system.languages.alert_update_progress'), $item['locale'], $item['name']),
-            ];
-        }
-
-        return $processSteps;
     }
 }

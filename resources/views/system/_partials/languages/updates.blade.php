@@ -5,12 +5,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body text-center">
-            <span class="fa-stack fa-3x text-muted">
+            <span class="fa-stack fa-3x text-warning">
                 <i class="fa-solid fa-circle fa-stack-2x"></i>
-                <i class="fa-solid fa-arrow-up fa-stack-1x fa-inverse"></i>
+                <i class="fa-solid fa-exclamation fa-stack-1x fa-inverse"></i>
             </span>
                 <p class="lead mt-4">{{sprintf(lang('igniter::system.languages.text_title_update_available'), $locale)}}</p>
-                <p>@lang('igniter::system.languages.text_update_available')</p>
+                <ul class="list-group mb-4 text-left">
+                    @foreach($updates as $update)
+                        <li class="list-group-item">
+                            <strong>{{ $update['name'] }}</strong>
+                            <p class="text-muted mb-0">{{ $update['description'] }}</p>
+                        </li>
+                    @endforeach
+                </ul>
+                <div class="alert alert-info">@lang('igniter::system.languages.text_update_available')</div>
             </div>
         @else
             <div class="modal-header">
@@ -19,7 +27,7 @@
             <div class="modal-body text-center">
             <span class="fa-stack fa-3x text-muted">
                 <i class="fa-solid fa-circle fa-stack-2x"></i>
-                <i class="fa-solid fa-arrow-up fa-stack-1x fa-inverse"></i>
+                <i class="fa-solid fa-check fa-stack-1x fa-inverse"></i>
             </span>
                 <p class="lead mt-4">{{sprintf(lang('igniter::system.languages.text_no_update_available'), $locale)}}</p>
             </div>

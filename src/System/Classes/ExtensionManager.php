@@ -103,7 +103,7 @@ class ExtensionManager
 
         foreach ($directories as $directory) {
             foreach (File::glob($directory.'/*/*/{extension,composer}.json', GLOB_BRACE) as $path) {
-                $paths[] = dirname((string) $path);
+                $paths[] = dirname((string)$path);
             }
         }
 
@@ -461,9 +461,9 @@ class ExtensionManager
         // Remove extensions files from filesystem
         $composerManager = resolve(Manager::class);
         if ($packageName = $composerManager->getPackageName($code)) {
-            $composerManager->uninstall([$packageName => false]);
+            $composerManager->uninstall([$packageName]);
+        } else {
+            $this->removeExtension($code);
         }
-
-        $this->removeExtension($code);
     }
 }

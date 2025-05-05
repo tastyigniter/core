@@ -477,17 +477,16 @@ class ThemeManager
      */
     public function deleteTheme(string $themeCode, bool $deleteData = true): void
     {
-        $composerManager = resolve(Manager::class);
-        if ($packageName = $composerManager->getPackageName($themeCode)) {
-            $composerManager->uninstall([$packageName => false]);
-        }
-
-        $this->removeTheme($themeCode);
-
         if ($deleteData) {
             ThemeModel::where('code', $themeCode)->delete();
-
             resolve(UpdateManager::class)->purgeExtension($themeCode);
+        }
+
+        $composerManager = resolve(Manager::class);
+        if ($packageName = $composerManager->getPackageName($themeCode)) {
+            $composerManager->uninstall([$packageName]);
+        } else {
+            $this->removeTheme($themeCode);
         }
     }
 

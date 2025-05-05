@@ -118,7 +118,7 @@ class IgniterUtil extends Command
             return;
         }
 
-        resolve(UpdateManager::class)->applySiteDetail($carteKey);
+        resolve(UpdateManager::class)->applyCarte($carteKey);
     }
 
     protected function utilSetTheme()

@@ -6,7 +6,6 @@ namespace Igniter\System\Classes;
 
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 
@@ -20,42 +19,34 @@ class HubManager
         return $this->requestRemoteData('items', array_merge(['include' => 'require'], $filter));
     }
 
-    public function getDetail(string $type, array $itemName = []): array
+    public function getSiteDetail(): array
+    {
+        return $this->getDetail('site');
+    }
+
+    public function getItemDetail(array $itemName): array
+    {
+        return array_get($this->getDetail('item', $itemName), 'data', []);
+    }
+
+    public function getItemDetails(array $itemNames): array
+    {
+        return $this->getDetails('item', $itemNames);
+    }
+
+    public function applyInstalledItems(array $itemNames): array
+    {
+        return $this->requestRemoteData('core/installed', ['items' => $itemNames]);
+    }
+
+    protected function getDetail(string $type, array $itemName = []): array
     {
         return $this->requestRemoteData($type.'/detail', ['item' => $itemName]);
     }
 
-    public function getDetails(string $type, array $itemNames = []): array
+    protected function getDetails(string $type, array $itemNames = []): array
     {
         return $this->requestRemoteData($type.'/details', ['items' => $itemNames]);
-    }
-
-    public function applyItems(array $itemNames = [], array $params = []): Collection
-    {
-        $response = $this->requestRemoteData('core/apply', array_merge($params, [
-            'items' => $itemNames,
-        ]));
-
-        $itemNames = collect($itemNames);
-
-        return collect(array_get($response, 'data', []))->map(function(array $package) use ($itemNames): PackageInfo {
-            $package['installedVersion'] = $package['type'] == 'core'
-                ? Igniter::version()
-                : array_get($itemNames->firstWhere('name', $package['code']), 'ver', '0.0.0');
-
-            return PackageInfo::fromArray($package);
-        });
-    }
-
-    public function setCarte(string $key, ?array $info = null): void
-    {
-        $params['carte_key'] = $key;
-
-        if (!is_null($info)) {
-            $params['carte_info'] = $info;
-        }
-
-        setting()->setPref($params);
     }
 
     protected function requestRemoteData(string $uri, array $params = [], ?string $eTag = null): array
@@ -75,11 +66,11 @@ class HubManager
                 logger()->debug('Server validation errors: '.print_r($errors, true));
             }
 
-            throw new SystemException($response->json('message'));
+            throw new SystemException($response->json('message', 'Error occurred while processing your request.'));
         }
 
         throw_if(
-            $eTag && $response->header('TI-ETag') !== $eTag,
+            $eTag && $response->json('data.hash') !== $eTag,
             new SystemException('ETag mismatch, please try again.'),
         );
 
@@ -154,7 +145,7 @@ class HubManager
     {
         return $this->requestRemoteData('language/upload', [
             'locale' => $locale,
-            'packs' => $packs,
+            'item' => $packs,
         ]);
     }
 }

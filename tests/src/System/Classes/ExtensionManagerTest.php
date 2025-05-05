@@ -327,7 +327,7 @@ it('uninstalls composer package if package name is found', function() {
     $manager = resolve(ExtensionManager::class);
     $composerManager = mock(ComposerManager::class);
     $composerManager->shouldReceive('getPackageName')->with('test.extension')->andReturn('test/extension');
-    $composerManager->shouldReceive('uninstall')->with(['test/extension' => false])->andReturnTrue()->once();
+    $composerManager->shouldReceive('uninstall')->with(['test/extension'])->andReturnTrue()->once();
     app()->instance(ComposerManager::class, $composerManager);
     File::shouldReceive('isDirectory')->andReturnTrue();
     File::shouldReceive('deleteDirectory')->andReturnTrue();

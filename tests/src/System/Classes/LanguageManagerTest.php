@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Classes;
 
-use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\LanguageManager;
+use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Models\Extension;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Translation;
@@ -63,32 +63,24 @@ it('lists locale packages for a given locale', function() {
 });
 
 it('publishes translations for a language', function() {
+    app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
+    $updateManager->shouldReceive('getInstalledItems')->once()->andReturn([
+        [
+            'name' => 'igniter.api',
+            'type' => 'extension',
+            'ver' => '1.0.0',
+        ],
+    ]);
+
     $language = Language::factory()->create(['code' => 'fa', 'status' => 1]);
     $language->translations()->saveMany([
         Translation::create(['locale' => 'fa', 'group' => 'igniter', 'item' => 'default', 'text' => 'Default']),
+        Translation::create(['locale' => 'fa', 'group' => 'igniter.api', 'item' => 'default', 'text' => 'Default']),
     ]);
-    $expectedResponse = ['publish' => 'success'];
+    $expectedResponse = ['message' => 'ok'];
     Http::fake(['https://api.tastyigniter.com/v2/language/upload' => Http::response($expectedResponse)]);
 
-    $manager = resolve(LanguageManager::class);
-    expect($manager->publishTranslations($language))->toBe($expectedResponse);
-});
-
-it('throws exception if language not found when requesting update list', function() {
-    $manager = resolve(LanguageManager::class);
-
-    expect(fn() => $manager->requestUpdateList('invalid'))->toThrow(ApplicationException::class, 'Language not found');
-});
-
-it('returns update list correctly', function() {
-    $expectedResponse = ['data' => ['result' => 'success']];
-    Http::fake(['https://api.tastyigniter.com/v2/language/apply' => Http::response($expectedResponse)]);
-    $language = Language::factory()->create(['code' => 'en', 'status' => 1]);
-
-    $manager = resolve(LanguageManager::class);
-    $result = $manager->requestUpdateList($language->code);
-
-    expect($result['items'])->toBe($expectedResponse['data']);
+    resolve(LanguageManager::class)->publishTranslations($language);
 });
 
 it('applies language pack and returns data', function() {
@@ -102,35 +94,20 @@ it('applies language pack and returns data', function() {
     expect($result)->toBe($expectedResponse['data']);
 });
 
-it('returns languages matching search term', function() {
-    $expectedResponse = ['data' => [['name' => 'English']]];
-    Http::fake(['https://api.tastyigniter.com/v2/languages' => Http::response($expectedResponse)]);
-    $manager = resolve(LanguageManager::class);
-
-    $expectedResponse['data'][0]['require'] = [];
-    expect($manager->searchLanguages('term'))->toBe($expectedResponse);
-});
-
-it('returns language details by locale', function() {
-    $expectedResponse = ['data' => ['name' => 'English']];
-    $manager = resolve(LanguageManager::class);
-    Http::fake(['https://api.tastyigniter.com/v2/language/en' => Http::response($expectedResponse)]);
-
-    expect($manager->findLanguage('en'))->toBe($expectedResponse['data']);
-});
-
 it('installs language pack successfully', function() {
-    $expectedResponse = ['filename.php' => [
-        'text_key' => 'This is a text',
-    ]];
-    Http::fake(['https://api.tastyigniter.com/v2/language/download' => Http::response($expectedResponse, 200, [
-        'TI-ETag' => 'etag',
-    ])]);
+    $expectedResponse = [
+        'data' => [
+            'name' => 'test',
+            'file' => 'default.php',
+            'hash' => 'etag',
+        ],
+    ];
+    Http::fake(['https://api.tastyigniter.com/v2/language/download' => Http::response($expectedResponse)]);
     File::shouldReceive('makeDirectory')->once();
     File::shouldReceive('put')->once();
     $manager = resolve(LanguageManager::class);
 
-    expect($manager->installLanguagePack('en', ['name' => 'test', 'hash' => 'etag']))->toBeTrue();
+    $manager->installLanguagePack('en', ['name' => 'test', 'file' => 'default.php', 'hash' => 'etag']);
 });
 
 it('lists translations for a given package', function() {

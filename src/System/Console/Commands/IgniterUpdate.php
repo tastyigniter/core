@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Flame\Composer\Manager;
+use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
-use Igniter\System\Notifications\UpdateFoundNotification;
+use Igniter\System\Notifications\SystemUpdateNotification;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Collection;
@@ -42,34 +42,43 @@ class IgniterUpdate extends Command
     {
         $forceUpdate = (bool)$this->option('force');
 
-        resolve(Manager::class)->assertSchema();
-
-        $this->updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
+        $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
         $this->output->writeln('<info>Checking for updates...</info>');
 
-        $updates = $this->updateManager->requestUpdateList($forceUpdate);
-        if (!$itemsToUpdate = array_get($updates, 'items')) {
-            $this->output->writeln('<info>No new updates found</info>');
+        $updates = $updateManager->requestUpdateList($forceUpdate, $this->output);
+        $updatesCount = array_get($updates, 'count', 0);
+        $this->output->writeln(sprintf('<info>%s updates found</info>', $updatesCount));
+        SystemUpdateNotification::make(array_only($updates, 'count'))->broadcast();
 
-            return;
-        }
-
-        if ($this->option('check')) {
-            UpdateFoundNotification::make(array_only($updates, ['count']))->broadcast();
-
-            return;
-        }
-
-        $this->output->writeln(sprintf('<info>%s updates found</info>', array_get($updates, 'count')));
-        if (!$this->confirmToProceed()) {
+        /** @var Collection|null $itemsToUpdate */
+        $itemsToUpdate = array_get($updates, 'items');
+        if (!$updatesCount || $this->option('check') || !$this->confirmToProceed()) {
             return;
         }
 
         try {
-            $this->updateItems($itemsToUpdate);
+            $whitelistedAddons = $this->option('addons');
+            $whitelistCore = $this->option('core');
+            $itemsToUpdate = $itemsToUpdate->filter(
+                fn(PackageInfo $packageInfo): bool => ($whitelistCore && $packageInfo->isCore())
+                    || ($whitelistedAddons && in_array($packageInfo->code, $whitelistedAddons))
+                    || (!$whitelistedAddons && !$whitelistCore),
+            );
+
+            if ($itemsToUpdate->count()) {
+                $this->output->writeln(sprintf(
+                    '<info>Updating system addons: %s</info>',
+                    $itemsToUpdate->map(fn(PackageInfo $packageInfo) => sprintf('%s:%s', $packageInfo->package, $packageInfo->version))->implode(', '),
+                ));
+
+                $installedPackages = $updateManager->install($itemsToUpdate->all(), $this->output);
+                $updateManager->completeInstall($installedPackages);
+
+                $this->output->writeln('<info>Updating system addons complete</info>');
+            }
 
             // Run migrations
-            $this->call('igniter:up');
+            $updateManager->migrate();
         } catch (Throwable $throwable) {
             $this->output->writeln($throwable->getMessage());
         }
@@ -86,36 +95,5 @@ class IgniterUpdate extends Command
             ['core', null, InputOption::VALUE_NONE, 'Update core application files only.'],
             ['addons', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Update specified extensions & themes files only.'],
         ];
-    }
-
-    protected function updateItems(Collection $itemsToUpdate): void
-    {
-        $updatesCollection = $itemsToUpdate->groupBy('type');
-
-        if (!$this->option('addons')) {
-            $this->updateCore($updatesCollection);
-        }
-
-        if ($this->option('core')) {
-            return;
-        }
-
-        $updatesCollection = $updatesCollection->except('core')->flatten(1);
-        if ($addons = (array)$this->option('addons')) {
-            $updatesCollection = $updatesCollection->filter(fn($item): bool => in_array($item->code, $addons));
-        }
-
-        if ($updatesCollection->count()) {
-            $this->output->writeln('<info>Updating extensions/themes...</info>');
-            $this->updateManager->install($updatesCollection->all());
-        }
-    }
-
-    protected function updateCore(Collection $updatesCollection): void
-    {
-        if ($coreUpdate = optional($updatesCollection->pull('core'))->first()) {
-            $this->output->writeln('<info>Updating TastyIgniter...</info>');
-            $this->updateManager->install([$coreUpdate]);
-        }
     }
 }

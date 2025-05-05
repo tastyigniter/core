@@ -8,14 +8,15 @@ use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Composer\Manager as ComposerManager;
 use Igniter\Flame\Database\Migrations\Migrator;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\ExtensionManager;
+use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Models\Extension;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Console\Output\OutputInterface;
 use UnexpectedValueException;
@@ -73,7 +74,19 @@ it('rolls back extensions and core migrations during down', function() {
 });
 
 it('runs core and extension migrations during migrate', function() {
-    $updateManager = mockMigrate();
+    $migrator = mock(Migrator::class);
+    app()->instance('migrator', $migrator);
+    $migrator->shouldReceive('setOutput');
+    $migrator->shouldReceive('runGroup')->twice();
+    $databaseSeeder = mock(DatabaseSeeder::class)->makePartial();
+    $databaseSeeder->shouldReceive('run');
+
+    app()->instance(DatabaseSeeder::class, $databaseSeeder);
+    $updateManager = new UpdateManager;
+    $outputMock = mock(OutputInterface::class);
+    $outputMock->shouldReceive('writeln');
+
+    $updateManager->setLogsOutput($outputMock);
 
     $updateManager->migrate();
 
@@ -141,38 +154,52 @@ it('rolls back extension migrations correctly', function() {
     expect($updateManager->getLogs())->toContain('<info>Rolling back extension test.extension</info>');
 });
 
+it('returns empty result when no outdated items are found', function() {
+    $manager = new UpdateManager();
+
+    $composerManager = mock(ComposerManager::class);
+    app()->instance(ComposerManager::class, $composerManager);
+    $composerManager->shouldReceive('listInstalledPackages')->andReturn(collect([]));
+
+    $result = $manager->requestUpdateList();
+
+    expect($result['count'])->toBe(0)
+        ->and($result['items'])->toBeEmpty()
+        ->and($result['ignoredItems'])->toBeEmpty();
+});
+
+it('requests for items to update', function() {
+    mockRequestUpdateItems();
+    $manager = new UpdateManager();
+    $result = $manager->requestUpdateList();
+
+    expect($result['count'])->toBe(2)
+        ->and($result['items'])->toBeCollection()
+        ->and($result['items']->get(0)->code)->toBe('tastyigniter')
+        ->and($result['items']->get(1)->code)->toBe('igniter.test')
+        ->and($result['ignoredItems'])->toBeCollection()
+        ->and($result['ignoredItems']->get(0)->code)->toBe('igniter.ignored');
+});
+
+it('excludes core updates when core updates are disabled', function() {
+    config(['igniter-system.disableCoreUpdates' => true]);
+    mockRequestUpdateItems();
+    $manager = new UpdateManager();
+    $result = $manager->requestUpdateList();
+
+    expect($result['count'])->toBe(1)
+        ->and($result['items'])->toBeCollection()
+        ->and($result['items']->get(0)->code)->toBe('igniter.test');
+});
+
 it('returns true if last check is due', function() {
-    mockRequestUpdate();
+    mockRequestUpdateItems();
     $updateManager = resolve(UpdateManager::class);
-    $result = $updateManager->isLastCheckDue();
-    expect($result)->toBeTrue();
+
+    expect($updateManager->isLastCheckDue())->toBeTrue();
 });
 
-it('returns recommended items with installed status', function() {
-    mockInstalledItems();
-    $updateManager = new UpdateManager;
-
-    $result = $updateManager->listItems('extension');
-
-    expect($result['data'][0]['code'])->toBe('extension1')
-        ->and($result['data'][0]['installed'])->toBeTrue()
-        ->and($result['data'][1]['code'])->toBe('extension2')
-        ->and($result['data'][1]['installed'])->toBeFalse();
-});
-
-it('returns searched items with installed status', function() {
-    mockInstalledItems();
-    $updateManager = new UpdateManager;
-
-    $result = $updateManager->searchItems('extension', 'searchQuery');
-
-    expect($result['data'][0]['code'])->toBe('extension1')
-        ->and($result['data'][0]['installed'])->toBeTrue()
-        ->and($result['data'][1]['code'])->toBe('extension2')
-        ->and($result['data'][1]['installed'])->toBeFalse();
-});
-
-it('applies site detail correctly', function() {
+it('applies carte info correctly', function() {
     $expectedResponse = [
         'data' => [
             'name' => 'Test Site',
@@ -183,11 +210,17 @@ it('applies site detail correctly', function() {
     $updateManager = resolve(UpdateManager::class);
     app()->setBasePath(__DIR__.'/../Fixtures');
 
-    $result = $updateManager->applySiteDetail('test-key');
+    $result = $updateManager->applyCarte('test-key');
 
     expect($result)->toBeArray()
         ->and(setting()->getPref('carte_key'))->toBe('test-key')
-        ->and($updateManager->getSiteDetail())->toBe($result);
+        ->and($updateManager->getCarteInfo())->toBe($result)
+        ->and($updateManager->hasValidCarte())->toBeTrue();
+
+    $updateManager->clearCarte();
+
+    expect(setting()->getPref('carte_key'))->toBeNull()
+        ->and($updateManager->hasValidCarte())->toBeFalse();
 });
 
 it('returns extensions installed items correctly', function() {
@@ -205,37 +238,6 @@ it('returns extensions installed items correctly', function() {
 
     expect($result)->toBeArray()
         ->and($result)->toBe($updateManager->getInstalledItems('extensions'));
-});
-
-it('applies items correctly', function() {
-    config(['igniter-system.disableCoreUpdates' => true]);
-    $expectedResponse = [
-        'data' => [
-            [
-                'code' => 'core-package',
-                'type' => 'core',
-                'package' => 'item1/package',
-                'name' => 'Package1',
-                'version' => '1.0.0',
-                'author' => 'Sam',
-            ],
-            [
-                'code' => 'package1',
-                'type' => 'extension',
-                'package' => 'item2/package',
-                'name' => 'Package2',
-                'version' => '1.0.0',
-                'author' => 'Sam',
-            ],
-        ],
-    ];
-    Http::fake(['https://api.tastyigniter.com/v2/core/apply' => Http::response($expectedResponse)]);
-    $updateManager = new UpdateManager;
-
-    $result = $updateManager->requestApplyItems(['package1', 'core-package']);
-
-    expect($result->count())->toBe(1)
-        ->and($result->first()->code)->toBe('package1');
 });
 
 it('marks update as ignored', function() {
@@ -271,12 +273,28 @@ it('throws exception if pre-install checks fail on assertIniMemoryLimit', functi
 it('installs packages correctly', function() {
     $composerManager = mock(ComposerManager::class);
     app()->instance(ComposerManager::class, $composerManager);
+    $composerManager->shouldReceive('listInstalledPackages')->andReturn(collect([
+        [
+            'name' => 'test/extension',
+            'type' => 'tastyigniter-package',
+            'version' => '2.0.0',
+            'extra' => [
+                'tastyigniter-extension' => [
+                    'code' => 'test.extension',
+                    'description' => 'Test extension description',
+                    'icon' => 'fa-icon',
+                    'author' => 'Sam',
+                    'tags' => [],
+                ],
+            ],
+        ],
+    ]));
     $composerManager->shouldReceive('install')->once();
 
     $updateManager = resolve(UpdateManager::class);
 
-    $updateManager->install([
-        [
+    $installed = $updateManager->install([
+        PackageInfo::fromArray([
             'code' => 'test.extension',
             'package' => 'test/extension',
             'type' => 'extension',
@@ -290,22 +308,21 @@ it('installs packages correctly', function() {
             'tags' => [],
             'hash' => 'hash',
             'updatedAt' => '2021-01-01 00:00:00',
-        ],
+        ]),
     ]);
 
-    expect($updateManager->getLogs()[0])->toContain('Test Package (1.0.0 => 2.0.0)');
+    expect($updateManager->getLogs()[0])->toContain('Test Package (1.0.0 => 2.0.0)')
+        ->and($installed)->toBeArray();
 });
 
 it('completes installation correctly', function() {
-    mockRequestUpdate();
-    $extensionManager = mock(ExtensionManager::class);
-    $themeManager = mock(ThemeManager::class);
-    app()->instance(ExtensionManager::class, $extensionManager);
-    app()->instance(ThemeManager::class, $themeManager);
+    Http::fake(['https://api.tastyigniter.com/v2/core/installed' => Http::response([])]);
+    app()->instance(ExtensionManager::class, $extensionManager = mock(ExtensionManager::class));
+    app()->instance(ThemeManager::class, $themeManager = mock(ThemeManager::class));
     $extensionManager->shouldReceive('installExtension')->with('test.extension', '2.0.0')->once();
     $themeManager->shouldReceive('installTheme')->with('test.theme', '2.0.0')->once();
     $requirements = [
-        [
+        PackageInfo::fromArray([
             'code' => 'test.core',
             'package' => 'test/core',
             'type' => 'core',
@@ -319,8 +336,8 @@ it('completes installation correctly', function() {
             'tags' => [],
             'hash' => 'hash',
             'updatedAt' => '2021-01-01 00:00:00',
-        ],
-        [
+        ]),
+        PackageInfo::fromArray([
             'code' => 'test.extension',
             'package' => 'test/extension',
             'type' => 'extension',
@@ -334,8 +351,8 @@ it('completes installation correctly', function() {
             'tags' => [],
             'hash' => 'hash',
             'updatedAt' => '2021-01-01 00:00:00',
-        ],
-        [
+        ]),
+        PackageInfo::fromArray([
             'code' => 'test.theme',
             'package' => 'test/theme',
             'type' => 'theme',
@@ -349,17 +366,17 @@ it('completes installation correctly', function() {
             'tags' => [],
             'hash' => 'hash',
             'updatedAt' => '2021-01-01 00:00:00',
-        ],
+        ]),
     ];
 
-    $updateManager = mockMigrate();
-    expect(fn() => $updateManager->completeInstall($requirements))->toThrow(SystemException::class);
+    $updateManager = resolve(UpdateManager::class);
+    $updateManager->completeInstall($requirements);
 });
 
 it('throws exception when completing installation with invalid package type', function() {
     $updateManager = resolve(UpdateManager::class);
     $requirements = [
-        [
+        PackageInfo::fromArray([
             'code' => 'test.core',
             'package' => 'test/core',
             'type' => 'invalid',
@@ -373,35 +390,78 @@ it('throws exception when completing installation with invalid package type', fu
             'tags' => [],
             'hash' => 'hash',
             'updatedAt' => '2021-01-01 00:00:00',
-        ],
+        ]),
     ];
 
     expect(fn() => $updateManager->completeInstall($requirements))->toThrow(UnexpectedValueException::class);
 });
 
-function mockRequestUpdate()
+function mockRequestUpdateItems()
 {
-    $expectedResponse = [
-        'data' => [
-            [
-                'code' => 'item1',
-                'type' => 'core',
-                'package' => 'item1/package',
-                'name' => 'Package1',
-                'version' => '1.0.0',
-                'author' => 'Sam',
-            ],
-            [
-                'code' => 'item2',
-                'type' => 'extension',
-                'package' => 'item2/package',
-                'name' => 'Package2',
-                'version' => '1.0.0',
-                'author' => 'Sam',
+    setting()->set('ignored_updates', ['igniter.ignored' => true]);
+    Cache::shouldReceive('get')->with('hub_updates')->andReturn(null);
+    Cache::shouldReceive('put')->once();
+
+    $composerManager = mock(ComposerManager::class);
+    app()->instance(ComposerManager::class, $composerManager);
+    $composerManager->shouldReceive('listInstalledPackages')->andReturn(collect([
+        [
+            'name' => 'tastyigniter/core',
+            'type' => 'tastyigniter-core',
+            'version' => '1.0.0',
+        ],
+        [
+            'name' => 'tastyigniter/ignored-extension',
+            'type' => 'tastyigniter-package',
+            'version' => '1.0.0',
+            'extra' => [
+                'tastyigniter-extension' => [
+                    'code' => 'igniter.ignored',
+                    'description' => 'Test extension description',
+                    'icon' => 'fa-icon',
+                    'author' => 'Sam',
+                    'tags' => [],
+                ],
             ],
         ],
-    ];
-    Http::fake(['https://api.tastyigniter.com/v2/core/apply' => Http::response($expectedResponse)]);
+        [
+            'name' => 'tastyigniter/test-extension',
+            'type' => 'tastyigniter-package',
+            'version' => '1.0.0',
+            'extra' => [
+                'tastyigniter-extension' => [
+                    'code' => 'igniter.test',
+                    'description' => 'Test extension description',
+                    'icon' => 'fa-icon',
+                    'author' => 'Sam',
+                    'tags' => [],
+                ],
+            ],
+        ],
+    ]));
+    $composerManager->shouldReceive('assertSchema')->once();
+    $composerManager->shouldReceive('outdated')->once()->andReturnUsing(function($callback) {
+        $callback('out', json_encode(['installed' => [
+            [
+                'name' => 'tastyigniter/core',
+                'version' => '1.0.0',
+                'latest' => '1.1.0',
+                'latest-status' => 'update-available',
+            ],
+            [
+                'name' => 'tastyigniter/test-extension',
+                'version' => '1.0.0',
+                'latest' => '1.1.0',
+                'latest-status' => 'update-available',
+            ],
+            [
+                'name' => 'tastyigniter/ignored-extension',
+                'version' => '1.0.0',
+                'latest' => '1.1.0',
+                'latest-status' => 'update-available',
+            ],
+        ]]));
+    });
 }
 
 function mockInstalledItems(): void
@@ -415,23 +475,4 @@ function mockInstalledItems(): void
         ],
     ];
     Http::fake(['https://api.tastyigniter.com/v2/items' => Http::response($expectedResponse)]);
-}
-
-function mockMigrate(): UpdateManager
-{
-    $migrator = mock(Migrator::class);
-    app()->instance('migrator', $migrator);
-    $migrator->shouldReceive('setOutput');
-    $migrator->shouldReceive('runGroup')->twice();
-    $databaseSeeder = mock(DatabaseSeeder::class)->makePartial();
-    $databaseSeeder->shouldReceive('run');
-
-    app()->instance(DatabaseSeeder::class, $databaseSeeder);
-    $updateManager = new UpdateManager;
-    $outputMock = mock(OutputInterface::class);
-    $outputMock->shouldReceive('writeln');
-
-    $updateManager->setLogsOutput($outputMock);
-
-    return $updateManager;
 }

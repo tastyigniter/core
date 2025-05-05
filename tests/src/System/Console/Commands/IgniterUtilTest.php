@@ -74,7 +74,7 @@ it('skips compiling scss if no active theme', function() {
 it('sets carte successfully', function() {
     $updateManager = mock(UpdateManager::class);
     app()->instance(UpdateManager::class, $updateManager);
-    $updateManager->shouldReceive('applySiteDetail')->with('carteKey')->once();
+    $updateManager->shouldReceive('applyCarte')->with('carteKey')->once();
 
     $this->artisan('igniter:util set carte --carteKey=carteKey')
         ->expectsOutput('Setting Carte Key...')

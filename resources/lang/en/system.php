@@ -160,10 +160,10 @@ return [
         'text_files' => 'files',
         'text_locale_strings' => 'Total: %s, translated: %s (%s%%), untranslated %s',
         'text_current_build' => 'Current build: %s',
-        'text_title_update_available' => 'New translation strings are available for (%s).',
-        'text_update_available' => 'Only the translation strings that haven’t been modified will be updated.',
+        'text_title_update_available' => 'New translated strings are available for (%s).',
+        'text_update_available' => 'Strings you\'ve translated through the admin interface will remain unchanged after the update.',
         'text_no_update_available' => '(%s) is up to date',
-        'text_publish_translations' => 'Publish translations',
+        'text_publish_translations' => 'Share your translations',
 
         'column_code' => 'Code',
         'column_status' => 'Status',
@@ -176,22 +176,22 @@ return [
 
         'button_browse' => '<i class="fa fa-globe"></i>&nbsp;&nbsp;Browse more languages&nbsp;&nbsp;<i class="fa fa-external-link-alt"></i>',
         'button_apply_update' => '<i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Download new translated strings',
-        'button_import_translations' => 'Import translations',
-        'button_publish_translations' => 'Publish translations',
+        'button_import_translations' => '<i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Import translations',
+        'button_publish_translations' => 'Share translations',
 
-        'help_language' => 'Use a full locale code (e.g. “fr_FR”) instead of just a generic language code (e.g. “fr”), must be same as the locale directory.',
+        'help_language' => 'Use a full locale code (e.g. "fr_FR") instead of just a generic language code (e.g. "fr"), must be same as the locale directory.',
         'help_locale_strings' => 'Make sure NOT to translate placeholders like <b>%s</b> or <b>:name</b>. Leave them as is.',
-        'help_publish_translations' => 'If you want your translations included in the core or extension release, please upload them to the <a href="%s" target="_blank">Crowdin project.</a> They will be reviewed by the Core Team or the Extension Author.',
+        'help_publish_translations' => 'Want to share your translations? You can upload them to the  <a href="%s" target="_blank">Crowdin project</a>, where they’ll be reviewed by a Core Team member.',
 
         'alert_set_default' => 'Language set as default',
-        'alert_update_complete' => '%s: Translation strings for (%s) have been updated.',
-        'alert_update_failed' => '%s: Failed to update translation strings for (%s).',
-        'alert_update_progress' => '%s: Pulling translation strings for (%s)...',
+        'alert_update_complete' => '%s: Translated strings for addon (%s) have been updated.',
+        'alert_update_file_failed' => '%s: Failed to update translated strings for addon: %s, file: %s',
+        'alert_update_file_progress' => '%s: Pulling translated strings for addon: %s, file: %s...',
+        'alert_update_file_complete' => '%s: Updated translated strings for addon: %s, file: %s...',
         'alert_language_not_found' => 'Language not found',
         'alert_publish_success' => 'Translations published successfully',
 
         'translations' => [
-
             'label_file' => 'Locale File',
             'label_search' => 'Search',
 
@@ -583,8 +583,7 @@ return [
         'text_update_found' => '%s update(s) available',
         'text_update_ignored' => '%s update(s) ignored',
         'text_item_update_summary' => 'Update from version %s to <b>%s</b>',
-
-        'text_core_update' => '<i class="fa fa-exclamation-triangle fa-fw"></i>&nbsp;&nbsp;After the core update has been installed, all extension updates will be installed.',
+        'text_see_logs' => '<b>See system logs for more details</b>',
 
         'label_meta_code' => 'Meta Code',
         'label_meta_name' => 'Meta Name',
@@ -599,9 +598,13 @@ return [
 
         'progress_check' => 'Performing pre installation checks...',
         'progress_preinstall_ok' => 'Pre installation checks completed.<i class="fa fa-check fa-fw"></i>',
-        'progress_install' => 'Updating composer requirements...',
-        'progress_install_ok' => 'Updated composer requirements.<i class="fa fa-check fa-fw"></i>',
+        'progress_install' => 'Installing system addons...',
+        'progress_install_ok' => 'Installing system addons complete<i class="fa fa-check fa-fw"></i>',
+        'progress_update' => 'Updating system addons...',
+        'progress_update_ok' => 'Updating system addons complete<i class="fa fa-check fa-fw"></i>',
         'progress_install_version' => '    %s (%s => %s)',
+        'progress_migrate_database' => 'Running database migrations...',
+        'progress_migrate_database_ok' => 'Running database migrations complete<i class="fa fa-check fa-fw"></i>',
         'progress_complete' => 'Finishing installation...',
         'progress_completed' => 'Finished installation successfully.<i class="fa fa-check fa-fw"></i>',
 
@@ -621,7 +624,7 @@ return [
         'button_recommended_theme' => 'Install a recommended theme...',
         'button_install' => 'Install Selected...',
 
-        'help_carte_key' => 'A Carte key is required to add and update item from the TastyIgniter Marketplace. <br>Get one by creating a site from your <a href="%s" target="_blank">TastyIgniter Account</a>, if you haven\'t already. For more information, see the <a href="%s" target="_blank">Carté Key Guide</a>',
+        'help_carte_key' => 'A Carte key is required to add and update item from the TastyIgniter Marketplace. <br>Get one by creating a site from your <a href="https://tastyigniter.com/signin" target="_blank">TastyIgniter Account</a>, if you haven\'t already. For more information, see the <a href="https://tastyigniter.com/support/articles/carte-key" target="_blank">Carté Key Guide</a>',
         'alert_item_to_ignore' => 'Select item(s) to ignore.',
         'alert_item_to_update' => 'Select item(s) to update.',
         'alert_no_carte_key' => 'No carte key specified.',
@@ -630,5 +633,7 @@ return [
         'notify_new_update_found_title' => 'Updates available.',
         'notify_new_update_found' => 'An update is available.',
         'notify_new_updates_found' => '<b>%s</b> updates available.',
+        'notify_no_update_found_title' => 'No updates available.',
+        'notify_no_update_found' => 'Your app is up to date.',
     ],
 ];

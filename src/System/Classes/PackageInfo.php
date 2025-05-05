@@ -10,6 +10,13 @@ use Illuminate\Support\HtmlString;
 class PackageInfo
 {
     public const string CORE = 'tastyigniter/core';
+    public const string CORE_CODE = 'tastyigniter';
+    public const string CORE_TYPE = 'tastyigniter-core';
+    public const array CORE_MANIFEST = [
+        'code' => self::CORE_CODE,
+        'name' => 'TastyIgniter Core',
+        'description' => 'The core package for TastyIgniter',
+    ];
 
     protected ?array $iconCache = null;
 
@@ -38,7 +45,7 @@ class PackageInfo
             $array['type'],
             $array['name'],
             $array['version'],
-            $array['author'],
+            $array['author'] ?? '',
             $array['description'] ?? '',
             $array['icon'] ?? [],
             $array['installedVersion'] ?? '',
@@ -52,7 +59,7 @@ class PackageInfo
 
     public function isCore(): bool
     {
-        return $this->type === 'core';
+        return $this->package === self::CORE;
     }
 
     public function icon(string $key, mixed $default): string

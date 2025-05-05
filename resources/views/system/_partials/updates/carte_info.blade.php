@@ -4,6 +4,10 @@
     </div>
     <div class="flex-grow-1 wrap-left">
         <a
+            class="btn border border-danger text-danger pull-right ms-2"
+            data-request="onClearCarte"
+        ><i class="fa fa-trash-alt"></i></a>
+        <a
             class="btn border pull-right"
             onclick="$('.carte-body').slideToggle()"
         ><i class="fa fa-pencil"></i></a>

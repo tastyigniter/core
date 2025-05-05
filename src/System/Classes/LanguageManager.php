@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
-use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Translation;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Translation\FileLoader as IlluminateFileLoader;
 use stdClass;
 
@@ -69,7 +68,7 @@ class LanguageManager
         }
 
         foreach (File::directories($directory) as $path) {
-            $langDir = basename((string) $path);
+            $langDir = basename((string)$path);
             $paths[$langDir] = $path;
         }
 
@@ -149,25 +148,41 @@ class LanguageManager
         return $result;
     }
 
-    public function publishTranslations(Language $model): array
+    public function publishTranslations(Language $model): void
     {
-        $translations = $model->translations()
+        $installedItems = collect($this->updateManager->getInstalledItems())->keyBy('name');
+
+        $model->translations()
             ->get()
             // @phpstan-ignore-next-line
-            ->groupBy(fn(Translation $translation): string => sprintf('%s::%s', $translation->namespace, $translation->group))
-            ->map(fn(Collection $translations, string $group): array => [
-                'name' => $group,
-                'strings' => $translations
-                    // @phpstan-ignore-next-line
-                    ->map(fn(Translation $translation): array => [
-                        'key' => $translation->item,
-                        'value' => $translation->text,
-                    ])
-                    ->all(),
-            ])
-            ->all();
+            ->groupBy(fn(Translation $translation): string => $translation->namespace)
+            ->filter(fn(Collection $translations, string $namespace): bool => $namespace === 'igniter' || $installedItems->has($namespace))
+            ->map(function(Collection $translations, string $namespace) use ($installedItems): array {
+                $item = $namespace === 'igniter'
+                    ? [
+                        'name' => 'tastyigniter',
+                        'type' => 'core',
+                        'ver' => Igniter::version(),
+                    ] : $installedItems->get($namespace);
 
-        return $this->hubManager->publishTranslations($model->code, $translations);
+                // @phpstan-ignore-next-line
+                $item['files'] = $translations->groupBy(fn(Translation $translation): string => $translation->group)
+                    // @phpstan-ignore-next-line
+                    ->map(fn(Collection $translations, string $file): array => [
+                        'name' => $file.'.php',
+                        'strings' => $translations->map(fn(Translation $translation): array => [
+                            'key' => $translation->item,
+                            'value' => $translation->text,
+                        ])->all(),
+                    ])
+                    ->values()
+                    ->all();
+
+                return $item;
+            })
+            ->each(function(array $item) use ($model) {
+                $this->hubManager->publishTranslations($model->code, $item);
+            });
     }
 
     protected function listTranslationStrings(array $sourceLines, array $translationLines, string $localeGroup, ?string $filter): array
@@ -187,7 +202,7 @@ class LanguageManager
 
             $result[sprintf('%s.%s', $localeGroup, $key)] = [
                 'source' => $sourceLine,
-                'translation' => (strcmp((string) $sourceLine, (string) $translationLine) === 0) ? '' : $translationLine,
+                'translation' => (strcmp((string)$sourceLine, (string)$translationLine) === 0) ? '' : $translationLine,
             ];
         }
 
@@ -197,10 +212,10 @@ class LanguageManager
     protected function searchTranslations(array $translations, ?string $term = null): array
     {
         $result = [];
-        $term = strtolower((string) $term);
+        $term = strtolower((string)$term);
         foreach ($translations as $key => $value) {
-            if (stripos(strtolower((string) array_get($value, 'source')), $term) !== false
-                || stripos(strtolower((string) array_get($value, 'translation')), $term) !== false
+            if (stripos(strtolower((string)array_get($value, 'source')), $term) !== false
+                || stripos(strtolower((string)array_get($value, 'translation')), $term) !== false
                 || stripos(strtolower($key), $term) !== false) {
                 $result[$key] = $value;
             }
@@ -229,90 +244,64 @@ class LanguageManager
     //
     //
 
-    public function searchLanguages(string $term): array
-    {
-        $items = $this->getHubManager()->listLanguages([
-            'search' => $term,
-        ]);
-
-        if (isset($items['data'])) {
-            foreach ($items['data'] as &$item) {
-                $item['require'] = [];
-            }
-        }
-
-        return $items;
-    }
-
     public function findLanguage(string $locale): array
     {
-        $result = $this->getHubManager()->getLanguage($locale);
+        $result = $this->hubManager->getLanguage($locale);
 
         return array_get($result, 'data', []);
     }
 
-    public function requestUpdateList(string $locale, bool $force = false): array
-    {
-        $cacheKey = 'translation_string_updates';
-        $cacheKey .= '.'.$locale;
-
-        if ($force || !$response = cache()->get($cacheKey)) {
-            throw_unless($language = Language::findByCode($locale), new ApplicationException('Language not found'));
-
-            $response['items'] = $this->applyLanguagePack($locale, (array)$language->version);
-            $response['last_checked_at'] = now()->toDateTimeString();
-
-            Cache::put($cacheKey, $response, now()->addHours(6));
-        }
-
-        return $response;
-    }
-
     public function applyLanguagePack(string $locale, ?array $builds = null): array
     {
-        $items = collect($this->updateManager->getInstalledItems())
-            ->map(function(array $item) use ($builds) {
-                $item['build'] = array_get($builds, $item['name']);
+        $installedItemCodes = collect($this->updateManager->getInstalledItems())->keyBy('name');
+
+        $items = collect($this->namespaces())
+            ->filter(fn($langDirectory, $code) => $code === 'igniter' || $installedItemCodes->has($code))
+            ->map(function($langDirectory, $code) use ($builds, $installedItemCodes) {
+                $item = $code === 'igniter'
+                    ? [
+                        'name' => 'tastyigniter',
+                        'type' => 'core',
+                        'ver' => Igniter::version(),
+                    ]
+                    : $installedItemCodes->get($code);
+
+                $item['files'] = collect(File::glob($langDirectory.'/en/*.php'))
+                    ->map(function($langFile) use ($builds, $item) {
+                        $langFilename = basename($langFile);
+                        return [
+                            'name' => $langFilename,
+                            'hash' => array_get(array_get($builds, $item['name']), $langFilename),
+                        ];
+                    })
+                    ->all();
 
                 return $item;
             })
+            ->values()
             ->all();
 
-        $response = $this->getHubManager()->applyLanguagePack($locale, $items);
+        $response = $this->hubManager->applyLanguagePack($locale, $items);
 
         return array_get($response, 'data', []);
     }
 
-    public function installLanguagePack(string $locale, array $meta): bool
+    public function installLanguagePack(string $locale, array $meta): void
     {
         $eTag = array_get($meta, 'hash');
 
-        $fileStrings = $this->getHubManager()->downloadLanguagePack($eTag, [
+        $response = $this->hubManager->downloadLanguagePack($eTag, [
             'locale' => $locale,
             'item' => $meta,
         ]);
 
-        collect($fileStrings)
-            ->each(function($strings, $filename) use ($locale, $meta) {
-                if (ends_with($filename, '.php')) {
-                    $this->createLanguageFile($locale, $meta['name'], $filename, $strings);
-                }
-            });
+        $strings = array_get($response, 'data.strings', []);
 
-        return true;
-    }
-
-    protected function createLanguageFile(string $locale, string $code, string $filename, array $strings)
-    {
-        $filePath = $this->langPath.'/vendor/'.str_replace('.', '-', $code).'/'.$locale.'/'.$filename;
+        $langDirectory = $meta['name'] === 'tastyigniter' ? 'igniter' : str_replace('.', '-', $meta['name']);
+        $filePath = $this->langPath.'/vendor/'.$langDirectory.'/'.$locale.'/'.$meta['file'];
 
         File::makeDirectory(dirname($filePath), 0777, true, true);
 
         File::put($filePath, "<?php\n\nreturn ".var_export($strings, true).";\n");
-    }
-
-    protected function getHubManager(): HubManager
-    {
-        return $this->hubManager;
     }
 }

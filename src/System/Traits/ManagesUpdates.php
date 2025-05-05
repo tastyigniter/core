@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Igniter\System\Traits;
 
 use Exception;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Exception\FlashException;
+use Igniter\System\Classes\HubManager;
+use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
+use Igniter\System\Notifications\SystemUpdateNotification;
 use Illuminate\Http\RedirectResponse;
 use Throwable;
 
@@ -15,80 +18,86 @@ trait ManagesUpdates
 {
     public function search(): array
     {
-        $json = [];
+        $this->validate(input(), [
+            'filter' => ['sometimes', 'array'],
+            'filter.type' => ['sometimes', 'string', 'in:extension,theme'],
+            'filter.search' => ['sometimes', 'string'],
+        ]);
 
-        if (($filter = input('filter')) && is_array($filter)) {
-            $itemType = $filter['type'] ?? 'extension';
-            $searchQuery = isset($filter['search']) ? strtolower((string) $filter['search']) : '';
+        try {
+            $itemType = input('filter.type', 'extension');
+            $searchQuery = strtolower((string)input('filter.search'));
 
-            try {
-                $json = resolve(UpdateManager::class)->searchItems($itemType, $searchQuery);
-            } catch (Exception $ex) {
-                $json = ['error' => $ex->getMessage()];
-            }
+            $json = $this->processSearch($itemType, $searchQuery);
+        } catch (Exception $ex) {
+            $json = ['error' => $ex->getMessage()];
         }
 
         return $json;
     }
 
-    public function onApplyRecommended(): array
-    {
-        $itemsCodes = post('install_items') ?? [];
-        $items = collect(post('items') ?? [])->whereIn('name', $itemsCodes);
-        if ($items->isEmpty()) {
-            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
-        }
-
-        $this->validateItems();
-
-        $response = resolve(UpdateManager::class)->requestApplyItems($items->all());
-        $response = array_get($response, 'data', []);
-
-        return [
-            'steps' => $this->buildProcessSteps($response),
-        ];
-    }
-
     public function onApplyItems(): array
     {
-        $items = post('items') ?? [];
-        if (empty($items)) {
-            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
-        }
+        $updateManager = resolve(UpdateManager::class);
 
-        $this->validateItems();
+        throw_unless($updateManager->hasValidCarte(), new FlashException(
+            lang('igniter::system.updates.alert_no_carte_key'),
+        ));
 
-        $response = resolve(UpdateManager::class)->requestApplyItems($items);
-        $response = collect(array_get($response, 'data', []))
-            ->whereIn('code', collect($items)->pluck('name')->all());
+        $validated = $this->validate(post(), [
+            'item.code' => ['required'],
+            'item.name' => ['required'],
+            'item.type' => ['required', 'in:core,extension,theme'],
+            'item.version' => ['required'],
+            'item.action' => ['required', 'in:install'],
+        ], [], [
+            'item.code' => lang('igniter::system.updates.label_meta_code'),
+            'item.name' => lang('igniter::system.updates.label_meta_name'),
+            'item.type' => lang('igniter::system.updates.label_meta_type'),
+            'item.version' => lang('igniter::system.updates.label_meta_version'),
+            'item.action' => lang('igniter::system.updates.label_meta_action'),
+        ]);
 
-        if ($response->isEmpty()) {
-            throw new FlashException(lang('igniter::system.updates.alert_no_items'));
-        }
+        $validated['item']['package'] = resolve(Manager::class)->getPackageName(array_get($validated, 'item.code'));
+        $packageInfo = PackageInfo::fromArray($validated['item']);
+
+        [$response, $success] = $this->processInstallOrUpdate([$packageInfo]);
 
         return [
-            'steps' => $this->buildProcessSteps($response->all()),
+            'message' => implode('<br>', $response),
+            'success' => $success,
+            'redirect' => $success ? admin_url(str_plural($validated['item']['type'])) : null,
         ];
     }
 
     public function onApplyUpdate(): array
     {
-        $updates = resolve(UpdateManager::class)->requestUpdateList();
-        $itemsToUpdate = array_get($updates, 'items', []);
+        $updateManager = resolve(UpdateManager::class);
 
+        throw_unless($updateManager->hasValidCarte(), new FlashException(
+            lang('igniter::system.updates.alert_no_carte_key'),
+        ));
+
+        $updates = $updateManager->requestUpdateList();
+        $itemsToUpdate = array_get($updates, 'items', []);
         if ($itemsToUpdate->isEmpty()) {
             throw new FlashException(lang('igniter::system.updates.alert_item_to_update'));
         }
 
+        [$response, $success] = $this->processInstallOrUpdate($itemsToUpdate->all(), isUpdate: true);
+
         return [
-            'steps' => $this->buildProcessSteps($itemsToUpdate->all()),
+            'message' => implode('<br>', $response),
+            'success' => $success,
+            'redirect' => $success ? admin_url('updates') : null,
         ];
     }
 
     public function onCheckUpdates(): RedirectResponse
     {
-        $updateManager = resolve(UpdateManager::class);
-        $updateManager->requestUpdateList(true);
+        $updates = resolve(UpdateManager::class)->requestUpdateList(true);
+
+        SystemUpdateNotification::make(array_only($updates, ['count']))->broadcast();
 
         return $this->redirectBack();
     }
@@ -100,9 +109,7 @@ trait ManagesUpdates
             throw new FlashException(lang('igniter::system.updates.alert_item_to_ignore'));
         }
 
-        $updateManager = resolve(UpdateManager::class);
-
-        $updateManager->markedAsIgnored($itemCode, (bool)post('remove'));
+        resolve(UpdateManager::class)->markedAsIgnored($itemCode, (bool)post('remove'));
 
         return $this->redirectBack();
     }
@@ -113,14 +120,16 @@ trait ManagesUpdates
             throw new FlashException(lang('igniter::system.updates.alert_no_carte_key'));
         }
 
-        resolve(UpdateManager::class)->applySiteDetail($carteKey);
+        resolve(UpdateManager::class)->applyCarte($carteKey);
 
         return $this->redirectBack();
     }
 
-    public function onProcessItems(): array
+    public function onClearCarte(): RedirectResponse
     {
-        return $this->processInstallOrUpdate();
+        resolve(UpdateManager::class)->clearCarte();
+
+        return $this->redirectBack();
     }
 
     //
@@ -134,7 +143,7 @@ trait ManagesUpdates
         $updateManager = resolve(UpdateManager::class);
 
         $this->vars['itemType'] = $itemType;
-        $this->vars['carteInfo'] = $updateManager->getSiteDetail();
+        $this->vars['carteInfo'] = $updateManager->getCarteInfo();
         $this->vars['installedItems'] = $updateManager->getInstalledItems();
     }
 
@@ -145,106 +154,67 @@ trait ManagesUpdates
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
     }
 
-    protected function buildProcessSteps(array $itemsToUpdate): array
+    protected function processSearch(string $itemType, string $searchQuery): array
     {
-        $processSteps = [];
-        $itemsToUpdate = collect($itemsToUpdate);
-        foreach (['check', 'install', 'complete'] as $step) {
-            $itemsToUpdate = $itemsToUpdate->contains('type', 'core')
-                ? $itemsToUpdate->where('type', 'core')
-                : $itemsToUpdate;
+        $items = resolve(HubManager::class)->listItems([
+            'type' => $itemType,
+            'search' => $searchQuery,
+        ]);
 
-            $feedback = lang('igniter::system.updates.progress_'.$step);
-
-            $processSteps[$step] = [
-                'meta' => $itemsToUpdate->all(),
-                'process' => $step,
-                'progress' => $feedback,
-            ];
+        if (isset($items['data'])) {
+            $installedItems = array_column(resolve(UpdateManager::class)->getInstalledItems(), 'name');
+            foreach ($items['data'] as &$item) {
+                $item['icon'] = generate_extension_icon($item['icon'] ?? []);
+                $item['installed'] = in_array($item['code'], $installedItems);
+            }
         }
 
-        return $processSteps;
+        return $items;
     }
 
-    protected function processInstallOrUpdate(): array
+    protected function processInstallOrUpdate(array $items, bool $isUpdate = false): array
     {
-        $json = [];
+        $response = $composerLog = [];
         $success = false;
 
         try {
-            $data = $this->validateProcess();
-
-            $meta = array_get($data, 'meta');
+            $response[] = $isUpdate
+                ? lang('igniter::system.updates.progress_update')
+                : lang('igniter::system.updates.progress_install');
 
             $updateManager = resolve(UpdateManager::class);
+            $installedPackages = $updateManager->install($items, function($type, $line) use (&$composerLog): void {
+                $composerLog[] = $line;
+            });
+            $updateManager->completeInstall($installedPackages);
 
-            try {
-                match (array_get($data, 'process', '')) {
-                    'check' => $updateManager->preInstall(),
-                    'install' => $updateManager->install($meta),
-                    'complete' => $updateManager->completeinstall($meta),
-                };
-            } catch (Throwable $e) {
-                $errorMessage = nl2br($e->getMessage());
-                $errorMessage .= "\n\n".'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'."\n\n";
+            logger()->info(implode(PHP_EOL, $composerLog));
+            $response[] = implode('<br>', $updateManager->getLogs());
+            $response[] = $isUpdate
+                ? lang('igniter::system.updates.progress_update_ok')
+                : lang('igniter::system.updates.progress_install_ok');
 
-                throw new ApplicationException($errorMessage);
-            }
-
-            $json['message'] = implode(PHP_EOL, $updateManager->getLogs());
+            // Run migrations
+            $response[] = lang('igniter::system.updates.progress_migrate_database');
+            $updateManager->migrate();
+            $response[] = lang('igniter::system.updates.progress_migrate_database_ok');
 
             $success = true;
         } catch (Throwable $throwable) {
-            $json['message'] = $throwable->getMessage();
+            logger()->error($throwable->getMessage(), [
+                'trace' => $throwable->getTraceAsString(),
+                'line' => $throwable->getLine(),
+                'file' => $throwable->getFile(),
+            ]);
+            $response[] = nl2br($throwable->getMessage()
+                ."\n\n"
+                .'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'
+                ."\n\n",
+            );
         }
 
-        $json['success'] = $success;
+        $response[] = lang('igniter::system.updates.text_see_logs');
 
-        return $json;
-    }
-
-    protected function validateItems(): array
-    {
-        return $this->validate(post(), [
-            'items.*.name' => ['required'],
-            'items.*.type' => ['required', 'in:core,extension,theme,language'],
-            'items.*.ver' => ['sometimes', 'required'],
-            'items.*.action' => ['required', 'in:install,update'],
-        ], [], [
-            'items.*.name' => lang('igniter::system.updates.label_meta_code'),
-            'items.*.type' => lang('igniter::system.updates.label_meta_type'),
-            'items.*.ver' => lang('igniter::system.updates.label_meta_version'),
-            'items.*.action' => lang('igniter::system.updates.label_meta_action'),
-        ]);
-    }
-
-    protected function validateProcess(): array
-    {
-        $rules = [
-            'process' => ['required', 'in:check,install,complete'],
-            'meta' => ['required', 'array'],
-            'meta.*.code' => ['required'],
-            'meta.*.name' => ['required'],
-            'meta.*.package' => ['required'],
-            'meta.*.author' => ['required'],
-            'meta.*.type' => ['required', 'in:core,extension,theme'],
-            'meta.*.version' => ['required'],
-            'meta.*.hash' => ['required'],
-            'meta.*.description' => ['sometimes'],
-        ];
-
-        $attributes = [
-            'process' => lang('igniter::system.updates.label_meta_step'),
-            'meta.*.code' => lang('igniter::system.updates.label_meta_code'),
-            'meta.*.name' => lang('igniter::system.updates.label_meta_name'),
-            'meta.*.package' => lang('igniter::system.updates.label_meta_package'),
-            'meta.*.type' => lang('igniter::system.updates.label_meta_type'),
-            'meta.*.author' => lang('igniter::system.updates.label_meta_author'),
-            'meta.*.version' => lang('igniter::system.updates.label_meta_version'),
-            'meta.*.hash' => lang('igniter::system.updates.label_meta_hash'),
-            'meta.*.description' => lang('igniter::system.updates.label_meta_description'),
-        ];
-
-        return $this->validate(post(), $rules, [], $attributes);
+        return [$response, $success];
     }
 }
