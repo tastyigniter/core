@@ -12,10 +12,12 @@ use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Classes\ExtensionManager;
+use Igniter\System\Classes\HubManager;
 use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Models\Extension;
+use Igniter\System\Models\Settings;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -170,6 +172,13 @@ it('returns empty result when no outdated items are found', function() {
 
 it('requests for items to update', function() {
     mockRequestUpdateItems();
+    Settings::setPref([
+        'carte_key' => 'test-key',
+        'carte_info' => [
+            'name' => 'Test Site',
+            'email' => 'test@example.com',
+        ],
+    ]);
     $manager = new UpdateManager();
     $result = $manager->requestUpdateList();
 
@@ -271,6 +280,13 @@ it('throws exception if pre-install checks fail on assertIniMemoryLimit', functi
 });
 
 it('installs packages correctly', function() {
+    Settings::setPref([
+        'carte_key' => 'test-key',
+        'carte_info' => [
+            'name' => 'Test Site',
+            'email' => 'test@example.com',
+        ],
+    ]);
     $composerManager = mock(ComposerManager::class);
     app()->instance(ComposerManager::class, $composerManager);
     $composerManager->shouldReceive('listInstalledPackages')->andReturn(collect([
@@ -288,11 +304,26 @@ it('installs packages correctly', function() {
                 ],
             ],
         ],
+        [
+            'name' => 'test/theme',
+            'type' => 'tastyigniter-theme',
+            'version' => '2.0.0',
+            'extra' => [
+                'tastyigniter-theme' => [
+                    'code' => 'test.theme',
+                    'description' => 'Test theme description',
+                    'icon' => 'fa-icon',
+                    'author' => 'Sam',
+                    'tags' => [],
+                ],
+            ],
+        ],
     ]));
     $composerManager->shouldReceive('install')->once();
+    $composerManager->shouldReceive('assertSchema')->once();
+    $composerManager->shouldReceive('addAuthCredentials')->once();
 
     $updateManager = resolve(UpdateManager::class);
-
     $installed = $updateManager->install([
         PackageInfo::fromArray([
             'code' => 'test.extension',
@@ -300,6 +331,21 @@ it('installs packages correctly', function() {
             'type' => 'extension',
             'name' => 'Test Package',
             'version' => '2.0.0',
+            'author' => 'Sam',
+            'description' => 'Test package description',
+            'icon' => 'fa-icon',
+            'installedVersion' => '1.0.0',
+            'publishedAt' => '2021-01-01 00:00:00',
+            'tags' => [],
+            'hash' => 'hash',
+            'updatedAt' => '2021-01-01 00:00:00',
+        ]),
+        PackageInfo::fromArray([
+            'code' => 'test.theme',
+            'package' => 'test/theme',
+            'type' => 'theme',
+            'name' => 'Test Package',
+            'version' => '1.0.0',
             'author' => 'Sam',
             'description' => 'Test package description',
             'icon' => 'fa-icon',
@@ -319,8 +365,10 @@ it('completes installation correctly', function() {
     Http::fake(['https://api.tastyigniter.com/v2/core/installed' => Http::response([])]);
     app()->instance(ExtensionManager::class, $extensionManager = mock(ExtensionManager::class));
     app()->instance(ThemeManager::class, $themeManager = mock(ThemeManager::class));
+    app()->instance(HubManager::class, $hubManager = mock(HubManager::class));
     $extensionManager->shouldReceive('installExtension')->with('test.extension', '2.0.0')->once();
     $themeManager->shouldReceive('installTheme')->with('test.theme', '2.0.0')->once();
+    $hubManager->shouldReceive('applyInstalledItems')->once();
     $requirements = [
         PackageInfo::fromArray([
             'code' => 'test.core',
@@ -440,6 +488,7 @@ function mockRequestUpdateItems()
         ],
     ]));
     $composerManager->shouldReceive('assertSchema')->once();
+    $composerManager->shouldReceive('addAuthCredentials');
     $composerManager->shouldReceive('outdated')->once()->andReturnUsing(function($callback) {
         $callback('out', json_encode(['installed' => [
             [
@@ -461,6 +510,8 @@ function mockRequestUpdateItems()
                 'latest-status' => 'update-available',
             ],
         ]]));
+
+        $callback('err', 'Composer running...');
     });
 }
 

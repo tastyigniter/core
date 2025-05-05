@@ -124,7 +124,15 @@ it('prepares var correctly', function() {
 });
 
 it('refreshes list widget on paginate', function() {
-    $this->listsWidget->putSession('sort', ['status_id', 'desc']);
+    $this->listsWidget->putSession('sort', ['name', 'desc']);
+    $this->listsWidget->columns['name']['valueFrom'] = 'status_name';
+    unset($this->listsWidget->columns['name']['select']);
+    $this->listsWidget->columns['notify_customer'] = [
+        'label' => 'Notify',
+        'relation' => 'status_history',
+        'valueFrom' => 'notify',
+    ];
+
     expect($this->listsWidget->onPaginate())->toBeArray();
 });
 
@@ -245,6 +253,14 @@ it('makes list column with custom name', function() {
     expect($listColumn)->toBeInstanceOf(ListColumn::class)
         ->and($listColumn->valueFrom)->toBe('testColumn')
         ->and($listColumn->relation)->toBe('pivot');
+});
+
+it('makes list column with nested name', function() {
+    $listColumn = $this->listsWidget->makeListColumn('relation[testColumn]', 'Test Column');
+
+    expect($listColumn)->toBeInstanceOf(ListColumn::class)
+        ->and($listColumn->valueFrom)->toBe('testColumn')
+        ->and($listColumn->relation)->toBe('relation');
 });
 
 it('returns column', function() {
@@ -387,7 +403,7 @@ it('returns list column value from model relation', function() {
 it('returns list column value from model pivot relation', function() {
     $this->listsWidget->model = new User;
     $listColumn = new ListColumn('pivot[location_name]', 'Test Column');
-    $listColumn->displayAs('text', ['relation' => 'pivot']);
+    $listColumn->displayAs('text', ['relation' => 'pivot', 'valueFrom' => 'location_name']);
 
     $user = User::factory()->create();
     $location = Location::factory()->create();
@@ -396,7 +412,7 @@ it('returns list column value from model pivot relation', function() {
 
     $columnValue = $this->listsWidget->getColumnValue($user, $listColumn);
 
-    expect($columnValue)->toBeNull();
+    expect($columnValue)->toBe($location->location_name);
 });
 
 it('overrides list column value using event', function() {

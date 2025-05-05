@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Igniter\Tests\System\Classes;
 
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\System\Classes\HubManager;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Models\Extension;
@@ -63,6 +65,39 @@ it('lists locale packages for a given locale', function() {
 });
 
 it('publishes translations for a language', function() {
+    app()->instance(HubManager::class, $hubManager = mock(HubManager::class));
+    $hubManager->shouldReceive('publishTranslations')->once()->with('fa', [
+        'name' => 'tastyigniter',
+        'type' => 'core',
+        'ver' => Igniter::version(),
+        'files' => [
+            [
+                'name' => 'default.php',
+                'strings' => [
+                    [
+                        'key' => 'text_default',
+                        'value' => 'Default',
+                    ],
+                ],
+            ],
+        ],
+    ]);
+    $hubManager->shouldReceive('publishTranslations')->once()->with('fa', [
+        'name' => 'igniter.api',
+        'type' => 'extension',
+        'ver' => '1.0.0',
+        'files' => [
+            [
+                'name' => 'default.php',
+                'strings' => [
+                    [
+                        'key' => 'text_default',
+                        'value' => 'Default',
+                    ],
+                ],
+            ],
+        ],
+    ]);
     app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
     $updateManager->shouldReceive('getInstalledItems')->once()->andReturn([
         [
@@ -74,8 +109,8 @@ it('publishes translations for a language', function() {
 
     $language = Language::factory()->create(['code' => 'fa', 'status' => 1]);
     $language->translations()->saveMany([
-        Translation::create(['locale' => 'fa', 'group' => 'igniter', 'item' => 'default', 'text' => 'Default']),
-        Translation::create(['locale' => 'fa', 'group' => 'igniter.api', 'item' => 'default', 'text' => 'Default']),
+        Translation::create(['locale' => 'fa', 'namespace' => 'igniter', 'group' => 'default', 'item' => 'text_default', 'text' => 'Default']),
+        Translation::create(['locale' => 'fa', 'namespace' => 'igniter.api', 'group' => 'default', 'item' => 'text_default', 'text' => 'Default']),
     ]);
     $expectedResponse = ['message' => 'ok'];
     Http::fake(['https://api.tastyigniter.com/v2/language/upload' => Http::response($expectedResponse)]);
@@ -86,12 +121,28 @@ it('publishes translations for a language', function() {
 it('applies language pack and returns data', function() {
     $expectedResponse = ['data' => ['result' => 'success']];
     Http::fake(['https://api.tastyigniter.com/v2/language/apply' => Http::response($expectedResponse)]);
-    Extension::create(['name' => 'Igniter.Api', 'status' => 1]);
+    Extension::create(['name' => 'igniter.api', 'status' => 1]);
+//    app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
+//    $updateManager->shouldReceive('getInstalledItems')->once()->andReturn([
+//        [
+//            'name' => 'igniter.api',
+//            'type' => 'extension',
+//            'ver' => '1.0.0',
+//        ],
+//    ]);
 
     $manager = resolve(LanguageManager::class);
     $result = $manager->applyLanguagePack('en');
 
     expect($result)->toBe($expectedResponse['data']);
+});
+
+it('returns language details by locale', function() {
+    $expectedResponse = ['data' => ['name' => 'English']];
+    $manager = resolve(LanguageManager::class);
+    Http::fake(['https://api.tastyigniter.com/v2/language/en' => Http::response($expectedResponse)]);
+
+    expect($manager->findLanguage('en'))->toBe($expectedResponse['data']);
 });
 
 it('installs language pack successfully', function() {

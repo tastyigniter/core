@@ -43,7 +43,7 @@ function setupInstallation(): IgniterInstall|MockInterface
     $installCommand = mock(IgniterInstall::class)->makePartial();
     $installCommand->setOutput($output = mock(OutputStyle::class));
     $installCommand->shouldReceive('option')->andReturnFalse();
-    $installCommand->shouldReceive('confirm')->andReturnTrue();
+    $installCommand->shouldReceive('confirm')->byDefault()->andReturnTrue();
     $installCommand->shouldReceive('alert')->with('INSTALLATION STARTED')->once();
     $installCommand->shouldReceive('line')->byDefault();
     $installCommand->shouldReceive('ask')->with('MySQL Host', 'localhost')->andReturn('localhost');
@@ -77,6 +77,19 @@ it('installs TastyIgniter successfully', function() {
     $authService = mock(UserGuard::class);
     $authService->shouldReceive('getProvider->register')->once()->andReturn(User::factory()->make());
     app()->instance('admin.auth', $authService);
+
+    $installCommand->handle();
+});
+
+it('skips create user when user already exists during installs', function() {
+    Event::fake();
+    User::factory()->create();
+    $installCommand = setupInstallation();
+    Process::shouldReceive('run')->andReturn(0);
+    Igniter::shouldReceive('adminUri')->andReturn('admin');
+    SystemHelper::shouldReceive('runningOnMac')->andReturnTrue();
+    $authService = mock(UserGuard::class);
+    $installCommand->shouldReceive('confirm')->with('Super user already exists. Do you want to create another super user?')->andReturnFalse();
 
     $installCommand->handle();
 });

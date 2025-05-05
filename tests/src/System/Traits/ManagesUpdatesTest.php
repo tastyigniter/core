@@ -12,10 +12,12 @@ use Igniter\System\Classes\UpdateManager;
 it('searches extensions successfully', function() {
     app()->instance(HubManager::class, $hubManager = mock(HubManager::class));
     $hubManager->shouldReceive('listItems')->andReturn([
-        [
-            'name' => 'Igniter.Api',
-            'code' => 'igniter.api',
-            'description' => 'description',
+        'data' => [
+            [
+                'name' => 'Igniter.Api',
+                'code' => 'igniter.api',
+                'description' => 'description',
+            ],
         ],
     ]);
     app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
@@ -41,10 +43,13 @@ it('returns error when search fails', function() {
         ->assertSee('Search failed');
 });
 
-it('returns process steps when install items are applied', function() {
+it('returns successful message when install items are applied', function() {
     app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
     $updateManager->shouldReceive('hasValidCarte')->andReturnTrue();
-    $updateManager->shouldReceive('install')->andReturn([
+    $updateManager->shouldReceive('install')->withArgs(function($items, $callback) {
+        $callback('out', 'Composer installing');
+        return true;
+    })->andReturn([
         'data' => [
             ['code' => 'igniter.test'],
             ['code' => 'igniter.anothertest'],
@@ -74,6 +79,42 @@ it('returns process steps when install items are applied', function() {
             'message' => 'Installing system addons...<br><br>Installing system addons complete<i class="fa fa-check fa-fw"></i><br>Running database migrations...<br>Running database migrations complete<i class="fa fa-check fa-fw"></i><br><b>See system logs for more details</b>',
             'success' => true,
             'redirect' => admin_url('extensions'),
+        ]);
+});
+
+it('throws exception when composer install fails', function() {
+    app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
+    $updateManager->shouldReceive('hasValidCarte')->andReturnTrue();
+    $updateManager->shouldReceive('install')->andThrow(new Exception('Composer install failed'));
+    app()->instance(ComposerManager::class, $composerManager = mock(ComposerManager::class));
+    $composerManager->shouldReceive('getPackageName')->andReturn('test/package');
+
+    actingAsSuperUser()
+        ->post(route('igniter.system.extensions'), [
+            'item' => [
+                'code' => 'igniter.test',
+                'name' => 'Test Extension',
+                'type' => 'extension',
+                'version' => '1.0.0',
+                'action' => 'install',
+            ],
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onApplyItems',
+        ])
+        ->assertStatus(200)
+        ->assertJson([
+            'message' => implode('<br>', [
+                'Installing system addons...',
+                nl2br(
+                    'Composer install failed'."\n\n"
+                    .'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'
+                    ."\n\n",
+                ),
+                '<b>See system logs for more details</b>',
+            ]),
+            'success' => false,
+            'redirect' => null,
         ]);
 });
 
@@ -107,7 +148,7 @@ it('throws exception when no items to install', function() {
         ->assertStatus(406);
 });
 
-it('returns process steps when update items are applied', function() {
+it('returns successful message when update items are applied', function() {
     app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
     $updateManager->shouldReceive('hasValidCarte')->andReturnTrue();
     $updateManager->shouldReceive('requestUpdateList')->andReturn([
@@ -212,6 +253,22 @@ it('redirects after applying carte key', function() {
         ], [
             'X-Requested-With' => 'XMLHttpRequest',
             'X-IGNITER-REQUEST-HANDLER' => 'onApplyCarte',
+        ])
+        ->assertStatus(200)
+        ->assertSee('X_IGNITER_REDIRECT');
+});
+
+it('redirects after clearing carte key', function() {
+    $updateManager = mock(UpdateManager::class);
+    $updateManager->shouldReceive('clearCarte')->once();
+    app()->instance(UpdateManager::class, $updateManager);
+
+    actingAsSuperUser()
+        ->post(route('igniter.system.extensions'), [
+            'carte_key' => 'carte_key',
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onClearCarte',
         ])
         ->assertStatus(200)
         ->assertSee('X_IGNITER_REDIRECT');

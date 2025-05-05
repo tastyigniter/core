@@ -13,6 +13,7 @@ it('throws validation exception on failed validation', function() {
         public function rules(): array
         {
             return [
+                ['title' => 'required'],
                 'name' => 'required',
             ];
         }

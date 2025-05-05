@@ -33,6 +33,16 @@ it('throws exception when theme meta file is missing', function() {
         ->toThrow(SystemException::class, 'Theme does not have a registration file in: /path/to/missing-theme');
 });
 
+it('returns null when theme meta file validation fails', function() {
+    $themePath = '/path/to/theme-with-invalid-code';
+    File::shouldReceive('exists')->with($themePath.'/theme.json')->andReturnTrue();
+    File::shouldReceive('json')->with($themePath.'/theme.json')->andReturn([
+        'code' => 'valid-code',
+    ]);
+
+    expect($this->themeManager->loadTheme($themePath))->toBeNull();
+});
+
 it('returns null when loading theme with invalid theme code', function() {
     $themePath = '/path/to/theme-with-invalid-code';
     File::shouldReceive('exists')->with($themePath.'/theme.json')->andReturnTrue();
@@ -275,7 +285,7 @@ it('returns false when removing non-existent theme folder', function() {
     expect($this->themeManager->removeTheme('themeCode'))->toBeFalse();
 });
 
-it('deletes theme and its data successfully', function() {
+it('deletes composer installed theme and its data successfully', function() {
     app()->instance(ComposerManager::class, $composerManager = mock(ComposerManager::class));
     $composerManager->shouldReceive('getPackageName')->with('tests-theme')->andReturn('packageName');
     $composerManager->shouldReceive('uninstall')->andReturnSelf();
@@ -286,7 +296,21 @@ it('deletes theme and its data successfully', function() {
     app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
     $updateManager->shouldReceive('purgeExtension')->with('tests-theme')->andReturnSelf();
 
-    expect($this->themeManager->deleteTheme('tests-theme', true))->toBeNull();
+    expect($this->themeManager->deleteTheme('tests-theme'))->toBeNull();
+});
+
+it('deletes non-composer installed theme and its data successfully', function() {
+    app()->instance(ComposerManager::class, $composerManager = mock(ComposerManager::class));
+    $composerManager->shouldReceive('getPackageName')->with('tests-theme')->andReturnNull();
+    $composerManager->shouldReceive('uninstall')->andReturnSelf();
+
+    File::shouldReceive('isDirectory')->with($this->themePath)->andReturn(true);
+    File::shouldReceive('deleteDirectory')->with($this->themePath)->andReturn(true);
+
+    app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
+    $updateManager->shouldReceive('purgeExtension')->with('tests-theme')->andReturnSelf();
+
+    expect($this->themeManager->deleteTheme('tests-theme'))->toBeNull();
 });
 
 it('installs theme successfully', function() {
