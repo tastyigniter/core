@@ -189,11 +189,6 @@ class Lists extends BaseWidget
         return $this->onRefresh();
     }
 
-    protected function validateModel(): ?Model
-    {
-        return $this->model;
-    }
-
     /**
      * Replaces the @ symbol with a table name in a model
      */
@@ -626,12 +621,12 @@ class Lists extends BaseWidget
         if ($column->valueFrom && $column->relation) {
             $columnName = $column->relation;
 
-            if (!array_key_exists($columnName, $record->getRelations())) {
-                $value = null;
-            } elseif ($this->isColumnRelated($column, true)) {
-                $value = implode(', ', $record->{$columnName}->pluck($column->valueFrom)->all());
-            } elseif ($this->isColumnRelated($column) || $this->isColumnPivot($column)) {
-                $value = $record->{$columnName} ? $record->{$columnName}->{$column->valueFrom} : null;
+            if (array_key_exists($columnName, $record->getRelations())) {
+                if ($this->isColumnRelated($column, true)) {
+                    $value = implode(', ', $record->{$columnName}->pluck($column->valueFrom)->all());
+                } elseif ($this->isColumnRelated($column) || $this->isColumnPivot($column)) {
+                    $value = $record->{$columnName} ? $record->{$columnName}->{$column->valueFrom} : null;
+                }
             }
         } elseif ($column->valueFrom) {
             $keyParts = name_to_array($column->valueFrom);
