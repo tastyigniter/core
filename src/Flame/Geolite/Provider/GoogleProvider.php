@@ -150,6 +150,7 @@ class GoogleProvider extends AbstractProvider
         $response = $this->getHttpClient()->get($url, [
             'timeout' => $query->getData('timeout', 15),
         ]);
+       
 
         return $this->parseResponse($this->validateResponse($response));
     }
@@ -164,19 +165,18 @@ class GoogleProvider extends AbstractProvider
             'timeout' => $query->getData('timeout', 15),
         ]);
 
-        $this->validateResponse($response);
+        $json = $this->validateResponse($response);
 
-        return array_get(json_decode($response->getBody()->getContents(), true), 'rows', []);
+        return array_get($json, 'rows', []);
     }
 
     //
     //
     //
 
-    protected function validateResponse(ResponseInterface $response): ResponseInterface
+    protected function validateResponse(ResponseInterface $response): mixed
     {
-        $body = (string) $response->getBody();
-        $json = json_decode($body, false);
+        $json = json_decode($response->getBody()->getContents(), false);
 
         // API error
         if (!$json) {
@@ -195,18 +195,15 @@ class GoogleProvider extends AbstractProvider
                 'Daily quota exceeded. Message: %s', $json->error_message ?? 'empty error message',
             ));
         }
-        // Replace the response body with a new stream so it can be read again
-        $stream = \GuzzleHttp\Psr7\Utils::streamFor($body);
-        return $response->withBody($stream);
+
+        return $json;
     }
 
     /**
      * Decode the response content and validate it to make sure it does not have any errors.
      */
-    protected function parseResponse(ResponseInterface $response): array
+    protected function parseResponse(mixed $json): array
     {
-        $json = json_decode($response->getBody()->getContents(), false);
-
         $response = $json->results ?? $json->rows ?? [];
         if (!count($response) || $json->status !== 'OK') {
             throw new GeoliteException($json->error_message ?? 'empty error message');
