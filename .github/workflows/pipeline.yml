@@ -63,7 +63,7 @@ jobs:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
-      DB_DATABASE: testbench
+      DB_DATABASE: db_test
       DB_USERNAME: root
       DB_PASSWORD: root
     steps:
