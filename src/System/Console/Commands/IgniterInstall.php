@@ -9,21 +9,14 @@ use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\ConfigRewrite;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
-use Igniter\Local\Models\Location;
 use Igniter\Main\Models\Theme;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
-use Igniter\System\Models\Language;
 use Igniter\System\Models\Settings;
-use Igniter\User\Facades\AdminAuth;
-use Igniter\User\Models\User;
-use Igniter\User\Models\UserGroup;
-use Igniter\User\Models\UserRole;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Process;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -36,11 +29,11 @@ class IgniterInstall extends Command
 {
     use ConfirmableTrait;
 
-    protected const CONFIRM_CREATE_STORAGE_LINK = 'Create a symbolic link of <options=bold>storage/app/public</> at <options=bold>public/storage</> to make uploaded files publicly available?';
+    protected const string CONFIRM_CREATE_STORAGE_LINK = 'Create a symbolic link of <options=bold>storage/app/public</> at <options=bold>public/storage</> to make uploaded files publicly available?';
 
-    protected const LOGIN_TO_ADMIN_DASHBOARD = 'You can now login to the TastyIgniter Admin at %s with credentials provided during installation.';
+    protected const string LOGIN_TO_ADMIN_DASHBOARD = 'You can now login to the TastyIgniter Admin at %s with credentials provided during installation.';
 
-    protected const CONFIRM_SHOW_LOVE = 'Do you want to show some love by starring the TastyIgniter repository on GitHub?';
+    protected const string CONFIRM_SHOW_LOVE = 'Do you want to show some love by starring the TastyIgniter repository on GitHub?';
 
     /**
      * The console command name.
@@ -88,8 +81,6 @@ class IgniterInstall extends Command
 
         $this->migrateDatabase();
 
-        $this->createSuperUser();
-
         $this->addSystemValues();
 
         if ($this->confirm(self::CONFIRM_CREATE_STORAGE_LINK, true)) {
@@ -112,7 +103,7 @@ class IgniterInstall extends Command
     /**
      * Get the console command options.
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production'],
@@ -172,54 +163,6 @@ class IgniterInstall extends Command
         DatabaseSeeder::$siteUrl = $this->ask('Site URL', Config::get('app.url'));
 
         DatabaseSeeder::$seedDemo = $this->confirm('Install demo data?', !Igniter::hasDatabase());
-    }
-
-    protected function createSuperUser()
-    {
-        if (User::count() && !$this->confirm('Super user already exists. Do you want to create another super user?')) {
-            return;
-        }
-
-        DatabaseSeeder::$staffName = $this->ask('Admin Name', DatabaseSeeder::$staffName);
-        DatabaseSeeder::$siteEmail = $this->output->ask('Admin Email', DatabaseSeeder::$siteEmail, function($answer) {
-            throw_if(
-                User::whereEmail($answer)->first(),
-                new RuntimeException('An administrator with that email already exists, please choose a different email.'),
-            );
-
-            return $answer;
-        });
-        DatabaseSeeder::$password = $this->output->ask('Admin Password', '123456', function($answer): string {
-            throw_if(
-                !is_string($answer) || strlen($answer) < 6 || strlen($answer) > 32,
-                new RuntimeException('Please specify the administrator password, at least 6 characters'),
-            );
-
-            return $answer;
-        });
-        DatabaseSeeder::$username = $this->output->ask('Admin Username', 'admin', function($answer) {
-            throw_if(
-                User::whereUsername($answer)->first(),
-                new RuntimeException('An administrator with that username already exists, please choose a different username.'),
-            );
-
-            return $answer;
-        });
-
-        /** @var User $user */
-        $user = AdminAuth::getProvider()->register([
-            'email' => DatabaseSeeder::$siteEmail,
-            'name' => DatabaseSeeder::$staffName,
-            'language_id' => Language::first()->language_id,
-            'user_role_id' => UserRole::first()->user_role_id,
-            'username' => DatabaseSeeder::$username,
-            'password' => DatabaseSeeder::$password,
-            'super_user' => true,
-            'groups' => [UserGroup::first()->user_group_id],
-            'locations' => [Location::first()->location_id],
-        ], true);
-
-        $this->line('Admin user '.$user->username.' created!');
     }
 
     protected function addSystemValues()
