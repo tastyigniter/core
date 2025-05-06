@@ -55,9 +55,8 @@ class ThemeInstall extends Command
 
     /**
      * Get the console command arguments.
-     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the theme. Eg: igniter-orange'],

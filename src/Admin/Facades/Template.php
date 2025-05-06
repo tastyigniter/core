@@ -29,10 +29,9 @@ class Template extends Facade
     /**
      * Get the registered name of the component.
      *
-     * @return string
      * @see \Igniter\System\Libraries\Template
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'admin.template';
     }

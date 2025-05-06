@@ -87,7 +87,7 @@ class IgniterUpdate extends Command
     /**
      * Get the console command options.
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['force', null, InputOption::VALUE_NONE, 'Force updates.'],

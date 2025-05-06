@@ -87,10 +87,9 @@ class File extends IlluminateFacade
     /**
      * Get the registered name of the component.
      *
-     * @return string
      * @see \Igniter\Flame\Filesystem\Filesystem
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return Filesystem::class;
     }

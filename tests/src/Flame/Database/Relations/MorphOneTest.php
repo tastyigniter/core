@@ -16,7 +16,7 @@ it('associates and dissociates model correctly', function() {
             ],
         ];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'status';
         }
@@ -43,7 +43,7 @@ it('sets simple value with null', function() {
             ],
         ];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'status';
         }
@@ -70,7 +70,7 @@ it('sets simple value with model instance', function() {
             ],
         ];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'status';
         }
@@ -96,7 +96,7 @@ it('sets simple value with id', function() {
             ],
         ];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'status';
         }

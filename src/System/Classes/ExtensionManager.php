@@ -32,12 +32,6 @@ class ExtensionManager
     /** Array of extensions and their directory paths. */
     protected array $paths = [];
 
-    /** Used Set whether extensions have been booted. */
-    protected bool $booted = false;
-
-    /** Used Set whether extensions have been registered. */
-    protected bool $registered = false;
-
     protected array $directories = [];
 
     public function __construct(protected PackageManifest $packageManifest, protected Manager $composerManager)

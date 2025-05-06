@@ -19,7 +19,7 @@ class TestModelForMedia extends Model
 
     public $mediable = ['thumb', 'image', 'gallery' => ['multiple' => true]];
 
-    public function getMorphClass()
+    public function getMorphClass(): string
     {
         return 'test_countries';
     }

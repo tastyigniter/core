@@ -48,10 +48,9 @@ class AdminMenu extends Facade
     /**
      * Get the registered name of the component.
      *
-     * @return string
      * @see \Igniter\User\Auth\UserGuard
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'admin.menu';
     }

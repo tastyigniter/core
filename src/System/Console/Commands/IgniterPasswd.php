@@ -61,7 +61,7 @@ class IgniterPasswd extends Command
     /**
      * Get the console command options.
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['email', InputArgument::OPTIONAL, 'The email of the Admin user o reset'],

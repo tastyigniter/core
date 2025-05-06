@@ -67,14 +67,14 @@ class LanguageInstall extends Command
         }
     }
 
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['locale', InputArgument::REQUIRED, 'The name of the language. Eg: fr_FR'],
         ];
     }
 
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [];
     }

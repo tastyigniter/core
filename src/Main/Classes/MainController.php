@@ -257,7 +257,7 @@ class MainController extends Controller
         return $response;
     }
 
-    public function callAction($method, $parameters)
+    public function callAction($method, $parameters): mixed
     {
         return $this->remap($method, $parameters);
     }
