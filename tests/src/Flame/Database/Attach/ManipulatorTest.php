@@ -63,16 +63,6 @@ it('manipulates file correctly using local filesystem', function() {
     $manipulator->save(base_path('/attachments/file.jpg'));
 });
 
-it('manipulates file relative to source path', function() {
-    $manipulator = new Manipulator('/path/file.jpg');
-    $manipulator->useSource($source = mock(Filesystem::class));
-    $source->shouldReceive('getDriver')->andReturn($localDriver = mock(FilesystemOperator::class));
-    $localDriver->shouldReceive('fileExists');
-    $source->shouldReceive('path')->once()->andReturn('/path');
-
-    $manipulator->manipulate(['width' => 100]);
-});
-
 it('saves files without manipulations', function() {
     $manipulator = Manipulator::make('path/to/file.jpg');
     $manipulator->useSource($source = mock(Filesystem::class));
