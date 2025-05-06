@@ -67,6 +67,7 @@ it('manipulates file relative to source path', function() {
     $manipulator = new Manipulator('/path/file.jpg');
     $manipulator->useSource($source = mock(Filesystem::class));
     $source->shouldReceive('getDriver')->andReturn($localDriver = mock(FilesystemOperator::class));
+    $localDriver->shouldReceive('fileExists');
     $source->shouldReceive('path')->once()->andReturn('/path');
 
     $manipulator->manipulate(['width' => 100]);

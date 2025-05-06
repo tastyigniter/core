@@ -157,12 +157,14 @@ it('rolls back extension migrations correctly', function() {
 });
 
 it('returns empty result when no outdated items are found', function() {
-    $manager = new UpdateManager;
-
-    $composerManager = mock(ComposerManager::class);
-    app()->instance(ComposerManager::class, $composerManager);
+    Cache::shouldReceive('get')->with('hub_updates')->andReturn(null);
+    Cache::shouldReceive('put')->once();;
+    app()->instance(ComposerManager::class, $composerManager = mock(ComposerManager::class));
     $composerManager->shouldReceive('listInstalledPackages')->andReturn(collect([]));
+    $composerManager->shouldReceive('assertSchema')->once();
+    $composerManager->shouldReceive('outdated')->once();
 
+    $manager = new UpdateManager;
     $result = $manager->requestUpdateList();
 
     expect($result['count'])->toBe(0)
@@ -512,6 +514,8 @@ function mockRequestUpdateItems()
         ]]));
 
         $callback('err', 'Composer running...');
+
+        return true;
     });
 }
 
