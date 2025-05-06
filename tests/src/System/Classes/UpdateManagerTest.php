@@ -158,7 +158,7 @@ it('rolls back extension migrations correctly', function() {
 
 it('returns empty result when no outdated items are found', function() {
     Cache::shouldReceive('get')->with('hub_updates')->andReturn(null);
-    Cache::shouldReceive('put')->once();;
+    Cache::shouldReceive('put')->once();
     app()->instance(ComposerManager::class, $composerManager = mock(ComposerManager::class));
     $composerManager->shouldReceive('listInstalledPackages')->andReturn(collect([]));
     $composerManager->shouldReceive('assertSchema')->once();
@@ -491,7 +491,7 @@ function mockRequestUpdateItems()
     ]));
     $composerManager->shouldReceive('assertSchema')->once();
     $composerManager->shouldReceive('addAuthCredentials');
-    $composerManager->shouldReceive('outdated')->once()->andReturnUsing(function($callback) {
+    $composerManager->shouldReceive('outdated')->once()->andReturnUsing(function($callback): true {
         $callback('out', json_encode(['installed' => [
             [
                 'name' => 'tastyigniter/core',
