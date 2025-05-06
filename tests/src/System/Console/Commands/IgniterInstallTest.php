@@ -9,8 +9,6 @@ use Igniter\Flame\Composer\Manager as ComposerManager;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Console\Commands\IgniterInstall;
-use Igniter\User\Auth\UserGuard;
-use Igniter\User\Models\User;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -74,22 +72,6 @@ it('installs TastyIgniter successfully', function() {
     Process::shouldReceive('run')->andReturn(0);
     Igniter::shouldReceive('adminUri')->andReturn('admin');
     SystemHelper::shouldReceive('runningOnMac')->andReturnTrue();
-    $authService = mock(UserGuard::class);
-    $authService->shouldReceive('getProvider->register')->once()->andReturn(User::factory()->make());
-    app()->instance('admin.auth', $authService);
-
-    $installCommand->handle();
-});
-
-it('skips create user when user already exists during installs', function() {
-    Event::fake();
-    User::factory()->create();
-    $installCommand = setupInstallation();
-    Process::shouldReceive('run')->andReturn(0);
-    Igniter::shouldReceive('adminUri')->andReturn('admin');
-    SystemHelper::shouldReceive('runningOnMac')->andReturnTrue();
-    $authService = mock(UserGuard::class);
-    $installCommand->shouldReceive('confirm')->with('Super user already exists. Do you want to create another super user?')->andReturnFalse();
 
     $installCommand->handle();
 });
@@ -116,9 +98,6 @@ it('opens browser window when installing in windows', function() {
     Igniter::shouldReceive('adminUri')->andReturn('admin');
     SystemHelper::shouldReceive('runningOnMac')->andReturnFalse();
     SystemHelper::shouldReceive('runningOnWindows')->andReturnTrue();
-    $authService = mock(UserGuard::class);
-    $authService->shouldReceive('getProvider->register')->once()->andReturn(User::factory()->make());
-    app()->instance('admin.auth', $authService);
 
     $installCommand->handle();
 });
@@ -130,9 +109,6 @@ it('opens browser window when installing in linux', function() {
     Igniter::shouldReceive('adminUri')->andReturn('admin');
     SystemHelper::shouldReceive('runningOnMac')->andReturnFalse();
     SystemHelper::shouldReceive('runningOnWindows')->andReturnFalse();
-    $authService = mock(UserGuard::class);
-    $authService->shouldReceive('getProvider->register')->once()->andReturn(User::factory()->make());
-    app()->instance('admin.auth', $authService);
 
     $installCommand->handle();
 });

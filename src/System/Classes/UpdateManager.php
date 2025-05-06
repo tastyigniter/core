@@ -101,45 +101,49 @@ class UpdateManager
     //
     //
 
-    public function down(): static
+    public function down(?string $database = null): static
     {
-        if (!$this->migrator->repositoryExists()) {
-            return $this->log('<error>Migration table not found.</error>');
-        }
+        $this->migrator->usingConnection($database, function() {
+            if (!$this->migrator->repositoryExists()) {
+                return $this->log('<error>Migration table not found.</error>');
+            }
 
-        // Rollback extensions
-        foreach (array_keys(Igniter::migrationPath()) as $code) {
-            $this->purgeExtension($code);
-        }
+            // Rollback extensions
+            foreach (array_keys(Igniter::migrationPath()) as $code) {
+                $this->purgeExtension($code);
+            }
 
-        if (!is_null($this->logsOutput)) {
-            $this->migrator->setOutput($this->logsOutput);
-        }
+            if (!is_null($this->logsOutput)) {
+                $this->migrator->setOutput($this->logsOutput);
+            }
 
-        foreach (array_reverse(Igniter::coreMigrationPath(), true) as $group => $path) {
-            $this->log(sprintf('<info>Rolling back %s</info>', $group));
+            foreach (array_reverse(Igniter::coreMigrationPath(), true) as $group => $path) {
+                $this->log(sprintf('<info>Rolling back %s</info>', $group));
 
-            $this->migrator->resetAll([$group => $path]);
+                $this->migrator->resetAll([$group => $path]);
 
-            $this->log(sprintf('<info>Rolled back %s</info>', $group));
-        }
+                $this->log(sprintf('<info>Rolled back %s</info>', $group));
+            }
+        });
 
         return $this;
     }
 
-    public function migrate(): static
+    public function migrate(?string $database = null): static
     {
-        if (!is_null($this->logsOutput)) {
-            $this->migrator->setOutput($this->logsOutput);
-        }
+        $this->migrator->usingConnection($database, function() {
+            if (!is_null($this->logsOutput)) {
+                $this->migrator->setOutput($this->logsOutput);
+            }
 
-        $this->migrator->runGroup(Igniter::coreMigrationPath());
+            $this->migrator->runGroup(Igniter::coreMigrationPath());
 
-        Model::unguarded(function() {
-            resolve(DatabaseSeeder::class)->__invoke();
+            Model::unguarded(function() {
+                resolve(DatabaseSeeder::class)->__invoke();
+            });
+
+            $this->migrator->runGroup(Igniter::migrationPath());
         });
-
-        $this->migrator->runGroup(Igniter::migrationPath());
 
         return $this;
     }

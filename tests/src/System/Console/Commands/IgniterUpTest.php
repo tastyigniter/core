@@ -20,7 +20,8 @@ it('builds database tables when confirmed', function() {
     $command->setInput($input);
     $command->setOutput($output);
     $command->setLaravel(app());
-    $input->shouldReceive('getOption')->with('force')->andReturn(true);
+    $input->shouldReceive('getOption')->with('force')->andReturnTrue();
+    $input->shouldReceive('getOption')->with('database')->andReturnNull();
 
     $migrator = mock('migrator');
     $migrator->shouldReceive('getRepository->prepareMigrationTable')->once();
@@ -32,7 +33,7 @@ it('builds database tables when confirmed', function() {
     $updateManager->shouldReceive('migrate')->once();
     app()->instance(UpdateManager::class, $updateManager);
 
-    $command->shouldReceive('call')->with('migrate', ['--force' => true])->once();
+    $command->shouldReceive('call')->with('migrate', ['--force' => true, '--database' => null])->once();
     $command->shouldReceive('renameConflictingFoundationTables')->once();
 
     $command->handle();

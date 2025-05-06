@@ -41,6 +41,10 @@ it('resets logs correctly', function() {
 it('logs error if migration table not found during down', function() {
     $migrator = mock(Migrator::class);
     app()->instance('migrator', $migrator);
+    $migrator->shouldReceive('usingConnection')->withArgs(function($database, $callback): true {
+        $callback();
+        return true;
+    })->once();
     $updateManager = new UpdateManager;
     $migrator->shouldReceive('repositoryExists')->andReturn(false);
 
@@ -57,6 +61,10 @@ it('rolls back extensions and core migrations during down', function() {
         'test.extension' => 'path/to/migrations',
     ]);
     $migrator->shouldReceive('setOutput');
+    $migrator->shouldReceive('usingConnection')->withArgs(function($database, $callback): true {
+        $callback();
+        return true;
+    })->once();
     Igniter::shouldReceive('coreMigrationPath')->andReturn([
         'igniter.system' => ['path/to/migrations'],
     ]);
@@ -78,6 +86,10 @@ it('rolls back extensions and core migrations during down', function() {
 it('runs core and extension migrations during migrate', function() {
     $migrator = mock(Migrator::class);
     app()->instance('migrator', $migrator);
+    $migrator->shouldReceive('usingConnection')->withArgs(function($database, $callback): true {
+        $callback();
+        return true;
+    })->once();
     $migrator->shouldReceive('setOutput');
     $migrator->shouldReceive('runGroup')->twice();
     $databaseSeeder = mock(DatabaseSeeder::class)->makePartial();

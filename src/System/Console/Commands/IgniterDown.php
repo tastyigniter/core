@@ -36,15 +36,16 @@ class IgniterDown extends Command
 
         $manager = resolve(UpdateManager::class);
         $manager->setLogsOutput($this->output);
-        $manager->down();
+        $manager->down($this->option('database'));
     }
 
     /**
      * Get the console command options.
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
+            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use'],
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run.'],
         ];
     }
