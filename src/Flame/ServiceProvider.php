@@ -36,7 +36,6 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\FileViewFinder;
 
