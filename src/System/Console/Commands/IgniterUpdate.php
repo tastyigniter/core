@@ -45,7 +45,7 @@ class IgniterUpdate extends Command
         $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
         $this->output->writeln('<info>Checking for updates...</info>');
 
-        $updates = $updateManager->requestUpdateList($forceUpdate, $this->output);
+        $updates = $updateManager->requestUpdateList($forceUpdate);
         $updatesCount = array_get($updates, 'count', 0);
         $this->output->writeln(sprintf('<info>%s updates found</info>', $updatesCount));
         SystemUpdateNotification::make(array_only($updates, 'count'))->broadcast();

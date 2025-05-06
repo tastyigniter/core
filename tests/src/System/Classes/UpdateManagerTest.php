@@ -157,7 +157,7 @@ it('rolls back extension migrations correctly', function() {
 });
 
 it('returns empty result when no outdated items are found', function() {
-    $manager = new UpdateManager();
+    $manager = new UpdateManager;
 
     $composerManager = mock(ComposerManager::class);
     app()->instance(ComposerManager::class, $composerManager);
@@ -179,7 +179,7 @@ it('requests for items to update', function() {
             'email' => 'test@example.com',
         ],
     ]);
-    $manager = new UpdateManager();
+    $manager = new UpdateManager;
     $result = $manager->requestUpdateList();
 
     expect($result['count'])->toBe(2)
@@ -193,7 +193,7 @@ it('requests for items to update', function() {
 it('excludes core updates when core updates are disabled', function() {
     config(['igniter-system.disableCoreUpdates' => true]);
     mockRequestUpdateItems();
-    $manager = new UpdateManager();
+    $manager = new UpdateManager;
     $result = $manager->requestUpdateList();
 
     expect($result['count'])->toBe(1)

@@ -46,8 +46,9 @@ it('returns error when search fails', function() {
 it('returns successful message when install items are applied', function() {
     app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
     $updateManager->shouldReceive('hasValidCarte')->andReturnTrue();
-    $updateManager->shouldReceive('install')->withArgs(function($items, $callback) {
+    $updateManager->shouldReceive('install')->withArgs(function($items, $callback): true {
         $callback('out', 'Composer installing');
+
         return true;
     })->andReturn([
         'data' => [

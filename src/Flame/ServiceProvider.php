@@ -131,7 +131,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->singleton(ComposerManaer::class, fn(): ComposerManaer => new ComposerManaer(
             base_path(),
             storage_path('igniter/composer'),
-            new Composer(new Filesystem, base_path()),
         ));
 
         $this->app->instance(ClassLoader::class, $loader = new ClassLoader(

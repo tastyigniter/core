@@ -10,8 +10,11 @@ use Illuminate\Support\HtmlString;
 class PackageInfo
 {
     public const string CORE = 'tastyigniter/core';
+
     public const string CORE_CODE = 'tastyigniter';
+
     public const string CORE_TYPE = 'tastyigniter-core';
+
     public const array CORE_MANIFEST = [
         'code' => self::CORE_CODE,
         'name' => 'TastyIgniter Core',

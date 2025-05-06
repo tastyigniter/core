@@ -29,8 +29,8 @@ trait ManagesUpdates
             $searchQuery = strtolower((string)input('filter.search'));
 
             $json = $this->processSearch($itemType, $searchQuery);
-        } catch (Exception $ex) {
-            $json = ['error' => $ex->getMessage()];
+        } catch (Exception $exception) {
+            $json = ['error' => $exception->getMessage()];
         }
 
         return $json;
@@ -174,7 +174,8 @@ trait ManagesUpdates
 
     protected function processInstallOrUpdate(array $items, bool $isUpdate = false): array
     {
-        $response = $composerLog = [];
+        $response = [];
+        $composerLog = [];
         $success = false;
 
         try {

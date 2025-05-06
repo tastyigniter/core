@@ -240,7 +240,7 @@ class UpdateManager
         ]);
     }
 
-    public function clearCarte()
+    public function clearCarte(): void
     {
         SystemHelper::replaceInEnv('IGNITER_CARTE_KEY=', 'IGNITER_CARTE_KEY=');
         setting()->setPref([
@@ -257,7 +257,7 @@ class UpdateManager
 
         [$ignoredItems, $items] = collect(array_get($result, 'items', []))
             ->filter(fn($package): bool => $installedItems->has($package['name']) && $package['latest-status'] !== 'up-to-date')
-            ->map(function($package) use ($installedItems) {
+            ->map(function(array $package) use ($installedItems): PackageInfo {
                 $installedPackageInfo = $installedItems->get($package['name']);
                 $packageManifest = $package['name'] === PackageInfo::CORE
                     ? PackageInfo::CORE_MANIFEST
@@ -449,13 +449,11 @@ class UpdateManager
 
         rescue(function() use ($packages) {
             $this->hubManager->applyInstalledItems(collect($packages)
-                ->map(function(PackageInfo $packageInfo) {
-                    return [
-                        'name' => $packageInfo->package,
-                        'type' => $packageInfo->type,
-                        'ver' => $packageInfo->version,
-                    ];
-                })
+                ->map(fn(PackageInfo $packageInfo) => [
+                    'name' => $packageInfo->package,
+                    'type' => $packageInfo->type,
+                    'ver' => $packageInfo->version,
+                ])
                 ->all());
         });
     }

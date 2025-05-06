@@ -122,14 +122,14 @@ it('applies language pack and returns data', function() {
     $expectedResponse = ['data' => ['result' => 'success']];
     Http::fake(['https://api.tastyigniter.com/v2/language/apply' => Http::response($expectedResponse)]);
     Extension::create(['name' => 'igniter.api', 'status' => 1]);
-//    app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
-//    $updateManager->shouldReceive('getInstalledItems')->once()->andReturn([
-//        [
-//            'name' => 'igniter.api',
-//            'type' => 'extension',
-//            'ver' => '1.0.0',
-//        ],
-//    ]);
+    //    app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
+    //    $updateManager->shouldReceive('getInstalledItems')->once()->andReturn([
+    //        [
+    //            'name' => 'igniter.api',
+    //            'type' => 'extension',
+    //            'ver' => '1.0.0',
+    //        ],
+    //    ]);
 
     $manager = resolve(LanguageManager::class);
     $result = $manager->applyLanguagePack('en');

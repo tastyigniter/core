@@ -15,6 +15,7 @@ use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Throwable;
+
 use function Illuminate\Support\php_binary;
 
 /**
@@ -131,7 +132,7 @@ class Manager
     //
     //
 
-    public function modify(callable $callback)
+    public function modify(callable $callback): void
     {
         $composerFile = $this->findComposerFile();
 
@@ -146,7 +147,7 @@ class Manager
         );
     }
 
-    public function outdated(Closure|OutputInterface|null $output = null)
+    public function outdated(Closure|OutputInterface|null $output = null): bool
     {
         $command = (new Collection([
             ...$this->findComposer(),
@@ -155,12 +156,12 @@ class Manager
             '--format=json',
         ]))->all();
 
-        return 0 === $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->run(
-                $output instanceof OutputInterface
-                    ? function($type, $line) use ($output) {
+        return $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->run(
+            $output instanceof OutputInterface
+                ? function($type, string $line) use ($output) {
                     $output->write('    '.$line);
                 } : $output,
-            );
+        ) === 0;
     }
 
     public function install(array $packages, Closure|OutputInterface|null $output = null): void
@@ -177,9 +178,9 @@ class Manager
 
             $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(
                 $output instanceof OutputInterface
-                    ? function($type, $line) use ($output) {
-                    $output->write('    '.$line);
-                } : $output,
+                    ? function($type, string $line) use ($output) {
+                        $output->write('    '.$line);
+                    } : $output,
             );
         } catch (Throwable $throwable) {
             $this->restoreComposerFiles();
@@ -202,9 +203,9 @@ class Manager
 
             $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(
                 $output instanceof OutputInterface
-                    ? function($type, $line) use ($output) {
-                    $output->write('    '.$line);
-                } : $output,
+                    ? function($type, string $line) use ($output) {
+                        $output->write('    '.$line);
+                    } : $output,
             );
         } catch (Throwable $throwable) {
             $this->restoreComposerFiles();
@@ -256,7 +257,7 @@ class Manager
         return (new Process($command, $this->workingPath, $env))->setTimeout(null);
     }
 
-    protected function findComposer()
+    protected function findComposer(): array
     {
         if (File::exists($this->workingPath.'/composer.phar')) {
             return [php_binary(), 'composer.phar'];
@@ -267,10 +268,10 @@ class Manager
 
     protected function findComposerFile(): string
     {
-        $composerFile = "{$this->workingPath}/composer.json";
+        $composerFile = $this->workingPath.'/composer.json';
 
         if (!file_exists($composerFile)) {
-            throw new RuntimeException("Unable to locate `composer.json` file at [{$this->workingPath}].");
+            throw new RuntimeException(sprintf('Unable to locate `composer.json` file at [%s].', $this->workingPath));
         }
 
         return $composerFile;

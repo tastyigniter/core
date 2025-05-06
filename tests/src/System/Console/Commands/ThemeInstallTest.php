@@ -10,7 +10,6 @@ use Igniter\System\Classes\UpdateManager;
 it('installs theme successfully', function() {
     $packageResponse = [
         'code' => 'demo',
-        'version' => '1.0.0',
         'type' => 'theme',
         'package' => 'item2/package',
         'name' => 'Package2',
@@ -50,7 +49,6 @@ it('handles theme not found', function() {
 it('handles composer exception during installation', function() {
     $packageResponse = [
         'code' => 'demo',
-        'version' => '1.0.0',
         'type' => 'theme',
         'package' => 'item2/package',
         'name' => 'Package2',

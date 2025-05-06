@@ -23,10 +23,12 @@ class LanguageInstall extends Command
         $locale = $this->argument('locale');
         if (!$crowdinLanguage = $languageManager->findLanguage($locale)) {
             $this->output->writeln(sprintf('<error>Language %s not found in the TastyIgniter Crowdin project</error>', $locale));
+
             return;
         }
 
         if (is_null($language = Language::findByCode($locale))) {
+            /** @var Language $language */
             $language = Language::create(['code' => $locale, 'name' => $crowdinLanguage['name'], 'status' => true]);
             $this->output->writeln('<info>Language not found, creating new language</info>');
         }
@@ -42,6 +44,7 @@ class LanguageInstall extends Command
         foreach ($itemsToUpdate as $item) {
             foreach (array_get($item, 'files', []) as $file) {
                 $this->output->writeln(sprintf(lang('igniter::system.languages.alert_update_file_progress'), $language->code, $item['name'], $file['name']));
+
                 try {
                     $languageManager->installLanguagePack($language->code, [
                         'name' => $item['code'],

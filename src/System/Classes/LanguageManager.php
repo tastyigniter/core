@@ -167,9 +167,9 @@ class LanguageManager
 
                 // @phpstan-ignore-next-line
                 $item['files'] = $translations->groupBy(fn(Translation $translation): string => $translation->group)
-                    // @phpstan-ignore-next-line
                     ->map(fn(Collection $translations, string $file): array => [
                         'name' => $file.'.php',
+                        // @phpstan-ignore-next-line
                         'strings' => $translations->map(fn(Translation $translation): array => [
                             'key' => $translation->item,
                             'value' => $translation->text,
@@ -257,7 +257,7 @@ class LanguageManager
 
         $items = collect($this->namespaces())
             ->filter(fn($langDirectory, $code) => $code === 'igniter' || $installedItemCodes->has($code))
-            ->map(function($langDirectory, $code) use ($builds, $installedItemCodes) {
+            ->map(function(string $langDirectory, $code) use ($builds, $installedItemCodes) {
                 $item = $code === 'igniter'
                     ? [
                         'name' => 'tastyigniter',
@@ -267,8 +267,9 @@ class LanguageManager
                     : $installedItemCodes->get($code);
 
                 $item['files'] = collect(File::glob($langDirectory.'/en/*.php'))
-                    ->map(function($langFile) use ($builds, $item) {
+                    ->map(function($langFile) use ($builds, $item): array {
                         $langFilename = basename($langFile);
+
                         return [
                             'name' => $langFilename,
                             'hash' => array_get(array_get($builds, $item['name']), $langFilename),
