@@ -150,6 +150,7 @@ class GoogleProvider extends AbstractProvider
         $response = $this->getHttpClient()->get($url, [
             'timeout' => $query->getData('timeout', 15),
         ]);
+       
 
         return $this->parseResponse($this->validateResponse($response));
     }
@@ -164,16 +165,16 @@ class GoogleProvider extends AbstractProvider
             'timeout' => $query->getData('timeout', 15),
         ]);
 
-        $this->validateResponse($response);
+        $json = $this->validateResponse($response);
 
-        return array_get(json_decode($response->getBody()->getContents(), true), 'rows', []);
+        return array_get($json, 'rows', []);
     }
 
     //
     //
     //
 
-    protected function validateResponse(ResponseInterface $response): ResponseInterface
+    protected function validateResponse(ResponseInterface $response): mixed
     {
         $json = json_decode($response->getBody()->getContents(), false);
 
@@ -195,16 +196,14 @@ class GoogleProvider extends AbstractProvider
             ));
         }
 
-        return $response;
+        return $json;
     }
 
     /**
      * Decode the response content and validate it to make sure it does not have any errors.
      */
-    protected function parseResponse(ResponseInterface $response): array
+    protected function parseResponse(mixed $json): array
     {
-        $json = json_decode($response->getBody()->getContents(), false);
-
         $response = $json->results ?? $json->rows ?? [];
         if (!count($response) || $json->status !== 'OK') {
             throw new GeoliteException($json->error_message ?? 'empty error message');
