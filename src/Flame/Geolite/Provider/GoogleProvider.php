@@ -175,7 +175,11 @@ class GoogleProvider extends AbstractProvider
 
     protected function validateResponse(ResponseInterface $response): ResponseInterface
     {
-        $json = json_decode($response->getBody()->getContents(), false);
+        $stream = $response->getBody();
+
+        $stream->isSeekable() && $stream->rewind();
+        $json = json_decode($stream->getContents());
+        $stream->isSeekable() && $stream->rewind();
 
         // API error
         if (!$json) {
