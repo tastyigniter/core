@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@lang('igniter::system.no_database.label')</title>
     <link rel="shortcut icon" href="{{ asset('vendor/igniter/admin/favicon.svg') }}" type="image/ico">
-    <style>{{ asset('vendor/igniter/css/static.css') }}</style>
+    <link rel="stylesheet" href="{{ asset('vendor/igniter/css/static.css') }}" type="text/css">
 </head>
 <body>
 <article>
