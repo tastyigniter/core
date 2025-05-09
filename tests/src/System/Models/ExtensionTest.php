@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Igniter\Tests\System\Models\Concerns;
 
 use Igniter\Flame\Support\Facades\File;
-use Igniter\Main\Classes\Theme;
-use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\PackageManifest;

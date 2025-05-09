@@ -26,7 +26,6 @@ use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Models\Theme;
 use Igniter\System\DashboardWidgets\Cache;
 use Igniter\System\DashboardWidgets\News;
-use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
 
