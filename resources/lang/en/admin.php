@@ -307,18 +307,17 @@ return [
         'alert_widget_not_found' => 'The specified widget is not found.',
 
         'onboarding' => [
-            'title' => 'Getting started',
-            'label_settings' => 'Complete required system settings',
-            'label_themes' => 'Customize your site',
+            'title' => '<i class="fas fa-plate-wheat"></i>&nbsp;&nbsp;Let\'s Get Your Restaurant Online and Ready to Serve!',
+            'label_settings' => 'Set up the essentials',
+            'label_themes' => 'Personalize your website',
             'label_extensions' => 'Install recommended extensions',
-            'label_menus' => 'Add your Menu Items',
-            'label_mail' => 'Send test email',
+            'label_menus' => 'Build your menu',
+            'label_mail' => 'Set up and test email delivery',
 
-            'help_settings' => 'Confirm all required system settings are specified.',
-            'help_themes' => 'Activate and customize the front-end theme',
-            'help_extensions' => 'Some extensions are recommended for your site to function properly.',
-            'help_menus' => 'Make your menu items available for your customers to order.',
-            'help_mail' => 'Ensure order confirmation emails are sent to customers successfully.',
+            'help_settings' => 'Start by filling in your key system settings — like your restaurant name, contact info, and branding. This ensures everything runs smoothly from the start.',
+            'help_themes' => 'Choose and activate a front-end theme that matches your brand. Customize it to make your site feel truly yours.',
+            'help_menus' => 'Add your dishes, organize them into categories, and set prices. This is what your hungry customers will browse and order from.',
+            'help_mail' => 'Configure your mail settings to ensure your restaurant can send emails reliably. Once set up, send a test message to verify your customers will receive important updates.',
         ],
 
         'charts' => [

@@ -59,24 +59,6 @@ class Extension extends Model
      */
     public $class;
 
-    public static function onboardingIsComplete(): bool
-    {
-        $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
-        if (!$activeTheme) {
-            return false;
-        }
-
-        $requiredExtensions = (array)$activeTheme->requires;
-        foreach (array_keys($requiredExtensions) as $name) {
-            $extension = resolve(ExtensionManager::class)->findExtension($name);
-            if (!$extension || $extension->disabled) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     //
     // Accessors & Mutators
     //

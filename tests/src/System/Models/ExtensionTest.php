@@ -13,61 +13,6 @@ use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Models\Extension;
 use InvalidArgumentException;
 
-it('onboardingIsComplete returns false when there is no active theme', function() {
-    $themeManager = mock(ThemeManager::class);
-    app()->instance(ThemeManager::class, $themeManager);
-    $themeManager->shouldReceive('getActiveTheme')->andReturnNull();
-
-    expect(Extension::onboardingIsComplete())->toBeFalse();
-});
-
-it('onboardingIsComplete returns false when a required extension is missing', function() {
-    $theme = new Theme('/path/to/theme', [
-        'require' => ['TestExtension' => '*'],
-    ]);
-    $themeManager = mock(ThemeManager::class);
-    app()->instance(ThemeManager::class, $themeManager);
-    $themeManager->shouldReceive('getActiveTheme')->andReturn($theme);
-    $extensionManager = mock(ExtensionManager::class);
-    app()->instance(ExtensionManager::class, $extensionManager);
-    $extensionManager->shouldReceive('findExtension')->with('TestExtension')->andReturnNull();
-
-    expect(Extension::onboardingIsComplete())->toBeFalse();
-});
-
-it('onboardingIsComplete returns false when a required extension is disabled', function() {
-    $theme = new Theme('/path/to/theme', [
-        'require' => ['TestExtension' => '*'],
-    ]);
-    $extension = new class(app()) extends BaseExtension
-    {
-        public bool $disabled = true;
-    };
-    $themeManager = mock(ThemeManager::class);
-    app()->instance(ThemeManager::class, $themeManager);
-    $themeManager->shouldReceive('getActiveTheme')->andReturn($theme);
-    $extensionManager = mock(ExtensionManager::class);
-    app()->instance(ExtensionManager::class, $extensionManager);
-    $extensionManager->shouldReceive('findExtension')->with('TestExtension')->andReturn($extension);
-
-    expect(Extension::onboardingIsComplete())->toBeFalse();
-});
-
-it('onboardingIsComplete returns true when all required extensions are enabled', function() {
-    $theme = new Theme('/path/to/theme', [
-        'require' => ['TestExtension' => '*'],
-    ]);
-    $extension = new class(app()) extends BaseExtension {};
-    $themeManager = mock(ThemeManager::class);
-    app()->instance(ThemeManager::class, $themeManager);
-    $themeManager->shouldReceive('getActiveTheme')->andReturn($theme);
-    $extensionManager = mock(ExtensionManager::class);
-    app()->instance(ExtensionManager::class, $extensionManager);
-    $extensionManager->shouldReceive('findExtension')->with('TestExtension')->andReturn($extension);
-
-    expect(Extension::onboardingIsComplete())->toBeTrue();
-});
-
 it('returns default version when version attribute is null', function() {
     $extension = new Extension(['version' => null]);
 
