@@ -26,7 +26,7 @@ it('fills component properties when component uses ConfigurableComponent trait',
 
         public $properties = [];
 
-        public function getName()
+        public function getName(): string
         {
             return 'componentName';
         }
@@ -74,7 +74,7 @@ it('fills component properties with alias when component uses ConfigurableCompon
 
         public $properties = [];
 
-        public function getName()
+        public function getName(): string
         {
             return 'componentName';
         }

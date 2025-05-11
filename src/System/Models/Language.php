@@ -215,12 +215,12 @@ class Language extends \Igniter\Flame\Translation\Models\Language
         return $translation->updateAndLock($text);
     }
 
-    public function updateVersions(array $meta)
+    public function updateVersions(string $code, string $fileName, string $hash)
     {
-        $version = (array)($this->version ?? []);
-        $version = array_set($version, $meta['code'], $meta['version']);
-        $this->version = $version;
+        $versions = $this->version ?? [];
+        $versions[$code][$fileName] = $hash;
+        $this->version = $versions;
 
-        return $this->save();
+        return $this->saveQuietly();
     }
 }

@@ -45,28 +45,25 @@ class ExtensionRefresh extends Command
             throw new InvalidArgumentException(sprintf('Extension "%s" not found.', $extensionName));
         }
 
-        $manager = resolve(UpdateManager::class);
-        $manager->setLogsOutput($this->output);
+        $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
 
         if (($step = (int)$this->option('step')) !== 0) {
             $this->output->writeln(sprintf('<info>Rolling back extension %s...</info>', $extensionName));
-            $manager->rollbackExtension($extensionName, [
+            $updateManager->rollbackExtension($extensionName, [
                 'pretend' => $this->option('pretend'),
                 'step' => $step,
             ]);
         } else {
             $this->output->writeln(sprintf('<info>Purging extension %s...</info>', $extensionName));
-            $manager->purgeExtension($extensionName);
-
-            $manager->migrateExtension($extensionName);
+            $updateManager->purgeExtension($extensionName);
+            $updateManager->migrateExtension($extensionName);
         }
     }
 
     /**
      * Get the console command arguments.
-     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the extension. Eg: IgniterLab.Demo'],
@@ -75,10 +72,8 @@ class ExtensionRefresh extends Command
 
     /**
      * Get the console command options.
-     *
-     * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run'],

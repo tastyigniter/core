@@ -61,8 +61,5 @@
                 @endif
             </div>
         </div>
-        @if ($item->isCore())
-            <div class="px-3 pb-3 border-bottom fw-bold">@lang('igniter::system.updates.text_core_update')</div>
-        @endif
     @endforeach
 </div>

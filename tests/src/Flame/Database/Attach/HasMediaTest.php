@@ -17,7 +17,7 @@ it('attaches media to model', function() {
 
         public $mediable = ['thumb'];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'countries';
         }
@@ -52,7 +52,7 @@ it('attaches multiple media to model', function() {
 
         public $mediable = ['gallery' => ['multiple' => true]];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'countries';
         }
@@ -87,7 +87,7 @@ it('throws exception when it can not find media', function() {
 
         public $mediable = ['thumb'];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'countries';
         }
@@ -103,7 +103,7 @@ it('filters media by custom properties when retrieving media', function() {
 
         public $mediable = ['gallery' => ['multiple' => true]];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'countries';
         }
@@ -150,7 +150,7 @@ it('deletes media', function() {
 
         public $mediable = ['gallery' => ['multiple' => true]];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'countries';
         }
@@ -173,7 +173,7 @@ it('deletes media when parent is deleted', function() {
 
         public $mediable = ['gallery' => ['multiple' => true]];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'countries';
         }
@@ -197,7 +197,7 @@ it('clears media tag', function() {
 
         public $mediable = ['gallery' => ['multiple' => true]];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'countries';
         }

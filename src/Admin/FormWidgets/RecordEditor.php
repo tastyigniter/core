@@ -171,11 +171,11 @@ class RecordEditor extends BaseFormWidget
 
         /** @var null|Form $formWidget */
         $formWidget = $this->getController()->widgets['form'] ?? null;
-        $formWidget?->getFormWidget($this->attachToField)?->reload();
+        $response = $formWidget?->getFormWidget($this->attachToField)->reload() ?? [];
 
-        return [
+        return array_merge([
             '#notification' => $this->makePartial('flash'),
-        ];
+        ], $response);
     }
 
     protected function makeRecordFormWidget(Model $model): Form

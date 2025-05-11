@@ -49,9 +49,8 @@ class IgniterUtil extends Command
 
     /**
      * Get the console command arguments.
-     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::IS_ARRAY, 'The utility command to perform.'],
@@ -61,7 +60,7 @@ class IgniterUtil extends Command
     /**
      * Get the console command options.
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['admin', null, InputOption::VALUE_NONE, 'Compile admin registered bundles.'],
@@ -118,7 +117,7 @@ class IgniterUtil extends Command
             return;
         }
 
-        resolve(UpdateManager::class)->applySiteDetail($carteKey);
+        resolve(UpdateManager::class)->applyCarte($carteKey);
     }
 
     protected function utilSetTheme()

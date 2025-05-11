@@ -33,64 +33,9 @@
 
         $(document).on('click', '#update-carte', $.proxy(this.onUpdateCarteClick, this))
 
-        $(document).on('click', '[data-control="apply-recommended"]', $.proxy(this.onApplyRecommended, this))
-
         $(document).on('click', '[data-control="apply-updates"]', $.proxy(this.onApplyUpdateClick, this))
 
         $(document).on('click', '[data-control="apply-install"]', $.proxy(this.onApplyInstallClick, this))
-
-        $(document).on('click', '[data-control="add-item"]', $.proxy(this.onAddItemClick, this))
-    }
-
-    Updates.prototype.executeSteps = function (steps) {
-
-        var self = this,
-            success = true,
-            requestChain = [],
-            failMessages = []
-
-        this.showProgressBar()
-
-        console.log(steps)
-        $.each(steps, function (index, step) {
-            var timeout = 500
-
-            requestChain.push(function () {
-                var deferred = $.Deferred()
-
-                $.request('onProcessItems', {
-                    data: step,
-                    beforeSend: self.setProgressBar(step.progress),
-                    success: function (json) {
-                        if (json.success) {
-                            setTimeout(function () {
-                                self.setProgressBar(json.message)
-                                deferred.resolve()
-                            }, timeout)
-                        } else {
-                            setTimeout(function () {
-                                success = false
-                                failMessages.push(json.message)
-                                deferred.reject(json.message)
-                            }, timeout)
-                        }
-                    },
-                })
-
-                return deferred
-            })
-        })
-
-        $.waterfall.apply(this, requestChain).done(function () {
-            if (success) {
-                self.setProgressBar(null, 'success')
-                setTimeout(function () {
-                    window.location.reload(true)
-                }, 500)
-            }
-        }).fail(function () {
-            self.setProgressBar(failMessages.join('<br> '), 'danger')
-        })
     }
 
     Updates.prototype.openModal = function (itemToOpen, context) {
@@ -102,10 +47,8 @@
         this.$container.after(this.$itemModal)
         this.$itemModal.find('.modal-title').html(itemToOpen.title)
 
-        if (context !== null) {
-            this.options.itemInModal = $.extend({}, context, itemToOpen)
-            this.loadModal()
-        }
+        this.options.itemInModal = $.extend({}, context, itemToOpen)
+        this.loadModal()
 
         var modal = new bootstrap.Modal(this.$itemModal, {backdrop: 'static', keyboard: false})
 
@@ -118,18 +61,9 @@
 
         var context = this.options.itemInModal,
             bodyHtml = Mustache.render(Updates.TEMPLATES.modalBody, context),
-            footerHtml = Mustache.render(Updates.TEMPLATES.modalFooter, context),
-            installedItems = this.options.installedItems
+            footerHtml = Mustache.render(Updates.TEMPLATES.modalFooter, context)
 
         this.$itemModal.find('.item-details').html(bodyHtml)
-        if (context.require.length && context.require.data.length) {
-            context.require = context.require.data.map(function (require) {
-                return $.extend(require, {installed: ($.inArray(require.code, installedItems) > -1)})
-            })
-
-            this.$itemModal.find('.item-details').after(Mustache.render(Updates.TEMPLATES.modalRequire, context))
-        }
-
         this.$itemModal.find('.modal-footer').html(footerHtml)
     }
 
@@ -139,32 +73,6 @@
         this.$itemModal = null
         this.options.itemInModal = null
         $modal.remove()
-    }
-
-    Updates.prototype.applyItemInModal = function ($modal) {
-        var self = this
-
-        // push require first
-        if (this.options.itemInModal.require.length) {
-            this.options.itemInModal.require.map(function (require) {
-                if ($modal.find('[data-control="require-item"][data-item-code="'+require.code+'"].active').length < 1)
-                    return
-
-                self.options.itemsToApply.push({
-                    name: require.code,
-                    type: require.type,
-                    ver: require.version,
-                    action: self.options.itemInModal.action
-                })
-            })
-        }
-
-        this.options.itemsToApply.push({
-            name: this.options.itemInModal.code,
-            type: this.options.itemInModal.type,
-            ver: this.options.itemInModal.version,
-            action: this.options.itemInModal.action
-        })
     }
 
     Updates.prototype.showProgressBar = function () {
@@ -212,6 +120,21 @@
         }
     }
 
+    Updates.prototype.handleInstallOrUpdateResponse = function (json) {
+        var self = this
+        self.setProgressBar(json.message, json.success ? 'success' : 'danger')
+
+        if (json.redirect) {
+            setTimeout(function () {
+                self.$itemModal.find('.modal-content').append([
+                    '<div class="modal-footer">',
+                    '<a class="btn btn-secondary btn-block" href="'+json.redirect+'">Close</a>',
+                    '</div>'
+                ].join(''))
+            });
+        }
+    }
+
     Updates.prototype.onUpdateCarteClick = function (event) {
         var $button = $(event.currentTarget),
             $icon = $button.find('.fa'),
@@ -231,42 +154,32 @@
         })
     }
 
-    Updates.prototype.onAddItemClick = function (event) {
-        var $button = $(event.target).closest('[data-control]'),
-            itemCode = $button.data('itemCode'),
-            itemType = $button.data('itemType'),
-            context = $button.data('itemContext')
-
-        this.openModal({
-            title: 'Add '+$button.data('itemName'),
-            code: itemCode,
-            type: itemType,
-            ver: $button.data('itemVersion'),
-            action: $button.data('itemAction'),
-            submit: $button.data('itemStatus') === 'installed' ? 'Already Added' : 'Add '+itemType
-        }, context)
-    }
-
     Updates.prototype.onApplyInstallClick = function (event) {
         var self = this,
             $button = $(event.target),
             $modal = $button.closest('.modal')
 
-        this.applyItemInModal($modal)
-
         if ($button.hasClass('disabled')) return
 
         $button.attr('disable', true).addClass('disabled')
 
+        this.showProgressBar()
         $.request('onApplyItems', {
-            data: {items: this.options.itemsToApply}
+            data: {
+                item: {
+                    code: this.options.itemInModal.code,
+                    name: this.options.itemInModal.name,
+                    type: this.options.itemInModal.type,
+                    version: this.options.itemInModal.version,
+                    action: this.options.itemInModal.action
+                }
+            }
         }).always(function () {
             $button.attr('disable', false).removeClass('disabled')
         }).fail(function (xhr) {
             $modal.modal('hide')
         }).done(function (json) {
-            if (json['steps'])
-                self.executeSteps(json['steps'])
+            self.handleInstallOrUpdateResponse(json)
         })
 
         this.options.itemsToApply = []
@@ -280,27 +193,11 @@
 
         $button.attr('disable', true).addClass('disabled')
 
+        this.showProgressBar()
         $.request('onApplyUpdate').always(function () {
             $button.attr('disable', false).removeClass('disabled')
         }).done(function (json) {
-            if (json['steps'])
-                self.executeSteps(json['steps'])
-        })
-    }
-
-    Updates.prototype.onApplyRecommended = function (event) {
-        var self = this,
-            $button = $(event.currentTarget),
-            $modal = $button.closest('.modal'),
-            $form = $button.closest('form')
-
-        $button.attr('disabled', true)
-
-        $form.request('onApplyRecommended').always(function () {
-            $modal.modal('hide')
-        }).done(function (json) {
-            if (json['steps'])
-                self.executeSteps(json['steps'])
+            self.handleInstallOrUpdateResponse(json)
         })
     }
 
@@ -346,7 +243,8 @@
             templates: {
                 notFound: [
                     '<div class="empty-message">',
-                    'unable to find any '+searchType+' that match the current query',
+                    'Unable to find any '+searchType+' that match the current query <br>',
+                    '<b>If you have not already attached a carte key, please do so from the updates page</b>',
                     '</div>'
                 ].join('\n'),
                 suggestion: suggestionTemplate
@@ -408,24 +306,6 @@
             '</div></div>',
         ].join(''),
 
-        modalRequire: [
-            '<ul class="list-group">',
-            '<li class="list-group-item list-group-item-warning"><strong>Requires:</strong></li>',
-            '{{#require}}',
-            '<li class="list-group-item"><div class="media"> ',
-            '<div class="media-left media-middle" style="padding-right:20px"><i class="fa {{icon}} text-muted"></i></div>',
-            '<div class="media-body media-middle"><span>{{name}}</span></div>',
-            '<div class="media-right">',
-            '{{#installed}}',
-            '<button class="btn btn-default" title="Added" disabled><i class="fa fa-cloud-download"></i></button>',
-            '{{/installed}}{{^installed}}',
-            '<button class="btn btn-default active" data-title="Add {{name}}" data-bs-toggle="button" aria-pressed="true" autocomplete="off" data-control="require-item" data-item-code="{{code}}" data-item-version="{{version}}" data-item-type="{{type}}"><i class="fa fa-cloud-download text-success"></i></button>',
-            '{{/installed}}',
-            '</div></li>',
-            '{{/require}}',
-            '</ul>',
-        ].join(''),
-
         modalFooter: [
             '<div class="text-right">',
             '<button type="button" class="btn btn-link text-decoration-none fw-bold" data-bs-dismiss="modal" aria-hidden="true">Close</button>',
@@ -440,10 +320,11 @@
         ].join(''),
 
         progressBar: [
-            '<div id="progressBar" class="card p-3"><div class="card-body text-center">',
+            '<div id="progressBar" class="p-3"><div class="card-body text-center">',
             '<div class="spinner spinner-grow" role="status"><span class="visually-hidden">Loading...</span></div>',
             '<i class="icon"></i>',
-            '<pre class="message bg-black rounded text-start text-white p-3 mt-4 mb-0 text-wrap"><code>Starting...<br></code></pre></div></div></div>',
+            '<p class="mt-4">Please <b>do not refresh</b> or <b>close the page</b> while the update is running. <br>Interrupting the update may cause incomplete installations or system errors.</p>',
+            '<pre class="message bg-black rounded text-start text-white p-3 mt-4 mb-0 text-wrap fs-5"><code>Starting...<br></code></pre></div></div></div>',
         ].join(''),
     }
 

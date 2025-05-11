@@ -8,7 +8,6 @@ use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\Markdown;
 use Igniter\Flame\Support\Facades\File;
-use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\PackageManifest;
@@ -58,24 +57,6 @@ class Extension extends Model
      * @var BaseExtension
      */
     public $class;
-
-    public static function onboardingIsComplete(): bool
-    {
-        $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
-        if (!$activeTheme) {
-            return false;
-        }
-
-        $requiredExtensions = (array)$activeTheme->requires;
-        foreach (array_keys($requiredExtensions) as $name) {
-            $extension = resolve(ExtensionManager::class)->findExtension($name);
-            if (!$extension || $extension->disabled) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     //
     // Accessors & Mutators

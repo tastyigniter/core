@@ -44,7 +44,7 @@ class FormRequest extends BaseFormRequest
     /**
      * Handle a failed validation attempt.
      */
-    protected function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator): never
     {
         throw new ValidationException($validator);
     }

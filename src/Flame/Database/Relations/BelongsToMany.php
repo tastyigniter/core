@@ -64,10 +64,8 @@ class BelongsToMany extends BelongsToManyBase
 
     /**
      * Get the select columns for the relation query.
-     *
-     * @return array
      */
-    protected function shouldSelect(array $columns = ['*'])
+    protected function shouldSelect(array $columns = ['*']): array
     {
         if ($this->countMode) {
             return [$this->table.'.'.$this->foreignPivotKey.' as pivot_'.$this->foreignPivotKey];

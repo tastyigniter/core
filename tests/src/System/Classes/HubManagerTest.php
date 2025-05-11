@@ -60,32 +60,25 @@ it('lists items with default filter', function() {
 
 it('gets detail of an item', function() {
     $expectedResponse = [
-        'code' => 'item1',
+        'data' => [
+            'code' => 'item1',
+        ],
     ];
     Http::fake(['https://api.tastyigniter.com/v2/item/detail' => Http::response($expectedResponse)]);
 
-    expect($this->hubManager->getDetail('item', ['itemName']))->toBe($expectedResponse);
-});
-
-it('gets detail of an site', function() {
-    $expectedResponse = [
-        'code' => 'site1',
-    ];
-    Http::fake(['https://api.tastyigniter.com/v2/site/detail' => Http::response($expectedResponse)]);
-
-    expect($this->hubManager->getDetail('site', ['siteName']))->toBe($expectedResponse);
+    expect($this->hubManager->getItemDetail(['itemName']))->toBe(array_get($expectedResponse, 'data'));
 });
 
 it('gets details of multiple items', function() {
     $expectedResponse = [
         'details' => 'info',
     ];
-    Http::fake(['https://api.tastyigniter.com/v2/type/details' => Http::response($expectedResponse)]);
+    Http::fake(['https://api.tastyigniter.com/v2/item/details' => Http::response($expectedResponse)]);
 
-    expect($this->hubManager->getDetails('type', ['item1', 'item2']))->toBe(['details' => 'info']);
+    expect($this->hubManager->getItemDetails(['item1', 'item2']))->toBe(['details' => 'info']);
 });
 
-it('applies items and returns collection', function() {
+it('applies installed items correctly', function() {
     $expectedResponse = [
         'data' => [
             [
@@ -106,18 +99,11 @@ it('applies items and returns collection', function() {
             ],
         ],
     ];
-    Http::fake(['https://api.tastyigniter.com/v2/core/apply' => Http::response($expectedResponse)]);
+    Http::fake(['https://api.tastyigniter.com/v2/core/installed' => Http::response($expectedResponse)]);
     Igniter::partialMock()->shouldReceive('version')->andReturn('1.0.0');
 
-    $result = $this->hubManager->applyItems($expectedResponse);
-    expect($result)->toBeCollection();
-});
-
-it('sets carte with key and info', function() {
-    $this->hubManager->setCarte('key', ['info']);
-
-    expect(setting()->getPref('carte_key'))->toBe('key')
-        ->and(setting()->getPref('carte_info'))->toBe(['info']);
+    $result = $this->hubManager->applyInstalledItems($expectedResponse);
+    expect($result)->toBeArray();
 });
 
 it('throws exception if updates endpoint is not configured', function() {
@@ -162,22 +148,17 @@ it('applies language pack', function() {
 });
 
 it('downloads language pack with eTag', function() {
-    $expectedResponse = ['download' => 'data'];
-    Http::fake(['https://api.tastyigniter.com/v2/language/download' => Http::response($expectedResponse, 200, [
-        'TI-ETag' => 'etag',
-    ])]);
+    $expectedResponse = ['data' => ['hash' => 'etag']];
+    Http::fake(['https://api.tastyigniter.com/v2/language/download' => Http::response($expectedResponse)]);
 
     $result = $this->hubManager->downloadLanguagePack('etag', ['param' => 'value']);
     expect($result)->toBe($expectedResponse);
 });
 
 it('downloads language pack throws exception if ETag mismatch', function() {
+    $expectedResponse = ['data' => ['hash' => 'different-etag']];
     Http::fake([
-        'https://api.tastyigniter.com/v2/language/download' => Http::response([
-            'data' => [],
-        ], 200, [
-            'TI-ETag' => 'different-etag',
-        ]),
+        'https://api.tastyigniter.com/v2/language/download' => Http::response($expectedResponse),
     ]);
 
     expect(fn() => $this->hubManager->downloadLanguagePack('etag', ['param' => 'value']))
@@ -185,7 +166,7 @@ it('downloads language pack throws exception if ETag mismatch', function() {
 });
 
 it('publishes translations', function() {
-    $expectedResponse = ['publish' => 'success'];
+    $expectedResponse = ['message' => 'ok'];
     Http::fake(['https://api.tastyigniter.com/v2/language/upload' => Http::response($expectedResponse)]);
 
     $result = $this->hubManager->publishTranslations('locale', ['pack1', 'pack2']);

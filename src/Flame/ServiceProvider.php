@@ -36,7 +36,6 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\FileViewFinder;
 
@@ -131,7 +130,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->singleton(ComposerManaer::class, fn(): ComposerManaer => new ComposerManaer(
             base_path(),
             storage_path('igniter/composer'),
-            new Composer(new Filesystem, base_path()),
         ));
 
         $this->app->instance(ClassLoader::class, $loader = new ClassLoader(

@@ -16,7 +16,7 @@ it('associates and dissociates model correctly', function() {
             ],
         ];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'status';
         }
@@ -43,7 +43,7 @@ it('sets simple value with null', function() {
             ],
         ];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'status';
         }
@@ -64,7 +64,7 @@ it('sets simple value with model instance', function() {
             ],
         ];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'status';
         }
@@ -87,7 +87,7 @@ it('sets simple value with collection of models', function() {
             ],
         ];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'status';
         }
@@ -110,7 +110,7 @@ it('sets simple value with array of ids', function() {
             ],
         ];
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'status';
         }

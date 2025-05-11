@@ -5,24 +5,27 @@ declare(strict_types=1);
 namespace Igniter\Tests\System\Console\Commands;
 
 use Exception;
-use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\UpdateManager;
 
 it('installs theme successfully', function() {
+    $packageResponse = [
+        'code' => 'demo',
+        'type' => 'theme',
+        'package' => 'item2/package',
+        'name' => 'Package2',
+        'version' => '1.0.0',
+        'author' => 'Sam',
+    ];
     $updateManager = mock(UpdateManager::class);
     app()->instance(UpdateManager::class, $updateManager);
     $updateManager->shouldReceive('setLogsOutput')->once();
-    $updateManager->shouldReceive('requestApplyItems')->with([[
+    $updateManager->shouldReceive('requestItemDetail')->with([
         'name' => 'demo',
         'type' => 'theme',
-    ]])->andReturn(collect([
-        (object)['code' => 'demo', 'version' => '1.0.0'],
-    ]));
-    $updateManager->shouldReceive('install')->once();
-    $themeManager = mock(ThemeManager::class);
-    app()->instance(ThemeManager::class, $themeManager);
-    $themeManager->shouldReceive('loadThemes')->once();
-    $themeManager->shouldReceive('installTheme')->with('demo', '1.0.0')->once();
+    ])->andReturn($packageResponse);
+    $updateManager->shouldReceive('install')->once()->andReturn($packageResponse);
+    $updateManager->shouldReceive('completeInstall')->once();
+    $updateManager->shouldReceive('migrate')->once();
 
     $this->artisan('igniter:theme-install demo')
         ->expectsOutput('Installing demo theme')
@@ -33,10 +36,10 @@ it('handles theme not found', function() {
     $updateManager = mock(UpdateManager::class);
     app()->instance(UpdateManager::class, $updateManager);
     $updateManager->shouldReceive('setLogsOutput')->once();
-    $updateManager->shouldReceive('requestApplyItems')->with([[
+    $updateManager->shouldReceive('requestItemDetail')->with([
         'name' => 'demo',
         'type' => 'theme',
-    ]])->andReturn(collect());
+    ])->andReturn([]);
 
     $this->artisan('igniter:theme-install demo')
         ->expectsOutput('Theme demo not found')
@@ -44,15 +47,21 @@ it('handles theme not found', function() {
 });
 
 it('handles composer exception during installation', function() {
+    $packageResponse = [
+        'code' => 'demo',
+        'type' => 'theme',
+        'package' => 'item2/package',
+        'name' => 'Package2',
+        'version' => '1.0.0',
+        'author' => 'Sam',
+    ];
     $updateManager = mock(UpdateManager::class);
     app()->instance(UpdateManager::class, $updateManager);
     $updateManager->shouldReceive('setLogsOutput')->once();
-    $updateManager->shouldReceive('requestApplyItems')->with([[
+    $updateManager->shouldReceive('requestItemDetail')->with([
         'name' => 'demo',
         'type' => 'theme',
-    ]])->andReturn(collect([
-        (object)['code' => 'demo', 'version' => '1.0.0'],
-    ]));
+    ])->andReturn($packageResponse);
     $updateManager->shouldReceive('install')->andThrow(new Exception('Composer error'));
 
     $this->artisan('igniter:theme-install demo')

@@ -47,10 +47,9 @@ class Igniter extends Facade
     /**
      * Get the registered name of the component.
      *
-     * @return string
      * @see \Igniter\Flame\Filesystem\Filesystem
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return \Igniter\Flame\Support\Igniter::class;
     }

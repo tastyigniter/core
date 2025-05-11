@@ -26,7 +26,6 @@ use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Models\Theme;
 use Igniter\System\DashboardWidgets\Cache;
 use Igniter\System\DashboardWidgets\News;
-use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
 
@@ -168,23 +167,15 @@ class FormServiceProvider extends ServiceProvider
                     'description' => 'igniter::admin.dashboard.onboarding.help_themes',
                     'icon' => 'fa-paint-brush',
                     'url' => admin_url('themes'),
-                    'priority' => 20,
+                    'priority' => 40,
                     'complete' => Theme::onboardingIsComplete(...),
-                ],
-                'admin::extensions' => [
-                    'label' => 'igniter::admin.dashboard.onboarding.label_extensions',
-                    'description' => 'igniter::admin.dashboard.onboarding.help_extensions',
-                    'icon' => 'fa-plug',
-                    'url' => admin_url('extensions'),
-                    'priority' => 30,
-                    'complete' => Extension::onboardingIsComplete(...),
                 ],
                 'admin::menus' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_menus',
                     'description' => 'igniter::admin.dashboard.onboarding.help_menus',
                     'icon' => 'fa-cutlery',
                     'url' => admin_url('menus'),
-                    'priority' => 40,
+                    'priority' => 30,
                 ],
                 'admin::mail' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_mail',

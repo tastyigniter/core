@@ -136,8 +136,6 @@ class Lists extends BaseWidget
         if ($this->showPagination == 'auto') {
             $this->showPagination = $this->pageLimit && $this->pageLimit > 0;
         }
-
-        $this->validateModel();
     }
 
     public function loadAssets(): void
@@ -189,11 +187,6 @@ class Lists extends BaseWidget
         $this->currentPageNumber = (int)input('page', 1);
 
         return $this->onRefresh();
-    }
-
-    protected function validateModel(): ?Model
-    {
-        return $this->model;
     }
 
     /**
@@ -628,12 +621,12 @@ class Lists extends BaseWidget
         if ($column->valueFrom && $column->relation) {
             $columnName = $column->relation;
 
-            if (!array_key_exists($columnName, $record->getRelations())) {
-                $value = null;
-            } elseif ($this->isColumnRelated($column, true)) {
-                $value = implode(', ', $record->{$columnName}->pluck($column->valueFrom)->all());
-            } elseif ($this->isColumnRelated($column) || $this->isColumnPivot($column)) {
-                $value = $record->{$columnName} ? $record->{$columnName}->{$column->valueFrom} : null;
+            if (array_key_exists($columnName, $record->getRelations())) {
+                if ($this->isColumnRelated($column, true)) {
+                    $value = implode(', ', $record->{$columnName}->pluck($column->valueFrom)->all());
+                } elseif ($this->isColumnRelated($column) || $this->isColumnPivot($column)) {
+                    $value = $record->{$columnName} ? $record->{$columnName}->{$column->valueFrom} : null;
+                }
             }
         } elseif ($column->valueFrom) {
             $keyParts = name_to_array($column->valueFrom);

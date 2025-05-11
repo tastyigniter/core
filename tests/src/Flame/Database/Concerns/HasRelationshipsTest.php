@@ -168,7 +168,7 @@ it('handles morphOne relation', function() {
     {
         use HasRelationships;
 
-        public function getMorphClass()
+        public function getMorphClass(): string
         {
             return 'test_model_anony';
         }

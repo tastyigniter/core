@@ -48,11 +48,14 @@ class IgniterUp extends Command
 
         $this->renameConflictingFoundationTables();
 
-        $this->call('migrate', ['--force' => $this->option('force') ?: true]);
+        $this->call('migrate', [
+            '--force' => $this->option('force') ?: true,
+            '--database' => $this->option('database'),
+        ]);
 
         resolve(UpdateManager::class)
             ->setLogsOutput($this->output)
-            ->migrate();
+            ->migrate($this->option('database'));
     }
 
     protected function renameConflictingFoundationTables()
@@ -76,9 +79,10 @@ class IgniterUp extends Command
         }
     }
 
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
+            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use'],
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production'],
         ];
     }

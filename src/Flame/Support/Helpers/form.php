@@ -7,8 +7,10 @@ declare(strict_types=1);
  */
 
 use Igniter\Flame\Html\FormBuilder;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 
 if (!function_exists('form_open')) {
@@ -177,11 +179,14 @@ if (!function_exists('form_error')) {
      */
     function form_error($field = null, string $prefix = '', string $suffix = '', $bag = 'default')
     {
-        $errors = (Config::get('session.driver') && Session::has('errors'))
-            ? Session::get('errors')
-            : array_get(app('view')->getShared(), 'errors', new ViewErrorBag);
+        $errorsKey = Igniter::runningInAdmin() ? 'admin_errors' : 'errors';
+        $errors = (Config::get('session.driver') && Session::has($errorsKey))
+            ? Session::get($errorsKey)
+            : array_get(app('view')->getShared(), $errorsKey, new ViewErrorBag);
 
-        $errors = $errors->getBag($bag);
+        $errors = $errors instanceof ViewErrorBag
+            ? $errors->getBag($bag)
+            : new MessageBag($errors);
 
         if (is_null($field)) {
             return $errors;

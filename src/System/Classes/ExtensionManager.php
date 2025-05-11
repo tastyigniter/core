@@ -32,12 +32,6 @@ class ExtensionManager
     /** Array of extensions and their directory paths. */
     protected array $paths = [];
 
-    /** Used Set whether extensions have been booted. */
-    protected bool $booted = false;
-
-    /** Used Set whether extensions have been registered. */
-    protected bool $registered = false;
-
     protected array $directories = [];
 
     public function __construct(protected PackageManifest $packageManifest, protected Manager $composerManager)
@@ -103,7 +97,7 @@ class ExtensionManager
 
         foreach ($directories as $directory) {
             foreach (File::glob($directory.'/*/*/{extension,composer}.json', GLOB_BRACE) as $path) {
-                $paths[] = dirname((string) $path);
+                $paths[] = dirname((string)$path);
             }
         }
 
@@ -461,9 +455,9 @@ class ExtensionManager
         // Remove extensions files from filesystem
         $composerManager = resolve(Manager::class);
         if ($packageName = $composerManager->getPackageName($code)) {
-            $composerManager->uninstall([$packageName => false]);
+            $composerManager->uninstall([$packageName]);
+        } else {
+            $this->removeExtension($code);
         }
-
-        $this->removeExtension($code);
     }
 }

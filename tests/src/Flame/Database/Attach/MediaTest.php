@@ -67,6 +67,16 @@ it('adds file from disk', function() {
         ->and($media->getUniqueName())->toBe($media->name);
 });
 
+it('uses the default blank thumb when no default is provided', function() {
+    $storageMock = Storage::fake('public');
+    $media = new Media;
+
+    $result = $media->getDefaultThumbPath('/path/to/thumb.png');
+
+    $storageMock->assertExists('/path/to/thumb.png');
+    expect($result)->toEndWith('/path/to/thumb.png');
+});
+
 it('adds file from disk and creates related model', function() {
     $storageMock = Storage::fake('public');
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);

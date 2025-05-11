@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\Main\Classes\ThemeManager;
+use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -30,12 +30,12 @@ class ThemeInstall extends Command
         $themeName = $this->argument('name');
         $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
 
-        $response = $updateManager->requestApplyItems([[
+        $itemDetail = $updateManager->requestItemDetail([
             'name' => $themeName,
             'type' => 'theme',
-        ]]);
+        ]);
 
-        if (!$packageInfo = $response->first()) {
+        if (!$itemDetail || !array_has($itemDetail, 'package') || array_get($itemDetail, 'code') !== $themeName) {
             $this->output->writeln(sprintf('<info>Theme %s not found</info>', $themeName));
 
             return;
@@ -43,10 +43,11 @@ class ThemeInstall extends Command
 
         try {
             $this->output->writeln(sprintf('<info>Installing %s theme</info>', $themeName));
-            $updateManager->install($response->all());
 
-            resolve(ThemeManager::class)->loadThemes();
-            resolve(ThemeManager::class)->installTheme($packageInfo->code, $packageInfo->version);
+            $packageInfo = PackageInfo::fromArray($itemDetail);
+            $packages = $updateManager->install([$packageInfo], $this->output);
+            $updateManager->completeInstall($packages);
+            $updateManager->migrate();
         } catch (Throwable $throwable) {
             $this->output->writeln($throwable->getMessage());
         }
@@ -54,12 +55,11 @@ class ThemeInstall extends Command
 
     /**
      * Get the console command arguments.
-     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the theme. Eg: demo'],
+            ['name', InputArgument::REQUIRED, 'The name of the theme. Eg: igniter-orange'],
         ];
     }
 }

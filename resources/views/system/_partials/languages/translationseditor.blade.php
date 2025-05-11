@@ -68,7 +68,7 @@
             </tbody>
         </table>
     </div>
-    <div class="card p-3">
+    <div class="card p-3 mt-4 text-center">
         <h4>@lang('igniter::system.languages.text_publish_translations')</h4>
         <p>{{html(sprintf(lang('igniter::system.languages.help_publish_translations'), 'https://translate.tastyigniter.com'))}}</p>
         <div>
@@ -76,7 +76,10 @@
                 type="button"
                 class="btn btn-light"
                 data-request="onPublishTranslations"
-            >@lang('igniter::system.languages.button_publish_translations')</button>
+            >
+                <i class="fa fa-cloud-upload-alt"></i>&nbsp;&nbsp;
+                @lang('igniter::system.languages.button_publish_translations')
+            </button>
         </div>
     </div>
 </div>

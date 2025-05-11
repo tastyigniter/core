@@ -115,7 +115,7 @@ return [
         'alert_success_delete' => 'File (s) deleted successfully',
         'alert_select_item_to_attach' => 'Select an item to attach.',
         'alert_only_attach_to_saved' => 'You can only attach media to a saved form.',
-        'alert_missing_mediable' => 'You must define a media tag %s within $mediable property in %s to attach a media.', get_called_class(),
+        'alert_missing_mediable' => 'You must define a media tag %s within $mediable property in %s to attach a media.',
     ],
 
     'permissions' => [
@@ -136,5 +136,9 @@ return [
         'content' => 'The content [%s] is not found.',
         'method' => 'The method [:method] is not found in [:name].',
         'ajax_handler' => 'Ajax handler [%s] is not found.',
+    ],
+
+    'pages' => [
+        'text_theme_page' => 'Theme Page',
     ],
 ];

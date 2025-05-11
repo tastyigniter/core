@@ -42,7 +42,7 @@
                     <div
                         id="carte-help"
                         class="wrap-horizontal"
-                    >{!! sprintf(lang('igniter::system.updates.help_carte_key'), 'https://tastyigniter.com/signin', 'https://tastyigniter.com/support/articles/carte-key') !!}
+                    >{!! lang('igniter::system.updates.help_carte_key') !!}
                     </div>
                 </div>
             </div>

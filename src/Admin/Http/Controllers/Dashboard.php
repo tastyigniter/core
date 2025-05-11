@@ -52,6 +52,11 @@ class Dashboard extends AdminController
     {
         return [
             'onboarding' => [
+                'priority' => 1,
+                'width' => '12',
+            ],
+            'reports' => [
+                'widget' => 'charts',
                 'priority' => 10,
                 'width' => '6',
             ],
@@ -76,11 +81,6 @@ class Dashboard extends AdminController
                 'priority' => 20,
                 'card' => 'cash_payment',
                 'width' => '4',
-            ],
-            'reports' => [
-                'widget' => 'charts',
-                'priority' => 30,
-                'width' => '12',
             ],
         ];
     }

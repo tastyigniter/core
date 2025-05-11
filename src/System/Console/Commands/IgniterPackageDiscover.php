@@ -45,7 +45,7 @@ class IgniterPackageDiscover extends Command
     /**
      * Get the console command options.
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run.'],

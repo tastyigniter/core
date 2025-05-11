@@ -69,7 +69,7 @@ it('throws an exception when component class is invalid', function() {
             ];
         }
 
-        public function render()
+        public function render(): string
         {
             return '';
         }

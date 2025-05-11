@@ -62,9 +62,8 @@ class ExtensionRemove extends Command
 
     /**
      * Get the console command arguments.
-     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the extension. Eg: IgniterLab.Demo'],
@@ -73,9 +72,8 @@ class ExtensionRemove extends Command
 
     /**
      * Get the console command options.
-     * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['force', null, InputOption::VALUE_NONE, 'Force remove.'],

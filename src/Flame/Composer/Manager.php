@@ -9,10 +9,14 @@ use Composer\Autoload\ClassLoader;
 use Composer\Config\JsonConfigSource;
 use Composer\Json\JsonFile;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\System\Classes\PackageInfo;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Composer;
+use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 use Throwable;
+
+use function Illuminate\Support\php_binary;
 
 /**
  * Manager Class
@@ -24,14 +28,11 @@ class Manager
     /** The primary composer instance. */
     protected ?ClassLoader $loader = null;
 
-    protected mixed $prevErrorHandler = null;
-
     protected ?Collection $installedPackages = null;
 
     public function __construct(
         protected string $workingPath,
         protected string $storagePath,
-        protected ?Composer $composer = null,
     ) {}
 
     public function getPackageVersion(string $name): ?string
@@ -44,9 +45,9 @@ class Manager
         return array_get($this->loadInstalledPackages()->get($name, []), 'name');
     }
 
-    public function listInstalledPackages(): Collection
+    public function listInstalledPackages(bool $fresh = false): Collection
     {
-        return $this->loadInstalledPackages();
+        return $this->loadInstalledPackages($fresh);
     }
 
     public function getExtensionManifest(string $path): array
@@ -68,9 +69,9 @@ class Manager
         return $this->loader;
     }
 
-    protected function loadInstalledPackages(): Collection
+    protected function loadInstalledPackages(bool $fresh = false): Collection
     {
-        if (!is_null($this->installedPackages)) {
+        if (!$fresh && !is_null($this->installedPackages)) {
             return $this->installedPackages;
         }
 
@@ -81,13 +82,14 @@ class Manager
         $installedPackages = $installed['packages'] ?? $installed;
 
         return $this->installedPackages = collect($installedPackages)
-            ->whereIn('type', ['tastyigniter-package', 'tastyigniter-extension', 'tastyigniter-theme'])
-            ->mapWithKeys(function($package) {
-                $code = array_get($package, 'extra.tastyigniter-package.code',
-                    array_get($package, 'extra.tastyigniter-extension.code',
-                        array_get($package, 'extra.tastyigniter-theme.code')));
+            ->filter(fn(array $package): bool => $this->isValidPackage($package))
+            ->mapWithKeys(function(array $package) {
+                if ($package['name'] === PackageInfo::CORE) {
+                    $package['code'] = PackageInfo::CORE_CODE;
+                    $package['type'] = PackageInfo::CORE_TYPE;
+                }
 
-                return [$code => $package];
+                return [$this->getPackageCode($package) => $package];
             });
     }
 
@@ -109,17 +111,77 @@ class Manager
         return array_filter($manifest);
     }
 
+    protected function isValidPackage(array $package): bool
+    {
+        return in_array(array_get($package, 'type'), ['tastyigniter-package', 'tastyigniter-extension', 'tastyigniter-theme'])
+            || array_get($package, 'name') === PackageInfo::CORE;
+    }
+
+    protected function getPackageCode(array $package): mixed
+    {
+        if (array_get($package, 'name') === PackageInfo::CORE) {
+            return PackageInfo::CORE_CODE;
+        }
+
+        return array_get($package, 'extra.tastyigniter-package.code',
+            array_get($package, 'extra.tastyigniter-extension.code',
+                array_get($package, 'extra.tastyigniter-theme.code')));
+    }
+
     //
     //
     //
 
-    public function install(?array $requirements, Closure|OutputInterface|null $output = null): void
+    public function modify(callable $callback): void
+    {
+        $composerFile = $this->findComposerFile();
+
+        $composer = json_decode(file_get_contents($composerFile), true, 512, JSON_THROW_ON_ERROR);
+
+        file_put_contents(
+            $composerFile,
+            json_encode(
+                call_user_func($callback, $composer),
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
+            ),
+        );
+    }
+
+    public function outdated(Closure|OutputInterface|null $output = null): bool
+    {
+        $command = (new Collection([
+            ...$this->findComposer(),
+            'outdated',
+            '--all',
+            '--format=json',
+        ]))->all();
+
+        return $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->run(
+            $output instanceof OutputInterface
+                ? function($type, string $line) use ($output) {
+                    $output->write('    '.$line);
+                } : $output,
+        ) === 0;
+    }
+
+    public function install(array $packages, Closure|OutputInterface|null $output = null): void
     {
         $this->backupComposerFiles();
 
         try {
-            $packages = array_map('strtolower', $requirements);
-            $this->composer->requirePackages($packages, false, $output);
+            $packages = array_map('strtolower', $packages);
+            $command = (new Collection([
+                ...$this->findComposer(),
+                'require',
+                ...$packages,
+            ]))->all();
+
+            $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(
+                $output instanceof OutputInterface
+                    ? function($type, string $line) use ($output) {
+                        $output->write('    '.$line);
+                    } : $output,
+            );
         } catch (Throwable $throwable) {
             $this->restoreComposerFiles();
 
@@ -133,7 +195,18 @@ class Manager
 
         try {
             $packages = array_map('strtolower', $requirements);
-            $this->composer->removePackages($packages, false, $output);
+            $command = (new Collection([
+                ...$this->findComposer(),
+                'remove',
+                ...$packages,
+            ]))->all();
+
+            $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(
+                $output instanceof OutputInterface
+                    ? function($type, string $line) use ($output) {
+                        $output->write('    '.$line);
+                    } : $output,
+            );
         } catch (Throwable $throwable) {
             $this->restoreComposerFiles();
 
@@ -151,7 +224,7 @@ class Manager
         ]);
     }
 
-    protected function backupComposerFiles()
+    protected function backupComposerFiles(): void
     {
         $jsonBackupPath = $this->storagePath.'/backups/composer.json';
         $lockBackupPath = $this->storagePath.'/backups/composer.lock';
@@ -167,7 +240,7 @@ class Manager
         }
     }
 
-    protected function restoreComposerFiles()
+    protected function restoreComposerFiles(): void
     {
         $jsonBackupPath = $this->storagePath.'/backups/composer.json';
         $lockBackupPath = $this->storagePath.'/backups/composer.lock';
@@ -179,13 +252,38 @@ class Manager
         }
     }
 
+    protected function getProcess(array $command, array $env = []): Process
+    {
+        return (new Process($command, $this->workingPath, $env))->setTimeout(null);
+    }
+
+    protected function findComposer(): array
+    {
+        if (File::exists($this->workingPath.'/composer.phar')) {
+            return [php_binary(), 'composer.phar'];
+        }
+
+        return ['composer'];
+    }
+
+    protected function findComposerFile(): string
+    {
+        $composerFile = $this->workingPath.'/composer.json';
+
+        if (!file_exists($composerFile)) {
+            throw new RuntimeException(sprintf('Unable to locate `composer.json` file at [%s].', $this->workingPath));
+        }
+
+        return $composerFile;
+    }
+
     //
     // Asserts
     //
 
     public function assertSchema(): void
     {
-        $this->composer->modify(function(array $composer): array {
+        $this->modify(function(array $composer): array {
             $newConfig = $this->assertRepository($composer);
             if ($composer !== $newConfig) {
                 $composer = $newConfig;
@@ -203,11 +301,13 @@ class Manager
             }
         }
 
-        $config['repositories'][] = [
+        $config['repositories'] ??= [];
+
+        array_unshift($config['repositories'], [
             'type' => 'composer',
             'url' => 'https://'.static::REPOSITORY_HOST,
             'canonical' => false,
-        ];
+        ]);
 
         return $config;
     }

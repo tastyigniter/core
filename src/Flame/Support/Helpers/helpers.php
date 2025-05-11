@@ -690,7 +690,7 @@ if (!function_exists('make_carbon')) {
     /**
      * Converts mixed inputs to a Carbon object.
      */
-    function make_carbon(mixed $value, bool $throwException = true): Carbon|null
+    function make_carbon(mixed $value, bool $throwException = true): ?Carbon
     {
         try {
             if (!$value instanceof Carbon && $value instanceof DateTime) {

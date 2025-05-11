@@ -84,9 +84,8 @@ class ThemeVendorPublish extends VendorPublishCommand
 
     /**
      * Get the console command options.
-     * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['existing', null, InputOption::VALUE_NONE, 'Publish and overwrite only the files that have already been published'],

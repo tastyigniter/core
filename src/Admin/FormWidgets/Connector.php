@@ -173,6 +173,10 @@ class Connector extends BaseFormWidget
             $formTitle = lang($this->editRecordTitle);
         }
 
+        if (!$model->exists && method_exists($this->getRelationObject(), 'getForeignKeyName')) {
+            $model->{$this->getRelationObject()->getForeignKeyName()} = $this->model->getKey();
+        }
+
         return $this->makePartial('recordeditor/form', [
             'formRecordId' => $recordId,
             'formTitle' => sprintf($formTitle, lang($this->formName)),

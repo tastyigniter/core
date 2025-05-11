@@ -81,7 +81,7 @@ class MorphToMany extends BelongsToMany
      *
      * @return $this
      */
-    protected function addWhereConstraints()
+    protected function addWhereConstraints(): static
     {
         parent::addWhereConstraints();
 

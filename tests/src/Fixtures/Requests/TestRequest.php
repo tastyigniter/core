@@ -15,7 +15,7 @@ class TestRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'name' => 'full name',

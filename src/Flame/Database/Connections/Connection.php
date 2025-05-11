@@ -12,10 +12,8 @@ class Connection extends ConnectionBase
 {
     /**
      * Get a new query builder instance.
-     *
-     * @return \Igniter\Flame\Database\Query\Builder
      */
-    public function query()
+    public function query(): QueryBuilder
     {
         return new QueryBuilder(
             $this,

@@ -15,7 +15,16 @@
             {!! $this->widgets['toolbar']->render() !!}
         </div>
 
-        @if (isset($updates) && ($updates['items']->isNotEmpty() || $updates['ignoredItems']->isNotEmpty()))
+        @if(!isset($carteInfo['owner']))
+            <div class="p-3 text-center">
+                <p>
+                    <i class="icon fas fa-3x text-danger fa-circle-exclamation"></i>
+                </p>
+                <p class="fs-5">
+                    {!! lang('igniter::system.updates.help_carte_key') !!}
+                </p>
+            </div>
+        @elseif(isset($updates) && ($updates['items']->isNotEmpty() || $updates['ignoredItems']->isNotEmpty()))
             <div id="updates">
                 {!! $this->makePartial('updates/list') !!}
             </div>

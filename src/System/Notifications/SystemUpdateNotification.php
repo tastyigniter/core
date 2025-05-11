@@ -8,7 +8,7 @@ use Igniter\System\Contracts\StickyNotification;
 use Igniter\User\Classes\Notification;
 use Igniter\User\Models\User;
 
-class UpdateFoundNotification extends Notification implements StickyNotification
+class SystemUpdateNotification extends Notification implements StickyNotification
 {
     public function __construct(protected int $count = 0) {}
 
@@ -19,7 +19,9 @@ class UpdateFoundNotification extends Notification implements StickyNotification
 
     public function getTitle(): string
     {
-        return lang('igniter::system.updates.notify_new_update_found_title');
+        return $this->count > 0
+            ? lang('igniter::system.updates.notify_new_update_found_title')
+            : lang('igniter::system.updates.notify_no_update_found_title');
     }
 
     public function getUrl(): string
@@ -29,9 +31,15 @@ class UpdateFoundNotification extends Notification implements StickyNotification
 
     public function getMessage(): string
     {
-        return $this->count > 1
-            ? sprintf(lang('igniter::system.updates.notify_new_updates_found'), $this->count)
-            : lang('igniter::system.updates.notify_new_update_found');
+        if ($this->count > 1) {
+            return sprintf(lang('igniter::system.updates.notify_new_updates_found'), $this->count);
+        }
+
+        if ($this->count === 1) {
+            return lang('igniter::system.updates.notify_new_update_found');
+        }
+
+        return lang('igniter::system.updates.notify_no_update_found');
     }
 
     public function getIcon(): ?string

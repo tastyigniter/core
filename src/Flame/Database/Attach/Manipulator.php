@@ -156,7 +156,7 @@ class Manipulator
     protected function extractWatermarkDirectory(array $manipulations): ?string
     {
         if (array_key_exists('watermark', $manipulations)) {
-            return dirname((string) $manipulations['watermark']);
+            return dirname((string)$manipulations['watermark']);
         }
 
         return null;
@@ -213,15 +213,12 @@ class Manipulator
     protected function convertToRelativeFilePath(string $path): string
     {
         $base = $this->source->path('/');
-        if (starts_with($path, $base)) {
-            return substr($path, strlen($base));
-        }
 
-        if (starts_with($path, base_path())) {
+        if (!starts_with($path, $base) && starts_with($path, base_path())) {
             throw new InvalidArgumentException(sprintf('The provided path (%s) must be a relative path to the file, from the source root', $path));
         }
 
-        return $path;
+        return starts_with($path, $base) ? substr($path, strlen($base)) : $path;
     }
 
     protected function writeManipulatedContentsTo(string $path): void

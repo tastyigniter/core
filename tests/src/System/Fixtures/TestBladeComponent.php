@@ -20,7 +20,7 @@ class TestBladeComponent extends Component
         ];
     }
 
-    public function render()
+    public function render(): string
     {
         return '<div>Test Component</div>';
     }

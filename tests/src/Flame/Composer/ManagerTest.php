@@ -7,9 +7,8 @@ namespace Igniter\Tests\System\Classes;
 use Composer\Autoload\ClassLoader;
 use Exception;
 use Igniter\Flame\Composer\Manager;
-use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Support\Facades\File;
-use Illuminate\Support\Composer;
+use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 it('loads package version correctly', function() {
@@ -24,11 +23,14 @@ it('loads package name correctly', function() {
 });
 
 it('lists installed packages correctly', function() {
-    $composer = mock(Composer::class);
-    $manager = new Manager('/root', '/storage', $composer);
+    $manager = new Manager('/root', '/storage');
     File::shouldReceive('exists')->with('/root/vendor/composer/installed.json')->andReturnTrue();
     File::shouldReceive('get')->with('/root/vendor/composer/installed.json')->andReturn(json_encode([
         'packages' => [
+            [
+                'name' => 'tastyigniter/core',
+                'version' => '1.0.0',
+            ],
             [
                 'name' => 'author/package',
                 'type' => 'tastyigniter-package',
@@ -72,13 +74,12 @@ it('lists installed packages correctly', function() {
 
     $packages = $manager->listInstalledPackages();
 
-    expect($packages->count())->toBe(3)
-        ->and($packages->all())->toHaveKeys(['author.package', 'author.extension', 'author.theme']);
+    expect($packages->count())->toBe(4)
+        ->and($packages->all())->toHaveKeys(['tastyigniter', 'author.package', 'author.extension', 'author.theme']);
 });
 
 it('returns loader when autoload file exists', function() {
-    $composer = mock(Composer::class);
-    $loader = (new Manager(__DIR__.'/../../../../', '/storage', $composer))->getLoader();
+    $loader = (new Manager(__DIR__.'/../../../../', '/storage'))->getLoader();
 
     expect($loader)->toBeInstanceOf(ClassLoader::class);
 });
@@ -166,77 +167,54 @@ it('does not format theme with missing extra config', function() {
     expect($manifest)->toBeArray()->toBeEmpty();
 });
 
-it('installs packages correctly', function() {
-    $requirements = [
-        'package/name' => '^1.0',
-        'package/another' => '^2.0',
-    ];
+it('executes composer outdated command and returns success when no errors occur', function() {
     $output = mock(OutputInterface::class);
-    $composer = mock(Composer::class);
-    File::shouldReceive('isDirectory')->with('/storage/backups')->andReturnFalse();
-    File::shouldReceive('makeDirectory')->with('/storage/backups', null, true);
-    File::shouldReceive('copy')->with(base_path('composer.json'), '/storage/backups/composer.json');
+    $output->shouldReceive('write')->atLeast(1);
+    File::shouldReceive('exists')->with(base_path('composer.phar'))->andReturnTrue();
     File::shouldReceive('isFile')->with(base_path('composer.json'))->andReturnTrue();
     File::shouldReceive('isFile')->with(base_path('composer.lock'))->andReturnTrue();
-    File::shouldReceive('copy')->with(base_path('composer.lock'), '/storage/backups/composer.lock');
-    $composer->shouldReceive('requirePackages')->with([
-        'package/name' => '^1.0',
-        'package/another' => '^2.0',
-    ], false, $output)->once();
 
-    (new Manager(base_path(), '/storage', $composer))->install($requirements, $output);
+    $manager = new Manager(base_path(), '/storage');
+    $result = $manager->outdated($output);
+
+    expect($result)->toBeFalse();
 });
 
 it('restores composer files on exception in install', function() {
-    $requirements = ['package/name' => '^1.0'];
+    $requirements = ['package/name'];
     $output = mock(OutputInterface::class);
-    $composer = mock(Composer::class);
+    $output->shouldReceive('write')->atLeast(1);
     File::shouldReceive('isDirectory')->with('/storage/backups')->andReturnFalse();
     File::shouldReceive('makeDirectory')->with('/storage/backups', null, true);
     File::shouldReceive('copy')->with(base_path('composer.json'), '/storage/backups/composer.json');
+    File::shouldReceive('exists')->with(base_path('composer.phar'))->andReturnFalse();
     File::shouldReceive('isFile')->with(base_path('composer.json'))->andReturnTrue();
     File::shouldReceive('isFile')->with(base_path('composer.lock'))->andReturnTrue();
     File::shouldReceive('copy')->with(base_path('composer.lock'), '/storage/backups/composer.lock');
-    $composer->shouldReceive('requirePackages')->andThrow(new Exception('Error'));
     File::shouldReceive('copy')->with('/storage/backups/composer.json', base_path('composer.json'));
     File::shouldReceive('isFile')->with('/storage/backups/composer.lock')->andReturnTrue();
     File::shouldReceive('copy')->with('/storage/backups/composer.lock', base_path('composer.lock'));
 
-    $manager = new Manager(base_path(), '/storage', $composer);
+    $manager = new Manager(base_path(), '/storage');
     expect(fn() => $manager->install($requirements, $output))->toThrow(Exception::class);
-});
-
-it('uninstalls packages correctly', function() {
-    $packages = ['package/name', 'package/another'];
-    $output = mock(OutputInterface::class);
-    $composer = mock(Composer::class);
-    File::shouldReceive('isDirectory')->with('/storage/backups')->andReturnFalse();
-    File::shouldReceive('makeDirectory')->with('/storage/backups', null, true);
-    File::shouldReceive('copy')->with(base_path('composer.json'), '/storage/backups/composer.json');
-    File::shouldReceive('isFile')->with(base_path('composer.json'))->andReturnTrue();
-    File::shouldReceive('isFile')->with(base_path('composer.lock'))->andReturnTrue();
-    File::shouldReceive('copy')->with(base_path('composer.lock'), '/storage/backups/composer.lock');
-    $composer->shouldReceive('removePackages')->with($packages, false, $output)->once();
-
-    (new Manager(base_path(), '/storage', $composer))->uninstall($packages, $output);
 });
 
 it('restores composer files on exception in uninstall', function() {
     $packages = ['package/name', 'package/another'];
     $output = mock(OutputInterface::class);
-    $composer = mock(Composer::class);
+    $output->shouldReceive('write')->atLeast(1);
     File::shouldReceive('isDirectory')->with('/storage/backups')->andReturnFalse();
     File::shouldReceive('makeDirectory')->with('/storage/backups', null, true);
     File::shouldReceive('copy')->with(base_path('composer.json'), '/storage/backups/composer.json');
+    File::shouldReceive('exists')->with(base_path('composer.phar'))->andReturnTrue();
     File::shouldReceive('isFile')->with(base_path('composer.json'))->andReturnTrue();
     File::shouldReceive('isFile')->with(base_path('composer.lock'))->andReturnTrue();
     File::shouldReceive('copy')->with(base_path('composer.lock'), '/storage/backups/composer.lock');
-    $composer->shouldReceive('removePackages')->andThrow(new Exception('Error'));
     File::shouldReceive('copy')->with('/storage/backups/composer.json', base_path('composer.json'));
     File::shouldReceive('isFile')->with('/storage/backups/composer.lock')->andReturnTrue();
     File::shouldReceive('copy')->with('/storage/backups/composer.lock', base_path('composer.lock'));
 
-    $manager = new Manager(base_path(), '/storage', $composer);
+    $manager = new Manager(base_path(), '/storage');
     expect(fn() => $manager->uninstall($packages, $output))->toThrow(Exception::class);
 });
 
@@ -254,7 +232,7 @@ it('adds auth credentials to config', function() {
 
 it('modifies composer config with new repository', function() {
     file_put_contents(__DIR__.'/composer.json', '{}');
-    $manager = new Manager(__DIR__, '/storage', new Composer(new Filesystem, __DIR__));
+    $manager = new Manager(__DIR__, '/storage');
     $manager->assertSchema();
 
     $config = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
@@ -272,7 +250,7 @@ it('does not modify composer config if repository exists', function() {
             ['type' => 'composer', 'url' => 'https://packagist.org'],
         ],
     ]));
-    $manager = new Manager(__DIR__, '/storage', new Composer(new Filesystem, __DIR__));
+    $manager = new Manager(__DIR__, '/storage');
     $manager->assertSchema();
 
     $config = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
@@ -283,4 +261,9 @@ it('does not modify composer config if repository exists', function() {
         ->and($config['repositories'][1]['url'])->toBe('https://packagist.org');
 
     unlink(__DIR__.'/composer.json');
+});
+
+it('throws exception when composer file does not exists when modifying composer config', function() {
+    $manager = new Manager(__DIR__, '/storage');
+    expect(fn() => $manager->assertSchema())->toThrow(RuntimeException::class);
 });

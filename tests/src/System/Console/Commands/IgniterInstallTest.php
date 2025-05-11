@@ -9,8 +9,6 @@ use Igniter\Flame\Composer\Manager as ComposerManager;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Console\Commands\IgniterInstall;
-use Igniter\User\Auth\UserGuard;
-use Igniter\User\Models\User;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -43,7 +41,7 @@ function setupInstallation(): IgniterInstall|MockInterface
     $installCommand = mock(IgniterInstall::class)->makePartial();
     $installCommand->setOutput($output = mock(OutputStyle::class));
     $installCommand->shouldReceive('option')->andReturnFalse();
-    $installCommand->shouldReceive('confirm')->andReturnTrue();
+    $installCommand->shouldReceive('confirm')->byDefault()->andReturnTrue();
     $installCommand->shouldReceive('alert')->with('INSTALLATION STARTED')->once();
     $installCommand->shouldReceive('line')->byDefault();
     $installCommand->shouldReceive('ask')->with('MySQL Host', 'localhost')->andReturn('localhost');
@@ -74,9 +72,6 @@ it('installs TastyIgniter successfully', function() {
     Process::shouldReceive('run')->andReturn(0);
     Igniter::shouldReceive('adminUri')->andReturn('admin');
     SystemHelper::shouldReceive('runningOnMac')->andReturnTrue();
-    $authService = mock(UserGuard::class);
-    $authService->shouldReceive('getProvider->register')->once()->andReturn(User::factory()->make());
-    app()->instance('admin.auth', $authService);
 
     $installCommand->handle();
 });
@@ -103,9 +98,6 @@ it('opens browser window when installing in windows', function() {
     Igniter::shouldReceive('adminUri')->andReturn('admin');
     SystemHelper::shouldReceive('runningOnMac')->andReturnFalse();
     SystemHelper::shouldReceive('runningOnWindows')->andReturnTrue();
-    $authService = mock(UserGuard::class);
-    $authService->shouldReceive('getProvider->register')->once()->andReturn(User::factory()->make());
-    app()->instance('admin.auth', $authService);
 
     $installCommand->handle();
 });
@@ -117,9 +109,6 @@ it('opens browser window when installing in linux', function() {
     Igniter::shouldReceive('adminUri')->andReturn('admin');
     SystemHelper::shouldReceive('runningOnMac')->andReturnFalse();
     SystemHelper::shouldReceive('runningOnWindows')->andReturnFalse();
-    $authService = mock(UserGuard::class);
-    $authService->shouldReceive('getProvider->register')->once()->andReturn(User::factory()->make());
-    app()->instance('admin.auth', $authService);
 
     $installCommand->handle();
 });

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Igniter\System\Classes\ExtensionManager;
+use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -30,12 +30,12 @@ class ExtensionInstall extends Command
         $extensionName = $this->argument('name');
         $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
 
-        $response = $updateManager->requestApplyItems([[
+        $itemDetail = $updateManager->requestItemDetail([
             'name' => $extensionName,
             'type' => 'extension',
-        ]]);
+        ]);
 
-        if (!$packageInfo = $response->first()) {
+        if (!$itemDetail || !array_has($itemDetail, 'package') || array_get($itemDetail, 'code') !== $extensionName) {
             $this->output->writeln(sprintf('<info>Extension %s not found</info>', $extensionName));
 
             return;
@@ -43,11 +43,11 @@ class ExtensionInstall extends Command
 
         try {
             $this->output->writeln(sprintf('<info>Installing %s extension</info>', $extensionName));
-            $updateManager->install($response->all());
 
-            $extensionManager = resolve(ExtensionManager::class);
-            $extensionManager->loadExtensions();
-            $extensionManager->installExtension($packageInfo->code, $packageInfo->version);
+            $packageInfo = PackageInfo::fromArray($itemDetail);
+            $packages = $updateManager->install([$packageInfo], $this->output);
+            $updateManager->completeInstall($packages);
+            $updateManager->migrateExtension($packageInfo->code);
         } catch (Throwable $throwable) {
             $this->output->writeln($throwable->getMessage());
         }
@@ -55,9 +55,8 @@ class ExtensionInstall extends Command
 
     /**
      * Get the console command arguments.
-     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the extension. Eg: IgniterLab.Demo'],
