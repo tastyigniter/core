@@ -68,6 +68,7 @@
             </tbody>
         </table>
     </div>
+    @unless($this->model->code === 'en')
     <div class="card p-3 mt-4 text-center">
         <h4>@lang('igniter::system.languages.text_publish_translations')</h4>
         <p>{{html(sprintf(lang('igniter::system.languages.help_publish_translations'), 'https://translate.tastyigniter.com'))}}</p>
@@ -82,4 +83,5 @@
             </button>
         </div>
     </div>
+    @endunless
 </div>
