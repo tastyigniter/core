@@ -17,6 +17,7 @@ use Igniter\Local\Traits\LocationAwareWidget;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -1029,7 +1030,7 @@ class Lists extends BaseWidget
     // Bulk Actions
     //
 
-    public function onBulkAction(): array
+    public function onBulkAction(): RedirectResponse
     {
         if (empty($code = request()->input('code', ''))) {
             throw new FlashException(lang('igniter::admin.list.missing_action_code'));
@@ -1046,8 +1047,6 @@ class Lists extends BaseWidget
             throw new FlashException(lang('igniter::admin.list.delete_empty'));
         }
 
-        $alias = request()->input('alias') ?: $this->alias;
-
         $query = $this->prepareModel();
 
         $records = request()->input('select_all') === '1'
@@ -1056,7 +1055,7 @@ class Lists extends BaseWidget
 
         $bulkAction->handleAction(request()->input(), $records);
 
-        return $this->controller->refreshList($alias);
+        return $this->controller->refresh();
     }
 
     public function renderBulkActionButton(string|ToolbarButton $buttonObj): mixed

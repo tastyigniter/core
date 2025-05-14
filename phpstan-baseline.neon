@@ -61,6 +61,11 @@ parameters:
 			path: src/Admin/Widgets/Lists.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Http\\\\Actions\\\\ListController\\:\\:refresh\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Pagination\\\\LengthAwarePaginator\\:\\:getCollection\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Table.php
