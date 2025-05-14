@@ -164,50 +164,46 @@ class GoogleProvider extends AbstractProvider
             'timeout' => $query->getData('timeout', 15),
         ]);
 
-        $this->validateResponse($response);
-
-        return array_get(json_decode($response->getBody()->getContents(), true), 'rows', []);
+        return array_get($this->validateResponse($response), 'rows', []);
     }
 
     //
     //
     //
 
-    protected function validateResponse(ResponseInterface $response): ResponseInterface
+    protected function validateResponse(ResponseInterface $response): array
     {
-        $json = json_decode($response->getBody()->getContents(), false);
+        $json = json_decode($response->getBody()->getContents(), true);
 
         // API error
         if (!$json) {
             throw new GeoliteException('The geocoder server returned an empty or invalid response.');
         }
 
-        if ($json->status === 'REQUEST_DENIED') {
+        if (array_get($json, 'status') === 'REQUEST_DENIED') {
             throw new GeoliteException(sprintf(
-                'API access denied. Message: %s', $json->error_message ?? 'empty error message',
+                'API access denied. Message: %s', array_get($json, 'error_message') ?? 'empty error message',
             ));
         }
 
         // you are over your quota
-        if ($json->status === 'OVER_QUERY_LIMIT') {
+        if (array_get($json, 'status') === 'OVER_QUERY_LIMIT') {
             throw new GeoliteException(sprintf(
-                'Daily quota exceeded. Message: %s', $json->error_message ?? 'empty error message',
+                'Daily quota exceeded. Message: %s', array_get($json, 'error_message') ?? 'empty error message',
             ));
         }
 
-        return $response;
+        return $json;
     }
 
     /**
      * Decode the response content and validate it to make sure it does not have any errors.
      */
-    protected function parseResponse(ResponseInterface $response): array
+    protected function parseResponse(array $json): array
     {
-        $json = json_decode($response->getBody()->getContents(), false);
-
-        $response = $json->results ?? $json->rows ?? [];
-        if (!count($response) || $json->status !== 'OK') {
-            throw new GeoliteException($json->error_message ?? 'empty error message');
+        $response = array_get($json, 'results', array_get($json, 'rows', []));
+        if (!count($response) || array_get($json, 'status') !== 'OK') {
+            throw new GeoliteException(array_get($json, 'error_message', 'empty error message'));
         }
 
         return $response;
@@ -234,11 +230,11 @@ class GoogleProvider extends AbstractProvider
     protected function prependReverseQuery(GeoQueryInterface $query, string $url): string
     {
         if ($locationType = $query->getData('location_type')) {
-            $url .= '&location_type='.urlencode((string) $locationType);
+            $url .= '&location_type='.urlencode((string)$locationType);
         }
 
         if ($resultType = $query->getData('result_type')) {
-            $url .= '&result_type='.urlencode((string) $resultType);
+            $url .= '&result_type='.urlencode((string)$resultType);
         }
 
         return $url;
@@ -247,15 +243,15 @@ class GoogleProvider extends AbstractProvider
     protected function prependDistanceQuery(DistanceInterface $distance, string $url): string
     {
         if ($mode = $distance->getData('mode')) {
-            $url .= '&mode='.urlencode((string) $mode);
+            $url .= '&mode='.urlencode((string)$mode);
         }
 
         if ($region = $distance->getData('region', array_get($this->config, 'region'))) {
-            $url .= '&region='.urlencode((string) $region);
+            $url .= '&region='.urlencode((string)$region);
         }
 
         if ($language = $distance->getData('language', array_get($this->config, 'locale'))) {
-            $url .= '&language='.urlencode((string) $language);
+            $url .= '&language='.urlencode((string)$language);
         }
 
         $units = $distance->getUnit();
@@ -265,7 +261,7 @@ class GoogleProvider extends AbstractProvider
         }
 
         if ($avoid = $distance->getData('avoid')) {
-            $url .= '&avoid='.urlencode((string) $avoid);
+            $url .= '&avoid='.urlencode((string)$avoid);
         }
 
         if ($departureTime = $distance->getData('departure_time')) {
