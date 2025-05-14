@@ -1047,8 +1047,6 @@ class Lists extends BaseWidget
             throw new FlashException(lang('igniter::admin.list.delete_empty'));
         }
 
-        $alias = request()->input('alias') ?: $this->alias;
-
         $query = $this->prepareModel();
 
         $records = request()->input('select_all') === '1'
