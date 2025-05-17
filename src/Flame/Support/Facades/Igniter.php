@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support\Facades;
 
+use Igniter\Flame\Database\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Facade;
 
@@ -30,8 +31,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static string|null uri()
  * @method static string adminUri()
  * @method static bool isUser(Authenticatable $user)
- * @method static bool isCustomer(void $user)
- * @method static bool isAdminUser(void $user)
+ * @method static bool isCustomer(?Authenticatable $user)
+ * @method static bool isAdminUser(?Authenticatable $user)
  * @method static string version()
  * @method static \Igniter\Flame\Support\Igniter prunableModel(array|string $modelClass)
  * @method static array prunableModels()
