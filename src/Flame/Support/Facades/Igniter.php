@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support\Facades;
 
-use Igniter\Flame\Database\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Facade;
 
