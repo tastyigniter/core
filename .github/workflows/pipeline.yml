@@ -37,7 +37,7 @@ jobs:
         run: composer config --unset version
 
       - name: Run Laravel Pint
-        run: composer format
+        run: composer test:lint
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
