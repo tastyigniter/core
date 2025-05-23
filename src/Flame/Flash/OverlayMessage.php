@@ -6,7 +6,7 @@ namespace Igniter\Flame\Flash;
 
 class OverlayMessage extends Message
 {
-    public ?string $title = 'Notice';
+    public ?string $title = '';
 
     public bool $overlay = true;
 }
