@@ -175,7 +175,7 @@ class MailTemplate extends Model
 
     protected static function getTemplateSections($code): array
     {
-        return rescue(function() {
+        return rescue(function() use ($code): array {
             /** @var View $view */
             $view = ViewFacade::make($code);
 
