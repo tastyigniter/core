@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Mail;
 
-use Igniter\Flame\Database\Model;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 
@@ -20,15 +19,6 @@ final class AnonymousTemplateMailable extends TemplateMailable
         $instance->templateCode = $templateCode;
 
         return $instance;
-    }
-
-    public function with($key, $value = null): self
-    {
-        if (is_array($key)) {
-            $key = array_filter($key, fn($v): bool => !$v instanceof Model);
-        }
-
-        return parent::with($key, $value);
     }
 
     public function applyCallback(mixed $callback): self

@@ -16,11 +16,13 @@ it('creates instance with template code', function() {
 
 it('adds data without models', function() {
     $mailable = new AnonymousTemplateMailable;
-    $data = ['key1' => 'value1', 'key2' => new class extends Model {}];
+    $data = ['key1' => 'value1', 'key2' => new class extends Model
+    {
+    }];
     $mailable->with($data);
 
     expect($mailable->viewData)->toHaveKey('key1')
-        ->and($mailable->viewData)->not->toHaveKey('key2');
+        ->and($mailable->viewData)->toHaveKey('key2');
 });
 
 it('applies callable callback', function() {
