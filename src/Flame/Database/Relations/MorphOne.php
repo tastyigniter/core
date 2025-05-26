@@ -37,17 +37,14 @@ class MorphOne extends MorphOneBase
     public function setSimpleValue($value): void
     {
         if (is_array($value)) {
-            return;
+            $value = current($value);
         }
 
         // Nulling the relationship
         if (!$value) {
             if ($this->parent->exists) {
                 $this->parent->bindEventOnce('model.afterSave', function() {
-                    $this->update([
-                        $this->getForeignKeyName() => null,
-                        $this->getMorphType() => null,
-                    ]);
+                    $this->ensureRelationIsEmpty();
                 });
             }
 
@@ -99,9 +96,9 @@ class MorphOne extends MorphOneBase
         $value = null;
         $relationName = $this->relationName;
 
-        if ($this->parent->$relationName) {
-            $key = $this->getForeignKeyName();
-            $value = $this->parent->$relationName->$key;
+        if ($related = $this->parent->$relationName) {
+            $key = $this->getRelatedKeyName();
+            $value = $related->$key;
         }
 
         return $value;

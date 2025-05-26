@@ -25,8 +25,16 @@ class HasOneThrough extends HasOneThroughBase
      * Create a new has many relationship instance.
      * @return void
      */
-    public function __construct(Builder $query, Model $farParent, Model $parent, $firstKey, $secondKey, $localKey, $secondLocalKey, $relationName = null)
-    {
+    public function __construct(
+        Builder $query,
+        Model $farParent,
+        Model $parent,
+        $firstKey,
+        $secondKey,
+        $localKey,
+        $secondLocalKey,
+        $relationName = null,
+    ) {
         $this->relationName = $relationName;
 
         parent::__construct($query, $farParent, $parent, $firstKey, $secondKey, $localKey, $secondLocalKey);
@@ -39,8 +47,6 @@ class HasOneThrough extends HasOneThroughBase
      */
     public function parentSoftDeletes(): bool
     {
-        $uses = class_uses_recursive($this->parent::class);
-
-        return in_array(SoftDeletes::class, $uses);
+        return in_array(SoftDeletes::class, class_uses_recursive($this->parent::class));
     }
 }

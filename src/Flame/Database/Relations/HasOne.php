@@ -31,35 +31,22 @@ class HasOne extends HasOneBase
     }
 
     /**
-     * Get the results of the relationship.
-     * @return mixed
-     */
-    public function getResults()
-    {
-        // New models have no possibility of having a relationship here
-        // so prevent the first orphaned relation from being used.
-        if (!$this->parent->exists) {
-            return null;
-        }
-
-        return parent::getResults();
-    }
-
-    /**
      * Helper for setting this relationship using various expected
      * values. For example, $model->relation = $value;
      */
     public function setSimpleValue($value): void
     {
         if (is_array($value)) {
-            return;
+            $value = current($value);
         }
 
         // Nulling the relationship
         if (!$value) {
+            $this->parent->setRelation($this->relationName, null);
+
             if ($this->parent->exists) {
                 $this->parent->bindEventOnce('model.afterSave', function() {
-                    $this->update([$this->getForeignKeyName() => null]);
+                    $this->ensureRelationIsEmpty();
                 });
             }
 
@@ -103,9 +90,9 @@ class HasOne extends HasOneBase
         $value = null;
         $relationName = $this->relationName;
 
-        if ($this->parent->{$relationName}) {
-            $key = $this->localKey;
-            $value = $this->parent->{$relationName}->{$key};
+        if ($related = $this->parent->{$relationName}) {
+            $key = $this->getRelatedKeyName();
+            $value = $related->{$key};
         }
 
         return $value;

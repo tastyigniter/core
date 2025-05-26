@@ -26,3 +26,14 @@ it('prepares migration table when group column exists', function() {
     $repository = new DatabaseMigrationRepository($connectionResolver, 'migrations');
     $repository->prepareMigrationTable();
 });
+
+it('does not prepare migration table when group column does not exist', function() {
+    $connectionResolver = Mockery::mock(ConnectionResolverInterface::class);
+    $schemaBuilder = Mockery::mock('stdClass');
+    $connectionResolver->shouldReceive('connection')->andReturn($connection = mock(MySqlConnection::class));
+    $connection->shouldReceive('getSchemaBuilder')->andReturn($schemaBuilder);
+    $schemaBuilder->shouldReceive('hasColumn')->once()->with('migrations', 'group')->andReturn(false);
+
+    $repository = new DatabaseMigrationRepository($connectionResolver, 'migrations');
+    $repository->prepareMigrationTable();
+});

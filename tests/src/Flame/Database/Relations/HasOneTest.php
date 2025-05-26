@@ -14,7 +14,7 @@ it('associates and dissociates model correctly', function() {
     $builder = $country->currency();
     $builder->add($currency);
 
-    expect($currency->country_id)->toBe($builder->getSimpleValue());
+    expect($currency->getKey())->toBe($builder->getSimpleValue());
 
     $builder->remove($currency);
 

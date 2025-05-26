@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as CollectionBase;
 use Illuminate\Database\Eloquent\Model;
@@ -63,78 +62,42 @@ class BelongsToMany extends BelongsToManyBase
     }
 
     /**
-     * Get the select columns for the relation query.
-     */
-    protected function shouldSelect(array $columns = ['*']): array
-    {
-        if ($this->countMode) {
-            return [$this->table.'.'.$this->foreignPivotKey.' as pivot_'.$this->foreignPivotKey];
-        }
-
-        if ($columns == ['*']) {
-            $columns = [$this->related->getTable().'.*'];
-        }
-
-        return array_merge($columns, $this->aliasedPivotColumns());
-    }
-
-    /**
-     * Override sync() method of BelongToMany relation in order to flush the query cache.
-     * {@inheritdoc}
-     */
-    public function sync($ids, $detaching = true)
-    {
-        return parent::sync($ids, $detaching);
-    }
-
-    /**
-     * Override attach() method of BelongToMany relation.
+     * Override attach() method of BelongsToMany relation.
      * This is necessary in order to fire 'model.relation.beforeAttach', 'model.relation.afterAttach' events
-     * @param mixed $id
-     * @param bool $touch
      */
     public function attach($id, array $attributes = [], $touch = true): void
     {
-        $insertData = $this->formatAttachRecords($this->parseIds($id), $attributes);
-        $attachedIdList = array_pluck($insertData, $this->relatedPivotKey);
+        // Normalize identifiers for events, this occurs internally in the parent logic
+        // and should have no cascading effects.
+        $parsedIds = $this->parseIds($id);
 
-        if ($this->parent->fireEvent('model.relation.beforeAttach', [$this->relationName, $attachedIdList, $insertData], true) === false) {
+        if ($this->parent->fireEvent('model.relation.beforeAttach', [$this->relationName, &$parsedIds, &$attributes], true) === false) {
             return;
         }
 
-        // Here we will insert the attachment records into the pivot table. Once we have
-        // inserted the records, we will touch the relationships if necessary and the
-        // function will return. We can parse the IDs before inserting the records.
-        $this->newPivotStatement()->insert($insertData);
+        parent::attach($parsedIds, $attributes, $touch);
 
-        if ($touch) {
-            $this->touchIfTouching();
-        }
-
-        $this->parent->fireEvent('model.relation.afterAttach', [$this->relationName, $attachedIdList, $insertData]);
+        $this->parent->fireEvent('model.relation.afterAttach', [$this->relationName, $parsedIds, $attributes]);
     }
 
     /**
-     * Override detach() method of BelongToMany relation.
+     * Override detach() method of BelongsToMany relation.
      * This is necessary in order to fire 'model.relation.beforeDetach', 'model.relation.afterDetach' events
      * @param bool $touch
      */
     public function detach($ids = null, $touch = true): int
     {
-        $attachedIdList = $this->parseIds($ids);
-        if (empty($attachedIdList)) {
-            /** @var \Igniter\Flame\Database\Query\Builder $builder */
-            $builder = $this->newPivotQuery();
-            $attachedIdList = $builder->lists($this->relatedPivotKey);
-        }
+        // Normalize identifiers for events, this occurs internally in the parent logic
+        // and should have no cascading effects. Null is used to detach everything.
+        $parsedIds = $ids !== null ? $this->parseIds($ids) : $ids;
 
-        if ($this->parent->fireEvent('model.relation.beforeDetach', [$this->relationName, $attachedIdList], true) === false) {
+        if ($this->parent->fireEvent('model.relation.beforeDetach', [$this->relationName, &$parsedIds], true) === false) {
             return 0;
         }
 
-        $results = parent::detach($attachedIdList, $touch);
+        $results = parent::detach($parsedIds, $touch);
 
-        $this->parent->fireEvent('model.relation.afterDetach', [$this->relationName, $attachedIdList]);
+        $this->parent->fireEvent('model.relation.afterDetach', [$this->relationName, $parsedIds, $results]);
 
         return $results;
     }
@@ -144,8 +107,15 @@ class BelongsToMany extends BelongsToManyBase
      */
     public function add(Model $model, $pivotData = []): void
     {
-        $this->attach($model->getKey(), $pivotData);
-        $this->parent->reloadRelations($this->relationName);
+        if ($this->parent->exists) {
+            $this->attach($model, $pivotData);
+        } else {
+            $this->parent->bindEventOnce('model.afterSave', function() use ($model, $pivotData) {
+                $this->attach($model, $pivotData);
+            });
+        }
+
+        $this->parent->unsetRelation($this->relationName);
     }
 
     /**
@@ -158,26 +128,6 @@ class BelongsToMany extends BelongsToManyBase
     }
 
     /**
-     * Get a paginator for the "select" statement. Complies with October Rain.
-     *
-     * @param int $perPage
-     * @param array $columns
-     * @param string $pageName
-     * @param int $page
-     * @return LengthAwarePaginator
-     */
-    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
-    {
-        $this->query->addSelect($this->shouldSelect($columns));
-
-        $paginator = $this->query->paginate($perPage, $columns, $pageName, $page);
-
-        $this->hydratePivotRelation($paginator->items());
-
-        return $paginator;
-    }
-
-    /**
      * Create a new pivot model instance.
      *
      * @param bool $exists
@@ -185,19 +135,19 @@ class BelongsToMany extends BelongsToManyBase
      */
     public function newPivot(array $attributes = [], $exists = false)
     {
-        /*
-         * October looks to the relationship parent
-         */
+        $attributes = array_merge(array_column($this->pivotValues, 'value', 'column'), $attributes);
+
+        // October looks to the relationship parent
         $pivot = $this->parent->newRelationPivot($this->relationName, $this->parent, $attributes, $this->table, $exists);
 
-        /*
-         * Laravel looks to the related model
-         */
+        // Laravel looks to the related model
         if (empty($pivot)) {
             $pivot = $this->related->newPivot($this->parent, $attributes, $this->table, $exists);
         }
 
-        return $pivot->setPivotKeys($this->foreignPivotKey, $this->relatedPivotKey);
+        return $pivot
+            ->setPivotKeys($this->foreignPivotKey, $this->relatedPivotKey)
+            ->setRelatedModel($this->related);
     }
 
     /**
@@ -206,14 +156,10 @@ class BelongsToMany extends BelongsToManyBase
      */
     public function setSimpleValue($value): void
     {
-        $relationModel = $this->getRelated();
-
-        /*
-         * Nulling the relationship
-         */
+        // Nulling the relationship
         if (!$value) {
             // Disassociate in memory immediately
-            $this->parent->setRelation($this->relationName, $relationModel->newCollection());
+            $this->parent->setRelation($this->relationName, $this->getRelated()->newCollection());
 
             // Perform sync when the model is saved
             $this->parent->bindEventOnce('model.afterSave', function() {
@@ -223,32 +169,21 @@ class BelongsToMany extends BelongsToManyBase
             return;
         }
 
-        /*
-         * Convert models to keys
-         */
+        // Convert models to keys
         if ($value instanceof Model) {
-            $value = $value->getKey();
+            $value = $value->{$this->getRelatedKeyName()};
         } elseif (is_array($value)) {
             foreach ($value as $_key => $_value) {
                 if ($_value instanceof Model) {
-                    $value[$_key] = $_value->getKey();
+                    $value[$_key] = $_value->{$this->getRelatedKeyName()};
                 }
             }
         }
 
-        /*
-         * Convert scalar to array
-         */
-        if (!is_array($value) && !$value instanceof CollectionBase) {
-            $value = [$value];
-        }
-
-        /*
-         * Setting the relationship
-         */
+        // Setting the relationship
         $relationCollection = $value instanceof CollectionBase
             ? $value
-            : $relationModel->whereIn($relationModel->getKeyName(), $value)->get();
+            : $this->newSimpleRelationQuery((array)$value)->get();
 
         // Associate in memory immediately
         $this->parent->setRelation($this->relationName, $relationCollection);
@@ -268,28 +203,12 @@ class BelongsToMany extends BelongsToManyBase
         $relationName = $this->relationName;
 
         if ($this->parent->relationLoaded($relationName)) {
-            $related = $this->getRelated();
-
-            $value = $this->parent->getRelation($relationName)->pluck($related->getKeyName())->all();
+            $value = $this->parent->getRelation($relationName)->pluck($this->getRelatedKeyName())->all();
         } else {
             $value = $this->allRelatedIds()->all();
         }
 
         return $value;
-    }
-
-    /**
-     * Get all the IDs for the related models, with deferred binding support
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function allRelatedIds()
-    {
-        $related = $this->getRelated();
-
-        $fullKey = $related->getQualifiedKeyName();
-
-        return $this->getQuery()->select($fullKey)->pluck($related->getKeyName());
     }
 
     /**
@@ -306,5 +225,29 @@ class BelongsToMany extends BelongsToManyBase
     public function getOtherKey(): string
     {
         return $this->table.'.'.$this->relatedPivotKey;
+    }
+
+    /**
+     * Get the select columns for the relation query.
+     */
+    protected function shouldSelect(array $columns = ['*']): array
+    {
+        if ($this->countMode) {
+            return [$this->table.'.'.$this->foreignPivotKey.' as pivot_'.$this->foreignPivotKey];
+        }
+
+        if ($columns == ['*']) {
+            $columns = [$this->related->getTable().'.*'];
+        }
+
+        return array_merge($columns, $this->aliasedPivotColumns());
+    }
+
+    /**
+     * newSimpleRelationQuery for the related instance based on an array of IDs.
+     */
+    protected function newSimpleRelationQuery(array $ids)
+    {
+        return $this->getRelated()->newQuery()->whereIn($this->getRelatedKeyName(), $ids);
     }
 }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
-use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany as MorphManyBase;
 
 /**
@@ -41,10 +41,7 @@ class MorphMany extends MorphManyBase
         if (!$value) {
             if ($this->parent->exists) {
                 $this->parent->bindEventOnce('model.afterSave', function() {
-                    $this->update([
-                        $this->getForeignKeyName() => null,
-                        $this->getMorphType() => null,
-                    ]);
+                    $this->ensureRelationIsEmpty();
                 });
             }
 
@@ -65,18 +62,20 @@ class MorphMany extends MorphManyBase
                 });
             }
         } else {
-            $collection = $this->getRelated()->whereIn($this->localKey, (array)$value)->get();
+            $collection = $this->getRelated()->whereIn($this->getRelatedKeyName(), (array)$value)->get();
         }
 
         if ($collection) {
             $this->parent->setRelation($this->relationName, $collection);
 
             $this->parent->bindEventOnce('model.afterSave', function() use ($collection) {
-                $existingIds = $collection->pluck($this->localKey)->all();
-                $this->whereNotIn($this->localKey, $existingIds)->update([
+                $existingIds = $collection->pluck($this->getRelatedKeyName())->all();
+
+                $this->whereNotIn($this->getRelatedKeyName(), $existingIds)->update([
                     $this->getForeignKeyName() => null,
                     $this->getMorphType() => null,
                 ]);
+
                 $collection->each(function($instance) {
                     $instance->setAttribute($this->getForeignKeyName(), $this->getParentKey());
                     $instance->setAttribute($this->getMorphType(), $this->morphClass);
@@ -92,11 +91,12 @@ class MorphMany extends MorphManyBase
      */
     public function getSimpleValue()
     {
-        $value = null;
         $relationName = $this->relationName;
 
-        if ($relation = $this->parent->$relationName) {
-            $value = $relation->pluck($this->localKey)->all();
+        if ($this->parent->relationLoaded($relationName)) {
+            $value = $this->parent->getRelation($relationName)->pluck($this->getRelatedKeyName())->all();
+        } else {
+            $value = $this->query->getQuery()->pluck($this->getRelatedKeyName())->all();
         }
 
         return $value;

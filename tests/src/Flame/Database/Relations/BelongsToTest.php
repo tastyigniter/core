@@ -16,7 +16,7 @@ it('associates and dissociates model correctly', function() {
 
     $page = Page::factory()->create();
     $builder = $status->page();
-    $builder->add($page);
+    $builder->create(Page::factory()->definition());
 
     expect($status->page_id)->toBe($builder->getSimpleValue());
 
@@ -24,6 +24,22 @@ it('associates and dissociates model correctly', function() {
 
     expect($status->page_id)->toBeNull()
         ->and($builder->getOtherKey())->toBe('page_id');
+});
+
+it('does not associates or dissociates model when event returns false', function() {
+    Status::flushEventListeners();
+    $status = new class(['status_name' => 'Test']) extends Status
+    {
+        public $relation = ['belongsTo' => ['page' => [Page::class]]];
+    };
+    $status->bindEvent('model.relation.beforeAssociate', fn($relationName, $model) => false);
+    $status->bindEvent('model.relation.beforeDissociate', fn($relationName) => false);
+    $status->save();
+
+    $page = Page::factory()->create();
+    $builder = $status->page();
+    expect($builder->associate($page))->toBeNull()
+        ->and($builder->dissociate())->toBeNull();
 });
 
 it('sets simple value with null', function() {
