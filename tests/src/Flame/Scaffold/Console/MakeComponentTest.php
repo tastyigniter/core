@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Flame\Scaffold\Console;
 
+use Igniter\Flame\Scaffold\Console\MakeComponent;
 use Igniter\Flame\Support\Facades\File;
 
 it('does not run command when not confirmed', function() {
-    $this->app['env'] = 'production';
+    $command = mock(MakeComponent::class)
+        ->makePartial()
+        ->shouldAllowMockingProtectedMethods();
 
-    $this->artisan('make:igniter-component', ['extension' => 'Custom.Component', 'component' => 'TestComponent'])
-        ->expectsConfirmation('Are you sure you want to run this command?', 'no')
-        ->doesntExpectOutput('Component created successfully.')
-        ->assertExitCode(0);
+    $command->shouldReceive('confirmToProceed')->once()->andReturnFalse();
+
+    $command->shouldReceive('prepareVars')->never();
+
+    expect($command->handle())->toBeNull();
 });
 
 it('creates a new component with valid extension and component names', function() {
