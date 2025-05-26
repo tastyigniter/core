@@ -37,6 +37,7 @@ class Navigation
         'child' => null,
         'priority' => 500,
         'permission' => null,
+        'permissions' => null,
     ];
 
     public function setContext(string $itemCode, ?string $parentCode = null): void
@@ -166,7 +167,7 @@ class Navigation
     public function filterPermittedNavItems(array $items): array
     {
         return collect($items)->filter(function($item) {
-            if (!$permission = array_get($item, 'permission')) {
+            if (!$permission = (array_get($item, 'permission') ?? array_get($item, 'permissions'))) {
                 return true;
             }
 
@@ -183,7 +184,7 @@ class Navigation
             ? $pathOrUrl : admin_url($pathOrUrl);
 
         $previousUrl = url()->previous();
-        if (str_contains($previousUrl, '?') && rtrim((string) preg_replace('/\?.*/', '', $previousUrl), '/') === rtrim($url, '/')) {
+        if (str_contains($previousUrl, '?') && rtrim((string)preg_replace('/\?.*/', '', $previousUrl), '/') === rtrim($url, '/')) {
             $url = $previousUrl;
         }
 
