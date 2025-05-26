@@ -160,6 +160,11 @@ class FlashBag
         return $this->updateLastMessage(['important' => true]);
     }
 
+    public function actionUrl(string $url, ?string $text = null): self
+    {
+        return $this->updateLastMessage(['actionUrl' => $url, 'actionText' => $text]);
+    }
+
     /**
      * Clear all registered messages.
      */

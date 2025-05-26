@@ -87,3 +87,15 @@ it('clears all messages', function() {
     $this->flashBag->clear();
     expect($this->flashBag->messages())->toBeEmpty();
 });
+
+it('adds action url to a message', function() {
+    $this->session->shouldReceive('get')->andReturn(collect());
+    $this->session->shouldReceive('flash');
+
+    $this->flashBag->alert('Action message')->actionUrl('http://example.com', 'Click here');
+    $message = $this->flashBag->messages()->last();
+
+    expect($message->message)->toBe('Action message')
+        ->and($message->actionText)->toBe('Click here')
+        ->and($message->actionUrl)->toBe('http://example.com');
+});

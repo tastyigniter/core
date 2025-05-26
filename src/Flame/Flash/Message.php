@@ -25,6 +25,12 @@ class Message implements ArrayAccess
     /** Whether the message is an overlay. */
     public bool $overlay = false;
 
+    /** The action URL for the message. */
+    public ?string $actionUrl = null;
+
+    /** The action text for the message. */
+    public ?string $actionText = null;
+
     /**
      * Create a new message instance.
      */
@@ -87,6 +93,8 @@ class Message implements ArrayAccess
             'level' => $this->level,
             'important' => $this->important,
             'overlay' => $this->overlay,
+            'actionUrl' => $this->actionUrl,
+            'actionText' => $this->actionText,
         ];
     }
 }
