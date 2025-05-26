@@ -13,7 +13,6 @@ use Igniter\Flame\Geolite\Model\Distance;
 use Igniter\Flame\Geolite\Model\Location;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
-use stdClass;
 use Throwable;
 
 class GoogleProvider extends AbstractProvider
@@ -108,20 +107,20 @@ class GoogleProvider extends AbstractProvider
             $address = new Location($this->getName());
 
             // set official Google place id
-            if (isset($place->place_id)) {
-                $address->setValue('id', $place->place_id);
+            if ($placeId = array_get($place, 'place_id')) {
+                $address->setValue('id', $placeId);
             }
 
-            if (isset($place->geometry)) {
-                $this->parseCoordinates($address, $place->geometry);
+            if ($geometry = array_get($place, 'geometry')) {
+                $this->parseCoordinates($address, $geometry);
             }
 
-            if (isset($place->address_components)) {
-                $this->parseAddressComponents($address, $place->address_components);
+            if ($addressComponents = array_get($place, 'address_components')) {
+                $this->parseAddressComponents($address, $addressComponents);
             }
 
-            if (isset($place->formatted_address)) {
-                $address->withFormattedAddress($place->formatted_address);
+            if ($formattedAddress = array_get($place, 'formatted_address')) {
+                $address->withFormattedAddress($formattedAddress);
             }
 
             $result[] = $address;
@@ -275,32 +274,31 @@ class GoogleProvider extends AbstractProvider
         return $url;
     }
 
-    protected function parseCoordinates(Location $address, stdClass $geometry)
+    protected function parseCoordinates(Location $address, array $geometry)
     {
-        $coordinates = $geometry->location;
-        $address->setCoordinates($coordinates->lat, $coordinates->lng);
+        $address->setCoordinates(array_get($geometry, 'location.lat'), array_get($geometry, 'location.lng'));
 
-        if (isset($geometry->bounds)) {
+        if ($bounds = array_get($geometry, 'bounds')) {
             $address->setBounds(
-                $geometry->bounds->southwest->lat,
-                $geometry->bounds->southwest->lng,
-                $geometry->bounds->northeast->lat,
-                $geometry->bounds->northeast->lng,
+                array_get($bounds, 'southwest.lat'),
+                array_get($bounds, 'southwest.lng'),
+                array_get($bounds, 'northeast.lat'),
+                array_get($bounds, 'northeast.lng'),
             );
-        } elseif (isset($geometry->viewport)) {
+        } elseif ($viewport = array_get($geometry, 'viewport')) {
             $address->setBounds(
-                $geometry->viewport->southwest->lat,
-                $geometry->viewport->southwest->lng,
-                $geometry->viewport->northeast->lat,
-                $geometry->viewport->northeast->lng,
+                array_get($viewport, 'southwest.lat'),
+                array_get($viewport, 'southwest.lng'),
+                array_get($viewport, 'northeast.lat'),
+                array_get($viewport, 'northeast.lng'),
             );
-        } elseif ($geometry->location_type === 'ROOFTOP') {
+        } elseif (array_get($geometry, 'location_type') === 'ROOFTOP') {
             // Fake bounds
             $address->setBounds(
-                $coordinates->lat,
-                $coordinates->lng,
-                $coordinates->lat,
-                $coordinates->lng,
+                array_get($geometry, 'location.lat'),
+                array_get($geometry, 'location.lng'),
+                array_get($geometry, 'location.lat'),
+                array_get($geometry, 'location.lng'),
             );
         }
     }
@@ -308,20 +306,20 @@ class GoogleProvider extends AbstractProvider
     protected function parseAddressComponents(Location $address, array $components)
     {
         foreach ($components as $component) {
-            foreach ($component->types as $type) {
+            foreach (array_get($component, 'types', []) as $type) {
                 $this->parseAddressComponent($address, $type, $component);
             }
         }
     }
 
-    protected function parseAddressComponent(Location $address, string $type, stdClass $component): Location
+    protected function parseAddressComponent(Location $address, string $type, array $component): Location
     {
         switch ($type) {
             case 'postal_code':
-                return $address->setPostalCode($component->long_name);
+                return $address->setPostalCode(array_get($component, 'long_name'));
             case 'locality':
             case 'postal_town':
-                return $address->setLocality($component->long_name);
+                return $address->setLocality(array_get($component, 'long_name'));
             case 'administrative_area_level_1':
             case 'administrative_area_level_2':
             case 'administrative_area_level_3':
@@ -329,8 +327,8 @@ class GoogleProvider extends AbstractProvider
             case 'administrative_area_level_5':
                 return $address->addAdminLevel(
                     (int)substr($type, -1),
-                    $component->long_name,
-                    $component->short_name,
+                    array_get($component, 'long_name', ''),
+                    array_get($component, 'short_name'),
                 );
             case 'sublocality_level_1':
             case 'sublocality_level_2':
@@ -340,21 +338,21 @@ class GoogleProvider extends AbstractProvider
                 $subLocalityLevel = $address->getValue('subLocalityLevel', []);
                 $subLocalityLevel[] = [
                     'level' => (int)substr($type, -1),
-                    'name' => $component->long_name,
-                    'code' => $component->short_name,
+                    'name' => array_get($component, 'long_name'),
+                    'code' => array_get($component, 'short_name'),
                 ];
 
                 return $address->setValue('subLocalityLevel', $subLocalityLevel);
             case 'country':
-                $address->setCountryName($component->long_name);
+                $address->setCountryName(array_get($component, 'long_name'));
 
-                return $address->setCountryCode($component->short_name);
+                return $address->setCountryCode(array_get($component, 'short_name'));
             case 'street_number':
-                return $address->setStreetNumber($component->long_name);
+                return $address->setStreetNumber(array_get($component, 'long_name'));
             case 'route':
-                return $address->setStreetName($component->long_name);
+                return $address->setStreetName(array_get($component, 'long_name'));
             case 'sublocality':
-                return $address->setSubLocality($component->long_name);
+                return $address->setSubLocality(array_get($component, 'long_name'));
             case 'street_address':
             case 'intersection':
             case 'political':
@@ -368,7 +366,7 @@ class GoogleProvider extends AbstractProvider
             case 'park':
             case 'point_of_interest':
             case 'establishment':
-                return $address->setValue($type, $component->long_name);
+                return $address->setValue($type, array_get($component, 'long_name'));
             default:
         }
 
