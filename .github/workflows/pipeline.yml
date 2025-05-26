@@ -81,7 +81,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
           extensions: dom, curl, xml, mbstring, zip, pdo, sqlite, bcmath, soap, intl, gd
           tools: composer:v2
-          coverage: none
+          coverage: xdebug
 
       - name: Set composer version to avoid conflicts
         if: github.head_ref != 'master' && github.head_ref != '4.x'
