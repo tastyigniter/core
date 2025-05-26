@@ -106,8 +106,8 @@
     "test:type-coverage": "vendor/bin/pest --type-coverage --min=100",
     "test:refactor": "vendor/bin/rector process --dry-run",
     "test:refactor-fix": "vendor/bin/rector process",
-    "test:static": "vendor/bin/phpstan analyse --ansi --memory-limit 1056M",
-    "test:static-fix": "vendor/bin/phpstan --ansi --memory-limit 1056M",
+    "test:static": "vendor/bin/phpstan analyse --ansi --memory-limit=1056M",
+    "test:static-fix": "vendor/bin/phpstan --generate-baseline --ansi --memory-limit=1056M",
     "test": [
       "@test:refactor",
       "@test:static",
