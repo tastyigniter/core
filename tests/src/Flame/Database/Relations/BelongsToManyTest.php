@@ -72,6 +72,7 @@ it('associates a model when parent does not exists', function() {
     $userGroup = UserGroup::factory()->create();
     $builder = $user->groups();
     $builder->add($userGroup);
+
     $user->save();
 
     expect($user->fresh()->groups->count())->toBe(1);
@@ -101,9 +102,7 @@ it('paginates query', function() {
         {
             parent::__construct($attributes);
 
-            $this->relation['hasMany']['assignable_logs']['scope'] = function($query) {
-                return $query;
-            };
+            $this->relation['hasMany']['assignable_logs']['scope'] = fn($query) => $query;
         }
     };
     $user->save();

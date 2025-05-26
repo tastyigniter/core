@@ -108,7 +108,7 @@ trait HasOneOrMany
      */
     protected function isModelRemovable($model): bool
     {
-        return ((string)$model->getAttribute($this->getForeignKeyName()) === (string)$this->getParentKey());
+        return (string)$model->getAttribute($this->getForeignKeyName()) === (string)$this->getParentKey();
     }
 
     /**

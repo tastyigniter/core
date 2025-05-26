@@ -37,7 +37,7 @@ class MorphTo extends MorphToBase
     public function associate($model)
     {
         if ($this->parent->fireEvent('model.relation.beforeAssociate', [$this->relationName, $model], true) === false) {
-            return;
+            return null;
         }
 
         $result = parent::associate($model);
@@ -54,7 +54,7 @@ class MorphTo extends MorphToBase
     public function dissociate()
     {
         if ($this->parent->fireEvent('model.relation.beforeDissociate', [$this->relationName], true) === false) {
-            return;
+            return null;
         }
 
         $result = parent::dissociate();

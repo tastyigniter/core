@@ -31,9 +31,7 @@ it('sets keys for save query correctly', function() {
 
 it('deletes pivot model record from database', function() {
     $parent = new Page;
-    $pivot = (new class extends Pivot
-    {
-    })::fromRawAttributes($parent, ['foreign_key' => 1, 'other_key' => 2], 'pivot_table', true);
+    $pivot = (new class extends Pivot {})::fromRawAttributes($parent, ['foreign_key' => 1, 'other_key' => 2], 'pivot_table', true);
     $pivot->setPivotKeys('foreign_key', 'other_key');
 
     expect(fn() => $pivot->delete())->toThrow('delete from `pivot_table`');

@@ -357,13 +357,11 @@ abstract class Model extends EloquentModel
     /**
      * Create a pivot model instance specific to a relation.
      * @param string $relationName
-     * @param \Illuminate\Database\Eloquent\Model $parent
-     * @param array $attributes
      * @param string $table
      * @param bool $exists
      * @return null|Pivot|\Illuminate\Database\Eloquent\Relations\Pivot
      */
-    public function newRelationPivot($relationName, $parent, $attributes, $table, $exists)
+    public function newRelationPivot($relationName, EloquentModel $parent, array $attributes, $table, $exists)
     {
         $definition = $this->getRelationDefinition($relationName);
 

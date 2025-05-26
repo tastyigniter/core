@@ -24,7 +24,7 @@ class Pivot extends Model
     /**
      * The parent model of the relationship.
      */
-    protected ?ModelBase $parent;
+    protected ?ModelBase $parent = null;
 
     /**
      * The attributes that aren't mass assignable.

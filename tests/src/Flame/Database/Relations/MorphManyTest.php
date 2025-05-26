@@ -52,6 +52,7 @@ it('associates model when parent does not exists', function() {
     $statusHistory = StatusHistory::factory()->create();
     $builder = $status->objects();
     $builder->add($statusHistory);
+
     $status->save();
 
     expect($status->objects()->count())->toBe(1);
@@ -120,10 +121,12 @@ it('dissociates model deletes related model', function() {
         }
     };
     $status->save();
+
     $statusHistory = StatusHistory::factory()->create();
     $builder = $status->objects();
     $builder->add($statusHistory);
     $builder->setSimpleValue(null);
+
     $status->save();
 
     expect(StatusHistory::find($statusHistory->getKey()))->toBeNull();

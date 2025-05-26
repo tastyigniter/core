@@ -14,9 +14,7 @@ it('checks if parent uses soft deletes', function() {
     {
         use SoftDeletes;
     };
-    $page = new class extends Model
-    {
-    };
+    $page = new class extends Model {};
     $relation = new HasManyThrough(
         $status->newQuery(),
         $status,
@@ -38,9 +36,7 @@ it('returns simple value from loaded relation', function() {
 
         protected $primaryKey = 'status_id';
     };
-    $page = new class extends Page
-    {
-    };
+    $page = new class extends Page {};
     $relation = new HasManyThrough(
         $status->newQuery(),
         $status,

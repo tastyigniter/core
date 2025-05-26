@@ -16,9 +16,7 @@ it('creates instance with template code', function() {
 
 it('adds data without models', function() {
     $mailable = new AnonymousTemplateMailable;
-    $data = ['key1' => 'value1', 'key2' => new class extends Model
-    {
-    }];
+    $data = ['key1' => 'value1', 'key2' => new class extends Model {}];
     $mailable->with($data);
 
     expect($mailable->viewData)->toHaveKey('key1')
