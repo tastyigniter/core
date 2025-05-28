@@ -351,26 +351,22 @@ abstract class Model extends EloquentModel
     {
         return $using
             ? $using::fromRawAttributes($parent, $attributes, $table, $exists)
-            : new Pivot($parent, $attributes, $table, $exists);
+            : Pivot::fromAttributes($parent, $attributes, $table, $exists);
     }
 
     /**
      * Create a pivot model instance specific to a relation.
      * @param string $relationName
-     * @param \Illuminate\Database\Eloquent\Model $parent
-     * @param array $attributes
      * @param string $table
      * @param bool $exists
      * @return null|Pivot|\Illuminate\Database\Eloquent\Relations\Pivot
      */
-    public function newRelationPivot($relationName, $parent, $attributes, $table, $exists)
+    public function newRelationPivot($relationName, EloquentModel $parent, array $attributes, $table, $exists)
     {
         $definition = $this->getRelationDefinition($relationName);
 
         if (!is_null($definition) && array_key_exists('pivotModel', $definition)) {
-            $pivotModel = $definition['pivotModel'];
-
-            return new $pivotModel($parent, $attributes, $table, $exists);
+            return $this->newPivot($parent, $attributes, $table, $exists, $definition['pivotModel']);
         }
 
         return null;

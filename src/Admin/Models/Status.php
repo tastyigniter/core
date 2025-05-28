@@ -22,7 +22,7 @@ use Illuminate\Support\Collection;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read string $status_for_name
- * @property-read Collection<StatusHistory> $status_history
+ * @property Collection<StatusHistory>|StatusHistory|null $status_history
  * @method static Builder<static>|Status applyFilters(array $options = [])
  * @method static Builder<static>|Status applySorts(array $sorts = [])
  * @method static Builder<static>|Status isForOrder()

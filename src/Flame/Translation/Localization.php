@@ -124,7 +124,7 @@ class Localization
 
     public function getBrowserLocale(): string
     {
-        return substr($this->request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
+        return substr((string)$this->request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
     }
 
     protected function getConfig(string $string)

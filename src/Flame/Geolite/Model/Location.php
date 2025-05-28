@@ -65,10 +65,9 @@ class Location implements LocationInterface
 
     public function withFormattedAddress(?string $formattedAddress = null): self
     {
-        $new = clone $this;
-        $new->formattedAddress = $formattedAddress;
+        $this->formattedAddress = $formattedAddress;
 
-        return $new;
+        return $this;
     }
 
     public function setBounds(?float $south, ?float $west, ?float $north, ?float $east): self

@@ -41,7 +41,8 @@ it('creates location from array with valid data', function() {
         ->and($location->isValid())->toBeTrue()
         ->and($location->format())->toBe('123 Main St New York 10001')
         ->and($location->getFormattedAddress())->toBe('123 Main St, New York, NY 10001')
-        ->and($location->getValue('custom'))->toBe('What?');
+        ->and($location->getValue('custom'))->toBe('What?')
+        ->and($location->getValue('non-existence'))->toBeNull();
 });
 
 it('sets bounds correctly', function() {

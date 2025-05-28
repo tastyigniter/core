@@ -184,9 +184,7 @@ if (!function_exists('form_error')) {
             ? Session::get($errorsKey)
             : array_get(app('view')->getShared(), $errorsKey, new ViewErrorBag);
 
-        $errors = $errors instanceof ViewErrorBag
-            ? $errors->getBag($bag)
-            : new MessageBag($errors);
+        $errors = $errors instanceof ViewErrorBag ? $errors->getBag($bag) : new MessageBag($errors);
 
         if (is_null($field)) {
             return $errors;

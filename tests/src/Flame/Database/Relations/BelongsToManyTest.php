@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Flame\Database\Relations;
 
+use Igniter\User\Models\AssignableLog;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -65,27 +66,56 @@ it('associates and dissociates model correctly', function() {
     expect($user->fresh()->groups->count())->toBe(0);
 });
 
+it('associates a model when parent does not exists', function() {
+    User::flushEventListeners();
+    $user = User::factory()->make();
+    $userGroup = UserGroup::factory()->create();
+    $builder = $user->groups();
+    $builder->add($userGroup);
+
+    $user->save();
+
+    expect($user->fresh()->groups->count())->toBe(1);
+});
+
 it('paginates query', function() {
     $user = new class extends User
     {
         public $relation = [
+            'hasMany' => [
+                'assignable_logs' => [AssignableLog::class, 'foreignKey' => 'assignee_id', 'count' => true],
+            ],
             'belongsToMany' => [
                 'groups' => [
                     UserGroup::class,
                     'table' => 'admin_users_groups',
                     'pivot' => 'admin_users_groups',
+                    'pivotKey' => 'user_group_id',
                     'foreignKey' => 'user_id',
                     'count' => true,
                     'default' => [],
                 ],
             ],
         ];
+
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
+
+            $this->relation['hasMany']['assignable_logs']['scope'] = fn($query) => $query;
+        }
     };
     $user->save();
 
     $userGroup = UserGroup::factory()->create();
     $builder = $user->groups();
     $builder->add($userGroup);
+
+    expect($builder->paginate(1))->toBeInstanceOf(LengthAwarePaginator::class);
+
+    $assignableLog = AssignableLog::create();
+    $builder = $user->assignable_logs();
+    $builder->add($assignableLog);
 
     expect($builder->paginate(1))->toBeInstanceOf(LengthAwarePaginator::class);
 });

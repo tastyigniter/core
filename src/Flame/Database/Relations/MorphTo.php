@@ -31,6 +31,40 @@ class MorphTo extends MorphToBase
     }
 
     /**
+     * Override associate() method of MorphTo relation.
+     * This is necessary in order to fire 'model.relation.beforeAssociate', 'model.relation.associate' events
+     */
+    public function associate($model)
+    {
+        if ($this->parent->fireEvent('model.relation.beforeAssociate', [$this->relationName, $model], true) === false) {
+            return null;
+        }
+
+        $result = parent::associate($model);
+
+        $this->parent->fireEvent('model.relation.associate', [$this->relationName, $model]);
+
+        return $result;
+    }
+
+    /**
+     * Override dissociate() method of MorphTo relation.
+     * This is necessary in order to fire 'model.relation.beforeDissociate', 'model.relation.dissociate' events
+     */
+    public function dissociate()
+    {
+        if ($this->parent->fireEvent('model.relation.beforeDissociate', [$this->relationName], true) === false) {
+            return null;
+        }
+
+        $result = parent::dissociate();
+
+        $this->parent->fireEvent('model.relation.dissociate', [$this->relationName]);
+
+        return $result;
+    }
+
+    /**
      * Helper for setting this relationship using various expected
      * values. For example, $model->relation = $value;
      */

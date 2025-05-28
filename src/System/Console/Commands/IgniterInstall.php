@@ -83,6 +83,8 @@ class IgniterInstall extends Command
 
         $this->addSystemValues();
 
+        $this->createMediaDirectories();
+
         if ($this->confirm(self::CONFIRM_CREATE_STORAGE_LINK, true)) {
             $this->call('storage:link');
         }
@@ -228,5 +230,18 @@ class IgniterInstall extends Command
 
         Theme::syncAll();
         Theme::activateTheme(config('igniter-system.defaultTheme'), true);
+    }
+
+    protected function createMediaDirectories(): void
+    {
+        $mediaPath = storage_path('app/media');
+        if (!File::exists($mediaPath)) {
+            File::makeDirectory($mediaPath, 0755, true);
+        }
+
+        $mediaPath = storage_path('app/media/uploads');
+        if (!File::exists($mediaPath)) {
+            File::makeDirectory($mediaPath, 0755, true);
+        }
     }
 }

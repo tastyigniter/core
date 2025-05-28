@@ -43,6 +43,7 @@ it('logs error if migration table not found during down', function() {
     app()->instance('migrator', $migrator);
     $migrator->shouldReceive('usingConnection')->withArgs(function($database, $callback): true {
         $callback();
+
         return true;
     })->once();
     $updateManager = new UpdateManager;
@@ -63,6 +64,7 @@ it('rolls back extensions and core migrations during down', function() {
     $migrator->shouldReceive('setOutput');
     $migrator->shouldReceive('usingConnection')->withArgs(function($database, $callback): true {
         $callback();
+
         return true;
     })->once();
     Igniter::shouldReceive('coreMigrationPath')->andReturn([
@@ -88,6 +90,7 @@ it('runs core and extension migrations during migrate', function() {
     app()->instance('migrator', $migrator);
     $migrator->shouldReceive('usingConnection')->withArgs(function($database, $callback): true {
         $callback();
+
         return true;
     })->once();
     $migrator->shouldReceive('setOutput');

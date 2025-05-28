@@ -39,41 +39,38 @@ trait DefinedConstraints
             $args = $this->parent->getRelationDefinition($this->relationName);
         }
 
-        /*
-         * Default models (belongsTo)
-         */
+        // Default models (belongsTo)
         if ($defaultData = array_get($args, 'default')) {
-            $relation->withDefault($defaultData === true ? null : $defaultData);
+            $relation->withDefault($defaultData);
         }
 
-        /*
-         * Pivot data (belongsToMany, morphToMany, morphByMany)
-         */
+        // Pivot data (belongsToMany, morphToMany, morphByMany)
         if ($pivotData = array_get($args, 'pivot')) {
             $relation->withPivot($pivotData);
         }
 
-        /*
-         * Pivot timestamps (belongsToMany, morphToMany, morphByMany)
-         */
+        // Pivot incrementing key (belongsToMany, morphToMany, morphByMany)
+        if ($pivotKey = array_get($args, 'pivotKey')) {
+            $relation->withPivot($pivotKey);
+        }
+
+        // Pivot timestamps (belongsToMany, morphToMany, morphByMany)
         if (array_get($args, 'timestamps')) {
             $relation->withTimestamps();
         }
 
-        /*
-         * Count "helper" relation
-         */
-        if ($count = array_get($args, 'count')) {
+        // Count "helper" relation
+        if (array_get($args, 'count')) {
             if ($relation instanceof BelongsToManyBase) {
                 $relation->countMode = true;
+                $keyName = $relation->getQualifiedForeignPivotKeyName();
+            } else {
+                $keyName = $relation->getForeignKeyName();
             }
 
             $countSql = $this->parent->getConnection()->raw('count(*) as count');
 
-            $relation
-                ->select($relation->getForeignKey(), $countSql)
-                ->groupBy($relation->getForeignKey())
-                ->orderBy($relation->getForeignKey());
+            $relation->select($relation->getForeignKey(), $countSql)->groupBy($keyName)->orderBy($keyName);
         }
     }
 
@@ -89,16 +86,12 @@ trait DefinedConstraints
             $args = $this->parent->getRelationDefinition($this->relationName);
         }
 
-        /*
-         * Conditions
-         */
+        // Conditions
         if ($conditions = array_get($args, 'conditions')) {
             $query->whereRaw($conditions);
         }
 
-        /*
-         * Sort order
-         */
+        // Sort order
         $hasCountArg = array_get($args, 'count') !== null;
         if (($orderBy = array_get($args, 'order')) && !$hasCountArg) {
             if (!is_array($orderBy)) {
@@ -109,7 +102,7 @@ trait DefinedConstraints
                 $column = $order;
                 $direction = 'asc';
 
-                $parts = explode(' ', (string) $order);
+                $parts = explode(' ', (string)$order);
                 if (count($parts) > 1) {
                     [$column, $direction] = $parts;
                 }
@@ -118,11 +111,13 @@ trait DefinedConstraints
             }
         }
 
-        /*
-         * Scope
-         */
+        // Scope
         if ($scope = array_get($args, 'scope')) {
-            $query->$scope($this->parent);
+            if (is_string($scope)) {
+                $query->$scope($this->parent);
+            } else {
+                $scope($query, $this->parent, $this->related);
+            }
         }
     }
 }

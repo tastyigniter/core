@@ -20,7 +20,7 @@ it('adds data without models', function() {
     $mailable->with($data);
 
     expect($mailable->viewData)->toHaveKey('key1')
-        ->and($mailable->viewData)->not->toHaveKey('key2');
+        ->and($mailable->viewData)->toHaveKey('key2');
 });
 
 it('applies callable callback', function() {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
-use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo as BelongsToBase;
 
 /**
@@ -31,6 +31,18 @@ class BelongsTo extends BelongsToBase
     }
 
     /**
+     * create a new instance of this related model with deferred binding support
+     */
+    public function create(array $attributes = [])
+    {
+        $model = parent::create($attributes);
+
+        $this->add($model);
+
+        return $model;
+    }
+
+    /**
      * Adds a model to this relationship type.
      */
     public function add(Model $model)
@@ -47,6 +59,40 @@ class BelongsTo extends BelongsToBase
     }
 
     /**
+     * Override associate() method of BelongsTo relation.
+     * This is necessary in order to fire 'model.relation.beforeAssociate', 'model.relation.associate' events
+     */
+    public function associate($model)
+    {
+        if ($this->parent->fireEvent('model.relation.beforeAssociate', [$this->relationName, $model], true) === false) {
+            return null;
+        }
+
+        $result = parent::associate($model);
+
+        $this->parent->fireEvent('model.relation.associate', [$this->relationName, $model]);
+
+        return $result;
+    }
+
+    /**
+     * Override dissociate() method of BelongsTo relation.
+     * This is necessary in order to fire 'model.relation.beforeDissociate', 'model.relation.dissociate' events
+     */
+    public function dissociate()
+    {
+        if ($this->parent->fireEvent('model.relation.beforeDissociate', [$this->relationName], true) === false) {
+            return null;
+        }
+
+        $result = parent::dissociate();
+
+        $this->parent->fireEvent('model.relation.dissociate', [$this->relationName]);
+
+        return $result;
+    }
+
+    /**
      * Helper for setting this relationship using various expected
      * values. For example, $model->relation = $value;
      */
@@ -60,9 +106,7 @@ class BelongsTo extends BelongsToBase
         }
 
         if ($value instanceof Model) {
-            /*
-             * Non-existent model, use a single serve event to associate it again when ready
-             */
+            // Non-existent model, use a single serve event to associate it again when ready
             if (!$value->exists) {
                 $value->bindEventOnce('model.afterSave', function() use ($value) {
                     $this->associate($value);

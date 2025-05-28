@@ -108,5 +108,5 @@ it('sets simple value with id', function() {
     $status->save();
 
     expect($status->fresh()->object->status_history_id)->toBe($statusHistory->status_history_id)
-        ->and($status->object()->getSimpleValue())->toBe($status->status_id);
+        ->and($status->object()->getSimpleValue())->toBe($statusHistory->status_history_id);
 });

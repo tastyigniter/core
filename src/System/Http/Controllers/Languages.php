@@ -209,7 +209,8 @@ class Languages extends AdminController
 
     public function formExtendModel(Model $model): void
     {
-        if (!$model->exists) {
+        /** @var Language $model */
+        if (!$model->exists || $model->code === 'en') {
             return;
         }
 

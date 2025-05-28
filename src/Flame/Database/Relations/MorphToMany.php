@@ -148,10 +148,16 @@ class MorphToMany extends BelongsToMany
      */
     public function newPivot(array $attributes = [], $exists = false)
     {
-        $using = $this->using;
+        // October looks to the relationship parent
+        $pivot = $this->parent->newRelationPivot($this->relationName, $this->parent, $attributes, $this->table, $exists);
 
-        $pivot = $using ? $using::fromRawAttributes($this->parent, $attributes, $this->table, $exists)
-            : MorphPivot::fromAttributes($this->parent, $attributes, $this->table, $exists);
+        // Laravel creates new pivot model this way
+        if (empty($pivot)) {
+            $using = $this->using;
+
+            $pivot = $using ? $using::fromRawAttributes($this->parent, $attributes, $this->table, $exists)
+                : MorphPivot::fromAttributes($this->parent, $attributes, $this->table, $exists);
+        }
 
         $pivot->setPivotKeys($this->foreignPivotKey, $this->relatedPivotKey)
             ->setMorphType($this->morphType)
@@ -170,10 +176,8 @@ class MorphToMany extends BelongsToMany
 
     /**
      * Get the class name of the parent model.
-     *
-     * @return string
      */
-    public function getMorphClass()
+    public function getMorphClass(): string
     {
         return $this->morphClass;
     }

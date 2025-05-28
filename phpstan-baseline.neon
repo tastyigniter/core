@@ -61,6 +61,11 @@ parameters:
 			path: src/Admin/Widgets/Lists.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Admin\\\\Http\\\\Actions\\\\ListController\\:\\:refresh\\(\\)\\.$#"
+			count: 1
+			path: src/Admin/Widgets/Lists.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Pagination\\\\LengthAwarePaginator\\:\\:getCollection\\(\\)\\.$#"
 			count: 1
 			path: src/Admin/Widgets/Table.php
@@ -147,12 +152,12 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:getForeignKey\\(\\)\\.$#"
-			count: 3
+			count: 1
 			path: src/Flame/Database/Relations/BelongsTo.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:withPivot\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Database/Relations/BelongsTo.php
 
 		-
@@ -161,8 +166,23 @@ parameters:
 			path: src/Flame/Database/Relations/BelongsTo.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:bindEventOnce\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:fireEvent\\(\\)\\.$#"
+			count: 4
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
 			count: 3
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
+			count: 1
 			path: src/Flame/Database/Relations/BelongsTo.php
 
 		-
@@ -177,6 +197,16 @@ parameters:
 
 		-
 			message: "#^Call to private method whereRaw\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:associate\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Model but returns null\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/BelongsTo.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\BelongsTo\\:\\:dissociate\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Model but returns null\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/BelongsTo.php
 
@@ -207,11 +237,16 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:withPivot\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Database/Relations/HasMany.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
+			message: "#^Call to private method delete\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasMany.php
 
@@ -241,8 +276,13 @@ parameters:
 			path: src/Flame/Database/Relations/HasMany.php
 
 		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasMany\\:\\:addMany\\(\\) invoked with 2 parameters, 1 required\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasMany.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\:\\:getForeignKey\\(\\)\\.$#"
-			count: 3
+			count: 1
 			path: src/Flame/Database/Relations/HasManyThrough.php
 
 		-
@@ -252,7 +292,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasManyThrough\\:\\:withPivot\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Database/Relations/HasManyThrough.php
 
 		-
@@ -282,11 +322,16 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:withPivot\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Database/Relations/HasOne.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
+			message: "#^Call to private method delete\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOne\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/HasOne.php
 
@@ -311,13 +356,18 @@ parameters:
 			path: src/Flame/Database/Relations/HasOne.php
 
 		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOne\\:\\:addMany\\(\\) invoked with 2 parameters, 1 required\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/HasOne.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOneThrough\\:\\:getForeignKey\\(\\)\\.$#"
-			count: 3
+			count: 1
 			path: src/Flame/Database/Relations/HasOneThrough.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\HasOneThrough\\:\\:withPivot\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Database/Relations/HasOneThrough.php
 
 		-
@@ -347,7 +397,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:getForeignKey\\(\\)\\.$#"
-			count: 3
+			count: 1
 			path: src/Flame/Database/Relations/MorphMany.php
 
 		-
@@ -357,11 +407,31 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:withPivot\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Database/Relations/MorphMany.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphMany\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:bindEventOnce\\(\\)\\.$#"
+			count: 3
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:fireEvent\\(\\)\\.$#"
+			count: 4
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:getRelationDefinition\\(\\)\\.$#"
+			count: 5
+			path: src/Flame/Database/Relations/MorphMany.php
+
+		-
+			message: "#^Call to private method delete\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphMany.php
 
@@ -392,16 +462,21 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:getForeignKey\\(\\)\\.$#"
-			count: 3
-			path: src/Flame/Database/Relations/MorphOne.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:withPivot\\(\\)\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphOne.php
 
 		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:withPivot\\(\\)\\.$#"
+			count: 2
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphOne\\:\\:withTimestamps\\(\\)\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphOne.php
+
+		-
+			message: "#^Call to private method delete\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphOne\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphOne.php
 
@@ -427,12 +502,12 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\:\\:getForeignKey\\(\\)\\.$#"
-			count: 3
+			count: 1
 			path: src/Flame/Database/Relations/MorphTo.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\:\\:withPivot\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Flame/Database/Relations/MorphTo.php
 
 		-
@@ -452,6 +527,16 @@ parameters:
 
 		-
 			message: "#^Call to private method whereRaw\\(\\) of parent class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphTo\\<Illuminate\\\\Database\\\\Eloquent\\\\Model,Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\:\\:associate\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Model but returns null\\.$#"
+			count: 1
+			path: src/Flame/Database/Relations/MorphTo.php
+
+		-
+			message: "#^Method Igniter\\\\Flame\\\\Database\\\\Relations\\\\MorphTo\\:\\:dissociate\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Model but returns null\\.$#"
 			count: 1
 			path: src/Flame/Database/Relations/MorphTo.php
 

@@ -25,8 +25,16 @@ class HasManyThrough extends HasManyThroughBase
      * Create a new has many relationship instance.
      * @return void
      */
-    public function __construct(Builder $query, Model $farParent, Model $parent, $firstKey, $secondKey, $localKey, $secondLocalKey, $relationName = null)
-    {
+    public function __construct(
+        Builder $query,
+        Model $farParent,
+        Model $parent,
+        $firstKey,
+        $secondKey,
+        $localKey,
+        $secondLocalKey,
+        $relationName = null,
+    ) {
         $this->relationName = $relationName;
 
         parent::__construct($query, $farParent, $parent, $firstKey, $secondKey, $localKey, $secondLocalKey);
@@ -39,8 +47,37 @@ class HasManyThrough extends HasManyThroughBase
      */
     public function parentSoftDeletes(): bool
     {
-        $uses = class_uses_recursive($this->parent::class);
+        return in_array(SoftDeletes::class, class_uses_recursive($this->parent::class));
+    }
 
-        return in_array(SoftDeletes::class, $uses);
+    /**
+     * Helper for getting this relationship simple value,
+     * generally useful with form values.
+     */
+    public function getSimpleValue()
+    {
+        $relationName = $this->relationName;
+
+        return $this->farParent->relationLoaded($relationName)
+            ? $this->farParent->getRelation($relationName)->pluck($this->getRelatedKeyName())->all()
+            : $this->query->getQuery()->pluck($this->getQualifiedRelatedKeyName())->all();
+    }
+
+    /**
+     * getRelatedKeyName
+     * @return string
+     */
+    public function getRelatedKeyName()
+    {
+        return $this->related->getKeyName();
+    }
+
+    /**
+     * getQualifiedRelatedKeyName
+     * @return string
+     */
+    public function getQualifiedRelatedKeyName()
+    {
+        return $this->related->getQualifiedKeyName();
     }
 }

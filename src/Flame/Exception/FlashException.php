@@ -154,7 +154,7 @@ class FlashException extends Exception implements HttpExceptionInterface
             ], $this->code);
         }
 
-        if (!config('app.debug') && ($controller = $request->route()?->getController())) {
+        if (!config('app.debug') && ($controller = $request->route()?->getController()) && method_exists($controller, 'makeView')) {
             return response($controller->makeView('flash_exception', $this->getContents()), 500);
         }
 

@@ -57,8 +57,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function defineDatabaseMigrations()
     {
         if (!RefreshDatabaseState::$migrated) {
-            $this->artisan('igniter:down');
-            $this->artisan('igniter:up');
+            if (!Igniter::hasDatabase()) {
+                $this->artisan('igniter:up');
+            }
 
             $this->refreshApplication();
 

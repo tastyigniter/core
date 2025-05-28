@@ -125,7 +125,7 @@ it('returns geocode results when query is successful', function() {
 it('returns cached geocode results when query was previously geocoded', function() {
     $client = mock(HttpClient::class);
     $response = mock(ResponseInterface::class);
-    $response->shouldReceive('getBody->getContents')->twice()->andReturn(json_encode([
+    $response->shouldReceive('getBody->getContents')->once()->andReturn(json_encode([
         'status' => 'OK',
         'results' => [$this->geocoderResponse],
     ]));
@@ -239,7 +239,6 @@ it('returns distance result when query is successful', function() {
                 ],
             ],
         ],
-        'status' => 'OK',
     ]));
     $client->shouldReceive('get')->andReturn($response);
     $provider = new GoogleProvider($client, ['endpoints' => ['distance' => 'http://example.com'], 'apiKey' => 'test']);

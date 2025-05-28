@@ -133,15 +133,15 @@ class FlashBag
     /**
      * Flash an overlay modal.
      */
-    public function overlay(?string $message = null, string $title = ''): FlashBag
+    public function overlay(?string $message = null, string $title = '', string $level = 'success'): FlashBag
     {
         if (!$message) {
-            $this->updateLastMessage(['title' => $title, 'overlay' => true, 'important' => true]);
+            $this->updateLastMessage(['title' => $title, 'level' => $level, 'overlay' => true, 'important' => true]);
 
             return $this->message(new OverlayMessage($this->messages()->last()->toArray()))->important();
         }
 
-        return $this->message(new OverlayMessage(['title' => $title, 'message' => $message]))->important();
+        return $this->message(new OverlayMessage(['title' => $title, 'level' => $level, 'message' => $message]))->important();
     }
 
     /**
@@ -158,6 +158,11 @@ class FlashBag
     public function important(): self
     {
         return $this->updateLastMessage(['important' => true]);
+    }
+
+    public function actionUrl(string $url, ?string $text = null): self
+    {
+        return $this->updateLastMessage(['actionUrl' => $url, 'actionText' => $text]);
     }
 
     /**

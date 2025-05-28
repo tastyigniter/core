@@ -31,6 +31,8 @@ it('converts message to array', function() {
         'level' => 'info',
         'important' => false,
         'overlay' => false,
+        'actionUrl' => null,
+        'actionText' => null,
     ]);
 });
 

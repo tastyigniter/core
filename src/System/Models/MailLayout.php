@@ -140,10 +140,12 @@ class MailLayout extends Model
 
     protected static function getTemplateSections($code): array
     {
-        /** @var View $view */
-        $view = ViewFacade::make($code);
+        return rescue(function() use ($code): array {
+            /** @var View $view */
+            $view = ViewFacade::make($code);
 
-        return MailParser::parse(File::get($view->getPath()));
+            return MailParser::parse(File::get($view->getPath()));
+        }, []);
     }
 
     /**

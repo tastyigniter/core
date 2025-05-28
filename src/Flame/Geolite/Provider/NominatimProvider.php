@@ -128,11 +128,11 @@ class NominatimProvider extends AbstractProvider
             $url = sprintf('%s&countrycodes=%s', $url, $region);
         }
 
-        $options['User-Agent'] = $query->getData('userAgent', request()->userAgent());
-        $options['Referer'] = $query->getData('referer', request()->get('referer'));
-        $options['timeout'] = $query->getData('timeout', 15);
+        $options['headers']['User-Agent'] = $query->getData('userAgent', request()->userAgent());
+        $options['headers']['Referer'] = $query->getData('referer', request()->headers->get('referer'));
+        $options['headers']['timeout'] = $query->getData('timeout', 15);
 
-        if (empty($options['User-Agent'])) {
+        if (empty($options['headers']['User-Agent'])) {
             throw new GeoliteException('The User-Agent must be set to use the Nominatim provider.');
         }
 
@@ -176,7 +176,7 @@ class NominatimProvider extends AbstractProvider
 
         if (empty($json)) {
             throw new GeoliteException(
-                'The geocoder server returned an empty or invalid response.',
+                'The geocoder server returned an empty or invalid response. Make sure the app region or country is properly set.'
             );
         }
 
@@ -209,11 +209,11 @@ class NominatimProvider extends AbstractProvider
 
     protected function parseCoordinates(Location $address, stdClass $location)
     {
-        $address->setCoordinates($location->lat, $location->lon);
+        $address->setCoordinates((float) $location->lat, (float) $location->lon);
 
         if (isset($location->boundingbox)) {
             [$south, $north, $west, $east] = $location->boundingbox;
-            $address->setBounds($south, $west, $north, $east);
+            $address->setBounds((float) $south, (float) $west, (float) $north, (float) $east);
         }
     }
 

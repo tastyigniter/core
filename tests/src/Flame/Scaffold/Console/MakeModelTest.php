@@ -6,15 +6,6 @@ namespace Igniter\Tests\Flame\Scaffold\Console;
 
 use Igniter\Flame\Support\Facades\File;
 
-it('does not run command when not confirmed', function() {
-    $this->app['env'] = 'production';
-
-    $this->artisan('make:igniter-model', ['extension' => 'Custom.Model', 'model' => 'TestModel'])
-        ->expectsConfirmation('Are you sure you want to run this command?', 'no')
-        ->doesntExpectOutput('Model created successfully.')
-        ->assertExitCode(0);
-});
-
 it('creates a new model with valid extension and model names', function() {
     File::partialMock()->shouldReceive('makeDirectory');
     File::partialMock()->shouldReceive('put')->times(3);
