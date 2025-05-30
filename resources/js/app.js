@@ -20,3 +20,4 @@ require('./partials/trigger');
 require('./partials/preset');
 require('./partials/selectlist');
 require('./partials/utils');
+require('./partials/positiondropdown');
