@@ -10,6 +10,10 @@
         positionDropdown(e.target,'.dropdown', '.dropdown-menu', 'hidden.bs.dropdown'));
 
     const positionDropdown = (eventTarget, dropdownClass, menuClass, onHideEventName) => {
+        // update dropdown position only if parent has table-responsive class
+        if(!$(eventTarget).closest('.table-responsive').length) {
+            return;
+        }
         const $dropdown = $(eventTarget).closest(dropdownClass),
             $dropdownMenu = $dropdown.find(menuClass),
             $scrollContainer = getScrollContainer($dropdown);
