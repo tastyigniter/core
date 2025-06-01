@@ -34,3 +34,9 @@ Please report bugs using the [GitHub issue tracker](https://github.com/tastyigni
 
 ## Contributing
 We would love your help building TastyIgniter! Please read the [Contributing Guidelines](.github/CONTRIBUTING.md) to learn how you can help.
+
+## Security Vulnerabilities
+If you discover a security vulnerability within TastyIgniter, please send an e-mail to support@tastyigniter.com.
+
+## License
+TastyIgniter is open-source software licensed under the [MIT license](https://tastyigniter.com/licence/).
