@@ -133,7 +133,10 @@ class ExtensionManager
 
         $this->packageManifest->manifest = null; // @phpstan-ignore assign.propertyType
         foreach ($this->packageManifest->extensions() as $config) {
-            $this->loadExtension($this->packageManifest->getPackagePath(array_get($config, 'installPath')));
+            $path = $this->packageManifest->getPackagePath(array_get($config, 'installPath'));
+            if (File::isDirectory($path)) {
+                $this->loadExtension($path);
+            }
         }
 
         return $this->extensions;
