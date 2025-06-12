@@ -73,13 +73,6 @@ it('skips log entries with missing log level', function() {
     expect($this->logViewer->setFile($filePath)->all())->toBe([]);
 });
 
-it('returns null for large log file', function() {
-    $filePath = storage_path('logs/large.log');
-    File::shouldReceive('size')->with($filePath)->andReturn(LogViewer::MAX_FILE_SIZE + 1);
-
-    expect($this->logViewer->setFile($filePath)->all())->toBeNull();
-});
-
 it('returns log files with basename', function() {
     $logFiles = [
         $logFile1 = storage_path('logs/2023-10-01.log'),

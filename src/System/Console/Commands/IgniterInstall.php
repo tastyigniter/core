@@ -17,7 +17,6 @@ use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
