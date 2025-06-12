@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('mime_type');
             $table->integer('size')->unsigned();
             $table->string('tag')->index()->nullable();
-            $table->nullableMorphs('attachment');
+            $table->nullableMorphs('attachment', 'media_attachments_attachment');
             $table->boolean('is_public')->default(1);
             $table->text('custom_properties')->nullable();
             $table->integer('priority')->unsigned()->nullable();

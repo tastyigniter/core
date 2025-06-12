@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('assignable_logs', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->morphs('assignable');
+            $table->morphs('assignable', 'assignable_logs_assignable');
             $table->integer('assignee_id')->unsigned()->nullable();
             $table->integer('assignee_group_id')->unsigned()->nullable();
             $table->integer('status_id')->unsigned()->nullable();
