@@ -13,9 +13,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('reservation_tables', function(Blueprint $table) {
-            $table->integer('reservation_id')->unsigned()->index();
-            $table->integer('table_id')->unsigned()->index();
-            $table->unique(['reservation_id', 'table_id']);
+            $table->integer('reservation_id')->unsigned()->index('reservation_id_index');
+            $table->integer('table_id')->unsigned()->index('table_id_index');
+            $table->unique(['reservation_id', 'table_id'], 'reservation_table_unique');
         });
 
         DB::table('reservations')->get()->each(function($model) {
