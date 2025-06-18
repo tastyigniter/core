@@ -20,17 +20,17 @@
                                     <div class="pr-3">
                                         @if ($item == 'core' && $hasErrors)
                                             <i
-                                                class="text-danger fa fa-exclamation-triangle fa-fw"
+                                                class="text-danger fa fa-exclamation-triangle fa-fw fs-4"
                                                 title="@lang('igniter::system.settings.alert_settings_errors')"
                                             ></i>
                                         @elseif ($category->icon)
-                                            <i class="text-muted {{ $category->icon }} fa-fw"></i>
+                                            <i class="text-black-50 {{ $category->icon }} fa-fw fs-4"></i>
                                         @else
-                                            <i class="text-muted fa fa-puzzle-piece fa-fw"></i>
+                                            <i class="text-black-50 fa fa-puzzle-piece fa-fw fs-4"></i>
                                         @endif
                                     </div>
                                     <div class="">
-                                        <h5 class="mb-1">@lang($category->label)</h5>
+                                        <h5 class="mb-1 fw-bold">@lang($category->label)</h5>
                                         <p class="no-margin text-muted">{!! $category->description ? lang($category->description) : '' !!}</p>
                                     </div>
                                 </div>

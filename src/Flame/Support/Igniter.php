@@ -13,7 +13,7 @@ use Illuminate\View\Factory;
 
 class Igniter
 {
-    protected const string VERSION = 'v4.0.10';
+    protected const string VERSION = 'v4.0.11';
 
     /**
      * The base path for extensions.

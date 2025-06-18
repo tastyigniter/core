@@ -111,10 +111,6 @@ class LogViewer
             $this->file = $logFile[0];
         }
 
-        if (File::size($this->file) > self::MAX_FILE_SIZE) {
-            return null;
-        }
-
         $fileContents = File::get($this->file);
         $pattern = '/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\].*/';
         preg_match_all($pattern, $fileContents, $headings);
@@ -145,7 +141,7 @@ class LogViewer
 
                         $log[] = [
                             'context' => $current[2],
-                            'level' => strtoupper((string) $level),
+                            'level' => strtoupper((string)$level),
                             'class' => self::$levelClasses[$level],
                             'icon' => self::$levelIcons[$level],
                             'date' => $current[1],

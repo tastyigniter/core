@@ -25,10 +25,10 @@ function setupInstallation(): IgniterInstall|MockInterface
     File::shouldReceive('move')->withArgs(fn($from, $to) => ends_with($from, '/.env') && ends_with($to, '/backup.env'));
     File::shouldReceive('delete')->withArgs(fn($path) => ends_with($path, '/.env'));
     File::shouldReceive('copy')->withArgs(fn($from, $to) => ends_with($from, '/example.env') && ends_with($to, '/.env'));
-    File::shouldReceive('exists')->withArgs(fn($path) => ends_with($path, 'app/media'))->andReturnFalse();
-    File::shouldReceive('exists')->withArgs(fn($path) => ends_with($path, 'app/media/uploads'))->andReturnFalse();
-    File::shouldReceive('makeDirectory')->withArgs(fn($path, $mask, $recursive) => ends_with($path, 'app/media'));
-    File::shouldReceive('makeDirectory')->withArgs(fn($path, $mask, $recursive) => ends_with($path, 'app/media/uploads'));
+    File::shouldReceive('exists')->withArgs(fn($path) => ends_with($path, 'app/public/media'))->andReturnFalse();
+    File::shouldReceive('exists')->withArgs(fn($path) => ends_with($path, 'app/public/media/uploads'))->andReturnFalse();
+    File::shouldReceive('makeDirectory')->withArgs(fn($path, $mask, $recursive) => ends_with($path, 'app/public/media'));
+    File::shouldReceive('makeDirectory')->withArgs(fn($path, $mask, $recursive) => ends_with($path, 'app/public/media/uploads'));
     SystemHelper::shouldReceive('replaceInEnv');
     config([
         'app.key' => null,

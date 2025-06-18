@@ -197,9 +197,11 @@ class SettingsModel extends ModelAction
 
     /**
      * After the model is saved, clear the cached query entry.
-     * @return void
      */
-    public function afterModelSave() {}
+    public function afterModelSave(): void
+    {
+        $this->model->setRawAttributes(array_merge($this->fieldValues, $this->model->getAttributes()));
+    }
 
     /**
      * Checks if a key is legitimate or should be added to

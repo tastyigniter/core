@@ -42,7 +42,15 @@ class SystemLogs extends AdminController
 
         $logs = [];
         if (File::exists($logFile)) {
-            $logs = LogViewer::setFile($logFile)->all() ?? [];
+            if (File::size($logFile) > \Igniter\Flame\Support\LogViewer::MAX_FILE_SIZE) {
+                flash()->error(sprintf(
+                    'The log file %s is too large to be processed. Maximum size is %d bytes.',
+                    LogViewer::getFileName(),
+                    \Igniter\Flame\Support\LogViewer::MAX_FILE_SIZE,
+                ));
+            } else {
+                $logs = LogViewer::setFile($logFile)->all() ?? [];
+            }
         }
 
         $this->vars['logs'] = $logs;
