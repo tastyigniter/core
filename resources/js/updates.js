@@ -171,6 +171,7 @@
                     name: this.options.itemInModal.name,
                     type: this.options.itemInModal.type,
                     version: this.options.itemInModal.version,
+                    package: this.options.itemInModal.package,
                     action: this.options.itemInModal.action
                 }
             }
