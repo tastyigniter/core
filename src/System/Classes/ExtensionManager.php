@@ -410,19 +410,17 @@ class ExtensionManager
     {
         /** @var Extension $model */
         $model = Extension::firstOrNew(['name' => $code]);
-        if (!$model->applyExtensionClass() || !$extension = $this->findExtension($model->name)) {
-            return false;
+        if ($model->applyExtensionClass() && $extension = $this->findExtension($model->name)) {
+            // Register and boot the extension to make
+            // its services available before migrating
+            $extension->disabled = false;
+            app()->register($extension);
+
+            // set extension migration to the latest version
+            resolve(UpdateManager::class)->migrateExtension($model->name);
         }
 
-        // Register and boot the extension to make
-        // its services available before migrating
-        $extension->disabled = false;
-        app()->register($extension);
-
-        // set extension migration to the latest version
-        resolve(UpdateManager::class)->migrateExtension($model->name);
-
-        $model->version = $version ?? $this->packageManifest->getVersion($model->name) ?? $model->version;
+        $model->version = $version ?? $model->version;
         $model->save();
 
         $this->updateInstalledExtensions($model->name);
