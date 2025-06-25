@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Console\Commands;
 
+use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
@@ -21,19 +22,27 @@ it('errors when utility command method is not defined', function() {
 it('executes set version command successfully', function() {
     Igniter::shouldReceive('hasDatabase')->andReturnTrue();
     Igniter::shouldReceive('version')->andReturn('2.0.0');
+    $composerManager = mock(Manager::class);
+    app()->instance(Manager::class, $composerManager);
     $packageManifest = mock(PackageManifest::class);
     app()->instance(PackageManifest::class, $packageManifest);
+    $composerManager->shouldReceive('listInstalledPackages')->andReturn(collect([
+        'igniter.demo' => ['version' => '2.0.0'],
+        'igniter.blog' => ['version' => '2.0.0'],
+    ]));
     $packageManifest->shouldReceive('build')->andReturnSelf();
     $packageManifest->shouldReceive('packages')->andReturn([
         ['code' => 'igniter.demo', 'name' => 'Demo', 'type' => 'tastyigniter-extension', 'version' => '2.0.0'],
         ['code' => 'igniter.blog', 'name' => 'Orange', 'type' => 'tastyigniter-theme', 'version' => '2.0.0'],
+        ['code' => 'igniter.extension', 'name' => 'Extension', 'type' => 'tastyigniter-extension', 'version' => '2.0.0'],
     ]);
 
     $this->artisan('igniter:util set version --extensions')
         ->expectsOutput('Setting TastyIgniter version number...')
         ->expectsOutput('*** TastyIgniter latest version: 2.0.0')
-        ->expectsOutput('*** igniter.demo latest version: 2.0.0')
-        ->expectsOutput('*** igniter.blog latest version: 2.0.0')
+        ->expectsOutput('*** igniter.demo installed version: 2.0.0')
+        ->expectsOutput('*** igniter.blog installed version: 2.0.0')
+        ->expectsOutput('*** igniter.extension is not installed, skipping...')
         ->assertExitCode(0);
 });
 

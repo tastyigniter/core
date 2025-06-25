@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\System\Console\Commands;
 
 use Facades\Igniter\System\Helpers\CacheHelper;
+use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme;
@@ -137,20 +138,29 @@ class IgniterUtil extends Command
 
     protected function setItemsVersion()
     {
+        $composerManager = resolve(Manager::class);
+        $installedPackages = $composerManager->listInstalledPackages();
+
         $manifest = resolve(PackageManifest::class);
         $manifest->build();
 
         collect($manifest->packages())
-            ->each(function(array $update) {
-                if ($update['type'] === 'tastyigniter-extension') {
-                    Extension::where('name', $update['code'])->update(['version' => $update['version']]);
+            ->each(function(array $package) use ($installedPackages) {
+                if (!$installedPackage = $installedPackages->get($package['code'])) {
+                    $this->comment('*** '.$package['code'].' is not installed, skipping...');
+
+                    return;
                 }
 
-                if ($update['type'] === 'tastyigniter-theme') {
-                    Theme::where('code', $update['code'])->update(['version' => $update['version']]);
+                if ($package['type'] === 'tastyigniter-extension') {
+                    Extension::query()->where('name', $package['code'])->update(['version' => $installedPackage['version']]);
+                    $this->comment('*** '.$package['code'].' installed version: '.$installedPackage['version']);
                 }
 
-                $this->comment('*** '.$update['code'].' latest version: '.$update['version']);
+                if ($package['type'] === 'tastyigniter-theme') {
+                    Theme::query()->where('code', $package['code'])->update(['version' => $installedPackage['version']]);
+                    $this->comment('*** '.$package['code'].' installed version: '.$installedPackage['version']);
+                }
             });
     }
 }
