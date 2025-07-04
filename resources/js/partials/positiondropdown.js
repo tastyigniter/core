@@ -67,6 +67,9 @@
         let $parent = $element.parent();
         const skipSelectors = ['.table-responsive'];
         while($parent.length) {
+            if($parent.is('body') || $parent.is('html')) {
+                return $(window);
+            }
             if($parent.is(skipSelectors.join(','))) {
                 $parent = $parent.parent();
                 continue;
