@@ -311,8 +311,8 @@ trait HasRelationships
             $relation['foreignKey'],
             $relation['otherKey'],
             null,
-            false,
             $relationName,
+            false,
         );
     }
 
@@ -610,7 +610,7 @@ trait HasRelationships
         $relatedPivotKey = $relatedPivotKey ?: $instance->getForeignKey();
 
         if (!$table) {
-            $words = preg_split('/(_)/u', (string) $name, -1, PREG_SPLIT_DELIM_CAPTURE);
+            $words = preg_split('/(_)/u', (string)$name, -1, PREG_SPLIT_DELIM_CAPTURE);
 
             $lastWord = array_pop($words);
 
