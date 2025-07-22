@@ -16,14 +16,14 @@
 <div class="modal-footer">
     <button
         type="button"
+        class="btn btn-default"
+        data-bs-dismiss="modal"
+    >@lang('igniter::admin.button_close')</button>
+    <button
+        type="button"
         class="btn btn-primary"
         data-bs-dismiss="modal"
         data-request="{{ $this->getEventHandler('onUpdateWidget') }}"
     >@lang('igniter::admin.text_save')</button>
-    <button
-        type="button"
-        class="btn btn-default"
-        data-bs-dismiss="modal"
-    >@lang('igniter::admin.button_close')</button>
 </div>
 {!! form_close() !!}
