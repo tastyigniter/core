@@ -1,4 +1,4 @@
-<div class="dashboard-widget widget-onboarding col-6 mx-auto py-4">
+<div @class(['dashboard-widget widget-onboarding mx-auto py-4', 'col-6' => $this->property('width') >= 8])">
     <h4 class="widget-title mb-3">@lang('igniter::admin.dashboard.onboarding.title')</h4>
     <div class="list-group list-group-flush w-100">
         @foreach($onboarding->listSteps() as $step)
