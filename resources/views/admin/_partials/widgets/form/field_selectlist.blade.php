@@ -5,6 +5,7 @@
     $placeholder = $field->placeholder ?: 'igniter::admin.text_please_select';
 @endphp
 <div class="control-selectlist">
+    <input type="hidden" name="{{ $field->getName() }}" value="" />
     <select
         data-control="selectlist"
         id="{{ $field->getId() }}"

@@ -18,7 +18,7 @@ use Livewire\Livewire;
  */
 class ComponentManager
 {
-    public const ALLOWED_PROPERTY_TYPES = [
+    public const array ALLOWED_PROPERTY_TYPES = [
         'text',
         'textarea',
         'number',
@@ -353,7 +353,7 @@ class ComponentManager
         $rules = [];
         $attributes = [];
         foreach ($properties as $name => $params) {
-            if (strlen((string) ($rule = array_get($params, 'validationRule', ''))) !== 0) {
+            if (strlen((string)($rule = array_get($params, 'validationRule', ''))) !== 0) {
                 $rules[$name] = $rule;
                 $attributes[$name] = array_get($params, 'label', $name);
             }

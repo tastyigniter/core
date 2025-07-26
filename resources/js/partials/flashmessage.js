@@ -110,6 +110,7 @@
     }
 
     FlashMessage.DEFAULTS = {
+        control: undefined,
         container: '#notification',
         level: undefined,
         important: undefined,

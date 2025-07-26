@@ -21,6 +21,8 @@
             this.options.searchEnabled = false
         }
 
+        delete this.options.control
+
         this.choices = new Choices(this.$el[0], this.options)
     }
 

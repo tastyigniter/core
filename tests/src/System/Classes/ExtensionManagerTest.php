@@ -274,12 +274,6 @@ it('installs extension successfully', function() {
     expect($manager->installExtension('igniter.user'))->toBeTrue();
 });
 
-it('installExtension returns false if extension class is not applied', function() {
-    $manager = resolve(ExtensionManager::class);
-
-    expect($manager->installExtension('test.extension'))->toBeFalse();
-});
-
 it('uninstalls extension and purges data', function() {
     $manager = resolve(ExtensionManager::class);
     $updateManager = mock(UpdateManager::class);

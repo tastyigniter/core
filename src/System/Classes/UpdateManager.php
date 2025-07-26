@@ -353,7 +353,7 @@ class UpdateManager
             $this->composerManager->assertSchema();
             if ($this->hasValidCarte()) {
                 $this->composerManager->addAuthCredentials(
-                    array_get($this->getCarteInfo(), 'email'),
+                    array_get($this->getCarteInfo(), 'email', ''),
                     config('igniter-system.carteKey') ?: params('carte_key', ''),
                 );
             }

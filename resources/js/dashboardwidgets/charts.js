@@ -62,7 +62,7 @@
 
     ChartControl.prototype.initChartJs = function () {
         var chartOptions = (this.options.type === 'line') ? ChartControl.LINE_TYPE_OPTIONS : ChartControl.PIE_TYPE_OPTIONS
-        this.options.options = $.extend({}, this.options.options, chartOptions)
+        this.options.options = $.extend({}, this.options.options, chartOptions, ChartControl.DEFAULTS.options)
         this.chartJs = new Chart(this.$el.find('canvas'), this.options)
         this.chartJs.update()
     }

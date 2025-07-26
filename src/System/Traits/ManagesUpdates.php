@@ -47,18 +47,20 @@ trait ManagesUpdates
         $validated = $this->validate(post(), [
             'item.code' => ['required'],
             'item.name' => ['required'],
+            'item.package' => ['required'],
             'item.type' => ['required', 'in:core,extension,theme'],
             'item.version' => ['required'],
             'item.action' => ['required', 'in:install'],
         ], [], [
             'item.code' => lang('igniter::system.updates.label_meta_code'),
             'item.name' => lang('igniter::system.updates.label_meta_name'),
+            'item.package' => lang('igniter::system.updates.label_meta_package'),
             'item.type' => lang('igniter::system.updates.label_meta_type'),
             'item.version' => lang('igniter::system.updates.label_meta_version'),
             'item.action' => lang('igniter::system.updates.label_meta_action'),
         ]);
 
-        $validated['item']['package'] = resolve(Manager::class)->getPackageName(array_get($validated, 'item.code'));
+        $validated['item']['package'] ??= resolve(Manager::class)->getPackageName(array_get($validated, 'item.code'));
         $packageInfo = PackageInfo::fromArray($validated['item']);
 
         [$response, $success] = $this->processInstallOrUpdate([$packageInfo]);

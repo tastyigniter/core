@@ -84,6 +84,7 @@ class Charts extends BaseDashboardWidget
         $this->vars['chartType'] = $this->getDataDefinition('type', 'line');
         $this->vars['chartLabel'] = $this->getDataDefinition('label', '--');
         $this->vars['chartIcon'] = $this->getDataDefinition('icon', 'fa fa-bar-chart-o');
+        $this->vars['chartOptions'] = $this->getDataDefinition('options', []);
         $this->vars['chartData'] = $this->getData();
     }
 

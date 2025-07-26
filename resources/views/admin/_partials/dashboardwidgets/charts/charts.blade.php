@@ -5,10 +5,11 @@
         data-control="chart"
         data-alias="{{ $this->alias }}"
         data-type="{{ $chartType }}"
+        data-options='@json($chartOptions)'
         data-data='@json($chartData)'
     >
         <div class="chart-canvas chart-{{ name_to_id($chartType) }} chart-{{ name_to_id($this->alias) }}">
-            <canvas id="{{ $this->alias }}"></canvas>
+            <canvas id="{{ $this->alias }}-{{$chartContext}}"></canvas>
         </div>
     </div>
 </div>

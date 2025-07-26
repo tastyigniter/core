@@ -66,6 +66,7 @@ it('returns successful message when install items are applied', function() {
         ->post(route('igniter.system.extensions'), [
             'item' => [
                 'code' => 'igniter.test',
+                'package' => 'igniter/test',
                 'name' => 'Test Extension',
                 'type' => 'extension',
                 'version' => '1.0.0',
@@ -94,6 +95,7 @@ it('throws exception when composer install fails', function() {
         ->post(route('igniter.system.extensions'), [
             'item' => [
                 'code' => 'igniter.test',
+                'package' => 'igniter/test',
                 'name' => 'Test Extension',
                 'type' => 'extension',
                 'version' => '1.0.0',
