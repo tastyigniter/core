@@ -13,7 +13,7 @@ use Illuminate\View\Factory;
 
 class Igniter
 {
-    protected const string VERSION = 'v4.0.12';
+    protected const string VERSION = 'v4.0.13';
 
     /**
      * The base path for extensions.
@@ -56,6 +56,8 @@ class Igniter
 
     protected array $publishesThemeFiles = [];
 
+    protected bool $useMailerConfigFile = false;
+
     /**
      * Set the extensions path for the application.
      */
@@ -84,6 +86,27 @@ class Igniter
         $this->tempPath = $path;
 
         return $this;
+    }
+
+    /**
+     * Enable the use of the mailer config file.
+     * This allows the application to use the mailer configuration
+     * defined in the config/mail.php file instead of the default
+     * mailer settings stored in the database.
+     */
+    public function useMailerConfigFile(): static
+    {
+        $this->useMailerConfigFile = true;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application is using the mailer config file.
+     */
+    public function usingMailerConfigFile(): bool
+    {
+        return $this->useMailerConfigFile;
     }
 
     /**

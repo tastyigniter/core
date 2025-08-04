@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Igniter\Tests\System\Http\Controllers;
 
 use Exception;
+use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\System\Classes\MailManager;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserRole;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
 it('loads settings page', function() {
@@ -138,4 +141,22 @@ it('flashes error when sending test email fails', function() {
         ->assertOk();
 
     expect(flash()->messages()->first())->message->toBe('Test exception');
+});
+
+it('applies mailer config values when config file is not used', function() {
+    Igniter::shouldReceive('usingMailerConfigFile')->andReturn(false);
+    $mailManager = mock(MailManager::class)->makePartial();
+    $mailManager->shouldReceive('applyMailerConfigValues')->once();
+    app()->instance(MailManager::class, $mailManager);
+
+    Event::dispatch('mailer.beforeRegister');
+});
+
+it('prepends use_config_file section when mailer config file is enabled', function() {
+    Igniter::partialMock()->shouldReceive('usingMailerConfigFile')->andReturnTrue();
+
+    actingAsSuperUser()
+        ->get(route('igniter.system.settings', ['slug' => 'edit/mail']))
+        ->assertOk()
+        ->assertSee('https://tastyigniter.com/docs/advanced/mail#configuration');
 });

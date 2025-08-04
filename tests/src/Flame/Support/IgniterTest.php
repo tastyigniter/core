@@ -43,6 +43,17 @@ it('returns temp path when set', function() {
     expect($igniter->tempPath())->toBe('/custom/temp/path');
 });
 
+it('enables mailer config file usage', function() {
+    $igniter = resolve(Igniter::class);
+
+    expect($igniter->usingMailerConfigFile())->toBeFalse();
+
+    $igniter = resolve(Igniter::class);
+    $igniter->useMailerConfigFile();
+
+    expect($igniter->usingMailerConfigFile())->toBeTrue();
+});
+
 it('checks if running in admin area', function() {
     expect(resolve(Igniter::class)->runningInAdmin())->toBeFalse();
 
