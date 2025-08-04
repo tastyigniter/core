@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
+use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Classes\MailManager;
+use Igniter\System\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,15 +32,33 @@ class MailServiceProvider extends ServiceProvider
             ]);
 
             $manager->registerMailVariables(
-                File::getRequire(File::symbolizePath('igniter::models/system/mailvariables.php'))
+                File::getRequire(File::symbolizePath('igniter::models/system/mailvariables.php')),
             );
         });
     }
 
     public function boot(): void
     {
+        Igniter::useMailerConfigFile();
+
         Event::listen('mailer.beforeRegister', function() {
-            resolve(MailManager::class)->applyMailerConfigValues();
+            if (!Igniter::usingMailerConfigFile()) {
+                resolve(MailManager::class)->applyMailerConfigValues();
+            }
+        });
+
+        Event::listen('admin.form.extendFieldsBefore', function(Form $widget) {
+            if ($widget->getController() instanceof Settings
+                && $widget->getController()->settingCode === 'mail'
+                && Igniter::usingMailerConfigFile()
+            ) {
+                $widget->fields = array_prepend($widget->fields, [
+                    'label' => sprintf(lang('igniter::system.settings.help_use_mailer_config_file'),
+                        'https://tastyigniter.com/docs/advanced/mail#configuration',
+                    ),
+                    'type' => 'section',
+                ], 'use_config_file');
+            }
         });
     }
 }

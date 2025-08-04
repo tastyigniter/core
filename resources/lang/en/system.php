@@ -478,6 +478,7 @@ return [
         'help_media_rename' => 'Enable or disable file/folder rename',
         'help_media_delete' => 'Enable or disable deleting file/folder',
         'help_mail_logo' => 'Upload logo to display in emails',
+        'help_use_mailer_config_file' => 'The mailer configuration file being used store your mail settings, changes made here will not take effect. For more information, see the <a href="%s" target="_blank">Mail Configuration</a> section of the TastyIgniter documentation.',
         'help_enable_request_log' => 'Whether to log bad browser requests, such as 404 errors.',
         'help_maintenance' => 'Enable to prevent customers from viewing your store. The maintenance message will be displayed to customers except logged admin.',
         'help_activity_log_timeout' => 'Delete all recorded activities older than the specified number of days',
