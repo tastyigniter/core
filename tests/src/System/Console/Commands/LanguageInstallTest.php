@@ -65,13 +65,13 @@ it('skips if install request fails', function() {
         ->assertExitCode(0);
 });
 
-it('skips installation if no crowdin language found', function() {
+it('skips installation if no translation language found', function() {
     $languageManager = mock(LanguageManager::class);
     app()->instance(LanguageManager::class, $languageManager);
     $languageManager->shouldReceive('findLanguage')->andReturn([]);
 
     $this->artisan('igniter:language-install fr')
-        ->expectsOutput('Language fr not found in the TastyIgniter Crowdin project')
+        ->expectsOutput('Language fr not found in the TastyIgniter Community Translation project')
         ->assertExitCode(0);
 });
 

@@ -21,15 +21,15 @@ class LanguageInstall extends Command
         $languageManager = resolve(LanguageManager::class);
 
         $locale = $this->argument('locale');
-        if (!$crowdinLanguage = $languageManager->findLanguage($locale)) {
-            $this->output->writeln(sprintf('<error>Language %s not found in the TastyIgniter Crowdin project</error>', $locale));
+        if (!$translationLanguage = $languageManager->findLanguage($locale)) {
+            $this->output->writeln(sprintf('<error>Language %s not found in the TastyIgniter Community Translation project</error>', $locale));
 
             return;
         }
 
         if (is_null($language = Language::findByCode($locale))) {
             /** @var Language $language */
-            $language = Language::create(['code' => $locale, 'name' => $crowdinLanguage['name'], 'status' => true]);
+            $language = Language::create(['code' => $locale, 'name' => $translationLanguage['name'], 'status' => true]);
             $this->output->writeln('<info>Language not found, creating new language</info>');
         }
 
