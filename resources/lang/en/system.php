@@ -181,7 +181,7 @@ return [
 
         'help_language' => 'Use a full locale code (e.g. "fr_FR") instead of just a generic language code (e.g. "fr"), must be same as the locale directory.',
         'help_locale_strings' => 'Make sure NOT to translate placeholders like <b>%s</b> or <b>:name</b>. Leave them as is.',
-        'help_publish_translations' => 'Want to share your translations? You can upload them to the  <a href="%s" target="_blank">Crowdin project</a>, where they’ll be reviewed by a Core Team member.',
+        'help_publish_translations' => 'Want to share your translations? You can upload them to the  <a href="%s" target="_blank">TastyIgniter Translation Community project</a>, where they’ll be reviewed by a Core Team member.',
 
         'alert_set_default' => 'Language set as default',
         'alert_update_complete' => '%s: Translated strings for addon (%s) have been updated.',
