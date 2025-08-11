@@ -113,7 +113,7 @@ it('loads update popup throws exception when missing widget', function() {
 it('resets widgets', function() {
     expect($this->dashboardContainerWidget->onResetWidgets())
         ->toBeArray()
-        ->toHaveKey('#'.$this->dashboardContainerWidget->getId('container-list'));
+        ->toHaveKey('#'.$this->dashboardContainerWidget->getId('container'));
 });
 
 it('sets as default', function() {

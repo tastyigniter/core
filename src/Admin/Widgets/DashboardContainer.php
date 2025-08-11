@@ -195,7 +195,7 @@ class DashboardContainer extends BaseWidget
 
         flash()->success(lang('igniter::admin.dashboard.alert_reset_layout_success'));
 
-        return ['#'.$this->getId('container-list') => $this->makePartial('widget_list')];
+        return $this->onRenderWidgets();
     }
 
     public function onSetAsDefault(): void
