@@ -9,45 +9,19 @@ jobs:
     uses: tastyigniter/workflows/.github/workflows/build-assets.yml@main
     secrets:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-  php-lint:
+  php-code-check:
     needs: build-assets
     if: ${{ always() && needs.build-assets.result == 'success' }}
-    name: PHP Linting (Pint)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          tools: composer:v2
-          coverage: none
-
-      - name: Set composer version to avoid conflicts
-        if: github.head_ref != 'master' && github.head_ref != 'main' && github.head_ref != '4.x'
-        run: composer config version 4.0.x-dev
-
-      - name: Install composer dependencies
-        run: composer update --no-interaction --no-progress
-
-      - name: Remove composer version after use
-        if: github.head_ref != 'master' && github.head_ref != 'main' && github.head_ref != '4.x'
-        run: composer config --unset version
-
-      - name: Run Laravel Pint
-        run: composer test:lint
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: PHP Linting (Pint) - Fix styling
-          file_pattern: '*.php'
+    uses: tastyigniter/workflows/.github/workflows/php-code-check.yml@main
+    strategy:
+      matrix:
+        php: [ '8.3', '8.4' ]
+    with:
+      php-version: ${{ matrix.target }}
   php-tests:
     name: 'PHP Tests'
-    needs: php-lint
-    if: ${{ always() && needs.php-lint.result == 'success' }}
+    needs: php-code-check
+    if: ${{ always() && needs.php-code-check.result == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
