@@ -19,13 +19,14 @@ jobs:
     with:
       php-version: ${{ matrix.target }}
   php-tests:
-    name: 'PHP Tests'
+    name: 'PHP Tests ${{ matrix.target }} (Shard ${{ matrix.shard }}/5)'
     needs: php-code-check
     if: ${{ always() && needs.php-code-check.result == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         php: [ '8.3', '8.4' ]
+        shard: [ 1, 2, 3, 4, 5 ]
     services:
       mysql:
         image: mysql:latest
@@ -69,4 +70,4 @@ jobs:
         run: composer config --unset version
 
       - name: Run test suite
-        run: composer test
+        run: pest --parallel --shard ${{ matrix.shard }}/5
