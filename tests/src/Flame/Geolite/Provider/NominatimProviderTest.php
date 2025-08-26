@@ -10,6 +10,7 @@ use Igniter\Flame\Geolite\Exception\GeoliteException;
 use Igniter\Flame\Geolite\GeoQuery;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Location;
+use Igniter\Flame\Geolite\Place;
 use Igniter\Flame\Geolite\Provider\NominatimProvider;
 use Psr\Http\Message\ResponseInterface;
 
@@ -198,6 +199,68 @@ it('throws exception when user agent is not set for distance query', function() 
 
     expect($this->provider->distance($distance))->toBeEmpty()
         ->and($this->provider->getLogs()[0])->toContain('The User-Agent must be set to use the Nominatim provider.');
+});
+
+it('returns empty collection when places autocomplete query fails', function() {
+    $this->httpClient->shouldReceive('get')->andThrow(new GeoliteException('Error'));
+    $query = new GeoQuery('test address');
+    expect(fn() => $this->provider->placesAutocomplete($query))->toThrow(GeoliteException::class)
+        ->and($this->provider->getLogs()[0])->toContain('Error');
+});
+
+it('returns places autocomplete results when query is successful', function() {
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getStatusCode')->andReturn(200);
+    $response->shouldReceive('getBody->getContents')->andReturn(json_encode([
+        [
+            'place_id' => 'place_id_123',
+            'name' => 'Test Place',
+            'display_name' => 'Test Place, Test Locality, Test Admin Area 2, TA1 TC 12345',
+            'osm_type' => 'node',
+            'osm_id' => '12345',
+            'category' => 'boundary',
+            'lat' => 51.5073219,
+            'lon' => -0.1276474,
+        ],
+    ]));
+    $this->httpClient->shouldReceive('get')->andReturn($response);
+    $query = new GeoQuery('test address');
+    $query->withData('countrycodes', 'gb');
+
+    $result = $this->provider->placesAutocomplete($query);
+    expect($result)->toHaveCount(1)
+        ->and($result->first())->toBeInstanceOf(Place::class)
+        ->and($result->first()->getPlaceId())->toBe('place_id_123')
+        ->and($result->first()->getTitle())->toBe('Test Place')
+        ->and($result->first()->getDescription())->toBe('Test Place, Test Locality, Test Admin Area 2, TA1 TC 12345')
+        ->and($result->first()->getProvider())->toBe('nominatim')
+        ->and($result->first()->getData('latitude'))->toBe(51.5073219)
+        ->and($result->first()->getData('longitude'))->toBe(-0.1276474)
+        ->and($result->first()->getData('non-exists'))->toBeNull()
+        ->and($result->first()->toArray())->toHaveKeys(['placeId', 'title', 'description', 'provider', 'data']);
+});
+
+it('returns empty coordinates when places coordinates query fails', function() {
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getStatusCode')->andReturn(500);
+    $response->shouldReceive('getBody->getContents')->andReturn(json_encode(['error' => 'Server Error']));
+    $this->httpClient->shouldReceive('get')->andReturn($response);
+    $query = new GeoQuery('test address');
+    expect(fn() => $this->provider->getPlaceCoordinates($query))->toThrow(GeoliteException::class)
+        ->and($this->provider->getLogs()[0])->toContain('Error');
+});
+
+it('returns place coordinates when query is successful', function() {
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getStatusCode')->andReturn(200);
+    $response->shouldReceive('getBody->getContents')->andReturn(json_encode([]));
+    $this->httpClient->shouldReceive('get')->andReturn($response);
+    $query = new GeoQuery('test address');
+
+    $result = $this->provider->getPlaceCoordinates($query);
+    expect($result)->toBeInstanceOf(Coordinates::class)
+        ->and($result->getLatitude())->toBe(0.0)
+        ->and($result->getLongitude())->toBe(0.0);
 });
 
 it('throws exception when geocoder server returns empty response', function($responseData, $statusCode, $exceptionMessage) {

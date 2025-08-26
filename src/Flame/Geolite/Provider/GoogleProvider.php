@@ -9,9 +9,13 @@ use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Exception\GeoliteException;
+use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Distance;
 use Igniter\Flame\Geolite\Model\Location;
+use Igniter\Flame\Geolite\Place;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -100,6 +104,64 @@ class GoogleProvider extends AbstractProvider
         }
     }
 
+    public function placesAutocomplete(GeoQueryInterface $query): Collection
+    {
+        $endpoint = array_get($this->config, 'endpoints.places');
+        $url = sprintf($endpoint.':autocomplete?input=%s', rawurlencode($query->getText()));
+
+        try {
+            $result = $this->cacheCallback($url, fn(): array => $this->requestPlacesUrl($url, $query));
+
+            return collect(array_get($result, 'suggestions', []))->map(fn($item) => (new Place)
+                ->placeId($item['placePrediction']['placeId'])
+                ->title($item['placePrediction']['text']['text'])
+                ->description($item['placePrediction']['structuredFormat']['secondaryText']['text'])
+                ->provider('google'));
+        } catch (Throwable $throwable) {
+            $this->log(sprintf(
+                'Provider "%s" could not fetch place suggestions, "%s".',
+                $this->getName(), $throwable->getMessage(),
+            ));
+
+            throw $throwable;
+        }
+    }
+
+    public function getPlaceCoordinates(GeoQueryInterface $query): Coordinates
+    {
+        $url = sprintf('%s/%s', array_get($this->config, 'endpoints.places'), $query->getText());
+
+        try {
+            $response = $this->getHttpClient()->get($url, [
+                'timeout' => $query->getData('timeout', 15),
+                'headers' => [
+                    'X-Goog-Api-Key' => array_get($this->config, 'apiKey'),
+                    'X-Goog-FieldMask' => implode(',', $query->getData('fieldMask', ['location'])),
+                ],
+            ]);
+
+            $result = json_decode($response->getBody()->getContents(), true);
+            if ($response->getStatusCode() !== 200) {
+                throw new GeoliteException(sprintf('Failed to fetch place details, "%s".', json_encode($result)));
+            }
+
+            if (empty($result['location'])) {
+                throw new GeoliteException('No location found for this place');
+            }
+
+            $this->clearPlacesSessionToken();
+
+            return new Coordinates($result['location']['latitude'], $result['location']['longitude']);
+        } catch (Throwable $throwable) {
+            $this->log(sprintf(
+                'Provider "%s" could not fetch place details, "%s".',
+                $this->getName(), $throwable->getMessage(),
+            ));
+
+            throw $throwable;
+        }
+    }
+
     protected function hydrateResponse(array $response, int $limit): array
     {
         $result = [];
@@ -164,6 +226,30 @@ class GoogleProvider extends AbstractProvider
         ]);
 
         return array_get($this->validateResponse($response), 'rows', []);
+    }
+
+    protected function requestPlacesUrl(string $url, GeoQueryInterface $query): array
+    {
+        if ($region = $query->getData('region', array_get($this->config, 'region'))) {
+            $params['includedRegionCodes'] = [strtolower((string)$region)];
+        }
+
+        $params['sessionToken'] = $this->getPlacesSessionToken();
+
+        $response = $this->getHttpClient()->post($url, [
+            'json' => $params,
+            'timeout' => $query->getData('timeout', 15),
+            'headers' => [
+                'X-Goog-Api-Key' => array_get($this->config, 'apiKey'),
+                'X-Goog-FieldMask' => implode(',', $query->getData('fieldMask', [
+                    'suggestions.placePrediction.placeId',
+                    'suggestions.placePrediction.text.text',
+                    'suggestions.placePrediction.structuredFormat.secondaryText.text',
+                ])),
+            ],
+        ]);
+
+        return $this->validateResponse($response);
     }
 
     //
@@ -380,5 +466,24 @@ class GoogleProvider extends AbstractProvider
         }
 
         return implode('|', array_map(fn($name, $value): string => sprintf('%s:%s', $name, $value), array_keys($components), $components));
+    }
+
+    protected function getPlacesSessionToken(): string
+    {
+        $sessionTokenExpiry = Session::get('gm_places_session_token_expires_at');
+        if (!$sessionTokenExpiry || $sessionTokenExpiry->isPast()) {
+            $sessionToken = Str::uuid()->toString();
+            Session::put('gm_places_session_token', $sessionToken);
+            Session::put('gm_places_session_token_expires_at', now()->addMinutes(3));
+        } else {
+            $sessionToken = Session::get('gm_places_session_token');
+        }
+
+        return $sessionToken;
+    }
+
+    protected function clearPlacesSessionToken(): void
+    {
+        Session::forget(['gm_places_session_token', 'gm_places_session_token_expires_at']);
     }
 }

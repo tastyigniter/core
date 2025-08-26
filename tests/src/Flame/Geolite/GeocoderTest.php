@@ -127,6 +127,16 @@ it('creates a custom provider', function() {
         {
             return null;
         }
+
+        public function placesAutocomplete(GeoQueryInterface $query): Collection
+        {
+            return collect([]);
+        }
+
+        public function getPlaceCoordinates(GeoQueryInterface $query): Coordinates
+        {
+            return new Coordinates(0, 0);
+        }
     });
     $provider = $geocoder->using('custom');
     expect($provider)->toBeInstanceOf(AbstractProvider::class);

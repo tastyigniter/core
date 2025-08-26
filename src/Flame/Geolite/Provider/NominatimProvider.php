@@ -9,8 +9,10 @@ use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Exception\GeoliteException;
+use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Distance;
 use Igniter\Flame\Geolite\Model\Location;
+use Igniter\Flame\Geolite\Place;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 use stdClass;
@@ -92,7 +94,7 @@ class NominatimProvider extends AbstractProvider
     public function distance(DistanceInterface $distance): ?Distance
     {
         $endpoint = array_get($this->config, 'endpoints.distance');
-        $url = sprintf($endpoint,
+        $url = sprintf($endpoint.'search?q=%s&format=json&limit=%d',
             $distance->getData('mode', 'car'),
             $distance->getFrom()->getLongitude(),
             $distance->getFrom()->getLatitude(),
@@ -118,6 +120,66 @@ class NominatimProvider extends AbstractProvider
         }
     }
 
+    public function placesAutocomplete(GeoQueryInterface $query): Collection
+    {
+        $endpoint = array_get($this->config, 'endpoints.places');
+        $url = sprintf($endpoint.'search?q=%s&format=json&addressdetails=1&limit=%d',
+            rawurlencode($query->getText()),
+            $query->getLimit(),
+        );
+
+        try {
+            $result = $this->cacheCallback($url, fn(): array => $this->requestPlacesUrl($url, $query));
+
+            return collect($result)->map(fn($item) => (new Place)
+                ->placeId($item->place_id)
+                ->title($item->name)
+                ->description($item->display_name)
+                ->provider('nominatim')
+                ->withData('osmType', $item->osm_type)
+                ->withData('osmId', $item->osm_id)
+                ->withData('class', $item->category ?? null)
+                ->withData('latitude', $item->lat ?? null)
+                ->withData('longitude', $item->lon ?? null));
+        } catch (Throwable $throwable) {
+            $this->log(sprintf(
+                'Provider "%s" could not fetch place suggestions, "%s".',
+                $this->getName(), $throwable->getMessage(),
+            ));
+
+            throw $throwable;
+        }
+    }
+
+    public function getPlaceCoordinates(GeoQueryInterface $query): Coordinates
+    {
+        $endpoint = array_get($this->config, 'endpoints.places');
+        $url = sprintf(
+            $endpoint.'details?osmtype=%s&osmid=%s&class=%s&addressdetails=1&format=json',
+            rawurlencode($query->getText()),
+            rawurlencode((string) $query->getData('osm_type', '')),
+            rawurlencode((string) $query->getData('category', '')),
+        );
+
+        try {
+            $response = $this->getHttpClient()->get($url);
+
+            $result = json_decode($response->getBody()->getContents(), true);
+            if ($response->getStatusCode() !== 200) {
+                throw new GeoliteException(sprintf('Failed to fetch place details, "%s".', json_encode($result)));
+            }
+
+            return new Coordinates(0, 0);
+        } catch (Throwable $throwable) {
+            $this->log(sprintf(
+                'Provider "%s" could not fetch place details, "%s".',
+                $this->getName(), $throwable->getMessage(),
+            ));
+
+            throw $throwable;
+        }
+    }
+
     protected function requestUrl(string $url, GeoQueryInterface $query): array
     {
         if ($locale = $query->getLocale()) {
@@ -130,7 +192,7 @@ class NominatimProvider extends AbstractProvider
 
         $options['headers']['User-Agent'] = $query->getData('userAgent', request()->userAgent());
         $options['headers']['Referer'] = $query->getData('referer', request()->headers->get('referer'));
-        $options['headers']['timeout'] = $query->getData('timeout', 15);
+        $options['timeout'] = $query->getData('timeout', 15);
 
         if (empty($options['headers']['User-Agent'])) {
             throw new GeoliteException('The User-Agent must be set to use the Nominatim provider.');
@@ -176,7 +238,7 @@ class NominatimProvider extends AbstractProvider
 
         if (empty($json)) {
             throw new GeoliteException(
-                'The geocoder server returned an empty or invalid response. Make sure the app region or country is properly set.'
+                'The geocoder server returned an empty or invalid response. Make sure the app region or country is properly set.',
             );
         }
 
@@ -209,11 +271,11 @@ class NominatimProvider extends AbstractProvider
 
     protected function parseCoordinates(Location $address, stdClass $location)
     {
-        $address->setCoordinates((float) $location->lat, (float) $location->lon);
+        $address->setCoordinates((float)$location->lat, (float)$location->lon);
 
         if (isset($location->boundingbox)) {
             [$south, $north, $west, $east] = $location->boundingbox;
-            $address->setBounds((float) $south, (float) $west, (float) $north, (float) $east);
+            $address->setBounds((float)$south, (float)$west, (float)$north, (float)$east);
         }
     }
 
@@ -251,16 +313,27 @@ class NominatimProvider extends AbstractProvider
             $url = sprintf('%s&key=%s', $url, $apiKey);
         }
 
-        $options['User-Agent'] = $distance->getData('userAgent', request()->userAgent());
-        $options['Referer'] = $distance->getData('referer', request()->get('referer'));
+        $options['headers']['User-Agent'] = $distance->getData('userAgent', request()->userAgent());
+        $options['headers']['Referer'] = $distance->getData('referer', request()->get('referer'));
         $options['timeout'] = $distance->getData('timeout', 15);
 
-        if (empty($options['User-Agent'])) {
+        if (empty($options['headers']['User-Agent'])) {
             throw new GeoliteException('The User-Agent must be set to use the Nominatim provider.');
         }
 
         $response = $this->getHttpClient()->get($url, $options);
 
         return $this->parseResponse($response, 'routes');
+    }
+
+    protected function requestPlacesUrl(string $url, GeoQueryInterface $query): array
+    {
+        if ($region = $query->getData('countrycodes', array_get($this->config, 'region'))) {
+            $url = sprintf('%s&countrycodes=%s', $url, $region);
+        }
+
+        $response = $this->getHttpClient()->get($url);
+
+        return $this->parseResponse($response);
     }
 }

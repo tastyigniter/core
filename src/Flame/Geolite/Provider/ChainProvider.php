@@ -8,6 +8,7 @@ use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
+use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Distance;
 use Illuminate\Support\Collection;
 
@@ -56,6 +57,30 @@ class ChainProvider extends AbstractProvider
         }
 
         return null;
+    }
+
+    public function placesAutocomplete(GeoQueryInterface $query): Collection
+    {
+        foreach (array_keys($this->providers) as $name) {
+            $result = $this->geocoder->makeProvider($name)->placesAutocomplete($query);
+            if ($result->isNotEmpty()) {
+                return $result;
+            }
+        }
+
+        return new Collection;
+    }
+
+    public function getPlaceCoordinates(GeoQueryInterface $query): Coordinates
+    {
+        foreach (array_keys($this->providers) as $name) {
+            $result = $this->geocoder->makeProvider($name)->getPlaceCoordinates($query);
+            if (!empty($result->getLatitude()) && !empty($result->getLongitude())) {
+                return $result;
+            }
+        }
+
+        return new Coordinates(0, 0);
     }
 
     public function addProvider(string $name, array $config = []): self

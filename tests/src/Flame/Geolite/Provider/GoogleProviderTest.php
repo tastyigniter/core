@@ -11,7 +11,9 @@ use Igniter\Flame\Geolite\Model\Bounds;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Distance;
 use Igniter\Flame\Geolite\Model\Location;
+use Igniter\Flame\Geolite\Place;
 use Igniter\Flame\Geolite\Provider\GoogleProvider;
+use Illuminate\Support\Facades\Session;
 use Psr\Http\Message\ResponseInterface;
 
 beforeEach(function() {
@@ -254,6 +256,97 @@ it('returns distance result when query is successful', function() {
         ->and($result->getDuration())->toBe(60.0)
         ->and(round($result->formatDistance(), 2))->toBe(1.0)
         ->and($result->formatDuration())->toBe('1 minute before');
+});
+
+it('returns empty collection when places autocomplete query fails', function() {
+    Session::shouldReceive('get')->with('gm_places_session_token_expires_at')->andReturn(now()->addHour());
+    Session::shouldReceive('get')->with('gm_places_session_token')->andReturn(str_random());
+    $client = mock(HttpClient::class);
+    $client->shouldReceive('post')->andThrow(new GeoliteException('Error'));
+    $provider = new GoogleProvider($client, ['endpoints' => ['places' => 'http://example.com']]);
+    $query = new GeoQuery('test');
+    $query->withLimit(1);
+    $query->withLocale('fr');
+    expect(fn() => $provider->placesAutocomplete($query))->toThrow(GeoliteException::class)
+        ->and($provider->getLogs()[0])->toContain('Error');
+});
+
+it('returns places autocomplete results when query is successful', function() {
+    $client = mock(HttpClient::class);
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getBody->getContents')->andReturn(json_encode([
+        'status' => 'OK',
+        'suggestions' => [
+            [
+                'placePrediction' => [
+                    'placeId' => '123',
+                    'text' => ['text' => 'Test Main Text'],
+                    'structuredFormat' => [
+                        'secondaryText' => ['text' => 'Test Secondary Text'],
+                    ],
+                ],
+            ],
+        ],
+    ]));
+    $client->shouldReceive('post')->andReturn($response);
+    $provider = new GoogleProvider($client, ['endpoints' => ['places' => 'http://example.com'], 'apiKey' => 'test']);
+    $query = new GeoQuery('test');
+    $query->withLimit(1);
+    $query->withData('region', 'fr');
+
+    $result = $provider->placesAutocomplete($query);
+
+    expect($result)->toHaveCount(1)
+        ->and($result->first())->toBeInstanceOf(Place::class)
+        ->and($result->first()->getPlaceId())->toBe('123')
+        ->and($result->first()->getTitle())->toBe('Test Main Text')
+        ->and($result->first()->getDescription())->toBe('Test Secondary Text')
+        ->and($result->first()->getProvider())->toBe('google');
+});
+
+it('returns empty coordinates when places coordinates query fails', function() {
+    $client = mock(HttpClient::class);
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getStatusCode')->andReturn(500);
+    $response->shouldReceive('getBody->getContents')->andReturn(json_encode(['error' => 'Error']));
+    $client->shouldReceive('get')->andReturn($response);
+    $provider = new GoogleProvider($client, ['endpoints' => ['place' => 'http://example.com']]);
+    $query = new GeoQuery('place_id_123');
+    expect(fn() => $provider->getPlaceCoordinates($query))->toThrow(GeoliteException::class)
+        ->and($provider->getLogs()[0])->toContain('Error');
+});
+
+it('returns empty coordinates when places coordinates query returns empty response', function() {
+    $client = mock(HttpClient::class);
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getStatusCode')->andReturn(200);
+    $response->shouldReceive('getBody->getContents')->andReturn(json_encode([]));
+    $client->shouldReceive('get')->andReturn($response);
+    $provider = new GoogleProvider($client, ['endpoints' => ['place' => 'http://example.com']]);
+    $query = new GeoQuery('place_id_123');
+    expect(fn() => $provider->getPlaceCoordinates($query))->toThrow(GeoliteException::class)
+        ->and($provider->getLogs()[0])->toContain('No location found for this place');
+});
+
+it('returns place coordinates when query is successful', function() {
+    $client = mock(HttpClient::class);
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getStatusCode')->andReturn(200);
+    $response->shouldReceive('getBody->getContents')->andReturn(json_encode([
+        'location' => [
+            'latitude' => 1,
+            'longitude' => 2,
+        ],
+    ]));
+    $client->shouldReceive('get')->andReturn($response);
+    $provider = new GoogleProvider($client, ['endpoints' => ['place' => 'http://example.com'], 'apiKey' => 'test']);
+    $query = new GeoQuery('place_id_123');
+
+    $result = $provider->getPlaceCoordinates($query);
+
+    expect($result)->toBeInstanceOf(Coordinates::class)
+        ->and($result->getLatitude())->toBe(1.0)
+        ->and($result->getLongitude())->toBe(2.0);
 });
 
 it('throws exception when geocoder server returns empty response', function($responseData, $exceptionMessage) {
