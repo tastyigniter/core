@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Facades;
 
+use Override;
 use Igniter\Flame\Currency\Contracts\CurrencyInterface;
 use Igniter\Flame\Currency\Contracts\FormatterInterface;
 use Illuminate\Support\Collection;
@@ -33,6 +34,7 @@ class Currency extends Facade
     /**
      * Get the registered name of the component.
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'currency';

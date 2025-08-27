@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Components;
 
+use Override;
 use Igniter\Flame\Pagic\TemplateCode;
 use Igniter\System\Classes\BaseComponent;
 
@@ -21,6 +22,7 @@ class BlankComponent extends BaseComponent
         parent::__construct($page, $properties);
     }
 
+    #[Override]
     public function onRender(): string
     {
         return $this->errorMessage;

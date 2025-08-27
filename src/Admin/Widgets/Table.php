@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\TableDataSource;
 use Igniter\Flame\Exception\SystemException;
@@ -39,6 +40,7 @@ class Table extends BaseWidget
     /**
      * Initialize the widget, called by the constructor and free from its parameters.
      */
+    #[Override]
     public function initialize(): void
     {
         $this->columns = $this->getConfig('columns', []);
@@ -78,6 +80,7 @@ class Table extends BaseWidget
     /**
      * Renders the widget.
      */
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -109,6 +112,7 @@ class Table extends BaseWidget
         );
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addCss('table.css', 'table-css');

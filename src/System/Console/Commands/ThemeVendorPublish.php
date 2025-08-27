@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Console\ConfirmableTrait;
@@ -36,6 +37,7 @@ class ThemeVendorPublish extends VendorPublishCommand
     /**
      * Execute the console command.
      */
+    #[Override]
     public function handle(): void
     {
         $this->comment('Publishing theme assets...');
@@ -49,6 +51,7 @@ class ThemeVendorPublish extends VendorPublishCommand
         $this->info('Publishing complete.');
     }
 
+    #[Override]
     protected function determineWhatShouldBePublished()
     {
         $themeManager = resolve(ThemeManager::class);
@@ -85,6 +88,7 @@ class ThemeVendorPublish extends VendorPublishCommand
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

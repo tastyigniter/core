@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Exception;
 
+use Override;
 use Exception;
 use Igniter\Flame\Flash\FlashBag;
 use Illuminate\Http\Request;
@@ -119,11 +120,13 @@ class FlashException extends Exception implements HttpExceptionInterface
         ];
     }
 
+    #[Override]
     public function getStatusCode(): int
     {
         return $this->code;
     }
 
+    #[Override]
     public function getHeaders(): array
     {
         return [];

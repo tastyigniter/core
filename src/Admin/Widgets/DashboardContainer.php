@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use Override;
 use DateTimeInterface;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Classes\BaseDashboardWidget;
@@ -88,6 +89,7 @@ class DashboardContainer extends BaseWidget
      * Ensure dashboard widgets are registered so they can also be bound to
      * the controller this allows their AJAX features to operate.
      */
+    #[Override]
     public function bindToController(): void
     {
         $this->defineDashboardWidgets();
@@ -97,6 +99,7 @@ class DashboardContainer extends BaseWidget
     /**
      * Renders this widget along with its collection of dashboard widgets.
      */
+    #[Override]
     public function render(): string
     {
         $this->vars['startDate'] = $this->startDate = $this->getStartDate();
@@ -106,6 +109,7 @@ class DashboardContainer extends BaseWidget
         return $this->makePartial('dashboardcontainer/dashboardcontainer');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');

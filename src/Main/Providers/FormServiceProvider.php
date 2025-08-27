@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Providers;
 
+use Override;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\Main\FormWidgets\Components;
 use Igniter\Main\FormWidgets\MediaFinder;
@@ -12,6 +13,7 @@ use Illuminate\Support\ServiceProvider;
 
 class FormServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         resolve(Widgets::class)->registerFormWidgets(function(Widgets $manager) {

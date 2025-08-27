@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support\Facades;
 
+use Override;
 use Closure;
 use Igniter\Flame\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -89,6 +90,7 @@ class File extends IlluminateFacade
      *
      * @see \Igniter\Flame\Filesystem\Filesystem
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return Filesystem::class;

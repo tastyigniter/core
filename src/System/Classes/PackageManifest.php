@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
+use Override;
 use Illuminate\Foundation\PackageManifest as BasePackageManifest;
 
 /**
@@ -56,6 +57,7 @@ class PackageManifest extends BasePackageManifest
             ->value('version');
     }
 
+    #[Override]
     public function build(): void
     {
         $packages = [];

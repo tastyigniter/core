@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
+use Override;
 use Closure;
 use Exception;
 use Igniter\Flame\Database\Concerns\HasAttributes;
@@ -166,6 +167,7 @@ abstract class Model extends EloquentModel
      * Allows painless unit testing.
      * @override
      */
+    #[Override]
     public static function flushEventListeners(): void
     {
         parent::flushEventListeners();
@@ -179,6 +181,7 @@ abstract class Model extends EloquentModel
      *
      * @return \Illuminate\Database\Eloquent\Model|static
      */
+    #[Override]
     public function newFromBuilder($attributes = [], $connection = null)
     {
         $instance = $this->newInstance([], true);
@@ -293,6 +296,7 @@ abstract class Model extends EloquentModel
      *
      * @return Builder
      */
+    #[Override]
     public function newEloquentBuilder($query)
     {
         return new Builder($query);
@@ -302,6 +306,7 @@ abstract class Model extends EloquentModel
      * Get the default foreign key name for the model.
      * @return string
      */
+    #[Override]
     public function getForeignKey()
     {
         return Str::snake(Str::singular(str_replace('_model', '', class_basename($this)))).'_id';
@@ -311,11 +316,13 @@ abstract class Model extends EloquentModel
     // Magic
     //
 
+    #[Override]
     public function __get($key)
     {
         return $this->extendableGet($key);
     }
 
+    #[Override]
     public function __set($key, $value)
     {
         $this->extendableSet($key, $value);
@@ -328,6 +335,7 @@ abstract class Model extends EloquentModel
      *
      * @return mixed
      */
+    #[Override]
     public function __call($method, $parameters)
     {
         if ($this->hasRelation($method)) {
@@ -347,6 +355,7 @@ abstract class Model extends EloquentModel
      * @param string|null $using
      * @return Pivot|\Illuminate\Database\Eloquent\Relations\Pivot
      */
+    #[Override]
     public function newPivot(EloquentModel $parent, array $attributes, $table, $exists, $using = null)
     {
         return $using
@@ -414,6 +423,7 @@ abstract class Model extends EloquentModel
      * @return bool
      * @throws Exception
      */
+    #[Override]
     public function save(?array $options = null)
     {
         return $this->saveInternal(['force' => false] + (array)$options);
@@ -427,6 +437,7 @@ abstract class Model extends EloquentModel
      * @return bool
      * @throws Exception
      */
+    #[Override]
     public function push($options = null)
     {
         $always = Arr::get($options, 'always', false);
@@ -474,6 +485,7 @@ abstract class Model extends EloquentModel
      * Perform the actual delete query on this model instance.
      * @return void
      */
+    #[Override]
     protected function performDeleteOnModel()
     {
         $this->performDeleteOnRelations();

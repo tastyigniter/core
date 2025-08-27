@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Igniter\Flame\Database\Migrations\DatabaseMigrationRepository;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\System\Classes\UpdateManager;
@@ -79,6 +80,7 @@ class IgniterUp extends Command
         }
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Provider;
 
+use Override;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
@@ -16,11 +17,13 @@ class ChainProvider extends AbstractProvider
 {
     public function __construct(protected GeocoderInterface $geocoder, protected array $providers = []) {}
 
+    #[Override]
     public function getName(): string
     {
         return 'Chain';
     }
 
+    #[Override]
     public function geocodeQuery(GeoQueryInterface $query): Collection
     {
         foreach (array_keys($this->providers) as $name) {
@@ -34,6 +37,7 @@ class ChainProvider extends AbstractProvider
         return new Collection;
     }
 
+    #[Override]
     public function reverseQuery(GeoQueryInterface $query): Collection
     {
         foreach (array_keys($this->providers) as $name) {
@@ -47,6 +51,7 @@ class ChainProvider extends AbstractProvider
         return new Collection;
     }
 
+    #[Override]
     public function distance(DistanceInterface $distance): ?Distance
     {
         foreach (array_keys($this->providers) as $name) {
@@ -59,6 +64,7 @@ class ChainProvider extends AbstractProvider
         return null;
     }
 
+    #[Override]
     public function placesAutocomplete(GeoQueryInterface $query): Collection
     {
         foreach (array_keys($this->providers) as $name) {
@@ -71,6 +77,7 @@ class ChainProvider extends AbstractProvider
         return new Collection;
     }
 
+    #[Override]
     public function getPlaceCoordinates(GeoQueryInterface $query): Coordinates
     {
         foreach (array_keys($this->providers) as $name) {
@@ -90,6 +97,7 @@ class ChainProvider extends AbstractProvider
         return $this;
     }
 
+    #[Override]
     public function getLogs(): array
     {
         $logs = [];

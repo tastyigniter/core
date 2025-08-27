@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Model;
 
+use Override;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 
 class Coordinates implements CoordinatesInterface
@@ -23,6 +24,7 @@ class Coordinates implements CoordinatesInterface
     /**
      * Set the latitude.
      */
+    #[Override]
     public function setLatitude(int|float $latitude): self
     {
         $this->latitude = $latitude;
@@ -33,6 +35,7 @@ class Coordinates implements CoordinatesInterface
     /**
      * Set the longitude.
      */
+    #[Override]
     public function setLongitude(int|float $longitude): self
     {
         $this->longitude = $longitude;
@@ -50,6 +53,7 @@ class Coordinates implements CoordinatesInterface
     /**
      * Returns the latitude.
      */
+    #[Override]
     public function getLatitude(): int|float
     {
         return $this->latitude;
@@ -58,11 +62,13 @@ class Coordinates implements CoordinatesInterface
     /**
      * Returns the longitude.
      */
+    #[Override]
     public function getLongitude(): int|float
     {
         return $this->longitude;
     }
 
+    #[Override]
     public function getEllipsoid(): Ellipsoid
     {
         return $this->ellipsoid;
@@ -76,6 +82,7 @@ class Coordinates implements CoordinatesInterface
     /**
      * Returns a boolean determining coordinates equality
      */
+    #[Override]
     public function isEqual(CoordinatesInterface $coordinate): bool
     {
         return bccomp(
@@ -94,6 +101,7 @@ class Coordinates implements CoordinatesInterface
      * Normalizes a latitude to the (-90, 90) range.
      * Latitudes below -90.0 or above 90.0 degrees are capped, not wrapped.
      */
+    #[Override]
     public function normalizeLatitude(int|float $latitude): int|float
     {
         return (float)max(-90, min(90, $latitude));
@@ -103,6 +111,7 @@ class Coordinates implements CoordinatesInterface
      * Normalizes a longitude to the (-180, 180) range.
      * Longitudes below -180.0 or abode 180.0 degrees are wrapped.
      */
+    #[Override]
     public function normalizeLongitude(int|float $longitude): int|float
     {
         if ($longitude % 360 === 180) {
@@ -118,6 +127,7 @@ class Coordinates implements CoordinatesInterface
     /**
      * Returns the coordinates as a tuple
      */
+    #[Override]
     public function toArray(): array
     {
         return [$this->getLatitude(), $this->getLongitude()];

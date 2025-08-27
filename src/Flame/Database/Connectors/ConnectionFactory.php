@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Connectors;
 
+use Override;
 use Closure;
 use Igniter\Flame\Database\Connections\MySqlConnection;
 use Illuminate\Database\Connection;
@@ -24,6 +25,7 @@ class ConnectionFactory extends BaseConnectionFactory
      *
      * @return Closure
      */
+    #[Override]
     protected function createPdoResolverWithHosts(array $config)
     {
         return function() use ($config) {
@@ -55,6 +57,7 @@ class ConnectionFactory extends BaseConnectionFactory
      *
      * @throws InvalidArgumentException
      */
+    #[Override]
     protected function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
     {
         if ($resolver = Connection::getResolver($driver)) {

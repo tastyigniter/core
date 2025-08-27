@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Database\Factories;
 
+use Override;
 use Igniter\Flame\Database\Factories\Factory;
 use Igniter\System\Models\MailLayout;
 
@@ -11,6 +12,7 @@ class MailLayoutFactory extends Factory
 {
     protected $model = MailLayout::class;
 
+    #[Override]
     public function definition(): array
     {
         return [

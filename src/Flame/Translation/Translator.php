@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Translation;
 
+use Override;
 use Illuminate\Support\Str;
 use Illuminate\Translation\Translator as BaseTranslator;
 
@@ -15,6 +16,7 @@ class Translator extends BaseTranslator
         'system::lang.' => 'igniter::system.',
     ];
 
+    #[Override]
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
         if (Str::startsWith($key, 'lang:')) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency;
 
+use Override;
 use Igniter\Flame\Currency\Converters\AbstractConverter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Manager;
@@ -20,6 +21,7 @@ class Converter extends Manager
     /**
      * Get a driver instance.
      */
+    #[Override]
     public function driver(mixed $driver = null): AbstractConverter
     {
         $driver = $driver ?: $this->getDefaultDriver();
@@ -27,6 +29,7 @@ class Converter extends Manager
         return $this->createDriver($driver);
     }
 
+    #[Override]
     public function getDefaultDriver(): string
     {
         return $this->container['config']['igniter-currency.converter'] ?? 'openexchangerates';

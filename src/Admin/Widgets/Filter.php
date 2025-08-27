@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\FilterScope;
 use Igniter\Flame\Exception\SystemException;
@@ -48,6 +49,7 @@ class Filter extends BaseWidget
     /** List of CSS classes to apply to the filter container element */
     public array $cssClasses = [];
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
@@ -55,6 +57,7 @@ class Filter extends BaseWidget
         $this->addCss('formwidgets/datepicker.css', 'datepicker-css');
     }
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -73,6 +76,7 @@ class Filter extends BaseWidget
         }
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();

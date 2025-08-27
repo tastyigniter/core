@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support\Facades;
 
+use Override;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Facade;
 
@@ -49,6 +50,7 @@ class Igniter extends Facade
      *
      * @see \Igniter\Flame\Filesystem\Filesystem
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return \Igniter\Flame\Support\Igniter::class;

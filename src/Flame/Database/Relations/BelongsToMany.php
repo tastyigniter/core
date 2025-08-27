@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
+use Override;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as CollectionBase;
 use Illuminate\Database\Eloquent\Model;
@@ -65,6 +66,7 @@ class BelongsToMany extends BelongsToManyBase
      * Override attach() method of BelongsToMany relation.
      * This is necessary in order to fire 'model.relation.beforeAttach', 'model.relation.afterAttach' events
      */
+    #[Override]
     public function attach($id, array $attributes = [], $touch = true): void
     {
         // Normalize identifiers for events, this occurs internally in the parent logic
@@ -85,6 +87,7 @@ class BelongsToMany extends BelongsToManyBase
      * This is necessary in order to fire 'model.relation.beforeDetach', 'model.relation.afterDetach' events
      * @param bool $touch
      */
+    #[Override]
     public function detach($ids = null, $touch = true): int
     {
         // Normalize identifiers for events, this occurs internally in the parent logic
@@ -133,6 +136,7 @@ class BelongsToMany extends BelongsToManyBase
      * @param bool $exists
      * @return Pivot
      */
+    #[Override]
     public function newPivot(array $attributes = [], $exists = false)
     {
         $attributes = array_merge(array_column($this->pivotValues, 'value', 'column'), $attributes);
@@ -230,6 +234,7 @@ class BelongsToMany extends BelongsToManyBase
     /**
      * Get the select columns for the relation query.
      */
+    #[Override]
     protected function shouldSelect(array $columns = ['*']): array
     {
         if ($this->countMode) {

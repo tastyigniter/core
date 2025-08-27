@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Facades\Template;
@@ -30,6 +31,7 @@ class Toolbar extends BaseWidget
 
     protected bool $buttonsDefined = false;
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -46,6 +48,7 @@ class Toolbar extends BaseWidget
         $this->initialize();
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\Theme;
@@ -27,6 +28,7 @@ class ThemePublish extends VendorPublishCommand
     /**
      * Execute the console command.
      */
+    #[Override]
     public function handle(): void
     {
         $this->comment('Publishing theme assets...');
@@ -48,6 +50,7 @@ class ThemePublish extends VendorPublishCommand
         }
     }
 
+    #[Override]
     protected function determineWhatShouldBePublished()
     {
         throw_unless(
@@ -66,6 +69,7 @@ class ThemePublish extends VendorPublishCommand
         );
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [

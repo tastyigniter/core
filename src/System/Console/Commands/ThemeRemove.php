@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Closure;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Console\Command;
@@ -64,6 +65,7 @@ class ThemeRemove extends Command
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -74,6 +76,7 @@ class ThemeRemove extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

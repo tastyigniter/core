@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency;
 
+use Override;
 use Igniter\Flame\Currency\Console\Cleanup;
 use Igniter\Flame\Currency\Console\Update;
 use Igniter\Flame\Currency\Middleware\CurrencyMiddleware;
@@ -16,6 +17,7 @@ class CurrencyServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->registerMiddlewareAlias();

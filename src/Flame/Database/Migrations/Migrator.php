@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Migrations;
 
+use Override;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 use Illuminate\Support\Str;
@@ -70,6 +71,7 @@ class Migrator extends BaseMigrator
      * @param string $path
      * @return string
      */
+    #[Override]
     public function getMigrationName($path)
     {
         if (is_null($this->getRepository()->getGroup())) {
@@ -84,6 +86,7 @@ class Migrator extends BaseMigrator
      *
      * @param string $migrationName
      */
+    #[Override]
     protected function getMigrationClass($migrationName): string
     {
         $group = $this->getRepository()->getGroup();

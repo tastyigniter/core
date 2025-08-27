@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset;
 
+use Override;
 use Igniter\Flame\Assetic\Asset\Iterator\AssetCollectionFilterIterator;
 use Igniter\Flame\Assetic\Asset\Iterator\AssetCollectionIterator;
 use Igniter\Flame\Assetic\Filter\FilterCollection;
@@ -47,16 +48,19 @@ class AssetCollection implements AssetCollectionInterface, IteratorAggregate
         $this->clones = new SplObjectStorage;
     }
 
+    #[Override]
     public function all(): array
     {
         return $this->assets;
     }
 
+    #[Override]
     public function add(AssetInterface $asset): void
     {
         $this->assets[] = $asset;
     }
 
+    #[Override]
     public function removeLeaf(AssetInterface $leaf, bool $graceful = false): bool
     {
         foreach ($this->assets as $i => $asset) {
@@ -79,6 +83,7 @@ class AssetCollection implements AssetCollectionInterface, IteratorAggregate
         throw new InvalidArgumentException('Leaf not found.');
     }
 
+    #[Override]
     public function replaceLeaf(AssetInterface $needle, AssetInterface $replacement, bool $graceful = false): bool
     {
         foreach ($this->assets as $i => $asset) {
@@ -102,22 +107,26 @@ class AssetCollection implements AssetCollectionInterface, IteratorAggregate
         throw new InvalidArgumentException('Leaf not found.');
     }
 
+    #[Override]
     public function ensureFilter(FilterInterface $filter): void
     {
         $this->filters->ensure($filter);
     }
 
+    #[Override]
     public function getFilters(): array
     {
         return $this->filters->all();
     }
 
+    #[Override]
     public function clearFilters(): void
     {
         $this->filters->clear();
         $this->clones = new SplObjectStorage;
     }
 
+    #[Override]
     public function load(?FilterInterface $additionalFilter = null): void
     {
         // loop through leaves and load each asset
@@ -130,6 +139,7 @@ class AssetCollection implements AssetCollectionInterface, IteratorAggregate
         $this->content = implode("\n", $parts);
     }
 
+    #[Override]
     public function dump(?FilterInterface $additionalFilter = null): string
     {
         // loop through leaves and dump each asset
@@ -141,36 +151,43 @@ class AssetCollection implements AssetCollectionInterface, IteratorAggregate
         return implode("\n", $parts);
     }
 
+    #[Override]
     public function getContent(): string
     {
         return $this->content;
     }
 
+    #[Override]
     public function setContent(string $content): void
     {
         $this->content = $content;
     }
 
+    #[Override]
     public function getSourceRoot(): ?string
     {
         return $this->sourceRoot;
     }
 
+    #[Override]
     public function getSourcePath(): ?string
     {
         return null;
     }
 
+    #[Override]
     public function getSourceDirectory(): ?string
     {
         return null;
     }
 
+    #[Override]
     public function getTargetPath(): ?string
     {
         return $this->targetPath;
     }
 
+    #[Override]
     public function setTargetPath(string $targetPath): void
     {
         $this->targetPath = $targetPath;
@@ -181,6 +198,7 @@ class AssetCollection implements AssetCollectionInterface, IteratorAggregate
      *
      * @return int|null A UNIX timestamp
      */
+    #[Override]
     public function getLastModified(): ?int
     {
         if ($this->assets === []) {
@@ -201,16 +219,19 @@ class AssetCollection implements AssetCollectionInterface, IteratorAggregate
     /**
      * Returns an iterator for looping recursively over unique leaves.
      */
+    #[Override]
     public function getIterator(): Traversable
     {
         return new RecursiveIteratorIterator(new AssetCollectionFilterIterator(new AssetCollectionIterator($this, $this->clones)));
     }
 
+    #[Override]
     public function getVars(): array
     {
         return $this->vars;
     }
 
+    #[Override]
     public function setValues(array $values): void
     {
         $this->values = $values;
@@ -220,6 +241,7 @@ class AssetCollection implements AssetCollectionInterface, IteratorAggregate
         }
     }
 
+    #[Override]
     public function getValues(): array
     {
         return $this->values;

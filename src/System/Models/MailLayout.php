@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Override;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
@@ -85,6 +86,7 @@ class MailLayout extends Model
         return self::dropdown('name');
     }
 
+    #[Override]
     protected function afterFetch()
     {
         if (!$this->is_locked) {

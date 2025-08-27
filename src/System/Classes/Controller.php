@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
+use Override;
 use Closure;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Flame\Support\Facades\Igniter;
@@ -63,6 +64,7 @@ class Controller extends IlluminateController
      *
      * @return array
      */
+    #[Override]
     public function getMiddleware()
     {
         $this->pushRequestedControllerMiddleware();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Facades;
 
+use Override;
 use Igniter\Admin\Classes\Navigation;
 use Illuminate\Support\Facades\Facade;
 
@@ -50,6 +51,7 @@ class AdminMenu extends Facade
      *
      * @see \Igniter\User\Auth\UserGuard
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'admin.menu';

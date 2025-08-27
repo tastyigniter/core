@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Template;
 
+use Override;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Support\Facades\File;
@@ -32,11 +33,13 @@ class ComponentPartial extends Extendable implements TemplateInterface
         $this->extendableConstruct();
     }
 
+    #[Override]
     public static function load(string $source, string $fileName): ?self
     {
         return (new static($source))->find($fileName);
     }
 
+    #[Override]
     public static function loadCached(string $source, string $fileName): ?self
     {
         return static::load($source, $fileName);
@@ -78,6 +81,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
     /**
      * Returns the key used by the Template cache.
      */
+    #[Override]
     public function getTemplateCacheKey(): string
     {
         return $this->getFilePath();
@@ -94,6 +98,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
     /**
      * Returns the absolute file path.
      */
+    #[Override]
     public function getFilePath(?string $fileName = null): string
     {
         if ($fileName === null) {
@@ -122,6 +127,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
     /**
      * Returns the file name.
      */
+    #[Override]
     public function getFileName(): string
     {
         return $this->fileName;
@@ -130,6 +136,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
     /**
      * Returns the file name without the extension.
      */
+    #[Override]
     public function getBaseFileName(): string
     {
         $pos = strrpos((string)$this->fileName, '.');
@@ -143,6 +150,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
     /**
      * Returns the file content.
      */
+    #[Override]
     public function getContent(): string
     {
         return $this->content;
@@ -152,6 +160,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
      * Gets the markup section of a template
      * @return string The template source code
      */
+    #[Override]
     public function getMarkup(): string
     {
         return $this->content.PHP_EOL;
@@ -160,6 +169,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
     /**
      * Gets the code section of a template
      */
+    #[Override]
     public function getCode(): string
     {
         return 'missing-code';

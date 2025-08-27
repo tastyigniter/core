@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Database\Factories;
 
+use Override;
 use Igniter\Flame\Database\Factories\Factory;
 use Igniter\System\Models\Currency;
 
@@ -11,6 +12,7 @@ class CurrencyFactory extends Factory
 {
     protected $model = Currency::class;
 
+    #[Override]
     public function definition(): array
     {
         return [

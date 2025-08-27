@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
+use Override;
 use Igniter\Flame\Geolite\Contracts\PlaceInterface;
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -19,6 +20,7 @@ class Place implements Arrayable, PlaceInterface
 
     protected array $data = [];
 
+    #[Override]
     public function placeId(string $placeId): PlaceInterface
     {
         $this->placeId = $placeId;
@@ -26,6 +28,7 @@ class Place implements Arrayable, PlaceInterface
         return $this;
     }
 
+    #[Override]
     public function title(string $title): PlaceInterface
     {
         $this->title = $title;
@@ -33,6 +36,7 @@ class Place implements Arrayable, PlaceInterface
         return $this;
     }
 
+    #[Override]
     public function description(string $description): PlaceInterface
     {
         $this->description = $description;
@@ -40,6 +44,7 @@ class Place implements Arrayable, PlaceInterface
         return $this;
     }
 
+    #[Override]
     public function provider(string $provider): PlaceInterface
     {
         $this->provider = $provider;
@@ -47,6 +52,7 @@ class Place implements Arrayable, PlaceInterface
         return $this;
     }
 
+    #[Override]
     public function withData(string $name, mixed $value): self
     {
         $this->data[$name] = $value;
@@ -54,26 +60,31 @@ class Place implements Arrayable, PlaceInterface
         return $this;
     }
 
+    #[Override]
     public function getPlaceId(): string
     {
         return $this->placeId;
     }
 
+    #[Override]
     public function getTitle(): string
     {
         return $this->title;
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    #[Override]
     public function getProvider(): string
     {
         return $this->provider;
     }
 
+    #[Override]
     public function getData(string $name, mixed $default = null): mixed
     {
         if (!array_key_exists($name, $this->data)) {
@@ -83,6 +94,7 @@ class Place implements Arrayable, PlaceInterface
         return $this->data[$name];
     }
 
+    #[Override]
     public function toArray(): array
     {
         return [

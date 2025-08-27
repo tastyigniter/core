@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
+use Override;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
@@ -81,6 +82,7 @@ class MorphToMany extends BelongsToMany
      *
      * @return $this
      */
+    #[Override]
     protected function addWhereConstraints(): static
     {
         parent::addWhereConstraints();
@@ -93,6 +95,7 @@ class MorphToMany extends BelongsToMany
     /**
      * Set the constraints for an eager load of the relation.
      */
+    #[Override]
     public function addEagerConstraints(array $models): void
     {
         parent::addEagerConstraints($models);
@@ -107,6 +110,7 @@ class MorphToMany extends BelongsToMany
      * @param bool $timed
      * @return array
      */
+    #[Override]
     protected function baseAttachRecord($id, $timed)
     {
         return Arr::add(
@@ -122,6 +126,7 @@ class MorphToMany extends BelongsToMany
      * @param array|mixed $columns
      * @return Builder
      */
+    #[Override]
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
         return parent::getRelationExistenceQuery($query, $parentQuery, $columns)->where(
@@ -135,6 +140,7 @@ class MorphToMany extends BelongsToMany
      *
      * @return \Illuminate\Database\Query\Builder
      */
+    #[Override]
     public function newPivotQuery()
     {
         return parent::newPivotQuery()->where($this->getMorphType(), $this->getMorphClass());
@@ -146,6 +152,7 @@ class MorphToMany extends BelongsToMany
      * @param bool $exists
      * @return Pivot
      */
+    #[Override]
     public function newPivot(array $attributes = [], $exists = false)
     {
         // October looks to the relationship parent

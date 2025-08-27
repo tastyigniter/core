@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main;
 
+use Override;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\MediaLibrary;
@@ -44,6 +45,7 @@ class ServiceProvider extends AppServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->registerSingletons();

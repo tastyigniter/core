@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\System\Http\Requests;
 
+use Override;
 use Igniter\System\Classes\FormRequest;
 
 class GeneralSettingsRequest extends FormRequest
 {
+    #[Override]
     public function attributes(): array
     {
         return [

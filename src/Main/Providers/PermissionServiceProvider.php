@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Providers;
 
+use Override;
 use Igniter\User\Classes\PermissionManager;
 use Illuminate\Support\ServiceProvider;
 
 class PermissionServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->callAfterResolving(PermissionManager::class, function($manager) {

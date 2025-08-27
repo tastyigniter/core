@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
+use Override;
 use Igniter\Flame\Traits\EventEmitter;
 use Igniter\System\Helpers\ValidationHelper;
 use Illuminate\Contracts\Validation\Factory;
@@ -20,6 +21,7 @@ class FormRequest extends BaseFormRequest
     /**
      * Create the default validator instance.
      */
+    #[Override]
     protected function createDefaultValidator(Factory $factory): Validator
     {
         $registeredRules = $this->container->call([$this, 'rules']);
@@ -44,6 +46,7 @@ class FormRequest extends BaseFormRequest
     /**
      * Handle a failed validation attempt.
      */
+    #[Override]
     protected function failedValidation(Validator $validator): never
     {
         throw new ValidationException($validator);

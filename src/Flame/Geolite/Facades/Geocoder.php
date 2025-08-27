@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Facades;
 
+use Override;
 use Closure;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
@@ -36,6 +37,7 @@ class Geocoder extends Facade
     /**
      * Get the registered name of the component.
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'geocoder';

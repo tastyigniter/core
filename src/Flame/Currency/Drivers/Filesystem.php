@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Drivers;
 
+use Override;
 use DateTime;
 use Illuminate\Support\Arr;
 
@@ -26,6 +27,7 @@ class Filesystem extends AbstractDriver
         $this->filesystem = app('filesystem')->disk($this->config('disk'));
     }
 
+    #[Override]
     public function create(array $params): bool
     {
         // Get blacklist path
@@ -56,6 +58,7 @@ class Filesystem extends AbstractDriver
         return $this->filesystem->put($path, json_encode($currencies, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
+    #[Override]
     public function all(): array
     {
         // Get blacklist path
@@ -69,6 +72,7 @@ class Filesystem extends AbstractDriver
         return json_decode((string) $contents, true);
     }
 
+    #[Override]
     public function find(string $code, ?int $active = 1): mixed
     {
         $currency = Arr::get($this->all(), $code);
@@ -81,6 +85,7 @@ class Filesystem extends AbstractDriver
         return Arr::get($currency, 'currency_status', 1) ? $currency : null;
     }
 
+    #[Override]
     public function update(string $code, array $attributes, ?DateTime $timestamp = null): int
     {
         // Get blacklist path
@@ -105,6 +110,7 @@ class Filesystem extends AbstractDriver
         return (int)$this->filesystem->put($path, json_encode($currencies, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
+    #[Override]
     public function delete(string $code): int
     {
         // Get blacklist path

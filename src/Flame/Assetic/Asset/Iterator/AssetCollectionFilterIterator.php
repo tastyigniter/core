@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset\Iterator;
 
+use Override;
 use RecursiveFilterIterator;
 
 /**
@@ -37,6 +38,7 @@ class AssetCollectionFilterIterator extends RecursiveFilterIterator
      *
      * @return bool Returns true if we have not seen this asset yet
      */
+    #[Override]
     public function accept(): bool
     {
         $asset = $this->getInnerIterator()->current(true);
@@ -67,6 +69,7 @@ class AssetCollectionFilterIterator extends RecursiveFilterIterator
     /**
      * Passes visited objects and source URLs to the child iterator.
      */
+    #[Override]
     public function getChildren(): ?RecursiveFilterIterator
     {
         return new self($this->getInnerIterator()->getChildren(), $this->visited, $this->sources);

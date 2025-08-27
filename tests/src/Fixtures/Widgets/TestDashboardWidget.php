@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Fixtures\Widgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 
 class TestDashboardWidget extends BaseDashboardWidget
 {
     protected string $defaultAlias = 'test-dashboard-widget';
 
+    #[Override]
     public function defineProperties(): array
     {
         return [

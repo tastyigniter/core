@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset\Iterator;
 
+use Override;
 use Igniter\Flame\Assetic\Asset\AssetCollection;
 use Igniter\Flame\Assetic\Asset\AssetCollectionInterface;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
@@ -49,6 +50,7 @@ class AssetCollectionIterator implements RecursiveIterator
      *
      * @return AssetInterface
      */
+    #[Override]
     public function current($raw = false): mixed
     {
         $asset = current($this->assets);
@@ -79,26 +81,31 @@ class AssetCollectionIterator implements RecursiveIterator
         return $clone;
     }
 
+    #[Override]
     public function key(): mixed
     {
         return key($this->assets);
     }
 
+    #[Override]
     public function next(): void
     {
         next($this->assets);
     }
 
+    #[Override]
     public function rewind(): void
     {
         reset($this->assets);
     }
 
+    #[Override]
     public function valid(): bool
     {
         return current($this->assets) !== false;
     }
 
+    #[Override]
     public function hasChildren(): bool
     {
         return current($this->assets) instanceof AssetCollectionInterface;
@@ -107,6 +114,7 @@ class AssetCollectionIterator implements RecursiveIterator
     /**
      * @uses current()
      */
+    #[Override]
     public function getChildren(): ?AssetCollectionIterator
     {
         return new self(new AssetCollection([$this->current()]), $this->clones);

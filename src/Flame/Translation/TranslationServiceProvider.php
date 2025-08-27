@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Translation;
 
+use Override;
 use Igniter\Flame\Translation\Drivers\Database;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Translation\TranslationServiceProvider as BaseServiceProvider;
@@ -11,6 +12,7 @@ use ReflectionClass;
 
 class TranslationServiceProvider extends BaseServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->app->register(BaseServiceProvider::class);
@@ -40,6 +42,7 @@ class TranslationServiceProvider extends BaseServiceProvider
         $this->app->alias('translator.localization', Localization::class);
     }
 
+    #[Override]
     protected function registerLoader(): void
     {
         $this->app->singleton('translation.loader', function(Application $app): FileLoader {

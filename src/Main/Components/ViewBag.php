@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Components;
 
+use Override;
 use Igniter\System\Classes\BaseComponent;
 
 /**
@@ -15,6 +16,7 @@ class ViewBag extends BaseComponent
     /** This component is hidden from the admin UI. */
     public bool $isHidden = true;
 
+    #[Override]
     public function validateProperties(array $properties): array
     {
         return $properties;
@@ -23,6 +25,7 @@ class ViewBag extends BaseComponent
     /**
      * Implements the getter functionality.
      */
+    #[Override]
     public function __get(string $name): mixed
     {
         return $this->properties[$name] ?? null;
@@ -36,6 +39,7 @@ class ViewBag extends BaseComponent
         return array_key_exists($key, $this->properties);
     }
 
+    #[Override]
     public function defineProperties(): array
     {
         $result = [];

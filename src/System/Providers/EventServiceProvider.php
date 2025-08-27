@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
+use Override;
 use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Flame\Providers\EventServiceProvider as FlameEventServiceProvider;
 use Igniter\System\Models\Language;
@@ -16,6 +17,7 @@ class EventServiceProvider extends FlameEventServiceProvider
         Language::class => LanguageObserver::class,
     ];
 
+    #[Override]
     public function boot(): void
     {
         // Allow system based cache clearing

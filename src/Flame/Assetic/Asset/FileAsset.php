@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset;
 
+use Override;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Flame\Assetic\Util\VarUtils;
 use Igniter\Flame\Support\Facades\File;
@@ -47,6 +48,7 @@ class FileAsset extends BaseAsset
         parent::__construct($filters, $sourceRoot, $sourcePath, $vars);
     }
 
+    #[Override]
     public function load(?FilterInterface $additionalFilter = null): void
     {
         $source = VarUtils::resolve($this->source, $this->getVars(), $this->getValues());
@@ -58,6 +60,7 @@ class FileAsset extends BaseAsset
         $this->doLoad(File::get($source), $additionalFilter);
     }
 
+    #[Override]
     public function getLastModified(): ?int
     {
         $source = VarUtils::resolve($this->source, $this->getVars(), $this->getValues());

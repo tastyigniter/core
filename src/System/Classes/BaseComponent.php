@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
+use Override;
 use BadMethodCallException;
 use Igniter\Flame\Pagic\TemplateCode;
 use Igniter\Flame\Support\Extendable;
@@ -176,6 +177,7 @@ abstract class BaseComponent extends Extendable implements Stringable
     /**
      * Dynamically handle calls into the controller instance.
      */
+    #[Override]
     public function __call(string $name, ?array $params): mixed
     {
         try {
@@ -193,6 +195,7 @@ abstract class BaseComponent extends Extendable implements Stringable
         ]));
     }
 
+    #[Override]
     public function __toString(): string
     {
         return (string) $this->alias;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Override;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\MailParser;
@@ -73,6 +74,7 @@ class MailTemplate extends Model
         return resolve(MailManager::class)->listRegisteredVariables();
     }
 
+    #[Override]
     protected function afterFetch()
     {
         if (!$this->is_custom) {

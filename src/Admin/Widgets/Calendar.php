@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use Override;
 use Carbon\Carbon;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Flame\Exception\SystemException;
@@ -25,6 +26,7 @@ class Calendar extends BaseWidget
     /** Defines the event popover partial. */
     public ?string $popoverPartial = null;
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -36,6 +38,7 @@ class Calendar extends BaseWidget
         ]);
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
@@ -47,6 +50,7 @@ class Calendar extends BaseWidget
         $this->addCss('calendar.css', 'calendar-css');
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();

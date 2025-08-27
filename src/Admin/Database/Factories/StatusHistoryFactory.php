@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Database\Factories;
 
+use Override;
 use Igniter\Admin\Models\StatusHistory;
 use Igniter\Flame\Database\Factories\Factory;
 
@@ -11,6 +12,7 @@ class StatusHistoryFactory extends Factory
 {
     protected $model = StatusHistory::class;
 
+    #[Override]
     public function definition(): array
     {
         return [

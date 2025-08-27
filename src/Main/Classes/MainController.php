@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Classes;
 
+use Override;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Admin\Traits\ControllerUtils;
 use Igniter\Flame\Exception\AjaxException;
@@ -257,6 +258,7 @@ class MainController extends Controller
         return $response;
     }
 
+    #[Override]
     public function callAction($method, $parameters): mixed
     {
         return $this->remap($method, $parameters);

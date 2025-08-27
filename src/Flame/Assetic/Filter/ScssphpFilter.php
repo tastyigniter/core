@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Filter;
 
+use Override;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
 use Igniter\Flame\Assetic\Factory\AssetFactory;
 use Igniter\Flame\Assetic\Util\CssUtils;
@@ -75,6 +76,7 @@ class ScssphpFilter implements DependencyExtractorInterface
         $this->customFunctions[$name] = $callable;
     }
 
+    #[Override]
     public function filterLoad(AssetInterface $asset): void
     {
         $sc = new Compiler;
@@ -102,8 +104,10 @@ class ScssphpFilter implements DependencyExtractorInterface
         $asset->setContent($sc->compileString($asset->getContent())->getCss());
     }
 
+    #[Override]
     public function filterDump(AssetInterface $asset) {}
 
+    #[Override]
     public function getChildren(AssetFactory $factory, $content, $loadPath = null): array
     {
         $sc = new Compiler;

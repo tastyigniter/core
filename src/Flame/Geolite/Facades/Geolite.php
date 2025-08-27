@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Facades;
 
+use Override;
 use Igniter\Flame\Geolite\AddressMatch;
 use Igniter\Flame\Geolite\Contracts\CircleInterface;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
@@ -27,6 +28,7 @@ class Geolite extends Facade
     /**
      * Get the registered name of the component.
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'geolite';

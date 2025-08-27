@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\FormWidgets;
 
+use Override;
 use Carbon\Carbon;
 use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
@@ -51,6 +52,7 @@ class Components extends BaseFormWidget
 
     protected array $components = [];
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -62,6 +64,7 @@ class Components extends BaseFormWidget
         $this->manager = resolve(ComponentManager::class);
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -69,6 +72,7 @@ class Components extends BaseFormWidget
         return $this->makePartial('components/components');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
@@ -84,6 +88,7 @@ class Components extends BaseFormWidget
         $this->vars['templateComponents'] = $this->loadTemplateComponents();
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): int
     {
         if (is_array($value)) {

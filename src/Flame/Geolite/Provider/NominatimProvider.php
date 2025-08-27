@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Provider;
 
+use Override;
 use GuzzleHttp\Client as HttpClient;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
@@ -29,6 +30,7 @@ class NominatimProvider extends AbstractProvider
     /**
      * Returns the provider name.
      */
+    #[Override]
     public function getName(): string
     {
         return 'Open street maps';
@@ -37,6 +39,7 @@ class NominatimProvider extends AbstractProvider
     /**
      * Handle the geocoder request.
      */
+    #[Override]
     public function geocodeQuery(GeoQueryInterface $query): Collection
     {
         $url = sprintf(
@@ -64,6 +67,7 @@ class NominatimProvider extends AbstractProvider
     /**
      * Handle the reverse geocoding request.
      */
+    #[Override]
     public function reverseQuery(GeoQueryInterface $query): Collection
     {
         $coordinates = $query->getCoordinates();
@@ -91,6 +95,7 @@ class NominatimProvider extends AbstractProvider
         return collect($result);
     }
 
+    #[Override]
     public function distance(DistanceInterface $distance): ?Distance
     {
         $endpoint = array_get($this->config, 'endpoints.distance');
@@ -120,6 +125,7 @@ class NominatimProvider extends AbstractProvider
         }
     }
 
+    #[Override]
     public function placesAutocomplete(GeoQueryInterface $query): Collection
     {
         $endpoint = array_get($this->config, 'endpoints.places');
@@ -151,6 +157,7 @@ class NominatimProvider extends AbstractProvider
         }
     }
 
+    #[Override]
     public function getPlaceCoordinates(GeoQueryInterface $query): Coordinates
     {
         $endpoint = array_get($this->config, 'endpoints.places');

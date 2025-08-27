@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Drivers;
 
+use Override;
 use DateTime;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Collection;
@@ -22,6 +23,7 @@ class Database extends AbstractDriver
         $this->database = app('db')->connection($this->config('connection'));
     }
 
+    #[Override]
     public function create(array $params): bool
     {
         // Ensure the currency doesn't already exist
@@ -41,6 +43,7 @@ class Database extends AbstractDriver
         return $this->database->table($this->config('table'))->insert($params);
     }
 
+    #[Override]
     public function all(): array
     {
         $collection = new Collection($this->database->table($this->config('table'))->get());
@@ -65,6 +68,7 @@ class Database extends AbstractDriver
             ->all();
     }
 
+    #[Override]
     public function find(string $code, ?int $active = 1): mixed
     {
         $query = $this->database->table($this->config('table'))
@@ -78,6 +82,7 @@ class Database extends AbstractDriver
         return $query->first();
     }
 
+    #[Override]
     public function update(string $code, array $attributes, ?DateTime $timestamp = null): int
     {
         $table = $this->config('table');
@@ -92,6 +97,7 @@ class Database extends AbstractDriver
             ->update($attributes);
     }
 
+    #[Override]
     public function delete(string $code): int
     {
         $table = $this->config('table');

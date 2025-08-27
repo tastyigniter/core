@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\ConfigRewrite;
@@ -105,6 +106,7 @@ class IgniterInstall extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

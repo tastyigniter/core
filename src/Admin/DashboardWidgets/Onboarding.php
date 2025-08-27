@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\DashboardWidgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Admin\Classes\OnboardingSteps;
 
@@ -17,6 +18,7 @@ class Onboarding extends BaseDashboardWidget
      */
     protected string $defaultAlias = 'onboarding';
 
+    #[Override]
     public function initialize(): void
     {
         $this->setProperty('cssClass', 'widget-item-onboarding');
@@ -25,6 +27,7 @@ class Onboarding extends BaseDashboardWidget
     /**
      * Renders the widget.
      */
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -32,6 +35,7 @@ class Onboarding extends BaseDashboardWidget
         return $this->makePartial('onboarding/onboarding');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addCss('onboarding.css', 'onboarding-css');

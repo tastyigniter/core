@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Models;
 
+use Override;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
@@ -165,6 +166,7 @@ class Theme extends Model
         return $this->getTheme()?->getScreenshotData();
     }
 
+    #[Override]
     public function setAttribute($key, mixed $value)
     {
         if (!$this->isFillable($key)) {
@@ -180,6 +182,7 @@ class Theme extends Model
     // Events
     //
 
+    #[Override]
     protected function beforeSave()
     {
         if ($this->fieldValues) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Formatters;
 
+use Override;
 use Igniter\Flame\Currency\Contracts\FormatterInterface;
 use NumberFormatter;
 
@@ -22,6 +23,7 @@ class PHPIntl implements FormatterInterface
         $this->formatter = new NumberFormatter(config('app.locale'), NumberFormatter::CURRENCY);
     }
 
+    #[Override]
     public function format(float $value, ?string $code = null): string
     {
         return $this->formatter->formatCurrency($value, $code);

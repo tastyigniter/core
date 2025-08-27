@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
+use Override;
 use Igniter\Flame\Database\Attach\Manipulator;
 use Igniter\Flame\Database\Attach\Media;
 use Igniter\Flame\Database\Attach\MediaAdder;
@@ -21,6 +22,7 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         Model::clearExtendedClasses();
@@ -43,6 +45,7 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         });
     }
 
+    #[Override]
     public function boot(): void
     {
         parent::boot();
@@ -59,6 +62,7 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
      *
      * @return void
      */
+    #[Override]
     protected function registerConnectionServices()
     {
         // The connection factory is used to create the actual connection instances on

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
+use Override;
 use Igniter\Flame\Database\Migrations\DatabaseMigrationRepository;
 use Igniter\Flame\Database\Migrations\Migrator;
 use Illuminate\Contracts\Foundation\Application;
@@ -11,6 +12,7 @@ use Illuminate\Database\MigrationServiceProvider as BaseServiceProvider;
 
 class MigrationServiceProvider extends BaseServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->app->register(BaseServiceProvider::class);
@@ -23,6 +25,7 @@ class MigrationServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
+    #[Override]
     protected function registerRepository()
     {
         $this->app->singleton('migration.repository', function(Application $app): DatabaseMigrationRepository {
@@ -40,6 +43,7 @@ class MigrationServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
+    #[Override]
     protected function registerMigrator()
     {
         $this->app->singleton('migrator', function(Application $app): Migrator {

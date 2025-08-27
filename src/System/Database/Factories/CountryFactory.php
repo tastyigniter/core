@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Database\Factories;
 
+use Override;
 use Igniter\Flame\Database\Factories\Factory;
 use Igniter\System\Models\Country;
 
@@ -11,6 +12,7 @@ class CountryFactory extends Factory
 {
     protected $model = Country::class;
 
+    #[Override]
     public function definition(): array
     {
         return [

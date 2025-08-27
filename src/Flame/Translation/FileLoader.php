@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Translation;
 
+use Override;
 use Igniter\Flame\Translation\Contracts\Driver;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Translation\FileLoader as FileLoaderBase;
@@ -17,6 +18,7 @@ class FileLoader extends FileLoaderBase
      */
     protected $drivers = [];
 
+    #[Override]
     public function load($locale, $group, $namespace = null)
     {
         $lines = parent::load($locale, $group, $namespace);
@@ -56,6 +58,7 @@ class FileLoader extends FileLoaderBase
      * @return array
      * @throws FileNotFoundException
      */
+    #[Override]
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
     {
         return collect($this->paths)

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Providers;
 
+use Override;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as IlluminateEventServiceProvider;
@@ -18,6 +19,7 @@ abstract class EventServiceProvider extends IlluminateEventServiceProvider
 
     protected array $morphMap = [];
 
+    #[Override]
     public function register()
     {
         parent::register();

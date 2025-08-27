@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Classes;
 
+use Override;
+
 class BaseMainMenuWidget extends BaseWidget
 {
     /**
@@ -23,6 +25,7 @@ class BaseMainMenuWidget extends BaseWidget
     /**
      * Returns a unique ID for this widget. Useful in creating HTML markup.
      */
+    #[Override]
     public function getId(?string $suffix = null): string
     {
         $id = parent::getId($suffix);

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Providers;
 
+use Override;
 use Igniter\Main\Template\Page;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class MenuItemServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register() {}
 
     public function boot(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Notifications\SystemUpdateNotification;
@@ -87,6 +88,7 @@ class IgniterUpdate extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

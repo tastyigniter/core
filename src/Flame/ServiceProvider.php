@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame;
 
+use Override;
 use Igniter\Flame\Assetic\AsseticServiceProvider;
 use Igniter\Flame\Composer\Manager as ComposerManaer;
 use Igniter\Flame\Currency\CurrencyServiceProvider;
@@ -66,6 +67,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         'currency', 'geocoder', 'routes', 'system',
     ];
 
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(Igniter::class);

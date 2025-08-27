@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Provider;
 
+use Override;
 use GuzzleHttp\Client as HttpClient;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
@@ -26,11 +27,13 @@ class GoogleProvider extends AbstractProvider
         $this->httpClient = $client;
     }
 
+    #[Override]
     public function getName(): string
     {
         return 'Google Maps';
     }
 
+    #[Override]
     public function geocodeQuery(GeoQueryInterface $query): Collection
     {
         $endpoint = array_get($this->config, 'endpoints.geocode');
@@ -52,6 +55,7 @@ class GoogleProvider extends AbstractProvider
         return collect($result);
     }
 
+    #[Override]
     public function reverseQuery(GeoQueryInterface $query): Collection
     {
         $coordinates = $query->getCoordinates();
@@ -76,6 +80,7 @@ class GoogleProvider extends AbstractProvider
         return collect($result);
     }
 
+    #[Override]
     public function distance(DistanceInterface $distance): ?Distance
     {
         $endpoint = array_get($this->config, 'endpoints.distance');
@@ -104,6 +109,7 @@ class GoogleProvider extends AbstractProvider
         }
     }
 
+    #[Override]
     public function placesAutocomplete(GeoQueryInterface $query): Collection
     {
         $endpoint = array_get($this->config, 'endpoints.places');
@@ -127,6 +133,7 @@ class GoogleProvider extends AbstractProvider
         }
     }
 
+    #[Override]
     public function getPlaceCoordinates(GeoQueryInterface $query): Coordinates
     {
         $url = sprintf('%s/%s', array_get($this->config, 'endpoints.places'), $query->getText());

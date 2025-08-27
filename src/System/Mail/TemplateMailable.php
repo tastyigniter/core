@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Mail;
 
+use Override;
 use Igniter\Flame\Mail\Mailable;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Helpers\ViewHelper;
@@ -37,6 +38,7 @@ class TemplateMailable extends Mailable
         return $this->mailTemplate = MailTemplate::findOrMakeTemplate($this->getTemplateCode());
     }
 
+    #[Override]
     protected function buildView()
     {
         $template = $this->getMailTemplate();
@@ -51,6 +53,7 @@ class TemplateMailable extends Mailable
         return parent::buildView();
     }
 
+    #[Override]
     protected function buildSubject($message): self
     {
         if ($subject = $this->getMailTemplate()->subject) {
@@ -60,6 +63,7 @@ class TemplateMailable extends Mailable
         return parent::buildSubject($message);
     }
 
+    #[Override]
     public function buildViewData(): array
     {
         $data = parent::buildViewData();

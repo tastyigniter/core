@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
+use Override;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Support\ServiceProvider;
 
 class ValidationServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->registerValidator();

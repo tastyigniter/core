@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic\Source;
 
+use Override;
+
 class SourceResolver implements SourceResolverInterface
 {
     /**
@@ -29,6 +31,7 @@ class SourceResolver implements SourceResolverInterface
     /**
      * Get a source instance.
      */
+    #[Override]
     public function source(?string $name = null): SourceInterface
     {
         if (is_null($name)) {
@@ -41,6 +44,7 @@ class SourceResolver implements SourceResolverInterface
     /**
      * Add a source to the resolver.
      */
+    #[Override]
     public function addSource(string $name, SourceInterface $source): void
     {
         $this->sources[$name] = $source;
@@ -49,6 +53,7 @@ class SourceResolver implements SourceResolverInterface
     /**
      * Check if a source has been registered.
      */
+    #[Override]
     public function hasSource(string $name): bool
     {
         return isset($this->sources[$name]);
@@ -57,6 +62,7 @@ class SourceResolver implements SourceResolverInterface
     /**
      * Get the default source name.
      */
+    #[Override]
     public function getDefaultSourceName(): string
     {
         return $this->default;
@@ -65,6 +71,7 @@ class SourceResolver implements SourceResolverInterface
     /**
      * Set the default source name.
      */
+    #[Override]
     public function setDefaultSourceName(string $name): void
     {
         $this->default = $name;

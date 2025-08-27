@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Html;
 
+use Override;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -16,6 +17,7 @@ class HtmlFacade extends Facade
     /**
      * Get the registered name of the component.
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'html';

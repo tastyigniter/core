@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Override;
 use Exception;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
@@ -60,6 +61,7 @@ class MailPartial extends Model
     // Events
     //
 
+    #[Override]
     protected function afterFetch()
     {
         if (!$this->is_custom) {

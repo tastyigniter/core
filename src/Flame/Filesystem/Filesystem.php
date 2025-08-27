@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Filesystem;
 
+use Override;
 use FilesystemIterator;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -226,6 +227,7 @@ class Filesystem extends IlluminateFilesystem
      * @param string $contents
      * @return int
      */
+    #[Override]
     public function put($path, $contents, $lock = false)
     {
         $result = parent::put($path, $contents, $lock);
@@ -240,6 +242,7 @@ class Filesystem extends IlluminateFilesystem
      * @param string $target
      * @return bool
      */
+    #[Override]
     public function copy($path, $target)
     {
         $result = parent::copy($path, $target);
@@ -256,6 +259,7 @@ class Filesystem extends IlluminateFilesystem
      * @param bool $force
      * @return bool
      */
+    #[Override]
     public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false)
     {
         if ($mask = $this->getFolderPermissions()) {
@@ -297,6 +301,7 @@ class Filesystem extends IlluminateFilesystem
     /**
      * Modify file/folder permissions
      */
+    #[Override]
     public function chmod($path, mixed $mode = null): bool
     {
         if (!$mode) {

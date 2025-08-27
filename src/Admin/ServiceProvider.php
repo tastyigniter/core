@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin;
 
+use Override;
 use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\Classes\OnboardingSteps;
 use Igniter\Admin\Classes\RouteRegistrar;
@@ -51,6 +52,7 @@ class ServiceProvider extends AppServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->registerSingletons();

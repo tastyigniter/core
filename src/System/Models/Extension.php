@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
+use Override;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\Markdown;
@@ -128,6 +129,7 @@ class Extension extends Model
     // Events
     //
 
+    #[Override]
     protected function afterFetch()
     {
         $this->applyExtensionClass();

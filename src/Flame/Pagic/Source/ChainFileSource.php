@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic\Source;
 
+use Override;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Pagic\Processors\Processor;
 
@@ -28,6 +29,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     /**
      * Returns a single source.
      */
+    #[Override]
     public function select(string $dirName, string $fileName, string $extension): ?array
     {
         foreach ($this->sources as $source) {
@@ -42,6 +44,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     /**
      * Returns all sources.
      */
+    #[Override]
     public function selectAll(string $dirName, array $options = []): array
     {
         $sourceResults = array_map(fn(SourceInterface $source): array => $source->selectAll($dirName, $options), array_reverse($this->sources));
@@ -55,6 +58,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     /**
      * Creates a new source.
      */
+    #[Override]
     public function insert(string $dirName, string $fileName, string $extension, string $content): bool
     {
         return $this->getActiveSource()->insert($dirName, $fileName, $extension, $content);
@@ -63,6 +67,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     /**
      * Updates an existing source.
      */
+    #[Override]
     public function update(
         string $dirName,
         string $fileName,
@@ -77,6 +82,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     /**
      * Run a delete statement against the source.
      */
+    #[Override]
     public function delete(string $dirName, string $fileName, string $extension): bool
     {
         // Delete from only the active source
@@ -86,6 +92,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     /**
      * Return the last modified date of an object
      */
+    #[Override]
     public function lastModified(string $dirName, string $fileName, string $extension): ?int
     {
         foreach ($this->sources as $source) {
@@ -97,6 +104,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
         return null;
     }
 
+    #[Override]
     public function path(string $path): ?string
     {
         $files = resolve(Filesystem::class);
@@ -113,6 +121,7 @@ class ChainFileSource extends AbstractSource implements SourceInterface
     /**
      * Generate a cache key unique to this source.
      */
+    #[Override]
     public function makeCacheKey(string $name = ''): int
     {
         $key = '';

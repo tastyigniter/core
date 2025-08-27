@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Providers;
 
+use Override;
 use Igniter\Admin\BulkActionWidgets\Delete;
 use Igniter\Admin\BulkActionWidgets\Status;
 use Igniter\Admin\Classes\OnboardingSteps;
@@ -31,6 +32,7 @@ use Illuminate\Support\ServiceProvider;
 
 class FormServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         if (Igniter::runningInAdmin() || app()->runningUnitTests()) {

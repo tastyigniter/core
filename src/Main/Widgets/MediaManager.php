@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Widgets;
 
+use Override;
 use Closure;
 use Exception;
 use Igniter\Admin\Classes\AdminController;
@@ -59,6 +60,7 @@ class MediaManager extends BaseWidget
         $this->checkUploadHandler();
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -96,6 +98,7 @@ class MediaManager extends BaseWidget
         $this->vars['breadcrumbs'] = $this->makeBreadcrumb();
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addCss('mediamanager.css', 'mediamanager-css');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\FormWidgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\FormModelWidget;
@@ -57,6 +58,7 @@ class RecordEditor extends BaseFormWidget
 
     protected string $defaultAlias = 'recordeditor';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -76,6 +78,7 @@ class RecordEditor extends BaseFormWidget
         $this->makeRecordFormWidgetFromRequest();
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -83,6 +86,7 @@ class RecordEditor extends BaseFormWidget
         return $this->makePartial('recordeditor/recordeditor');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('formwidgets/repeater.js', 'repeater-js');

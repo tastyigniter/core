@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\BulkActionWidgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseBulkActionWidget;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Delete extends BaseBulkActionWidget
 {
+    #[Override]
     public function handleAction(array $requestData, Collection $records): void
     {
         // Delete records

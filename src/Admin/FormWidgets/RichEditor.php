@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\FormWidgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseFormWidget;
 
 /**
@@ -33,6 +34,7 @@ class RichEditor extends BaseFormWidget
 
     protected string $defaultAlias = 'richeditor';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -43,6 +45,7 @@ class RichEditor extends BaseFormWidget
         ]);
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -50,6 +53,7 @@ class RichEditor extends BaseFormWidget
         return $this->makePartial('richeditor/richeditor');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('js/vendor.editor.js', 'vendor-editor-js');

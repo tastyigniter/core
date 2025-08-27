@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Models;
 
+use Override;
 use Igniter\Flame\Currency\Contracts\CurrencyInterface;
 use Igniter\Flame\Database\Model;
 
@@ -28,10 +29,12 @@ abstract class Currency extends Model implements CurrencyInterface
         return $query->where('is_enabled', 1);
     }
 
+    #[Override]
     public function getFormat(): string
     {
         return '1,0.00';
     }
 
+    #[Override]
     public function updateRate($rate): void {}
 }

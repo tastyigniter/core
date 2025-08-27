@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\FormWidgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\FormModelWidget;
@@ -72,6 +73,7 @@ class Connector extends BaseFormWidget
 
     public bool $hideNewButton = true;
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -98,6 +100,7 @@ class Connector extends BaseFormWidget
         }
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -105,6 +108,7 @@ class Connector extends BaseFormWidget
         return $this->makePartial('connector/connector');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('formwidgets/repeater.js', 'repeater-js');
@@ -114,6 +118,7 @@ class Connector extends BaseFormWidget
         $this->addJs('connector.js', 'connector-js');
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): mixed
     {
         if (!$this->sortable) {
@@ -143,6 +148,7 @@ class Connector extends BaseFormWidget
         $this->vars['confirmMessage'] = $this->confirmMessage;
     }
 
+    #[Override]
     public function reload(): array
     {
         $this->formField->value = null;

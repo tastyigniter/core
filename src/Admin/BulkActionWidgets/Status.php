@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\BulkActionWidgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseBulkActionWidget;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,7 @@ class Status extends BaseBulkActionWidget
 {
     public $statusColumn = 'status_id';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -19,6 +21,7 @@ class Status extends BaseBulkActionWidget
         ]);
     }
 
+    #[Override]
     public function handleAction(array $requestData, Collection $records): void
     {
         $code = array_get($requestData, 'code');

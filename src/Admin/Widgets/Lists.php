@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseBulkActionWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ListColumn;
@@ -116,6 +117,7 @@ class Lists extends BaseWidget
 
     protected array $bulkActionWidgets = [];
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -139,11 +141,13 @@ class Lists extends BaseWidget
         }
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('lists.js', 'lists-js');
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();

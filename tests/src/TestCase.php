@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests;
 
+use Override;
 use Igniter\Flame\ServiceProvider;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
@@ -22,6 +23,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     protected function getPackageProviders($app)
     {
         return [
@@ -30,6 +32,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
+    #[Override]
     protected function defineEnvironment($app)
     {
         $viewPaths = $app['config']->get('view.paths');
@@ -54,6 +57,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         });
     }
 
+    #[Override]
     protected function defineDatabaseMigrations()
     {
         if (!RefreshDatabaseState::$migrated) {
@@ -67,6 +71,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         }
     }
 
+    #[Override]
     protected function resolveApplicationConfiguration($app)
     {
         parent::resolveApplicationConfiguration($app);

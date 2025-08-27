@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Models\User;
 use Illuminate\Console\Command;
@@ -61,6 +62,7 @@ class IgniterPasswd extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [

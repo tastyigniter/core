@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
@@ -63,6 +64,7 @@ class ExtensionRemove extends Command
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -73,6 +75,7 @@ class ExtensionRemove extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Translation\Models;
 
+use Override;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Illuminate\Support\Carbon;
@@ -55,6 +56,7 @@ class Translation extends Model
         'locked' => 'boolean',
     ];
 
+    #[Override]
     protected static function boot(): void
     {
         parent::boot();

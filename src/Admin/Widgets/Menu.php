@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use Override;
 use Exception;
 use Igniter\Admin\Classes\BaseMainMenuWidget;
 use Igniter\Admin\Classes\BaseWidget;
@@ -43,6 +44,7 @@ class Menu extends BaseWidget
      */
     public array $cssClasses = [];
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -51,12 +53,14 @@ class Menu extends BaseWidget
         ]);
     }
 
+    #[Override]
     public function bindToController(): void
     {
         $this->defineMenuItems();
         parent::bindToController();
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -71,6 +75,7 @@ class Menu extends BaseWidget
         $this->vars['items'] = $this->getItems();
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('mainmenu.js', 'mainmenu-js');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset;
 
+use Override;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Flame\Assetic\Util\VarUtils;
 use Igniter\Flame\Support\Facades\File;
@@ -44,6 +45,7 @@ class HttpAsset extends BaseAsset
         parent::__construct($filters, $scheme.'://'.$host, $path, $vars);
     }
 
+    #[Override]
     public function load(?FilterInterface $additionalFilter = null): void
     {
         $content = @File::get(
@@ -57,6 +59,7 @@ class HttpAsset extends BaseAsset
         $this->doLoad($content, $additionalFilter);
     }
 
+    #[Override]
     public function getLastModified(): ?int
     {
         $response = Http::withHeaders(['Accept' => '*/*'])->head($this->sourceUrl);

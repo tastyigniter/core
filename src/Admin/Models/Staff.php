@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Models;
 
+use Override;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Local\Models\Concerns\Locationable;
@@ -125,6 +126,7 @@ class Staff extends Model
     // Events
     //
 
+    #[Override]
     protected function afterSave()
     {
         $this->restorePurgedValues();
@@ -134,6 +136,7 @@ class Staff extends Model
         }
     }
 
+    #[Override]
     protected function beforeDelete()
     {
         $this->groups()->detach();

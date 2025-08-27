@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Cache;
 
+use Override;
 use Igniter\Flame\Support\Facades\File;
 use RuntimeException;
 
@@ -16,11 +17,13 @@ class FilesystemCache implements CacheInterface
 {
     public function __construct(private $dir) {}
 
+    #[Override]
     public function has(string $key): bool
     {
         return File::exists($this->dir.'/'.$key);
     }
 
+    #[Override]
     public function get(string $key): ?string
     {
         $path = $this->dir.'/'.$key;
@@ -32,6 +35,7 @@ class FilesystemCache implements CacheInterface
         return File::get($path);
     }
 
+    #[Override]
     public function set(string $key, string $value): void
     {
         if (!File::isDirectory($this->dir) && File::makeDirectory($this->dir, 0777, true) === false) {
@@ -45,6 +49,7 @@ class FilesystemCache implements CacheInterface
         }
     }
 
+    #[Override]
     public function remove(string $key): void
     {
         $path = $this->dir.'/'.$key;

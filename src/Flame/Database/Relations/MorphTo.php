@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
+use Override;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo as MorphToBase;
@@ -34,6 +35,7 @@ class MorphTo extends MorphToBase
      * Override associate() method of MorphTo relation.
      * This is necessary in order to fire 'model.relation.beforeAssociate', 'model.relation.associate' events
      */
+    #[Override]
     public function associate($model)
     {
         if ($this->parent->fireEvent('model.relation.beforeAssociate', [$this->relationName, $model], true) === false) {
@@ -51,6 +53,7 @@ class MorphTo extends MorphToBase
      * Override dissociate() method of MorphTo relation.
      * This is necessary in order to fire 'model.relation.beforeDissociate', 'model.relation.dissociate' events
      */
+    #[Override]
     public function dissociate()
     {
         if ($this->parent->fireEvent('model.relation.beforeDissociate', [$this->relationName], true) === false) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Providers;
 
+use Override;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Libraries\Assets;
@@ -11,6 +12,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AssetsServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         if (!$this->app->runningInConsole() && !Igniter::runningInAdmin()) {

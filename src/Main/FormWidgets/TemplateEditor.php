@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\FormWidgets;
 
+use Override;
 use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Traits\FormModelWidget;
@@ -58,6 +59,7 @@ class TemplateEditor extends BaseFormWidget
 
     protected ?string $templateFile = null;
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -75,6 +77,7 @@ class TemplateEditor extends BaseFormWidget
         }
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -104,6 +107,7 @@ class TemplateEditor extends BaseFormWidget
     /**
      * Reloads the widgets primary contents.
      */
+    #[Override]
     public function reload(): array
     {
         $this->templateWidget = $this->makeTemplateFormWidget();

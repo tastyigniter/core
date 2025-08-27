@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Facades;
 
+use Override;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
@@ -24,6 +25,7 @@ class Country extends Facade
      * Get the registered name of the component.
      * @see \Igniter\System\Libraries\Country
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'country';

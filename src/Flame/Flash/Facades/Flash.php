@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Flash\Facades;
 
+use Override;
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Flash\Message;
 use Illuminate\Support\Collection;
@@ -36,6 +37,7 @@ class Flash extends IlluminateFacade
      *
      * @see \Igniter\Flame\Flash\FlashBag
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'flash';

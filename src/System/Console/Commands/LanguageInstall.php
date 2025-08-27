@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Exception;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Language;
@@ -67,6 +68,7 @@ class LanguageInstall extends Command
         }
     }
 
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -74,6 +76,7 @@ class LanguageInstall extends Command
         ];
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [];

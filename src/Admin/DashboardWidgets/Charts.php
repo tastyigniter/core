@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\DashboardWidgets;
 
+use Override;
 use DateTimeInterface;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Admin\Traits\HasChartDatasets;
@@ -40,11 +41,13 @@ class Charts extends BaseDashboardWidget
 
     protected static $registeredDatasets = [];
 
+    #[Override]
     public function initialize(): void
     {
         $this->setProperty('rangeFormat', 'MMMM D, YYYY');
     }
 
+    #[Override]
     public function defineProperties(): array
     {
         return [
@@ -59,6 +62,7 @@ class Charts extends BaseDashboardWidget
         ];
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
@@ -71,6 +75,7 @@ class Charts extends BaseDashboardWidget
     /**
      * Renders the widget.
      */
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();

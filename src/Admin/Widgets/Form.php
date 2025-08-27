@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
+use Override;
 use Closure;
 use Exception;
 use Igniter\Admin\Classes\BaseFormWidget;
@@ -78,6 +79,7 @@ class Form extends BaseWidget
 
     protected array $optionModelTypes = [];
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -107,12 +109,14 @@ class Form extends BaseWidget
      * also be bound to the controller this allows their AJAX features to
      * operate.
      */
+    #[Override]
     public function bindToController(): void
     {
         $this->defineFormFields();
         parent::bindToController();
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('form.js', 'form-js');
@@ -132,6 +136,7 @@ class Form extends BaseWidget
      *
      * @return string|bool The rendered partial contents, or false if suppressing an exception
      */
+    #[Override]
     public function render(array $options = []): mixed
     {
         if (isset($options['preview'])) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\FormWidgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Admin\Traits\ValidatesForm;
@@ -60,6 +61,7 @@ class MediaFinder extends BaseFormWidget
 
     protected string $defaultAlias = 'media';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -71,6 +73,7 @@ class MediaFinder extends BaseFormWidget
         ]);
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -93,6 +96,7 @@ class MediaFinder extends BaseFormWidget
         $this->vars['chooseButtonText'] = lang($this->useAttachment ? 'igniter::main.media_manager.text_attach' : 'igniter::main.media_manager.text_choose');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         if ($this->getConfig('useAttachment')) {
@@ -275,6 +279,7 @@ class MediaFinder extends BaseFormWidget
         return $data['items'];
     }
 
+    #[Override]
     public function getLoadValue(): mixed
     {
         $value = parent::getLoadValue();
@@ -293,6 +298,7 @@ class MediaFinder extends BaseFormWidget
         return $value;
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): mixed
     {
         if ($this->useAttachment || $this->formField->disabled || $this->formField->hidden) {

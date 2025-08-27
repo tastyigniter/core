@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
+use Override;
 use Igniter\System\Http\Requests\AdvancedSettingsRequest;
 use Igniter\System\Http\Requests\GeneralSettingsRequest;
 use Igniter\System\Http\Requests\MailSettingsRequest;
@@ -12,6 +13,7 @@ use Illuminate\Support\ServiceProvider;
 
 class FormServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         Settings::registerCallback(function(Settings $manager) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Migrations;
 
+use Override;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository as BaseDatabaseMigrationRepository;
 
 class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
@@ -34,6 +35,7 @@ class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
         $this->getConnection()->getSchemaBuilder()->dropColumns($this->table, ['group']);
     }
 
+    #[Override]
     public function getRan()
     {
         $builder = $this->table();

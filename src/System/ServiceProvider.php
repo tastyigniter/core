@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System;
 
+use Override;
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Support\Extendable;
@@ -55,6 +56,7 @@ class ServiceProvider extends AppServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->registerSingletons();

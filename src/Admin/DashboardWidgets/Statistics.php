@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\DashboardWidgets;
 
+use Override;
 use Closure;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Flame\Exception\SystemException;
@@ -36,6 +37,7 @@ class Statistics extends BaseDashboardWidget
     /**
      * Renders the widget.
      */
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -43,6 +45,7 @@ class Statistics extends BaseDashboardWidget
         return $this->makePartial('statistics/statistics');
     }
 
+    #[Override]
     public function defineProperties(): array
     {
         return [
@@ -62,6 +65,7 @@ class Statistics extends BaseDashboardWidget
         return $this->property('card', 'sale');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addCss('statistics.css', 'statistics-css');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\FormWidgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 use Igniter\Flame\Database\Model;
@@ -53,6 +54,7 @@ class Relation extends BaseFormWidget
 
     public Model $relatedModel;
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -68,6 +70,7 @@ class Relation extends BaseFormWidget
         }
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -75,6 +78,7 @@ class Relation extends BaseFormWidget
         return $this->makePartial('relation/relation');
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): mixed
     {
         if ($this->formField->disabled || $this->formField->hidden) {

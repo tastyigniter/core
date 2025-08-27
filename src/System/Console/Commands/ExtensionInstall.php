@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
+use Override;
 use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
@@ -56,6 +57,7 @@ class ExtensionInstall extends Command
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [

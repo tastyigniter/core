@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Filter;
 
+use Override;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
 use Igniter\Flame\Support\Facades\File;
 
@@ -14,8 +15,10 @@ use Igniter\Flame\Support\Facades\File;
  */
 class CssRewriteFilter extends BaseCssFilter
 {
+    #[Override]
     public function filterLoad(AssetInterface $asset) {}
 
+    #[Override]
     public function filterDump(AssetInterface $asset): void
     {
         $sourceBase = $asset->getSourceRoot();

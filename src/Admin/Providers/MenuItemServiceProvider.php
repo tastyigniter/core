@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Providers;
 
+use Override;
 use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\Facades\AdminMenu;
@@ -12,6 +13,7 @@ use Illuminate\Support\ServiceProvider;
 
 class MenuItemServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         if (Igniter::runningInAdmin() || app()->runningUnitTests()) {

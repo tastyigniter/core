@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Fixtures\Widgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
 
@@ -11,6 +12,7 @@ class TestFormWidget extends BaseFormWidget
 {
     public string $property = 'value';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([

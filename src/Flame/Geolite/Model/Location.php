@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Model;
 
+use Override;
 use Igniter\Flame\Geolite\Contracts\LocationInterface;
 use Igniter\Flame\Geolite\Formatter\StringFormatter;
 
@@ -175,61 +176,73 @@ class Location implements LocationInterface
         return array_key_exists($name, $this->data);
     }
 
+    #[Override]
     public function getProvidedBy(): string
     {
         return $this->providedBy;
     }
 
+    #[Override]
     public function getCoordinates(): ?Coordinates
     {
         return $this->coordinates;
     }
 
+    #[Override]
     public function getBounds(): ?Bounds
     {
         return $this->bounds;
     }
 
+    #[Override]
     public function getStreetNumber(): int|string|null
     {
         return $this->streetNumber;
     }
 
+    #[Override]
     public function getStreetName(): ?string
     {
         return $this->streetName;
     }
 
+    #[Override]
     public function getLocality(): ?string
     {
         return $this->locality;
     }
 
+    #[Override]
     public function getPostalCode(): ?string
     {
         return $this->postalCode;
     }
 
+    #[Override]
     public function getSubLocality(): ?string
     {
         return $this->subLocality;
     }
 
+    #[Override]
     public function getAdminLevels(): AdminLevelCollection
     {
         return $this->adminLevels;
     }
 
+    #[Override]
     public function getCountryName(): ?string
     {
         return $this->countryName;
     }
 
+    #[Override]
     public function getCountryCode(): ?string
     {
         return $this->countryCode;
     }
 
+    #[Override]
     public function getTimezone(): ?string
     {
         return $this->timezone;
@@ -246,6 +259,7 @@ class Location implements LocationInterface
         return !empty($latitude) && !empty($longitude);
     }
 
+    #[Override]
     public function toArray(): array
     {
         $adminLevels = [];

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\DashboardWidgets;
 
+use Override;
 use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Flame\Support\Facades\File;
@@ -37,6 +38,7 @@ class Cache extends BaseDashboardWidget
         ],
     ];
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -44,6 +46,7 @@ class Cache extends BaseDashboardWidget
         return $this->makePartial('cache/cache');
     }
 
+    #[Override]
     public function defineProperties(): array
     {
         return [
