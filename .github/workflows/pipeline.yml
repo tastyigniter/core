@@ -10,7 +10,7 @@ jobs:
     secrets:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
   php-code-check:
-    name: 'PHP Code Check ${{ matrix.target }}'
+    name: 'PHP Code Check ${{ matrix.php }}'
     needs: build-assets
     if: ${{ always() && needs.build-assets.result == 'success' }}
     uses: tastyigniter/workflows/.github/workflows/php-code-check.yml@main
@@ -18,9 +18,9 @@ jobs:
       matrix:
         php: [ '8.3', '8.4' ]
     with:
-      php-version: ${{ matrix.target }}
+      php-version: ${{ matrix.php }}
   php-tests:
-    name: 'PHP Tests ${{ matrix.target }} (Shard ${{ matrix.shard }}/5)'
+    name: 'PHP Tests ${{ matrix.php }} (Shard ${{ matrix.shard }}/5)'
     needs: php-code-check
     if: ${{ always() && needs.php-code-check.result == 'success' }}
     runs-on: ubuntu-latest
@@ -51,10 +51,10 @@ jobs:
           sudo service mysql start
           mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }};"
 
-      - name: Setup PHP ${{ matrix.php-version }}
+      - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           extensions: dom, curl, xml, mbstring, zip, pdo, sqlite, bcmath, soap, intl, gd
           tools: composer:v2
           coverage: none
