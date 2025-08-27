@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Http\Requests;
 
-use Override;
 use Igniter\System\Classes\FormRequest;
+use Override;
 
 class StatusRequest extends FormRequest
 {

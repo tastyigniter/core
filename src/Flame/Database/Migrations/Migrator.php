@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Migrations;
 
-use Override;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * @method DatabaseMigrationRepository getRepository()

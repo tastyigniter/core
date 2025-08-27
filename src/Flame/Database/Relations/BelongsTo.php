@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
-use Override;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo as BelongsToBase;
+use Override;
 
 /**
  * Adapted from october\rain\database\relations\BelongsTo

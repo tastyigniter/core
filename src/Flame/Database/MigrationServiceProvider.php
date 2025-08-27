@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
-use Override;
 use Igniter\Flame\Database\Migrations\DatabaseMigrationRepository;
 use Igniter\Flame\Database\Migrations\Migrator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\MigrationServiceProvider as BaseServiceProvider;
+use Override;
 
 class MigrationServiceProvider extends BaseServiceProvider
 {

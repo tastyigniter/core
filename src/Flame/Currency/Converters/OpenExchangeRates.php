@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Converters;
 
-use Override;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Override;
 
 class OpenExchangeRates extends AbstractConverter
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Flash;
 
-use Override;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class FlashServiceProvider extends ServiceProvider
 {

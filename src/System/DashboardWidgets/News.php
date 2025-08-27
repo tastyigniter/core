@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\System\DashboardWidgets;
 
-use Override;
 use DOMDocument;
 use Igniter\Admin\Classes\BaseDashboardWidget;
+use Override;
 use Throwable;
 
 /**

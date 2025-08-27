@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Providers;
 
-use Override;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\Router;
 use Igniter\Flame\Support\Facades\Igniter;
@@ -18,6 +17,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
+use Override;
 
 class ThemeServiceProvider extends ServiceProvider
 {

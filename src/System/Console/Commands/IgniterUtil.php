@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Override;
 use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\Facades\Igniter;
@@ -15,6 +14,7 @@ use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Models\Extension;
 use Illuminate\Console\Command;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
-use Override;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\MailParser;
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\View;
+use Override;
 
 /**
  * MailTemplate Model Class

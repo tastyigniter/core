@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Flash\Facades;
 
-use Override;
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Flash\Message;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade as IlluminateFacade;
+use Override;
 
 /**
  * @method static FlashBag setSessionKey(string $key)

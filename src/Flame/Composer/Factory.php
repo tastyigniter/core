@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Composer;
 
-use Override;
 use Composer\Config;
 use Composer\Downloader\DownloadManager;
 use Composer\Package\Archiver\ArchiveManager;
 use Composer\Util\Loop;
+use Override;
 
 /**
  * Composer Factory

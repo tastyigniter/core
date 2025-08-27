@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
-use Override;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
@@ -12,6 +11,7 @@ use Igniter\System\Classes\MailManager;
 use Igniter\System\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class MailServiceProvider extends ServiceProvider
 {

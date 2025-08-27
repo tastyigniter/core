@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
-use Override;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\Markdown;
@@ -13,6 +12,7 @@ use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\PackageManifest;
 use InvalidArgumentException;
+use Override;
 
 /**
  * Extension Model Class

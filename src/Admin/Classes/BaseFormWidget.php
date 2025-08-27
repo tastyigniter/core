@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Classes;
 
-use Override;
 use Igniter\Flame\Database\Model;
+use Override;
 
 /**
  * Form Widget base class

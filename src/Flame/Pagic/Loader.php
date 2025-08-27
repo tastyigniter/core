@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic;
 
-use Override;
 use Exception;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Pagic\Contracts\TemplateLoader;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Template\Partial as PartialTemplate;
 use Illuminate\Support\Facades\App;
+use Override;
 
 /**
  * Loader class

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Translation;
 
-use Override;
 use Igniter\Flame\Translation\Contracts\Driver;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Translation\FileLoader as FileLoaderBase;
+use Override;
 
 class FileLoader extends FileLoaderBase
 {

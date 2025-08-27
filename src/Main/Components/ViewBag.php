@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Components;
 
-use Override;
 use Igniter\System\Classes\BaseComponent;
+use Override;
 
 /**
  * The view bag stores custom template properties.

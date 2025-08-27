@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
-use Override;
 use Closure;
 use Exception;
 use Igniter\Flame\Database\Concerns\HasAttributes;
@@ -16,6 +15,7 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Model Class

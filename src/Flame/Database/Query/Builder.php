@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Query;
 
-use Override;
 use Closure;
 use DateTime;
 use Igniter\Flame\Database\Connections\Connection;
@@ -13,6 +12,7 @@ use Illuminate\Cache\CacheManager;
 use Illuminate\Database\Query\Builder as IlluminateQueryBuilder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Override;
 
 /**
  * Adapted from october\rain\database\QueryBuilder

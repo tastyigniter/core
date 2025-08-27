@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Providers;
 
-use Override;
 use Igniter\User\Classes\PermissionManager;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class PermissionServiceProvider extends ServiceProvider
 {

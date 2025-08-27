@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\DashboardWidgets;
 
-use Override;
 use Closure;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
+use Override;
 
 /**
  * Statistic dashboard widget.

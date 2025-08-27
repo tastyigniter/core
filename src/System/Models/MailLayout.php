@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
-use Override;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
@@ -16,6 +15,7 @@ use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\View;
+use Override;
 
 /**
  * MailLayout Model Class

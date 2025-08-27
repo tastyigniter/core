@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
-use Override;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ToolbarButton;
 use Igniter\Admin\Facades\Template;
 use Igniter\User\Facades\AdminAuth;
+use Override;
 
 class Toolbar extends BaseWidget
 {

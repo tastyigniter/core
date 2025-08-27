@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Template;
 
-use Override;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use Igniter\Flame\Support\Extendable;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\Theme;
 use Igniter\System\Classes\BaseComponent;
+use Override;
 
 class ComponentPartial extends Extendable implements TemplateInterface
 {

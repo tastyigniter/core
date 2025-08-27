@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Filter;
 
-use Override;
 use ArrayIterator;
 use Countable;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
 use IteratorAggregate;
+use Override;
 use Traversable;
 
 /**

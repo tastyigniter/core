@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Facades;
 
-use Override;
 use Closure;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
+use Override;
 
 /**
  * @method static HtmlString getBlock(string $name, ?string $default = null)

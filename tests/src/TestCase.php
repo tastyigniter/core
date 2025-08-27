@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Tests;
 
-use Override;
 use Igniter\Flame\ServiceProvider;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
@@ -18,6 +17,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
+use Override;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {

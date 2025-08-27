@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
-use Override;
 use Igniter\Admin\Classes\BaseWidget;
 use Illuminate\Http\RedirectResponse;
+use Override;
 
 class SearchBox extends BaseWidget
 {

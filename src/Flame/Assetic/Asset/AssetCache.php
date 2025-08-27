@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset;
 
-use Override;
 use Igniter\Flame\Assetic\Cache\CacheInterface;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
+use Override;
 
 /**
  * Caches an asset to avoid the cost of loading and dumping.

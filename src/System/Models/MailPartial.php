@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
-use Override;
 use Exception;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
@@ -15,6 +14,7 @@ use Igniter\System\Classes\MailManager;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\View;
+use Override;
 
 /**
  * MailPartial Model Class

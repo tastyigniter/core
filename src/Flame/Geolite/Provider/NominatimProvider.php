@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Provider;
 
-use Override;
 use GuzzleHttp\Client as HttpClient;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
@@ -15,6 +14,7 @@ use Igniter\Flame\Geolite\Model\Distance;
 use Igniter\Flame\Geolite\Model\Location;
 use Igniter\Flame\Geolite\Place;
 use Illuminate\Support\Collection;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use stdClass;
 use Throwable;

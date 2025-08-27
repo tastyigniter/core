@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Model;
 
-use Override;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
+use Override;
 
 class Coordinates implements CoordinatesInterface
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Formatters;
 
-use Override;
 use Igniter\Flame\Currency\Contracts\FormatterInterface;
 use NumberFormatter;
+use Override;
 
 class PHPIntl implements FormatterInterface
 {

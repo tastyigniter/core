@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Facades;
 
-use Override;
 use Closure;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
+use Override;
 
 /**
  * @method static \Igniter\Flame\Geolite\Geocoder limit(int $limit)

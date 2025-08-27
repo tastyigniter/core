@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic;
 
-use Override;
 use ArrayAccess;
 use BadMethodCallException;
 use Closure;
@@ -24,6 +23,7 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use JsonSerializable;
+use Override;
 use Stringable;
 
 /**

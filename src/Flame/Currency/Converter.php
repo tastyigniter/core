@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency;
 
-use Override;
 use Igniter\Flame\Currency\Converters\AbstractConverter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Manager;
+use Override;
 
 class Converter extends Manager
 {

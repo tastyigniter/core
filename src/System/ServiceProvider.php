@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System;
 
-use Override;
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Support\Extendable;
@@ -49,6 +48,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
+use Override;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ServiceProvider extends AppServiceProvider

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Providers;
 
-use Override;
 use Igniter\Main\Template\Page;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class MenuItemServiceProvider extends ServiceProvider
 {

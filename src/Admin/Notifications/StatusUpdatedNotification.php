@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Notifications;
 
-use Override;
 use Igniter\Admin\Models\StatusHistory;
 use Igniter\Cart\Models\Order;
 use Igniter\Reservation\Models\Reservation;
 use Igniter\User\Classes\Notification;
+use Override;
 
 /**
  * StatusUpdatedNotification class

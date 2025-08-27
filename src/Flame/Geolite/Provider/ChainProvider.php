@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Provider;
 
-use Override;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
@@ -12,6 +11,7 @@ use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Distance;
 use Illuminate\Support\Collection;
+use Override;
 
 class ChainProvider extends AbstractProvider
 {

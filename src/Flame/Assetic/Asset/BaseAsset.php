@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset;
 
-use Override;
 use Igniter\Flame\Assetic\Filter\FilterCollection;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use InvalidArgumentException;
+use Override;
 use RuntimeException;
 
 /**

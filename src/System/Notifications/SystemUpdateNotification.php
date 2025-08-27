@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\System\Notifications;
 
-use Override;
 use Igniter\System\Contracts\StickyNotification;
 use Igniter\User\Classes\Notification;
 use Igniter\User\Models\User;
+use Override;
 
 class SystemUpdateNotification extends Notification implements StickyNotification
 {

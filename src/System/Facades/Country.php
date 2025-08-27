@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\System\Facades;
 
-use Override;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
+use Override;
 
 /**
  * @method static string addressFormat(Model | array $address, bool $useLineBreaks = true)

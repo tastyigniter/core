@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Facades;
 
-use Override;
 use Igniter\Flame\Geolite\AddressMatch;
 use Igniter\Flame\Geolite\Contracts\CircleInterface;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
@@ -12,6 +11,7 @@ use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\PolygonInterface;
 use Igniter\Flame\Geolite\Contracts\VertexInterface;
 use Illuminate\Support\Facades\Facade;
+use Override;
 
 /**
  * @method static DistanceInterface distance()

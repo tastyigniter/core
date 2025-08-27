@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency;
 
-use Override;
 use Igniter\Flame\Currency\Console\Cleanup;
 use Igniter\Flame\Currency\Console\Update;
 use Igniter\Flame\Currency\Middleware\CurrencyMiddleware;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class CurrencyServiceProvider extends ServiceProvider
 {

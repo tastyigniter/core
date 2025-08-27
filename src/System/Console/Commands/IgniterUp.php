@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Override;
 use Igniter\Flame\Database\Migrations\DatabaseMigrationRepository;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Schema;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 
 class IgniterUp extends Command

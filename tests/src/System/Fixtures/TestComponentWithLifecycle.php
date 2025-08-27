@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Fixtures;
 
-use Override;
 use Igniter\System\Classes\BaseComponent;
+use Override;
 
 class TestComponentWithLifecycle extends BaseComponent
 {

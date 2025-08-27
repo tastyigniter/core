@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support\Facades;
 
-use Override;
 use Closure;
 use Igniter\Flame\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Facade as IlluminateFacade;
 use Illuminate\Support\LazyCollection;
+use Override;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**

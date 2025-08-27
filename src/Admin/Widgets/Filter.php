@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
-use Override;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\FilterScope;
 use Igniter\Flame\Exception\SystemException;
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Override;
 
 /**
  * Class Filter

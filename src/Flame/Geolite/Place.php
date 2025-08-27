@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
-use Override;
 use Igniter\Flame\Geolite\Contracts\PlaceInterface;
 use Illuminate\Contracts\Support\Arrayable;
+use Override;
 
 class Place implements Arrayable, PlaceInterface
 {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Main;
 
-use Override;
 use Igniter\Flame\Providers\AppServiceProvider;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\MediaLibrary;
@@ -24,6 +23,7 @@ use Igniter\System\Classes\ComponentManager;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Override;
 
 class ServiceProvider extends AppServiceProvider
 {

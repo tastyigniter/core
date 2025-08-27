@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Providers;
 
-use Override;
 use Igniter\Admin\BulkActionWidgets\Delete;
 use Igniter\Admin\BulkActionWidgets\Status;
 use Igniter\Admin\Classes\OnboardingSteps;
@@ -29,6 +28,7 @@ use Igniter\System\DashboardWidgets\Cache;
 use Igniter\System\DashboardWidgets\News;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class FormServiceProvider extends ServiceProvider
 {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Filesystem;
 
-use Override;
 use FilesystemIterator;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Str;
 use League\Flysystem\Local\LocalFilesystemAdapter;
+use Override;
 use ReflectionClass;
 
 /**

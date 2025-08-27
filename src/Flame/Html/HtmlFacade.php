@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Html;
 
-use Override;
 use Illuminate\Support\Facades\Facade;
+use Override;
 
 /**
  * @method static string attributes(array $attributes)

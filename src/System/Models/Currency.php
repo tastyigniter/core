@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Models;
 
-use Override;
 use Igniter\Flame\Currency\Contracts\CurrencyInterface;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
@@ -13,6 +12,7 @@ use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\HasCountry;
 use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * Currency Model Class

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
-use Override;
 use Igniter\Flame\Geolite\Contracts\CircleInterface;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Model\Bounds;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\CoordinatesCollection;
+use Override;
 
 class Circle implements CircleInterface
 {

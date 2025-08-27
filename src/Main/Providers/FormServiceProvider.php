@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Providers;
 
-use Override;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\Main\FormWidgets\Components;
 use Igniter\Main\FormWidgets\MediaFinder;
 use Igniter\Main\FormWidgets\TemplateEditor;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class FormServiceProvider extends ServiceProvider
 {

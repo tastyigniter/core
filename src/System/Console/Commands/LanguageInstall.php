@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Override;
 use Exception;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Language;
 use Illuminate\Console\Command;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 
 class LanguageInstall extends Command

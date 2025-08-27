@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Casts;
 
-use Override;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 class Serialize implements CastsAttributes
 {

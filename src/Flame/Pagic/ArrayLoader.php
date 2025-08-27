@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic;
 
-use Override;
 use Exception;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use InvalidArgumentException;
+use Override;
 
 /**
  * Loads a template from an array.

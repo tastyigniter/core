@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
-use Override;
 use Igniter\Admin\Classes\BaseBulkActionWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\ListColumn;
@@ -23,6 +22,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Lists widget.

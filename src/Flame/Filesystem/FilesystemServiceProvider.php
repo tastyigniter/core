@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Filesystem;
 
-use Override;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class FilesystemServiceProvider extends ServiceProvider
 {

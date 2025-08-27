@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
-use Override;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope as IlluminateScope;
+use Override;
 
 abstract class Scope implements IlluminateScope
 {

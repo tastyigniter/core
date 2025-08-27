@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Translation;
 
-use Override;
 use Illuminate\Support\Str;
 use Illuminate\Translation\Translator as BaseTranslator;
+use Override;
 
 class Translator extends BaseTranslator
 {

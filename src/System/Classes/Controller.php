@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
-use Override;
 use Closure;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Flame\Support\Facades\Igniter;
@@ -16,6 +15,7 @@ use Illuminate\Routing\Controller as IlluminateController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
+use Override;
 
 /**
  * This is the base controller for all pages.

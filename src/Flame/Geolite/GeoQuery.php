@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
-use Override;
 use Igniter\Flame\Geolite\Contracts\BoundsInterface;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
@@ -12,6 +11,7 @@ use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Model\Bounds;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use InvalidArgumentException;
+use Override;
 
 class GeoQuery implements GeoQueryInterface
 {

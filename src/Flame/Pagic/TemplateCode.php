@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic;
 
-use Override;
 use ArrayAccess;
 use Igniter\Flame\Support\Extendable;
+use Override;
 
 /**
  * Parent class for PHP classes created for layout and page code sections.

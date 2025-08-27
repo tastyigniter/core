@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Widgets;
 
-use Override;
 use Closure;
 use Exception;
 use Igniter\Admin\Classes\AdminController;
@@ -16,6 +15,7 @@ use Igniter\Main\Classes\MediaLibrary;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Media Manager widget.

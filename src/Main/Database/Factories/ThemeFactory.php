@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Database\Factories;
 
-use Override;
 use Igniter\Flame\Database\Factories\Factory;
 use Igniter\Main\Models\Theme;
+use Override;
 
 class ThemeFactory extends Factory
 {

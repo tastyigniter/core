@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Connections;
 
-use Override;
 use Igniter\Flame\Database\MemoryCache;
 use Igniter\Flame\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Connection as ConnectionBase;
+use Override;
 
 class Connection extends ConnectionBase
 {

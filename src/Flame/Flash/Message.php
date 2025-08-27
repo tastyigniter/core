@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Flash;
 
-use Override;
 use AllowDynamicProperties;
 use ArrayAccess;
+use Override;
 
 #[AllowDynamicProperties]
 class Message implements ArrayAccess

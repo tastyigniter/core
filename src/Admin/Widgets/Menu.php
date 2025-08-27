@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
-use Override;
 use Exception;
 use Igniter\Admin\Classes\BaseMainMenuWidget;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Models\User;
+use Override;
 
 class Menu extends BaseWidget
 {

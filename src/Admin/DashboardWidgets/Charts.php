@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\DashboardWidgets;
 
-use Override;
 use DateTimeInterface;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Admin\Traits\HasChartDatasets;
 use Igniter\Local\Traits\LocationAwareWidget;
+use Override;
 
 /**
  * Charts dashboard widget.

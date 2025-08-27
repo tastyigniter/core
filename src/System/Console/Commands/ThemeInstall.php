@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Override;
 use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Throwable;
 

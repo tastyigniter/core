@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame;
 
-use Override;
 use Igniter\Flame\Assetic\AsseticServiceProvider;
 use Igniter\Flame\Composer\Manager as ComposerManaer;
 use Igniter\Flame\Currency\CurrencyServiceProvider;
@@ -39,6 +38,7 @@ use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\FileViewFinder;
+use Override;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {

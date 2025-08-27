@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\DashboardWidgets;
 
-use Override;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Admin\Classes\OnboardingSteps;
+use Override;
 
 /**
  * Onboard dashboard widget.

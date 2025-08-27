@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Override;
 use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\ConfigRewrite;
@@ -18,6 +17,7 @@ use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Process;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 
 /**

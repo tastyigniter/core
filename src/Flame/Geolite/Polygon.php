@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
-use Override;
 use ArrayAccess;
 use Countable;
 use Igniter\Flame\Geolite\Contracts\BoundsInterface;
@@ -16,6 +15,7 @@ use Igniter\Flame\Geolite\Model\CoordinatesCollection;
 use InvalidArgumentException;
 use IteratorAggregate;
 use JsonSerializable;
+use Override;
 use Traversable;
 
 class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, PolygonInterface

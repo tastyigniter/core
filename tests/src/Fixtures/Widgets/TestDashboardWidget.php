@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Fixtures\Widgets;
 
-use Override;
 use Igniter\Admin\Classes\BaseDashboardWidget;
+use Override;
 
 class TestDashboardWidget extends BaseDashboardWidget
 {

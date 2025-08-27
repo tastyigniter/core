@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset;
 
-use Override;
 use Igniter\Flame\Assetic\Asset\Iterator\AssetCollectionFilterIterator;
 use Igniter\Flame\Assetic\Asset\Iterator\AssetCollectionIterator;
 use Igniter\Flame\Assetic\Filter\FilterCollection;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use InvalidArgumentException;
 use IteratorAggregate;
+use Override;
 use RecursiveIteratorIterator;
 use SplObjectStorage;
 use Traversable;

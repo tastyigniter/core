@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Exception;
 
-use Override;
 use Exception;
 use Igniter\Flame\Flash\FlashBag;
 use Illuminate\Http\Request;
+use Override;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 

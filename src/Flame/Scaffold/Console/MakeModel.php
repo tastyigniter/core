@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Scaffold\Console;
 
-use Override;
 use Carbon\Carbon;
 use Igniter\Flame\Scaffold\GeneratorCommand;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Html;
 
-use Override;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class HtmlServiceProvider extends ServiceProvider
 {

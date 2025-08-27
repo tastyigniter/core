@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
-use Override;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class ExtensionServiceProvider extends ServiceProvider
 {

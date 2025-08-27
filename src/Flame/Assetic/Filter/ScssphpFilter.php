@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Filter;
 
-use Override;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
 use Igniter\Flame\Assetic\Factory\AssetFactory;
 use Igniter\Flame\Assetic\Util\CssUtils;
+use Override;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Formatter\Compressed;
 use ScssPhp\ScssPhp\Formatter\Crunched;

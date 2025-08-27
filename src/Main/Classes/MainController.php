@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Classes;
 
-use Override;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Admin\Traits\ControllerUtils;
 use Igniter\Flame\Exception\AjaxException;
@@ -37,6 +36,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Override;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**

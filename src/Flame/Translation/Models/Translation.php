@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Translation\Models;
 
-use Override;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Override;
 
 /**
  * @property int $translation_id

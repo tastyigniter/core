@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Translation;
 
-use Override;
 use Igniter\Flame\Translation\Drivers\Database;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Translation\TranslationServiceProvider as BaseServiceProvider;
+use Override;
 use ReflectionClass;
 
 class TranslationServiceProvider extends BaseServiceProvider

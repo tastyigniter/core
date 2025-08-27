@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\System\Database\Factories;
 
-use Override;
 use Igniter\Flame\Database\Factories\Factory;
 use Igniter\System\Models\Currency;
+use Override;
 
 class CurrencyFactory extends Factory
 {

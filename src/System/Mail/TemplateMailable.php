@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\System\Mail;
 
-use Override;
 use Igniter\Flame\Mail\Mailable;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Helpers\ViewHelper;
 use Igniter\System\Models\MailTemplate;
+use Override;
 use ReflectionClass;
 use ReflectionProperty;
 

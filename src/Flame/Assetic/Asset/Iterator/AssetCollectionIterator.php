@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Assetic\Asset\Iterator;
 
-use Override;
 use Igniter\Flame\Assetic\Asset\AssetCollection;
 use Igniter\Flame\Assetic\Asset\AssetCollectionInterface;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
+use Override;
 use RecursiveIterator;
 use SplObjectStorage;
 

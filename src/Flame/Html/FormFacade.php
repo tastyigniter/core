@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Html;
 
-use Override;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
+use Override;
 
 /**
  * @method static HtmlString open(array $options = [])

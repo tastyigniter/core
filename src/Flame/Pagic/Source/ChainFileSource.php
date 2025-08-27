@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Pagic\Source;
 
-use Override;
 use Igniter\Flame\Filesystem\Filesystem;
 use Igniter\Flame\Pagic\Processors\Processor;
+use Override;
 
 class ChainFileSource extends AbstractSource implements SourceInterface
 {

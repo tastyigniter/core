@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
-use Override;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class ValidationServiceProvider extends ServiceProvider
 {

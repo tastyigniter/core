@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Override;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Models\User;
 use Illuminate\Console\Command;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Question\Question;
 

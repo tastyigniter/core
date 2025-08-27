@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Override;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Foundation\Console\VendorPublishCommand;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 
 class ThemePublish extends VendorPublishCommand

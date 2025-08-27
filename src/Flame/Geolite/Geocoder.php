@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
-use Override;
 use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
@@ -14,6 +13,7 @@ use Igniter\Flame\Geolite\Provider\NominatimProvider;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
+use Override;
 
 class Geocoder extends Manager implements GeocoderInterface
 {

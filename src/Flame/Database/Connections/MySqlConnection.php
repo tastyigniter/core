@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Connections;
 
-use Override;
 use Igniter\Flame\Database\Query\Builder as QueryBuilder;
+use Override;
 
 class MySqlConnection extends \Illuminate\Database\MySqlConnection
 {

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Drivers;
 
-use Override;
 use DateTime;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Collection;
+use Override;
 
 class Database extends AbstractDriver
 {

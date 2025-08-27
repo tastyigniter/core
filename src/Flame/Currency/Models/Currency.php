@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Currency\Models;
 
-use Override;
 use Igniter\Flame\Currency\Contracts\CurrencyInterface;
 use Igniter\Flame\Database\Model;
+use Override;
 
 /**
  * @deprecated remove before v5

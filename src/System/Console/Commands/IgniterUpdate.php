@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Override;
 use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Notifications\SystemUpdateNotification;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Collection;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;
 

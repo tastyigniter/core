@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
-use Override;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\VertexInterface;
 use Igniter\Flame\Geolite\Model\Coordinates;
+use Override;
 
 class Vertex implements VertexInterface
 {

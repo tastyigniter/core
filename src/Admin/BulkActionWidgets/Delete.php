@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\BulkActionWidgets;
 
-use Override;
 use Igniter\Admin\Classes\BaseBulkActionWidget;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Override;
 
 class Delete extends BaseBulkActionWidget
 {

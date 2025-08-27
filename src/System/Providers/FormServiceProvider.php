@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
-use Override;
 use Igniter\System\Http\Requests\AdvancedSettingsRequest;
 use Igniter\System\Http\Requests\GeneralSettingsRequest;
 use Igniter\System\Http\Requests\MailSettingsRequest;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class FormServiceProvider extends ServiceProvider
 {

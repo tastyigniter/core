@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Widgets;
 
-use Override;
 use Igniter\Admin\Classes\BaseWidget;
 use Igniter\Admin\Classes\TableDataSource;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Html\HtmlFacade;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as LengthAwarePaginatorContract;
 use Illuminate\Support\Facades\Request;
+use Override;
 
 class Table extends BaseWidget
 {

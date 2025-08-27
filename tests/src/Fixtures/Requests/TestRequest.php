@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Fixtures\Requests;
 
-use Override;
 use Igniter\System\Classes\FormRequest;
+use Override;
 
 class TestRequest extends FormRequest
 {

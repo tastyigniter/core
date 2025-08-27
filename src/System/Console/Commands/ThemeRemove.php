@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\System\Console\Commands;
 
-use Override;
 use Closure;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Models;
 
-use Override;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Local\Models\Concerns\Locationable;
@@ -15,6 +14,7 @@ use Igniter\User\Models\AssignableLog;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
 use Igniter\User\Models\UserRole;
+use Override;
 
 /**
  * Staff Model Class

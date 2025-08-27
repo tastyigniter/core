@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Migrations;
 
-use Override;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository as BaseDatabaseMigrationRepository;
+use Override;
 
 class DatabaseMigrationRepository extends BaseDatabaseMigrationRepository
 {

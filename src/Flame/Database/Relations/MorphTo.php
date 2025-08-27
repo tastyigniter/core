@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
-use Override;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo as MorphToBase;
+use Override;
 
 /**
  * Adapted from october\rain\database\relations\MorphTo

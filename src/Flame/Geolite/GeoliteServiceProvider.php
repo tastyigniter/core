@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite;
 
-use Override;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class GeoliteServiceProvider extends ServiceProvider
 {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Model;
 
-use Override;
 use Igniter\Flame\Geolite\Contracts\BoundsInterface;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\PolygonInterface;
 use Igniter\Flame\Geolite\Polygon;
+use Override;
 
 class Bounds implements BoundsInterface
 {

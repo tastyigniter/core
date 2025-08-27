@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Mail;
 
-use Override;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable as MailableBase;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
+use Override;
 
 /**
  * Generic mailable class.

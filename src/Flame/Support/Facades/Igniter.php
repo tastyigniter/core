@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Support\Facades;
 
-use Override;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Facade;
+use Override;
 
 /**
  * @method static \Igniter\Flame\Support\Igniter useExtensionsPath(string $path)

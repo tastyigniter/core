@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Relations;
 
-use Override;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as CollectionBase;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany as BelongsToManyBase;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Override;
 
 /**
  * Adapted from october\rain\database\relations\BelongsToMany

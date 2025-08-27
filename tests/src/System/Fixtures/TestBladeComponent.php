@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Fixtures;
 
-use Override;
 use Igniter\Main\Traits\ConfigurableComponent;
 use Illuminate\View\Component;
+use Override;
 
 class TestBladeComponent extends Component
 {

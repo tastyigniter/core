@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\System\Providers;
 
-use Override;
 use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Flame\Providers\EventServiceProvider as FlameEventServiceProvider;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Observers\LanguageObserver;
 use Illuminate\Support\Facades\Event;
+use Override;
 
 class EventServiceProvider extends FlameEventServiceProvider
 {

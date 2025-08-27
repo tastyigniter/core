@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Admin;
 
-use Override;
 use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\Classes\OnboardingSteps;
 use Igniter\Admin\Classes\RouteRegistrar;
@@ -27,6 +26,7 @@ use Igniter\System\Libraries\Assets;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Route;
+use Override;
 
 class ServiceProvider extends AppServiceProvider
 {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Connectors;
 
-use Override;
 use Closure;
 use Igniter\Flame\Database\Connections\MySqlConnection;
 use Illuminate\Database\Connection;
@@ -14,6 +13,7 @@ use Illuminate\Database\SQLiteConnection;
 use Illuminate\Database\SqlServerConnection;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use Override;
 use PDO;
 use PDOException;
 

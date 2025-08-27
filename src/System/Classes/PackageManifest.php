@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
-use Override;
 use Illuminate\Foundation\PackageManifest as BasePackageManifest;
+use Override;
 
 /**
  * PackageManifest class

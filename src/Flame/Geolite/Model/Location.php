@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Model;
 
-use Override;
 use Igniter\Flame\Geolite\Contracts\LocationInterface;
 use Igniter\Flame\Geolite\Formatter\StringFormatter;
+use Override;
 
 class Location implements LocationInterface
 {

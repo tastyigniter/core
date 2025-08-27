@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\Admin\Database\Factories;
 
-use Override;
 use Igniter\Admin\Models\StatusHistory;
 use Igniter\Flame\Database\Factories\Factory;
+use Override;
 
 class StatusHistoryFactory extends Factory
 {

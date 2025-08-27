@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database;
 
-use Override;
 use Igniter\Flame\Database\Attach\Manipulator;
 use Igniter\Flame\Database\Attach\Media;
 use Igniter\Flame\Database\Attach\MediaAdder;
@@ -16,6 +15,7 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\DatabaseServiceProvider as BaseDatabaseServiceProvider;
 use Illuminate\Database\DatabaseTransactionsManager;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Override;
 
 class DatabaseServiceProvider extends BaseDatabaseServiceProvider
 {
