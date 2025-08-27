@@ -13,7 +13,7 @@ use Igniter\Main\Template\Layout;
 use Igniter\Main\Template\Page;
 use Illuminate\Support\Facades\Cache;
 
-it('loads template object correctly', function () {
+it('loads template object correctly', function() {
     $layout = Layout::load('tests-theme', 'default');
     $page = Page::load('tests-theme', 'nested-page');
 
@@ -23,7 +23,7 @@ it('loads template object correctly', function () {
     expect($pageCode)->toEqual($fileParser->source($page, $layout, controller()));
 });
 
-it('handles valid cache and returns object', function () {
+it('handles valid cache and returns object', function() {
     $model = mock(Model::class)->makePartial();
     $filePath = 'path/to/file.blade.php';
     $className = 'Pagic'.str_replace('.', '', uniqid('', true)).'_'.md5((string) mt_rand()).'Class';
@@ -45,10 +45,10 @@ it('handles valid cache and returns object', function () {
     File::shouldReceive('move')->andReturn(true);
 
     $parser = FileParser::on($model);
-    expect(fn () => $parser->source($model, $model, controller()))->toThrow('Class "'.$className.'" not found');
+    expect(fn() => $parser->source($model, $model, controller()))->toThrow('Class "'.$className.'" not found');
 });
 
-it('returns template object when source is valid', function () {
+it('returns template object when source is valid', function() {
     $model = mock(Model::class)->makePartial();
     $filePath = 'path/to/file.blade.php';
     $templateCode = '<?php use Igniter\Main\Helpers\MainHelper; function test() {}';
@@ -71,7 +71,7 @@ it('returns template object when source is valid', function () {
     expect(FileParser::on($model)->source($model, $model, controller()))->toBeInstanceOf(PageCode::class);
 });
 
-it('handles corrupt cache and returns object', function () {
+it('handles corrupt cache and returns object', function() {
     $model = mock(Model::class)->makePartial();
     $filePath = 'path/to/file.blade.php';
     $className = 'Pagic'.str_replace('.', '', uniqid('', true)).'_'.md5((string) mt_rand()).'Class';
@@ -96,7 +96,7 @@ it('handles corrupt cache and returns object', function () {
     expect($result)->toBeInstanceOf($className);
 });
 
-it('returns null when extracting class name from file', function () {
+it('returns null when extracting class name from file', function() {
     $model = mock(Model::class)->makePartial();
     $filePath = 'path/to/file.blade.php';
     $model->shouldReceive('getFilePath')->andReturn($filePath);
@@ -115,10 +115,10 @@ it('returns null when extracting class name from file', function () {
     File::shouldReceive('get')->andReturn('<?php class PagicInvalidClassNameClass extends \Igniter\Main\Template\Code\PageCode {}');
     File::shouldReceive('delete')->andReturn(true);
 
-    expect(fn () => FileParser::on($model)->source($model, $model, controller()))->toThrow('Class "PagicInvalidClassNameClass" not found');
+    expect(fn() => FileParser::on($model)->source($model, $model, controller()))->toThrow('Class "PagicInvalidClassNameClass" not found');
 });
 
-it('throws exception when can not write compiled file', function () {
+it('throws exception when can not write compiled file', function() {
     config(['igniter-pagic.forceBytecodeInvalidation' => true]);
     $model = mock(Model::class)->makePartial();
     $filePath = 'file.blade.php';
@@ -141,24 +141,24 @@ it('throws exception when can not write compiled file', function () {
     File::shouldReceive('makeDirectory')->andReturnFalse();
     File::shouldReceive('chmod')->andReturn(true);
 
-    expect(fn () => FileParser::on($model)->source($model, $model, controller()))
-        ->toThrow(fn (\RuntimeException $e) => str_contains($e->getMessage(), 'Unable to create cache directory'));
+    expect(fn() => FileParser::on($model)->source($model, $model, controller()))
+        ->toThrow(fn(\RuntimeException $e) => str_contains($e->getMessage(), 'Unable to create cache directory'));
 
-    File::shouldReceive('put')->withArgs(function ($tmpFile, $content): true {
+    File::shouldReceive('put')->withArgs(function($tmpFile, $content): true {
         @unlink($tmpFile);
 
         return true;
     })->andReturn(false, true);
-    expect(fn () => FileParser::on($model)->source($model, $model, controller()))
-        ->toThrow(fn (\RuntimeException $e) => str_contains($e->getMessage(), 'Failed to write cache file '));
+    expect(fn() => FileParser::on($model)->source($model, $model, controller()))
+        ->toThrow(fn(\RuntimeException $e) => str_contains($e->getMessage(), 'Failed to write cache file '));
 
-    File::shouldReceive('move')->withArgs(function ($tmpFile, $content): true {
+    File::shouldReceive('move')->withArgs(function($tmpFile, $content): true {
         @unlink($tmpFile);
 
         return true;
     })->andReturn(false, true);
-    expect(fn () => FileParser::on($model)->source($model, $model, controller()))
-        ->toThrow(fn (\RuntimeException $e) => str_contains($e->getMessage(), 'Failed to write cache file '));
+    expect(fn() => FileParser::on($model)->source($model, $model, controller()))
+        ->toThrow(fn(\RuntimeException $e) => str_contains($e->getMessage(), 'Failed to write cache file '));
 
     File::shouldReceive('chmod')->andReturnTrue();
     expect(FileParser::on($model)->source($model, $model, controller()))->toBeInstanceOf(PageCode::class);
