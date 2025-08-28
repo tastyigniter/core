@@ -254,6 +254,8 @@ class MediaFinder extends BaseFormWidget
             'items' => ['required', 'array'],
             'items.*.name' => ['required', 'string'],
             'items.*.path' => ['required', 'string'],
+            'items.*.publicUrl' => ['required', 'string'],
+            'items.*.fileType' => ['required', 'string'],
         ]);
 
         $model = $this->model;

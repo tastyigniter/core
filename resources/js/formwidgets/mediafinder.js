@@ -197,7 +197,7 @@
         if ($findFile.length) $findFile.removeClass('fa-file').addClass('fa-'+item.fileType)
         if ($findValue.length) $findValue.val(item.path)
         if ($mediaIcon.length) {
-            $mediaIcon.before(`<img class="img-responsive" src="${item.publicUrl}" alt="${$findName}" />`)
+            $mediaIcon.before(`<img class="img-responsive" src="${item.publicUrl}" alt="${item.path}" />`)
             $mediaIcon.remove()
         }
 
