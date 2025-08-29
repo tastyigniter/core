@@ -225,6 +225,8 @@ it('throws exception when adding attachment on a non existing model', function()
             [
                 'name' => 'media.jpg',
                 'path' => 'path/to/media.jpg',
+                'publicUrl' => 'http://example.com/path/to/media.jpg',
+                'fileType' => 'image',
             ],
         ],
     ]);
@@ -244,6 +246,8 @@ it('adds attachment correctly', function() {
             [
                 'name' => 'media.jpg',
                 'path' => 'path/to/media.jpg',
+                'publicUrl' => 'http://example.com/path/to/media.jpg',
+                'fileType' => 'image',
             ],
         ],
     ]);

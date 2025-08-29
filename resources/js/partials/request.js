@@ -235,7 +235,11 @@ if (window.jQuery.request !== undefined)
                     var updatePromise = $.Deferred().done(function () {
                         var dataArray = []
                         try {
-                            dataArray = jQuery.type(data) === 'object' ? data : jQuery.parseJSON(data)
+                            dataArray = jQuery.type(data) === 'object'
+                                ? data
+                                : data
+                                    ? jQuery.parseJSON(data)
+                                    : []
                         } catch (e) {
                             console.error('JSON parse error', e)
                         }
