@@ -10,10 +10,10 @@ use Illuminate\Foundation\Providers\ArtisanServiceProvider as BaseServiceProvide
 
 class ArtisanServiceProvider extends BaseServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            Application::starting(function() {
+            Application::starting(function(): void {
                 $this->app['events']->dispatch('console.schedule', [$this->app->make(Schedule::class)]);
             });
         }

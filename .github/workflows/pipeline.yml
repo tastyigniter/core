@@ -20,7 +20,7 @@ jobs:
     with:
       php-version: ${{ matrix.php }}
   php-tests:
-    name: 'PHP Tests ${{ matrix.php }} (Shard ${{ matrix.shard }}/5)'
+    name: PHP Tests ${{ matrix.php }} (Shard ${{ matrix.shard }}/5)
     needs: php-code-check
     if: ${{ always() && needs.php-code-check.result == 'success' }}
     runs-on: ubuntu-latest
