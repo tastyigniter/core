@@ -120,7 +120,7 @@
                     $.request(self.options.alias+'::onAddAttachment', {
                         data: {items: items}
                     }).done(function (response) {
-                        self.updateFinder($button, response)
+                        self.updateFinder($button, response.result)
                     }).always(function () {
                         $.ti.loadingIndicator.hide()
                     })

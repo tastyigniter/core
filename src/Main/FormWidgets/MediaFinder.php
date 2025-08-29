@@ -278,7 +278,9 @@ class MediaFinder extends BaseFormWidget
             $item['identifier'] = $media->getKey();
         }
 
-        return $data['items'];
+        return [
+            'result' => $data['items']
+        ];
     }
 
     #[Override]
