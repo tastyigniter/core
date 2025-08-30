@@ -6,10 +6,10 @@ namespace Igniter\Tests\Flame\Providers;
 
 use Igniter\Flame\Providers\ArtisanServiceProvider;
 use Illuminate\Console\Events\ArtisanStarting;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\Kernel;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Console\Scheduling\Schedule;
 
 it('dispatches console.subscribe event when starting artisan command', function(): void {
     $app = mock(Application::class);

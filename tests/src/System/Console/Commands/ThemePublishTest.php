@@ -38,7 +38,7 @@ it('skips publishing if no publishable files', function() {
 });
 
 it('throws exception if no active theme', function() {
-    app()->instance(ThemeManager::class, mock(ThemeManager::class, function ($mock) {
+    app()->instance(ThemeManager::class, mock(ThemeManager::class, function($mock) {
         $mock->shouldReceive('getActiveTheme')->andReturnNull();
     })->makePartial());
     config(['igniter-system.defaultTheme' => 'invalid']);
