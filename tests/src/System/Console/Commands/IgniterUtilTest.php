@@ -22,6 +22,7 @@ it('errors when utility command method is not defined', function() {
 it('executes set version command successfully', function() {
     Igniter::shouldReceive('hasDatabase')->andReturnTrue();
     Igniter::shouldReceive('version')->andReturn('2.0.0');
+    Igniter::shouldReceive('prunableModels')->andReturn([]);
     $composerManager = mock(Manager::class);
     app()->instance(Manager::class, $composerManager);
     $packageManifest = mock(PackageManifest::class);
@@ -98,9 +99,10 @@ it('skips setting carte if no key defined', function() {
 });
 
 it('sets theme successfully', function() {
-    $theme = ThemeModel::create([
-        'name' => 'Orange',
+    $theme = ThemeModel::updateOrCreate([
         'code' => 'igniter-orange',
+    ], [
+        'name' => 'Orange',
         'version' => '1.0.0',
         'data' => [],
         'status' => 1,

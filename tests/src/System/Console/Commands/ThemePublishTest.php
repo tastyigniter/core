@@ -12,6 +12,7 @@ use Igniter\Main\Models\Theme;
 it('publishes theme files successfully', function() {
     $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
     $activeTheme->path = theme_path().'/demo';
+    $activeTheme->locked = false;
     Igniter::shouldReceive('hasDatabase')->andReturnTrue();
     Igniter::shouldReceive('publishableThemeFiles')->andReturn([
         'assets' => '/assets',
@@ -26,16 +27,20 @@ it('publishes theme files successfully', function() {
 it('skips publishing if no publishable files', function() {
     $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
     $activeTheme->path = theme_path().'/demo';
+    $activeTheme->locked = false;
     Igniter::shouldReceive('hasDatabase')->andReturnTrue();
     Igniter::shouldReceive('publishableThemeFiles')->andReturn([]);
 
     $this->artisan('igniter:theme-publish')
         ->expectsOutput('Publishing theme assets...')
-        ->expectsOutput('No publishable custom files for theme [tests-theme].')
+        ->expectsOutput('No publishable custom files for theme ['.$activeTheme->getName().'].')
         ->assertExitCode(0);
 });
 
 it('throws exception if no active theme', function() {
+    app()->instance(ThemeManager::class, mock(ThemeManager::class, function ($mock) {
+        $mock->shouldReceive('getActiveTheme')->andReturnNull();
+    })->makePartial());
     config(['igniter-system.defaultTheme' => 'invalid']);
     Theme::clearDefaultModel();
 
@@ -63,6 +68,7 @@ it('throws exception if theme is locked', function() {
 it('throws exception if theme path is invalid', function() {
     $activeTheme = resolve(ThemeManager::class)->getActiveTheme();
     $activeTheme->path = '/invalid/path';
+    $activeTheme->locked = false;
     Igniter::shouldReceive('hasDatabase')->andReturnTrue();
     Igniter::shouldReceive('publishableThemeFiles')->andReturn([]);
 
