@@ -279,7 +279,7 @@ class MediaFinder extends BaseFormWidget
         }
 
         return [
-            'result' => $data['items']
+            'result' => $data['items'],
         ];
     }
 
