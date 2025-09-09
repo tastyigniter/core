@@ -80,6 +80,7 @@ class PackageManifest extends BasePackageManifest
                         ? 'tastyigniter-theme'
                         : 'tastyigniter-extension',
                     'installPath' => array_get($package, 'install-path'),
+                    'version' => array_get($package, 'version'),
                 ],
             ])
             ->filter()

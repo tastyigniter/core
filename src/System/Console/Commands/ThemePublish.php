@@ -19,7 +19,7 @@ class ThemePublish extends VendorPublishCommand
 
     protected $name = 'igniter:theme-publish';
 
-    protected $description = 'Publish any publishable theme files from extensions';
+    protected $description = 'Publish active theme publishable files from extensions';
 
     protected $signature;
 
