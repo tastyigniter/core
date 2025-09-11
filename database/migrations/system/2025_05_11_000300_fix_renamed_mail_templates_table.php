@@ -25,7 +25,7 @@ return new class extends Migration
                 ->delete();
         }
 
-        if (DB::table('mail_templates')->where('code', 'igniter.admin::_mail.password_reset')->doesntExist()) {
+        if (DB::table('mail_templates')->where('code', 'igniter.admin::_mail.password_reset_request')->doesntExist()) {
             DB::table('mail_templates')
                 ->where('code', 'igniter.admin::_mail.password_reset_request')
                 ->update(['code' => 'igniter.user::mail.password_reset_request']);
