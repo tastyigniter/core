@@ -18,6 +18,7 @@ use Igniter\Flame\Assetic\Asset\FileAsset;
 use Igniter\Flame\Assetic\Asset\HttpAsset;
 use Igniter\Flame\Assetic\Factory\AssetFactory;
 use Igniter\Flame\Support\Facades\File;
+use Override;
 
 /**
  * Inlines imported stylesheets.
@@ -36,6 +37,7 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
         $this->importFilter = $importFilter ?: new CssRewriteFilter;
     }
 
+    #[Override]
     public function filterLoad(AssetInterface $asset): void
     {
         $importFilter = $this->importFilter;
@@ -100,8 +102,10 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
         $asset->setContent($content);
     }
 
+    #[Override]
     public function filterDump(AssetInterface $asset) {}
 
+    #[Override]
     public function getChildren(AssetFactory $factory, $content, $loadPath = null): array
     {
         // todo

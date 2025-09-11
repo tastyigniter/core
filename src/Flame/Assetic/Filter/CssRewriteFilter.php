@@ -6,6 +6,7 @@ namespace Igniter\Flame\Assetic\Filter;
 
 use Igniter\Flame\Assetic\Asset\AssetInterface;
 use Igniter\Flame\Support\Facades\File;
+use Override;
 
 /**
  * Fixes relative CSS urls.
@@ -14,8 +15,10 @@ use Igniter\Flame\Support\Facades\File;
  */
 class CssRewriteFilter extends BaseCssFilter
 {
+    #[Override]
     public function filterLoad(AssetInterface $asset) {}
 
+    #[Override]
     public function filterDump(AssetInterface $asset): void
     {
         $sourceBase = $asset->getSourceRoot();

@@ -6,6 +6,7 @@ namespace Igniter\System\DashboardWidgets;
 
 use DOMDocument;
 use Igniter\Admin\Classes\BaseDashboardWidget;
+use Override;
 use Throwable;
 
 /**
@@ -20,6 +21,7 @@ class News extends BaseDashboardWidget
 
     public string $newsRss = 'https://tastyigniter.com/feed';
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -27,6 +29,7 @@ class News extends BaseDashboardWidget
         return $this->makePartial('news/news');
     }
 
+    #[Override]
     public function defineProperties(): array
     {
         return [

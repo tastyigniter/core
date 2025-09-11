@@ -10,6 +10,7 @@ use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Schema;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 
 class IgniterUp extends Command
@@ -79,6 +80,7 @@ class IgniterUp extends Command
         }
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [

@@ -15,6 +15,7 @@ use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\View;
+use Override;
 
 /**
  * MailLayout Model Class
@@ -85,6 +86,7 @@ class MailLayout extends Model
         return self::dropdown('name');
     }
 
+    #[Override]
     protected function afterFetch()
     {
         if (!$this->is_locked) {

@@ -14,6 +14,7 @@ use Igniter\User\Models\AssignableLog;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
 use Igniter\User\Models\UserRole;
+use Override;
 
 /**
  * Staff Model Class
@@ -125,6 +126,7 @@ class Staff extends Model
     // Events
     //
 
+    #[Override]
     protected function afterSave()
     {
         $this->restorePurgedValues();
@@ -134,6 +136,7 @@ class Staff extends Model
         }
     }
 
+    #[Override]
     protected function beforeDelete()
     {
         $this->groups()->detach();

@@ -6,6 +6,7 @@ namespace Igniter\System\Console\Commands;
 
 use Igniter\System\Classes\PackageManifest;
 use Illuminate\Console\Command;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 
 class IgniterPackageDiscover extends Command
@@ -45,6 +46,7 @@ class IgniterPackageDiscover extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

@@ -9,49 +9,25 @@ jobs:
     uses: tastyigniter/workflows/.github/workflows/build-assets.yml@main
     secrets:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-  php-lint:
+  php-code-check:
+    name: 'PHP Code Check ${{ matrix.php }}'
     needs: build-assets
     if: ${{ always() && needs.build-assets.result == 'success' }}
-    name: PHP Linting (Pint)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          tools: composer:v2
-          coverage: none
-
-      - name: Set composer version to avoid conflicts
-        if: github.head_ref != 'master' && github.head_ref != 'main' && github.head_ref != '4.x'
-        run: composer config version 4.0.x-dev
-
-      - name: Install composer dependencies
-        run: composer update --no-interaction --no-progress
-
-      - name: Remove composer version after use
-        if: github.head_ref != 'master' && github.head_ref != 'main' && github.head_ref != '4.x'
-        run: composer config --unset version
-
-      - name: Run Laravel Pint
-        run: composer test:lint
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: PHP Linting (Pint) - Fix styling
-          file_pattern: '*.php'
+    uses: tastyigniter/workflows/.github/workflows/php-code-check.yml@main
+    strategy:
+      matrix:
+        php: [ '8.3', '8.4' ]
+    with:
+      php-version: ${{ matrix.php }}
   php-tests:
-    name: 'PHP Tests'
-    needs: php-lint
-    if: ${{ always() && needs.php-lint.result == 'success' }}
+    name: PHP Tests ${{ matrix.php }} (Shard ${{ matrix.shard }}/5)
+    needs: php-code-check
+    if: ${{ always() && needs.php-code-check.result == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         php: [ '8.3', '8.4' ]
+        shard: [ 1, 2, 3, 4, 5 ]
     services:
       mysql:
         image: mysql:latest
@@ -75,10 +51,10 @@ jobs:
           sudo service mysql start
           mysql -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }};"
 
-      - name: Setup PHP ${{ matrix.php-version }}
+      - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           extensions: dom, curl, xml, mbstring, zip, pdo, sqlite, bcmath, soap, intl, gd
           tools: composer:v2
           coverage: none
@@ -95,4 +71,4 @@ jobs:
         run: composer config --unset version
 
       - name: Run test suite
-        run: composer test
+        run: vendor/bin/pest --compact --shard ${{ matrix.shard }}/5

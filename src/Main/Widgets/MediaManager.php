@@ -15,6 +15,7 @@ use Igniter\Main\Classes\MediaLibrary;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Media Manager widget.
@@ -59,6 +60,7 @@ class MediaManager extends BaseWidget
         $this->checkUploadHandler();
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -96,6 +98,7 @@ class MediaManager extends BaseWidget
         $this->vars['breadcrumbs'] = $this->makeBreadcrumb();
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addCss('mediamanager.css', 'mediamanager-css');

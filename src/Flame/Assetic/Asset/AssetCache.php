@@ -6,6 +6,7 @@ namespace Igniter\Flame\Assetic\Asset;
 
 use Igniter\Flame\Assetic\Cache\CacheInterface;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
+use Override;
 
 /**
  * Caches an asset to avoid the cost of loading and dumping.
@@ -19,21 +20,25 @@ readonly class AssetCache implements AssetInterface
         private CacheInterface $cache,
     ) {}
 
+    #[Override]
     public function ensureFilter(FilterInterface $filter): void
     {
         $this->asset->ensureFilter($filter);
     }
 
+    #[Override]
     public function getFilters(): array
     {
         return $this->asset->getFilters();
     }
 
+    #[Override]
     public function clearFilters(): void
     {
         $this->asset->clearFilters();
     }
 
+    #[Override]
     public function load(?FilterInterface $additionalFilter = null): void
     {
         $cacheKey = $this->getCacheKey($this->asset, $additionalFilter, 'load');
@@ -47,6 +52,7 @@ readonly class AssetCache implements AssetInterface
         $this->cache->set($cacheKey, $this->asset->getContent());
     }
 
+    #[Override]
     public function dump(?FilterInterface $additionalFilter = null): string
     {
         $cacheKey = $this->getCacheKey($this->asset, $additionalFilter, 'dump');
@@ -60,56 +66,67 @@ readonly class AssetCache implements AssetInterface
         return $content;
     }
 
+    #[Override]
     public function getContent(): string
     {
         return $this->asset->getContent();
     }
 
+    #[Override]
     public function setContent($content): void
     {
         $this->asset->setContent($content);
     }
 
+    #[Override]
     public function getSourceRoot(): ?string
     {
         return $this->asset->getSourceRoot();
     }
 
+    #[Override]
     public function getSourcePath(): ?string
     {
         return $this->asset->getSourcePath();
     }
 
+    #[Override]
     public function getSourceDirectory(): ?string
     {
         return $this->asset->getSourceDirectory();
     }
 
+    #[Override]
     public function getTargetPath(): ?string
     {
         return $this->asset->getTargetPath();
     }
 
+    #[Override]
     public function setTargetPath(string $targetPath): void
     {
         $this->asset->setTargetPath($targetPath);
     }
 
+    #[Override]
     public function getLastModified(): ?int
     {
         return $this->asset->getLastModified();
     }
 
+    #[Override]
     public function getVars(): array
     {
         return $this->asset->getVars();
     }
 
+    #[Override]
     public function setValues(array $values): void
     {
         $this->asset->setValues($values);
     }
 
+    #[Override]
     public function getValues(): array
     {
         return $this->asset->getValues();

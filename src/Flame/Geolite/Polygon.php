@@ -15,6 +15,7 @@ use Igniter\Flame\Geolite\Model\CoordinatesCollection;
 use InvalidArgumentException;
 use IteratorAggregate;
 use JsonSerializable;
+use Override;
 use Traversable;
 
 class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, PolygonInterface
@@ -49,16 +50,19 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
         }
     }
 
+    #[Override]
     public function getGeometryType(): string
     {
         return self::TYPE;
     }
 
+    #[Override]
     public function getCoordinate(): ?CoordinatesInterface
     {
         return $this->coordinates->offsetGet(0);
     }
 
+    #[Override]
     public function getCoordinates(): CoordinatesCollection
     {
         return $this->coordinates;
@@ -72,6 +76,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
         return $this;
     }
 
+    #[Override]
     public function getPrecision(): ?int
     {
         return $this->precision;
@@ -85,6 +90,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
         return $this;
     }
 
+    #[Override]
     public function getBounds(): BoundsInterface
     {
         return $this->bounds;
@@ -146,6 +152,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
         return $coordinates;
     }
 
+    #[Override]
     public function pointInPolygon(CoordinatesInterface $coordinate): bool
     {
         if ($this->isEmpty()) {
@@ -167,6 +174,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
         return $this->pointOnIntersections($coordinate);
     }
 
+    #[Override]
     public function pointOnBoundary(CoordinatesInterface $coordinate): bool
     {
         $total = $this->count();
@@ -244,6 +252,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
         return false;
     }
 
+    #[Override]
     public function pointOnVertex(CoordinatesInterface $coordinate): bool
     {
         foreach ($this->coordinates as $vertexCoordinate) {
@@ -322,6 +331,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
     //
     //
 
+    #[Override]
     public function isEmpty(): bool
     {
         return $this->count() < 1;
@@ -338,6 +348,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function jsonSerialize(): mixed
     {
         return $this->coordinates->jsonSerialize();
@@ -346,6 +357,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function offsetExists(mixed $offset): bool
     {
         return $this->coordinates->offsetExists($offset);
@@ -354,6 +366,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->coordinates->offsetGet($offset);
@@ -362,6 +375,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->coordinates->offsetSet($offset, $value);
@@ -371,6 +385,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function offsetUnset(mixed $offset): void
     {
         $this->coordinates->offsetUnset($offset);
@@ -380,6 +395,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function count(): int
     {
         return $this->coordinates->count();
@@ -388,6 +404,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function getIterator(): Traversable
     {
         return $this->coordinates->getIterator();

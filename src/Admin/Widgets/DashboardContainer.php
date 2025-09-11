@@ -13,6 +13,7 @@ use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\System\Classes\ComponentManager;
 use Igniter\User\Models\UserPreference;
+use Override;
 
 class DashboardContainer extends BaseWidget
 {
@@ -88,6 +89,7 @@ class DashboardContainer extends BaseWidget
      * Ensure dashboard widgets are registered so they can also be bound to
      * the controller this allows their AJAX features to operate.
      */
+    #[Override]
     public function bindToController(): void
     {
         $this->defineDashboardWidgets();
@@ -97,6 +99,7 @@ class DashboardContainer extends BaseWidget
     /**
      * Renders this widget along with its collection of dashboard widgets.
      */
+    #[Override]
     public function render(): string
     {
         $this->vars['startDate'] = $this->startDate = $this->getStartDate();
@@ -106,6 +109,7 @@ class DashboardContainer extends BaseWidget
         return $this->makePartial('dashboardcontainer/dashboardcontainer');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('js/vendor.datetime.js', 'vendor-datetime-js');
@@ -195,7 +199,7 @@ class DashboardContainer extends BaseWidget
 
         flash()->success(lang('igniter::admin.dashboard.alert_reset_layout_success'));
 
-        return ['#'.$this->getId('container-list') => $this->makePartial('widget_list')];
+        return $this->onRenderWidgets();
     }
 
     public function onSetAsDefault(): void

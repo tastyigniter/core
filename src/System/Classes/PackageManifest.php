@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\System\Classes;
 
 use Illuminate\Foundation\PackageManifest as BasePackageManifest;
+use Override;
 
 /**
  * PackageManifest class
@@ -56,6 +57,7 @@ class PackageManifest extends BasePackageManifest
             ->value('version');
     }
 
+    #[Override]
     public function build(): void
     {
         $packages = [];
@@ -78,6 +80,7 @@ class PackageManifest extends BasePackageManifest
                         ? 'tastyigniter-theme'
                         : 'tastyigniter-extension',
                     'installPath' => array_get($package, 'install-path'),
+                    'version' => array_get($package, 'version'),
                 ],
             ])
             ->filter()

@@ -12,6 +12,7 @@ use Illuminate\Cache\CacheManager;
 use Illuminate\Database\Query\Builder as IlluminateQueryBuilder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Override;
 
 /**
  * Adapted from october\rain\database\QueryBuilder
@@ -101,6 +102,7 @@ class Builder extends IlluminateQueryBuilder
     /**
      * {@inheritDoc}
      */
+    #[Override]
     public function get($columns = ['*'])
     {
         if ($this->cachingDuplicates()) {
@@ -230,6 +232,7 @@ class Builder extends IlluminateQueryBuilder
      * @param string $columns
      * @return int
      */
+    #[Override]
     public function count($columns = '*')
     {
         $previousOrders = $this->orders;
@@ -248,6 +251,7 @@ class Builder extends IlluminateQueryBuilder
      *
      * @return int
      */
+    #[Override]
     public function update(array $values)
     {
         $this->clearDuplicateCache();
@@ -261,6 +265,7 @@ class Builder extends IlluminateQueryBuilder
      * @param mixed $id
      * @return int
      */
+    #[Override]
     public function delete($id = null)
     {
         $this->clearDuplicateCache();
@@ -274,6 +279,7 @@ class Builder extends IlluminateQueryBuilder
      * @param string $sequence
      * @return int
      */
+    #[Override]
     public function insertGetId(array $values, $sequence = null)
     {
         $this->clearDuplicateCache();
@@ -286,6 +292,7 @@ class Builder extends IlluminateQueryBuilder
      *
      * @return bool
      */
+    #[Override]
     public function insert(array $values)
     {
         $this->clearDuplicateCache();
@@ -296,6 +303,7 @@ class Builder extends IlluminateQueryBuilder
     /**
      * Run a truncate statement on the table.
      */
+    #[Override]
     public function truncate(): void
     {
         $this->clearDuplicateCache();

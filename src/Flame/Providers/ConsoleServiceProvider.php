@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Igniter\Flame\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as IlluminateEventServiceProvider;
+use Override;
 
 abstract class ConsoleServiceProvider extends IlluminateEventServiceProvider
 {
     protected $commands = [];
 
+    #[Override]
     public function register(): void
     {
         parent::register();

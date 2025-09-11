@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Admin\FormWidgets;
 
 use Igniter\Admin\Classes\BaseFormWidget;
+use Override;
 
 /**
  * Code Editor
@@ -35,6 +36,7 @@ class CodeEditor extends BaseFormWidget
 
     protected string $defaultAlias = 'codeeditor';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -46,6 +48,7 @@ class CodeEditor extends BaseFormWidget
         ]);
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -53,6 +56,7 @@ class CodeEditor extends BaseFormWidget
         return $this->makePartial('codeeditor/codeeditor');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('js/vendor.editor.js', 'vendor-editor-js');

@@ -7,12 +7,14 @@ namespace Igniter\Flame\Database\Connections;
 use Igniter\Flame\Database\MemoryCache;
 use Igniter\Flame\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Connection as ConnectionBase;
+use Override;
 
 class Connection extends ConnectionBase
 {
     /**
      * Get a new query builder instance.
      */
+    #[Override]
     public function query(): QueryBuilder
     {
         return new QueryBuilder(
@@ -37,6 +39,7 @@ class Connection extends ConnectionBase
      * @param array $bindings
      * @param float|null $time
      */
+    #[Override]
     public function logQuery($query, $bindings, $time = null): void
     {
         if (isset($this->events)) {
@@ -52,6 +55,7 @@ class Connection extends ConnectionBase
      * @param string $event
      * @return array|null
      */
+    #[Override]
     protected function fireConnectionEvent($event)
     {
         if (isset($this->events)) {

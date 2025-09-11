@@ -9,6 +9,7 @@ use Igniter\Flame\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Facade as IlluminateFacade;
 use Illuminate\Support\LazyCollection;
+use Override;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -89,6 +90,7 @@ class File extends IlluminateFacade
      *
      * @see \Igniter\Flame\Filesystem\Filesystem
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return Filesystem::class;

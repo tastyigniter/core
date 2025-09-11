@@ -7,6 +7,7 @@ namespace Igniter\System\Console\Commands;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Models\User;
 use Illuminate\Console\Command;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Question\Question;
 
@@ -61,6 +62,7 @@ class IgniterPasswd extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [

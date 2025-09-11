@@ -6,11 +6,13 @@ namespace Igniter\Admin\Database\Factories;
 
 use Igniter\Admin\Models\Status;
 use Igniter\Flame\Database\Factories\Factory;
+use Override;
 
 class StatusFactory extends Factory
 {
     protected $model = Status::class;
 
+    #[Override]
     public function definition(): array
     {
         return [

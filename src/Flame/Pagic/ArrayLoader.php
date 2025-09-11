@@ -7,6 +7,7 @@ namespace Igniter\Flame\Pagic;
 use Exception;
 use Igniter\Flame\Pagic\Contracts\TemplateInterface;
 use InvalidArgumentException;
+use Override;
 
 /**
  * Loads a template from an array.
@@ -30,6 +31,7 @@ class ArrayLoader extends Loader
         $this->templates[$name] = $template;
     }
 
+    #[Override]
     public function getFilename($name): ?string
     {
         return $name;
@@ -44,6 +46,7 @@ class ArrayLoader extends Loader
      *
      * @throws Exception When $name is not found
      */
+    #[Override]
     public function getMarkup(string $name): string
     {
         return array_get($this->templates, $name);
@@ -58,16 +61,19 @@ class ArrayLoader extends Loader
      *
      * @throws Exception When $name is not found
      */
+    #[Override]
     public function getContents(string $name): string
     {
         return array_get($this->templates, $name);
     }
 
+    #[Override]
     public function exists(string $name): bool
     {
         return isset($this->templates[$name]);
     }
 
+    #[Override]
     public function getCacheKey(string $name): string
     {
         if (!isset($this->templates[$name])) {
@@ -77,6 +83,7 @@ class ArrayLoader extends Loader
         return $name.':'.$this->templates[$name];
     }
 
+    #[Override]
     public function isFresh(string $name, int $time): bool
     {
         if (!isset($this->templates[$name])) {
@@ -86,6 +93,7 @@ class ArrayLoader extends Loader
         return true;
     }
 
+    #[Override]
     public function getFilePath(): ?string
     {
         return null;

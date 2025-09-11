@@ -7,6 +7,7 @@ namespace Igniter\Admin\Classes;
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
+use Override;
 use Traversable;
 
 /**
@@ -147,6 +148,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
     /**
      * Get an iterator for the items.
      */
+    #[Override]
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->suppressTabs
@@ -158,6 +160,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
     /**
      * ArrayAccess implementation
      */
+    #[Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->fields[$offset] = $value;
@@ -166,6 +169,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
     /**
      * ArrayAccess implementation
      */
+    #[Override]
     public function offsetExists(mixed $offset): bool
     {
         return isset($this->fields[$offset]);
@@ -174,6 +178,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
     /**
      * ArrayAccess implementation
      */
+    #[Override]
     public function offsetUnset(mixed $offset): void
     {
         unset($this->fields[$offset]);
@@ -184,6 +189,7 @@ class FormTabs implements ArrayAccess, IteratorAggregate
      *
      * @return mixed|null
      */
+    #[Override]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->fields[$offset] ?? null;

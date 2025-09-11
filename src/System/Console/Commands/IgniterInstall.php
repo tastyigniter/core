@@ -17,6 +17,7 @@ use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Process;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -105,6 +106,7 @@ class IgniterInstall extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

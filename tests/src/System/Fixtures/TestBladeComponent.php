@@ -6,6 +6,7 @@ namespace Igniter\Tests\System\Fixtures;
 
 use Igniter\Main\Traits\ConfigurableComponent;
 use Illuminate\View\Component;
+use Override;
 
 class TestBladeComponent extends Component
 {
@@ -20,6 +21,7 @@ class TestBladeComponent extends Component
         ];
     }
 
+    #[Override]
     public function render(): string
     {
         return '<div>Test Component</div>';

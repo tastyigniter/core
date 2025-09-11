@@ -14,6 +14,7 @@ use Igniter\System\Classes\MailManager;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\View;
+use Override;
 
 /**
  * MailPartial Model Class
@@ -60,6 +61,7 @@ class MailPartial extends Model
     // Events
     //
 
+    #[Override]
     protected function afterFetch()
     {
         if (!$this->is_custom) {

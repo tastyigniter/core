@@ -11,6 +11,7 @@ use Igniter\Flame\Pagic\Exception\CreateFileException;
 use Igniter\Flame\Pagic\Exception\DeleteFileException;
 use Igniter\Flame\Pagic\Exception\FileExistsException;
 use Igniter\Flame\Pagic\Processors\Processor;
+use Override;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
@@ -38,6 +39,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Returns a single template.
      */
+    #[Override]
     public function select(string $dirName, string $fileName, string $extension): ?array
     {
         try {
@@ -56,6 +58,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Returns all templates.
      */
+    #[Override]
     public function selectAll($dirName, array $options = []): array
     {
         $columns = array_get($options, 'columns');  // Only return specific columns (fileName, mTime, content)
@@ -116,6 +119,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Creates a new template.
      */
+    #[Override]
     public function insert(string $dirName, string $fileName, string $extension, string $content): bool
     {
         $this->validateDirectoryForSave($dirName, $fileName, $extension);
@@ -136,6 +140,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Updates an existing template.
      */
+    #[Override]
     public function update(string $dirName, string $fileName, string $extension, string $content, ?string $oldFileName = null, ?string $oldExtension = null): bool
     {
         $this->validateDirectoryForSave($dirName, $fileName, $extension);
@@ -173,6 +178,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Run a delete statement against the source.
      */
+    #[Override]
     public function delete(string $dirName, string $fileName, string $extension): bool
     {
         $path = $this->makeFilePath($dirName, $fileName, $extension);
@@ -184,6 +190,7 @@ class FileSource extends AbstractSource implements SourceInterface
         }
     }
 
+    #[Override]
     public function path(string $path): ?string
     {
         return $this->basePath.'/'.$path;
@@ -192,6 +199,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Run a delete statement against the source.
      */
+    #[Override]
     public function lastModified(string $dirName, string $fileName, string $extension): ?int
     {
         try {
@@ -246,6 +254,7 @@ class FileSource extends AbstractSource implements SourceInterface
     /**
      * Generate a cache key unique to this source.
      */
+    #[Override]
     public function makeCacheKey(string $name = ''): int
     {
         return parent::makeCacheKey($this->basePath.$name);

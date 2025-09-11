@@ -11,9 +11,11 @@ use Igniter\System\Classes\MailManager;
 use Igniter\System\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class MailServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         resolve(MailManager::class)->registerCallback(function(MailManager $manager) {

@@ -8,6 +8,7 @@ use Exception;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Models\Language;
 use Illuminate\Console\Command;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 
 class LanguageInstall extends Command
@@ -67,6 +68,7 @@ class LanguageInstall extends Command
         }
     }
 
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -74,6 +76,7 @@ class LanguageInstall extends Command
         ];
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [];

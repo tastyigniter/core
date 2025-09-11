@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Flame\Scaffold\Console;
 
 use Igniter\Flame\Scaffold\GeneratorCommand;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -41,6 +42,7 @@ class MakeExtension extends GeneratorCommand
         'composer.stub' => 'composer.json',
     ];
 
+    #[Override]
     protected function prepareVars(): ?bool
     {
         if (!$code = $this->getExtensionInput()) {
@@ -69,6 +71,7 @@ class MakeExtension extends GeneratorCommand
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -79,6 +82,7 @@ class MakeExtension extends GeneratorCommand
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

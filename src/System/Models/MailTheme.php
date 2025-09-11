@@ -10,6 +10,7 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Actions\SettingsModel;
 use Illuminate\Support\Facades\Cache;
+use Override;
 
 /**
  * MailTheme Model Class
@@ -79,6 +80,7 @@ class MailTheme extends Model
         }
     }
 
+    #[Override]
     protected function afterSave()
     {
         $this->resetCache();

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Igniter\Main\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Override;
 
 class ThemeRequest extends FormRequest
 {
+    #[Override]
     public function attributes(): array
     {
         if (!$this->isEditFormContext()) {
@@ -33,6 +35,7 @@ class ThemeRequest extends FormRequest
     /**
      * Get data to be validated from the request.
      */
+    #[Override]
     public function validationData(): array
     {
         return array_undot($this->all());

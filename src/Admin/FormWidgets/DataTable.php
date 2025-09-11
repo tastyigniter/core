@@ -13,6 +13,7 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\Local\Traits\LocationAwareWidget;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Override;
 
 /**
  * Data Table
@@ -50,6 +51,7 @@ class DataTable extends BaseFormWidget
 
     protected ?Table $table = null;
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -78,6 +80,7 @@ class DataTable extends BaseFormWidget
         $this->table->bindToController();
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -85,6 +88,7 @@ class DataTable extends BaseFormWidget
         return $this->makePartial('datatable/datatable');
     }
 
+    #[Override]
     public function getLoadValue(): mixed
     {
         $value = parent::getLoadValue();
@@ -101,6 +105,7 @@ class DataTable extends BaseFormWidget
         return $value;
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): mixed
     {
         $dataSource = $this->table->getDataSource();

@@ -8,6 +8,7 @@ use Igniter\Flame\Currency\Contracts\CurrencyInterface;
 use Igniter\Flame\Currency\Contracts\FormatterInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
+use Override;
 
 /**
  * @method static string|int|float|null convert(string|int|float $amount, string|null $from = null, string|null $to = null, bool $format = true)
@@ -33,6 +34,7 @@ class Currency extends Facade
     /**
      * Get the registered name of the component.
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'currency';

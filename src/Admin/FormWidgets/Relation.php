@@ -12,6 +12,7 @@ use Igniter\Local\Traits\LocationAwareWidget;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation as RelationBase;
 use Illuminate\Support\Facades\DB;
+use Override;
 
 /**
  * Form Relationship
@@ -53,6 +54,7 @@ class Relation extends BaseFormWidget
 
     public Model $relatedModel;
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -68,6 +70,7 @@ class Relation extends BaseFormWidget
         }
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -75,6 +78,7 @@ class Relation extends BaseFormWidget
         return $this->makePartial('relation/relation');
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): mixed
     {
         if ($this->formField->disabled || $this->formField->hidden) {

@@ -38,6 +38,7 @@ use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\FileViewFinder;
+use Override;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -66,6 +67,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         'currency', 'geocoder', 'routes', 'system',
     ];
 
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(Igniter::class);

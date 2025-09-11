@@ -8,6 +8,7 @@ use Closure;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;
@@ -64,6 +65,7 @@ class ThemeRemove extends Command
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -74,6 +76,7 @@ class ThemeRemove extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

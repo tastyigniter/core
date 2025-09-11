@@ -14,6 +14,7 @@ use Igniter\Flame\Html\HtmlFacade as Html;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Override;
 
 /**
  * Record Editor
@@ -57,6 +58,7 @@ class RecordEditor extends BaseFormWidget
 
     protected string $defaultAlias = 'recordeditor';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -76,6 +78,7 @@ class RecordEditor extends BaseFormWidget
         $this->makeRecordFormWidgetFromRequest();
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -83,6 +86,7 @@ class RecordEditor extends BaseFormWidget
         return $this->makePartial('recordeditor/recordeditor');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('formwidgets/repeater.js', 'repeater-js');

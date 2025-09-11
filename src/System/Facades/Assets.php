@@ -8,6 +8,7 @@ use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Main\Classes\Theme;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Facade;
+use Override;
 
 /**
  * @method static void registerCallback(callable $callback)
@@ -49,6 +50,7 @@ class Assets extends Facade
      * Get the registered name of the component.
      * @see \Igniter\System\Libraries\Template
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'assets';

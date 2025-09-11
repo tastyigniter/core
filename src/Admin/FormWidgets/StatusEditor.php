@@ -22,6 +22,7 @@ use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Override;
 
 /**
  * Status Editor
@@ -88,6 +89,7 @@ class StatusEditor extends BaseFormWidget
 
     protected bool $isStatusMode = true;
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -108,6 +110,7 @@ class StatusEditor extends BaseFormWidget
         ]);
     }
 
+    #[Override]
     public function render(): string
     {
         $this->setMode('status');
@@ -208,6 +211,7 @@ class StatusEditor extends BaseFormWidget
         ];
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('formwidgets/recordeditor.modal.js', 'recordeditor-modal-js');
@@ -221,6 +225,7 @@ class StatusEditor extends BaseFormWidget
         $this->vars['assignee'] = $this->model->{$this->assigneeRelationFrom};
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): int
     {
         return FormField::NO_SAVE_DATA;

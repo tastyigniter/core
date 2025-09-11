@@ -13,6 +13,7 @@ use Illuminate\Database\SQLiteConnection;
 use Illuminate\Database\SqlServerConnection;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use Override;
 use PDO;
 use PDOException;
 
@@ -24,6 +25,7 @@ class ConnectionFactory extends BaseConnectionFactory
      *
      * @return Closure
      */
+    #[Override]
     protected function createPdoResolverWithHosts(array $config)
     {
         return function() use ($config) {
@@ -55,6 +57,7 @@ class ConnectionFactory extends BaseConnectionFactory
      *
      * @throws InvalidArgumentException
      */
+    #[Override]
     protected function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
     {
         if ($resolver = Connection::getResolver($driver)) {

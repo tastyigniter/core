@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Igniter\Admin\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Override;
 
 class StatusRequest extends FormRequest
 {
+    #[Override]
     public function attributes(): array
     {
         return [

@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable as MailableBase;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
+use Override;
 
 /**
  * Generic mailable class.
@@ -25,6 +26,7 @@ class Mailable extends MailableBase
         return $this;
     }
 
+    #[Override]
     public function buildViewData(): array
     {
         $data = parent::buildViewData();
@@ -61,6 +63,7 @@ class Mailable extends MailableBase
      * @param Message $message
      * @return $this
      */
+    #[Override]
     protected function buildSubject($message): self
     {
         // If a custom subject was set, then set it as the message subject

@@ -11,6 +11,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
+use Override;
 use stdClass;
 
 class FormRequest extends BaseFormRequest
@@ -20,6 +21,7 @@ class FormRequest extends BaseFormRequest
     /**
      * Create the default validator instance.
      */
+    #[Override]
     protected function createDefaultValidator(Factory $factory): Validator
     {
         $registeredRules = $this->container->call([$this, 'rules']);
@@ -44,6 +46,7 @@ class FormRequest extends BaseFormRequest
     /**
      * Handle a failed validation attempt.
      */
+    #[Override]
     protected function failedValidation(Validator $validator): never
     {
         throw new ValidationException($validator);

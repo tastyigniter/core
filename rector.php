@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodeQuality\Rector\Ternary\SwitchNegatedTernaryRector;
@@ -16,6 +17,10 @@ use Rector\TypeDeclaration\Rector\Function_\AddFunctionVoidReturnTypeWhereNoRetu
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 
 return RectorConfig::configure()
+    ->withCache(
+        cacheClass: FileCacheStorage::class,
+        cacheDirectory: '/tmp/rector'
+    )
     ->withImportNames(removeUnusedImports: true)
     ->withPaths([__DIR__.'/src', __DIR__.'/tests'])
     ->withRules([

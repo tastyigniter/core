@@ -6,14 +6,17 @@ namespace Igniter\Flame\Database\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 class Serialize implements CastsAttributes
 {
+    #[Override]
     public function get(Model $model, string $key, $value, array $attributes): mixed
     {
         return isset($value) ? @unserialize($value) : null;
     }
 
+    #[Override]
     public function set(Model $model, string $key, $value, array $attributes): mixed
     {
         return isset($value) ? serialize($value) : null;

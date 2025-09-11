@@ -9,6 +9,7 @@ use Igniter\Admin\Traits\FormModelWidget;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Database\Model;
 use Illuminate\Support\Collection;
+use Override;
 
 /**
  * Repeater Form Widget
@@ -60,6 +61,7 @@ class Repeater extends BaseFormWidget
      */
     protected array $formWidgets = [];
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -80,6 +82,7 @@ class Repeater extends BaseFormWidget
         $this->processExistingItems();
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -92,6 +95,7 @@ class Repeater extends BaseFormWidget
         return $this->makePartial('repeater/repeater');
     }
 
+    #[Override]
     public function getLoadValue(): mixed
     {
         $value = parent::getLoadValue();
@@ -109,11 +113,13 @@ class Repeater extends BaseFormWidget
         return $value;
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): mixed
     {
         return (array)$this->processSaveValue($value);
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('repeater.js', 'repeater-js');

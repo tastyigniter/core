@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Factories;
 
+use Override;
+
 abstract class Factory extends \Illuminate\Database\Eloquent\Factories\Factory
 {
     /**
@@ -11,6 +13,7 @@ abstract class Factory extends \Illuminate\Database\Eloquent\Factories\Factory
      *
      * @return string
      */
+    #[Override]
     public static function resolveFactoryName(string $modelName)
     {
         $resolver = static::$factoryNameResolver ?: function(string $modelName) {

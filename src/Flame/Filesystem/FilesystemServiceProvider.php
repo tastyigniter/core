@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Igniter\Flame\Filesystem;
 
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class FilesystemServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(Filesystem::class, function(): Filesystem {

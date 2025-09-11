@@ -10,6 +10,7 @@ use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Foundation\Console\VendorPublishCommand;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 
 class ThemePublish extends VendorPublishCommand
@@ -18,7 +19,7 @@ class ThemePublish extends VendorPublishCommand
 
     protected $name = 'igniter:theme-publish';
 
-    protected $description = 'Publish any publishable theme files from extensions';
+    protected $description = 'Publish active theme publishable files from extensions';
 
     protected $signature;
 
@@ -27,6 +28,7 @@ class ThemePublish extends VendorPublishCommand
     /**
      * Execute the console command.
      */
+    #[Override]
     public function handle(): void
     {
         $this->comment('Publishing theme assets...');
@@ -48,6 +50,7 @@ class ThemePublish extends VendorPublishCommand
         }
     }
 
+    #[Override]
     protected function determineWhatShouldBePublished()
     {
         throw_unless(
@@ -66,6 +69,7 @@ class ThemePublish extends VendorPublishCommand
         );
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [

@@ -6,9 +6,11 @@ namespace Igniter\System\Providers;
 
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class ValidationServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->registerValidator();

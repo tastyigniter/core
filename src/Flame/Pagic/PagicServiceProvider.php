@@ -7,6 +7,7 @@ namespace Igniter\Flame\Pagic;
 use Igniter\Flame\Pagic\Cache\FileSystem as FileCache;
 use Igniter\Flame\Pagic\Source\SourceResolver;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 /**
  * Class PagicServiceProvider
@@ -34,6 +35,7 @@ class PagicServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->app->singleton('pagic.resolver', fn(): SourceResolver => new SourceResolver);

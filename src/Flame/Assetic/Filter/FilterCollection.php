@@ -17,6 +17,7 @@ use ArrayIterator;
 use Countable;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
 use IteratorAggregate;
+use Override;
 use Traversable;
 
 /**
@@ -62,6 +63,7 @@ class FilterCollection implements Countable, FilterInterface, IteratorAggregate
         $this->filters = [];
     }
 
+    #[Override]
     public function filterLoad(AssetInterface $asset): void
     {
         foreach ($this->filters as $filter) {
@@ -69,6 +71,7 @@ class FilterCollection implements Countable, FilterInterface, IteratorAggregate
         }
     }
 
+    #[Override]
     public function filterDump(AssetInterface $asset): void
     {
         foreach ($this->filters as $filter) {
@@ -76,11 +79,13 @@ class FilterCollection implements Countable, FilterInterface, IteratorAggregate
         }
     }
 
+    #[Override]
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->filters);
     }
 
+    #[Override]
     public function count(): int
     {
         return count($this->filters);

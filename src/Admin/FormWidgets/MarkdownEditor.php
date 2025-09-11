@@ -6,6 +6,7 @@ namespace Igniter\Admin\FormWidgets;
 
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Flame\Mail\Markdown;
+use Override;
 
 /**
  * Markdown Editor
@@ -28,6 +29,7 @@ class MarkdownEditor extends BaseFormWidget
 
     protected string $defaultAlias = 'markdown';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -39,6 +41,7 @@ class MarkdownEditor extends BaseFormWidget
         }
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -58,6 +61,7 @@ class MarkdownEditor extends BaseFormWidget
         $this->vars['value'] = $this->getLoadValue();
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('js/vendor.editor.js', 'vendor-editor-js');

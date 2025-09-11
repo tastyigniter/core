@@ -22,6 +22,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Lists widget.
@@ -116,6 +117,7 @@ class Lists extends BaseWidget
 
     protected array $bulkActionWidgets = [];
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -139,11 +141,13 @@ class Lists extends BaseWidget
         }
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('lists.js', 'lists-js');
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();

@@ -7,9 +7,11 @@ namespace Igniter\System\Providers;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class ExtensionServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         // Register all extensions

@@ -6,6 +6,7 @@ namespace Igniter\Flame\Currency\Converters;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Override;
 
 class FixerIO extends AbstractConverter
 {
@@ -18,6 +19,7 @@ class FixerIO extends AbstractConverter
         $this->accessKey = $config['apiKey'] ?? '';
     }
 
+    #[Override]
     public function converterDetails(): array
     {
         return [
@@ -26,6 +28,7 @@ class FixerIO extends AbstractConverter
         ];
     }
 
+    #[Override]
     public function getExchangeRates($base, array $currencies): array
     {
         if (!$this->accessKey) {

@@ -10,6 +10,7 @@ use Igniter\Flame\Scaffold\Console\MakeExtension;
 use Igniter\Flame\Scaffold\Console\MakeModel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class ScaffoldServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,7 @@ class ScaffoldServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->registerCommands($this->commands);

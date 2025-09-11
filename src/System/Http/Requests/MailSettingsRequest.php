@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Igniter\System\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Override;
 
 class MailSettingsRequest extends FormRequest
 {
+    #[Override]
     public function attributes(): array
     {
         return [

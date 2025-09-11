@@ -13,6 +13,7 @@ use Igniter\Flame\Geolite\Provider\NominatimProvider;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
+use Override;
 
 class Geocoder extends Manager implements GeocoderInterface
 {
@@ -34,6 +35,7 @@ class Geocoder extends Manager implements GeocoderInterface
         return $this;
     }
 
+    #[Override]
     public function geocode(string $address): Collection
     {
         $query = GeoQuery::create($address);
@@ -49,6 +51,7 @@ class Geocoder extends Manager implements GeocoderInterface
         return $this->geocodeQuery($query);
     }
 
+    #[Override]
     public function reverse(int|float $latitude, int|float $longitude): Collection
     {
         $query = GeoQuery::fromCoordinates($latitude, $longitude);
@@ -104,6 +107,7 @@ class Geocoder extends Manager implements GeocoderInterface
      *
      * @param string $driver
      */
+    #[Override]
     public function driver($driver = null): AbstractProvider
     {
         $driver = $driver ?: $this->getDefaultDriver();
@@ -111,6 +115,7 @@ class Geocoder extends Manager implements GeocoderInterface
         return $this->makeProvider($driver);
     }
 
+    #[Override]
     public function makeProvider(string $name): AbstractProvider
     {
         return $this->drivers[$name] ?? ($this->drivers[$name] = $this->createProvider($name));
@@ -119,6 +124,7 @@ class Geocoder extends Manager implements GeocoderInterface
     /**
      * Get the default driver name.
      */
+    #[Override]
     public function getDefaultDriver(): string
     {
         return $this->container['config']['igniter-geocoder.default'] ?? 'nominatim';

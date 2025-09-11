@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Override;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -257,6 +258,7 @@ class MainController extends Controller
         return $response;
     }
 
+    #[Override]
     public function callAction($method, $parameters): mixed
     {
         return $this->remap($method, $parameters);

@@ -6,11 +6,13 @@ namespace Igniter\System\Database\Factories;
 
 use Igniter\Flame\Database\Factories\Factory;
 use Igniter\System\Models\Currency;
+use Override;
 
 class CurrencyFactory extends Factory
 {
     protected $model = Currency::class;
 
+    #[Override]
     public function definition(): array
     {
         return [

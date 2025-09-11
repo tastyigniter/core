@@ -8,6 +8,7 @@ use Igniter\Flame\Geolite\Contracts\BoundsInterface;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\PolygonInterface;
 use Igniter\Flame\Geolite\Polygon;
+use Override;
 
 class Bounds implements BoundsInterface
 {
@@ -70,6 +71,7 @@ class Bounds implements BoundsInterface
     /**
      * Returns the south bound.
      */
+    #[Override]
     public function getSouth(): int|float
     {
         return $this->south;
@@ -78,6 +80,7 @@ class Bounds implements BoundsInterface
     /**
      * Returns the west bound.
      */
+    #[Override]
     public function getWest(): int|float
     {
         return $this->west;
@@ -86,6 +89,7 @@ class Bounds implements BoundsInterface
     /**
      * Returns the north bound.
      */
+    #[Override]
     public function getNorth(): int|float
     {
         return $this->north;
@@ -94,6 +98,7 @@ class Bounds implements BoundsInterface
     /**
      * Returns the eastbound.
      */
+    #[Override]
     public function getEast(): int|float
     {
         return $this->east;
@@ -104,6 +109,7 @@ class Bounds implements BoundsInterface
         return $this->precision;
     }
 
+    #[Override]
     public function setPrecision(int $precision): self
     {
         $this->precision = $precision;
@@ -111,6 +117,7 @@ class Bounds implements BoundsInterface
         return $this;
     }
 
+    #[Override]
     public function pointInBounds(CoordinatesInterface $coordinate): bool
     {
         return !(bccomp(
@@ -132,6 +139,7 @@ class Bounds implements BoundsInterface
         );
     }
 
+    #[Override]
     public function getAsPolygon(): PolygonInterface
     {
         $northWest = new Coordinates($this->north, $this->west);
@@ -147,6 +155,7 @@ class Bounds implements BoundsInterface
         );
     }
 
+    #[Override]
     public function setPolygon(PolygonInterface $polygon): void
     {
         foreach ($polygon->getCoordinates() as $coordinate) {
@@ -154,6 +163,7 @@ class Bounds implements BoundsInterface
         }
     }
 
+    #[Override]
     public function merge(BoundsInterface $bounds): self
     {
         $cBounds = clone $this;
@@ -169,6 +179,7 @@ class Bounds implements BoundsInterface
     /**
      * Returns an array with bounds.
      */
+    #[Override]
     public function toArray(): array
     {
         return [

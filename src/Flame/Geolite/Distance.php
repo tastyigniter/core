@@ -8,6 +8,7 @@ use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Exception\GeoliteException;
 use Igniter\Flame\Geolite\Model\Ellipsoid;
+use Override;
 
 class Distance implements DistanceInterface
 {
@@ -28,6 +29,7 @@ class Distance implements DistanceInterface
 
     protected array $data = [];
 
+    #[Override]
     public function setFrom(CoordinatesInterface $from): self
     {
         $this->from = $from;
@@ -35,11 +37,13 @@ class Distance implements DistanceInterface
         return $this;
     }
 
+    #[Override]
     public function getFrom(): CoordinatesInterface
     {
         return $this->from;
     }
 
+    #[Override]
     public function setTo(CoordinatesInterface $to): self
     {
         $this->to = $to;
@@ -47,11 +51,13 @@ class Distance implements DistanceInterface
         return $this;
     }
 
+    #[Override]
     public function getTo(): CoordinatesInterface
     {
         return $this->to;
     }
 
+    #[Override]
     public function in(string $unit): self
     {
         $this->unit = $unit;
@@ -59,11 +65,13 @@ class Distance implements DistanceInterface
         return $this;
     }
 
+    #[Override]
     public function getUnit(): string
     {
         return $this->unit;
     }
 
+    #[Override]
     public function withData(string $name, mixed $value): self
     {
         $this->data[$name] = $value;
@@ -71,6 +79,7 @@ class Distance implements DistanceInterface
         return $this;
     }
 
+    #[Override]
     public function getData(string $name, mixed $default = null): mixed
     {
         if (!array_key_exists($name, $this->data)) {
@@ -133,6 +142,7 @@ class Distance implements DistanceInterface
      * two coordinates using the Haversine formula which is accurate to around 0.3%.
      * @see http://www.movable-type.co.uk/scripts/latlong.html
      */
+    #[Override]
     public function haversine(): int|float
     {
         Ellipsoid::checkCoordinatesEllipsoid($this->from, $this->to);

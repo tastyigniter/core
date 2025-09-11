@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\View;
+use Override;
 
 /**
  * MailTemplate Model Class
@@ -73,6 +74,7 @@ class MailTemplate extends Model
         return resolve(MailManager::class)->listRegisteredVariables();
     }
 
+    #[Override]
     protected function afterFetch()
     {
         if (!$this->is_custom) {

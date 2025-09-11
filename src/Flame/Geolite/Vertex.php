@@ -7,6 +7,7 @@ namespace Igniter\Flame\Geolite;
 use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Contracts\VertexInterface;
 use Igniter\Flame\Geolite\Model\Coordinates;
+use Override;
 
 class Vertex implements VertexInterface
 {
@@ -38,6 +39,7 @@ class Vertex implements VertexInterface
         'N',
     ];
 
+    #[Override]
     public function setFrom(CoordinatesInterface $from): VertexInterface
     {
         $this->from = $from;
@@ -57,11 +59,13 @@ class Vertex implements VertexInterface
         return $this;
     }
 
+    #[Override]
     public function getFrom(): CoordinatesInterface
     {
         return $this->from;
     }
 
+    #[Override]
     public function setTo(CoordinatesInterface $to): self
     {
         $this->to = $to;
@@ -81,16 +85,19 @@ class Vertex implements VertexInterface
         return $this;
     }
 
+    #[Override]
     public function getTo(): CoordinatesInterface
     {
         return $this->to;
     }
 
+    #[Override]
     public function getGradient(): ?float
     {
         return $this->gradient;
     }
 
+    #[Override]
     public function getOrdinateIntercept(): ?float
     {
         return $this->ordinateIntercept;

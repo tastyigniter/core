@@ -6,12 +6,14 @@ namespace Igniter\Flame\Html;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class HtmlServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->registerHtmlBuilder();

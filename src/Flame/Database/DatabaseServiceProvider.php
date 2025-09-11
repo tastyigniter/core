@@ -15,12 +15,14 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\DatabaseServiceProvider as BaseDatabaseServiceProvider;
 use Illuminate\Database\DatabaseTransactionsManager;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Override;
 
 class DatabaseServiceProvider extends BaseDatabaseServiceProvider
 {
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         Model::clearExtendedClasses();
@@ -43,6 +45,7 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
         });
     }
 
+    #[Override]
     public function boot(): void
     {
         parent::boot();
@@ -59,6 +62,7 @@ class DatabaseServiceProvider extends BaseDatabaseServiceProvider
      *
      * @return void
      */
+    #[Override]
     protected function registerConnectionServices()
     {
         // The connection factory is used to create the actual connection instances on

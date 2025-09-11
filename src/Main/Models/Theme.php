@@ -18,6 +18,7 @@ use Igniter\System\Classes\PackageManifest;
 use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * Theme Model Class
@@ -165,6 +166,7 @@ class Theme extends Model
         return $this->getTheme()?->getScreenshotData();
     }
 
+    #[Override]
     public function setAttribute($key, mixed $value)
     {
         if (!$this->isFillable($key)) {
@@ -180,6 +182,7 @@ class Theme extends Model
     // Events
     //
 
+    #[Override]
     protected function beforeSave()
     {
         if ($this->fieldValues) {
@@ -285,7 +288,8 @@ class Theme extends Model
 
         $extensionManager = resolve(ExtensionManager::class);
 
-        foreach ($skipRequires ? [] : $theme->getTheme()->listRequires() as $extensionCode => $version) {
+        $requires = $skipRequires ? [] : ($theme->getTheme()?->listRequires() ?? []);
+        foreach ($requires as $extensionCode => $version) {
             if ($extensionManager->hasExtension($extensionCode)) {
                 $extensionManager->installExtension($extensionCode);
             }

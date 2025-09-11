@@ -6,9 +6,11 @@ namespace Igniter\System\Providers;
 
 use Igniter\User\Classes\PermissionManager;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class PermissionServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->callAfterResolving(PermissionManager::class, function($manager) {

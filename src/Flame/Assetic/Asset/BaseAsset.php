@@ -7,6 +7,7 @@ namespace Igniter\Flame\Assetic\Asset;
 use Igniter\Flame\Assetic\Filter\FilterCollection;
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use InvalidArgumentException;
+use Override;
 use RuntimeException;
 
 /**
@@ -48,16 +49,19 @@ abstract class BaseAsset implements AssetInterface
         $this->filters = clone $this->filters;
     }
 
+    #[Override]
     public function ensureFilter(FilterInterface $filter): void
     {
         $this->filters->ensure($filter);
     }
 
+    #[Override]
     public function getFilters(): array
     {
         return $this->filters->all();
     }
 
+    #[Override]
     public function clearFilters(): void
     {
         $this->filters->clear();
@@ -85,6 +89,7 @@ abstract class BaseAsset implements AssetInterface
         $this->loaded = true;
     }
 
+    #[Override]
     public function dump(?FilterInterface $additionalFilter = null): string
     {
         if (!$this->loaded) {
@@ -102,36 +107,43 @@ abstract class BaseAsset implements AssetInterface
         return $asset->getContent();
     }
 
+    #[Override]
     public function getContent(): string
     {
         return $this->content;
     }
 
+    #[Override]
     public function setContent(string $content): void
     {
         $this->content = $content;
     }
 
+    #[Override]
     public function getSourceRoot(): ?string
     {
         return $this->sourceRoot;
     }
 
+    #[Override]
     public function getSourcePath(): ?string
     {
         return $this->sourcePath;
     }
 
+    #[Override]
     public function getSourceDirectory(): ?string
     {
         return $this->sourceDir;
     }
 
+    #[Override]
     public function getTargetPath(): ?string
     {
         return $this->targetPath;
     }
 
+    #[Override]
     public function setTargetPath(string $targetPath): void
     {
         foreach ($this->vars as $var) {
@@ -143,11 +155,13 @@ abstract class BaseAsset implements AssetInterface
         $this->targetPath = $targetPath;
     }
 
+    #[Override]
     public function getVars(): array
     {
         return $this->vars;
     }
 
+    #[Override]
     public function setValues(array $values): void
     {
         foreach (array_keys($values) as $var) {
@@ -160,6 +174,7 @@ abstract class BaseAsset implements AssetInterface
         $this->loaded = false;
     }
 
+    #[Override]
     public function getValues(): array
     {
         return $this->values;

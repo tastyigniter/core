@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\Fixtures\Widgets;
 
 use Igniter\Admin\Classes\BaseWidget;
+use Override;
 
 class TestWidget extends BaseWidget
 {
@@ -12,6 +13,7 @@ class TestWidget extends BaseWidget
 
     protected string $defaultAlias = 'testwidget';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([

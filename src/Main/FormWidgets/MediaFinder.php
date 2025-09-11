@@ -15,6 +15,7 @@ use Igniter\Main\Classes\MediaItem;
 use Igniter\Main\Classes\MediaLibrary;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\Collection;
+use Override;
 
 /**
  * Media Finder
@@ -60,6 +61,7 @@ class MediaFinder extends BaseFormWidget
 
     protected string $defaultAlias = 'media';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -71,6 +73,7 @@ class MediaFinder extends BaseFormWidget
         ]);
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -93,6 +96,7 @@ class MediaFinder extends BaseFormWidget
         $this->vars['chooseButtonText'] = lang($this->useAttachment ? 'igniter::main.media_manager.text_attach' : 'igniter::main.media_manager.text_choose');
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         if ($this->getConfig('useAttachment')) {
@@ -250,6 +254,8 @@ class MediaFinder extends BaseFormWidget
             'items' => ['required', 'array'],
             'items.*.name' => ['required', 'string'],
             'items.*.path' => ['required', 'string'],
+            'items.*.publicUrl' => ['required', 'string'],
+            'items.*.fileType' => ['required', 'string'],
         ]);
 
         $model = $this->model;
@@ -272,9 +278,12 @@ class MediaFinder extends BaseFormWidget
             $item['identifier'] = $media->getKey();
         }
 
-        return $data['items'];
+        return [
+            'result' => $data['items'],
+        ];
     }
 
+    #[Override]
     public function getLoadValue(): mixed
     {
         $value = parent::getLoadValue();
@@ -293,6 +302,7 @@ class MediaFinder extends BaseFormWidget
         return $value;
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): mixed
     {
         if ($this->useAttachment || $this->formField->disabled || $this->formField->hidden) {

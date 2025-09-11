@@ -11,6 +11,7 @@ use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\PolygonInterface;
 use Igniter\Flame\Geolite\Contracts\VertexInterface;
 use Illuminate\Support\Facades\Facade;
+use Override;
 
 /**
  * @method static DistanceInterface distance()
@@ -27,6 +28,7 @@ class Geolite extends Facade
     /**
      * Get the registered name of the component.
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'geolite';

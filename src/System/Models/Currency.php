@@ -12,6 +12,7 @@ use Igniter\System\Models\Concerns\Defaultable;
 use Igniter\System\Models\Concerns\HasCountry;
 use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * Currency Model Class
@@ -121,6 +122,7 @@ class Currency extends Model implements CurrencyInterface
         ];
     }
 
+    #[Override]
     public function updateRate($rate): void
     {
         $this->currency_rate = $rate;
@@ -131,31 +133,37 @@ class Currency extends Model implements CurrencyInterface
     //
     //
 
+    #[Override]
     public function getId(): ?int
     {
         return $this->currency_id;
     }
 
+    #[Override]
     public function getName(): ?string
     {
         return $this->currency_name;
     }
 
+    #[Override]
     public function getCode(): ?string
     {
         return $this->currency_code;
     }
 
+    #[Override]
     public function getSymbol(): ?string
     {
         return $this->currency_symbol;
     }
 
+    #[Override]
     public function getSymbolPosition(): ?bool
     {
         return $this->symbol_position;
     }
 
+    #[Override]
     public function getFormat(): string
     {
         $format = ($this->thousand_sign ?: '!').'0'.$this->decimal_sign;
@@ -164,6 +172,7 @@ class Currency extends Model implements CurrencyInterface
         return $this->getSymbolPosition() ? '1'.$format.$this->getSymbol() : $this->getSymbol().'1'.$format;
     }
 
+    #[Override]
     public function getRate(): ?float
     {
         return $this->currency_rate;

@@ -9,9 +9,11 @@ use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class MenuItemServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         if (Igniter::runningInAdmin() || app()->runningUnitTests()) {

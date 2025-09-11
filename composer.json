@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": "^8.2",
+    "php": "^8.3",
     "ext-dom": "*",
     "ext-fileinfo": "*",
     "ext-intl": "*",
@@ -51,8 +51,8 @@
     "mockery/mockery": "^1.5",
     "nunomaduro/collision": "^8.1",
     "orchestra/testbench": "^9.0 | ^10.0",
-    "pestphp/pest": "^3.7",
-    "pestphp/pest-plugin-laravel": "^3.0",
+    "pestphp/pest": "^4.0",
+    "pestphp/pest-plugin-laravel": "^4.0",
     "rector/rector": "^1.2"
   },
   "replace": {
@@ -104,7 +104,7 @@
     "test:pest-ci": "php -d memory_limit=-1 vendor/bin/pest --compact --exactly=100",
     "test:coverage": "php -d memory_limit=-1 vendor/bin/pest --compact --coverage --exactly=100 --parallel --processes=5",
     "test:type-coverage": "vendor/bin/pest --type-coverage --min=100",
-    "test:refactor": "vendor/bin/rector process --dry-run",
+    "test:refactor": "php vendor/bin/rector process --dry-run",
     "test:refactor-fix": "vendor/bin/rector process",
     "test:static": "vendor/bin/phpstan analyse --ansi --memory-limit=1056M",
     "test:static-fix": "vendor/bin/phpstan --generate-baseline --ansi --memory-limit=1056M",

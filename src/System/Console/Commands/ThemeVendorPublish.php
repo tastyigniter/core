@@ -8,6 +8,7 @@ use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Foundation\Console\VendorPublishCommand;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 
 class ThemeVendorPublish extends VendorPublishCommand
@@ -36,6 +37,7 @@ class ThemeVendorPublish extends VendorPublishCommand
     /**
      * Execute the console command.
      */
+    #[Override]
     public function handle(): void
     {
         $this->comment('Publishing theme assets...');
@@ -49,6 +51,7 @@ class ThemeVendorPublish extends VendorPublishCommand
         $this->info('Publishing complete.');
     }
 
+    #[Override]
     protected function determineWhatShouldBePublished()
     {
         $themeManager = resolve(ThemeManager::class);
@@ -85,6 +88,7 @@ class ThemeVendorPublish extends VendorPublishCommand
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

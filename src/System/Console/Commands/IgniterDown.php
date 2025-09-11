@@ -7,6 +7,7 @@ namespace Igniter\System\Console\Commands;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 
 class IgniterDown extends Command
@@ -42,6 +43,7 @@ class IgniterDown extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Admin\Classes;
 
 use Igniter\Flame\Database\Model;
+use Override;
 
 /**
  * Form Widget base class
@@ -59,6 +60,7 @@ class BaseFormWidget extends BaseWidget
     }
 
     /** Returns a unique ID for this widget. Useful in creating HTML markup. */
+    #[Override]
     public function getId(?string $suffix = null): string
     {
         $id = parent::getId($suffix);

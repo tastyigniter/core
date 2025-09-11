@@ -6,6 +6,7 @@ namespace Igniter\Flame\Flash;
 
 use AllowDynamicProperties;
 use ArrayAccess;
+use Override;
 
 #[AllowDynamicProperties]
 class Message implements ArrayAccess
@@ -56,6 +57,7 @@ class Message implements ArrayAccess
     /**
      * Whether the given offset exists.
      */
+    #[Override]
     public function offsetExists(mixed $offset): bool
     {
         return isset($this->$offset);
@@ -64,6 +66,7 @@ class Message implements ArrayAccess
     /**
      * Fetch the offset.
      */
+    #[Override]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->$offset;
@@ -72,6 +75,7 @@ class Message implements ArrayAccess
     /**
      * Assign the offset.
      */
+    #[Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->$offset = $value;
@@ -80,6 +84,7 @@ class Message implements ArrayAccess
     /**
      * Unset the offset.
      */
+    #[Override]
     public function offsetUnset(mixed $offset): void
     {
         $this->$offset = null;

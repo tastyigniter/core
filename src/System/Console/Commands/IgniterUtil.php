@@ -14,6 +14,7 @@ use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Models\Extension;
 use Illuminate\Console\Command;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -51,6 +52,7 @@ class IgniterUtil extends Command
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -61,6 +63,7 @@ class IgniterUtil extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

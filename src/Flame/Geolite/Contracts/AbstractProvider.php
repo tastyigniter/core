@@ -6,6 +6,7 @@ namespace Igniter\Flame\Geolite\Contracts;
 
 use Closure;
 use GuzzleHttp\Client as HttpClient;
+use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Distance;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Collection;
@@ -37,6 +38,10 @@ abstract class AbstractProvider
     abstract public function reverseQuery(GeoQueryInterface $query): Collection;
 
     abstract public function distance(DistanceInterface $distance): ?Distance;
+
+    abstract public function placesAutocomplete(GeoQueryInterface $query): Collection;
+
+    abstract public function getPlaceCoordinates(GeoQueryInterface $query): Coordinates;
 
     protected function getHttpClient(): HttpClient
     {

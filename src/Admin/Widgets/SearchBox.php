@@ -6,6 +6,7 @@ namespace Igniter\Admin\Widgets;
 
 use Igniter\Admin\Classes\BaseWidget;
 use Illuminate\Http\RedirectResponse;
+use Override;
 
 class SearchBox extends BaseWidget
 {
@@ -29,6 +30,7 @@ class SearchBox extends BaseWidget
     /**
      * Initialize the widget, called by the constructor and free from its parameters.
      */
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -41,6 +43,7 @@ class SearchBox extends BaseWidget
     /**
      * Renders the widget.
      */
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();

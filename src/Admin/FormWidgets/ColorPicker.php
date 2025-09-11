@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Admin\FormWidgets;
 
 use Igniter\Admin\Classes\BaseFormWidget;
+use Override;
 
 /**
  * Color picker
@@ -45,6 +46,7 @@ class ColorPicker extends BaseFormWidget
 
     protected string $defaultAlias = 'colorpicker';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -55,6 +57,7 @@ class ColorPicker extends BaseFormWidget
         ]);
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -75,11 +78,13 @@ class ColorPicker extends BaseFormWidget
         $this->vars['disabled'] = $this->disabled;
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $this->addJs('colorpicker.js', 'colorpicker-js');
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): ?string
     {
         return !empty($value) ? $value : null;

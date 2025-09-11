@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Geolite\Model;
 
+use Override;
 use Stringable;
 
 readonly class AdminLevel implements Stringable
@@ -43,6 +44,7 @@ readonly class AdminLevel implements Stringable
     /**
      * Returns a string with the administrative level name.
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->getName();

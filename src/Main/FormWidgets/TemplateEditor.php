@@ -15,6 +15,7 @@ use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\RedirectResponse;
+use Override;
 
 /**
  * Template Editor
@@ -58,6 +59,7 @@ class TemplateEditor extends BaseFormWidget
 
     protected ?string $templateFile = null;
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -75,6 +77,7 @@ class TemplateEditor extends BaseFormWidget
         }
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -104,6 +107,7 @@ class TemplateEditor extends BaseFormWidget
     /**
      * Reloads the widgets primary contents.
      */
+    #[Override]
     public function reload(): array
     {
         $this->templateWidget = $this->makeTemplateFormWidget();

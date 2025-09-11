@@ -6,6 +6,7 @@ namespace Igniter\Tests\Flame\Database\Fixtures;
 
 use Igniter\Flame\Database\Attach\HasMedia;
 use Igniter\Flame\Database\Model;
+use Override;
 
 class TestModelForMedia extends Model
 {
@@ -19,6 +20,7 @@ class TestModelForMedia extends Model
 
     public $mediable = ['thumb', 'image', 'gallery' => ['multiple' => true]];
 
+    #[Override]
     public function getMorphClass(): string
     {
         return 'test_countries';

@@ -6,6 +6,7 @@ namespace Igniter\Flame\Currency\Converters;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Override;
 
 class OpenExchangeRates extends AbstractConverter
 {
@@ -18,6 +19,7 @@ class OpenExchangeRates extends AbstractConverter
         $this->appId = $config['apiKey'] ?? '';
     }
 
+    #[Override]
     public function converterDetails(): array
     {
         return [
@@ -26,6 +28,7 @@ class OpenExchangeRates extends AbstractConverter
         ];
     }
 
+    #[Override]
     public function getExchangeRates(string $base, array $currencies): array
     {
         if (!$this->appId) {

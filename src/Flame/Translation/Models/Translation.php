@@ -8,6 +8,7 @@ use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Override;
 
 /**
  * @property int $translation_id
@@ -55,6 +56,7 @@ class Translation extends Model
         'locked' => 'boolean',
     ];
 
+    #[Override]
     protected static function boot(): void
     {
         parent::boot();

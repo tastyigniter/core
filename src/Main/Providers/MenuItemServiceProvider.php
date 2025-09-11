@@ -7,9 +7,11 @@ namespace Igniter\Main\Providers;
 use Igniter\Main\Template\Page;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class MenuItemServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register() {}
 
     public function boot(): void

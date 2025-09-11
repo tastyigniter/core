@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use JsonSerializable;
+use Override;
 use Stringable;
 
 /**
@@ -425,21 +426,25 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Convert the model to its string representation.
      */
+    #[Override]
     public function __toString(): string
     {
         return (string) $this->toJson();
     }
 
+    #[Override]
     public function __get(string $name): mixed
     {
         return $this->getAttribute($name);
     }
 
+    #[Override]
     public function __set(string $name, mixed $value): void
     {
         $this->setAttribute($name, $value);
     }
 
+    #[Override]
     public function __call(string $name, ?array $params): mixed
     {
         try {
@@ -451,6 +456,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
         }
     }
 
+    #[Override]
     public static function __callStatic(string $name, ?array $params): mixed
     {
         return call_user_func_array([new static, $name], $params);
@@ -470,21 +476,25 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
         unset($this->attributes[$key]);
     }
 
+    #[Override]
     public function offsetExists(mixed $offset): bool
     {
         return isset($this->$offset);
     }
 
+    #[Override]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->$offset;
     }
 
+    #[Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->$offset = $value;
     }
 
+    #[Override]
     public function offsetUnset(mixed $offset): void
     {
         unset($this->$offset);
@@ -493,6 +503,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Get the instance as an array.
      */
+    #[Override]
     public function toArray(): array
     {
         return $this->attributesToArray();
@@ -501,6 +512,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Convert the model instance to JSON.
      */
+    #[Override]
     public function toJson($options = 0): string|false
     {
         return json_encode($this->jsonSerialize(), $options);
@@ -509,6 +521,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     /**
      * Convert the object into something JSON serializable.
      */
+    #[Override]
     public function jsonSerialize(): array
     {
         return $this->toArray();

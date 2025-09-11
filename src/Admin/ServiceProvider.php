@@ -26,6 +26,7 @@ use Igniter\System\Libraries\Assets;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Route;
+use Override;
 
 class ServiceProvider extends AppServiceProvider
 {
@@ -51,6 +52,7 @@ class ServiceProvider extends AppServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->registerSingletons();

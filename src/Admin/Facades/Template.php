@@ -7,6 +7,7 @@ namespace Igniter\Admin\Facades;
 use Closure;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
+use Override;
 
 /**
  * @method static HtmlString getBlock(string $name, ?string $default = null)
@@ -31,6 +32,7 @@ class Template extends Facade
      *
      * @see \Igniter\System\Libraries\Template
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'admin.template';

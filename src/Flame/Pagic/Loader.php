@@ -10,6 +10,7 @@ use Igniter\Flame\Pagic\Contracts\TemplateLoader;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Template\Partial as PartialTemplate;
 use Illuminate\Support\Facades\App;
+use Override;
 
 /**
  * Loader class
@@ -44,6 +45,7 @@ class Loader implements TemplateLoader
      * Gets the markup section of a template, given its name.
      * @throws Exception When $name is not found
      */
+    #[Override]
     public function getMarkup(string $name): ?string
     {
         if ($this->validateTemplateSource($name)) {
@@ -53,6 +55,7 @@ class Loader implements TemplateLoader
         return $this->getContents($name);
     }
 
+    #[Override]
     public function getContents(string $name): ?string
     {
         if ($this->validateTemplateSource($name)) {
@@ -62,6 +65,7 @@ class Loader implements TemplateLoader
         return File::get($this->findTemplate($name));
     }
 
+    #[Override]
     public function getFilename(string $name): ?string
     {
         if ($this->validateTemplateSource($name)) {
@@ -96,6 +100,7 @@ class Loader implements TemplateLoader
         return $this->cache[$name] = $path;
     }
 
+    #[Override]
     public function getCacheKey(string $name): string
     {
         if ($this->validateTemplateSource($name)) {
@@ -105,6 +110,7 @@ class Loader implements TemplateLoader
         return $this->findTemplate($name);
     }
 
+    #[Override]
     public function isFresh(string $name, int $time): bool
     {
         if ($this->validateTemplateSource($name)) {
@@ -114,6 +120,7 @@ class Loader implements TemplateLoader
         return File::lastModified($this->findTemplate($name)) <= $time;
     }
 
+    #[Override]
     public function exists(string $name): bool
     {
         if ($this->validateTemplateSource($name)) {

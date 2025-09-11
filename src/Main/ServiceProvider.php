@@ -23,6 +23,7 @@ use Igniter\System\Classes\ComponentManager;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Override;
 
 class ServiceProvider extends AppServiceProvider
 {
@@ -44,6 +45,7 @@ class ServiceProvider extends AppServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->registerSingletons();

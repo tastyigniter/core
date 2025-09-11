@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\System\Fixtures;
 
 use Igniter\System\Classes\BaseComponent;
+use Override;
 
 class TestComponentWithLifecycle extends BaseComponent
 {
@@ -17,6 +18,7 @@ class TestComponentWithLifecycle extends BaseComponent
         ];
     }
 
+    #[Override]
     public function onRun()
     {
         return redirect()->to('http://localhost');

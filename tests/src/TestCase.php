@@ -17,11 +17,13 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
+use Override;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     protected function getPackageProviders($app)
     {
         return [
@@ -30,6 +32,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
+    #[Override]
     protected function defineEnvironment($app)
     {
         $viewPaths = $app['config']->get('view.paths');
@@ -54,6 +57,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         });
     }
 
+    #[Override]
     protected function defineDatabaseMigrations()
     {
         if (!RefreshDatabaseState::$migrated) {
@@ -67,6 +71,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         }
     }
 
+    #[Override]
     protected function resolveApplicationConfiguration($app)
     {
         parent::resolveApplicationConfiguration($app);

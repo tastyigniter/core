@@ -8,6 +8,7 @@ use Facades\Igniter\System\Helpers\CacheHelper;
 use Igniter\Admin\Classes\BaseDashboardWidget;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Support\Number;
+use Override;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -37,6 +38,7 @@ class Cache extends BaseDashboardWidget
         ],
     ];
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -44,6 +46,7 @@ class Cache extends BaseDashboardWidget
         return $this->makePartial('cache/cache');
     }
 
+    #[Override]
     public function defineProperties(): array
     {
         return [

@@ -15,6 +15,7 @@ use Illuminate\Routing\Controller as IlluminateController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
+use Override;
 
 /**
  * This is the base controller for all pages.
@@ -63,6 +64,7 @@ class Controller extends IlluminateController
      *
      * @return array
      */
+    #[Override]
     public function getMiddleware()
     {
         $this->pushRequestedControllerMiddleware();

@@ -6,11 +6,13 @@ namespace Igniter\Main\Database\Factories;
 
 use Igniter\Flame\Database\Factories\Factory;
 use Igniter\Main\Models\Theme;
+use Override;
 
 class ThemeFactory extends Factory
 {
     protected $model = Theme::class;
 
+    #[Override]
     public function definition(): array
     {
         return [

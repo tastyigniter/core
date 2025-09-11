@@ -6,9 +6,11 @@ namespace Igniter\System\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
 use Illuminate\Validation\Rule;
+use Override;
 
 class MailPartialRequest extends FormRequest
 {
+    #[Override]
     public function attributes(): array
     {
         return [

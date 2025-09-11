@@ -9,6 +9,7 @@ use Igniter\Flame\Providers\EventServiceProvider as FlameEventServiceProvider;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Observers\LanguageObserver;
 use Illuminate\Support\Facades\Event;
+use Override;
 
 class EventServiceProvider extends FlameEventServiceProvider
 {
@@ -16,6 +17,7 @@ class EventServiceProvider extends FlameEventServiceProvider
         Language::class => LanguageObserver::class,
     ];
 
+    #[Override]
     public function boot(): void
     {
         // Allow system based cache clearing

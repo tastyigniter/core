@@ -7,6 +7,7 @@ namespace Igniter\Flame\Database\Relations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo as BelongsToBase;
+use Override;
 
 /**
  * Adapted from october\rain\database\relations\BelongsTo
@@ -62,6 +63,7 @@ class BelongsTo extends BelongsToBase
      * Override associate() method of BelongsTo relation.
      * This is necessary in order to fire 'model.relation.beforeAssociate', 'model.relation.associate' events
      */
+    #[Override]
     public function associate($model)
     {
         if ($this->parent->fireEvent('model.relation.beforeAssociate', [$this->relationName, $model], true) === false) {
@@ -79,6 +81,7 @@ class BelongsTo extends BelongsToBase
      * Override dissociate() method of BelongsTo relation.
      * This is necessary in order to fire 'model.relation.beforeDissociate', 'model.relation.dissociate' events
      */
+    #[Override]
     public function dissociate()
     {
         if ($this->parent->fireEvent('model.relation.beforeDissociate', [$this->relationName], true) === false) {

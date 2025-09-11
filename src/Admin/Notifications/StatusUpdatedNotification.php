@@ -8,6 +8,7 @@ use Igniter\Admin\Models\StatusHistory;
 use Igniter\Cart\Models\Order;
 use Igniter\Reservation\Models\Reservation;
 use Igniter\User\Classes\Notification;
+use Override;
 
 /**
  * StatusUpdatedNotification class
@@ -15,6 +16,7 @@ use Igniter\User\Classes\Notification;
  */
 class StatusUpdatedNotification extends Notification
 {
+    #[Override]
     public function getRecipients(): array
     {
         $recipients = [];
@@ -36,6 +38,7 @@ class StatusUpdatedNotification extends Notification
         return $recipients;
     }
 
+    #[Override]
     public function getTitle(): string
     {
         return $this->subject->object instanceof Order
@@ -43,6 +46,7 @@ class StatusUpdatedNotification extends Notification
             : lang('igniter.reservation::default.notify_status_updated_title');
     }
 
+    #[Override]
     public function getUrl(): string
     {
         $url = $this->subject->object->getMorphClass();
@@ -51,6 +55,7 @@ class StatusUpdatedNotification extends Notification
         return admin_url($url);
     }
 
+    #[Override]
     public function getMessage(): string
     {
         $lang = $this->subject->object instanceof Order
@@ -68,11 +73,13 @@ class StatusUpdatedNotification extends Notification
         );
     }
 
+    #[Override]
     public function getIcon(): ?string
     {
         return 'fa-clipboard-check';
     }
 
+    #[Override]
     public function getAlias(): string
     {
         return 'status-updated';

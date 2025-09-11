@@ -7,6 +7,7 @@ namespace Igniter\System\Console\Commands;
 use Igniter\System\Classes\PackageInfo;
 use Igniter\System\Classes\UpdateManager;
 use Illuminate\Console\Command;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Throwable;
 
@@ -56,6 +57,7 @@ class ThemeInstall extends Command
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [

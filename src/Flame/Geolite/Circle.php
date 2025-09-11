@@ -9,6 +9,7 @@ use Igniter\Flame\Geolite\Contracts\CoordinatesInterface;
 use Igniter\Flame\Geolite\Model\Bounds;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\CoordinatesCollection;
+use Override;
 
 class Circle implements CircleInterface
 {
@@ -30,6 +31,7 @@ class Circle implements CircleInterface
         }
     }
 
+    #[Override]
     public function getRadius(): int
     {
         return $this->radius;
@@ -38,6 +40,7 @@ class Circle implements CircleInterface
     /**
      * Returns the geometry type.
      */
+    #[Override]
     public function getGeometryType(): string
     {
         return static::TYPE;
@@ -46,6 +49,7 @@ class Circle implements CircleInterface
     /**
      * Returns the precision of the geometry.
      */
+    #[Override]
     public function getPrecision(): int
     {
         return $this->precision;
@@ -58,11 +62,13 @@ class Circle implements CircleInterface
         return $this;
     }
 
+    #[Override]
     public function getCoordinate(): ?CoordinatesInterface
     {
         return $this->coordinate;
     }
 
+    #[Override]
     public function getCoordinates(): CoordinatesCollection
     {
         return new CoordinatesCollection([$this->getCoordinate()]);
@@ -82,6 +88,7 @@ class Circle implements CircleInterface
     /**
      * Returns true if the geometry is empty.
      */
+    #[Override]
     public function isEmpty(): bool
     {
         return !$this->getCoordinate()->getLatitude()
@@ -89,6 +96,7 @@ class Circle implements CircleInterface
             || !$this->getRadius();
     }
 
+    #[Override]
     public function distanceUnit($unit): CircleInterface
     {
         $this->unit = $unit;
@@ -96,6 +104,7 @@ class Circle implements CircleInterface
         return $this;
     }
 
+    #[Override]
     public function pointInRadius(CoordinatesInterface $coordinate): bool
     {
         $distance = new Distance;

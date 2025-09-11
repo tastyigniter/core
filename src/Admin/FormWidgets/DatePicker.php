@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\Admin\Classes\FormField;
+use Override;
 
 /**
  * Date picker
@@ -39,6 +40,7 @@ class DatePicker extends BaseFormWidget
     //
     protected string $defaultAlias = 'datepicker';
 
+    #[Override]
     public function initialize(): void
     {
         $this->fillFromConfig([
@@ -64,6 +66,7 @@ class DatePicker extends BaseFormWidget
         }
     }
 
+    #[Override]
     public function loadAssets(): void
     {
         $mode = $this->getConfig('mode', 'date');
@@ -72,6 +75,7 @@ class DatePicker extends BaseFormWidget
         }
     }
 
+    #[Override]
     public function render(): string
     {
         $this->prepareVars();
@@ -118,6 +122,7 @@ class DatePicker extends BaseFormWidget
         $this->vars['datesDisabled'] = $this->datesDisabled;
     }
 
+    #[Override]
     public function getSaveValue(mixed $value): mixed
     {
         if ($this->formField->disabled || $this->formField->hidden) {

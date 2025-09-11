@@ -7,6 +7,7 @@ namespace Igniter\Flame\Html;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
+use Override;
 
 /**
  * @method static HtmlString open(array $options = [])
@@ -32,6 +33,7 @@ class FormFacade extends Facade
     /**
      * Get the registered name of the component.
      */
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'form';

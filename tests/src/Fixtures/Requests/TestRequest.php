@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\Fixtures\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Override;
 
 class TestRequest extends FormRequest
 {
@@ -15,6 +16,7 @@ class TestRequest extends FormRequest
         ];
     }
 
+    #[Override]
     public function attributes(): array
     {
         return [

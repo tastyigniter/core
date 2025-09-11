@@ -9,9 +9,11 @@ use Igniter\System\Http\Requests\GeneralSettingsRequest;
 use Igniter\System\Http\Requests\MailSettingsRequest;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class FormServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         Settings::registerCallback(function(Settings $manager) {

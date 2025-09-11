@@ -12,6 +12,7 @@ use Igniter\System\Classes\BaseExtension;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\PackageManifest;
 use InvalidArgumentException;
+use Override;
 
 /**
  * Extension Model Class
@@ -128,6 +129,7 @@ class Extension extends Model
     // Events
     //
 
+    #[Override]
     protected function afterFetch()
     {
         $this->applyExtensionClass();

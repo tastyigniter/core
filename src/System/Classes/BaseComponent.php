@@ -12,6 +12,7 @@ use Igniter\Main\Classes\MainController;
 use Igniter\System\Traits\AssetMaker;
 use Igniter\System\Traits\PropertyContainer;
 use Illuminate\Support\Facades\Lang;
+use Override;
 use Stringable;
 
 /**
@@ -176,6 +177,7 @@ abstract class BaseComponent extends Extendable implements Stringable
     /**
      * Dynamically handle calls into the controller instance.
      */
+    #[Override]
     public function __call(string $name, ?array $params): mixed
     {
         try {
@@ -193,6 +195,7 @@ abstract class BaseComponent extends Extendable implements Stringable
         ]));
     }
 
+    #[Override]
     public function __toString(): string
     {
         return (string) $this->alias;

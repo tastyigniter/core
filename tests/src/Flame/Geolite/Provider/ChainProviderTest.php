@@ -8,6 +8,7 @@ use Igniter\Flame\Geolite\Contracts\AbstractProvider;
 use Igniter\Flame\Geolite\Contracts\DistanceInterface;
 use Igniter\Flame\Geolite\Contracts\GeocoderInterface;
 use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
+use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Distance;
 use Igniter\Flame\Geolite\Provider\ChainProvider;
 
@@ -69,6 +70,51 @@ it('returns result from first provider with non-null distance result', function(
     $geocoder->shouldReceive('makeProvider')->with('provider1')->andReturn($provider);
     $chainProvider = new ChainProvider($geocoder, ['provider1' => []]);
     expect($chainProvider->distance($distance))->toEqual($result);
+});
+
+it('returns null when no providers return non-null places result', function() {
+    $geocoder = mock(GeocoderInterface::class);
+    $provider = mock(AbstractProvider::class);
+    $query = mock(GeoQueryInterface::class);
+    $provider->shouldReceive('placesAutocomplete')->with($query)->andReturn(collect());
+    $geocoder->shouldReceive('makeProvider')->with('provider1')->andReturn($provider);
+    $chainProvider = new ChainProvider($geocoder, ['provider1' => []]);
+    expect($chainProvider->placesAutocomplete($query))->toBeEmpty();
+});
+
+it('returns result from first provider with non-null places result', function() {
+    $geocoder = mock(GeocoderInterface::class);
+    $provider = mock(AbstractProvider::class);
+    $query = mock(GeoQueryInterface::class);
+    $result = collect(['result']);
+    $provider->shouldReceive('placesAutocomplete')->with($query)->andReturn($result);
+    $geocoder->shouldReceive('makeProvider')->with('provider1')->andReturn($provider);
+    $chainProvider = new ChainProvider($geocoder, ['provider1' => []]);
+    expect($chainProvider->placesAutocomplete($query))->toBe($result);
+});
+
+it('returns null when no providers return non-null place coordinates result', function() {
+    $geocoder = mock(GeocoderInterface::class);
+    $provider = mock(AbstractProvider::class);
+    $query = mock(GeoQueryInterface::class);
+    $coordinates = new Coordinates(0, 0);
+    $provider->shouldReceive('getPlaceCoordinates')->with($query)->andReturn($coordinates);
+    $geocoder->shouldReceive('makeProvider')->with('provider1')->andReturn($provider);
+    $chainProvider = new ChainProvider($geocoder, ['provider1' => []]);
+    expect($chainProvider->getPlaceCoordinates($query))
+        ->getLatitude()->toBe(0.0)
+        ->getLongitude()->toBe(0.0);
+});
+
+it('returns result from first provider with non-null place coordinates result', function() {
+    $geocoder = mock(GeocoderInterface::class);
+    $provider = mock(AbstractProvider::class);
+    $query = mock(GeoQueryInterface::class);
+    $coordinates = new Coordinates(51.5074, -0.1278);
+    $provider->shouldReceive('getPlaceCoordinates')->with($query)->andReturn($coordinates);
+    $geocoder->shouldReceive('makeProvider')->with('provider1')->andReturn($provider);
+    $chainProvider = new ChainProvider($geocoder, ['provider1' => []]);
+    expect($chainProvider->getPlaceCoordinates($query))->toBe($coordinates);
 });
 
 it('returns logs from all providers', function() {

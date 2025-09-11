@@ -17,9 +17,11 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
+use Override;
 
 class ThemeServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->app->register(LivewireServiceProvider::class);

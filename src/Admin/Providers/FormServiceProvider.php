@@ -28,9 +28,11 @@ use Igniter\System\DashboardWidgets\Cache;
 use Igniter\System\DashboardWidgets\News;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class FormServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         if (Igniter::runningInAdmin() || app()->runningUnitTests()) {

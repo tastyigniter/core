@@ -10,6 +10,7 @@ use Igniter\System\Notifications\SystemUpdateNotification;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Collection;
+use Override;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;
 
@@ -87,6 +88,7 @@ class IgniterUpdate extends Command
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

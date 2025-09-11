@@ -11,6 +11,7 @@ use Igniter\Flame\Geolite\Contracts\GeoQueryInterface;
 use Igniter\Flame\Geolite\Model\Bounds;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use InvalidArgumentException;
+use Override;
 
 class GeoQuery implements GeoQueryInterface
 {
@@ -52,6 +53,7 @@ class GeoQuery implements GeoQueryInterface
         return $this;
     }
 
+    #[Override]
     public function withLocale(string $locale): self
     {
         $this->locale = $locale;
@@ -59,6 +61,7 @@ class GeoQuery implements GeoQueryInterface
         return $this;
     }
 
+    #[Override]
     public function withLimit(int $limit): self
     {
         $this->limit = $limit;
@@ -66,6 +69,7 @@ class GeoQuery implements GeoQueryInterface
         return $this;
     }
 
+    #[Override]
     public function withData(string $name, $value): GeoQueryInterface
     {
         $this->data[$name] = $value;
@@ -73,26 +77,31 @@ class GeoQuery implements GeoQueryInterface
         return $this;
     }
 
+    #[Override]
     public function getText(): string
     {
         return $this->text;
     }
 
+    #[Override]
     public function getBounds(): ?BoundsInterface
     {
         return $this->bounds;
     }
 
+    #[Override]
     public function getLocale(): ?string
     {
         return $this->locale;
     }
 
+    #[Override]
     public function getLimit(): int
     {
         return $this->limit;
     }
 
+    #[Override]
     public function getData(string $name, mixed $default = null): mixed
     {
         if (!array_key_exists($name, $this->data)) {
@@ -102,6 +111,7 @@ class GeoQuery implements GeoQueryInterface
         return $this->data[$name];
     }
 
+    #[Override]
     public function getAllData(): array
     {
         return $this->data;
@@ -123,6 +133,7 @@ class GeoQuery implements GeoQueryInterface
         return $this;
     }
 
+    #[Override]
     public function getCoordinates(): ?CoordinatesInterface
     {
         return $this->coordinates;
@@ -131,6 +142,7 @@ class GeoQuery implements GeoQueryInterface
     /**
      * String for logging. This is also a unique key for the query
      */
+    #[Override]
     public function __toString(): string
     {
         return sprintf('GeoQuery: %s', json_encode([

@@ -7,12 +7,14 @@ namespace Igniter\Flame\Geolite;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class GeoliteServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->app->singleton('geocoder', fn($app): Geocoder => new Geocoder($app));
