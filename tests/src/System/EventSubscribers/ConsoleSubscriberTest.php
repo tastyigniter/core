@@ -26,7 +26,7 @@ it('subscribes to console events correctly', function() {
 it('defines schedule correctly', function() {
     Igniter::shouldReceive('prunableModels')->andReturn([]);
     $schedule = mock(Schedule::class);
-    $schedule->shouldReceive('command')->with('igniter:update', ['--check' => true])->andReturnSelf();
+    $schedule->shouldReceive('command')->with('igniter:update', ['--check'])->andReturnSelf();
     $schedule->shouldReceive('name')->with('System Updates Checker')->once()->andReturnSelf();
     $schedule->shouldReceive('everyThreeHours')->andReturnSelf();
     $schedule->shouldReceive('evenInMaintenanceMode')->andReturnSelf();
