@@ -171,7 +171,7 @@ it('returns json response when in ajax handlers', function() {
     $response = (new MainController)->remap('components', []);
 
     expect($response->getStatusCode())->toBe(200)
-        ->and(json_decode((string) $response->getContent()))->toHaveKey('json', 'handler-result');
+        ->and(json_decode((string)$response->getContent()))->toHaveKey('json', 'handler-result');
 });
 
 it('returns redirect response when in ajax handlers', function() {
@@ -182,7 +182,7 @@ it('returns redirect response when in ajax handlers', function() {
     $response = (new MainController)->remap('components', []);
 
     expect($response->getStatusCode())->toBe(200)
-        ->and(json_decode((string) $response->getContent()))->toHaveKey('X_IGNITER_REDIRECT', 'http://localhost');
+        ->and(json_decode((string)$response->getContent()))->toHaveKey('X_IGNITER_REDIRECT', 'http://localhost');
 });
 
 it('returns flash message in response header when in ajax handlers', function() {
@@ -194,7 +194,7 @@ it('returns flash message in response header when in ajax handlers', function() 
     $response = (new MainController)->remap('components', []);
 
     expect($response->getStatusCode())->toBe(200)
-        ->and(json_decode((string) $response->getContent()))->toHaveKey('X_IGNITER_FLASH_MESSAGES');
+        ->and(json_decode((string)$response->getContent()))->toHaveKey('X_IGNITER_FLASH_MESSAGES');
 });
 
 it('throws exception when validation fails in ajax handler', function() {

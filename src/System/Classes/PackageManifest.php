@@ -100,7 +100,7 @@ class PackageManifest extends BasePackageManifest
         $corePath = __DIR__.'/../../../composer.json';
         $installed = json_decode($this->files->get($corePath), true);
         $addons = collect($installed['require'] ?? [])
-            ->filter(fn($version, $name): bool => str_starts_with((string) $name, 'tastyigniter/'))
+            ->filter(fn($version, $name): bool => str_starts_with((string)$name, 'tastyigniter/'))
             ->map(fn($version, $name): array => [
                 'code' => str_replace([
                     'tastyigniter/ti-ext-',
@@ -115,7 +115,7 @@ class PackageManifest extends BasePackageManifest
 
     public function disabledAddons(): array
     {
-        $path = dirname((string) $this->manifestPath).$this->metaFile;
+        $path = dirname((string)$this->manifestPath).$this->metaFile;
         if (!is_file($path)) {
             return [];
         }
@@ -125,6 +125,6 @@ class PackageManifest extends BasePackageManifest
 
     public function writeDisabled(array $codes): void
     {
-        $this->files->replace(dirname((string) $this->manifestPath).$this->metaFile, json_encode($codes));
+        $this->files->replace(dirname((string)$this->manifestPath).$this->metaFile, json_encode($codes));
     }
 }

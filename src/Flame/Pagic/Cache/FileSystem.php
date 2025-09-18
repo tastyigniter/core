@@ -86,7 +86,7 @@ class FileSystem
 
         if (
             $cached !== false &&
-            ($cached = @unserialize(@base64_decode((string) $cached))) !== false
+            ($cached = @unserialize(@base64_decode((string)$cached))) !== false
         ) {
             if (is_null($filePath)) {
                 return $cached;

@@ -429,7 +429,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
     #[Override]
     public function __toString(): string
     {
-        return (string) $this->toJson();
+        return (string)$this->toJson();
     }
 
     #[Override]

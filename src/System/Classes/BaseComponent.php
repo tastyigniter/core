@@ -74,9 +74,9 @@ abstract class BaseComponent extends Extendable implements Stringable
      */
     public function getPath(): string
     {
-        $namespace = implode('.', array_slice(explode('/', (string) $this->dirName), 0, 2));
+        $namespace = implode('.', array_slice(explode('/', (string)$this->dirName), 0, 2));
 
-        return $namespace.'::views/_components/'.basename((string) $this->dirName);
+        return $namespace.'::views/_components/'.basename((string)$this->dirName);
     }
 
     /**
@@ -198,6 +198,6 @@ abstract class BaseComponent extends Extendable implements Stringable
     #[Override]
     public function __toString(): string
     {
-        return (string) $this->alias;
+        return (string)$this->alias;
     }
 }

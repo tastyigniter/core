@@ -69,7 +69,7 @@ class Filesystem extends AbstractDriver
             ? $this->filesystem->get($path)
             : '{}';
 
-        return json_decode((string) $contents, true);
+        return json_decode((string)$contents, true);
     }
 
     #[Override]

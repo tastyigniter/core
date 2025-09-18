@@ -55,12 +55,12 @@ class MakeExtension extends GeneratorCommand
 
         $this->vars = [
             'name' => $name,
-            'lower_name' => strtolower((string) $name),
+            'lower_name' => strtolower((string)$name),
             'title_name' => title_case($name),
             'studly_name' => studly_case($name),
 
             'author' => $author,
-            'lower_author' => strtolower((string) $author),
+            'lower_author' => strtolower((string)$author),
             'title_author' => title_case($author),
             'studly_author' => studly_case($author),
         ];

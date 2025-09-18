@@ -147,7 +147,7 @@ abstract class BaseAsset implements AssetInterface
     public function setTargetPath(string $targetPath): void
     {
         foreach ($this->vars as $var) {
-            if (!str_contains($targetPath, (string) $var)) {
+            if (!str_contains($targetPath, (string)$var)) {
                 throw new RuntimeException(sprintf('The asset target path "%s" must contain the variable "{%s}".', $targetPath, $var));
             }
         }

@@ -104,7 +104,7 @@ class MailManager
     {
         $text = $this->renderView($content, $data)->toHtml();
 
-        return new HtmlString(html_entity_decode((string) preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8'));
+        return new HtmlString(html_entity_decode((string)preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8'));
     }
 
     public function renderTemplate(MailTemplate $template, array $data = []): HtmlString

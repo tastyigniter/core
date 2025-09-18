@@ -159,9 +159,9 @@ trait ManagesSource
      */
     public function setFileNameAttribute(?string $value): void
     {
-        $fileName = trim((string) $value);
+        $fileName = trim((string)$value);
 
-        if (strlen($fileName) && !strlen(pathinfo((string) $value, PATHINFO_EXTENSION))) {
+        if (strlen($fileName) && !strlen(pathinfo((string)$value, PATHINFO_EXTENSION))) {
             $fileName .= '.'.static::DEFAULT_EXTENSION;
         }
 

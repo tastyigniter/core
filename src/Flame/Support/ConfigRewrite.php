@@ -48,7 +48,7 @@ class ConfigRewrite
 
         $result = eval('?>'.$contents);
         foreach ($newValues as $key => $expectedValue) {
-            $parts = explode('.', (string) $key);
+            $parts = explode('.', (string)$key);
             $array = $result;
             foreach ($parts as $part) {
                 if (!is_array($array) || !array_key_exists($part, $array)) {
@@ -77,7 +77,7 @@ class ConfigRewrite
     protected function parseContentValue($contents, $path, $value): string|array|null
     {
         $result = $contents;
-        $items = explode('.', (string) $path);
+        $items = explode('.', (string)$path);
         $key = array_pop($items);
 
         $replaceValue = $this->writeValueToPhp($value);
@@ -89,7 +89,7 @@ class ConfigRewrite
         $patterns[] = $this->buildConstantExpression($key, $items);
         $patterns[] = $this->buildArrayExpression($key, $items);
         foreach ($patterns as $pattern) {
-            $result = preg_replace($pattern, '${1}${2}'.$replaceValue, (string) $result, 1, $count);
+            $result = preg_replace($pattern, '${1}${2}'.$replaceValue, (string)$result, 1, $count);
             if ($count > 0) {
                 break;
             }

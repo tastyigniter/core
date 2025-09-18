@@ -27,7 +27,7 @@ it('generates a unique hash', function() {
     $hash = $this->traitModel->generateHash();
 
     expect($hash)->toBeString()
-        ->and(strlen((string) $hash))->toBe(32);
+        ->and(strlen((string)$hash))->toBe(32);
 });
 
 it('regenerates hash if collision occurs', function() {
@@ -36,7 +36,7 @@ it('regenerates hash if collision occurs', function() {
     $hash = $this->traitModel->generateHash();
 
     expect($hash)->toBeString()
-        ->and(strlen((string) $hash))->toBe(32);
+        ->and(strlen((string)$hash))->toBe(32);
 });
 
 it('uses specified column to check for hash uniqueness', function() {
@@ -48,5 +48,5 @@ it('uses specified column to check for hash uniqueness', function() {
     $hash = $this->traitModel->generateHash('custom_column');
 
     expect($hash)->toBeString()
-        ->and(strlen((string) $hash))->toBe(32);
+        ->and(strlen((string)$hash))->toBe(32);
 });

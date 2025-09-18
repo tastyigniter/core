@@ -164,8 +164,8 @@ class NominatimProvider extends AbstractProvider
         $url = sprintf(
             $endpoint.'details?osmtype=%s&osmid=%s&class=%s&addressdetails=1&format=json',
             rawurlencode($query->getText()),
-            rawurlencode((string) $query->getData('osm_type', '')),
-            rawurlencode((string) $query->getData('category', '')),
+            rawurlencode((string)$query->getData('osm_type', '')),
+            rawurlencode((string)$query->getData('category', '')),
         );
 
         try {

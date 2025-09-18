@@ -385,8 +385,8 @@ class FormController extends ControllerAction
      */
     protected function getRedirectUrl(?string $context = null): string
     {
-        $redirectContext = explode('-', (string) $context, 2)[0];
-        $redirectAction = explode('-', (string) $context, 2)[1] ?? '';
+        $redirectContext = explode('-', (string)$context, 2)[0];
+        $redirectAction = explode('-', (string)$context, 2)[1] ?? '';
         $redirectSource = in_array($redirectAction, ['new', 'close'])
             ? 'redirect'.studly_case($redirectAction)
             : 'redirect';

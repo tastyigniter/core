@@ -223,7 +223,7 @@ class MainMenuItem
 
         foreach ($attributes as $key => $value) {
             if ($key == 'href') {
-                $value = preg_match('#^(\w+:)?//#i', (string) $value) ? $value : admin_url($value);
+                $value = preg_match('#^(\w+:)?//#i', (string)$value) ? $value : admin_url($value);
             }
 
             $attributes[$key] = is_lang_key($value) ? lang($value) : $value;

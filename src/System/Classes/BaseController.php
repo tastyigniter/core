@@ -86,7 +86,7 @@ class BaseController extends Extendable
             return false;
         }
 
-        if (in_array(strtolower((string) $action), array_map('strtolower', $this->hiddenActions))) {
+        if (in_array(strtolower((string)$action), array_map('strtolower', $this->hiddenActions))) {
             return false;
         }
 

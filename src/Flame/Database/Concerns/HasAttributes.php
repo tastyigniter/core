@@ -237,7 +237,7 @@ trait HasAttributes
         // If the value is in simply hour, minute, second format, we will instantiate the
         // Carbon instances from that format. Again, this provides for simple time
         // fields on the database, while still supporting Carbonized conversion.
-        if (preg_match('/^(\d{1,2}):(\d{2}):(\d{2})$/', (string) $value)) {
+        if (preg_match('/^(\d{1,2}):(\d{2}):(\d{2})$/', (string)$value)) {
             return Carbon::createFromFormat('H:i:s', $value);
         }
 

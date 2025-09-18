@@ -13,7 +13,7 @@ it('writes new values to the config file', function() {
     $contents = "<?php return ['key' => 'old_value'];";
 
     File::shouldReceive('get')->with($filePath)->andReturn($contents);
-    File::shouldReceive('put')->withArgs(fn($filePath, $arg): bool => str_contains((string) $arg, "'key' => 'new_value'"));
+    File::shouldReceive('put')->withArgs(fn($filePath, $arg): bool => str_contains((string)$arg, "'key' => 'new_value'"));
 
     $configRewrite = new ConfigRewrite;
     expect($configRewrite->toFile($filePath, $newValues))->toContain("'key' => 'new_value'");

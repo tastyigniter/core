@@ -152,7 +152,7 @@ class Filesystem extends IlluminateFilesystem
         }
 
         foreach ($files as $file) {
-            if (strtolower((string) $file) === $pathLower) {
+            if (strtolower((string)$file) === $pathLower) {
                 return $file;
             }
         }
