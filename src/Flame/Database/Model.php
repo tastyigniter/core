@@ -279,7 +279,7 @@ abstract class Model extends EloquentModel
     // Overrides
     //
 
-    protected function isRelationPurgeable($name)
+    public function isRelationPurgeable($name)
     {
         $purgeableAttributes = [];
         if (method_exists($this, 'getPurgeableAttributes')) {
