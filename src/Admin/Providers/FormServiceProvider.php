@@ -172,19 +172,13 @@ class FormServiceProvider extends ServiceProvider
                     'priority' => 40,
                     'complete' => Theme::onboardingIsComplete(...),
                 ],
-                'admin::menus' => [
-                    'label' => 'igniter::admin.dashboard.onboarding.label_menus',
-                    'description' => 'igniter::admin.dashboard.onboarding.help_menus',
-                    'icon' => 'fa-cutlery',
-                    'url' => admin_url('menus'),
-                    'priority' => 30,
-                ],
                 'admin::mail' => [
                     'label' => 'igniter::admin.dashboard.onboarding.label_mail',
                     'description' => 'igniter::admin.dashboard.onboarding.help_mail',
                     'icon' => 'fa-envelope',
                     'url' => admin_url('settings/edit/mail'),
                     'priority' => 50,
+                    'complete' => Settings::onboardingMailIsComplete(...),
                 ],
             ]);
         });

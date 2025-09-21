@@ -79,7 +79,7 @@ it('returns empty reservation page options when no active theme', function() {
     expect($result)->toBeEmpty();
 });
 
-it('checks if onboarding is complete', function() {
+it('checks if settings onboarding is complete', function() {
     Session::shouldReceive('has')->with('settings.errors')->andReturn(true);
     Session::shouldReceive('get')->with('settings.errors')->andReturn([]);
 
@@ -88,10 +88,24 @@ it('checks if onboarding is complete', function() {
     expect($result)->toBeTrue();
 });
 
-it('checks if onboarding is not complete', function() {
+it('checks if settings onboarding is not complete', function() {
     Session::shouldReceive('has')->with('settings.errors')->andReturn(false);
 
     $result = Settings::onboardingIsComplete();
+
+    expect($result)->toBeFalse();
+});
+
+it('checks if test mail onboarding is complete', function() {
+    Settings::setPref('test_mail_sent', true);
+
+    $result = Settings::onboardingMailIsComplete();
+
+    expect($result)->toBeTrue();
+});
+
+it('checks if test mail onboarding is not complete', function() {
+    $result = Settings::onboardingMailIsComplete();
 
     expect($result)->toBeFalse();
 });

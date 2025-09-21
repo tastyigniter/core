@@ -126,13 +126,18 @@ class Settings extends Model
         return $theme ? Page::getDropdownOptions($theme, true) : [];
     }
 
-    public static function onboardingIsComplete()
+    public static function onboardingIsComplete(): bool
     {
         if (!Session::has('settings.errors')) {
             return false;
         }
 
         return array_filter((array)Session::get('settings.errors')) === [];
+    }
+
+    public static function onboardingMailIsComplete(): bool
+    {
+        return (bool)self::getPref('test_mail_sent', false);
     }
 
     public function getValueAttribute()
