@@ -64,12 +64,12 @@ class LanguageManager
 
         $paths = [];
 
-        if (! File::exists($directory = base_path('language'))) {
+        if (!File::exists($directory = base_path('language'))) {
             return $paths;
         }
 
         foreach (File::directories($directory) as $path) {
-            $langDir = basename((string) $path);
+            $langDir = basename((string)$path);
             $paths[$langDir] = $path;
         }
 
@@ -94,7 +94,7 @@ class LanguageManager
                 $name = array_get($extension->extensionMeta(), 'name');
             }
 
-            $result[] = (object) [
+            $result[] = (object)[
                 'code' => $namespace,
                 'name' => $name,
                 'files' => File::glob($folder.'/'.$locale.'/*.php'),
@@ -110,7 +110,7 @@ class LanguageManager
         ?string $filter = null,
         ?string $searchTerm = null,
     ): stdClass {
-        $result = (object) [
+        $result = (object)[
             'total' => null,
             'translated' => null,
             'untranslated' => null,
@@ -119,9 +119,9 @@ class LanguageManager
         ];
 
         collect($this->listLocalePackages())
-            ->filter(fn (stdClass $localePackage): bool => ! $packageCode || $localePackage->code === $packageCode)
-            ->each(function (stdClass $localePackage) use ($filter, $result, $model) {
-                collect($localePackage->files)->each(function ($filePath) use ($filter, $result, $localePackage, $model) {
+            ->filter(fn(stdClass $localePackage): bool => !$packageCode || $localePackage->code === $packageCode)
+            ->each(function(stdClass $localePackage) use ($filter, $result, $model) {
+                collect($localePackage->files)->each(function($filePath) use ($filter, $result, $localePackage, $model) {
                     $filePath = pathinfo($filePath, PATHINFO_FILENAME);
 
                     $sourceLines = $model->getLines('en', $filePath, $localePackage->code);
@@ -137,7 +137,7 @@ class LanguageManager
                 });
             });
 
-        if (! is_null($searchTerm) && strlen($searchTerm)) {
+        if (!is_null($searchTerm) && strlen($searchTerm)) {
             $result->strings = $this->searchTranslations($result->strings, $searchTerm);
         }
 
@@ -156,9 +156,9 @@ class LanguageManager
         $translations = $model->translations()
             ->get()
             // @phpstan-ignore-next-line
-            ->groupBy(fn (Translation $translation): string => $translation->namespace)
-            ->filter(fn (Collection $translations, string $namespace): bool => $namespace === 'igniter' || $installedItems->has($namespace))
-            ->map(function (Collection $translations, string $namespace) use ($installedItems): array {
+            ->groupBy(fn(Translation $translation): string => $translation->namespace)
+            ->filter(fn(Collection $translations, string $namespace): bool => $namespace === 'igniter' || $installedItems->has($namespace))
+            ->map(function(Collection $translations, string $namespace) use ($installedItems): array {
                 $item = $namespace === 'igniter'
                     ? [
                         'name' => 'tastyigniter',
@@ -167,11 +167,11 @@ class LanguageManager
                     ] : $installedItems->get($namespace);
 
                 // @phpstan-ignore-next-line
-                $item['files'] = $translations->groupBy(fn (Translation $translation): string => $translation->group)
-                    ->map(fn (Collection $translations, string $file): array => [
+                $item['files'] = $translations->groupBy(fn(Translation $translation): string => $translation->group)
+                    ->map(fn(Collection $translations, string $file): array => [
                         'name' => $file.'.php',
                         // @phpstan-ignore-next-line
-                        'strings' => $translations->map(fn (Translation $translation): array => [
+                        'strings' => $translations->map(fn(Translation $translation): array => [
                             'key' => $translation->item,
                             'value' => $translation->text,
                         ])->all(),
@@ -184,7 +184,7 @@ class LanguageManager
 
         throw_if($translations->isEmpty(), new FlashException('No translations to publish'));
 
-        $translations->each(function (array $item) use ($model) {
+        $translations->each(function(array $item) use ($model) {
             $this->hubManager->publishTranslations($model->code, $item);
         });
     }
@@ -196,17 +196,17 @@ class LanguageManager
             $translationLine = array_get($translationLines, $key, $sourceLine);
 
             if (
-                ($filter === 'changed' && ! array_has($translationLines, $key))
+                ($filter === 'changed' && !array_has($translationLines, $key))
                 || ($filter === 'unchanged' && array_has($translationLines, $key))
-                || ((! is_null($sourceLine) && ! is_string($sourceLine)))
-                || (! is_null($translationLine) && ! is_string($translationLine))
+                || ((!is_null($sourceLine) && !is_string($sourceLine)))
+                || (!is_null($translationLine) && !is_string($translationLine))
             ) {
                 continue;
             }
 
             $result[sprintf('%s.%s', $localeGroup, $key)] = [
                 'source' => $sourceLine,
-                'translation' => (strcmp((string) $sourceLine, (string) $translationLine) === 0) ? '' : $translationLine,
+                'translation' => (strcmp((string)$sourceLine, (string)$translationLine) === 0) ? '' : $translationLine,
             ];
         }
 
@@ -216,10 +216,10 @@ class LanguageManager
     protected function searchTranslations(array $translations, ?string $term = null): array
     {
         $result = [];
-        $term = strtolower((string) $term);
+        $term = strtolower((string)$term);
         foreach ($translations as $key => $value) {
-            if (stripos(strtolower((string) array_get($value, 'source')), $term) !== false
-                || stripos(strtolower((string) array_get($value, 'translation')), $term) !== false
+            if (stripos(strtolower((string)array_get($value, 'source')), $term) !== false
+                || stripos(strtolower((string)array_get($value, 'translation')), $term) !== false
                 || stripos(strtolower($key), $term) !== false) {
                 $result[$key] = $value;
             }
@@ -260,8 +260,8 @@ class LanguageManager
         $installedItemCodes = collect($this->updateManager->getInstalledItems())->keyBy('name');
 
         $items = collect($this->namespaces())
-            ->filter(fn ($langDirectory, $code) => $code === 'igniter' || $installedItemCodes->has($code))
-            ->map(function (string $langDirectory, $code) use ($builds, $installedItemCodes) {
+            ->filter(fn($langDirectory, $code) => $code === 'igniter' || $installedItemCodes->has($code))
+            ->map(function(string $langDirectory, $code) use ($builds, $installedItemCodes) {
                 $item = $code === 'igniter'
                     ? [
                         'name' => 'tastyigniter',
@@ -271,7 +271,7 @@ class LanguageManager
                     : $installedItemCodes->get($code);
 
                 $item['files'] = collect(File::glob($langDirectory.'/en/*.php'))
-                    ->map(function ($langFile) use ($builds, $item): array {
+                    ->map(function($langFile) use ($builds, $item): array {
                         $langFilename = basename($langFile);
 
                         return [
