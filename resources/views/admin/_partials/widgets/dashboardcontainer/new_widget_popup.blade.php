@@ -6,32 +6,30 @@
 <div class="modal-body">
     <div class="form-group">
         <label class="form-label">@lang('igniter::admin.dashboard.label_widget')</label>
-        <select class="form-select" data-control="selectlist" name="widget">
+        <select class="form-select" data-control="selectlist" name="widget" data-request="onSelectWidget">
             <option value="">@lang('igniter::admin.dashboard.text_select_widget')</option>
             @foreach ($widgets as $className => $config)
-                <option value="{{ $config['code'] }}">@lang($config['label'])</option>
+                <option
+                    value="{{ $config['code'] }}"
+                    @selected(isset($widgetAlias) ? $widgetAlias == $config['code'] : false)
+                >@lang($config['label'])</option>
             @endforeach
         </select>
     </div>
 
-    <div class="form-group">
-        <label class="form-label">@lang('igniter::admin.dashboard.label_widget_columns')</label>
-        <select class="form-select" data-control="selectlist" name="size">
-            <option></option>
-            @foreach($gridColumns as $column => $name)
-                <option
-                    value="{{ $column }}"
-                    @if($column == 12) selected="selected" @endif
-                >{{ $name }}</option>
+    <div class="progress-indicator-container">
+        @isset($widgetAlias)
+            @foreach($widgetForm->getFields() as $field)
+                {!! $widgetForm->renderField($field) !!}
             @endforeach
-        </select>
+        @endisset
     </div>
 </div>
 <div class="modal-footer">
     <button
-            type="button"
-            class="btn btn-default"
-            data-bs-dismiss="modal"
+        type="button"
+        class="btn btn-default"
+        data-bs-dismiss="modal"
     >@lang('igniter::admin.button_close')</button>
     <button
         type="button"

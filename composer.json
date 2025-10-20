@@ -53,7 +53,7 @@
     "orchestra/testbench": "^9.0 | ^10.0",
     "pestphp/pest": "^4.0",
     "pestphp/pest-plugin-laravel": "^4.0",
-    "rector/rector": "^1.2"
+    "rector/rector": "^2.0"
   },
   "replace": {
     "kriswallsmith/assetic": "*",
@@ -102,16 +102,20 @@
     "test:lint-fix": "vendor/bin/pint",
     "test:pest": "php -d memory_limit=-1 vendor/bin/pest --compact --parallel --processes=5",
     "test:pest-ci": "php -d memory_limit=-1 vendor/bin/pest --compact --exactly=100",
-    "test:coverage": "php -d memory_limit=-1 vendor/bin/pest --compact --coverage --exactly=100 --parallel --processes=5",
+    "test:coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "php -d memory_limit=-1 vendor/bin/pest --compact --coverage --exactly=100 --parallel --processes=7"
+    ],
     "test:type-coverage": "vendor/bin/pest --type-coverage --min=100",
     "test:refactor": "php vendor/bin/rector process --dry-run",
     "test:refactor-fix": "vendor/bin/rector process",
     "test:static": "vendor/bin/phpstan analyse --ansi --memory-limit=1056M",
     "test:static-fix": "vendor/bin/phpstan --generate-baseline --ansi --memory-limit=1056M",
     "test": [
+      "@test:lint",
       "@test:refactor",
       "@test:static",
-      "@test:pest-ci"
+      "@test:coverage"
     ]
   }
 }
