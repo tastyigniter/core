@@ -49,7 +49,7 @@ it('handles command starting event', function() {
 it('handles command finished event for package:discover', function() {
     $event = mock(CommandFinished::class);
     $event->command = 'package:discover';
-    $event->output = mock(OutputInterface::class);
+    $event->output = mock(OutputInterface::class)->makePartial();
     // Discover packages
     $packageManifest = mock(PackageManifest::class);
     app()->instance(PackageManifest::class, $packageManifest);
