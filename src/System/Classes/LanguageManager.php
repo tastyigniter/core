@@ -220,7 +220,7 @@ class LanguageManager
         foreach ($translations as $key => $value) {
             if (stripos(strtolower((string)array_get($value, 'source')), $term) !== false
                 || stripos(strtolower((string)array_get($value, 'translation')), $term) !== false
-                || stripos(strtolower($key), $term) !== false) {
+                || stripos(strtolower((string)$key), $term) !== false) {
                 $result[$key] = $value;
             }
         }
@@ -234,7 +234,7 @@ class LanguageManager
 
         $items = collect($translations);
         $total = $items->count();
-        $items = $total ? $items->forPage($page, $perPage) : collect();
+        $items = $total !== 0 ? $items->forPage($page, $perPage) : collect();
 
         $options = [
             'path' => Paginator::resolveCurrentPath(),

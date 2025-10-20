@@ -24,7 +24,7 @@ abstract class VarUtils
      *
      * @throws InvalidArgumentException If there is a variable with no value
      */
-    public static function resolve($template, array $vars, array $values)
+    public static function resolve(string $template, array $vars, array $values)
     {
         $map = [];
         foreach ($vars as $var) {

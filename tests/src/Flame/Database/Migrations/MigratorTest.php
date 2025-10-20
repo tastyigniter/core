@@ -35,7 +35,6 @@ it('rolls back migrations', function() {
     $filesystem = mock(Filesystem::class);
     $reflection = new ReflectionClass($migrator);
     $property = $reflection->getProperty('files');
-    $property->setAccessible(true);
     $property->setValue($migrator, $filesystem);
     $migrator->shouldReceive('getRepository')->andReturn($repository);
     $migrator->shouldReceive('write')->with(Info::class, 'Rolling back group group1.')->once();

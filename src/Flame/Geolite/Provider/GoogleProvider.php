@@ -201,7 +201,7 @@ class GoogleProvider extends AbstractProvider
         return $result;
     }
 
-    protected function requestGeocodingUrl($url, GeoQueryInterface $query): array
+    protected function requestGeocodingUrl(string $url, GeoQueryInterface $query): array
     {
         if ($locale = $query->getLocale()) {
             $url = sprintf('%s&language=%s', $url, $locale);
@@ -222,7 +222,7 @@ class GoogleProvider extends AbstractProvider
         return $this->parseResponse($this->validateResponse($response));
     }
 
-    protected function requestDistanceUrl($url, DistanceInterface $query): array
+    protected function requestDistanceUrl(string $url, DistanceInterface $query): array
     {
         if ($apiKey = array_get($this->config, 'apiKey')) {
             $url = sprintf('%s&key=%s', $url, $apiKey);

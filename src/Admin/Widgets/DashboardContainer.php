@@ -289,7 +289,7 @@ class DashboardContainer extends BaseWidget
 
         $this->setWidgetsToUserPreferences(
             collect($this->getWidgetsFromUserPreferences())
-                ->mapWithKeys(function(array $widget, $alias) use ($aliases) {
+                ->mapWithKeys(function(array $widget, $alias) use ($aliases): array {
                     $widget['priority'] = (int)array_search($alias, $aliases, true);
 
                     return [$alias => $widget];

@@ -67,12 +67,12 @@ class Media extends Model
     public static $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
     /**
-     * @var array<int, string> Hidden fields from array/json access
+     * Hidden fields from array/json access
      */
     protected $hidden = ['attachment_type', 'attachment_id', 'is_public'];
 
     /**
-     * @var array<int, string> Add fields to array/json access
+     * Add fields to array/json access
      */
     protected $appends = ['path', 'extension'];
 
@@ -160,7 +160,7 @@ class Media extends Model
      * @param $filename string Filename
      * @throws RuntimeException
      */
-    public function addFromUrl($url, $filename = null, ?string $tag = null): self
+    public function addFromUrl(string $url, $filename = null, ?string $tag = null): self
     {
         $response = Http::get($url);
         if (!$response->successful()) {

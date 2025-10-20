@@ -78,7 +78,7 @@ class Filesystem extends IlluminateFilesystem
             return $bytes.' bytes';
         }
 
-        if ($bytes == 1) {
+        if ($bytes === 1) {
             return $bytes.' byte';
         }
 

@@ -94,7 +94,7 @@ it('loads assets correctly', function() {
 });
 
 it('renders correctly', function() {
-    $this->listsWidget->columns = array_map(function(array $column) {
+    $this->listsWidget->columns = array_map(function(array $column): array {
         $column['sortable'] = false;
 
         return $column;

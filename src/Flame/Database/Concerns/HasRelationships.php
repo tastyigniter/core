@@ -176,7 +176,7 @@ trait HasRelationships
         return (bool)$definition['push'];
     }
 
-    public function handleRelation($relationName)
+    public function handleRelation(string $relationName)
     {
         $relationType = $this->getRelationType($relationName);
         $relation = $this->getRelationDefinition($relationName);
@@ -212,7 +212,7 @@ trait HasRelationships
      *
      * @return array
      */
-    protected function validateRelationArgs($relationName, $optional, $required = [])
+    protected function validateRelationArgs(string $relationName, $optional, $required = [])
     {
         $relation = $this->getRelationDefinition($relationName);
 

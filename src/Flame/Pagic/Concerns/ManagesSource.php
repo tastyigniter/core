@@ -82,7 +82,7 @@ trait ManagesSource
         }
 
         return collect(static::listInTheme($source, $skipCache))
-            ->mapWithKeys(function(Model $model) {
+            ->mapWithKeys(function(Model $model): array {
                 $fileName = $model->getKey();
                 $description = (string)($model->description ?: $model->title);
                 $description = str_limit(!empty($description) ? lang($description) : $fileName, 40);
@@ -220,7 +220,7 @@ trait ManagesSource
             $fileName = $this->fileName;
         }
 
-        if ($fileName && !str_ends_with($fileName, '.'.static::DEFAULT_EXTENSION)) {
+        if ($fileName && !str_ends_with((string)$fileName, '.'.static::DEFAULT_EXTENSION)) {
             $fileName .= '.'.static::DEFAULT_EXTENSION;
         }
 

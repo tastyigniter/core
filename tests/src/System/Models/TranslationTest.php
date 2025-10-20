@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 it('updates and locks translation with new text', function() {
-    $translation = Translation::create(['text' => 'Old Text', 'locked' => false]);
+    $translation = Translation::create(['text' => 'Old Text', 'locale' => 'fr', 'locked' => false]);
     $result = $translation->updateAndLock('New Text');
 
     expect($result)->toBeTrue()
@@ -39,7 +39,7 @@ it('flags translation as reviewed', function() {
 });
 
 it('flags translation as unstable', function() {
-    $translation = new Translation(['unstable' => false]);
+    $translation = new Translation(['locale' => 'fr', 'unstable' => false]);
     $translation->flagAsUnstable();
 
     expect($translation->unstable)->toBeTrue();

@@ -376,7 +376,7 @@ class Components extends BaseFormWidget
         $formField->comment = sprintf(lang('igniter::system.themes.help_override_partial'), $themePartialPath);
 
         $formField->options(fn() => collect(File::glob($componentPath.'/*.blade.php'))
-            ->mapWithKeys(function($path) {
+            ->mapWithKeys(function($path): array {
                 $name = str_before(File::basename($path), '.'.Model::DEFAULT_EXTENSION);
 
                 return [$name => $name];

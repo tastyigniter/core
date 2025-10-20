@@ -67,7 +67,7 @@ class Router
 
         for ($pass = 1; $pass <= 2; $pass++) {
             if (($page = static::$templateClass::loadCached($this->theme, $fileName)) === null) {
-                if ($pass == 1) {
+                if ($pass === 1) {
                     $this->clearCache();
                 }
 
@@ -196,7 +196,7 @@ class Router
                 continue;
             }
 
-            $normalizedParam = substr($param, 1);
+            $normalizedParam = substr((string)$param, 1);
             $parameters[$normalizedParam] = $value;
             unset($parameters[$param]);
         }

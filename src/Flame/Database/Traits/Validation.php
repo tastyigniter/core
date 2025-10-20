@@ -162,7 +162,7 @@ trait Validation
     /**
      * Throw a validation exception.
      *
-     * @throws \Igniter\Flame\Database\Traits\Validation
+     * @throws Validation
      */
     public function throwValidationException(): void
     {

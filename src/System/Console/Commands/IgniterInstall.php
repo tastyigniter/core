@@ -130,13 +130,13 @@ class IgniterInstall extends Command
 
         $name = Config::get('database.default');
         foreach ($this->dbConfig as $key => $value) {
-            Config::set(sprintf('database.connections.%s.', $name).strtolower($key), $value);
+            Config::set(sprintf('database.connections.%s.', $name).strtolower((string)$key), $value);
 
             if ($key === 'password') {
                 $value = '"'.$value.'"';
             }
 
-            SystemHelper::replaceInEnv('DB_'.strtoupper($key).'=', 'DB_'.strtoupper($key).'='.$value);
+            SystemHelper::replaceInEnv('DB_'.strtoupper((string)$key).'=', 'DB_'.strtoupper((string)$key).'='.$value);
         }
     }
 

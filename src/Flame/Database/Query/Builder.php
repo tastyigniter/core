@@ -144,9 +144,8 @@ class Builder extends IlluminateQueryBuilder
      * Execute the query as a cached "select" statement.
      *
      * @param array $columns
-     * @return Collection
      */
-    public function getCached($columns = ['*'])
+    public function getCached($columns = ['*']): Collection
     {
         if (is_null($this->columns)) {
             $this->columns = $columns;

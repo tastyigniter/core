@@ -52,7 +52,6 @@ it('builds correctly', function() {
     $loader->manifest = [];
     $reflection = new ReflectionClass($loader);
     $property = $reflection->getProperty('manifestIsDirty');
-    $property->setAccessible(true);
     $property->setValue($loader, true);
 
     expect(fn() => $loader->build())
@@ -61,7 +60,6 @@ it('builds correctly', function() {
     $loader = resolve(ClassLoader::class);
     $reflection = new ReflectionClass($loader);
     $property = $reflection->getProperty('manifestIsDirty');
-    $property->setAccessible(true);
     $property->setValue($loader, true);
 
     $loader->build();

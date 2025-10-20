@@ -313,9 +313,9 @@ class MailManager
 
     protected function registerBladeDirectives()
     {
-        Blade::directive('partial', fn($expression): string => sprintf('<?php resolve('.\Igniter\System\Classes\MailManager::class.'::class)->startPartial(%s); ?>', $expression));
+        Blade::directive('partial', fn($expression): string => sprintf('<?php resolve('.MailManager::class.'::class)->startPartial(%s); ?>', $expression));
 
-        Blade::directive('endpartial', fn(): string => '<?php echo resolve('.\Igniter\System\Classes\MailManager::class.'::class)->renderPartial(); ?>');
+        Blade::directive('endpartial', fn(): string => '<?php echo resolve('.MailManager::class.'::class)->renderPartial(); ?>');
     }
 
     protected function processRegistrationMethodValues(BaseExtension $extension, string $method)

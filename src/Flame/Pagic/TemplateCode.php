@@ -113,7 +113,7 @@ class TemplateCode extends Extendable implements ArrayAccess
     /**
      * This will check if a property isset on the Template Page object.
      */
-    public function __isset($name): bool
+    public function __isset(string $name): bool
     {
         return isset($this->page->{$name});
     }

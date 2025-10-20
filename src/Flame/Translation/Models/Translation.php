@@ -47,7 +47,7 @@ class Translation extends Model
     protected $primaryKey = 'translation_id';
 
     /**
-     * @var array<int, string> List of variables that can be mass assigned
+     * List of variables that can be mass assigned
      */
     protected $fillable = ['locale', 'namespace', 'group', 'item', 'text', 'unstable'];
 
@@ -70,7 +70,7 @@ class Translation extends Model
         });
     }
 
-    public static function getCacheKey($locale, $group, $namespace): string
+    public static function getCacheKey(string $locale, $group, $namespace): string
     {
         return static::$cacheKey.sprintf('.%s.%s.%s', $locale, $namespace, $group);
     }
@@ -141,7 +141,7 @@ class Translation extends Model
 
         return Cache::rememberForever($cacheKey, function() use ($locale, $group, $namespace) {
             $result = static::getFresh($locale, $group, $namespace)->reduce(
-                function($lines, Translation $model) {
+                function($lines, Translation $model): array {
                     array_set($lines, $model->item, $model->text);
 
                     return $lines;

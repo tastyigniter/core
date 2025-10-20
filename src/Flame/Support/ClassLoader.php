@@ -239,7 +239,7 @@ class ClassLoader
         foreach ($namespaceAliases as $original => $alias) {
             if (!array_key_exists($alias, $this->namespaceAliases)) {
                 $alias = ltrim((string)$alias, '\\');
-                $original = ltrim($original, '\\');
+                $original = ltrim((string)$original, '\\');
                 $this->namespaceAliases[$alias] = $original;
             }
         }
@@ -383,7 +383,7 @@ class ClassLoader
                 if (!is_array($this->manifest)) {
                     $this->manifest = [];
                 }
-            } catch (Exception|Throwable) {
+            } catch (Throwable) {
                 $this->manifest = [];
             }
         } else {

@@ -29,11 +29,11 @@ class ScssphpFilter implements DependencyExtractorInterface
 
     private array $customFunctions = [];
 
-    private $formatter;
+    private ?string $formatter = null;
 
     private array $variables = [];
 
-    public function setFormatter($formatter): void
+    public function setFormatter(string $formatter): void
     {
         $legacyFormatters = [
             'scss_formatter' => Expanded::class,

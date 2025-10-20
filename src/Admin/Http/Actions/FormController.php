@@ -154,9 +154,7 @@ class FormController extends ControllerAction
         // Prep the optional toolbar widget
         if (isset($modelConfig['toolbar'], $this->controller->widgets['toolbar'])) {
             $this->toolbarWidget = $this->controller->widgets['toolbar'];
-            if ($this->toolbarWidget instanceof Toolbar) {
-                $this->toolbarWidget->reInitialize($modelConfig['toolbar']);
-            }
+            $this->toolbarWidget->reInitialize($modelConfig['toolbar']);
         }
 
         $this->model = $model;

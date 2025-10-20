@@ -311,7 +311,7 @@ class NominatimProvider extends AbstractProvider
         $address->setCountryName($location->address->country ?? null);
 
         $countryCode = $location->address->country_code ?? null;
-        $address->setCountryCode($countryCode ? strtoupper($countryCode) : null);
+        $address->setCountryCode($countryCode ? strtoupper((string)$countryCode) : null);
     }
 
     protected function requestDistanceUrl(string $url, DistanceInterface $distance): array

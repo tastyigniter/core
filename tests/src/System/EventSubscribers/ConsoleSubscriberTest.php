@@ -13,6 +13,7 @@ use Illuminate\Console\Events\CommandFinished;
 use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Events\Dispatcher;
+use Symfony\Component\Console\Output\OutputInterface;
 
 it('subscribes to console events correctly', function() {
     $subscriber = new ConsoleSubscriber;
@@ -48,6 +49,7 @@ it('handles command starting event', function() {
 it('handles command finished event for package:discover', function() {
     $event = mock(CommandFinished::class);
     $event->command = 'package:discover';
+    $event->output = mock(OutputInterface::class);
     // Discover packages
     $packageManifest = mock(PackageManifest::class);
     app()->instance(PackageManifest::class, $packageManifest);

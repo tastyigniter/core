@@ -94,7 +94,7 @@ abstract class GeneratorCommand extends Command
     {
         $code = $this->argument('extension');
 
-        if (count($array = explode('.', $code)) != 2) {
+        if (count($array = explode('.', $code)) !== 2) {
             return null;
         }
 

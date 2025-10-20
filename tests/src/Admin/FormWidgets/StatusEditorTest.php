@@ -217,7 +217,7 @@ it('returns assignee options when groupId is provided', function() {
     {
         public function __construct() {}
 
-        public function getField($field): ?FormField
+        public function getField($field): FormField
         {
             $formField = new FormField('assignee_group_id', 'select');
             $formField->value = '1';
@@ -239,7 +239,7 @@ it('returns empty array when no locations are assigned', function() {
     {
         public function __construct() {}
 
-        public function getField($field): ?FormField
+        public function getField($field): FormField
         {
             $formField = new FormField('assignee_group_id', 'select');
             $formField->value = '1';

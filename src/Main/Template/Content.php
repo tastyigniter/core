@@ -28,7 +28,7 @@ class Content extends Model
         $extension = strtolower(File::extension($this->fileName));
 
         return match ($extension) {
-            'txt' => htmlspecialchars($this->markup),
+            'txt' => htmlspecialchars((string)$this->markup),
             'md' => Markdown::parse($this->markup)->toHtml(),
             default => $this->markup,
         };

@@ -83,7 +83,7 @@ class Manager
 
         return $this->installedPackages = collect($installedPackages)
             ->filter(fn(array $package): bool => $this->isValidPackage($package))
-            ->mapWithKeys(function(array $package) {
+            ->mapWithKeys(function(array $package): array {
                 if ($package['name'] === PackageInfo::CORE) {
                     $package['code'] = PackageInfo::CORE_CODE;
                     $package['type'] = PackageInfo::CORE_TYPE;

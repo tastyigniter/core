@@ -76,7 +76,7 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
             $importSource = $importRoot.'/'.$importPath;
             if (str_contains($importSource, '://') || str_starts_with($importSource, '//')) {
                 $import = new HttpAsset($importSource, [$importFilter], true);
-            } elseif (pathinfo($importPath, PATHINFO_EXTENSION) != 'css' || !File::exists($importSource)) {
+            } elseif (pathinfo($importPath, PATHINFO_EXTENSION) !== 'css' || !File::exists($importSource)) {
                 // ignore non-css and non-existant imports
                 return $matches[0];
             } else {

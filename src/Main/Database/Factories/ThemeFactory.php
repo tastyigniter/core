@@ -25,4 +25,12 @@ class ThemeFactory extends Factory
             'is_default' => false,
         ];
     }
+
+    public function findOrCreateTestTheme($attributes = []): Theme
+    {
+        return Theme::query()->firstOrCreate(
+            ['code' => 'tests-theme'],
+            array_merge($this->definition(), ['name' => 'Theme Name'], $attributes)
+        );
+    }
 }

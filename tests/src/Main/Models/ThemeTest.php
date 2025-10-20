@@ -20,9 +20,7 @@ it('creates a new theme instance for a given theme data', function() {
 
 it('returns true when onboarding is complete', function() {
     Theme::clearDefaultModel();
-    $theme = Theme::factory()->create([
-        'code' => 'tests-theme',
-        'name' => 'Test Theme',
+    $theme = Theme::factory()->findOrCreateTestTheme([
         'data' => ['key' => 'value'],
         'status' => 1,
     ]);
@@ -128,7 +126,7 @@ it('saves theme customizer attributes', function() {
 });
 
 it('activates a theme and installs required extensions', function() {
-    $theme = Theme::factory()->create(['code' => 'tests-theme', 'name' => 'Test Theme', 'status' => 1]);
+    $theme = Theme::factory()->findOrCreateTestTheme(['status' => 1]);
     $themeData = mock(ThemeData::class);
     $themeData->shouldReceive('listRequires')->andReturn(['extension1' => '1.0.0']);
     $themeData->shouldReceive('hasParent')->andReturnFalse();

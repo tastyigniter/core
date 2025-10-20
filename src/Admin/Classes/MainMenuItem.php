@@ -38,7 +38,7 @@ class MainMenuItem
     public string $type = 'link';
 
     /**
-     * @var string Menu dropdown menu options.
+     * @var mixed Menu dropdown menu options.
      */
     public mixed $options = null;
 
@@ -150,7 +150,7 @@ class MainMenuItem
      *
      * @return $this
      */
-    public function displayAs($type, $config = []): static
+    public function displayAs($type, array $config = []): static
     {
         $this->type = !is_null($type) ? $type : $this->type;
         $this->config = $this->evalConfig($config);
@@ -160,12 +160,8 @@ class MainMenuItem
 
     /**
      * Process options and apply them to this object.
-     *
-     * @param array $config
-     *
-     * @return array
      */
-    protected function evalConfig($config)
+    protected function evalConfig(array $config): array
     {
         if (isset($config['priority'])) {
             $this->priority = $config['priority'];

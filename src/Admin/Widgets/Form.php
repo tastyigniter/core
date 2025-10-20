@@ -785,7 +785,7 @@ class Form extends BaseWidget
         $prevSpan = null;
 
         foreach ($fields as $field) {
-            if (strtolower($field->span) === 'auto') {
+            if (strtolower((string)$field->span) === 'auto') {
                 $field->span = $prevSpan === 'left' ? 'right' : 'left';
             }
 

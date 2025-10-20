@@ -18,7 +18,6 @@ use Igniter\Flame\Traits\ExtendableTrait;
 use Igniter\Main\Template\Code\LayoutCode;
 use Igniter\Main\Template\Code\PageCode;
 use Igniter\Main\Template\Content;
-use Igniter\Main\Template\Layout;
 use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page;
 use Igniter\Main\Template\Partial;
@@ -63,7 +62,7 @@ class MainController extends Controller
     protected ?PageCode $pageObj = null;
 
     /** The main layout template used by the page.*/
-    protected ?Layout $layout = null;
+    protected ?LayoutTemplate $layout = null;
 
     /** The main page template being processed.*/
     protected ?Page $page = null;
@@ -401,7 +400,7 @@ class MainController extends Controller
      * The object is not available on the early stages of the controller
      * initialization.
      */
-    public function getLayout(): ?Layout
+    public function getLayout(): ?LayoutTemplate
     {
         return $this->layout;
     }
