@@ -6,6 +6,7 @@ namespace Igniter\Main\Database\Factories;
 
 use Igniter\Flame\Database\Factories\Factory;
 use Igniter\Main\Models\Theme;
+use Illuminate\Database\Eloquent\Model;
 use Override;
 
 class ThemeFactory extends Factory
@@ -26,7 +27,7 @@ class ThemeFactory extends Factory
         ];
     }
 
-    public function findOrCreateTestTheme($attributes = []): Theme
+    public function findOrCreateTestTheme($attributes = []): Model|Theme
     {
         return Theme::query()->firstOrCreate(
             ['code' => 'tests-theme'],
