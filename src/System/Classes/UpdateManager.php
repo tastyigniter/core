@@ -451,14 +451,16 @@ class UpdateManager
             };
         });
 
-        rescue(function() use ($packages) {
-            $this->hubManager->applyInstalledItems(collect($packages)
-                ->map(fn(PackageInfo $packageInfo) => [
-                    'name' => $packageInfo->package,
-                    'type' => $packageInfo->type,
-                    'ver' => $packageInfo->version,
-                ])
-                ->all());
-        });
+        if (!empty($packages)) {
+            rescue(function() use ($packages) {
+                $this->hubManager->applyInstalledItems(collect($packages)
+                    ->map(fn(PackageInfo $packageInfo) => [
+                        'name' => $packageInfo->package,
+                        'type' => $packageInfo->type,
+                        'ver' => $packageInfo->version,
+                    ])
+                    ->all());
+            });
+        }
     }
 }
