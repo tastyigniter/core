@@ -100,11 +100,11 @@
   "scripts": {
     "test:lint": "vendor/bin/pint --test",
     "test:lint-fix": "vendor/bin/pint",
-    "test:pest": "php -d memory_limit=-1 vendor/bin/pest --compact --parallel --processes=5",
+    "test:pest": "php -d memory_limit=-1 vendor/bin/pest --compact --parallel --processes=8",
     "test:pest-ci": "php -d memory_limit=-1 vendor/bin/pest --compact --exactly=100",
     "test:coverage": [
       "Composer\\Config::disableProcessTimeout",
-      "php -d memory_limit=-1 vendor/bin/pest --compact --coverage --exactly=100 --parallel --processes=7"
+      "php -d memory_limit=-1 vendor/bin/pest --compact --coverage --exactly=100 --parallel --processes=8"
     ],
     "test:type-coverage": "vendor/bin/pest --type-coverage --min=100",
     "test:refactor": "php vendor/bin/rector process --dry-run",
