@@ -126,7 +126,7 @@ it('saves theme customizer attributes', function() {
 });
 
 it('activates a theme and installs required extensions', function() {
-    $theme = Theme::factory()->findOrCreateTestTheme(['status' => 1]);
+    $theme = Theme::factory()->findOrCreateTestTheme(['status' => 1, 'is_default' => true]);
     $themeData = mock(ThemeData::class);
     $themeData->shouldReceive('listRequires')->andReturn(['extension1' => '1.0.0']);
     $themeData->shouldReceive('hasParent')->andReturnFalse();
