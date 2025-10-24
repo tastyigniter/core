@@ -31,7 +31,7 @@ class ThemeFactory extends Factory
     {
         return Theme::query()->firstOrCreate(
             ['code' => 'tests-theme'],
-            array_merge($this->definition(), ['name' => 'Theme Name'], $attributes)
+            array_merge($this->definition(), ['name' => 'Theme Name', 'code' => 'tests-theme'], $attributes)
         );
     }
 }
