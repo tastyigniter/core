@@ -57,10 +57,7 @@ class SystemHelper
 
         // ini_set can return false or an empty string depending on your php version / FastCGI.
         // If ini_set has been disabled in php.ini, the value will be null because of our muted error handler
-        return
-            $result !== false &&
-            $result !== '' &&
-            $result !== $newValue;
+        return !in_array($result, [false, '', $newValue], true);
     }
 
     public function assertIniMaxExecutionTime(int $int): bool

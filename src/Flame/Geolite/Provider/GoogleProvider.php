@@ -472,7 +472,7 @@ class GoogleProvider extends AbstractProvider
             return $components;
         }
 
-        return implode('|', array_map(fn($name, $value): string => sprintf('%s:%s', $name, $value), array_keys($components), $components));
+        return implode('|', array_map(fn(string $name, $value): string => sprintf('%s:%s', $name, $value), array_keys($components), $components));
     }
 
     protected function getPlacesSessionToken(): string

@@ -66,7 +66,7 @@ class RouteRegistrar
 
                 return $result;
             })
-            ->filter(fn($class) => $this->isAdminPage($class));
+            ->filter(fn(string $class) => $this->isAdminPage($class));
     }
 
     protected function isAdminPage(string $class): bool

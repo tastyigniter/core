@@ -480,7 +480,7 @@ class MainController extends Controller
 
     public function renderPartialFirst(array $partials, array $params = [], bool $throwException = true): mixed
     {
-        $partial = Arr::first($partials, fn($partial): bool => $this->hasPartial($partial));
+        $partial = Arr::first($partials, fn(string $partial): bool => $this->hasPartial($partial));
 
         return $this->renderPartial($partial, $params, $throwException);
     }

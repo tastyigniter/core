@@ -145,7 +145,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
         $instance = new static;
         $instance->setSource($source);
 
-        $items = array_map(fn($item): static => $instance->newFromFinder($item), $items);
+        $items = array_map(fn(array $item): static => $instance->newFromFinder($item), $items);
 
         return $instance->newCollection($items);
     }

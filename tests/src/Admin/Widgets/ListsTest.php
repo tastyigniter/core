@@ -333,7 +333,7 @@ it('overrides list header value using event', function() {
     expect($columnValue)->toBe('Overridden Value');
 });
 
-it('returns list column value', function($columnName, $type, $value, $expected, $config) {
+it('returns list column value', function($columnName, ?string $type, $value, $expected, array $config) {
     $listColumn = new ListColumn($columnName, 'Test Column');
     $listColumn->displayAs($type, $config);
 

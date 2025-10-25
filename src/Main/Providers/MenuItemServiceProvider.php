@@ -22,7 +22,7 @@ class MenuItemServiceProvider extends ServiceProvider
 
         Event::listen('pages.menuitem.getTypeInfo', fn($type): ?array => Page::getMenuTypeInfo((string)$type));
 
-        Event::listen('pages.menuitem.resolveItem', function($item, $url, $theme) {
+        Event::listen('pages.menuitem.resolveItem', function($item, string $url, $theme) {
             if ($item->type == 'theme-page' && $theme) {
                 return Page::resolveMenuItem($item, $url, $theme);
             }

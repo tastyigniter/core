@@ -16,7 +16,7 @@ class ThemeRequest extends FormRequest
             return [];
         }
 
-        return collect($this->fields())->mapWithKeys(function($config, $field): array {
+        return collect($this->fields())->mapWithKeys(function($config, string $field): array {
             $dottedName = implode('.', name_to_array($field));
 
             return [$dottedName => array_get($config, 'label')];

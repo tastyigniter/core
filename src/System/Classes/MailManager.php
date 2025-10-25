@@ -313,7 +313,7 @@ class MailManager
 
     protected function registerBladeDirectives()
     {
-        Blade::directive('partial', fn($expression): string => sprintf('<?php resolve('.MailManager::class.'::class)->startPartial(%s); ?>', $expression));
+        Blade::directive('partial', fn(string $expression): string => sprintf('<?php resolve('.MailManager::class.'::class)->startPartial(%s); ?>', $expression));
 
         Blade::directive('endpartial', fn(): string => '<?php echo resolve('.MailManager::class.'::class)->renderPartial(); ?>');
     }

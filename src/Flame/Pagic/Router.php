@@ -82,7 +82,7 @@ class Router
 
     public function getRouteMap(): Collection
     {
-        return collect($this->getUrlMap())->map(fn($page): array => RouterHelper::convertToRouteProperties($page));
+        return collect($this->getUrlMap())->map(fn(array $page): array => RouterHelper::convertToRouteProperties($page));
     }
 
     /**

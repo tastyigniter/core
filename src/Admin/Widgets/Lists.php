@@ -257,7 +257,7 @@ class Lists extends BaseWidget
         }
 
         // Apply search term
-        $query->where(function($innerQuery) use ($primarySearchable, $relationSearchable, $joins) {
+        $query->where(function(Builder $innerQuery) use ($primarySearchable, $relationSearchable, $joins) {
             // Search primary columns
             if ($primarySearchable !== []) {
                 $this->applySearchToQuery($innerQuery, $primarySearchable, 'or');
@@ -270,7 +270,7 @@ class Lists extends BaseWidget
                     // constrain the query only if there is something to search for
                     $columnsToSearch = array_get($relationSearchable, $join, []);
                     if (count($columnsToSearch) > 0) {
-                        $innerQuery->orWhereHas($join, function($_query) use ($columnsToSearch) {
+                        $innerQuery->orWhereHas($join, function(Builder $_query) use ($columnsToSearch) {
                             $this->applySearchToQuery($_query, $columnsToSearch);
                         });
                     }

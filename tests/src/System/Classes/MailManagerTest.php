@@ -119,7 +119,7 @@ it('loads and returns registered variables', function() {
 it('registers custom blade directives when rendering view', function() {
     $manager = resolve(MailManager::class);
     Blade::shouldReceive('directive')->andReturnUsing(function($name, $callback): bool {
-        $callback(null);
+        $callback('');
 
         return in_array($name, ['partial', 'endpartial']);
     });

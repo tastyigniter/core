@@ -9,7 +9,7 @@ use Igniter\Flame\Geolite\Exception\GeoliteException;
 use Igniter\Flame\Geolite\Model\Coordinates;
 use Igniter\Flame\Geolite\Model\Ellipsoid;
 
-it('throws exception when creating ellipsoid with invalid name', function($name) {
+it('throws exception when creating ellipsoid with invalid name', function(string $name) {
     expect(fn() => Ellipsoid::createFromName($name))->toThrow(GeoliteException::class);
 })->with([
     'empty name' => ['', 'Please provide an ellipsoid name !'],

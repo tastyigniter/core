@@ -32,10 +32,8 @@ if (!function_exists('page')) {
 if (!function_exists('content')) {
     /**
      * Load a content template file
-     *
-     * @param string $content
      */
-    function content($content = '', array $data = []): string
+    function content(string $content = '', array $data = []): string
     {
         return controller()->renderContent($content, $data);
     }
@@ -45,11 +43,9 @@ if (!function_exists('partial')) {
     /**
      * Load a partial template file
      *
-     * @param string $partial
-     *
      * @return string
      */
-    function partial($partial = '', array $data = []): mixed
+    function partial(string $partial = '', array $data = []): mixed
     {
         return controller()->renderPartial($partial, $data);
     }
@@ -58,10 +54,8 @@ if (!function_exists('partial')) {
 if (!function_exists('has_component')) {
     /**
      * Check if a component is loaded
-     *
-     * @param string $component
      */
-    function has_component($component = ''): bool
+    function has_component(string $component = ''): bool
     {
         return controller()->hasComponent($component);
     }
@@ -71,11 +65,9 @@ if (!function_exists('component')) {
     /**
      * Check if Partial Area has rendered components
      *
-     * @param string $component
-     *
      * @return string
      */
-    function component($component = '', array $params = []): string|false
+    function component(string $component = '', array $params = []): string|false
     {
         return controller()->renderComponent($component, $params);
     }
