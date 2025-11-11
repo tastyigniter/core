@@ -99,7 +99,7 @@ class NominatimProvider extends AbstractProvider
     public function distance(DistanceInterface $distance): ?Distance
     {
         $endpoint = array_get($this->config, 'endpoints.distance');
-        $url = sprintf($endpoint.'search?q=%s&format=json&limit=%d',
+        $url = sprintf($endpoint,
             $distance->getData('mode', 'car'),
             $distance->getFrom()->getLongitude(),
             $distance->getFrom()->getLatitude(),
