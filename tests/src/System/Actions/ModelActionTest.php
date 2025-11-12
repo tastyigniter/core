@@ -28,5 +28,5 @@ it('throws exception if required property is missing', function() {
 });
 
 it('initializes with null model', function() {
-    expect(new ModelAction())->not->toBeNull();
+    expect(new ModelAction)->not->toBeNull();
 });
