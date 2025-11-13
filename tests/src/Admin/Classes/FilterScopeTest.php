@@ -41,7 +41,7 @@ it('constructs correctly', function() {
         ->and($filterScope->config)->toBeArray();
 });
 
-it('can get id with optional prefix and suffix', function($scopeName, $suffix, $prefix, $expectedId) {
+it('can get id with optional prefix and suffix', function($scopeName, ?string $suffix, $prefix, $expectedId) {
     $filterScope = new FilterScope($scopeName, 'Test Scope');
     $filterScope->displayAs('text', ['idPrefix' => $prefix]);
 

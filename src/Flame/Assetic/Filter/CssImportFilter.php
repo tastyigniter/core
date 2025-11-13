@@ -51,18 +51,18 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
 
             $importRoot = $sourceRoot;
 
-            if (str_contains((string) $matches['url'], '://')) {
+            if (str_contains((string)$matches['url'], '://')) {
                 // absolute
-                [$importScheme, $tmp] = explode('://', (string) $matches['url'], 2);
+                [$importScheme, $tmp] = explode('://', (string)$matches['url'], 2);
                 [$importHost, $importPath] = explode('/', $tmp, 2);
                 $importRoot = $importScheme.'://'.$importHost;
-            } elseif (str_starts_with((string) $matches['url'], '//')) {
+            } elseif (str_starts_with((string)$matches['url'], '//')) {
                 // protocol-relative
-                [$importHost, $importPath] = explode('/', substr((string) $matches['url'], 2), 2);
+                [$importHost, $importPath] = explode('/', substr((string)$matches['url'], 2), 2);
                 $importRoot = '//'.$importHost;
             } elseif ($matches['url'][0] == '/') {
                 // root-relative
-                $importPath = substr((string) $matches['url'], 1);
+                $importPath = substr((string)$matches['url'], 1);
             } elseif ($sourcePath !== null) {
                 // document-relative
                 $importPath = $matches['url'];
@@ -76,7 +76,7 @@ class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterf
             $importSource = $importRoot.'/'.$importPath;
             if (str_contains($importSource, '://') || str_starts_with($importSource, '//')) {
                 $import = new HttpAsset($importSource, [$importFilter], true);
-            } elseif (pathinfo($importPath, PATHINFO_EXTENSION) != 'css' || !File::exists($importSource)) {
+            } elseif (pathinfo($importPath, PATHINFO_EXTENSION) !== 'css' || !File::exists($importSource)) {
                 // ignore non-css and non-existant imports
                 return $matches[0];
             } else {

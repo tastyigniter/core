@@ -108,7 +108,7 @@ class BelongsToMany extends BelongsToManyBase
     /**
      * Adds a model to this relationship type.
      */
-    public function add(Model $model, $pivotData = []): void
+    public function add(Model $model, array $pivotData = []): void
     {
         if ($this->parent->exists) {
             $this->attach($model, $pivotData);

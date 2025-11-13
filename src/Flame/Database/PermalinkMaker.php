@@ -187,7 +187,7 @@ class PermalinkMaker
         // ... we are also okay (use the current slug)
         if ($list->has($this->model->getKey())) {
             $currentSlug = $list->get($this->model->getKey());
-            if ($currentSlug === $slug || str_starts_with((string) $currentSlug, $slug)) {
+            if ($currentSlug === $slug || str_starts_with((string)$currentSlug, $slug)) {
                 return $currentSlug;
             }
         }
@@ -273,7 +273,7 @@ class PermalinkMaker
             return end($suffix);
         }
 
-        $list->transform(fn($value, $key): int => (int)substr((string) $value, $len));
+        $list->transform(fn($value, $key): int => (int)substr((string)$value, $len));
 
         // find the highest value and return one greater.
         return $list->max() + 1;

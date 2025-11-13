@@ -139,6 +139,20 @@ class DashboardContainer extends BaseWidget
         return ['#'.$this->getId('new-widget-modal-content') => $this->makePartial('new_widget_popup')];
     }
 
+    public function onSelectWidget(): array
+    {
+        if (empty($widgetAlias = trim((string)post('widget', '')))) {
+            throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_add'));
+        }
+
+        $this->vars['widgets'] = resolve(Widgets::class)->listDashboardWidgets();
+        $this->vars['widgetAlias'] = $widgetAlias;
+        $this->vars['widget'] = $widget = $this->makeDashboardWidget($widgetAlias, []);
+        $this->vars['widgetForm'] = $this->getFormWidget($widgetAlias, $widget);
+
+        return ['#'.$this->getId('new-widget-modal-content') => $this->makePartial('new_widget_popup')];
+    }
+
     public function onLoadUpdatePopup(): array
     {
         if (empty($widgetAlias = trim((string)post('widgetAlias', '')))) {
@@ -156,13 +170,9 @@ class DashboardContainer extends BaseWidget
     {
         $validated = $this->validate(request()->post(), [
             'widget' => ['required', 'alpha_dash'],
-            'size' => ['nullable', 'integer'],
         ]);
 
-        throw_unless(
-            $widgetClass = resolve(Widgets::class)->resolveDashboardWidget($widgetCode = array_get($validated, 'widget')),
-            new FlashException(lang('igniter::admin.dashboard.alert_widget_class_not_found')),
-        );
+        $widgetClass = resolve(Widgets::class)->resolveDashboardWidget($widgetCode = array_get($validated, 'widget'));
 
         /** @var BaseDashboardWidget $widget */
         $widget = $this->makeWidget($widgetClass, [
@@ -176,10 +186,17 @@ class DashboardContainer extends BaseWidget
             new FlashException(lang('igniter::admin.dashboard.alert_invalid_widget')),
         );
 
+        [$rules, $attributes] = $widget->getPropertyRules();
+        $validated = $this->validate(request()->post($widgetCode.'_fields'), array_merge([
+            'width' => ['numeric'],
+        ], $rules), $attributes);
+
         $widget->bindToController();
 
         $widgetAlias = $widgetCode.'_'.str_random(5);
-        $this->addWidget($widgetAlias, $widget, array_get($validated, 'size'));
+        $this->addWidget($widgetAlias, $widget, $validated);
+
+        $widget->initialize();
 
         return [
             '@#'.$this->getId('container-list') => $this->makePartial('widget_item', [
@@ -217,7 +234,9 @@ class DashboardContainer extends BaseWidget
 
     public function onUpdateWidget(): array
     {
-        $alias = post('alias');
+        throw_if(empty($alias = trim((string)post('alias', ''))),
+            FlashException::error(lang('igniter::admin.dashboard.alert_select_widget_to_update'))
+        );
 
         $widget = $this->findWidgetByAlias($alias);
 
@@ -245,13 +264,13 @@ class DashboardContainer extends BaseWidget
         $this->removeWidget($alias);
     }
 
-    protected function addWidget(string $widgetAlias, BaseDashboardWidget $widget, mixed $size)
+    protected function addWidget(string $widgetAlias, BaseDashboardWidget $widget, array $properties)
     {
         $widgets = $this->getWidgetsFromUserPreferences();
 
         $nextPriority = collect($widgets)->max('priority') + 1;
 
-        $widget->setProperty('width', $size);
+        $widget->mergeProperties($properties);
         $widget->setProperty('priority', $nextPriority);
 
         $widgets[$widgetAlias] = $widget->getPropertiesToSave();
@@ -270,7 +289,7 @@ class DashboardContainer extends BaseWidget
 
         $this->setWidgetsToUserPreferences(
             collect($this->getWidgetsFromUserPreferences())
-                ->mapWithKeys(function(array $widget, $alias) use ($aliases) {
+                ->mapWithKeys(function(array $widget, $alias) use ($aliases): array {
                     $widget['priority'] = (int)array_search($alias, $aliases, true);
 
                     return [$alias => $widget];

@@ -94,7 +94,7 @@ it('loads assets correctly', function() {
 });
 
 it('renders correctly', function() {
-    $this->listsWidget->columns = array_map(function(array $column) {
+    $this->listsWidget->columns = array_map(function(array $column): array {
         $column['sortable'] = false;
 
         return $column;
@@ -333,7 +333,7 @@ it('overrides list header value using event', function() {
     expect($columnValue)->toBe('Overridden Value');
 });
 
-it('returns list column value', function($columnName, $type, $value, $expected, $config) {
+it('returns list column value', function($columnName, ?string $type, $value, $expected, array $config) {
     $listColumn = new ListColumn($columnName, 'Test Column');
     $listColumn->displayAs($type, $config);
 

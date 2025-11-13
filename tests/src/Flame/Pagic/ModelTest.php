@@ -120,7 +120,7 @@ it('adds mutated attributes to array', function() {
 
         public function getNameAttribute($value): string
         {
-            return strtoupper((string) $value);
+            return strtoupper((string)$value);
         }
     };
     expect($model->attributesToArray())->toBe(['name' => 'TEST']);

@@ -35,7 +35,7 @@ class BaseDashboardWidget extends BaseWidget
         $rules = [];
         $attributes = [];
         foreach ($this->defineProperties() as $name => $params) {
-            if (strlen((string) ($rule = array_get($params, 'validationRule', ''))) !== 0) {
+            if (strlen((string)($rule = array_get($params, 'validationRule', ''))) !== 0) {
                 $rules[$name] = $rule;
                 $attributes[$name] = array_get($params, 'label', $name);
             }

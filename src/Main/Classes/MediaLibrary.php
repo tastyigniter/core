@@ -153,7 +153,7 @@ class MediaLibrary
 
     public function deleteFiles(string|array $paths): bool
     {
-        return $this->getStorageDisk()->delete(array_map(fn($path): string => $this->getMediaPath($path), (array)$paths));
+        return $this->getStorageDisk()->delete(array_map(fn(string $path): string => $this->getMediaPath($path), (array)$paths));
     }
 
     public function deleteFolder(string $path): bool
@@ -347,7 +347,7 @@ class MediaLibrary
         usort($files, function($a, $b) use ($by) {
             switch ($by) {
                 case 'name':
-                    return strcasecmp($a->path, $b->path);
+                    return strcasecmp((string)$a->path, (string)$b->path);
                 case 'date':
                     if ($a->lastModified > $b->lastModified) {
                         return -1;
@@ -392,7 +392,7 @@ class MediaLibrary
 
         $result = [];
         foreach ($files as $item) {
-            if (str_contains($item->name, $filter)) {
+            if (str_contains((string)$item->name, $filter)) {
                 $result[] = $item;
             }
         }

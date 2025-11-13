@@ -154,9 +154,7 @@ class FormController extends ControllerAction
         // Prep the optional toolbar widget
         if (isset($modelConfig['toolbar'], $this->controller->widgets['toolbar'])) {
             $this->toolbarWidget = $this->controller->widgets['toolbar'];
-            if ($this->toolbarWidget instanceof Toolbar) {
-                $this->toolbarWidget->reInitialize($modelConfig['toolbar']);
-            }
+            $this->toolbarWidget->reInitialize($modelConfig['toolbar']);
         }
 
         $this->model = $model;
@@ -385,8 +383,8 @@ class FormController extends ControllerAction
      */
     protected function getRedirectUrl(?string $context = null): string
     {
-        $redirectContext = explode('-', (string) $context, 2)[0];
-        $redirectAction = explode('-', (string) $context, 2)[1] ?? '';
+        $redirectContext = explode('-', (string)$context, 2)[0];
+        $redirectAction = explode('-', (string)$context, 2)[1] ?? '';
         $redirectSource = in_array($redirectAction, ['new', 'close'])
             ? 'redirect'.studly_case($redirectAction)
             : 'redirect';

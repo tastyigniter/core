@@ -17,12 +17,8 @@ class HasOneThrough extends HasOneThroughBase
     use DefinedConstraints;
 
     /**
-     * @var string The "name" of the relationship.
-     */
-    protected $relationName;
-
-    /**
      * Create a new has many relationship instance.
+     * @param string $relationName
      * @return void
      */
     public function __construct(
@@ -33,10 +29,11 @@ class HasOneThrough extends HasOneThroughBase
         $secondKey,
         $localKey,
         $secondLocalKey,
-        $relationName = null,
+        /**
+         * @var string The "name" of the relationship.
+         */
+        protected $relationName = null,
     ) {
-        $this->relationName = $relationName;
-
         parent::__construct($query, $farParent, $parent, $firstKey, $secondKey, $localKey, $secondLocalKey);
 
         $this->addDefinedConstraints();

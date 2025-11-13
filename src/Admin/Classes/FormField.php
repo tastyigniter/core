@@ -360,7 +360,7 @@ class FormField
         }
 
         $newAttributes = [
-            'data-trigger' => "[name='".trim((string) $fullTriggerField)."']",
+            'data-trigger' => "[name='".trim((string)$fullTriggerField)."']",
             'data-trigger-action' => $triggerAction,
             'data-trigger-condition' => $triggerCondition,
             'data-trigger-closest-parent' => 'form',

@@ -16,7 +16,7 @@ it('loads themes index page', function() {
 });
 
 it('loads customise theme page', function() {
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme']);
+    ThemeModel::factory()->findOrCreateTestTheme();
     $theme = resolve(ThemeManager::class)->findTheme('tests-theme');
     $theme->locked = true;
 
@@ -26,7 +26,7 @@ it('loads customise theme page', function() {
 });
 
 it('loads edit theme template file page', function() {
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme', 'data' => ['field1' => 'value1']]);
+    ThemeModel::factory()->findOrCreateTestTheme(['data' => ['field1' => 'value1']]);
     $theme = resolve(ThemeManager::class)->findTheme('tests-theme');
     $theme->locked = true;
 
@@ -36,7 +36,7 @@ it('loads edit theme template file page', function() {
 });
 
 it('redirects when unable to delete an active theme', function() {
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme', 'status' => 1, 'is_default' => 1]);
+    ThemeModel::factory()->findOrCreateTestTheme(['status' => 1, 'is_default' => 1]);
 
     actingAsSuperUser()
         ->get(route('igniter.main.themes', ['slug' => 'delete/tests-theme']))
@@ -54,7 +54,7 @@ it('deletes and redirect when theme exists in database and not filesystem', func
 });
 
 it('loads delete theme page', function() {
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme']);
+    ThemeModel::factory()->findOrCreateTestTheme();
 
     actingAsSuperUser()
         ->get(route('igniter.main.themes', ['slug' => 'delete/tests-theme']))
@@ -62,7 +62,7 @@ it('loads delete theme page', function() {
 });
 
 it('sets default theme correctly', function() {
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme', 'status' => 1]);
+    ThemeModel::factory()->findOrCreateTestTheme(['status' => 1]);
 
     actingAsSuperUser()
         ->post(route('igniter.main.themes'), ['code' => 'tests-theme'], [
@@ -76,7 +76,7 @@ it('sets default theme correctly', function() {
 
 it('resets theme customisation settings', function() {
     config(['igniter-system.buildThemeAssetsBundle' => true]);
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme', 'data' => ['field1' => 'value1']]);
+    ThemeModel::factory()->findOrCreateTestTheme(['data' => ['field1' => 'value1']]);
     Assets::partialMock()->shouldReceive('buildBundles')->once();
 
     actingAsSuperUser()
@@ -90,7 +90,7 @@ it('resets theme customisation settings', function() {
 });
 
 it('edits theme template file content', function() {
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme', 'status' => 1]);
+    ThemeModel::factory()->findOrCreateTestTheme(['status' => 1]);
 
     actingAsSuperUser()
         ->post(route('igniter.main.themes', ['slug' => 'source/tests-theme']), ['markup' => 'new content'], [
@@ -101,7 +101,7 @@ it('edits theme template file content', function() {
 });
 
 it('creates child theme', function() {
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme', 'status' => 1]);
+    ThemeModel::factory()->findOrCreateTestTheme(['status' => 1]);
     $childTheme = ThemeModel::create(['code' => 'child-theme', 'name' => 'Child Theme', 'status' => 1]);
     app()->instance(ThemeManager::class, $themeManager = mock(ThemeManager::class));
     $themeManager->shouldReceive('createChildTheme')->andReturn($childTheme);
@@ -119,7 +119,7 @@ it('creates child theme', function() {
 });
 
 it('redirects when deleting an active theme', function() {
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme', 'status' => 1, 'is_default' => 1]);
+    ThemeModel::factory()->findOrCreateTestTheme(['status' => 1, 'is_default' => 1]);
 
     actingAsSuperUser()
         ->post(route('igniter.main.themes', ['slug' => 'delete/tests-theme']), ['delete_data' => 1], [
@@ -132,7 +132,7 @@ it('redirects when deleting an active theme', function() {
 it('deletes theme correctly', function() {
     app()->instance(ThemeManager::class, $themeManager = mock(ThemeManager::class));
     $themeManager->shouldReceive('deleteTheme')->once();
-    ThemeModel::create(['code' => 'tests-theme', 'name' => 'Tests Theme']);
+    ThemeModel::factory()->findOrCreateTestTheme();
 
     actingAsSuperUser()
         ->post(route('igniter.main.themes', ['slug' => 'delete/tests-theme']), ['delete_data' => 1], [

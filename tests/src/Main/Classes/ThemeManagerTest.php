@@ -314,10 +314,7 @@ it('deletes non-composer installed theme and its data successfully', function() 
 });
 
 it('installs theme successfully', function() {
-    \Igniter\Main\Models\Theme::factory()->create([
-        'code' => 'tests-theme',
-        'name' => 'Theme Name',
-    ]);
+    \Igniter\Main\Models\Theme::factory()->findOrCreateTestTheme();
 
     app()->instance(PackageManifest::class, $packageManifest = mock(PackageManifest::class));
     $packageManifest->shouldReceive('getVersion')->with('tests-theme')->andReturn('1.0.0');

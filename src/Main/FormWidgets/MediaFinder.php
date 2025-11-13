@@ -154,7 +154,7 @@ class MediaFinder extends BaseFormWidget
             $path = $media->getFilename();
         }
 
-        $extension = pathinfo((string) $path, PATHINFO_EXTENSION);
+        $extension = pathinfo((string)$path, PATHINFO_EXTENSION);
         if (empty($extension)) {
             return MediaItem::FILE_TYPE_DOCUMENT;
         }
@@ -265,7 +265,7 @@ class MediaFinder extends BaseFormWidget
 
         $manager = resolve(MediaLibrary::class);
         foreach ($data['items'] as &$item) {
-            $item['path'] = strip_tags((string) $item['path']);
+            $item['path'] = strip_tags((string)$item['path']);
 
             $media = $model->newMediaInstance();
             $media->addFromRaw(

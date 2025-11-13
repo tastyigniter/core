@@ -55,7 +55,6 @@ it('renames conflicting foundation tables', function() {
     $command->setOutput($output);
     $reflection = new ReflectionClass($command);
     $property = $reflection->getProperty('components');
-    $property->setAccessible(true);
     $property->setValue($command, $output);
 
     Schema::shouldReceive('hasColumn')->with('users', 'staff_id')->andReturn(true);

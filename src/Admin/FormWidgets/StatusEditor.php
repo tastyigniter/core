@@ -290,7 +290,7 @@ class StatusEditor extends BaseFormWidget
 
     protected function getModeConfig($key)
     {
-        $key = ucfirst((string) $key);
+        $key = ucfirst((string)$key);
 
         return $this->isStatusMode ? $this->{'status'.$key} : $this->{'assignee'.$key};
     }

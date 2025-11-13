@@ -174,7 +174,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
     public function addTranslations(array $translations): bool
     {
         foreach ($translations as $key => $translation) {
-            preg_match('/^(.+)::(.+?)\.(.+)+$/', $key, $matches);
+            preg_match('/^(.+)::(.+?)\.(.+)+$/', (string)$key, $matches);
 
             if (!$matches || count($matches) !== 4) {
                 continue;
@@ -190,7 +190,7 @@ class Language extends \Igniter\Flame\Translation\Models\Language
 
     public function updateTranslations(string $group, ?string $namespace = null, array $lines = []): array
     {
-        return collect($lines)->map(function($text, $key) use ($group, $namespace) {
+        return collect($lines)->map(function(string $text, string $key) use ($group, $namespace): string {
             $this->updateTranslation($group, $namespace, $key, $text);
 
             return $text;

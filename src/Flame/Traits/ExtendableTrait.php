@@ -75,8 +75,8 @@ trait ExtendableTrait
             $useClass = $this->extensionNormalizeClassName($use);
 
             // Soft implement
-            if (str_starts_with((string) $useClass, '?')) {
-                $useClass = substr((string) $useClass, 1);
+            if (str_starts_with((string)$useClass, '?')) {
+                $useClass = substr((string)$useClass, 1);
                 if (!class_exists($useClass)) {
                     continue;
                 }

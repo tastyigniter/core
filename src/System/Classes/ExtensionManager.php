@@ -390,7 +390,7 @@ class ExtensionManager
             );
 
             $meta = @json_decode($zip->getFromName($extensionDir.'composer.json'));
-            if (!$meta || !strlen($meta->code)) {
+            if (!$meta || !strlen((string)$meta->code)) {
                 throw new SystemException(lang('igniter::system.extensions.error_config_no_found'));
             }
 

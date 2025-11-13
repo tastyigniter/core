@@ -121,6 +121,6 @@ class Statistics extends BaseDashboardWidget
             $query->whereBetween('created_at', [$start, $end]);
         });
 
-        return (string) (empty($count) ? 0 : $count);
+        return (string)(empty($count) ? 0 : $count);
     }
 }

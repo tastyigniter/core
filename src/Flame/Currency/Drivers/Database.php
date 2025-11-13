@@ -55,7 +55,7 @@ class Database extends AbstractDriver
                 return [
                     'currency_id' => $item->currency_id,
                     'currency_name' => $item->currency_name,
-                    'currency_code' => strtoupper($item->currency_code),
+                    'currency_code' => strtoupper((string)$item->currency_code),
                     'currency_symbol' => $item->currency_symbol,
                     'format' => $item->symbol_position
                         ? '1'.$format.$item->currency_symbol

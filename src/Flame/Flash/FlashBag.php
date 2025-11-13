@@ -47,7 +47,7 @@ class FlashBag
         return $messages;
     }
 
-    public function set(?string $level = null, ?string $message = null): \Igniter\Flame\Flash\FlashBag
+    public function set(?string $level = null, ?string $message = null): FlashBag
     {
         return $this->message($message, $level);
     }

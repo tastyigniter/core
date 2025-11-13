@@ -73,6 +73,6 @@ class AddressMatch
             return preg_match($left, $right) > 0;
         }
 
-        return strtolower((string) $left) === strtolower($right);
+        return strtolower((string)$left) === strtolower($right);
     }
 }

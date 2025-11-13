@@ -26,7 +26,7 @@ it('loads template object correctly', function() {
 it('handles valid cache and returns object', function() {
     $model = mock(Model::class)->makePartial();
     $filePath = 'path/to/file.blade.php';
-    $className = 'Pagic'.str_replace('.', '', uniqid('', true)).'_'.md5((string) mt_rand()).'Class';
+    $className = 'Pagic'.str_replace('.', '', uniqid('', true)).'_'.md5((string)mt_rand()).'Class';
     $model->shouldReceive('getFilePath')->andReturn($filePath);
     $model->mTime = 1000;
 
@@ -74,7 +74,7 @@ it('returns template object when source is valid', function() {
 it('handles corrupt cache and returns object', function() {
     $model = mock(Model::class)->makePartial();
     $filePath = 'path/to/file.blade.php';
-    $className = 'Pagic'.str_replace('.', '', uniqid('', true)).'_'.md5((string) mt_rand()).'Class';
+    $className = 'Pagic'.str_replace('.', '', uniqid('', true)).'_'.md5((string)mt_rand()).'Class';
     $fileContents = '<?php class '.$className.' extends \Igniter\Main\Template\Code\PageCode {}';
     $model->shouldReceive('getFilePath')->andReturn($filePath);
     $model->shouldReceive('getCodeClassParent')->andReturn('ParentClass');

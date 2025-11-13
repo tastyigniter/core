@@ -78,6 +78,24 @@ it('loads add popup', function() {
         ->toHaveKey('widgets');
 });
 
+it('loads selected widget form on select widget', function() {
+    $widgetAlias = 'onboarding';
+    request()->request->add(['widget' => $widgetAlias]);
+
+    expect($this->dashboardContainerWidget->onSelectWidget())
+        ->toHaveKey('#'.$this->dashboardContainerWidget->getId('new-widget-modal-content'))
+        ->and($this->dashboardContainerWidget->vars)
+        ->toHaveKey('widget')
+        ->toHaveKey('widgetAlias');
+});
+
+it('on select widget throws exception when missing widget alias', function() {
+    request()->request->add([]);
+
+    expect(fn() => $this->dashboardContainerWidget->onSelectWidget())
+        ->toThrow(FlashException::class, lang('igniter::admin.dashboard.alert_select_widget_to_add'));
+});
+
 it('loads update popup', function() {
     $widgetAlias = 'test-dashboard-widget';
     resolve(Widgets::class)->registerDashboardWidget(TestDashboardWidget::class, [

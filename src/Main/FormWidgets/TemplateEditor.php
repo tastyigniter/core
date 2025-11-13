@@ -184,9 +184,9 @@ class TemplateEditor extends BaseFormWidget
         });
 
         $this->validate($data,
-            array_get($this->templateWidget?->config ?? [], 'rules', []),
-            array_get($this->templateWidget?->config ?? [], 'validationMessages', []),
-            array_get($this->templateWidget?->config ?? [], 'validationAttributes', []),
+            array_get($this->templateWidget->config ?? [], 'rules', []),
+            array_get($this->templateWidget->config ?? [], 'validationMessages', []),
+            array_get($this->templateWidget->config ?? [], 'validationAttributes', []),
         );
 
         $formData = $this->getTemplateAttributes();
@@ -264,9 +264,9 @@ class TemplateEditor extends BaseFormWidget
 
         $code = (string)array_get($formData, 'codeSection', '');
         $code = preg_replace('/^\<\?php/', '', $code);
-        $code = preg_replace('/^\<\?/', '', (string) preg_replace('/\?>$/', '', (string) $code));
+        $code = preg_replace('/^\<\?/', '', (string)preg_replace('/\?>$/', '', (string)$code));
 
-        $result['code'] = trim((string) $code, PHP_EOL) ?: null;
+        $result['code'] = trim((string)$code, PHP_EOL) ?: null;
         $result['markup'] = array_get($formData, 'markup') ?: null;
 
         $settings = array_get($formData, 'settings', []);
@@ -284,7 +284,7 @@ class TemplateEditor extends BaseFormWidget
 
     protected function getTemplateModifiedTime(): ?int
     {
-        return $this->templateWidget?->data?->fileSource?->mTime ?? null;
+        return $this->templateWidget?->data?->fileSource->mTime ?? null;
     }
 
     public function getTemplateValue(string $name, mixed $default = null): mixed

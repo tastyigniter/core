@@ -144,7 +144,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
             return $this->fileName;
         }
 
-        return substr((string) $this->fileName, 0, $pos);
+        return substr((string)$this->fileName, 0, $pos);
     }
 
     /**

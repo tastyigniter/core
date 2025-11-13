@@ -18,15 +18,14 @@ class MorphTo extends MorphToBase
     use DefinedConstraints;
 
     /**
+     * @param string $relationName
+     */
+    public function __construct(Builder $query, Model $parent, $foreignKey, $otherKey, $type, /**
      * @var string The "name" of the relationship.
      */
-    protected $relationName;
-
-    public function __construct(Builder $query, Model $parent, $foreignKey, $otherKey, $type, $relationName)
+        protected $relationName)
     {
-        $this->relationName = $relationName;
-
-        parent::__construct($query, $parent, $foreignKey, $otherKey, $type, $relationName);
+        parent::__construct($query, $parent, $foreignKey, $otherKey, $type, $this->relationName);
 
         $this->addDefinedConstraints();
     }

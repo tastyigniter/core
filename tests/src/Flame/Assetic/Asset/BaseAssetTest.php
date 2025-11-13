@@ -19,7 +19,7 @@ beforeEach(function() {
             return 'content';
         }
 
-        public function getLastModified(): ?int
+        public function getLastModified(): int
         {
             return 12345;
         }

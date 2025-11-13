@@ -537,11 +537,11 @@ if (!function_exists('mdate')) {
             $time = time();
         }
 
-        if (str_contains($format, '%')) {
+        if (str_contains((string)$format, '%')) {
             $format = str_replace(
                 '%\\',
                 '',
-                preg_replace('/([a-z]+?)/i', '\\\\\\1', $format),
+                preg_replace('/([a-z]+?)/i', '\\\\\\1', (string)$format),
             );
         }
 
@@ -650,7 +650,7 @@ if (!function_exists('time_range')) {
             return null;
         }
 
-        $interval = ctype_digit($interval) ? $interval.' mins' : $interval;
+        $interval = ctype_digit((string)$interval) ? $interval.' mins' : $interval;
 
         $start_time = strtotime((string)$unix_start);
         $end_time = strtotime((string)$unix_end);

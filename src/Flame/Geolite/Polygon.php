@@ -324,7 +324,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
             }
         }
 
-        return ($intersections % 2) != 0;
+        return $intersections % 2 !== 0;
     }
 
     //

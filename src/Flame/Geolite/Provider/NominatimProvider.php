@@ -99,7 +99,7 @@ class NominatimProvider extends AbstractProvider
     public function distance(DistanceInterface $distance): ?Distance
     {
         $endpoint = array_get($this->config, 'endpoints.distance');
-        $url = sprintf($endpoint.'search?q=%s&format=json&limit=%d',
+        $url = sprintf($endpoint,
             $distance->getData('mode', 'car'),
             $distance->getFrom()->getLongitude(),
             $distance->getFrom()->getLatitude(),
@@ -164,8 +164,8 @@ class NominatimProvider extends AbstractProvider
         $url = sprintf(
             $endpoint.'details?osmtype=%s&osmid=%s&class=%s&addressdetails=1&format=json',
             rawurlencode($query->getText()),
-            rawurlencode((string) $query->getData('osm_type', '')),
-            rawurlencode((string) $query->getData('category', '')),
+            rawurlencode((string)$query->getData('osm_type', '')),
+            rawurlencode((string)$query->getData('category', '')),
         );
 
         try {
@@ -311,7 +311,7 @@ class NominatimProvider extends AbstractProvider
         $address->setCountryName($location->address->country ?? null);
 
         $countryCode = $location->address->country_code ?? null;
-        $address->setCountryCode($countryCode ? strtoupper($countryCode) : null);
+        $address->setCountryCode($countryCode ? strtoupper((string)$countryCode) : null);
     }
 
     protected function requestDistanceUrl(string $url, DistanceInterface $distance): array

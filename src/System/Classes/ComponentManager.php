@@ -50,7 +50,7 @@ class ComponentManager
         }
     }
 
-    public function listComponentObjects()
+    public function listComponentObjects(): ?array
     {
         if ($this->componentObjects) {
             return $this->componentObjects;

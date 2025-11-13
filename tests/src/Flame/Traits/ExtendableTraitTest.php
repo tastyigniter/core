@@ -61,7 +61,7 @@ it('adds dynamic property and retrieves it', function() {
 
         public $property;
 
-        public function __set(string $name, $value): void
+        public function __set(string $name, mixed $value): void
         {
             $this->extendableSet($name, $value);
         }

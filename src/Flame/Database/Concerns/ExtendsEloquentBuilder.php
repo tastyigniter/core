@@ -12,7 +12,6 @@ use InvalidArgumentException;
 
 /**
  * ExtendsEloquentBuilder trait
- * @property
  */
 trait ExtendsEloquentBuilder
 {
@@ -47,13 +46,11 @@ trait ExtendsEloquentBuilder
     /**
      * Get an array with the values of dates.
      *
-     * @param string $column
      * @param string $keyFormat
      * @param string $valueFormat
-     *
      * @return Collection
      */
-    public function pluckDates($column, $keyFormat = '%Y-%m', $valueFormat = '%M %Y')
+    public function pluckDates(string $column, $keyFormat = '%Y-%m', $valueFormat = '%M %Y')
     {
         return $this
             ->selectRaw(sprintf('DATE_FORMAT(%s, ?) as dateKey, DATE_FORMAT(%s, ?) as dateValue', $column, $column), [
@@ -145,7 +142,7 @@ trait ExtendsEloquentBuilder
                 }
             }, null, null, $boolean);
         } else {
-            $words = explode(' ', (string) $term);
+            $words = explode(' ', (string)$term);
             $wordBoolean = $mode === 'any' ? 'or' : 'and';
 
             $this->where(function($query) use ($columns, $words, $wordBoolean) {
@@ -164,10 +161,10 @@ trait ExtendsEloquentBuilder
         return $this;
     }
 
-    protected function likeInternal($column, $value, $side = null, $boolean = 'and')
+    protected function likeInternal(string $column, string $value, $side = null, $boolean = 'and')
     {
         $column = $this->toBase()->raw(sprintf('lower(%s)', $column));
-        $value = mb_strtolower(trim((string) $value));
+        $value = mb_strtolower(trim($value));
 
         if ($side !== 'none') {
             if ($side === 'before') {

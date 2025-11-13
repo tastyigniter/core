@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Models\Language;
@@ -152,7 +153,7 @@ class LanguageManager
     {
         $installedItems = collect($this->updateManager->getInstalledItems())->keyBy('name');
 
-        $model->translations()
+        $translations = $model->translations()
             ->get()
             // @phpstan-ignore-next-line
             ->groupBy(fn(Translation $translation): string => $translation->namespace)
@@ -179,10 +180,13 @@ class LanguageManager
                     ->all();
 
                 return $item;
-            })
-            ->each(function(array $item) use ($model) {
-                $this->hubManager->publishTranslations($model->code, $item);
             });
+
+        throw_if($translations->isEmpty(), new FlashException('No translations to publish'));
+
+        $translations->each(function(array $item) use ($model) {
+            $this->hubManager->publishTranslations($model->code, $item);
+        });
     }
 
     protected function listTranslationStrings(array $sourceLines, array $translationLines, string $localeGroup, ?string $filter): array
@@ -216,7 +220,7 @@ class LanguageManager
         foreach ($translations as $key => $value) {
             if (stripos(strtolower((string)array_get($value, 'source')), $term) !== false
                 || stripos(strtolower((string)array_get($value, 'translation')), $term) !== false
-                || stripos(strtolower($key), $term) !== false) {
+                || stripos(strtolower((string)$key), $term) !== false) {
                 $result[$key] = $value;
             }
         }
@@ -230,7 +234,7 @@ class LanguageManager
 
         $items = collect($translations);
         $total = $items->count();
-        $items = $total ? $items->forPage($page, $perPage) : collect();
+        $items = $total !== 0 ? $items->forPage($page, $perPage) : collect();
 
         $options = [
             'path' => Paginator::resolveCurrentPath(),

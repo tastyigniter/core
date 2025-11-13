@@ -20,10 +20,8 @@ if (!function_exists('active_theme')) {
 if (!function_exists('parent_theme')) {
     /**
      * Get the parent theme code of the specified domain
-     *
-     * @param string $theme
      */
-    function parent_theme($theme): ?string
+    function parent_theme(?string $theme): ?string
     {
         return resolve(ThemeManager::class)->findParentCode($theme);
     }

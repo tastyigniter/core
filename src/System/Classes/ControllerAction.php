@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
-use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Traits\WidgetMaker;
 use Igniter\Flame\Traits\ExtensionTrait;
 use Igniter\System\Traits\ConfigMaker;
@@ -21,25 +20,20 @@ class ControllerAction
     use ViewMaker;
     use WidgetMaker;
 
-    protected $controller;
-
     /** List of controller configuration */
     protected ?array $config = null;
 
     /** Properties that must exist in the controller using this action. */
     protected array $requiredProperties = [];
 
-    public function __construct($controller = null)
+    public function __construct(protected $controller = null)
     {
-        /** @var AdminController $controller */
-        $this->controller = $controller;
-
         // Add paths from the extension / module context
         $this->configPath = $this->controller->configPath ?? [];
         $this->partialPath = $this->controller->partialPath ?? [];
 
         foreach ($this->requiredProperties as $property) {
-            if (!isset($controller->{$property})) {
+            if (!isset($this->controller->{$property})) {
                 throw new LogicException('Class '.$this->controller::class.sprintf(' must define property [%s] used by ', $property).static::class);
             }
         }

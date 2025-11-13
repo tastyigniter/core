@@ -18,15 +18,14 @@ class BelongsTo extends BelongsToBase
     use DefinedConstraints;
 
     /**
+     * @param string $relationName
+     */
+    public function __construct(Builder $query, Model $child, $foreignKey, $ownerKey, /**
      * @var string The "name" of the relationship.
      */
-    protected $relationName;
-
-    public function __construct(Builder $query, Model $child, $foreignKey, $ownerKey, $relationName)
+        protected $relationName)
     {
-        $this->relationName = $relationName;
-
-        parent::__construct($query, $child, $foreignKey, $ownerKey, $relationName);
+        parent::__construct($query, $child, $foreignKey, $ownerKey, $this->relationName);
 
         $this->addDefinedConstraints();
     }

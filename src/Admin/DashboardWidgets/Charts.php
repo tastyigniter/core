@@ -182,7 +182,7 @@ class Charts extends BaseDashboardWidget
         $this->fireSystemEvent('admin.charts.extendDatasets');
 
         $this->datasetsConfig = collect($this->datasetsConfig)
-            ->mapWithKeys(function(array $config, $code) {
+            ->mapWithKeys(function(array $config, $code): array {
                 if (array_key_exists('sets', $config)) {
                     $config['sets'] = sort_array($config['sets']);
                 }

@@ -303,12 +303,10 @@ return [
             'label_settings' => 'Set up the essentials',
             'label_themes' => 'Personalize your website',
             'label_extensions' => 'Install recommended extensions',
-            'label_menus' => 'Build your menu',
             'label_mail' => 'Set up and test email delivery',
 
             'help_settings' => 'Start by filling in your key system settings — like your restaurant name, contact info, and branding. This ensures everything runs smoothly from the start.',
             'help_themes' => 'Choose and activate a front-end theme that matches your brand. Customize it to make your site feel truly yours.',
-            'help_menus' => 'Add your dishes, organize them into categories, and set prices. This is what your hungry customers will browse and order from.',
             'help_mail' => 'Configure your mail settings to ensure your restaurant can send emails reliably. Once set up, send a test message to verify your customers will receive important updates.',
         ],
 

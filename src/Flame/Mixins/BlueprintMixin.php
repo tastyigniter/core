@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Flame\Mixins;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /** @mixin Blueprint */
@@ -23,8 +24,8 @@ class BlueprintMixin
                 $key = sprintf('%s_%s', $this->getTable(), $key);
             }
 
-            if (!starts_with($key, $this->getPrefix())) {
-                $key = sprintf('%s%s', $this->getPrefix(), $key);
+            if (!starts_with($key, DB::getTablePrefix())) {
+                $key = sprintf('%s%s', DB::getTablePrefix(), $key);
             }
 
             if (!in_array($key, $foreignKeys)) {
@@ -48,8 +49,8 @@ class BlueprintMixin
                 $key = sprintf('%s_%s', $this->getTable(), $key);
             }
 
-            if (!starts_with($key, $this->getPrefix())) {
-                $key = sprintf('%s%s', $this->getPrefix(), $key);
+            if (!starts_with($key, DB::getTablePrefix())) {
+                $key = sprintf('%s%s', DB::getTablePrefix(), $key);
             }
 
             if (!in_array($key, $indexes)) {

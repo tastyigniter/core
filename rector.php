@@ -6,10 +6,14 @@ use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodeQuality\Rector\Ternary\SwitchNegatedTernaryRector;
+use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
+use Rector\CodingStyle\Rector\FuncCall\FunctionFirstClassCallableRector;
+use Rector\CodingStyle\Rector\FunctionLike\FunctionLikeToFirstClassCallableRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\TypeDeclaration\Rector\ArrowFunction\AddArrowFunctionReturnTypeRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\AddParamStringTypeFromSprintfUseRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\StrictStringParamConcatRector;
 use Rector\TypeDeclaration\Rector\Closure\AddClosureVoidReturnTypeWhereNoReturnRector;
@@ -22,7 +26,7 @@ return RectorConfig::configure()
         cacheDirectory: '/tmp/rector'
     )
     ->withImportNames(removeUnusedImports: true)
-    ->withPaths([__DIR__.'/src', __DIR__.'/tests'])
+    ->withPaths([__DIR__.'/src', __DIR__.'/tests/src'])
     ->withRules([
         DeclareStrictTypesRector::class,
     ])
@@ -30,6 +34,9 @@ return RectorConfig::configure()
         AddArrowFunctionReturnTypeRector::class,
         AddClosureVoidReturnTypeWhereNoReturnRector::class,
         AddFunctionVoidReturnTypeWhereNoReturnRector::class,
+        AddParamStringTypeFromSprintfUseRector::class => [
+            __DIR__.'/src/Admin/Traits/ControllerUtils.php',
+        ],
         AddVoidReturnTypeWhereNoReturnRector::class => [
             __DIR__.'/src/Flame/Providers/EventServiceProvider.php',
         ],
@@ -37,12 +44,15 @@ return RectorConfig::configure()
         RemoveUselessParamTagRector::class => [
             __DIR__.'/src/Flame/Database/Concerns/HasRelationships.php',
         ],
+        FunctionFirstClassCallableRector::class,
+        FunctionLikeToFirstClassCallableRector::class,
         SimplifyEmptyCheckOnEmptyArrayRector::class,
         StrictStringParamConcatRector::class => [
             __DIR__.'/src/Flame/Database/Concerns/HasRelationships.php',
         ],
         SwitchNegatedTernaryRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
+        NewlineBeforeNewAssignSetRector::class,
     ])
     ->withPhpSets(php83: true)
     ->withPreparedSets(

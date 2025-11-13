@@ -162,7 +162,7 @@ trait Validation
     /**
      * Throw a validation exception.
      *
-     * @throws \Igniter\Flame\Database\Traits\Validation
+     * @throws Validation
      */
     public function throwValidationException(): void
     {
@@ -304,7 +304,7 @@ trait Validation
                     if ($method = $this->getPrepareRuleMethod($validationRule)) {
                         $ruleset[$key] = call_user_func_array(
                             [$this, $method],
-                            [explode(',', (string) (head($parameters) ?: '')), $field],
+                            [explode(',', (string)(head($parameters) ?: '')), $field],
                         );
                     } elseif ($validationRule === 'unique' && $this->exists) {
                         $ruleset[$key] = $this->processValidationUniqueRule($rule, $field);
@@ -350,7 +350,7 @@ trait Validation
             $whereValue,
         ] = array_pad(explode(',', str_after($definition, 'unique:')), 6, null);
 
-        $table = $table ?: $this->getConnectionName().'.'.$this->getTable();
+        $table = $table ?: $this->getTable();
         $column = $column ?: $fieldName;
         $key = $key ?: ($keyName ? $this->$keyName : $this->getKey());
         $keyName = $keyName ?: $this->getKeyName();

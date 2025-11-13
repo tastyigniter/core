@@ -25,8 +25,6 @@ class BaseWidget extends Extendable
     use ViewMaker;
     use WidgetMaker;
 
-    protected AdminController $controller;
-
     public ?array $config = null;
 
     /** Defined alias used for this widget. */
@@ -35,16 +33,14 @@ class BaseWidget extends Extendable
     /** A unique alias to identify this widget. */
     protected string $defaultAlias = 'widget';
 
-    public function __construct(AdminController $controller, array $config = [])
+    public function __construct(protected AdminController $controller, array $config = [])
     {
-        $this->controller = $controller;
-
         $parts = explode('\\', strtolower(static::class));
         $namespace = implode('.', array_slice($parts, 0, 2));
         $path = implode('/', array_slice($parts, 2));
 
         // Add paths from the controller context
-        $this->partialPath = $controller->partialPath;
+        $this->partialPath = $this->controller->partialPath;
 
         // Add paths from the extension / module context
         $this->partialPath[] = 'igniter.admin::_partials.'.$path;
@@ -62,9 +58,9 @@ class BaseWidget extends Extendable
         $this->assetPath[] = $namespace.'::js/'.dirname($path);
         $this->assetPath[] = $namespace.'::css';
         $this->assetPath[] = $namespace.'::js';
-        $this->assetPath = array_merge($this->assetPath, $controller->assetPath);
+        $this->assetPath = array_merge($this->assetPath, $this->controller->assetPath);
 
-        $this->configPath = $controller->configPath;
+        $this->configPath = $this->controller->configPath;
 
         // Set config values, if a parent constructor hasn't set already.
         if ($this->config === null) {

@@ -144,6 +144,7 @@ class Settings extends AdminController
             Mail::raw(lang('igniter::system.settings.text_test_email_message'), function(Message $message) use ($name, $email) {
                 $message->to($email, $name)->subject('This a test email');
             });
+            SettingsModel::setPref('test_mail_sent', true);
 
             flash()->success(sprintf(lang('igniter::system.settings.alert_email_sent'), $email));
         } catch (Exception $exception) {

@@ -39,7 +39,7 @@ class AssetCollectionIterator implements RecursiveIterator
         if (false === $pos = strrpos((string)$this->output, '.')) {
             $this->output .= '_*';
         } else {
-            $this->output = substr((string) $this->output, 0, $pos).'_*'.substr((string) $this->output, $pos);
+            $this->output = substr((string)$this->output, 0, $pos).'_*'.substr((string)$this->output, $pos);
         }
     }
 
@@ -124,7 +124,7 @@ class AssetCollectionIterator implements RecursiveIterator
     {
         foreach ($this->vars as $var) {
             $var = '{'.$var.'}';
-            if (str_contains($name, $var) && str_contains((string) $this->output, $var)) {
+            if (str_contains($name, $var) && str_contains((string)$this->output, $var)) {
                 $name = str_replace($var, '', $name);
             }
         }

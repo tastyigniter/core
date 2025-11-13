@@ -94,13 +94,13 @@ class FileParser
         $className = 'Pagic'.$uniqueName.'Class';
 
         $code = preg_replace('/^\s*function/m', 'public function', $code);
-        $code = preg_replace('/^\<\?php/', '', (string) $code);
-        $code = preg_replace('/^\<\?/', '', (string) preg_replace('/\?>$/', '', (string) $code));
+        $code = preg_replace('/^\<\?php/', '', (string)$code);
+        $code = preg_replace('/^\<\?/', '', (string)preg_replace('/\?>$/', '', (string)$code));
 
         $imports = [];
         $pattern = '/(use\s+[a-z0-9_\\\\]+(\s+as\s+[a-z0-9_]+)?;\n?)/mi';
-        preg_match_all($pattern, (string) $code, $imports);
-        $code = preg_replace($pattern, '', (string) $code);
+        preg_match_all($pattern, (string)$code, $imports);
+        $code = preg_replace($pattern, '', (string)$code);
 
         if (!empty($parentClass)) {
             $parentClass = ' extends '.$parentClass;

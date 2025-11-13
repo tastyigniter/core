@@ -68,7 +68,7 @@ class RouterHelper
         $url = '';
         foreach ($urlArray as $segment) {
             if (!empty($segment)) {
-                $url .= '/'.trim((string) $segment);
+                $url .= '/'.trim((string)$segment);
             }
         }
 
@@ -243,7 +243,7 @@ class RouterHelper
         $constraints = [];
         $defaults = [];
         foreach (static::segmentizeUrl($pageInfo['pattern']) as $segment) {
-            if (str_starts_with((string) $segment, ':')) {
+            if (str_starts_with((string)$segment, ':')) {
                 $name = static::getParameterName($segment);
 
                 if ($default = static::getSegmentDefaultValue($segment)) {

@@ -98,7 +98,7 @@ class Currency
         $valRegex = '/(\d.*|)\d/';
 
         // Match decimal and a thousand separators
-        preg_match_all('/[\s\',.!]/', (string) $format, $separators);
+        preg_match_all('/[\s\',.!]/', (string)$format, $separators);
 
         if (($thousand = array_get($separators, '0.0')) && $thousand == '!') {
             $thousand = '';
@@ -107,12 +107,12 @@ class Currency
         $decimal = array_get($separators, '0.1');
 
         // Match format for decimals count
-        preg_match($valRegex, (string) $format, $valFormat);
+        preg_match($valRegex, (string)$format, $valFormat);
 
         $valFormat = array_get($valFormat, 0, 0);
 
         // Count decimals length
-        $decimals = $decimal ? strlen(substr(strrchr((string) $valFormat, (string) $decimal), 1)) : 0;
+        $decimals = $decimal ? strlen(substr(strrchr((string)$valFormat, (string)$decimal), 1)) : 0;
 
         // Do we have a negative value?
         $negative = $value < 0 ? '-' : '';
@@ -125,7 +125,7 @@ class Currency
 
         // Apply the formatted measurement
         if ($includeSymbol) {
-            $value = preg_replace($valRegex, $value, (string) $format);
+            $value = preg_replace($valRegex, $value, (string)$format);
         }
 
         // Return value

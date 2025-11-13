@@ -13,6 +13,7 @@ use Illuminate\Console\Events\CommandFinished;
 use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Events\Dispatcher;
+use Symfony\Component\Console\Output\NullOutput;
 
 it('subscribes to console events correctly', function() {
     $subscriber = new ConsoleSubscriber;
@@ -26,7 +27,7 @@ it('subscribes to console events correctly', function() {
 it('defines schedule correctly', function() {
     Igniter::shouldReceive('prunableModels')->andReturn([]);
     $schedule = mock(Schedule::class);
-    $schedule->shouldReceive('command')->with('igniter:update', ['--check' => true])->andReturnSelf();
+    $schedule->shouldReceive('command')->with('igniter:update', ['--check'])->andReturnSelf();
     $schedule->shouldReceive('name')->with('System Updates Checker')->once()->andReturnSelf();
     $schedule->shouldReceive('everyThreeHours')->andReturnSelf();
     $schedule->shouldReceive('evenInMaintenanceMode')->andReturnSelf();
@@ -48,6 +49,7 @@ it('handles command starting event', function() {
 it('handles command finished event for package:discover', function() {
     $event = mock(CommandFinished::class);
     $event->command = 'package:discover';
+    $event->output = new NullOutput;
     // Discover packages
     $packageManifest = mock(PackageManifest::class);
     app()->instance(PackageManifest::class, $packageManifest);

@@ -30,7 +30,7 @@ class CssRewriteFilter extends BaseCssFilter
         }
 
         // learn how to get from the target back to the source
-        if (str_contains((string) $sourceBase, '://')) {
+        if (str_contains((string)$sourceBase, '://')) {
             [$scheme, $url] = explode('://', $sourceBase.'/'.$sourcePath, 2);
             [$host, $path] = explode('/', $url, 2);
 
@@ -64,9 +64,9 @@ class CssRewriteFilter extends BaseCssFilter
         }
 
         $content = $this->filterReferences($asset->getContent(), function(array $matches) use ($host, $path) {
-            if (str_contains((string) $matches['url'], '://') ||
-                str_starts_with((string) $matches['url'], '//') ||
-                str_starts_with((string) $matches['url'], 'data:')
+            if (str_contains((string)$matches['url'], '://') ||
+                str_starts_with((string)$matches['url'], '//') ||
+                str_starts_with((string)$matches['url'], 'data:')
             ) {
                 // absolute or protocol-relative or data uri
                 return $matches[0];
@@ -79,9 +79,9 @@ class CssRewriteFilter extends BaseCssFilter
 
             // document relative
             $url = $matches['url'];
-            while (str_starts_with((string) $url, '../') && substr_count($path, '/') >= 2) {
+            while (str_starts_with((string)$url, '../') && substr_count($path, '/') >= 2) {
                 $path = substr($path, 0, strrpos(rtrim($path, '/'), '/') + 1);
-                $url = substr((string) $url, 3);
+                $url = substr((string)$url, 3);
             }
 
             $parts = [];

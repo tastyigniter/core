@@ -104,7 +104,7 @@ class MailManager
     {
         $text = $this->renderView($content, $data)->toHtml();
 
-        return new HtmlString(html_entity_decode((string) preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8'));
+        return new HtmlString(html_entity_decode((string)preg_replace("/[\r\n]{2,}/", "\n\n", $text), ENT_QUOTES, 'UTF-8'));
     }
 
     public function renderTemplate(MailTemplate $template, array $data = []): HtmlString
@@ -313,9 +313,9 @@ class MailManager
 
     protected function registerBladeDirectives()
     {
-        Blade::directive('partial', fn($expression): string => sprintf('<?php resolve('.\Igniter\System\Classes\MailManager::class.'::class)->startPartial(%s); ?>', $expression));
+        Blade::directive('partial', fn(string $expression): string => sprintf('<?php resolve('.MailManager::class.'::class)->startPartial(%s); ?>', $expression));
 
-        Blade::directive('endpartial', fn(): string => '<?php echo resolve('.\Igniter\System\Classes\MailManager::class.'::class)->renderPartial(); ?>');
+        Blade::directive('endpartial', fn(): string => '<?php echo resolve('.MailManager::class.'::class)->renderPartial(); ?>');
     }
 
     protected function processRegistrationMethodValues(BaseExtension $extension, string $method)

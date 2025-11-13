@@ -59,9 +59,10 @@ trait ControllerUtils
         return $methodExists;
     }
 
+    /** @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddParamStringTypeFromSprintfUseRector */
     public function callAction($method, $parameters)
     {
-        $this->action = $method == 'remap' ? $this->action : $method;
+        $this->action = $method === 'remap' ? $this->action : $method;
 
         if (method_exists($this, 'initialize')) {
             $this->initialize();

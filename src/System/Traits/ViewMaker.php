@@ -129,7 +129,7 @@ trait ViewMaker
             return '';
         }
 
-        $layout = $this->getViewName(strtolower($layout), $this->layoutPath, '_layouts');
+        $layout = $this->getViewName(strtolower((string)$layout), $this->layoutPath, '_layouts');
 
         return $this->makeViewContent($layout, $vars);
     }

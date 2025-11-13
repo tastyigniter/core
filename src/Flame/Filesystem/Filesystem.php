@@ -78,7 +78,7 @@ class Filesystem extends IlluminateFilesystem
             return $bytes.' bytes';
         }
 
-        if ($bytes == 1) {
+        if ($bytes === 1) {
             return $bytes.' byte';
         }
 
@@ -152,7 +152,7 @@ class Filesystem extends IlluminateFilesystem
         }
 
         foreach ($files as $file) {
-            if (strtolower((string) $file) === $pathLower) {
+            if (strtolower((string)$file) === $pathLower) {
                 return $file;
             }
         }

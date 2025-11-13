@@ -25,8 +25,8 @@ class ConsoleSubscriber
 
     public function defineSchedule(Schedule $schedule): void
     {
-        // Every 12 hours check for system updates
-        $schedule->command('igniter:update', ['--check' => true])
+        // Periodically check for system updates
+        $schedule->command('igniter:update', ['--check'])
             ->name('System Updates Checker')
             ->everyThreeHours()
             ->evenInMaintenanceMode();

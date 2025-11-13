@@ -152,7 +152,7 @@ it('returns media thumbnail with options', function() {
 });
 
 it('strips class basename with chop', function() {
-    expect(strip_class_basename('App\\Models\\Users_model', null))->toBe('Users_model')
+    expect(strip_class_basename('App\\Models\\Users_model'))->toBe('Users_model')
         ->and(strip_class_basename('App\\Models\\Users_model', '_model'))->toBe('Users')
         ->and(strip_class_basename('App\\Models\\User', '_model'))->toBe('User');
 });

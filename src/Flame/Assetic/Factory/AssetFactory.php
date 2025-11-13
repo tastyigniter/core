@@ -124,7 +124,7 @@ class AssetFactory
                 $asset->add($this->createAsset(...$input));
             } else {
                 $asset->add($this->parseInput($input, $options));
-                $extensions[pathinfo((string) $input, PATHINFO_EXTENSION)] = true;
+                $extensions[pathinfo((string)$input, PATHINFO_EXTENSION)] = true;
             }
         }
 
@@ -139,7 +139,7 @@ class AssetFactory
         if (!empty($options['vars'])) {
             $toAdd = [];
             foreach ($options['vars'] as $var) {
-                if (str_contains((string) $options['output'], '{'.$var.'}')) {
+                if (str_contains((string)$options['output'], '{'.$var.'}')) {
                     continue;
                 }
 
@@ -152,7 +152,7 @@ class AssetFactory
         }
 
         // append consensus extension if missing
-        if (count($extensions) == 1 && !pathinfo((string) $options['output'], PATHINFO_EXTENSION) && $extension = key($extensions)) {
+        if (count($extensions) === 1 && !pathinfo((string)$options['output'], PATHINFO_EXTENSION) && $extension = key($extensions)) {
             $options['output'] .= '.'.$extension;
         }
 
@@ -276,7 +276,7 @@ class AssetFactory
     private function findRootDir(string $path, array $roots): ?string
     {
         foreach ($roots as $root) {
-            if (str_starts_with($path, (string) $root)) {
+            if (str_starts_with($path, (string)$root)) {
                 return $root;
             }
         }

@@ -69,12 +69,12 @@ it('loads registered admin onboarding steps', function() {
     $onboardingSteps = resolve(OnboardingSteps::class);
 
     expect($onboardingSteps->getStep('admin::themes'))->toBeObject()
-        ->and($onboardingSteps->getStep('admin::menus'))->toBeObject()
         ->and($onboardingSteps->getStep('admin::mail'))->toBeObject()
         ->and($onboardingSteps->getStep('admin::settings'))->toHaveProperties([
             'code', 'label', 'description', 'icon', 'url', 'priority', 'complete',
         ])
-        ->and($onboardingSteps->getStep('admin::settings')->complete)->toBeCallable();
+        ->and($onboardingSteps->getStep('admin::settings')->complete)->toBeCallable()
+        ->and($onboardingSteps->getStep('admin::mail')->complete)->toBeCallable();
 });
 
 it('lists onboarding steps correctly', function($steps) {
