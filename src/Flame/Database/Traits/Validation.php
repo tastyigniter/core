@@ -350,7 +350,7 @@ trait Validation
             $whereValue,
         ] = array_pad(explode(',', str_after($definition, 'unique:')), 6, null);
 
-        $table = $table ?: $this->getConnectionName().'.'.$this->getTable();
+        $table = $table ?: $this->getTable();
         $column = $column ?: $fieldName;
         $key = $key ?: ($keyName ? $this->$keyName : $this->getKey());
         $keyName = $keyName ?: $this->getKeyName();
