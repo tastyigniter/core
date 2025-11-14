@@ -71,4 +71,4 @@ jobs:
         run: composer config --unset version
 
       - name: Run test suite
-        run: vendor/bin/pest --compact --parallel --shard ${{ matrix.shard }}/5
+        run: vendor/bin/pest --compact --shard ${{ matrix.shard }}/5
