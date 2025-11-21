@@ -83,7 +83,7 @@ $config['form']['toolbar'] = [
         ],
         'reset' => [
             'label' => 'lang:igniter::system.themes.button_reset_to_default',
-            'class' => 'btn btn-secondary',
+            'class' => 'btn btn-default',
             'context' => 'edit',
             'data-request' => 'onReset',
             'data-request-confirm' => 'lang:igniter::admin.alert_warning_confirm',
