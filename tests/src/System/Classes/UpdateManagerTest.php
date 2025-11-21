@@ -472,7 +472,7 @@ function mockRequestUpdateItems()
     $composerManager->shouldReceive('listInstalledPackages')->andReturn(collect([
         [
             'name' => 'tastyigniter/core',
-            'type' => 'tastyigniter-core',
+            'type' => 'core',
             'version' => '1.0.0',
         ],
         [

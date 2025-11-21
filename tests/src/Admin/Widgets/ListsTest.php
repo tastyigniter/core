@@ -273,7 +273,10 @@ it('returns column', function() {
 
 it('returns visible column', function() {
     LocationFacade::setModel(Location::factory()->create());
-    $this->listsWidget->columns['notify_customer'] = 'Notify Customer';
+    $this->listsWidget->columns['notify_customer'] = [
+        'label' => 'Notify Customer',
+        'type' => 'text',
+    ];
     $this->listsWidget->columns['status_color'] = [
         'label' => 'Status Color',
         'type' => 'text',

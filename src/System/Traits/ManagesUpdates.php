@@ -88,6 +88,8 @@ trait ManagesUpdates
 
         [$response, $success] = $this->processInstallOrUpdate($itemsToUpdate->all(), isUpdate: true);
 
+        $updateManager->requestUpdateList(true);
+
         return [
             'message' => implode('<br>', $response),
             'success' => $success,
