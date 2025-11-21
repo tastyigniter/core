@@ -142,7 +142,7 @@ class Settings extends Model
 
     public function getValueAttribute()
     {
-        return ($value = @unserialize($this->attributes['value'] ?? ''))
+        return ($value = @unserialize($this->attributes['value'] ?? '')) !== false
             ? $value
             : $this->attributes['value'];
     }
