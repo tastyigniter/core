@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Igniter\Flame\Exception;
 
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class ApplicationException extends Exception
 {
