@@ -31,7 +31,7 @@ class ExtensionInstall extends Command
         $extensionName = $this->argument('name');
         $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
 
-        $itemDetail = rescue(fn () => $updateManager->requestItemDetail([
+        $itemDetail = rescue(fn() => $updateManager->requestItemDetail([
             'name' => $extensionName,
             'type' => 'extension',
         ]), fn() => null, false) ?? [];

@@ -16,6 +16,7 @@ function makeCacheMaker(): object
         protected function getCacheKey(): string
         {
             $this->parentGetCacheKey();
+
             return 'class_id';
         }
     };
