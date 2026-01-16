@@ -11,10 +11,11 @@ function makeCacheMaker(): object
 {
     return new class
     {
-        use CacheMaker;
+        use CacheMaker { CacheMaker::getCacheKey as parentGetCacheKey; }
 
         protected function getCacheKey(): string
         {
+            $this->parentGetCacheKey();
             return 'class_id';
         }
     };

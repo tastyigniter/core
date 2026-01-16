@@ -19,7 +19,6 @@ class HasOne extends HasOneBase
 
     /**
      * Create a new has many relationship instance.
-     * @return void
      */
     public function __construct(Builder $query, Model $parent, $foreignKey, $localKey, $relationName = null)
     {

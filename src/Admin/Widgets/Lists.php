@@ -220,20 +220,23 @@ class Lists extends BaseWidget
         $primarySearchable = [];
         $relationSearchable = [];
 
+        // Get the grammar from the model's connection to ensure it's properly initialized
+        $schemaGrammar = $query->getQuery()->getGrammar();
+
         if (!empty($this->searchTerm) && ($searchableColumns = $this->getSearchableColumns())) {
             foreach ($searchableColumns as $column) {
                 // Relation
                 if ($this->isColumnRelated($column)) {
                     $table = DB::getTablePrefix().$this->model->{$column->relation}()->getModel()->getTable();
                     $columnName = isset($column->sqlSelect)
-                        ? DB::raw($this->parseTableName($column->sqlSelect, $table))->getValue(DB::connection()->getSchemaGrammar())
+                        ? DB::raw($this->parseTableName($column->sqlSelect, $table))->getValue($schemaGrammar)
                         : $table.'.'.$column->valueFrom;
 
                     $relationSearchable[$column->relation][] = $columnName;
                 } // Primary
                 else {
                     $columnName = isset($column->sqlSelect)
-                        ? DB::raw($this->parseTableName($column->sqlSelect, $primaryTable))->getValue(DB::connection()->getSchemaGrammar())
+                        ? DB::raw($this->parseTableName($column->sqlSelect, $primaryTable))->getValue($schemaGrammar)
                         : DB::getTablePrefix().$primaryTable.'.'.$column->columnName;
 
                     $primarySearchable[] = $columnName;

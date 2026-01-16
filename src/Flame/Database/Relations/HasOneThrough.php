@@ -19,7 +19,6 @@ class HasOneThrough extends HasOneThroughBase
     /**
      * Create a new has many relationship instance.
      * @param string $relationName
-     * @return void
      */
     public function __construct(
         Builder $query,

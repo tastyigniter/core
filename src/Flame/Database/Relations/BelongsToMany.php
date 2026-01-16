@@ -36,7 +36,6 @@ class BelongsToMany extends BelongsToManyBase
      * @param string $foreignPivotKey
      * @param string $relatedPivotKey
      * @param string $relationName
-     * @return void
      */
     public function __construct(
         Builder $query,

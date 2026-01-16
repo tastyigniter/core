@@ -8,7 +8,6 @@ use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector
 use Rector\CodeQuality\Rector\Ternary\SwitchNegatedTernaryRector;
 use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\FuncCall\FunctionFirstClassCallableRector;
-use Rector\CodingStyle\Rector\FunctionLike\FunctionLikeToFirstClassCallableRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
@@ -45,7 +44,6 @@ return RectorConfig::configure()
             __DIR__.'/src/Flame/Database/Concerns/HasRelationships.php',
         ],
         FunctionFirstClassCallableRector::class,
-        FunctionLikeToFirstClassCallableRector::class,
         SimplifyEmptyCheckOnEmptyArrayRector::class,
         StrictStringParamConcatRector::class => [
             __DIR__.'/src/Flame/Database/Concerns/HasRelationships.php',

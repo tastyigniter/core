@@ -153,7 +153,7 @@ class MediaLibrary
 
     public function deleteFiles(string|array $paths): bool
     {
-        return $this->getStorageDisk()->delete(array_map(fn(string $path): string => $this->getMediaPath($path), (array)$paths));
+        return $this->getStorageDisk()->delete(array_map($this->getMediaPath(...), (array)$paths));
     }
 
     public function deleteFolder(string $path): bool

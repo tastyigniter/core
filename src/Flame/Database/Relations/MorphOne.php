@@ -19,7 +19,6 @@ class MorphOne extends MorphOneBase
 
     /**
      * Create a new has many relationship instance.
-     * @return void
      */
     public function __construct(Builder $query, Model $parent, $type, $id, $localKey, $relationName = null)
     {

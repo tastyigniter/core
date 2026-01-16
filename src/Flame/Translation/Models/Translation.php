@@ -135,7 +135,7 @@ class Translation extends Model
             ->get();
     }
 
-    public static function getCached($locale, $group, $namespace = null)
+    public static function getCached(string $locale, $group, $namespace = null)
     {
         $cacheKey = static::getCacheKey($locale, $group, $namespace);
 

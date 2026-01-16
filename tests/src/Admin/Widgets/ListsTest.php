@@ -337,6 +337,7 @@ it('overrides list header value using event', function() {
 });
 
 it('returns list column value', function($columnName, ?string $type, $value, $expected, array $config) {
+    $this->travelTo('2024-12-31 23:59:59');
     $listColumn = new ListColumn($columnName, 'Test Column');
     $listColumn->displayAs($type, $config);
 
