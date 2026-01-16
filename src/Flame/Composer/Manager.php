@@ -23,7 +23,7 @@ use function Illuminate\Support\php_binary;
  */
 class Manager
 {
-    protected const string REPOSITORY_HOST = 'satis.tastyigniter.com';
+    protected const string REPOSITORY_HOST = 'composer.tastyigniter.com';
 
     /** The primary composer instance. */
     protected ?ClassLoader $loader = null;

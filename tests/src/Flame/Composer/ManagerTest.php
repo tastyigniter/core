@@ -224,8 +224,8 @@ it('adds auth credentials to config', function() {
     $manager->addAuthCredentials('username', 'password');
 
     $config = json_decode(file_get_contents(base_path('auth.json')), true);
-    expect($config['http-basic']['satis.tastyigniter.com']['username'])->toBe('username')
-        ->and($config['http-basic']['satis.tastyigniter.com']['password'])->toBe('password');
+    expect($config['http-basic']['composer.tastyigniter.com']['username'])->toBe('username')
+        ->and($config['http-basic']['composer.tastyigniter.com']['password'])->toBe('password');
 
     unlink(base_path('auth.json'));
 });
@@ -238,7 +238,7 @@ it('modifies composer config with new repository', function() {
     $config = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
     expect($config['repositories'])->toBeArray()
         ->and($config['repositories'][0]['type'])->toBe('composer')
-        ->and($config['repositories'][0]['url'])->toBe('https://satis.tastyigniter.com');
+        ->and($config['repositories'][0]['url'])->toBe('https://composer.tastyigniter.com');
 
     unlink(__DIR__.'/composer.json');
 });
@@ -246,7 +246,7 @@ it('modifies composer config with new repository', function() {
 it('does not modify composer config if repository exists', function() {
     file_put_contents(__DIR__.'/composer.json', json_encode([
         'repositories' => [
-            ['type' => 'composer', 'url' => 'https://satis.tastyigniter.com'],
+            ['type' => 'composer', 'url' => 'https://composer.tastyigniter.com'],
             ['type' => 'composer', 'url' => 'https://packagist.org'],
         ],
     ]));
@@ -256,7 +256,7 @@ it('does not modify composer config if repository exists', function() {
     $config = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
     expect($config['repositories'])->toBeArray()
         ->and($config['repositories'][0]['type'])->toBe('composer')
-        ->and($config['repositories'][0]['url'])->toBe('https://satis.tastyigniter.com')
+        ->and($config['repositories'][0]['url'])->toBe('https://composer.tastyigniter.com')
         ->and($config['repositories'][1]['type'])->toBe('composer')
         ->and($config['repositories'][1]['url'])->toBe('https://packagist.org');
 
