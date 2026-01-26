@@ -14,7 +14,6 @@ use Igniter\Tests\System\Fixtures\TestComponent;
 use Igniter\Tests\System\Fixtures\TestComponentWithLifecycle;
 use Igniter\Tests\System\Fixtures\TestLivewireComponent;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
 use Override;
@@ -55,20 +54,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $manager->registerComponent(TestLivewireComponent::class, TestLivewireComponent::componentMeta());
             $manager->registerComponent(TestBladeComponent::class, TestBladeComponent::componentMeta());
         });
-    }
-
-    #[Override]
-    protected function defineDatabaseMigrations()
-    {
-        if (!RefreshDatabaseState::$migrated) {
-            if (!Igniter::hasDatabase()) {
-                $this->artisan('igniter:up');
-            }
-
-            $this->refreshApplication();
-
-            RefreshDatabaseState::$migrated = true;
-        }
     }
 
     #[Override]
