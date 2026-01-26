@@ -806,7 +806,7 @@ if (!function_exists('name_to_array')) {
             array_unshift($result, $matches[1]);
         }
 
-        return array_filter($result, fn($val): bool => (bool)strlen($val));
+        return array_filter($result, fn($val): bool => (bool)strlen((string) $val));
     }
 }
 

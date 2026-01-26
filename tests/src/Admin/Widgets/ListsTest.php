@@ -273,7 +273,10 @@ it('returns column', function() {
 
 it('returns visible column', function() {
     LocationFacade::setModel(Location::factory()->create());
-    $this->listsWidget->columns['notify_customer'] = 'Notify Customer';
+    $this->listsWidget->columns['notify_customer'] = [
+        'label' => 'Notify Customer',
+        'type' => 'text',
+    ];
     $this->listsWidget->columns['status_color'] = [
         'label' => 'Status Color',
         'type' => 'text',
@@ -334,6 +337,7 @@ it('overrides list header value using event', function() {
 });
 
 it('returns list column value', function($columnName, ?string $type, $value, $expected, array $config) {
+    $this->travelTo('2024-12-31 23:59:59');
     $listColumn = new ListColumn($columnName, 'Test Column');
     $listColumn->displayAs($type, $config);
 

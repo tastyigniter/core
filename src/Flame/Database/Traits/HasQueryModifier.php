@@ -41,7 +41,8 @@ trait HasQueryModifier
         collect($this->queryModifierFilters)
             ->each(function($value, $key) use ($builder, $options) {
                 $params = (array)$value;
-                if ($filterValue = array_get($options, $key, array_get($params, 'default'))) {
+                if (array_key_exists($key, $options)) {
+                    $filterValue = array_get($options, $key, array_get($params, 'default'));
                     (new FiltersScope)($builder, $filterValue, $params[0]);
                 }
             });

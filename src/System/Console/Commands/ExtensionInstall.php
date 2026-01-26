@@ -31,10 +31,10 @@ class ExtensionInstall extends Command
         $extensionName = $this->argument('name');
         $updateManager = resolve(UpdateManager::class)->setLogsOutput($this->output);
 
-        $itemDetail = $updateManager->requestItemDetail([
+        $itemDetail = rescue(fn() => $updateManager->requestItemDetail([
             'name' => $extensionName,
             'type' => 'extension',
-        ]);
+        ]), fn() => null, false) ?? [];
 
         if (!$itemDetail || !array_has($itemDetail, 'package') || array_get($itemDetail, 'code') !== $extensionName) {
             $this->output->writeln(sprintf('<info>Extension %s not found</info>', $extensionName));

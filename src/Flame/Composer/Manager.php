@@ -23,7 +23,7 @@ use function Illuminate\Support\php_binary;
  */
 class Manager
 {
-    protected const string REPOSITORY_HOST = 'satis.tastyigniter.com';
+    protected const string REPOSITORY_HOST = 'composer.tastyigniter.com';
 
     /** The primary composer instance. */
     protected ?ClassLoader $loader = null;
@@ -86,8 +86,9 @@ class Manager
             ->mapWithKeys(function(array $package): array {
                 if ($package['name'] === PackageInfo::CORE) {
                     $package['code'] = PackageInfo::CORE_CODE;
-                    $package['type'] = PackageInfo::CORE_TYPE;
                 }
+
+                $package['type'] = $this->getPackageType($package);
 
                 return [$this->getPackageCode($package) => $package];
             });
@@ -126,6 +127,20 @@ class Manager
         return array_get($package, 'extra.tastyigniter-package.code',
             array_get($package, 'extra.tastyigniter-extension.code',
                 array_get($package, 'extra.tastyigniter-theme.code')));
+    }
+
+    protected function getPackageType(array $package): ?string
+    {
+        if (array_get($package, 'name') === PackageInfo::CORE) {
+            return PackageInfo::CORE_TYPE;
+        }
+
+        $packageType = 'extension';
+        if (array_get($package, 'extra.tastyigniter-theme')) {
+            $packageType = 'theme';
+        }
+
+        return $packageType;
     }
 
     //
