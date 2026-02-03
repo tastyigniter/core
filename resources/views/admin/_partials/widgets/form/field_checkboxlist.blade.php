@@ -7,6 +7,7 @@
 @if($this->previewMode && $field->value)
 
     <div class="field-checkboxlist">
+        <input type="hidden" name="{{ $field->getName() }}" value="" />
         @foreach($fieldOptions as $value => $option)
             @php
                 $checkboxId = 'checkbox_'.$field->getId().'_'.$loop->iteration;
@@ -49,7 +50,7 @@
                     <input
                         type="hidden"
                         name="{{ $field->getName() }}"
-                        value="0" />
+                        value="" />
 
                     @foreach($fieldOptions as $value => $option)
                         @php
