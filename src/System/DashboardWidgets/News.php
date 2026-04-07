@@ -64,7 +64,7 @@ class News extends BaseDashboardWidget
             ];
         }
 
-        $newsCount = $this->property('newsCount');
+        $newsCount = intval($this->property('newsCount'));
         $count = (($count = count($newsFeed)) < $newsCount) ? $count : $newsCount;
 
         return array_slice($newsFeed, 0, $count);
