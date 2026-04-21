@@ -269,10 +269,11 @@ class Manager
 
     protected function getProcess(array $command, array $env = []): Process
     {
-        $env = array_merge([
-            'HOME' => $this->storagePath,
-            'COMPOSER_HOME' => $this->storagePath,
-        ], $env);
+        foreach (['HOME', 'COMPOSER_HOME'] as $key) {
+            if (!isset($env[$key]) && !getenv($key)) {
+                $env[$key] = $this->storagePath;
+            }
+        }
 
         return (new Process($command, $this->workingPath, $env))->setTimeout(null);
     }
