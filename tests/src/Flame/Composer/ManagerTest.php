@@ -8,8 +8,10 @@ use Composer\Autoload\ClassLoader;
 use Exception;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\Facades\File;
+use ReflectionMethod;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 it('loads package version correctly', function() {
     $version = resolve(Manager::class)->getPackageVersion('some-package');
@@ -266,4 +268,37 @@ it('does not modify composer config if repository exists', function() {
 it('throws exception when composer file does not exists when modifying composer config', function() {
     $manager = new Manager(__DIR__, '/storage');
     expect(fn() => $manager->assertSchema())->toThrow(RuntimeException::class);
+});
+
+it('injects HOME and COMPOSER_HOME into the spawned composer process', function() {
+    $manager = new Manager('/root', '/storage');
+    $method = new ReflectionMethod(Manager::class, 'getProcess');
+    $method->setAccessible(true);
+
+    /** @var Process $process */
+    $process = $method->invoke($manager, ['composer', 'install'], ['COMPOSER_MEMORY_LIMIT' => '-1']);
+
+    expect($process)->toBeInstanceOf(Process::class)
+        ->and($process->getEnv())->toMatchArray([
+            'HOME' => '/storage',
+            'COMPOSER_HOME' => '/storage',
+            'COMPOSER_MEMORY_LIMIT' => '-1',
+        ]);
+});
+
+it('allows callers to override HOME and COMPOSER_HOME on the spawned composer process', function() {
+    $manager = new Manager('/root', '/storage');
+    $method = new ReflectionMethod(Manager::class, 'getProcess');
+    $method->setAccessible(true);
+
+    /** @var Process $process */
+    $process = $method->invoke($manager, ['composer', 'install'], [
+        'HOME' => '/custom/home',
+        'COMPOSER_HOME' => '/custom/composer',
+    ]);
+
+    expect($process->getEnv())->toMatchArray([
+        'HOME' => '/custom/home',
+        'COMPOSER_HOME' => '/custom/composer',
+    ]);
 });
