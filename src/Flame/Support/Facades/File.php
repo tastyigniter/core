@@ -81,14 +81,14 @@ use Symfony\Component\Finder\SplFileInfo;
  * @method static bool hasMacro(string $name)
  * @method static void flushMacros()
  *
- * @see \Igniter\Flame\Filesystem\Filesystem
+ * @see Filesystem
  */
 class File extends IlluminateFacade
 {
     /**
      * Get the registered name of the component.
      *
-     * @see \Igniter\Flame\Filesystem\Filesystem
+     * @see Filesystem
      */
     #[Override]
     protected static function getFacadeAccessor(): string

@@ -300,15 +300,15 @@ class AdminController extends Controller
 
             throw new AjaxException($response);
         } catch (MassAssignmentException $ex) {
-            throw new FlashException(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]));
+            throw new FlashException(lang('igniter::admin.form.mass_assignment_failed', ['attribute' => $ex->getMessage()]), 'danger', $ex->getCode(), $ex);
         }
     }
 
     protected function getRequiredPermissionsForAction(string $actionToCheck): array
     {
-        return collect((array)$this->requiredPermissions)
+        return collect((array) $this->requiredPermissions)
             ->map(fn($permission, $action): ?array => (!is_string($action) || $action === '*' || $action === $actionToCheck)
-                ? (array)$permission : null)
+                ? (array) $permission : null)
             ->filter()
             ->collapse()
             ->all();

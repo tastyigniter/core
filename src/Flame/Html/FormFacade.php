@@ -26,7 +26,7 @@ use Override;
  * @method static bool hasMacro(string $name)
  * @method static void flushMacros()
  *
- * @see \Igniter\Flame\Html\FormBuilder
+ * @see FormBuilder
  */
 class FormFacade extends Facade
 {

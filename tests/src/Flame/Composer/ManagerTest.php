@@ -8,8 +8,10 @@ use Composer\Autoload\ClassLoader;
 use Exception;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\Facades\File;
+use ReflectionMethod;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 it('loads package version correctly', function() {
     $version = resolve(Manager::class)->getPackageVersion('some-package');
@@ -266,4 +268,57 @@ it('does not modify composer config if repository exists', function() {
 it('throws exception when composer file does not exists when modifying composer config', function() {
     $manager = new Manager(__DIR__, '/storage');
     expect(fn() => $manager->assertSchema())->toThrow(RuntimeException::class);
+});
+
+it('injects COMPOSER_HOME when the parent process has neither set', function() {
+    $originalComposerHome = getenv('COMPOSER_HOME');
+    putenv('COMPOSER_HOME');
+
+    try {
+        $manager = new Manager('/root', '/storage');
+        $method = new ReflectionMethod(Manager::class, 'getProcess');
+
+        /** @var Process $process */
+        $process = $method->invoke($manager, ['composer', 'install'], ['COMPOSER_MEMORY_LIMIT' => '-1']);
+
+        expect($process)->toBeInstanceOf(Process::class)
+            ->and($process->getEnv())->toMatchArray([
+                'COMPOSER_HOME' => '/storage',
+                'COMPOSER_MEMORY_LIMIT' => '-1',
+            ]);
+    } finally {
+        $originalComposerHome === false ? putenv('COMPOSER_HOME') : putenv('COMPOSER_HOME='.$originalComposerHome);
+    }
+});
+
+it('does not override COMPOSER_HOME inherited from the parent process', function() {
+    $originalComposerHome = getenv('COMPOSER_HOME');
+    putenv('COMPOSER_HOME=/parent/composer');
+
+    try {
+        $manager = new Manager('/root', '/storage');
+        $method = new ReflectionMethod(Manager::class, 'getProcess');
+
+        /** @var Process $process */
+        $process = $method->invoke($manager, ['composer', 'install']);
+
+        expect($process->getEnv())
+            ->and($process->getEnv())->not->toHaveKey('COMPOSER_HOME');
+    } finally {
+        $originalComposerHome === false ? putenv('COMPOSER_HOME') : putenv('COMPOSER_HOME='.$originalComposerHome);
+    }
+});
+
+it('allows callers to override COMPOSER_HOME on the spawned composer process', function() {
+    $manager = new Manager('/root', '/storage');
+    $method = new ReflectionMethod(Manager::class, 'getProcess');
+
+    /** @var Process $process */
+    $process = $method->invoke($manager, ['composer', 'install'], [
+        'COMPOSER_HOME' => '/custom/composer',
+    ]);
+
+    expect($process->getEnv())->toMatchArray([
+        'COMPOSER_HOME' => '/custom/composer',
+    ]);
 });

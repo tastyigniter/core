@@ -62,7 +62,7 @@ class Country
     {
         $this->loadCountries();
 
-        /** @var \Igniter\System\Models\Country $countryModel */
+        /** @var CountryModel $countryModel */
         if (!$countryModel = $this->countriesCollection->get($id)) {
             return null;
         }
@@ -74,7 +74,7 @@ class Country
     {
         $this->loadCountries();
 
-        /** @var \Igniter\System\Models\Country $countryModel */
+        /** @var CountryModel $countryModel */
         if (!$countryModel = $this->countriesCollection->get($id)) {
             return null;
         }
@@ -87,7 +87,7 @@ class Country
     {
         $this->loadCountries();
 
-        /** @var \Igniter\System\Models\Country $countryModel */
+        /** @var CountryModel $countryModel */
         if (!$countryModel = $this->countriesCollection->firstWhere('iso_code_2', $isoCodeTwo)) {
             return null;
         }
@@ -137,7 +137,7 @@ class Country
         } elseif (is_numeric($country)) {
             $this->loadCountries();
 
-            /** @var \Igniter\System\Models\Country $countryModel */
+            /** @var CountryModel $countryModel */
             if ($countryModel = $this->countriesCollection->get($country)) {
                 $result['country'] = $countryModel->country_name;
                 $result['format'] = $countryModel->format;

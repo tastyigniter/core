@@ -15,7 +15,7 @@ class ValidationHelper
         $result = [];
 
         if (!isset($rules[0])) {
-            return $result;
+            return $rules;
         }
 
         foreach ($rules as $name => $value) {

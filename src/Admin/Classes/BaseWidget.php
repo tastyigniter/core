@@ -116,7 +116,7 @@ class BaseWidget extends Extendable
      */
     protected function fillFromConfig(?array $properties = null)
     {
-        $properties = is_null($properties) ? array_keys((array)$this->config) : $properties;
+        $properties ??= array_keys((array)$this->config);
 
         foreach ($properties as $property) {
             if (property_exists($this, $property)) {
