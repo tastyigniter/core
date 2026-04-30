@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\URL;
 
 /**
  * Admin Helper
- * @see \Igniter\Admin\Helpers\AdminHelper
+ * @see AdminHelper
  */
 class AdminHelper
 {

@@ -145,7 +145,7 @@ class ServiceProvider extends AppServiceProvider
 
         foreach ([
             'Assets' => Assets::class,
-            'Country' => \Igniter\System\Facades\Country::class,
+            'Country' => Facades\Country::class,
         ] as $alias => $class) {
             $loader->alias($alias, $class);
         }

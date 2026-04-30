@@ -413,8 +413,7 @@ trait HasAttributes
             'mTime',
             'code',
             'settings',
-        ],
-        true);
+        ], true);
     }
 
     /**

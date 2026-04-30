@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\Concerns\AsPivot;
  * @method static Builder<static>|Pivot newModelQuery()
  * @method static Builder<static>|Pivot newQuery()
  * @method static Builder<static>|Pivot query()
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin ModelBase
  */
 class Pivot extends Model
 {

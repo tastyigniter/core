@@ -150,7 +150,7 @@ class AdminController extends Controller
 
         // Check that user has permission to access this page
         $requiredPermissions = $this->getRequiredPermissionsForAction($action);
-        throw_if($requiredPermissions && ! $this->authorize($requiredPermissions),
+        throw_if($requiredPermissions && !$this->authorize($requiredPermissions),
             new FlashException(lang('igniter::admin.alert_user_restricted')));
 
         if ($event = $this->fireSystemEvent('admin.controller.beforeResponse', [$action, $params])) {
@@ -173,7 +173,7 @@ class AdminController extends Controller
         // Loads the requested controller action
         $response = $this->execPageAction($action, $params);
 
-        if (! is_string($response)) {
+        if (!is_string($response)) {
             return $response;
         }
 
@@ -189,7 +189,7 @@ class AdminController extends Controller
         $result = call_user_func_array([$this, $action], array_values($params));
 
         // Render the controller view if not already loaded
-        if (is_null($result) && ! $this->suppressView) {
+        if (is_null($result) && !$this->suppressView) {
             return $this->makeView($this->defaultView ?? $action);
         }
 
@@ -220,13 +220,13 @@ class AdminController extends Controller
             $this->suppressView = true;
             $this->execPageAction($this->action, $this->params);
 
-            if (! isset($this->widgets[$widgetName])) {
+            if (!isset($this->widgets[$widgetName])) {
                 throw new FlashException(sprintf(lang('igniter::admin.alert_widget_not_bound_to_controller'), $widgetName));
             }
 
             $widget = $this->widgets[$widgetName];
 
-            if (! $widget->methodExists($handlerName)) {
+            if (!$widget->methodExists($handlerName)) {
                 throw new FlashException(sprintf(lang('igniter::admin.alert_ajax_handler_not_found'), $handler));
             }
 
@@ -257,7 +257,7 @@ class AdminController extends Controller
 
     protected function processHandlers(): mixed
     {
-        if (! $handler = AdminHelper::getAjaxHandler()) {
+        if (!$handler = AdminHelper::getAjaxHandler()) {
             return false;
         }
 
@@ -307,7 +307,7 @@ class AdminController extends Controller
     protected function getRequiredPermissionsForAction(string $actionToCheck): array
     {
         return collect((array) $this->requiredPermissions)
-            ->map(fn ($permission, $action): ?array => (! is_string($action) || $action === '*' || $action === $actionToCheck)
+            ->map(fn($permission, $action): ?array => (!is_string($action) || $action === '*' || $action === $actionToCheck)
                 ? (array) $permission : null)
             ->filter()
             ->collapse()

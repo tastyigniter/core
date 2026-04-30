@@ -1,5 +1,7 @@
 <?php
 
+use Igniter\System\Models\Currency;
+
 return [
     'form' => [
         'toolbar' => [
@@ -96,7 +98,7 @@ return [
                     'tab' => 'lang:igniter::system.settings.text_tab_site',
                     'type' => 'radiotoggle',
                     'default' => 'openexchangerates',
-                    'options' => [\Igniter\System\Models\Currency::class, 'getConverterDropdownOptions'],
+                    'options' => [Currency::class, 'getConverterDropdownOptions'],
                 ],
                 'currency_converter[oer][apiKey]' => [
                     'label' => 'lang:igniter::system.settings.label_currency_converter_oer_api_key',

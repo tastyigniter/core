@@ -10,7 +10,7 @@ use Override;
 /**
  * @method static string attributes(array $attributes)
  *
- * @see \Igniter\Flame\Html\HtmlBuilder
+ * @see HtmlBuilder
  */
 class HtmlFacade extends Facade
 {

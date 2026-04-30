@@ -1,5 +1,10 @@
 <?php
 
+use Igniter\Flame\Currency\Converters\FixerIO;
+use Igniter\Flame\Currency\Converters\OpenExchangeRates;
+use Igniter\Flame\Currency\Formatters\PHPIntl;
+use Igniter\System\Models\Currency;
+
 return [
 
     /*
@@ -36,12 +41,12 @@ return [
     'converters' => [
 
         'fixerio' => [
-            'class' => \Igniter\Flame\Currency\Converters\FixerIO::class,
+            'class' => FixerIO::class,
             'apiKey' => '',
         ],
 
         'openexchangerates' => [
-            'class' => \Igniter\Flame\Currency\Converters\OpenExchangeRates::class,
+            'class' => OpenExchangeRates::class,
             'apiKey' => '',
         ],
 
@@ -56,7 +61,7 @@ return [
     |
     */
 
-    'model' => \Igniter\System\Models\Currency::class,
+    'model' => Currency::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -114,7 +119,7 @@ return [
     'formatters' => [
 
         'php_intl' => [
-            'class' => \Igniter\Flame\Currency\Formatters\PHPIntl::class,
+            'class' => PHPIntl::class,
         ],
 
     ],

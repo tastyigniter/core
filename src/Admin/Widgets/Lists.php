@@ -303,15 +303,15 @@ class Lists extends BaseWidget
                 // Manipulate a count query for the sub query
                 $countQuery = $relationObj->getRelationExistenceCountQuery($relationObj->getRelated()->newQueryWithoutScopes(), $query);
 
-                $joinSql = Db::raw($this->isColumnRelated($column, true) ? 'group_concat('.$sqlSelect." separator ', ')" : $sqlSelect);
+                $joinSql = DB::raw($this->isColumnRelated($column, true) ? 'group_concat('.$sqlSelect." separator ', ')" : $sqlSelect);
 
                 $joinSql = $countQuery->select($joinSql)->toRawSql();
 
-                $selects[] = Db::raw('('.$joinSql.') as '.$alias);
+                $selects[] = DB::raw('('.$joinSql.') as '.$alias);
             } // Primary column
             else {
                 $sqlSelect = $this->parseTableName($column->sqlSelect, $primaryTable);
-                $selects[] = Db::raw($sqlSelect.' as '.$alias);
+                $selects[] = DB::raw($sqlSelect.' as '.$alias);
             }
         }
 
@@ -1189,7 +1189,7 @@ class Lists extends BaseWidget
             'attachMany',
             'hasManyThrough',
         ],
-        true);
+            true);
     }
 
     /**

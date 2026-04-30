@@ -382,7 +382,7 @@ class Assets
 
     protected function transformJsObjectVar(mixed $value): false|string
     {
-        if ($value instanceof JsonSerializable || $value instanceof StdClass) {
+        if ($value instanceof JsonSerializable || $value instanceof stdClass) {
             return json_encode($value);
         }
 

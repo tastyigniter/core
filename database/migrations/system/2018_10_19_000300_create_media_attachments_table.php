@@ -82,7 +82,7 @@ return new class extends Migration
 
             $media->save();
             $model->media()->save($media);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             Log::debug($ex);
         }
     }

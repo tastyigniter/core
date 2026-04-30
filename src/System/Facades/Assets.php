@@ -6,6 +6,7 @@ namespace Igniter\System\Facades;
 
 use Igniter\Flame\Assetic\Filter\FilterInterface;
 use Igniter\Main\Classes\Theme;
+use Igniter\System\Libraries\Template;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Facade;
 use Override;
@@ -48,7 +49,7 @@ class Assets extends Facade
 {
     /**
      * Get the registered name of the component.
-     * @see \Igniter\System\Libraries\Template
+     * @see Template
      */
     #[Override]
     protected static function getFacadeAccessor(): string

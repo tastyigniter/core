@@ -27,7 +27,7 @@ use Override;
  * /admin/(any)             `admin`, `location` or `system` app directory
  * /admin/acme/cod/(any)    `Acme.Cod` extension
  * /(any)                   `main` app directory
- * @see \Igniter\Admin\Classes\AdminController|\Igniter\Main\Classes\MainController  controller class
+ * @see AdminController|MainController  controller class
  * @deprecated No longer used, will be removed in v5.0.0
  * @codeCoverageIgnore
  */
