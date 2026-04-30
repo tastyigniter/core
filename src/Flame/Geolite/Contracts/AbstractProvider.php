@@ -87,7 +87,7 @@ abstract class AbstractProvider
     {
         $lifetime = config('igniter-geocoder.cache.duration');
 
-        return !is_null($this->cacheLifetime) ? $this->cacheLifetime : $lifetime;
+        return $this->cacheLifetime ?? $lifetime;
     }
 
     protected function cacheCallback(string $cacheKey, Closure $closure): mixed

@@ -1026,7 +1026,7 @@ class Lists extends BaseWidget
     protected function getSetupPerPageOptions(): array
     {
         $perPageOptions = [20, 40, 80, 100, 120];
-        if (!in_array($this->pageLimit, $perPageOptions)) {
+        if (!in_array($this->pageLimit, $perPageOptions, true)) {
             $perPageOptions[] = $this->pageLimit;
         }
 
@@ -1188,7 +1188,8 @@ class Lists extends BaseWidget
             'morphMany',
             'attachMany',
             'hasManyThrough',
-        ]);
+        ],
+        true);
     }
 
     /**

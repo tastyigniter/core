@@ -277,7 +277,7 @@ class Finder
      */
     public function getFresh(array $columns = ['*']): ?array
     {
-        $this->columns ??= $columns;
+        $this->columns = $columns;
 
         $processCmd = $this->select ? 'processSelect' : 'processSelectAll';
 
@@ -460,7 +460,7 @@ class Finder
      */
     public function getCached(array $columns = ['*']): array
     {
-        $this->columns ??= $columns;
+        $this->columns = $columns;
 
         $key = $this->getCacheKey();
 

@@ -38,7 +38,7 @@ trait ExtendsEloquentBuilder
      */
     public function dropdown($column, $key = null)
     {
-        $key = !is_null($key) ? $key : $this->model->getKeyName();
+        $key ??= $this->model->getKeyName();
 
         return $this->lists($column, $key);
     }

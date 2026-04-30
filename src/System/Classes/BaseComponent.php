@@ -167,7 +167,7 @@ abstract class BaseComponent extends Extendable implements Stringable
             $segment = input($name);
         }
 
-        return is_null($segment) ? $default : $segment;
+        return $segment ?? $default;
     }
 
     //

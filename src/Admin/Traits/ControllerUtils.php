@@ -46,7 +46,7 @@ trait ControllerUtils
             return false;
         }
 
-        throw_if(in_array(strtolower($action), array_map('strtolower', $this->hiddenActions)),
+        throw_if(in_array(strtolower($action), array_map('strtolower', $this->hiddenActions), true),
             new FlashException(sprintf('Method [%s] is not allowed in the controller [%s]', $action, $this::class)),
         );
 

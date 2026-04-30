@@ -71,7 +71,7 @@ class MediaAdder
 
         $media->name = $media->getUniqueName();
         $media->disk = $this->diskName ?? $media->getDiskName();
-        $media->tag = $this->tag ?? $this->performedOn->getDefaultTagName();
+        $media->tag = $this->performedOn->getDefaultTagName() ?? $this->tag;
         $media->custom_properties = $this->customProperties;
 
         $this->attachMedia($media);

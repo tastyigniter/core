@@ -269,10 +269,10 @@ class Manager
 
     protected function getProcess(array $command, array $env = []): Process
     {
-        foreach (['HOME', 'COMPOSER_HOME'] as $key) {
-            if (!isset($env[$key]) && !getenv($key)) {
-                $env[$key] = $this->storagePath;
-            }
+        // Ensure COMPOSER_HOME is set to ensure composer runs correctly in environments
+        // where the global composer installation is not available or configured properly.
+        if (!isset($env['COMPOSER_HOME']) && !getenv('COMPOSER_HOME')) {
+            $env['COMPOSER_HOME'] = $this->storagePath;
         }
 
         return (new Process($command, $this->workingPath, $env))->setTimeout(null);

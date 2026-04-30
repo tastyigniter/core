@@ -43,7 +43,7 @@ class Navigation
     public function setContext(string $itemCode, ?string $parentCode = null): void
     {
         $this->navContextItemCode = $itemCode;
-        $this->navContextParentCode = is_null($parentCode) ? $itemCode : $parentCode;
+        $this->navContextParentCode = $parentCode ?? $itemCode;
     }
 
     public function getNavItems(): array

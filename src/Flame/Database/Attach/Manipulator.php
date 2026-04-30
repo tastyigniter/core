@@ -42,7 +42,7 @@ class Manipulator
 
     public function useDriver(string $driver): self
     {
-        if (!in_array($driver, ['gd', 'imagick'])) {
+        if (!in_array($driver, ['gd', 'imagick'], true)) {
             throw new LogicException(sprintf("Driver must be 'gd' or 'imagick'. '%s' provided.", $driver));
         }
 
@@ -110,7 +110,7 @@ class Manipulator
         }
 
         if ($this->driver === 'gd') {
-            return in_array($extension, $gdExtensions);
+            return in_array($extension, $gdExtensions, true);
         }
 
         return in_array($extension, $imagickExtensions);

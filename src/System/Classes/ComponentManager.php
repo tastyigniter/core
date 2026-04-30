@@ -311,7 +311,7 @@ class ComponentManager
             // Translate human values
             $translate = ['label', 'description', 'options', 'group', 'validationMessage'];
             foreach ($property as $propertyName => $propertyValue) {
-                if (!in_array($propertyName, $translate)) {
+                if (!in_array($propertyName, $translate, true)) {
                     continue;
                 }
 
@@ -364,6 +364,6 @@ class ComponentManager
 
     protected function checkComponentPropertyType(string $type): bool
     {
-        return in_array($type, self::ALLOWED_PROPERTY_TYPES);
+        return in_array($type, self::ALLOWED_PROPERTY_TYPES, true);
     }
 }

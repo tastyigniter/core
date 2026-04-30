@@ -152,7 +152,7 @@ class MainMenuItem
      */
     public function displayAs($type, array $config = []): static
     {
-        $this->type = !is_null($type) ? $type : $this->type;
+        $this->type = $type ?? $this->type;
         $this->config = $this->evalConfig($config);
 
         return $this;
