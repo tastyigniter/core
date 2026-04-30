@@ -106,7 +106,7 @@ class Theme
     public function getMetaPath(): string
     {
         if (is_null($this->metaPath)) {
-            foreach (['/_meta', '/meta'] as $metaPath) {
+            foreach (['/_meta', '/meta', $this->sourcePath.'/_meta', $this->sourcePath.'/meta'] as $metaPath) {
                 if (File::isDirectory($this->path.$metaPath)) {
                     $this->metaPath = $metaPath;
                 }

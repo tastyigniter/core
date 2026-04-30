@@ -167,9 +167,9 @@ class Currency extends Model implements CurrencyInterface
     public function getFormat(): string
     {
         $format = ($this->thousand_sign ?: '!').'0';
+
         if ((int)$this->decimal_position > 0) {
-            $format .= $this->decimal_sign;
-            $format .= str_repeat('0', (int)$this->decimal_position);
+            $format .= $this->decimal_sign.str_repeat('0', (int)$this->decimal_position);
         }
 
         return $this->getSymbolPosition() ? '1'.$format.$this->getSymbol() : $this->getSymbol().'1'.$format;

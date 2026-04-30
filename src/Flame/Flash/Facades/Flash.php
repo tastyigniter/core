@@ -28,14 +28,14 @@ use Override;
  * @method static FlashBag important()
  * @method static FlashBag clear()
  *
- * @see \Igniter\Flame\Flash\FlashBag
+ * @see FlashBag
  */
 class Flash extends IlluminateFacade
 {
     /**
      * Get the registered name of the component.
      *
-     * @see \Igniter\Flame\Flash\FlashBag
+     * @see FlashBag
      */
     #[Override]
     protected static function getFacadeAccessor(): string

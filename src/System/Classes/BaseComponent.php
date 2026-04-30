@@ -96,7 +96,7 @@ abstract class BaseComponent extends Extendable implements Stringable
 
     /**
      * Renders a requested partial in context of this component,
-     * @see \Igniter\Main\Classes\MainController::renderPartial for usage.
+     * @see MainController::renderPartial for usage.
      */
     public function renderPartial(): mixed
     {
@@ -167,7 +167,7 @@ abstract class BaseComponent extends Extendable implements Stringable
             $segment = input($name);
         }
 
-        return is_null($segment) ? $default : $segment;
+        return $segment ?? $default;
     }
 
     //

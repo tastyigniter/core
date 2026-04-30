@@ -66,7 +66,7 @@ class RequestLog extends Model
         ]);
 
         if ($referrer) {
-            $referrers = (array)$record->referrer ?: [];
+            $referrers = (array)$record->referrer;
             $referrers[] = $referrer;
             $record->referrer = $referrers;
         }

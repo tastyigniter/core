@@ -32,7 +32,7 @@ return new class extends Migration
                 $table->dropForeignKeyIfExists($foreignKey);
                 $table->dropIndexIfExists(sprintf('%s_%s_foreign', $tableName, $foreignKey));
             });
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             Log::error($ex);
         }
     }

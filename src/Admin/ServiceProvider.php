@@ -91,7 +91,7 @@ class ServiceProvider extends AppServiceProvider
 
         foreach ([
             'AdminMenu' => AdminMenu::class,
-            'Template' => \Igniter\Admin\Facades\Template::class,
+            'Template' => Facades\Template::class,
         ] as $alias => $class) {
             $loader->alias($alias, $class);
         }

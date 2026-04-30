@@ -385,7 +385,7 @@ class FormController extends ControllerAction
     {
         $redirectContext = explode('-', (string)$context, 2)[0];
         $redirectAction = explode('-', (string)$context, 2)[1] ?? '';
-        $redirectSource = in_array($redirectAction, ['new', 'close'])
+        $redirectSource = in_array($redirectAction, ['new', 'close'], true)
             ? 'redirect'.studly_case($redirectAction)
             : 'redirect';
 

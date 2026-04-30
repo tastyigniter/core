@@ -811,6 +811,30 @@ parameters:
 			path: src/Flame/Providers/EventServiceProvider.php
 
 		-
+			message: '#^Method Igniter\\Flame\\Scaffold\\Console\\MakeComponent\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Overwrite existing…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Flame/Scaffold/Console/MakeComponent.php
+
+		-
+			message: '#^Method Igniter\\Flame\\Scaffold\\Console\\MakeController\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Overwrite existing…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Flame/Scaffold/Console/MakeController.php
+
+		-
+			message: '#^Method Igniter\\Flame\\Scaffold\\Console\\MakeExtension\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Overwrite existing…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Flame/Scaffold/Console/MakeExtension.php
+
+		-
+			message: '#^Method Igniter\\Flame\\Scaffold\\Console\\MakeModel\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Overwrite existing…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Flame/Scaffold/Console/MakeModel.php
+
+		-
 			message: '#^Igniter\\Flame\\Support\\Extendable\:\:extendableCall\(\) calls parent\:\:__call\(\) but Igniter\\Flame\\Support\\Extendable does not extend any class\.$#'
 			identifier: class.noParent
 			count: 1
@@ -843,6 +867,12 @@ parameters:
 		-
 			message: '#^Call to an undefined static method Illuminate\\Support\\Str\:\:normalizeClassName\(\)\.$#'
 			identifier: staticMethod.notFound
+			count: 1
+			path: src/Flame/Support/Helpers/helpers.php
+
+		-
+			message: '#^Parameter \#1 \$message of static method Illuminate\\Log\\Logger\:\:error\(\) expects array\|Illuminate\\Contracts\\Support\\Arrayable\|Illuminate\\Contracts\\Support\\Jsonable\|Illuminate\\Support\\Stringable\|string, Exception given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Flame/Support/Helpers/helpers.php
 
@@ -971,6 +1001,72 @@ parameters:
 			identifier: staticMethod.notFound
 			count: 1
 			path: src/System/Classes/Controller.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\ExtensionRefresh\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''pretend'', null, 1, ''Dump the SQL…''\}, array\{''step'', null, 4, ''The number of…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/ExtensionRefresh.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\ExtensionRemove\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force remove\.''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/ExtensionRemove.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\IgniterDown\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''database'', null, 4, ''The database…''\}, array\{''force'', null, 1, ''Force the operation…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/IgniterDown.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\IgniterInstall\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force the operation…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/IgniterInstall.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\IgniterPackageDiscover\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force the operation…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/IgniterPackageDiscover.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\IgniterUp\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''database'', null, 4, ''The database…''\}, array\{''force'', null, 1, ''Force the operation…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/IgniterUp.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\IgniterUpdate\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force updates\.''\}, array\{''check'', null, 1, ''Run update checks…''\}, array\{''core'', null, 1, ''Update core…''\}, array\{''addons'', null, 12, ''Update specified…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/IgniterUpdate.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\IgniterUtil\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''admin'', null, 1, ''Compile admin…''\}, array\{''minify'', null, 2, ''Whether to minify…''\}, array\{''carteKey'', null, 2, ''Specify a carteKey…''\}, array\{''theme'', null, 2, ''Specify a theme…''\}, array\{''extensions'', null, 1, ''Set the version…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/IgniterUtil.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\ThemePublish\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''existing'', null, 1, ''Publish and…''\}, array\{''force'', null, 1, ''Force publish\.''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/ThemePublish.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\ThemeRemove\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force remove\.''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/ThemeRemove.php
+
+		-
+			message: '#^Method Igniter\\System\\Console\\Commands\\ThemeVendorPublish\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''existing'', null, 1, ''Publish and…''\}, array\{''all'', null, 1, ''Publish assets for…''\}, array\{''theme'', null, 10, ''One or many theme…'', array\{\}\}, array\{''force'', null, 1, ''Force publish\.''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/System/Console/Commands/ThemeVendorPublish.php
 
 		-
 			message: '#^Call to an undefined method Igniter\\Flame\\Database\\Builder\:\:sorted\(\)\.$#'

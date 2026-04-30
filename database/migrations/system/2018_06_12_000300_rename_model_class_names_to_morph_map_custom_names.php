@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
 
     public function up()
     {
-        $morphMap = \Illuminate\Database\Eloquent\Relations\Relation::$morphMap;
+        $morphMap = Relation::$morphMap;
         $this->morphMap = array_flip($morphMap);
 
         $this->updateMorphClassName([
