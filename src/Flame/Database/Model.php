@@ -74,7 +74,7 @@ abstract class Model extends EloquentModel
      *
      * @param array $attributes
      *
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return EloquentModel|static
      */
     public static function make($attributes = [])
     {
@@ -83,7 +83,7 @@ abstract class Model extends EloquentModel
 
     /**
      * Reloads the model attributes from the database.
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return EloquentModel|static
      */
     public function reload()
     {
@@ -179,7 +179,7 @@ abstract class Model extends EloquentModel
      *
      * @param array $attributes
      *
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return EloquentModel|static
      */
     #[Override]
     public function newFromBuilder($attributes = [], $connection = null)

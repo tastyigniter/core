@@ -31,7 +31,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
     protected ?int $precision = 8;
 
     /**
-     * @param null|array|Model\CoordinatesCollection $coordinates
+     * @param null|array|CoordinatesCollection $coordinates
      */
     public function __construct($coordinates = null)
     {

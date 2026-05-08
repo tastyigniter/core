@@ -81,6 +81,18 @@ it('returns correct currency format with symbol at the beginning', function() {
     expect($currency->getFormat())->toBe('$1,0.00');
 });
 
+it('returns correct currency format for zero-decimal currencies', function() {
+    $currency = new Currency([
+        'currency_symbol' => 'd',
+        'symbol_position' => false,
+        'thousand_sign' => ',',
+        'decimal_sign' => '.',
+        'decimal_position' => 0,
+    ]);
+
+    expect($currency->getFormat())->toBe('d1,0');
+});
+
 it('configures model correctly', function() {
     $currency = new Currency;
 

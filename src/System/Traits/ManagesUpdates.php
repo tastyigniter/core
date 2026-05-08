@@ -51,7 +51,9 @@ trait ManagesUpdates
             'item.type' => ['required', 'in:core,extension,theme'],
             'item.version' => ['required'],
             'item.action' => ['required', 'in:install'],
-        ], [], [
+        ], [
+            'item.package.required' => lang('igniter::system.updates.error_meta_package'),
+        ], [
             'item.code' => lang('igniter::system.updates.label_meta_code'),
             'item.name' => lang('igniter::system.updates.label_meta_name'),
             'item.package' => lang('igniter::system.updates.label_meta_package'),

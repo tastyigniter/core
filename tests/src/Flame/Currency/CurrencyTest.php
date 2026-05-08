@@ -59,6 +59,22 @@ it('formats value to currency string when thousand sign is missing', function() 
     expect(resolve(Currency::class)->format(1234.56, 'ABC'))->toBe('£1234.56');
 });
 
+it('formats value to currency string for zero-decimal currencies', function() {
+    CurrencyModel::factory()->create([
+        'currency_code' => 'VND',
+        'currency_symbol' => 'd',
+        'currency_rate' => 1.0,
+        'currency_status' => 1,
+        'symbol_position' => false,
+        'thousand_sign' => ',',
+        'decimal_sign' => '.',
+        'decimal_position' => 0,
+    ]);
+
+    expect(resolve(Currency::class)->format(1234.56, 'VND'))->toBe('d1,235')
+        ->and(resolve(Currency::class)->format(-1234.56, 'VND'))->toBe('-d1,235');
+});
+
 it('returns null for invalid to currency rate', function() {
     CurrencyModel::factory()->create([
         'currency_code' => 'ABC',

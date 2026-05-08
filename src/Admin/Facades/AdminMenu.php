@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Admin\Facades;
 
 use Igniter\Admin\Classes\Navigation;
+use Igniter\User\Auth\UserGuard;
 use Illuminate\Support\Facades\Facade;
 use Override;
 
@@ -42,14 +43,14 @@ use Override;
  * @method static string compileFileContent(string $filePath)
  * @method static string makeViewContent(string $view, array $data = [])
  *
- * @see \Igniter\Admin\Classes\Navigation
+ * @see Navigation
  */
 class AdminMenu extends Facade
 {
     /**
      * Get the registered name of the component.
      *
-     * @see \Igniter\User\Auth\UserGuard
+     * @see UserGuard
      */
     #[Override]
     protected static function getFacadeAccessor(): string

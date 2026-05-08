@@ -112,7 +112,8 @@ class Currency
         $valFormat = array_get($valFormat, 0, 0);
 
         // Count decimals length
-        $decimals = $decimal ? strlen(substr(strrchr((string)$valFormat, (string)$decimal), 1)) : 0;
+        $strrchrResult = $decimal ? strrchr((string)$valFormat, (string)$decimal) : false;
+        $decimals = $strrchrResult !== false ? strlen(substr($strrchrResult, 1)) : 0;
 
         // Do we have a negative value?
         $negative = $value < 0 ? '-' : '';
