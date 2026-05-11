@@ -12,7 +12,6 @@ use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\TemplateSandbox;
-use Igniter\Flame\Pagic\TemplateSanitizer;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Illuminate\Contracts\Validation\Validator;
@@ -269,7 +268,7 @@ class TemplateEditor extends BaseFormWidget
         $code = preg_replace('/^\<\?php/', '', $code);
         $code = preg_replace('/^\<\?/', '', (string)preg_replace('/\?>$/', '', (string)$code));
 
-        $result['code'] = trim((string)$code, PHP_EOL)
+        $result['code'] = trim((string)$code, PHP_EOL) !== '' && trim((string)$code, PHP_EOL) !== '0'
             ? $templateSanitizer->sanitize(trim((string)$code, PHP_EOL))
             : null;
         $result['markup'] = array_get($formData, 'markup')

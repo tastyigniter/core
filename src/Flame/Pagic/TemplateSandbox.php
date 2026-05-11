@@ -16,9 +16,8 @@ class TemplateSandbox
         $template = $this->removeUnescapedOutput($template);
         $template = $this->removeObfuscation($template);
         $template = $this->removeVariableVariables($template);
-        $template = $this->removePathTraversal($template);
 
-        return $template;
+        return $this->removePathTraversal($template);
     }
 
     protected function removeNullBytes(string $content): string
@@ -137,16 +136,14 @@ class TemplateSandbox
     {
         // $$var and ${...} variable variables
         $content = preg_replace('/\$\$[a-zA-Z_\x7f-\xff]/i', '', $content) ?? $content;
-        $content = preg_replace('/\$\{[^}]*\}/i', '', $content) ?? $content;
 
-        return $content;
+        return preg_replace('/\$\{[^}]*\}/i', '', $content) ?? $content;
     }
 
     protected function removePathTraversal(string $content): string
     {
         $content = preg_replace('/\.\.\//i', '', $content) ?? $content;
-        $content = preg_replace('/\.\.\\\\/i', '', $content) ?? $content;
 
-        return $content;
+        return preg_replace('/\.\.\\\\/i', '', $content) ?? $content;
     }
 }
