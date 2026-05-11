@@ -21,7 +21,7 @@ class MediaAdder
 
     protected ?Model $performedOn = null;
 
-    protected string $tag = 'default';
+    protected ?string $tag = 'default';
 
     protected ?string $diskName = null;
 
@@ -58,7 +58,7 @@ class MediaAdder
 
     public function useMediaTag(?string $tag = null): self
     {
-        $this->tag = $tag ?? 'default';
+        $this->tag = $tag;
 
         return $this;
     }
@@ -71,7 +71,7 @@ class MediaAdder
 
         $media->name = $media->getUniqueName();
         $media->disk = $this->diskName ?? $media->getDiskName();
-        $media->tag = $this->performedOn->getDefaultTagName() ?? $this->tag;
+        $media->tag = $this->tag ?? $this->performedOn->getDefaultTagName();
         $media->custom_properties = $this->customProperties;
 
         $this->attachMedia($media);
