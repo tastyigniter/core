@@ -26,6 +26,15 @@ it('normalizes version correctly', function() {
     expect($version)->toBe('7.4.3');
 });
 
+it('validates version correctly', function() {
+    expect((new SystemHelper)->validateVersion('v1.2.3'))->toBeTrue()
+        ->and((new SystemHelper)->validateVersion('1.2.3'))->toBeTrue()
+        ->and((new SystemHelper)->validateVersion('1.2'))->toBeTrue()
+        ->and((new SystemHelper)->validateVersion('1'))->toBeTrue()
+        ->and((new SystemHelper)->validateVersion('1.2.3-alpha'))->toBeTrue()
+        ->and((new SystemHelper)->validateVersion('invalid-version'))->toBeFalse();
+});
+
 it('asserts ini_set works', function() {
     $result = (new SystemHelper)->assertIniSet();
 
