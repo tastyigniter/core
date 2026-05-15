@@ -138,9 +138,9 @@ class NominatimProvider extends AbstractProvider
             $result = $this->cacheCallback($url, fn(): array => $this->requestPlacesUrl($url, $query));
 
             return collect($result)->map(fn($item) => (new Place)
-                ->placeId($item->place_id)
-                ->title($item->name)
-                ->description($item->display_name)
+                ->placeId((string)$item->place_id)
+                ->title((string)$item->name)
+                ->description((string)$item->display_name)
                 ->provider('nominatim')
                 ->withData('osmType', $item->osm_type)
                 ->withData('osmId', $item->osm_id)

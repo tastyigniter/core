@@ -119,9 +119,9 @@ class GoogleProvider extends AbstractProvider
             $result = $this->cacheCallback($url, fn(): array => $this->requestPlacesUrl($url, $query));
 
             return collect(array_get($result, 'suggestions', []))->map(fn($item) => (new Place)
-                ->placeId($item['placePrediction']['placeId'])
-                ->title($item['placePrediction']['text']['text'])
-                ->description($item['placePrediction']['structuredFormat']['secondaryText']['text'])
+                ->placeId((string)$item['placePrediction']['placeId'])
+                ->title((string)$item['placePrediction']['text']['text'])
+                ->description((string)$item['placePrediction']['structuredFormat']['secondaryText']['text'])
                 ->provider('google'));
         } catch (Throwable $throwable) {
             $this->log(sprintf(
