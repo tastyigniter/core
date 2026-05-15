@@ -37,6 +37,13 @@ class SystemHelper
         return preg_replace('/^([^\s~+-]+).*$/', '$1', $version);
     }
 
+    public function validateVersion(string $version): bool
+    {
+        $semverRegex = '/^v?(?<major>\d+)(?:\.(?<minor>\d+)(?:\.(?<patch>\d+))?)?(?:-(?<pre_release>[0-9A-Za-z-.]+))?(?:\+(?<build>[0-9A-Za-z-.]+)?)?$/';
+
+        return (bool)preg_match($semverRegex, $version, $matches, PREG_UNMATCHED_AS_NULL);
+    }
+
     /**
      * Tests whether ini_set() works.
      */

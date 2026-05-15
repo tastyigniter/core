@@ -7,6 +7,7 @@ namespace Igniter\System\Classes;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Translation;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -283,6 +284,7 @@ class LanguageManager
 
                 return $item;
             })
+            ->filter(fn($item) => (new SystemHelper)->validateVersion($item['ver']))
             ->values()
             ->all();
 
