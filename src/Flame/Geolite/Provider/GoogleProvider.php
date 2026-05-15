@@ -119,9 +119,9 @@ class GoogleProvider extends AbstractProvider
             $result = $this->cacheCallback($url, fn(): array => $this->requestPlacesUrl($url, $query));
 
             return collect(array_get($result, 'suggestions', []))->map(fn($item) => (new Place)
-                ->placeId($item['placePrediction']['placeId'])
-                ->title($item['placePrediction']['text']['text'])
-                ->description($item['placePrediction']['structuredFormat']['secondaryText']['text'])
+                ->placeId((string)$item['placePrediction']['placeId'])
+                ->title((string)$item['placePrediction']['text']['text'])
+                ->description((string)$item['placePrediction']['structuredFormat']['secondaryText']['text'])
                 ->provider('google'));
         } catch (Throwable $throwable) {
             $this->log(sprintf(
@@ -136,7 +136,11 @@ class GoogleProvider extends AbstractProvider
     #[Override]
     public function getPlaceCoordinates(GeoQueryInterface $query): Coordinates
     {
-        $url = sprintf('%s/%s', array_get($this->config, 'endpoints.places'), $query->getText());
+        $url = sprintf('%s/%s?sessionToken=%s',
+            array_get($this->config, 'endpoints.places'),
+            rawurlencode($query->getText()),
+            rawurlencode($this->getPlacesSessionToken()),
+        );
 
         try {
             $response = $this->getHttpClient()->get($url, [
@@ -481,7 +485,7 @@ class GoogleProvider extends AbstractProvider
         if (!$sessionTokenExpiry || $sessionTokenExpiry->isPast()) {
             $sessionToken = Str::uuid()->toString();
             Session::put('gm_places_session_token', $sessionToken);
-            Session::put('gm_places_session_token_expires_at', now()->addMinutes(3));
+            Session::put('gm_places_session_token_expires_at', now()->addMinutes(5));
         } else {
             $sessionToken = Session::get('gm_places_session_token');
         }
