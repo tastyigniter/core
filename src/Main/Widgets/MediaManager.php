@@ -12,6 +12,8 @@ use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Main\Classes\MediaLibrary;
+use Igniter\System\Models\Settings;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
@@ -625,10 +627,16 @@ class MediaManager extends BaseWidget
 
             $data = $this->validate(request()->all(), [
                 'path' => ['required', 'string', 'starts_with:/', $this->validateFileExists()],
-                'file_data' => ['required', 'file', 'mimes:'.implode(',', $mediaLibrary->getAllowedExtensions())],
+                'file_data' => [
+                    'required',
+                    'file',
+                    'mimes:'.implode(',', $mediaLibrary->getAllowedExtensions()),
+                    'mimetypes:'.implode(',', Settings::getAllowedMimeTypes()),
+                ],
             ], [
                 'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),
                 'mimes' => lang('igniter::main.media_manager.alert_extension_not_allowed'),
+                'mimetypes' => lang('igniter::main.media_manager.alert_extension_not_allowed'),
                 'file' => lang('igniter::main.media_manager.alert_file_not_found'),
             ]);
 

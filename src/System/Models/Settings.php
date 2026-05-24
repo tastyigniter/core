@@ -415,4 +415,18 @@ class Settings extends Model
             'mp3', 'wav', 'wma', 'm4a', 'ogg', 'oga',
         ]);
     }
+
+    public static function getAllowedMimeTypes(): array
+    {
+        return [
+            'image/jpeg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-ms-bmp', 'image/tiff',
+            'image/svg+xml', 'image/x-icon', 'image/vnd.microsoft.icon', 'image/webp',
+            'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'application/pdf', 'text/plain', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'video/mp4', 'video/x-msvideo', 'video/avi', 'video/quicktime', 'video/mpeg', 'video/mpeg', 'video/x-matroska', 'video/webm',
+            'audio/ogg', 'video/ogg', 'application/ogg', 'audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/vnd.wave',
+            'audio/x-ms-wma', 'audio/mp4', 'audio/x-m4a', 'audio/m4a',
+        ];
+    }
 }
