@@ -631,7 +631,7 @@ class MediaManager extends BaseWidget
                     'required',
                     'file',
                     'mimes:'.implode(',', $mediaLibrary->getAllowedExtensions()),
-                    'mimetypes:'.implode(',', Settings::getAllowedMimeTypes()),
+                    'extensions:'.implode(',', $mediaLibrary->getAllowedExtensions()),
                 ],
             ], [
                 'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),
