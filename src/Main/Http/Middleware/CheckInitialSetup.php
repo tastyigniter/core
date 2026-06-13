@@ -14,7 +14,7 @@ class CheckInitialSetup
 {
     public function handle(Request $request, Closure $next): mixed
     {
-        if (!Igniter::runningInAdmin() && Igniter::hasDatabase() && $this->needsInitialSetup()) {
+        if (Igniter::hasDatabase() && $request->routeIs('igniter.theme.*') && $this->needsInitialSetup()) {
             return redirect(admin_url());
         }
 
