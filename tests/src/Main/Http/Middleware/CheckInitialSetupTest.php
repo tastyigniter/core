@@ -8,11 +8,21 @@ use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Http\Middleware\CheckInitialSetup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Mockery;
 
-it('allows request to proceed when initial setup is complete', function() {
-    $request = Request::create('/some-url', 'GET');
-    Igniter::partialMock()->shouldReceive('runningInAdmin')->andReturn(false);
+function createRequestWithRoute(string $uri, string $routeName): Request
+{
+    $request = Request::create($uri, 'GET');
+    $route = new Route('GET', $uri, []);
+    $route->name($routeName);
+    $request->setRouteResolver(fn() => $route);
+
+    return $request;
+}
+
+it('allows request to proceed when initial setup is complete on a theme route', function() {
+    $request = createRequestWithRoute('/', 'igniter.theme.home');
     Igniter::partialMock()->shouldReceive('hasDatabase')->andReturn(true);
 
     $middleware = Mockery::mock(CheckInitialSetup::class)->makePartial();
@@ -22,9 +32,9 @@ it('allows request to proceed when initial setup is complete', function() {
     expect($middleware->handle($request, fn($req) => 'next'))->toBe('next');
 });
 
-it('allows request to proceed when in admin area', function() {
-    $request = Request::create('/admin/some-url', 'GET');
-    Igniter::partialMock()->shouldReceive('runningInAdmin')->andReturn(true);
+it('allows request to proceed when not on a theme route', function() {
+    $request = createRequestWithRoute('/admin/some-url', 'igniter.admin.dashboard');
+    Igniter::partialMock()->shouldReceive('hasDatabase')->andReturn(true);
 
     $middleware = Mockery::mock(CheckInitialSetup::class)->makePartial();
     $middleware->shouldAllowMockingProtectedMethods();
@@ -34,8 +44,7 @@ it('allows request to proceed when in admin area', function() {
 });
 
 it('allows request to proceed when database is missing', function() {
-    $request = Request::create('/some-url', 'GET');
-    Igniter::partialMock()->shouldReceive('runningInAdmin')->andReturn(false);
+    $request = createRequestWithRoute('/', 'igniter.theme.home');
     Igniter::partialMock()->shouldReceive('hasDatabase')->andReturn(false);
 
     $middleware = Mockery::mock(CheckInitialSetup::class)->makePartial();
@@ -45,9 +54,8 @@ it('allows request to proceed when database is missing', function() {
     expect($middleware->handle($request, fn($req) => 'next'))->toBe('next');
 });
 
-it('redirects to admin when initial setup is required', function() {
-    $request = Request::create('/some-url', 'GET');
-    Igniter::partialMock()->shouldReceive('runningInAdmin')->andReturn(false);
+it('redirects to admin when initial setup is required on a theme route', function() {
+    $request = createRequestWithRoute('/', 'igniter.theme.home');
     Igniter::partialMock()->shouldReceive('hasDatabase')->andReturn(true);
 
     $middleware = Mockery::mock(CheckInitialSetup::class)->makePartial();
