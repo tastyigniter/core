@@ -625,10 +625,16 @@ class MediaManager extends BaseWidget
 
             $data = $this->validate(request()->all(), [
                 'path' => ['required', 'string', 'starts_with:/', $this->validateFileExists()],
-                'file_data' => ['required', 'file', 'mimes:'.implode(',', $mediaLibrary->getAllowedExtensions())],
+                'file_data' => [
+                    'required',
+                    'file',
+                    'mimes:'.implode(',', $mediaLibrary->getAllowedExtensions()),
+                    'extensions:'.implode(',', $mediaLibrary->getAllowedExtensions()),
+                ],
             ], [
                 'starts_with' => lang('igniter::main.media_manager.alert_invalid_path'),
                 'mimes' => lang('igniter::main.media_manager.alert_extension_not_allowed'),
+                'mimetypes' => lang('igniter::main.media_manager.alert_extension_not_allowed'),
                 'file' => lang('igniter::main.media_manager.alert_file_not_found'),
             ]);
 

@@ -98,7 +98,7 @@ class IgniterInstall extends Command
             $this->openBrowser('https://github.com/tastyigniter/TastyIgniter');
         }
 
-        $this->alert(sprintf(self::LOGIN_TO_ADMIN_DASHBOARD, admin_url('login')));
+        $this->alert(sprintf(self::LOGIN_TO_ADMIN_DASHBOARD, config('app.url').'/admin'));
 
         return null;
     }

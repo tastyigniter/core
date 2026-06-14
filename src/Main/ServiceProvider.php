@@ -11,6 +11,7 @@ use Igniter\Main\Classes\RouteRegistrar;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Components\BlankComponent;
 use Igniter\Main\Components\ViewBag;
+use Igniter\Main\Http\Middleware\CheckInitialSetup;
 use Igniter\Main\Http\Middleware\CheckMaintenance;
 use Igniter\Main\Providers\AssetsServiceProvider;
 use Igniter\Main\Providers\FormServiceProvider;
@@ -55,6 +56,7 @@ class ServiceProvider extends AppServiceProvider
         Igniter::loadControllersFrom(igniter_path('src/Main/Http/Controllers'), 'Igniter\\Main\\Http\\Controllers');
 
         Route::pushMiddlewareToGroup('igniter', CheckMaintenance::class);
+        Route::pushMiddlewareToGroup('igniter', CheckInitialSetup::class);
 
         $this->app->register(AssetsServiceProvider::class);
         $this->app->register(FormServiceProvider::class);
