@@ -9,6 +9,7 @@
                 @isset($carteInfo['owner'])
                     <div id="carte-details">
                         {!! $this->makePartial('updates/carte_info', ['carteInfo' => $carteInfo]) !!}
+                        {!! $this->makePartial('updates/carte_licence_alert', ['carteInfo' => $carteInfo]) !!}
                     </div>
                 @endisset
                 <div

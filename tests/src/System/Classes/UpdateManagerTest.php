@@ -224,6 +224,17 @@ it('applies carte info correctly', function() {
             'name' => 'Test Site',
             'url' => 'https://test-site.com',
         ],
+        'meta' => [
+            'licence' => [
+                'bound' => true,
+                'bound_url' => 'https://test-site.com',
+                'matches_request' => true,
+                'alert' => [
+                    'code' => 'installation_bound',
+                    'message' => 'This installation is bound to your site licence.',
+                ],
+            ],
+        ],
     ];
     Http::fake(['https://api.tastyigniter.com/v2/site/detail' => Http::response($expectedResponse)]);
     $updateManager = resolve(UpdateManager::class);
@@ -232,14 +243,66 @@ it('applies carte info correctly', function() {
     $result = $updateManager->applyCarte('test-key');
 
     expect($result)->toBeArray()
+        ->and($result['licence']['alert']['code'])->toBe('installation_bound')
         ->and(setting()->getPref('carte_key'))->toBe('test-key')
         ->and($updateManager->getCarteInfo())->toBe($result)
-        ->and($updateManager->hasValidCarte())->toBeTrue();
+        ->and($updateManager->hasValidCarte())->toBeTrue()
+        ->and($updateManager->hasLicenceWarning())->toBeFalse();
 
     $updateManager->clearCarte();
 
     expect(setting()->getPref('carte_key'))->toBeNull()
         ->and($updateManager->hasValidCarte())->toBeFalse();
+});
+
+it('detects licence warnings', function() {
+    $updateManager = new UpdateManager;
+
+    expect($updateManager->hasLicenceWarning([
+        'licence' => ['alert' => ['code' => 'installation_bound']],
+    ]))->toBeFalse()
+        ->and($updateManager->hasLicenceWarning([
+            'licence' => ['alert' => ['code' => 'installation_unbound']],
+        ]))->toBeTrue()
+        ->and($updateManager->hasLicenceWarning([
+            'licence' => ['alert' => ['code' => 'installation_mismatch']],
+        ]))->toBeTrue();
+});
+
+it('syncs carte licence metadata', function() {
+    $updateManager = resolve(UpdateManager::class);
+    app()->setBasePath(__DIR__.'/../Fixtures');
+
+    $updateManager->setCarte('test-key', [
+        'id' => 1,
+        'name' => 'Test Site',
+        'url' => 'https://test-site.com',
+        'owner' => 'Test Owner',
+    ]);
+
+    Http::fake(['https://api.tastyigniter.com/v2/site/detail' => Http::response([
+        'data' => [
+            'id' => 1,
+            'name' => 'Test Site',
+            'url' => 'https://test-site.com',
+            'owner' => 'Test Owner',
+        ],
+        'meta' => [
+            'licence' => [
+                'bound' => false,
+                'matches_request' => false,
+                'alert' => [
+                    'code' => 'installation_unbound',
+                    'message' => 'This installation is not yet bound to your site licence.',
+                ],
+            ],
+        ],
+    ])]);
+
+    $updateManager->syncCarteLicence();
+
+    expect($updateManager->getCarteInfo()['licence']['alert']['code'])->toBe('installation_unbound')
+        ->and($updateManager->hasLicenceWarning())->toBeTrue();
 });
 
 it('returns extensions installed items correctly', function() {

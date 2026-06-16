@@ -40,11 +40,18 @@ class Updates extends AdminController
 
         try {
             $updateManager = resolve(UpdateManager::class);
-            $this->vars['igniterVersion'] = Igniter::version();
+
+            if ($updateManager->hasValidCarte()) {
+                $updateManager->syncCarteLicence();
+            }
+
             $this->vars['carteInfo'] = $updateManager->getCarteInfo();
+            $this->vars['carteLicenceWarning'] = $updateManager->hasLicenceWarning();
             $this->vars['updates'] = $updateManager->requestUpdateList();
         } catch (Exception $exception) {
             flash()->warning($exception->getMessage())->now();
         }
+
+        $this->vars['igniterVersion'] = Igniter::version();
     }
 }

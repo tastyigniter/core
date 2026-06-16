@@ -618,6 +618,7 @@ return [
         'button_browse' => '<i class="fa fa-globe"></i>&nbsp;&nbsp;Browse %s',
         'button_carte' => '<i class="fa fa-key"></i>&nbsp;&nbsp;Your Carté Key',
         'button_attach_carte' => '<i class="fa fa-key"></i>&nbsp;&nbsp;Attach Carté Key',
+        'text_licence_bound_url' => 'Bound installation URL',
         'button_check' => '<i class="fa fa-refresh"></i>&nbsp;&nbsp;Check Updates',
         'button_updates' => '<i class="fa fa-refresh"></i>&nbsp;&nbsp;Updates',
         'button_update' => '<i class="fa fa-check"></i>&nbsp;&nbsp;Update',

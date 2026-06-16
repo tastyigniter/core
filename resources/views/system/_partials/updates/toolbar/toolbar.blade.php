@@ -29,7 +29,12 @@
                         class="btn btn-default"
                         data-bs-target="#carte-modal"
                         data-bs-toggle="modal"
-                    >@lang(array_get($carteInfo ?? [], 'id') ? 'igniter::system.updates.button_carte' : 'igniter::system.updates.button_attach_carte')</button>
+                    >
+                        @if($carteLicenceWarning ?? false)
+                            <i class="fa fa-exclamation-circle text-danger"></i>&nbsp;
+                        @endif
+                        {!! lang(array_get($carteInfo ?? [], 'id') ? 'igniter::system.updates.button_carte' : 'igniter::system.updates.button_attach_carte') !!}
+                    </button>
                 </div>
                 <div>
                     @lang('igniter::system.version'): <b>{{$igniterVersion}}</b>
