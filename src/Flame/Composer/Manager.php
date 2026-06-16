@@ -8,6 +8,7 @@ use Closure;
 use Composer\Autoload\ClassLoader;
 use Composer\Config\JsonConfigSource;
 use Composer\Json\JsonFile;
+use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\PackageInfo;
 use Illuminate\Support\Collection;
@@ -229,14 +230,19 @@ class Manager
         }
     }
 
-    public function addAuthCredentials(string $username, string $password, string $type = 'http-basic'): void
+    public function addMarketplaceAuth(string $carteUsername, string $carteKey, ?string $installationUrl = null): void
     {
         $config = new JsonConfigSource(new JsonFile($this->workingPath.'/auth.json'), true);
 
-        $config->addConfigSetting($type.'.'.self::REPOSITORY_HOST, [
-            'username' => $username,
-            'password' => $password,
+        $config->addConfigSetting('http-basic.'.self::REPOSITORY_HOST, [
+            'username' => $carteUsername,
+            'password' => $carteKey,
         ]);
+
+        $config->addConfigSetting(
+            'custom-headers.'.self::REPOSITORY_HOST,
+            SystemHelper::composerHeaderLines($installationUrl)
+        );
     }
 
     protected function backupComposerFiles(): void

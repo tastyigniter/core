@@ -352,10 +352,7 @@ class UpdateManager
         if ($force || !$response = Cache::get($cacheKey)) {
             $this->composerManager->assertSchema();
             if ($this->hasValidCarte()) {
-                $this->composerManager->addAuthCredentials(
-                    array_get($this->getCarteInfo(), 'email', ''),
-                    config('igniter-system.carteKey') ?: params('carte_key', ''),
-                );
+                $this->configureComposerAuth(array_get($this->getCarteInfo(), 'email', ''));
             }
 
             $composerLog = [];
@@ -414,10 +411,7 @@ class UpdateManager
 
         $this->composerManager->assertSchema();
         if ($this->hasValidCarte()) {
-            $this->composerManager->addAuthCredentials(
-                array_get($this->getCarteInfo(), 'email'),
-                config('igniter-system.carteKey') ?: params('carte_key', ''),
-            );
+            $this->configureComposerAuth(array_get($this->getCarteInfo(), 'email'));
         }
 
         $this->composerManager->install($packageNames, $output);
@@ -462,5 +456,13 @@ class UpdateManager
                     ->all());
             });
         }
+    }
+
+    protected function configureComposerAuth(?string $carteUsername = null): void
+    {
+        $this->composerManager->addMarketplaceAuth(
+            $carteUsername,
+            config('igniter-system.carteKey') ?: params('carte_key', ''),
+        );
     }
 }

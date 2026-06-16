@@ -626,6 +626,7 @@ return [
         'button_install' => 'Install Selected...',
 
         'error_meta_package' => 'The package is not compatible with this TastyIgniter version.',
+        'error_missing_app_url' => 'APP_URL is not configured. Set APP_URL in your .env file to your site URL before using the marketplace.',
 
         'help_carte_key' => 'A Carte key is required to add and update item from the TastyIgniter Marketplace. <br>Get one by creating a site from your <a href="https://tastyigniter.com/signin" target="_blank">TastyIgniter Account</a>, if you haven\'t already. For more information, see the <a href="https://tastyigniter.com/support/articles/carte-key" target="_blank">Carté Key Guide</a>',
         'alert_item_to_ignore' => 'Select item(s) to ignore.',

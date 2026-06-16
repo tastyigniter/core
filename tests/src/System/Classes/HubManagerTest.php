@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Classes;
 
+use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Classes\HubManager;
@@ -17,6 +18,7 @@ beforeEach(function() {
 
 it('prepares request correctly', function() {
     config([
+        'app.url' => 'https://example.com',
         'igniter-system.edgeUpdates' => true,
         'igniter-system.carteKey' => 'carte_key',
     ]);
@@ -32,11 +34,11 @@ it('prepares request correctly', function() {
         return $request->hasHeader('Authorization', 'Bearer carte_key')
             && $request->hasHeader('X-Igniter-Host')
             && $request->hasHeader('X-Igniter-User-Ip')
-            && $request->hasHeader('X-Igniter-Platform', 'php:'.PHP_VERSION.';version:'.Igniter::version().';url:'.url()->current())
+            && $request->hasHeader('X-Igniter-Platform', 'php:'.PHP_VERSION.';version:'.Igniter::version().';url:https://example.com')
             && $postData['client'] === 'tastyigniter'
             && $postData['server'] === base64_encode(serialize([
                 'php' => PHP_VERSION,
-                'url' => url()->to('/'),
+                'url' => 'https://example.com',
                 'version' => Igniter::version(),
                 'host' => gethostname() ?: 'unknown',
             ]))
@@ -44,6 +46,30 @@ it('prepares request correctly', function() {
             && $postData['filter'] === 'value'
             && $postData['include'] === 'require';
     });
+});
+
+it('throws system exception when api returns error', function() {
+    config([
+        'app.url' => 'https://example.com',
+        'igniter-system.carteKey' => 'carte_key',
+    ]);
+    Http::fake(['https://api.tastyigniter.com/v2/items' => Http::response([
+        'message' => 'Carte key registered to another installation',
+        'error_code' => 'installation_mismatch',
+    ], 403)]);
+
+    expect(fn() => $this->hubManager->listItems())
+        ->toThrow(SystemException::class, 'Carte key registered to another installation');
+});
+
+it('throws when app url is missing', function() {
+    config([
+        'app.url' => null,
+        'igniter-system.carteKey' => 'carte_key',
+    ]);
+
+    expect(fn() => $this->hubManager->listItems())
+        ->toThrow(ApplicationException::class);
 });
 
 it('lists items with default filter', function() {

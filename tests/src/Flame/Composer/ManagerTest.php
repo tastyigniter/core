@@ -8,6 +8,7 @@ use Composer\Autoload\ClassLoader;
 use Exception;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use ReflectionMethod;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -220,14 +221,19 @@ it('restores composer files on exception in uninstall', function() {
     expect(fn() => $manager->uninstall($packages, $output))->toThrow(Exception::class);
 });
 
-it('adds auth credentials to config', function() {
+it('adds marketplace auth credentials and installation header to auth json', function() {
     file_put_contents(base_path('auth.json'), '{}');
+    config(['app.url' => 'https://example.com']);
+
     $manager = new Manager(base_path(), '/storage');
-    $manager->addAuthCredentials('username', 'password');
+    $manager->addMarketplaceAuth('tastyigniter', 'carte-key');
 
     $config = json_decode(file_get_contents(base_path('auth.json')), true);
-    expect($config['http-basic']['composer.tastyigniter.com']['username'])->toBe('username')
-        ->and($config['http-basic']['composer.tastyigniter.com']['password'])->toBe('password');
+    expect($config['http-basic']['composer.tastyigniter.com']['username'])->toBe('tastyigniter')
+        ->and($config['http-basic']['composer.tastyigniter.com']['password'])->toBe('carte-key')
+        ->and($config['custom-headers']['composer.tastyigniter.com'])->toBe([
+            'X-Igniter-Platform: php:'.PHP_VERSION.';version:'.Igniter::version().';url:https://example.com',
+        ]);
 
     unlink(base_path('auth.json'));
 });

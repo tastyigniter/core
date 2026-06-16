@@ -189,13 +189,6 @@ it('returns empty result when no outdated items are found', function() {
 
 it('requests for items to update', function() {
     mockRequestUpdateItems();
-    Settings::setPref([
-        'carte_key' => 'test-key',
-        'carte_info' => [
-            'name' => 'Test Site',
-            'email' => 'test@example.com',
-        ],
-    ]);
     $manager = new UpdateManager;
     $result = $manager->requestUpdateList();
 
@@ -338,7 +331,7 @@ it('installs packages correctly', function() {
     ]));
     $composerManager->shouldReceive('install')->once();
     $composerManager->shouldReceive('assertSchema')->once();
-    $composerManager->shouldReceive('addAuthCredentials')->once();
+    $composerManager->shouldReceive('addMarketplaceAuth')->once()->with('test@example.com', 'test-key');
 
     $updateManager = resolve(UpdateManager::class);
     $installed = $updateManager->install([
@@ -461,9 +454,17 @@ it('throws exception when completing installation with invalid package type', fu
     expect(fn() => $updateManager->completeInstall($requirements))->toThrow(UnexpectedValueException::class);
 });
 
-function mockRequestUpdateItems()
+function mockRequestUpdateItems(): void
 {
+    Settings::setPref([
+        'carte_key' => 'test-key',
+        'carte_info' => [
+            'name' => 'Test Site',
+            'email' => 'test@example.com',
+        ],
+    ]);
     setting()->set('ignored_updates', ['igniter.ignored' => true]);
+    Cache::flush();
     Cache::shouldReceive('get')->with('hub_updates')->andReturn(null);
     Cache::shouldReceive('put')->once();
 
@@ -505,7 +506,7 @@ function mockRequestUpdateItems()
         ],
     ]));
     $composerManager->shouldReceive('assertSchema')->once();
-    $composerManager->shouldReceive('addAuthCredentials');
+    $composerManager->shouldReceive('addMarketplaceAuth')->once()->with('test@example.com', 'test-key');
     $composerManager->shouldReceive('outdated')->once()->andReturnUsing(function($callback): true {
         $callback('out', json_encode(['installed' => [
             [

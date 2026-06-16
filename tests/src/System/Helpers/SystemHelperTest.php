@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\System\Helpers;
 
+use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Helpers\SystemHelper;
 
 it('returns correct PHP version', function() {
@@ -118,4 +120,26 @@ it('detects running on Linux', function() {
     $result = (new SystemHelper)->runningOnLinux();
 
     expect($result)->toBe(PHP_OS_FAMILY === 'Linux');
+});
+
+it('resolves installation url from app url', function(): void {
+    config(['app.url' => 'https://example.com/']);
+
+    expect((new SystemHelper)->resolveUrl())->toBe('https://example.com');
+});
+
+it('throws when app url is missing', function(): void {
+    config(['app.url' => null]);
+
+    expect(fn() => (new SystemHelper)->resolveUrl())
+        ->toThrow(ApplicationException::class);
+});
+
+it('builds composer platform header lines', function(): void {
+    config(['app.url' => 'https://example.com']);
+
+    expect((new SystemHelper)->composerHeaderLines())
+        ->toBe([
+            'X-Igniter-Platform: php:'.PHP_VERSION.';version:'.Igniter::version().';url:https://example.com',
+        ]);
 });
