@@ -175,5 +175,5 @@ return [
     | Specifies the URL to the TastyIgniter updates API endpoint.
     |
     */
-    'updatesEndpoint' => 'https://api.tasty-web.test/v2',
+    'updatesEndpoint' => 'https://api.tastyigniter.com/v2',
 ];
