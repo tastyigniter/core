@@ -220,17 +220,46 @@ class UpdateManager
         return !empty(config('igniter-system.carteKey') ?: params('carte_key', '')) && !empty(params('carte_info'));
     }
 
+    public function hasLicenceWarning(?array $carteInfo = null): bool
+    {
+        $alertCode = array_get(array_get($carteInfo ?? $this->getCarteInfo() ?? [], 'licence'), 'alert.code');
+
+        return filled($alertCode) && $alertCode !== 'installation_bound';
+    }
+
+    public function syncCarteLicence(): void
+    {
+        $key = config('igniter-system.carteKey') ?: params('carte_key', '');
+        $info = $this->getCarteInfo();
+
+        if (blank($key) || blank($info)) {
+            return;
+        }
+
+        $result = $this->hubManager->getSiteDetail();
+
+        $this->setCarte($key, $this->mergeCarteInfoFromResponse($info, $result));
+    }
+
     public function applyCarte(string $key): array
     {
         $this->setCarte($key);
 
-        $info = [];
         $result = $this->hubManager->getSiteDetail();
-        if (isset($result['data']) && is_array($result['data'])) {
-            $info = $result['data'];
-        }
+        $info = $this->mergeCarteInfoFromResponse([], $result);
 
         $this->setCarte($key, $info);
+
+        return $info;
+    }
+
+    protected function mergeCarteInfoFromResponse(array $info, array $result): array
+    {
+        if (isset($result['data']) && is_array($result['data'])) {
+            $info = array_merge($info, $result['data']);
+        }
+
+        $info['licence'] = array_get($result, 'meta.licence');
 
         return $info;
     }
@@ -352,10 +381,7 @@ class UpdateManager
         if ($force || !$response = Cache::get($cacheKey)) {
             $this->composerManager->assertSchema();
             if ($this->hasValidCarte()) {
-                $this->composerManager->addAuthCredentials(
-                    array_get($this->getCarteInfo(), 'email', ''),
-                    config('igniter-system.carteKey') ?: params('carte_key', ''),
-                );
+                $this->configureComposerAuth(array_get($this->getCarteInfo(), 'email', ''));
             }
 
             $composerLog = [];
@@ -414,10 +440,7 @@ class UpdateManager
 
         $this->composerManager->assertSchema();
         if ($this->hasValidCarte()) {
-            $this->composerManager->addAuthCredentials(
-                array_get($this->getCarteInfo(), 'email'),
-                config('igniter-system.carteKey') ?: params('carte_key', ''),
-            );
+            $this->configureComposerAuth(array_get($this->getCarteInfo(), 'email'));
         }
 
         $this->composerManager->install($packageNames, $output);
@@ -462,5 +485,13 @@ class UpdateManager
                     ->all());
             });
         }
+    }
+
+    protected function configureComposerAuth(?string $carteUsername = null): void
+    {
+        $this->composerManager->addMarketplaceAuth(
+            $carteUsername,
+            config('igniter-system.carteKey') ?: params('carte_key', ''),
+        );
     }
 }

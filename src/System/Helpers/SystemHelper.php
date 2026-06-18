@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Igniter\System\Helpers;
 
 use Igniter\Flame\Composer\Manager;
+use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Support\Facades\Validator;
 
 class SystemHelper
 {
+    public const string PLATFORM_HEADER = 'X-Igniter-Platform';
+
     /**
      * Returns the PHP version, without the distribution info.
      */
@@ -215,5 +219,36 @@ class SystemHelper
     public function runningOnLinux(): bool
     {
         return PHP_OS_FAMILY === 'Linux';
+    }
+
+    public function resolveUrl(): string
+    {
+        $url = config('app.url');
+
+        if (blank($url)) {
+            throw new ApplicationException(
+                lang('igniter::system.updates.error_missing_app_url'),
+            );
+        }
+
+        return rtrim((string) $url, '/');
+    }
+
+    public function platformHeaderValue(?string $installationUrl = null): string
+    {
+        return sprintf(
+            'php:%s;version:%s;url:%s',
+            PHP_VERSION,
+            Igniter::version(),
+            $installationUrl ?? $this->resolveUrl(),
+        );
+    }
+
+    /**
+     * @return string[]
+     */
+    public function composerHeaderLines(?string $installationUrl = null): array
+    {
+        return [self::PLATFORM_HEADER.': '.$this->platformHeaderValue($installationUrl)];
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
+use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Support\Facades\App;
@@ -82,7 +83,7 @@ class HubManager
         $params['client'] = 'tastyigniter';
         $params['server'] = base64_encode(serialize([
             'php' => PHP_VERSION,
-            'url' => url()->to('/'),
+            'url' => SystemHelper::resolveUrl(),
             'version' => Igniter::version(),
             'host' => gethostname() ?: 'unknown',
         ]));
@@ -107,9 +108,7 @@ class HubManager
             $headers['X-Igniter-User-Ip'] = request()->ip();
         }
 
-        $headers['X-Igniter-Platform'] = sprintf('php:%s;version:%s;url:%s',
-            PHP_VERSION, Igniter::version(), url()->current(),
-        );
+        $headers['X-Igniter-Platform'] = SystemHelper::platformHeaderValue();
 
         return $headers;
     }

@@ -6,6 +6,7 @@ namespace Igniter\Tests\System\Traits;
 
 use Exception;
 use Igniter\Flame\Composer\Manager as ComposerManager;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\System\Classes\HubManager;
 use Igniter\System\Classes\UpdateManager;
 
@@ -41,6 +42,21 @@ it('returns error when search fails', function() {
             .'?'.http_build_query(['filter' => ['search' => 'igniter.api']]))
         ->assertOk()
         ->assertSee('Search failed');
+});
+
+it('returns marketplace error message when search fails with error code', function() {
+    app()->instance(HubManager::class, $hubManager = mock(HubManager::class));
+    $hubManager->shouldReceive('listItems')->andThrow(new SystemException(
+        'Carte key registered to another installation',
+    ));
+    app()->instance(UpdateManager::class, $updateManager = mock(UpdateManager::class));
+    $updateManager->shouldReceive('getInstalledItems')->andReturn([]);
+
+    actingAsSuperUser()
+        ->get(route('igniter.system.extensions', ['slug' => 'search'])
+            .'?'.http_build_query(['filter' => ['search' => 'igniter.api']]))
+        ->assertOk()
+        ->assertSee('Carte key registered to another installation');
 });
 
 it('returns successful message when install items are applied', function() {
