@@ -40,9 +40,11 @@ trait Sortable
             $sortOrderColumn = $model->getSortOrderColumn();
 
             // only automatically calculate next position with max+1 when a position has not been set already
-            $currentOrder = $model->getAttributeValue($sortOrderColumn);
-            if ($model->sortWhenCreating() && $sortOrderColumn && ($currentOrder === null || $currentOrder === '')) {
-                $model->setAttribute($sortOrderColumn, static::on()->max($sortOrderColumn) + 1);
+            if ($model->sortWhenCreating() && $sortOrderColumn) {
+                $currentOrder = $model->getAttributeValue($sortOrderColumn);
+                if ($currentOrder === null || $currentOrder === '') {
+                    $model->setAttribute($sortOrderColumn, static::on()->max($sortOrderColumn) + 1);
+                }
             }
         });
     }
