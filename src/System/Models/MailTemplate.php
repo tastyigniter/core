@@ -142,14 +142,11 @@ class MailTemplate extends Model
 
         // Create new templates
         foreach ($newTemplates as $name => $label) {
-            $sections = self::getTemplateSections($name);
-            $layoutCode = array_get($sections, 'settings.layout', 'default');
-
             $templateModel = new MailTemplate;
             $templateModel->code = $name;
+            $templateModel->fillFromView();
             $templateModel->label = $label;
             $templateModel->is_custom = false;
-            $templateModel->layout_id = MailLayout::getIdFromCode($layoutCode);
             $templateModel->save();
         }
     }
