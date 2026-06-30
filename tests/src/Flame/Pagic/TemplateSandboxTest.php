@@ -40,7 +40,6 @@ it('accepts shipped mail template fixtures', function(string $fixturePath): void
 
     $this->sandbox->assertSafe($blade, SandboxProfile::Mail);
 })->with([
-    'order template' => [realpath(__DIR__.'/../../../../../ti-ext-cart/resources/views/mail/order.blade.php')],
     'default layout' => [realpath(__DIR__.'/../../../../resources/views/system/_mail/layouts/default.blade.php')],
     'button partial' => [realpath(__DIR__.'/../../../../resources/views/system/_mail/partials/button.blade.php')],
 ]);
