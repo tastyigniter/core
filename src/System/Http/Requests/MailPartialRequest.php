@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\System\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Igniter\System\Rules\SafeMailTemplateContent;
 use Illuminate\Validation\Rule;
 use Override;
 
@@ -27,8 +28,8 @@ class MailPartialRequest extends FormRequest
             'code' => ['sometimes', 'required', 'regex:/^[a-z-_\.\:]+$/i',
                 Rule::unique('mail_partials')->ignore($this->getRecordId(), 'partial_id'),
             ],
-            'html' => ['required', 'string'],
-            'text' => ['nullable', 'string'],
+            'html' => ['required', 'string', new SafeMailTemplateContent],
+            'text' => ['nullable', 'string', new SafeMailTemplateContent],
         ];
     }
 }

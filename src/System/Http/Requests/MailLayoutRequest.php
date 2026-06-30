@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\System\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Igniter\System\Rules\SafeMailTemplateContent;
 use Illuminate\Validation\Rule;
 use Override;
 
@@ -30,9 +31,9 @@ class MailLayoutRequest extends FormRequest
                 Rule::unique('mail_layouts')->ignore($this->getRecordId(), 'layout_id'),
             ],
             'language_id' => ['integer'],
-            'layout' => ['string'],
-            'layout_css' => ['nullable', 'string'],
-            'plain_layout' => ['nullable', 'string'],
+            'layout' => ['string', new SafeMailTemplateContent],
+            'layout_css' => ['nullable', 'string', new SafeMailTemplateContent],
+            'plain_layout' => ['nullable', 'string', new SafeMailTemplateContent],
         ];
     }
 }

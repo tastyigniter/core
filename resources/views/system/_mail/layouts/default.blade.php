@@ -20,10 +20,9 @@ name = "Default layout"
         <td align="center">
             <table class="content" width="100%" cellpadding="0" cellspacing="0">
                 @partial('header')
-                @php $site_logo = setting('mail_logo') ?: $site_logo; @endphp
                 @isset($site_logo)
                     <img
-                        src="{{ media_thumb($site_logo, ['height' => 90]) }}"
+                        src="{{ media_thumb(setting('mail_logo') ?: $site_logo, ['height' => 90]) }}"
                         alt="{{ $site_name }}"
                     >
                 @endisset

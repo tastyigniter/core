@@ -1,5 +1,7 @@
 <?php
 
+use Igniter\System\Rules\SafeMailTemplateContent;
+
 return [
     'form' => [
         'tabs' => [
@@ -17,8 +19,8 @@ return [
             ],
         ],
         'rules' => [
-            'markup' => ['string'],
-            'settings.description' => ['max:255'],
+            'markup' => ['string', new SafeMailTemplateContent],
+            'settings.description' => ['max:255', new SafeMailTemplateContent],
         ],
         'validationAttributes' => [
             'markup' => lang('igniter::system.themes.text_tab_markup'),

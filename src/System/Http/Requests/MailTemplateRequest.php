@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\System\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Igniter\System\Rules\SafeMailTemplateContent;
 use Illuminate\Validation\Rule;
 use Override;
 
@@ -30,9 +31,9 @@ class MailTemplateRequest extends FormRequest
                 'regex:/^[a-z-_\.\:]+$/i',
             ],
             'label' => ['required', 'string'],
-            'subject' => ['required', 'string'],
-            'body' => ['string'],
-            'plain_body' => ['nullable', 'string'],
+            'subject' => ['required', 'string', new SafeMailTemplateContent],
+            'body' => ['string', new SafeMailTemplateContent],
+            'plain_body' => ['nullable', 'string', new SafeMailTemplateContent],
         ];
     }
 }
