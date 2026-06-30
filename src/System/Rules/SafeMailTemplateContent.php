@@ -20,8 +20,8 @@ class SafeMailTemplateContent implements ValidationRule
 
         try {
             resolve(TemplateSandbox::class)->assertSafe($value, SandboxProfile::Mail);
-        } catch (SystemException $exception) {
-            $fail($exception->getMessage());
+        } catch (SystemException $systemException) {
+            $fail($systemException->getMessage());
         }
     }
 }

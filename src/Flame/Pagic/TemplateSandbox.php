@@ -211,7 +211,7 @@ class TemplateSandbox
 
     protected function validateUnescapedExpression(string $expression): ?string
     {
-        if (!preg_match('/^\$[a-zA-Z_][a-zA-Z0-9_]*(\s*\[(?:\'[^\']*\'|"[^"]*")\])?$/', trim($expression))) {
+        if (!preg_match('/^\$[a-zA-Z_]\w*(\s*\[(?:\'[^\']*\'|"[^"]*")\])?$/', trim($expression))) {
             return 'Unescaped output may only reference simple variables';
         }
 
@@ -248,7 +248,7 @@ class TemplateSandbox
             return 'Shell execution is not allowed';
         }
 
-        if (preg_match('/\$[a-zA-Z_][a-zA-Z0-9_]*\s*\(/', $scan)) {
+        if (preg_match('/\$[a-zA-Z_]\w*\s*\(/', $scan)) {
             return 'Variable functions are not allowed';
         }
 
@@ -280,7 +280,7 @@ class TemplateSandbox
             return 'Reflection is not allowed';
         }
 
-        if (!preg_match_all('/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/', $scan, $functionMatches)) {
+        if (!preg_match_all('/\b([a-zA-Z_]\w*)\s*\(/', $scan, $functionMatches)) {
             return null;
         }
 
@@ -310,7 +310,7 @@ class TemplateSandbox
     {
         $content = preg_replace('/@php\b.*?@endphp/si', '', $content) ?? $content;
 
-        if (!preg_match_all('/@([a-zA-Z]+)\b/', $content, $matches, PREG_OFFSET_CAPTURE)) {
+        if (!preg_match_all('/@([a-zA-Z]+)\b/', $content, $matches)) {
             return $content;
         }
 
@@ -340,18 +340,12 @@ class TemplateSandbox
 
     protected function neutralizeUnsafeExpressions(string $content): string
     {
-        $content = preg_replace_callback('/\{\{\s*(.*?)\s*\}\}/s', function(array $matches): string {
-            return $this->validateExpression($matches[1], false) === null ? $matches[0] : '';
-        }, $content) ?? $content;
-
-        return $content;
+        return preg_replace_callback('/\{\{\s*(.*?)\s*\}\}/s', fn(array $matches): string => $this->validateExpression($matches[1], false) === null ? $matches[0] : '', $content) ?? $content;
     }
 
     protected function sanitizeUnescapedOutputForMail(string $content): string
     {
-        return preg_replace_callback('/\{!!\s*(.*?)\s*!!\}/s', function(array $matches): string {
-            return $this->validateUnescapedExpression($matches[1]) === null ? $matches[0] : '';
-        }, $content) ?? $content;
+        return preg_replace_callback('/\{!!\s*(.*?)\s*!!\}/s', fn(array $matches): string => $this->validateUnescapedExpression($matches[1]) === null ? $matches[0] : '', $content) ?? $content;
     }
 
     protected function containsPhpTags(string $content): bool

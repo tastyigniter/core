@@ -7,6 +7,7 @@ namespace Igniter\Tests\Flame\Pagic;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Pagic\SandboxProfile;
 use Igniter\Flame\Pagic\TemplateSandbox;
+use Igniter\Pages\Models\Page;
 
 beforeEach(function(): void {
     $this->sandbox = resolve(TemplateSandbox::class);
@@ -16,7 +17,7 @@ it('rejects F-01 PoC payloads', function(string $payload): void {
     expect(fn() => $this->sandbox->assertSafe($payload, SandboxProfile::Mail))
         ->toThrow(SystemException::class);
 })->with([
-    '{{ \Igniter\Pages\Models\Page::find(1) }}',
+    '{{ '.Page::class.'::find(1) }}',
     '{{ shell_exec("id") }}',
     '{{ resolve("db") }}',
     '{{ \Class::method() }}',
@@ -49,7 +50,7 @@ it('accepts safe mail template expressions', function(): void {
     $this->sandbox->assertSafe('{!! $order_menu[\'menu_options\'] !!}', SandboxProfile::Mail);
     $this->sandbox->assertSafe('@if(!empty($order_menus))@foreach($order_menus as $order_menu){{ $order_menu[\'menu_name\'] }}@endforeach@endif', SandboxProfile::Mail);
     $this->sandbox->assertSafe("@lang('igniter.orange::default.button_back')", SandboxProfile::Mail);
-    $this->sandbox->assertSafe('{{ lang(\'igniter.orange::default.button_back\') }}', SandboxProfile::Mail);
+    $this->sandbox->assertSafe("{{ lang('igniter.orange::default.button_back') }}", SandboxProfile::Mail);
 });
 
 it('still rejects static calls outside string literals', function(): void {
@@ -98,7 +99,7 @@ function extractMailTemplateBladeSection(string $contents): string
     $sections = preg_split('/^==$/m', $contents);
 
     if (count($sections) >= 3) {
-        return trim((string) end($sections));
+        return trim(end($sections));
     }
 
     return trim($contents);
