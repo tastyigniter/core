@@ -27,13 +27,17 @@ class TemplateSandbox
     protected const array DANGEROUS_FUNCTIONS = [
         'eval', 'system', 'exec', 'shell_exec', 'passthru', 'popen', 'proc_open',
         'file_put_contents', 'file_get_contents', 'readfile', 'file', 'scandir', 'glob',
+        'fopen', 'fgets', 'fread', 'fwrite', 'fclose', 'fpassthru',
         'base64_decode', 'str_rot13', 'gzinflate', 'gzuncompress', 'gzdecode',
         'create_function', 'assert', 'phpinfo', 'getallheaders', 'header', 'setcookie',
         'move_uploaded_file', 'unlink', 'rmdir', 'mkdir', 'chmod', 'chown',
         'call_user_func', 'call_user_func_array', 'forward_static_call', 'forward_static_call_array',
+        'array_map', 'array_filter', 'array_walk', 'array_walk_recursive',
+        'usort', 'uasort', 'uksort',
+        'preg_replace_callback', 'preg_replace_callback_array',
         'unserialize', 'include', 'require', 'include_once', 'require_once',
-        'putenv', 'ini_set', 'curl_exec', 'fsockopen', 'define', 'extract', 'parse_str',
-        'chr', 'preg_replace', 'shell_exec', 'proc_open', 'popen', 'passthru',
+        'getenv', 'putenv', 'env', 'ini_set', 'curl_exec', 'curl_init', 'curl_setopt',
+        'fsockopen', 'define', 'extract', 'parse_str', 'chr', 'preg_replace',
     ];
 
     public function assertSafe(string $template, SandboxProfile $profile = SandboxProfile::Mail): void
@@ -58,8 +62,8 @@ class TemplateSandbox
     {
         $template = $this->removeNullBytes($template);
         $template = $this->removePhpTags($template);
-        $template = $this->removePhpBlocks($template);
-        $template = $this->removeUnsafeBladeDirectives($template);
+        $template = $this->removeDangerousBladeDirectives($template);
+        $template = $this->removeDangerousFunctionCalls($template);
         $template = $this->removeUnescapedOutput($template);
         $template = $this->removeObfuscation($template);
         $template = $this->removeVariableVariables($template);
@@ -72,7 +76,7 @@ class TemplateSandbox
         $template = $this->removeNullBytes($template);
         $template = $this->removePhpTags($template);
         $template = $this->stripHtmlComments($template);
-        $template = $this->removePhpBlocks($template);
+        $template = $this->removeDangerousBladeDirectives($template);
         $template = $this->neutralizeUnsafeDirectives($template);
         $template = $this->neutralizeUnsafeExpressions($template);
         $template = $this->sanitizeUnescapedOutputForMail($template);
@@ -80,7 +84,7 @@ class TemplateSandbox
         $template = $this->removeVariableVariables($template);
         $template = $this->removePathTraversal($template);
 
-        return $this->removeUnsafeBladeDirectives($template);
+        return $this->removeDangerousFunctionCalls($template);
     }
 
     protected function findFirstViolation(string $template, SandboxProfile $profile): ?string
@@ -381,7 +385,7 @@ class TemplateSandbox
         return str_replace(['<?', '?>'], '', $content);
     }
 
-    protected function removePhpBlocks(string $content): string
+    protected function removeDangerousBladeDirectives(string $content): string
     {
         $patterns = [
             // @php ... @endphp blocks
@@ -405,47 +409,17 @@ class TemplateSandbox
         return $content;
     }
 
-    protected function removeUnsafeBladeDirectives(string $content): string
+    protected function removeDangerousFunctionCalls(string $content): string
     {
-        $dangerous = [
-            // Dangerous PHP functions that could appear in Blade expressions
-            '/\beval\s*\([^)]*\)/i',
-            '/\bsystem\s*\([^)]*\)/i',
-            '/\bexec\s*\([^)]*\)/i',
-            '/\bshell_exec\s*\([^)]*\)/i',
-            '/\bpassthru\s*\([^)]*\)/i',
-            '/\bpopen\s*\([^)]*\)/i',
-            '/\bproc_open\s*\([^)]*\)/i',
-            '/\bfile_put_contents\s*\([^)]*\)/i',
-            '/\bfile_get_contents\s*\([^)]*\)/i',
-            '/\breadfile\s*\([^)]*\)/i',
-            '/\bfile\s*\([^)]*\)/i',
-            '/\bscandir\s*\([^)]*\)/i',
-            '/\bglob\s*\([^)]*\)/i',
-            '/\bbase64_decode\s*\([^)]*\)/i',
-            '/\bstr_rot13\s*\([^)]*\)/i',
-            '/\bgzinflate\s*\([^)]*\)/i',
-            '/\bgzuncompress\s*\([^)]*\)/i',
-            '/\bgzdecode\s*\([^)]*\)/i',
+        $patterns = [
             '/\bpreg_replace\s*\(\s*[\'"].*?e[\'"]/i',
-            '/\bcreate_function\s*\([^)]*\)/i',
-            '/\bassert\s*\([^)]*\)/i',
-            '/\bphpinfo\s*\([^)]*\)/i',
-            '/\bgetallheaders\s*\([^)]*\)/i',
-            '/\bheader\s*\([^)]*\)/i',
-            '/\bsetcookie\s*\([^)]*\)/i',
-            '/\bmove_uploaded_file\s*\([^)]*\)/i',
-            '/\bunlink\s*\([^)]*\)/i',
-            '/\brmdir\s*\([^)]*\)/i',
-            '/\bmkdir\s*\([^)]*\)/i',
-            '/\bchmod\s*\([^)]*\)/i',
-            '/\bchown\s*\([^)]*\)/i',
-            '/\bcall_user_func[a-z_]*\s*\([^)]*\)/i',
-            '/\bforward_static_call[a-z_]*\s*\([^)]*\)/i',
-            '/\bunserialize\s*\([^)]*\)/i',
         ];
 
-        foreach ($dangerous as $pattern) {
+        foreach (self::DANGEROUS_FUNCTIONS as $function) {
+            $patterns[] = '/\b'.preg_quote($function, '/').'\s*\([^)]*\)/i';
+        }
+
+        foreach ($patterns as $pattern) {
             $content = preg_replace($pattern, '', $content) ?? $content;
         }
 

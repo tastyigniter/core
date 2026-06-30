@@ -24,6 +24,13 @@ it('rejects F-01 PoC payloads', function(string $payload): void {
     "{{ ('she'.'ll_exec')('id') }}",
     '@php echo "x"; @endphp',
     '{!! app("x") !!}',
+    '{{ call_user_func("system", "id") }}',
+    '{{ array_map("system", ["id"]) }}',
+    '{{ call_user_func_array("system", ["id"]) }}',
+    '{{ getenv("DB_PASSWORD") }}',
+    '{{ fgets(fopen("/etc/passwd", "r")) }}',
+    '{{ preg_replace_callback("/.*/", "system", "id") }}',
+    '{{ usort($items, "system") }}',
 ]);
 
 it('accepts shipped mail template fixtures', function(string $fixturePath): void {
@@ -58,6 +65,22 @@ it('preserves theme profile strip behaviour', function(): void {
         ->not->toContain('shell_exec')
         ->not->toContain('@php');
 });
+
+it('strips higher-order function bypass payloads from theme templates', function(string $payload, string $needle): void {
+    expect($this->sandbox->sanitize($payload, SandboxProfile::Theme))
+        ->not->toContain($needle);
+})->with([
+    'blade call_user_func' => ['{{ call_user_func("system", "id") }}', 'call_user_func'],
+    'blade array_map' => ['{{ array_map("system", ["id"]) }}', 'array_map'],
+    'blade getenv' => ['{{ getenv("DB_PASSWORD") }}', 'getenv'],
+    'blade file read' => ['{{ fgets(fopen("/etc/passwd", "r")) }}', 'fopen'],
+    'code call_user_func' => ['function onStart() { call_user_func("system", "id"); }', 'call_user_func'],
+    'code array_map' => ['function onStart() { array_map("system", ["id"]); }', 'array_map'],
+    'code getenv' => ['function onStart() { getenv("DB_PASSWORD"); }', 'getenv'],
+    'code file read' => ['function onStart() { fgets(fopen("/etc/passwd", "r")); }', 'fopen'],
+    'code preg_replace_callback' => ['function onStart() { preg_replace_callback("/.*/", "system", "id"); }', 'preg_replace_callback'],
+    'code usort' => ['function onStart() { usort($a, "system"); }', 'usort'],
+]);
 
 it('allows safe unescaped output in mail profile', function(): void {
     $this->sandbox->assertSafe('{!! $body !!}', SandboxProfile::Mail);
