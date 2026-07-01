@@ -455,9 +455,9 @@ it('uploads files', function() {
     $mediaLibrary->shouldReceive('exists')->with('/test-folder')->andReturnTrue();
     $this->controller->setUser(User::factory()->superUser()->create());
     $fileMock = File::partialMock();
-    $fileMock->shouldReceive('name')->with('test-file.png')->andReturn('test-file.png');
-    $fileMock->shouldReceive('get')->andReturn('file content');
-    $mediaLibrary->shouldReceive('put')->with('/test-folder/test-file.jpg', 'file content')->once();
+    $fileMock->shouldReceive('name')->with('test-file.jpg')->andReturn('test-file');
+    $fileMock->shouldReceive('get')->andReturn("\xFF\xD8\xFF\xD9");
+    $mediaLibrary->shouldReceive('put')->with('/test-folder/test-file.jpg', "\xFF\xD8\xFF\xD9")->once();
     $mediaLibrary->shouldReceive('resetCache')->once();
     $mediaLibrary->shouldReceive('getMediaUrl')->andReturn('http://localhost/test-folder/test-file.jpg');
 
@@ -466,6 +466,40 @@ it('uploads files', function() {
     });
 
     Event::assertDispatched('media.file.upload');
+});
+
+it('rejects uploads with traversal path', function() {
+    request()->headers->set('X-IGNITER-FILEUPLOAD', 'mediamanager');
+    request()->merge([
+        'path' => '/../../',
+        'file_data' => UploadedFile::fake()->image('test-file.jpg'),
+    ]);
+    app()->instance(MediaLibrary::class, $mediaLibrary = mock(MediaLibrary::class)->makePartial());
+    $mediaLibrary->shouldReceive('getConfig')->with('enable_uploads', null)->andReturnTrue();
+    $mediaLibrary->shouldReceive('exists')->with('/../../')->andReturnTrue();
+    $this->controller->setUser(User::factory()->superUser()->create());
+
+    expect(fn() => new MediaManager($this->controller))->toThrow(function(HttpResponseException $exception) {
+        expect($exception->getResponse()->getStatusCode())->toBe(400);
+    });
+});
+
+it('rejects uploads with unsafe content', function() {
+    request()->headers->set('X-IGNITER-FILEUPLOAD', 'mediamanager');
+    request()->merge([
+        'path' => '/test-folder',
+        'file_data' => UploadedFile::fake()->createWithContent('test.jpg', "\xFF\xD8\xFF".'<?php phpinfo(); ?>'),
+    ]);
+    app()->instance(MediaLibrary::class, $mediaLibrary = mock(MediaLibrary::class)->makePartial());
+    $mediaLibrary->shouldReceive('getConfig')->with('enable_uploads', null)->andReturnTrue();
+    $mediaLibrary->shouldReceive('exists')->with('/test-folder')->andReturnTrue();
+    $this->controller->setUser(User::factory()->superUser()->create());
+    File::partialMock()->shouldReceive('name')->andReturn('test');
+    File::partialMock()->shouldReceive('get')->andReturn("\xFF\xD8\xFF".'<?php phpinfo(); ?>');
+
+    expect(fn() => new MediaManager($this->controller))->toThrow(function(HttpResponseException $exception) {
+        expect($exception->getResponse()->getStatusCode())->toBe(400);
+    });
 });
 
 function prepareMediaLibraryForRender(MediaLibrary $mediaLibrary): void

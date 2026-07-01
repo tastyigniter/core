@@ -236,14 +236,16 @@ class IgniterInstall extends Command
 
     protected function createMediaDirectories(): void
     {
-        $mediaPath = storage_path('app/public/media');
-        if (!File::exists($mediaPath)) {
-            File::makeDirectory($mediaPath, 0755, true);
-        }
+        $directories = [
+            storage_path('app/public/media'),
+            storage_path('app/public/media/uploads'),
+            storage_path('app/public/media/attachments'),
+        ];
 
-        $mediaPath = storage_path('app/public/media/uploads');
-        if (!File::exists($mediaPath)) {
-            File::makeDirectory($mediaPath, 0755, true);
+        foreach ($directories as $mediaPath) {
+            if (!File::exists($mediaPath)) {
+                File::makeDirectory($mediaPath, 0755, true);
+            }
         }
     }
 }

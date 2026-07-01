@@ -7,6 +7,8 @@ namespace Igniter\Flame\Database\Attach;
 use Igniter\Flame\Database\Attach\Events\MediaAdded as MediaAddedEvent;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Filesystem\Filesystem;
+use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\MediaUploadValidator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
@@ -120,10 +122,11 @@ class MediaAdder
 
         $sourcePath = $mediaAdder->pathToFile;
         $destinationFileName = $media->getDiskPath();
+        $validator = resolve(MediaUploadValidator::class);
+        $contents = File::get($sourcePath) ?: '';
+        $contents = $validator->validateAndSanitize($media->file_name, $contents);
 
-        $fileStream = fopen($sourcePath, 'rb');
-
-        Storage::disk($media->getDiskName())->put($destinationFileName, $fileStream);
+        Storage::disk($media->getDiskName())->put($destinationFileName, $contents);
 
         MediaAddedEvent::dispatch($media);
     }

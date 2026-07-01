@@ -42,7 +42,8 @@
     "tastyigniter/ti-ext-reservation": "^4.0",
     "tastyigniter/ti-ext-user": "^4.0",
     "tastyigniter/ti-theme-orange": "^4.0",
-    "league/glide": "~2.2"
+    "league/glide": "~2.2",
+    "enshrined/svg-sanitize": "^0.22"
   },
   "require-dev": {
     "fakerphp/faker": "~1.14",
