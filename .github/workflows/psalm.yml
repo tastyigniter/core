@@ -63,7 +63,7 @@ jobs:
       # Taint-only baseline suppresses today's findings; new ones surface. A taint-only baseline (no
       # type entries) does not trip UnusedBaselineEntry in taint mode, so --use-baseline is safe here.
       - name: Run Psalm (taint analysis)
-        run: ./vendor/bin/psalm --taint-analysis --use-baseline=psalm-baseline.xml --report=psalm.sarif --report-show-info=false
+        run: ./vendor/bin/psalm --taint-analysis --use-baseline=psalm-baseline.xml --no-progress --report=psalm.sarif --report-show-info=false
 
       - name: Upload SARIF to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
