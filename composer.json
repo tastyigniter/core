@@ -54,6 +54,7 @@
     "orchestra/testbench": "^9.0 | ^10.0",
     "pestphp/pest": "^4.0",
     "pestphp/pest-plugin-laravel": "^4.0",
+    "psalm/plugin-laravel": "^3",
     "rector/rector": "^2.0"
   },
   "replace": {

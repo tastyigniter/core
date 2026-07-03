@@ -384,6 +384,7 @@ class UpdateManager
                 $this->configureComposerAuth(array_get($this->getCarteInfo(), 'email', ''));
             }
 
+            $outdatedItems = [];
             $composerLog = [];
             $this->composerManager->outdated(function($type, $line) use (&$outdatedItems, &$composerLog) {
                 if ($type === 'out') {
