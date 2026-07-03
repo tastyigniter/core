@@ -28,6 +28,11 @@ jobs:
     permissions:
       contents: read
       security-events: write
+    env:
+      # This package's require-dev pulls its own ti-ext-* extensions, which require
+      # tastyigniter/core ^4.0. On a PR the root package resolves as dev-<sha> (no version),
+      # so tell Composer the root version — mirrors `composer config version 4.0.x-dev` in pipeline.yml.
+      COMPOSER_ROOT_VERSION: 4.0.x-dev
     steps:
       - name: Block unexpected egress
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
