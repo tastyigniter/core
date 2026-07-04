@@ -661,11 +661,11 @@ class Form extends BaseWidget
     }
 
     protected function activeTabSessionKey(): string
-{
-            $recordId = $this->model?->getKey() ?? md5((string)request()->url());
+    {
+        $recordId = $this->model?->getKey() ?? md5((string)request()->url());
 
-            return 'activeTab.'.$this->context.'.'.$recordId;
-        }
+        return 'activeTab.'.$this->context.'.'.$recordId;
+    }
 
     public function getActiveTab(): ?string
     {
