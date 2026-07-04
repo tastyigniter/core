@@ -310,7 +310,9 @@ class Form extends BaseWidget
             'tab' => ['required', 'string'],
         ])->validate();
 
-        $this->putSession('activeTab', $data['tab']);
+        if ($this->context !== 'create') {
+            $this->putSession($this->activeTabSessionKey(), $data['tab']);
+        }
     }
 
     /**
@@ -658,13 +660,20 @@ class Form extends BaseWidget
         $this->activeTab = $tab;
     }
 
+    protected function activeTabSessionKey(): string
+{
+            $recordId = $this->model?->getKey() ?? md5((string)request()->url());
+
+            return 'activeTab.'.$this->context.'.'.$recordId;
+        }
+
     public function getActiveTab(): ?string
     {
         $tabs = $this->allTabs['primary'];
         $type = $tabs->section;
 
         $defaultTab = '#'.$type.'tab-1';
-        $activeTab = $this->getSession('activeTab') ?? $defaultTab;
+        $activeTab = ($this->context !== 'create' ? $this->getSession($this->activeTabSessionKey()) : null) ?? $defaultTab;
         $activeTabIndex = (int)str_after($activeTab, $defaultTab);
 
         // In cases where a tab has been removed, the first tab becomes the active tab
