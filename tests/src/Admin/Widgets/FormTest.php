@@ -168,7 +168,11 @@ it('sets and returns active tab', function() {
 
     $this->formWidget->onActiveTab();
 
-    expect($this->formWidget->getSession('activeTab'))->toBe('tab1');
+    expect($this->formWidget->getSession('activeTab'))->toBe([
+        'test-context' => [
+            $this->widgetConfig['model']->getKey() => 'tab1'
+        ]
+    ]);
 
     $this->formWidget->setActiveTab('tab2');
 
