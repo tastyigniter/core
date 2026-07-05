@@ -78,8 +78,6 @@ class MorphToMany extends BelongsToMany
 
     /**
      * Set the where clause for the relation query.
-     *
-     * @return $this
      */
     #[Override]
     protected function addWhereConstraints(): static

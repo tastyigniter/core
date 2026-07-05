@@ -594,8 +594,6 @@ class Media extends Model
 
     /**
      * @param string $name
-     *
-     * @return $this
      */
     public function forgetCustomProperty($name): static
     {

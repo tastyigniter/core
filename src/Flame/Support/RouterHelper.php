@@ -216,7 +216,7 @@ class RouterHelper
      * @param string $segment The segment definition.
      * @return ?string Returns the default value if it is provided. Returns false otherwise.
      */
-    public static function getSegmentDefaultValue($segment)
+    public static function getSegmentDefaultValue($segment): ?string
     {
         $optMarkerPos = mb_strpos($segment, '?');
         if ($optMarkerPos === false) {

@@ -304,7 +304,7 @@ class UpdateManager
 
                 return PackageInfo::fromArray($installedPackageInfo);
             })
-            ->filter(fn(PackageInfo $packageInfo): bool => !($packageInfo->isCore() && $this->disableCoreUpdates))
+            ->filter(fn(PackageInfo $packageInfo): bool => !$packageInfo->isCore() || !$this->disableCoreUpdates)
             ->sortBy(fn(PackageInfo $packageInfo) => starts_with($packageInfo->package, 'tastyigniter/') ? 0 : 1)
             ->partition(fn(PackageInfo $packageInfo): bool => $this->isMarkedAsIgnored($packageInfo->code));
 

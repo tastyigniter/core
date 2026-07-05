@@ -61,7 +61,6 @@ class Mailable extends MailableBase
      * Set the subject for the message.
      *
      * @param Message $message
-     * @return $this
      */
     #[Override]
     protected function buildSubject($message): self

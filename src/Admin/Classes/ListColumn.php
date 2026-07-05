@@ -77,8 +77,6 @@ class ListColumn
      * - number - numeric column, aligned right
      *
      * @param string $type Specifies a render mode as described above
-     *
-     * @return $this
      */
     public function displayAs(?string $type, array $config = []): self
     {

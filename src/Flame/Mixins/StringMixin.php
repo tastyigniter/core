@@ -57,7 +57,7 @@ class StringMixin
      */
     public function getClassId()
     {
-        return function($name) {
+        return function($name): string {
             if (is_object($name)) {
                 $name = $name::class;
             }
