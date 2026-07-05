@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Flame\Database\Attach;
 
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\MediaUploadValidator;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
@@ -232,6 +233,21 @@ class Manipulator
 
     protected function copyFileContentsTo(string $path): void
     {
+        $extension = strtolower(pathinfo($this->file, PATHINFO_EXTENSION));
+
+        if ($extension === 'svg' && $this->source) {
+            $contents = $this->source->get($this->file);
+            $contents = resolve(MediaUploadValidator::class)->validateAndSanitize(basename($this->file), $contents);
+
+            if (starts_with($path, base_path())) {
+                File::put($path, $contents);
+            } else {
+                $this->source->put($path, $contents);
+            }
+
+            return;
+        }
+
         if (starts_with($path, base_path())) {
             File::copy($this->file, $path);
         } else {

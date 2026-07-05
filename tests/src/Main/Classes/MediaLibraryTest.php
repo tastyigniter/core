@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\Main\Classes;
 
 use Igniter\Flame\Database\Attach\Manipulator;
+use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Main\Classes\MediaLibrary;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
@@ -105,9 +106,28 @@ it('returns file stream when get is called with stream true', function() {
 it('saves file contents when put is called', function() {
     $filesystem = mock(Filesystem::class);
     Storage::shouldReceive('disk')->andReturn($filesystem);
-    $filesystem->shouldReceive('put')->andReturnTrue();
+    $filesystem->shouldReceive('put')->withArgs(fn(string $path, string $contents): bool => $path === 'media/uploads/file.jpg' && $contents === "\xFF\xD8\xFF\xD9")->andReturnTrue();
 
-    expect($this->mediaLibrary->put('file.jpg', 'file-contents'))->toBeTrue();
+    expect($this->mediaLibrary->put('file.jpg', "\xFF\xD8\xFF\xD9"))->toBeTrue();
+});
+
+it('rejects path traversal in getMediaPath', function() {
+    expect(fn() => $this->mediaLibrary->getMediaPath('/../../test-pic.png'))
+        ->toThrow(ApplicationException::class, lang('igniter::main.media_manager.alert_invalid_path'));
+});
+
+it('rejects path traversal in put', function() {
+    expect(fn() => $this->mediaLibrary->put('/../../test-pic.png', "\xFF\xD8\xFF\xD9"))
+        ->toThrow(ApplicationException::class);
+});
+
+it('allows legitimate nested media paths', function() {
+    expect($this->mediaLibrary->getMediaPath('/subfolder/file.png'))->toBe('media/uploads/subfolder/file.png');
+});
+
+it('rejects traversal segments in validatePath', function() {
+    expect(fn() => $this->mediaLibrary->validatePath('/../secret'))
+        ->toThrow(ApplicationException::class, lang('igniter::main.media_manager.alert_invalid_path'));
 });
 
 it('creates a folder when makeFolder is called', function() {

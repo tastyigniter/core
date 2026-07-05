@@ -29,6 +29,7 @@ use Igniter\Flame\Providers\UrlServiceProvider;
 use Igniter\Flame\Scaffold\ScaffoldServiceProvider;
 use Igniter\Flame\Support\ClassLoader;
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\Flame\Support\MediaUploadValidator;
 use Igniter\Flame\Translation\Middleware\Localization;
 use Igniter\Flame\Translation\TranslationServiceProvider;
 use Igniter\System\Classes\PackageManifest;
@@ -133,6 +134,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             base_path(),
             storage_path('igniter/composer'),
         ));
+
+        $this->app->singleton(MediaUploadValidator::class);
 
         $this->app->instance(ClassLoader::class, $loader = new ClassLoader(
             new Filesystem,

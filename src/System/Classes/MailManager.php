@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
+use Igniter\Flame\Pagic\SandboxProfile;
+use Igniter\Flame\Pagic\TemplateSandbox;
 use Igniter\Flame\Support\StringParser;
 use Igniter\System\Models\MailPartial;
 use Igniter\System\Models\MailTemplate;
@@ -144,6 +146,7 @@ class MailManager
     {
         $this->registerBladeDirectives();
 
+        $content = resolve(TemplateSandbox::class)->sanitize($content, SandboxProfile::Mail);
         $content = Blade::render($content, $data);
 
         return new HtmlString((new StringParser)->parse($content, $data));

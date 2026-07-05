@@ -10,6 +10,15 @@ use Igniter\System\Models\MailTemplate;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 
+it('neutralizes poisoned template content before rendering', function(): void {
+    $manager = resolve(MailManager::class);
+
+    $result = $manager->renderView('{{ shell_exec("id") }} Hello {{ $name }}', ['name' => 'World']);
+
+    expect($result->toHtml())->toBe('Hello World')
+        ->and($result->toHtml())->not->toContain('shell_exec');
+});
+
 it('renders mail templates', function() {
     $manager = resolve(MailManager::class);
     $template = $manager->getTemplate('_mail.test_template');

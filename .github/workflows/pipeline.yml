@@ -16,7 +16,7 @@ jobs:
     uses: tastyigniter/workflows/.github/workflows/php-code-check.yml@main
     strategy:
       matrix:
-        php: [ '8.3', '8.4' ]
+        php: [ '8.3', '8.4', '8.5' ]
     with:
       php-version: ${{ matrix.php }}
   php-tests:
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ '8.3', '8.4' ]
+        php: [ '8.3', '8.4', '8.5' ]
         shard: [ 1, 2, 3, 4, 5 ]
     services:
       mysql:

@@ -136,7 +136,7 @@ it('throws exception when adding file from unreachable url', function() {
 
 it('adds file from url', function() {
     Http::fake([
-        'http://example.com/file.jpg' => Http::response(file_get_contents(__DIR__.'/../Fixtures/test.png')),
+        'http://example.com/file.png' => Http::response(file_get_contents(__DIR__.'/../Fixtures/test.png')),
     ]);
     $storageMock = Storage::fake('public');
     Relation::morphMap(['test_countries' => TestModelForMedia::class]);
@@ -144,8 +144,8 @@ it('adds file from url', function() {
     $model->save();
 
     $media = $model->newMediaInstance();
-    $url = 'http://example.com/file.jpg';
-    $filename = 'file.jpg';
+    $url = 'http://example.com/file.png';
+    $filename = 'file.png';
 
     $media->addFromUrl($url, $filename);
 

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Igniter\Main\Classes;
 
 use Igniter\Flame\Database\Attach\Manipulator;
+use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\Flame\Support\MediaUploadValidator;
 use Igniter\System\Models\Settings;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Support\Facades\Cache;
@@ -128,6 +130,19 @@ class MediaLibrary
 
     public function put(string $path, mixed $contents): bool
     {
+        $filename = basename(str_replace('\\', '/', $path));
+        $validator = resolve(MediaUploadValidator::class);
+
+        if (is_resource($contents)) {
+            $contents = stream_get_contents($contents) ?: '';
+        }
+
+        if (!is_string($contents)) {
+            throw new ApplicationException(lang('igniter::main.media_manager.alert_unsafe_file_content'));
+        }
+
+        $contents = $validator->validateAndSanitize($filename, $contents, $this->getAllowedExtensions());
+
         return $this->getStorageDisk()->put($this->getMediaPath($path), $contents);
     }
 
@@ -169,6 +184,11 @@ class MediaLibrary
     public function validatePath(string $path, bool $stripTrailingSlash = false): string
     {
         $path = str_replace('\\', '/', $path);
+
+        if (str_contains($path, "\0") || str_contains($path, '..')) {
+            throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
+
         $path = trim($path, '/');
 
         return $stripTrailingSlash ? $path : '/'.$path;
@@ -192,10 +212,40 @@ class MediaLibrary
 
     public function getMediaPath(string $path): string
     {
-        $path = ltrim($path, '/');
+        $path = ltrim(str_replace('\\', '/', $path), '/');
+        $fullPath = starts_with($path, $this->storageFolder)
+            ? $path
+            : $this->storageFolder.$path;
 
-        return starts_with($path, $this->storageFolder)
-            ? $path : $this->storageFolder.$path;
+        $normalized = $this->normalizePath($fullPath);
+        $root = rtrim($this->storageFolder, '/');
+
+        if ($normalized !== $root && !starts_with($normalized, $root.'/')) {
+            throw new ApplicationException(lang('igniter::main.media_manager.alert_invalid_path'));
+        }
+
+        return $normalized;
+    }
+
+    protected function normalizePath(string $path): string
+    {
+        $segments = [];
+
+        foreach (explode('/', str_replace('\\', '/', $path)) as $segment) {
+            if ($segment === '' || $segment === '.') {
+                continue;
+            }
+
+            if ($segment === '..') {
+                array_pop($segments);
+
+                continue;
+            }
+
+            $segments[] = $segment;
+        }
+
+        return implode('/', $segments);
     }
 
     public function getUploadsPath(string $path): string

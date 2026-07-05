@@ -10,6 +10,7 @@ use Igniter\Flame\Database\Attach\Media;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\MediaItem;
+use Igniter\Main\Classes\MediaLibrary;
 use Igniter\Main\FormWidgets\MediaFinder;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Models\Page;
@@ -239,6 +240,11 @@ it('adds attachment correctly', function() {
     $this->mediaFinderWidget->useAttachment = true;
     $this->mediaFinderWidget->model = new TestModelForMedia;
     $this->mediaFinderWidget->model->save();
+
+    app()->instance(MediaLibrary::class, $mediaLibrary = mock(MediaLibrary::class)->makePartial());
+    $mediaLibrary->shouldReceive('get')
+        ->with('path/to/media.jpg', true)
+        ->andReturn("\xFF\xD8\xFF\xD9");
 
     request()->merge([
         'media_id' => 1,
