@@ -325,9 +325,8 @@ trait Validation
      * exists, otherwise return false.
      *
      * @param string $validationRule
-     * @return mixed
      */
-    protected function getPrepareRuleMethod($validationRule)
+    protected function getPrepareRuleMethod($validationRule): string|false
     {
         $method = 'prepare'.Str::studly($validationRule).'Rule';
 

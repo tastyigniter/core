@@ -14,7 +14,6 @@ use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\TypeDeclaration\Rector\ArrowFunction\AddArrowFunctionReturnTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddParamStringTypeFromSprintfUseRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\StrictStringParamConcatRector;
 use Rector\TypeDeclaration\Rector\Closure\AddClosureVoidReturnTypeWhereNoReturnRector;
 use Rector\TypeDeclaration\Rector\Function_\AddFunctionVoidReturnTypeWhereNoReturnRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
@@ -45,9 +44,6 @@ return RectorConfig::configure()
         ],
         FunctionFirstClassCallableRector::class,
         SimplifyEmptyCheckOnEmptyArrayRector::class,
-        StrictStringParamConcatRector::class => [
-            __DIR__.'/src/Flame/Database/Concerns/HasRelationships.php',
-        ],
         SwitchNegatedTernaryRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
         NewlineBeforeNewAssignSetRector::class,

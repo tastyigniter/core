@@ -65,7 +65,6 @@ class Builder extends IlluminateQueryBuilder
      *
      * @param DateTime|int $minutes
      * @param string $key
-     * @return $this
      */
     public function remember($minutes, $key = null): static
     {
@@ -79,7 +78,6 @@ class Builder extends IlluminateQueryBuilder
      * Indicate that the query results should be cached forever.
      *
      * @param string $key
-     * @return $this
      */
     public function rememberForever($key = null): static
     {
@@ -90,7 +88,6 @@ class Builder extends IlluminateQueryBuilder
      * Indicate that the results, if cached, should use the given cache tags.
      *
      * @param array|mixed $cacheTags
-     * @return $this
      */
     public function cacheTags($cacheTags): static
     {
@@ -314,7 +311,6 @@ class Builder extends IlluminateQueryBuilder
      * Clear memory cache for the given table.
      *
      * @param string|null $table
-     * @return $this
      */
     public function clearDuplicateCache($table = null): static
     {
@@ -325,8 +321,6 @@ class Builder extends IlluminateQueryBuilder
 
     /**
      * Flush the memory cache.
-     *
-     * @return $this
      */
     public function flushDuplicateCache(): static
     {
@@ -337,8 +331,6 @@ class Builder extends IlluminateQueryBuilder
 
     /**
      * Enable the memory cache on the query.
-     *
-     * @return $this
      */
     public function enableDuplicateCache(): static
     {
@@ -349,8 +341,6 @@ class Builder extends IlluminateQueryBuilder
 
     /**
      * Disable the memory cache on the query.
-     *
-     * @return $this
      */
     public function disableDuplicateCache(): static
     {

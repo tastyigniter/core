@@ -438,8 +438,6 @@ class FormBuilder
 
     /**
      * Set the session store implementation.
-     *
-     * @return $this
      */
     public function setSessionStore(Session $session): static
     {

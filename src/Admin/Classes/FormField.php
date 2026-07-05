@@ -171,8 +171,6 @@ class FormField
      *
      * @param ?string $type Specifies a render mode as described above
      * @param array $config A list of render mode specific config.
-     *
-     * @return $this
      */
     public function displayAs(?string $type, array $config = []): self
     {

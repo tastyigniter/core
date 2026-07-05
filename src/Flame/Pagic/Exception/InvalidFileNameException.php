@@ -15,8 +15,6 @@ class InvalidFileNameException extends RuntimeException
 
     /**
      * Set the affected file name.
-     *
-     * @return $this
      */
     public function setInvalidFileName(string $invalidFileName): self
     {
