@@ -505,6 +505,20 @@ it('handles onSort action', function() {
     expect($this->listsWidget->vars['sortDirection'])->toBe('desc');
 });
 
+it('ignores invalid sort_by values in onSort action', function() {
+    $this->listsWidget->columns['status_id']['sortable'] = true;
+    $this->listsWidget->defaultSort = ['status_id', 'desc'];
+    $this->listsWidget->putSession('sort', ['status_id', 'desc']);
+    $this->listsWidget->prepareVars();
+
+    request()->merge(['sort_by' => '(SELECT SLEEP(5))']);
+
+    $this->listsWidget->onSort();
+
+    expect($this->listsWidget->vars['sortColumn'])->toBe('status_id')
+        ->and($this->listsWidget->getSession('sort'))->toBe(['status_id', 'desc']);
+});
+
 it('handles onLoadSetup action', function() {
     $this->listsWidget->pageLimit = 200;
     $loadSetupResult = $this->listsWidget->onLoadSetup();

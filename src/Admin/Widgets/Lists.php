@@ -316,8 +316,12 @@ class Lists extends BaseWidget
         }
 
         // Apply sorting
-        if ($sortColumn = $this->getSortColumn()) {
-            if (($column = array_get($this->allColumns, $sortColumn)) && $column->valueFrom) {
+        if (
+            ($sortColumn = $this->getSortColumn())
+            && $this->isSortable($sortColumn)
+            && ($column = array_get($this->allColumns, $sortColumn))
+        ) {
+            if ($column->valueFrom) {
                 $sortColumn = $column->valueFrom;
             }
 
@@ -877,6 +881,10 @@ class Lists extends BaseWidget
             return [];
         }
 
+        if (!$this->isSortable($column)) {
+            return $this->onRefresh();
+        }
+
         // Toggle the sort direction and set the sorting column
         $sortOptions = [$this->getSortColumn(), $this->sortDirection];
 
@@ -906,7 +914,11 @@ class Lists extends BaseWidget
         }
 
         if ($this->sortColumn !== null) {
-            return $this->sortColumn;
+            if ($this->isSortable($this->sortColumn)) {
+                return $this->sortColumn;
+            }
+
+            $this->sortColumn = null;
         }
 
         // User preference
