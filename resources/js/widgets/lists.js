@@ -108,7 +108,7 @@ $(function ($) {
             return true;
 
         var $activePage = $list.find('.page-item.active .page-link')
-        if ($activePage.length && $.trim($activePage.first().text()) !== '1')
+        if ($activePage.length && $activePage.first().text().trim() !== '1')
             return true;
 
         return false;
