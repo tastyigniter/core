@@ -68,6 +68,9 @@ class Lists extends BaseWidget
     /** A default sort column to look for. */
     public null|string|array $defaultSort = null;
 
+    /** Seconds between automatic list refreshes. 0 disables auto-refresh. */
+    public int $refreshInterval = 0;
+
     protected string $defaultAlias = 'list';
 
     /** Collection of all list columns used in this list. */
@@ -132,6 +135,7 @@ class Lists extends BaseWidget
             'showCheckboxes',
             'showSorting',
             'defaultSort',
+            'refreshInterval',
         ]);
 
         $this->pageLimit = $this->getSession('page_limit', $this->pageLimit ?? 20);
@@ -172,6 +176,7 @@ class Lists extends BaseWidget
         $this->vars['showSorting'] = $this->showSorting;
         $this->vars['sortColumn'] = $this->getSortColumn();
         $this->vars['sortDirection'] = $this->sortDirection;
+        $this->vars['refreshInterval'] = $this->refreshInterval;
     }
 
     /**
