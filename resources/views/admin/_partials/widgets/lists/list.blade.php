@@ -1,5 +1,9 @@
 <div
     id="{{ $this->getId('list') }}"
+    @if ($refreshInterval > 0)
+        data-list-refresh-interval="{{ $refreshInterval }}"
+        data-list-refresh-handler="{{ $this->getEventHandler('onRefresh') }}"
+    @endif
 >
     {!! form_open([
         'id' => $this->getId('list-form'),

@@ -58,3 +58,59 @@ $(function ($) {
         $('[data-action-select-all]').prop('disabled', true)
     }
 });
+
+// List auto-refresh
+$(function ($) {
+    var pendingRequests = {}
+
+    $('[data-list-refresh-interval]').each(function () {
+        var id = $(this).attr('id'),
+            interval = parseInt($(this).data('list-refresh-interval'), 10),
+            handler = $(this).data('list-refresh-handler')
+
+        if (!id || !interval || !handler)
+            return;
+
+        scheduleRefresh(id, handler, interval * 1000)
+    })
+
+    // A fresh lookup by id is required on every tick because onRefresh
+    // replaces the list root element (~#id), leaving any cached
+    // jQuery object referencing a detached node.
+    function scheduleRefresh(id, handler, delay) {
+        setTimeout(function () {
+            var $list = $('#' + id)
+
+            if (!$list.length)
+                return;
+
+            if (shouldSkipRefresh(id, $list)) {
+                scheduleRefresh(id, handler, delay)
+                return;
+            }
+
+            pendingRequests[id] = true
+            $list.request(handler).always(function () {
+                pendingRequests[id] = false
+                scheduleRefresh(id, handler, delay)
+            })
+        }, delay)
+    }
+
+    function shouldSkipRefresh(id, $list) {
+        if (document.visibilityState !== 'visible')
+            return true;
+
+        if (pendingRequests[id])
+            return true;
+
+        if ($list.find('input[name*=checked]:checked').length)
+            return true;
+
+        var $activePage = $list.find('.page-item.active .page-link')
+        if ($activePage.length && $activePage.first().text().trim() !== '1')
+            return true;
+
+        return false;
+    }
+});

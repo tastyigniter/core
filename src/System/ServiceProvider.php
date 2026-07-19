@@ -34,6 +34,7 @@ use Igniter\System\Providers\ConsoleServiceProvider;
 use Igniter\System\Providers\EventServiceProvider;
 use Igniter\System\Providers\ExtensionServiceProvider;
 use Igniter\System\Providers\FormServiceProvider;
+use Igniter\System\Providers\HealthServiceProvider;
 use Igniter\System\Providers\MailServiceProvider;
 use Igniter\System\Providers\PaginationServiceProvider;
 use Igniter\System\Providers\PermissionServiceProvider;
@@ -75,6 +76,7 @@ class ServiceProvider extends AppServiceProvider
         $this->app->register(PaginationServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
         $this->app->register(ValidationServiceProvider::class);
+        $this->app->register(HealthServiceProvider::class);
         $this->app->register(\Igniter\Admin\ServiceProvider::class);
         $this->app->register(\Igniter\Main\ServiceProvider::class);
     }

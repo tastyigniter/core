@@ -68,6 +68,9 @@ class Lists extends BaseWidget
     /** A default sort column to look for. */
     public null|string|array $defaultSort = null;
 
+    /** Seconds between automatic list refreshes. 0 disables auto-refresh. */
+    public int $refreshInterval = 0;
+
     protected string $defaultAlias = 'list';
 
     /** Collection of all list columns used in this list. */
@@ -132,6 +135,7 @@ class Lists extends BaseWidget
             'showCheckboxes',
             'showSorting',
             'defaultSort',
+            'refreshInterval',
         ]);
 
         $this->pageLimit = $this->getSession('page_limit', $this->pageLimit ?? 20);
@@ -172,6 +176,7 @@ class Lists extends BaseWidget
         $this->vars['showSorting'] = $this->showSorting;
         $this->vars['sortColumn'] = $this->getSortColumn();
         $this->vars['sortDirection'] = $this->sortDirection;
+        $this->vars['refreshInterval'] = $this->refreshInterval;
     }
 
     /**
@@ -316,8 +321,12 @@ class Lists extends BaseWidget
         }
 
         // Apply sorting
-        if ($sortColumn = $this->getSortColumn()) {
-            if (($column = array_get($this->allColumns, $sortColumn)) && $column->valueFrom) {
+        if (
+            ($sortColumn = $this->getSortColumn())
+            && $this->isSortable($sortColumn)
+            && ($column = array_get($this->allColumns, $sortColumn))
+        ) {
+            if ($column->valueFrom) {
                 $sortColumn = $column->valueFrom;
             }
 
@@ -877,6 +886,10 @@ class Lists extends BaseWidget
             return [];
         }
 
+        if (!$this->isSortable($column)) {
+            return $this->onRefresh();
+        }
+
         // Toggle the sort direction and set the sorting column
         $sortOptions = [$this->getSortColumn(), $this->sortDirection];
 
@@ -906,7 +919,11 @@ class Lists extends BaseWidget
         }
 
         if ($this->sortColumn !== null) {
-            return $this->sortColumn;
+            if ($this->isSortable($this->sortColumn)) {
+                return $this->sortColumn;
+            }
+
+            $this->sortColumn = null;
         }
 
         // User preference
