@@ -57,7 +57,7 @@ class System extends AdminController
 
             flash()->success(lang('igniter::system.system.alert_migrate_success'));
         } catch (Throwable $throwable) {
-            throw new FlashException($throwable->getMessage());
+            throw FlashException::error($throwable->getMessage());
         }
 
         return $this->refreshPage();
