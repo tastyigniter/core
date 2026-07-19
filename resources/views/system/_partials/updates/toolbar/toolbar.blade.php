@@ -36,10 +36,18 @@
                         {!! lang(array_get($carteInfo ?? [], 'id') ? 'igniter::system.updates.button_carte' : 'igniter::system.updates.button_attach_carte') !!}
                     </button>
                 </div>
-                <div>
-                    @lang('igniter::system.version'): <b>{{$igniterVersion}}</b>
-                    &nbsp;&nbsp;-&nbsp;&nbsp;
-                    @lang('igniter::system.updates.text_last_checked'): <b>{{$lastChecked}}</b>
+                <div class="d-flex align-items-center">
+                    <div>
+                        @lang('igniter::system.version'): <b>{{$igniterVersion}}</b>
+                        &nbsp;&nbsp;-&nbsp;&nbsp;
+                        @lang('igniter::system.updates.text_last_checked'): <b>{{$lastChecked}}</b>
+                    </div>
+                    @if(\Igniter\User\Facades\AdminAuth::user()?->hasPermission('Admin.SystemInfo'))
+                        <a
+                            href="{{ admin_url('system') }}"
+                            class="btn btn-default ms-3"
+                        >{!! lang('igniter::system.updates.button_system_info') !!}</a>
+                    @endif
                 </div>
             </div>
         </div>

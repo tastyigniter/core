@@ -52,6 +52,10 @@ class PermissionServiceProvider extends ServiceProvider
                         'label' => 'igniter::system.permissions.system_logs',
                         'group' => 'igniter::system.permissions.name',
                     ],
+                    'Admin.SystemInfo' => [
+                        'label' => 'igniter::system.permissions.system_info',
+                        'group' => 'igniter::system.permissions.name',
+                    ],
                 ]);
             });
         });

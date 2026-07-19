@@ -1069,6 +1069,36 @@ parameters:
 			path: src/System/Console/Commands/ThemeVendorPublish.php
 
 		-
+			message: '#^Parameter \#1 \$context of method Igniter\\System\\Health\\Checks\\BackgroundTasksCheck\:\:issues\(\) expects array\{scheduleHeartbeat\: mixed, queueDriver\: string, queueHeartbeat\: mixed, failedJobs\: int, scheduleAgeMinutes\: int\|null, queueAgeMinutes\: int\|null\}, array\{scheduleHeartbeat\: mixed, queueDriver\: string, queueHeartbeat\: mixed, failedJobs\: int, scheduleAgeMinutes\: float\|null, queueAgeMinutes\: float\|null\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/System/Health/Checks/BackgroundTasksCheck.php
+
+		-
+			message: '#^Parameter \#1 \$context of method Igniter\\System\\Health\\Checks\\BackgroundTasksCheck\:\:meta\(\) expects array\{scheduleHeartbeat\: mixed, queueDriver\: string, queueHeartbeat\: mixed, failedJobs\: int, scheduleAgeMinutes\: int\|null, queueAgeMinutes\: int\|null\}, array\{scheduleHeartbeat\: mixed, queueDriver\: string, queueHeartbeat\: mixed, failedJobs\: int, scheduleAgeMinutes\: float\|null, queueAgeMinutes\: float\|null\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/System/Health/Checks/BackgroundTasksCheck.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{name\: mixed, version\: mixed\}, Closure\(Igniter\\System\\Models\\Extension\)\: array\{name\: mixed, version\: mixed\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/System/Health/Checks/ExtensionThemeVersionCheck.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(Igniter\\System\\Models\\Extension\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/System/Health/Checks/ExtensionThemeVersionCheck.php
+
+		-
+			message: '#^Call to an undefined method Igniter\\Admin\\Classes\\BaseWidget\:\:reInitialize\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/System/Http/Controllers/System.php
+
+		-
 			message: '#^Call to an undefined method Igniter\\Flame\\Database\\Builder\:\:sorted\(\)\.$#'
 			identifier: method.notFound
 			count: 1
