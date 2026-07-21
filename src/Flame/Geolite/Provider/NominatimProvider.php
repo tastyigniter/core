@@ -139,7 +139,7 @@ class NominatimProvider extends AbstractProvider
 
             return collect($result)->map(fn($item) => (new Place)
                 ->placeId((string)$item->place_id)
-                ->title((string)$item->name)
+                ->title((string)(($item->name ?? '') ?: $item->display_name))
                 ->description((string)$item->display_name)
                 ->provider('nominatim')
                 ->withData('osmType', $item->osm_type)

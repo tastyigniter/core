@@ -240,6 +240,30 @@ it('returns places autocomplete results when query is successful', function() {
         ->and($result->first()->toArray())->toHaveKeys(['placeId', 'title', 'description', 'provider', 'data']);
 });
 
+it('falls back to display_name for places autocomplete title when name is empty', function() {
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getStatusCode')->andReturn(200);
+    $response->shouldReceive('getBody->getContents')->andReturn(json_encode([
+        [
+            'place_id' => 'place_id_456',
+            'name' => '',
+            'display_name' => '76, Bochumer Strasse, Obercastrop, Castrop-Rauxel, 44575, Deutschland',
+            'osm_type' => 'way',
+            'osm_id' => '155198850',
+            'category' => 'building',
+            'lat' => 51.5414797,
+            'lon' => 7.3082737,
+        ],
+    ]));
+    $this->httpClient->shouldReceive('get')->andReturn($response);
+    $query = new GeoQuery('bochumer str 76 castrop-rauxel');
+
+    $result = $this->provider->placesAutocomplete($query);
+    expect($result)->toHaveCount(1)
+        ->and($result->first()->getTitle())->toBe('76, Bochumer Strasse, Obercastrop, Castrop-Rauxel, 44575, Deutschland')
+        ->and($result->first()->getDescription())->toBe('76, Bochumer Strasse, Obercastrop, Castrop-Rauxel, 44575, Deutschland');
+});
+
 it('returns empty coordinates when places coordinates query fails', function() {
     $response = mock(ResponseInterface::class);
     $response->shouldReceive('getStatusCode')->andReturn(500);
