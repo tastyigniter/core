@@ -234,14 +234,12 @@ class Manager
     {
         $config = new JsonConfigSource(new JsonFile($this->workingPath.'/auth.json'), true);
 
-        $config->addConfigSetting('http-basic.'.self::REPOSITORY_HOST, [
-            'username' => $carteUsername,
-            'password' => $carteKey,
-        ]);
-
         $config->addConfigSetting(
             'custom-headers.'.self::REPOSITORY_HOST,
-            SystemHelper::composerHeaderLines($installationUrl)
+            array_merge(
+                ['TI-Rest-Key: '.$carteKey],
+                SystemHelper::composerHeaderLines($installationUrl),
+            ),
         );
     }
 

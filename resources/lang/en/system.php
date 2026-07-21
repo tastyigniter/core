@@ -440,6 +440,8 @@ return [
             'session_driver' => 'Session',
             'cache_driver' => 'Cache',
             'mail_driver' => 'Mail',
+            'app_timezone' => 'Application timezone',
+            'app_datetime' => 'Application date/time',
             'config_drivers' => 'Configuration Drivers',
             'config_drivers_ok' => 'Application drivers configured.',
             'driver' => 'Driver',

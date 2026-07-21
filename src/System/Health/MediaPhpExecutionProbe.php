@@ -37,7 +37,7 @@ class MediaPhpExecutionProbe
         $token = 'ti-health-probe-'.bin2hex(random_bytes(8));
 
         try {
-            if (!File::put($probePath, '<?php echo \''.$token.'\';')) {
+            if (!File::put($probePath, "<?php echo '".$token."';")) {
                 return [
                     'status' => 'unverified',
                     'summary' => lang('igniter::system.system.checks.web_server_security_probe_not_writable'),
@@ -46,7 +46,7 @@ class MediaPhpExecutionProbe
 
             $response = $this->httpClient()->get($url);
 
-            if (str_contains($response->body(), $token)) {
+            if (str_contains((string) $response->body(), $token)) {
                 return [
                     'status' => 'vulnerable',
                     'summary' => lang('igniter::system.system.checks.web_server_security_probe_vulnerable'),

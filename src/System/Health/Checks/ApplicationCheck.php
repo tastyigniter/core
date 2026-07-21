@@ -52,11 +52,14 @@ class ApplicationCheck extends Check
      *     sessionDriver: string,
      *     cacheDriver: string,
      *     mailDriver: string,
+     *     appTimezone: string,
+     *     appDatetime: string,
      * }
      */
     protected function context(): array
     {
         $databaseConnection = (string) config('database.default');
+        $appTimezone = date_default_timezone_get();
 
         return [
             'version' => Igniter::version(),
@@ -66,6 +69,8 @@ class ApplicationCheck extends Check
             'sessionDriver' => (string) config('session.driver'),
             'cacheDriver' => (string) config('cache.default'),
             'mailDriver' => (string) config('mail.default'),
+            'appTimezone' => $appTimezone,
+            'appDatetime' => now()->timezone($appTimezone)->format('Y-m-d H:i:s T'),
         ];
     }
 
@@ -78,6 +83,8 @@ class ApplicationCheck extends Check
      *     sessionDriver: string,
      *     cacheDriver: string,
      *     mailDriver: string,
+     *     appTimezone: string,
+     *     appDatetime: string,
      * }  $context
      * @return array<string, array{value: string, status: string}|string>
      */
@@ -102,6 +109,8 @@ class ApplicationCheck extends Check
             lang('igniter::system.system.checks.session_driver') => $context['sessionDriver'],
             lang('igniter::system.system.checks.cache_driver') => $context['cacheDriver'],
             lang('igniter::system.system.checks.mail_driver') => $context['mailDriver'],
+            lang('igniter::system.system.checks.app_timezone') => $context['appTimezone'],
+            lang('igniter::system.system.checks.app_datetime') => $context['appDatetime'],
         ];
     }
 
@@ -114,6 +123,8 @@ class ApplicationCheck extends Check
      *     sessionDriver: string,
      *     cacheDriver: string,
      *     mailDriver: string,
+     *     appTimezone: string,
+     *     appDatetime: string,
      * }  $context
      * @param  array<string, array{value: string, status: string}|string>  $meta
      * @return array<int, array{status: string, summary: string, action: string, actionUrl?: string, actionUrlLabel?: string}>
