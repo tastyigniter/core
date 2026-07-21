@@ -229,9 +229,9 @@ it('adds marketplace auth credentials and installation header to auth json', fun
     $manager->addMarketplaceAuth('tastyigniter', 'carte-key');
 
     $config = json_decode(file_get_contents(base_path('auth.json')), true);
-    expect($config['http-basic']['composer.tastyigniter.com']['username'])->toBe('tastyigniter')
-        ->and($config['http-basic']['composer.tastyigniter.com']['password'])->toBe('carte-key')
+    expect($config)->not->toHaveKey('http-basic')
         ->and($config['custom-headers']['composer.tastyigniter.com'])->toBe([
+            'TI-Rest-Key: carte-key',
             'X-Igniter-Platform: php:'.PHP_VERSION.';version:'.Igniter::version().';url:https://example.com',
         ]);
 
