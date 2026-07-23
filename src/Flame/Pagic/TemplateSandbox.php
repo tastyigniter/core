@@ -11,9 +11,12 @@ class TemplateSandbox
     protected const array ALLOWED_DIRECTIVES = [
         'if', 'elseif', 'else', 'endif',
         'foreach', 'endforeach',
+        'forelse', 'endforelse',
         'isset', 'endisset',
         'empty', 'endempty',
         'unless', 'endunless',
+        'switch', 'case', 'default', 'endswitch',
+        'break', 'continue',
         'partial', 'endpartial',
         'lang', 'choice',
     ];
@@ -39,6 +42,38 @@ class TemplateSandbox
         'getenv', 'putenv', 'env', 'ini_set', 'curl_exec', 'curl_init', 'curl_setopt',
         'fsockopen', 'define', 'extract', 'parse_str', 'chr', 'preg_replace',
     ];
+
+    protected const array ALLOWED_METHODS = [
+        'getthumb', 'getthumborblank', 'getpath', 'geturl',
+    ];
+
+    /** @var array<int, string> */
+    protected array $registeredFunctions = [];
+
+    /** @var array<int, string> */
+    protected array $registeredMethods = [];
+
+    /**
+     * @param array<int, string> $functions
+     */
+    public function registerAllowedFunctions(array $functions): void
+    {
+        $this->registeredFunctions = array_merge(
+            $this->registeredFunctions,
+            array_map(strtolower(...), $functions),
+        );
+    }
+
+    /**
+     * @param array<int, string> $methods
+     */
+    public function registerAllowedMethods(array $methods): void
+    {
+        $this->registeredMethods = array_merge(
+            $this->registeredMethods,
+            array_map(strtolower(...), $methods),
+        );
+    }
 
     public function assertSafe(string $template, SandboxProfile $profile = SandboxProfile::Mail): void
     {
@@ -211,11 +246,17 @@ class TemplateSandbox
 
     protected function validateUnescapedExpression(string $expression): ?string
     {
-        if (!preg_match('/^\$[a-zA-Z_]\w*(\s*\[(?:\'[^\']*\'|"[^"]*")\])?$/', trim($expression))) {
-            return 'Unescaped output may only reference simple variables';
+        $expression = trim($expression);
+
+        if (preg_match('/^\$[a-zA-Z_]\w*(\s*\[(?:\'[^\']*\'|"[^"]*")\])?$/', $expression)) {
+            return null;
         }
 
-        return null;
+        if ($this->validateExpression($expression, true) === null) {
+            return null;
+        }
+
+        return 'Unescaped output may only reference simple variables or safe expressions';
     }
 
     protected function validateExpression(string $expression, bool $unescaped): ?string
@@ -236,8 +277,8 @@ class TemplateSandbox
             return 'Static calls are not allowed';
         }
 
-        if (str_contains($scan, '->')) {
-            return 'Object method calls are not allowed';
+        if (str_contains($scan, '->') && $violation = $this->validateObjectMethodCalls($scan)) {
+            return $violation;
         }
 
         if (preg_match('/\bnew\s+/i', $scan)) {
@@ -280,23 +321,77 @@ class TemplateSandbox
             return 'Reflection is not allowed';
         }
 
-        if (!preg_match_all('/\b([a-zA-Z_]\w*)\s*\(/', $scan, $functionMatches)) {
+        if (!preg_match_all('/\b([a-zA-Z_]\w*)\s*\(/', $scan, $functionMatches, PREG_OFFSET_CAPTURE)) {
             return null;
         }
 
-        foreach ($functionMatches[1] as $function) {
+        foreach ($functionMatches[1] as $index => $functionMatch) {
+            $function = $functionMatch[0];
+            $offset = $functionMatches[0][$index][1];
+            $before = substr($scan, 0, $offset);
+
+            if (preg_match('/->\s*$/', rtrim($before))) {
+                continue;
+            }
+
             $functionLower = strtolower($function);
 
             if (in_array($functionLower, self::DANGEROUS_FUNCTIONS, true)) {
                 return 'Forbidden function: '.$function;
             }
 
-            if (!in_array($functionLower, self::ALLOWED_FUNCTIONS, true)) {
+            if (!in_array($functionLower, $this->getAllowedFunctions(), true)) {
                 return 'Disallowed function: '.$function;
             }
         }
 
         return null;
+    }
+
+    protected function validateObjectMethodCalls(string $scan): ?string
+    {
+        if (!preg_match_all(
+            '/(\$[a-zA-Z_]\w*(?:\s*\[(?:\'[^\']*\'|"[^"]*")\])?)\s*->\s*([a-zA-Z_]\w*)\s*\(/',
+            $scan,
+            $matches,
+            PREG_SET_ORDER,
+        )) {
+            return 'Object method calls are not allowed';
+        }
+
+        $remaining = $scan;
+
+        foreach ($matches as $match) {
+            $methodLower = strtolower($match[2]);
+
+            if (!in_array($methodLower, $this->getAllowedMethods(), true)) {
+                return 'Disallowed object method: '.$match[2];
+            }
+
+            $remaining = str_replace($match[0], '$__safe__', $remaining);
+        }
+
+        if (str_contains($remaining, '->')) {
+            return 'Object method calls are not allowed';
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    protected function getAllowedFunctions(): array
+    {
+        return array_values(array_unique(array_merge(self::ALLOWED_FUNCTIONS, $this->registeredFunctions)));
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    protected function getAllowedMethods(): array
+    {
+        return array_values(array_unique(array_merge(self::ALLOWED_METHODS, $this->registeredMethods)));
     }
 
     protected function stripStringLiterals(string $expression): string

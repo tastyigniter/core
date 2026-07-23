@@ -50,7 +50,29 @@ it('accepts safe mail template expressions', function(): void {
     $this->sandbox->assertSafe('@if(!empty($order_menus))@foreach($order_menus as $order_menu){{ $order_menu[\'menu_name\'] }}@endforeach@endif', SandboxProfile::Mail);
     $this->sandbox->assertSafe("@lang('igniter.orange::default.button_back')", SandboxProfile::Mail);
     $this->sandbox->assertSafe("{{ lang('igniter.orange::default.button_back') }}", SandboxProfile::Mail);
-});
+    $this->sandbox->assertSafe('{{ $location_logo->getThumb([\'height\' => 56]) }}', SandboxProfile::Mail);
+    $this->sandbox->assertSafe('{{ media_thumb($location_logo, [\'height\' => 56]) }}', SandboxProfile::Mail);
+    $this->sandbox->assertSafe('@forelse($order_menus as $order_menu){{ $order_menu[\'menu_name\'] }}@empty<p>No items</p>@endforelse', SandboxProfile::Mail);
+    $this->sandbox->assertSafe('@switch($order_type)@case(\'delivery\')Delivery@break@default Collection@endswitch', SandboxProfile::Mail);
+})->throwsNoExceptions();
+
+it('rejects unsafe object method calls in mail templates', function(string $payload): void {
+    expect(fn() => $this->sandbox->assertSafe($payload, SandboxProfile::Mail))
+        ->toThrow(SystemException::class);
+})->with([
+    '{{ $location_logo->delete() }}',
+    '{{ $order->location->getThumb() }}',
+    '{{ app("db")->getThumb() }}',
+]);
+
+it('allows extension registered mail template functions and methods', function(): void {
+    $sandbox = new TemplateSandbox;
+    $sandbox->registerAllowedFunctions(['currency_format']);
+    $sandbox->registerAllowedMethods(['formatCurrency']);
+
+    $sandbox->assertSafe('{{ currency_format($total) }}', SandboxProfile::Mail);
+    $sandbox->assertSafe('{{ $order->formatCurrency() }}', SandboxProfile::Mail);
+})->throwsNoExceptions();
 
 it('still rejects static calls outside string literals', function(): void {
     expect(fn() => $this->sandbox->assertSafe('{{ \\Class::method() }}', SandboxProfile::Mail))
@@ -84,7 +106,7 @@ it('strips higher-order function bypass payloads from theme templates', function
 
 it('allows safe unescaped output in mail profile', function(): void {
     $this->sandbox->assertSafe('{!! $body !!}', SandboxProfile::Mail);
-});
+})->throwsNoExceptions();
 
 it('neutralizes poisoned mail templates during sanitize', function(): void {
     $sanitized = $this->sandbox->sanitize('{{ shell_exec("id") }} safe {{ $name }}', SandboxProfile::Mail);
