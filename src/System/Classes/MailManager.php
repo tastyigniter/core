@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
-use Igniter\Flame\Pagic\SandboxProfile;
 use Igniter\Flame\Pagic\TemplateSandbox;
 use Igniter\Flame\Support\StringParser;
 use Igniter\System\Models\MailPartial;
@@ -146,7 +145,6 @@ class MailManager
     {
         $this->registerBladeDirectives();
 
-        $content = resolve(TemplateSandbox::class)->sanitize($content, SandboxProfile::Mail);
         $content = Blade::render($content, $data);
 
         return new HtmlString((new StringParser)->parse($content, $data));
@@ -294,6 +292,26 @@ class MailManager
         }
 
         $this->registeredVariables = $definitions + $this->registeredVariables;
+    }
+
+    /**
+     * Registers additional safe functions for mail template validation.
+     *
+     * @param array<int, string> $functions
+     */
+    public function registerMailTemplateFunctions(array $functions): void
+    {
+        resolve(TemplateSandbox::class)->registerAllowedFunctions($functions);
+    }
+
+    /**
+     * Registers additional safe object methods for mail template validation.
+     *
+     * @param array<int, string> $methods
+     */
+    public function registerMailTemplateMethods(array $methods): void
+    {
+        resolve(TemplateSandbox::class)->registerAllowedMethods($methods);
     }
 
     /**

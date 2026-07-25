@@ -5,11 +5,11 @@ declare(strict_types=1);
 /**
  * Igniter System Helpers
  */
-
 use Carbon\Carbon;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Currency\Currency;
 use Igniter\Flame\Currency\Facades\Currency as CurrencyFacade;
+use Igniter\Flame\Database\Attach\Media;
 use Igniter\Flame\Flash\FlashBag;
 use Igniter\Flame\Support\StringParser;
 use Igniter\Local\Models\Location;
@@ -484,9 +484,13 @@ if (!function_exists('media_thumb')) {
      * Media thumbnail
      * Returns the full thumbnail (including segments) of the assets media uploads directory
      */
-    function media_thumb(?string $path, array $options = []): string
+    function media_thumb(mixed $path, array $options = []): string
     {
-        return ImageHelper::resize($path ?? 'no_photo.png', $options);
+        if ($path instanceof Media) {
+            return $path->getThumb($options);
+        }
+
+        return ImageHelper::resize(is_string($path) ? $path : 'no_photo.png', $options);
     }
 }
 
