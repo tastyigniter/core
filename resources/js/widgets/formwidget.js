@@ -30,7 +30,20 @@
 
     FormWidget.prototype.registerHandlers = function () {
         this.$formTabs.on('show.bs.tab', 'a[data-bs-toggle="tab"]', $.proxy(this.onTabShown, this))
+        this.$el.on('click', '[data-field-checkboxlist-all], [data-field-checkboxlist-none]', $.proxy(this.onCheckboxListToggle, this))
     };
+
+    FormWidget.prototype.onCheckboxListToggle = function (event) {
+        event.preventDefault()
+
+        var $link = $(event.currentTarget),
+            checked = $link.is('[data-field-checkboxlist-all]')
+
+        $link.closest('.field-checkboxlist')
+            .find('input[type="checkbox"]:not(:disabled)')
+            .prop('checked', checked)
+            .trigger('change')
+    }
 
     FormWidget.prototype.dispose = function () {
         this.unbindDependants()
