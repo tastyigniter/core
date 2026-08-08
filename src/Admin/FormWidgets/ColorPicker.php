@@ -87,7 +87,29 @@ class ColorPicker extends BaseFormWidget
     #[Override]
     public function getSaveValue(mixed $value): ?string
     {
-        return !empty($value) ? $value : null;
+        if (!is_string($value) || $value === '') {
+            return null;
+        }
+
+        return $this->parseAsHex($value);
+    }
+
+    /**
+     * Ensures saved value is a valid hex color.
+     */
+    protected function parseAsHex(string $value): ?string
+    {
+        $hex = '#'.preg_replace('/[^a-fA-F0-9]/', '', $value);
+
+        if (preg_match('/^#([A-Fa-f0-9]{3})$/', $hex) === 1) {
+            $hex = sprintf('#%s%s%s%s%s%s', $hex[1], $hex[1], $hex[2], $hex[2], $hex[3], $hex[3]);
+        }
+
+        if (preg_match('/^#([A-Fa-f0-9]{6})$/', $hex) !== 1) {
+            return null;
+        }
+
+        return strtolower($hex);
     }
 
     protected function availableColors(): array
