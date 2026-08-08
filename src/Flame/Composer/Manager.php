@@ -169,6 +169,7 @@ class Manager
             ...$this->findComposer(),
             'outdated',
             '--all',
+            '--no-dev',
             '--format=json',
         ]))->all();
 
@@ -190,6 +191,7 @@ class Manager
                 ...$this->findComposer(),
                 'require',
                 ...$packages,
+                '--update-no-dev',
             ]))->all();
 
             $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(
@@ -215,6 +217,7 @@ class Manager
                 ...$this->findComposer(),
                 'remove',
                 ...$packages,
+                '--update-no-dev',
             ]))->all();
 
             $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(
