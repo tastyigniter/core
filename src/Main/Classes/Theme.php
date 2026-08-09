@@ -15,6 +15,7 @@ use Igniter\Main\Events\ThemeExtendFormConfigEvent;
 use Igniter\Main\Events\ThemeGetActiveEvent;
 use Igniter\Main\Models\Theme as ThemeModel;
 use Igniter\Main\Template\Content as ContentTemplate;
+use Igniter\Main\Template\File as FileTemplate;
 use Igniter\Main\Template\Layout as LayoutTemplate;
 use Igniter\Main\Template\Page as PageTemplate;
 use Igniter\Main\Template\Partial as PartialTemplate;
@@ -79,6 +80,7 @@ class Theme
         '_pages' => PageTemplate::class,
         '_partials' => PartialTemplate::class,
         '_content' => ContentTemplate::class,
+        '_files' => FileTemplate::class,
     ];
 
     public function __construct(public string $path, public array $config = [])

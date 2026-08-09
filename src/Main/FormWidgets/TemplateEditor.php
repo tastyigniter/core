@@ -14,6 +14,8 @@ use Igniter\Flame\Pagic\Model;
 use Igniter\Flame\Pagic\TemplateSandbox;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\Template\File as FileTemplate;
+use Igniter\System\Rules\SafeThemeTemplateContent;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\RedirectResponse;
 use Override;
@@ -52,6 +54,7 @@ class TemplateEditor extends BaseFormWidget
         '_partials' => 'igniter::models/main/partial',
         '_layouts' => 'igniter::models/main/layout',
         '_content' => 'igniter::models/main/content',
+        '_files' => 'igniter::models/main/file',
     ];
 
     protected ?Form $templateWidget = null;
@@ -123,7 +126,7 @@ class TemplateEditor extends BaseFormWidget
     public function onChooseFile(): RedirectResponse
     {
         $data = $this->validate(post('Theme.source.template'), [
-            'type' => ['required', 'in:_pages,_partials,_layouts,_content'],
+            'type' => ['required', 'in:_pages,_partials,_layouts,_content,_files'],
             'file' => ['sometimes', 'nullable', 'string'],
         ], [], [
             'type' => 'Source Type',
@@ -151,7 +154,17 @@ class TemplateEditor extends BaseFormWidget
         ]);
 
         $fileAction = array_get($data, 'action');
-        $newFileName = sprintf('%s/%s', $this->getTemplateType(), array_get($data, 'name'));
+        $sourceName = (string)array_get($data, 'name');
+
+        if (
+            $this->getTemplateType() === FileTemplate::TYPE_KEY
+            && in_array($fileAction, ['new', 'rename'], true)
+            && FileTemplate::isReservedPath($sourceName)
+        ) {
+            throw new FlashException(lang('igniter::system.themes.alert_reserved_file_path'));
+        }
+
+        $newFileName = sprintf('%s/%s', $this->getTemplateType(), $sourceName);
         $fileName = $this->getFilename();
 
         if ($fileAction == 'rename') {
@@ -165,7 +178,7 @@ class TemplateEditor extends BaseFormWidget
             flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Template file created '));
         }
 
-        $this->setTemplateValue('file', array_get($data, 'name'));
+        $this->setTemplateValue('file', $sourceName);
 
         return $this->controller->refresh();
     }
@@ -256,6 +269,7 @@ class TemplateEditor extends BaseFormWidget
             '_partials' => 'igniter::system.themes.label_type_partial',
             '_layouts' => 'igniter::system.themes.label_type_layout',
             '_content' => 'igniter::system.themes.label_type_content',
+            '_files' => 'igniter::system.themes.label_type_file',
         ];
     }
 
@@ -264,12 +278,10 @@ class TemplateEditor extends BaseFormWidget
         $templateSanitizer = resolve(TemplateSandbox::class);
         $formData = $this->templateWidget?->getSaveData() ?? [];
 
-        $code = (string)array_get($formData, 'codeSection', '');
-        $code = preg_replace('/^\<\?php/', '', $code);
-        $code = preg_replace('/^\<\?/', '', (string)preg_replace('/\?>$/', '', (string)$code));
+        $code = trim((string)array_get($formData, 'codeSection', ''), PHP_EOL);
 
-        $result['code'] = trim((string)$code, PHP_EOL) !== '' && trim((string)$code, PHP_EOL) !== '0'
-            ? $templateSanitizer->sanitize(trim((string)$code, PHP_EOL))
+        $result['code'] = $code !== '' && $code !== '0'
+            ? $templateSanitizer->sanitize((new SafeThemeTemplateContent)->wrapCodeInPhpTags($code))
             : null;
         $result['markup'] = array_get($formData, 'markup')
             ? $templateSanitizer->sanitize((string)array_get($formData, 'markup'))

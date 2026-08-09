@@ -60,6 +60,18 @@ it('throws exception when validating file name fails', function($fileName, $exce
     'invalid character' => ['valid/templ@te.php', InvalidFileNameException::class],
 ]);
 
+it('allows deep nesting when model max nesting is null', function() {
+    $model = new class extends Model {
+        protected ?int $maxNesting = null;
+    };
+    $this->finder->setModel($model);
+
+    $method = new \ReflectionMethod(Finder::class, 'validateFileNamePath');
+
+    expect($method->invoke($this->finder, 'dir1/dir2/dir3/template', null))->toBeTrue()
+        ->and($method->invoke($this->finder, 'dir1/dir2/template', 2))->toBeFalse();
+});
+
 it('returns null when file is not found', function() {
     $model = new class extends Model {};
     $this->finder->setModel($model);

@@ -49,6 +49,19 @@ it('returns all templates in directory', function() {
     expect($this->source->selectAll('_pages', $options))->toBeEmpty();
 });
 
+it('lists deeply nested templates when depth is unlimited', function() {
+    $results = $this->source->selectAll('', [
+        'depth' => null,
+        'excludeDirs' => ['_pages', '_partials', '_layouts', '_content', '_meta', 'meta', 'assets', 'resources', 'public'],
+        'names' => ['*.blade.php'],
+    ]);
+    $fileNames = collect($results)->pluck('fileName')->all();
+
+    expect($fileNames)->toContain('test-file.blade.php')
+        ->and($fileNames)->toContain('components/account/dashboard.blade.php')
+        ->and(collect($fileNames)->contains(fn(string $file): bool => str_starts_with($file, '_pages/')))->toBeFalse();
+});
+
 it('creates a new template when file does not exist', function() {
     $files = mock(Filesystem::class);
     $files->shouldReceive('exists')->andReturn(true);

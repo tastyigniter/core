@@ -1,6 +1,6 @@
 <?php
 
-use Igniter\System\Rules\SafeMailTemplateContent;
+use Igniter\System\Rules\SafeThemeTemplateContent;
 
 return [
     'form' => [
@@ -19,8 +19,8 @@ return [
             ],
         ],
         'rules' => [
-            'markup' => ['string', new SafeMailTemplateContent],
-            'settings.description' => ['max:255', new SafeMailTemplateContent],
+            'markup' => ['string', new SafeThemeTemplateContent],
+            'settings.description' => ['max:255', new SafeThemeTemplateContent],
         ],
         'validationAttributes' => [
             'markup' => lang('igniter::system.themes.text_tab_markup'),
