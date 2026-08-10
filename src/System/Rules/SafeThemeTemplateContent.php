@@ -17,6 +17,7 @@ class SafeThemeTemplateContent implements ValidationRule
     public function wrapInPhpTags(): self
     {
         $this->wrapInPhpTags = true;
+
         return $this;
     }
 

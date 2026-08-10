@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\Flame\Support;
 
 use Composer\Script\Event;
@@ -7,7 +9,7 @@ use Illuminate\Foundation\Application;
 
 class ComposerScripts
 {
-    public static function postAutoloadDump(Event $event)
+    public static function postAutoloadDump(Event $event): void
     {
         require_once $event->getComposer()->getConfig()->get('vendor-dir').'/autoload.php';
 

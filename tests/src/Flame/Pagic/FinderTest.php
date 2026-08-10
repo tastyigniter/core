@@ -13,6 +13,7 @@ use Igniter\Flame\Pagic\Processors\Processor;
 use Igniter\Flame\Pagic\Source\MemorySource;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\Page;
+use ReflectionMethod;
 
 beforeEach(function() {
     $theme = resolve(ThemeManager::class)->findTheme('tests-theme');
@@ -61,12 +62,13 @@ it('throws exception when validating file name fails', function($fileName, $exce
 ]);
 
 it('allows deep nesting when model max nesting is null', function() {
-    $model = new class extends Model {
+    $model = new class extends Model
+    {
         protected ?int $maxNesting = null;
     };
     $this->finder->setModel($model);
 
-    $method = new \ReflectionMethod(Finder::class, 'validateFileNamePath');
+    $method = new ReflectionMethod(Finder::class, 'validateFileNamePath');
 
     expect($method->invoke($this->finder, 'dir1/dir2/dir3/template', null))->toBeTrue()
         ->and($method->invoke($this->finder, 'dir1/dir2/template', 2))->toBeFalse();

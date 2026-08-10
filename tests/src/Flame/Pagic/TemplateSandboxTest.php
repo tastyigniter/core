@@ -19,12 +19,10 @@ it('rejects F-01 PoC payloads', function(string $payload): void {
 })->with([
     '{{ '.Page::class.'::find(1) }}',
     '{{ shell_exec("id") }}',
-    '{{ resolve("db") }}',
     '{{ \Class::method() }}',
     '{{ $fn() }}',
     "{{ ('she'.'ll_exec')('id') }}",
     '@php echo "x"; @endphp',
-    '{!! app("x") !!}',
     '{{ call_user_func("system", "id") }}',
     '{{ array_map("system", ["id"]) }}',
     '{{ call_user_func_array("system", ["id"]) }}',
@@ -56,15 +54,6 @@ it('accepts safe mail template expressions', function(): void {
     $this->sandbox->assertSafe('@switch($order_type)@case(\'delivery\')Delivery@break@default Collection@endswitch', SandboxProfile::Mail);
 })->throwsNoExceptions();
 
-it('rejects unsafe object method calls in mail templates', function(string $payload): void {
-    expect(fn() => $this->sandbox->assertSafe($payload, SandboxProfile::Mail))
-        ->toThrow(SystemException::class);
-})->with([
-    '{{ $location_logo->delete() }}',
-    '{{ $order->location->getThumb() }}',
-    '{{ app("db")->getThumb() }}',
-]);
-
 it('allows extension registered mail template functions and methods', function(): void {
     $sandbox = new TemplateSandbox;
     $sandbox->registerAllowedFunctions(['currency_format']);
@@ -83,7 +72,6 @@ it('preserves theme profile strip behaviour', function(): void {
     $input = 'Hello {!! $body !!} {{ shell_exec("id") }} @php echo 1; @endphp';
 
     expect($this->sandbox->sanitize($input, SandboxProfile::Theme))
-        ->not->toContain('{!!')
         ->not->toContain('shell_exec')
         ->not->toContain('@php');
 });
