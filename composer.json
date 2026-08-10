@@ -1,9 +1,8 @@
 {
-  "name": "tastyigniter/core",
-  "description": "Seamless platform for modern restaurants",
-  "homepage": "https://tastyigniter.com",
+  "name": "techidev/tastyignitercore",
+  "description": "Localized Seamless platform for modern restaurants",
   "keywords": [
-    "tastyigniter",
+    "tastyigniter-french",
     "igniter",
     "flame",
     "laravel"
@@ -11,8 +10,8 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Samuel Adepoyigi",
-      "email": "sam@sampoyigi.com"
+      "name": "Kotchénin FANIDJI KASSIGNI",
+      "email": "kotchenin.fanidji.kassigni@gmail.com"
     }
   ],
   "require": {
