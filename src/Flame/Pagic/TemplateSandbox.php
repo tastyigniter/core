@@ -94,7 +94,6 @@ class TemplateSandbox
         $template = $this->removePhpTags($template);
         $template = $this->removeDangerousBladeDirectives($template);
         $template = $this->neutralizeUnsafeExpressions($template);
-        $template = $this->removeUnescapedOutput($template);
         $template = $this->removeObfuscation($template);
         $template = $this->removeVariableVariables($template);
 
@@ -229,10 +228,6 @@ class TemplateSandbox
         }
 
         foreach ($matches[1] as $expression) {
-            if ($profile === SandboxProfile::Theme) {
-                return 'Unescaped output is not allowed';
-            }
-
             if ($violation = $this->validateUnescapedExpression($expression)) {
                 return $violation;
             }
@@ -506,12 +501,6 @@ class TemplateSandbox
         }
 
         return $content;
-    }
-
-    protected function removeUnescapedOutput(string $content): string
-    {
-        // {!! unescaped !!} - force all output through Blade's escaping
-        return preg_replace('/\{!!\s*.+?\s*!!\}/s', '', $content) ?? $content;
     }
 
     protected function removeObfuscation(string $content): string
