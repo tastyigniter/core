@@ -172,7 +172,7 @@ it('does not format theme with missing extra config', function() {
 
 it('executes composer outdated command and returns success when no errors occur', function() {
     $output = mock(OutputInterface::class);
-    $output->shouldReceive('write')->atLeast(1);
+    $output->shouldReceive('write')->atLeast();
     File::shouldReceive('exists')->with(base_path('composer.phar'))->andReturnTrue();
     File::shouldReceive('isFile')->with(base_path('composer.json'))->andReturnTrue();
     File::shouldReceive('isFile')->with(base_path('composer.lock'))->andReturnTrue();
@@ -186,7 +186,7 @@ it('executes composer outdated command and returns success when no errors occur'
 it('restores composer files on exception in install', function() {
     $requirements = ['package/name'];
     $output = mock(OutputInterface::class);
-    $output->shouldReceive('write')->atLeast(1);
+    $output->shouldReceive('write')->atLeast();
     File::shouldReceive('isDirectory')->with('/storage/backups')->andReturnFalse();
     File::shouldReceive('makeDirectory')->with('/storage/backups', null, true);
     File::shouldReceive('copy')->with(base_path('composer.json'), '/storage/backups/composer.json');
@@ -205,7 +205,7 @@ it('restores composer files on exception in install', function() {
 it('restores composer files on exception in uninstall', function() {
     $packages = ['package/name', 'package/another'];
     $output = mock(OutputInterface::class);
-    $output->shouldReceive('write')->atLeast(1);
+    $output->shouldReceive('write')->atLeast();
     File::shouldReceive('isDirectory')->with('/storage/backups')->andReturnFalse();
     File::shouldReceive('makeDirectory')->with('/storage/backups', null, true);
     File::shouldReceive('copy')->with(base_path('composer.json'), '/storage/backups/composer.json');
