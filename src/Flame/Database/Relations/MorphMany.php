@@ -93,11 +93,9 @@ class MorphMany extends MorphManyBase
         $relationName = $this->relationName;
 
         if ($this->parent->relationLoaded($relationName)) {
-            $value = $this->parent->getRelation($relationName)->pluck($this->getRelatedKeyName())->all();
-        } else {
-            $value = $this->query->getQuery()->pluck($this->getRelatedKeyName())->all();
+            return $this->parent->getRelation($relationName)->pluck($this->getRelatedKeyName())->all();
         }
 
-        return $value;
+        return $this->query->getQuery()->pluck($this->getRelatedKeyName())->all();
     }
 }

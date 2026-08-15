@@ -148,7 +148,7 @@ class PermalinkMaker
         $slug = str_slug($source, $separator);
 
         if (is_string($slug) && $maxLength) {
-            $slug = mb_substr($slug, 0, $maxLength);
+            return mb_substr($slug, 0, $maxLength);
         }
 
         return $slug;

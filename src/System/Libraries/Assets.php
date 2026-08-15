@@ -326,7 +326,7 @@ class Assets
         $path = $this->getAssetPath($path);
 
         if (starts_with($path, public_path())) {
-            $path = File::localToPublic($path);
+            return File::localToPublic($path);
         }
 
         return $path;

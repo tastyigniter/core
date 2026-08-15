@@ -198,12 +198,10 @@ class ConfigRewrite
             }
 
             // Capture all opening array (non greedy)
-            $result = '('.implode('[\s\S]*', $itemOpen).'[\s\S]*?)';
-        } else {
-            // Gotta capture something for $1
-            $result = '()';
+            return '('.implode('[\s\S]*', $itemOpen).'[\s\S]*?)';
         }
 
-        return $result;
+        // Gotta capture something for $1
+        return '()';
     }
 }

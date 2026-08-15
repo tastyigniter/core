@@ -377,7 +377,7 @@ if (!function_exists('normalize_uri')) {
         }
 
         if (!str_starts_with($uri, '/')) {
-            $uri = '/'.$uri;
+            return '/'.$uri;
         }
 
         return $uri;
@@ -679,7 +679,7 @@ if (!function_exists('parse_date_format')) {
     function parse_date_format(string $format): string
     {
         if (str_contains($format, '%')) {
-            $format = str_replace(
+            return str_replace(
                 '%\\',
                 '',
                 preg_replace('/([a-z]+?)/i', '\\\\\\1', $format),

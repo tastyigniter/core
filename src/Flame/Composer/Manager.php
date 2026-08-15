@@ -136,12 +136,11 @@ class Manager
             return PackageInfo::CORE_TYPE;
         }
 
-        $packageType = 'extension';
         if (array_get($package, 'extra.tastyigniter-theme')) {
-            $packageType = 'theme';
+            return 'theme';
         }
 
-        return $packageType;
+        return 'extension';
     }
 
     //
@@ -314,7 +313,7 @@ class Manager
         $this->modify(function(array $composer): array {
             $newConfig = $this->assertRepository($composer);
             if ($composer !== $newConfig) {
-                $composer = $newConfig;
+                return $newConfig;
             }
 
             return $composer;

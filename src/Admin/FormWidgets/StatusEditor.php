@@ -334,13 +334,13 @@ class StatusEditor extends BaseFormWidget
             $group = UserGroup::find(array_get($saveData, $this->assigneeGroupKeyFrom));
             /** @var User $user */
             $user = User::find(array_get($saveData, $keyFrom));
-            $record = $this->model->updateAssignTo($group, $user, $this->controller->getUser());
-        } else {
-            /** @var Status $status */
-            $status = Status::find(array_get($saveData, $keyFrom));
-            $record = $this->model->addStatusHistory($status, $saveData);
+
+            return $this->model->updateAssignTo($group, $user, $this->controller->getUser());
         }
 
-        return $record;
+        /** @var Status $status */
+        $status = Status::find(array_get($saveData, $keyFrom));
+
+        return $this->model->addStatusHistory($status, $saveData);
     }
 }

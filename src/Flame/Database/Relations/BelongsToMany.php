@@ -206,12 +206,10 @@ class BelongsToMany extends BelongsToManyBase
         $relationName = $this->relationName;
 
         if ($this->parent->relationLoaded($relationName)) {
-            $value = $this->parent->getRelation($relationName)->pluck($this->getRelatedKeyName())->all();
-        } else {
-            $value = $this->allRelatedIds()->all();
+            return $this->parent->getRelation($relationName)->pluck($this->getRelatedKeyName())->all();
         }
 
-        return $value;
+        return $this->allRelatedIds()->all();
     }
 
     /**

@@ -80,7 +80,7 @@ class SystemLogs extends AdminController
 
         // single file logs
         if (!File::exists($path)) {
-            $path = storage_path($this->logFile.'.log');
+            return storage_path($this->logFile.'.log');
         }
 
         return $path;

@@ -38,6 +38,7 @@ class Currency implements ValidationRule, ValidatorAwareRule
         if (!is_string($value) && !is_numeric($value)) {
             return false;
         }
+
         if (is_numeric($value)) {
             return true;
         }

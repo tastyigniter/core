@@ -218,7 +218,7 @@ class FormBuilder
         // If an action is available, we are attempting to open a form to a controller
         // action route. So, we will use the URL generator to get the path to these
         // actions and return them from the method. Otherwise, we'll use current.
-        elseif (isset($options['action'])) {
+        if (isset($options['action'])) {
             return $this->getControllerAction($options['action']);
         }
 

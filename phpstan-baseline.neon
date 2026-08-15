@@ -1217,3 +1217,9 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: src/System/Models/Settings.php
+
+		-
+			message: '#^Call to function is_numeric\(\) with mixed will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 1
+			path: src/System/Rules/Currency.php
