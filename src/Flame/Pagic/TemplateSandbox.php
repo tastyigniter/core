@@ -21,12 +21,6 @@ class TemplateSandbox
         'lang', 'choice',
     ];
 
-    protected const array ALLOWED_FUNCTIONS = [
-        'setting', 'lang', 'trans', 'media_thumb', 'date', 'e',
-        'config', 'route', 'url', 'page_url', 'asset', 'empty', 'isset',
-        'count', 'trim', 'strip_tags', 'nl2br', 'number_format',
-    ];
-
     protected const array DANGEROUS_FUNCTIONS = [
         'eval', 'system', 'exec', 'shell_exec', 'passthru', 'popen', 'proc_open',
         'file_put_contents', 'file_get_contents', 'readfile', 'file', 'scandir', 'glob',
@@ -96,10 +90,10 @@ class TemplateSandbox
     protected function sanitizeTheme(string $template): string
     {
         $template = $this->removeNullBytes($template);
+        $template = $this->removeDangerousFunctionCalls($template);
         $template = $this->removePhpTags($template);
         $template = $this->removeDangerousBladeDirectives($template);
-        $template = $this->removeDangerousFunctionCalls($template);
-        $template = $this->removeUnescapedOutput($template);
+        $template = $this->neutralizeUnsafeExpressions($template);
         $template = $this->removeObfuscation($template);
         $template = $this->removeVariableVariables($template);
 
@@ -109,6 +103,7 @@ class TemplateSandbox
     protected function sanitizeMail(string $template): string
     {
         $template = $this->removeNullBytes($template);
+        $template = $this->removeDangerousFunctionCalls($template);
         $template = $this->removePhpTags($template);
         $template = $this->stripHtmlComments($template);
         $template = $this->removeDangerousBladeDirectives($template);
@@ -117,9 +112,8 @@ class TemplateSandbox
         $template = $this->sanitizeUnescapedOutputForMail($template);
         $template = $this->removeObfuscation($template);
         $template = $this->removeVariableVariables($template);
-        $template = $this->removePathTraversal($template);
 
-        return $this->removeDangerousFunctionCalls($template);
+        return $this->removePathTraversal($template);
     }
 
     protected function findFirstViolation(string $template, SandboxProfile $profile): ?string
@@ -135,7 +129,7 @@ class TemplateSandbox
             return '@php blocks are not allowed';
         }
 
-        if ($violation = $this->findUnsafeDirectiveViolation($template)) {
+        if ($profile === SandboxProfile::Mail && ($violation = $this->findUnsafeDirectiveViolation($template))) {
             return $violation;
         }
 
@@ -172,9 +166,11 @@ class TemplateSandbox
             return 'Path traversal is not allowed';
         }
 
-        foreach (self::DANGEROUS_FUNCTIONS as $function) {
-            if (preg_match('/\b'.preg_quote($function, '/').'\s*\(/i', $template)) {
-                return 'Forbidden function: '.$function;
+        foreach ($this->extractPhpRegions($template) as $phpCode) {
+            foreach ($this->getDangerousFunctions() as $function) {
+                if (preg_match('/\b'.preg_quote($function, '/').'\s*\(/i', $phpCode)) {
+                    return 'Forbidden function: '.$function;
+                }
             }
         }
 
@@ -232,10 +228,6 @@ class TemplateSandbox
         }
 
         foreach ($matches[1] as $expression) {
-            if ($profile === SandboxProfile::Theme) {
-                return 'Unescaped output is not allowed';
-            }
-
             if ($violation = $this->validateUnescapedExpression($expression)) {
                 return $violation;
             }
@@ -273,18 +265,6 @@ class TemplateSandbox
             return 'Namespace separators are not allowed';
         }
 
-        if (str_contains($scan, '::')) {
-            return 'Static calls are not allowed';
-        }
-
-        if (str_contains($scan, '->') && $violation = $this->validateObjectMethodCalls($scan)) {
-            return $violation;
-        }
-
-        if (preg_match('/\bnew\s+/i', $scan)) {
-            return 'Object instantiation is not allowed';
-        }
-
         if (str_contains($scan, '`')) {
             return 'Shell execution is not allowed';
         }
@@ -295,14 +275,6 @@ class TemplateSandbox
 
         if (preg_match('/(?<![=!<>])=(?!=|>)/', $scan)) {
             return 'Assignment expressions are not allowed';
-        }
-
-        if (preg_match('/\b(app|resolve)\s*\(/i', $scan)) {
-            return 'Container resolution is not allowed';
-        }
-
-        if (preg_match('/\bContainer\s*::/i', $scan) || stripos($scan, 'Illuminate\\') !== false) {
-            return 'Framework internals are not allowed';
         }
 
         if (preg_match('/\'\s*\.\s*\'/', $scan)) {
@@ -336,43 +308,9 @@ class TemplateSandbox
 
             $functionLower = strtolower($function);
 
-            if (in_array($functionLower, self::DANGEROUS_FUNCTIONS, true)) {
+            if (in_array($functionLower, $this->getDangerousFunctions(), true)) {
                 return 'Forbidden function: '.$function;
             }
-
-            if (!in_array($functionLower, $this->getAllowedFunctions(), true)) {
-                return 'Disallowed function: '.$function;
-            }
-        }
-
-        return null;
-    }
-
-    protected function validateObjectMethodCalls(string $scan): ?string
-    {
-        if (!preg_match_all(
-            '/(\$[a-zA-Z_]\w*(?:\s*\[(?:\'[^\']*\'|"[^"]*")\])?)\s*->\s*([a-zA-Z_]\w*)\s*\(/',
-            $scan,
-            $matches,
-            PREG_SET_ORDER,
-        )) {
-            return 'Object method calls are not allowed';
-        }
-
-        $remaining = $scan;
-
-        foreach ($matches as $match) {
-            $methodLower = strtolower($match[2]);
-
-            if (!in_array($methodLower, $this->getAllowedMethods(), true)) {
-                return 'Disallowed object method: '.$match[2];
-            }
-
-            $remaining = str_replace($match[0], '$__safe__', $remaining);
-        }
-
-        if (str_contains($remaining, '->')) {
-            return 'Object method calls are not allowed';
         }
 
         return null;
@@ -381,17 +319,9 @@ class TemplateSandbox
     /**
      * @return array<int, string>
      */
-    protected function getAllowedFunctions(): array
+    protected function getDangerousFunctions(): array
     {
-        return array_values(array_unique(array_merge(self::ALLOWED_FUNCTIONS, $this->registeredFunctions)));
-    }
-
-    /**
-     * @return array<int, string>
-     */
-    protected function getAllowedMethods(): array
-    {
-        return array_values(array_unique(array_merge(self::ALLOWED_METHODS, $this->registeredMethods)));
+        return array_values(array_diff(self::DANGEROUS_FUNCTIONS, array_values(array_unique($this->registeredFunctions))));
     }
 
     protected function stripStringLiterals(string $expression): string
@@ -445,8 +375,23 @@ class TemplateSandbox
 
     protected function containsPhpTags(string $content): bool
     {
+        // Whole-string PHP blocks are theme code sections, not embedded tags.
+        if ($this->isPhpCodeSection($content)) {
+            return false;
+        }
+
         return (bool)preg_match('/<\?(?:php|=)/i', $content)
             || (bool)preg_match('/<\?(?!xml)/i', $content);
+    }
+
+    protected function isPhpCodeSection(string $content): bool
+    {
+        $trimmed = trim($content);
+
+        return (bool)preg_match('/^<\?(?:php|=)\b[\s\S]*?\?>$/i', $trimmed)
+            || (bool)preg_match('/^<\?(?:php|=)\b[\s\S]*$/i', $trimmed)
+            || (bool)preg_match('/^<\?(?!xml)[\s\S]*?\?>$/i', $trimmed)
+            || (bool)preg_match('/^<\?(?!xml)[\s\S]*$/i', $trimmed);
     }
 
     protected function stripHtmlComments(string $content): string
@@ -461,16 +406,22 @@ class TemplateSandbox
 
     protected function removePhpTags(string $content): string
     {
-        // With closing tag
+        // Code sections are sanitized as a single PHP block: keep the inner code
+        // after dangerous calls have already been scrubbed.
+        if ($this->isPhpCodeSection($content)) {
+            $trimmed = trim($content);
+            $trimmed = preg_replace('/^<\?(?:php|=)\b/i', '', $trimmed) ?? $trimmed;
+            $trimmed = preg_replace('/^<\?(?!xml)/i', '', $trimmed) ?? $trimmed;
+            $trimmed = preg_replace('/\?>$/i', '', $trimmed) ?? $trimmed;
+
+            return trim($trimmed, PHP_EOL);
+        }
+
+        // Markup: strip PHP tags and their contents entirely
         $content = preg_replace('/<\?(?:php|=).*?\?>/si', '', $content) ?? $content;
-
-        // Without closing tag - rest of content after opening tag
         $content = preg_replace('/<\?(?:php|=)[\s\S]*$/i', '', $content) ?? $content;
-
-        // Short open tags (but preserve <?xml)
         $content = preg_replace('/<\?(?!xml)[\s\S]*$/i', '', $content) ?? $content;
 
-        // Catch any remnants
         return str_replace(['<?', '?>'], '', $content);
     }
 
@@ -481,14 +432,6 @@ class TemplateSandbox
             '/@php\b.*?@endphp/si',
             // @inject directive
             '/@inject\s*\([^)]*\)/i',
-            // Dangerous includes that load arbitrary files
-            '/@include[a-zA-Z]*\s*\([^)]*\)/i',
-            '/@require[a-zA-Z]*\s*\([^)]*\)/i',
-            // Layout directives that could load arbitrary files
-            '/@extends\s*\([^)]*\)/i',
-            // Component loading
-            '/@component[a-zA-Z]*\s*\([^)]*\)/i',
-            '/@livewire[a-zA-Z]*\s*\([^)]*\)/i',
         ];
 
         foreach ($patterns as $pattern) {
@@ -500,25 +443,64 @@ class TemplateSandbox
 
     protected function removeDangerousFunctionCalls(string $content): string
     {
+        return $this->transformPhpRegions($content, function(string $phpCode): string {
+            $patterns = [
+                '/\bpreg_replace\s*\(\s*[\'"].*?e[\'"]/i',
+            ];
+
+            foreach ($this->getDangerousFunctions() as $function) {
+                $patterns[] = '/\b'.preg_quote($function, '/').'\s*\([^)]*\)/i';
+            }
+
+            foreach ($patterns as $pattern) {
+                $phpCode = preg_replace($pattern, '', $phpCode) ?? $phpCode;
+            }
+
+            return $phpCode;
+        });
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    protected function extractPhpRegions(string $content): array
+    {
+        $regions = [];
+
+        $this->transformPhpRegions($content, function(string $phpCode) use (&$regions): string {
+            $regions[] = $phpCode;
+
+            return $phpCode;
+        });
+
+        return $regions;
+    }
+
+    /**
+     * @param  callable(string): string  $callback
+     */
+    protected function transformPhpRegions(string $content, callable $callback): string
+    {
         $patterns = [
-            '/\bpreg_replace\s*\(\s*[\'"].*?e[\'"]/i',
+            // Standard and echo PHP tags, with or without a closing tag
+            '/<\?(?:php|=)\b[\s\S]*?(?:\?>|$)/i',
+            // Short open tags (but preserve <?xml)
+            '/<\?(?!xml|php|=)[\s\S]*?(?:\?>|$)/i',
+            // Blade @php ... @endphp blocks
+            '/@php\b(?:(?!@endphp).)*@endphp/si',
+            // Blade inline @php(...) statements
+            '/@php\s*\((?:[^()]*|\([^()]*\))*\)/si',
         ];
 
-        foreach (self::DANGEROUS_FUNCTIONS as $function) {
-            $patterns[] = '/\b'.preg_quote($function, '/').'\s*\([^)]*\)/i';
-        }
-
         foreach ($patterns as $pattern) {
-            $content = preg_replace($pattern, '', $content) ?? $content;
+            $content = preg_replace_callback(
+                $pattern,
+                fn(array $matches): string => $callback($matches[0]),
+                $content,
+            ) ?? $content;
         }
 
         return $content;
-    }
-
-    protected function removeUnescapedOutput(string $content): string
-    {
-        // {!! unescaped !!} - force all output through Blade's escaping
-        return preg_replace('/\{!!\s*.+?\s*!!\}/s', '', $content) ?? $content;
     }
 
     protected function removeObfuscation(string $content): string

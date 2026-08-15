@@ -115,7 +115,7 @@ class MailManager
         $html = $this->render($template->body, $data);
 
         if ($template->layout) {
-            $html = $this->renderView($template->layout->layout,
+            return $this->renderView($template->layout->layout,
                 [
                     'body' => $html->toHtml(),
                     'layout_css' => $template->layout->layout_css,
@@ -135,7 +135,7 @@ class MailManager
         $text = $this->renderText($templateText, $data);
 
         if ($template->layout) {
-            $text = $this->renderView($template->layout->plain_layout, ['body' => $text->toHtml()] + $data);
+            return $this->renderView($template->layout->plain_layout, ['body' => $text->toHtml()] + $data);
         }
 
         return $text;

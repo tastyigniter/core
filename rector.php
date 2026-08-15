@@ -5,12 +5,10 @@ declare(strict_types=1);
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
-use Rector\CodeQuality\Rector\Ternary\SwitchNegatedTernaryRector;
 use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\FuncCall\FunctionFirstClassCallableRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
-use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\TypeDeclaration\Rector\ArrowFunction\AddArrowFunctionReturnTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddParamStringTypeFromSprintfUseRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
@@ -38,13 +36,11 @@ return RectorConfig::configure()
         AddVoidReturnTypeWhereNoReturnRector::class => [
             __DIR__.'/src/Flame/Providers/EventServiceProvider.php',
         ],
-        DisallowedEmptyRuleFixerRector::class,
         RemoveUselessParamTagRector::class => [
             __DIR__.'/src/Flame/Database/Concerns/HasRelationships.php',
         ],
         FunctionFirstClassCallableRector::class,
         SimplifyEmptyCheckOnEmptyArrayRector::class,
-        SwitchNegatedTernaryRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
         NewlineBeforeNewAssignSetRector::class,
     ])

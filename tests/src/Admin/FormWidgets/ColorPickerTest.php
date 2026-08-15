@@ -63,6 +63,16 @@ it('gets save value correctly when value is empty', function() {
     expect($value)->toBeNull();
 });
 
+it('normalizes hex save values', function($value, $expected) {
+    expect($this->colorPickerWidget->getSaveValue($value))->toBe($expected);
+})->with([
+    ['1ABC9C', '#1abc9c'],
+    ['#1abc9c', '#1abc9c'],
+    ['#1AB', '#11aabb'],
+    ['#gg0000', null],
+    ['not-a-color', null],
+]);
+
 it('gets available colors correctly', function() {
     $this->colorPickerWidget->prepareVars();
 

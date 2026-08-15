@@ -30,7 +30,7 @@ class RouterHelper
         }
 
         if (empty($url)) {
-            $url = '/';
+            return '/';
         }
 
         return $url;

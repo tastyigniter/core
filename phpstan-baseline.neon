@@ -85,6 +85,12 @@ parameters:
 			path: src/Admin/Widgets/Table.php
 
 		-
+			message: '#^Method Igniter\\Flame\\Assetic\\Asset\\Iterator\\AssetCollectionFilterIterator\:\:getChildren\(\) should return static\(Igniter\\Flame\\Assetic\\Asset\\Iterator\\AssetCollectionFilterIterator\)\|null but returns Igniter\\Flame\\Assetic\\Asset\\Iterator\\AssetCollectionFilterIterator\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Flame/Assetic/Asset/Iterator/AssetCollectionFilterIterator.php
+
+		-
 			message: '#^Call to an undefined method Igniter\\Flame\\Currency\\Contracts\\CurrencyInterface\:\:get\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -1211,3 +1217,9 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: src/System/Models/Settings.php
+
+		-
+			message: '#^Call to function is_numeric\(\) with mixed will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 1
+			path: src/System/Rules/Currency.php

@@ -136,12 +136,11 @@ class Manager
             return PackageInfo::CORE_TYPE;
         }
 
-        $packageType = 'extension';
         if (array_get($package, 'extra.tastyigniter-theme')) {
-            $packageType = 'theme';
+            return 'theme';
         }
 
-        return $packageType;
+        return 'extension';
     }
 
     //
@@ -169,6 +168,7 @@ class Manager
             ...$this->findComposer(),
             'outdated',
             '--all',
+            '--no-dev',
             '--format=json',
         ]))->all();
 
@@ -190,6 +190,7 @@ class Manager
                 ...$this->findComposer(),
                 'require',
                 ...$packages,
+                '--update-no-dev',
             ]))->all();
 
             $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(
@@ -215,6 +216,7 @@ class Manager
                 ...$this->findComposer(),
                 'remove',
                 ...$packages,
+                '--update-no-dev',
             ]))->all();
 
             $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(
@@ -311,7 +313,7 @@ class Manager
         $this->modify(function(array $composer): array {
             $newConfig = $this->assertRepository($composer);
             if ($composer !== $newConfig) {
-                $composer = $newConfig;
+                return $newConfig;
             }
 
             return $composer;

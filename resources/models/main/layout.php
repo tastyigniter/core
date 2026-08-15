@@ -1,6 +1,6 @@
 <?php
 
-use Igniter\System\Rules\SafeMailTemplateContent;
+use Igniter\System\Rules\SafeThemeTemplateContent;
 
 return [
     'form' => [
@@ -56,10 +56,10 @@ return [
             ],
         ],
         'rules' => [
-            'markup' => ['sometimes', new SafeMailTemplateContent],
-            'codeSection' => ['sometimes', new SafeMailTemplateContent],
+            'markup' => ['sometimes', new SafeThemeTemplateContent],
+            'codeSection' => ['sometimes', (new SafeThemeTemplateContent)->wrapInPhpTags()],
             'settings.components.*' => ['required', 'regex:/^[a-zA-Z\s\-\:\.]+$/'],
-            'settings.description' => ['sometimes', 'max:255', new SafeMailTemplateContent],
+            'settings.description' => ['sometimes', 'max:255', new SafeThemeTemplateContent],
         ],
         'validationAttributes' => [
             'markup' => lang('igniter::system.themes.text_tab_markup'),

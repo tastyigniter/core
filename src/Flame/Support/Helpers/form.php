@@ -126,14 +126,15 @@ if (!function_exists('set_checkbox')) {
         // Form inputs are always strings ...
         $value = (string)$value;
         $input = set_value($field, false);
-
         if (is_array($input)) {
             if (in_array($value, $input, true)) {
                 return ' checked="checked"';
             }
 
             return '';
-        } elseif (is_string($input)) {
+        }
+
+        if (is_string($input)) {
             return ($input === $value) ? ' checked="checked"' : '';
         }
 
@@ -156,14 +157,15 @@ if (!function_exists('set_radio')) {
         // Form inputs are always strings ...
         $value = (string)$value;
         $input = set_value($field, false);
-
         if (is_array($input)) {
             if (in_array($value, $input, true)) {
                 return ' checked="checked"';
             }
 
             return '';
-        } elseif (is_string($input)) {
+        }
+
+        if (is_string($input)) {
             return ($input === $value) ? ' checked="checked"' : '';
         }
 

@@ -12,6 +12,7 @@ use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Events\ThemeGetActiveEvent;
+use Igniter\Main\Template\File as FileTemplate;
 use Igniter\Main\Template\Page as PageTemplate;
 use Illuminate\Support\Facades\Event;
 use RuntimeException;
@@ -307,7 +308,8 @@ it('creates a new template instance for a valid directory name', function() {
 
 it('returns the correct template class for a valid directory name', function() {
     $theme = new Theme($this->themePath);
-    expect($theme->getTemplateClass('_pages'))->toBe(PageTemplate::class);
+    expect($theme->getTemplateClass('_pages'))->toBe(PageTemplate::class)
+        ->and($theme->getTemplateClass('_files'))->toBe(FileTemplate::class);
 });
 
 it('throws exception when getting template class for an invalid directory name', function() {

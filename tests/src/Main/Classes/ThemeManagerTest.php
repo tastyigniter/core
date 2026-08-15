@@ -201,6 +201,43 @@ it('creates a new theme file successfully', function() {
         ->toBe($this->themePath.'/_pages/fileName.blade.php');
 });
 
+it('creates a new files template at the theme source root', function() {
+    File::shouldReceive('extension')->with($this->themePath.'/emails/welcome')->andReturn(false);
+    File::shouldReceive('isFile')->with($this->themePath.'/emails/welcome.blade.php')->andReturn(false);
+    File::shouldReceive('isDirectory')->with($this->themePath.'/emails')->andReturn(false);
+    File::shouldReceive('dirname')->with($this->themePath.'/emails/welcome.blade.php')->andReturn($this->themePath.'/emails');
+    File::shouldReceive('makeDirectory')->with($this->themePath.'/emails', 0777, true, true);
+    File::shouldReceive('put')->with($this->themePath.'/emails/welcome.blade.php', "\n")->andReturn(true);
+
+    expect($this->themeManager->newFile('_files/emails/welcome', 'tests-theme'))
+        ->toBe($this->themePath.'/emails/welcome.blade.php');
+});
+
+it('creates files templates under Theme::getSourcePath not the theme package root', function() {
+    $theme = mock(Theme::class);
+    $theme->shouldReceive('newTemplate')->with('_files')->andReturn(new \Igniter\Main\Template\File);
+    $theme->shouldReceive('getSourcePath')->andReturn($this->themePath.'/source');
+    $theme->shouldReceive('getPath')->never();
+
+    $manager = mock(ThemeManager::class)->makePartial();
+    $manager->shouldReceive('findTheme')->with('source-path-theme')->andReturn($theme);
+
+    File::shouldReceive('extension')->with($this->themePath.'/source/emails/welcome')->andReturn(false);
+    File::shouldReceive('isFile')->with($this->themePath.'/source/emails/welcome.blade.php')->andReturn(false);
+    File::shouldReceive('isDirectory')->with($this->themePath.'/source/emails')->andReturn(false);
+    File::shouldReceive('dirname')->with($this->themePath.'/source/emails/welcome.blade.php')->andReturn($this->themePath.'/source/emails');
+    File::shouldReceive('makeDirectory')->with($this->themePath.'/source/emails', 0777, true, true);
+    File::shouldReceive('put')->with($this->themePath.'/source/emails/welcome.blade.php', "\n")->andReturn(true);
+
+    expect($manager->newFile('_files/emails/welcome', 'source-path-theme'))
+        ->toBe($this->themePath.'/source/emails/welcome.blade.php');
+});
+
+it('reads a files template from the theme source root', function() {
+    expect($this->themeManager->readFile('_files/test-file', 'tests-theme'))
+        ->getMarkup()->toContain('test file content');
+});
+
 it('throws exception when creating a file that already exists', function() {
     File::shouldReceive('extension')->with($this->themePath.'/_pages/fileName')->andReturn(false);
     File::shouldReceive('isFile')->with($this->themePath.'/_pages/fileName.blade.php')->andReturn(true);

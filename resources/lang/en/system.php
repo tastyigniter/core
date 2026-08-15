@@ -681,6 +681,7 @@ return [
         'label_type_partial' => 'Partials',
         'label_type_layout' => 'Layouts',
         'label_type_content' => 'Contents',
+        'label_type_file' => 'Views',
 
         'button_browse' => '<i class="fa fa-globe"></i>&nbsp;&nbsp;Browse more themes&nbsp;&nbsp;<i class="fa fa-external-link-alt"></i>',
         'button_source' => '<i class="fa fa-file"></i>&nbsp;&nbsp;Edit template files',
@@ -707,6 +708,7 @@ return [
         'alert_delete_confirm' => 'Are you sure you wish to delete the associated %s? This cannot be undone!',
         'alert_theme_locked' => 'This is a locked theme, changes are restricted, create a child theme to make changes.',
         'alert_theme_path_locked' => 'This template belongs to a locked theme, such actions are restricted.',
+        'alert_reserved_file_path' => 'This path is reserved for pages, partials, layouts, contents or theme assets.',
         'alert_changes_confirm' => 'Conflicting versions, template file has changed. Reload the page to continue.',
         'alert_customize_not_active' => 'You can only customize an active theme.',
         'alert_component_partial_not_found' => 'The selected component partial does not exist in the component directory',

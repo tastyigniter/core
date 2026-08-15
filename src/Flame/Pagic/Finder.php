@@ -48,6 +48,22 @@ class Finder
     public ?string $fileMatch = null;
 
     /**
+     * Finder depth constraint. Null means unlimited nesting.
+     * Defaults to a single subdirectory level.
+     */
+    public ?string $depth = '<= 1';
+
+    /**
+     * Directory names to exclude when listing templates.
+     */
+    public array $excludeDirs = [];
+
+    /**
+     * Basename patterns to match when listing templates (e.g. *.blade.php).
+     */
+    public array $names = [];
+
+    /**
      * The maximum number of records to return.
      */
     public int $limit = 0;
@@ -106,6 +122,36 @@ class Finder
     public function in(string $dirName): static
     {
         $this->in = $dirName;
+
+        return $this;
+    }
+
+    /**
+     * Set the Finder depth constraint. Null means unlimited nesting.
+     */
+    public function depth(?string $depth): static
+    {
+        $this->depth = $depth;
+
+        return $this;
+    }
+
+    /**
+     * Set directory names to exclude when listing templates.
+     */
+    public function excludeDirs(array $excludeDirs): static
+    {
+        $this->excludeDirs = $excludeDirs;
+
+        return $this;
+    }
+
+    /**
+     * Set basename patterns to match when listing templates.
+     */
+    public function names(array $names): static
+    {
+        $this->names = $names;
 
         return $this;
     }
@@ -298,6 +344,10 @@ class Finder
         return $this->source->selectAll($this->in, [
             'columns' => $this->columns,
             'extensions' => $this->extensions,
+            'fileMatch' => $this->fileMatch,
+            'depth' => $this->depth,
+            'excludeDirs' => $this->excludeDirs,
+            'names' => $this->names,
         ]);
     }
 
@@ -388,8 +438,9 @@ class Finder
     /**
      * Validates a template path.
      * Template directory and file names can contain only alphanumeric symbols, dashes and dots.
+     * When $maxNesting is null, any nesting level is allowed.
      */
-    protected function validateFileNamePath(string $filePath, int $maxNesting = 2): bool
+    protected function validateFileNamePath(string $filePath, ?int $maxNesting = 2): bool
     {
         if (str_contains($filePath, '..')) {
             return false;
@@ -400,7 +451,7 @@ class Finder
         }
 
         $segments = explode(DIRECTORY_SEPARATOR, $filePath);
-        if (count($segments) > $maxNesting) {
+        if (!is_null($maxNesting) && count($segments) > $maxNesting) {
             return false;
         }
 
@@ -543,6 +594,9 @@ class Finder
         $payload[] = $this->select ? serialize($this->select) : '*';
         $payload[] = $this->columns ? serialize($this->columns) : '*';
         $payload[] = $this->fileMatch;
+        $payload[] = $this->depth;
+        $payload[] = $this->excludeDirs ? serialize($this->excludeDirs) : '*';
+        $payload[] = $this->names ? serialize($this->names) : '*';
         $payload[] = $this->limit;
         $payload[] = $this->offset;
 

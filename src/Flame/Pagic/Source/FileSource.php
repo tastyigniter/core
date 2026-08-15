@@ -64,9 +64,12 @@ class FileSource extends AbstractSource implements SourceInterface
         $columns = array_get($options, 'columns');  // Only return specific columns (fileName, mTime, content)
         $extensions = array_get($options, 'extensions');  // Match specified extensions
         $fileMatch = array_get($options, 'fileMatch');  // Match the file name using fnmatch()
+        $depth = array_key_exists('depth', $options) ? $options['depth'] : '<= 1';
+        $excludeDirs = array_get($options, 'excludeDirs', []);
+        $names = array_get($options, 'names', []);
 
         $result = [];
-        $dirPath = $this->basePath.'/'.$dirName;
+        $dirPath = $dirName !== '' ? $this->basePath.'/'.$dirName : $this->basePath;
 
         if (!$this->files->isDirectory($dirPath)) {
             return $result;
@@ -77,8 +80,19 @@ class FileSource extends AbstractSource implements SourceInterface
         $iterator = $this->finder->create()
             ->files()
             ->ignoreVCS(true)
-            ->ignoreDotFiles(true)
-            ->depth('<= 1');  // Support only a single level of subdirectories
+            ->ignoreDotFiles(true);
+
+        if (!is_null($depth)) {
+            $iterator->depth($depth);
+        }
+
+        if ($excludeDirs) {
+            $iterator->exclude($excludeDirs);
+        }
+
+        if ($names) {
+            $iterator->name($names);
+        }
 
         $iterator->filter(function(SplFileInfo $file) use ($extensions, $fileMatch) {
             // Filter by extension
@@ -100,7 +114,7 @@ class FileSource extends AbstractSource implements SourceInterface
 
             $path = $file->getPathName();
 
-            $item['fileName'] = $file->getRelativePathName();
+            $item['fileName'] = str_replace('\\', '/', $file->getRelativePathName());
 
             if (!$columns || array_key_exists('mTime', $columns)) {
                 $item['mTime'] = $this->files->lastModified($path);
@@ -220,10 +234,11 @@ class FileSource extends AbstractSource implements SourceInterface
     protected function validateDirectoryForSave(string $dirName, $fileName, string $extension)
     {
         $path = $this->makeFilePath($dirName, $fileName, $extension);
-        $dirPath = $this->basePath.'/'.$dirName;
+        $dirPath = $dirName !== '' ? $this->basePath.'/'.$dirName : $this->basePath;
 
         // Create base directory
         if (
+            $dirName !== '' &&
             (!$this->files->exists($dirPath) || !$this->files->isDirectory($dirPath)) &&
             !$this->files->makeDirectory($dirPath, 0777, true, true)
         ) {
@@ -248,7 +263,9 @@ class FileSource extends AbstractSource implements SourceInterface
      */
     protected function makeFilePath(string $dirName, string $fileName, string $extension): string
     {
-        return $this->basePath.'/'.$dirName.'/'.$fileName.'.'.$extension;
+        $relativePath = $dirName !== '' ? $dirName.'/'.$fileName : $fileName;
+
+        return $this->basePath.'/'.$relativePath.'.'.$extension;
     }
 
     /**

@@ -558,7 +558,7 @@ class Lists extends BaseWidget
 
         // Extensibility
         if ($response = $this->fireSystemEvent('admin.list.overrideHeaderValue', [$column, $value])) {
-            $value = $response;
+            return $response;
         }
 
         return $value;
@@ -589,7 +589,7 @@ class Lists extends BaseWidget
         }
 
         if (is_callable($column->formatter) && ($response = ($column->formatter)($record, $column, $value)) !== null) {
-            $value = $response;
+            return $response;
         }
 
         return $value;

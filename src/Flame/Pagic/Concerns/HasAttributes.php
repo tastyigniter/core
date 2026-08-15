@@ -112,7 +112,7 @@ trait HasAttributes
         }
 
         if (count($this->getHidden()) > 0) {
-            $values = array_diff_key($values, array_flip($this->getHidden()));
+            return array_diff_key($values, array_flip($this->getHidden()));
         }
 
         return $values;

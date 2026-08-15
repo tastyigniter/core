@@ -180,7 +180,7 @@ class Relation extends BaseFormWidget
     protected function processFieldValue(mixed $value, Model $model)
     {
         if ($value instanceof Collection) {
-            $value = $value->pluck($model->getKeyName())->toArray();
+            return $value->pluck($model->getKeyName())->toArray();
         }
 
         return $value;

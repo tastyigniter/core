@@ -106,6 +106,35 @@ it('chooses template file correctly', function() {
         ->and($this->templateEditorWidget->getTemplateValue('file'))->toBe('components');
 });
 
+it('chooses files template type correctly', function() {
+    request()->request->add([
+        'Theme' => [
+            'source' => [
+                'template' => [
+                    'type' => '_files',
+                    'file' => 'components/account/dashboard',
+                ],
+            ],
+        ],
+    ]);
+
+    expect($this->templateEditorWidget->onChooseFile())->toBeInstanceOf(RedirectResponse::class)
+        ->and($this->templateEditorWidget->getTemplateValue('type'))->toBe('_files')
+        ->and($this->templateEditorWidget->getTemplateValue('file'))->toBe('components/account/dashboard');
+});
+
+it('throws exception when creating a files template in a reserved path', function() {
+    $this->templateEditorWidget->setTemplateValue('type', '_files');
+
+    request()->request->add([
+        'action' => 'new',
+        'name' => '_pages/new-file',
+    ]);
+
+    expect(fn() => $this->templateEditorWidget->onManageSource())
+        ->toThrow(FlashException::class, lang('igniter::system.themes.alert_reserved_file_path'));
+});
+
 it('throws exception when renaming, deleting or creating template file of locked theme', function() {
     $this->themeManager->shouldReceive('isLocked')->with('tests-theme')->andReturnTrue();
 

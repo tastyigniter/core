@@ -25,7 +25,7 @@ trait ManagesSource
      * meaning that files can only exist in the root directory, or in a
      * subdirectory. Set to null if any level is allowed.
      */
-    protected int $maxNesting = 2;
+    protected ?int $maxNesting = 2;
 
     public static function on(string $source): static
     {
@@ -187,8 +187,9 @@ trait ManagesSource
 
     /**
      * Returns the maximum directory nesting allowed by this template.
+     * Null means any nesting level is allowed.
      */
-    public function getMaxNesting(): int
+    public function getMaxNesting(): ?int
     {
         return $this->maxNesting;
     }
@@ -224,7 +225,10 @@ trait ManagesSource
             $fileName .= '.'.static::DEFAULT_EXTENSION;
         }
 
-        return $this->getSource()->path($this->getTypeDirName().'/'.$fileName);
+        $dirName = (string)$this->getTypeDirName();
+        $relativePath = $dirName !== '' ? $dirName.'/'.$fileName : $fileName;
+
+        return $this->getSource()->path($relativePath);
     }
 
     /**

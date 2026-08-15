@@ -21,7 +21,7 @@ trait InteractsWithHttpProbes
         $client = Http::timeout(10);
 
         if (app()->environment('local', 'testing')) {
-            $client = $client->withoutVerifying();
+            return $client->withoutVerifying();
         }
 
         return $client;

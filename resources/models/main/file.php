@@ -11,20 +11,13 @@ return [
                     'type' => 'codeeditor',
                     'mode' => 'application/x-httpd-php',
                 ],
-                'settings[description]' => [
-                    'tab' => 'lang:igniter::system.themes.text_tab_meta',
-                    'label' => 'lang:igniter::admin.label_description',
-                    'type' => 'text',
-                ],
             ],
         ],
         'rules' => [
             'markup' => ['string', new SafeThemeTemplateContent],
-            'settings.description' => ['max:255', new SafeThemeTemplateContent],
         ],
         'validationAttributes' => [
             'markup' => lang('igniter::system.themes.text_tab_markup'),
-            'settings.description' => lang('igniter::admin.label_description'),
         ],
     ],
 ];

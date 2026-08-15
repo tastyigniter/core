@@ -357,7 +357,7 @@ class ThemeManager
 
     /**
      * Load a single theme generic file into an array. The file will be
-     * found by looking in the _layouts, _pages, _partials, _content, themes folders.
+     * found by looking in the _layouts, _pages, _partials, _content, _files, themes folders.
      */
     public function readFile(string $filePath, string $themeCode): TemplateInterface
     {
@@ -376,7 +376,10 @@ class ThemeManager
     {
         $theme = $this->findTheme($themeCode);
         [$dirName, $fileName] = $this->getFileNameParts($filePath);
-        $path = $theme->getPath().'/'.$dirName.'/'.$fileName;
+        $typeDirName = (string)$theme->newTemplate($dirName)->getTypeDirName();
+        $path = $typeDirName !== ''
+            ? $theme->getSourcePath().'/'.$typeDirName.'/'.$fileName
+            : $theme->getSourcePath().'/'.$fileName;
 
         if (!File::extension($path)) {
             $path .= '.'.Model::DEFAULT_EXTENSION;
@@ -427,8 +430,14 @@ class ThemeManager
             throw new SystemException(lang('igniter::system.themes.alert_theme_path_locked'));
         }
 
-        $oldFilePath = $theme->path.'/'.$dirName.'/'.$fileName;
-        $newFilePath = $theme->path.'/'.$newDirName.'/'.$newFileName;
+        $typeDirName = (string)$theme->newTemplate($dirName)->getTypeDirName();
+        $newTypeDirName = (string)$theme->newTemplate($newDirName)->getTypeDirName();
+        $oldFilePath = $typeDirName !== ''
+            ? $theme->getSourcePath().'/'.$typeDirName.'/'.$fileName
+            : $theme->getSourcePath().'/'.$fileName;
+        $newFilePath = $newTypeDirName !== ''
+            ? $theme->getSourcePath().'/'.$newTypeDirName.'/'.$newFileName
+            : $theme->getSourcePath().'/'.$newFileName;
 
         if ($oldFilePath === $newFilePath) {
             throw new SystemException('Theme template file already exists: '.$filePath);

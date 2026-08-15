@@ -7,6 +7,12 @@ namespace Igniter\Tests\System\Providers;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Providers\ValidationServiceProvider;
 
+it('registers the currency validation rule', function() {
+    $validator = resolve('validator')->make(['price' => '11.50'], ['price' => 'currency']);
+
+    expect($validator->passes())->toBeTrue();
+});
+
 it('registers custom validation rules from extensions', function() {
     $extensionManager = mock(ExtensionManager::class);
     app()->instance(ExtensionManager::class, $extensionManager);

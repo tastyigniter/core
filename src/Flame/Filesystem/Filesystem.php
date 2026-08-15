@@ -91,13 +91,12 @@ class Filesystem extends IlluminateFilesystem
      */
     public function localToPublic(string $path): ?string
     {
-        $result = null;
         $publicPath = public_path();
         if (str_starts_with($path, $publicPath)) {
-            $result = str_replace('\\', '/', substr($path, strlen($publicPath)));
+            return str_replace('\\', '/', substr($path, strlen($publicPath)));
         }
 
-        return $result;
+        return null;
     }
 
     /**
