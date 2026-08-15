@@ -4,6 +4,8 @@ $symbolAfter = $currencyModel?->getSymbolPosition();
 $symbol = $currencyModel?->getSymbol();
 $decimalSign = $currencyModel?->decimal_sign ?? '.';
 $decimalPosition = $currencyModel?->decimal_position ?? 2;
+// the pattern must accept the same decimal sign the value is rendered with
+$inputPattern = $decimalSign === '.' ? '-?\d+(\.\d+)?' : '-?\d+([\.'.$decimalSign.']\d+)?';
 @endphp
 @if ($this->previewMode)
     <p class="form-control-static">{{ $field->value ? currency_format($field->value) : '0' }}</p>
@@ -22,7 +24,7 @@ $decimalPosition = $currencyModel?->decimal_position ?? 2;
             placeholder="@lang($field->placeholder)"
             autocomplete="off"
             step="any"
-            {!! $field->hasAttribute('pattern') ? '' : 'pattern="-?\d+(\.\d+)?"' !!}
+            {!! $field->hasAttribute('pattern') ? '' : 'pattern="'.$inputPattern.'"' !!}
             {!! $field->hasAttribute('maxlength') ? '' : 'maxlength="255"' !!}
             {!! $field->getAttributes() !!}
         />
