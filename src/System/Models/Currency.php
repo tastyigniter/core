@@ -106,18 +106,18 @@ class Currency extends Model implements CurrencyInterface
     }
 
     #[Override]
-protected static function booted(): void
-{
-    static::saved(function (self $currency): void {
-        if (! $currency->wasChanged() && ! $currency->wasRecentlyCreated) {
-            return;
-        }
+    protected static function booted(): void
+    {
+        static::saved(function(self $currency): void {
+            if (!$currency->wasChanged() && !$currency->wasRecentlyCreated) {
+                return;
+            }
 
-        CurrencyFacade::clearCache();
-    });
+            CurrencyFacade::clearCache();
+        });
 
-    static::deleted(static fn() => CurrencyFacade::clearCache());
-}
+        static::deleted(static fn() => CurrencyFacade::clearCache());
+    }
 
     public static function getDropdownOptions()
     {
