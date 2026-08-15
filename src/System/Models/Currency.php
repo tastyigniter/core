@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\System\Models;
 
 use Igniter\Flame\Currency\Contracts\CurrencyInterface;
+use Igniter\Flame\Currency\Facades\Currency as CurrencyFacade;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
@@ -103,6 +104,20 @@ class Currency extends Model implements CurrencyInterface
     {
         return $this->currency_name;
     }
+
+    #[Override]
+protected static function booted(): void
+{
+    static::saved(function (self $currency): void {
+        if (! $currency->wasChanged() && ! $currency->wasRecentlyCreated) {
+            return;
+        }
+
+        CurrencyFacade::clearCache();
+    });
+
+    static::deleted(static fn() => CurrencyFacade::clearCache());
+}
 
     public static function getDropdownOptions()
     {
