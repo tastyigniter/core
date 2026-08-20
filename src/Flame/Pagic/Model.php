@@ -200,7 +200,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
      */
     public function getId()
     {
-        return str_replace(['\\', '/'], '.', $this->getBaseFileName());
+        return str_replace(['\\', '/'], '-', $this->getBaseFileName());
     }
 
     /**
