@@ -200,7 +200,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
      */
     public function getId()
     {
-        return str_replace(DIRECTORY_SEPARATOR, '-', $this->getBaseFileName());
+        return str_replace(['\\', '/'], '.', $this->getBaseFileName());
     }
 
     /**
@@ -208,7 +208,7 @@ abstract class Model extends Extendable implements Arrayable, ArrayAccess, Jsona
      */
     public function getKey(): ?string
     {
-        return str_replace(DIRECTORY_SEPARATOR, '.', $this->getBaseFileName());
+        return str_replace(['\\', '/'], '.', $this->getBaseFileName());
     }
 
     /**
