@@ -100,11 +100,11 @@ class PackageManifest extends BasePackageManifest
         $corePath = __DIR__.'/../../../composer.json';
         $installed = json_decode($this->files->get($corePath), true);
         $addons = collect($installed['require'] ?? [])
-            ->filter(fn($version, $name): bool => str_starts_with((string)$name, 'tastyigniter/'))
+            ->filter(fn($version, $name): bool => str_starts_with((string)$name, 'techidev/'))
             ->map(fn($version, $name): array => [
                 'code' => str_replace([
-                    'tastyigniter/ti-ext-',
-                    'tastyigniter/ti-theme-',
+                    'techidev/tastyigniterext',
+                    'techidev/tastyignitertheme',
                 ], 'igniter.', $name),
                 'version' => $version,
             ])

@@ -90,12 +90,12 @@ it('builds manifest with extensions and themes', function() {
     $filesystem->shouldReceive('get')->andReturn(json_encode([
         'packages' => [
             [
-                'name' => 'tastyigniter/ti-ext-sample',
+                'name' => 'techidev/tastyigniterextsample',
                 'extra' => ['tastyigniter-extension' => ['code' => 'sample']],
                 'install-path' => '/path/to/sample',
             ],
             [
-                'name' => 'tastyigniter/ti-theme-sample',
+                'name' => 'techidev/tastyigniterthemesample',
                 'extra' => ['tastyigniter-theme' => ['code' => 'sample']],
                 'install-path' => '/path/to/sample',
             ],
@@ -113,14 +113,14 @@ it('builds manifest with extensions and themes', function() {
 
 it('returns core addons from composer.json', function() {
     $expected = [
-        'tastyigniter/ti-ext-sample' => ['code' => 'igniter.sample', 'version' => '1.0.0'],
-        'tastyigniter/ti-theme-sample' => ['code' => 'igniter.sample', 'version' => '1.0.0'],
+        'techidev/tastyigniterextsample' => ['code' => 'igniter.sample', 'version' => '1.0.0'],
+        'techidev/tastyigniterthemesample' => ['code' => 'igniter.sample', 'version' => '1.0.0'],
     ];
     $filesystem = mock(Filesystem::class);
     $filesystem->shouldReceive('get')->andReturn(json_encode([
         'require' => [
-            'tastyigniter/ti-ext-sample' => '1.0.0',
-            'tastyigniter/ti-theme-sample' => '1.0.0',
+            'techidev/tastyigniterextsample' => '1.0.0',
+            'techidev/tastyigniterthemesample' => '1.0.0',
             'other/package' => '1.0.0',
         ],
     ]));
