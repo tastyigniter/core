@@ -32,7 +32,7 @@
         {{html($this->widgets['mainmenu']->render())}}
     </x-igniter.admin::header>
 @endif
-<div class="container-fluid p-0 w-100">
+<div class="container-fluid p-0 h-100 w-100">
     <div class="d-flex page-container h-100">
         @if(AdminAuth::isLogged())
             <div class="sidebar border-right overflow-y-auto">

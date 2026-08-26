@@ -10,13 +10,6 @@ html {
 body.page {
   height: 100%;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-
-  > .container-fluid {
-    flex: 1 1 auto;
-    min-height: 0;
-  }
 }
 
 .page-x-spacer {
