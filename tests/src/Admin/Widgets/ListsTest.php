@@ -561,6 +561,46 @@ it('throws an exception when override column is defined', function() {
     $this->listsWidget->onApplySetup();
 });
 
+it('applies list setup with columns added via extendColumns event', function() {
+    $this->listsWidget->bindEvent('list.extendColumns', function() {
+        $this->listsWidget->addColumns([
+            'my_column' => [
+                'label' => 'My Column',
+            ],
+        ]);
+    });
+
+    request()->request->add([
+        'visible_columns' => $visibleColumns = ['status_id', 'name', 'my_column'],
+        'page_limit' => 20,
+    ]);
+
+    $this->listsWidget->onApplySetup();
+
+    expect($this->listsWidget->vars['columns'])
+        ->toBeArray()
+        ->toHaveKey('my_column')
+        ->and($this->listsWidget->getSession('visible'))->toBe($visibleColumns);
+});
+
+it('loads visible columns from session including extendColumns columns', function() {
+    $this->listsWidget->bindEvent('list.extendColumns', function() {
+        $this->listsWidget->addColumns([
+            'my_column' => [
+                'label' => 'My Column',
+            ],
+        ]);
+    });
+    $this->listsWidget->putSession('visible', ['status_id', 'my_column']);
+
+    $this->listsWidget->prepareVars();
+
+    expect($this->listsWidget->vars['columns'])
+        ->toBeArray()
+        ->toHaveKeys(['status_id', 'my_column'])
+        ->not->toHaveKey('name');
+});
+
 it('handles onResetSetup action', function() {
     $this->listsWidget->putSession('visible', ['status_id', 'status_name']);
     $this->listsWidget->putSession('order', ['status_id', 'status_name']);
