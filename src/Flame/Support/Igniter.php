@@ -334,9 +334,7 @@ class Igniter
                 $publishTo = null;
             }
 
-            if (is_null($publishTo)) {
-                $publishTo = $path;
-            }
+            $publishTo ??= $path;
 
             $this->publishesThemeFiles[$path] = $publishTo;
         }

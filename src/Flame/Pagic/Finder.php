@@ -408,9 +408,7 @@ class Finder
      */
     protected function validateFileName(?string $fileName = null): bool
     {
-        if ($fileName === null) {
-            $fileName = $this->model->fileName;
-        }
+        $fileName ??= $this->model->fileName;
 
         if (!$fileName) {
             throw (new MissingFileNameException)->setModel($this->model::class);

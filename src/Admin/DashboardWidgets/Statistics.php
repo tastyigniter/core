@@ -100,9 +100,7 @@ class Statistics extends BaseDashboardWidget
 
     protected function getCardDefinition($key, $default = null)
     {
-        if (is_null($this->cardDefinition)) {
-            $this->cardDefinition = array_get($this->listCards(), $this->getActiveCard());
-        }
+        $this->cardDefinition ??= array_get($this->listCards(), $this->getActiveCard());
 
         return array_get($this->cardDefinition, $key, $default);
     }

@@ -395,9 +395,7 @@ class Lists extends BaseWidget
         $definitions = $this->defineListColumns();
         $columns = [];
 
-        if ($this->columnOverride === null) {
-            $this->columnOverride = $this->getSession('visible');
-        }
+        $this->columnOverride ??= $this->getSession('visible');
 
         if ($this->columnOverride && is_array($this->columnOverride)) {
             $definedColumns = array_keys($definitions);

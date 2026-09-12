@@ -128,7 +128,7 @@ class AdminController extends Controller
         $toolbar->bindToController();
 
         // Media Manager widget is available on all admin pages
-        if ($this->currentUser && $this->currentUser->hasPermission('Admin.MediaManager')) {
+        if ($this->currentUser instanceof User && $this->currentUser->hasPermission('Admin.MediaManager')) {
             $manager = new MediaManager($this, ['alias' => 'mediamanager']);
             $manager->bindToController();
         }

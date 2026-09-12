@@ -463,9 +463,7 @@ trait HasRelationships
 
         $instance = $this->newRelatedInstance($related);
 
-        if (is_null($foreignKey)) {
-            $foreignKey = snake_case($relationName).'_id';
-        }
+        $foreignKey ??= snake_case($relationName).'_id';
 
         $otherKey = $ownerKey ?: $instance->getKeyName();
 

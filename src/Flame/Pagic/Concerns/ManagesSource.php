@@ -199,9 +199,7 @@ trait ManagesSource
      */
     public function getFileNameParts(?string $fileName = null): array
     {
-        if ($fileName === null) {
-            $fileName = $this->fileName;
-        }
+        $fileName ??= $this->fileName;
 
         $fileName = str_before($fileName, '.'.static::DEFAULT_EXTENSION);
 
@@ -217,9 +215,7 @@ trait ManagesSource
      */
     public function getFilePath(?string $fileName = null): ?string
     {
-        if ($fileName === null) {
-            $fileName = $this->fileName;
-        }
+        $fileName ??= $this->fileName;
 
         if ($fileName && !str_ends_with((string)$fileName, '.'.static::DEFAULT_EXTENSION)) {
             $fileName .= '.'.static::DEFAULT_EXTENSION;

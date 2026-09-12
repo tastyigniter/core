@@ -66,9 +66,7 @@ trait Sortable
             $itemIds = [$itemIds];
         }
 
-        if ($itemOrders === null) {
-            $itemOrders = $itemIds;
-        }
+        $itemOrders ??= $itemIds;
 
         if (count($itemIds) !== count($itemOrders)) {
             throw new BadMethodCallException('Invalid setSortableOrder call - count of itemIds do not match count of itemOrders');

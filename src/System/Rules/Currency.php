@@ -48,7 +48,7 @@ class Currency implements ValidationRule, ValidatorAwareRule
             return false;
         }
 
-        if ($this->validator) {
+        if ($this->validator instanceof Validator) {
             $data = $this->validator->getData();
             Arr::set($data, $attribute, $normalized);
             $this->validator->setData($data);

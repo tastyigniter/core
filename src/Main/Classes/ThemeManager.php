@@ -534,7 +534,7 @@ class ThemeManager
     public function createChildTheme(string $parentThemeCode, ?string $childThemeCode = null): ThemeModel
     {
         $parentTheme = $this->findTheme($parentThemeCode);
-        throw_if(!$parentTheme || $parentTheme->hasParent(), new SystemException(
+        throw_if(!$parentTheme instanceof \Igniter\Main\Classes\Theme || $parentTheme->hasParent(), new SystemException(
             'Can not create a child theme from another child theme',
         ));
 

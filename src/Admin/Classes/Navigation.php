@@ -100,12 +100,10 @@ class Navigation
         $navItem['code'] = $itemCode;
 
         if ($parentCode) {
-            if (!isset($this->navItems[$parentCode])) {
-                $this->navItems[$parentCode] = array_merge(self::$navItemDefaults, [
-                    'code' => $parentCode,
-                    'class' => $parentCode,
-                ]);
-            }
+            $this->navItems[$parentCode] ??= array_merge(self::$navItemDefaults, [
+                'code' => $parentCode,
+                'class' => $parentCode,
+            ]);
 
             $this->navItems[$parentCode]['child'][$itemCode] = $navItem;
         } else {

@@ -101,9 +101,7 @@ class ComponentPartial extends Extendable implements TemplateInterface
     #[Override]
     public function getFilePath(?string $fileName = null): string
     {
-        if ($fileName === null) {
-            $fileName = $this->fileName;
-        }
+        $fileName ??= $this->fileName;
 
         $basename = $fileName;
         if (empty(File::extension($basename))) {

@@ -163,9 +163,7 @@ abstract class BaseComponent extends Extendable implements Stringable
     public function param(string $name, mixed $default = null): mixed
     {
         $segment = $this->controller->param($name);
-        if (is_null($segment)) {
-            $segment = input($name);
-        }
+        $segment ??= input($name);
 
         return $segment ?? $default;
     }

@@ -120,9 +120,7 @@ class MainController extends Controller
 
         /** @var null|Page $page */
         $page = Event::dispatch('router.beforeRoute', [$url, $this->router], true);
-        if (is_null($page)) {
-            $page = request()->route('_file_');
-        }
+        $page ??= request()->route('_file_');
 
         // If the page was not found or a page is hidden,
         // render the 404 page - either provided by the theme or the built-in one.
@@ -324,7 +322,7 @@ class MainController extends Controller
         if (strpos($handler, '::')) {
             [$componentName, $handlerName] = explode('::', $handler);
             $componentObj = $this->findComponentByAlias($componentName);
-            if ($componentObj && $componentObj->methodExists($handlerName)) {
+            if ($componentObj instanceof BaseComponent && $componentObj->methodExists($handlerName)) {
                 $this->componentContext = $componentObj;
                 $result = $componentObj->runEventHandler($handlerName);
 

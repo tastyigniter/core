@@ -34,9 +34,7 @@ class SourceResolver implements SourceResolverInterface
     #[Override]
     public function source(?string $name = null): SourceInterface
     {
-        if (is_null($name)) {
-            $name = $this->getDefaultSourceName();
-        }
+        $name ??= $this->getDefaultSourceName();
 
         return $this->sources[$name];
     }

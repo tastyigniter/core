@@ -407,9 +407,7 @@ class FormField
      */
     public function getName(null|false|string $arrayName = null): string
     {
-        if ($arrayName === null) {
-            $arrayName = $this->arrayName;
-        }
+        $arrayName ??= $this->arrayName;
 
         if ($arrayName) {
             return $arrayName.'['.implode('][', name_to_array($this->fieldName)).']';
@@ -483,9 +481,7 @@ class FormField
      */
     public function resolveModelAttribute(Model|IlluminateModel $model, null|string|array $attribute = null): array
     {
-        if ($attribute === null) {
-            $attribute = $this->valueFrom ?: $this->fieldName;
-        }
+        $attribute ??= $this->valueFrom ?: $this->fieldName;
 
         $parts = is_array($attribute) ? $attribute : name_to_array($attribute);
         $last = array_pop($parts);

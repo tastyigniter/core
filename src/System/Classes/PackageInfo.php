@@ -67,9 +67,7 @@ class PackageInfo
 
     public function icon(string $key, mixed $default): string
     {
-        if (is_null($this->iconCache)) {
-            $this->iconCache = generate_extension_icon($this->icon);
-        }
+        $this->iconCache ??= generate_extension_icon($this->icon);
 
         return array_get($this->iconCache, $key, $default);
     }

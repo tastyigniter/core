@@ -182,9 +182,7 @@ class Polygon implements ArrayAccess, Countable, IteratorAggregate, JsonSerializ
             $currentVertex = $this->get($i - 1);
             $nextVertex = $this->get($i);
 
-            if (is_null($nextVertex)) {
-                $nextVertex = $this->get(0);
-            }
+            $nextVertex ??= $this->get(0);
 
             // Check if coordinate is on a horizontal boundary
             if (bccomp(

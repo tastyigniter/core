@@ -35,9 +35,7 @@ trait DefinedConstraints
      */
     public function addDefinedConstraintsToRelation($relation, $args = null): void
     {
-        if ($args === null) {
-            $args = $this->parent->getRelationDefinition($this->relationName);
-        }
+        $args ??= $this->parent->getRelationDefinition($this->relationName);
 
         // Default models (belongsTo)
         if ($defaultData = array_get($args, 'default')) {
@@ -82,9 +80,7 @@ trait DefinedConstraints
      */
     public function addDefinedConstraintsToQuery($query, $args = null): void
     {
-        if ($args === null) {
-            $args = $this->parent->getRelationDefinition($this->relationName);
-        }
+        $args ??= $this->parent->getRelationDefinition($this->relationName);
 
         // Conditions
         if ($conditions = array_get($args, 'conditions')) {
