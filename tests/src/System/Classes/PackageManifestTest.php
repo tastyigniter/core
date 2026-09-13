@@ -134,7 +134,7 @@ it('returns core addons from composer.json', function() {
 
 it('returns empty array if no disabled addons file exists', function() {
     $filesystem = mock(Filesystem::class);
-    $filesystem->shouldReceive('get')->andReturn(json_encode([]));
+    $filesystem->shouldReceive('exists')->andReturnFalse();
     $manifest = new PackageManifest($filesystem, $this->app->basePath(), Igniter::getCachedAddonsPath());
     $manifest->manifestPath = '/path/to/manifest';
 
@@ -143,6 +143,7 @@ it('returns empty array if no disabled addons file exists', function() {
 
 it('returns disabled addons from file', function() {
     $filesystem = mock(Filesystem::class);
+    $filesystem->shouldReceive('exists')->andReturnTrue();
     $filesystem->shouldReceive('get')->andReturn(json_encode(['addon1', 'addon2']));
     $manifest = new PackageManifest($filesystem, $this->app->basePath(), Igniter::getCachedAddonsPath());
 
@@ -154,6 +155,7 @@ it('writes disabled addons to file', function() {
     $manifest = new PackageManifest($filesystem, $this->app->basePath(), Igniter::getCachedAddonsPath());
     $manifest->manifestPath = '/path/to/manifest';
     $filesystem->shouldReceive('replace')->with('/path/to/disabled-addons.json', json_encode(['addon1', 'addon2']));
+    $filesystem->shouldReceive('exists')->andReturnTrue();
     $filesystem->shouldReceive('get')->andReturn(json_encode(['addon1', 'addon2']));
 
     $manifest->writeDisabled(['addon1', 'addon2']);

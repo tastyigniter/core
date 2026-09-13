@@ -33,7 +33,7 @@ it('defines properties correctly', function() {
         ->toHaveKey('default', 'reports')
         ->toHaveKey('type', 'select')
         ->toHaveKey('placeholder', 'lang:admin::lang.text_please_select')
-        ->toHaveKey('options', $this->charts->getDatasetOptions(...))
+        ->toHaveKey('options', $this->charts->getDatasetOptions())
         ->toHaveKey('validationRule', 'required|alpha_dash');
 });
 

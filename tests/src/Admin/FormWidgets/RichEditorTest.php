@@ -55,7 +55,7 @@ it('prepares variables correctly', function() {
 it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
-    $viewMock->method('exists')->with($this->stringContains('richeditor/richeditor'));
+    $viewMock->method('exists')->with($this->stringContains('richeditor/richeditor'))->willReturn(true);
 
     $this->richEditorWidget->render();
 })->throws(Exception::class);

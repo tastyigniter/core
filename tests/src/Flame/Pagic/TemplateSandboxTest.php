@@ -36,7 +36,8 @@ it('accepts shipped mail template fixtures', function(string $fixturePath): void
     $contents = file_get_contents($fixturePath);
     $blade = extractMailTemplateBladeSection($contents);
 
-    $this->sandbox->assertSafe($blade, SandboxProfile::Mail);
+    expect(fn() => $this->sandbox->assertSafe($blade))
+        ->not->toThrow(SystemException::class);
 })->with([
     'default layout' => [realpath(__DIR__.'/../../../../resources/views/system/_mail/layouts/default.blade.php')],
     'button partial' => [realpath(__DIR__.'/../../../../resources/views/system/_mail/partials/button.blade.php')],

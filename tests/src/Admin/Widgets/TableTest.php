@@ -93,7 +93,7 @@ it('getDataSource method returns TableDataSource instance', function() {
 
 it('renders without errors', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
-    $viewMock->method('exists')->with($this->stringContains('table/table'));
+    $viewMock->method('exists')->with($this->stringContains('table/table'))->willReturn(true);
 
     expect($this->tableWidget->render())->toBeString();
 })->throws(Exception::class);
