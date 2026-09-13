@@ -7,19 +7,20 @@ namespace Igniter\Flame\Assetic\Filter;
 use Igniter\Flame\Assetic\Asset\AssetInterface;
 use Igniter\Flame\Assetic\Factory\AssetFactory;
 use Igniter\Flame\Assetic\Util\CssUtils;
+use League\Uri\Contracts\UriInterface;
 use Override;
 use ScssPhp\ScssPhp\Compiler;
-use ScssPhp\ScssPhp\Formatter\Compressed;
-use ScssPhp\ScssPhp\Formatter\Crunched;
-use ScssPhp\ScssPhp\Formatter\Expanded;
-use ScssPhp\ScssPhp\Formatter\Nested;
+use ScssPhp\ScssPhp\Importer\FilesystemImporter;
+use ScssPhp\ScssPhp\OutputStyle;
+use ScssPhp\ScssPhp\Util\Path;
+use ScssPhp\ScssPhp\ValueConverter;
 
 /**
  * Loads SCSS files using the PHP implementation of scss, scssphp.
  *
  * Scss files are mostly compatible, but there are slight differences.
  *
- * @link http://leafo.net/scssphp/
+ * @link https://scssphp.github.io/scssphp/
  *
  * @author Bart van den Burg <bart@samson-it.nl>
  */
@@ -36,19 +37,13 @@ class ScssphpFilter implements DependencyExtractorInterface
     public function setFormatter(string $formatter): void
     {
         $legacyFormatters = [
-            'scss_formatter' => Expanded::class,
-            'scss_formatter_nested' => Nested::class,
-            'scss_formatter_compressed' => Compressed::class,
-            'scss_formatter_crunched' => Crunched::class,
+            'scss_formatter' => 'expanded',
+            'scss_formatter_nested' => 'expanded',
+            'scss_formatter_compressed' => 'compressed',
+            'scss_formatter_crunched' => 'compressed',
         ];
 
-        if (isset($legacyFormatters[$formatter])) {
-            @trigger_error(sprintf('The scssphp formatter `%s` is deprecated. Use `%s` instead.', $formatter, $legacyFormatters[$formatter]), E_USER_DEPRECATED);
-
-            $formatter = $legacyFormatters[$formatter];
-        }
-
-        $this->formatter = $formatter;
+        $this->formatter = $legacyFormatters[$formatter] ?? $formatter;
     }
 
     public function setVariables(array $variables): void
@@ -71,9 +66,9 @@ class ScssphpFilter implements DependencyExtractorInterface
         $this->importPaths[] = $path;
     }
 
-    public function registerFunction($name, $callable): void
+    public function registerFunction($name, $callable, array $argumentDeclaration = ['args...']): void
     {
-        $this->customFunctions[$name] = $callable;
+        $this->customFunctions[$name] = [$callable, $argumentDeclaration];
     }
 
     #[Override]
@@ -89,16 +84,16 @@ class ScssphpFilter implements DependencyExtractorInterface
             $sc->addImportPath($path);
         }
 
-        foreach ($this->customFunctions as $name => $callable) {
-            $sc->registerFunction($name, $callable);
+        foreach ($this->customFunctions as $name => [$callable, $argumentDeclaration]) {
+            $sc->registerFunction($name, $callable, $argumentDeclaration);
         }
 
         if ($this->formatter) {
-            $sc->setOutputStyle($this->formatter);
+            $sc->setOutputStyle(OutputStyle::fromString($this->formatter));
         }
 
         if (!empty($this->variables)) {
-            $sc->replaceVariables($this->variables);
+            $sc->replaceVariables($this->convertVariables($this->variables));
         }
 
         $asset->setContent($sc->compileString($asset->getContent())->getCss());
@@ -110,18 +105,9 @@ class ScssphpFilter implements DependencyExtractorInterface
     #[Override]
     public function getChildren(AssetFactory $factory, $content, $loadPath = null): array
     {
-        $sc = new Compiler;
-        if ($loadPath !== null) {
-            $sc->addImportPath($loadPath);
-        }
-
-        foreach ($this->importPaths as $path) {
-            $sc->addImportPath($path);
-        }
-
         $children = [];
         foreach (CssUtils::extractImports($content) as $match) {
-            $file = $sc->findImport($match);
+            $file = $this->resolveImport($match, $loadPath);
             if ($file) {
                 $children[] = $child = $factory->createAsset($file, [], ['root' => $loadPath]);
                 $child->load();
@@ -130,5 +116,38 @@ class ScssphpFilter implements DependencyExtractorInterface
         }
 
         return $children;
+    }
+
+    private function convertVariables(array $variables): array
+    {
+        $converted = [];
+        foreach ($variables as $name => $value) {
+            $converted[$name] = is_string($value)
+                ? ValueConverter::parseValue($value)
+                : ValueConverter::fromPhp($value);
+        }
+
+        return $converted;
+    }
+
+    private function resolveImport(string $url, ?string $loadPath): ?string
+    {
+        if (Compiler::isCssImport($url)) {
+            return null;
+        }
+
+        $paths = array_filter(
+            $loadPath !== null ? [$loadPath, ...$this->importPaths] : $this->importPaths,
+            is_string(...),
+        );
+
+        foreach ($paths as $path) {
+            $canonicalUrl = (new FilesystemImporter($path))->canonicalize(Path::toUri(Path::join($path, $url)));
+            if ($canonicalUrl instanceof UriInterface) {
+                return Path::fromUri($canonicalUrl);
+            }
+        }
+
+        return null;
     }
 }

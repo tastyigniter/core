@@ -871,6 +871,12 @@ parameters:
 			path: src/Flame/Pagic/Parsers/FileParser.php
 
 		-
+			message: '#^PHPDoc type array\<string\> of property Igniter\\Flame\\Providers\\ConsoleSupportServiceProvider\:\:\$providers is not covariant with PHPDoc type array\<int, class\-string\<Illuminate\\Support\\ServiceProvider\>\> of overridden property Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider\:\:\$providers\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/Flame/Providers/ConsoleSupportServiceProvider.php
+
+		-
 			message: '#^Cannot call static method extend\(\) on int\|string\.$#'
 			identifier: staticMethod.nonObject
 			count: 1
