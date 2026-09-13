@@ -10,6 +10,7 @@ use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Illuminate\View\ViewFinderInterface;
@@ -235,13 +236,17 @@ trait ViewMaker
 
     public function makeViewContent(string $view, array $data = []): string
     {
-        $view = view()->make($view, array_merge($this->vars, $data));
+        $viewInstance = view()->make($view, array_merge($this->vars, $data));
 
-        View::callComposer($view);
+        if (!$viewInstance instanceof ViewContract) {
+            throw new Exception(sprintf('Unable to make view [%s].', $view));
+        }
+
+        View::callComposer($viewInstance);
 
         return $this->makeFileContent(
-            view()->getFinder()->find($view->name()),
-            $view->getData(),
+            view()->getFinder()->find($viewInstance->name()),
+            $viewInstance->getData(),
         );
     }
 

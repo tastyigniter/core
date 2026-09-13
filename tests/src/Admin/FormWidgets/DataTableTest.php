@@ -53,7 +53,7 @@ it('prepares vars correctly', function() {
 it('renders correctly', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
 
-    $viewMock->method('exists')->with($this->stringContains('datatable/datatable'))->willReturn(true);
+    $viewMock->expects($this->atLeastOnce())->method('exists')->with($this->stringContains('datatable/datatable'));
 
     $this->dataTableWidget->render();
 })->throws(Exception::class);
