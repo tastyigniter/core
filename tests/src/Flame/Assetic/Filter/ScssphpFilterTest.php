@@ -10,22 +10,47 @@ use Igniter\Flame\Assetic\Factory\AssetFactory;
 use Igniter\Flame\Assetic\Filter\ScssphpFilter;
 
 it('compiles SCSS content', function() {
+    $compiled = null;
     $asset = mock(AssetInterface::class);
     $asset->shouldReceive('getSourceDirectory')->andReturn('/path/to/source');
     $asset->shouldReceive('getContent')->andReturn('body { color: $color; }');
-    $asset->shouldReceive('setContent')->once();
+    $asset->shouldReceive('setContent')->once()->andReturnUsing(function(string $css) use (&$compiled) {
+        $compiled = $css;
+    });
 
     $filter = new ScssphpFilter;
     $filter->setFormatter('compressed');
     $filter->setVariables(['color' => 'red']);
-    $filter->addVariable('size', 'large');
+    $filter->addVariable('enabled', true);
     $filter->setImportPaths(['/path/to/import.css']);
     $filter->addImportPath('/path/to/another-import.css');
-    $filter->registerFunction('customFunction', $callable = fn($args) => 'result');
+    $filter->registerFunction('custom-function', fn($args) => $args[0], ['value']);
 
     $filter->filterLoad($asset);
 
-    expect($filter->filterDump($asset))->toBeNull();
+    expect($compiled)->toContain('color')
+        ->and($compiled)->toContain('red')
+        ->and($filter->filterDump($asset))->toBeNull();
+});
+
+it('maps legacy formatter aliases to output styles', function() {
+    $compiled = null;
+    $asset = mock(AssetInterface::class);
+    $asset->shouldReceive('getSourceDirectory')->andReturnNull();
+    $asset->shouldReceive('getContent')->andReturn('body { color: blue; }');
+    $asset->shouldReceive('setContent')->once()->andReturnUsing(function(string $css) use (&$compiled) {
+        $compiled = $css;
+    });
+
+    $filter = new ScssphpFilter;
+    $filter->setFormatter('scss_formatter_nested');
+    $filter->setFormatter('scss_formatter_compressed');
+    $filter->setFormatter('scss_formatter_crunched');
+    $filter->setFormatter('scss_formatter');
+
+    $filter->filterLoad($asset);
+
+    expect($compiled)->toContain('color');
 });
 
 it('extracts children assets', function() {
@@ -38,10 +63,15 @@ it('extracts children assets', function() {
     $asset->shouldReceive('getContent')->andReturn('body { color: $color; }');
     $factory->shouldReceive('createAsset')->andReturn(new AssetCollection([$asset]));
     $content = '@import "main";';
+    $fixtures = __DIR__.'/../fixtures/scss';
 
     $filter = new ScssphpFilter;
     $filter->setFormatter('scss_formatter');
     $filter->addImportPath('/path/to/another-import.css');
+    $filter->addImportPath(fn(string $url) => null);
 
-    expect($filter->getChildren($factory, $content, __DIR__.'/../fixtures/scss'))->toBeArray();
+    expect($filter->getChildren($factory, $content, $fixtures))->toBeArray()
+        ->and($filter->getChildren($factory, '@import "theme.css";'))->toBe([])
+        ->and($filter->getChildren($factory, '@import "main";'))->toBe([])
+        ->and($filter->getChildren($factory, '@import "missing";', $fixtures))->toBe([]);
 });

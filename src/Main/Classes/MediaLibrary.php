@@ -75,9 +75,7 @@ class MediaLibrary
 
     public function listFolders(?string $path = null, array $exclude = [], bool $recursive = false): array
     {
-        if (is_null($path)) {
-            $path = '/';
-        }
+        $path ??= '/';
 
         $path = $this->validatePath($path);
 

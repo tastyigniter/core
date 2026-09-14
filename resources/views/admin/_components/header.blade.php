@@ -16,6 +16,8 @@
                 <a class="logo" href="{{ admin_url('dashboard') }}">
                     <img
                         class="logo-svg"
+                        width="32"
+                        height="32"
                         src="{{$site_logo !== 'no_photo.png' ? media_url($site_logo) : asset('vendor/igniter/images/favicon.svg')}}"
                         alt="{{$site_name}}"
                     />

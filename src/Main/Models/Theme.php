@@ -214,9 +214,7 @@ class Theme extends Model
         $formConfig = $this->getTheme()->getFormConfig();
         foreach ($formConfig as $item) {
             foreach (array_get($item, 'fields', []) as $name => $field) {
-                if (!isset($field['tab'])) {
-                    $field['tab'] = $item['title'];
-                }
+                $field['tab'] ??= $item['title'];
 
                 $fields[$name] = $field;
             }

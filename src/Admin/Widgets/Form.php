@@ -143,13 +143,9 @@ class Form extends BaseWidget
             $this->previewMode = $options['preview'];
         }
 
-        if (!isset($options['useContainer'])) {
-            $options['useContainer'] = true;
-        }
+        $options['useContainer'] ??= true;
 
-        if (!isset($options['section'])) {
-            $options['section'] = null;
-        }
+        $options['section'] ??= null;
 
         $extraVars = [];
         $targetPartial = 'form/form';
@@ -194,9 +190,7 @@ class Form extends BaseWidget
             $field = $this->allFields[$field];
         }
 
-        if (!isset($options['useContainer'])) {
-            $options['useContainer'] = true;
-        }
+        $options['useContainer'] ??= true;
 
         $targetPartial = $options['useContainer'] ? 'form/field_container' : 'form/field';
 

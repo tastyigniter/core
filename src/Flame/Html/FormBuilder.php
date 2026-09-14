@@ -150,9 +150,7 @@ class FormBuilder
     {
         $this->type = $type;
 
-        if (!isset($options['name'])) {
-            $options['name'] = $name;
-        }
+        $options['name'] ??= $name;
 
         // We will get the appropriate value for the given field. We will look for the
         // value in the session for the value in the old input data then we'll look
@@ -385,9 +383,7 @@ class FormBuilder
             $payload = $this->session->getOldInput($key);
 
             if (is_array($payload) && !in_array($this->type, ['select', 'checkbox'])) {
-                if (!isset($this->payload[$key])) {
-                    $this->payload[$key] = collect($payload);
-                }
+                $this->payload[$key] ??= collect($payload);
 
                 if (!empty($this->payload[$key])) {
                     return $this->payload[$key]->shift();

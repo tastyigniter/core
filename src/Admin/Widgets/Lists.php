@@ -395,19 +395,18 @@ class Lists extends BaseWidget
         $definitions = $this->defineListColumns();
         $columns = [];
 
-        if ($this->columnOverride === null) {
-            $this->columnOverride = $this->getSession('visible');
-        }
+        $this->columnOverride ??= $this->getSession('visible');
 
         if ($this->columnOverride && is_array($this->columnOverride)) {
-            $invalidColumns = array_diff($this->columnOverride, array_keys($this->columns));
+            $definedColumns = array_keys($definitions);
+            $invalidColumns = array_diff($this->columnOverride, $definedColumns);
             if ($invalidColumns !== []) {
                 throw new SystemException(sprintf(
                     lang('igniter::admin.list.invalid_column_override'), implode(',', $invalidColumns),
                 ));
             }
 
-            $availableColumns = array_intersect($this->columnOverride, array_keys($this->columns));
+            $availableColumns = array_intersect($this->columnOverride, $definedColumns);
             foreach ($availableColumns as $columnName) {
                 $definitions[$columnName]->invisible = false;
                 $columns[$columnName] = $definitions[$columnName];

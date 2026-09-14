@@ -114,9 +114,7 @@ class MailLayout extends Model
 
     public function fillFromCode($code = null): void
     {
-        if (is_null($code)) {
-            $code = $this->code;
-        }
+        $code ??= $this->code;
 
         if (is_null($code)) {
             return;

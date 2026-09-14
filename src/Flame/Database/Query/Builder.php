@@ -121,9 +121,7 @@ class Builder extends IlluminateQueryBuilder
      */
     protected function getDuplicateCached($columns = ['*'])
     {
-        if (is_null($this->columns)) {
-            $this->columns = $columns;
-        }
+        $this->columns ??= $columns;
 
         $cache = resolve(MemoryCache::class);
         if ($cache->has($this)) {
@@ -144,9 +142,7 @@ class Builder extends IlluminateQueryBuilder
      */
     public function getCached($columns = ['*']): Collection
     {
-        if (is_null($this->columns)) {
-            $this->columns = $columns;
-        }
+        $this->columns ??= $columns;
 
         // If the query is requested to be cached, we will cache it using a unique key
         // for this database connection and query statement, including the bindings

@@ -45,9 +45,7 @@ class Template
      */
     public function appendBlock(string $name, string $contents): void
     {
-        if (!isset($this->blocks[$name])) {
-            $this->blocks[$name] = '';
-        }
+        $this->blocks[$name] ??= '';
 
         $this->blocks[$name] .= $contents;
     }

@@ -529,9 +529,7 @@ if (!function_exists('mdate')) {
             $format = null;
         }
 
-        if (is_null($format)) {
-            $format = lang('igniter::system.php.date_format');
-        }
+        $format ??= lang('igniter::system.php.date_format');
 
         if (is_null($time)) {
             return null;

@@ -16,7 +16,10 @@ beforeEach(function() {
 
 it('renders without errors', function() {
     app()->instance('view', $viewMock = $this->createMock(Factory::class));
-    $viewMock->method('exists')->with($this->stringContains('searchbox/searchbox'));
+    $viewMock
+        ->expects($this->atLeastOnce())
+        ->method('exists')
+        ->with($this->stringContains('searchbox/searchbox'));
 
     expect($this->searchBoxWidget->render())->toBeString();
 })->throws(Exception::class);

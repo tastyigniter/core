@@ -311,9 +311,7 @@ trait CombinesAssets
 
         $extension = strtolower($extension);
 
-        if (!isset($this->filters[$extension])) {
-            $this->filters[$extension] = [];
-        }
+        $this->filters[$extension] ??= [];
 
         if (!is_null($filter)) {
             $this->filters[$extension][] = $filter;

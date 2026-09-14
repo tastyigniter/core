@@ -302,12 +302,10 @@ class Settings extends Model
                 'owner' => $owner,
             ]));
 
-            if (!isset($item['url'])) {
-                $item['url'] = admin_url($owner == 'core'
-                    ? 'settings/edit/'.$code
-                    : 'extensions/edit/'.str_replace('.', '/', $owner).'/'.$code,
-                );
-            }
+            $item['url'] ??= admin_url($owner == 'core'
+                ? 'settings/edit/'.$code
+                : 'extensions/edit/'.str_replace('.', '/', $owner).'/'.$code,
+            );
 
             if (isset($item['permission'])) {
                 $item['permissions'] = $item['permission'];

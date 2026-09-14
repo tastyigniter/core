@@ -368,7 +368,7 @@ class FormController extends ControllerAction
 
         $redirectUrl = $this->getRedirectUrl($context);
 
-        if ($model && $redirectUrl) {
+        if ($model instanceof Model && $redirectUrl) {
             $redirectUrl = parse_values($model->getAttributes(), $redirectUrl);
         }
 

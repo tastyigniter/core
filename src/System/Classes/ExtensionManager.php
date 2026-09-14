@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\System\Classes;
 
+use Composer\Autoload\ClassLoader;
 use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Exception\SystemException;
@@ -167,7 +168,7 @@ class ExtensionManager
         }
 
         $loader = $this->composerManager->getLoader();
-        if (File::isDirectory($path.'/src') && $loader && !array_key_exists($namespace, $loader->getPrefixesPsr4() ?? [])) {
+        if (File::isDirectory($path.'/src') && $loader instanceof ClassLoader && !array_key_exists($namespace, $loader->getPrefixesPsr4() ?? [])) {
             $loader->setPsr4($namespace, $path.'/src');
         }
 

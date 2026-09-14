@@ -235,7 +235,7 @@ class Manipulator
     {
         $extension = strtolower(pathinfo($this->file, PATHINFO_EXTENSION));
 
-        if ($extension === 'svg' && $this->source) {
+        if ($extension === 'svg' && $this->source instanceof Filesystem) {
             $contents = $this->source->get($this->file);
             $contents = resolve(MediaUploadValidator::class)->validateAndSanitize(basename($this->file), $contents);
 

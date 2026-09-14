@@ -149,9 +149,7 @@ class Country
 
     protected function loadCountries(): Collection
     {
-        if (is_null($this->countriesCollection)) {
-            $this->countriesCollection = collect(CountryModel::query()->whereIsEnabled()->sorted()->get()->keyBy('country_id'));
-        }
+        $this->countriesCollection ??= collect(CountryModel::query()->whereIsEnabled()->sorted()->get()->keyBy('country_id'));
 
         return $this->countriesCollection;
     }

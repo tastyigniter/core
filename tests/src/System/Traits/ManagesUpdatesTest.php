@@ -127,7 +127,7 @@ it('throws exception when composer install fails', function() {
                 'Installing system addons...',
                 nl2br(
                     'Composer install failed'."\n\n"
-                    .'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'
+                    .'<a href="https://tastyigniter.com/support/articles/carte-key" target="_blank">Troubleshoot</a>'
                     ."\n\n",
                 ),
                 '<b>See system logs for more details</b>',

@@ -116,7 +116,7 @@ class PackageManifest extends BasePackageManifest
     public function disabledAddons(): array
     {
         $path = dirname((string)$this->manifestPath).$this->metaFile;
-        if (!is_file($path)) {
+        if (!$this->files->exists($path)) {
             return [];
         }
 

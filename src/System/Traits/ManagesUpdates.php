@@ -215,7 +215,7 @@ trait ManagesUpdates
             ]);
             $response[] = nl2br($throwable->getMessage()
                 ."\n\n"
-                .'<a href="https://tastyigniter.com/support/articles/failed-updates" target="_blank">Troubleshoot</a>'
+                .'<a href="https://tastyigniter.com/support/articles/carte-key" target="_blank">Troubleshoot</a>'
                 ."\n\n",
             );
         }

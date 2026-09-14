@@ -41,22 +41,20 @@ class PermalinkMaker
     {
         static $defaultConfig = null;
 
-        if ($defaultConfig === null) {
-            $defaultConfig = [
-                'source' => null,
-                // The controller name used when building the permalink
-                // each permalink are unique to controllers
-                'controller' => 'pages',
-                'maximumLength' => 250,
-                'separator' => '-',
-                'generateUnique' => true,
-                'generateOnCreate' => true,
-                'generateOnUpdate' => false,
-                'reserved' => [],
-                'uniqueSuffix' => null,
-                'includeTrashed' => false,
-            ];
-        }
+        $defaultConfig ??= [
+            'source' => null,
+            // The controller name used when building the permalink
+            // each permalink are unique to controllers
+            'controller' => 'pages',
+            'maximumLength' => 250,
+            'separator' => '-',
+            'generateUnique' => true,
+            'generateOnCreate' => true,
+            'generateOnUpdate' => false,
+            'reserved' => [],
+            'uniqueSuffix' => null,
+            'includeTrashed' => false,
+        ];
 
         return array_merge($defaultConfig, $overrides);
     }

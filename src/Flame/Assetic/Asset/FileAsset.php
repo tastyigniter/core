@@ -32,9 +32,7 @@ class FileAsset extends BaseAsset
     {
         if ($sourceRoot === null) {
             $sourceRoot = File::dirname($source);
-            if ($sourcePath === null) {
-                $sourcePath = File::name($source);
-            }
+            $sourcePath ??= File::name($source);
         } elseif ($sourcePath === null) {
             if (!str_starts_with($source, $sourceRoot)) {
                 throw new InvalidArgumentException(sprintf('The source "%s" is not in the root directory "%s"', $source, $sourceRoot));
