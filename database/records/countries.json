@@ -5,6 +5,11 @@
     "iso_code_3": "AFG"
   },
   {
+    "country_name": "Åland Islands",
+    "iso_code_2": "AX",
+    "iso_code_3": "ALA"
+  },
+  {
     "country_name": "Albania",
     "iso_code_2": "AL",
     "iso_code_3": "ALB"
@@ -130,7 +135,12 @@
     "iso_code_3": "BOL"
   },
   {
-    "country_name": "Bosnia and Herzegowina",
+    "country_name": "Bonaire, Sint Eustatius and Saba",
+    "iso_code_2": "BQ",
+    "iso_code_3": "BES"
+  },
+  {
+    "country_name": "Bosnia and Herzegovina",
     "iso_code_2": "BA",
     "iso_code_3": "BIH"
   },
@@ -175,6 +185,11 @@
     "iso_code_3": "BDI"
   },
   {
+    "country_name": "Cabo Verde",
+    "iso_code_2": "CV",
+    "iso_code_3": "CPV"
+  },
+  {
     "country_name": "Cambodia",
     "iso_code_2": "KH",
     "iso_code_3": "KHM"
@@ -188,11 +203,6 @@
     "country_name": "Canada",
     "iso_code_2": "CA",
     "iso_code_3": "CAN"
-  },
-  {
-    "country_name": "Cape Verde",
-    "iso_code_2": "CV",
-    "iso_code_3": "CPV"
   },
   {
     "country_name": "Cayman Islands",
@@ -255,7 +265,7 @@
     "iso_code_3": "CRI"
   },
   {
-    "country_name": "Cote D'Ivoire",
+    "country_name": "Côte d'Ivoire",
     "iso_code_2": "CI",
     "iso_code_3": "CIV"
   },
@@ -270,14 +280,24 @@
     "iso_code_3": "CUB"
   },
   {
+    "country_name": "Curaçao",
+    "iso_code_2": "CW",
+    "iso_code_3": "CUW"
+  },
+  {
     "country_name": "Cyprus",
     "iso_code_2": "CY",
     "iso_code_3": "CYP"
   },
   {
-    "country_name": "Czech Republic",
+    "country_name": "Czechia",
     "iso_code_2": "CZ",
     "iso_code_3": "CZE"
+  },
+  {
+    "country_name": "Democratic Republic of the Congo",
+    "iso_code_2": "CD",
+    "iso_code_3": "COD"
   },
   {
     "country_name": "Denmark",
@@ -298,11 +318,6 @@
     "country_name": "Dominican Republic",
     "iso_code_2": "DO",
     "iso_code_3": "DOM"
-  },
-  {
-    "country_name": "East Timor",
-    "iso_code_2": "TP",
-    "iso_code_3": "TMP"
   },
   {
     "country_name": "Ecuador",
@@ -335,6 +350,11 @@
     "iso_code_3": "EST"
   },
   {
+    "country_name": "Eswatini",
+    "iso_code_2": "SZ",
+    "iso_code_3": "SWZ"
+  },
+  {
     "country_name": "Ethiopia",
     "iso_code_2": "ET",
     "iso_code_3": "ETH"
@@ -363,11 +383,6 @@
     "country_name": "France",
     "iso_code_2": "FR",
     "iso_code_3": "FRA"
-  },
-  {
-    "country_name": "France, Metropolitan",
-    "iso_code_2": "FX",
-    "iso_code_3": "FXX"
   },
   {
     "country_name": "French Guiana",
@@ -445,12 +460,17 @@
     "iso_code_3": "GTM"
   },
   {
+    "country_name": "Guernsey",
+    "iso_code_2": "GG",
+    "iso_code_3": "GGY"
+  },
+  {
     "country_name": "Guinea",
     "iso_code_2": "GN",
     "iso_code_3": "GIN"
   },
   {
-    "country_name": "Guinea-bissau",
+    "country_name": "Guinea-Bissau",
     "iso_code_2": "GW",
     "iso_code_3": "GNB"
   },
@@ -465,7 +485,7 @@
     "iso_code_3": "HTI"
   },
   {
-    "country_name": "Heard and Mc Donald Islands",
+    "country_name": "Heard Island and McDonald Islands",
     "iso_code_2": "HM",
     "iso_code_3": "HMD"
   },
@@ -500,7 +520,7 @@
     "iso_code_3": "IDN"
   },
   {
-    "country_name": "Iran (Islamic Republic of)",
+    "country_name": "Iran",
     "iso_code_2": "IR",
     "iso_code_3": "IRN"
   },
@@ -513,6 +533,11 @@
     "country_name": "Ireland",
     "iso_code_2": "IE",
     "iso_code_3": "IRL"
+  },
+  {
+    "country_name": "Isle of Man",
+    "iso_code_2": "IM",
+    "iso_code_3": "IMN"
   },
   {
     "country_name": "Israel",
@@ -535,6 +560,11 @@
     "iso_code_3": "JPN"
   },
   {
+    "country_name": "Jersey",
+    "iso_code_2": "JE",
+    "iso_code_3": "JEY"
+  },
+  {
     "country_name": "Jordan",
     "iso_code_2": "JO",
     "iso_code_3": "JOR"
@@ -553,16 +583,6 @@
     "country_name": "Kiribati",
     "iso_code_2": "KI",
     "iso_code_3": "KIR"
-  },
-  {
-    "country_name": "North Korea",
-    "iso_code_2": "KP",
-    "iso_code_3": "PRK"
-  },
-  {
-    "country_name": "Korea, Republic of",
-    "iso_code_2": "KR",
-    "iso_code_3": "KOR"
   },
   {
     "country_name": "Kuwait",
@@ -600,7 +620,7 @@
     "iso_code_3": "LBR"
   },
   {
-    "country_name": "Libyan Arab Jamahiriya",
+    "country_name": "Libya",
     "iso_code_2": "LY",
     "iso_code_3": "LBY"
   },
@@ -620,14 +640,9 @@
     "iso_code_3": "LUX"
   },
   {
-    "country_name": "Macau",
+    "country_name": "Macao",
     "iso_code_2": "MO",
     "iso_code_3": "MAC"
-  },
-  {
-    "country_name": "FYROM",
-    "iso_code_2": "MK",
-    "iso_code_3": "MKD"
   },
   {
     "country_name": "Madagascar",
@@ -695,7 +710,7 @@
     "iso_code_3": "FSM"
   },
   {
-    "country_name": "Moldova, Republic of",
+    "country_name": "Moldova",
     "iso_code_2": "MD",
     "iso_code_3": "MDA"
   },
@@ -708,6 +723,11 @@
     "country_name": "Mongolia",
     "iso_code_2": "MN",
     "iso_code_3": "MNG"
+  },
+  {
+    "country_name": "Montenegro",
+    "iso_code_2": "ME",
+    "iso_code_3": "MNE"
   },
   {
     "country_name": "Montserrat",
@@ -750,11 +770,6 @@
     "iso_code_3": "NLD"
   },
   {
-    "country_name": "Netherlands Antilles",
-    "iso_code_2": "AN",
-    "iso_code_3": "ANT"
-  },
-  {
     "country_name": "New Caledonia",
     "iso_code_2": "NC",
     "iso_code_3": "NCL"
@@ -790,6 +805,16 @@
     "iso_code_3": "NFK"
   },
   {
+    "country_name": "North Korea",
+    "iso_code_2": "KP",
+    "iso_code_3": "PRK"
+  },
+  {
+    "country_name": "North Macedonia",
+    "iso_code_2": "MK",
+    "iso_code_3": "MKD"
+  },
+  {
     "country_name": "Northern Mariana Islands",
     "iso_code_2": "MP",
     "iso_code_3": "MNP"
@@ -813,6 +838,11 @@
     "country_name": "Palau",
     "iso_code_2": "PW",
     "iso_code_3": "PLW"
+  },
+  {
+    "country_name": "Palestine",
+    "iso_code_2": "PS",
+    "iso_code_3": "PSE"
   },
   {
     "country_name": "Panama",
@@ -865,14 +895,14 @@
     "iso_code_3": "QAT"
   },
   {
-    "country_name": "Reunion",
+    "country_name": "Réunion",
     "iso_code_2": "RE",
     "iso_code_3": "REU"
   },
   {
     "country_name": "Romania",
     "iso_code_2": "RO",
-    "iso_code_3": "ROM"
+    "iso_code_3": "ROU"
   },
   {
     "country_name": "Russian Federation",
@@ -885,6 +915,16 @@
     "iso_code_3": "RWA"
   },
   {
+    "country_name": "Saint Barthélemy",
+    "iso_code_2": "BL",
+    "iso_code_3": "BLM"
+  },
+  {
+    "country_name": "Saint Helena, Ascension and Tristan da Cunha",
+    "iso_code_2": "SH",
+    "iso_code_3": "SHN"
+  },
+  {
     "country_name": "Saint Kitts and Nevis",
     "iso_code_2": "KN",
     "iso_code_3": "KNA"
@@ -893,6 +933,16 @@
     "country_name": "Saint Lucia",
     "iso_code_2": "LC",
     "iso_code_3": "LCA"
+  },
+  {
+    "country_name": "Saint Martin (French part)",
+    "iso_code_2": "MF",
+    "iso_code_3": "MAF"
+  },
+  {
+    "country_name": "Saint Pierre and Miquelon",
+    "iso_code_2": "PM",
+    "iso_code_3": "SPM"
   },
   {
     "country_name": "Saint Vincent and the Grenadines",
@@ -925,6 +975,11 @@
     "iso_code_3": "SEN"
   },
   {
+    "country_name": "Serbia",
+    "iso_code_2": "RS",
+    "iso_code_3": "SRB"
+  },
+  {
     "country_name": "Seychelles",
     "iso_code_2": "SC",
     "iso_code_3": "SYC"
@@ -940,7 +995,12 @@
     "iso_code_3": "SGP"
   },
   {
-    "country_name": "Slovak Republic",
+    "country_name": "Sint Maarten (Dutch part)",
+    "iso_code_2": "SX",
+    "iso_code_3": "SXM"
+  },
+  {
+    "country_name": "Slovakia",
     "iso_code_2": "SK",
     "iso_code_3": "SVK"
   },
@@ -965,9 +1025,19 @@
     "iso_code_3": "ZAF"
   },
   {
-    "country_name": "South Georgia &amp; South Sandwich Islands",
+    "country_name": "South Georgia and the South Sandwich Islands",
     "iso_code_2": "GS",
     "iso_code_3": "SGS"
+  },
+  {
+    "country_name": "South Korea",
+    "iso_code_2": "KR",
+    "iso_code_3": "KOR"
+  },
+  {
+    "country_name": "South Sudan",
+    "iso_code_2": "SS",
+    "iso_code_3": "SSD"
   },
   {
     "country_name": "Spain",
@@ -980,16 +1050,6 @@
     "iso_code_3": "LKA"
   },
   {
-    "country_name": "St. Helena",
-    "iso_code_2": "SH",
-    "iso_code_3": "SHN"
-  },
-  {
-    "country_name": "St. Pierre and Miquelon",
-    "iso_code_2": "PM",
-    "iso_code_3": "SPM"
-  },
-  {
     "country_name": "Sudan",
     "iso_code_2": "SD",
     "iso_code_3": "SDN"
@@ -1000,14 +1060,9 @@
     "iso_code_3": "SUR"
   },
   {
-    "country_name": "Svalbard and Jan Mayen Islands",
+    "country_name": "Svalbard and Jan Mayen",
     "iso_code_2": "SJ",
     "iso_code_3": "SJM"
-  },
-  {
-    "country_name": "Swaziland",
-    "iso_code_2": "SZ",
-    "iso_code_3": "SWZ"
   },
   {
     "country_name": "Sweden",
@@ -1035,7 +1090,7 @@
     "iso_code_3": "TJK"
   },
   {
-    "country_name": "Tanzania, United Republic of",
+    "country_name": "Tanzania",
     "iso_code_2": "TZ",
     "iso_code_3": "TZA"
   },
@@ -1043,6 +1098,11 @@
     "country_name": "Thailand",
     "iso_code_2": "TH",
     "iso_code_3": "THA"
+  },
+  {
+    "country_name": "Timor-Leste",
+    "iso_code_2": "TL",
+    "iso_code_3": "TLS"
   },
   {
     "country_name": "Togo",
@@ -1070,7 +1130,7 @@
     "iso_code_3": "TUN"
   },
   {
-    "country_name": "Turkey",
+    "country_name": "Türkiye",
     "iso_code_2": "TR",
     "iso_code_3": "TUR"
   },
@@ -1135,7 +1195,7 @@
     "iso_code_3": "VUT"
   },
   {
-    "country_name": "Vatican City State (Holy See)",
+    "country_name": "Vatican City",
     "iso_code_2": "VA",
     "iso_code_3": "VAT"
   },
@@ -1145,7 +1205,7 @@
     "iso_code_3": "VEN"
   },
   {
-    "country_name": "Viet Nam",
+    "country_name": "Vietnam",
     "iso_code_2": "VN",
     "iso_code_3": "VNM"
   },
@@ -1160,7 +1220,7 @@
     "iso_code_3": "VIR"
   },
   {
-    "country_name": "Wallis and Futuna Islands",
+    "country_name": "Wallis and Futuna",
     "iso_code_2": "WF",
     "iso_code_3": "WLF"
   },
@@ -1173,16 +1233,6 @@
     "country_name": "Yemen",
     "iso_code_2": "YE",
     "iso_code_3": "YEM"
-  },
-  {
-    "country_name": "Yugoslavia",
-    "iso_code_2": "YU",
-    "iso_code_3": "YUG"
-  },
-  {
-    "country_name": "Democratic Republic of Congo",
-    "iso_code_2": "CD",
-    "iso_code_3": "COD"
   },
   {
     "country_name": "Zambia",
