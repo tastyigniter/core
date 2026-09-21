@@ -11,10 +11,8 @@ use Igniter\Flame\Database\Traits\Sortable;
 use Igniter\Flame\Support\Facades\File;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use LogicException;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -152,26 +150,6 @@ class Media extends Model
         File::delete($tempPath);
 
         return $this;
-    }
-
-    /**
-     * Creates a file object from url
-     * @param $url string URL
-     * @param $filename string Filename
-     * @throws RuntimeException
-     */
-    public function addFromUrl(string $url, $filename = null, ?string $tag = null): self
-    {
-        $response = Http::get($url);
-        if (!$response->successful()) {
-            throw new RuntimeException(sprintf('Error opening file "%s"', $url));
-        }
-
-        return $this->addFromRaw(
-            $response->resource(),
-            !empty($filename) ? $filename : File::basename($url),
-            $tag,
-        );
     }
 
     //
