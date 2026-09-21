@@ -397,11 +397,43 @@ class ExtensionManager
 
             $extensionCode = $meta->code;
             $extractToPath = $extractTo.'/'.$this->getNamePath($meta->code);
+            $this->assertSafeZipEntries($zip);
             $zip->extractTo($extractToPath);
             $zip->close();
         }
 
         return $extensionCode;
+    }
+
+    /**
+     * Reject ZIP entries that would extract outside the destination directory.
+     */
+    protected function assertSafeZipEntries(ZipArchive $zip): void
+    {
+        for ($i = 0, $total = $zip->count(); $i < $total; $i++) {
+            $entry = $zip->getNameIndex($i);
+            throw_unless(
+                $entry !== false && $this->isSafeZipEntryName($entry),
+                new SystemException('Unsafe ZIP entry detected: '.($entry === false ? $i : $entry)),
+            );
+        }
+    }
+
+    /**
+     * ZIP entry names must be relative and must not contain path-traversal segments.
+     */
+    protected function isSafeZipEntryName(string $entry): bool
+    {
+        if ($entry === '' || str_contains($entry, "\0")) {
+            return false;
+        }
+
+        $normalized = str_replace('\\', '/', $entry);
+        if (str_starts_with($normalized, '/') || preg_match('/^[A-Za-z]:/', $normalized) === 1) {
+            return false;
+        }
+
+        return !in_array('..', explode('/', $normalized), true);
     }
 
     /**

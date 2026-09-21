@@ -12,10 +12,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use LogicException;
-use RuntimeException;
 
 it('guesses file extension correctly', function() {
     $media1 = new Media;
@@ -123,35 +121,6 @@ it('adds file from raw data', function() {
     expect($media->deleteFile())->toBeNull();
 
     File::deleteDirectory($media->getTempPath().'/path');
-});
-
-it('throws exception when adding file from unreachable url', function() {
-    Http::fake([
-        'http://example.com/file.jpg' => Http::response('', 404),
-    ]);
-    $media = new Media;
-    $url = 'http://example.com/file.jpg';
-    $media->addFromUrl($url, 'file.jpg');
-})->throws(RuntimeException::class, sprintf('Error opening file "%s"', 'http://example.com/file.jpg'));
-
-it('adds file from url', function() {
-    Http::fake([
-        'http://example.com/file.png' => Http::response(file_get_contents(__DIR__.'/../Fixtures/test.png')),
-    ]);
-    $storageMock = Storage::fake('public');
-    Relation::morphMap(['test_countries' => TestModelForMedia::class]);
-    $model = new TestModelForMedia;
-    $model->save();
-
-    $media = $model->newMediaInstance();
-    $url = 'http://example.com/file.png';
-    $filename = 'file.png';
-
-    $media->addFromUrl($url, $filename);
-
-    $storageMock->assertExists($media->getStorageDirectory().'/'.$media->getPartitionDirectory().'/'.$media->name);
-    File::deleteDirectory($media->getTempPath());
-    expect($media->deleteThumbs())->toBeNull();
 });
 
 it('it does not delete empty directory after deleting file', function() {

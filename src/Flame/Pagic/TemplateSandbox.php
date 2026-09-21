@@ -33,7 +33,7 @@ class TemplateSandbox
         'usort', 'uasort', 'uksort',
         'preg_replace_callback', 'preg_replace_callback_array',
         'unserialize', 'include', 'require', 'include_once', 'require_once',
-        'getenv', 'putenv', 'env', 'ini_set', 'curl_exec', 'curl_init', 'curl_setopt',
+        'getenv', 'putenv', 'env', 'config', 'ini_set', 'curl_exec', 'curl_init', 'curl_setopt',
         'fsockopen', 'define', 'extract', 'parse_str', 'chr', 'preg_replace',
     ];
 
