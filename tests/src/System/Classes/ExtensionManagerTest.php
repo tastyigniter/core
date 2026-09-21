@@ -190,15 +190,19 @@ it('extracts extension zip folder correctly', function() {
     $manager = resolve(ExtensionManager::class);
     $zipPath = '/path/to/valid/extension.zip';
     $zip = mock(ZipArchive::class);
+    $zip->shouldReceive('count')->andReturn(3);
     $zip->shouldReceive('open')->with($zipPath)->andReturnTrue();
-    $zip->shouldReceive('getNameIndex')->with(0)->andReturn('/path/to/valid/extension/');
-    $zip->shouldReceive('locateName')->with('/path/to/valid/extension/Extension.php')->andReturnTrue();
+    $zip->shouldReceive('getNameIndex')->andReturnUsing(fn(int $i) => match ($i) {
+        0 => 'valid/extension/',
+        1 => 'valid/extension/Extension.php',
+        2 => 'valid/extension/composer.json',
+    });
+    $zip->shouldReceive('locateName')->with('valid/extension/Extension.php')->andReturnTrue();
     $zip->shouldReceive('getFromName')->andReturn(json_encode(['code' => 'valid.extension']));
     $zip->shouldReceive('extractTo')->withArgs(fn($path) => ends_with($path, '/extensions/valid/extension'))->andReturnTrue();
     $zip->shouldReceive('close')->andReturnTrue();
     app()->instance(ZipArchive::class, $zip);
-    File::shouldReceive('exists')->with('/path/to/valid/extension/extension.json')->andReturn(false);
-    File::shouldReceive('exists')->with('/path/to/valid/extension/composer.json')->andReturn(true);
+    File::shouldReceive('exists')->with('valid/extension/extension.json')->andReturn(false);
 
     $extensionCode = $manager->extractExtension($zipPath);
     expect($extensionCode)->toBe('valid.extension');
@@ -264,6 +268,55 @@ it('extractExtension throws exception if composer.json file is invalid', functio
     expect(fn() => $manager->extractExtension($zipPath))
         ->toThrow(SystemException::class, lang('igniter::system.extensions.error_config_no_found'));
 });
+
+it('extractExtension rejects zip entries that escape the destination directory', function(string|false $unsafeEntry, string $message) {
+    $manager = resolve(ExtensionManager::class);
+    $zipPath = '/path/to/malicious/extension.zip';
+    $zip = mock(ZipArchive::class);
+    $zip->shouldReceive('count')->andReturn(2);
+    $zip->shouldReceive('open')->with($zipPath)->andReturnTrue();
+    $zip->shouldReceive('getNameIndex')->andReturnUsing(fn(int $i) => match ($i) {
+        0 => 'valid/extension/',
+        1 => $unsafeEntry,
+    });
+    $zip->shouldReceive('locateName')->with('valid/extension/Extension.php')->andReturnTrue();
+    $zip->shouldReceive('getFromName')->andReturn(json_encode(['code' => 'valid.extension']));
+    $zip->shouldReceive('extractTo')->never();
+    app()->instance(ZipArchive::class, $zip);
+    File::shouldReceive('exists')->with('valid/extension/extension.json')->andReturn(false);
+
+    expect(fn() => $manager->extractExtension($zipPath))
+        ->toThrow(SystemException::class, $message);
+})->with([
+    'parent directory traversal' => [
+        'valid/extension/../../../outside.txt',
+        'Unsafe ZIP entry detected: valid/extension/../../../outside.txt',
+    ],
+    'absolute unix path' => [
+        '/tmp/outside.txt',
+        'Unsafe ZIP entry detected: /tmp/outside.txt',
+    ],
+    'absolute windows path' => [
+        'C:/Windows/outside.txt',
+        'Unsafe ZIP entry detected: C:/Windows/outside.txt',
+    ],
+    'backslash traversal' => [
+        'valid\\extension\\..\\..\\outside.txt',
+        'Unsafe ZIP entry detected: valid\\extension\\..\\..\\outside.txt',
+    ],
+    'null byte in name' => [
+        "valid/extension/outside.txt\0.jpg",
+        "Unsafe ZIP entry detected: valid/extension/outside.txt\0.jpg",
+    ],
+    'empty entry name' => [
+        '',
+        'Unsafe ZIP entry detected: ',
+    ],
+    'unreadable entry index' => [
+        false,
+        'Unsafe ZIP entry detected: 1',
+    ],
+]);
 
 it('installs extension successfully', function() {
     $manager = resolve(ExtensionManager::class);
