@@ -27,14 +27,14 @@
 </head>
 <body class="page {{ $this->bodyClass }}">
 {{Template::renderHook('startBody')}}
-@if(AdminAuth::isLogged())
+@if(AdminAuth::isLogged() && !$this->suppressNavigation)
     <x-igniter.admin::header>
         {{html($this->widgets['mainmenu']->render())}}
     </x-igniter.admin::header>
 @endif
 <div class="container-fluid p-0 h-100 w-100">
     <div class="d-flex page-container h-100">
-        @if(AdminAuth::isLogged())
+        @if(AdminAuth::isLogged() && !$this->suppressNavigation)
             <div class="sidebar border-right overflow-y-auto">
                 <div id="sidebarMenu" class="offcanvas-lg offcanvas-start px-2 py-3">
                     <div class="offcanvas-header">

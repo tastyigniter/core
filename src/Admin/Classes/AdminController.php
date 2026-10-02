@@ -64,6 +64,9 @@ class AdminController extends Controller
     /** Body class property used for customising the layout on a controller basis. */
     public ?string $bodyClass = null;
 
+    /** When true, the default layout omits the header and sidebar. */
+    public bool $suppressNavigation = false;
+
     public static bool $skipRouteRegister = false;
 
     /**
