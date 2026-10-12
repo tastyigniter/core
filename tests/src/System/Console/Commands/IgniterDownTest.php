@@ -13,12 +13,11 @@ it('destroys all database tables when confirmed', function() {
     $updateManager->shouldReceive('down')->once();
 
     $this->artisan('igniter:down')
+        ->expectsConfirmation('Are you sure you want to run this command?', 'yes')
         ->assertExitCode(0);
 });
 
 it('does not destroy database tables when not confirmed', function() {
-    $this->app['env'] = 'production';
-
     $this->artisan('igniter:down')
         ->expectsConfirmation('Are you sure you want to run this command?', 'no')
         ->assertExitCode(0);
