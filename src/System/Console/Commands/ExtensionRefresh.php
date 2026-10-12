@@ -34,7 +34,7 @@ class ExtensionRefresh extends Command
      */
     public function handle(): void
     {
-        if (!$this->confirmToProceed()) {
+        if (!$this->confirmToProceed(callback: fn(): true => true)) {
             return;
         }
 

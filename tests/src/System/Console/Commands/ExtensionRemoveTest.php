@@ -15,6 +15,7 @@ it('removes extension successfully', function() {
     app()->instance(ExtensionManager::class, $extensionManager);
 
     $this->artisan('igniter:extension-remove igniterlab.demo')
+        ->expectsConfirmation('Are you sure you want to run this command?', 'yes')
         ->expectsOutput('Removing extension: IgniterLab.Demo')
         ->expectsOutput('Deleted extension: IgniterLab.Demo')
         ->assertExitCode(0);
@@ -32,7 +33,6 @@ it('outputs error if extension not found', function() {
 });
 
 it('does not proceed if confirmation is denied', function() {
-    $this->app['env'] = 'production';
     $extensionManager = mock(ExtensionManager::class);
     $extensionManager->shouldReceive('getIdentifier')->with('igniterlab.demo')->andReturn('IgniterLab.Demo');
     $extensionManager->shouldReceive('hasExtension')->with('IgniterLab.Demo')->andReturn(true);
@@ -51,6 +51,7 @@ it('handles composer exception during removal', function() {
     app()->instance(ExtensionManager::class, $extensionManager);
 
     $this->artisan('igniter:extension-remove igniterlab.demo')
+        ->expectsConfirmation('Are you sure you want to run this command?', 'yes')
         ->expectsOutput('Composer error')
         ->assertExitCode(0);
 });

@@ -43,7 +43,7 @@
     "tastyigniter/ti-ext-user": "^4.0",
     "tastyigniter/ti-theme-orange": "^4.0",
     "league/glide": "~4.1",
-    "enshrined/svg-sanitize": "^0.22"
+    "enshrined/svg-sanitize": "^1.0"
   },
   "require-dev": {
     "fakerphp/faker": "~1.14",
@@ -59,6 +59,9 @@
   "replace": {
     "kriswallsmith/assetic": "*",
     "leafo/scssphp": "*"
+  },
+  "conflict": {
+    "brianium/paratest": "7.26.1"
   },
   "extra": {
     "laravel": {

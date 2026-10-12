@@ -135,7 +135,7 @@ class RouterHelper
      * @param string $segment The segment definition.
      * @return bool Returns boolean true if the segment is optional. Returns false otherwise.
      */
-    public static function segmentIsOptional($segment)
+    public static function segmentIsOptional($segment): bool
     {
         $name = mb_substr($segment, 1);
 

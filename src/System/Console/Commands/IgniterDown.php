@@ -31,7 +31,7 @@ class IgniterDown extends Command
      */
     public function handle(): void
     {
-        if (!$this->confirmToProceed('This will DESTROY all database tables.')) {
+        if (!$this->confirmToProceed('This will DESTROY all database tables.', fn(): true => true)) {
             return;
         }
 
