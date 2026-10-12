@@ -88,10 +88,8 @@ class PermalinkMaker
      * Determines whether the model needs slugging.
      *
      * @param string $attribute
-     *
-     * @return bool
      */
-    protected function needsSlugging($attribute, array $config)
+    protected function needsSlugging($attribute, array $config): bool
     {
         if ($config['generateOnUpdate'] === true
             || empty($this->model->getAttributeValue($attribute))

@@ -163,10 +163,8 @@ trait HasRelationships
      * when push() is called instead of save() on the model. Default: true.
      *
      * @param string $name Relation name
-     *
-     * @return bool
      */
-    public function isRelationPushable($name)
+    public function isRelationPushable($name): bool
     {
         $definition = $this->getRelationDefinition($name);
         if (is_null($definition) || !array_key_exists('push', $definition)) {

@@ -206,7 +206,7 @@ class IgniterInstall extends Command
         }
     }
 
-    protected function shouldSkipSetup()
+    protected function shouldSkipSetup(): bool
     {
         if (!Igniter::hasDatabase() || $this->option('force')) {
             return false;

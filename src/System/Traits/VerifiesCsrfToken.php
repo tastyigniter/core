@@ -38,7 +38,7 @@ trait VerifiesCsrfToken
         );
     }
 
-    protected function verifyCsrfToken()
+    protected function verifyCsrfToken(): bool
     {
         if (!config('igniter-system.enableCsrfProtection', true) || !$this->enableCsrfProtection) {
             return true;
