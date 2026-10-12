@@ -60,6 +60,9 @@
     "kriswallsmith/assetic": "*",
     "leafo/scssphp": "*"
   },
+  "conflict": {
+    "brianium/paratest": "7.26.1"
+  },
   "extra": {
     "laravel": {
       "providers": [
