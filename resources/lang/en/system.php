@@ -707,6 +707,8 @@ return [
         'alert_delete_warning' => 'You are about to delete the %s of theme <b>%s</b>',
         'alert_delete_confirm' => 'Are you sure you wish to delete the associated %s? This cannot be undone!',
         'alert_theme_locked' => 'This is a locked theme, changes are restricted, create a child theme to make changes.',
+        'alert_theme_locked_no_child' => 'This is a locked theme and changes are restricted.',
+        'alert_child_disabled' => 'This theme does not allow child themes.',
         'alert_theme_path_locked' => 'This template belongs to a locked theme, such actions are restricted.',
         'alert_reserved_file_path' => 'This path is reserved for pages, partials, layouts, contents or theme assets.',
         'alert_changes_confirm' => 'Conflicting versions, template file has changed. Reload the page to continue.',

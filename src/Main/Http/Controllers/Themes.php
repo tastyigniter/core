@@ -79,12 +79,7 @@ class Themes extends AdminController
 
     public function edit(string $context, string $themeCode): void
     {
-        if (resolve(ThemeManager::class)->isLocked($themeCode)) {
-            Template::setButton(lang('igniter::system.themes.button_child'), [
-                'class' => 'btn btn-default pull-right ms-2',
-                'data-request' => 'onCreateChild',
-            ]);
-        }
+        $this->offerChildThemeButton($themeCode);
 
         Template::setButton(lang('igniter::system.themes.button_source'), [
             'class' => 'btn btn-default pull-right',
@@ -97,12 +92,7 @@ class Themes extends AdminController
     public function source(string $context, string $themeCode): void
     {
         $this->defaultView = 'edit';
-        if (resolve(ThemeManager::class)->isLocked($themeCode)) {
-            Template::setButton(lang('igniter::system.themes.button_child'), [
-                'class' => 'btn btn-default pull-right ms-2',
-                'data-request' => 'onCreateChild',
-            ]);
-        }
+        $this->offerChildThemeButton($themeCode);
 
         $theme = resolve(ThemeManager::class)->findTheme($themeCode);
         if ($theme && $theme->hasCustomData()) {
@@ -206,6 +196,8 @@ class Themes extends AdminController
 
         $model = $this->formFindModelObject($themeCode);
 
+        throw_unless($manager->findTheme($model->code)?->child, new FlashException(lang('igniter::system.themes.alert_child_disabled')));
+
         $childTheme = $manager->createChildTheme($model->code);
 
         Theme::syncAll();
@@ -233,6 +225,19 @@ class Themes extends AdminController
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
 
         return $this->redirect('themes');
+    }
+
+    protected function offerChildThemeButton(string $themeCode): void
+    {
+        $manager = resolve(ThemeManager::class);
+        if (!$manager->isLocked($themeCode) || !$manager->findTheme($themeCode)?->child) {
+            return;
+        }
+
+        Template::setButton(lang('igniter::system.themes.button_child'), [
+            'class' => 'btn btn-default pull-right ms-2',
+            'data-request' => 'onCreateChild',
+        ]);
     }
 
     public function listOverrideColumnValue($record, $column, $alias = null): ?array

@@ -7,6 +7,8 @@ namespace Igniter\System\Classes;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\Main\Classes\Theme;
+use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Helpers\SystemHelper;
 use Igniter\System\Models\Language;
 use Igniter\System\Models\Translation;
@@ -87,12 +89,17 @@ class LanguageManager
 
         $result = [];
         $extensionManager = resolve(ExtensionManager::class);
+        $themes = collect(resolve(ThemeManager::class)->listThemes());
         $namespaces = $this->loader->namespaces();
         asort($namespaces);
         foreach ($namespaces as $namespace => $folder) {
-            $name = $namespace === 'igniter' ? 'Application' : 'Unknown';
-            if ($extension = $extensionManager->findExtension($namespace)) {
-                $name = array_get($extension->extensionMeta(), 'name');
+            $name = 'Unknown';
+            if ($namespace === 'igniter') {
+                $name = 'Application';
+            } elseif ($extension = $extensionManager->findExtension($namespace)) {
+                $name = (string)array_get($extension->extensionMeta(), 'name', 'Unknown');
+            } elseif ($theme = $themes->first(fn(Theme $theme): bool => $theme->langNamespace() === $namespace)) {
+                $name = (string)($theme->label ?: 'Unknown');
             }
 
             $result[] = (object)[

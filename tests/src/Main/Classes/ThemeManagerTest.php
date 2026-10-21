@@ -382,6 +382,13 @@ it('updates installed themes config value', function() {
     expect($this->themeManager->disabledThemes)->toHaveKey('tests-theme');
 });
 
+it('refuses to create a child theme when the parent disables it', function() {
+    $this->themeManager->findTheme('tests-theme')->child = false;
+
+    expect(fn() => $this->themeManager->createChildTheme('tests-theme', 'child-theme'))
+        ->toThrow(SystemException::class, lang('igniter::system.themes.alert_child_disabled'));
+});
+
 it('creates child theme successfully', function() {
     $this->themeManager->clearDirectory();
     File::shouldReceive('isDirectory')->with(base_path('/themes/child-theme'))->andReturn(false);

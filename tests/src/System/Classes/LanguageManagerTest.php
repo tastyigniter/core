@@ -6,6 +6,8 @@ namespace Igniter\Tests\System\Classes;
 
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\Main\Classes\Theme;
+use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Classes\HubManager;
 use Igniter\System\Classes\LanguageManager;
 use Igniter\System\Classes\UpdateManager;
@@ -62,6 +64,39 @@ it('lists locale packages for a given locale', function() {
         ->and($result[0]->code)->toBe('igniter')
         ->and($result[0]->name)->toBe('Application')
         ->and($result[0]->files)->toBe(['/path/to/lang/en/file.php']);
+});
+
+it('names a theme language package from the theme', function() {
+    File::shouldReceive('glob')->andReturn(['/path/to/lang/en/file.php']);
+    File::shouldReceive('localToPublic')->andReturn('public');
+    resolve(ThemeManager::class)->themes['igniterlabs-glass'] = new Theme('/tmp/glass', [
+        'code' => 'igniterlabs-glass',
+        'name' => 'Glass Theme',
+        'description' => 'Glass',
+        'author' => 'Igniter',
+    ]);
+    app('translator')->addNamespace('igniterlabs.glass', '/tmp/glass/lang');
+
+    $packages = collect(resolve(LanguageManager::class)->listLocalePackages('en'))->keyBy('code');
+
+    expect($packages['igniterlabs.glass']->name)->toBe('Glass Theme');
+});
+
+it('uses the theme lang meta when the translation namespace differs from the code', function() {
+    File::shouldReceive('glob')->andReturn(['/path/to/lang/en/file.php']);
+    File::shouldReceive('localToPublic')->andReturn('public');
+    resolve(ThemeManager::class)->themes['custom-theme'] = new Theme('/tmp/custom', [
+        'code' => 'custom-theme',
+        'name' => 'Custom Theme',
+        'description' => 'Custom',
+        'author' => 'Igniter',
+        'lang' => 'vendor.custom',
+    ]);
+    app('translator')->addNamespace('vendor.custom', '/tmp/custom/lang');
+
+    $packages = collect(resolve(LanguageManager::class)->listLocalePackages('en'))->keyBy('code');
+
+    expect($packages['vendor.custom']->name)->toBe('Custom Theme');
 });
 
 it('publishes translations for a language', function() {

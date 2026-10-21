@@ -538,6 +538,8 @@ class ThemeManager
             'Can not create a child theme from another child theme',
         ));
 
+        throw_unless($parentTheme->child, new SystemException(lang('igniter::system.themes.alert_child_disabled')));
+
         $childThemeCode = ThemeModel::generateUniqueCode($childThemeCode ?? $parentThemeCode);
         $childThemePath = Igniter::themesPath().'/'.$childThemeCode;
 

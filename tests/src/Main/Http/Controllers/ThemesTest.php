@@ -100,6 +100,30 @@ it('edits theme template file content', function() {
         ->assertSee('X_IGNITER_REDIRECT');
 });
 
+it('hides the child theme button when the theme disables child themes', function() {
+    ThemeModel::factory()->findOrCreateTestTheme();
+    $theme = resolve(ThemeManager::class)->findTheme('tests-theme');
+    $theme->locked = true;
+    $theme->child = false;
+
+    actingAsSuperUser()
+        ->get(route('igniter.main.themes', ['slug' => 'edit/tests-theme']))
+        ->assertOk()
+        ->assertDontSee('onCreateChild');
+});
+
+it('refuses to create a child theme when the theme disables it', function() {
+    ThemeModel::factory()->findOrCreateTestTheme(['status' => 1]);
+    resolve(ThemeManager::class)->findTheme('tests-theme')->child = false;
+
+    actingAsSuperUser()
+        ->post(route('igniter.main.themes', ['slug' => 'source/tests-theme']), [], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onCreateChild',
+        ])
+        ->assertSee(lang('igniter::system.themes.alert_child_disabled'));
+});
+
 it('creates child theme', function() {
     ThemeModel::factory()->findOrCreateTestTheme(['status' => 1]);
     $childTheme = ThemeModel::create(['code' => 'child-theme', 'name' => 'Child Theme', 'status' => 1]);

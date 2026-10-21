@@ -15,7 +15,7 @@
 @else
     <div class="card shadow-sm border-warning text-warning">
         <div class="card-body">
-            <b>@lang('igniter::system.themes.alert_theme_locked')</b>
+            <b>@lang($this->model->getTheme()?->child === false ? 'igniter::system.themes.alert_theme_locked_no_child' : 'igniter::system.themes.alert_theme_locked')</b>
         </div>
     </div>
 @endunless

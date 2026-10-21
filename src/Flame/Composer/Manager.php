@@ -110,7 +110,10 @@ class Manager
         $manifest['author'] = array_get($composer, 'authors.0.name');
         $manifest['homepage'] = array_get($manifest, 'homepage', array_get($composer, 'homepage'));
 
-        return array_filter($manifest);
+        return array_filter(
+            $manifest,
+            static fn(mixed $value): bool => !in_array($value, [null, '', []], true),
+        );
     }
 
     protected function isValidPackage(array $package): bool

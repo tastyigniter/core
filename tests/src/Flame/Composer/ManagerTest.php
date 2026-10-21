@@ -136,6 +136,7 @@ it('formats theme manifest correctly', function() {
             'tastyigniter-theme' => [
                 'code' => 'theme-code',
                 'homepage' => 'https://example.com',
+                'child' => false,
             ],
         ],
     ]);
@@ -145,7 +146,8 @@ it('formats theme manifest correctly', function() {
     expect($manifest)->toBeArray()
         ->and($manifest['type'])->toBe('tastyigniter-theme')
         ->and($manifest['code'])->toBe('theme-code')
-        ->and($manifest['package_name'])->toBe('author/theme');
+        ->and($manifest['package_name'])->toBe('author/theme')
+        ->and($manifest['child'])->toBeFalse();
 });
 
 it('does not format theme with missing extra config', function() {
