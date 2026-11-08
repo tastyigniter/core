@@ -15,6 +15,7 @@ use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
+use JsonException;
 
 /**
  * Settings Model Class
@@ -142,9 +143,36 @@ class Settings extends Model
 
     public function getValueAttribute()
     {
-        return ($value = @unserialize($this->attributes['value'] ?? '')) !== false
-            ? $value
-            : $this->attributes['value'];
+        $value = $this->attributes['value'] ?? null;
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        try {
+            return json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException) {
+            // Values inserted directly into the table, bypassing set(), are returned as is.
+            return $value;
+        }
+    }
+
+    /**
+     * Every value is JSON encoded, so the stored format is never ambiguous.
+     * Scalars are stored as strings to keep the types returned before values were JSON encoded.
+     */
+    public static function encodeValue(mixed $value): ?string
+    {
+        if (is_null($value)) {
+            return null;
+        }
+
+        if (is_bool($value)) {
+            $value = (string)(int)$value;
+        } elseif (is_scalar($value)) {
+            $value = (string)$value;
+        }
+
+        return json_encode($value, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public static function get(?string $key = null, mixed $default = null, string $group = 'config'): mixed
@@ -157,7 +185,7 @@ class Settings extends Model
         $data = collect(is_array($key) ? $key : [$key => $value])->map(fn($value, $key): array => [
             'sort' => $group,
             'item' => $key,
-            'value' => is_array($value) ? serialize($value) : $value,
+            'value' => static::encodeValue($value),
         ])->values()->all();
 
         resolve(Settings::class)->resetFieldValues();

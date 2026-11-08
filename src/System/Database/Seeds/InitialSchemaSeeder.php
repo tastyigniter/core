@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\System\Database\Seeds;
 
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\System\Models\Settings;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -181,7 +182,13 @@ class InitialSchemaSeeder extends Seeder
             return;
         }
 
-        DB::table('settings')->insert(Igniter::getSeedRecords('settings'));
+        DB::table('settings')->insert(array_map(function(array $record): array {
+            if (array_key_exists('value', $record)) {
+                $record['value'] = Settings::encodeValue($record['value']);
+            }
+
+            return $record;
+        }, Igniter::getSeedRecords('settings')));
     }
 
     protected function seedUserGroups()
@@ -229,21 +236,21 @@ class InitialSchemaSeeder extends Seeder
             'name' => 'Manager',
             'code' => 'manager',
             'description' => 'Default role for restaurant managers.',
-            'permissions' => 'a:17:{s:15:"Admin.Dashboard";s:1:"1";s:16:"Admin.Categories";s:1:"1";s:14:"Admin.Statuses";s:1:"1";s:12:"Admin.Staffs";s:1:"1";s:17:"Admin.StaffGroups";s:1:"1";s:16:"Admin.StaffRoles";s:1:"1";s:15:"Admin.Customers";s:1:"1";s:20:"Admin.CustomerGroups";s:1:"1";s:14:"Admin.Payments";s:1:"1";s:18:"Admin.Reservations";s:1:"1";s:12:"Admin.Orders";s:1:"1";s:12:"Admin.Tables";s:1:"1";s:15:"Admin.Locations";s:1:"1";s:15:"Admin.Mealtimes";s:1:"1";s:11:"Admin.Menus";s:1:"1";s:11:"Site.Themes";s:1:"1";s:18:"Admin.MediaManager";s:1:"1";}',
+            'permissions' => json_encode(['Admin.Dashboard' => '1', 'Admin.Categories' => '1', 'Admin.Statuses' => '1', 'Admin.Staffs' => '1', 'Admin.StaffGroups' => '1', 'Admin.StaffRoles' => '1', 'Admin.Customers' => '1', 'Admin.CustomerGroups' => '1', 'Admin.Payments' => '1', 'Admin.Reservations' => '1', 'Admin.Orders' => '1', 'Admin.Tables' => '1', 'Admin.Locations' => '1', 'Admin.Mealtimes' => '1', 'Admin.Menus' => '1', 'Site.Themes' => '1', 'Admin.MediaManager' => '1']),
         ]);
 
         DB::table('admin_user_roles')->insert([
             'name' => 'Waiter',
             'code' => 'waiter',
             'description' => 'Default role for restaurant waiters.',
-            'permissions' => 'a:4:{s:16:"Admin.Categories";s:1:"1";s:18:"Admin.Reservations";s:1:"1";s:12:"Admin.Orders";s:1:"1";s:11:"Admin.Menus";s:1:"1";}',
+            'permissions' => json_encode(['Admin.Categories' => '1', 'Admin.Reservations' => '1', 'Admin.Orders' => '1', 'Admin.Menus' => '1']),
         ]);
 
         DB::table('admin_user_roles')->insert([
             'name' => 'Delivery',
             'code' => 'delivery',
             'description' => 'Default role for restaurant delivery.',
-            'permissions' => 'a:3:{s:14:"Admin.Statuses";s:1:"1";s:18:"Admin.Reservations";s:1:"1";s:12:"Admin.Orders";s:1:"1";}',
+            'permissions' => json_encode(['Admin.Statuses' => '1', 'Admin.Reservations' => '1', 'Admin.Orders' => '1']),
         ]);
 
         DB::table('admin_user_roles')->update(['updated_at' => now(), 'created_at' => now()]);

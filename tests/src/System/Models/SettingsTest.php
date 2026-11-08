@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\System\Models\Settings;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 it('returns all menu settings item', function() {
@@ -110,8 +111,8 @@ it('checks if test mail onboarding is not complete', function() {
     expect($result)->toBeFalse();
 });
 
-it('gets value attribute as unserialized', function() {
-    $settings = new Settings(['value' => serialize(['key' => 'value'])]);
+it('gets value attribute as json decoded', function() {
+    $settings = new Settings(['value' => json_encode(['key' => 'value'])]);
 
     $result = $settings->value;
 
@@ -125,6 +126,46 @@ it('gets value attribute as original', function() {
     $result = $settings->value;
 
     expect($result)->toBe('original_value');
+});
+
+it('gets null value attribute as null', function() {
+    $settings = new Settings(['value' => null]);
+
+    expect($settings->value)->toBeNull();
+});
+
+it('does not unserialize php serialized value attribute', function() {
+    $payload = 'O:8:"stdClass":1:{s:3:"foo";s:3:"bar";}';
+    $settings = new Settings(['value' => $payload]);
+
+    expect($settings->value)->toBe($payload);
+});
+
+it('encodes values as json', function($value, $expected) {
+    expect(Settings::encodeValue($value))->toBe($expected);
+})->with([
+    'null' => [null, null],
+    'string' => ['value', '"value"'],
+    'serialized looking string' => ['a:1:{i:0;s:1:"x";}', '"a:1:{i:0;s:1:\"x\";}"'],
+    'true' => [true, '"1"'],
+    'false' => [false, '"0"'],
+    'integer' => [10, '"10"'],
+    'float' => [1.5, '"1.5"'],
+    'array' => [['key' => 'value', 'url' => 'http://example.com/é'], '{"key":"value","url":"http://example.com/é"}'],
+]);
+
+it('stores values as json and returns the same value', function() {
+    $payload = 'a:1:{i:0;O:8:"stdClass":0:{}}';
+    Settings::set([
+        'string_key' => $payload,
+        'array_key' => ['one', 'two'],
+        'bool_key' => true,
+    ]);
+
+    expect(DB::table('settings')->where('item', 'string_key')->value('value'))->toBe(json_encode($payload))
+        ->and(Settings::get('string_key'))->toBe($payload)
+        ->and(Settings::get('array_key'))->toBe(['one', 'two'])
+        ->and(Settings::get('bool_key'))->toBe('1');
 });
 
 it('sets and gets configuration value', function() {

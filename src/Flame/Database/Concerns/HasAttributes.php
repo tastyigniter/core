@@ -183,11 +183,17 @@ trait HasAttributes
         return $this;
     }
 
+    /**
+     * @deprecated The "serialize" cast is deprecated, use the "array" or "json" cast instead.
+     */
     protected function asSerialized($value): ?string
     {
         return isset($value) ? serialize($value) : null;
     }
 
+    /**
+     * @deprecated The "serialize" cast is deprecated, use the "array" or "json" cast instead.
+     */
     public function fromSerialized($value)
     {
         return isset($value) ? @unserialize($value) : null;
