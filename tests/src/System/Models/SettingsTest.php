@@ -141,29 +141,51 @@ it('does not unserialize php serialized value attribute', function() {
     expect($settings->value)->toBe($payload);
 });
 
-it('encodes values as json', function($value, $expected) {
+it('encodes arrays as json and scalars as plain strings', function($value, $expected) {
     expect(Settings::encodeValue($value))->toBe($expected);
 })->with([
     'null' => [null, null],
-    'string' => ['value', '"value"'],
-    'serialized looking string' => ['a:1:{i:0;s:1:"x";}', '"a:1:{i:0;s:1:\"x\";}"'],
-    'true' => [true, '"1"'],
-    'false' => [false, '"0"'],
-    'integer' => [10, '"10"'],
-    'float' => [1.5, '"1.5"'],
+    'string' => ['Europe/London', 'Europe/London'],
+    'quoted string' => ['"quoted"', '"quoted"'],
+    'serialized looking string' => ['a:1:{i:0;s:1:"x";}', 'a:1:{i:0;s:1:"x";}'],
+    'true' => [true, '1'],
+    'false' => [false, '0'],
+    'integer' => [10, '10'],
+    'float' => [1.5, '1.5'],
     'array' => [['key' => 'value', 'url' => 'http://example.com/é'], '{"key":"value","url":"http://example.com/é"}'],
+    'list' => [['customer', 'admin'], '["customer","admin"]'],
 ]);
 
-it('stores values as json and returns the same value', function() {
+it('decodes only json arrays and returns other values as is', function($value, $expected) {
+    expect(Settings::decodeValue($value))->toBe($expected);
+})->with([
+    'null' => [null, null],
+    'string' => ['Europe/London', 'Europe/London'],
+    'numeric string' => ['10', '10'],
+    'json literal string' => ['true', 'true'],
+    'quoted string' => ['"quoted"', '"quoted"'],
+    'object' => ['{"main":"demo"}', ['main' => 'demo']],
+    'list' => ['["customer","admin"]', ['customer', 'admin']],
+    'invalid json' => ['[not json]', '[not json]'],
+]);
+
+it('stores scalars as plain strings and arrays as json and returns the same value', function() {
     $payload = 'a:1:{i:0;O:8:"stdClass":0:{}}';
     Settings::set([
         'string_key' => $payload,
+        'timezone_key' => 'Europe/London',
         'array_key' => ['one', 'two'],
         'bool_key' => true,
     ]);
 
-    expect(DB::table('settings')->where('item', 'string_key')->value('value'))->toBe(json_encode($payload))
+    $stored = fn(string $item) => DB::table('settings')->where('item', $item)->value('value');
+
+    expect($stored('string_key'))->toBe($payload)
+        ->and($stored('timezone_key'))->toBe('Europe/London')
+        ->and($stored('array_key'))->toBe('["one","two"]')
+        ->and($stored('bool_key'))->toBe('1')
         ->and(Settings::get('string_key'))->toBe($payload)
+        ->and(Settings::get('timezone_key'))->toBe('Europe/London')
         ->and(Settings::get('array_key'))->toBe(['one', 'two'])
         ->and(Settings::get('bool_key'))->toBe('1');
 });

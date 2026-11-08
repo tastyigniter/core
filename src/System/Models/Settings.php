@@ -16,6 +16,7 @@ use Igniter\System\Classes\ExtensionManager;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use JsonException;
+use Stringable;
 
 /**
  * Settings Model Class
@@ -167,9 +168,11 @@ class Settings extends Model
         }
 
         if (is_bool($value)) {
-            $value = (string)(int)$value;
-        } elseif (is_scalar($value)) {
-            $value = (string)$value;
+            return (string)(int)$value;
+        }
+
+        if (is_scalar($value) || $value instanceof Stringable) {
+            return (string)$value;
         }
 
         return json_encode($value, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
