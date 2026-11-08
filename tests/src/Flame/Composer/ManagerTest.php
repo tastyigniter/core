@@ -199,6 +199,7 @@ it('restores composer files on exception in install', function() {
     File::shouldReceive('copy')->with('/storage/backups/composer.json', base_path('composer.json'));
     File::shouldReceive('isFile')->with('/storage/backups/composer.lock')->andReturnTrue();
     File::shouldReceive('copy')->with('/storage/backups/composer.lock', base_path('composer.lock'));
+    File::shouldReceive('exists')->with(base_path('vendor/composer/installed.json'))->andReturnFalse();
 
     $manager = new Manager(base_path(), '/storage');
     expect(fn() => $manager->install($requirements, $output))->toThrow(Exception::class);
@@ -218,9 +219,36 @@ it('restores composer files on exception in uninstall', function() {
     File::shouldReceive('copy')->with('/storage/backups/composer.json', base_path('composer.json'));
     File::shouldReceive('isFile')->with('/storage/backups/composer.lock')->andReturnTrue();
     File::shouldReceive('copy')->with('/storage/backups/composer.lock', base_path('composer.lock'));
+    File::shouldReceive('exists')->with(base_path('vendor/composer/installed.json'))->andReturnFalse();
 
     $manager = new Manager(base_path(), '/storage');
     expect(fn() => $manager->uninstall($packages, $output))->toThrow(Exception::class);
+});
+
+it('only passes update-no-dev flag when vendor is installed without dev dependencies', function(?bool $dev, array $expected) {
+    $manifest = ['packages' => []];
+    if (!is_null($dev)) {
+        $manifest['dev'] = $dev;
+    }
+
+    File::shouldReceive('exists')->with('/root/vendor/composer/installed.json')->andReturnTrue();
+    File::shouldReceive('get')->with('/root/vendor/composer/installed.json')->andReturn(json_encode($manifest));
+
+    $manager = new Manager('/root', '/storage');
+    $method = new ReflectionMethod($manager, 'devModeFlags');
+
+    expect($method->invoke($manager))->toBe($expected)
+        ->and($manager->isDevInstall())->toBe($dev ?? true);
+})->with([
+    'dev install' => [true, []],
+    'no-dev install' => [false, ['--update-no-dev']],
+    'unknown install mode' => [null, []],
+]);
+
+it('treats missing installed manifest as dev install', function() {
+    File::shouldReceive('exists')->with('/root/vendor/composer/installed.json')->andReturnFalse();
+
+    expect((new Manager('/root', '/storage'))->isDevInstall())->toBeTrue();
 });
 
 it('adds marketplace auth credentials and installation header to auth json', function() {

@@ -36,8 +36,8 @@ it('checks for updates and finds some', function() {
     $updateManager->shouldReceive('setLogsOutput')->once();
     $updateManager->shouldReceive('requestUpdateList')->andReturn(['items' => collect($packages), 'count' => 3]);
     $updateManager->shouldReceive('install')->once()->andReturn($packages);
-    $updateManager->shouldReceive('completeInstall')->once();
-    $updateManager->shouldReceive('migrate')->once();
+    $updateManager->shouldReceive('completeInstallInNewProcess')->once();
+    $updateManager->shouldReceive('migrate')->never();
 
     $output->shouldReceive('writeln')->with('<info>Checking for updates...</info>')->once();
     $output->shouldReceive('writeln')->with('<info>3 updates found</info>')->once();
@@ -75,8 +75,8 @@ it('updates core only', function() {
     $updateManager->shouldReceive('setLogsOutput')->once();
     $updateManager->shouldReceive('requestUpdateList')->andReturn(['items' => collect($packages), 'count' => 3]);
     $updateManager->shouldReceive('install')->once();
-    $updateManager->shouldReceive('completeInstall')->once();
-    $updateManager->shouldReceive('migrate')->once();
+    $updateManager->shouldReceive('completeInstallInNewProcess')->once();
+    $updateManager->shouldReceive('migrate')->never();
 
     $output->shouldReceive('writeln')->with('<info>Checking for updates...</info>')->once();
     $output->shouldReceive('writeln')->with('<info>3 updates found</info>')->once();
@@ -101,8 +101,8 @@ it('updates specified addons only', function() {
     $updateManager->shouldReceive('setLogsOutput')->once();
     $updateManager->shouldReceive('requestUpdateList')->andReturn(['items' => collect($packages), 'count' => 3]);
     $updateManager->shouldReceive('install')->once();
-    $updateManager->shouldReceive('completeInstall')->once();
-    $updateManager->shouldReceive('migrate')->once();
+    $updateManager->shouldReceive('completeInstallInNewProcess')->once();
+    $updateManager->shouldReceive('migrate')->never();
 
     $output->shouldReceive('writeln')->with('<info>Checking for updates...</info>')->once();
     $output->shouldReceive('writeln')->with('<info>3 updates found</info>')->once();

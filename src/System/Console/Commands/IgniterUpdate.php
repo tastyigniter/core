@@ -73,13 +73,16 @@ class IgniterUpdate extends Command
                 ));
 
                 $installedPackages = $updateManager->install($itemsToUpdate->all(), $this->output);
-                $updateManager->completeInstall($installedPackages);
+
+                // Complete the install and run migrations in a fresh process,
+                // as composer has just modified the vendor directory.
+                $updateManager->completeInstallInNewProcess($installedPackages);
 
                 $this->output->writeln('<info>Updating system addons complete</info>');
+            } else {
+                // Run migrations
+                $updateManager->migrate();
             }
-
-            // Run migrations
-            $updateManager->migrate();
         } catch (Throwable $throwable) {
             $this->output->writeln($throwable->getMessage());
         }

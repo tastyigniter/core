@@ -14,6 +14,7 @@ use Igniter\System\Console\Commands\IgniterPackageDiscover;
 use Igniter\System\Console\Commands\IgniterPasswd;
 use Igniter\System\Console\Commands\IgniterUp;
 use Igniter\System\Console\Commands\IgniterUpdate;
+use Igniter\System\Console\Commands\IgniterUpdateComplete;
 use Igniter\System\Console\Commands\IgniterUtil;
 use Igniter\System\Console\Commands\LanguageInstall;
 use Igniter\System\Console\Commands\ThemeInstall;
@@ -35,6 +36,7 @@ class ConsoleServiceProvider extends BaseConsoleServiceProvider
         'package-discover' => IgniterPackageDiscover::class,
         'install' => IgniterInstall::class,
         'update' => IgniterUpdate::class,
+        'update.complete' => IgniterUpdateComplete::class,
         'passwd' => IgniterPasswd::class,
         'extension.install' => ExtensionInstall::class,
         'extension.refresh' => ExtensionRefresh::class,

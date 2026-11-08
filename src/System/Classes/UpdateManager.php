@@ -18,8 +18,11 @@ use Igniter\System\Models\Extension;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Process;
 use Symfony\Component\Console\Output\OutputInterface;
 use UnexpectedValueException;
+
+use function Illuminate\Support\php_binary;
 
 /**
  * TastyIgniter Updates Manager Class
@@ -485,6 +488,35 @@ class UpdateManager
                     ->all());
             });
         }
+    }
+
+    /**
+     * Complete the install and run migrations in a fresh PHP process. Composer has just
+     * modified the vendor directory, so the current process may hold stale classes.
+     */
+    public function completeInstallInNewProcess(array $packages): void
+    {
+        $command = [
+            php_binary(),
+            base_path('artisan'),
+            'igniter:update-complete',
+            '--packages='.json_encode(
+                collect($packages)->map(fn(PackageInfo $packageInfo): array => $packageInfo->toArray())->values()->all(),
+                JSON_THROW_ON_ERROR,
+            ),
+            '--no-interaction',
+            '--no-ansi',
+        ];
+
+        $result = Process::path(base_path())->forever()->run($command);
+
+        foreach (preg_split('/\R/', $result->output()) ?: [] as $line) {
+            if (($line = rtrim($line)) !== '') {
+                $this->log($line);
+            }
+        }
+
+        $result->throw();
     }
 
     protected function configureComposerAuth(?string $carteUsername = null): void
