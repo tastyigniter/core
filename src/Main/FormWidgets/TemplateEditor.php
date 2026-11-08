@@ -11,11 +11,9 @@ use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Pagic\Model;
-use Igniter\Flame\Pagic\TemplateSandbox;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Template\File as FileTemplate;
-use Igniter\System\Rules\SafeThemeTemplateContent;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\RedirectResponse;
 use Override;
@@ -193,7 +191,7 @@ class TemplateEditor extends BaseFormWidget
 
         $this->validateAfter(function(Validator $validator) {
             if ($this->wasTemplateModified()) {
-                $validator->errors()->add('markup', lang('igniter::system.themes.alert_changes_confirm'));
+                $validator->errors()->add('template', lang('igniter::system.themes.alert_changes_confirm'));
             }
         });
 
@@ -275,21 +273,13 @@ class TemplateEditor extends BaseFormWidget
 
     protected function getTemplateAttributes(): array
     {
-        $templateSanitizer = resolve(TemplateSandbox::class);
         $formData = $this->templateWidget?->getSaveData() ?? [];
 
-        $code = trim((string)array_get($formData, 'codeSection', ''), PHP_EOL);
+        // Editing template markup and PHP code from the admin is no longer supported,
+        // only template settings are saved, the existing markup and code are preserved.
+        $settings = (array)array_get($formData, 'settings', []);
 
-        $result['code'] = $code !== '' && $code !== '0'
-            ? $templateSanitizer->sanitize((new SafeThemeTemplateContent)->wrapCodeInPhpTags($code))
-            : null;
-        $result['markup'] = array_get($formData, 'markup')
-            ? $templateSanitizer->sanitize((string)array_get($formData, 'markup'))
-            : null;
-
-        $settings = array_get($formData, 'settings', []);
-
-        return array_merge(array_except($settings, ['components']), $result);
+        return array_except($settings, ['components', 'markup', 'code', 'codeSection', 'content']);
     }
 
     protected function wasTemplateModified(): bool

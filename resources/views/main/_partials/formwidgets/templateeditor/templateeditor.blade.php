@@ -1,3 +1,8 @@
+<div class="card shadow-sm border-info text-info mb-3">
+    <div class="card-body">
+        <b>@lang('igniter::system.themes.alert_template_editing_removed')</b>
+    </div>
+</div>
 @unless($this->previewMode)
     <div
         id="{{ $this->getId() }}"

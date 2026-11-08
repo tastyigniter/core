@@ -1,7 +1,5 @@
 <?php
 
-use Igniter\System\Rules\SafeThemeTemplateContent;
-
 return [
     'form' => [
         'tabs' => [
@@ -10,6 +8,7 @@ return [
                     'tab' => 'lang:igniter::system.themes.text_tab_markup',
                     'type' => 'codeeditor',
                     'mode' => 'application/x-httpd-php',
+                    'readOnly' => true,
                 ],
                 'settings[description]' => [
                     'tab' => 'lang:igniter::system.themes.text_tab_meta',
@@ -19,8 +18,7 @@ return [
             ],
         ],
         'rules' => [
-            'markup' => ['string', new SafeThemeTemplateContent],
-            'settings.description' => ['max:255', new SafeThemeTemplateContent],
+            'settings.description' => ['max:255'],
         ],
         'validationAttributes' => [
             'markup' => lang('igniter::system.themes.text_tab_markup'),

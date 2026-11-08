@@ -1,7 +1,5 @@
 <?php
 
-use Igniter\System\Rules\SafeThemeTemplateContent;
-
 return [
     'form' => [
         'fields' => [
@@ -36,11 +34,13 @@ return [
                     'tab' => 'igniter::system.themes.text_tab_markup',
                     'type' => 'codeeditor',
                     'mode' => 'application/x-httpd-php',
+                    'readOnly' => true,
                 ],
                 'codeSection' => [
                     'tab' => 'igniter::system.themes.text_tab_php_section',
                     'type' => 'codeeditor',
                     'mode' => 'php',
+                    'readOnly' => true,
                 ],
                 'settings[title]' => [
                     'label' => 'igniter::system.themes.label_title',
@@ -75,13 +75,11 @@ return [
             ],
         ],
         'rules' => [
-            'markup' => ['string', new SafeThemeTemplateContent],
-            'codeSection' => ['nullable', 'string', (new SafeThemeTemplateContent)->wrapInPhpTags()],
             'settings.components.*' => ['required', 'regex:/^[a-zA-Z\s\-\:\.]+$/'],
-            'settings.title' => ['required', 'max:160', new SafeThemeTemplateContent],
-            'settings.description' => ['max:255', new SafeThemeTemplateContent],
-            'settings.layout' => ['string', new SafeThemeTemplateContent],
-            'settings.permalink' => ['required', 'string', new SafeThemeTemplateContent],
+            'settings.title' => ['required', 'max:160'],
+            'settings.description' => ['max:255'],
+            'settings.layout' => ['string'],
+            'settings.permalink' => ['required', 'string'],
         ],
         'validationAttributes' => [
             'markup' => lang('igniter::system.themes.text_tab_markup'),
