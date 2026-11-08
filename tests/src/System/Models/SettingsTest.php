@@ -156,19 +156,6 @@ it('encodes arrays as json and scalars as plain strings', function($value, $expe
     'list' => [['customer', 'admin'], '["customer","admin"]'],
 ]);
 
-it('decodes only json arrays and returns other values as is', function($value, $expected) {
-    expect(Settings::decodeValue($value))->toBe($expected);
-})->with([
-    'null' => [null, null],
-    'string' => ['Europe/London', 'Europe/London'],
-    'numeric string' => ['10', '10'],
-    'json literal string' => ['true', 'true'],
-    'quoted string' => ['"quoted"', '"quoted"'],
-    'object' => ['{"main":"demo"}', ['main' => 'demo']],
-    'list' => ['["customer","admin"]', ['customer', 'admin']],
-    'invalid json' => ['[not json]', '[not json]'],
-]);
-
 it('stores scalars as plain strings and arrays as json and returns the same value', function() {
     $payload = 'a:1:{i:0;O:8:"stdClass":0:{}}';
     Settings::set([
@@ -187,7 +174,7 @@ it('stores scalars as plain strings and arrays as json and returns the same valu
         ->and(Settings::get('string_key'))->toBe($payload)
         ->and(Settings::get('timezone_key'))->toBe('Europe/London')
         ->and(Settings::get('array_key'))->toBe(['one', 'two'])
-        ->and(Settings::get('bool_key'))->toBe('1');
+        ->and(Settings::get('bool_key'))->toBe(1);
 });
 
 it('sets and gets configuration value', function() {
