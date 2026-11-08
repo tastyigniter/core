@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\Flame\Database\Concerns;
 
-use Igniter\Flame\Database\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -68,7 +67,7 @@ trait ExtendsEloquentBuilder
      * @param string|array $columns Table columns to search
      * @param string $mode Search mode: all, any, exact.
      *
-     * @return self
+     * @return $this
      */
     public function search($term, $columns = [], $mode = 'all')
     {
@@ -82,7 +81,7 @@ trait ExtendsEloquentBuilder
      * @param string|array $columns Table columns to search
      * @param string $mode Search mode: all, any, exact.
      *
-     * @return self
+     * @return $this
      */
     public function orSearch($term, $columns = [], $mode = 'all')
     {
@@ -96,7 +95,7 @@ trait ExtendsEloquentBuilder
      * @param string $side
      * @param string $boolean
      *
-     * @return Builder
+     * @return $this
      */
     public function like($column, $value, $side = 'both', $boolean = 'and')
     {
@@ -109,7 +108,7 @@ trait ExtendsEloquentBuilder
      * @param string $column
      * @param string $side
      *
-     * @return self
+     * @return $this
      */
     public function orLike($column, $value, $side = 'both')
     {
@@ -161,6 +160,9 @@ trait ExtendsEloquentBuilder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function likeInternal(string $column, string $value, $side = null, $boolean = 'and')
     {
         $column = $this->toBase()->raw(sprintf('lower(%s)', $column));

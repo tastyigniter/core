@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Builder as BuilderBase;
 
 /**
  * TastyIgniter Database Manager Class
+ *
+ * @template TModel of \Illuminate\Database\Eloquent\Model
+ *
+ * @extends BuilderBase<TModel>
  */
 class Builder extends BuilderBase
 {
