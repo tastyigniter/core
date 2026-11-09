@@ -12,12 +12,18 @@ use Override;
 /**
  * Adapted from october\rain\database\relations\MorphTo
  * @property Model $parent
+ *
+ * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+ * @template TDeclaringModel of \Illuminate\Database\Eloquent\Model
+ *
+ * @extends MorphToBase<TRelatedModel, TDeclaringModel>
  */
 class MorphTo extends MorphToBase
 {
     use DefinedConstraints;
 
     /**
+     * @param Builder<TRelatedModel> $query
      * @param string $relationName
      */
     public function __construct(Builder $query, Model $parent, $foreignKey, $otherKey, $type, /**

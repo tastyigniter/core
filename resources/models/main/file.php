@@ -1,7 +1,5 @@
 <?php
 
-use Igniter\System\Rules\SafeThemeTemplateContent;
-
 return [
     'form' => [
         'tabs' => [
@@ -10,12 +8,11 @@ return [
                     'tab' => 'lang:igniter::system.themes.text_tab_markup',
                     'type' => 'codeeditor',
                     'mode' => 'application/x-httpd-php',
+                    'readOnly' => true,
                 ],
             ],
         ],
-        'rules' => [
-            'markup' => ['string', new SafeThemeTemplateContent],
-        ],
+        'rules' => [],
         'validationAttributes' => [
             'markup' => lang('igniter::system.themes.text_tab_markup'),
         ],

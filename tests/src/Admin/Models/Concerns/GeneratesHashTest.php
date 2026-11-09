@@ -23,15 +23,28 @@ beforeEach(function() {
 });
 
 it('generates a unique hash', function() {
-    $this->query->shouldReceive('where->count')->andReturn(0);
+    $this->query->shouldReceive('where->exists')->andReturn(false);
     $hash = $this->traitModel->generateHash();
 
     expect($hash)->toBeString()
-        ->and(strlen((string)$hash))->toBe(32);
+        ->and(strlen((string)$hash))->toBe(32)
+        ->and($hash)->toMatch('/^[0-9a-f]{32}$/');
+});
+
+it('generates unpredictable hashes', function() {
+    $this->query->shouldReceive('where->exists')->andReturn(false);
+
+    $hashes = [];
+    for ($i = 0; $i < 100; $i++) {
+        $hashes[] = $this->traitModel->generateHash();
+    }
+
+    expect(array_unique($hashes))->toHaveCount(100);
 });
 
 it('regenerates hash if collision occurs', function() {
-    $this->query->shouldReceive('where->count')->andReturn(1, 0);
+    $this->query->shouldReceive('where')->twice()->andReturnSelf();
+    $this->query->shouldReceive('exists')->twice()->andReturn(true, false);
 
     $hash = $this->traitModel->generateHash();
 
@@ -43,7 +56,7 @@ it('uses specified column to check for hash uniqueness', function() {
     $this->query->shouldReceive('where')
         ->withArgs(fn($column, $hash) => $column === 'custom_column')
         ->andReturnSelf();
-    $this->query->shouldReceive('count')->andReturn(0);
+    $this->query->shouldReceive('exists')->andReturn(false);
 
     $hash = $this->traitModel->generateHash('custom_column');
 

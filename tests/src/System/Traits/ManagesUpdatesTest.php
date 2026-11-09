@@ -72,9 +72,10 @@ it('returns successful message when install items are applied', function() {
             ['code' => 'igniter.anothertest'],
         ],
     ]);
-    $updateManager->shouldReceive('completeInstall')->once();
+    $updateManager->shouldReceive('completeInstallInNewProcess')->once();
     $updateManager->shouldReceive('getLogs')->once()->andReturn([]);
-    $updateManager->shouldReceive('migrate')->once();
+    $updateManager->shouldReceive('completeInstall')->never();
+    $updateManager->shouldReceive('migrate')->never();
     app()->instance(ComposerManager::class, $composerManager = mock(ComposerManager::class));
     $composerManager->shouldReceive('getPackageName')->andReturn('test/package');
 
@@ -177,9 +178,10 @@ it('returns successful message when update items are applied', function() {
         ]),
     ]);
     $updateManager->shouldReceive('install')->once();
-    $updateManager->shouldReceive('completeInstall')->once();
+    $updateManager->shouldReceive('completeInstallInNewProcess')->once();
     $updateManager->shouldReceive('getLogs')->once()->andReturn([]);
-    $updateManager->shouldReceive('migrate')->once();
+    $updateManager->shouldReceive('completeInstall')->never();
+    $updateManager->shouldReceive('migrate')->never();
 
     actingAsSuperUser()
         ->post(route('igniter.system.extensions'), [], [

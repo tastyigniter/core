@@ -8,6 +8,10 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Override;
 
+/**
+ * @deprecated Use the "array" or "json" cast instead. Unserializing stored values can instantiate
+ * arbitrary PHP objects, which allows object injection.
+ */
 class Serialize implements CastsAttributes
 {
     #[Override]

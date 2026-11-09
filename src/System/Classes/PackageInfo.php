@@ -60,6 +60,26 @@ class PackageInfo
         );
     }
 
+    public function toArray(): array
+    {
+        return [
+            'code' => $this->code,
+            'package' => $this->package,
+            'type' => $this->type,
+            'name' => $this->name,
+            'version' => $this->version,
+            'author' => $this->author,
+            'description' => $this->description,
+            'icon' => $this->icon,
+            'installedVersion' => $this->installedVersion,
+            'publishedAt' => $this->publishedAt,
+            'tags' => $this->tags,
+            'hash' => $this->hash,
+            'updatedAt' => $this->updatedAt,
+            'homepage' => $this->homepage,
+        ];
+    }
+
     public function isCore(): bool
     {
         return $this->package === self::CORE;

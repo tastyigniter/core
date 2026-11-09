@@ -63,3 +63,27 @@ it('returns formatted published date with custom format', function() {
 
     expect($packageInfo->publishedAt())->toBe('01 Jan 2023');
 });
+
+it('converts to array and back without losing data', function() {
+    $packageInfo = new PackageInfo(
+        'test-code', 'test/package', 'extension', 'Test Name', '2.0.0',
+        author: 'Author',
+        description: 'Description',
+        icon: ['class' => 'fa fa-puzzle-piece'],
+        installedVersion: '1.0.0',
+        publishedAt: '2023-01-01',
+        tags: ['data' => [['name' => 'v2.0.0']]],
+        hash: 'hash',
+        updatedAt: '2023-01-02',
+        homepage: 'https://example.com',
+    );
+
+    $array = $packageInfo->toArray();
+
+    expect($array)->toMatchArray([
+        'code' => 'test-code',
+        'package' => 'test/package',
+        'installedVersion' => '1.0.0',
+        'publishedAt' => '2023-01-01',
+    ])->and(PackageInfo::fromArray($array))->toEqual($packageInfo);
+});

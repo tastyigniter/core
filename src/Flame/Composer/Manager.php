@@ -76,8 +76,7 @@ class Manager
             return $this->installedPackages;
         }
 
-        $path = $this->workingPath.'/vendor/composer/installed.json';
-        $installed = File::exists($path) ? json_decode(File::get($path), true) : [];
+        $installed = $this->readInstalledManifest();
 
         // Structure of the installed.json manifest in different in Composer 2.0
         $installedPackages = $installed['packages'] ?? $installed;
@@ -95,6 +94,31 @@ class Manager
             });
     }
 
+    protected function readInstalledManifest(): array
+    {
+        $path = $this->workingPath.'/vendor/composer/installed.json';
+
+        return File::exists($path) ? (json_decode(File::get($path), true) ?: []) : [];
+    }
+
+    /**
+     * Determine whether the current vendor directory was installed with dev dependencies.
+     * Defaults to true when unknown, so that packages are never removed unexpectedly.
+     */
+    public function isDevInstall(): bool
+    {
+        return (bool)($this->readInstalledManifest()['dev'] ?? true);
+    }
+
+    /**
+     * Only pass --update-no-dev when the vendor directory is already free of dev dependencies,
+     * otherwise Composer would remove dev packages that the running process may still depend on.
+     */
+    protected function devModeFlags(): array
+    {
+        return $this->isDevInstall() ? [] : ['--update-no-dev'];
+    }
+
     protected function formatPackageManifest(string $path, string $type = 'extension'): array
     {
         $composer = File::json($path.'/composer.json') ?? [];
@@ -110,7 +134,10 @@ class Manager
         $manifest['author'] = array_get($composer, 'authors.0.name');
         $manifest['homepage'] = array_get($manifest, 'homepage', array_get($composer, 'homepage'));
 
-        return array_filter($manifest);
+        return array_filter(
+            $manifest,
+            static fn(mixed $value): bool => !in_array($value, [null, '', []], true),
+        );
     }
 
     protected function isValidPackage(array $package): bool
@@ -190,7 +217,7 @@ class Manager
                 ...$this->findComposer(),
                 'require',
                 ...$packages,
-                '--update-no-dev',
+                ...$this->devModeFlags(),
             ]))->all();
 
             $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(
@@ -216,7 +243,7 @@ class Manager
                 ...$this->findComposer(),
                 'remove',
                 ...$packages,
-                '--update-no-dev',
+                ...$this->devModeFlags(),
             ]))->all();
 
             $this->getProcess($command, ['COMPOSER_MEMORY_LIMIT' => '-1'])->mustRun(

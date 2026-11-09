@@ -57,7 +57,9 @@ it('renders correctly', function() {
     $theme->shouldReceive('getAssetPath')->andReturn('/path/to/asset');
     $theme->shouldReceive('hasParent')->andReturn(false);
 
-    expect($this->templateEditorWidget->render())->toBeString();
+    expect($this->templateEditorWidget->render())
+        ->toBeString()
+        ->toContain(lang('igniter::system.themes.alert_template_editing_removed'));
 
     $formWidget = $this->templateEditorWidget->vars['templateWidget']->getFormWidget('settings[components]');
     $formWidget->fireEvent('partialCopied', ['partialName']);
@@ -215,7 +217,7 @@ it('fails validation when template file has been modified in a different session
     expect(fn() => $this->templateEditorWidget->onSaveSource())->toThrow(ValidationException::class);
 });
 
-it('updates template file content', function() {
+it('updates template file settings without changing markup or code', function() {
     $this->themeManager->shouldReceive('findTheme')->with('tests-theme')->andReturn($theme = mock(ThemeClass::class));
     $theme->shouldReceive('getTemplateClass')->andReturn(PageTemplate::class);
     $theme->shouldReceive('getName')->andReturn('tests-theme');

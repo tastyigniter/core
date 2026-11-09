@@ -12,7 +12,6 @@ parameters:
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
         - '#PHPDoc tag @var#'
-        - identifier: generics.notGeneric
         - identifier: function.alreadyNarrowedType
         - identifier: larastan.noEnvCallsOutsideOfConfig
         - identifier: trait.unused

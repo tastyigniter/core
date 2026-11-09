@@ -294,7 +294,7 @@ abstract class Model extends EloquentModel
      *
      * @param \Illuminate\Database\Query\Builder $query
      *
-     * @return Builder
+     * @return Builder<*>
      */
     #[Override]
     public function newEloquentBuilder($query)
@@ -489,7 +489,7 @@ abstract class Model extends EloquentModel
     protected function performDeleteOnModel()
     {
         $this->performDeleteOnRelations();
-        $this->setKeysForSaveQuery($this->newQueryWithoutScopes())->delete(); // @phpstan-ignore-line
+        $this->setKeysForSaveQuery($this->newQueryWithoutScopes())->delete();
     }
 
     /**

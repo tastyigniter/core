@@ -18,8 +18,11 @@ use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Database\Seeds\DatabaseSeeder;
 use Igniter\System\Models\Extension;
 use Igniter\System\Models\Settings;
+use Illuminate\Process\Exceptions\ProcessFailedException;
+use Illuminate\Process\PendingProcess;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Process;
 use Symfony\Component\Console\Output\OutputInterface;
 use UnexpectedValueException;
 
@@ -515,6 +518,46 @@ it('throws exception when completing installation with invalid package type', fu
     ];
 
     expect(fn() => $updateManager->completeInstall($requirements))->toThrow(UnexpectedValueException::class);
+});
+
+it('completes installation in a new artisan process and collects its output', function() {
+    Process::fake([
+        '*' => Process::result(output: "Migrating extension\nInstalled test.extension\n"),
+    ]);
+
+    $packageInfo = PackageInfo::fromArray([
+        'code' => 'test.extension',
+        'package' => 'test/extension',
+        'type' => 'extension',
+        'name' => 'Test Extension',
+        'version' => '2.0.0',
+    ]);
+
+    $updateManager = resolve(UpdateManager::class);
+    $updateManager->completeInstallInNewProcess([$packageInfo]);
+
+    Process::assertRan(function(PendingProcess $process) use ($packageInfo): bool {
+        $command = $process->command;
+
+        return is_array($command)
+            && $command[1] === base_path('artisan')
+            && $command[2] === 'igniter:update-complete'
+            && $command[3] === '--packages='.json_encode([$packageInfo->toArray()])
+            && $process->path === base_path()
+            && $process->timeout === null;
+    });
+
+    expect($updateManager->getLogs())->toBe(['Migrating extension', 'Installed test.extension']);
+});
+
+it('throws exception when completing installation in a new process fails', function() {
+    Process::fake([
+        '*' => Process::result(errorOutput: 'Migration failed', exitCode: 1),
+    ]);
+
+    $updateManager = resolve(UpdateManager::class);
+
+    expect(fn() => $updateManager->completeInstallInNewProcess([]))->toThrow(ProcessFailedException::class);
 });
 
 function mockRequestUpdateItems(): void

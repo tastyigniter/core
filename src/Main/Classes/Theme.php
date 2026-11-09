@@ -59,6 +59,9 @@ class Theme
 
     public bool $locked = false;
 
+    /** When false, the admin cannot create a child theme from this theme. */
+    public bool $child = true;
+
     /** Path to the screenshot image, relative to this theme folder. */
     public ?string $screenshot = null;
 
@@ -403,6 +406,22 @@ class Theme
         if (array_key_exists('locked', $this->config)) {
             $this->locked = (bool)$this->config['locked'];
         }
+
+        if (array_key_exists('child', $this->config)) {
+            $this->child = (bool)$this->config['child'];
+        }
+    }
+
+    /**
+     * Translation namespace for this theme. Defaults to the theme code with dashes swapped for dots.
+     */
+    public function langNamespace(): string
+    {
+        $namespace = $this->config['lang'] ?? null;
+
+        return is_string($namespace) && $namespace !== ''
+            ? $namespace
+            : str_replace('-', '.', (string)$this->name);
     }
 
     protected function getFindInPaths(): array

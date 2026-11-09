@@ -193,17 +193,18 @@ trait ManagesUpdates
             $installedPackages = $updateManager->install($items, function($type, $line) use (&$composerLog): void {
                 $composerLog[] = $line;
             });
-            $updateManager->completeInstall($installedPackages);
-
             logger()->info(implode(PHP_EOL, $composerLog));
+
+            // Complete the install and run migrations in a fresh process,
+            // as composer has just modified the vendor directory.
+            $updateManager->completeInstallInNewProcess($installedPackages);
+
             $response[] = implode('<br>', $updateManager->getLogs());
             $response[] = $isUpdate
                 ? lang('igniter::system.updates.progress_update_ok')
                 : lang('igniter::system.updates.progress_install_ok');
 
-            // Run migrations
             $response[] = lang('igniter::system.updates.progress_migrate_database');
-            $updateManager->migrate();
             $response[] = lang('igniter::system.updates.progress_migrate_database_ok');
 
             $success = true;

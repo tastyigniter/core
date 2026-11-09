@@ -67,7 +67,7 @@ class PackageManifest extends BasePackageManifest
             $packages = $installed['packages'] ?? $installed;
         }
 
-        $this->manifest = null; // @phpstan-ignore assign.propertyType
+        $this->manifest = null;
 
         $this->write(collect($packages)
             ->filter(fn($package): bool => array_has($package, 'extra.tastyigniter-extension') ||
