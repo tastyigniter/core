@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Template\Extension;
 
+use Igniter\Main\Classes\PageBuilder;
 use Igniter\System\Facades\Assets;
 use Illuminate\Support\Facades\Blade;
 
@@ -29,6 +30,8 @@ class BladeExtension
         Blade::directive('themePartialUnless', $this->compilesThemePartialUnless(...));
         Blade::directive('themePartialFirst', $this->compilesThemePartialFirst(...));
         Blade::directive('themePartialEach', $this->compilesThemePartialEach(...));
+
+        Blade::directive('themeBlocks', $this->compilesThemeBlocks(...));
     }
 
     //
@@ -57,6 +60,20 @@ class BladeExtension
     public function compilesThemeContent(string $expression): string
     {
         return sprintf('<?php echo controller()->renderContent(%s); ?>', $expression);
+    }
+
+    /**
+     * Renders the page builder sections of the current page, or of the given page code.
+     */
+    public function compilesThemeBlocks(string $expression): string
+    {
+        $pageCode = trim($expression) !== '' ? $expression : 'controller()->getPage()?->getKey()';
+
+        return sprintf(
+            '<?php echo resolve(\\%s::class)->renderPage(controller()->getTheme(), %s); ?>',
+            PageBuilder::class,
+            $pageCode,
+        );
     }
 
     public function compilesThemeComponent(string $expression): string

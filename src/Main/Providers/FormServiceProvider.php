@@ -7,6 +7,7 @@ namespace Igniter\Main\Providers;
 use Igniter\Admin\Classes\Widgets;
 use Igniter\Main\FormWidgets\Components;
 use Igniter\Main\FormWidgets\MediaFinder;
+use Igniter\Main\FormWidgets\PageBuilder;
 use Igniter\Main\FormWidgets\TemplateEditor;
 use Illuminate\Support\ServiceProvider;
 use Override;
@@ -25,6 +26,11 @@ class FormServiceProvider extends ServiceProvider
             $manager->registerFormWidget(MediaFinder::class, [
                 'label' => 'Media finder',
                 'code' => 'mediafinder',
+            ]);
+
+            $manager->registerFormWidget(PageBuilder::class, [
+                'label' => 'Page builder',
+                'code' => 'pagebuilder',
             ]);
 
             $manager->registerFormWidget(TemplateEditor::class, [

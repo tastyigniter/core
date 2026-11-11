@@ -117,6 +117,16 @@ abstract class BaseExtension extends EventServiceProvider
     }
 
     /**
+     * Registers page builder blocks implemented in this extension, keyed by
+     * theme code. Use '*' to make blocks available to every theme:
+     * ['*' => [BlockClass::class], 'igniter-orange' => [OtherBlock::class]]
+     */
+    public function registerBlocks(): array
+    {
+        return [];
+    }
+
+    /**
      * Registers back-end navigation menu items for this extension.
      */
     public function registerNavigation(): array

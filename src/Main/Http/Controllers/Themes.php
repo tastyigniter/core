@@ -11,11 +11,13 @@ use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Http\Actions\FormController;
 use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
+use Igniter\Admin\Widgets\Toolbar;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\FormWidgets\TemplateEditor;
 use Igniter\Main\Http\Requests\ThemeRequest;
 use Igniter\Main\Models\Theme;
+use Igniter\Main\Models\ThemePageLayout;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Http\RedirectResponse;
@@ -80,6 +82,7 @@ class Themes extends AdminController
     public function edit(string $context, string $themeCode): void
     {
         $this->offerChildThemeButton($themeCode);
+        $this->offerPageBuilderButton($themeCode);
 
         Template::setButton(lang('igniter::system.themes.button_source'), [
             'class' => 'btn btn-default pull-right',
@@ -93,6 +96,7 @@ class Themes extends AdminController
     {
         $this->defaultView = 'edit';
         $this->offerChildThemeButton($themeCode);
+        $this->offerPageBuilderButton($themeCode);
 
         $theme = resolve(ThemeManager::class)->findTheme($themeCode);
         if ($theme && $theme->hasCustomData()) {
@@ -103,6 +107,98 @@ class Themes extends AdminController
         }
 
         $this->asExtension('FormController')->edit($context, $themeCode);
+    }
+
+    /**
+     * Page builder: edit the sections of a theme buildable page.
+     */
+    public function builder(string $context, string $themeCode, ?string $pageCode = null): void
+    {
+        $theme = resolve(ThemeManager::class)->findTheme($themeCode);
+        throw_unless($theme, new FlashException(sprintf(lang('igniter::main.builder.alert_theme_not_found'), $themeCode)));
+
+        $pages = $theme->getBuildablePages();
+        throw_unless($pages, new FlashException(lang('igniter::main.builder.alert_no_buildable_pages')));
+
+        $pageCode ??= (string)array_key_first($pages);
+        throw_unless(isset($pages[$pageCode]), new FlashException(
+            sprintf(lang('igniter::main.builder.alert_page_not_found'), $pageCode),
+        ));
+
+        $pageTitle = sprintf(lang('igniter::main.builder.text_title'), $theme->label ?? $theme->getName());
+        Template::setTitle($pageTitle);
+        Template::setHeading($pageTitle);
+
+        $model = ThemePageLayout::firstOrNew(['theme_code' => $theme->getName(), 'page_code' => $pageCode]);
+
+        /** @var Form $formWidget */
+        $formWidget = $this->makeWidget(Form::class, [
+            'alias' => 'builderForm',
+            'arrayName' => 'ThemePageLayout',
+            'model' => $model,
+            'context' => 'builder',
+            'fields' => [
+                'sections' => [
+                    'label' => sprintf(lang('igniter::main.builder.label_page_sections'), lang($pages[$pageCode]['label'])),
+                    'type' => 'pagebuilder',
+                    'themeCode' => $theme->getName(),
+                    'pageCode' => $pageCode,
+                ],
+            ],
+        ]);
+        $formWidget->bindToController();
+
+        /** @var Toolbar $toolbarWidget */
+        $toolbarWidget = $this->widgets['toolbar'];
+        $toolbarWidget->reInitialize([
+            'buttons' => [
+                'save' => [
+                    'label' => 'lang:igniter::admin.button_save',
+                    'class' => 'btn btn-primary',
+                    'data-request' => 'onSave',
+                    'data-progress-indicator' => 'igniter::admin.text_saving',
+                ],
+                'reset' => [
+                    'label' => 'lang:igniter::main.builder.button_reset',
+                    'class' => 'btn btn-default',
+                    'data-request' => 'onReset',
+                    'data-request-confirm' => 'lang:igniter::main.builder.confirm_reset',
+                    'data-progress-indicator' => 'igniter::admin.text_saving',
+                ],
+            ],
+        ]);
+
+        $this->vars['builderTheme'] = $theme;
+        $this->vars['builderPages'] = $pages;
+        $this->vars['builderPageCode'] = $pageCode;
+        $this->vars['builderPageUrl'] = $theme->isActive() ? rescue(fn(): string => page_url($pageCode), null, false) : null;
+        $this->vars['formWidget'] = $formWidget;
+        $this->vars['toolbarWidget'] = $toolbarWidget;
+    }
+
+    public function builder_onSave(string $context, string $themeCode, ?string $pageCode = null): RedirectResponse
+    {
+        $this->builder($context, $themeCode, $pageCode);
+
+        $formWidget = $this->vars['formWidget'];
+        $model = $formWidget->model;
+        $model->sections = array_get($formWidget->getSaveData(), 'sections', []);
+        $model->save();
+
+        flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::main.builder.text_page_saved')));
+
+        return $this->redirect('themes/builder/'.$themeCode.'/'.$this->vars['builderPageCode']);
+    }
+
+    public function builder_onReset(string $context, string $themeCode, ?string $pageCode = null): RedirectResponse
+    {
+        $this->builder($context, $themeCode, $pageCode);
+
+        $this->vars['formWidget']->model->delete();
+
+        flash()->success(sprintf(lang('igniter::admin.alert_success'), lang('igniter::main.builder.text_page_reset')));
+
+        return $this->redirect('themes/builder/'.$themeCode.'/'.$this->vars['builderPageCode']);
     }
 
     public function delete(string $context, string $themeCode): ?RedirectResponse
@@ -225,6 +321,18 @@ class Themes extends AdminController
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Theme deleted '));
 
         return $this->redirect('themes');
+    }
+
+    protected function offerPageBuilderButton(string $themeCode): void
+    {
+        if (!resolve(ThemeManager::class)->findTheme($themeCode)?->getBuildablePages()) {
+            return;
+        }
+
+        Template::setButton(lang('igniter::main.builder.button_page_builder'), [
+            'class' => 'btn btn-default pull-right ms-2',
+            'href' => admin_url('themes/builder/'.$themeCode),
+        ]);
     }
 
     protected function offerChildThemeButton(string $themeCode): void

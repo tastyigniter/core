@@ -33,6 +33,15 @@ $config['list']['columns'] = [
             'href' => 'themes/source/{code}',
         ],
     ],
+    'builder' => [
+        'type' => 'button',
+        'iconCssClass' => 'fa fa-table-columns',
+        'attributes' => [
+            'class' => 'btn btn-light mr-2 shadow-none',
+            'title' => 'lang:igniter::main.builder.button_page_builder',
+            'href' => 'themes/builder/{code}',
+        ],
+    ],
     'default' => [
         'type' => 'button',
         'iconCssClass' => 'fa fa-star-o',

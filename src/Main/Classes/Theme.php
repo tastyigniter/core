@@ -74,6 +74,8 @@ class Theme
 
     protected ?array $formConfigCache = null;
 
+    protected ?array $builderConfigCache = null;
+
     protected ?string $screenshotData = null;
 
     protected ?self $parentTheme = null;
@@ -306,6 +308,54 @@ class Theme
     public function getConfigValue(string $name, mixed $default = null): mixed
     {
         return array_get($this->getConfig(), $name, $default);
+    }
+
+    /**
+     * Returns the page builder configuration from the theme meta `builder.php` file,
+     * merged over the parent theme configuration. Pages are merged by page code.
+     */
+    public function getBuilderConfig(): array
+    {
+        if (!is_null($this->builderConfigCache)) {
+            return $this->builderConfigCache;
+        }
+
+        $builderConfig = ['pages' => []];
+        foreach (array_filter([$this->getParent(), $this]) as $theme) {
+            $configFile = $theme->getMetaPath().'/builder.php';
+            $config = File::exists($configFile) ? (array)File::getRequire($configFile) : [];
+
+            $builderConfig['pages'] = array_merge($builderConfig['pages'], (array)array_get($config, 'pages', []));
+        }
+
+        return $this->builderConfigCache = $builderConfig;
+    }
+
+    /**
+     * Returns the pages that can be edited with the page builder, keyed by page code.
+     *
+     * @return array<string, array{label: string, required: list<string>, default: array}>
+     */
+    public function getBuildablePages(): array
+    {
+        $pages = [];
+        foreach ($this->getBuilderConfig()['pages'] as $code => $page) {
+            $pages[$code] = [
+                'label' => (string)array_get($page, 'label', $code),
+                'required' => array_values((array)array_get($page, 'required', [])),
+                'default' => (array)array_get($page, 'default', []),
+            ];
+        }
+
+        return $pages;
+    }
+
+    /**
+     * @return array{label: string, required: list<string>, default: array}|null
+     */
+    public function getBuildablePage(string $pageCode): ?array
+    {
+        return $this->getBuildablePages()[$pageCode] ?? null;
     }
 
     public function hasFormConfig(): bool
