@@ -24,6 +24,7 @@ class SectionLayouts
         'cols-6' => ['label' => 'igniter::main.builder.layout_cols_6', 'equal' => 6],
         'sidebar-left-3' => ['label' => 'igniter::main.builder.layout_sidebar_left_3', 'spans' => [3, 9]],
         'sidebar-left-2' => ['label' => 'igniter::main.builder.layout_sidebar_left_2', 'spans' => [2, 10]],
+        'sidebar-right-4' => ['label' => 'igniter::main.builder.layout_sidebar_right_4', 'spans' => [8, 4]],
         'sidebar-right-3' => ['label' => 'igniter::main.builder.layout_sidebar_right_3', 'spans' => [9, 3]],
         'sidebar-right-2' => ['label' => 'igniter::main.builder.layout_sidebar_right_2', 'spans' => [10, 2]],
         'center-3' => ['label' => 'igniter::main.builder.layout_center_3', 'spans' => [3, 6, 3]],

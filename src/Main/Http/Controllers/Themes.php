@@ -125,6 +125,9 @@ class Themes extends AdminController
             sprintf(lang('igniter::main.builder.alert_page_not_found'), $pageCode),
         ));
 
+        // Give the editor the full width, the admin navigation opens from the header
+        $this->collapseSidebar = true;
+
         $pageTitle = sprintf(lang('igniter::main.builder.text_title'), $theme->label ?? $theme->getName());
         Template::setTitle($pageTitle);
         Template::setHeading($pageTitle);

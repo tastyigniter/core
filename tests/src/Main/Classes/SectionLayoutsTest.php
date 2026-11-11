@@ -15,7 +15,7 @@ it('checks whether a layout exists', function() {
 it('returns translated layout options', function() {
     $options = SectionLayouts::options();
 
-    expect($options)->toHaveCount(12)
+    expect($options)->toHaveCount(13)
         ->and(array_keys($options))->toContain('cols-1', 'cols-6', 'sidebar-left-3', 'sidebar-right-2', 'center-3')
         ->and($options['cols-2'])->toBe('2 columns')
         ->and($options['center-3'])->toBe('Wide centre column (3/6/3)');
@@ -36,6 +36,7 @@ it('returns the column count of a layout', function() {
 it('returns the column spans of a layout', function() {
     expect(SectionLayouts::spans('sidebar-left-3'))->toBe([3, 9])
         ->and(SectionLayouts::spans('sidebar-left-2'))->toBe([2, 10])
+        ->and(SectionLayouts::spans('sidebar-right-4'))->toBe([8, 4])
         ->and(SectionLayouts::spans('sidebar-right-3'))->toBe([9, 3])
         ->and(SectionLayouts::spans('sidebar-right-2'))->toBe([10, 2])
         ->and(SectionLayouts::spans('center-3'))->toBe([3, 6, 3])
@@ -52,6 +53,8 @@ it('checks whether a column is wide', function() {
         ->and(SectionLayouts::isWideColumn('cols-5', 0))->toBeFalse()
         ->and(SectionLayouts::isWideColumn('sidebar-left-3', 0))->toBeFalse()
         ->and(SectionLayouts::isWideColumn('sidebar-left-3', 1))->toBeTrue()
+        ->and(SectionLayouts::isWideColumn('sidebar-right-4', 0))->toBeTrue()
+        ->and(SectionLayouts::isWideColumn('sidebar-right-4', 1))->toBeFalse()
         ->and(SectionLayouts::isWideColumn('center-3', 1))->toBeTrue()
         ->and(SectionLayouts::isWideColumn('center-3', 5))->toBeFalse();
 });

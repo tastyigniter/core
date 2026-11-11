@@ -104,3 +104,28 @@ it('handles page builder widget requests', function() {
         ->assertOk()
         ->assertSee('builderFormSections::onValidateBlockForm');
 });
+
+it('collapses the admin sidebar and lists pages in a scrollable sidebar', function() {
+    $response = actingAsSuperUser()
+        ->get(route('igniter.main.themes', ['slug' => 'builder/tests-theme/checkout']))
+        ->assertOk();
+
+    $html = $response->getContent();
+
+    expect($html)->not->toContain('class="sidebar border-right')
+        ->toContain('id="sidebarMenu"')
+        ->toContain('class="offcanvas offcanvas-start px-2 py-3"')
+        ->toContain('class="nav-link px-3 ms-n2"')
+        ->toContain('<nav class="list-group list-group-flush" tabindex="0" data-page-builder-pages>')
+        ->and(substr_count($html, 'list-group-item list-group-item-action'))->toBe(2)
+        ->and($html)->toMatch('/list-group-item-action active"\s+aria-current="page"\s+href="[^"]+themes\/builder\/tests-theme\/checkout"/');
+});
+
+it('keeps the admin sidebar on other pages', function() {
+    actingAsSuperUser()
+        ->get(route('igniter.main.themes'))
+        ->assertOk()
+        ->assertSee('class="sidebar border-right overflow-y-auto"', false)
+        ->assertSee('offcanvas-lg offcanvas-start', false)
+        ->assertSee('nav-link px-3 ms-n2 d-lg-none', false);
+});

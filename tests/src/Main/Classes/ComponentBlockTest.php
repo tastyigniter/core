@@ -6,6 +6,8 @@ namespace Igniter\Tests\Main\Classes;
 
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Main\Classes\ComponentBlock;
+use Igniter\Main\Classes\MainController;
+use Igniter\Main\Template\Page;
 use Igniter\System\Classes\ComponentManager;
 use Igniter\Tests\Main\Fixtures\TestBlockBladeComponent;
 use Igniter\Tests\Main\Fixtures\TestBlockLivewireComponent;
@@ -89,4 +91,21 @@ it('renders a blade component with the block settings', function() {
 it('throws an exception when rendering a non configurable component', function() {
     expect(fn() => ComponentBlock::make('testComponent')->render('tests-theme', ['settings' => []]))
         ->toThrow(SystemException::class, 'is not a Livewire or Blade component');
+});
+
+it('keeps page configured properties under the block settings', function() {
+    $page = new Page;
+    $page->setConfigurableComponentProperties('test::block-livewire', ['title' => 'From page', 'alias' => 'ignored']);
+    $controller = mock(MainController::class)->makePartial();
+    $controller->shouldReceive('getPage')->andReturn($page);
+    $controller->shouldReceive('getConfiguredComponent')->with('test::block-livewire')->andReturn(['title' => 'From page']);
+    $controller->shouldReceive('getConfiguredComponent')->andReturnUsing(fn($alias) => $page->loadedConfigurableComponents[$alias] ?? []);
+    (fn() => static::$controller = $controller)->call(new MainController);
+
+    $html = ComponentBlock::make('test::block-livewire')->render('tests-theme', ['id' => 'b_page', 'settings' => []]);
+
+    expect($html)->toContain('From page')
+        ->and($page->loadedConfigurableComponents['test::block-livewire b_page'])->toBe(['title' => 'From page']);
+
+    (fn() => static::$controller = null)->call(new MainController);
 });

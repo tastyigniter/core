@@ -154,6 +154,7 @@ return [
         'layout_cols_6' => '6 columns',
         'layout_sidebar_left_3' => 'Left sidebar + wide content (3/9)',
         'layout_sidebar_left_2' => 'Left sidebar + wide content (2/10)',
+        'layout_sidebar_right_4' => 'Wide content + right sidebar (8/4)',
         'layout_sidebar_right_3' => 'Wide content + right sidebar (9/3)',
         'layout_sidebar_right_2' => 'Wide content + right sidebar (10/2)',
         'layout_center_3' => 'Wide centre column (3/6/3)',
@@ -168,6 +169,7 @@ return [
         'help_anchor' => 'Used to link to this section, e.g. #about',
 
         'text_title' => 'Page Builder: %s',
+        'text_pages' => 'Pages',
         'label_page_sections' => '%s sections',
         'label_layout' => 'Layout',
         'button_page_builder' => 'Page builder',

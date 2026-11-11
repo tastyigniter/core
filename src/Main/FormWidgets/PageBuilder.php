@@ -13,6 +13,7 @@ use Igniter\Main\Classes\PageBuilder as PageBuilderService;
 use Igniter\Main\Classes\SectionLayouts;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\Models\ThemePageLayout;
 use Illuminate\Support\Facades\Validator;
 use Override;
 
@@ -77,6 +78,7 @@ class PageBuilder extends BaseFormWidget
     public function render(): string
     {
         $this->prepareVars();
+        $this->preloadFieldAssets();
 
         return $this->makePartial('pagebuilder/pagebuilder');
     }
@@ -258,13 +260,18 @@ class PageBuilder extends BaseFormWidget
         return $block;
     }
 
+    /**
+     * Settings forms get a blank model of their own. Using the parent form model
+     * would let extensions that extend that model's forms (e.g. adding tabbed
+     * fields to every static page form) act on these small settings forms.
+     */
     protected function makeSettingsFormWidget(string $context, array $fields, array $data): Form
     {
         /** @var Form $widget */
         $widget = $this->makeWidget(Form::class, [
             'alias' => $this->alias.ucfirst($context).'Form',
             'arrayName' => $this->alias.'Settings',
-            'model' => $this->model,
+            'model' => new ThemePageLayout,
             'data' => $data,
             'fields' => $fields,
             'context' => $context,
@@ -274,6 +281,32 @@ class PageBuilder extends BaseFormWidget
         $widget->bindToController();
 
         return $widget;
+    }
+
+    /**
+     * Block and section settings forms are loaded into a modal over AJAX, which
+     * cannot add field widget scripts and styles to the page. Build one form
+     * holding every field type in use so their assets load with the page.
+     */
+    protected function preloadFieldAssets(): void
+    {
+        if ($this->previewMode) {
+            return;
+        }
+
+        $fields = [];
+        $definitions = array_map(fn(BaseBlock $block): array => $block->defineFields(),
+            resolve(BlockManager::class)->listBlocks($this->theme, $this->pageCode));
+        $definitions[] = SectionLayouts::settingsFields();
+
+        foreach ($definitions as $blockFields) {
+            foreach ($blockFields as $field) {
+                $type = $field['type'] ?? 'text';
+                $fields['_preload_'.$type] ??= ['type' => $type];
+            }
+        }
+
+        $this->makeSettingsFormWidget('assets', $fields, []);
     }
 
     protected function getFieldLabels(array $fields): array

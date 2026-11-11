@@ -144,3 +144,32 @@
         grid-template-columns: var(--page-builder-columns, 1fr);
     }
 }
+
+/* Builder screen: pages sidebar next to the editor */
+.page-builder-main {
+    min-width: 0;
+}
+
+.page-builder-pages .list-group-item small {
+    font-size: .75rem;
+}
+
+/* The page list scrolls inside the card, the card header stays in place */
+.page-builder-pages .list-group {
+    max-height: 40vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+@media (min-width: 992px) {
+    .page-builder-pages {
+        position: sticky;
+        top: 1rem;
+        flex: 0 0 16rem;
+        width: 16rem;
+    }
+
+    .page-builder-pages .list-group {
+        max-height: calc(100vh - 12rem);
+    }
+}

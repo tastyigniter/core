@@ -67,6 +67,12 @@ class AdminController extends Controller
     /** When true, the default layout omits the header and sidebar. */
     public bool $suppressNavigation = false;
 
+    /**
+     * When true, the sidebar navigation is hidden and opens as an off-canvas
+     * menu from the header button at every screen width.
+     */
+    public bool $collapseSidebar = false;
+
     public static bool $skipRouteRegister = false;
 
     /**

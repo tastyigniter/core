@@ -89,10 +89,13 @@ class ComponentBlock extends BaseBlock
     /**
      * Livewire components look up their configured properties by "{code} {alias}",
      * so each block is given its own alias and its settings registered under it.
+     * Properties the page configures for the component, including ones that are
+     * not editable block settings, are kept underneath the block settings.
      */
     protected function renderLivewire(string $blockId, array $settings): string
     {
         $alias = preg_replace('/[^A-Za-z0-9_]/', '', $blockId) ?: 'block';
+        $settings = array_merge(controller()->getConfiguredComponent($this->componentCode), $settings);
 
         controller()->getPage()?->setConfigurableComponentProperties($this->componentCode.' '.$alias, $settings);
 

@@ -189,3 +189,22 @@ it('loads and validates the section settings form', function() {
         'anchor' => 'menu',
     ]);
 });
+
+it('builds settings forms with their own model, not the parent form model', function() {
+    $parentModel = new ThemePageLayout(['theme_code' => 'tests-theme', 'page_code' => 'home']);
+    $models = [];
+    Event::listen('admin.form.extendFieldsBefore', function($form) use (&$models) {
+        $models[$form->alias] = $form->model;
+    });
+
+    $widget = ($this->makeWidget)(['model' => $parentModel]);
+    $widget->render();
+
+    request()->request->add(['code' => 'text']);
+    $widget->onLoadBlockForm();
+
+    expect($models)->toHaveKeys(['pagebuilderAssetsForm', 'pagebuilderBlockForm'])
+        ->and($models['pagebuilderAssetsForm'])->toBeInstanceOf(ThemePageLayout::class)->not->toBe($parentModel)
+        ->and($models['pagebuilderBlockForm'])->not->toBe($parentModel)
+        ->and($models['pagebuilderBlockForm']->exists)->toBeFalse();
+});
