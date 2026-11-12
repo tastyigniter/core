@@ -185,3 +185,22 @@ it('uses the parent theme view namespace for child themes', function() {
     expect($this->builder->getViewNamespace($this->theme))->toBe('tests-theme')
         ->and($this->builder->getViewNamespace($childTheme))->toBe('tests-theme');
 });
+
+it('resolves block and section html attributes', function() {
+    $sections = $this->builder->resolve($this->theme, $this->builder->normalize($this->theme, [[
+        'id' => 's_1',
+        'layout' => 'cols-1',
+        'settings' => ['html_attributes' => "data-section=\"top\"\nonclick=\"x()\""],
+        'columns' => [['blocks' => [[
+            'id' => 'b_1',
+            'code' => 'text',
+            'settings' => ['css_class' => 'promo', 'html_attributes' => 'aria-label="Intro"'],
+        ]]]],
+    ]]));
+    $block = $sections[0]['columns'][0]['blocks'][0];
+
+    expect($sections[0]['attributes'])->toBe(['data-section' => 'top'])
+        ->and($block['attributes'])->toBe(['aria-label' => 'Intro', 'class' => 'promo'])
+        ->and($block['settings'])->toMatchArray(['css_class' => 'promo'])
+        ->and($block['data'])->not->toHaveKey('css_class');
+});

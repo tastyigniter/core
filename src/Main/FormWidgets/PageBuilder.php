@@ -132,7 +132,7 @@ class PageBuilder extends BaseFormWidget
 
         return $this->makePartial('pagebuilder/form', [
             'formTitle' => sprintf(lang('igniter::main.builder.text_edit_block'), $block->getName()),
-            'formWidget' => $this->makeSettingsFormWidget('block', $block->defineFields(), $settings),
+            'formWidget' => $this->makeSettingsFormWidget('block', $block->formFields(), $settings),
             'formHandler' => $this->getEventHandler('onValidateBlockForm'),
             'formCode' => $block->getCode(),
         ]);
@@ -142,10 +142,10 @@ class PageBuilder extends BaseFormWidget
     {
         $block = $this->findBlockOrFail((string)post('code'));
 
-        $formWidget = $this->makeSettingsFormWidget('block', $block->defineFields(), $block->defaults());
+        $formWidget = $this->makeSettingsFormWidget('block', $block->formFields(), $block->defaults());
         $settings = array_merge($block->defaults(), $formWidget->getSaveData());
 
-        Validator::make($settings, $block->validationRules(), [], $this->getFieldLabels($block->defineFields()))->validate();
+        Validator::make($settings, $block->validationRules(), [], $this->getFieldLabels($block->formFields()))->validate();
 
         $settings = $block->sanitize($settings);
 
@@ -213,7 +213,8 @@ class PageBuilder extends BaseFormWidget
                 'icon' => $block->getDetails()['icon'],
                 'unique' => $block->isUnique(),
                 'wide' => $block->isWide(),
-                'hasFields' => $block->defineFields() !== [],
+                // Every block has the CSS class and HTML attributes fields.
+                'hasFields' => true,
                 'required' => in_array($block->getCode(), $required, true),
                 'defaults' => $block->sanitize($block->defaults()),
             ], $blocks),
@@ -295,7 +296,7 @@ class PageBuilder extends BaseFormWidget
         }
 
         $fields = [];
-        $definitions = array_map(fn(BaseBlock $block): array => $block->defineFields(),
+        $definitions = array_map(fn(BaseBlock $block): array => $block->formFields(),
             resolve(BlockManager::class)->listBlocks($this->theme, $this->pageCode));
         $definitions[] = SectionLayouts::settingsFields();
 

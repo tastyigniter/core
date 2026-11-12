@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Classes;
 
+use Igniter\System\Classes\ExtensionManager;
+use InvalidArgumentException;
+
 /**
  * Column layouts available to page builder sections.
  *
  * Equal layouts split the row into N equal columns. The other layouts are
  * expressed as spans on a 12 column grid. Themes map these to CSS classes.
+ *
+ * Extensions add layouts from registerSectionLayouts(), other packages with
+ * SectionLayouts::register(), for example a two column layout with a narrow
+ * left column:
+ *
+ *   SectionLayouts::register('sidebar-left-5', 'acme.extension::default.layout_5_7', [5, 7]);
  */
 class SectionLayouts
 {
@@ -24,6 +33,7 @@ class SectionLayouts
         'cols-6' => ['label' => 'igniter::main.builder.layout_cols_6', 'equal' => 6],
         'sidebar-left-3' => ['label' => 'igniter::main.builder.layout_sidebar_left_3', 'spans' => [3, 9]],
         'sidebar-left-2' => ['label' => 'igniter::main.builder.layout_sidebar_left_2', 'spans' => [2, 10]],
+        'sidebar-left-4' => ['label' => 'igniter::main.builder.layout_sidebar_left_4', 'spans' => [4, 8]],
         'sidebar-right-4' => ['label' => 'igniter::main.builder.layout_sidebar_right_4', 'spans' => [8, 4]],
         'sidebar-right-3' => ['label' => 'igniter::main.builder.layout_sidebar_right_3', 'spans' => [9, 3]],
         'sidebar-right-2' => ['label' => 'igniter::main.builder.layout_sidebar_right_2', 'spans' => [10, 2]],
@@ -34,9 +44,84 @@ class SectionLayouts
     /** Minimum span (out of 12) for a column to accept "wide" blocks. */
     public const int WIDE_SPAN = 6;
 
+    /** @var array<string, array{label: string, spans: list<int>}> Layouts registered by extensions and packages. */
+    protected array $registered = [];
+
+    protected bool $extensionLayoutsLoaded = false;
+
+    /**
+     * Adds a layout of columns with the given spans on a 12 column grid. The
+     * spans must add up to 12. Themes lay out any spans, so no theme changes
+     * are needed for a new layout.
+     *
+     * @param list<int> $spans
+     */
+    public static function register(string $code, string $label, array $spans): void
+    {
+        resolve(self::class)->registerLayout($code, $label, $spans);
+    }
+
+    /**
+     * @param list<int> $spans
+     */
+    public function registerLayout(string $code, string $label, array $spans): void
+    {
+        if (array_key_exists($code, self::LAYOUTS)) {
+            throw new InvalidArgumentException(sprintf('Section layout [%s] is built in and cannot be replaced.', $code));
+        }
+
+        $spans = array_values($spans);
+        $valid = $spans !== [] && array_filter($spans, fn(mixed $span): bool => !is_int($span) || $span < 1 || $span > 12) === [];
+        if (!$valid || array_sum($spans) !== 12) {
+            throw new InvalidArgumentException(sprintf('Section layout [%s] needs whole column spans adding up to 12.', $code));
+        }
+
+        $this->registered[$code] = ['label' => $label, 'spans' => $spans];
+    }
+
+    /**
+     * Every layout, the built in ones first.
+     *
+     * @return array<string, array{label: string, equal?: int, spans?: list<int>}>
+     */
+    public static function all(): array
+    {
+        return resolve(self::class)->layouts();
+    }
+
+    /**
+     * @return array<string, array{label: string, equal?: int, spans?: list<int>}>
+     */
+    public function layouts(): array
+    {
+        $this->loadExtensionLayouts();
+
+        return array_merge(self::LAYOUTS, $this->registered);
+    }
+
+    /**
+     * Loads layouts extensions return from registerSectionLayouts():
+     * ['code' => ['label' => 'lang.key', 'spans' => [4, 8]]]
+     */
+    protected function loadExtensionLayouts(): void
+    {
+        if ($this->extensionLayoutsLoaded) {
+            return;
+        }
+
+        $this->extensionLayoutsLoaded = true;
+
+        $registrations = resolve(ExtensionManager::class)->getRegistrationMethodValues('registerSectionLayouts');
+        foreach ($registrations as $layouts) {
+            foreach ((array)$layouts as $code => $layout) {
+                $this->registerLayout((string)$code, (string)($layout['label'] ?? $code), (array)($layout['spans'] ?? []));
+            }
+        }
+    }
+
     public static function has(string $code): bool
     {
-        return array_key_exists($code, self::LAYOUTS);
+        return array_key_exists($code, self::all());
     }
 
     /**
@@ -44,17 +129,17 @@ class SectionLayouts
      */
     public static function options(): array
     {
-        return array_map(fn(array $layout): string => lang($layout['label']), self::LAYOUTS);
+        return array_map(fn(array $layout): string => lang($layout['label']), self::all());
     }
 
     public static function isEqual(string $code): bool
     {
-        return isset(self::LAYOUTS[$code]['equal']);
+        return isset(self::all()[$code]['equal']);
     }
 
     public static function columnCount(string $code): int
     {
-        $layout = self::LAYOUTS[$code] ?? self::LAYOUTS[self::DEFAULT_LAYOUT];
+        $layout = self::find($code);
 
         return $layout['equal'] ?? count($layout['spans']);
     }
@@ -68,7 +153,7 @@ class SectionLayouts
      */
     public static function spans(string $code): array
     {
-        $layout = self::LAYOUTS[$code] ?? self::LAYOUTS[self::DEFAULT_LAYOUT];
+        $layout = self::find($code);
 
         if (isset($layout['spans'])) {
             return $layout['spans'];
@@ -77,6 +162,16 @@ class SectionLayouts
         $count = $layout['equal'];
 
         return array_fill(0, $count, 12 % $count === 0 ? intdiv(12, $count) : null);
+    }
+
+    /**
+     * @return array{label: string, equal?: int, spans?: list<int>} The layout, or the default for unknown codes.
+     */
+    protected static function find(string $code): array
+    {
+        $layouts = self::all();
+
+        return $layouts[$code] ?? $layouts[self::DEFAULT_LAYOUT];
     }
 
     /**
@@ -101,6 +196,7 @@ class SectionLayouts
             'background_image' => null,
             'anchor' => null,
             'css_class' => null,
+            'html_attributes' => null,
         ];
     }
 
@@ -146,6 +242,12 @@ class SectionLayouts
             'css_class' => [
                 'label' => 'igniter::main.builder.label_css_class',
                 'type' => 'text',
+            ],
+            'html_attributes' => [
+                'label' => 'igniter::main.builder.label_html_attributes',
+                'type' => 'textarea',
+                'comment' => 'igniter::main.builder.help_html_attributes',
+                'attributes' => ['rows' => 3],
             ],
         ];
     }

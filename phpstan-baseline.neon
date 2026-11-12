@@ -769,12 +769,6 @@ parameters:
 			path: src/Flame/Database/Relations/MorphToMany.php
 
 		-
-			message: '#^Call to an undefined static method Illuminate\\Support\\Str\:\:normalizeClassName\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: src/Flame/Mixins/StringMixin.php
-
-		-
 			message: '#^Call to an undefined method Igniter\\Flame\\Pagic\\Contracts\\TemplateLoader\:\:setSource\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -877,18 +871,6 @@ parameters:
 			path: src/Flame/Support/Extendable.php
 
 		-
-			message: '#^Call to an undefined static method Illuminate\\Support\\Str\:\:getClassId\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: src/Flame/Support/Helpers/helpers.php
-
-		-
-			message: '#^Call to an undefined static method Illuminate\\Support\\Str\:\:normalizeClassName\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: src/Flame/Support/Helpers/helpers.php
-
-		-
 			message: '#^Parameter \#1 \$message of static method Illuminate\\Log\\Logger\:\:error\(\) expects array\|Illuminate\\Contracts\\Support\\Arrayable\|Illuminate\\Contracts\\Support\\Jsonable\|Illuminate\\Support\\Stringable\|string, Exception given\.$#'
 			identifier: argument.type
 			count: 1
@@ -911,12 +893,6 @@ parameters:
 			identifier: staticMethod.notFound
 			count: 1
 			path: src/Main/Classes/MainController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Routing\\Router\:\:pagic\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Main/Classes/RouteRegistrar.php
 
 		-
 			message: '#^Class Igniter\\Main\\Events\\ThemeGetActiveEvent does not have a constructor and must be instantiated without any parameters\.$#'
@@ -947,12 +923,6 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: src/Main/FormWidgets/MediaFinder.php
-
-		-
-			message: '#^Parameter \#1 \$view of static method Illuminate\\View\\Factory\:\:make\(\) expects view\-string, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Main/Http/Middleware/CheckMaintenance.php
 
 		-
 			message: '#^Access to undefined constant static\(Igniter\\Main\\Models\\Theme\)\:\:DEFAULTABLE_COLUMN\.$#'
@@ -1027,12 +997,6 @@ parameters:
 			path: src/System/Classes/Controller.php
 
 		-
-			message: '#^Parameter \#1 \$view of static method Illuminate\\View\\Factory\:\:make\(\) expects view\-string, string given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/System/Classes/Controller.php
-
-		-
 			message: '#^Parameter \#1 \$context of method Igniter\\System\\Health\\Checks\\BackgroundTasksCheck\:\:issues\(\) expects array\{scheduleHeartbeat\: mixed, queueDriver\: string, queueHeartbeat\: mixed, failedJobs\: int, scheduleAgeMinutes\: int\|null, queueAgeMinutes\: int\|null\}, array\{scheduleHeartbeat\: mixed, queueDriver\: string, queueHeartbeat\: mixed, failedJobs\: int, scheduleAgeMinutes\: float\|null, queueAgeMinutes\: float\|null\} given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1045,22 +1009,10 @@ parameters:
 			path: src/System/Health/Checks/BackgroundTasksCheck.php
 
 		-
-			message: '#^Parameter \#1 \$view of static method Illuminate\\View\\Factory\:\:make\(\) expects view\-string, string given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/System/Http/Controllers/Settings.php
-
-		-
 			message: '#^Call to an undefined method Igniter\\Admin\\Classes\\BaseWidget\:\:reInitialize\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: src/System/Http/Controllers/System.php
-
-		-
-			message: '#^Parameter \#1 \$view of static method Illuminate\\View\\Factory\:\:make\(\) expects view\-string, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/System/Http/Middleware/CheckRequirements.php
 
 		-
 			message: '#^Access to undefined constant static\(Igniter\\System\\Models\\Country\)\:\:DEFAULTABLE_COLUMN\.$#'

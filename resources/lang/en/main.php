@@ -154,6 +154,7 @@ return [
         'layout_cols_6' => '6 columns',
         'layout_sidebar_left_3' => 'Left sidebar + wide content (3/9)',
         'layout_sidebar_left_2' => 'Left sidebar + wide content (2/10)',
+        'layout_sidebar_left_4' => 'Left sidebar + wide content (4/8)',
         'layout_sidebar_right_4' => 'Wide content + right sidebar (8/4)',
         'layout_sidebar_right_3' => 'Wide content + right sidebar (9/3)',
         'layout_sidebar_right_2' => 'Wide content + right sidebar (10/2)',
@@ -166,6 +167,9 @@ return [
         'label_background_image' => 'Background image',
         'label_anchor' => 'Anchor ID',
         'label_css_class' => 'CSS class',
+        'label_html_attributes' => 'HTML attributes',
+        'help_html_attributes' => 'One per line, such as data-track="hero". Allowed: id, title, role, lang, dir, tabindex, style, hidden, data-* and aria-*.',
+        'help_block_css_class' => 'Added to the block\'s outer element.',
         'help_anchor' => 'Used to link to this section, e.g. #about',
 
         'text_title' => 'Page Builder: %s',

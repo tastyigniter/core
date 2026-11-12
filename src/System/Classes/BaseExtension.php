@@ -127,6 +127,16 @@ abstract class BaseExtension extends EventServiceProvider
     }
 
     /**
+     * Registers page builder section layouts implemented in this extension,
+     * as column spans on a 12 column grid that add up to 12:
+     * ['sidebar-left-5' => ['label' => 'acme.extension::default.layout_5_7', 'spans' => [5, 7]]]
+     */
+    public function registerSectionLayouts(): array
+    {
+        return [];
+    }
+
+    /**
      * Registers back-end navigation menu items for this extension.
      */
     public function registerNavigation(): array

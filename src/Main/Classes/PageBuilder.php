@@ -142,10 +142,12 @@ class PageBuilder
             $spans = SectionLayouts::spans($section['layout']);
 
             $section['equal'] = SectionLayouts::isEqual($section['layout']);
+            $section['attributes'] = HtmlAttributes::parse($section['settings']['html_attributes'] ?? null);
             $section['columns'] = array_map(function(array $column, int $index) use ($blocks, $spans): array {
                 $column['span'] = $spans[$index] ?? null;
                 $column['blocks'] = array_map(function(array $block) use ($blocks): array {
-                    $block['data'] = $blocks[$block['code']]->resolve($block['settings']);
+                    $block['data'] = $blocks[$block['code']]->resolve(BaseBlock::withoutAttributes($block['settings']));
+                    $block['attributes'] = HtmlAttributes::forBlock($block['settings']);
 
                     return $block;
                 }, $column['blocks']);

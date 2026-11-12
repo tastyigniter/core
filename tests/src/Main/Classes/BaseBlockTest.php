@@ -90,6 +90,16 @@ it('returns the first text setting as summary', function() {
 });
 
 it('returns validation rules from field definitions', function() {
-    expect((new TestTextBlock)->validationRules())->toBe(['title' => 'max:20'])
-        ->and((new TestWideFormBlock)->validationRules())->toBe([]);
+    expect((new TestTextBlock)->validationRules())->toMatchArray(['title' => 'max:20'])
+        ->and(array_keys((new TestWideFormBlock)->validationRules()))->toBe(['css_class', 'html_attributes']);
+});
+
+it('gives every block a css class and html attributes setting', function() {
+    $block = new TestTextBlock;
+
+    expect(array_keys($block->formFields()))->toContain('css_class', 'html_attributes')
+        ->and($block->sanitize(['css_class' => ' promo ', 'html_attributes' => '', 'unknown' => 1]))->toMatchArray(['css_class' => 'promo'])
+        ->and($block->sanitize(['html_attributes' => '']))->not->toHaveKey('html_attributes')
+        ->and($block->validationRules())->toHaveKeys(['css_class', 'html_attributes'])
+        ->and(BaseBlock::withoutAttributes(['css_class' => 'x', 'html_attributes' => 'y', 'title' => 'z']))->toBe(['title' => 'z']);
 });

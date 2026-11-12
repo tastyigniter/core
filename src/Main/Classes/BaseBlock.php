@@ -12,6 +12,12 @@ namespace Igniter\Main\Classes;
  */
 abstract class BaseBlock
 {
+    /** Setting every block has: a CSS class for the block. */
+    public const string CSS_CLASS = 'css_class';
+
+    /** Setting every block has: HTML attributes for the block, one per line. */
+    public const string HTML_ATTRIBUTES = 'html_attributes';
+
     /**
      * Returns the block details:
      * code, name, description, icon, unique, wide, pages.
@@ -24,6 +30,38 @@ abstract class BaseBlock
     public function defineFields(): array
     {
         return [];
+    }
+
+    /**
+     * Every field of the block settings form: the block's own fields, then the
+     * CSS class and HTML attributes every block has.
+     */
+    public function formFields(): array
+    {
+        return array_merge($this->defineFields(), static::attributeFields());
+    }
+
+    /**
+     * The CSS class and HTML attributes fields every block has. Themes add
+     * them to the element the block renders.
+     */
+    public static function attributeFields(): array
+    {
+        return [
+            self::CSS_CLASS => [
+                'label' => 'igniter::main.builder.label_css_class',
+                'type' => 'text',
+                'comment' => 'igniter::main.builder.help_block_css_class',
+                'validationRule' => ['nullable', 'string', 'max:255'],
+            ],
+            self::HTML_ATTRIBUTES => [
+                'label' => 'igniter::main.builder.label_html_attributes',
+                'type' => 'textarea',
+                'comment' => 'igniter::main.builder.help_html_attributes',
+                'attributes' => ['rows' => 3],
+                'validationRule' => ['nullable', 'string', 'max:2000'],
+            ],
+        ];
     }
 
     /**
@@ -53,7 +91,22 @@ abstract class BaseBlock
      */
     public function sanitize(array $settings): array
     {
-        return array_intersect_key($settings, $this->defineFields() + $this->defaults());
+        $attributes = [];
+        foreach ([self::CSS_CLASS, self::HTML_ATTRIBUTES] as $key) {
+            if (is_string($settings[$key] ?? null) && trim($settings[$key]) !== '') {
+                $attributes[$key] = trim($settings[$key]);
+            }
+        }
+
+        return array_merge(array_intersect_key($settings, $this->defineFields() + $this->defaults()), $attributes);
+    }
+
+    /**
+     * The block settings without the CSS class and HTML attributes.
+     */
+    public static function withoutAttributes(array $settings): array
+    {
+        return array_diff_key($settings, [self::CSS_CLASS => true, self::HTML_ATTRIBUTES => true]);
     }
 
     /**
@@ -62,7 +115,7 @@ abstract class BaseBlock
      */
     public function summary(array $settings): string
     {
-        foreach ($settings as $value) {
+        foreach (static::withoutAttributes($settings) as $value) {
             if (is_scalar($value) && !is_bool($value) && trim(strip_tags((string)$value)) !== '') {
                 return str_limit(trim(strip_tags((string)$value)), 60);
             }
@@ -78,7 +131,7 @@ abstract class BaseBlock
     public function validationRules(): array
     {
         $rules = [];
-        foreach ($this->defineFields() as $name => $field) {
+        foreach ($this->formFields() as $name => $field) {
             if (!empty($field['validationRule'])) {
                 $rules[$name] = $field['validationRule'];
             }

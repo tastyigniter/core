@@ -10,6 +10,7 @@ use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Classes\BlockManager;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\PageBuilder;
+use Igniter\Main\Classes\SectionLayouts;
 use Igniter\Main\Classes\SupportConfigurableComponent;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
@@ -29,6 +30,7 @@ class ThemeServiceProvider extends ServiceProvider
         $this->app->register(LivewireServiceProvider::class);
 
         $this->app->singleton(BlockManager::class);
+        $this->app->singleton(SectionLayouts::class);
         $this->app->singleton(PageBuilder::class);
 
         $this->callAfterResolving(Router::class, function($router) {

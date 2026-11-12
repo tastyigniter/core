@@ -71,7 +71,8 @@ class ComponentBlock extends BaseBlock
     #[Override]
     public function render(string $viewNamespace, array $block): string
     {
-        $settings = $block['settings'] ?? [];
+        // The CSS class and HTML attributes go on the element around the component.
+        $settings = static::withoutAttributes($block['settings'] ?? []);
         $manager = resolve(ComponentManager::class);
         $className = $manager->resolve($this->componentCode);
 

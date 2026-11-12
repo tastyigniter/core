@@ -87,7 +87,8 @@ it('renders the editor with sections and config', function() {
             'unique' => true,
             'wide' => true,
             'required' => true,
-            'hasFields' => false,
+            // Every block has the CSS class and HTML attributes fields.
+            'hasFields' => true,
         ])
         ->and($widget->vars['editorConfig']['blocks']['text'])->toMatchArray([
             'required' => false,
@@ -138,10 +139,10 @@ it('loads the block settings form', function() {
         ->toContain('Current title');
 });
 
-it('loads a settings form for a block without fields', function() {
+it('loads the css class and html attributes for a block without fields of its own', function() {
     request()->request->add(['code' => 'wide-form']);
 
-    expect(($this->makeWidget)()->onLoadBlockForm())->toContain('This block has no settings.');
+    expect(($this->makeWidget)()->onLoadBlockForm())->toContain('CSS class')->toContain('HTML attributes');
 });
 
 it('throws an exception when loading an unknown block form', function() {
