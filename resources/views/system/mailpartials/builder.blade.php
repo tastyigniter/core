@@ -1,0 +1,1 @@
+{!! $this->makePartial('mailbuilder/page') !!}

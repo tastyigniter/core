@@ -34,36 +34,48 @@ it('loads mail partials preview page', function() {
         ->assertOk();
 });
 
-it('creates mail partial', function() {
+it('creates mail partial and opens the builder', function() {
     actingAsSuperUser()
         ->post(route('igniter.system.mail_partials', ['slug' => 'create']), [
             'MailPartial' => [
                 'name' => 'Test Partial',
                 'code' => 'test_partial',
-                'html' => 'Test Partial Content',
+                'params' => [
+                    ['name' => 'promo_code', 'label' => 'Promo code', 'sample' => 'SAVE10'],
+                ],
             ],
         ], [
             'X-Requested-With' => 'XMLHttpRequest',
             'X-IGNITER-REQUEST-HANDLER' => 'onSave',
         ])
-        ->assertOk();
+        ->assertOk()
+        ->assertSee('mail_partials\/builder\/', false);
 
-    $this->assertDatabaseHas('mail_partials', [
-        'name' => 'Test Partial',
-        'code' => 'test_partial',
-        'html' => 'Test Partial Content',
-    ]);
+    $partial = MailPartial::where('code', 'test_partial')->latest('partial_id')->first();
+
+    expect($partial->name)->toBe('Test Partial')
+        ->and($partial->is_custom)->toBeTrue()
+        ->and($partial->getParamDefinitions())->toBe([['name' => 'promo_code', 'label' => 'Promo code', 'sample' => 'SAVE10']]);
 });
 
-it('updates mail partial', function() {
-    $mailPartial = MailPartial::create(['code' => 'test_partial']);
+it('saves builder blocks into the partial using its parameters', function() {
+    $mailPartial = MailPartial::create([
+        'code' => 'test_partial',
+        'name' => 'Test Partial',
+        'params' => [['name' => 'promo_code', 'label' => 'Promo code']],
+    ]);
 
     actingAsSuperUser()
-        ->post(route('igniter.system.mail_partials', ['slug' => 'edit/'.$mailPartial->getKey()]), [
+        ->get(route('igniter.system.mail_partials', ['slug' => 'builder/'.$mailPartial->getKey()]))
+        ->assertOk();
+
+    actingAsSuperUser()
+        ->post(route('igniter.system.mail_partials', ['slug' => 'builder/'.$mailPartial->getKey()]), [
             'MailPartial' => [
-                'name' => 'Test Partial',
-                'code' => 'test_partial',
-                'html' => 'Test Partial Content',
+                'blocks' => json_encode([
+                    ['id' => 'b1', 'code' => 'text', 'settings' => ['content' => 'Use {{ $promo_code }} and {{ $unknown }}']],
+                    ['id' => 'b2', 'code' => 'slot', 'settings' => []],
+                ]),
             ],
         ], [
             'X-Requested-With' => 'XMLHttpRequest',
@@ -71,11 +83,28 @@ it('updates mail partial', function() {
         ])
         ->assertOk();
 
-    $this->assertDatabaseHas('mail_partials', [
-        'name' => 'Test Partial',
-        'code' => 'test_partial',
-        'html' => 'Test Partial Content',
-    ]);
+    $partial = MailPartial::find($mailPartial->getKey());
+
+    expect($partial->is_custom)->toBeTrue()
+        ->and($partial->html)->toContain('Use {{ $promo_code }} and &#123;&#123; $unknown &#125;&#125;')
+        ->and($partial->html)->toContain('{!! $slot !!}')
+        ->and($partial->text)->toContain('{!! $slot !!}');
+});
+
+it('resets a registered partial', function() {
+    $mailPartial = MailPartial::query()->firstWhere('code', 'panel') ?? MailPartial::create(['code' => 'panel', 'name' => 'Panel']);
+    $mailPartial->is_custom = true;
+    $mailPartial->save();
+
+    actingAsSuperUser()
+        ->post(route('igniter.system.mail_partials', ['slug' => 'builder/'.$mailPartial->getKey()]), [], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onReset',
+        ])
+        ->assertOk();
+
+    expect(MailPartial::find($mailPartial->getKey()))->toBeNull()
+        ->and(MailPartial::firstWhere('code', 'panel'))->not->toBeNull();
 });
 
 it('deletes mail partial', function() {

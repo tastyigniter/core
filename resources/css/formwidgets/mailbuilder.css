@@ -1,0 +1,92 @@
+/* Mail builder: only what Bootstrap utilities cannot express */
+
+/* Display utilities such as d-flex would otherwise win over the hidden attribute */
+.mail-builder [hidden] {
+    display: none !important;
+}
+
+.mail-builder-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .75rem;
+    align-items: start;
+}
+
+/* Side panels scroll on their own beside the canvas on wide screens */
+@media (min-width: 1200px) {
+    .mail-builder-body {
+        grid-template-columns: 15rem minmax(0, 1fr) 20rem;
+    }
+
+    .mail-builder-panel {
+        position: sticky;
+        top: 1rem;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+    }
+}
+
+.mail-builder.is-preview [data-mail-builder-palette],
+.mail-builder.is-preview [data-mail-builder-action] {
+    display: none !important;
+}
+
+/* The email column, as wide as the mail layout */
+.mail-builder-paper {
+    max-width: 640px;
+    margin-inline: auto;
+}
+
+.mail-builder-frame-wrap {
+    transition: max-width .2s ease;
+}
+
+.mail-builder-frame-wrap.is-mobile {
+    max-width: 375px;
+}
+
+.mail-builder-text {
+    white-space: pre-wrap;
+}
+
+/* The subject reads as text until hovered or focused */
+[data-mail-builder-subject]:not(:hover, :focus) {
+    border-color: transparent;
+}
+
+.mail-builder-draggable {
+    cursor: grab;
+    touch-action: none;
+}
+
+.mail-builder.is-dragging,
+.mail-builder.is-dragging * {
+    cursor: grabbing !important;
+    user-select: none;
+}
+
+.mail-builder.is-dragging [data-mail-builder-frame] {
+    pointer-events: none;
+}
+
+.mail-builder-drop-indicator {
+    height: 3px;
+    margin-top: -2px;
+}
+
+.mail-builder-table-field th,
+.mail-builder-table-field td {
+    min-width: 6rem;
+    padding: .125rem;
+    vertical-align: top;
+}
+
+.mail-builder-table-field :is(th, td):last-child {
+    min-width: 0;
+    width: 1%;
+}
+
+/* Builder page */
+.mail-builder-main .form-fields {
+    padding: 1rem;
+}

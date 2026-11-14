@@ -52,8 +52,7 @@
     "mockery/mockery": "^1.5",
     "nunomaduro/collision": "^8.1",
     "orchestra/testbench": "^10.0 | ^11.0",
-    "pestphp/pest": "^4.0 || ^5.0",
-    "pestphp/pest-plugin-laravel": "^4.0 || ^5.0",
+    "pestphp/pest-plugin-laravel": "^4.0",
     "rector/rector": "^2.0"
   },
   "replace": {

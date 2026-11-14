@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Igniter\System\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
-use Igniter\System\Rules\SafeMailTemplateContent;
 use Illuminate\Validation\Rule;
 use Override;
 
@@ -17,7 +16,7 @@ class MailPartialRequest extends FormRequest
         return [
             'name' => lang('igniter::admin.label_name'),
             'code' => lang('igniter::system.mail_templates.label_code'),
-            'html' => lang('igniter::system.mail_templates.label_html'),
+            'params.*.name' => lang('igniter::system.mail_builder.label_param_name'),
         ];
     }
 
@@ -28,8 +27,10 @@ class MailPartialRequest extends FormRequest
             'code' => ['sometimes', 'required', 'regex:/^[a-z-_\.\:]+$/i',
                 Rule::unique('mail_partials')->ignore($this->getRecordId(), 'partial_id'),
             ],
-            'html' => ['required', 'string', new SafeMailTemplateContent],
-            'text' => ['nullable', 'string', new SafeMailTemplateContent],
+            'params' => ['nullable', 'array'],
+            'params.*.name' => ['required', 'string', 'max:64', 'regex:/^[A-Za-z_][A-Za-z0-9_]*$/', 'not_in:slot,body'],
+            'params.*.label' => ['nullable', 'string', 'max:128'],
+            'params.*.sample' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

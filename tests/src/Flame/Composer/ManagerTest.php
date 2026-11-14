@@ -9,10 +9,13 @@ use Exception;
 use Igniter\Flame\Composer\Manager;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
+use Illuminate\Support\Facades\Http;
 use ReflectionMethod;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
+
+use function Illuminate\Support\php_binary;
 
 it('loads package version correctly', function() {
     $version = resolve(Manager::class)->getPackageVersion('some-package');
@@ -357,4 +360,135 @@ it('allows callers to override COMPOSER_HOME on the spawned composer process', f
     expect($process->getEnv())->toMatchArray([
         'COMPOSER_HOME' => '/custom/composer',
     ]);
+});
+
+function composerFallbackManager(string $workingPath, string $storagePath, ?string $executable = null, int $selfUpdateExitCode = 0): Manager
+{
+    return new class($workingPath, $storagePath, $executable, $selfUpdateExitCode) extends Manager
+    {
+        public array $commands = [];
+
+        public function __construct(
+            string $workingPath,
+            string $storagePath,
+            protected ?string $executable,
+            protected int $selfUpdateExitCode,
+        ) {
+            parent::__construct($workingPath, $storagePath);
+        }
+
+        public function resolveComposer(): array
+        {
+            return $this->findComposer();
+        }
+
+        protected function findComposerExecutable(): ?string
+        {
+            return $this->executable;
+        }
+
+        protected function getProcess(array $command, array $env = []): Process
+        {
+            $this->commands[] = $command;
+
+            return new Process([php_binary(), '-r', 'exit('.$this->selfUpdateExitCode.');']);
+        }
+    };
+}
+
+function composerFallbackPaths(): array
+{
+    $root = sys_get_temp_dir().'/ti-composer-'.uniqid();
+    mkdir($root.'/working', 0755, true);
+
+    return [$root.'/working', $root.'/storage'];
+}
+
+it('uses composer.phar in the working directory when present', function() {
+    [$working, $storage] = composerFallbackPaths();
+    file_put_contents($working.'/composer.phar', 'phar');
+
+    expect(composerFallbackManager($working, $storage, '/usr/bin/composer')->resolveComposer())
+        ->toBe([php_binary(), 'composer.phar']);
+});
+
+it('uses composer executable from PATH when no local phar exists', function() {
+    [$working, $storage] = composerFallbackPaths();
+
+    expect(composerFallbackManager($working, $storage, '/usr/bin/composer')->resolveComposer())
+        ->toBe(['/usr/bin/composer']);
+});
+
+it('uses cached composer.phar in storage without self-updating when fresh', function() {
+    [$working, $storage] = composerFallbackPaths();
+    mkdir($storage, 0755, true);
+    file_put_contents($storage.'/composer.phar', 'phar');
+
+    $manager = composerFallbackManager($working, $storage);
+
+    expect($manager->resolveComposer())->toBe([php_binary(), $storage.'/composer.phar'])
+        ->and($manager->commands)->toBeEmpty();
+});
+
+it('self-updates cached composer.phar when older than the update interval', function() {
+    [$working, $storage] = composerFallbackPaths();
+    mkdir($storage, 0755, true);
+    file_put_contents($storage.'/composer.phar', 'phar');
+    touch($storage.'/composer.phar', time() - 8 * 86400);
+
+    $manager = composerFallbackManager($working, $storage);
+
+    expect($manager->resolveComposer())->toBe([php_binary(), $storage.'/composer.phar'])
+        ->and($manager->commands)->toHaveCount(1)
+        ->and($manager->commands[0])->toContain($storage.'/composer.phar', 'self-update', '--stable')
+        ->and(filemtime($storage.'/composer.phar'))->toBeGreaterThan(time() - 60);
+});
+
+it('keeps using cached composer.phar when self-update fails', function() {
+    [$working, $storage] = composerFallbackPaths();
+    mkdir($storage, 0755, true);
+    file_put_contents($storage.'/composer.phar', 'phar');
+    touch($storage.'/composer.phar', time() - 8 * 86400);
+
+    $manager = composerFallbackManager($working, $storage, null, 1);
+
+    expect($manager->resolveComposer())->toBe([php_binary(), $storage.'/composer.phar'])
+        ->and($manager->commands)->toHaveCount(1);
+});
+
+it('downloads and verifies composer.phar when composer is not available', function() {
+    [$working, $storage] = composerFallbackPaths();
+    Http::fake([
+        'getcomposer.org/download/latest-stable/composer.phar' => Http::response('phar-contents'),
+        'getcomposer.org/download/latest-stable/composer.phar.sha256' => Http::response(hash('sha256', 'phar-contents').'  composer.phar'),
+    ]);
+
+    $manager = composerFallbackManager($working, $storage);
+
+    expect($manager->resolveComposer())->toBe([php_binary(), $storage.'/composer.phar'])
+        ->and(file_get_contents($storage.'/composer.phar'))->toBe('phar-contents')
+        ->and(file_exists($storage.'/composer.phar.tmp'))->toBeFalse()
+        ->and($manager->commands)->toBeEmpty();
+});
+
+it('throws when downloaded composer.phar fails checksum verification', function() {
+    [$working, $storage] = composerFallbackPaths();
+    Http::fake([
+        'getcomposer.org/download/latest-stable/composer.phar' => Http::response('tampered'),
+        'getcomposer.org/download/latest-stable/composer.phar.sha256' => Http::response(hash('sha256', 'phar-contents')),
+    ]);
+
+    expect(fn() => composerFallbackManager($working, $storage)->resolveComposer())
+        ->toThrow(RuntimeException::class, 'checksum verification');
+    expect(file_exists($storage.'/composer.phar'))->toBeFalse();
+});
+
+it('throws when composer.phar download fails', function() {
+    [$working, $storage] = composerFallbackPaths();
+    Http::fake([
+        'getcomposer.org/*' => Http::response('', 500),
+    ]);
+
+    expect(fn() => composerFallbackManager($working, $storage)->resolveComposer())
+        ->toThrow(RuntimeException::class, 'Unable to download composer.phar');
 });

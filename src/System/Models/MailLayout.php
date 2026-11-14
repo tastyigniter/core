@@ -10,6 +10,8 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\System\Classes\MailBuilder\CompileContext;
+use Igniter\System\Classes\MailBuilder\MailBuilder;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Models\Concerns\Switchable;
 use Illuminate\Support\Carbon;
@@ -31,6 +33,7 @@ use Override;
  * @property string|null $plain_layout
  * @property string|null $layout_css
  * @property bool $is_locked
+ * @property array|null $blocks
  * @method static Builder<static>|MailLayout applyFilters(array $options = [])
  * @method static Builder<static>|MailLayout applySorts(array $sorts = [])
  * @method static Builder<static>|MailLayout applySwitchable(bool $switch = true)
@@ -66,6 +69,7 @@ class MailLayout extends Model
         'language_id' => 'integer',
         'status' => 'boolean',
         'is_locked' => 'boolean',
+        'blocks' => 'array',
     ];
 
     public $relation = [
@@ -81,9 +85,46 @@ class MailLayout extends Model
         'status' => true,
     ];
 
+    public function usesBuilder(): bool
+    {
+        return !is_null($this->blocks);
+    }
+
+    /**
+     * The registered view the layout is defined in, when it is a registered layout.
+     */
+    public function getRegisteredView(): ?string
+    {
+        return array_get(resolve(MailManager::class)->listRegisteredLayouts(), (string)$this->code);
+    }
+
+    /**
+     * Compiles the builder blocks into the layout and plain-text layout.
+     */
+    public function compileBuilderContent(): void
+    {
+        if (!$this->usesBuilder()) {
+            return;
+        }
+
+        $builder = resolve(MailBuilder::class);
+        $context = $builder->makeContext(CompileContext::MODE_LAYOUT, $this->code);
+        $blocks = $builder->normalize($this->blocks, $context);
+
+        $this->blocks = $blocks;
+        $this->layout = $builder->compileHtml($blocks, $context);
+        $this->plain_layout = $builder->compileText($blocks, $context);
+    }
+
     public static function getDropdownOptions()
     {
         return self::dropdown('name');
+    }
+
+    #[Override]
+    protected function beforeSave()
+    {
+        $this->compileBuilderContent();
     }
 
     #[Override]

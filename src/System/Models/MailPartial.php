@@ -10,6 +10,8 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\System\Classes\MailBuilder\CompileContext;
+use Igniter\System\Classes\MailBuilder\MailBuilder;
 use Igniter\System\Classes\MailManager;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View as ViewFacade;
@@ -25,6 +27,8 @@ use Override;
  * @property string|null $html
  * @property string|null $text
  * @property bool $is_custom
+ * @property array|null $blocks
+ * @property array|null $params
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @method static Builder<static>|MailPartial applyFilters(array $options = [])
@@ -55,11 +59,19 @@ class MailPartial extends Model
 
     protected $casts = [
         'is_custom' => 'boolean',
+        'blocks' => 'array',
+        'params' => 'array',
     ];
 
     //
     // Events
     //
+
+    #[Override]
+    protected function beforeSave()
+    {
+        $this->compileBuilderContent();
+    }
 
     #[Override]
     protected function afterFetch()
@@ -72,6 +84,57 @@ class MailPartial extends Model
     //
     // Helpers
     //
+
+    public function usesBuilder(): bool
+    {
+        return !is_null($this->blocks);
+    }
+
+    /**
+     * The registered view the partial is defined in, when it is a registered partial.
+     */
+    public function getRegisteredView(): ?string
+    {
+        return array_get(resolve(MailManager::class)->listRegisteredPartials(), (string)$this->code);
+    }
+
+    /**
+     * Compiles the builder blocks into the partial html and text.
+     */
+    public function compileBuilderContent(): void
+    {
+        if (!$this->usesBuilder()) {
+            return;
+        }
+
+        $builder = resolve(MailBuilder::class);
+        $context = $builder->makeContext(CompileContext::MODE_PARTIAL, $this->code, $this->getParamDefinitions());
+        $blocks = $builder->normalize($this->blocks, $context);
+
+        $this->blocks = $blocks;
+        $this->html = $builder->compileHtml($blocks, $context);
+        $this->text = $builder->compileText($blocks, $context);
+    }
+
+    /**
+     * Returns the declared partial parameters as a list of name, label and sample.
+     */
+    public function getParamDefinitions(): array
+    {
+        $params = [];
+        foreach ((array)$this->params as $param) {
+            $name = is_array($param) ? (string)($param['name'] ?? '') : '';
+            if (preg_match('/^[A-Za-z_][A-Za-z0-9_]*$/', $name) && !in_array($name, ['slot', 'body'], true)) {
+                $params[$name] = [
+                    'name' => $name,
+                    'label' => (string)($param['label'] ?? $name),
+                    'sample' => (string)($param['sample'] ?? ''),
+                ];
+            }
+        }
+
+        return array_values($params);
+    }
 
     public function fillFromCode($code = null): void
     {

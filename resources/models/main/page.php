@@ -1,47 +1,13 @@
 <?php
 
+/**
+ * Settings of a theme page file, edited from the page builder's pages list.
+ * Extensions add their own tabs to this form, e.g. SEO Manager's SEO tab.
+ */
 return [
     'form' => [
-        'fields' => [
-            'settings[components]' => [
-                'type' => 'components',
-                'label' => 'igniter::system.themes.button_choose',
-                'comment' => 'igniter::system.themes.help_components',
-                'form' => [
-                    'fields' => [
-                        'alias' => [
-                            'label' => 'igniter::system.themes.label_component_alias',
-                            'type' => 'text',
-                            'context' => ['edit', 'partial'],
-                            'comment' => 'igniter::system.themes.help_component_alias',
-                            'attributes' => [
-                                'data-toggle' => 'disabled',
-                            ],
-                        ],
-                        'partial' => [
-                            'label' => 'igniter::system.themes.label_override_partial',
-                            'type' => 'select',
-                            'context' => 'partial',
-                            'placeholder' => 'lang:igniter::admin.text_please_select',
-                        ],
-                    ],
-                ],
-            ],
-        ],
         'tabs' => [
             'fields' => [
-                'markup' => [
-                    'tab' => 'igniter::system.themes.text_tab_markup',
-                    'type' => 'codeeditor',
-                    'mode' => 'application/x-httpd-php',
-                    'readOnly' => true,
-                ],
-                'codeSection' => [
-                    'tab' => 'igniter::system.themes.text_tab_php_section',
-                    'type' => 'codeeditor',
-                    'mode' => 'php',
-                    'readOnly' => true,
-                ],
                 'settings[title]' => [
                     'label' => 'igniter::system.themes.label_title',
                     'tab' => 'igniter::system.themes.text_tab_meta',
@@ -71,24 +37,9 @@ return [
                     'label' => 'igniter::system.themes.label_hidden',
                     'type' => 'switch',
                     'span' => 'left',
+                    'comment' => 'igniter::system.themes.help_hidden',
                 ],
             ],
-        ],
-        'rules' => [
-            'settings.components.*' => ['required', 'regex:/^[a-zA-Z\s\-\:\.]+$/'],
-            'settings.title' => ['required', 'max:160'],
-            'settings.description' => ['max:255'],
-            'settings.layout' => ['string'],
-            'settings.permalink' => ['required', 'string'],
-        ],
-        'validationAttributes' => [
-            'markup' => lang('igniter::system.themes.text_tab_markup'),
-            'codeSection' => lang('igniter::system.themes.text_tab_php_section'),
-            'settings.components.*' => lang('igniter::system.themes.label_component_alias'),
-            'settings.title' => lang('igniter::system.themes.label_title'),
-            'settings.description' => lang('igniter::admin.label_description'),
-            'settings.layout' => lang('igniter::system.themes.label_layout'),
-            'settings.permalink' => lang('igniter::system.themes.label_permalink'),
         ],
     ],
 ];

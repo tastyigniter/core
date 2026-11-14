@@ -1,9 +1,10 @@
+@props(['collapsedSidebar' => false])
 @if(AdminAuth::isLogged())
     <header {{ $attributes->merge(['class' => 'navbar navbar-top navbar-expand border-bottom'])}}>
         <div class="container-fluid">
             <div class="navbar-brand d-flex">
                 <button
-                    class="nav-link px-3 ms-n2 d-lg-none"
+                    @class(['nav-link px-3 ms-n2', 'd-lg-none' => !$collapsedSidebar])
                     type="button"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#sidebarMenu"

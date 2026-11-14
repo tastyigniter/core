@@ -24,6 +24,9 @@ use RuntimeException;
 
 class Theme
 {
+    /** The markup of a page made with the page builder: only its blocks. */
+    public const string BUILDER_PAGE_MARKUP = '@themeBlocks';
+
     /** The theme name */
     public ?string $name = null;
 
@@ -73,6 +76,10 @@ class Theme
     protected ?SourceInterface $fileSource = null;
 
     protected ?array $formConfigCache = null;
+
+    protected ?array $builderConfigCache = null;
+
+    protected ?array $builderPageFilesCache = null;
 
     protected ?string $screenshotData = null;
 
@@ -203,27 +210,41 @@ class Theme
         return $this;
     }
 
+    /**
+     * The theme's screenshot file, or null when it has none.
+     */
+    public function getScreenshotPath(): ?string
+    {
+        if (is_null($this->screenshot)) {
+            $this->screenshot('screenshot');
+        }
+
+        if (!$this->screenshot || !File::exists($this->screenshot)) {
+            return null;
+        }
+
+        $extension = pathinfo($this->screenshot, PATHINFO_EXTENSION);
+        if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES)) {
+            throw new FlashException('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
+        }
+
+        return $this->screenshot;
+    }
+
+    /**
+     * The screenshot as a data URI. The admin themes list links to the image
+     * instead (themes/screenshot/{code}), as inlined screenshots make the page large.
+     */
     public function getScreenshotData(): string
     {
         if (!is_null($this->screenshotData)) {
             return $this->screenshotData;
         }
 
-        if (is_null($this->screenshot)) {
-            $this->screenshot('screenshot');
-        }
-
         $screenshotData = '';
-        if (File::exists($file = $this->screenshot)) {
-            $extension = pathinfo((string)$file, PATHINFO_EXTENSION);
-            if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES)) {
-                throw new FlashException('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
-            }
-
-            $mimeType = ThemeModel::ICON_MIMETYPES[$extension];
-            $data = base64_encode(File::get($file));
-
-            $screenshotData = sprintf('data:%s;base64,%s', $mimeType, $data);
+        if ($file = $this->getScreenshotPath()) {
+            $mimeType = ThemeModel::ICON_MIMETYPES[pathinfo($file, PATHINFO_EXTENSION)];
+            $screenshotData = sprintf('data:%s;base64,%s', $mimeType, base64_encode(File::get($file)));
         }
 
         return $this->screenshotData = $screenshotData;
@@ -306,6 +327,102 @@ class Theme
     public function getConfigValue(string $name, mixed $default = null): mixed
     {
         return array_get($this->getConfig(), $name, $default);
+    }
+
+    /**
+     * Returns the page builder configuration from the theme meta `builder.php` file,
+     * merged over the parent theme configuration. Pages are merged by page code.
+     */
+    public function getBuilderConfig(): array
+    {
+        if (!is_null($this->builderConfigCache)) {
+            return $this->builderConfigCache;
+        }
+
+        $builderConfig = ['pages' => []];
+        foreach (array_filter([$this->getParent(), $this]) as $theme) {
+            $configFile = $theme->getMetaPath().'/builder.php';
+            $config = File::exists($configFile) ? (array)File::getRequire($configFile) : [];
+
+            $builderConfig['pages'] = array_merge($builderConfig['pages'], (array)array_get($config, 'pages', []));
+        }
+
+        return $this->builderConfigCache = $builderConfig;
+    }
+
+    /**
+     * Returns the pages that can be edited with the page builder, keyed by page code:
+     * the pages the theme lists in its meta/builder.php, then the page files made
+     * with the page builder (pages whose markup is only the blocks).
+     *
+     * @return array<string, array{label: string, required: list<string>, default: array, custom: bool}>
+     */
+    public function getBuildablePages(): array
+    {
+        $pages = [];
+        foreach (array_get($this->getBuilderConfig(), 'pages', []) as $code => $page) {
+            $pages[$code] = [
+                'label' => (string)array_get($page, 'label', $code),
+                'required' => array_values((array)array_get($page, 'required', [])),
+                'default' => (array)array_get($page, 'default', []),
+                'custom' => false,
+            ];
+        }
+
+        foreach ($this->getBuilderPageFiles() as $code => $label) {
+            $pages[$code] ??= ['label' => $label, 'required' => [], 'default' => [], 'custom' => true];
+        }
+
+        return $pages;
+    }
+
+    /**
+     * Page files that render page builder blocks, as page code => title.
+     *
+     * @return array<string, string>
+     */
+    public function getBuilderPageFiles(): array
+    {
+        if (!is_null($this->builderPageFilesCache)) {
+            return $this->builderPageFilesCache;
+        }
+
+        $pages = [];
+        foreach (PageTemplate::listInTheme($this) as $page) {
+            if (trim((string)$page->getMarkup()) === self::BUILDER_PAGE_MARKUP) {
+                $pages[(string)$page->getKey()] = (string)($page->title ?: $page->getKey());
+            }
+        }
+
+        return $this->builderPageFilesCache = $pages;
+    }
+
+    /**
+     * Whether pages can be added to the theme with the page builder: its files can be
+     * written and it has a layout to render them in.
+     */
+    public function canAddBuilderPages(): bool
+    {
+        return !$this->locked && LayoutTemplate::listInTheme($this)->isNotEmpty();
+    }
+
+    /**
+     * The page file of a builder page, when the theme renders it from one.
+     */
+    public function findPageFile(string $pageCode): ?PageTemplate
+    {
+        /** @var null|PageTemplate $page */
+        $page = $this->onTemplate(PageTemplate::DIR_NAME)->find(str_replace('.', '/', $pageCode));
+
+        return $page;
+    }
+
+    /**
+     * @return array{label: string, required: list<string>, default: array, custom: bool}|null
+     */
+    public function getBuildablePage(string $pageCode): ?array
+    {
+        return array_get($this->getBuildablePages(), $pageCode);
     }
 
     public function hasFormConfig(): bool

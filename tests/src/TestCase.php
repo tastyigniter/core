@@ -67,6 +67,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
             $this->refreshApplication();
 
+            $this->setUpParallelTestingCallbacks();
+
             RefreshDatabaseState::$migrated = true;
         }
     }

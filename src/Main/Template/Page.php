@@ -8,6 +8,7 @@ use Igniter\Flame\Pagic\Model;
 use Igniter\Main\Classes\MainController;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
+use Igniter\Main\Models\ThemePage;
 use Igniter\Main\Template\Code\PageCode;
 use Igniter\Main\Template\Concerns\HasComponents;
 use Igniter\Main\Template\Concerns\HasViewBag;
@@ -77,6 +78,28 @@ class Page extends Model
             'isActive' => $pageUrl === $url,
         ];
     }
+
+    /**
+     * Settings saved from the page builder for a page whose file cannot be written
+     * (theme_pages.settings) replace the file's own. A child theme also takes its parent's.
+     */
+    protected function afterRetrieve(): void
+    {
+        $themeCode = $this->source ?? '';
+        $pageCode = (string)$this->getKey();
+        if ($themeCode === '' || $pageCode === '') {
+            return;
+        }
+
+        $settings = ThemePage::resolveSettings($themeCode, $pageCode);
+
+        foreach (array_except($settings, self::PROTECTED_SETTINGS) as $key => $value) {
+            $this->setAttribute($key, $value);
+        }
+    }
+
+    /** Page settings that only the page file sets. */
+    public const array PROTECTED_SETTINGS = ['fileName', 'markup', 'code', 'components'];
 
     /**
      * Returns name of a PHP class to use as parent

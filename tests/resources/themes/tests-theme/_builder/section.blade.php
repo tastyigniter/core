@@ -1,0 +1,1 @@
+<section id="{{ $section['id'] }}" data-layout="{{ $section['layout'] }}">@foreach($section['columns'] as $column)<div data-span="{{ $column['span'] }}">@foreach($column['blocks'] as $block){!! $renderBlock($block) !!}@endforeach</div>@endforeach</section>

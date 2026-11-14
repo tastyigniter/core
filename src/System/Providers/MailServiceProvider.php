@@ -7,8 +7,27 @@ namespace Igniter\System\Providers;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\System\Classes\MailBuilder\MailBlockManager;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Http\Controllers\Settings;
+use Igniter\System\MailBlocks\Button;
+use Igniter\System\MailBlocks\Columns;
+use Igniter\System\MailBlocks\ContentSlot;
+use Igniter\System\MailBlocks\Divider;
+use Igniter\System\MailBlocks\Footer;
+use Igniter\System\MailBlocks\Header;
+use Igniter\System\MailBlocks\Heading;
+use Igniter\System\MailBlocks\Image;
+use Igniter\System\MailBlocks\Legacy;
+use Igniter\System\MailBlocks\Panel;
+use Igniter\System\MailBlocks\Parameter;
+use Igniter\System\MailBlocks\Preheader;
+use Igniter\System\MailBlocks\Promotion;
+use Igniter\System\MailBlocks\Slot;
+use Igniter\System\MailBlocks\Spacer;
+use Igniter\System\MailBlocks\Subcopy;
+use Igniter\System\MailBlocks\Table;
+use Igniter\System\MailBlocks\Text;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Override;
@@ -37,6 +56,27 @@ class MailServiceProvider extends ServiceProvider
                 File::getRequire(File::symbolizePath('igniter::models/system/mailvariables.php')),
             );
         });
+
+        resolve(MailBlockManager::class)->registerBlocks([
+            Heading::class,
+            Text::class,
+            Button::class,
+            Image::class,
+            Panel::class,
+            Promotion::class,
+            Subcopy::class,
+            Table::class,
+            Columns::class,
+            Divider::class,
+            Spacer::class,
+            Preheader::class,
+            Header::class,
+            ContentSlot::class,
+            Footer::class,
+            Slot::class,
+            Parameter::class,
+            Legacy::class,
+        ]);
     }
 
     public function boot(): void

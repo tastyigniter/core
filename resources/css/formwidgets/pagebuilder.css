@@ -1,0 +1,201 @@
+/* Page builder: only what Bootstrap utilities cannot express */
+.page-builder-handle {
+    cursor: grab;
+    touch-action: none;
+}
+
+.page-builder-handle:active {
+    cursor: grabbing;
+}
+
+.page-builder.is-preview .page-builder-handle,
+.page-builder.is-preview [data-section-action],
+.page-builder.is-preview [data-block-action="remove"],
+.page-builder.is-preview .page-builder-add-block {
+    display: none !important;
+}
+
+/* Sections: a ring and the section toolbar appear on hover or keyboard focus.
+   The toolbar sits just above the ring, in the gap between sections. */
+.page-builder-sections {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.page-builder-section {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition: outline-color .15s ease-in-out;
+}
+
+.page-builder-section:hover,
+.page-builder-section:focus-within {
+    outline-color: var(--bs-primary);
+}
+
+.page-builder-section-toolbar {
+    position: absolute;
+    z-index: 3;
+    top: 2px;
+    right: .75rem;
+    max-width: calc(100% - 1.5rem);
+    transform: translateY(calc(-100% - 4px));
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .15s ease-in-out, visibility .15s;
+}
+
+.page-builder-section:hover > .page-builder-section-toolbar,
+.page-builder-section:focus-within > .page-builder-section-toolbar {
+    opacity: 1;
+    visibility: visible;
+}
+
+.page-builder-section-toolbar [data-section-summary]:empty {
+    display: none;
+}
+
+/* Blocks: the whole block opens its settings; remove appears on hover or focus. */
+.page-builder-block.is-editable {
+    cursor: pointer;
+}
+
+.page-builder-block.is-editable:hover,
+.page-builder-block.is-editable:focus-visible {
+    border-color: var(--bs-gray-400) !important;
+}
+
+.page-builder-block.is-editable:focus-visible {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 1px;
+}
+
+.page-builder-block-remove {
+    opacity: 0;
+    transition: opacity .15s ease-in-out;
+}
+
+.page-builder-block:hover .page-builder-block-remove,
+.page-builder-block:focus-within .page-builder-block-remove,
+.page-builder-block-remove:focus-visible {
+    opacity: 1;
+}
+
+/* No hover on touch screens: keep the controls in view. */
+@media (hover: none) {
+    .page-builder-section-toolbar {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .page-builder-block-remove {
+        opacity: 1;
+    }
+}
+
+.page-builder-columns {
+    display: grid;
+    gap: .75rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 992px) {
+    .page-builder-columns {
+        grid-template-columns: var(--page-builder-columns, 1fr);
+    }
+}
+
+.page-builder-column {
+    min-width: 0;
+    border-style: dashed !important;
+}
+
+.page-builder-blocks {
+    min-height: 2.5rem;
+}
+
+.page-builder-block [data-block-summary]:empty {
+    display: none;
+}
+
+.page-builder-layout-picker {
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+}
+
+.page-builder-layout-option:hover,
+.page-builder-layout-option:focus-visible {
+    border-color: var(--bs-primary) !important;
+}
+
+.page-builder-layout-preview {
+    gap: 3px;
+    height: 1.5rem;
+}
+
+.page-builder-layout-preview > span {
+    flex-basis: 0;
+    border-radius: 2px;
+    background: var(--bs-secondary-bg);
+}
+
+/* Builder screen: pages sidebar next to the editor */
+.page-builder-main {
+    min-width: 0;
+}
+
+.page-builder-pages .list-group {
+    max-height: 40vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Page actions show on hover or keyboard focus, above the page's link */
+.page-builder-page-actions {
+    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .15s ease-in-out, visibility .15s;
+}
+
+.page-builder-page:hover .page-builder-page-actions,
+.page-builder-page:focus-within .page-builder-page-actions {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (hover: none) {
+    .page-builder-page-actions {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@media (min-width: 992px) {
+    .page-builder-pages {
+        position: sticky;
+        top: 1rem;
+        flex: 0 0 16rem;
+        width: 16rem;
+    }
+
+    .page-builder-pages .list-group {
+        max-height: calc(100vh - 14rem);
+    }
+}
+
+/* The settings form wraps the modal header, body and footer: keep it a flex column so the
+   body scrolls inside the scrollable dialog and the footer stays in view. */
+.modal-dialog-scrollable .page-builder-settings-form {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.modal-dialog-scrollable .page-builder-settings-form .modal-body {
+    overflow-y: auto;
+}

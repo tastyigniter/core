@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace Igniter\System\Http\Controllers;
 
-use Facades\Igniter\System\Helpers\MailHelper;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Http\Actions\FormController;
 use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
-use Igniter\Flame\Exception\FlashException;
+use Igniter\Flame\Database\Model;
+use Igniter\System\Classes\MailManager;
+use Igniter\System\Http\Controllers\Concerns\HasMailBuilder;
 use Igniter\System\Http\Requests\MailTemplateRequest;
 use Igniter\System\Models\MailTemplate;
 
 class MailTemplates extends AdminController
 {
+    use HasMailBuilder;
+
+    protected string $mailBuilderUrl = 'mail_templates';
+
     public array $implement = [
         ListController::class,
         FormController::class,
@@ -37,7 +42,7 @@ class MailTemplates extends AdminController
         'request' => MailTemplateRequest::class,
         'create' => [
             'title' => 'lang:igniter::system.mail_templates.text_new_template_title',
-            'redirect' => 'mail_templates/edit/{template_id}',
+            'redirect' => 'mail_templates/builder/{template_id}',
             'redirectClose' => 'mail_templates',
             'redirectNew' => 'mail_templates/create',
         ],
@@ -75,37 +80,47 @@ class MailTemplates extends AdminController
 
     public function formExtendFields(Form $form): void
     {
-        if ($form->context != 'create') {
-            $field = $form->getField('code');
+        if ($form->context != 'create' && $field = $form->getField('code')) {
             $field->disabled = true;
         }
     }
 
     public function formBeforeSave(MailTemplate $model): void
     {
-        $model->is_custom = true;
+        $model->setAttribute('is_custom', true);
     }
 
-    public function onTestTemplate(?string $context = null, ?string $recordId = null): array
+    protected function mailBuilderFields(): array
     {
-        if (!$recordId) {
-            throw new FlashException(lang('igniter::system.mail_templates.alert_template_id_not_found'));
-        }
-
-        $model = $this->asExtension(FormController::class)->formFindModelObject($recordId);
-
-        $adminUser = $this->getUser();
-
-        $errorLevel = error_reporting(0);
-
-        MailHelper::sendTemplate($model->code, [], [$adminUser->email, $adminUser->name]);
-
-        error_reporting($errorLevel);
-
-        flash()->success(sprintf(lang('igniter::system.mail_templates.alert_test_message_sent'), $adminUser->staff_email));
-
         return [
-            '#notification' => $this->makePartial('flash'),
+            // Edited in the subject bar of the builder canvas
+            'subject' => [
+                'type' => 'hidden',
+            ],
+            'blocks' => [
+                'type' => 'mailbuilder',
+                'mode' => 'template',
+            ],
         ];
+    }
+
+    protected function mailBuilderRules(): array
+    {
+        return ['subject' => ['required', 'string', 'max:255']];
+    }
+
+    protected function mailBuilderBeforeSave(Model $model): void
+    {
+        $model->setAttribute('is_custom', true);
+    }
+
+    protected function mailBuilderIsRegistered(Model $model): bool
+    {
+        return array_key_exists((string)$model->getAttribute('code'), (array)resolve(MailManager::class)->listRegisteredTemplates());
+    }
+
+    protected function mailBuilderResync(): void
+    {
+        MailTemplate::syncAll();
     }
 }

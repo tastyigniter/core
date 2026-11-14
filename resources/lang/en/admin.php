@@ -45,6 +45,7 @@ return [
     'text_loading' => 'Loading...',
     'text_deleting' => 'Deleting...',
     'text_support' => 'Help Center',
+    'text_navigation' => 'Navigation',
     'text_empty' => 'Empty',
     'text_help' => 'Click for Help',
     'text_no_title' => 'No Title',

@@ -8,6 +8,8 @@ use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Mail\MailParser;
 use Igniter\Flame\Support\Facades\File;
+use Igniter\System\Classes\MailBuilder\CompileContext;
+use Igniter\System\Classes\MailBuilder\MailBuilder;
 use Igniter\System\Classes\MailManager;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -28,6 +30,7 @@ use Override;
  * @property string|null $label
  * @property bool|null $is_custom
  * @property string|null $plain_body
+ * @property array|null $blocks
  * @property-read mixed $title
  * @property-read MailLayout $layout
  * @method BelongsTo layout()
@@ -53,6 +56,7 @@ class MailTemplate extends Model
     protected $casts = [
         'layout_id' => 'integer',
         'is_custom' => 'boolean',
+        'blocks' => 'array',
     ];
 
     public $relation = [
@@ -69,9 +73,38 @@ class MailTemplate extends Model
 
     public $timestamps = true;
 
+    public function usesBuilder(): bool
+    {
+        return !is_null($this->blocks);
+    }
+
+    /**
+     * Compiles the builder blocks into the body and plain-text body.
+     */
+    public function compileBuilderContent(): void
+    {
+        if (!$this->usesBuilder()) {
+            return;
+        }
+
+        $builder = resolve(MailBuilder::class);
+        $context = $builder->makeContext(CompileContext::MODE_TEMPLATE, $this->code);
+        $blocks = $builder->normalize($this->blocks, $context);
+
+        $this->blocks = $blocks;
+        $this->body = $builder->compileHtml($blocks, $context);
+        $this->plain_body = $builder->compileText($blocks, $context);
+    }
+
     public static function getVariableOptions(): array
     {
         return resolve(MailManager::class)->listRegisteredVariables();
+    }
+
+    #[Override]
+    protected function beforeSave()
+    {
+        $this->compileBuilderContent();
     }
 
     #[Override]

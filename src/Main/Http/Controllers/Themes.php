@@ -13,12 +13,13 @@ use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\ThemeManager;
-use Igniter\Main\FormWidgets\TemplateEditor;
 use Igniter\Main\Http\Requests\ThemeRequest;
 use Igniter\Main\Models\Theme;
+use Igniter\Main\Models\ThemePage;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class Themes extends AdminController
 {
@@ -48,11 +49,6 @@ class Themes extends AdminController
             'redirect' => 'themes/edit/{code}',
             'redirectClose' => 'themes',
         ],
-        'source' => [
-            'title' => 'igniter::system.themes.text_source_title',
-            'redirect' => 'themes/source/{code}',
-            'redirectClose' => 'themes',
-        ],
         'delete' => [
             'redirect' => 'themes',
         ],
@@ -80,29 +76,65 @@ class Themes extends AdminController
     public function edit(string $context, string $themeCode): void
     {
         $this->offerChildThemeButton($themeCode);
-
-        Template::setButton(lang('igniter::system.themes.button_source'), [
-            'class' => 'btn btn-default pull-right',
-            'href' => admin_url('themes/source/'.$themeCode),
-        ]);
+        $this->offerPageBuilderButton($themeCode);
 
         $this->asExtension('FormController')->edit($context, $themeCode);
     }
 
-    public function source(string $context, string $themeCode): void
+    /**
+     * Page builder: edit the sections of a theme buildable page. The pages list,
+     * the save actions and the page handlers belong to the pagebuilder widget.
+     */
+    public function builder(string $context, string $themeCode, ?string $pageCode = null): void
     {
-        $this->defaultView = 'edit';
-        $this->offerChildThemeButton($themeCode);
-
         $theme = resolve(ThemeManager::class)->findTheme($themeCode);
-        if ($theme && $theme->hasCustomData()) {
-            Template::setButton(lang('igniter::system.themes.button_customize'), [
-                'class' => 'btn btn-default pull-right',
-                'href' => admin_url('themes/edit/'.$themeCode),
-            ]);
-        }
+        throw_unless($theme, new FlashException(sprintf(lang('igniter::main.builder.alert_theme_not_found'), $themeCode)));
 
-        $this->asExtension('FormController')->edit($context, $themeCode);
+        $pages = $theme->getBuildablePages();
+        throw_unless($pages, new FlashException(lang('igniter::main.builder.alert_no_buildable_pages')));
+
+        $pageCode ??= (string)array_key_first($pages);
+        throw_unless(isset($pages[$pageCode]), new FlashException(
+            sprintf(lang('igniter::main.builder.alert_page_not_found'), $pageCode),
+        ));
+
+        // Give the editor the full width, the admin navigation opens from the header
+        $this->collapseSidebar = true;
+
+        $pageTitle = sprintf(lang('igniter::main.builder.text_title'), $theme->label ?? $theme->getName());
+        Template::setTitle($pageTitle);
+        Template::setHeading($pageTitle);
+
+        Template::setButton(lang('igniter::main.builder.button_customise'), [
+            'class' => 'btn btn-default',
+            'href' => admin_url('themes/edit/'.$theme->getName()),
+        ]);
+        $this->offerChildThemeButton($theme->getName());
+
+        $config = $this->makeConfig('igniter::models/main/pagebuilder', ['form'])['form'];
+        $config['alias'] = 'builderForm';
+        $config['arrayName'] = 'ThemePage';
+        $config['context'] = 'builder';
+        $config['model'] = ThemePage::firstOrNew(['theme_code' => $theme->getName(), 'page_code' => $pageCode]);
+
+        $formWidget = $this->makeWidget(Form::class, $config);
+        $formWidget->bindToController();
+
+        $this->vars['formWidget'] = $formWidget;
+    }
+
+    /**
+     * Serves a theme screenshot for the themes list, so the list page links to
+     * the image instead of inlining it.
+     */
+    public function screenshot(string $context, string $themeCode): Response
+    {
+        $path = resolve(ThemeManager::class)->findTheme($themeCode)?->getScreenshotPath();
+
+        // A plain 404, as the admin turns abort() into an error page.
+        return $path
+            ? response()->file($path, ['Cache-Control' => 'private, max-age=604800'])
+            : response('', 404);
     }
 
     public function delete(string $context, string $themeCode): ?RedirectResponse
@@ -172,24 +204,6 @@ class Themes extends AdminController
         return $formController->makeRedirect($context, $model) ?: null;
     }
 
-    public function source_onSave(string $context, string $themeCode): ?RedirectResponse
-    {
-        $this->defaultView = 'edit';
-        $formController = $this->asExtension('FormController');
-        $model = $this->formFindModelObject($themeCode);
-        $formController->initForm($model, $context);
-
-        /** @var TemplateEditor $formTemplate */
-        $formTemplate = $this->widgets['formTemplate'];
-        $formTemplate->onSaveSource();
-
-        flash()->success(
-            sprintf(lang('igniter::admin.form.edit_success'), lang('lang:igniter::system.themes.text_form_name')),
-        );
-
-        return $formController->makeRedirect($context, $model) ?: null;
-    }
-
     public function onCreateChild(string $context, string $themeCode): RedirectResponse
     {
         $manager = resolve(ThemeManager::class);
@@ -205,7 +219,12 @@ class Themes extends AdminController
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Child theme ['.$childTheme->name.'] created '));
 
-        return $this->redirect('themes/source/'.$childTheme->code);
+        // From the page builder, carry on editing the same page in the child theme.
+        if ($context === 'builder') {
+            return $this->redirect(rtrim('themes/builder/'.$childTheme->code, '/'));
+        }
+
+        return $this->redirect('themes/edit/'.$childTheme->code);
     }
 
     public function delete_onDelete(string $context, string $themeCode): RedirectResponse
@@ -227,10 +246,23 @@ class Themes extends AdminController
         return $this->redirect('themes');
     }
 
+    protected function offerPageBuilderButton(string $themeCode): void
+    {
+        if (!resolve(ThemeManager::class)->findTheme($themeCode)?->getBuildablePages()) {
+            return;
+        }
+
+        Template::setButton(lang('igniter::main.builder.button_page_builder'), [
+            'class' => 'btn btn-default pull-right ms-2',
+            'href' => admin_url('themes/builder/'.$themeCode),
+        ]);
+    }
+
     protected function offerChildThemeButton(string $themeCode): void
     {
         $manager = resolve(ThemeManager::class);
-        if (!$manager->isLocked($themeCode) || !$manager->findTheme($themeCode)?->child) {
+        $theme = $manager->findTheme($themeCode);
+        if (!$manager->isLocked($themeCode) || !$theme?->child || $theme->hasParent()) {
             return;
         }
 
@@ -260,17 +292,9 @@ class Themes extends AdminController
 
     public function formExtendConfig(array &$formConfig): void
     {
-        $formConfig['data'] = $formConfig['model']->toArray();
-
-        if ($formConfig['context'] != 'source') {
-            $formConfig['tabs']['fields'] = $formConfig['model']->getFieldsConfig();
-            $formConfig['data'] = array_merge($formConfig['data'], $formConfig['model']->getFieldValues());
-            $formConfig['arrayName'] .= '[data]';
-
-            return;
-        }
-
-        $formConfig['arrayName'] .= '[source]';
+        $formConfig['tabs']['fields'] = $formConfig['model']->getFieldsConfig();
+        $formConfig['data'] = array_merge($formConfig['model']->toArray(), $formConfig['model']->getFieldValues());
+        $formConfig['arrayName'] .= '[data]';
     }
 
     public function formFindModelObject(string $recordId): Theme
@@ -291,9 +315,7 @@ class Themes extends AdminController
 
     public function formAfterSave(Theme $model): void
     {
-        /** @var Form $form */
-        $form = $this->widgets['form'];
-        if ($form->context != 'source' && config('igniter-system.buildThemeAssetsBundle', true)) {
+        if (config('igniter-system.buildThemeAssetsBundle', true)) {
             Assets::buildBundles($model->getTheme());
         }
     }

@@ -37,6 +37,15 @@ $config['list']['columns'] = [
             'href' => 'mail_layouts/edit/{layout_id}',
         ],
     ],
+    'builder' => [
+        'type' => 'button',
+        'iconCssClass' => 'fa fa-pen-ruler',
+        'attributes' => [
+            'class' => 'btn btn-edit',
+            'title' => 'lang:igniter::system.mail_builder.button_open_editor',
+            'href' => 'mail_layouts/builder/{layout_id}',
+        ],
+    ],
     'code' => [
         'label' => 'lang:igniter::system.mail_templates.column_code',
         'type' => 'text',
@@ -108,20 +117,15 @@ $config['form']['fields'] = [
 
 $config['form']['tabs'] = [
     'fields' => [
-        'layout' => [
-            'tab' => 'lang:igniter::system.mail_templates.label_body',
-            'type' => 'codeeditor',
-            'mode' => 'application/x-httpd-php',
-        ],
-        'plain_layout' => [
-            'tab' => 'lang:igniter::system.mail_templates.label_plain',
-            'type' => 'codeeditor',
-            'mode' => 'application/x-httpd-php',
-        ],
         'layout_css' => [
             'tab' => 'lang:igniter::system.mail_templates.label_layout_css',
-            'type' => 'codeeditor',
-            'mode' => 'application/x-httpd-php',
+            'type' => 'textarea',
+            'comment' => 'lang:igniter::system.mail_builder.help_layout_css',
+            'attributes' => [
+                'rows' => 16,
+                'class' => 'form-control font-monospace',
+                'spellcheck' => 'false',
+            ],
         ],
     ],
 ];

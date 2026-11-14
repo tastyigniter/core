@@ -180,6 +180,16 @@ it('sets and returns active tab', function() {
         ->and($this->formWidget->getCookieKey())->toEndWith('test-context');
 });
 
+it('does not store the active tab when storeActiveTab is off', function() {
+    request()->request->add(['tab' => 'tab1']);
+
+    $this->formWidget->storeActiveTab = false;
+    $this->formWidget->onActiveTab();
+
+    expect($this->formWidget->getSession('activeTab'))->toBeNull()
+        ->and($this->formWidget->render())->toContain('data-store-active-tab="false"');
+});
+
 it('adds field correctly', function() {
     $fields = ['testField' => ['label' => 'Test Field']];
     $this->formWidget->addFields($fields);

@@ -6,12 +6,18 @@ namespace Igniter\System\Classes;
 
 use Igniter\Flame\Pagic\TemplateSandbox;
 use Igniter\Flame\Support\StringParser;
+use Igniter\System\Classes\MailBuilder\CompileContext;
+use Igniter\System\Classes\MailBuilder\MailBuilder;
+use Igniter\System\Classes\MailBuilder\MailVariables;
+use Igniter\System\Helpers\ViewHelper;
+use Igniter\System\Models\MailLayout;
 use Igniter\System\Models\MailPartial;
 use Igniter\System\Models\MailTemplate;
 use Igniter\System\Models\MailTheme;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\HtmlString;
 
 class MailManager
@@ -24,6 +30,12 @@ class MailManager
 
     /** List of registered templates in the system */
     protected ?array $registeredTemplates = null;
+
+    /** Variable groups each registered template may use, keyed by template code. */
+    protected array $templateVariableGroups = [];
+
+    /** The variable group every template, layout and partial may use. */
+    public const string GLOBAL_VARIABLES = 'igniter::system.mail_variables.text_group_global';
 
     /** List of registered partials in the system */
     protected ?array $registeredPartials = null;
@@ -42,6 +54,9 @@ class MailManager
 
     /** The original data passed to the partial. */
     protected array $partialData = [];
+
+    /** Theme CSS used instead of the saved mail theme, while previewing unsaved colours. */
+    protected ?string $customCssOverride = null;
 
     public function applyMailerConfigValues(): void
     {
@@ -118,8 +133,10 @@ class MailManager
             return $this->renderView($template->layout->layout,
                 [
                     'body' => $html->toHtml(),
-                    'layout_css' => $template->layout->layout_css,
-                    'custom_css' => MailTheme::renderCss(),
+                    // Layout CSS is rendered inside a style tag, it may not open another tag
+                    'layout_css' => str_replace('<', '', (string)$template->layout->layout_css),
+                    'custom_css' => $this->customCssOverride ?? MailTheme::renderCss(),
+                    'mail_logo_url' => $this->resolveLogoUrl($data),
                 ] + $data,
             );
         }
@@ -135,10 +152,151 @@ class MailManager
         $text = $this->renderText($templateText, $data);
 
         if ($template->layout) {
-            return $this->renderView($template->layout->plain_layout, ['body' => $text->toHtml()] + $data);
+            $text = $this->renderView((string)$template->layout->plain_layout, ['body' => $text->toHtml()] + $data);
+
+            return new HtmlString(html_entity_decode($text->toHtml(), ENT_QUOTES, 'UTF-8'));
         }
 
         return $text;
+    }
+
+    /**
+     * The URL of the mail logo: the mail logo setting, or the site logo.
+     */
+    public function resolveLogoUrl(array $data = []): string
+    {
+        $logo = setting('mail_logo') ?: ($data['site_logo'] ?? null);
+        if (!is_string($logo) || $logo === '') {
+            return '';
+        }
+
+        return (string)rescue(fn() => media_thumb($logo, ['height' => 90]), '', false);
+    }
+
+    /**
+     * Renders the template subject. Subjects of builder templates are text
+     * with variable tokens and are compiled before rendering.
+     */
+    public function renderSubject(MailTemplate $template, array $data = []): string
+    {
+        $subject = (string)$template->subject;
+        if ($template->usesBuilder()) {
+            $builder = resolve(MailBuilder::class);
+            $subject = $builder->compileSubject($subject, $builder->makeContext(CompileContext::MODE_TEMPLATE, $template->code));
+        }
+
+        return html_entity_decode($this->renderView($subject, $data)->toHtml(), ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
+     * Renders an unsaved template, for previews and test messages.
+     *
+     * @return array{subject: string, html: string, text: string}
+     */
+    public function renderDraft(MailTemplate $template, array $data = [], ?string $customCss = null): array
+    {
+        $this->customCssOverride = $customCss;
+
+        try {
+            return [
+                'subject' => $this->renderSubject($template, $data),
+                'html' => $this->renderTemplate($template, $data)->toHtml(),
+                'text' => $this->renderTextTemplate($template, $data)->toHtml(),
+            ];
+        } finally {
+            $this->customCssOverride = null;
+        }
+    }
+
+    /**
+     * Renders an unsaved layout around sample content.
+     *
+     * @return array{subject: string, html: string, text: string}
+     */
+    public function renderLayoutDraft(MailLayout $layout, array $data = [], ?string $customCss = null): array
+    {
+        $template = new MailTemplate;
+        $template->subject = lang('igniter::system.mail_builder.text_sample_subject');
+        $template->body = '<p>'.e(lang('igniter::system.mail_builder.text_sample_body')).'</p>';
+        $template->plain_body = e(lang('igniter::system.mail_builder.text_sample_body'));
+        $template->setRelation('layout', $layout);
+
+        return $this->renderDraft($template, $data, $customCss);
+    }
+
+    /**
+     * Renders unsaved partial content with sample parameters and slot.
+     *
+     * @return array{subject: string, html: string, text: string}
+     */
+    public function renderPartialDraft(string $html, string $text, array $data = [], ?string $customCss = null): array
+    {
+        $this->isRenderingHtml = true;
+        $data['slot'] = new HtmlString(e(lang('igniter::system.mail_builder.text_sample_slot')));
+
+        $content = $this->renderView($html, $data)->toHtml();
+        $css = str_replace('<', '', $customCss ?? MailTheme::renderCss());
+
+        $this->isRenderingHtml = false;
+        $data['slot'] = new HtmlString(lang('igniter::system.mail_builder.text_sample_slot'));
+
+        return [
+            'subject' => '',
+            'html' => '<html><head><meta charset="utf-8"><style>'.$css.'</style></head><body>'
+                .'<table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0"><tr><td class="content-cell">'
+                .$content.'</td></tr></table></body></html>',
+            'text' => html_entity_decode($this->renderView($text, $data)->toHtml(), ENT_QUOTES, 'UTF-8'),
+        ];
+    }
+
+    /**
+     * Sample values for every registered variable, used by previews and test
+     * messages. Listeners of `system.mail.sampleData` may return values to merge.
+     *
+     * @param array<int, array{name: string, label?: string, sample?: string}> $params Partial parameters
+     */
+    public function sampleData(?string $templateCode = null, array $params = []): array
+    {
+        $variables = new MailVariables($this->listRegisteredVariables());
+
+        $data = [];
+        foreach ($variables->scalars() as $name => $label) {
+            $data[$name] = '['.$label.']';
+        }
+
+        foreach ($variables->arrays() as $name => $array) {
+            $data[$name] = [];
+            foreach ([1, 2] as $row) {
+                $item = [];
+                foreach ($array['fields'] as $field => $definition) {
+                    $item[$field] = match (true) {
+                        str_contains($field, 'quantity') => $row,
+                        str_contains($field, 'price'), str_contains($field, 'subtotal'), str_contains($field, 'value') => number_format($row * 9.5, 2),
+                        str_contains($field, 'options') => '',
+                        default => $definition['label'].' '.$row,
+                    };
+                }
+
+                $data[$name][] = $item;
+            }
+        }
+
+        $data = array_merge($data, ViewHelper::getGlobalVars());
+
+        foreach ($params as $param) {
+            $name = (string)($param['name'] ?? '');
+            if ($name !== '') {
+                $data[$name] = (string)($param['sample'] ?? '') ?: '['.($param['label'] ?? $name).']';
+            }
+        }
+
+        foreach ((array)Event::dispatch('system.mail.sampleData', [$templateCode, $data]) as $result) {
+            if (is_array($result)) {
+                $data = array_merge($data, $result);
+            }
+        }
+
+        return $data;
     }
 
     public function renderView(string $content, array $data = []): HtmlString
@@ -195,6 +353,7 @@ class MailManager
             $this->processRegistrationMethodValues($extensionObj, 'registerMailLayouts');
             $this->processRegistrationMethodValues($extensionObj, 'registerMailTemplates');
             $this->processRegistrationMethodValues($extensionObj, 'registerMailPartials');
+            $this->processRegistrationMethodValues($extensionObj, 'registerMailVariables');
         }
     }
 
@@ -267,7 +426,33 @@ class MailManager
             $this->registeredTemplates = [];
         }
 
-        $this->registeredTemplates = $definitions + $this->registeredTemplates;
+        $templates = [];
+        foreach ($definitions as $code => $definition) {
+            if (is_array($definition)) {
+                $this->templateVariableGroups[$code] = array_values((array)($definition['variables'] ?? []));
+                $definition = $definition['label'] ?? $code;
+            }
+
+            $templates[$code] = $definition;
+        }
+
+        $this->registeredTemplates = $templates + $this->registeredTemplates;
+    }
+
+    /**
+     * The variable groups a template may use: the global group and the groups
+     * the template was registered with.
+     *
+     * @return list<string>
+     */
+    public function getTemplateVariableGroups(?string $code): array
+    {
+        $this->listRegisteredTemplates();
+
+        return array_values(array_unique(array_merge(
+            [self::GLOBAL_VARIABLES],
+            $this->templateVariableGroups[(string)$code] ?? [],
+        )));
     }
 
     /**

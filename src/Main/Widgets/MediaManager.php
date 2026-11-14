@@ -681,7 +681,7 @@ class MediaManager extends BaseWidget
     {
         return function(string $attribute, mixed $value, Closure $fail) {
             if (!$this->getMediaLibrary()->exists($value)) {
-                $fail(sprintf('The %s file/folder does not exists.', $attribute));
+                $fail(sprintf('The %s [%s] file/folder does not exists.', $attribute, $value));
             }
         };
     }

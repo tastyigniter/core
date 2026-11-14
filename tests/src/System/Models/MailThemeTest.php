@@ -85,3 +85,20 @@ it('configures mail theme model correctly', function() {
         ->and($mailTheme->settingsFieldsConfig)->toBe('mail_themes')
         ->and($mailTheme->cacheKey)->toBe('system::mailtheme.custom_css');
 });
+
+it('substitutes theme colours into the mail css', function() {
+    MailTheme::set(['body_bg' => '#111111', 'text_color' => 'not-a-colour']);
+
+    $css = MailTheme::compileCss(['panel_bg' => '#ABCABC', 'link_color' => 'url(x)']);
+
+    expect($css)->toContain('background-color: #111111')
+        ->and($css)->toContain('background-color: #abcabc')
+        ->and($css)->toContain('color: '.MailTheme::TEXT_COLOR)
+        ->and($css)->toContain('color: '.MailTheme::LINK_COLOR)
+        ->and($css)->not->toContain('__')
+        ->and(MailTheme::renderCss(['body_bg' => '#222222']))->toContain('#222222')
+        ->and(MailTheme::isColor('#fff'))->toBeTrue()
+        ->and(MailTheme::isColor('red'))->toBeFalse()
+        ->and(MailTheme::isColor(null))->toBeFalse()
+        ->and(MailTheme::getCssVars())->toHaveCount(18);
+});

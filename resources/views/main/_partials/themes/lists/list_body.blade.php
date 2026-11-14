@@ -10,13 +10,14 @@
                     class="mr-4 preview-thumb"
                     data-bs-toggle="modal"
                     data-bs-target="#theme-preview-{{ $theme->code }}"
-                    data-img-src="{{ URL::asset($theme->screenshot) }}"
                     style="width:200px;">
-                    @if (strlen($theme->screenshot))
+                    @if ($theme->screenshot_url)
                         <img
                             class="img-responsive img-rounded"
                             alt=""
-                            src="{{ $theme->screenshot }}"
+                            src="{{ $theme->screenshot_url }}"
+                            loading="lazy"
+                            decoding="async"
                         />
                     @endif
                 </a>
@@ -38,7 +39,7 @@
             @endif
         </div>
     </div>
-    @if (strlen($theme->screenshot))
+    @if ($theme->screenshot_url)
         {!! $this->makePartial('themes/screenshot', ['theme' => $theme]) !!}
     @endif
 @endforeach

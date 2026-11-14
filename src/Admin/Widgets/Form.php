@@ -38,6 +38,9 @@ class Form extends BaseWidget
     /** The active tab name of this form. */
     public ?string $activeTab = null;
 
+    /** Remember the open tab between visits. Turn off for forms in a modal, as each tab click would send a request. */
+    public bool $storeActiveTab = true;
+
     /** Form model object. */
     public ?object $model = null;
 
@@ -91,6 +94,7 @@ class Form extends BaseWidget
             'arrayName',
             'context',
             'previewMode',
+            'storeActiveTab',
         ]);
 
         $this->optionModelTypes = [
@@ -304,7 +308,7 @@ class Form extends BaseWidget
             'tab' => ['required', 'string'],
         ])->validate();
 
-        if ($this->context !== 'create') {
+        if ($this->storeActiveTab && $this->context !== 'create') {
             $this->putSession($this->activeTabSessionKey(), $data['tab']);
         }
     }
@@ -667,7 +671,7 @@ class Form extends BaseWidget
         $type = $tabs->section;
 
         $defaultTab = '#'.$type.'tab-1';
-        $activeTab = ($this->context !== 'create' ? $this->getSession($this->activeTabSessionKey()) : null) ?? $defaultTab;
+        $activeTab = ($this->storeActiveTab && $this->context !== 'create' ? $this->getSession($this->activeTabSessionKey()) : null) ?? $defaultTab;
         $activeTabIndex = (int)str_after($activeTab, $defaultTab);
 
         // In cases where a tab has been removed, the first tab becomes the active tab

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Tests\Main\Template\Extension;
 
+use Igniter\Main\Classes\PageBuilder;
 use Igniter\System\Facades\Assets;
 use Illuminate\Support\Facades\Blade;
 
@@ -80,4 +81,14 @@ it('compiles theme partial first directive', function() {
 it('compiles theme partial each directive', function() {
     expect(Blade::compileString("@themePartialEach('partial1', [['name' => 'John'], ['name' => 'Jane']])"))
         ->toBe("<?php echo controller()->renderPartialEach('partial1', [['name' => 'John'], ['name' => 'Jane']]); ?>");
+});
+
+it('compiles theme blocks directive for the current page', function() {
+    expect(Blade::compileString('@themeBlocks'))
+        ->toBe(sprintf('<?php echo resolve(\\%s::class)->renderPage(controller()->getTheme(), controller()->getPage()?->getKey()); ?>', PageBuilder::class));
+});
+
+it('compiles theme blocks directive for a page code', function() {
+    expect(Blade::compileString("@themeBlocks('home')"))
+        ->toBe(sprintf("<?php echo resolve(\\%s::class)->renderPage(controller()->getTheme(), 'home'); ?>", PageBuilder::class));
 });

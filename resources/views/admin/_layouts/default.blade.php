@@ -28,15 +28,19 @@
 <body class="page {{ $this->bodyClass }}">
 {{Template::renderHook('startBody')}}
 @if(AdminAuth::isLogged() && !$this->suppressNavigation)
-    <x-igniter.admin::header>
+    <x-igniter.admin::header :collapsed-sidebar="$this->collapseSidebar">
         {{html($this->widgets['mainmenu']->render())}}
     </x-igniter.admin::header>
 @endif
 <div class="container-fluid p-0 h-100 w-100">
     <div class="d-flex page-container h-100">
         @if(AdminAuth::isLogged() && !$this->suppressNavigation)
-            <div class="sidebar border-right overflow-y-auto">
-                <div id="sidebarMenu" class="offcanvas-lg offcanvas-start px-2 py-3">
+            @unless($this->collapseSidebar)<div class="sidebar border-right overflow-y-auto">@endunless
+                <div
+                    id="sidebarMenu"
+                    class="{{ $this->collapseSidebar ? 'offcanvas' : 'offcanvas-lg' }} offcanvas-start px-2 py-3"
+                    @if($this->collapseSidebar) tabindex="-1" aria-label="@lang('igniter::admin.text_navigation')" @endif
+                >
                     <div class="offcanvas-header">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
                     </div>
@@ -48,7 +52,7 @@
                         {{Template::renderHook('endSidebar')}}
                     </div>
                 </div>
-            </div>
+            @unless($this->collapseSidebar)</div>@endunless
         @endif
         <div class="page-wrapper w-100 pb-5 overflow-y-auto">
             {{Template::renderHook('startHeader')}}
