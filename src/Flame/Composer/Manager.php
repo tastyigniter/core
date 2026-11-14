@@ -12,8 +12,10 @@ use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\System\Classes\PackageInfo;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Http;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 use Throwable;
 
@@ -25,6 +27,13 @@ use function Illuminate\Support\php_binary;
 class Manager
 {
     protected const string REPOSITORY_HOST = 'composer.tastyigniter.com';
+
+    protected const string COMPOSER_PHAR_URL = 'https://getcomposer.org/download/latest-stable/composer.phar';
+
+    protected const string COMPOSER_PHAR_SHA256_URL = 'https://getcomposer.org/download/latest-stable/composer.phar.sha256';
+
+    /** Seconds between self-updates of the downloaded composer.phar. */
+    protected const int COMPOSER_SELF_UPDATE_INTERVAL = 604800;
 
     /** The primary composer instance. */
     protected ?ClassLoader $loader = null;
@@ -317,7 +326,68 @@ class Manager
             return [php_binary(), 'composer.phar'];
         }
 
-        return ['composer'];
+        if ($executable = $this->findComposerExecutable()) {
+            return [$executable];
+        }
+
+        $pharPath = $this->storagePath.'/composer.phar';
+        if (File::exists($pharPath)) {
+            if (File::lastModified($pharPath) < time() - static::COMPOSER_SELF_UPDATE_INTERVAL) {
+                $this->selfUpdateComposerPhar($pharPath);
+            }
+
+            return [php_binary(), $pharPath];
+        }
+
+        return [php_binary(), $this->downloadComposerPhar()];
+    }
+
+    protected function findComposerExecutable(): ?string
+    {
+        return (new ExecutableFinder)->find('composer');
+    }
+
+    protected function downloadComposerPhar(): string
+    {
+        $pharResponse = Http::timeout(60)->get(static::COMPOSER_PHAR_URL);
+        $checksumResponse = Http::timeout(60)->get(static::COMPOSER_PHAR_SHA256_URL);
+
+        if (!$pharResponse->successful() || !$checksumResponse->successful()) {
+            throw new RuntimeException('Unable to download composer.phar from getcomposer.org.');
+        }
+
+        $contents = $pharResponse->body();
+        $expectedChecksum = strtolower(strtok(trim($checksumResponse->body()), " \t\n") ?: '');
+
+        if ($expectedChecksum === '' || !hash_equals($expectedChecksum, hash('sha256', $contents))) {
+            throw new RuntimeException('Downloaded composer.phar failed checksum verification.');
+        }
+
+        if (!File::isDirectory($this->storagePath)) {
+            File::makeDirectory($this->storagePath, 0755, true);
+        }
+
+        $pharPath = $this->storagePath.'/composer.phar';
+        $tempPath = $pharPath.'.tmp';
+
+        File::put($tempPath, $contents);
+        File::move($tempPath, $pharPath);
+
+        return $pharPath;
+    }
+
+    protected function selfUpdateComposerPhar(string $pharPath): void
+    {
+        try {
+            $this->getProcess([php_binary(), $pharPath, 'self-update', '--stable', '--no-interaction', '--no-ansi'])
+                ->setTimeout(120)
+                ->mustRun();
+        } catch (Throwable $throwable) {
+            logger()->warning('Unable to self-update composer.phar: '.$throwable->getMessage());
+        }
+
+        // Reset the interval even when composer is already up to date and leaves the file untouched.
+        @touch($pharPath);
     }
 
     protected function findComposerFile(): string
