@@ -166,6 +166,19 @@ class Theme extends Model
         return $this->getTheme()?->getScreenshotData();
     }
 
+    /**
+     * Admin URL of the theme screenshot, versioned by the file's modified time so
+     * browsers can cache it. Null when the theme has no screenshot.
+     */
+    public function getScreenshotUrlAttribute(): ?string
+    {
+        if (!$path = $this->getTheme()?->getScreenshotPath()) {
+            return null;
+        }
+
+        return admin_url('themes/screenshot/'.$this->code).'?v='.filemtime($path);
+    }
+
     #[Override]
     public function setAttribute($key, mixed $value)
     {

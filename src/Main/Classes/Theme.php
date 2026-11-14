@@ -205,27 +205,41 @@ class Theme
         return $this;
     }
 
+    /**
+     * The theme's screenshot file, or null when it has none.
+     */
+    public function getScreenshotPath(): ?string
+    {
+        if (is_null($this->screenshot)) {
+            $this->screenshot('screenshot');
+        }
+
+        if (!$this->screenshot || !File::exists($this->screenshot)) {
+            return null;
+        }
+
+        $extension = pathinfo($this->screenshot, PATHINFO_EXTENSION);
+        if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES)) {
+            throw new FlashException('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
+        }
+
+        return $this->screenshot;
+    }
+
+    /**
+     * The screenshot as a data URI. The admin themes list links to the image
+     * instead (themes/screenshot/{code}), as inlined screenshots make the page large.
+     */
     public function getScreenshotData(): string
     {
         if (!is_null($this->screenshotData)) {
             return $this->screenshotData;
         }
 
-        if (is_null($this->screenshot)) {
-            $this->screenshot('screenshot');
-        }
-
         $screenshotData = '';
-        if (File::exists($file = $this->screenshot)) {
-            $extension = pathinfo((string)$file, PATHINFO_EXTENSION);
-            if (!array_key_exists($extension, ThemeModel::ICON_MIMETYPES)) {
-                throw new FlashException('Invalid theme icon file type in: '.$this->name.'. Only SVG and PNG images are supported');
-            }
-
-            $mimeType = ThemeModel::ICON_MIMETYPES[$extension];
-            $data = base64_encode(File::get($file));
-
-            $screenshotData = sprintf('data:%s;base64,%s', $mimeType, $data);
+        if ($file = $this->getScreenshotPath()) {
+            $mimeType = ThemeModel::ICON_MIMETYPES[pathinfo($file, PATHINFO_EXTENSION)];
+            $screenshotData = sprintf('data:%s;base64,%s', $mimeType, base64_encode(File::get($file)));
         }
 
         return $this->screenshotData = $screenshotData;
