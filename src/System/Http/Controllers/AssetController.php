@@ -13,7 +13,9 @@ class AssetController extends Controller
 {
     public function __invoke(Request $request, ?string $asset = null): Response
     {
-        $parts = explode('-', (string)$asset);
+        // Combined assets are served as "app.{type}?v={cacheKey}-{lastMod}",
+        // legacy URLs as "{cacheKey}-{lastMod}.{type}".
+        $parts = explode('-', (string)($request->query('v') ?: $asset));
         $cacheKey = $parts[0];
 
         return Assets::combineGetContents($cacheKey);
