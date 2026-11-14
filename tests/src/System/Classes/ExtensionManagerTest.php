@@ -119,7 +119,12 @@ it('returns correct extension path', function() {
 });
 
 it('updates installed extensions correctly', function() {
-    $manager = resolve(ExtensionManager::class);
+    // Keep the disabled list off disk: parallel test processes share the file, and
+    // a disabled igniter.user there removes the admin guard from their requests.
+    $packageManifest = mock(resolve(PackageManifest::class));
+    $packageManifest->shouldReceive('writeDisabled')->once()
+        ->withArgs(fn(array $codes): bool => ($codes['igniter.user'] ?? false) === true);
+    $manager = new ExtensionManager($packageManifest, resolve(ComposerManager::class));
 
     $result = $manager->updateInstalledExtensions('igniter.user', false);
     expect($result)->toBeTrue()

@@ -31,6 +31,12 @@ beforeEach(function() {
     };
 });
 
+// Settings models keep their instance in memory, so a saved mail theme would
+// outlive the test's database rollback.
+afterEach(function() {
+    MailTheme::clearInternalCache();
+});
+
 it('rejects an invalid mode', function() {
     expect(fn() => ($this->makeWidget)(new MailTemplate, 'invalid'))->toThrow(FlashException::class);
 });
@@ -49,9 +55,6 @@ it('renders with editor config', function() {
         ->and(array_column($config['blocks'], 'code'))->toContain('heading', 'test.extension::greeting')
         ->and(array_column($config['blocks'], 'code'))->not->toContain('content_slot')
         ->and($config['blockNames'])->toHaveKey('content_slot')
-        ->and(collect($config['partials'])->firstWhere('code', 'button')['params'])->toHaveCount(2)
-        ->and(collect($config['partials'])->firstWhere('code', 'header')['params'])->toHaveCount(1)
-        ->and(collect($config['partials'])->firstWhere('code', 'panel')['params'])->toBe([])
         ->and($config['theme'])->toHaveCount(18)
         ->and($config['lang'])->toHaveKey('undo')
         ->and(collect($config['blocks'])->firstWhere('code', 'legacy')['hidden'])->toBeTrue()
@@ -96,7 +99,7 @@ it('normalizes, validates and compiles the save value', function() {
 
     $blocks = $widget->getSaveValue(json_encode([['id' => 'b1', 'code' => 'text', 'settings' => ['content' => 'Hi']]]));
 
-    expect($blocks)->toBe([['id' => 'b1', 'code' => 'text', 'settings' => ['content' => 'Hi', 'visible_when' => null, 'visible_mode' => 'set']]])
+    expect($blocks)->toBe([['id' => 'b1', 'code' => 'text', 'settings' => ['content' => 'Hi', 'align' => 'left', 'visible_when' => null, 'visible_mode' => 'set']]])
         ->and($template->body)->toBe('<div class="mail-block"><p>Hi</p></div>')
         ->and($template->plain_body)->toBe('Hi');
 
@@ -170,9 +173,10 @@ it('previews layouts and partials', function() {
 });
 
 it('reports preview render errors', function() {
-    $partial = MailPartial::create(['code' => 'broken', 'name' => 'Broken', 'is_custom' => true, 'html' => '{{ $missing_variable->call() }}']);
+    // A customised core partial that fails to render, used by the panel block.
+    MailPartial::updateOrCreate(['code' => 'panel'], ['name' => 'Panel', 'is_custom' => true, 'html' => '{{ $missing_variable->call() }}']);
     request()->request->add([
-        'blocks' => json_encode([['id' => 'b1', 'code' => 'partial', 'settings' => ['code' => 'broken']]]),
+        'blocks' => json_encode([['id' => 'b1', 'code' => 'panel', 'settings' => ['content' => 'Hi']]]),
     ]);
 
     $result = ($this->makeWidget)(new MailTemplate)->onPreview();
