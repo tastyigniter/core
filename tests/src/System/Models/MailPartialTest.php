@@ -101,5 +101,34 @@ it('configures mail partial correctly', function() {
         ->and($partial->getCasts())->toEqual([
             'partial_id' => 'int',
             'is_custom' => 'boolean',
+            'blocks' => 'array',
+            'params' => 'array',
         ]);
+});
+
+it('compiles builder blocks into the partial with declared parameters', function() {
+    $partial = new MailPartial(['code' => 'builder_test']);
+
+    $partial->compileBuilderContent();
+    expect($partial->usesBuilder())->toBeFalse()
+        ->and($partial->getRegisteredView())->toBeNull();
+
+    $partial->params = [
+        ['name' => 'promo', 'label' => 'Promo', 'sample' => 'X'],
+        ['name' => 'slot'],
+        ['name' => 'bad name'],
+        'invalid',
+        ['name' => 'promo', 'label' => 'Duplicate'],
+        ['name' => 'plain'],
+    ];
+    $partial->blocks = [['id' => 'b1', 'code' => 'parameter', 'settings' => ['name' => 'promo']]];
+    $partial->compileBuilderContent();
+
+    expect($partial->getParamDefinitions())->toBe([
+        ['name' => 'promo', 'label' => 'Duplicate', 'sample' => ''],
+        ['name' => 'plain', 'label' => 'plain', 'sample' => ''],
+    ])
+        ->and($partial->html)->toBe('<div class="mail-block">{{ $promo }}</div>')
+        ->and($partial->text)->toBe('{{ $promo }}')
+        ->and((new MailPartial(['code' => 'button']))->getRegisteredView())->toBe('igniter.system::_mail.partials.button');
 });

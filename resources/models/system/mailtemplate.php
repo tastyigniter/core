@@ -37,6 +37,15 @@ $config['list']['columns'] = [
             'href' => 'mail_templates/edit/{template_id}',
         ],
     ],
+    'builder' => [
+        'type' => 'button',
+        'iconCssClass' => 'fa fa-pen-ruler',
+        'attributes' => [
+            'class' => 'btn btn-edit',
+            'title' => 'lang:igniter::system.mail_builder.button_open_editor',
+            'href' => 'mail_templates/builder/{template_id}',
+        ],
+    ],
     'title' => [
         'label' => 'lang:igniter::system.mail_templates.column_title',
         'type' => 'text',
@@ -90,12 +99,6 @@ $config['form']['toolbar'] = [
             'data-progress-indicator' => 'igniter::admin.text_deleting',
             'context' => 'edit',
         ],
-        'test_message' => [
-            'label' => 'lang:igniter::system.mail_templates.button_test_message',
-            'class' => 'btn btn-default',
-            'data-request' => 'onTestTemplate',
-            'context' => 'edit',
-        ],
     ],
 ];
 
@@ -115,6 +118,7 @@ $config['form']['fields'] = [
         'label' => 'lang:igniter::system.mail_templates.label_subject',
         'span' => 'left',
         'type' => 'text',
+        'comment' => 'lang:igniter::system.mail_builder.help_subject',
     ],
     'layout_id' => [
         'label' => 'lang:igniter::system.mail_templates.label_layout',
@@ -122,20 +126,6 @@ $config['form']['fields'] = [
         'type' => 'relation',
         'relationFrom' => 'layout',
         'placeholder' => 'lang:igniter::admin.text_please_select',
-    ],
-];
-
-$config['form']['tabs'] = [
-    'fields' => [
-        'body' => [
-            'tab' => 'lang:igniter::system.mail_templates.label_markdown',
-            'type' => 'markdowneditor',
-        ],
-        'plain_body' => [
-            'tab' => 'lang:igniter::system.mail_templates.label_plain',
-            'type' => 'codeeditor',
-            'mode' => 'application/x-httpd-php',
-        ],
     ],
 ];
 

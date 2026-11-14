@@ -11,9 +11,7 @@ it('returns correct attribute labels', function() {
 
     expect($attributes)->toHaveKey('name', lang('igniter::admin.label_name'))
         ->and($attributes)->toHaveKey('code', lang('igniter::system.mail_templates.label_code'))
-        ->and($attributes)->toHaveKey('layout_css', lang('igniter::system.mail_templates.label_layout_css'))
-        ->and($attributes)->toHaveKey('plain_layout', lang('igniter::system.mail_templates.label_plain'))
-        ->and($attributes)->toHaveKey('layout', lang('igniter::system.mail_templates.label_body'));
+        ->and($attributes)->toHaveKey('layout_css', lang('igniter::system.mail_templates.label_layout_css'));
 });
 
 it('returns correct validation rules', function() {
@@ -23,7 +21,6 @@ it('returns correct validation rules', function() {
         ->and($rules['code'])->toContain('sometimes', 'required', 'regex:/^[a-z-_\.\:]+$/i')
         ->and($rules['code'][3]->__toString())->toBe('unique:mail_layouts,NULL,NULL,layout_id')
         ->and($rules['language_id'])->toContain('integer')
-        ->and($rules['layout'])->toContain('string')
-        ->and($rules['layout_css'])->toContain('nullable', 'string')
-        ->and($rules['plain_layout'])->toContain('nullable', 'string');
+        ->and($rules['layout_css'])->toContain('nullable', 'string', 'not_regex:/<|@import/i')
+        ->and($rules)->not->toHaveKeys(['layout', 'plain_layout']);
 });

@@ -118,6 +118,7 @@ it('configures mail layout model correctly', function() {
             'language_id' => 'integer',
             'status' => 'boolean',
             'is_locked' => 'boolean',
+            'blocks' => 'array',
         ])
         ->and($layout->relation['hasMany'])->toEqual([
             'templates' => [MailTemplate::class, 'foreignKey' => 'layout_id'],
@@ -125,4 +126,21 @@ it('configures mail layout model correctly', function() {
         ->and($layout->relation['belongsTo'])->toEqual([
             'language' => Language::class,
         ]);
+});
+
+it('compiles builder blocks into the layout', function() {
+    $layout = new MailLayout(['code' => 'builder_test']);
+
+    $layout->compileBuilderContent();
+    expect($layout->usesBuilder())->toBeFalse()
+        ->and($layout->getRegisteredView())->toBeNull();
+
+    $layout->blocks = [['id' => 'b1', 'code' => 'divider']];
+    $layout->compileBuilderContent();
+
+    expect($layout->usesBuilder())->toBeTrue()
+        ->and(array_column($layout->blocks, 'code'))->toBe(['divider', 'content_slot'])
+        ->and($layout->layout)->toContain('{!! $body !!}')
+        ->and($layout->plain_layout)->toBe("----------\n\n{!! \$body !!}")
+        ->and((new MailLayout(['code' => 'default']))->getRegisteredView())->toBe('igniter.system::_mail.layouts.default');
 });

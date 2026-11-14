@@ -118,10 +118,26 @@ it('configures mail template correctly', function() {
             'template_id' => 'int',
             'layout_id' => 'integer',
             'is_custom' => 'boolean',
+            'blocks' => 'array',
         ])
         ->and($template->relation['belongsTo'])->toEqual([
             'layout' => [MailLayout::class, 'foreignKey' => 'layout_id'],
         ])
         ->and($template->getAppends())->toEqual(['title'])
         ->and($template->timestamps)->toBeTrue();
+});
+
+it('compiles builder blocks into the body', function() {
+    $template = new MailTemplate(['code' => '_mail.builder_test', 'subject' => 'x']);
+
+    $template->compileBuilderContent();
+    expect($template->usesBuilder())->toBeFalse()
+        ->and($template->body)->toBe('');
+
+    $template->blocks = [['id' => 'b1', 'code' => 'text', 'settings' => ['content' => 'Hi {{ $site_name }}']]];
+    $template->compileBuilderContent();
+
+    expect($template->usesBuilder())->toBeTrue()
+        ->and($template->body)->toBe('<div class="mail-block"><p>Hi {{ $site_name }}</p></div>')
+        ->and($template->plain_body)->toBe('Hi {{ $site_name }}');
 });

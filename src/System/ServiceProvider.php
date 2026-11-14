@@ -17,6 +17,8 @@ use Igniter\System\Classes\ControllerAction;
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\System\Classes\HubManager;
 use Igniter\System\Classes\LanguageManager;
+use Igniter\System\Classes\MailBuilder\MailBlockManager;
+use Igniter\System\Classes\MailBuilder\MailBuilder;
 use Igniter\System\Classes\MailManager;
 use Igniter\System\Classes\UpdateManager;
 use Igniter\System\Facades\Assets;
@@ -138,6 +140,8 @@ class ServiceProvider extends AppServiceProvider
         $this->app->singleton(HubManager::class);
         $this->tapSingleton(LanguageManager::class);
         $this->app->singleton(MailManager::class);
+        $this->app->singleton(MailBlockManager::class);
+        $this->app->singleton(MailBuilder::class);
         $this->app->singleton(UpdateManager::class);
     }
 

@@ -8,7 +8,7 @@ use Igniter\Main\Classes\BlockManager;
 use Igniter\Main\Classes\PageBuilder;
 use Igniter\Main\Classes\SectionLayouts;
 use Igniter\Main\Classes\Theme;
-use Igniter\Main\Models\ThemePageLayout;
+use Igniter\Main\Models\ThemePage;
 use Igniter\Tests\Main\Fixtures\TestTextBlock;
 use Igniter\Tests\Main\Fixtures\TestWideFormBlock;
 
@@ -101,7 +101,7 @@ it('returns the theme default sections for a page', function() {
 });
 
 it('returns the saved sections for a page', function() {
-    ThemePageLayout::create([
+    ThemePage::create([
         'theme_code' => 'tests-theme',
         'page_code' => 'home',
         'sections' => [['id' => 's_saved', 'layout' => 'cols-2', 'columns' => []]],
@@ -127,7 +127,7 @@ it('appends missing required blocks', function() {
 });
 
 it('does not append required blocks already on the page', function() {
-    ThemePageLayout::create([
+    ThemePage::create([
         'theme_code' => 'tests-theme',
         'page_code' => 'checkout',
         'sections' => [['id' => 's_form', 'layout' => 'cols-1', 'columns' => [['blocks' => [['id' => 'b_form', 'code' => 'wide-form']]]]]],

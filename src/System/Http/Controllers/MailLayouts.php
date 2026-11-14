@@ -9,11 +9,17 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Http\Actions\FormController;
 use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
+use Igniter\Flame\Database\Model;
+use Igniter\System\Http\Controllers\Concerns\HasMailBuilder;
 use Igniter\System\Http\Requests\MailLayoutRequest;
 use Igniter\System\Models\MailLayout;
 
 class MailLayouts extends AdminController
 {
+    use HasMailBuilder;
+
+    protected string $mailBuilderUrl = 'mail_layouts';
+
     public array $implement = [
         ListController::class,
         FormController::class,
@@ -36,7 +42,7 @@ class MailLayouts extends AdminController
         'request' => MailLayoutRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
-            'redirect' => 'mail_layouts/edit/{layout_id}',
+            'redirect' => 'mail_layouts/builder/{layout_id}',
             'redirectClose' => 'mail_layouts',
             'redirectNew' => 'mail_layouts/create',
         ],
@@ -67,14 +73,38 @@ class MailLayouts extends AdminController
 
     public function formExtendFields(Form $form): void
     {
-        if ($form->context != 'create') {
-            $field = $form->getField('code');
+        if ($form->context != 'create' && $field = $form->getField('code')) {
             $field->disabled = true;
         }
     }
 
     public function formBeforeSave(MailLayout $model): void
     {
-        $model->is_locked = true;
+        $model->setAttribute('is_locked', true);
+    }
+
+    protected function mailBuilderFields(): array
+    {
+        return [
+            'blocks' => [
+                'type' => 'mailbuilder',
+                'mode' => 'layout',
+            ],
+        ];
+    }
+
+    protected function mailBuilderBeforeSave(Model $model): void
+    {
+        $model->setAttribute('is_locked', true);
+    }
+
+    protected function mailBuilderIsRegistered(Model $model): bool
+    {
+        return $model instanceof MailLayout && !is_null($model->getRegisteredView());
+    }
+
+    protected function mailBuilderResync(): void
+    {
+        MailLayout::createLayouts();
     }
 }

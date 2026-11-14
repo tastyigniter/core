@@ -18,7 +18,7 @@ class File extends Model
      */
     public const string DIR_NAME = '';
 
-    /** Virtual TemplateEditor / ThemeManager type key (not a filesystem directory). */
+    /** Virtual ThemeManager type key (not a filesystem directory). */
     public const string TYPE_KEY = '_files';
 
     /** Directories under the theme source path excluded from the Files picker. */

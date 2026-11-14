@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Igniter\Main\Classes;
 
-use Igniter\Main\Models\ThemePageLayout;
+use Igniter\Main\Models\ThemePage;
 
 /**
  * Loads, normalizes, resolves and renders page builder sections.
@@ -32,7 +32,7 @@ class PageBuilder
      */
     public function forPage(Theme $theme, string $pageCode): array
     {
-        $saved = ThemePageLayout::findFor($theme->getName(), $pageCode)?->sections;
+        $saved = ThemePage::findFor($theme->getName(), $pageCode)?->sections;
 
         $sections = $this->normalize($theme, $saved ?? $this->defaultSections($theme, $pageCode), $pageCode);
 

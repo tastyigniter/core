@@ -15,7 +15,7 @@ use Igniter\Flame\Exception\FlashException;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Http\Requests\ThemeRequest;
 use Igniter\Main\Models\Theme;
-use Igniter\Main\Models\ThemePageLayout;
+use Igniter\Main\Models\ThemePage;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Traits\ManagesUpdates;
 use Illuminate\Http\RedirectResponse;
@@ -105,11 +105,17 @@ class Themes extends AdminController
         Template::setTitle($pageTitle);
         Template::setHeading($pageTitle);
 
+        Template::setButton(lang('igniter::main.builder.button_customise'), [
+            'class' => 'btn btn-default',
+            'href' => admin_url('themes/edit/'.$theme->getName()),
+        ]);
+        $this->offerChildThemeButton($theme->getName());
+
         $config = $this->makeConfig('igniter::models/main/pagebuilder', ['form'])['form'];
         $config['alias'] = 'builderForm';
-        $config['arrayName'] = 'ThemePageLayout';
+        $config['arrayName'] = 'ThemePage';
         $config['context'] = 'builder';
-        $config['model'] = ThemePageLayout::firstOrNew(['theme_code' => $theme->getName(), 'page_code' => $pageCode]);
+        $config['model'] = ThemePage::firstOrNew(['theme_code' => $theme->getName(), 'page_code' => $pageCode]);
 
         $formWidget = $this->makeWidget(Form::class, $config);
         $formWidget->bindToController();
@@ -198,24 +204,6 @@ class Themes extends AdminController
         return $formController->makeRedirect($context, $model) ?: null;
     }
 
-    public function source_onSave(string $context, string $themeCode): ?RedirectResponse
-    {
-        $this->defaultView = 'edit';
-        $formController = $this->asExtension('FormController');
-        $model = $this->formFindModelObject($themeCode);
-        $formController->initForm($model, $context);
-
-        /** @var TemplateEditor $formTemplate */
-        $formTemplate = $this->widgets['formTemplate'];
-        $formTemplate->onSaveSource();
-
-        flash()->success(
-            sprintf(lang('igniter::admin.form.edit_success'), lang('lang:igniter::system.themes.text_form_name')),
-        );
-
-        return $formController->makeRedirect($context, $model) ?: null;
-    }
-
     public function onCreateChild(string $context, string $themeCode): RedirectResponse
     {
         $manager = resolve(ThemeManager::class);
@@ -231,7 +219,12 @@ class Themes extends AdminController
 
         flash()->success(sprintf(lang('igniter::admin.alert_success'), 'Child theme ['.$childTheme->name.'] created '));
 
-        return $this->redirect('themes/source/'.$childTheme->code);
+        // From the page builder, carry on editing the same page in the child theme.
+        if ($context === 'builder') {
+            return $this->redirect(rtrim('themes/builder/'.$childTheme->code, '/'));
+        }
+
+        return $this->redirect('themes/edit/'.$childTheme->code);
     }
 
     public function delete_onDelete(string $context, string $themeCode): RedirectResponse
@@ -268,7 +261,8 @@ class Themes extends AdminController
     protected function offerChildThemeButton(string $themeCode): void
     {
         $manager = resolve(ThemeManager::class);
-        if (!$manager->isLocked($themeCode) || !$manager->findTheme($themeCode)?->child) {
+        $theme = $manager->findTheme($themeCode);
+        if (!$manager->isLocked($themeCode) || !$theme?->child || $theme->hasParent()) {
             return;
         }
 
@@ -298,17 +292,9 @@ class Themes extends AdminController
 
     public function formExtendConfig(array &$formConfig): void
     {
-        $formConfig['data'] = $formConfig['model']->toArray();
-
-        if ($formConfig['context'] != 'source') {
-            $formConfig['tabs']['fields'] = $formConfig['model']->getFieldsConfig();
-            $formConfig['data'] = array_merge($formConfig['data'], $formConfig['model']->getFieldValues());
-            $formConfig['arrayName'] .= '[data]';
-
-            return;
-        }
-
-        $formConfig['arrayName'] .= '[source]';
+        $formConfig['tabs']['fields'] = $formConfig['model']->getFieldsConfig();
+        $formConfig['data'] = array_merge($formConfig['model']->toArray(), $formConfig['model']->getFieldValues());
+        $formConfig['arrayName'] .= '[data]';
     }
 
     public function formFindModelObject(string $recordId): Theme
@@ -329,9 +315,7 @@ class Themes extends AdminController
 
     public function formAfterSave(Theme $model): void
     {
-        /** @var Form $form */
-        $form = $this->widgets['form'];
-        if ($form->context != 'source' && config('igniter-system.buildThemeAssetsBundle', true)) {
+        if (config('igniter-system.buildThemeAssetsBundle', true)) {
             Assets::buildBundles($model->getTheme());
         }
     }

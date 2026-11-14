@@ -4,6 +4,7 @@ return [
     'igniter::system.mail_variables.text_group_global' => [
         '{{ $site_name }}' => 'igniter::system.mail_variables.text_site_name',
         '{{ $site_logo }}' => 'igniter::system.mail_variables.text_site_logo',
+        '{{ $mail_logo_url }}' => 'igniter::system.mail_variables.text_mail_logo_url',
     ],
     'igniter::system.mail_variables.text_group_staff_reset' => [
         '{{ $staff_name }}' => 'igniter::system.mail_variables.text_staff_name',

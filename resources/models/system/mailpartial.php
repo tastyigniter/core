@@ -37,6 +37,15 @@ $config['list']['columns'] = [
             'href' => 'mail_partials/edit/{partial_id}',
         ],
     ],
+    'builder' => [
+        'type' => 'button',
+        'iconCssClass' => 'fa fa-pen-ruler',
+        'attributes' => [
+            'class' => 'btn btn-edit',
+            'title' => 'lang:igniter::system.mail_builder.button_open_editor',
+            'href' => 'mail_partials/builder/{partial_id}',
+        ],
+    ],
     'name' => [
         'label' => 'lang:igniter::admin.label_name',
         'type' => 'text',
@@ -90,15 +99,26 @@ $config['form']['fields'] = [
 
 $config['form']['tabs'] = [
     'fields' => [
-        'html' => [
-            'tab' => 'igniter::system.mail_templates.label_body',
-            'type' => 'codeeditor',
-            'mode' => 'application/x-httpd-php',
-        ],
-        'text' => [
-            'tab' => 'igniter::system.mail_templates.label_plain',
-            'type' => 'codeeditor',
-            'mode' => 'application/x-httpd-php',
+        'params' => [
+            'tab' => 'lang:igniter::system.mail_builder.text_tab_params',
+            'type' => 'repeater',
+            'commentAbove' => 'lang:igniter::system.mail_builder.help_params',
+            'form' => [
+                'fields' => [
+                    'name' => [
+                        'label' => 'lang:igniter::system.mail_builder.label_param_name',
+                        'type' => 'text',
+                    ],
+                    'label' => [
+                        'label' => 'lang:igniter::system.mail_builder.label_param_label',
+                        'type' => 'text',
+                    ],
+                    'sample' => [
+                        'label' => 'lang:igniter::system.mail_builder.label_param_sample',
+                        'type' => 'text',
+                    ],
+                ],
+            ],
         ],
     ],
 ];

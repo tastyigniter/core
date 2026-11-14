@@ -22,7 +22,7 @@ it('returns the buildable pages of a theme', function() {
         ->and($pages['home']['label'])->toBe('Home')
         ->and($pages['home']['required'])->toBe([])
         ->and($pages['home']['default'])->toHaveCount(1)
-        ->and($pages['checkout'])->toBe(['label' => 'Checkout', 'required' => ['wide-form'], 'default' => []])
+        ->and($pages['checkout'])->toBe(['label' => 'Checkout', 'required' => ['wide-form'], 'default' => [], 'custom' => false])
         ->and($theme->getBuildablePage('checkout'))->toBe($pages['checkout'])
         ->and($theme->getBuildablePage('missing'))->toBeNull()
         ->and($theme->getBuilderConfig())->toBe($theme->getBuilderConfig());
@@ -37,6 +37,6 @@ it('merges the child theme builder config over the parent', function() {
     $pages = $theme->getBuildablePages();
 
     expect(array_keys($pages))->toBe(['home', 'checkout', 'about'])
-        ->and($pages['home'])->toBe(['label' => 'Child home', 'required' => [], 'default' => []])
+        ->and($pages['home'])->toBe(['label' => 'Child home', 'required' => [], 'default' => [], 'custom' => false])
         ->and($pages['about']['required'])->toBe(['text']);
 });

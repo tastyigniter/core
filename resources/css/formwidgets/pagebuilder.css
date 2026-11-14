@@ -1,7 +1,6 @@
+/* Page builder: only what Bootstrap utilities cannot express */
 .page-builder-handle {
     cursor: grab;
-    color: var(--bs-secondary-color, #6c757d);
-    padding: 0 .25rem;
     touch-action: none;
 }
 
@@ -16,8 +15,83 @@
     display: none !important;
 }
 
-.page-builder-section-header {
-    flex-wrap: wrap;
+/* Sections: a ring and the section toolbar appear on hover or keyboard focus.
+   The toolbar sits just above the ring, in the gap between sections. */
+.page-builder-sections {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.page-builder-section {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition: outline-color .15s ease-in-out;
+}
+
+.page-builder-section:hover,
+.page-builder-section:focus-within {
+    outline-color: var(--bs-primary);
+}
+
+.page-builder-section-toolbar {
+    position: absolute;
+    z-index: 3;
+    top: 2px;
+    right: .75rem;
+    max-width: calc(100% - 1.5rem);
+    transform: translateY(calc(-100% - 4px));
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .15s ease-in-out, visibility .15s;
+}
+
+.page-builder-section:hover > .page-builder-section-toolbar,
+.page-builder-section:focus-within > .page-builder-section-toolbar {
+    opacity: 1;
+    visibility: visible;
+}
+
+.page-builder-section-toolbar [data-section-summary]:empty {
+    display: none;
+}
+
+/* Blocks: the whole block opens its settings; remove appears on hover or focus. */
+.page-builder-block.is-editable {
+    cursor: pointer;
+}
+
+.page-builder-block.is-editable:hover,
+.page-builder-block.is-editable:focus-visible {
+    border-color: var(--bs-gray-400) !important;
+}
+
+.page-builder-block.is-editable:focus-visible {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 1px;
+}
+
+.page-builder-block-remove {
+    opacity: 0;
+    transition: opacity .15s ease-in-out;
+}
+
+.page-builder-block:hover .page-builder-block-remove,
+.page-builder-block:focus-within .page-builder-block-remove,
+.page-builder-block-remove:focus-visible {
+    opacity: 1;
+}
+
+/* No hover on touch screens: keep the controls in view. */
+@media (hover: none) {
+    .page-builder-section-toolbar {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .page-builder-block-remove {
+        opacity: 1;
+    }
 }
 
 .page-builder-columns {
@@ -26,77 +100,23 @@
     grid-template-columns: 1fr;
 }
 
+@media (min-width: 992px) {
+    .page-builder-columns {
+        grid-template-columns: var(--page-builder-columns, 1fr);
+    }
+}
+
 .page-builder-column {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
     min-width: 0;
-    padding: .5rem;
-    border: 1px dashed var(--bs-border-color, #dee2e6);
-    border-radius: var(--bs-border-radius, .375rem);
-    background: var(--bs-tertiary-bg, #f8f9fa);
+    border-style: dashed !important;
 }
 
 .page-builder-blocks {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
     min-height: 2.5rem;
 }
 
-.page-builder-block {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    min-width: 0;
-    padding: .5rem;
-    border: 1px solid var(--bs-border-color, #dee2e6);
-    border-radius: var(--bs-border-radius, .375rem);
-    background: var(--bs-body-bg, #fff);
-}
-
-.page-builder-block.is-ghost {
-    opacity: .4;
-}
-
-.page-builder-block-icon {
-    width: 1.25rem;
-    text-align: center;
-    color: var(--bs-secondary-color, #6c757d);
-}
-
-.page-builder-block-text {
-    flex: 1 1 auto;
-    min-width: 0;
-}
-
-.page-builder-block-name {
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.page-builder-block-summary {
-    font-size: .8125rem;
-    color: var(--bs-secondary-color, #6c757d);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.page-builder-block-summary:empty {
+.page-builder-block [data-block-summary]:empty {
     display: none;
-}
-
-.page-builder-block-menu {
-    max-height: 20rem;
-    overflow-y: auto;
-}
-
-.page-builder-block-menu .dropdown-item small {
-    display: block;
-    white-space: normal;
 }
 
 .page-builder-layout-picker {
@@ -105,24 +125,12 @@
     grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
 }
 
-.page-builder-layout-option {
-    display: flex;
-    flex-direction: column;
-    gap: .375rem;
-    padding: .5rem;
-    border: 1px solid var(--bs-border-color, #dee2e6);
-    border-radius: var(--bs-border-radius, .375rem);
-    background: var(--bs-body-bg, #fff);
-    text-align: left;
-}
-
 .page-builder-layout-option:hover,
 .page-builder-layout-option:focus-visible {
-    border-color: var(--bs-primary, #0d6efd);
+    border-color: var(--bs-primary) !important;
 }
 
 .page-builder-layout-preview {
-    display: flex;
     gap: 3px;
     height: 1.5rem;
 }
@@ -130,19 +138,7 @@
 .page-builder-layout-preview > span {
     flex-basis: 0;
     border-radius: 2px;
-    background: var(--bs-secondary-bg, #e9ecef);
-}
-
-.page-builder-layout-label {
-    font-size: .75rem;
-    line-height: 1.2;
-    color: var(--bs-secondary-color, #6c757d);
-}
-
-@media (min-width: 992px) {
-    .page-builder-columns {
-        grid-template-columns: var(--page-builder-columns, 1fr);
-    }
+    background: var(--bs-secondary-bg);
 }
 
 /* Builder screen: pages sidebar next to the editor */
@@ -150,15 +146,31 @@
     min-width: 0;
 }
 
-.page-builder-pages .list-group-item small {
-    font-size: .75rem;
-}
-
-/* The page list scrolls inside the card, the card header stays in place */
 .page-builder-pages .list-group {
     max-height: 40vh;
     overflow-y: auto;
     overscroll-behavior: contain;
+}
+
+/* Page actions show on hover or keyboard focus, above the page's link */
+.page-builder-page-actions {
+    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .15s ease-in-out, visibility .15s;
+}
+
+.page-builder-page:hover .page-builder-page-actions,
+.page-builder-page:focus-within .page-builder-page-actions {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (hover: none) {
+    .page-builder-page-actions {
+        opacity: 1;
+        visibility: visible;
+    }
 }
 
 @media (min-width: 992px) {
@@ -170,7 +182,7 @@
     }
 
     .page-builder-pages .list-group {
-        max-height: calc(100vh - 12rem);
+        max-height: calc(100vh - 14rem);
     }
 }
 

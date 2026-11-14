@@ -10,15 +10,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (Schema::hasTable('theme_page_layouts')) {
+        if (Schema::hasTable('theme_pages')) {
             return;
         }
 
-        Schema::create('theme_page_layouts', function(Blueprint $table) {
+        Schema::create('theme_pages', function(Blueprint $table) {
             $table->id();
             $table->string('theme_code');
             $table->string('page_code');
             $table->json('sections')->nullable();
+            $table->json('settings')->nullable();
             $table->timestamps();
 
             $table->unique(['theme_code', 'page_code']);
@@ -27,6 +28,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('theme_page_layouts');
+        Schema::dropIfExists('theme_pages');
     }
 };

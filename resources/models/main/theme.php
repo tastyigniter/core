@@ -25,14 +25,6 @@ $config['list']['columns'] = [
             'href' => 'themes/edit/{code}',
         ],
     ],
-    'source' => [
-        'type' => 'button',
-        'iconCssClass' => 'fa fa-file',
-        'attributes' => [
-            'class' => 'btn btn-light mr-2 shadow-none',
-            'href' => 'themes/source/{code}',
-        ],
-    ],
     'builder' => [
         'type' => 'button',
         'iconCssClass' => 'fa fa-table-columns',
@@ -121,11 +113,6 @@ $config['form']['fields'] = [
         'span' => 'right',
         'cssClass' => 'flex-width',
         'disabled' => true,
-    ],
-    'template' => [
-        'label' => 'lang:igniter::system.themes.label_template',
-        'type' => 'templateeditor',
-        'context' => ['source'],
     ],
 ];
 

@@ -10,7 +10,7 @@ use Igniter\Main\Classes\BlockManager;
 use Igniter\Main\Classes\Theme;
 use Igniter\Main\Events\ThemeGetActiveEvent;
 use Igniter\Main\FormWidgets\PageBuilder;
-use Igniter\Main\Models\ThemePageLayout;
+use Igniter\Main\Models\ThemePage;
 use Igniter\System\Facades\Assets;
 use Igniter\Tests\Fixtures\Controllers\TestController;
 use Igniter\Tests\Main\Fixtures\TestTextBlock;
@@ -25,11 +25,11 @@ beforeEach(function() {
     $this->makeWidget = function(array $config = [], mixed $value = null): PageBuilder {
         $formField = new FormField('sections', 'Sections');
         $formField->displayAs('pagebuilder');
-        $formField->arrayName = 'ThemePageLayout';
+        $formField->arrayName = 'ThemePage';
         $formField->value = $value;
 
         return new PageBuilder($this->controller, $formField, array_merge([
-            'model' => new ThemePageLayout,
+            'model' => new ThemePage,
             'themeCode' => 'tests-theme',
             'pageCode' => 'checkout',
         ], $config));
@@ -58,6 +58,48 @@ it('throws an exception when the theme is not found', function() {
         ->toThrow(FlashException::class, 'Theme [missing-theme] not found.');
 });
 
+it('takes the theme and page from a page layout model', function() {
+    $widget = ($this->makeWidget)([
+        'themeCode' => null,
+        'pageCode' => null,
+        'model' => new ThemePage(['theme_code' => 'tests-theme', 'page_code' => 'home']),
+    ]);
+
+    expect($widget->getTheme()->getName())->toBe('tests-theme')
+        ->and($widget->pageCode)->toBe('home');
+});
+
+it('renders the pages list and toolbar only with showPages', function() {
+    $html = ($this->makeWidget)()->render();
+
+    expect($html)->not->toContain('data-page-builder-pages')
+        ->not->toContain('onSavePage');
+
+    $html = ($this->makeWidget)(['showPages' => true])->render();
+
+    expect($html)->toContain('data-page-builder-pages')
+        ->toContain('data-request="pagebuilder::onSavePage"')
+        ->toContain('data-request="pagebuilder::onResetPage"')
+        ->toContain('Checkout sections')
+        ->toContain('themes/builder/tests-theme/home');
+});
+
+it('refuses the page handlers without showPages', function() {
+    expect(fn() => ($this->makeWidget)()->onResetPage())
+        ->toThrow(FlashException::class, 'Page [checkout] cannot be edited with the page builder.');
+});
+
+it('loads the record editor script with showPages', function() {
+    $widget = ($this->makeWidget)(['showPages' => true]);
+    $widget->assetPath = [];
+
+    Assets::shouldReceive('addCss')->once()->with('pagebuilder.css', 'pagebuilder-css');
+    Assets::shouldReceive('addJs')->once()->with('pagebuilder.js', 'pagebuilder-js');
+    Assets::shouldReceive('addJs')->once()->withArgs(fn(string $path, string $name): bool => str_ends_with($path, 'js/formwidgets/recordeditor.modal.js') && $name === 'recordeditor-modal-js');
+
+    $widget->loadAssets();
+});
+
 it('loads assets', function() {
     $widget = ($this->makeWidget)();
     $widget->assetPath = [];
@@ -79,7 +121,7 @@ it('renders the editor with sections and config', function() {
     $html = $widget->render();
 
     expect($html)->toContain('data-control="page-builder"')
-        ->toContain('name="ThemePageLayout[sections]"')
+        ->toContain('name="ThemePage[sections]"')
         ->toContain('data-page-builder-add-section="center-3"')
         ->toContain('b_form')
         ->and($widget->vars['editorConfig']['summaries'])->toBe(['b_form' => '', 'b_text' => 'Sidebar title'])
@@ -192,7 +234,7 @@ it('loads and validates the section settings form', function() {
 });
 
 it('builds settings forms with their own model, not the parent form model', function() {
-    $parentModel = new ThemePageLayout(['theme_code' => 'tests-theme', 'page_code' => 'home']);
+    $parentModel = new ThemePage(['theme_code' => 'tests-theme', 'page_code' => 'home']);
     $models = [];
     Event::listen('admin.form.extendFieldsBefore', function($form) use (&$models) {
         $models[$form->alias] = $form->model;
@@ -205,7 +247,7 @@ it('builds settings forms with their own model, not the parent form model', func
     $widget->onLoadBlockForm();
 
     expect($models)->toHaveKeys(['pagebuilderAssetsForm', 'pagebuilderBlockForm'])
-        ->and($models['pagebuilderAssetsForm'])->toBeInstanceOf(ThemePageLayout::class)->not->toBe($parentModel)
+        ->and($models['pagebuilderAssetsForm'])->toBeInstanceOf(ThemePage::class)->not->toBe($parentModel)
         ->and($models['pagebuilderBlockForm'])->not->toBe($parentModel)
         ->and($models['pagebuilderBlockForm']->exists)->toBeFalse();
 });

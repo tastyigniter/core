@@ -102,7 +102,7 @@
                     group: 'page-builder-blocks-' + this.config.alias,
                     handle: '[data-block-handle]',
                     draggable: '[data-block]',
-                    ghostClass: 'is-ghost',
+                    ghostClass: 'opacity-50',
                     animation: 150,
                     onMove: (event) => this.canMoveBlock(event.dragged, event.to),
                     onEnd: () => this.syncFromDom(),
@@ -118,12 +118,19 @@
 
             element.dataset.blockId = block.id
             element.dataset.blockCode = block.code
-            element.querySelector('[data-block-icon]').className = 'page-builder-block-icon ' + (definition.icon || 'fa fa-cube')
+            element.querySelector('[data-block-icon]').className = 'fa-fw text-body-secondary ' + (definition.icon || 'fa fa-cube')
             element.querySelector('[data-block-name]').textContent = definition.name
             element.querySelector('[data-block-summary]').textContent = this.summaries[block.id] || ''
             element.querySelector('[data-block-required]').hidden = !definition.required
             element.querySelector('[data-block-action="remove"]').hidden = !!definition.required
-            element.querySelector('[data-block-action="edit"]').hidden = !definition.hasFields
+
+            // The whole block opens its settings, so it acts as a button when it has any.
+            if (definition.hasFields) {
+                element.classList.add('is-editable')
+                element.tabIndex = 0
+                element.setAttribute('role', 'button')
+                element.setAttribute('aria-label', this.config.messages.editBlock.replace(':name', definition.name))
+            }
 
             return element
         }
@@ -140,6 +147,7 @@
                 button.type = 'button'
                 button.className = 'dropdown-item'
                 button.dataset.addBlock = definition.code
+                item.dataset.search = (definition.name + ' ' + (definition.description || '')).toLowerCase()
                 button.disabled = (definition.unique && usedCodes.has(definition.code))
                     || (definition.wide && !isWideColumn)
 
@@ -150,7 +158,7 @@
 
                 if (definition.description) {
                     const description = document.createElement('small')
-                    description.className = 'text-muted'
+                    description.className = 'd-block text-wrap text-body-secondary'
                     description.textContent = definition.description
                     button.append(description)
                 }
@@ -161,6 +169,23 @@
             })
 
             menu.replaceChildren(...items)
+
+            const search = menu.closest('.dropdown-menu').querySelector('[data-column-block-search]')
+            if (search && search.value) this.filterBlockMenu(search)
+        }
+
+        // Shows the blocks whose name or description contains every word searched for.
+        filterBlockMenu(search) {
+            const picker = search.closest('.dropdown-menu')
+            const words = search.value.toLowerCase().split(/\s+/).filter(Boolean)
+            let shown = 0
+
+            picker.querySelectorAll('[data-column-block-menu] > li').forEach((item) => {
+                item.hidden = !words.every((word) => item.dataset.search.includes(word))
+                if (!item.hidden) shown++
+            })
+
+            picker.querySelector('[data-column-block-empty]').hidden = shown > 0
         }
 
         sectionSummary(section) {
@@ -509,9 +534,13 @@
 
                 const blockAction = event.target.closest('[data-block-action]')
                 if (blockAction) {
-                    const blockId = blockAction.closest('[data-block]').dataset.blockId
-                    if (blockAction.dataset.blockAction === 'edit') this.editBlock(blockId)
-                    if (blockAction.dataset.blockAction === 'remove') this.removeBlock(blockId)
+                    if (blockAction.dataset.blockAction === 'remove') this.removeBlock(blockAction.closest('[data-block]').dataset.blockId)
+                    return
+                }
+
+                const editableBlock = event.target.closest('[data-block].is-editable')
+                if (editableBlock && !event.target.closest('[data-block-handle]')) {
+                    this.editBlock(editableBlock.dataset.blockId)
                     return
                 }
 
@@ -521,6 +550,37 @@
                     if (sectionAction.dataset.sectionAction === 'duplicate') this.duplicateSection(sectionId)
                     if (sectionAction.dataset.sectionAction === 'remove') this.removeSection(sectionId)
                 }
+            })
+
+            this.element.addEventListener('input', (event) => {
+                if (event.target.matches('[data-column-block-search]')) this.filterBlockMenu(event.target)
+            })
+
+            // Open the block picker with an empty search, ready to type in.
+            this.element.addEventListener('shown.bs.dropdown', (event) => {
+                const search = event.target.closest('.dropdown')?.querySelector('[data-column-block-search]')
+                if (!search) return
+
+                search.value = ''
+                this.filterBlockMenu(search)
+                search.focus()
+            })
+
+            this.element.addEventListener('keydown', (event) => {
+                // Enter in the search adds the first block that can be added.
+                if (event.key === 'Enter' && event.target.matches('[data-column-block-search]')) {
+                    event.preventDefault()
+                    const first = event.target.closest('.dropdown-menu')
+                        .querySelector('[data-column-block-menu] > li:not([hidden]) [data-add-block]:not(:disabled)')
+                    first?.click()
+                    return
+                }
+
+                if (event.key !== 'Enter' && event.key !== ' ') return
+                if (!event.target.matches('[data-block].is-editable')) return
+
+                event.preventDefault()
+                this.editBlock(event.target.dataset.blockId)
             })
 
             this.element.addEventListener('change', (event) => {

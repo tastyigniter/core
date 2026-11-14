@@ -137,6 +137,16 @@ abstract class BaseExtension extends EventServiceProvider
     }
 
     /**
+     * Registers mail builder blocks implemented in this extension, as a list
+     * of block class names or instances:
+     * [OrderSummary::class, ReservationDetails::class]
+     */
+    public function registerMailBlocks(): array
+    {
+        return [];
+    }
+
+    /**
      * Registers back-end navigation menu items for this extension.
      */
     public function registerNavigation(): array
@@ -189,10 +199,26 @@ abstract class BaseExtension extends EventServiceProvider
      * The templates must be returned in the following format:
      * [
      *  'igniter.demo::mail.registration' => 'Registration email to customer.',
+     *  'igniter.demo::mail.order' => [
+     *      'label' => 'Order email to customer.',
+     *      'variables' => ['igniter.demo::default.text_group_order'],
+     *  ],
      * ]
-     * The array key will be used as the template code
+     * The array key will be used as the template code. The variables are the
+     * variable groups the template may use in the mail builder, in addition to
+     * the global variables.
      */
     public function registerMailTemplates(): array
+    {
+        return [];
+    }
+
+    /**
+     * Registers mail variables used by the templates of this extension, keyed
+     * by variable group:
+     * ['igniter.demo::default.text_group_order' => ['{{ $order_number }}' => 'igniter.demo::default.text_order_number']]
+     */
+    public function registerMailVariables(): array
     {
         return [];
     }

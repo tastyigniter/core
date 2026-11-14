@@ -114,6 +114,11 @@
     // ============================
 
     FormWidget.prototype.onTabShown = function (event) {
+        // Forms shown in a modal do not remember their tab, so switching tabs sends nothing.
+        if (this.options.storeActiveTab === false) {
+            return
+        }
+
         var selectedTab = $(event.target).attr('href')
 
         this.$form.request(this.options.alias + '::onActiveTab', {
@@ -154,6 +159,7 @@
 
     FormWidget.DEFAULTS = {
         alias: null,
+        storeActiveTab: true,
         refreshData: {}
     }
 

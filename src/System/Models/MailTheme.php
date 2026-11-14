@@ -18,6 +18,9 @@ use Override;
  * @property int $id
  * @property string $item
  * @property array<array-key, mixed>|null $data
+ * @method static mixed get(string $key, mixed $default = null)
+ * @method static bool set(string|array $key, mixed $value = null)
+ * @method static static instance()
  * @method static Builder<static>|MailTheme applyFilters(array $options = [])
  * @method static Builder<static>|MailTheme applySorts(array $sorts = [])
  * @method static Builder<static>|MailTheme listFrontEnd(array $options = [])
@@ -30,13 +33,13 @@ class MailTheme extends Model
 {
     public const WHITE_COLOR = '#fff';
 
-    public const BODY_BG = '#f5f8fa';
+    public const BODY_BG = '#f5f5f5';
 
-    public const PRIMARY_BG = '#3498db';
+    public const PRIMARY_BG = '#3097d1';
 
-    public const POSITIVE_BG = '#31ac5f';
+    public const POSITIVE_BG = '#2ab27b';
 
-    public const NEGATIVE_BG = '#ab2a1c';
+    public const NEGATIVE_BG = '#bf5329';
 
     public const HEADER_COLOR = '#bbbfc3';
 
@@ -44,7 +47,7 @@ class MailTheme extends Model
 
     public const TEXT_COLOR = '#74787e';
 
-    public const LINK_COLOR = '#0181b9';
+    public const LINK_COLOR = '#3869d4';
 
     public const FOOTER_COLOR = '#aeaeae';
 
@@ -95,8 +98,12 @@ class MailTheme extends Model
         Cache::forget(self::instance()->cacheKey);
     }
 
-    public static function renderCss()
+    public static function renderCss(array $overrides = [])
     {
+        if ($overrides !== []) {
+            return self::compileCss($overrides);
+        }
+
         $cacheKey = self::instance()->cacheKey;
         if (Cache::has($cacheKey)) {
             return Cache::get($cacheKey);
@@ -112,7 +119,10 @@ class MailTheme extends Model
         return $customCss;
     }
 
-    protected static function getCssVars(): array
+    /**
+     * The theme colours with their default values.
+     */
+    public static function getCssVars(): array
     {
         return [
             'body_bg' => static::BODY_BG,
@@ -136,20 +146,42 @@ class MailTheme extends Model
         ];
     }
 
-    protected static function makeCssVars(): array
+    /**
+     * The saved theme colours, with overrides applied. Values that are not hex
+     * colours fall back to the default.
+     *
+     * @param array<string, mixed> $overrides Colours keyed by variable name, e.g. panel_bg
+     */
+    public static function makeCssVars(array $overrides = []): array
     {
         $result = [];
         foreach (static::getCssVars() as $var => $default) {
+            $value = $overrides[$var] ?? self::get($var, $default);
             // panel_bg -> panel-bg
-            $cssVar = str_replace('_', '-', $var);
-            $result[$cssVar] = self::get($var, $default);
+            $result[str_replace('_', '-', $var)] = static::isColor($value) ? strtolower((string)$value) : $default;
         }
 
         return $result;
     }
 
-    public static function compileCss()
+    /**
+     * The mail CSS with the theme colours written in. Email clients do not
+     * support CSS custom properties, so values replace `__panel-bg__` tokens.
+     */
+    public static function compileCss(array $overrides = []): string
     {
-        return File::get(File::symbolizePath('igniter::views/system/_mail/themes/default.css'));
+        $css = File::get(File::symbolizePath('igniter::views/system/_mail/themes/default.css'));
+
+        $replace = [];
+        foreach (static::makeCssVars($overrides) as $var => $value) {
+            $replace['__'.$var.'__'] = $value;
+        }
+
+        return strtr($css, $replace);
+    }
+
+    public static function isColor(mixed $value): bool
+    {
+        return is_string($value) && preg_match('/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i', $value) === 1;
     }
 }

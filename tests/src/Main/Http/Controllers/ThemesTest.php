@@ -8,6 +8,7 @@ use Igniter\Main\Classes\Theme;
 use Igniter\Main\Classes\ThemeManager;
 use Igniter\Main\Models\Theme as ThemeModel;
 use Igniter\System\Facades\Assets;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 it('loads themes index page', function() {
     actingAsSuperUser()
@@ -25,14 +26,12 @@ it('loads customise theme page', function() {
         ->assertStatus(200);
 });
 
-it('loads edit theme template file page', function() {
-    ThemeModel::factory()->findOrCreateTestTheme(['data' => ['field1' => 'value1']]);
-    $theme = resolve(ThemeManager::class)->findTheme('tests-theme');
-    $theme->locked = true;
+it('no longer serves the template source page', function() {
+    ThemeModel::factory()->findOrCreateTestTheme();
 
     actingAsSuperUser()
         ->get(route('igniter.main.themes', ['slug' => 'source/tests-theme']))
-        ->assertStatus(200);
+        ->assertDontSee('templateeditor');
 });
 
 it('redirects when unable to delete an active theme', function() {
@@ -89,17 +88,6 @@ it('resets theme customisation settings', function() {
     expect(ThemeModel::where('code', 'tests-theme')->first()->data)->toBe([]);
 });
 
-it('edits theme template file content', function() {
-    ThemeModel::factory()->findOrCreateTestTheme(['status' => 1]);
-
-    actingAsSuperUser()
-        ->post(route('igniter.main.themes', ['slug' => 'source/tests-theme']), ['markup' => 'new content'], [
-            'X-Requested-With' => 'XMLHttpRequest',
-            'X-IGNITER-REQUEST-HANDLER' => 'onSave',
-        ])
-        ->assertSee('X_IGNITER_REDIRECT');
-});
-
 it('hides the child theme button when the theme disables child themes', function() {
     ThemeModel::factory()->findOrCreateTestTheme();
     $theme = resolve(ThemeManager::class)->findTheme('tests-theme');
@@ -117,7 +105,7 @@ it('refuses to create a child theme when the theme disables it', function() {
     resolve(ThemeManager::class)->findTheme('tests-theme')->child = false;
 
     actingAsSuperUser()
-        ->post(route('igniter.main.themes', ['slug' => 'source/tests-theme']), [], [
+        ->post(route('igniter.main.themes', ['slug' => 'edit/tests-theme']), [], [
             'X-Requested-With' => 'XMLHttpRequest',
             'X-IGNITER-REQUEST-HANDLER' => 'onCreateChild',
         ])
@@ -133,7 +121,7 @@ it('creates child theme', function() {
     $themeManager->shouldReceive('findTheme')->andReturn(new Theme(__DIR__));
 
     actingAsSuperUser()
-        ->post(route('igniter.main.themes', ['slug' => 'source/tests-theme']), [], [
+        ->post(route('igniter.main.themes', ['slug' => 'edit/tests-theme']), [], [
             'X-Requested-With' => 'XMLHttpRequest',
             'X-IGNITER-REQUEST-HANDLER' => 'onCreateChild',
         ])
@@ -164,4 +152,33 @@ it('deletes theme correctly', function() {
             'X-IGNITER-REQUEST-HANDLER' => 'onDelete',
         ])
         ->assertSee('X_IGNITER_REDIRECT');
+});
+
+it('lists themes without inlining their screenshots', function() {
+    actingAsSuperUser()
+        ->get(route('igniter.main.themes'))
+        ->assertOk()
+        ->assertDontSee('data:image/png;base64', false);
+});
+
+it('serves a theme screenshot for the themes list', function() {
+    $path = sys_get_temp_dir().'/screenshot-theme-'.uniqid();
+    mkdir($path);
+    file_put_contents($path.'/screenshot.png', base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='));
+    resolve(ThemeManager::class)->themes['screenshot-theme'] = new Theme($path, ['code' => 'screenshot-theme']);
+
+    $response = actingAsSuperUser()->get(admin_url('themes/screenshot/screenshot-theme'));
+
+    expect($response->baseResponse)->toBeInstanceOf(BinaryFileResponse::class)
+        ->and($response->headers->get('Content-Type'))->toBe('image/png')
+        ->and($response->headers->get('Cache-Control'))->toContain('max-age=604800')
+        ->and((new ThemeModel(['code' => 'screenshot-theme']))->screenshot_url)->toContain('themes/screenshot/screenshot-theme?v=')
+        ->and((new ThemeModel(['code' => 'tests-theme']))->screenshot_url)->toBeNull();
+
+    unlink($path.'/screenshot.png');
+    rmdir($path);
+});
+
+it('returns not found for a theme screenshot that does not exist', function() {
+    actingAsSuperUser()->get(admin_url('themes/screenshot/missing-theme'))->assertNotFound();
 });

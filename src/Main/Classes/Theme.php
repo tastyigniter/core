@@ -24,6 +24,9 @@ use RuntimeException;
 
 class Theme
 {
+    /** The markup of a page made with the page builder: only its blocks. */
+    public const string BUILDER_PAGE_MARKUP = '@themeBlocks';
+
     /** The theme name */
     public ?string $name = null;
 
@@ -75,6 +78,8 @@ class Theme
     protected ?array $formConfigCache = null;
 
     protected ?array $builderConfigCache = null;
+
+    protected ?array $builderPageFilesCache = null;
 
     protected ?string $screenshotData = null;
 
@@ -346,30 +351,78 @@ class Theme
     }
 
     /**
-     * Returns the pages that can be edited with the page builder, keyed by page code.
+     * Returns the pages that can be edited with the page builder, keyed by page code:
+     * the pages the theme lists in its meta/builder.php, then the page files made
+     * with the page builder (pages whose markup is only the blocks).
      *
-     * @return array<string, array{label: string, required: list<string>, default: array}>
+     * @return array<string, array{label: string, required: list<string>, default: array, custom: bool}>
      */
     public function getBuildablePages(): array
     {
         $pages = [];
-        foreach ($this->getBuilderConfig()['pages'] as $code => $page) {
+        foreach (array_get($this->getBuilderConfig(), 'pages', []) as $code => $page) {
             $pages[$code] = [
                 'label' => (string)array_get($page, 'label', $code),
                 'required' => array_values((array)array_get($page, 'required', [])),
                 'default' => (array)array_get($page, 'default', []),
+                'custom' => false,
             ];
+        }
+
+        foreach ($this->getBuilderPageFiles() as $code => $label) {
+            $pages[$code] ??= ['label' => $label, 'required' => [], 'default' => [], 'custom' => true];
         }
 
         return $pages;
     }
 
     /**
-     * @return array{label: string, required: list<string>, default: array}|null
+     * Page files that render page builder blocks, as page code => title.
+     *
+     * @return array<string, string>
+     */
+    public function getBuilderPageFiles(): array
+    {
+        if (!is_null($this->builderPageFilesCache)) {
+            return $this->builderPageFilesCache;
+        }
+
+        $pages = [];
+        foreach (PageTemplate::listInTheme($this) as $page) {
+            if (trim((string)$page->getMarkup()) === self::BUILDER_PAGE_MARKUP) {
+                $pages[(string)$page->getKey()] = (string)($page->title ?: $page->getKey());
+            }
+        }
+
+        return $this->builderPageFilesCache = $pages;
+    }
+
+    /**
+     * Whether pages can be added to the theme with the page builder: its files can be
+     * written and it has a layout to render them in.
+     */
+    public function canAddBuilderPages(): bool
+    {
+        return !$this->locked && LayoutTemplate::listInTheme($this)->isNotEmpty();
+    }
+
+    /**
+     * The page file of a builder page, when the theme renders it from one.
+     */
+    public function findPageFile(string $pageCode): ?PageTemplate
+    {
+        /** @var null|PageTemplate $page */
+        $page = $this->onTemplate(PageTemplate::DIR_NAME)->find(str_replace('.', '/', $pageCode));
+
+        return $page;
+    }
+
+    /**
+     * @return array{label: string, required: list<string>, default: array, custom: bool}|null
      */
     public function getBuildablePage(string $pageCode): ?array
     {
-        return $this->getBuildablePages()[$pageCode] ?? null;
+        return array_get($this->getBuildablePages(), $pageCode);
     }
 
     public function hasFormConfig(): bool

@@ -6,8 +6,8 @@ body, body *:not(html):not(style):not(br):not(tr):not(code) {
 }
 
 body {
-  background-color: #F5F5F5;
-  color: #74787E;
+  background-color: __body-bg__;
+  color: __text-color__;
   height: 100%;
   hyphens: auto;
   line-height: 1.4;
@@ -30,7 +30,7 @@ blockquote {
 }
 
 a {
-  color: #3869D4;
+  color: __link-color__;
 }
 
 a img {
@@ -40,7 +40,7 @@ a img {
 /* Typography */
 
 h1 {
-  color: #2F3133;
+  color: __heading-color__;
   font-size: 19px;
   font-weight: bold;
   margin-top: 0;
@@ -48,7 +48,7 @@ h1 {
 }
 
 h2 {
-  color: #2F3133;
+  color: __heading-color__;
   font-size: 16px;
   font-weight: bold;
   margin-top: 0;
@@ -56,7 +56,7 @@ h2 {
 }
 
 h3 {
-  color: #2F3133;
+  color: __heading-color__;
   font-size: 14px;
   font-weight: bold;
   margin-top: 0;
@@ -64,7 +64,7 @@ h3 {
 }
 
 p {
-  color: #74787E;
+  color: __text-color__;
   font-size: 16px;
   line-height: 1.5em;
   margin-top: 0;
@@ -82,7 +82,7 @@ img {
 /* Layout */
 
 .wrapper {
-  background-color: #F5F5F5;
+  background-color: __body-bg__;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -108,7 +108,7 @@ img {
 }
 
 .header a {
-  color: #bbbfc3;
+  color: __header-color__;
   font-size: 19px;
   font-weight: bold;
   text-decoration: none;
@@ -118,7 +118,7 @@ img {
 /* Body */
 
 .body {
-  background-color: #F5F5F5;
+  background-color: __body-bg__;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -128,7 +128,7 @@ img {
 }
 
 .inner-body {
-  background-color: #FFFFFF;
+  background-color: __content-inner-bg__;
   margin: 0 auto;
   padding: 0;
   width: 570px;
@@ -140,7 +140,7 @@ img {
 /* Subcopy */
 
 .subcopy {
-  border-top: 1px solid #EDEFF2;
+  border-top: 1px solid __subcopy-border-color__;
   margin-top: 25px;
   padding-top: 25px;
 }
@@ -162,7 +162,7 @@ img {
 }
 
 .footer p {
-  color: #AEAEAE;
+  color: __footer-color__;
   font-size: 12px;
   text-align: center;
 }
@@ -178,13 +178,13 @@ img {
 }
 
 .table th {
-  border-bottom: 1px solid #EDEFF2;
+  border-bottom: 1px solid __table-border-color__;
   padding-bottom: 8px;
   margin: 0;
 }
 
 .table td {
-  color: #74787E;
+  color: __text-color__;
   font-size: 15px;
   line-height: 18px;
   padding: 10px 0;
@@ -210,34 +210,34 @@ img {
 .button {
   border-radius: 3px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);
-  color: #FFF;
+  color: __button-text-color__;
   display: inline-block;
   text-decoration: none;
   -webkit-text-size-adjust: none;
 }
 
 .button-blue, .button-primary {
-  background-color: #3097D1;
-  border-top: 10px solid #3097D1;
-  border-right: 18px solid #3097D1;
-  border-bottom: 10px solid #3097D1;
-  border-left: 18px solid #3097D1;
+  background-color: __button-primary-bg__;
+  border-top: 10px solid __button-primary-bg__;
+  border-right: 18px solid __button-primary-bg__;
+  border-bottom: 10px solid __button-primary-bg__;
+  border-left: 18px solid __button-primary-bg__;
 }
 
 .button-green, .button-success {
-  background-color: #2ab27b;
-  border-top: 10px solid #2ab27b;
-  border-right: 18px solid #2ab27b;
-  border-bottom: 10px solid #2ab27b;
-  border-left: 18px solid #2ab27b;
+  background-color: __button-positive-bg__;
+  border-top: 10px solid __button-positive-bg__;
+  border-right: 18px solid __button-positive-bg__;
+  border-bottom: 10px solid __button-positive-bg__;
+  border-left: 18px solid __button-positive-bg__;
 }
 
 .button-red, .button-danger {
-  background-color: #bf5329;
-  border-top: 10px solid #bf5329;
-  border-right: 18px solid #bf5329;
-  border-bottom: 10px solid #bf5329;
-  border-left: 18px solid #bf5329;
+  background-color: __button-negative-bg__;
+  border-top: 10px solid __button-negative-bg__;
+  border-right: 18px solid __button-negative-bg__;
+  border-bottom: 10px solid __button-negative-bg__;
+  border-left: 18px solid __button-negative-bg__;
 }
 
 /* Panels */
@@ -247,7 +247,7 @@ img {
 }
 
 .panel-content {
-  background-color: #EDEFF2;
+  background-color: __panel-bg__;
   padding: 16px;
 }
 
@@ -263,8 +263,8 @@ img {
 /* Promotions */
 
 .promotion {
-  background-color: #FFFFFF;
-  border: 2px dashed #9BA2AB;
+  background-color: __promotion-bg__;
+  border: 2px dashed __promotion-border-color__;
   margin: 0;
   margin-bottom: 25px;
   margin-top: 25px;
@@ -282,4 +282,16 @@ img {
 .promotion p {
   font-size: 15px;
   text-align: center;
+}
+/* Narrow screens: the email shrinks to fit instead of scrolling sideways */
+
+@media only screen and (max-width: 600px) {
+  .inner-body,
+  .footer {
+    width: 100% !important;
+  }
+
+  .content-cell {
+    padding: 20px !important;
+  }
 }

@@ -19,10 +19,9 @@ it('returns correct validation rules', function() {
     $rules = (new MailTemplateRequest)->rules();
 
     expect($rules['label'])->toContain('required', 'string')
-        ->and($rules['subject'])->toContain('required', 'string')
+        ->and($rules['subject'])->toContain('required', 'string', 'max:255')
         ->and($rules['code'])->toContain('sometimes', 'required', 'min:2', 'max:255', 'regex:/^[a-z-_\.\:]+$/i')
         ->and($rules['code'][4]->__toString())->toBe('unique:mail_templates,code,NULL,template_id')
         ->and($rules['layout_id'])->toContain('nullable', 'integer')
-        ->and($rules['plain_body'])->toContain('nullable', 'string')
-        ->and($rules['body'])->toContain('string');
+        ->and($rules)->not->toHaveKeys(['body', 'plain_body']);
 });

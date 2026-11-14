@@ -26,6 +26,7 @@ use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Main\Models\Theme;
 use Igniter\System\DashboardWidgets\Cache;
 use Igniter\System\DashboardWidgets\News;
+use Igniter\System\FormWidgets\MailBuilder;
 use Igniter\System\Models\Settings;
 use Illuminate\Support\ServiceProvider;
 use Override;
@@ -98,6 +99,11 @@ class FormServiceProvider extends ServiceProvider
             $manager->registerFormWidget(CodeEditor::class, [
                 'label' => 'Code editor',
                 'code' => 'codeeditor',
+            ]);
+
+            $manager->registerFormWidget(MailBuilder::class, [
+                'label' => 'Mail builder',
+                'code' => 'mailbuilder',
             ]);
 
             $manager->registerFormWidget(ColorPicker::class, [

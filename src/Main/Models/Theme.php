@@ -327,6 +327,7 @@ class Theme extends Model
     public static function clearThemeInstances(): void
     {
         self::$instances = [];
+        ThemePage::clearSettingsCache();
     }
 
     /**

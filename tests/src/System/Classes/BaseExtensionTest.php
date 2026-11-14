@@ -7,6 +7,7 @@ namespace Igniter\Tests\System\Classes;
 use Facades\Igniter\System\Helpers\SystemHelper;
 use Igniter\Flame\Support\Facades\File;
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\System\Classes\BaseExtension;
 use Igniter\Tests\System\Fixtures\TestExtension;
 use Illuminate\Console\Scheduling\Schedule;
 use Mockery;
@@ -65,4 +66,11 @@ it('defines registration methods', function() {
         ->and($extension->registerFormWidgets())->toBeArray()
         ->and($extension->registerValidationRules())->toBeArray()
         ->and($extension->registerSettings())->toBeArray();
+});
+
+it('registers no mail blocks or variables by default', function() {
+    $extension = new class(app()) extends BaseExtension {};
+
+    expect($extension->registerMailBlocks())->toBe([])
+        ->and($extension->registerMailVariables())->toBe([]);
 });

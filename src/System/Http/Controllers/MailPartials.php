@@ -9,11 +9,17 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Http\Actions\FormController;
 use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
+use Igniter\Flame\Database\Model;
+use Igniter\System\Http\Controllers\Concerns\HasMailBuilder;
 use Igniter\System\Http\Requests\MailPartialRequest;
 use Igniter\System\Models\MailPartial;
 
 class MailPartials extends AdminController
 {
+    use HasMailBuilder;
+
+    protected string $mailBuilderUrl = 'mail_partials';
+
     public array $implement = [
         ListController::class,
         FormController::class,
@@ -36,7 +42,7 @@ class MailPartials extends AdminController
         'request' => MailPartialRequest::class,
         'create' => [
             'title' => 'lang:igniter::system.mail_templates.text_new_partial_title',
-            'redirect' => 'mail_partials/edit/{partial_id}',
+            'redirect' => 'mail_partials/builder/{partial_id}',
             'redirectClose' => 'mail_partials',
             'redirectNew' => 'mail_partials/create',
         ],
@@ -67,14 +73,38 @@ class MailPartials extends AdminController
 
     public function formExtendFields(Form $form): void
     {
-        if ($form->context != 'create') {
-            $field = $form->getField('code');
+        if ($form->context != 'create' && $field = $form->getField('code')) {
             $field->disabled = true;
         }
     }
 
     public function formBeforeSave(MailPartial $model): void
     {
-        $model->is_custom = true;
+        $model->setAttribute('is_custom', true);
+    }
+
+    protected function mailBuilderFields(): array
+    {
+        return [
+            'blocks' => [
+                'type' => 'mailbuilder',
+                'mode' => 'partial',
+            ],
+        ];
+    }
+
+    protected function mailBuilderBeforeSave(Model $model): void
+    {
+        $model->setAttribute('is_custom', true);
+    }
+
+    protected function mailBuilderIsRegistered(Model $model): bool
+    {
+        return $model instanceof MailPartial && !is_null($model->getRegisteredView());
+    }
+
+    protected function mailBuilderResync(): void
+    {
+        MailPartial::createPartials();
     }
 }
