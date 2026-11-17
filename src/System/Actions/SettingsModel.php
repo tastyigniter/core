@@ -29,6 +29,11 @@ class SettingsModel extends ModelAction
      */
     protected static $instances = [];
 
+    /**
+     * @var array<string, Model|null> Internal cache of settings records, null when none is saved.
+     */
+    protected static array $records = [];
+
     protected array $requiredProperties = ['settingsFieldsConfig', 'settingsCode'];
 
     /**
@@ -59,6 +64,7 @@ class SettingsModel extends ModelAction
         $this->model->bindEvent('model.afterSave', $this->afterModelSave(...));
         $this->model->bindEvent('model.setAttribute', $this->setSettingsValue(...));
         $this->model->bindEvent('model.saveInternal', $this->saveModelInternal(...));
+        $this->model->bindEvent('model.afterDelete', $this->afterModelDelete(...));
 
         $this->recordCode = $this->model->settingsCode;
     }
@@ -89,7 +95,7 @@ class SettingsModel extends ModelAction
             $record->delete();
             $this->fieldValues = [];
             $this->model->data = [];
-            unset(self::$instances[$this->recordCode]);
+            unset(self::$instances[$this->recordCode], self::$records[$this->recordCode]);
         }
     }
 
@@ -102,14 +108,19 @@ class SettingsModel extends ModelAction
     }
 
     /**
-     * Returns the raw Model record that stores the settings.
+     * Returns the raw Model record that stores the settings, queried once
+     * per request so isConfigured() and instance() share one lookup.
      */
     public function getSettingsRecord(): ?Model
     {
-        /** @var Model $model */
+        if (array_key_exists($this->recordCode, self::$records)) {
+            return self::$records[$this->recordCode];
+        }
+
+        /** @var Model|null $model */
         $model = $this->model->where('item', $this->recordCode)->first();
 
-        return $model;
+        return self::$records[$this->recordCode] = $model;
     }
 
     /**
@@ -201,6 +212,15 @@ class SettingsModel extends ModelAction
     public function afterModelSave(): void
     {
         $this->model->setRawAttributes(array_merge($this->fieldValues, $this->model->getAttributes()));
+        self::$records[$this->recordCode] = $this->model;
+    }
+
+    /**
+     * After the record is deleted, forget the cached record and instance.
+     */
+    public function afterModelDelete(): void
+    {
+        unset(self::$instances[$this->recordCode], self::$records[$this->recordCode]);
     }
 
     /**
@@ -230,5 +250,6 @@ class SettingsModel extends ModelAction
     public static function clearInternalCache(): void
     {
         self::$instances = [];
+        self::$records = [];
     }
 }
