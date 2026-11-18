@@ -44,6 +44,7 @@ it('returns menus page options when theme is active', function() {
     $themeManager = mock(ThemeManager::class);
     app()->instance(ThemeManager::class, $themeManager);
     $themeManager->shouldReceive('getActiveThemeCode')->andReturn('test_theme');
+    $themeManager->shouldReceive('findTheme')->with('test_theme')->andReturnNull();
 
     $result = Settings::getMenusPageOptions();
 
@@ -64,6 +65,7 @@ it('returns reservation page options when theme is active', function() {
     $themeManager = mock(ThemeManager::class);
     app()->instance(ThemeManager::class, $themeManager);
     $themeManager->shouldReceive('getActiveThemeCode')->andReturn('test_theme');
+    $themeManager->shouldReceive('findTheme')->with('test_theme')->andReturnNull();
 
     $result = Settings::getReservationPageOptions();
 
