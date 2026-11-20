@@ -143,6 +143,17 @@ it('renders builder subjects safely', function() {
     expect($manager->renderSubject($legacy, ['name' => 'A & B']))->toBe('Hi A & B');
 });
 
+it('renders custom subjects without builder blocks safely', function() {
+    $manager = resolve(MailManager::class);
+    $manager->registerMailTemplates(['_mail.test' => ['label' => 'Test', 'variables' => ['igniter::system.mail_variables.text_group_order']]]);
+    $template = new MailTemplate(['code' => '_mail.test', 'subject' => 'Order {{ $order_number }} {{ strrev("olleh") }} @php echo 1; @endphp']);
+    $template->is_custom = true;
+
+    expect($template->usesBuilder())->toBeFalse()
+        ->and($manager->renderSubject($template, ['order_number' => '42']))
+        ->toBe('Order 42 {{ strrev("olleh") }} @php echo 1; @endphp');
+});
+
 it('renders drafts with theme overrides', function() {
     $manager = resolve(MailManager::class);
     $layout = new MailLayout([
