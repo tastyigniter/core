@@ -31,6 +31,7 @@ class RequestLogs extends AdminController
     public array $formConfig = [
         'name' => 'lang:igniter::system.request_logs.text_form_name',
         'model' => RequestLog::class,
+        'recordName' => 'id',
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
             'back' => 'request_logs',

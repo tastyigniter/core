@@ -105,3 +105,9 @@ it('tests registerHook', function() {
 it('tests renderStaticCss', function() {
     expect($this->template->renderStaticCss())->toBe('');
 });
+
+it('tests setHeading keeps colons in subheading', function() {
+    $this->template->setHeading('Test Heading:Edit - Name: Value');
+
+    expect($this->template->getHeading())->toBe('Test Heading&nbsp;<small>Edit - Name: Value</small>');
+});

@@ -83,8 +83,8 @@ class Template
 
     public function setHeading(string $heading): void
     {
-        if (strpos($heading, ':')) {
-            [$normal, $small] = explode(':', $heading);
+        if (str_contains($heading, ': ')) {
+            [$normal, $small] = explode(':', $heading, 2);
             $heading = $normal.'&nbsp;<small>'.$small.'</small>';
         }
 

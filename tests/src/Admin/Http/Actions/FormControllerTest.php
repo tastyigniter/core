@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Tests\Admin\Http\Actions;
 
 use Igniter\Admin\Classes\AdminController;
+use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Http\Actions\FormController;
 use Igniter\Admin\Http\Requests\StatusRequest;
 use Igniter\Admin\Models\Status;
@@ -129,6 +130,68 @@ it('runs the edit action', function() {
     expect($this->formController->getFormModel())->toBeInstanceOf(Status::class)
         ->and($this->formController->getFormModel()->getKey())->toBe($recordId)
         ->and($this->formController->getFormContext())->toBe('edit', $recordId);
+});
+
+it('displays record name from config in edit page title and heading', function() {
+    $record = Status::factory()->create(['status_name' => 'Pending <b>']);
+
+    $formConfig = $this->formController->getConfig();
+    $formConfig['recordName'] = 'status_name';
+    $this->formController->setConfig($formConfig);
+
+    $this->formController->edit('edit', $record->getKey());
+
+    expect(Template::getTitle())->toBe('Edit record - Pending <b>')
+        ->and(Template::getHeading())->toBe('Edit record - Pending &lt;b&gt;');
+});
+
+it('displays record name from fallback attribute in preview page title', function() {
+    $record = Status::factory()->create();
+    $record->setAttribute('name', 'Fallback name');
+
+    $controller = new class extends AdminController
+    {
+        public array $implement = [FormController::class];
+
+        public $formConfig = [
+            'name' => 'Controller',
+            'model' => Status::class,
+            'preview' => ['title' => 'Preview record'],
+            'configFile' => ['form' => ['fields' => ['status_name' => []]]],
+        ];
+
+        public $record;
+
+        public function formFindModelObject($recordId)
+        {
+            return $this->record;
+        }
+    };
+    $controller->record = $record;
+
+    (new FormController($controller))->preview('preview', $record->getKey());
+
+    expect(Template::getTitle())->toBe('Preview record - Fallback name');
+});
+
+it('prefixes record name with # when recordName is the primary key', function() {
+    $record = Status::factory()->create();
+
+    $formConfig = $this->formController->getConfig();
+    $formConfig['recordName'] = $record->getKeyName();
+    $this->formController->setConfig($formConfig);
+
+    $this->formController->edit('edit', $record->getKey());
+
+    expect(Template::getTitle())->toBe('Edit record - #'.$record->getKey());
+});
+
+it('does not append record name when no name attribute exists', function() {
+    $record = Status::factory()->create();
+
+    $this->formController->edit('edit', $record->getKey());
+
+    expect(Template::getTitle())->toBe('Edit record');
 });
 
 it('edits an existing record', function() {

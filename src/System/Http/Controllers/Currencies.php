@@ -33,6 +33,7 @@ class Currencies extends AdminController
     public array $formConfig = [
         'name' => 'lang:igniter::system.currencies.text_form_name',
         'model' => Currency::class,
+        'recordName' => 'currency_name',
         'request' => CurrencyRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',

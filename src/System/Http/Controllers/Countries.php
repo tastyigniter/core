@@ -36,6 +36,7 @@ class Countries extends AdminController
     public array $formConfig = [
         'name' => 'lang:igniter::system.countries.text_form_name',
         'model' => Country::class,
+        'recordName' => 'country_name',
         'request' => CountryRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
