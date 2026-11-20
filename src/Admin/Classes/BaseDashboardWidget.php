@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\Admin\Classes;
 
 use Igniter\System\Traits\PropertyContainer;
+use Igniter\User\Facades\AdminAuth;
 
 /**
  * Dashboard Widget base class
@@ -67,5 +68,15 @@ class BaseDashboardWidget extends BaseWidget
     public function getEndDate(): mixed
     {
         return $this->property('endDate');
+    }
+
+    protected function canViewWithPermission(array $config): bool
+    {
+        $permission = array_get($config, 'permission');
+        if (empty($permission)) {
+            return true;
+        }
+
+        return (bool)AdminAuth::getUser()?->hasPermission($permission, false);
     }
 }

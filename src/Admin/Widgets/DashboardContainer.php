@@ -79,6 +79,8 @@ class DashboardContainer extends BaseWidget
         parent::__construct($controller, $config);
 
         $this->fillFromConfig([
+            'canManage',
+            'canSetDefault',
             'previewMode',
             'defaultWidgets',
         ]);
@@ -133,6 +135,8 @@ class DashboardContainer extends BaseWidget
 
     public function onLoadAddPopup(): array
     {
+        $this->assertCanManage();
+
         $this->vars['gridColumns'] = $this->getWidgetPropertyWidthOptions();
         $this->vars['widgets'] = resolve(Widgets::class)->listDashboardWidgets();
 
@@ -141,6 +145,8 @@ class DashboardContainer extends BaseWidget
 
     public function onSelectWidget(): array
     {
+        $this->assertCanManage();
+
         if (empty($widgetAlias = trim((string)post('widget', '')))) {
             throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_add'));
         }
@@ -155,6 +161,8 @@ class DashboardContainer extends BaseWidget
 
     public function onLoadUpdatePopup(): array
     {
+        $this->assertCanManage();
+
         if (empty($widgetAlias = trim((string)post('widgetAlias', '')))) {
             throw new FlashException(lang('igniter::admin.dashboard.alert_select_widget_to_update'));
         }
@@ -168,6 +176,8 @@ class DashboardContainer extends BaseWidget
 
     public function onAddWidget(): array
     {
+        $this->assertCanManage();
+
         $validated = $this->validate(request()->post(), [
             'widget' => ['required', 'alpha_dash'],
         ]);
@@ -208,6 +218,8 @@ class DashboardContainer extends BaseWidget
 
     public function onResetWidgets(): array
     {
+        $this->assertCanManage();
+
         $this->resetWidgets();
 
         $this->resetSession();
@@ -234,6 +246,8 @@ class DashboardContainer extends BaseWidget
 
     public function onUpdateWidget(): array
     {
+        $this->assertCanManage();
+
         throw_if(empty($alias = trim((string)post('alias', ''))),
             FlashException::error(lang('igniter::admin.dashboard.alert_select_widget_to_update'))
         );
@@ -259,6 +273,8 @@ class DashboardContainer extends BaseWidget
 
     public function onRemoveWidget(): void
     {
+        $this->assertCanManage();
+
         $alias = post('alias');
 
         $this->removeWidget($alias);
@@ -280,6 +296,8 @@ class DashboardContainer extends BaseWidget
 
     public function onSetWidgetPriorities(): void
     {
+        $this->assertCanManage();
+
         $validated = $this->validate(request()->post(), [
             'aliases' => ['required', 'array'],
             'aliases.*' => ['alpha_dash'],
@@ -327,6 +345,11 @@ class DashboardContainer extends BaseWidget
     //
     // Helpers
     //
+
+    protected function assertCanManage(): void
+    {
+        throw_unless($this->canManage, new FlashException(lang('igniter::admin.alert_user_restricted')));
+    }
 
     public function getStartDate(): DateTimeInterface
     {

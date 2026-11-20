@@ -8,6 +8,9 @@ use Igniter\Admin\DashboardWidgets\Charts;
 use Igniter\Admin\Http\Controllers\Dashboard;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Models\MailTemplate;
+use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Models\User;
+use Igniter\User\Models\UserRole;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function() {
@@ -160,4 +163,82 @@ it('tests getDatasetOptions', function() {
     expect($options)->toBeArray()->toHaveKey('reports');
 
     Event::assertDispatched('admin.charts.extendDatasets');
+});
+
+function actingAsChartsUser(array $permissions): void
+{
+    $role = UserRole::factory()->create(['permissions' => $permissions]);
+    AdminAuth::shouldReceive('getUser')->andReturn(User::factory()->create(['user_role_id' => $role->getKey()]));
+}
+
+function registerRestrictedChartDatasets(): void
+{
+    Charts::registerDatasets(fn(): array => [
+        'restricted_orders' => [
+            'label' => 'Restricted orders',
+            'permission' => 'Admin.Orders',
+            'datasetFrom' => fn(): array => ['datasets' => [['data' => [['x' => '2021-01-01', 'y' => 10]]]]],
+        ],
+    ]);
+}
+
+it('hides datasets the user lacks permission for from the options', function() {
+    registerRestrictedChartDatasets();
+    actingAsChartsUser(['Admin.Dashboard' => 1]);
+
+    expect($this->charts->getDatasetOptions())->toHaveKey('reports')
+        ->not->toHaveKey('restricted_orders');
+});
+
+it('lists datasets the user has permission for in the options', function() {
+    registerRestrictedChartDatasets();
+    actingAsChartsUser(['Admin.Orders' => 1]);
+
+    expect($this->charts->getDatasetOptions())->toHaveKey('restricted_orders');
+});
+
+it('returns no data for an active dataset the user lacks permission for', function() {
+    registerRestrictedChartDatasets();
+    actingAsChartsUser(['Admin.Dashboard' => 1]);
+
+    $this->charts->setProperty('dataset', 'restricted_orders');
+
+    expect($this->charts->getData())->toBe(['datasets' => []]);
+});
+
+it('returns data for an active dataset the user has permission for', function() {
+    registerRestrictedChartDatasets();
+    actingAsChartsUser(['Admin.Orders' => 1]);
+
+    $this->charts->setProperty('dataset', 'restricted_orders');
+
+    expect($this->charts->getData()['datasets'][0]['data'])->toHaveCount(1);
+});
+
+it('leaves out sets the user lacks permission for', function() {
+    actingAsChartsUser(['Admin.Customers' => 1]);
+
+    $this->charts->addDataset('reports', [
+        'label' => 'Reports',
+        'sets' => [
+            'orders' => [
+                'label' => 'Orders',
+                'model' => MailTemplate::class,
+                'column' => 'created_at',
+                'permission' => 'Admin.Orders',
+            ],
+            'customers' => [
+                'label' => 'Customers',
+                'model' => MailTemplate::class,
+                'column' => 'created_at',
+                'permission' => 'Admin.Customers',
+            ],
+        ],
+    ]);
+
+    $datasets = $this->charts->getData()['datasets'];
+
+    expect($datasets)->toHaveCount(1)
+        ->and($datasets[0]['label'])->toBe('Customers')
+        ->and($datasets[0])->not->toHaveKey('permission');
 });
