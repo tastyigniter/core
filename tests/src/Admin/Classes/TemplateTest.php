@@ -73,7 +73,7 @@ it('tests setHeading', function() {
 });
 
 it('tests setHeading with subheading', function() {
-    $this->template->setHeading('Test Heading:Subheading');
+    $this->template->setHeading('Test Heading: Subheading');
 
     expect($this->template->getHeading())->toBe('Test Heading&nbsp;<small>Subheading</small>');
 });
