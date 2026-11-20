@@ -128,7 +128,7 @@ class Charts extends BaseDashboardWidget
     {
         return array_map(fn($context) => array_get($context, 'label'), array_filter(
             $this->listSets(),
-            fn(array $config): bool => $this->canViewWithPermission($config),
+            $this->canViewWithPermission(...),
         ));
     }
 

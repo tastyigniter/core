@@ -75,7 +75,7 @@ class Statistics extends BaseDashboardWidget
     {
         return array_map(fn($context) => array_get($context, 'label'), array_filter(
             $this->listCards(),
-            fn(array $config): bool => $this->canViewWithPermission($config),
+            $this->canViewWithPermission(...),
         ));
     }
 
