@@ -26,7 +26,7 @@ it('loads template object correctly', function() {
 it('handles valid cache and returns object', function() {
     $model = mock(Model::class)->makePartial();
     $filePath = 'path/to/file.blade.php';
-    $className = 'Pagic'.str_replace('.', '', uniqid('', true)).'_'.md5((string)mt_rand()).'Class';
+    $className = 'Pagic'.bin2hex(random_bytes(16)).'Class';
     $model->shouldReceive('getFilePath')->andReturn($filePath);
     $model->mTime = 1000;
 
@@ -71,10 +71,42 @@ it('returns template object when source is valid', function() {
     expect(FileParser::on($model)->source($model, $model, controller()))->toBeInstanceOf(PageCode::class);
 });
 
+it('compiles templates into randomly named classes', function() {
+    $model = mock(Model::class)->makePartial();
+    $filePath = 'path/to/random-name.blade.php';
+    $model->shouldReceive('getFilePath')->andReturn($filePath);
+    $model->shouldReceive('getCodeClassParent')->andReturn(PageCode::class);
+    $model->mTime = 1000;
+    $model->code = '<?php function test() {}';
+
+    $classNames = [];
+    $fileCache = mock(FileSystem::class);
+    $fileCache->shouldReceive('getCacheKey')->andReturn($filePath);
+    $fileCache->shouldReceive('getCached')->andReturnNull();
+    $fileCache->shouldReceive('load')->andReturn(true);
+    $fileCache->shouldReceive('storeCached')->andReturnUsing(function($path, $result) use (&$classNames): bool {
+        $classNames[] = $result['className'];
+
+        return true;
+    });
+    $fileCache->shouldReceive('write')->andReturn(true)->byDefault();
+    app()->instance(FileSystem::class, $fileCache);
+
+    File::shouldReceive('lastModified')->andReturn(100);
+    File::shouldReceive('isFile')->with($filePath)->andReturn(true);
+
+    FileParser::on($model)->source($model, $model, controller());
+    FileParser::on($model)->source($model, $model, controller());
+
+    expect($classNames)->toHaveCount(2)
+        ->and($classNames[0])->toMatch('/^Pagic[0-9a-f]{32}Class$/')
+        ->and($classNames[1])->not->toBe($classNames[0]);
+});
+
 it('handles corrupt cache and returns object', function() {
     $model = mock(Model::class)->makePartial();
     $filePath = 'path/to/file.blade.php';
-    $className = 'Pagic'.str_replace('.', '', uniqid('', true)).'_'.md5((string)mt_rand()).'Class';
+    $className = 'Pagic'.bin2hex(random_bytes(16)).'Class';
     $fileContents = '<?php class '.$className.' extends \Igniter\Main\Template\Code\PageCode {}';
     $model->shouldReceive('getFilePath')->andReturn($filePath);
     $model->shouldReceive('getCodeClassParent')->andReturn('ParentClass');
@@ -117,6 +149,19 @@ it('returns null when extracting class name from file', function() {
 
     expect(fn() => FileParser::on($model)->source($model, $model, controller()))->toThrow('Class "PagicInvalidClassNameClass" not found');
 });
+
+it('extracts compiled class names in the current and older formats', function(string $className) {
+    File::shouldReceive('get')->with('compiled.php')->andReturn(
+        '<?php '.PHP_EOL.'/* path/to/file.blade.php */'.PHP_EOL.'class '.$className.' extends \\Igniter\\Main\\Template\\Code\\PageCode {}',
+    );
+
+    $method = new \ReflectionMethod(FileParser::class, 'extractClassFromFile');
+
+    expect($method->invoke(FileParser::on(mock(Model::class)->makePartial()), 'compiled.php'))->toBe($className);
+})->with([
+    'random hex' => ['Pagic'.str_repeat('a1', 16).'Class'],
+    'uniqid and md5' => ['Pagic5f8d0d55b8c3a1234567_'.md5('x').'Class'],
+]);
 
 it('throws exception when can not write compiled file', function() {
     config(['igniter-pagic.forceBytecodeInvalidation' => true]);

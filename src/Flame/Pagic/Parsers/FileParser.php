@@ -90,7 +90,7 @@ class FileParser
         $code = trim($this->object->code ?? '');
         $parentClass = trim($this->object->getCodeClassParent());
 
-        $uniqueName = str_replace('.', '', uniqid('', true)).'_'.md5((string)mt_rand());
+        $uniqueName = bin2hex(random_bytes(16));
         $className = 'Pagic'.$uniqueName.'Class';
 
         $code = preg_replace('/^\s*function/m', 'public function', $code);
@@ -149,7 +149,7 @@ class FileParser
     {
         $fileContent = File::get($path);
         $matches = [];
-        $pattern = '/Pagic\S+_\S+Class/';
+        $pattern = '/Pagic[0-9a-z_]+Class/i';
         preg_match($pattern, $fileContent, $matches);
 
         if (!empty($matches[0])) {
