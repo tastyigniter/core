@@ -43,12 +43,19 @@ class Country
             $format = $address['format'];
         }
 
-        $address = $this->evalAddress($address);
+        // Address parts are user-supplied and the result is often rendered as
+        // HTML, so no part may carry markup. Only the line breaks added below
+        // are output as tags. (strip_tags with an allowlist keeps attributes.)
+        $format = strip_tags((string)$format);
+        $address = array_map(
+            fn($value): string => strip_tags((string)$value),
+            array_except($this->evalAddress($address), 'format'),
+        );
 
         $formattedAddress = str_replace(["\r\n", "\r", "\n", '\n'], '<br />',
             preg_replace(["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />', trim(str_replace([
                 '{address_1}', '{address_2}', '{city}', '{postcode}', '{state}', '{country}',
-            ], array_except($address, 'format'), $format))),
+            ], $address, $format))),
         );
 
         if (!$useLineBreaks) {
