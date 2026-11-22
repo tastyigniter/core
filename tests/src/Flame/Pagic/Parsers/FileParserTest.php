@@ -84,7 +84,7 @@ it('compiles templates into randomly named classes', function() {
     $fileCache->shouldReceive('getCacheKey')->andReturn($filePath);
     $fileCache->shouldReceive('getCached')->andReturnNull();
     $fileCache->shouldReceive('load')->andReturn(true);
-    $fileCache->shouldReceive('storeCached')->andReturnUsing(function($path, $result) use (&$classNames): bool {
+    $fileCache->shouldReceive('storeCached')->andReturnUsing(function($path, array $result) use (&$classNames): bool {
         $classNames[] = $result['className'];
 
         return true;
