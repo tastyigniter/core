@@ -142,8 +142,8 @@ class NominatimProvider extends AbstractProvider
                 ->title((string)(($item->name ?? '') ?: $item->display_name))
                 ->description((string)$item->display_name)
                 ->provider('nominatim')
-                ->withData('osmType', $item->osm_type)
-                ->withData('osmId', $item->osm_id)
+                ->withData('osmType', $item->osm_type ?? null)
+                ->withData('osmId', $item->osm_id ?? null)
                 ->withData('class', $item->category ?? null)
                 ->withData('latitude', $item->lat ?? null)
                 ->withData('longitude', $item->lon ?? null));
@@ -242,6 +242,12 @@ class NominatimProvider extends AbstractProvider
     protected function parseResponse(ResponseInterface $response, ?string $returnKey = null): array
     {
         $json = json_decode($response->getBody()->getContents(), false);
+        $statusCode = $response->getStatusCode();
+
+        // Nominatim answers a search with no match with an empty list
+        if ($json === [] && $statusCode < 300) {
+            return [];
+        }
 
         if (empty($json)) {
             throw new GeoliteException(
@@ -249,7 +255,6 @@ class NominatimProvider extends AbstractProvider
             );
         }
 
-        $statusCode = $response->getStatusCode();
         if ($statusCode === 401 || $statusCode === 403) {
             throw new GeoliteException(sprintf(
                 'API access denied. Message: %s', $json->error_message ?? 'empty error message',

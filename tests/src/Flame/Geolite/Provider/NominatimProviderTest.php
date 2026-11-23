@@ -264,6 +264,42 @@ it('falls back to display_name for places autocomplete title when name is empty'
         ->and($result->first()->getDescription())->toBe('76, Bochumer Strasse, Obercastrop, Castrop-Rauxel, 44575, Deutschland');
 });
 
+it('returns places autocomplete results for postcode without osm_type or osm_id', function() {
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getStatusCode')->andReturn(200);
+    $response->shouldReceive('getBody->getContents')->andReturn(json_encode([
+        [
+            'place_id' => 324505580,
+            'name' => '08735',
+            'display_name' => 'Lavallette, Ocean County, New Jersey, 08735, United States',
+            'category' => 'place',
+            'lat' => '39.9707',
+            'lon' => '-74.0699',
+        ],
+    ]));
+    $this->httpClient->shouldReceive('get')->andReturn($response);
+    $query = new GeoQuery('08735');
+    $query->withData('countrycodes', 'us');
+
+    $result = $this->provider->placesAutocomplete($query);
+    expect($result)->toHaveCount(1)
+        ->and($result->first()->getTitle())->toBe('08735')
+        ->and($result->first()->getData('osmType'))->toBeNull()
+        ->and($result->first()->getData('osmId'))->toBeNull()
+        ->and($result->first()->getData('latitude'))->toBe('39.9707')
+        ->and($result->first()->getData('longitude'))->toBe('-74.0699');
+});
+
+it('returns no places autocomplete results when search has no match', function() {
+    $response = mock(ResponseInterface::class);
+    $response->shouldReceive('getStatusCode')->andReturn(200);
+    $response->shouldReceive('getBody->getContents')->andReturn('[]');
+    $this->httpClient->shouldReceive('get')->andReturn($response);
+
+    expect($this->provider->placesAutocomplete(new GeoQuery('zzzzqq')))->toBeEmpty()
+        ->and($this->provider->getLogs())->toBeEmpty();
+});
+
 it('returns empty coordinates when places coordinates query fails', function() {
     $response = mock(ResponseInterface::class);
     $response->shouldReceive('getStatusCode')->andReturn(500);
@@ -297,8 +333,8 @@ it('throws exception when geocoder server returns empty response', function($res
     expect($this->provider->geocodeQuery($query))->toBeEmpty()
         ->and($this->provider->getLogs()[0])->toContain($exceptionMessage);
 })->with([
-    'empty response' => [
-        [], 200, 'The geocoder server returned an empty or invalid response.',
+    'invalid response body' => [
+        null, 200, 'The geocoder server returned an empty or invalid response.',
     ],
     'request denied' => [
         ['error_message' => 'Unauthorized'], 401, 'API access denied. Message: Unauthorized',
