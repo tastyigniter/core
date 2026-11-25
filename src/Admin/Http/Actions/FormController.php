@@ -216,9 +216,10 @@ class FormController extends ControllerAction
     {
         $context = $context ?: $this->getConfig('edit[context]', self::CONTEXT_EDIT);
         $this->context = $context;
-        $this->setFormTitle('lang:igniter::admin.form.edit_title');
 
         $model = $this->controller->formFindModelObject($recordId);
+
+        $this->setFormTitle('lang:igniter::admin.form.edit_title', $model);
 
         $this->initForm($model, $context);
     }
@@ -279,9 +280,11 @@ class FormController extends ControllerAction
     {
         $context = $context ?: $this->getConfig('preview[context]', self::CONTEXT_PREVIEW);
         $this->context = $context;
-        $this->setFormTitle('lang:igniter::admin.form.preview_title');
 
         $model = $this->controller->formFindModelObject($recordId);
+
+        $this->setFormTitle('lang:igniter::admin.form.preview_title', $model);
+
         $this->initForm($model, $context);
     }
 
@@ -323,7 +326,7 @@ class FormController extends ControllerAction
         return post('form_context', $this->context);
     }
 
-    protected function setFormTitle(?string $default = null)
+    protected function setFormTitle(?string $default = null, ?Model $model = null)
     {
         $title = lang($this->getConfig('name', 'igniter::admin.form.name'));
         $lang = lang($this->getConfig($this->context.'[title]', $default));
@@ -331,12 +334,38 @@ class FormController extends ControllerAction
         $pageTitle = str_contains($lang, ':name')
             ? str_replace(':name', $title, $lang) : $lang;
 
+        $pageHeading = $pageTitle;
+        if ($recordName = $this->getFormRecordName($model)) {
+            $pageTitle .= ' - '.$recordName;
+            $pageHeading .= ' - '.e($recordName);
+        }
+
         Template::setTitle($pageTitle);
-        Template::setHeading($pageTitle);
+        Template::setHeading($pageHeading);
 
         if ($backUrl = $this->getConfig($this->context.'[back]', $this->getConfig($this->context.'[redirectClose]'))) {
             AdminMenu::setPreviousUrl($backUrl);
         }
+    }
+
+    /**
+     * Returns a display name for the given record, used in the page title.
+     * Uses the "recordName" config attribute, falling back to common name attributes.
+     */
+    protected function getFormRecordName(?Model $model): ?string
+    {
+        if (!$model?->exists) {
+            return null;
+        }
+
+        $attribute = ($recordName = $this->getConfig('recordName')) ? $recordName : 'name';
+
+        $value = $model->getAttribute($attribute);
+        if (is_scalar($value) && ($value = trim((string)$value)) !== '') {
+            return $attribute === $model->getKeyName() ? '#'.$value : str_limit($value, 60);
+        }
+
+        return null;
     }
 
     /**

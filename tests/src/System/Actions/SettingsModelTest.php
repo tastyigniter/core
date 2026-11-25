@@ -7,6 +7,7 @@ namespace Igniter\Tests\System\Actions;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\System\Actions\SettingsModel;
+use Illuminate\Support\Facades\DB;
 
 beforeEach(function() {
     $this->settingsModel = new class extends Model
@@ -41,6 +42,42 @@ it('returns true if model is configured', function() {
     ]);
 
     expect($this->settingsModel->isConfigured())->toBeTrue();
+});
+
+it('queries the settings record once when checking configured and reading values', function() {
+    SettingsModel::clearInternalCache();
+    Igniter::shouldReceive('hasDatabase')->andReturn(true);
+    $this->settingsModel->create([
+        'item' => 'test_settings',
+        'data' => ['key' => 'value'],
+    ]);
+    SettingsModel::clearInternalCache();
+
+    DB::enableQueryLog();
+
+    expect($this->settingsModel->isConfigured())->toBeTrue()
+        ->and($this->settingsModel->isConfigured())->toBeTrue()
+        ->and($this->settingsModel->get('key'))->toBe('value')
+        ->and(DB::getQueryLog())->toHaveCount(1);
+
+    SettingsModel::clearInternalCache();
+});
+
+it('forgets the cached settings record after it is deleted', function() {
+    SettingsModel::clearInternalCache();
+    Igniter::shouldReceive('hasDatabase')->andReturn(true);
+    $record = $this->settingsModel->create([
+        'item' => 'test_settings',
+        'data' => ['key' => 'value'],
+    ]);
+
+    expect($this->settingsModel->isConfigured())->toBeTrue();
+
+    $record->delete();
+
+    expect($this->settingsModel->isConfigured())->toBeFalse();
+
+    SettingsModel::clearInternalCache();
 });
 
 it('returns false if database is not available', function() {

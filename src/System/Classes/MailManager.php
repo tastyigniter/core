@@ -174,13 +174,15 @@ class MailManager
     }
 
     /**
-     * Renders the template subject. Subjects of builder templates are text
-     * with variable tokens and are compiled before rendering.
+     * Renders the template subject. Subjects of builder templates, and any
+     * subject edited in the admin, are text with variable tokens and are
+     * compiled before rendering. Only subjects read from a registered mail
+     * view are rendered as Blade.
      */
     public function renderSubject(MailTemplate $template, array $data = []): string
     {
         $subject = (string)$template->subject;
-        if ($template->usesBuilder()) {
+        if ($template->usesBuilder() || $template->is_custom) {
             $builder = resolve(MailBuilder::class);
             $subject = $builder->compileSubject($subject, $builder->makeContext(CompileContext::MODE_TEMPLATE, $template->code));
         }

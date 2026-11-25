@@ -8,6 +8,9 @@ use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\DashboardWidgets\Statistics;
 use Igniter\System\Facades\Assets;
 use Igniter\System\Models\MailTemplate;
+use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Models\User;
+use Igniter\User\Models\UserRole;
 
 beforeEach(function() {
     Statistics::registerCards(fn(): array => [
@@ -79,4 +82,61 @@ it('renders widget with no errors', function() {
         ->and($widget->vars['statsLabel'])->toBe('lang:igniter::admin.dashboard.text_total_sale')
         ->and($widget->vars['statsIcon'])->toBe(' text-success fa fa-4x fa-line-chart')
         ->and($widget->vars['statsCount'])->toBe('£0.00');
+});
+
+function registerRestrictedStatisticsCard(): void
+{
+    Statistics::registerCards(fn(): array => [
+        'restricted_sale' => [
+            'label' => 'Restricted sale',
+            'icon' => 'fa fa-lock',
+            'permission' => 'Admin.Orders',
+            'valueFrom' => fn(): string => '£999.00',
+        ],
+    ]);
+}
+
+function actingAsStatisticsUser(array $permissions): void
+{
+    $role = UserRole::factory()->create(['permissions' => $permissions]);
+    AdminAuth::shouldReceive('getUser')->andReturn(User::factory()->create(['user_role_id' => $role->getKey()]));
+}
+
+it('hides the value of a card the user lacks permission for', function() {
+    registerRestrictedStatisticsCard();
+    actingAsStatisticsUser(['Admin.Dashboard' => 1]);
+
+    $widget = new Statistics($this->controller, ['card' => 'restricted_sale']);
+    $widget->render();
+
+    expect($widget->vars['statsCount'])->toBe('--')
+        ->and($widget->vars['statsLabel'])->toBe('Restricted sale');
+});
+
+it('shows the value of a card the user has permission for', function() {
+    registerRestrictedStatisticsCard();
+    actingAsStatisticsUser(['Admin.Orders' => 1]);
+
+    $widget = new Statistics($this->controller, ['card' => 'restricted_sale']);
+    $widget->render();
+
+    expect($widget->vars['statsCount'])->toBe('£999.00');
+});
+
+it('lists only permitted cards as options', function() {
+    registerRestrictedStatisticsCard();
+    actingAsStatisticsUser(['Admin.Dashboard' => 1]);
+
+    $options = $this->statistics->defineProperties()['card']['options'];
+
+    expect($options)->toHaveKey('sale')
+        ->not->toHaveKey('restricted_sale');
+});
+
+it('shows cards without a permission to every staff user', function() {
+    actingAsStatisticsUser([]);
+
+    $this->statistics->render();
+
+    expect($this->statistics->vars['statsCount'])->toBe('£0.00');
 });

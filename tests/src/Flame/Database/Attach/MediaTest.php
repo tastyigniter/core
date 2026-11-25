@@ -65,6 +65,16 @@ it('adds file from disk', function() {
         ->and($media->getUniqueName())->toBe($media->name);
 });
 
+it('generates random unique names that keep the file extension', function() {
+    $first = new Media;
+    $first->file_name = 'Photo.JPG';
+    $second = new Media;
+    $second->file_name = 'Photo.JPG';
+
+    expect($first->getUniqueName())->toMatch('/^[0-9a-f]{32}\\.jpg$/')
+        ->and($second->getUniqueName())->not->toBe($first->getUniqueName());
+});
+
 it('uses the default blank thumb when no default is provided', function() {
     $storageMock = Storage::fake('public');
     $media = new Media;

@@ -25,7 +25,7 @@ it('combines assets and returns correct URL', function() {
     app()->instance(AssetManager::class, $assetManager = mock(AssetManager::class));
     $assetManager->shouldReceive('makeCollection')->andReturn($assetCollection = mock(AssetCollection::class));
     $assetCollection->shouldReceive('setTargetPath')->andReturnSelf();
-    $assetCollection->shouldReceive('getLastModified')->once()->andReturn(time());
+    $assetCollection->shouldReceive('getLastModified')->once()->andReturn($lastMod = time());
     $assets = [
         'style.css',
         base_path('style.css'),
@@ -37,7 +37,7 @@ it('combines assets and returns correct URL', function() {
     $combinesAssetsObject = new Assets;
     $result = $combinesAssetsObject->combine('css', $assets);
 
-    expect($result)->toContain('/_assets/');
+    expect($result)->toEndWith('/_assets/app.css?v='.md5(implode('|', $assets)).'-'.$lastMod);
 });
 
 it('combines assets to file', function() {

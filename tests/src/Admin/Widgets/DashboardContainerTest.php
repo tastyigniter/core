@@ -190,3 +190,37 @@ it('sets date range', function() {
         ->and($this->dashboardContainerWidget->vars)
         ->toHaveKey('widgets');
 });
+
+it('reads canManage and canSetDefault from config', function() {
+    $container = new DashboardContainer($this->controller, array_merge($this->widgetConfig, [
+        'canManage' => false,
+        'canSetDefault' => true,
+    ]));
+
+    expect($container->canManage)->toBeFalse()
+        ->and($container->canSetDefault)->toBeTrue();
+});
+
+it('refuses widget management handlers when canManage is disabled', function(string $handler, array $post) {
+    $container = new DashboardContainer($this->controller, array_merge($this->widgetConfig, ['canManage' => false]));
+    request()->request->add($post);
+
+    expect(fn() => $container->$handler())
+        ->toThrow(FlashException::class, lang('igniter::admin.alert_user_restricted'));
+})->with([
+    'load add popup' => ['onLoadAddPopup', []],
+    'select widget' => ['onSelectWidget', ['widget' => 'onboarding']],
+    'load update popup' => ['onLoadUpdatePopup', ['widgetAlias' => 'onboarding']],
+    'add widget' => ['onAddWidget', ['widget' => 'onboarding']],
+    'reset widgets' => ['onResetWidgets', []],
+    'update widget' => ['onUpdateWidget', ['alias' => 'onboarding']],
+    'remove widget' => ['onRemoveWidget', ['alias' => 'onboarding']],
+    'set widget priorities' => ['onSetWidgetPriorities', ['aliases' => ['onboarding']]],
+]);
+
+it('still renders widgets and sets the date range when canManage is disabled', function() {
+    $container = new DashboardContainer($this->controller, array_merge($this->widgetConfig, ['canManage' => false]));
+
+    expect($container->onRenderWidgets())->toHaveKey('#'.$container->getId('container'))
+        ->and($container->onSetDateRange())->toHaveKey('#'.$container->getId('container'));
+});

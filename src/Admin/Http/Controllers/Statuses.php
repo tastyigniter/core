@@ -32,6 +32,7 @@ class Statuses extends AdminController
     public array $formConfig = [
         'name' => 'lang:igniter::admin.statuses.text_form_name',
         'model' => Status::class,
+        'recordName' => 'status_name',
         'request' => StatusRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',

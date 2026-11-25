@@ -87,12 +87,12 @@ trait CombinesAssets
         $lastMod = $combiner->getLastModified();
 
         $cacheKey = $this->getCacheKey($assets);
-        $cacheData = $this->useCache ? $this->getCache($cacheKey.$lastMod) : false;
+        $cacheData = $this->useCache ? $this->getCache($cacheKey) : false;
 
-        if (!$cacheData) {
+        if (!$cacheData || array_get($cacheData, 'lastMod') !== $lastMod) {
             $cacheData = [
                 'type' => $type,
-                'uri' => $cacheKey.'-'.$lastMod.'.'.$type,
+                'uri' => 'app.'.$type.'?v='.$cacheKey.'-'.$lastMod,
                 'eTag' => $cacheKey,
                 'lastMod' => $lastMod,
                 'files' => $assets,

@@ -103,6 +103,10 @@ class Charts extends BaseDashboardWidget
         $start = $this->getStartDate();
         $end = $this->getEndDate();
 
+        if (!$this->canViewWithPermission((array)array_get($this->listSets(), $this->getActiveDataset(), []))) {
+            return ['datasets' => []];
+        }
+
         if ($datasetFromCallable = $this->getDataDefinition('datasetFrom')) {
             return $datasetFromCallable($this->getActiveDataset(), $start, $end);
         }
@@ -110,6 +114,10 @@ class Charts extends BaseDashboardWidget
         $datasets = [];
         $definitions = $this->getDataDefinition('sets') ?? [];
         foreach (array_filter($definitions) as $config) {
+            if (!$this->canViewWithPermission($config)) {
+                continue;
+            }
+
             $datasets[] = $this->makeDataset($config, $start, $end);
         }
 
@@ -118,7 +126,10 @@ class Charts extends BaseDashboardWidget
 
     public function getDatasetOptions(): array
     {
-        return array_map(fn($context) => array_get($context, 'label'), $this->listSets());
+        return array_map(fn($context) => array_get($context, 'label'), array_filter(
+            $this->listSets(),
+            $this->canViewWithPermission(...),
+        ));
     }
 
     public function addDataset(string $code, array $config = []): static
@@ -160,7 +171,7 @@ class Charts extends BaseDashboardWidget
         return array_merge($this->datasetOptions, [
             'backgroundColor' => sprintf('rgba(%s, %s, %s, 0.5)', $r, $g, $b),
             'borderColor' => sprintf('rgb(%s, %s, %s)', $r, $g, $b),
-        ], array_except($config, ['model', 'column', 'priority', 'datasetFrom']));
+        ], array_except($config, ['model', 'column', 'priority', 'datasetFrom', 'permission']));
     }
 
     protected function listSets()

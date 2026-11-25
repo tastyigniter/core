@@ -73,7 +73,10 @@ class Statistics extends BaseDashboardWidget
 
     protected function getCardOptions(): array
     {
-        return array_map(fn($context) => array_get($context, 'label'), $this->listCards());
+        return array_map(fn($context) => array_get($context, 'label'), array_filter(
+            $this->listCards(),
+            $this->canViewWithPermission(...),
+        ));
     }
 
     protected function prepareVars()
@@ -82,7 +85,9 @@ class Statistics extends BaseDashboardWidget
         $this->vars['statsLabel'] = $this->getCardDefinition('label', '--');
         $this->vars['statsColor'] = $this->getCardDefinition('color', 'success');
         $this->vars['statsIcon'] = $this->getCardDefinition('icon', 'fa fa-bar-chart-o');
-        $this->vars['statsCount'] = $this->getValue($context);
+        $this->vars['statsCount'] = $this->canViewWithPermission((array)$this->getCardDefinition(null, []))
+            ? $this->getValue($context)
+            : '--';
     }
 
     protected function listCards(): array

@@ -62,6 +62,27 @@ class Page extends Model
     }
 
     /**
+     * Lists the theme page files, or the pages in the theme meta/builder.php
+     * when the theme has no page files.
+     */
+    public static function getDropdownOptions(string|Theme|null $source = null, bool $skipCache = false): array
+    {
+        if ($options = parent::getDropdownOptions($source, $skipCache)) {
+            return $options;
+        }
+
+        $theme = $source instanceof Theme ? $source : resolve(ThemeManager::class)->findTheme(
+            $source ?? static::getSourceResolver()->getDefaultSourceName(),
+        );
+
+        return collect($theme?->getBuildablePages() ?? [])
+            ->mapWithKeys(fn(array $page, string $code): array => [
+                $code => str_limit(lang($page['label']), 40).' ['.$code.']',
+            ])
+            ->sort()->all();
+    }
+
+    /**
      * Handler for the pages.menuitem.resolveItem event.
      */
     public static function resolveMenuItem(mixed $item, string $url, Theme $theme): ?array

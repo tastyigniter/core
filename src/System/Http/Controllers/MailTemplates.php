@@ -39,6 +39,7 @@ class MailTemplates extends AdminController
     public array $formConfig = [
         'name' => 'lang:igniter::system.mail_templates.text_form_name',
         'model' => MailTemplate::class,
+        'recordName' => 'title',
         'request' => MailTemplateRequest::class,
         'create' => [
             'title' => 'lang:igniter::system.mail_templates.text_new_template_title',

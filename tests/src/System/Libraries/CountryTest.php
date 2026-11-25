@@ -73,6 +73,21 @@ it('formats address correctly using custom format', function() {
     expect($countryLibrary->addressFormat($address, false))->toBe('123 Street, Apt 4B, City, 12345, State, Country');
 });
 
+it('strips markup from address parts and keeps only line breaks', function() {
+    $result = (new Country)->addressFormat([
+        'address_1' => '<br style="position:fixed;inset:0" onmouseover=alert(1)>1 Main St',
+        'address_2' => '<img src=x onerror=alert(1)',
+        'city' => 'Town & <b>City</b>',
+        'postcode' => '12345',
+        'state' => '',
+        'country' => '',
+    ]);
+
+    expect($result)->toBe('1 Main St<br />Town & City 12345')
+        ->not->toContain('onmouseover')
+        ->not->toContain('<img');
+});
+
 it('returns country name by id correctly', function() {
     $country = CountryModel::factory()->create([
         'country_name' => 'Test Country',

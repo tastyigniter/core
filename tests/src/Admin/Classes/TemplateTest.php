@@ -73,9 +73,9 @@ it('tests setHeading', function() {
 });
 
 it('tests setHeading with subheading', function() {
-    $this->template->setHeading('Test Heading:Subheading');
+    $this->template->setHeading('Test Heading: Subheading');
 
-    expect($this->template->getHeading())->toBe('Test Heading&nbsp;<small>Subheading</small>');
+    expect($this->template->getHeading())->toBe('Test Heading&nbsp;<small> Subheading</small>');
 });
 
 it('tests setButton', function() {
@@ -104,4 +104,10 @@ it('tests registerHook', function() {
 
 it('tests renderStaticCss', function() {
     expect($this->template->renderStaticCss())->toBe('');
+});
+
+it('tests setHeading keeps colons in subheading', function() {
+    $this->template->setHeading('Test Heading:Edit - Name: Value');
+
+    expect($this->template->getHeading())->toBe('Test Heading&nbsp;<small>Edit - Name: Value</small>');
 });

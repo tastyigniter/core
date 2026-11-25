@@ -20,6 +20,9 @@
     </div>
 </div>
 <div class="toolbar-action d-flex justify-content-between p-3">
+    @if(!$this->canManage)
+    <div></div>
+    @else
     <div class="btn-group">
         <button
             type="button"
@@ -60,6 +63,7 @@
             </li>
         </ul>
     </div>
+    @endif
     <button
         id="{{ $this->alias }}-daterange"
         class="btn btn-light text-reset pull-right"
